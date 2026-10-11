@@ -1,5 +1,10 @@
 # viva-genesis
 
+<!-- BEGIN dashboard -->
+> ## 📊 [**Live dashboard →**](https://vivarium-collective.github.io/viva-genesis/dashboard/)
+> Browse every investigation & study interactively, or read the [published investigation reports](https://vivarium-collective.github.io/viva-genesis/). Auto-published from `main` on every merge.
+<!-- END dashboard -->
+
 **An origins-of-life hydrothermal-vent simulation campaign in Vivarium.**
 
 A modular process-bigraph campaign that treats the origin of life as a sequence
