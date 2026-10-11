@@ -66,5 +66,11 @@ expert_docs:
       contracts and a 12-month roadmap. Source for
       workspace/references/computational-resources.md.
 
+# Baseline run length used by the dashboard's "Run" flow (study_runs falls back
+# to 5 ticks otherwise — too few for the Campaign-0 reactor to settle into the
+# Lost City window). 120 ticks settles T/pH comfortably within the field window.
+runtime:
+  default_n_steps: 120
+
 server:
   enabled: false
