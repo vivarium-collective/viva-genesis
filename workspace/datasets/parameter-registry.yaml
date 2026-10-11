@@ -1,0 +1,92 @@
+# viva-genesis parameter registry
+# Quantitative parameters from the Campaign dossier §3, each carrying provenance
+# per workspace/notes/provenance-schema.md. These separate observations from
+# laboratory analogs and theoretical values. Laboratory values are experimental
+# OUTCOMES and must NOT be interpreted as Hadean environmental concentrations.
+#
+# provenance class: FIELD | LAB-DIRECT | LAB-ANALOG | MODEL | RECONSTRUCTION | HYPOTHESIS
+# ref: citation key in ../references/papers.bib (+ campaign reference number)
+
+schema_version: 1
+source: "Vivarium Origins-of-Life Simulation Campaign (11 Oct 2026), §3 + §8"
+
+parameters:
+  - id: lost_city_vent_T
+    quantity: Lost City vent fluid temperature
+    value_range: "~40-75 C (discovery); later measurements to ~91 C"
+    units: celsius
+    provenance: FIELD
+    refs: [kelley2001offaxis, ludwig2006formation]   # campaign refs 5, 8
+    how_to_use: "Prior over outlet conditions; do NOT equate outlet T with reaction-zone T."
+
+  - id: lost_city_pH
+    quantity: Lost City vent fluid pH
+    value_range: "~9.0-9.8 (discovery); later ~9-10.8"
+    units: pH
+    provenance: FIELD
+    refs: [kelley2001offaxis, ludwig2006formation]   # 5, 8
+    how_to_use: "Apply with temperature/pressure correction; include the 2026 in-situ-pH critique (tutolo2026rethinking)."
+
+  - id: system_longevity
+    quantity: Hydrothermal system longevity
+    value_range: ">=30,000 y directly documented; potentially much longer"
+    units: years
+    provenance: FIELD
+    refs: [fruhgreen2003thirtythousand]              # 7
+    how_to_use: "Sets duration of persistent forcing; explore shorter/older ancient systems."
+
+  - id: co2_h2_to_formate
+    quantity: CO2 + H2 -> formate (pH-gradient reactor)
+    value_range: "Room T, ~1.5 bar in microfluidic gradient experiment"
+    units: qualitative
+    provenance: LAB-DIRECT
+    refs: [hudson2020co2]                            # 11
+    how_to_use: "Fit reaction probability/rate to gradient, catalyst and gas availability."
+
+  - id: mineral_h2_co2_products
+    quantity: Mineral-catalyzed H2/CO2 products
+    value_range: "100 C; formate up to ~200 mM; acetate up to ~100 uM; pyruvate up to ~10 uM"
+    units: mixed (mM, uM)
+    provenance: LAB-DIRECT
+    refs: [preiner2020hydrogen]                      # 15
+    how_to_use: "Calibration targets for the mineral-catalysis module, NOT environmental concentrations."
+
+  - id: thermophoretic_enrichment
+    quantity: Thermophoretic enrichment
+    value_range: ">10^8-fold in favorable modeled pore geometries"
+    units: fold
+    provenance: MODEL
+    refs: [baaske2007extreme]                        # 18
+    how_to_use: "Validate transport implementation across pore geometries."
+
+  - id: thermal_trapping
+    quantity: Thermal trapping (DNA replication analog)
+    value_range: "DNA accumulation time ~92 s; doubling ~50 s in PCR analog"
+    units: seconds
+    provenance: LAB-ANALOG
+    refs: [mast2010thermal]                          # 19
+    how_to_use: "Demonstrates coupled thermal cycling + retention; NOT a prebiotic replication rate."
+
+  - id: fes_n2_to_nh3
+    quantity: FeS N2 -> NH3 fixation
+    value_range: "~70-80 C; ~0.1% yield relative to FeS"
+    units: percent_yield
+    provenance: LAB-DIRECT
+    refs: [dorr2003prebiotic]                        # 22
+    how_to_use: "Potential fixed-N source with large uncertainty and surface-age dependence."
+
+  - id: amphiphile_vesicles
+    quantity: Amphiphile vesicle formation window
+    value_range: "Formation under alkaline/saline/divalent-cation conditions tested"
+    units: qualitative
+    provenance: LAB-DIRECT
+    refs: [jordan2019promotion]                      # 20
+    how_to_use: "Defines feasible region for membrane-assembly state transitions."
+
+  - id: electrochemical_current
+    quantity: Electrochemical current (vent reactor)
+    value_range: "~10 nA to 10 uA sufficient in 2025 reactor experiments"
+    units: ampere
+    provenance: LAB-DIRECT
+    refs: [altair2025carbon]                         # 12
+    how_to_use: "Scale current density / electron-transfer module to geometry and surface area."
