@@ -39,5 +39,32 @@ simulations: []
 datasets: []
 
 references_bib: workspace/references/papers.bib
+
+# Expert documents — source dossiers that ground the campaign. Rendered on the
+# Resources page (workspace-inputs) and searchable via the expert-doc tools.
+# Kept here (not in .gitignore) so future prompts can reference the originals.
+expert_docs:
+  - name: Origins-of-Life Simulation Campaign
+    path: workspace/references/expert/origins-of-life-simulation-campaign.pdf
+    sha256: 389efd987c42f76afceff64578b7bf500e5015cc611a8389c48e70bb4e4558d5
+    contributor: agmon.eran@gmail.com
+    description: >-
+      Research dossier (11 Oct 2026): the deep-sea serpentinization-driven
+      alkaline-vent hypothesis as a staged, falsifiable Vivarium campaign —
+      scientific framing + hypothesis graph, mechanistic modules A–J, the
+      quantitative parameter/provenance table, process-bigraph architecture,
+      Campaigns 0–VIII, discriminating experiments and the 35-reference
+      annotated library. Source for workspace/notes/ and references/papers.bib.
+  - name: Origins-of-Life Computational Methods Atlas
+    path: workspace/references/expert/origins-of-life-computational-methods-atlas.pdf
+    sha256: 5a478b3380621132d75e68e085b5caf108b0d9efee47fd175fea800234ff5269
+    contributor: agmon.eran@gmail.com
+    description: >-
+      Companion implementation dossier (11 Oct 2026): executable engines,
+      numerical methods, chemical/biological databases, interoperability
+      standards, the stage→engine map, model-hierarchy tiers, integration
+      contracts and a 12-month roadmap. Source for
+      workspace/references/computational-resources.md.
+
 server:
   enabled: false
