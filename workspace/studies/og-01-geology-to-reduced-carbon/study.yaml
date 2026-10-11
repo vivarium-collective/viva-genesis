@@ -1,0 +1,166 @@
+schema_version: 4
+name: og-01-geology-to-reduced-carbon
+investigation: origins-of-life-vent
+created: '2026-10-11'
+phase: Design
+status: planned
+design_status: drafted
+confidence: Planned
+title: Geology to reduced carbon (Campaign I)
+question: Which combinations of T, pH, pressure, H2, CO2 and mineralogy generate sustained net organic-carbon
+  flux across the interface — reproducing Hudson/Preiner/Altair regimes before any extrapolation?
+hypothesis: Over Fe/Ni/S surfaces and across the pH gradient, H2-driven CO2 reduction yields formate/acetate/pyruvate
+  at lab-calibrated rates within a bounded (T,pH,H2,pressure) region; outside it net flux goes to zero.
+objective: Add H2-driven CO2 reduction, reproduce the three benchmark experiments, and map the parameter
+  region of sustained net organic-carbon flux.
+proposed_mechanisms:
+- 'C: pH-gradient electrochemistry'
+- 'D: mineral-catalyzed carbon fixation'
+proposed_models_methods:
+- Nernst–Planck–Poisson (electroneutral) on FiPy/FEniCSx
+- Cantera/custom heterogeneous kinetics
+- eQuilibrator feasibility
+- PyMC Bayesian calibration to Preiner/Hudson/Altair
+contract:
+  face:
+    inputs:
+      temperature:
+        _type: float
+        _units: kelvin
+        _min: 273.0
+        _max: 673.0
+      pH:
+        _type: float
+        _units: dimensionless
+        _min: 0.0
+        _max: 14.0
+      pressure:
+        _type: float
+        _units: pascal
+        _min: 100000.0
+        _max: 50000000.0
+      H2:
+        _type: float
+        _units: molar
+        _min: 0.0
+      CO2:
+        _type: float
+        _units: molar
+        _min: 0.0
+      ionic_strength:
+        _type: float
+        _units: molar
+        _min: 0.0
+    outputs:
+      formate:
+        _type: float
+        _units: molar
+        _min: 0.0
+      acetate:
+        _type: float
+        _units: molar
+        _min: 0.0
+      pyruvate:
+        _type: float
+        _units: molar
+        _min: 0.0
+      current_density:
+        _type: float
+        _units: ampere/meter**2
+      electric_potential:
+        _type: float
+        _units: volt
+      net_carbon_flux:
+        _type: float
+        _units: mole/second
+  conditions:
+  - kind: invariant
+    name: charge_neutrality
+    expr: abs(net_charge) < tol
+  - kind: invariant
+    name: energy_directionality
+    expr: free_energy_flux_logged == true
+  - kind: invariant
+    name: mass_balance
+    expr: abs(residual_C)+abs(residual_H)+abs(residual_O) < tol
+  note: bigraph-schema typed ports (_type/_units/bounds) + conservation predicates; the composite built
+    for this study must declare a ProcessContract matching this face (audited via the workbench §Contract
+    panel).
+behavior_tests:
+- name: co2-reduction-reproduces-preiner
+  classification: primary
+  description: Mineral-catalyzed products match lab yields (as rates, NOT env. conc).
+  measure:
+    kind: observable
+    detail: product distribution at 100 C over greigite/magnetite/awaruite
+  pass_if:
+    op: threshold
+    detail: 'within lab ranges: formate<=200 mM, acetate<=100 uM, pyruvate<=10 uM'
+  requires_simulation: 'yes'
+  cites:
+  - preiner2020hydrogen
+- name: ph-gradient-drives-formate
+  classification: primary
+  description: Formate tracks the gradient; removing gradient/H2/precipitate kills it (controls).
+  measure:
+    kind: observable
+    detail: formate vs delta-pH across Fe(Ni)S with controls
+  pass_if:
+    op: threshold
+    detail: formate present with gradient, absent in each control
+  requires_simulation: 'yes'
+  cites:
+  - hudson2020co2
+- name: net-carbon-flux-region-mapped
+  classification: primary
+  description: A sustained-flux region exists AND a zero region is identified.
+  measure:
+    kind: observable
+    detail: net organic-C flux over (T,pH,H2,P)
+  pass_if:
+    op: threshold
+    detail: nonzero region exists; zero region identified
+  requires_simulation: 'yes'
+- name: in-situ-ph-correction
+  classification: diagnostic
+  description: 'Discriminating: does the usable gradient persist at in-situ T/P or collapse?'
+  measure:
+    kind: observable
+    detail: delta-pH, proton-motive contribution, fixation rate at in-situ vs lab T/P
+  pass_if:
+    op: threshold
+    detail: report both; flag if gradient collapses
+  requires_simulation: 'yes'
+  cites:
+  - tutolo2026rethinking
+  - jackson2016natural
+literature_anchors:
+- expectation: Formate up to ~200 mM, acetate ~100 uM, pyruvate ~10 uM at 100 C
+  model_observable: product concentrations by mineral/T/P
+  source: Preiner 2020
+  status_in_workspace: Not yet measurable — module processes not built
+  cites:
+  - preiner2020hydrogen
+- expectation: CO2+H2->formate across pH gradient at room T, ~1.5 bar
+  model_observable: formate yield vs delta-pH + controls
+  source: Hudson 2020
+  status_in_workspace: Not yet measurable — module processes not built
+  cites:
+  - hudson2020co2
+baseline:
+- name: Geology to reduced carbon (Campaign I)
+  composite: viva_genesis.composites.og_01_geology_to_reduced_carbon
+  params: {}
+  planned: true
+parent_studies:
+- study: og-00-vent-reactor-baseline
+  condition: tests-passed
+key_assumptions:
+- Encode pH(T,P,ionic_strength), never laboratory pH as a constant environmental state.
+parent_relations:
+- study: og-00-vent-reactor-baseline
+  relation: leads-to
+expert_questions:
+- Adopt the classical favorable parameterization as baseline, the Tutolo-2026 unfavorable one, or run
+  BOTH as competing arms?
+- 'Primary geochemistry engine: PHREEQC or Reaktoro?'

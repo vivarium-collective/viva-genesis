@@ -1,0 +1,124 @@
+schema_version: 4
+name: og-04-mineral-compartments-to-protocells
+investigation: origins-of-life-vent
+created: '2026-10-11'
+phase: Design
+status: planned
+design_status: drafted
+confidence: Planned
+title: Mineral compartments to protocells (Campaign IV)
+question: Do mixed-amphiphile organic boundaries enhance persistence without cutting the system off from
+  geochemical energy?
+hypothesis: Over a salt/pH/divalent-cation/T window, vesicles form and selectively retain while remaining
+  permeable enough to exploit the external gradient — a non-empty individuality-vs-access region exists.
+objective: Introduce mixed amphiphiles + membrane assembly; measure whether organic boundaries enhance
+  persistence without isolating the system.
+proposed_mechanisms:
+- 'G: amphiphiles, mineral pores and protocells'
+proposed_models_methods:
+- custom coarse-grained membrane kinetics
+- Smoldyn/ReaDDy spatial stochastic
+- OpenMM/LAMMPS to calibrate permeability laws
+contract:
+  face:
+    inputs:
+      pH:
+        _type: float
+        _units: dimensionless
+        _min: 0.0
+        _max: 14.0
+      ionic_strength:
+        _type: float
+        _units: molar
+        _min: 0.0
+      temperature:
+        _type: float
+        _units: kelvin
+        _min: 273.0
+        _max: 673.0
+    outputs:
+      membrane_area:
+        _type: float
+        _units: meter**2
+        _min: 0.0
+      permeability:
+        _type: float
+        _units: meter**2
+        _min: 0.0
+      compartment_volume:
+        _type: float
+        _units: liter
+        _min: 0.0
+      viable_compartments:
+        _type: integer
+        _units: dimensionless
+        _min: 0
+  conditions:
+  - kind: invariant
+    name: mass_balance
+    expr: abs(residual_C)+abs(residual_H)+abs(residual_O) < tol
+  - kind: invariant
+    name: spatial_flux_conservation
+    expr: divergence(flux) == source_minus_sink
+  - kind: invariant
+    name: energy_directionality
+    expr: free_energy_flux_logged == true
+  note: bigraph-schema typed ports (_type/_units/bounds) + conservation predicates; the composite built
+    for this study must declare a ProcessContract matching this face (audited via the workbench §Contract
+    panel).
+behavior_tests:
+- name: vesicles-form-in-window
+  classification: primary
+  description: Vesicle formation matches the Jordan feasibility map.
+  measure:
+    kind: observable
+    detail: vesicle formation vs amphiphile mix/pH/salts/divalent cations/T
+  pass_if:
+    op: threshold
+    detail: matches Jordan 2019 window
+  requires_simulation: 'yes'
+  cites:
+  - jordan2019promotion
+- name: retention-without-isolation
+  classification: primary
+  description: Compartments retain chemistry AND keep external-gradient access.
+  measure:
+    kind: observable
+    detail: chemical retention and external-gradient access
+  pass_if:
+    op: threshold
+    detail: both nonzero (individuality without isolation)
+  requires_simulation: 'yes'
+- name: membrane-transition-robust
+  classification: diagnostic
+  description: 'Discriminating: do salts/T/pH destroy or over-seal membranes?'
+  measure:
+    kind: observable
+    detail: vesicle survival, permeability, resource flux
+  pass_if:
+    op: threshold
+    detail: survival region exists
+  requires_simulation: 'yes'
+literature_anchors:
+- expectation: Mixed single-chain amphiphiles form vesicles across broader alkaline pH/salinity/divalent/T
+    than single-fatty-acid models
+  model_observable: vesicle stability map
+  source: Jordan 2019
+  status_in_workspace: Not yet measurable — module processes not built
+  cites:
+  - jordan2019promotion
+baseline:
+- name: Mineral compartments to protocells (Campaign IV)
+  composite: viva_genesis.composites.og_04_mineral_compartments_to_protocells
+  params: {}
+  planned: true
+parent_studies:
+- study: og-03-dilution-to-localized-individuals
+  condition: tests-passed
+key_assumptions:
+- Mineral pores provide initial individuality; organic boundaries are a later, condition-dependent transition.
+parent_relations:
+- study: og-03-dilution-to-localized-individuals
+  relation: leads-to
+expert_questions:
+- Model mineral-confined and free vesicles both, or start mineral-confined only?

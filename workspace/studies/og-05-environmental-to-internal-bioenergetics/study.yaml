@@ -1,0 +1,96 @@
+schema_version: 4
+name: og-05-environmental-to-internal-bioenergetics
+investigation: origins-of-life-vent
+created: '2026-10-11'
+phase: Design
+status: planned
+design_status: drafted
+confidence: Planned
+title: Environmental to internal bioenergetics (Campaign V)
+question: Can selection move from externally imposed gradients toward internally maintained electrochemical
+  states (catalytic ion transport then pumping)?
+hypothesis: When membrane permeability, Na+/H+ coupling and catalyst efficiency vary under selection,
+  systems with increasing internal gradient generation win on throughput + persistence — but only if membranes
+  stay sufficiently leaky (Sojo constraint).
+objective: Allow catalytic ion transport and active pumping; test whether selection favors internalized
+  gradient generation.
+proposed_mechanisms:
+- 'H: bioenergetic internalization'
+proposed_models_methods:
+- evolutionary control loop over membrane parameters
+- reward = throughput + persistence
+- Sojo leaky-membrane model as baseline
+contract:
+  face:
+    inputs:
+      permeability:
+        _type: float
+        _units: meter**2
+        _min: 0.0
+      electric_potential:
+        _type: float
+        _units: volt
+    outputs:
+      lineage_fitness:
+        _type: float
+        _units: dimensionless
+      free_energy_flux:
+        _type: float
+        _units: watt
+  conditions:
+  - kind: invariant
+    name: energy_directionality
+    expr: free_energy_flux_logged == true
+  - kind: invariant
+    name: charge_neutrality
+    expr: abs(net_charge) < tol
+  - kind: invariant
+    name: reproducibility
+    expr: solver and db and seed and scenario recorded
+  note: bigraph-schema typed ports (_type/_units/bounds) + conservation predicates; the composite built
+    for this study must declare a ProcessContract matching this face (audited via the workbench §Contract
+    panel).
+behavior_tests:
+- name: reduced-gradient-dependence
+  classification: primary
+  description: Internalizing lineages persist longer as the external gradient is lowered.
+  measure:
+    kind: observable
+    detail: survival as external gradient is reduced
+  pass_if:
+    op: threshold
+    detail: internalizing lineages persist longer
+  requires_simulation: 'yes'
+- name: energy-cost-accounted
+  classification: supporting
+  description: Membrane-maintenance energy is outweighed by benefit in some region.
+  measure:
+    kind: observable
+    detail: membrane-maintenance energy vs benefit
+  pass_if:
+    op: threshold
+    detail: net-positive region exists
+  requires_simulation: 'yes'
+literature_anchors:
+- expectation: LUCA-like cells can use proton gradients only if membranes remain sufficiently leaky
+  model_observable: permeability vs viability
+  source: Sojo 2014 / Lane 2012
+  status_in_workspace: Not yet measurable — module processes not built
+  cites:
+  - sojo2014bioenergetic
+  - lane2012origin
+baseline:
+- name: Environmental to internal bioenergetics (Campaign V)
+  composite: viva_genesis.composites.og_05_environmental_to_internal_bioenergetics
+  params: {}
+  planned: true
+parent_studies:
+- study: og-04-mineral-compartments-to-protocells
+  condition: tests-passed
+key_assumptions:
+- Internalization is an evolutionary control problem, not a scripted upgrade.
+parent_relations:
+- study: og-04-mineral-compartments-to-protocells
+  relation: leads-to
+expert_questions:
+- Reward throughput, persistence, or a weighted combination for the selection objective?

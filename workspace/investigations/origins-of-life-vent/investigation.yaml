@@ -1,0 +1,140 @@
+schema_version: 2
+name: origins-of-life-vent
+title: Origins-of-life vent campaign
+created: '2026-10-11'
+status: planning
+question: Can a physically plausible early-Earth hydrothermal system generate and sustain localized, increasingly
+  autonomous chemical organizations — without inserting metabolism, membranes, or heredity by assumption?
+hypothesis: Under field- and lab-consistent parameter ranges, a serpentinization-fed, spatially resolved
+  vent–ocean interface crosses, in order, falsifiable thresholds for sustained carbon fixation, network
+  persistence, concentration/individuality, compartmentation, internalized energy, and heritable organization
+  — with identifiable parameter regions where each fails.
+executive:
+  what_is_this: A staged, falsifiable Vivarium campaign treating the origin of life as coupled transitions
+    from geochemistry to autonomy, grounded in serpentinization-driven alkaline hydrothermal vents with
+    explicit competing scenarios.
+  verdict: Planned. The investigation graph + per-study contracts/tests are designed; no stage has run
+    yet. Module processes are built next (/viva-expert), then og-00 -> og-03 (the pre-genetic first-publication
+    milestone).
+  verdict_status: planning
+  verdict_detail: 10 member studies (Campaigns 0–VIII + an adversarial control) wired into a DAG. Each
+    opens at Design with a contract (ports + conservation invariants) and behavior tests derived from
+    the acceptance gates and discriminating experiments.
+  decisions_needed:
+  - question: 'Baseline parameterization: classical favorable (Russell/Lane/Sojo), the 2026 unfavorable
+      reassessment (Tutolo/Jackson), or run BOTH as competing arms?'
+    context: Drives og-01..og-03. Running both is the most defensible (the campaign adjudicates) but doubles
+      compute. Affects whether in-situ pH/sulfur-scarcity critiques are represented as parameters or ignored.
+  - question: 'Confirm the first-publication milestone scope is og-00 -> og-03 (pre-genetic: a precipitating
+      interface that retains a persistent protometabolic carbon flux)?'
+    context: Intentionally pre-genetic. Extending to og-04 (protocells) adds membrane biophysics and roughly
+      one more module before a publishable result.
+  - question: 'Build order for module processes: geochemistry+transport first (og-00/og-01), or stand
+      up a thin end-to-end skeleton across all stages first?'
+    context: Determines what /viva-expert wraps first and when the first composite runs in the workbench.
+  - question: 'Primary geochemistry engine: PHREEQC or Reaktoro?'
+    context: Both are viable; database/activity-model choice matters strongly at high ionic strength.
+      Picking one fixes the reference thermodynamic suite for og-00/og-01.
+  - question: 'Heredity strategy for og-06: which modules to prioritize (RNA-world, peptide-first, compositional,
+      mineral-templating)?'
+    context: og-06 is the weakest link and a deliberate branch point; the choice sets what the late campaign
+      compares.
+scientific_argument:
+  main_claim: Origins can be represented as a succession of independently falsifiable nonequilibrium transitions,
+    each a Vivarium process with explicit state, rate laws, units, uncertainty and alternative implementations
+    — so simulations adjudicate among scenarios rather than illustrate one story.
+  evidence_for:
+  - H2-dependent mineral-catalyzed CO2 fixation (Preiner, Varma, Huber)
+  - pH-gradient-driven CO2 reduction with isotope controls (Hudson, Altair)
+  - nonenzymatic rTCA/precursor networks (Muchowska/Moran)
+  - thermophoretic concentration in pores (Baaske, Mast & Braun)
+  - vesicle feasibility under vent-like conditions (Jordan)
+  evidence_against:
+  - in-situ pH/sulfur/longevity may be far less favorable than classical models assume (Tutolo 2026; Jackson
+    2016)
+  - no validated vent pathway spans to open-ended heredity (Module J)
+  - lab yields are not Hadean environmental concentrations
+  key_figures: []
+  caveats:
+  - This is a design + resource foundation; no stage runs yet. Every quantitative anchor is laboratory/field
+    provenance, not an environmental concentration.
+competing_frameworks:
+- name: Classical alkaline-vent (Russell/Martin/Lane/Sojo)
+  relation: primary-lens
+- name: 2026 unfavorable reassessment (Tutolo; Jackson)
+  relation: challenger
+- name: Shallow-vent (Barge & Price)
+  relation: alternative-environment
+- name: Terrestrial geothermal (Mulkidjanian)
+  relation: alternative-environment
+- name: Cyanosulfidic/photochemical (Sutherland)
+  relation: alternative-environment
+inputs:
+  datasets: []
+  references:
+  - preiner2020hydrogen
+  - hudson2020co2
+  - baaske2007extreme
+  - muchowska2019synthesis
+  - jordan2019promotion
+  - tutolo2026rethinking
+  - weiss2016physiology
+  expert_docs:
+  - name: Origins-of-Life Simulation Campaign
+  - name: Origins-of-Life Computational Methods Atlas
+at_a_glance:
+- study: og-00-vent-reactor-baseline
+  role: Validated geochemical/spatial testbed (no OoL claim)
+- study: og-01-geology-to-reduced-carbon
+  role: H2-driven CO2 reduction; reproduce lab benchmarks; map flux region
+- study: og-02-reduced-carbon-to-protometabolism
+  role: Reaction network persistence + autocatalysis under flow
+- study: og-03-dilution-to-localized-individuals
+  role: Concentration/retention crosses persistence thresholds (milestone end)
+- study: og-04-mineral-compartments-to-protocells
+  role: 'Amphiphile compartments: retention without isolation'
+- study: og-05-environmental-to-internal-bioenergetics
+  role: Selection internalizes energy conversion
+- study: og-06-chemistry-to-heredity
+  role: Competing heredity modules; inheritance must earn its keep
+- study: og-07-ecology-before-luca
+  role: Population-level emergence vs LUCA reconstruction
+- study: og-08-escape-from-the-vent
+  role: Minimum innovation set for autonomy off-gradient
+- study: og-adv-generic-nonequilibrium
+  role: 'Adversarial control: gates must reject non-vent chemistry'
+studies:
+- og-00-vent-reactor-baseline
+- og-01-geology-to-reduced-carbon
+- og-02-reduced-carbon-to-protometabolism
+- og-03-dilution-to-localized-individuals
+- og-04-mineral-compartments-to-protocells
+- og-05-environmental-to-internal-bioenergetics
+- og-06-chemistry-to-heredity
+- og-07-ecology-before-luca
+- og-08-escape-from-the-vent
+- og-adv-generic-nonequilibrium
+acceptance_criteria:
+- study: og-00-vent-reactor-baseline
+  behavior: vent-T-pH-in-lostcity-range
+- study: og-01-geology-to-reduced-carbon
+  behavior: net-carbon-flux-region-mapped
+- study: og-02-reduced-carbon-to-protometabolism
+  behavior: sustained-carbon-throughput
+- study: og-03-dilution-to-localized-individuals
+  behavior: retention-beats-destruction
+- study: og-04-mineral-compartments-to-protocells
+  behavior: retention-without-isolation
+- study: og-05-environmental-to-internal-bioenergetics
+  behavior: reduced-gradient-dependence
+- study: og-06-chemistry-to-heredity
+  behavior: inheritance-beats-noninheritance
+- study: og-07-ecology-before-luca
+  behavior: cross-feeding-robustness
+- study: og-08-escape-from-the-vent
+  behavior: survival-off-gradient
+- study: og-adv-generic-nonequilibrium
+  behavior: gates-reject-generic
+expert_docs:
+- Origins-of-Life Simulation Campaign
+- Origins-of-Life Computational Methods Atlas

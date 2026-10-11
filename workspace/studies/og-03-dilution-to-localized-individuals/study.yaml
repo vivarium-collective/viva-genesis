@@ -1,0 +1,116 @@
+schema_version: 4
+name: og-03-dilution-to-localized-individuals
+investigation: origins-of-life-vent
+created: '2026-10-11'
+phase: Design
+status: planned
+design_status: drafted
+confidence: Planned
+title: Dilution to localized individuals (Campaign III)
+question: When do retention time and concentration cross the thresholds for network persistence, as pore
+  morphology evolves via precipitation/dissolution?
+hypothesis: Thermophoresis + convection + adsorption in evolving pores raise local concentration enough
+  that synthesis outruns hydrolysis/leakage in a bounded geometry region; elsewhere washout dominates.
+objective: Add pore geometry, adsorption, convection and thermophoresis; find where retention + concentration
+  cross persistence thresholds.
+proposed_mechanisms:
+- 'F: transport/concentration/retention'
+- 'B: evolving pores'
+proposed_models_methods:
+- FiPy finite-volume with Soret term
+- OpenPNM/PoreSpy pore geometry
+- reproduce Baaske enrichment
+- Damkohler/Peclet/Soret scaling
+contract:
+  face:
+    inputs:
+      temperature:
+        _type: float
+        _units: kelvin
+        _min: 273.0
+        _max: 673.0
+      flow_velocity:
+        _type: float
+        _units: meter/second
+        _min: 0.0
+      porosity:
+        _type: float
+        _units: dimensionless
+        _min: 0.0
+        _max: 1.0
+    outputs:
+      enrichment_factor:
+        _type: float
+        _units: dimensionless
+        _min: 1.0
+      residence_time:
+        _type: float
+        _units: second
+        _min: 0.0
+  conditions:
+  - kind: invariant
+    name: spatial_flux_conservation
+    expr: divergence(flux) == source_minus_sink
+  - kind: invariant
+    name: mass_balance
+    expr: abs(residual_C)+abs(residual_H)+abs(residual_O) < tol
+  note: bigraph-schema typed ports (_type/_units/bounds) + conservation predicates; the composite built
+    for this study must declare a ProcessContract matching this face (audited via the workbench §Contract
+    panel).
+behavior_tests:
+- name: thermophoretic-enrichment-reproduces-baaske
+  classification: primary
+  description: Enrichment vs geometry matches the transport model.
+  measure:
+    kind: observable
+    detail: enrichment factor vs pore geometry
+  pass_if:
+    op: threshold
+    detail: '>10^8-fold in favorable geometry; trend matches'
+  requires_simulation: 'yes'
+  cites:
+  - baaske2007extreme
+- name: retention-beats-destruction
+  classification: primary
+  description: A net-accumulation region exists AND the hydrolysis/leakage-wins region is mapped.
+  measure:
+    kind: observable
+    detail: residence time vs synthesis timescale across geometry
+  pass_if:
+    op: threshold
+    detail: accumulation region exists; destruction region mapped
+  requires_simulation: 'yes'
+- name: network-persists-in-pore
+  classification: supporting
+  description: Coupling the og-02 network into the pore improves persistence.
+  measure:
+    kind: observable
+    detail: network persistence in-pore vs well-mixed
+  pass_if:
+    op: threshold
+    detail: persistence improves vs well-mixed
+  requires_simulation: 'yes'
+literature_anchors:
+- expectation: '>10^8-fold nucleotide accumulation in favorable modeled pore geometries'
+  model_observable: enrichment vs geometry
+  source: Baaske 2007
+  status_in_workspace: Not yet measurable — module processes not built
+  cites:
+  - baaske2007extreme
+baseline:
+- name: Dilution to localized individuals (Campaign III)
+  composite: viva_genesis.composites.og_03_dilution_to_localized_individuals
+  params: {}
+  planned: true
+parent_studies:
+- study: og-02-reduced-carbon-to-protometabolism
+  condition: tests-passed
+key_assumptions:
+- Concentration arises from the balance of advection, diffusion, thermodiffusion, adsorption, precipitation
+  and degradation — not assumed.
+parent_relations:
+- study: og-02-reduced-carbon-to-protometabolism
+  relation: leads-to
+expert_questions:
+- Is og-03 the right end-point for the first publication milestone (pre-genetic), or extend the milestone
+  to include og-04?

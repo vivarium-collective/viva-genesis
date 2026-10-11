@@ -1,0 +1,105 @@
+schema_version: 4
+name: og-06-chemistry-to-heredity
+investigation: origins-of-life-vent
+created: '2026-10-11'
+phase: Design
+status: planned
+design_status: drafted
+confidence: Planned
+title: Chemistry to heredity (Campaign VI)
+question: Does inherited state improve persistence/throughput — comparing RNA-like, peptide-assisted,
+  compositional and hybrid heredity — rather than template replication in isolation? (Do NOT presume RNA.)
+hypothesis: At least one heredity module raises lineage persistence + information retention above its
+  non-heritable control under a feasible resource budget; the winner is not assumed a priori.
+objective: Introduce competing heredity modules and test whether inherited state improves persistence
+  under feasible budgets.
+proposed_mechanisms:
+- 'J: polymers, information and heredity (as competing modules)'
+proposed_models_methods:
+- GillesPy2/StochPy SSA
+- rule-based chemistry (BioNetGen/NFsim) for sequence combinatorics
+- separate catalyst discovery from inheritance
+- explicit fidelity/cost/competition
+contract:
+  face:
+    inputs:
+      temperature:
+        _type: float
+        _units: kelvin
+        _min: 273.0
+        _max: 673.0
+    outputs:
+      polymer_length:
+        _type: integer
+        _units: dimensionless
+        _min: 1
+      lineage_fitness:
+        _type: float
+        _units: dimensionless
+  conditions:
+  - kind: invariant
+    name: mass_balance
+    expr: abs(residual_C)+abs(residual_H)+abs(residual_O) < tol
+  - kind: invariant
+    name: reproducibility
+    expr: solver and db and seed and scenario recorded
+  - kind: invariant
+    name: energy_directionality
+    expr: free_energy_flux_logged == true
+  note: bigraph-schema typed ports (_type/_units/bounds) + conservation predicates; the composite built
+    for this study must declare a ProcessContract matching this face (audited via the workbench §Contract
+    panel).
+behavior_tests:
+- name: inheritance-beats-noninheritance
+  classification: primary
+  description: Heritable systems outperform their non-heritable controls.
+  measure:
+    kind: observable
+    detail: persistence/throughput with vs without inherited state
+  pass_if:
+    op: threshold
+    detail: heritable > control
+  requires_simulation: 'yes'
+- name: heredity-modules-compared
+  classification: primary
+  description: At least two heredity modules evaluated head-to-head.
+  measure:
+    kind: observable
+    detail: ranking across >=2 heredity modules
+  pass_if:
+    op: threshold
+    detail: evidence-based ranking, not assumed
+  requires_simulation: 'yes'
+- name: replication-feasible-budget
+  classification: supporting
+  description: Demonstrated under feasible resource budgets, not idealized.
+  measure:
+    kind: observable
+    detail: resource budget of replication
+  pass_if:
+    op: threshold
+    detail: within chemically feasible budget
+  requires_simulation: 'yes'
+literature_anchors:
+- expectation: Mineral/CO-driven peptide formation at 100 C, pH 7-10
+  model_observable: peptide formation rate/conditions
+  source: Huber & Wachtershauser 1998
+  status_in_workspace: Not yet measurable — module processes not built
+  cites:
+  - huber1998peptides
+baseline:
+- name: Chemistry to heredity (Campaign VI)
+  composite: viva_genesis.composites.og_06_chemistry_to_heredity
+  params: {}
+  planned: true
+parent_studies:
+- study: og-05-environmental-to-internal-bioenergetics
+  condition: tests-passed
+key_assumptions:
+- Treat informational chemistry as a branch point; do not presume a viable RNA replication mechanism.
+parent_relations:
+- study: og-05-environmental-to-internal-bioenergetics
+  relation: leads-to
+expert_questions:
+- 'Which heredity modules to prioritize first: RNA-world, peptide-first, compositional, or mineral-surface
+  templating?'
