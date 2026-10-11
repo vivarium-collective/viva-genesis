@@ -11,7 +11,18 @@ modules (see ``workspace/notes/modules.md`` and ``workspace/notes/architecture.m
 - ``polymers``       — catalytic polymers, information, heredity (module J)
 - ``ecology``        — populations, evolution, pre-LUCA transition (stages 7-8)
 
-``core.build_core()`` registers this package's own Process/Step classes. The
-subpackages are documented placeholders today (no processes yet); add real
-wrapped processes with ``/viva-expert``.
+``core.build_core()`` registers this package's own Process/Step classes.
+Campaign 0 is implemented (reduced reproductions in ``geochemistry``/``transport``
++ the ``composites.campaign0`` generator); the later campaigns are documented
+placeholders. Importing this package registers the campaign's composite
+generators (so the workbench discovers them even under an editable install that
+``discover_generators`` can't see).
 """
+
+# Side-effect imports: fire the @composite_generator decorators + make the
+# Process/Step classes importable so the workspace package alone registers the
+# campaign (the hatchling editable install is invisible to packages_distributions).
+from . import geochemistry  # noqa: E402,F401
+from . import transport     # noqa: E402,F401
+from . import viz           # noqa: E402,F401
+from . import composites    # noqa: E402,F401

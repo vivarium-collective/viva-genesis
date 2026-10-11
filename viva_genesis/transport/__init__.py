@@ -23,5 +23,11 @@ Planned process contracts (not yet implemented):
 Fluxes must be conservative across cell and compartment boundaries
 (``workspace/notes/architecture.md``).
 
-Placeholder package: no Process/Step classes yet.
+Campaign 0 ships ``VentReactorReproductionProcess`` (Module B, reduced
+reproduction); re-exported here so ``build_core()``'s non-recursive package walk
+registers it.
 """
+
+from .vent_reactor import VentReactorReproductionProcess  # noqa: E402,F401
+
+__all__ = ["VentReactorReproductionProcess"]

@@ -125,9 +125,8 @@ literature_anchors:
   - ludwig2006formation
 baseline:
 - name: Vent reactor baseline (Campaign 0)
-  composite: viva_genesis.composites.og_00_vent_reactor_baseline
+  composite: viva_genesis.composites.campaign0.og_00_vent_reactor_baseline
   params: {}
-  planned: true
 parent_studies: []
 key_assumptions:
 - Hadean ocean chemistry parameterized separately — never reuse modern seawater as the ancient prior.
@@ -135,3 +134,12 @@ expert_questions:
 - Reproduce Lost City (modern analog) and parameterize Hadean ocean separately, or attempt a Hadean-only
   baseline first?
 kind: baseline
+simulation_status: planned
+implementation_status: implemented
+visualizations:
+- name: vent-reactor-timeseries
+  address: local:VentReactorTimeseries
+  config:
+    composite: viva_genesis.composites.campaign0.og_00_vent_reactor_baseline
+    n_steps: 120
+    title: Campaign 0 — vent reactor baseline

@@ -20,6 +20,11 @@ Planned process contracts (not yet implemented):
 Contracts must declare units and conservation predicates (mass/elements for
 C,H,O,N,P,S,Fe,Ni; charge; energy) per ``workspace/notes/architecture.md``.
 
-This is a placeholder package: it defines no Process/Step classes yet, so
-``build_core()`` registers nothing from here.
+Campaign 0 ships ``SerpentinizationReproductionProcess`` (Module A, reduced
+reproduction); it is re-exported here so ``build_core()``'s non-recursive package
+walk registers it.
 """
+
+from .serpentinization import SerpentinizationReproductionProcess  # noqa: E402,F401
+
+__all__ = ["SerpentinizationReproductionProcess"]

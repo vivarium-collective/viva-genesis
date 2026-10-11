@@ -1,0 +1,86 @@
+"""Module B — hydrothermal vent–ocean reactor (REDUCED REPRODUCTION).
+
+**Not a wrap of FiPy / a reactive-transport solver.** A clean-room, reduced
+well-mixed reactor standing in for Campaign 0 (see ``workspace/notes/modules.md``,
+Module B). It reads the serpentinization source (H2, alkalinity, heat) and
+relaxes the interface temperature, pH and porosity toward Lost City–like targets,
+so a short run settles into the field window (~45–90 C, pH ~9–10.8) with a
+sustained reducing supply. The eventual Campaign-0 model replaces this with a
+real FiPy advection–diffusion–reaction coupling.
+"""
+from __future__ import annotations
+
+import math
+
+from process_bigraph import Process
+
+_K = {"_type": "float", "_units": "kelvin"}
+_W = {"_type": "float", "_units": "watt"}
+_MOLAR = {"_type": "float", "_units": "molar"}
+_DIMLESS = {"_type": "float", "_units": "dimensionless"}
+
+
+class VentReactorReproductionProcess(Process):
+    """Reduced vent–ocean mixing reactor.
+
+    Read–modify–write: reads the current ``temperature``/``pH``/``porosity`` plus
+    the serpentinization drivers, and emits first-order relaxation **deltas**
+    toward field-constrained targets (bare ``float`` ports, so the deltas compose
+    additively and a sibling process could also contribute).
+    """
+
+    config_schema = {
+        "t_target": {"_type": "float", "_default": 340.0},    # K (~67 C), Lost City mid-window
+        "k_temperature": {"_type": "float", "_default": 0.05},
+        "heat_gain": {"_type": "float", "_default": 0.2},     # K per W accumulated, capped
+        "ph_base": {"_type": "float", "_default": 9.1},
+        "ph_max": {"_type": "float", "_default": 10.6},
+        "k_ph": {"_type": "float", "_default": 0.09},
+        "alk_scale": {"_type": "float", "_default": 0.02},    # molar scale for pH response
+        "porosity_target": {"_type": "float", "_default": 0.25},
+        "k_porosity": {"_type": "float", "_default": 0.02},
+    }
+
+    def inputs(self):
+        return {
+            "temperature": _K,
+            "pH": _DIMLESS,
+            "porosity": _DIMLESS,
+            "H2": _MOLAR,
+            "alkalinity": _MOLAR,
+            "heat": _W,
+        }
+
+    def outputs(self):
+        return {"temperature": _K, "pH": _DIMLESS, "porosity": _DIMLESS}
+
+    def initial_state(self):
+        return {"temperature": 300.0, "pH": 7.2, "porosity": 0.35,
+                "H2": 0.0, "alkalinity": 0.0, "heat": 0.0}
+
+    def update(self, state, interval):
+        temperature = float(state["temperature"])
+        ph = float(state["pH"])
+        porosity = float(state["porosity"])
+        heat = float(state["heat"])
+        alkalinity = float(state["alkalinity"])
+
+        # Temperature relaxes toward the mixing target, nudged up by accumulated
+        # serpentinization heat (saturating so it stays in the field window).
+        heat_bump = self.config["heat_gain"] * math.tanh(heat / 50.0) * 20.0
+        t_target = self.config["t_target"] + heat_bump
+        d_temperature = self.config["k_temperature"] * (t_target - temperature) * interval
+
+        # pH relaxes toward an alkalinity-driven target between base and max.
+        alk_term = alkalinity / (alkalinity + self.config["alk_scale"])
+        ph_target = self.config["ph_base"] + (self.config["ph_max"] - self.config["ph_base"]) * alk_term
+        d_ph = self.config["k_ph"] * (ph_target - ph) * interval
+
+        # Porosity evolves toward a precipitation-set value, clamped to [0, 1].
+        d_porosity = self.config["k_porosity"] * (self.config["porosity_target"] - porosity) * interval
+        if porosity + d_porosity < 0.0:
+            d_porosity = -porosity
+        elif porosity + d_porosity > 1.0:
+            d_porosity = 1.0 - porosity
+
+        return {"temperature": d_temperature, "pH": d_ph, "porosity": d_porosity}
