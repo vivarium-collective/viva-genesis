@@ -11,6 +11,8 @@ from __future__ import annotations
 
 from process_bigraph.composite_generator import composite_generator
 
+from ..core import build_core
+
 
 @composite_generator(
     name="og_00_vent_reactor_baseline",
@@ -25,6 +27,11 @@ from process_bigraph.composite_generator import composite_generator
                         "description": "Peak H2 source rate at reference flow (mol/s)"},
     },
     default_n_steps=120,
+    # Register this workspace's own processes on whatever core the dashboard
+    # builds the composite against (e.g. the §Contract audit path uses a bare
+    # allocate_core()); build_core(core) adds SerpentinizationReproductionProcess
+    # + VentReactorReproductionProcess and returns the core.
+    core_extensions=[build_core],
     # Persisted sink so the og-00 behavior tests (T/pH window, sustained flux)
     # can be evaluated from a real parquet store (RAM-only runs stay "blocked").
     emitters=[{
