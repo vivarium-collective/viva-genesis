@@ -21,6 +21,12 @@ class VentReactorTimeseries(Visualization):
     config_schema = {
         "title": {"_type": "string", "_default": "Campaign 0 — vent reactor baseline"},
         "n_steps": {"_type": "integer", "_default": 120},
+        # Composite overrides — kept in sync with the generator's parameters so
+        # the figure reflects the study's configured baseline (and any edited
+        # params a caller passes in), not just the generator defaults.
+        "flow_velocity": {"_type": "float", "_default": 1.0e-3},
+        "t_target": {"_type": "float", "_default": 340.0},
+        "h2_rate_max": {"_type": "float", "_default": 1.0e-3},
     }
 
     def inputs(self):
@@ -34,7 +40,13 @@ class VentReactorTimeseries(Visualization):
         from .composites.campaign0 import vent_reactor_baseline
 
         core = build_core()
-        sim = Composite({"state": vent_reactor_baseline(core)}, core=core)
+        doc = vent_reactor_baseline(
+            core,
+            flow_velocity=float(self.config["flow_velocity"]),
+            t_target=float(self.config["t_target"]),
+            h2_rate_max=float(self.config["h2_rate_max"]),
+        )
+        sim = Composite({"state": doc}, core=core)
         sim.run(float(self.config["n_steps"]))
         rows = gather_emitter_results(sim)[("emitter",)]
         return {"html": self._figure(rows)}
