@@ -7,74 +7,76 @@
 
 **An origins-of-life hydrothermal-vent simulation campaign in Vivarium.**
 
-A modular process-bigraph campaign that treats the origin of life as a sequence
-of coupled, independently falsifiable transitions — geochemical disequilibrium →
-carbon fixation → concentration/compartmentalization → protometabolism →
-protocells → hereditary chemistry → autonomous cells — grounded in deep-sea
-serpentinization-driven alkaline vents, with explicit competing scenarios.
+Treats the origin of life as a chain of coupled, independently falsifiable
+transitions — geochemical disequilibrium → carbon fixation → concentration &
+compartmentalization → protometabolism → protocells → heredity → autonomy —
+grounded in deep-sea serpentinization-driven alkaline vents, with competing
+scenarios (shallow-vent, terrestrial-geothermal, cyanosulfidic) kept as explicit
+alternatives rather than assumptions.
 
-> This workspace is currently a **design + resource foundation**, not a running
-> abiogenesis simulation. The scientific framing, module/process architecture,
-> provenance schema, parameter registry, experiment/falsification plan and the
-> annotated reference library are in place; composites get built module by module
-> (`/viva-expert` → `/viva-run` → `/viva-study`).
+> **Status: design + resource foundation, not a running simulation.** The
+> scientific framing, module/process architecture, provenance schema, parameter
+> registry, experiment/falsification plan, and the annotated reference library
+> are in place. Composites get built module by module — these dossiers are a
+> *design*, not a claim that existing software already simulates abiogenesis.
 
-**Start here:** [`workspace/notes/campaign-overview.md`](workspace/notes/campaign-overview.md)
-· modules [`workspace/notes/modules.md`](workspace/notes/modules.md)
-· architecture [`workspace/notes/architecture.md`](workspace/notes/architecture.md)
-· resources [`workspace/references/computational-resources.md`](workspace/references/computational-resources.md)
-· references [`workspace/references/papers.bib`](workspace/references/papers.bib)
+## The campaign
 
-Source dossiers (not committed): *Vivarium Origins-of-Life Simulation Campaign*
-and *Computational Methods Atlas* (11 Oct 2026).
+| Where | What |
+|---|---|
+| [`campaign-overview.md`](workspace/notes/campaign-overview.md) | Core idea, primary question, Campaigns 0–VIII, first milestone, implementation order. |
+| [`hypothesis-graph.md`](workspace/notes/hypothesis-graph.md) | Stages 0–7, mechanistic links A–I (with evidence status), provenance crosswalk. |
+| [`modules.md`](workspace/notes/modules.md) | Mechanistic modules A–J + LUCA boundary → Vivarium process signatures. |
+| [`architecture.md`](workspace/notes/architecture.md) | Process-bigraph design: process table, shared stores, coupling, conservation contracts. |
+| [`provenance-schema.md`](workspace/notes/provenance-schema.md) | FIELD / LAB-DIRECT / LAB-ANALOG / MODEL / RECONSTRUCTION / HYPOTHESIS classes; model-card + run-export requirements. |
+| [`experiments-and-falsification.md`](workspace/notes/experiments-and-falsification.md) | Discriminating tests, acceptance gates, reproduction targets, competing environments. |
+| [`risk-register.md`](workspace/notes/risk-register.md) | Evidence gaps and model risks with mitigations. |
+| [`data-acquisition.md`](workspace/notes/data-acquisition.md) | Field + laboratory datasets to acquire/digitize. |
 
-<!-- BEGIN:dashboard -->
-<!-- `vivarium-workbench gen-readme` fills this with a prominent link to the
-     live read-only dashboard (URL derived from the git remote). Before the repo
-     is pushed it shows a local-serve note; after the publish-dashboard workflow
-     runs (enable once: Settings → Pages → Source = `gh-pages`) it links the live
-     GitHub Pages dashboard. Run `vivarium-workbench gen-readme --workspace .`
-     (and `--check` in CI) to keep it fresh. -->
-<!-- END:dashboard -->
+**Resources:** [`computational-resources.md`](workspace/references/computational-resources.md)
+(engines, databases, standards, stage→engine map) ·
+[`papers.bib`](workspace/references/papers.bib) (36 annotated references) ·
+[`parameter-registry.yaml`](workspace/datasets/parameter-registry.yaml)
+(provenance-classed quantitative parameters).
 
-A Process-Bigraph research workspace scaffolded from
-[viva-template](https://github.com/vivarium-collective/viva-template).
+Processes are organized by module family under
+[`viva_genesis/`](viva_genesis/): `geochemistry`, `transport`,
+`electrochemistry`, `protometabolism`, `compartments`, `polymers`, `ecology`
+(documented placeholders today).
+
+**First target** — a dynamically precipitating, spatially resolved alkaline
+vent–ocean interface that generates and *retains* a persistent protometabolic
+carbon flux; reproduce Preiner 2020, Hudson 2020 and Baaske 2007 before
+extrapolating. See [`workspace/composites/`](workspace/composites/README.md).
 
 ## Getting started
 
-    bash scripts/serve.sh           # open the dashboard
-    python3 scripts/lint-workspace.py
+```bash
+uv venv .venv && source .venv/bin/activate && uv pip install -e ".[dev]"
+python scripts/lint-workspace.py        # workspace lint: OK
+pytest -q                               # package + registration guards
+bash scripts/serve.sh                   # open the interactive workbench locally
+```
 
-See `NEXT_STEPS.md` for the full tour.
+Building processes/composites: wrap a simulator with `/viva-expert`, run it with
+`/viva-run`, drive studies with `/viva-study`, group them with
+`/viva-investigation`. See [`AGENTS.md`](AGENTS.md) for the PR flow and
+[`docs/first-run-agent-guide.md`](docs/first-run-agent-guide.md) for an
+agent-driven walkthrough.
 
-> 🤖 **Using an AI coding assistant (Claude Code / Cursor / …)?** Hand it
-> **[docs/first-run-agent-guide.md](docs/first-run-agent-guide.md)** — a gated
-> runbook that takes an agent from a clean clone to a running vivarium-workbench
-> with one of this workspace's composites open in the viewer, then on to
-> authoring studies and contributing.
+## Layout
 
-## Working with this workspace
+Code lives at the repo root; research state is grouped under `workspace/`
+(locations come from the `layout:` map in `workspace.yaml`).
 
-The [viva-superpowers](https://github.com/vivarium-collective/viva-superpowers)
-Claude Code plugin provides skills that drive the canonical PR flow:
+- `viva_genesis/` — Python package; `core.py` exposes `build_core()`, module families in subpackages.
+- `workspace/notes/` — campaign design docs (survive cleanup sweeps).
+- `workspace/references/` — `papers.bib` + computational-resources catalog.
+- `workspace/datasets/` — provenance-classed parameter registry.
+- `workspace/composites/`, `workspace/experiments/` — build + falsification targets.
+- `.pbg/schemas/` — JSON schemas the lint + workbench validate against.
 
-- `/viva-study <slug>` — start a study (8-section spec, `phase: Design|Build|Simulate|Evaluate|Decide`).
-- `/viva-investigation <slug>` — group related studies into an investigation (DAG via `pipeline_gate.prerequisites`).
-- `/viva-expert <tool>` — wrap a simulator as a process-bigraph Process or Step (sibling repo + tests + report). Pass `--lightweight` to write in-workspace instead.
-- `/viva-expert <name> <tools…>` — wire wrapped simulators into a composite (sibling repo, or `--lightweight` for in-workspace).
-- `/viva-viz` — generate a Visualization from a natural-language description.
-- `/viva-report` — regenerate `workspace/reports/index.html`.
-
-Decide-phase studies can record `followup_proposals[]`; seed a child study
-from any proposal with `/viva-study seed-from-followup <parent>/<proposal_id>`.
-
-## Composites & investigations
-
-These two tables are generated from the workspace by
-`vivarium-workbench gen-readme` — the same sets the dashboard shows — and kept
-fresh by CI (`workspace-ci` runs `gen-readme --check`). They fill in as you add
-composites and investigations; regenerate any time with
-`vivarium-workbench gen-readme --workspace .`.
+<!-- the two tables below are generated by `vivarium-workbench gen-readme` and kept fresh by CI; they fill in as composites and investigations are added. -->
 
 ### Composites
 
@@ -93,29 +95,3 @@ composites and investigations; regenerate any time with
 | Investigation | Research question |
 |---|---|
 <!-- END:investigations -->
-
-## Layout
-
-Project code lives at the repo root; research state is grouped under `workspace/`
-(the `.pbg/` machine state stays at the root like `.git/`). Directory locations
-come from the `layout:` map in `workspace.yaml` — edit it to move things.
-
-- `workspace.yaml` — canonical state (validated against `.pbg/schemas/workspace.schema.json`).
-- `viva_genesis/` — your Python package (`core.py` exposes `build_core()`).
-- `scripts/` — `lint-workspace.py`, `serve.sh`, helpers.
-- `workspace/studies/`, `workspace/composites/`, `workspace/references/`, `workspace/datasets/` — research artifacts.
-- `workspace/notes/` — friction logs, walkthroughs, agent transcripts, ADRs. See `workspace/notes/README.md` for the
-  cleanup rule: **files under `notes/` survive cleanup sweeps by default**, because they're the
-  input to the next round of infrastructure improvements.
-- `.pbg/schemas/` — JSON schemas the lint + dashboard validate against.
-
-## Cleanup conventions
-
-Cleanup PRs (`chore(cleanup): …`, `chore(repo): trim …`) routinely remove generated files,
-one-shot scripts, and stale planning docs. Two locations are off-limits to bulk cleanup:
-
-- `workspace/notes/**` — see the rule in `workspace/notes/README.md`.
-- `workspace/references/notes/**` — per-paper literature notes, used by the findings protocol.
-
-If a specific file in either location is genuinely obsolete, delete it in its own commit
-with a one-line justification per file. Don't bundle with unrelated cleanup.
