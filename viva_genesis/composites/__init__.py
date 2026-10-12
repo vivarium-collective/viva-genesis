@@ -4,16 +4,16 @@ Each submodule is imported for its side effect so the ``@composite_generator``
 decorators fire on package import.
 """
 
-from . import campaign0  # noqa: F401
-from . import campaign1  # noqa: F401
-from . import campaign2  # noqa: F401
+from . import vent_reactor  # noqa: F401
+from . import carbon_fixation  # noqa: F401
+from . import protometabolism  # noqa: F401
 
-from .campaign0 import og_00_vent_reactor_baseline, og_00_vent_reactor_reduced
-from .campaign1 import og_01_geology_to_reduced_carbon
-from .campaign2 import og_02_reduced_carbon_to_protometabolism
+from .vent_reactor import serpentinizing_vent_reactor, serpentinizing_vent_reactor_reduced
+from .carbon_fixation import hydrothermal_carbon_fixation
+from .protometabolism import protometabolic_network
 
 __all__ = [
-    "og_00_vent_reactor_baseline", "og_00_vent_reactor_reduced",
-    "og_01_geology_to_reduced_carbon",
-    "og_02_reduced_carbon_to_protometabolism",
+    "serpentinizing_vent_reactor", "serpentinizing_vent_reactor_reduced",
+    "hydrothermal_carbon_fixation",
+    "protometabolic_network",
 ]

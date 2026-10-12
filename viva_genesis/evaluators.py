@@ -8,7 +8,7 @@ a single scalar the evaluator then grades with the study's ``pass_if`` op — so
 PASS/FAIL from real run data, no agent in the loop.
 
 These read the Campaign-0 vent-reactor observables (temperature, pH, H2_flux,
-charge_imbalance, flux_divergence_residual) that the ``og_00_vent_reactor_baseline``
+charge_imbalance, flux_divergence_residual) that the ``serpentinizing_vent_reactor``
 composite persists via its ParquetEmitter. "Settled" readouts use the last
 quartile of the trajectory (the reactor's steady state, not the start-up
 transient); "sustained" readouts reduce over the back half.

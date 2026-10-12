@@ -1,7 +1,7 @@
 """Workspace visualizations for viva-genesis (live in the workbench Visualizations tab).
 
 ``VentReactorTimeseries`` runs the og-00 **real coupled model**
-(``og_00_vent_reactor_baseline`` — PHREEQC serpentinization + FiPy reactive
+(``serpentinizing_vent_reactor`` — PHREEQC serpentinization + FiPy reactive
 transport) via ``build_core()`` and returns ``{"html": <plotly html>}``. As a
 ``Visualization`` (a Step subclass) it auto-registers through the package walk
 and re-runs live with the study.
@@ -37,10 +37,10 @@ class VentReactorTimeseries(Visualization):
 
     def update(self, state=None):
         from .core import build_core
-        from .composites.campaign0 import og_00_vent_reactor_baseline
+        from .composites.vent_reactor import serpentinizing_vent_reactor
 
         core = build_core()
-        doc = og_00_vent_reactor_baseline(
+        doc = serpentinizing_vent_reactor(
             core,
             flow_velocity=float(self.config["flow_velocity"]),
             olivine_rate=float(self.config["olivine_rate"]),
@@ -113,7 +113,7 @@ class CarbonFixationViz(Visualization):
     the real eQuilibrator ΔG'/feasibility gate, and net organic-carbon flux.
 
     Drives the genuine eQuilibrator + FiPy composite
-    (``viva_genesis.composites.campaign1``).
+    (``viva_genesis.composites.carbon_fixation``).
     """
 
     config_schema = {
@@ -130,9 +130,9 @@ class CarbonFixationViz(Visualization):
 
     def update(self, state=None):
         from .core import build_core
-        from .composites.campaign1 import og_01_geology_to_reduced_carbon
+        from .composites.carbon_fixation import hydrothermal_carbon_fixation
         core = build_core()
-        doc = og_01_geology_to_reduced_carbon(
+        doc = hydrothermal_carbon_fixation(
             core, gradient_efficiency=float(self.config["gradient_efficiency"]))
         sim = Composite({"state": doc}, core=core)
         sim.run(float(self.config["n_steps"]))
@@ -192,7 +192,7 @@ class ProtometabolismViz(Visualization):
     the autocatalytic gain — the emergent metabolism-like behavior.
 
     Drives the genuine libRoadRunner/Tellurium composite
-    (``viva_genesis.composites.campaign2``).
+    (``viva_genesis.composites.protometabolism``).
     """
 
     config_schema = {
@@ -209,9 +209,9 @@ class ProtometabolismViz(Visualization):
 
     def update(self, state=None):
         from .core import build_core
-        from .composites.campaign2 import og_02_reduced_carbon_to_protometabolism
+        from .composites.protometabolism import protometabolic_network
         core = build_core()
-        doc = og_02_reduced_carbon_to_protometabolism(
+        doc = protometabolic_network(
             core, feed_CO2=float(self.config["feed_CO2"]))
         sim = Composite({"state": doc}, core=core)
         sim.run(float(self.config["n_steps"]))

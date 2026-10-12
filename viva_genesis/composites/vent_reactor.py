@@ -1,6 +1,6 @@
 """Campaign 0 composites — the vent-reactor baseline.
 
-``og_00_vent_reactor_baseline`` is the **real coupled model**: Module A
+``serpentinizing_vent_reactor`` is the **real coupled model**: Module A
 (:class:`~viva_genesis.geochemistry.phreeqc_serpentinization.PhreeqcSerpentinizationProcess`
 — genuine PHREEQC speciation + mineral equilibrium) feeds H2 / alkalinity / heat
 source fluxes into Module B
@@ -11,7 +11,7 @@ and FiPy's FVM conserves flux by construction, so the composite satisfies the
 og-00 contract invariants (``mass_balance``, ``charge_neutrality``,
 ``spatial_flux_conservation``). Requires ``phreeqpython`` + ``fipy`` installed.
 
-``og_00_vent_reactor_reduced`` is the original tuned-relaxation reproduction
+``serpentinizing_vent_reactor_reduced`` is the original tuned-relaxation reproduction
 (``SerpentinizationReproductionProcess`` → ``VentReactorReproductionProcess``),
 kept as a runs-anywhere fallback / A-B comparison baseline.
 """
@@ -32,9 +32,9 @@ _REAL_EMIT_PATHS = [
 
 
 @composite_generator(
-    name="og_00_vent_reactor_baseline",
+    name="serpentinizing_vent_reactor",
     description=(
-        "Campaign 0 — REAL coupled vent reactor. Module A = genuine PHREEQC "
+        "A reusable alkaline-vent reactor module. Module A = genuine PHREEQC "
         "serpentinization (phreeqpython + vendored llnl.dat): olivine dissolution "
         "+ serpentine/brucite/magnetite equilibrium gives dissolved H2 (reducing "
         "power), alkalinity, heat, pe, and a charge-balanced fluid. Module B = "
@@ -55,7 +55,7 @@ _REAL_EMIT_PATHS = [
     core_extensions=[build_core],
     emitters=[{"address": "local:ParquetEmitter", "paths": _REAL_EMIT_PATHS}],
 )
-def og_00_vent_reactor_baseline(core=None, *, flow_velocity=1.0e-3, olivine_rate=0.15, nx=40):
+def serpentinizing_vent_reactor(core=None, *, flow_velocity=1.0e-3, olivine_rate=0.15, nx=40):
     return {
         "serpentinization": {
             "_type": "process",
@@ -115,8 +115,8 @@ def og_00_vent_reactor_baseline(core=None, *, flow_velocity=1.0e-3, olivine_rate
 
 
 @composite_generator(
-    name="og_00_vent_reactor_reduced",
-    description="Campaign 0 — reduced tuned-relaxation reproduction (fallback / A-B "
+    name="serpentinizing_vent_reactor_reduced",
+    description="Reduced tuned-relaxation vent reactor (fallback / A-B "
                 "comparison): Gaussian serpentinization source feeding a first-order "
                 "relaxation box. Runs anywhere (no phreeqpython/fipy). NOT real geochemistry.",
     parameters={
@@ -139,7 +139,7 @@ def og_00_vent_reactor_baseline(core=None, *, flow_velocity=1.0e-3, olivine_rate
         ],
     }],
 )
-def og_00_vent_reactor_reduced(core=None, *, flow_velocity=1.0e-3, t_target=340.0, h2_rate_max=1.0e-3):
+def serpentinizing_vent_reactor_reduced(core=None, *, flow_velocity=1.0e-3, t_target=340.0, h2_rate_max=1.0e-3):
     return {
         "serpentinization": {
             "_type": "process",

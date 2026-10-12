@@ -16,7 +16,7 @@ from pathlib import Path
 STUDY_DIR = Path(__file__).resolve().parents[1]
 WORKSPACE_ROOT = STUDY_DIR.parents[2]
 
-SPEC_ID = "viva_genesis.composites.campaign2.og_02_reduced_carbon_to_protometabolism"
+SPEC_ID = "viva_genesis.composites.protometabolism.protometabolic_network"
 STUDY_SLUG = "og-02-reduced-carbon-to-protometabolism"
 INVESTIGATION_SLUG = "origins-of-life-vent"
 N_STEPS = 120
@@ -58,7 +58,7 @@ def _upsert_run_entry(study_yaml: Path, run_id: str, store_rel: str) -> None:
 def main() -> int:
     from process_bigraph import Composite, gather_emitter_results
     from viva_genesis.core import build_core
-    from viva_genesis.composites.campaign2 import og_02_reduced_carbon_to_protometabolism
+    from viva_genesis.composites.protometabolism import protometabolic_network
     from vivarium_workbench.lib.auto_evaluate import evaluate_on_run_completion
     try:
         from vivarium_workbench.lib.run_log import append_run_event
@@ -79,7 +79,7 @@ def main() -> int:
         })
 
     core = build_core()
-    sim = Composite({"state": og_02_reduced_carbon_to_protometabolism(core)}, core=core)
+    sim = Composite({"state": protometabolic_network(core)}, core=core)
     sim.run(float(N_STEPS))
     rows = gather_emitter_results(sim)[("emitter",)]
     _write_store(STUDY_DIR / store_rel, rows, run_id)

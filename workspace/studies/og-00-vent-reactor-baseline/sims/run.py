@@ -22,7 +22,7 @@ from pathlib import Path
 STUDY_DIR = Path(__file__).resolve().parents[1]
 WORKSPACE_ROOT = STUDY_DIR.parents[2]  # workspace/studies/<slug>/sims -> repo root
 
-SPEC_ID = "viva_genesis.composites.campaign0.og_00_vent_reactor_baseline"
+SPEC_ID = "viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor"
 STUDY_SLUG = "og-00-vent-reactor-baseline"
 INVESTIGATION_SLUG = "origins-of-life-vent"
 N_STEPS = 120
@@ -80,7 +80,7 @@ def _upsert_run_entry(study_yaml: Path, run_id: str, store_rel: str,
 def main() -> int:
     from process_bigraph import Composite, gather_emitter_results
     from viva_genesis.core import build_core
-    from viva_genesis.composites.campaign0 import og_00_vent_reactor_baseline
+    from viva_genesis.composites.vent_reactor import serpentinizing_vent_reactor
 
     run_id = f"{SPEC_ID}__{int(time.time())}__{uuid.uuid4().hex[:6]}"
     store_rel = f"canonical-runs/{run_id}/run.db"
@@ -100,7 +100,7 @@ def main() -> int:
         append_run_event = None  # type: ignore
 
     core = build_core()
-    sim = Composite({"state": og_00_vent_reactor_baseline(core)}, core=core)
+    sim = Composite({"state": serpentinizing_vent_reactor(core)}, core=core)
     sim.run(float(N_STEPS))
     rows = gather_emitter_results(sim)[("emitter",)]
     _write_sqlite_store(store_abs, rows, run_id)

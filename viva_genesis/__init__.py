@@ -13,7 +13,7 @@ modules (see ``workspace/notes/modules.md`` and ``workspace/notes/architecture.m
 
 ``core.build_core()`` registers this package's own Process/Step classes.
 Campaign 0 is implemented (reduced reproductions in ``geochemistry``/``transport``
-+ the ``composites.campaign0`` generator); the later campaigns are documented
++ the ``composites.vent_reactor`` generator); the later campaigns are documented
 placeholders. Importing this package registers the campaign's composite
 generators (so the workbench discovers them even under an editable install that
 ``discover_generators`` can't see).

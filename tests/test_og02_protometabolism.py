@@ -9,7 +9,7 @@ import pytest
 from process_bigraph import Composite, allocate_core, gather_emitter_results
 from viva_genesis.core import build_core
 
-GEN_ID = "viva_genesis.composites.campaign2.og_02_reduced_carbon_to_protometabolism"
+GEN_ID = "viva_genesis.composites.protometabolism.protometabolic_network"
 
 
 def test_process_and_viz_registered():
@@ -54,9 +54,9 @@ def test_no_carbon_control_collapses():
 def test_favorable_composite_emerges_metabolism():
     pytest.importorskip("tellurium")
     pytest.importorskip("networkx")
-    from viva_genesis.composites.campaign2 import og_02_reduced_carbon_to_protometabolism
+    from viva_genesis.composites.protometabolism import protometabolic_network
     core = build_core()
-    sim = Composite({"state": og_02_reduced_carbon_to_protometabolism(core)}, core=core)
+    sim = Composite({"state": protometabolic_network(core)}, core=core)
     sim.run(120.0)
     last = gather_emitter_results(sim)[("emitter",)][-1]
     assert last["net_carbon_flux"] > 1e-6

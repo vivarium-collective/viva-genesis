@@ -270,7 +270,7 @@ literature_anchors:
   - ludwig2006formation
 baseline:
 - name: Vent reactor baseline (Campaign 0)
-  composite: viva_genesis.composites.campaign0.og_00_vent_reactor_baseline
+  composite: viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor
   params: {}
 key_assumptions:
 - Hadean ocean chemistry parameterized separately — never reuse modern seawater as the ancient prior.
@@ -292,7 +292,7 @@ visualizations:
 - name: vent-reactor-timeseries
   address: local:VentReactorTimeseries
   config:
-    composite: viva_genesis.composites.campaign0.og_00_vent_reactor_baseline
+    composite: viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor
     n_steps: 120
     title: Campaign 0 — real vent reactor (PHREEQC + FiPy)
 # Canonical runner: builds the real coupled model, writes an isolated per-run
@@ -454,7 +454,7 @@ runs:
 simulation_set:
 - name: Vent reactor baseline (Campaign 0)-baseline
   kind: single
-  base_model: viva_genesis.composites.campaign0.og_00_vent_reactor_baseline
+  base_model: viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor
   is_baseline: true
   status: planned
 pipeline_gate:
@@ -466,7 +466,7 @@ pipeline_gate:
 study_type: confirmatory
 conditions:
   baseline:
-    composite: viva_genesis.composites.campaign0.og_00_vent_reactor_baseline
+    composite: viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor
     params: {}
 variants:
 - name: reference

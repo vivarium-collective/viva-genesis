@@ -35,9 +35,9 @@ _EMIT_PATHS = [
 
 
 @composite_generator(
-    name="og_01_geology_to_reduced_carbon",
+    name="hydrothermal_carbon_fixation",
     description=(
-        "Campaign I — REAL geology->reduced-carbon. Module C = genuine FiPy "
+        "A reusable H2/pH-driven carbon-fixation module. Module C = genuine FiPy "
         "Nernst-Planck pH-gradient electrochemistry (pmf, current density). "
         "Module D = genuine eQuilibrator ΔG' feasibility gate + lab-calibrated "
         "(Preiner/Hudson) mineral-catalyzed CO2 reduction to formate/acetate/"
@@ -61,7 +61,7 @@ _EMIT_PATHS = [
     core_extensions=[build_core],
     emitters=[{"address": "local:ParquetEmitter", "paths": _EMIT_PATHS}],
 )
-def og_01_geology_to_reduced_carbon(core=None, *, gradient_efficiency=1.0, catalyst_active=1.0,
+def hydrothermal_carbon_fixation(core=None, *, gradient_efficiency=1.0, catalyst_active=1.0,
                                     h2=5.0e-3, co2=2.0e-3, ph_vent=9.5, ph_ocean=6.0):
     return {
         "gradient": {

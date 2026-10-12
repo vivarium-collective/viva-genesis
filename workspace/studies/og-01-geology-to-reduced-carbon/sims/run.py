@@ -19,7 +19,7 @@ from pathlib import Path
 STUDY_DIR = Path(__file__).resolve().parents[1]
 WORKSPACE_ROOT = STUDY_DIR.parents[2]
 
-SPEC_ID = "viva_genesis.composites.campaign1.og_01_geology_to_reduced_carbon"
+SPEC_ID = "viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation"
 STUDY_SLUG = "og-01-geology-to-reduced-carbon"
 INVESTIGATION_SLUG = "origins-of-life-vent"
 N_STEPS = 120
@@ -29,8 +29,8 @@ EPS = 1.0e-6  # avoid the is_empty(Float, 0.0) param gotcha for "zero" controls
 def _run(core, **params):
     """Run one condition in memory; return the last emitted row + peaks."""
     from process_bigraph import Composite, gather_emitter_results
-    from viva_genesis.composites.campaign1 import og_01_geology_to_reduced_carbon
-    sim = Composite({"state": og_01_geology_to_reduced_carbon(core, **params)}, core=core)
+    from viva_genesis.composites.carbon_fixation import hydrothermal_carbon_fixation
+    sim = Composite({"state": hydrothermal_carbon_fixation(core, **params)}, core=core)
     sim.run(float(N_STEPS))
     rows = gather_emitter_results(sim)[("emitter",)]
     return rows

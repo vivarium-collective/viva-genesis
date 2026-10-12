@@ -9,7 +9,7 @@ import pytest
 from process_bigraph import Composite, allocate_core, gather_emitter_results
 from viva_genesis.core import build_core
 
-GEN_ID = "viva_genesis.composites.campaign1.og_01_geology_to_reduced_carbon"
+GEN_ID = "viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation"
 
 
 def test_processes_and_viz_registered():
@@ -86,9 +86,9 @@ def test_fixation_hits_preiner_yields_and_controls_kill_it():
 def test_favorable_composite_reproduces_benchmarks():
     pytest.importorskip("equilibrator_api")
     pytest.importorskip("fipy")
-    from viva_genesis.composites.campaign1 import og_01_geology_to_reduced_carbon
+    from viva_genesis.composites.carbon_fixation import hydrothermal_carbon_fixation
     core = build_core()
-    sim = Composite({"state": og_01_geology_to_reduced_carbon(core)}, core=core)
+    sim = Composite({"state": hydrothermal_carbon_fixation(core)}, core=core)
     sim.run(120.0)
     last = gather_emitter_results(sim)[("emitter",)][-1]
     assert 0.05 <= last["formate"] <= 0.22           # Preiner formate

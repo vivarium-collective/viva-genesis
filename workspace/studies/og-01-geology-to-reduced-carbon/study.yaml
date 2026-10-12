@@ -273,11 +273,11 @@ implemented_methods:
 - 'Module D (kinetics) — lab-calibrated heterogeneous CO2 reduction: rate = k · catalyst · feasible(ΔG'') · drive(pmf) · avail(H2,CO2) · T-window · headroom, hitting the Preiner-2020 yield ceilings. Controls (no gradient / H2 / catalyst) zero it out; the Tutolo arm collapses the pmf drive.'
 baseline:
 - name: Geology to reduced carbon (Campaign I) — favorable
-  composite: viva_genesis.composites.campaign1.og_01_geology_to_reduced_carbon
+  composite: viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation
   params: {}
   canonical: true
 - name: Tutolo-2026 in-situ (unfavorable arm)
-  composite: viva_genesis.composites.campaign1.og_01_geology_to_reduced_carbon
+  composite: viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation
   params: {gradient_efficiency: 0.1}
 # Study runs persist an isolated per-run ParquetEmitter store so the evaluator
 # resolves a reader and auto-grades the single-run tests.
@@ -292,7 +292,7 @@ visualizations:
 - name: carbon-fixation-timeseries
   address: local:CarbonFixationViz
   config:
-    composite: viva_genesis.composites.campaign1.og_01_geology_to_reduced_carbon
+    composite: viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation
     n_steps: 120
     title: Campaign I — geology to reduced carbon (eQuilibrator + FiPy)
 key_assumptions:
@@ -502,7 +502,7 @@ runs:
 study_type: confirmatory
 conditions:
   baseline:
-    composite: viva_genesis.composites.campaign1.og_01_geology_to_reduced_carbon
+    composite: viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation
     params: {}
 variants:
 - name: tutolo-2026
@@ -520,7 +520,7 @@ variants:
 simulation_set:
 - name: Geology to reduced carbon (Campaign I) — favorable
   kind: single
-  base_model: viva_genesis.composites.campaign1.og_01_geology_to_reduced_carbon
+  base_model: viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation
   is_baseline: true
   status: ran
 units_and_time:

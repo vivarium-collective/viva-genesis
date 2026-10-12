@@ -1,8 +1,8 @@
 """og-00 Campaign-0 vent reactor: processes, generators, runs, viz.
 
 Covers both baselines: the REAL coupled model
-(``og_00_vent_reactor_baseline`` — PHREEQC + FiPy) and the reduced
-tuned-relaxation reproduction (``og_00_vent_reactor_reduced``).
+(``serpentinizing_vent_reactor`` — PHREEQC + FiPy) and the reduced
+tuned-relaxation reproduction (``serpentinizing_vent_reactor_reduced``).
 """
 from __future__ import annotations
 
@@ -11,8 +11,8 @@ import pytest
 from process_bigraph import Composite, gather_emitter_results
 from viva_genesis.core import build_core
 
-REAL_ID = "viva_genesis.composites.campaign0.og_00_vent_reactor_baseline"
-REDUCED_ID = "viva_genesis.composites.campaign0.og_00_vent_reactor_reduced"
+REAL_ID = "viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor"
+REDUCED_ID = "viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor_reduced"
 
 
 def test_processes_registered():
@@ -41,9 +41,9 @@ def test_serpentinization_update_positive_in_window():
 
 
 def test_reduced_composite_settles_in_lost_city_window():
-    from viva_genesis.composites.campaign0 import og_00_vent_reactor_reduced
+    from viva_genesis.composites.vent_reactor import serpentinizing_vent_reactor_reduced
     core = build_core()
-    sim = Composite({"state": og_00_vent_reactor_reduced(core)}, core=core)
+    sim = Composite({"state": serpentinizing_vent_reactor_reduced(core)}, core=core)
     sim.run(120.0)
     last = gather_emitter_results(sim)[("emitter",)][-1]
     temp_c = last["temperature"] - 273.15
@@ -57,9 +57,9 @@ def test_reduced_composite_settles_in_lost_city_window():
 def test_real_composite_conserves_reduces_and_warms():
     pytest.importorskip("phreeqpython")
     pytest.importorskip("fipy")
-    from viva_genesis.composites.campaign0 import og_00_vent_reactor_baseline
+    from viva_genesis.composites.vent_reactor import serpentinizing_vent_reactor
     core = build_core()
-    sim = Composite({"state": og_00_vent_reactor_baseline(core)}, core=core)
+    sim = Composite({"state": serpentinizing_vent_reactor(core)}, core=core)
     sim.run(120.0)
     rows = gather_emitter_results(sim)[("emitter",)]
     n = len(rows)

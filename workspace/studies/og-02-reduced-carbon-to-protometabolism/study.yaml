@@ -175,7 +175,7 @@ implemented_methods:
 - 'Emergent observables (not assumptions): net carbon throughput under feed+washout; the autocatalytic gain k_rtca.[CO2]/k_wash (>1 => a reinforcing motif is active, OAA amplifies ~60x then CO2-limits); networkx connectivity of the species-reaction graph (a single connected network). A no-CO2 control collapses flux + gain to 0.'
 baseline:
 - name: Reduced carbon to protometabolism (Campaign II)
-  composite: viva_genesis.composites.campaign2.og_02_reduced_carbon_to_protometabolism
+  composite: viva_genesis.composites.protometabolism.protometabolic_network
   params: {}
   canonical: true
 runtime:
@@ -189,7 +189,7 @@ visualizations:
 - name: protometabolism-network
   address: local:ProtometabolismViz
   config:
-    composite: viva_genesis.composites.campaign2.og_02_reduced_carbon_to_protometabolism
+    composite: viva_genesis.composites.protometabolism.protometabolic_network
     n_steps: 120
     title: Campaign II — protometabolic network (libRoadRunner)
 key_assumptions:
@@ -308,7 +308,7 @@ runs:
 study_type: exploratory
 conditions:
   baseline:
-    composite: viva_genesis.composites.campaign2.og_02_reduced_carbon_to_protometabolism
+    composite: viva_genesis.composites.protometabolism.protometabolic_network
     params: {}
 variants:
 - name: control-no-co2
@@ -317,7 +317,7 @@ variants:
 simulation_set:
 - name: Reduced carbon to protometabolism (Campaign II)
   kind: single
-  base_model: viva_genesis.composites.campaign2.og_02_reduced_carbon_to_protometabolism
+  base_model: viva_genesis.composites.protometabolism.protometabolic_network
   is_baseline: true
   status: ran
 units_and_time:

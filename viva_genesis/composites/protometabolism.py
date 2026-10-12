@@ -21,9 +21,9 @@ _EMIT_PATHS = [
 
 
 @composite_generator(
-    name="og_02_reduced_carbon_to_protometabolism",
+    name="protometabolic_network",
     description=(
-        "Campaign II — REAL protometabolic network. libRoadRunner/Tellurium SBML "
+        "A reusable protometabolic reaction-network module. libRoadRunner/Tellurium SBML "
         "rTCA-fragment CSTR (pyruvate carboxylation + lumped autocatalytic rTCA "
         "turn + reductive branch) fed the og-01 reduced-carbon products under "
         "continuous feed+washout. Emergent: sustained carbon throughput, an "
@@ -42,7 +42,7 @@ _EMIT_PATHS = [
     core_extensions=[build_core],
     emitters=[{"address": "local:ParquetEmitter", "paths": _EMIT_PATHS}],
 )
-def og_02_reduced_carbon_to_protometabolism(core=None, *, feed_pyruvate=1.0e-4,
+def protometabolic_network(core=None, *, feed_pyruvate=1.0e-4,
                                             feed_CO2=2.0e-3, k_rtca=800.0):
     return {
         "network": {
