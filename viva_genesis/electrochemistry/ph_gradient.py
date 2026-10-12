@@ -78,13 +78,13 @@ class PhGradientNernstPlanckProcess(Process):
 
     config_schema = {
         "nx": {"_type": "integer", "_default": 40},
-        "barrier_length": {"_type": "float", "_default": 1.0e-4},  # 100 um FeS wall
-        "d_proton": {"_type": "float", "_default": 9.3e-9},        # H+ diffusivity m^2/s
-        "d_counter": {"_type": "float", "_default": 2.0e-9},       # counter-ion m^2/s (OH-/anion)
+        "barrier_length": {"_type": "float", "_default": 1.0e-4, "_units": "meter"},  # 100 um FeS wall
+        "d_proton": {"_type": "float", "_default": 9.3e-9, "_units": "meter**2/second"},        # H+ diffusivity m^2/s
+        "d_counter": {"_type": "float", "_default": 2.0e-9, "_units": "meter**2/second"},       # counter-ion m^2/s (OH-/anion)
         # Arm knob: fraction of the geochemical ΔpH usable as proton-motive drive
         # at in-situ T/P. 1.0 = favorable (classical); << 1 = Tutolo-2026 collapse.
-        "gradient_efficiency": {"_type": "float", "_default": 1.0},
-        "k_relax": {"_type": "float", "_default": 0.2},
+        "gradient_efficiency": {"_type": "float", "_default": 1.0, "_units": "dimensionless"},
+        "k_relax": {"_type": "float", "_default": 0.2, "_units": "1/second"},
     }
 
     def __init__(self, config=None, core=None):

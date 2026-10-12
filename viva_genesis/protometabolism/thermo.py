@@ -81,7 +81,7 @@ class EquilibratorThermoStep(Step):
     }
 
     config_schema = {
-        "conc_floor": {"_type": "float", "_default": 1.0e-9},  # activity floor for ln(Q)
+        "conc_floor": {"_type": "float", "_default": 1.0e-9, "_units": "molar"},  # activity floor for ln(Q)
     }
 
     def __init__(self, config=None, core=None):

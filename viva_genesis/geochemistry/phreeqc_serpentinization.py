@@ -98,39 +98,39 @@ class PhreeqcSerpentinizationProcess(Process):
         "database": {"_type": "string", "_default": "llnl.dat"},
         # Olivine dissolution rate (mol olivine per unit flow-saturated reaction
         # progress, per second) at the optimal temperature and reference flow.
-        "olivine_rate": {"_type": "float", "_default": 0.15},
+        "olivine_rate": {"_type": "float", "_default": 0.15, "_units": "dimensionless"},
         # Fe-olivine (fayalite) fraction of the dissolving olivine — the Fe(II)
         # oxidized into magnetite is what reduces water to H2.
-        "fe_fraction": {"_type": "float", "_default": 0.25},
+        "fe_fraction": {"_type": "float", "_default": 0.25, "_units": "dimensionless"},
         # Pyroxene (diopside CaMgSi2O6) dissolved per mole of olivine — this makes
         # the reactant PERIDOTITE (olivine + pyroxene), not dunite. The Ca it
         # releases once Mg is consumed into serpentine/brucite is what drives the
         # fluid to the Lost City Ca-OH-rich, pH 9-11 endmember (vs the brucite
         # buffer ~pH 7-8 for olivine alone).
-        "pyroxene_fraction": {"_type": "float", "_default": 0.5},
+        "pyroxene_fraction": {"_type": "float", "_default": 0.5, "_units": "dimensionless"},
         # Serpentinization kinetic temperature window (K): activity peaks at
         # t_opt and falls off with t_width (reaction is sluggish when cold and
         # the serpentine phases are unstable when very hot).
-        "t_opt": {"_type": "float", "_default": 315.0},
-        "t_width": {"_type": "float", "_default": 80.0},
-        "flow_ref": {"_type": "float", "_default": 1.0e-3},
+        "t_opt": {"_type": "float", "_default": 315.0, "_units": "kelvin"},
+        "t_width": {"_type": "float", "_default": 80.0, "_units": "kelvin"},
+        "flow_ref": {"_type": "float", "_default": 1.0e-3, "_units": "meter/second"},
         # Geometric factor mapping the specific flux (mol/kgw x m/s) to an
         # absolute vent source rate (mol/s) — reactor cross-section / porosity.
-        "flux_area": {"_type": "float", "_default": 60.0},
+        "flux_area": {"_type": "float", "_default": 60.0, "_units": "meter**2"},
         # Fraction of the serpentinization reaction enthalpy retained in the
         # local fluid parcel (the rest conducts into the rock). CALIBRATED to the
         # observed Lost City vent temperature (40-91 C) — the chemistry (H2, pH,
         # pe, charge balance) is emergent from PHREEQC; only this heat-partition
         # knob is tuned to the field thermal boundary condition.
-        "heat_to_fluid_fraction": {"_type": "float", "_default": 8.0e-4},
+        "heat_to_fluid_fraction": {"_type": "float", "_default": 8.0e-4, "_units": "dimensionless"},
         # Ancient vent-ocean fluid proxy (mol/kgw). Kept separate from modern
         # seawater on purpose (see the study's key_assumptions).
-        "fluid_na": {"_type": "float", "_default": 0.5},
-        "fluid_cl": {"_type": "float", "_default": 0.556},
-        "fluid_mg": {"_type": "float", "_default": 0.052},
-        "fluid_ca": {"_type": "float", "_default": 0.01},
-        "fluid_fe": {"_type": "float", "_default": 5.0e-4},
-        "fluid_dic": {"_type": "float", "_default": 2.0e-3},
+        "fluid_na": {"_type": "float", "_default": 0.5, "_units": "molar"},
+        "fluid_cl": {"_type": "float", "_default": 0.556, "_units": "molar"},
+        "fluid_mg": {"_type": "float", "_default": 0.052, "_units": "molar"},
+        "fluid_ca": {"_type": "float", "_default": 0.01, "_units": "molar"},
+        "fluid_fe": {"_type": "float", "_default": 5.0e-4, "_units": "molar"},
+        "fluid_dic": {"_type": "float", "_default": 2.0e-3, "_units": "molar"},
     }
 
     def __init__(self, config=None, core=None):

@@ -77,16 +77,16 @@ class FipyReactiveTransportProcess(Process):
 
     config_schema = {
         "nx": {"_type": "integer", "_default": 40},
-        "length_m": {"_type": "float", "_default": 0.1},   # ~10 cm chimney-wall scale
-        "thermal_diffusivity": {"_type": "float", "_default": 1.0e-6},   # m^2/s
-        "solute_diffusivity": {"_type": "float", "_default": 1.0e-9},    # m^2/s
-        "porosity_clog_rate": {"_type": "float", "_default": 0.02},
+        "length_m": {"_type": "float", "_default": 0.1, "_units": "meter"},   # ~10 cm chimney-wall scale
+        "thermal_diffusivity": {"_type": "float", "_default": 1.0e-6, "_units": "meter**2/second"},   # m^2/s
+        "solute_diffusivity": {"_type": "float", "_default": 1.0e-9, "_units": "meter**2/second"},    # m^2/s
+        "porosity_clog_rate": {"_type": "float", "_default": 0.02, "_units": "1/second"},
         # Interface mapping constants (kept explicit so a sibling could sweep them).
-        "seawater_temp": {"_type": "float", "_default": 275.0},          # K, cold inlet
-        "heat_to_kelvin": {"_type": "float", "_default": 3.5},           # K per W at inlet
-        "max_inlet_bump": {"_type": "float", "_default": 90.0},          # K cap on heat bump
-        "alk_scale": {"_type": "float", "_default": 2.0e-3},             # molar scale for pH/clog
-        "k_relax": {"_type": "float", "_default": 0.1},                  # outlet->state relax gain
+        "seawater_temp": {"_type": "float", "_default": 275.0, "_units": "kelvin"},          # K, cold inlet
+        "heat_to_kelvin": {"_type": "float", "_default": 3.5, "_units": "kelvin/watt"},           # K per W at inlet
+        "max_inlet_bump": {"_type": "float", "_default": 90.0, "_units": "dimensionless"},          # K cap on heat bump
+        "alk_scale": {"_type": "float", "_default": 2.0e-3, "_units": "dimensionless"},             # molar scale for pH/clog
+        "k_relax": {"_type": "float", "_default": 0.1, "_units": "1/second"},                  # outlet->state relax gain
     }
 
     def __init__(self, config=None, core=None):

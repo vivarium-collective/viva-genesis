@@ -78,12 +78,12 @@ class CarbonFixationProcess(Process):
     }
 
     config_schema = {
-        "pmf_half": {"_type": "float", "_default": 0.08},           # V, half-max drive
-        "km_h2": {"_type": "float", "_default": 1.0e-4},            # M
-        "km_co2": {"_type": "float", "_default": 1.0e-4},          # M
-        "t_opt": {"_type": "float", "_default": 373.15},           # K (~100 C, Preiner)
-        "t_width": {"_type": "float", "_default": 60.0},           # K
-        "reactor_volume_scale": {"_type": "float", "_default": 1.0},  # L, flux scaling
+        "pmf_half": {"_type": "float", "_default": 0.08, "_units": "volt"},           # V, half-max drive
+        "km_h2": {"_type": "float", "_default": 1.0e-4, "_units": "molar"},            # M
+        "km_co2": {"_type": "float", "_default": 1.0e-4, "_units": "molar"},          # M
+        "t_opt": {"_type": "float", "_default": 373.15, "_units": "kelvin"},           # K (~100 C, Preiner)
+        "t_width": {"_type": "float", "_default": 60.0, "_units": "kelvin"},           # K
+        "reactor_volume_scale": {"_type": "float", "_default": 1.0, "_units": "liter"},  # L, flux scaling
     }
 
     def inputs(self):

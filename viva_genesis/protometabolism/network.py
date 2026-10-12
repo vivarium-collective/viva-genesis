@@ -86,9 +86,9 @@ class RoadRunnerNetworkProcess(Process):
     }
 
     config_schema = {
-        "k_rtca": {"_type": "float", "_default": 800.0},
-        "k_wash": {"_type": "float", "_default": 0.05},
-        "reactor_volume_scale": {"_type": "float", "_default": 1.0},  # L
+        "k_rtca": {"_type": "float", "_default": 800.0, "_units": "1/second"},
+        "k_wash": {"_type": "float", "_default": 0.05, "_units": "1/second"},
+        "reactor_volume_scale": {"_type": "float", "_default": 1.0, "_units": "liter"},  # L
     }
 
     def __init__(self, config=None, core=None):
