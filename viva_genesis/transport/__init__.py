@@ -31,6 +31,11 @@ first-order relaxation) as a runs-anywhere fallback. Both are re-exported here s
 """
 
 from .fipy_reactor import FipyReactiveTransportProcess  # noqa: E402,F401
+from .thermophoretic_trap import ThermophoreticTrapProcess  # noqa: E402,F401
 from .vent_reactor import VentReactorReproductionProcess  # noqa: E402,F401
 
-__all__ = ["FipyReactiveTransportProcess", "VentReactorReproductionProcess"]
+__all__ = [
+    "FipyReactiveTransportProcess",
+    "ThermophoreticTrapProcess",
+    "VentReactorReproductionProcess",
+]

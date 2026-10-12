@@ -142,6 +142,22 @@ def _network_connected_final(reader, test: dict, ws_root: Any) -> float:
     return _values(reader, "network_connected")[-1]
 
 
+# --- og-03 (dilution -> localized individuals) readouts ------------------
+
+def _settled_accumulation_peclet(reader, test: dict, ws_root: Any) -> float:
+    """Settled thermal-trap accumulation Péclet (= ln(enrichment)). >= ln(1e8) ≈
+    18.4 reproduces Baaske's extreme nucleotide accumulation in favorable pores."""
+    return _settled_mean(reader, "accumulation_peclet", frac=0.2)
+
+
+def _log10_enrichment(reader, test: dict, ws_root: Any) -> float:
+    """Settled trap enrichment as log10(fold) — ~7.9 for Baaske's >10^8, ~0 in a
+    washout control (open pore / no convection)."""
+    import math
+    e = _settled_mean(reader, "enrichment_factor", frac=0.2)
+    return math.log10(max(e, 1.0))
+
+
 def register_derived_scalars(registry: dict) -> None:
     """Hook called by study_evaluator.load_workspace_derived_scalars."""
     # og-00
@@ -162,3 +178,6 @@ def register_derived_scalars(registry: dict) -> None:
     registry["settled_net_carbon_flux"] = _settled_net_carbon_flux
     registry["peak_autocatalytic_gain"] = _peak_autocatalytic_gain
     registry["network_connected_final"] = _network_connected_final
+    # og-03
+    registry["settled_accumulation_peclet"] = _settled_accumulation_peclet
+    registry["log10_enrichment"] = _log10_enrichment
