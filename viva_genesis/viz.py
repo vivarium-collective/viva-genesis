@@ -377,94 +377,78 @@ class VentCrossSection(Visualization):
         nx, ny = last["nx"], last["ny"]
         xs = [(i + 0.5) * (ext[1] / nx) * 100.0 for i in range(nx)]   # cm across the wall
         ys = [(j + 0.5) * (ext[3] / ny) * 100.0 for j in range(ny)]   # cm up the chimney
-        ink, muted = "#1e293b", "#64748b"
-        xmax = ext[1] * 100.0
+        ink = "#1e293b"
 
-        def ocean_conduit(fig, xref="x", yref="y"):
-            """Label the cold-ocean (left) and hot-conduit (right) faces."""
-            fig.add_annotation(x=0, y=1.03, xref=xref + " domain", yref=yref + " domain",
-                               text="◀ ocean<br>cold · acidic", showarrow=False,
-                               font=dict(size=10, color="#2563eb"), align="left", xanchor="left")
-            fig.add_annotation(x=1, y=1.03, xref=xref + " domain", yref=yref + " domain",
-                               text="conduit ▶<br>hot · alkaline", showarrow=False,
-                               font=dict(size=10, color="#b45309"), align="right", xanchor="right")
+        # ---- STATIC: the four settled fields as a clean 2x2 ----
+        stat = make_subplots(
+            rows=2, cols=2, horizontal_spacing=0.17, vertical_spacing=0.15,
+            subplot_titles=("Temperature (\u00b0C)", "pH  (acidic \u2192 alkaline)",
+                            "Reducing power (H\u2082 + alkalinity)", "Porosity"))
+        specs = [
+            (last["t_c"], "Inferno", 1, 1, 0.42, 0.80),
+            (last["pH"], "Tealgrn", 1, 2, 1.00, 0.80),
+            (last["solute"], "Viridis", 2, 1, 0.42, 0.195),
+            (last["porosity"], "YlOrBr", 2, 2, 1.00, 0.195),
+        ]
+        for z, cs, r, c, cbx, cby in specs:
+            stat.add_trace(go.Heatmap(z=z, x=xs, y=ys, colorscale=cs,
+                                      colorbar=dict(len=0.40, thickness=11, x=cbx, y=cby)),
+                           row=r, col=c)
+        stat.update_xaxes(showgrid=False, zeroline=False,
+                          title_text="across the wall (cm)", title_font=dict(size=10))
+        stat.update_yaxes(showgrid=False, zeroline=False,
+                          title_text="up (cm)", title_font=dict(size=10))
+        stat.update_layout(
+            template="plotly_white", height=560, width=820,
+            title=dict(text="Settled cross-section  \u00b7  cold acidic OCEAN (left)  \u2192  hot alkaline CONDUIT (right)",
+                       font=dict(size=14, color=ink), x=0.5, xanchor="center"),
+            margin=dict(l=55, r=20, t=90, b=50), font=dict(color=ink))
 
-        # ---- HERO: the settled temperature cross-section (tall, true aspect) ----
-        hero = go.Figure(go.Heatmap(z=last["t_c"], x=xs, y=ys, colorscale="Inferno",
-                                    colorbar=dict(title="°C", thickness=12, len=0.9)))
-        hero.update_xaxes(title_text="across the wall (cm)", showgrid=False, constrain="domain")
-        hero.update_yaxes(title_text="up the chimney (cm)", showgrid=False,
-                          scaleanchor="x", scaleratio=1, constrain="domain")
-        ocean_conduit(hero)
-        hero.update_layout(
-            template="plotly_white", height=460, width=360,
-            title=dict(text="Temperature — the across-wall vent gradient",
-                       font=dict(size=14, color=ink)),
-            margin=dict(l=55, r=10, t=60, b=50), font=dict(color=ink))
-
-        # ---- supporting row: pH · reducing power · porosity (same cross-section) ----
-        row = make_subplots(rows=1, cols=3, horizontal_spacing=0.12,
-                            subplot_titles=("pH — acidic ocean → alkaline vent",
-                                            "Reducing power (H₂+alk tracer)",
-                                            "Porosity — precipitation front"))
-        for ci, (z, cs) in enumerate([(last["pH"], "Tealgrn"),
-                                      (last["solute"], "Viridis"),
-                                      (last["porosity"], "YlOrBr")], start=1):
-            row.add_trace(go.Heatmap(z=z, x=xs, y=ys, colorscale=cs,
-                                     colorbar=dict(len=0.85, thickness=9,
-                                                   x=0.28 * ci - 0.02)), row=1, col=ci)
-        row.update_xaxes(showticklabels=False, showgrid=False)
-        row.update_yaxes(showticklabels=False, showgrid=False)
-        row.update_layout(template="plotly_white", height=300,
-                          margin=dict(l=20, r=20, t=50, b=20), font=dict(color=ink))
-
-        # ---- MOTION: the temperature field evolving (every pixel real FiPy) ----
+        # ---- MOTION: the temperature field heating up (generous, uncramped) ----
         step = max(1, len(frames) // int(self.config["max_frames"]))
         keep = frames[::step] + [frames[-1]]
         zmin = min(min(min(r) for r in f["t_c"]) for f in keep)
         zmax = max(max(max(r) for r in f["t_c"]) for f in keep)
         anim = go.Figure(
             data=[go.Heatmap(z=keep[0]["t_c"], x=xs, y=ys, colorscale="Inferno",
-                             zmin=zmin, zmax=zmax, colorbar=dict(title="°C", thickness=12))],
+                             zmin=zmin, zmax=zmax, colorbar=dict(title="\u00b0C", thickness=13, len=0.9))],
             frames=[go.Frame(data=[go.Heatmap(z=f["t_c"], x=xs, y=ys, colorscale="Inferno",
                                               zmin=zmin, zmax=zmax)], name=str(i))
                     for i, f in enumerate(keep)])
-        anim.update_xaxes(title_text="across the wall (cm)", showgrid=False, constrain="domain")
-        anim.update_yaxes(title_text="up the chimney (cm)", showgrid=False,
-                          scaleanchor="x", scaleratio=1, constrain="domain")
+        anim.update_xaxes(showgrid=False, zeroline=False, title_text="across the wall (cm)")
+        anim.update_yaxes(showgrid=False, zeroline=False, title_text="up the chimney (cm)")
         anim.update_layout(
-            template="plotly_white", height=430, width=360,
-            title=dict(text="▶ the wall heating up over the run (real FiPy frames)",
-                       font=dict(size=13, color=ink)),
-            margin=dict(l=55, r=10, t=54, b=44), font=dict(color=ink),
-            updatemenus=[dict(type="buttons", x=0.0, y=1.16, xanchor="left",
-                buttons=[
-                    dict(label="▶ Play", method="animate",
+            template="plotly_white", height=460, width=760,
+            title=dict(text="Temperature field heating up over the run", x=0.5, xanchor="center",
+                       y=0.97, font=dict(size=14, color=ink)),
+            margin=dict(l=60, r=20, t=100, b=70), font=dict(color=ink),
+            updatemenus=[dict(type="buttons", direction="left", x=0.0, y=1.12, xanchor="left", yanchor="top",
+                pad=dict(t=0, r=6), showactive=False, buttons=[
+                    dict(label="\u25b6 Play", method="animate",
                          args=[None, dict(frame=dict(duration=90, redraw=True), fromcurrent=True)]),
-                    dict(label="⏸", method="animate",
+                    dict(label="\u23f8 Pause", method="animate",
                          args=[[None], dict(frame=dict(duration=0, redraw=False), mode="immediate")]),
                 ])],
-            sliders=[dict(active=0, x=0.1, len=0.85, y=-0.04, currentvalue=dict(visible=False),
+            sliders=[dict(active=0, x=0.08, len=0.88, y=-0.16, pad=dict(t=0),
+                currentvalue=dict(visible=False),
                 steps=[dict(method="animate", label="",
                             args=[[str(i)], dict(frame=dict(duration=0, redraw=True), mode="immediate")])
                        for i in range(len(keep))])])
 
         cap = (
-            "<div style='max-width:900px;margin:10px auto 2px;padding:0 16px;color:#334155;"
+            "<div style='max-width:860px;margin:12px auto 4px;padding:0 16px;color:#334155;"
             "font-size:13.5px;line-height:1.55'>"
-            "<b>A cross-section through the chimney wall</b> — a real 2-D FiPy finite-volume "
+            "<b>A cross-section through the chimney wall</b> \u2014 a real 2-D FiPy finite-volume "
             "field, <b>every pixel a solved cell</b>. Cold acidic seawater bathes the outer wall "
             "(left); the hot alkaline serpentinized fluid percolates up the conduit (right). The "
-            "<b>gradient across the wall</b> — temperature, pH, reducing power — is the engine of "
-            "the vent, and the panels below are the same cross-section in each quantity. "
-            f"<b>Settled: {last['settled_T']:.0f} °C, pH {last['settled_pH']:.2f}</b> "
+            "<b>gradient across the wall</b> is the engine of the vent. "
+            f"<b>Settled: {last['settled_T']:.0f}\u202f\u00b0C, pH {last['settled_pH']:.2f}</b> "
             "(the Lost City window).</div>")
-        h_html = hero.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+        s_html = stat.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
         a_html = anim.to_html(full_html=False, include_plotlyjs=False, config={"displayModeBar": False})
-        r_html = row.to_html(full_html=False, include_plotlyjs=False, config={"displayModeBar": False})
         return ("<!doctype html><html><head><meta charset='utf-8'></head>"
                 "<body style='margin:0;font-family:-apple-system,system-ui,sans-serif;background:#fff'>"
                 f"{cap}"
-                "<div style='display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:flex-start'>"
-                f"<div>{h_html}</div><div>{a_html}</div></div>"
-                f"{r_html}</body></html>")
+                "<div style='display:flex;justify-content:center'>" + s_html + "</div>"
+                "<div style='display:flex;justify-content:center;margin-top:8px'>" + a_html + "</div>"
+                "</body></html>")

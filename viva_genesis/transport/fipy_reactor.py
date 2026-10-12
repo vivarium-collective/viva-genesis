@@ -88,7 +88,7 @@ class FipyReactiveTransportProcess(Process):
         "nx": {"_type": "integer", "_default": 24},   # across the wall (ocean -> interior)
         "ny": {"_type": "integer", "_default": 48},   # up the chimney
         "length_m": {"_type": "float", "_default": 0.1, "_units": "meter"},   # ~10 cm wall thickness
-        "height_m": {"_type": "float", "_default": 0.3, "_units": "meter"},   # ~30 cm chimney section
+        "height_m": {"_type": "float", "_default": 0.12, "_units": "meter"},   # ~12 cm chimney section (near-square cross-section)
         # Effective lateral THERMAL DISPERSION in the flowing porous wall (not
         # molecular conduction, which is ~1e-6): hydrodynamic dispersion in the
         # percolating flow mixes heat across the cm-scale wall within a run, so
