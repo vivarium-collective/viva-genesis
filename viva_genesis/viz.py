@@ -348,6 +348,16 @@ class VentCrossSection(Visualization):
         )
         sim = Composite({"state": doc}, core=core)
         reactor = self._find_reactor(sim.state)
+        # VIZ-ONLY cold start: build the mesh at seawater temperature and mark it
+        # seeded so the reactor does NOT warm-start the field to the interface
+        # temperature. The animation then shows the field heating up from cold —
+        # the wall lighting up — instead of appearing near-settled from frame 1.
+        # (The graded composite keeps its own warm-start; this is a separate run.)
+        if reactor is not None:
+            reactor._build()
+            reactor._T.setValue(float(reactor.config["seawater_temp"]))
+            reactor._S.setValue(0.0)
+            reactor._seeded = True
         n = int(self.config["n_steps"])
         frames = []
         for _ in range(n):
@@ -571,21 +581,31 @@ class ProtonGradientProfile(Visualization):
                        font=dict(size=14, color=ink), x=0.5, xanchor="center"),
             margin=dict(l=55, r=20, t=80, b=70), font=dict(color=ink))
 
-        # motion: the proton profile developing across the barrier
-        step = max(1, len(profiles) // int(self.config["max_frames"]))
-        keep = profiles[::step] + [profiles[-1]]
+        # motion: the reduced-carbon products ACCUMULATING over the run (the
+        # proton profile is a steady solve — nothing to animate there — but the
+        # products genuinely build). Normalise each to its own final value so all
+        # three (formate ~0.2 M down to pyruvate ~1e-5 M) are visible growing.
+        fo, ac, py = col("formate"), col("acetate"), col("pyruvate")
+        nmax = [max(fo or [0]) or 1e-30, max(ac or [0]) or 1e-30, max(py or [0]) or 1e-30]
+        npts = min(len(fo), len(ac), len(py))
+        fstep = max(1, npts // int(self.config["max_frames"]))
+        idxs = list(range(0, npts, fstep)) + ([npts - 1] if npts else [])
+        cats = ["formate<br>→ %.2g M" % nmax[0], "acetate<br>→ %.2g M" % nmax[1],
+                "pyruvate<br>→ %.2g M" % nmax[2]]
+        cols = [teal, amber, rust]
+        def _frac(k):
+            return [fo[k] / nmax[0], ac[k] / nmax[1], py[k] / nmax[2]]
         anim = go.Figure(
-            data=[go.Scatter(x=x, y=keep[0]["pH"], mode="lines", line=dict(color=teal, width=3))],
-            frames=[go.Frame(data=[go.Scatter(x=x, y=p["pH"], mode="lines",
-                                              line=dict(color=teal, width=3))], name=str(i))
-                    for i, p in enumerate(keep)])
-        anim.add_hrect(y0=9.0, y1=11.0, line_width=0, fillcolor=teal, opacity=0.06)
-        anim.update_xaxes(title_text="across the barrier (cm)", showgrid=False)
-        anim.update_yaxes(title_text="pH", range=[5.5, 11.0], showgrid=True, gridcolor="#eef2f7")
+            data=[go.Bar(x=cats, y=_frac(idxs[0]) if idxs else [0, 0, 0],
+                         marker_color=cols)],
+            frames=[go.Frame(data=[go.Bar(x=cats, y=_frac(k), marker_color=cols)], name=str(j))
+                    for j, k in enumerate(idxs)])
+        anim.update_yaxes(title_text="fraction of final yield", range=[0, 1.08],
+                          showgrid=True, gridcolor="#eef2f7")
         anim.update_layout(
-            template="plotly_white", height=360, width=640,
-            title=dict(text="the proton gradient forming (real FiPy)", x=0.5, xanchor="center",
-                       y=0.97, font=dict(size=13, color=ink)),
+            template="plotly_white", height=360, width=560, bargap=0.45,
+            title=dict(text="the products accumulating (real eQuilibrator-gated kinetics)",
+                       x=0.5, xanchor="center", y=0.97, font=dict(size=13, color=ink)),
             margin=dict(l=55, r=20, t=80, b=60), font=dict(color=ink),
             updatemenus=[dict(type="buttons", direction="left", x=0.0, y=1.14, xanchor="left",
                 showactive=False, buttons=[
@@ -597,7 +617,7 @@ class ProtonGradientProfile(Visualization):
             sliders=[dict(active=0, x=0.08, len=0.88, y=-0.14, currentvalue=dict(visible=False),
                 steps=[dict(method="animate", label="",
                             args=[[str(i)], dict(frame=dict(duration=0, redraw=True), mode="immediate")])
-                       for i in range(len(keep))])])
+                       for i in range(len(idxs))])])
 
         cap = (
             "<div style='max-width:880px;margin:12px auto 4px;padding:0 16px;color:#334155;"
