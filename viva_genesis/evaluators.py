@@ -158,6 +158,12 @@ def _log10_enrichment(reader, test: dict, ws_root: Any) -> float:
     return math.log10(max(e, 1.0))
 
 
+def _max_abs_trap_flux_residual(reader, test: dict, ws_root: Any) -> float:
+    """Worst-case |FVM flux-divergence residual| from the thermal-trap column
+    solve — the spatial_flux_conservation witness."""
+    return max(abs(v) for v in _values(reader, "flux_divergence_residual"))
+
+
 def register_derived_scalars(registry: dict) -> None:
     """Hook called by study_evaluator.load_workspace_derived_scalars."""
     # og-00
@@ -181,3 +187,4 @@ def register_derived_scalars(registry: dict) -> None:
     # og-03
     registry["settled_accumulation_peclet"] = _settled_accumulation_peclet
     registry["log10_enrichment"] = _log10_enrichment
+    registry["max_abs_trap_flux_residual"] = _max_abs_trap_flux_residual

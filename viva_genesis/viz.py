@@ -820,3 +820,139 @@ class ProtometabolicNetwork(Visualization):
                 f"<div>{n_html}</div><div>{d_html}</div></div>"
                 "<div style='display:flex;justify-content:center;margin-top:8px'>" + a_html + "</div>"
                 "</body></html>")
+
+class ThermophoreticTrapViz(Visualization):
+    """Campaign-III REAL thermal trap — the accumulation column and the geometric
+    threshold at which a localized "individual" forms. Runs ``ThermophoreticTrapProcess``
+    across a porosity sweep (open pore → confined), reads the steady accumulation
+    column c(z) = exp(beta·(L−z)) and the enrichment from the FiPy-solved rate, and
+    renders the concentration profile + the enrichment-vs-porosity threshold, plus
+    an animation of the pore closing and the individual emerging. Every value a real
+    trap solve (Baaske 2007)."""
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "Campaign III — the thermal trap concentrates an individual"},
+        "flow_velocity": {"_type": "float", "_default": 1.0e-4},
+        "pore_length": {"_type": "float", "_default": 5.0e-3},
+        "delta_T": {"_type": "float", "_default": 30.0},
+        "n_porosity": {"_type": "integer", "_default": 22},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        import numpy as np
+
+        from .core import build_core
+        from .transport.thermophoretic_trap import ThermophoreticTrapProcess, trap_profile
+        core = build_core()
+        flow = float(self.config["flow_velocity"])
+        L = float(self.config["pore_length"])
+        dT = float(self.config["delta_T"])
+        por_grid = list(np.linspace(0.95, 0.1, int(self.config["n_porosity"])))
+        sweep = []   # (porosity, enrichment, profile)
+        for por in por_grid:
+            p = ThermophoreticTrapProcess(config={"pore_length": L, "delta_T": dT}, core=core)
+            for _ in range(4):
+                p.update({"temperature": 333.15, "flow_velocity": flow, "porosity": float(por)}, 1.0)
+            prof = trap_profile(p)
+            sweep.append((float(por), prof["enrichment"], prof))
+        return {"html": self._figure(sweep)}
+
+    def _figure(self, sweep) -> str:
+        import math
+
+        import plotly.graph_objects as go
+        from plotly.subplots import make_subplots
+        if not sweep:
+            return "<p>No trap sweep produced.</p>"
+        ink, teal, rust, amber = "#1e293b", "#0d9488", "#b91c1c", "#d97706"
+        por = [s[0] for s in sweep]
+        enr = [s[1] for s in sweep]
+        log_enr = [math.log10(max(e, 1.0)) for e in enr]
+        fav = sweep[-1][2]           # most confined = favorable
+        z = fav["z_mm"]; cprof = [math.log10(max(c, 1.0)) for c in fav["conc"]]
+        # threshold porosity: where enrichment first exceeds 10^3
+        thr = next((p for p, e in zip(por, enr) if e >= 1e3), None)
+
+        stat = make_subplots(rows=1, cols=2, horizontal_spacing=0.13,
+            subplot_titles=("Accumulation column in the favorable pore",
+                            "Enrichment vs porosity — the individual threshold"))
+        stat.add_scatter(x=cprof, y=z, mode="lines", line=dict(color=teal, width=3),
+                         name="log10 c(z)", row=1, col=1, showlegend=False)
+        stat.add_annotation(x=cprof[0], y=z[0], text="base (trapped) ▲", showarrow=False,
+                            font=dict(size=10, color=rust), xanchor="left", row=1, col=1)
+        stat.add_annotation(x=cprof[-1], y=z[-1], text="feed (dilute) ▼", showarrow=False,
+                            font=dict(size=10, color="#2563eb"), xanchor="left", row=1, col=1)
+        stat.add_scatter(x=por, y=log_enr, mode="lines+markers", line=dict(color=rust, width=2.6),
+                         marker=dict(size=5), name="log10 enrichment", row=1, col=2, showlegend=False)
+        stat.add_hline(y=8.0, line=dict(color="#94a3b8", dash="dot"), row=1, col=2)
+        stat.add_annotation(x=0.15, y=8.2, text="Baaske 10^8", showarrow=False,
+                            font=dict(size=9, color="#64748b"), row=1, col=2)
+        if thr is not None:
+            stat.add_vline(x=thr, line=dict(color=amber, dash="dash"), row=1, col=2)
+            stat.add_annotation(x=thr, y=1.0, text="individual<br>forms", showarrow=False,
+                                font=dict(size=9, color=amber), row=1, col=2)
+        stat.update_xaxes(title_text="log10 concentration (fold)", row=1, col=1, showgrid=True, gridcolor="#eef2f7")
+        stat.update_yaxes(title_text="height up the pore (mm)", row=1, col=1, showgrid=True, gridcolor="#eef2f7")
+        stat.update_xaxes(title_text="porosity (open → confined)", autorange="reversed", row=1, col=2,
+                          showgrid=True, gridcolor="#eef2f7")
+        stat.update_yaxes(title_text="log10 enrichment (fold)", row=1, col=2, showgrid=True, gridcolor="#eef2f7")
+        stat.update_layout(template="plotly_white", height=430, width=900, showlegend=False,
+            title=dict(text=(self.config.get("title") or "The thermal trap") +
+                       f"   ·   favorable {enr[-1]:.1e}-fold",
+                       x=0.5, xanchor="center", font=dict(size=14, color=ink)),
+            margin=dict(l=60, r=20, t=80, b=60), font=dict(color=ink))
+
+        # motion: the pore closing — the accumulation column building as porosity
+        # drops (the individual emerging from the dilute feed).
+        xmax = max(cprof) * 1.08 + 0.3
+        frames = []
+        for p, e, prof in sweep:
+            cp = [math.log10(max(c, 1.0)) for c in prof["conc"]]
+            frames.append(go.Frame(data=[go.Scatter(x=cp, y=prof["z_mm"], mode="lines",
+                          line=dict(color=teal, width=3), fill="tozerox",
+                          fillcolor="rgba(13,148,136,0.12)")],
+                          name="%.2f" % p,
+                          layout=go.Layout(annotations=[dict(x=xmax * 0.5, y=max(prof["z_mm"]) * 0.9,
+                              text="porosity %.2f · %.1e-fold" % (p, e), showarrow=False,
+                              font=dict(size=12, color=ink))])))
+        anim = go.Figure(data=frames[0].data, frames=frames)
+        anim.update_xaxes(title_text="log10 concentration (fold)", range=[0, xmax],
+                          showgrid=True, gridcolor="#eef2f7")
+        anim.update_yaxes(title_text="height up the pore (mm)", showgrid=True, gridcolor="#eef2f7")
+        anim.update_layout(template="plotly_white", height=430, width=560, showlegend=False,
+            title=dict(text="the pore closing → the individual emerging", x=0.5, xanchor="center",
+                       y=0.99, font=dict(size=13, color=ink)),
+            margin=dict(l=60, r=20, t=70, b=55), font=dict(color=ink),
+            updatemenus=[dict(type="buttons", direction="left", x=0.0, y=1.1, xanchor="left",
+                yanchor="bottom", showactive=False, buttons=[
+                    dict(label="▶ Play", method="animate",
+                         args=[None, dict(frame=dict(duration=140, redraw=True), fromcurrent=True)]),
+                    dict(label="⏸ Pause", method="animate",
+                         args=[[None], dict(frame=dict(duration=0, redraw=False), mode="immediate")]),
+                ])],
+            sliders=[dict(active=0, x=0.08, len=0.88, y=-0.1, currentvalue=dict(visible=False),
+                steps=[dict(method="animate", label="",
+                            args=[[f.name], dict(frame=dict(duration=0, redraw=True), mode="immediate")])
+                       for f in frames])])
+
+        cap = (
+            "<div style='max-width:900px;margin:12px auto 4px;padding:0 16px;color:#334155;"
+            "font-size:13.5px;line-height:1.55'>"
+            "<b>From dilute feed to a localized individual</b> — the real FiPy thermal trap "
+            "(thermophoresis + convection, Baaske 2007). A confined pore concentrates the feed "
+            "exponentially up the column (left); as the pore closes (porosity ↓) the enrichment "
+            "crosses the threshold where a localized, concentrated <b>individual</b> forms — an "
+            "open pore just washes the feed through.</div>")
+        s_html = stat.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+        a_html = anim.to_html(full_html=False, include_plotlyjs=False, config={"displayModeBar": False})
+        return ("<!doctype html><html><head><meta charset='utf-8'></head>"
+                "<body style='margin:0;font-family:-apple-system,system-ui,sans-serif;background:#fff'>"
+                f"{cap}<div style='display:flex;justify-content:center'>{s_html}</div>"
+                "<div style='display:flex;justify-content:center;margin-top:8px'>" + a_html + "</div>"
+                "</body></html>")

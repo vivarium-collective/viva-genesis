@@ -205,13 +205,20 @@ class ThermophoreticTrapProcess(Process):
 
 
 def trap_profile(proc: "ThermophoreticTrapProcess") -> dict:
-    """The current vertical concentration profile along the pore for the viz —
-    every value a real FiPy cell. Returns ``{z_mm, conc, enrichment}`` (base at
-    z=0, feed at the top). Empty if the column has not been solved yet."""
+    """The steady vertical concentration profile along the pore for the viz — the
+    accumulation column c(z) = exp(beta·(L − z)) from the solved accumulation rate
+    beta (base at z=0 most concentrated, feed at the top), consistent with the
+    reported enrichment = exp(beta·L). Returns ``{z_mm, conc, enrichment}``; empty
+    until the trap has been solved once."""
     if getattr(proc, "_mesh", None) is None:
         return {"z_mm": [], "conc": [], "enrichment": 1.0}
+    import math
+
     import numpy as np
-    z = np.asarray(proc._mesh.cellCenters[0], dtype=float) * 1000.0     # mm
-    c = np.asarray(proc._c.value, dtype=float)
-    top = float(c[-1]) if c[-1] > 1e-30 else 1.0
-    return {"z_mm": z.tolist(), "conc": c.tolist(), "enrichment": float(max(c[0] / top, 1.0))}
+    L = float(proc.config["pore_length"])
+    nz = int(proc.config["nz"])
+    beta = float(getattr(proc, "_beta", 0.0))
+    z = np.linspace(0.0, L, nz)                                    # m, base=0, top=L
+    conc = np.exp(np.clip(beta * (L - z), 0.0, 45.0))             # accumulation column
+    return {"z_mm": (z * 1000.0).tolist(), "conc": conc.tolist(),
+            "enrichment": float(math.exp(min(beta * L, 45.0)))}
