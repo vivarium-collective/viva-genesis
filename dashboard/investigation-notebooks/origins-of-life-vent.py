@@ -67,8 +67,8 @@ if _env and Path(_env).is_dir():
     REPO = Path(_env)
 if REPO is None:
     REPO = _find_repo_root(Path.cwd().resolve())
-if REPO is None and Path('/Users/eranagmon/code/viva-genesis').is_dir():
-    REPO = Path('/Users/eranagmon/code/viva-genesis')
+if REPO is None and Path('/home/runner/work/viva-genesis/viva-genesis').is_dir():
+    REPO = Path('/home/runner/work/viva-genesis/viva-genesis')
 if REPO is None:
     REPO = Path.cwd()
 sys.path.insert(0, str(REPO))
@@ -270,26 +270,23 @@ def _render_one(address, config, runs_db, study_yaml, overrides=None):
 #
 # | simulation | composite | steps | params |
 # | --- | --- | --- | --- |
-# | `Vent reactor baseline (Campaign 0)` | `viva_genesis.composites.campaign0.og_00_vent_reactor_baseline` | 5 | — |
-# | `Vent reactor baseline (Campaign 0)` | `viva_genesis.composites.campaign0.og_00_vent_reactor_baseline` | 120 | — |
-# | `Vent reactor baseline (Campaign 0)` | `viva_genesis.composites.campaign0.og_00_vent_reactor_baseline` | 120 | — |
-# | `Vent reactor baseline (Campaign 0)` | `viva_genesis.composites.campaign0.og_00_vent_reactor_baseline` | 120 | — |
+# | `Vent reactor baseline (Campaign 0)` | `viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor` | 0 | — |
 
 # ### Specification (process-bigraph) — load, inspect, edit
 #
 # Each composite is a process-bigraph *document*: named processes (`_type: process`) bound to an `address`, wired by `inputs`/`outputs` ports over shared stores. For every composite below the first cell loads the spec into a plain **editable Python dict** and prints its structure; the second cell is a **control panel** listing every configuration value and per-process `interval` so you can tweak any of them. Your edits are read when the composite is built and run, in the **Run** section.
 
-# **Composite `viva_genesis.composites.campaign0.og_00_vent_reactor_baseline`** — `spec_viva_genesis_composites_campaign0_og_00_vent_reactor_baseline` (materialized from its `@composite_generator`)
+# **Composite `viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor`** — `spec_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor` (materialized from its `@composite_generator`)
 
-spec_viva_genesis_composites_campaign0_og_00_vent_reactor_baseline = materialize_composite('viva_genesis.composites.campaign0.og_00_vent_reactor_baseline')
-describe_spec(spec_viva_genesis_composites_campaign0_og_00_vent_reactor_baseline)
+spec_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor = materialize_composite('viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor')
+describe_spec(spec_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor)
 
 # === Edit parameters for this composite, then run the Run cell ===
-# ov_viva_genesis_composites_campaign0_og_00_vent_reactor_baseline maps each tunable parameter to its current value (the generator's
+# ov_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor maps each tunable parameter to its current value (the generator's
 # defaults). Edit any entry; the Run cell rebuilds the composite with it.
-ov_viva_genesis_composites_campaign0_og_00_vent_reactor_baseline = dict(spec_viva_genesis_composites_campaign0_og_00_vent_reactor_baseline['_overrides'])
-import json as _json; print(_json.dumps(ov_viva_genesis_composites_campaign0_og_00_vent_reactor_baseline, indent=2, default=str))
-# e.g.:  ov_viva_genesis_composites_campaign0_og_00_vent_reactor_baseline['<parameter>'] = <value>
+ov_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor = dict(spec_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor['_overrides'])
+import json as _json; print(_json.dumps(ov_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor, indent=2, default=str))
+# e.g.:  ov_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor['<parameter>'] = <value>
 
 # ### Typed contract (declared interface)
 #
@@ -331,52 +328,21 @@ STUDY_DIR = REPO / 'workspace/studies' / STUDY
 STUDY_YAML = str(STUDY_DIR / "study.yaml")
 RUNS_DB = str(STUDY_DIR / "runs.db")
 
-# Reproduce the recorded run(s). STEPS = composite steps.
-STEPS_Vent_reactor_baseline_Campaign_0 = 5
-INTERVAL_Vent_reactor_baseline_Campaign_0 = 1.0
-STEPS_Vent_reactor_baseline_Campaign_0 = 120
-INTERVAL_Vent_reactor_baseline_Campaign_0 = 1.0
-STEPS_Vent_reactor_baseline_Campaign_0 = 120
-INTERVAL_Vent_reactor_baseline_Campaign_0 = 1.0
-STEPS_Vent_reactor_baseline_Campaign_0 = 120
+# This study has no *recorded* runs yet. RERUN builds its declared
+# composite(s) live and runs them; a composite whose module processes
+# are not implemented yet reports the error instead of crashing.
+STEPS_Vent_reactor_baseline_Campaign_0 = 100
 INTERVAL_Vent_reactor_baseline_Campaign_0 = 1.0
 
 if RERUN:
     from process_bigraph import Composite
     try:
         with quiet():  # keep per-step stdout out of the notebook
-            _ov = ov_viva_genesis_composites_campaign0_og_00_vent_reactor_baseline if 'ov_viva_genesis_composites_campaign0_og_00_vent_reactor_baseline' in dir() else None  # edits from the panel cell, if any
-            spec_viva_genesis_composites_campaign0_og_00_vent_reactor_baseline = materialize_composite('viva_genesis.composites.campaign0.og_00_vent_reactor_baseline', _ov)
-            _comp = Composite({'state': spec_viva_genesis_composites_campaign0_og_00_vent_reactor_baseline['state']}, core=core)
+            _ov = ov_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor if 'ov_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor = materialize_composite('viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor['state']}, core=core)
             _comp.run(STEPS_Vent_reactor_baseline_Campaign_0)
-        print('ran', 'Vent reactor baseline (Campaign 0)', f'(viva_genesis.composites.campaign0.og_00_vent_reactor_baseline) for', STEPS_Vent_reactor_baseline_Campaign_0, 'steps')
-    except Exception as _e:
-        print(f"Vent reactor baseline (Campaign 0) not runnable yet: {type(_e).__name__}: {_e}")
-    try:
-        with quiet():  # keep per-step stdout out of the notebook
-            _ov = ov_viva_genesis_composites_campaign0_og_00_vent_reactor_baseline if 'ov_viva_genesis_composites_campaign0_og_00_vent_reactor_baseline' in dir() else None  # edits from the panel cell, if any
-            spec_viva_genesis_composites_campaign0_og_00_vent_reactor_baseline = materialize_composite('viva_genesis.composites.campaign0.og_00_vent_reactor_baseline', _ov)
-            _comp = Composite({'state': spec_viva_genesis_composites_campaign0_og_00_vent_reactor_baseline['state']}, core=core)
-            _comp.run(STEPS_Vent_reactor_baseline_Campaign_0)
-        print('ran', 'Vent reactor baseline (Campaign 0)', f'(viva_genesis.composites.campaign0.og_00_vent_reactor_baseline) for', STEPS_Vent_reactor_baseline_Campaign_0, 'steps')
-    except Exception as _e:
-        print(f"Vent reactor baseline (Campaign 0) not runnable yet: {type(_e).__name__}: {_e}")
-    try:
-        with quiet():  # keep per-step stdout out of the notebook
-            _ov = ov_viva_genesis_composites_campaign0_og_00_vent_reactor_baseline if 'ov_viva_genesis_composites_campaign0_og_00_vent_reactor_baseline' in dir() else None  # edits from the panel cell, if any
-            spec_viva_genesis_composites_campaign0_og_00_vent_reactor_baseline = materialize_composite('viva_genesis.composites.campaign0.og_00_vent_reactor_baseline', _ov)
-            _comp = Composite({'state': spec_viva_genesis_composites_campaign0_og_00_vent_reactor_baseline['state']}, core=core)
-            _comp.run(STEPS_Vent_reactor_baseline_Campaign_0)
-        print('ran', 'Vent reactor baseline (Campaign 0)', f'(viva_genesis.composites.campaign0.og_00_vent_reactor_baseline) for', STEPS_Vent_reactor_baseline_Campaign_0, 'steps')
-    except Exception as _e:
-        print(f"Vent reactor baseline (Campaign 0) not runnable yet: {type(_e).__name__}: {_e}")
-    try:
-        with quiet():  # keep per-step stdout out of the notebook
-            _ov = ov_viva_genesis_composites_campaign0_og_00_vent_reactor_baseline if 'ov_viva_genesis_composites_campaign0_og_00_vent_reactor_baseline' in dir() else None  # edits from the panel cell, if any
-            spec_viva_genesis_composites_campaign0_og_00_vent_reactor_baseline = materialize_composite('viva_genesis.composites.campaign0.og_00_vent_reactor_baseline', _ov)
-            _comp = Composite({'state': spec_viva_genesis_composites_campaign0_og_00_vent_reactor_baseline['state']}, core=core)
-            _comp.run(STEPS_Vent_reactor_baseline_Campaign_0)
-        print('ran', 'Vent reactor baseline (Campaign 0)', f'(viva_genesis.composites.campaign0.og_00_vent_reactor_baseline) for', STEPS_Vent_reactor_baseline_Campaign_0, 'steps')
+        print('ran', 'Vent reactor baseline (Campaign 0)', f'(viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor) for', STEPS_Vent_reactor_baseline_Campaign_0, 'steps')
     except Exception as _e:
         print(f"Vent reactor baseline (Campaign 0) not runnable yet: {type(_e).__name__}: {_e}")
 else:
@@ -397,12 +363,12 @@ def _save_viz(study, slug, html):
 
 
 # vent-cross-section
-_save_viz('og-00-vent-reactor-baseline', 'vent-cross-section', _render_one('local:VentCrossSection', {'composite': 'viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor', 'n_steps': 60, 'title': 'Campaign 0 — real 2-D vent cross-section (FiPy)'}, RUNS_DB, STUDY_YAML))
+_save_viz('og-00-vent-reactor-baseline', 'vent-cross-section', _render_one('local:VentCrossSection', {'composite': 'viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor', 'n_steps': 60, 'title': 'Campaign 0 — real 2-D vent cross-section (FiPy)'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor if 'ov_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor' in dir() else None)))
 
 # **vent-reactor-timeseries**
 
 # vent-reactor-timeseries
-_save_viz('og-00-vent-reactor-baseline', 'vent-reactor-timeseries', _render_one('local:VentReactorTimeseries', {'composite': 'viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor', 'n_steps': 120, 'title': 'Campaign 0 — real vent reactor (PHREEQC + FiPy)'}, RUNS_DB, STUDY_YAML))
+_save_viz('og-00-vent-reactor-baseline', 'vent-reactor-timeseries', _render_one('local:VentReactorTimeseries', {'composite': 'viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor', 'n_steps': 120, 'title': 'Campaign 0 — real vent reactor (PHREEQC + FiPy)'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor if 'ov_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor' in dir() else None)))
 
 # ### Acceptance criteria
 #

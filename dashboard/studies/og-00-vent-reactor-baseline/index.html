@@ -61,8 +61,8 @@
             <span class="dot"></span>2&nbsp;·&nbsp;Execution<span class="step-val">ran</span>
           </span>
           
-          <span class="status-step gate-step axis-evaluation_status gate-state-passed set" title="Gate 3 · Evidence">
-            <span class="dot"></span>3&nbsp;·&nbsp;Evidence
+          <span class="status-step gate-step axis-evaluation_status gate-state-passed-with-conditions set gate-current" title="Gate 3 · Evidence — current stage">
+            <span class="dot"></span>3&nbsp;·&nbsp;Evidence<span class="gate-current-tag">you are here</span>
           </span>
           
           <span class="status-step gate-step axis-evaluation_status gate-state-passed set" title="Gate 4 · Quality">
@@ -73,8 +73,8 @@
             <span class="dot"></span>5&nbsp;·&nbsp;Decision<span class="step-val">passed</span>
           </span>
           
-          <span class="status-step gate-step axis-expert_review_status gate-state-not-assessed gate-current" title="Gate 6 · Release — current stage">
-            <span class="dot"></span>6&nbsp;·&nbsp;Release<span class="gate-current-tag">you are here</span>
+          <span class="status-step gate-step axis-expert_review_status gate-state-not-assessed" title="Gate 6 · Release">
+            <span class="dot"></span>6&nbsp;·&nbsp;Release
           </span>
           
           
@@ -97,19 +97,21 @@
           <span class="status-detail-axis">2 · Execution</span>
           <span class="status-chip gate-state-passed">ran</span>
           
-          <span class="gate-computed-chip gate-state-passed" title="7 completed run(s)">◆ computed: ran</span>
+          <span class="gate-computed-chip gate-state-passed" title="2 completed run(s)">◆ computed: ran</span>
           
           
           
         </div>
         
-        <div class="status-detail-row gate-row gate-state-passed">
+        <div class="status-detail-row gate-row gate-state-passed-with-conditions">
           <span class="status-detail-axis">3 · Evidence</span>
           <span class="status-chip gate-state-not-assessed">not set</span>
           
-          <span class="gate-computed-chip gate-state-passed" title="completed run + recorded verdicts">◆ computed: evaluated</span>
+          <span class="gate-computed-chip gate-state-passed-with-conditions" title="completed run + recorded verdicts + visualization readiness gate (V4)">◆ computed: evaluated</span>
           
           
+          
+          <span class="gate-viz-gap-note" style="font-size:0.86em;color:#92400e">visualization gap: no figures</span>
           
         </div>
         
@@ -166,7 +168,7 @@
   
   <div class="act-cluster" data-act="study">
     <div class="act-header">
-      <span class="act-gate-dot" data-gate="study" data-gate-state="passed"></span>
+      <span class="act-gate-dot" data-gate="study" data-gate-state="passed-with-conditions"></span>
       <span class="act-label">The Study</span>
     </div>
     <div class="act-tabs">
@@ -187,7 +189,7 @@
   </div>
   <div class="act-cluster" data-act="evidence">
     <div class="act-header">
-      <span class="act-gate-dot" data-gate="evidence" data-gate-state="passed"></span>
+      <span class="act-gate-dot" data-gate="evidence" data-gate-state="passed-with-conditions"></span>
       <span class="act-label">Evidence</span>
     </div>
     <div class="act-tabs">
@@ -1204,27 +1206,6 @@
 
     
     
-    
-    <div class="figure-card embed-viz-card">
-      <iframe src="/viva-genesis/dashboard/workspace/studies/og-00-vent-reactor-baseline/viz/vent-reactor-timeseries.html"
-              class="figure-media-frame figure-media-frame--embed"
-              loading="lazy" title="vent-reactor-timeseries (auto)"
-              onload="window.__fitFigureFrame&&window.__fitFigureFrame(this)"
-              ></iframe>
-      
-      <p class="figure-desc muted">Auto-discovered Plotly viz (29 KB) rendered by render_visualizations against the study&#39;s runs.db history.</p>
-      
-      <div class="figure-caption-row">
-        <span class="figure-source-chip">embed</span>
-        <span class="figure-title">vent-reactor-timeseries (auto)</span>
-        
-        <a href="#" class="figure-run-link" data-run-id="viva_genesis.composites.campaign0.og_00_vent_reactor_baseline__1791777378__232d89">from run viva_genesis.composites.campaign0.og_00_vent_reactor_baseline__1791777378__232d89 ↗</a>
-        
-        <a href="/viva-genesis/dashboard/workspace/studies/og-00-vent-reactor-baseline/viz/vent-reactor-timeseries.html" target="_blank" class="figure-open-link">Open in new tab ↗</a>
-      </div>
-    </div>
-    
-    
 
     <div id="viz-charts-panel" class="charts-panel figure-mount"></div>
 
@@ -1274,11 +1255,6 @@
   
 
   
-  
-  <div class="report-cards-full-section" id="report-cards-full-section" style="margin-top:22px">
-    <section id="report-cards"><h2>Report cards</h2><p style="color:#475569;font-size:0.92em;margin:0 0 8px">The compiled output of this study’s Tests — per-test verdict and the change since the previous run.</p><div style="border:1px solid #e2e8f0;border-radius:8px;overflow:hidden;margin:0 0 12px"><div style="padding:7px 10px;background:#f1f5f9;border-bottom:1px solid #e2e8f0;font-weight:600;color:#0f172a">behavior-tests &nbsp; <span style="display:inline-block;padding:1px 7px;border-radius:9px;background:#d97706;color:#fff;font-size:0.8em;white-space:nowrap">≈ drift</span></div><iframe scrolling="no" srcdoc="&lt;meta name=&quot;viv-artifact&quot; content=&quot;report-card&quot;&gt;
-&lt;div style=&quot;font-family:system-ui,-apple-system,sans-serif;max-width:52rem&quot;&gt;&lt;h3 style=&quot;margin:0 0 2px 0;color:#0f172a&quot;&gt;Behavior tests — og-00-vent-reactor-baseline&lt;/h3&gt;&lt;div style=&quot;color:#64748b;font-size:0.9em;margin-bottom:6px&quot;&gt;&lt;span style=&quot;color:#166534;font-weight:600&quot;&gt;0 pass&lt;/span&gt; · 5 total · &lt;span style=&quot;color:#475569&quot;&gt;pins: 0/0; acceptance: 0/0; unclassified: 5&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;padding:8px 0;border-top:1px solid #f1f5f9&quot;&gt;&lt;div style=&quot;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap&quot;&gt;&lt;span style=&quot;display:inline-block;padding:2px 10px;border-radius:9999px;background:#f1f5f9;color:#475569;font-weight:700;font-size:0.82em&quot;&gt;PENDING&lt;/span&gt;&lt;span style=&quot;font-weight:600;color:#1e293b&quot;&gt;vent-temperature-in-lostcity-range&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;color:#334155;font-size:0.9em&quot;&gt;Settled outlet temperature sits in the Lost City envelope (40-91 C).&lt;/div&gt;&lt;/div&gt;&lt;div style=&quot;padding:8px 0;border-top:1px solid #f1f5f9&quot;&gt;&lt;div style=&quot;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap&quot;&gt;&lt;span style=&quot;display:inline-block;padding:2px 10px;border-radius:9999px;background:#f1f5f9;color:#475569;font-weight:700;font-size:0.82em&quot;&gt;PENDING&lt;/span&gt;&lt;span style=&quot;font-weight:600;color:#1e293b&quot;&gt;h2-flux-sustained&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;color:#334155;font-size:0.9em&quot;&gt;Real PHREEQC serpentinization delivers a sustained, non-collapsing H2 source.&lt;/div&gt;&lt;/div&gt;&lt;div style=&quot;padding:8px 0;border-top:1px solid #f1f5f9&quot;&gt;&lt;div style=&quot;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap&quot;&gt;&lt;span style=&quot;display:inline-block;padding:2px 10px;border-radius:9999px;background:#f1f5f9;color:#475569;font-weight:700;font-size:0.82em&quot;&gt;PENDING&lt;/span&gt;&lt;span style=&quot;font-weight:600;color:#1e293b&quot;&gt;charge-conserved&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;color:#334155;font-size:0.9em&quot;&gt;PHREEQC balances charge every step (charge_neutrality invariant).&lt;/div&gt;&lt;/div&gt;&lt;div style=&quot;padding:8px 0;border-top:1px solid #f1f5f9&quot;&gt;&lt;div style=&quot;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap&quot;&gt;&lt;span style=&quot;display:inline-block;padding:2px 10px;border-radius:9999px;background:#f1f5f9;color:#475569;font-weight:700;font-size:0.82em&quot;&gt;PENDING&lt;/span&gt;&lt;span style=&quot;font-weight:600;color:#1e293b&quot;&gt;spatial-flux-conserved&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;color:#334155;font-size:0.9em&quot;&gt;FiPy finite-volume transport conserves flux (spatial_flux_conservation invariant).&lt;/div&gt;&lt;/div&gt;&lt;div style=&quot;padding:8px 0;border-top:1px solid #f1f5f9&quot;&gt;&lt;div style=&quot;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap&quot;&gt;&lt;span style=&quot;display:inline-block;padding:2px 10px;border-radius:9999px;background:#f1f5f9;color:#475569;font-weight:700;font-size:0.82em&quot;&gt;PENDING&lt;/span&gt;&lt;span style=&quot;font-weight:600;color:#1e293b&quot;&gt;vent-pH-in-lostcity-range&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;color:#334155;font-size:0.9em&quot;&gt;OPEN CALIBRATION GAP (informational, non-gating). The real equilibrium fluid buffers ~pH 7-8 (brucite buffer at vent T + high ionic strength), below the Lost City field window 9.0-10.8. Reaching field pH requires the Mg-depleted Ca(OH)-rich serpentinization endmember / activity model, not the current seawater-proxy fluid. Graded honestly so the gap stays visible.&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;" class="rc-iframe" style="width:100%;min-height:420px;border:0;display:block;overflow:hidden" loading="lazy"></iframe></div><div style="border:1px solid #e2e8f0;border-radius:8px;overflow:hidden;margin:0 0 12px"><div style="padding:7px 10px;background:#f1f5f9;border-bottom:1px solid #e2e8f0;font-weight:600;color:#0f172a">conclusion &nbsp; <span style="display:inline-block;padding:1px 7px;border-radius:9px;background:#d97706;color:#fff;font-size:0.8em;white-space:nowrap">≈ drift</span></div><iframe scrolling="no" srcdoc="&lt;!doctype html&gt;&lt;html&gt;&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;meta name=&quot;viv-artifact&quot; content=&quot;report-card&quot;&gt;&lt;title&gt;og-00-vent-reactor-baseline — conclusion report card&lt;/title&gt;&lt;/head&gt;&lt;body style=&quot;font-family:system-ui,sans-serif;max-width:720px;margin:24px auto;padding:0 16px;color:#0f172a&quot;&gt;&lt;h3 style=&quot;margin:0 0 4px 0&quot;&gt;Conclusion&lt;/h3&gt;&lt;p style=&quot;color:#64748b;font-size:0.9em;margin:0 0 8px 0&quot;&gt;Three-track verdict, computed from canonical fields (gate evaluator, run status, finding tiers) and persisted at the end of each run.&lt;/p&gt;&lt;div style=&quot;padding:8px 0;border-top:1px solid #f1f5f9&quot;&gt;&lt;div style=&quot;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap&quot;&gt;&lt;span style=&quot;display:inline-block;min-width:11em;font-weight:600;color:#1e293b&quot;&gt;Empirical validation&lt;/span&gt;&lt;span style=&quot;display:inline-block;padding:2px 10px;border-radius:9999px;background:#f1f5f9;color:#475569;font-weight:700;font-size:0.85em&quot;&gt;UNKNOWN:blocked&lt;/span&gt;&lt;span style=&quot;color:#94a3b8;font-size:0.82em&quot;&gt;from gate evaluator · computed&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div style=&quot;padding:8px 0;border-top:1px solid #f1f5f9&quot;&gt;&lt;div style=&quot;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap&quot;&gt;&lt;span style=&quot;display:inline-block;min-width:11em;font-weight:600;color:#1e293b&quot;&gt;Regression compatibility&lt;/span&gt;&lt;span style=&quot;display:inline-block;padding:2px 10px;border-radius:9999px;background:#dcfce7;color:#166534;font-weight:700;font-size:0.85em&quot;&gt;PASS&lt;/span&gt;&lt;span style=&quot;color:#94a3b8;font-size:0.82em&quot;&gt;from run status · computed&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div style=&quot;padding:8px 0;border-top:1px solid #f1f5f9&quot;&gt;&lt;div style=&quot;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap&quot;&gt;&lt;span style=&quot;display:inline-block;min-width:11em;font-weight:600;color:#1e293b&quot;&gt;Explanatory gain&lt;/span&gt;&lt;span style=&quot;display:inline-block;padding:2px 10px;border-radius:9999px;background:#fef3c7;color:#92400e;font-weight:700;font-size:0.85em&quot;&gt;PARTIAL&lt;/span&gt;&lt;span style=&quot;color:#94a3b8;font-size:0.82em&quot;&gt;from interpretation-tier findings · computed&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;p style=&quot;color:#334155;font-style:italic;margin:14px 0 0 0&quot;&gt;behavior-tests: drift&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;" class="rc-iframe" style="width:100%;min-height:420px;border:0;display:block;overflow:hidden" loading="lazy"></iframe></div><script>(function(){function fit(f){try{var d=f.contentDocument;if(!d)return;var h=Math.max(d.documentElement?d.documentElement.scrollHeight:0,d.body?d.body.scrollHeight:0);if(h>0)f.style.height=h+"px";}catch(e){}}document.querySelectorAll(".rc-iframe").forEach(function(f){f.addEventListener("load",function(){fit(f);[300,1200,2500].forEach(function(t){setTimeout(function(){fit(f);},t);});});});})();</script></section>
-  </div>
   
 
   
@@ -1642,12 +1618,6 @@ cites:   ["kelley2001offaxis", "ludwig2006formation"]</pre>
     
     
     
-    <p class="muted small verdict-frozen-indicator" style="margin:0 0 8px 0"
-       title="Content digest (sha256, sorted-key canonical JSON) of the frozen verdict payload — a locked record, not a live recompute.">
-      <span class="frozen-glyph">🔒</span> frozen 2026-10-11 23:14 UTC ·
-      <code style="font-family:ui-monospace,monospace">b49283edbe</code>
-    </p>
-    
 
     <div class="overview-section narrative-card" data-narrative-card="conclusion_verdicts" style="margin-bottom:18px">
       <h3 class="overview-label">⚖️ Verdicts — three-track outcome
@@ -1765,7 +1735,7 @@ cites:   ["kelley2001offaxis", "ludwig2006formation"]</pre>
         baseline · seed ? ·
         ?s simulated ·
         ? history rows ·
-        started 1791760442.890305
+        started 1791808353.715091
       </div>
       
       
@@ -1864,7 +1834,7 @@ cites:   ["kelley2001offaxis", "ludwig2006formation"]</pre>
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "50149bbd75c66dad945c6514494ebd8b96b6ac8e", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/50149bbd75c66dad945c6514494ebd8b96b6ac8e", "branch": "main", "generated_at": "2026-10-12 23:00 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "50149bbd75c66dad945c6514494ebd8b96b6ac8e", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/50149bbd75c66dad945c6514494ebd8b96b6ac8e", "branch": "main", "lockfile": "uv.lock@ce30b61d457c", "generated_at": "2026-10-12 23:01 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>
