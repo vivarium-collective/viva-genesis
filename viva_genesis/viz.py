@@ -394,6 +394,26 @@ class VentCrossSection(Visualization):
             stat.add_trace(go.Heatmap(z=z, x=xs, y=ys, colorscale=cs,
                                       colorbar=dict(len=0.40, thickness=11, x=cbx, y=cby)),
                            row=r, col=c)
+        # Precipitation front: a contour of the REAL porosity field at its midpoint —
+        # where the alkaline vent fluid meets the ocean and the carbonate/brucite
+        # chimney precipitates. Overlaid on the temperature panel (1,1).
+        pz = last["porosity"]
+        pflat = [v for rrow in pz for v in rrow]
+        lvl = (min(pflat) + max(pflat)) / 2.0
+        stat.add_trace(go.Contour(z=pz, x=xs, y=ys, showscale=False,
+                                  contours=dict(start=lvl, end=lvl, coloring="lines"),
+                                  line=dict(color="#e2e8f0", width=1.6, dash="dot"),
+                                  hoverinfo="skip"), row=1, col=1)
+        # Upflow: the serpentinized fluid percolates up the conduit — a couple of
+        # arrows on the hot (right) side mark the real +y flow direction.
+        xr = xs[int(len(xs) * 0.82)]
+        for yfrac in (0.30, 0.68):
+            y0 = ys[int(len(ys) * (yfrac - 0.12))]; y1 = ys[int(len(ys) * (yfrac + 0.12))]
+            stat.add_annotation(x=xr, y=y1, ax=xr, ay=y0, xref="x", yref="y",
+                                axref="x", ayref="y", showarrow=True, arrowhead=2,
+                                arrowwidth=1.6, arrowcolor="rgba(255,255,255,0.85)", text="")
+        stat.add_annotation(x=xr, y=ys[-1], xref="x", yref="y", text="upflow",
+                            showarrow=False, yshift=8, font=dict(size=9, color="#fde68a"))
         stat.update_xaxes(showgrid=False, zeroline=False,
                           title_text="across the wall (cm)", title_font=dict(size=10))
         stat.update_yaxes(showgrid=False, zeroline=False,
