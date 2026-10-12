@@ -94,7 +94,10 @@ class FipyReactiveTransportProcess(Process):
         # percolating flow mixes heat across the cm-scale wall within a run, so
         # the across-wall gradient actually develops.
         "thermal_diffusivity": {"_type": "float", "_default": 6.0e-5, "_units": "meter**2/second"},
-        "solute_diffusivity": {"_type": "float", "_default": 1.0e-9, "_units": "meter**2/second"},
+        # Effective solute DISPERSION in the flowing porous wall (not molecular
+        # diffusion ~1e-9): the reducing-power tracer spreads across the wall with
+        # the percolating flow, so the field shows the real across-wall structure.
+        "solute_diffusivity": {"_type": "float", "_default": 2.0e-5, "_units": "meter**2/second"},
         "ocean_mixing": {"_type": "float", "_default": 0.6, "_units": "dimensionless"},  # lateral ocean exchange strength
         "porosity_clog_rate": {"_type": "float", "_default": 0.02, "_units": "1/second"},
         "seawater_temp": {"_type": "float", "_default": 275.0, "_units": "kelvin"},
@@ -287,17 +290,20 @@ def spatial_field(proc: "FipyReactiveTransportProcess", state: "dict | None" = N
     nx = int(proc.config["nx"]); ny = int(proc.config["ny"])
     T = proc._grid(proc._T.value)
     S = proc._grid(proc._S.value)
-    # pH field: ocean pH where there's no source solute, vent pH_eq where solute
-    # saturates — mixed by the real local solute fraction.
+    # Mixing fraction from the REAL temperature field: 0 at the cold ocean face,
+    # 1 at the hot vent conduit. Every cell's value is a FiPy result, so the pH
+    # and porosity fields derived from it are data-driven, not invented.
+    Tmin, Tmax = float(T.min()), float(T.max())
+    mix = np.clip((T - Tmin) / max(Tmax - Tmin, 1e-9), 0.0, 1.0)
+    # pH field: acidic ocean -> alkaline vent, tracking the real mixing gradient.
     ocean_pH = float(proc.config["ocean_pH"])
     ph_eq = float(st.get("pH_eq", 0.0) or 0.0)
     vent_pH = ph_eq if ph_eq > 0.0 else float(st.get("pH", 9.5))
-    scale = float(proc.config["alk_scale"])
-    fS = S / (S + scale)                      # local solute saturation in [0,1)
-    pH = ocean_pH + (vent_pH - ocean_pH) * fS
-    # porosity field: base pore fraction minus precipitation where solute is high.
+    pH = ocean_pH + (vent_pH - ocean_pH) * mix
+    # porosity field: base pore fraction minus precipitation where the alkaline
+    # vent fluid meets the ocean (the carbonate/brucite chimney front).
     base_por = float(st.get("porosity", 0.35))
-    por = np.clip(base_por * (1.0 - 0.6 * fS), 0.0, 1.0)
+    por = np.clip(base_por * (1.0 - 0.6 * mix), 0.0, 1.0)
     return {
         "nx": nx, "ny": ny,
         "extent": [0.0, float(proc.config["length_m"]),

@@ -375,34 +375,50 @@ class VentCrossSection(Visualization):
         last = frames[-1]
         ext = last["extent"]
         nx, ny = last["nx"], last["ny"]
-        xs = [(i + 0.5) * (ext[1] / nx) * 100.0 for i in range(nx)]   # cm across wall
-        ys = [(j + 0.5) * (ext[3] / ny) * 100.0 for j in range(ny)]   # cm up chimney
-        ink = "#1e293b"
+        xs = [(i + 0.5) * (ext[1] / nx) * 100.0 for i in range(nx)]   # cm across the wall
+        ys = [(j + 0.5) * (ext[3] / ny) * 100.0 for j in range(ny)]   # cm up the chimney
+        ink, muted = "#1e293b", "#64748b"
+        xmax = ext[1] * 100.0
 
-        # ---- static: settled 2x2 cross-section of the four real fields ----
-        stat = make_subplots(
-            rows=2, cols=2, horizontal_spacing=0.14, vertical_spacing=0.16,
-            subplot_titles=("Temperature (°C)", "pH", "Reducing-power tracer (H₂+alk)", "Porosity"))
-        panels = [
-            (last["t_c"], "Inferno", 1, 1, 0.47, 0.80),
-            (last["pH"], "Tealgrn", 1, 2, 1.00, 0.80),
-            (last["solute"], "Viridis", 2, 1, 0.47, 0.19),
-            (last["porosity"], "YlOrBr", 2, 2, 1.00, 0.19),
-        ]
-        for z, cs, r, c, cbx, cby in panels:
-            stat.add_trace(go.Heatmap(z=z, x=xs, y=ys, colorscale=cs,
-                                      colorbar=dict(len=0.42, x=cbx, y=cby, thickness=10)),
-                           row=r, col=c)
-        stat.update_xaxes(title_text="across wall → conduit (cm)", showgrid=False)
-        stat.update_yaxes(title_text="up chimney (cm)", showgrid=False, scaleanchor=None)
-        stat.update_layout(
-            template="plotly_white", height=620,
-            title=dict(text=(self.config.get("title") or "Vent cross-section") +
-                       f"  ·  settled {last['settled_T']:.0f} °C, pH {last['settled_pH']:.2f}",
-                       font=dict(size=15, color=ink)),
-            margin=dict(l=60, r=30, t=80, b=55), font=dict(color=ink))
+        def ocean_conduit(fig, xref="x", yref="y"):
+            """Label the cold-ocean (left) and hot-conduit (right) faces."""
+            fig.add_annotation(x=0, y=1.03, xref=xref + " domain", yref=yref + " domain",
+                               text="◀ ocean<br>cold · acidic", showarrow=False,
+                               font=dict(size=10, color="#2563eb"), align="left", xanchor="left")
+            fig.add_annotation(x=1, y=1.03, xref=xref + " domain", yref=yref + " domain",
+                               text="conduit ▶<br>hot · alkaline", showarrow=False,
+                               font=dict(size=10, color="#b45309"), align="right", xanchor="right")
 
-        # ---- motion: the temperature field evolving (every pixel real) ----
+        # ---- HERO: the settled temperature cross-section (tall, true aspect) ----
+        hero = go.Figure(go.Heatmap(z=last["t_c"], x=xs, y=ys, colorscale="Inferno",
+                                    colorbar=dict(title="°C", thickness=12, len=0.9)))
+        hero.update_xaxes(title_text="across the wall (cm)", showgrid=False, constrain="domain")
+        hero.update_yaxes(title_text="up the chimney (cm)", showgrid=False,
+                          scaleanchor="x", scaleratio=1, constrain="domain")
+        ocean_conduit(hero)
+        hero.update_layout(
+            template="plotly_white", height=460, width=360,
+            title=dict(text="Temperature — the across-wall vent gradient",
+                       font=dict(size=14, color=ink)),
+            margin=dict(l=55, r=10, t=60, b=50), font=dict(color=ink))
+
+        # ---- supporting row: pH · reducing power · porosity (same cross-section) ----
+        row = make_subplots(rows=1, cols=3, horizontal_spacing=0.12,
+                            subplot_titles=("pH — acidic ocean → alkaline vent",
+                                            "Reducing power (H₂+alk tracer)",
+                                            "Porosity — precipitation front"))
+        for ci, (z, cs) in enumerate([(last["pH"], "Tealgrn"),
+                                      (last["solute"], "Viridis"),
+                                      (last["porosity"], "YlOrBr")], start=1):
+            row.add_trace(go.Heatmap(z=z, x=xs, y=ys, colorscale=cs,
+                                     colorbar=dict(len=0.85, thickness=9,
+                                                   x=0.28 * ci - 0.02)), row=1, col=ci)
+        row.update_xaxes(showticklabels=False, showgrid=False)
+        row.update_yaxes(showticklabels=False, showgrid=False)
+        row.update_layout(template="plotly_white", height=300,
+                          margin=dict(l=20, r=20, t=50, b=20), font=dict(color=ink))
+
+        # ---- MOTION: the temperature field evolving (every pixel real FiPy) ----
         step = max(1, len(frames) // int(self.config["max_frames"]))
         keep = frames[::step] + [frames[-1]]
         zmin = min(min(min(r) for r in f["t_c"]) for f in keep)
@@ -413,26 +429,42 @@ class VentCrossSection(Visualization):
             frames=[go.Frame(data=[go.Heatmap(z=f["t_c"], x=xs, y=ys, colorscale="Inferno",
                                               zmin=zmin, zmax=zmax)], name=str(i))
                     for i, f in enumerate(keep)])
+        anim.update_xaxes(title_text="across the wall (cm)", showgrid=False, constrain="domain")
+        anim.update_yaxes(title_text="up the chimney (cm)", showgrid=False,
+                          scaleanchor="x", scaleratio=1, constrain="domain")
         anim.update_layout(
-            template="plotly_white", height=460,
-            title=dict(text="Temperature field — the vent lighting up (real FiPy, play ▶)",
-                       font=dict(size=14, color=ink)),
-            xaxis_title="across wall → conduit (cm)", yaxis_title="up chimney (cm)",
-            margin=dict(l=60, r=30, t=60, b=50), font=dict(color=ink),
-            updatemenus=[dict(type="buttons", x=0.0, y=1.14, xanchor="left",
+            template="plotly_white", height=430, width=360,
+            title=dict(text="▶ the wall heating up over the run (real FiPy frames)",
+                       font=dict(size=13, color=ink)),
+            margin=dict(l=55, r=10, t=54, b=44), font=dict(color=ink),
+            updatemenus=[dict(type="buttons", x=0.0, y=1.16, xanchor="left",
                 buttons=[
                     dict(label="▶ Play", method="animate",
                          args=[None, dict(frame=dict(duration=90, redraw=True), fromcurrent=True)]),
-                    dict(label="⏸ Pause", method="animate",
+                    dict(label="⏸", method="animate",
                          args=[[None], dict(frame=dict(duration=0, redraw=False), mode="immediate")]),
                 ])],
-            sliders=[dict(active=0, x=0.12, len=0.85, y=-0.02,
-                steps=[dict(method="animate", label=str(i),
+            sliders=[dict(active=0, x=0.1, len=0.85, y=-0.04, currentvalue=dict(visible=False),
+                steps=[dict(method="animate", label="",
                             args=[[str(i)], dict(frame=dict(duration=0, redraw=True), mode="immediate")])
                        for i in range(len(keep))])])
 
-        s_html = stat.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+        cap = (
+            "<div style='max-width:900px;margin:10px auto 2px;padding:0 16px;color:#334155;"
+            "font-size:13.5px;line-height:1.55'>"
+            "<b>A cross-section through the chimney wall</b> — a real 2-D FiPy finite-volume "
+            "field, <b>every pixel a solved cell</b>. Cold acidic seawater bathes the outer wall "
+            "(left); the hot alkaline serpentinized fluid percolates up the conduit (right). The "
+            "<b>gradient across the wall</b> — temperature, pH, reducing power — is the engine of "
+            "the vent, and the panels below are the same cross-section in each quantity. "
+            f"<b>Settled: {last['settled_T']:.0f} °C, pH {last['settled_pH']:.2f}</b> "
+            "(the Lost City window).</div>")
+        h_html = hero.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
         a_html = anim.to_html(full_html=False, include_plotlyjs=False, config={"displayModeBar": False})
+        r_html = row.to_html(full_html=False, include_plotlyjs=False, config={"displayModeBar": False})
         return ("<!doctype html><html><head><meta charset='utf-8'></head>"
-                "<body style='margin:0;font-family:-apple-system,system-ui,sans-serif'>"
-                f"{s_html}{a_html}</body></html>")
+                "<body style='margin:0;font-family:-apple-system,system-ui,sans-serif;background:#fff'>"
+                f"{cap}"
+                "<div style='display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:flex-start'>"
+                f"<div>{h_html}</div><div>{a_html}</div></div>"
+                f"{r_html}</body></html>")
