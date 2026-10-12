@@ -607,19 +607,20 @@ class ProtonGradientProfile(Visualization):
                           range=[-6, _m.ceil(_m.log10(yhi) + 0.3)],
                           showgrid=True, gridcolor="#eef2f7")
         anim.update_layout(
-            template="plotly_white", height=360, width=620, showlegend=True,
-            legend=dict(orientation="h", y=-0.22, x=0.5, xanchor="center", font=dict(size=10)),
+            template="plotly_white", height=420, width=620, showlegend=True,
+            legend=dict(orientation="h", y=1.13, x=1.0, xanchor="right", yanchor="bottom",
+                        font=dict(size=11), bgcolor="rgba(255,255,255,0.6)"),
             title=dict(text="products forming over time (real concentrations, log scale)",
-                       x=0.5, xanchor="center", y=0.97, font=dict(size=13, color=ink)),
-            margin=dict(l=55, r=20, t=80, b=60), font=dict(color=ink),
-            updatemenus=[dict(type="buttons", direction="left", x=0.0, y=1.14, xanchor="left",
-                showactive=False, buttons=[
+                       x=0.5, xanchor="center", y=0.98, font=dict(size=13, color=ink)),
+            margin=dict(l=60, r=20, t=100, b=60), font=dict(color=ink),
+            updatemenus=[dict(type="buttons", direction="left", x=0.0, y=1.13, xanchor="left",
+                yanchor="bottom", showactive=False, buttons=[
                     dict(label="▶ Play", method="animate",
                          args=[None, dict(frame=dict(duration=90, redraw=True), fromcurrent=True)]),
                     dict(label="⏸ Pause", method="animate",
                          args=[[None], dict(frame=dict(duration=0, redraw=False), mode="immediate")]),
                 ])],
-            sliders=[dict(active=0, x=0.08, len=0.88, y=-0.14, currentvalue=dict(visible=False),
+            sliders=[dict(active=0, x=0.08, len=0.88, y=-0.12, currentvalue=dict(visible=False),
                 steps=[dict(method="animate", label="",
                             args=[[str(i)], dict(frame=dict(duration=0, redraw=True), mode="immediate")])
                        for i in range(len(idxs))])])
