@@ -114,6 +114,23 @@ def _max_abs_electro_flux_residual(reader, test: dict, ws_root: Any) -> float:
     return max(abs(v) for v in _values(reader, "flux_divergence_residual"))
 
 
+# --- og-02 (reduced carbon -> protometabolism) readouts ------------------
+
+def _settled_net_carbon_flux(reader, test: dict, ws_root: Any) -> float:
+    """Steady net carbon throughput (mol/s) under feed+washout."""
+    return _settled_mean(reader, "net_carbon_flux", frac=0.2)
+
+
+def _peak_autocatalytic_gain(reader, test: dict, ws_root: Any) -> float:
+    """Peak OAA self-amplification ratio — >=1 means a reinforcing motif exists."""
+    return max(_values(reader, "autocatalytic_gain"))
+
+
+def _network_connected_final(reader, test: dict, ws_root: Any) -> float:
+    """1.0 if the species-reaction graph is a single connected network."""
+    return _values(reader, "network_connected")[-1]
+
+
 def register_derived_scalars(registry: dict) -> None:
     """Hook called by study_evaluator.load_workspace_derived_scalars."""
     # og-00
@@ -129,3 +146,7 @@ def register_derived_scalars(registry: dict) -> None:
     registry["peak_net_carbon_flux"] = _peak_net_carbon_flux
     registry["free_energy_logged_fraction"] = _free_energy_logged_fraction
     registry["max_abs_electro_flux_residual"] = _max_abs_electro_flux_residual
+    # og-02
+    registry["settled_net_carbon_flux"] = _settled_net_carbon_flux
+    registry["peak_autocatalytic_gain"] = _peak_autocatalytic_gain
+    registry["network_connected_final"] = _network_connected_final

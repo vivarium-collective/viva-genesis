@@ -21,6 +21,9 @@ dependencies = [
     # Campaign-I (og-01) real reaction thermodynamics: eQuilibrator component-
     # contribution ΔG' (bundled offline cache via equilibrator-cache-data).
     "equilibrator-api>=0.6",
+    # Campaign-II (og-02) real SBML reaction-network simulation + graph analysis.
+    "tellurium>=2.2",
+    "networkx>=3.0",
     # Web-based workspace dashboard (server + templates + assets + lib helpers).
     # Extracted from viva-template as of v0.4.16; provides the `vivarium-workbench
     # serve` CLI invoked by scripts/serve.sh.

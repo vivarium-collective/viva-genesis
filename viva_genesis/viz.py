@@ -184,3 +184,73 @@ class CarbonFixationViz(Visualization):
             margin=dict(l=60, r=30, t=70, b=60), font=dict(color=ink),
         )
         return fig.to_html(full_html=True, include_plotlyjs="cdn", config={"displayModeBar": False})
+
+
+class ProtometabolismViz(Visualization):
+    """Campaign-II real protometabolic-network trajectory: rTCA-fragment species
+    (OAA / acetate / succinate), the net carbon throughput under feed+washout, and
+    the autocatalytic gain — the emergent metabolism-like behavior.
+
+    Drives the genuine libRoadRunner/Tellurium composite
+    (``viva_genesis.composites.campaign2``).
+    """
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "Campaign II — protometabolic network"},
+        "n_steps": {"_type": "integer", "_default": 120},
+        "feed_CO2": {"_type": "float", "_default": 2.0e-3},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        from .core import build_core
+        from .composites.campaign2 import og_02_reduced_carbon_to_protometabolism
+        core = build_core()
+        doc = og_02_reduced_carbon_to_protometabolism(
+            core, feed_CO2=float(self.config["feed_CO2"]))
+        sim = Composite({"state": doc}, core=core)
+        sim.run(float(self.config["n_steps"]))
+        rows = gather_emitter_results(sim)[("emitter",)]
+        return {"html": self._figure(rows)}
+
+    def _figure(self, rows) -> str:
+        from plotly.subplots import make_subplots
+
+        def col(k):
+            return [r[k] for r in rows if k in r]
+
+        t = [r.get("global_time", i) for i, r in enumerate(rows)]
+        oaa = [v * 1e3 for v in col("OAA")]            # mM
+        acetate = [v * 1e3 for v in col("acetate")]   # mM
+        succinate = [v * 1e3 for v in col("succinate")]
+        ncf = col("net_carbon_flux")
+        gain = col("autocatalytic_gain")
+
+        ink, teal, amber, slate, rust = "#1e293b", "#0d9488", "#d97706", "#64748b", "#b91c1c"
+        fig = make_subplots(
+            rows=1, cols=3, horizontal_spacing=0.08,
+            subplot_titles=("rTCA-fragment species (mM)", "Net carbon throughput (mol/s)",
+                            "Autocatalytic gain"),
+        )
+        fig.add_scatter(x=t, y=oaa, mode="lines", line=dict(color=teal, width=2.5), name="OAA", row=1, col=1)
+        fig.add_scatter(x=t, y=acetate, mode="lines", line=dict(color=amber, width=2), name="acetate", row=1, col=1)
+        fig.add_scatter(x=t, y=succinate, mode="lines", line=dict(color=rust, width=2, dash="dot"), name="succinate", row=1, col=1)
+        fig.add_scatter(x=t, y=ncf, mode="lines", line=dict(color=ink, width=2.5), row=1, col=2)
+        fig.add_hline(y=1.0, line=dict(color=slate, width=1, dash="dot"), row=1, col=3)
+        fig.add_scatter(x=t, y=gain, mode="lines", line=dict(color=rust, width=2.5), row=1, col=3)
+
+        fig.update_xaxes(title_text="time", showgrid=True, gridcolor="#eef2f7")
+        fig.update_yaxes(showgrid=True, gridcolor="#eef2f7")
+        fig.update_layout(
+            title=dict(text=self.config.get("title") or "Campaign II — protometabolic network",
+                       font=dict(size=16, color=ink)),
+            template="plotly_white", height=380, showlegend=True,
+            legend=dict(orientation="h", y=-0.2, x=0.0, font=dict(size=10)),
+            margin=dict(l=60, r=30, t=70, b=60), font=dict(color=ink),
+        )
+        return fig.to_html(full_html=True, include_plotlyjs="cdn", config={"displayModeBar": False})

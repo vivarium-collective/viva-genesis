@@ -28,5 +28,6 @@ Placeholder package: no Process/Step classes yet.
 
 from .thermo import EquilibratorThermoStep  # noqa: E402,F401
 from .carbon_fixation import CarbonFixationProcess  # noqa: E402,F401
+from .network import RoadRunnerNetworkProcess  # noqa: E402,F401
 
-__all__ = ["EquilibratorThermoStep", "CarbonFixationProcess"]
+__all__ = ["EquilibratorThermoStep", "CarbonFixationProcess", "RoadRunnerNetworkProcess"]
