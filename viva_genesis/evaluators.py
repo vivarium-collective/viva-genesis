@@ -164,6 +164,20 @@ def _max_abs_trap_flux_residual(reader, test: dict, ws_root: Any) -> float:
     return max(abs(v) for v in _values(reader, "flux_divergence_residual"))
 
 
+# --- og-04 (mineral compartments -> protocells) readouts -----------------
+
+def _settled_viable_compartments(reader, test: dict, ws_root: Any) -> float:
+    """Viable vesicle count in the favorable arm — >0 means vesicles form in the
+    mixed-amphiphile stability window (Jordan 2019)."""
+    return _settled_mean(reader, "viable_compartments", frac=0.2)
+
+
+def _settled_individuality_access(reader, test: dict, ws_root: Any) -> float:
+    """Retention × access — individuality WITHOUT isolation. >0 means the membrane
+    holds internal chemistry AND stays permeable to the external gradient."""
+    return _settled_mean(reader, "individuality_access", frac=0.2)
+
+
 def register_derived_scalars(registry: dict) -> None:
     """Hook called by study_evaluator.load_workspace_derived_scalars."""
     # og-00
@@ -188,3 +202,6 @@ def register_derived_scalars(registry: dict) -> None:
     registry["settled_accumulation_peclet"] = _settled_accumulation_peclet
     registry["log10_enrichment"] = _log10_enrichment
     registry["max_abs_trap_flux_residual"] = _max_abs_trap_flux_residual
+    # og-04
+    registry["settled_viable_compartments"] = _settled_viable_compartments
+    registry["settled_individuality_access"] = _settled_individuality_access

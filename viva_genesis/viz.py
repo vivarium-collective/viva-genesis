@@ -956,3 +956,123 @@ class ThermophoreticTrapViz(Visualization):
                 f"{cap}<div style='display:flex;justify-content:center'>{s_html}</div>"
                 "<div style='display:flex;justify-content:center;margin-top:8px'>" + a_html + "</div>"
                 "</body></html>")
+
+class ProtocellWindowViz(Visualization):
+    """Campaign-IV protocell stability window — the Jordan-2019 broadening and the
+    individuality-vs-access tradeoff. Sweeps ``ProtocellAssemblyProcess`` over a
+    (pH × ionic strength) grid and reads the individuality-access landscape; shows
+    the single-fatty-acid vs mixed-amphiphile viable regions and an animation of the
+    window broadening as the co-surfactant fraction rises. Every value a real model
+    evaluation (coarse-grained, Jordan-calibrated)."""
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "Campaign IV — the protocell window broadens (mixed amphiphiles)"},
+        "n_grid": {"_type": "integer", "_default": 40},
+        "n_frames": {"_type": "integer", "_default": 16},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        import numpy as np
+
+        from .core import build_core
+        from .membranes.protocell_assembly import ProtocellAssemblyProcess
+        core = build_core()
+        ng = int(self.config["n_grid"])
+        pH = np.linspace(6.0, 11.0, ng)
+        ionic = np.linspace(0.0, 0.9, ng)
+
+        def grid(mix):
+            p = ProtocellAssemblyProcess(config={"mix_fraction": max(mix, 1e-4)}, core=core)
+            Z = np.zeros((ng, ng))
+            for i, ii in enumerate(ionic):
+                for j, pp in enumerate(pH):
+                    r = p.update({"pH": float(pp), "ionic_strength": float(ii), "temperature": 318.15}, 1.0)
+                    Z[i, j] = r["individuality_access"]
+            return Z
+
+        mixes = list(np.linspace(0.0, 0.5, int(self.config["n_frames"])))
+        frames_Z = [(m, grid(m)) for m in mixes]
+        single_Z = frames_Z[0][1]
+        mixed_Z = grid(0.4)
+        return {"html": self._figure(pH.tolist(), ionic.tolist(), single_Z, mixed_Z, frames_Z)}
+
+    def _figure(self, pH, ionic, single_Z, mixed_Z, frames_Z) -> str:
+        import numpy as np
+        import plotly.graph_objects as go
+        from plotly.subplots import make_subplots
+
+        ink = "#1e293b"
+        single_area = float(np.mean(np.asarray(single_Z) > 0.1)) * 100.0
+        mixed_area = float(np.mean(np.asarray(mixed_Z) > 0.1)) * 100.0
+        cs = "Tealgrn"
+
+        stat = make_subplots(rows=1, cols=2, horizontal_spacing=0.12,
+            subplot_titles=(f"Single fatty acid — viable {single_area:.0f}% of window",
+                            f"Mixed amphiphiles — viable {mixed_area:.0f}% of window"))
+        for col, Z in ((1, single_Z), (2, mixed_Z)):
+            stat.add_trace(go.Heatmap(z=Z, x=pH, y=ionic, colorscale=cs, zmin=0, zmax=1,
+                           colorbar=dict(title="indiv×<br>access", thickness=12, len=0.8) if col == 2 else None,
+                           showscale=(col == 2)), row=1, col=col)
+            stat.add_trace(go.Scatter(x=[9.0], y=[0.35], mode="markers+text", text=["vent"],
+                           textposition="top center", marker=dict(symbol="star", size=12, color="#b91c1c"),
+                           showlegend=False, textfont=dict(size=9, color="#b91c1c")), row=1, col=col)
+        stat.update_xaxes(title_text="pH", row=1, col=1); stat.update_xaxes(title_text="pH", row=1, col=2)
+        stat.update_yaxes(title_text="ionic strength (M)", row=1, col=1)
+        stat.update_layout(template="plotly_white", height=430, width=900,
+            title=dict(text=self.config.get("title") or "Protocell window", x=0.5, xanchor="center",
+                       font=dict(size=14, color=ink)),
+            margin=dict(l=60, r=20, t=80, b=55), font=dict(color=ink))
+
+        # motion: the viable region broadening as the co-surfactant fraction rises.
+        frames = [go.Frame(data=[go.Heatmap(z=Z, x=pH, y=ionic, colorscale=cs, zmin=0, zmax=1,
+                           colorbar=dict(title="indiv×<br>access", thickness=12, len=0.8))],
+                           name="%.2f" % m,
+                           layout=go.Layout(annotations=[dict(x=10.2, y=0.82,
+                               text="mix %.2f · viable %.0f%%" % (m, float(np.mean(np.asarray(Z) > 0.1)) * 100.0),
+                               showarrow=False, font=dict(size=12, color=ink),
+                               bgcolor="rgba(255,255,255,0.7)")]))
+                  for m, Z in frames_Z]
+        anim = go.Figure(data=frames[0].data, frames=frames)
+        anim.add_scatter(x=[9.0], y=[0.35], mode="markers+text", text=["vent"], textposition="top center",
+                         marker=dict(symbol="star", size=13, color="#b91c1c"), showlegend=False,
+                         textfont=dict(size=10, color="#b91c1c"))
+        anim.update_xaxes(title_text="pH")
+        anim.update_yaxes(title_text="ionic strength (M)")
+        anim.update_layout(template="plotly_white", height=440, width=560,
+            title=dict(text="the window broadening with co-surfactant", x=0.5, xanchor="center",
+                       y=0.99, font=dict(size=13, color=ink)),
+            margin=dict(l=60, r=20, t=70, b=55), font=dict(color=ink),
+            updatemenus=[dict(type="buttons", direction="left", x=0.0, y=1.1, xanchor="left",
+                yanchor="bottom", showactive=False, buttons=[
+                    dict(label="▶ Play", method="animate",
+                         args=[None, dict(frame=dict(duration=160, redraw=True), fromcurrent=True)]),
+                    dict(label="⏸ Pause", method="animate",
+                         args=[[None], dict(frame=dict(duration=0, redraw=False), mode="immediate")]),
+                ])],
+            sliders=[dict(active=0, x=0.08, len=0.88, y=-0.08, currentvalue=dict(visible=False),
+                steps=[dict(method="animate", label="",
+                            args=[[f.name], dict(frame=dict(duration=0, redraw=True), mode="immediate")])
+                       for f in frames])])
+
+        cap = (
+            "<div style='max-width:900px;margin:12px auto 4px;padding:0 16px;color:#334155;"
+            "font-size:13.5px;line-height:1.55'>"
+            "<b>Organic boundaries without isolation</b> — the coarse-grained protocell model "
+            "(Jordan 2019). Colour is the individuality × access product (retains chemistry AND "
+            "stays permeable). A single fatty acid is viable only in a narrow corner; adding a "
+            "co-surfactant (mixed amphiphiles) <b>broadens the window</b> to the alkaline, salty "
+            "vent point (★) — the boundary enhances persistence without cutting the system off "
+            "from the gradient.</div>")
+        s_html = stat.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+        a_html = anim.to_html(full_html=False, include_plotlyjs=False, config={"displayModeBar": False})
+        return ("<!doctype html><html><head><meta charset='utf-8'></head>"
+                "<body style='margin:0;font-family:-apple-system,system-ui,sans-serif;background:#fff'>"
+                f"{cap}<div style='display:flex;justify-content:center'>{s_html}</div>"
+                "<div style='display:flex;justify-content:center;margin-top:8px'>" + a_html + "</div>"
+                "</body></html>")
