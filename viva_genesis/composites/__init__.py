@@ -6,6 +6,6 @@ decorators fire on package import.
 
 from . import campaign0  # noqa: F401
 
-from .campaign0 import vent_reactor_baseline
+from .campaign0 import og_00_vent_reactor_baseline, og_00_vent_reactor_reduced
 
-__all__ = ["vent_reactor_baseline"]
+__all__ = ["og_00_vent_reactor_baseline", "og_00_vent_reactor_reduced"]

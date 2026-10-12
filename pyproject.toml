@@ -13,6 +13,11 @@ dependencies = [
     "pypdf>=4.0",
     "matplotlib",
     "plotly",
+    # Campaign-0 real geochemistry + reactive transport engines (og-00):
+    # phreeqpython bridges the genuine USGS PHREEQC (IPhreeqc) speciation engine;
+    # fipy is the finite-volume PDE solver for the spatial vent reactor.
+    "phreeqpython>=1.6",
+    "fipy>=4.0",
     # Web-based workspace dashboard (server + templates + assets + lib helpers).
     # Extracted from viva-template as of v0.4.16; provides the `vivarium-workbench
     # serve` CLI invoked by scripts/serve.sh.

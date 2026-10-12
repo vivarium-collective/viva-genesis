@@ -1,11 +1,19 @@
-"""Campaign 0 composite — the vent-reactor baseline (REDUCED REPRODUCTION).
+"""Campaign 0 composites — the vent-reactor baseline.
 
-Wires Module A (``SerpentinizationReproductionProcess``) → Module B
-(``VentReactorReproductionProcess``) through shared vent/rates stores: the
-serpentinization source feeds H2/alkalinity/heat into a well-mixed vent–ocean
-reactor that relaxes T, pH and porosity toward Lost City–like targets. This is
-the og-00 study's baseline composite; the processes are reduced reproductions
-(not PHREEQC/Reaktoro/FiPy), see ``workspace/notes/modules.md``.
+``og_00_vent_reactor_baseline`` is the **real coupled model**: Module A
+(:class:`~viva_genesis.geochemistry.phreeqc_serpentinization.PhreeqcSerpentinizationProcess`
+— genuine PHREEQC speciation + mineral equilibrium) feeds H2 / alkalinity / heat
+source fluxes into Module B
+(:class:`~viva_genesis.transport.fipy_reactor.FipyReactiveTransportProcess` —
+a real FiPy finite-volume advection–diffusion–reaction column) through shared
+``vent`` / ``rates`` / ``diagnostics`` stores. PHREEQC conserves elements + charge
+and FiPy's FVM conserves flux by construction, so the composite satisfies the
+og-00 contract invariants (``mass_balance``, ``charge_neutrality``,
+``spatial_flux_conservation``). Requires ``phreeqpython`` + ``fipy`` installed.
+
+``og_00_vent_reactor_reduced`` is the original tuned-relaxation reproduction
+(``SerpentinizationReproductionProcess`` → ``VentReactorReproductionProcess``),
+kept as a runs-anywhere fallback / A-B comparison baseline.
 """
 from __future__ import annotations
 
@@ -13,11 +21,101 @@ from process_bigraph.composite_generator import composite_generator
 
 from ..core import build_core
 
+# Observables persisted by the real baseline (ParquetEmitter) — at minimum every
+# store path a behavior_test's derived readout reduces over.
+_REAL_EMIT_PATHS = [
+    "vent/temperature", "vent/pH", "vent/porosity", "vent/H2", "vent/alkalinity",
+    "rates/H2_flux", "rates/alkalinity_flux",
+    "diagnostics/pe", "diagnostics/charge_imbalance", "diagnostics/flux_divergence_residual",
+    "global_time",
+]
+
 
 @composite_generator(
     name="og_00_vent_reactor_baseline",
-    description="Campaign 0 — reduced serpentinization-fed vent–ocean reactor; "
-                "settles into the Lost City T/pH window with sustained H2+alkalinity flux.",
+    description=(
+        "Campaign 0 — REAL coupled vent reactor. Module A = genuine PHREEQC "
+        "serpentinization (phreeqpython + vendored llnl.dat): olivine dissolution "
+        "+ serpentine/brucite/magnetite equilibrium gives dissolved H2 (reducing "
+        "power), alkalinity, heat, pe, and a charge-balanced fluid. Module B = "
+        "genuine FiPy finite-volume advection-diffusion-reaction column transporting "
+        "those sources across the vent-ocean interface and setting outlet T/pH/porosity. "
+        "PHREEQC conserves mass+charge and FiPy's FVM conserves flux, satisfying the "
+        "og-00 contract invariants. Requires phreeqpython + fipy."
+    ),
+    parameters={
+        "flow_velocity": {"type": "float", "default": 1.0e-3,
+                          "description": "Boundary water flux through the reaction zone (m/s)"},
+        "olivine_rate": {"type": "float", "default": 0.15,
+                         "description": "Olivine dissolution rate (mol per flow-saturated reaction step)"},
+        "nx": {"type": "integer", "default": 40,
+               "description": "FiPy finite-volume cells across the interface column"},
+    },
+    default_n_steps=120,
+    core_extensions=[build_core],
+    emitters=[{"address": "local:ParquetEmitter", "paths": _REAL_EMIT_PATHS}],
+)
+def og_00_vent_reactor_baseline(core=None, *, flow_velocity=1.0e-3, olivine_rate=0.15, nx=40):
+    return {
+        "serpentinization": {
+            "_type": "process",
+            "address": "local:PhreeqcSerpentinizationProcess",
+            "config": {"olivine_rate": olivine_rate},
+            "interval": 1.0,
+            "inputs": {"temperature": ["vent", "temperature"],
+                       "flow_velocity": ["boundary", "flow_velocity"],
+                       "DIC": ["vent", "DIC"]},
+            "outputs": {"H2": ["vent", "H2"], "alkalinity": ["vent", "alkalinity"],
+                        "heat": ["vent", "heat"],
+                        "H2_flux": ["rates", "H2_flux"],
+                        "alkalinity_flux": ["rates", "alkalinity_flux"],
+                        "heat_flux": ["rates", "heat_flux"],
+                        "pe": ["diagnostics", "pe"],
+                        "charge_imbalance": ["diagnostics", "charge_imbalance"]},
+        },
+        "reactor": {
+            "_type": "process",
+            "address": "local:FipyReactiveTransportProcess",
+            "config": {"nx": nx},
+            "interval": 1.0,
+            "inputs": {"temperature": ["vent", "temperature"], "pH": ["vent", "pH"],
+                       "porosity": ["vent", "porosity"], "H2": ["vent", "H2"],
+                       "alkalinity": ["vent", "alkalinity"], "heat": ["vent", "heat"],
+                       "flow_velocity": ["boundary", "flow_velocity"]},
+            "outputs": {"temperature": ["vent", "temperature"], "pH": ["vent", "pH"],
+                        "porosity": ["vent", "porosity"],
+                        "flux_divergence_residual": ["diagnostics", "flux_divergence_residual"]},
+        },
+        "vent": {"temperature": 300.0, "pH": 7.0, "porosity": 0.35,
+                 "H2": 0.0, "alkalinity": 0.0, "heat": 0.0, "DIC": 2.0e-3},
+        "boundary": {"flow_velocity": flow_velocity},
+        "rates": {"H2_flux": 0.0, "alkalinity_flux": 0.0, "heat_flux": 0.0},
+        "diagnostics": {"pe": 0.0, "charge_imbalance": 0.0, "flux_divergence_residual": 0.0},
+        "emitter": {
+            "_type": "step",
+            "address": "local:RAMEmitter",
+            "config": {"emit": {"temperature": "float", "pH": "float", "porosity": "float",
+                                "H2": "float", "alkalinity": "float",
+                                "H2_flux": "float", "alkalinity_flux": "float",
+                                "pe": "float", "charge_imbalance": "float",
+                                "flux_divergence_residual": "float",
+                                "global_time": "float"}},
+            "inputs": {"temperature": ["vent", "temperature"], "pH": ["vent", "pH"],
+                       "porosity": ["vent", "porosity"], "H2": ["vent", "H2"],
+                       "alkalinity": ["vent", "alkalinity"],
+                       "H2_flux": ["rates", "H2_flux"], "alkalinity_flux": ["rates", "alkalinity_flux"],
+                       "pe": ["diagnostics", "pe"], "charge_imbalance": ["diagnostics", "charge_imbalance"],
+                       "flux_divergence_residual": ["diagnostics", "flux_divergence_residual"],
+                       "global_time": ["global_time"]},
+        },
+    }
+
+
+@composite_generator(
+    name="og_00_vent_reactor_reduced",
+    description="Campaign 0 — reduced tuned-relaxation reproduction (fallback / A-B "
+                "comparison): Gaussian serpentinization source feeding a first-order "
+                "relaxation box. Runs anywhere (no phreeqpython/fipy). NOT real geochemistry.",
     parameters={
         "flow_velocity": {"type": "float", "default": 1.0e-3,
                           "description": "Boundary water flux through the reaction zone (m/s)"},
@@ -27,13 +125,7 @@ from ..core import build_core
                         "description": "Peak H2 source rate at reference flow (mol/s)"},
     },
     default_n_steps=120,
-    # Register this workspace's own processes on whatever core the dashboard
-    # builds the composite against (e.g. the §Contract audit path uses a bare
-    # allocate_core()); build_core(core) adds SerpentinizationReproductionProcess
-    # + VentReactorReproductionProcess and returns the core.
     core_extensions=[build_core],
-    # Persisted sink so the og-00 behavior tests (T/pH window, sustained flux)
-    # can be evaluated from a real parquet store (RAM-only runs stay "blocked").
     emitters=[{
         "address": "local:ParquetEmitter",
         "paths": [
@@ -44,7 +136,7 @@ from ..core import build_core
         ],
     }],
 )
-def vent_reactor_baseline(core=None, *, flow_velocity=1.0e-3, t_target=340.0, h2_rate_max=1.0e-3):
+def og_00_vent_reactor_reduced(core=None, *, flow_velocity=1.0e-3, t_target=340.0, h2_rate_max=1.0e-3):
     return {
         "serpentinization": {
             "_type": "process",

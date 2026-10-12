@@ -23,11 +23,14 @@ Planned process contracts (not yet implemented):
 Fluxes must be conservative across cell and compartment boundaries
 (``workspace/notes/architecture.md``).
 
-Campaign 0 ships ``VentReactorReproductionProcess`` (Module B, reduced
-reproduction); re-exported here so ``build_core()``'s non-recursive package walk
-registers it.
+Campaign 0 ships Module B as a **real FiPy bridge**
+(``FipyReactiveTransportProcess`` — genuine finite-volume advection–diffusion–
+reaction) plus the original ``VentReactorReproductionProcess`` (reduced
+first-order relaxation) as a runs-anywhere fallback. Both are re-exported here so
+``build_core()``'s non-recursive package walk registers them.
 """
 
+from .fipy_reactor import FipyReactiveTransportProcess  # noqa: E402,F401
 from .vent_reactor import VentReactorReproductionProcess  # noqa: E402,F401
 
-__all__ = ["VentReactorReproductionProcess"]
+__all__ = ["FipyReactiveTransportProcess", "VentReactorReproductionProcess"]

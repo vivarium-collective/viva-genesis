@@ -1,9 +1,10 @@
 """Workspace visualizations for viva-genesis (live in the workbench Visualizations tab).
 
-A native ``Visualization`` subclass runs the study's own composite via
-``build_core()`` and returns ``{"html": <plotly html>}`` — it re-runs with the
-study and auto-registers through ``build_core()`` (it is a Step subclass, so the
-package walk picks it up).
+``VentReactorTimeseries`` runs the og-00 **real coupled model**
+(``og_00_vent_reactor_baseline`` — PHREEQC serpentinization + FiPy reactive
+transport) via ``build_core()`` and returns ``{"html": <plotly html>}``. As a
+``Visualization`` (a Step subclass) it auto-registers through the package walk
+and re-runs live with the study.
 """
 from __future__ import annotations
 
@@ -12,21 +13,20 @@ from process_bigraph.visualization import Visualization
 
 
 class VentReactorTimeseries(Visualization):
-    """Campaign-0 vent-reactor trajectory: temperature, pH, source fluxes and
-    porosity over time, with the Lost City acceptance window shaded.
+    """Campaign-0 real vent-reactor trajectory: temperature, pH, reducing power
+    (H2 flux + pe), porosity, and the mass/charge + spatial-flux conservation
+    witnesses — with the Lost City acceptance windows shaded.
 
-    Reduced-reproduction model (not PHREEQC/FiPy) — see ``viva_genesis.composites``.
+    Drives the genuine PHREEQC + FiPy composite (``viva_genesis.composites``).
     """
 
     config_schema = {
-        "title": {"_type": "string", "_default": "Campaign 0 — vent reactor baseline"},
+        "title": {"_type": "string", "_default": "Campaign 0 — real vent reactor (PHREEQC + FiPy)"},
         "n_steps": {"_type": "integer", "_default": 120},
-        # Composite overrides — kept in sync with the generator's parameters so
-        # the figure reflects the study's configured baseline (and any edited
-        # params a caller passes in), not just the generator defaults.
+        # Real-composite overrides (kept in sync with the generator parameters).
         "flow_velocity": {"_type": "float", "_default": 1.0e-3},
-        "t_target": {"_type": "float", "_default": 340.0},
-        "h2_rate_max": {"_type": "float", "_default": 1.0e-3},
+        "olivine_rate": {"_type": "float", "_default": 0.15},
+        "nx": {"_type": "integer", "_default": 40},
     }
 
     def inputs(self):
@@ -37,14 +37,14 @@ class VentReactorTimeseries(Visualization):
 
     def update(self, state=None):
         from .core import build_core
-        from .composites.campaign0 import vent_reactor_baseline
+        from .composites.campaign0 import og_00_vent_reactor_baseline
 
         core = build_core()
-        doc = vent_reactor_baseline(
+        doc = og_00_vent_reactor_baseline(
             core,
             flow_velocity=float(self.config["flow_velocity"]),
-            t_target=float(self.config["t_target"]),
-            h2_rate_max=float(self.config["h2_rate_max"]),
+            olivine_rate=float(self.config["olivine_rate"]),
+            nx=int(self.config["nx"]),
         )
         sim = Composite({"state": doc}, core=core)
         sim.run(float(self.config["n_steps"]))
@@ -55,41 +55,53 @@ class VentReactorTimeseries(Visualization):
         import plotly.graph_objects as go
         from plotly.subplots import make_subplots
 
-        t = [r.get("global_time", i) for i, r in enumerate(rows)]
-        temp_c = [r["temperature"] - 273.15 for r in rows]
-        ph = [r["pH"] for r in rows]
-        h2f = [r["H2_flux"] for r in rows]
-        alkf = [r["alkalinity_flux"] for r in rows]
-        por = [r["porosity"] for r in rows]
+        def col(k):
+            return [r[k] for r in rows if k in r]
 
-        ink, teal, amber, slate = "#1e293b", "#0d9488", "#d97706", "#64748b"
+        t = [r.get("global_time", i) for i, r in enumerate(rows)]
+        temp_c = [v - 273.15 for v in col("temperature")]
+        ph = col("pH")
+        h2f = col("H2_flux")
+        pe = col("pe")
+        por = col("porosity")
+        ci = [abs(v) for v in col("charge_imbalance")]
+        fdr = [abs(v) for v in col("flux_divergence_residual")]
+
+        ink, teal, amber, slate, rust = "#1e293b", "#0d9488", "#d97706", "#64748b", "#b91c1c"
         fig = make_subplots(
-            rows=2, cols=2, vertical_spacing=0.16, horizontal_spacing=0.1,
-            subplot_titles=("Temperature (°C)", "pH", "Source fluxes (mol/s)", "Porosity"),
+            rows=2, cols=3, vertical_spacing=0.17, horizontal_spacing=0.09,
+            subplot_titles=(
+                "Temperature (°C)", "pH", "H₂ source flux (mol/s)",
+                "Redox pe", "Porosity", "Conservation residuals (|·|)",
+            ),
         )
         # Temperature + Lost City window 40–91 °C.
         fig.add_hrect(y0=40, y1=91, line_width=0, fillcolor=teal, opacity=0.08, row=1, col=1)
-        fig.add_scatter(x=t, y=temp_c, mode="lines", line=dict(color=amber, width=2.5),
-                        name="T (°C)", row=1, col=1)
-        # pH + window 9.0–10.8.
+        fig.add_scatter(x=t, y=temp_c, mode="lines", line=dict(color=amber, width=2.5), row=1, col=1)
+        # pH + field window 9.0–10.8 (real equilibrium sits below — the open gap).
         fig.add_hrect(y0=9.0, y1=10.8, line_width=0, fillcolor=teal, opacity=0.08, row=1, col=2)
-        fig.add_scatter(x=t, y=ph, mode="lines", line=dict(color=teal, width=2.5),
-                        name="pH", row=1, col=2)
-        # Fluxes.
-        fig.add_scatter(x=t, y=h2f, mode="lines", line=dict(color=ink, width=2),
-                        name="H₂ flux", row=2, col=1)
-        fig.add_scatter(x=t, y=alkf, mode="lines", line=dict(color=slate, width=2, dash="dot"),
-                        name="alkalinity flux", row=2, col=1)
+        fig.add_scatter(x=t, y=ph, mode="lines", line=dict(color=teal, width=2.5), row=1, col=2)
+        # H2 flux (reducing power).
+        fig.add_scatter(x=t, y=h2f, mode="lines", line=dict(color=ink, width=2), row=1, col=3)
+        # Redox pe (reducing < 0).
+        fig.add_hline(y=0.0, line=dict(color=slate, width=1, dash="dot"), row=2, col=1)
+        fig.add_scatter(x=t, y=pe, mode="lines", line=dict(color=rust, width=2), row=2, col=1)
         # Porosity.
-        fig.add_scatter(x=t, y=por, mode="lines", line=dict(color=slate, width=2.5),
-                        name="porosity", row=2, col=2)
+        fig.add_scatter(x=t, y=por, mode="lines", line=dict(color=slate, width=2.5), row=2, col=2)
+        # Conservation witnesses (log — both hug machine epsilon / zero).
+        fig.add_scatter(x=t, y=[max(v, 1e-18) for v in ci], mode="lines",
+                        line=dict(color=ink, width=2), name="|charge imbalance|", row=2, col=3)
+        fig.add_scatter(x=t, y=[max(v, 1e-18) for v in fdr], mode="lines",
+                        line=dict(color=teal, width=2, dash="dot"), name="|flux div. residual|", row=2, col=3)
 
         fig.update_xaxes(title_text="time", showgrid=True, gridcolor="#eef2f7")
         fig.update_yaxes(showgrid=True, gridcolor="#eef2f7")
+        fig.update_yaxes(type="log", row=2, col=3)
         fig.update_layout(
-            title=dict(text=self.config.get("title") or "Campaign 0 — vent reactor baseline",
+            title=dict(text=self.config.get("title") or "Campaign 0 — real vent reactor",
                        font=dict(size=16, color=ink)),
-            template="plotly_white", height=560, showlegend=False,
-            margin=dict(l=60, r=30, t=70, b=50), font=dict(color=ink),
+            template="plotly_white", height=620, showlegend=True,
+            legend=dict(orientation="h", y=-0.08, x=0.66, font=dict(size=10)),
+            margin=dict(l=60, r=30, t=70, b=60), font=dict(color=ink),
         )
         return fig.to_html(full_html=True, include_plotlyjs="cdn", config={"displayModeBar": False})

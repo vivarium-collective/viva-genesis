@@ -20,11 +20,16 @@ Planned process contracts (not yet implemented):
 Contracts must declare units and conservation predicates (mass/elements for
 C,H,O,N,P,S,Fe,Ni; charge; energy) per ``workspace/notes/architecture.md``.
 
-Campaign 0 ships ``SerpentinizationReproductionProcess`` (Module A, reduced
-reproduction); it is re-exported here so ``build_core()``'s non-recursive package
-walk registers it.
+Campaign 0 ships Module A as a **real PHREEQC bridge**
+(``PhreeqcSerpentinizationProcess`` — genuine IPhreeqc speciation + mineral
+equilibrium via ``phreeqpython`` + the vendored ``data/llnl.dat``) plus the
+original ``SerpentinizationReproductionProcess`` (a tuned Gaussian source) kept
+as a runs-anywhere fallback for environments without ``phreeqpython`` installed.
+Both are re-exported here so ``build_core()``'s non-recursive package walk
+registers them.
 """
 
+from .phreeqc_serpentinization import PhreeqcSerpentinizationProcess  # noqa: E402,F401
 from .serpentinization import SerpentinizationReproductionProcess  # noqa: E402,F401
 
-__all__ = ["SerpentinizationReproductionProcess"]
+__all__ = ["PhreeqcSerpentinizationProcess", "SerpentinizationReproductionProcess"]
