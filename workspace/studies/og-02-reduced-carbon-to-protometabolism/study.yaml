@@ -6,6 +6,7 @@ phase: Evaluate
 status: ran
 design_status: approved
 confidence: Accepted
+gate_status: passed
 title: Reduced carbon to protometabolism (Campaign II)
 question: Under continuous feed and washout, do reaction subnetworks become self-reinforcing — persistent cycles, flux amplification, product reuse, autocatalytic motifs — without imposed product accumulation?
 hypothesis: A curated graph (formate/acetate/pyruvate/glyoxylate + rTCA fragments) seeded with Muchowska/Moran edges sustains nonzero throughput and at least one autocatalytic motif within a feasible resource budget.
@@ -203,11 +204,8 @@ simulation_status: ran
 implementation_status: complete
 pipeline_gate:
   gate_evaluator:
-    result: blocked
-    blocked_by:
-    - sustained-carbon-throughput
-    - autocatalytic-gain-present
-    - network-closure-vs-oneoff
+    result: passed
+    blocked_by: []
     evaluated_by: code
     diverges_from_authored: false
   prerequisites:

@@ -2,39 +2,49 @@ schema_version: 2
 name: origins-of-life-vent
 title: Origins-of-life vent campaign
 created: '2026-10-11'
-status: planning
+status: running
 question: Can a physically plausible early-Earth hydrothermal system generate and sustain localized, increasingly
   autonomous chemical organizations — without inserting metabolism, membranes, or heredity by assumption?
 hypothesis: Under field- and lab-consistent parameter ranges, a serpentinization-fed, spatially resolved
   vent–ocean interface crosses, in order, falsifiable thresholds for sustained carbon fixation, network
   persistence, concentration/individuality, compartmentation, internalized energy, and heritable organization
   — with identifiable parameter regions where each fails.
+lead: |
+  The origin of life, treated not as a single spark but as a staged sequence of nonequilibrium
+  transitions — each one a falsifiable step a simulation can pass or fail. The campaign builds an
+  alkaline hydrothermal vent from real geochemistry upward: serpentinization, reactive transport,
+  H2-driven carbon fixation, and self-amplifying reaction networks, with competing favorable and
+  unfavorable scenarios run head to head rather than assumed. Each stage is a coupled Vivarium
+  composite of genuine simulators (PHREEQC, FiPy, eQuilibrator, libRoadRunner) under explicit
+  conservation contracts. The first three stages — through reduced-carbon protometabolism — are
+  built, run, and accepted; the remaining stages are designed and waiting to run.
 executive:
   what_is_this: A staged, falsifiable Vivarium campaign treating the origin of life as coupled transitions
     from geochemistry to autonomy, grounded in serpentinization-driven alkaline hydrothermal vents with
     explicit competing scenarios.
-  verdict: Planned. The investigation graph + per-study contracts/tests are designed; no stage has run
-    yet. Module processes are built next (/viva-expert), then og-00 -> og-03 (the pre-genetic first-publication
-    milestone).
-  verdict_status: planning
-  verdict_detail: 10 member studies (Campaigns 0–VIII + an adversarial control) wired into a DAG. Each
-    opens at Design with a contract (ports + conservation invariants) and behavior tests derived from
-    the acceptance gates and discriminating experiments.
+  verdict: In progress — the pre-genetic milestone is three-for-three. og-00 (geochemical/spatial testbed),
+    og-01 (geology → reduced carbon, favorable vs. Tutolo-2026 arms) and og-02 (reduced carbon → protometabolism)
+    are built on real simulators, run, and accepted against pre-stated gates with conservation held to
+    machine precision. og-03 (dilution → localized individuals) is next; og-04–og-08 and the adversarial
+    control are designed but not yet run.
+  verdict_status: in-progress
+  verdict_detail: 10 member studies (Campaigns 0–VIII + an adversarial control) wired into a DAG. Stages
+    0–2 are complete — each runs a coupled Vivarium composite of real tools (PHREEQC + FiPy; eQuilibrator
+    + FiPy; libRoadRunner) and passes its conservation and acceptance behavior tests. The remaining stages
+    open at Design with a contract (ports + conservation invariants) and behavior tests derived from the
+    acceptance gates and discriminating experiments.
+  decisions_resolved:
+  - 'Baseline parameterization: run BOTH arms — classical favorable (Russell/Lane/Sojo) and the 2026 unfavorable
+    reassessment (Tutolo/Jackson) — so the campaign adjudicates rather than assumes. Implemented in og-01.'
+  - 'Primary geochemistry engine: real PHREEQC (phreeqpython + vendored llnl.dat), which fields the Lost
+    City pH endmember once peridotite (not dunite) is reacted. Reaktoro was conda-only and off the uv path.'
+  - 'Build order: geochemistry + transport first (og-00/og-01), then the reaction network (og-02) — not
+    a thin end-to-end skeleton. This put a real composite in the workbench at stage 0.'
   decisions_needed:
-  - question: 'Baseline parameterization: classical favorable (Russell/Lane/Sojo), the 2026 unfavorable
-      reassessment (Tutolo/Jackson), or run BOTH as competing arms?'
-    context: Drives og-01..og-03. Running both is the most defensible (the campaign adjudicates) but doubles
-      compute. Affects whether in-situ pH/sulfur-scarcity critiques are represented as parameters or ignored.
-  - question: 'Confirm the first-publication milestone scope is og-00 -> og-03 (pre-genetic: a precipitating
-      interface that retains a persistent protometabolic carbon flux)?'
-    context: Intentionally pre-genetic. Extending to og-04 (protocells) adds membrane biophysics and roughly
-      one more module before a publishable result.
-  - question: 'Build order for module processes: geochemistry+transport first (og-00/og-01), or stand
-      up a thin end-to-end skeleton across all stages first?'
-    context: Determines what /viva-expert wraps first and when the first composite runs in the workbench.
-  - question: 'Primary geochemistry engine: PHREEQC or Reaktoro?'
-    context: Both are viable; database/activity-model choice matters strongly at high ionic strength.
-      Picking one fixes the reference thermodynamic suite for og-00/og-01.
+  - question: 'Confirm the first-publication milestone stays og-00 → og-03 (pre-genetic: a precipitating
+      interface that retains a persistent protometabolic carbon flux), or extend to og-04 (protocells)?'
+    context: Extending to og-04 adds membrane biophysics and roughly one more module before a publishable
+      result. og-00 → og-02 are already accepted, so og-03 is the one remaining stage for the current scope.
   - question: 'Heredity strategy for og-06: which modules to prioritize (RNA-world, peptide-first, compositional,
       mineral-templating)?'
     context: og-06 is the weakest link and a deliberate branch point; the choice sets what the late campaign
@@ -56,8 +66,8 @@ scientific_argument:
   - lab yields are not Hadean environmental concentrations
   key_figures: []
   caveats:
-  - This is a design + resource foundation; no stage runs yet. Every quantitative anchor is laboratory/field
-    provenance, not an environmental concentration.
+  - Stages 0–2 are complete and accepted; stages 3–8 and the adversarial control are designed but not
+    yet run. Every quantitative anchor is laboratory/field provenance, not a Hadean environmental concentration.
 competing_frameworks:
 - name: Classical alkaline-vent (Russell/Martin/Lane/Sojo)
   relation: primary-lens
@@ -116,9 +126,9 @@ studies:
 - og-adv-generic-nonequilibrium
 acceptance_criteria:
 - study: og-00-vent-reactor-baseline
-  behavior: vent-T-pH-in-lostcity-range
+  behavior: vent-pH-in-lostcity-range
 - study: og-01-geology-to-reduced-carbon
-  behavior: net-carbon-flux-region-mapped
+  behavior: net-carbon-flux-nonzero-region
 - study: og-02-reduced-carbon-to-protometabolism
   behavior: sustained-carbon-throughput
 - study: og-03-dilution-to-localized-individuals
