@@ -15,7 +15,7 @@ GEN_ID = "viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation"
 def test_processes_and_viz_registered():
     reg = build_core().link_registry
     for name in ("PhGradientNernstPlanckProcess", "EquilibratorThermoStep",
-                 "CarbonFixationProcess", "CarbonFixationViz"):
+                 "CarbonFixationProcess", "ProtonBudgetProcess", "CarbonFixationViz"):
         assert name in reg, name
 
 
@@ -97,3 +97,39 @@ def test_favorable_composite_reproduces_benchmarks():
     # real ΔG' logged (energy_directionality) + FVM conservation.
     assert last["dg_formate"] < 0.0
     assert abs(last["flux_divergence_residual"]) <= 1e-2
+
+
+# --- chemiosmotic coupling: conserved proton budget + back-pressure -------
+
+def test_chemiosmotic_backpressure_loads_and_recovers():
+    """Carbon fixation SPENDS the gradient: the loaded pmf sags below open-circuit
+    under fixation load (respiratory-control back-pressure), the proton draw tracks
+    protons_per_carbon x carbon_flux, and the gradient recovers as products saturate
+    — without the feedback starving fixation to zero."""
+    pytest.importorskip("fipy")
+    pytest.importorskip("equilibrator_api")
+    from viva_genesis.composites.carbon_fixation import hydrothermal_carbon_fixation
+    core = build_core()
+    sim = Composite({"state": hydrothermal_carbon_fixation(core=core)}, core=core)
+    for _ in range(120):
+        sim.run(1)
+    rows = gather_emitter_results(sim)[("emitter",)]
+
+    def c(k):
+        return [r.get(k) for r in rows if k in r]
+
+    po, pl, ch, dr, fx = c("pmf_open"), c("pmf"), c("charge_state"), c("proton_draw"), c("net_carbon_flux")
+    assert po and pl and ch and dr and fx
+    # open-circuit stays the favorable ~427 mV; loaded dips meaningfully below it.
+    assert max(po) > 0.4
+    assert min(ch) < 0.85                      # reservoir drawn down under load
+    assert min(pl) < 0.85 * max(po)            # loaded pmf sags (back-pressure)
+    # the loop does not deadlock: real carbon is fixed while loaded.
+    assert max(fx) > 1e-4
+    # gradient recovers toward open-circuit once products saturate + load lifts.
+    assert ch[-1] > min(ch) + 0.1
+    # draw is the stoichiometric proton cost of fixation: integrated over the run
+    # (lag-insensitive), total protons spent ≈ protons_per_carbon (~2) × carbon fixed.
+    total_draw, total_flux = sum(dr), sum(fx)
+    assert total_flux > 0
+    assert 1.7 < total_draw / total_flux < 2.3

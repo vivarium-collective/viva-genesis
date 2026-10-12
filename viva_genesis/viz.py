@@ -551,13 +551,16 @@ class ProtonGradientProfile(Visualization):
         def col(k):
             return [r.get(k) for r in rows if k in r]
 
-        # static: settled proton profile (across barrier) + products over time
-        stat = make_subplots(rows=1, cols=2, horizontal_spacing=0.13,
+        # static: settled proton profile + products + the chemiosmotic back-pressure
+        # (open-circuit vs loaded pmf — the gap is the proton-motive force SPENT
+        # fixing carbon, the stoichiometric proton budget drawing the gradient down).
+        stat = make_subplots(rows=1, cols=3, horizontal_spacing=0.085,
             subplot_titles=("Settled pH profile across the barrier",
-                            "Reduced-carbon products (M)"))
+                            "Reduced-carbon products (M)",
+                            "Chemiosmotic back-pressure"))
         stat.add_hrect(y0=9.0, y1=11.0, line_width=0, fillcolor=teal, opacity=0.06, row=1, col=1)
         stat.add_scatter(x=x, y=last["pH"], mode="lines", line=dict(color=teal, width=3),
-                         name="pH", row=1, col=1)
+                         name="pH", row=1, col=1, showlegend=False)
         stat.add_annotation(x=x[0], y=last["pH"][0], text="◀ ocean (acidic)", showarrow=False,
                             font=dict(size=10, color="#2563eb"), xanchor="left", row=1, col=1)
         stat.add_annotation(x=x[-1], y=last["pH"][-1], text="vent (alkaline) ▶", showarrow=False,
@@ -567,18 +570,34 @@ class ProtonGradientProfile(Visualization):
             if y:
                 stat.add_scatter(x=t, y=y, mode="lines", line=dict(color=c, width=2.5),
                                  name=k, row=1, col=2)
+        # back-pressure: open-circuit (what the gradient could give) vs loaded
+        # (what fixation actually sees); shade the gap = pmf spent on carbon fixation.
+        pmf_open = col("pmf_open"); pmf_load = col("pmf")
+        if pmf_open and pmf_load:
+            po_mv = [v * 1000.0 for v in pmf_open]; pl_mv = [v * 1000.0 for v in pmf_load]
+            stat.add_scatter(x=t, y=po_mv, mode="lines", name="pmf open-circuit",
+                             line=dict(color="#94a3b8", width=2, dash="dash"), row=1, col=3)
+            stat.add_scatter(x=t, y=pl_mv, mode="lines", name="pmf loaded (fixation sees)",
+                             line=dict(color="#7c3aed", width=2.6), fill="tonexty",
+                             fillcolor="rgba(124,58,237,0.13)", row=1, col=3)
+            imin = min(range(len(pl_mv)), key=lambda i: pl_mv[i])
+            stat.add_annotation(x=t[imin], y=0.5 * (po_mv[imin] + pl_mv[imin]),
+                                text="pmf spent<br>fixing carbon", showarrow=True, arrowhead=2,
+                                ax=32, ay=0, font=dict(size=9, color="#7c3aed"), row=1, col=3)
         stat.update_xaxes(title_text="across the barrier (cm)", row=1, col=1, showgrid=False)
         stat.update_xaxes(title_text="time (s)", row=1, col=2, showgrid=True, gridcolor="#eef2f7")
+        stat.update_xaxes(title_text="time (s)", row=1, col=3, showgrid=True, gridcolor="#eef2f7")
         stat.update_yaxes(title_text="pH", row=1, col=1, showgrid=True, gridcolor="#eef2f7")
         stat.update_yaxes(title_text="concentration (M, log)", type="log", row=1, col=2,
                           showgrid=True, gridcolor="#eef2f7")
-        pmf = col("pmf")
-        pmf_mv = (pmf[-1] * 1000.0) if pmf else 0.0
+        stat.update_yaxes(title_text="pmf (mV)", row=1, col=3, showgrid=True, gridcolor="#eef2f7")
+        pmf_o = (pmf_open[-1] * 1000.0) if pmf_open else 0.0
+        pmf_sag = (min(pmf_load) * 1000.0) if pmf_load else 0.0
         stat.update_layout(
-            template="plotly_white", height=420, width=880, showlegend=True,
-            legend=dict(orientation="h", y=-0.18, x=0.62, font=dict(size=10)),
+            template="plotly_white", height=430, width=1180, showlegend=True,
+            legend=dict(orientation="h", y=-0.17, x=0.5, xanchor="center", font=dict(size=10)),
             title=dict(text=(self.config.get("title") or "Proton gradient → reduced carbon") +
-                       f"   ·   pmf {pmf_mv:.0f} mV",
+                       f"   ·   pmf open {pmf_o:.0f} mV, sags to {pmf_sag:.0f} mV under load",
                        font=dict(size=14, color=ink), x=0.5, xanchor="center"),
             margin=dict(l=55, r=20, t=80, b=70), font=dict(color=ink))
 

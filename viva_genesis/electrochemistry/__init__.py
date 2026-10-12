@@ -25,5 +25,6 @@ Placeholder package: no Process/Step classes yet.
 """
 
 from .ph_gradient import PhGradientNernstPlanckProcess  # noqa: E402,F401
+from .proton_budget import ProtonBudgetProcess  # noqa: E402,F401
 
-__all__ = ["PhGradientNernstPlanckProcess"]
+__all__ = ["PhGradientNernstPlanckProcess", "ProtonBudgetProcess"]

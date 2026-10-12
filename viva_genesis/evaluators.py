@@ -114,6 +114,17 @@ def _max_abs_electro_flux_residual(reader, test: dict, ws_root: Any) -> float:
     return max(abs(v) for v in _values(reader, "flux_divergence_residual"))
 
 
+def _pmf_backpressure_sag_frac(reader, test: dict, ws_root: Any) -> float:
+    """Peak drawdown of the proton reservoir under fixation load — the chemiosmotic
+    back-pressure depth (loaded pmf = open-circuit pmf × charge_state, so this is
+    also the fractional pmf sag). >0 proves carbon fixation SPENDS the gradient (the
+    stoichiometric proton budget draws it down); ~0 would mean the gradient merely
+    correlates with fixation rather than powering it. Measured from charge_state
+    (initialized to 1.0), so it is immune to the first-tick pmf-init transient."""
+    charge = _values(reader, "charge_state")
+    return max(0.0, 1.0 - min(charge)) if charge else 0.0
+
+
 # --- og-02 (reduced carbon -> protometabolism) readouts ------------------
 
 def _settled_net_carbon_flux(reader, test: dict, ws_root: Any) -> float:
@@ -146,6 +157,7 @@ def register_derived_scalars(registry: dict) -> None:
     registry["peak_net_carbon_flux"] = _peak_net_carbon_flux
     registry["free_energy_logged_fraction"] = _free_energy_logged_fraction
     registry["max_abs_electro_flux_residual"] = _max_abs_electro_flux_residual
+    registry["pmf_backpressure_sag_frac"] = _pmf_backpressure_sag_frac
     # og-02
     registry["settled_net_carbon_flux"] = _settled_net_carbon_flux
     registry["peak_autocatalytic_gain"] = _peak_autocatalytic_gain
