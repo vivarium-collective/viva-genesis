@@ -263,6 +263,7 @@ behavior_tests:
     runs the three controls and checks formate collapses in each (Hudson 2020).
   measure: {kind: cross_run, detail: favorable formate vs no-gradient / no-H2 / no-catalyst}
   pass_if: {op: controls_absent, detail: formate present with gradient, <1 mM in every control: null}
+  units: mM
   requires_simulation: 'yes'
   cites: [hudson2020co2]
   gate_class: acceptance_criterion
@@ -274,6 +275,7 @@ behavior_tests:
     Tutolo arms and flags the pmf collapse.
   measure: {kind: cross_run, detail: favorable pmf vs Tutolo-2026 pmf}
   pass_if: {op: arms_reported, detail: report both arms; flag if the Tutolo pmf collapses}
+  units: mV
   requires_simulation: 'yes'
   cites: [tutolo2026rethinking, jackson2016natural]
   gate_class: acceptance_criterion
