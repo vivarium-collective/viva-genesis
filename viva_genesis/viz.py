@@ -570,7 +570,8 @@ class ProtonGradientProfile(Visualization):
         stat.update_xaxes(title_text="across the barrier (cm)", row=1, col=1, showgrid=False)
         stat.update_xaxes(title_text="time", row=1, col=2, showgrid=True, gridcolor="#eef2f7")
         stat.update_yaxes(title_text="pH", row=1, col=1, showgrid=True, gridcolor="#eef2f7")
-        stat.update_yaxes(title_text="concentration (M)", row=1, col=2, showgrid=True, gridcolor="#eef2f7")
+        stat.update_yaxes(title_text="concentration (M, log)", type="log", row=1, col=2,
+                          showgrid=True, gridcolor="#eef2f7")
         pmf = col("pmf")
         pmf_mv = (pmf[-1] * 1000.0) if pmf else 0.0
         stat.update_layout(
@@ -581,30 +582,34 @@ class ProtonGradientProfile(Visualization):
                        font=dict(size=14, color=ink), x=0.5, xanchor="center"),
             margin=dict(l=55, r=20, t=80, b=70), font=dict(color=ink))
 
-        # motion: the reduced-carbon products ACCUMULATING over the run (the
-        # proton profile is a steady solve — nothing to animate there — but the
-        # products genuinely build). Normalise each to its own final value so all
-        # three (formate ~0.2 M down to pyruvate ~1e-5 M) are visible growing.
+        # motion: the reduced-carbon products ACCUMULATING over the run, as the
+        # REAL concentrations on a log axis (formate ~0.2 M is 20,000x pyruvate's
+        # ~1e-5 M — the hierarchy IS the point). The lines reveal over time so you
+        # watch formate shoot up first, then the slower trace products.
         fo, ac, py = col("formate"), col("acetate"), col("pyruvate")
-        nmax = [max(fo or [0]) or 1e-30, max(ac or [0]) or 1e-30, max(py or [0]) or 1e-30]
         npts = min(len(fo), len(ac), len(py))
+        tt = t[:npts]
+        series = [("formate", fo, teal), ("acetate", ac, amber), ("pyruvate", py, rust)]
         fstep = max(1, npts // int(self.config["max_frames"]))
-        idxs = list(range(0, npts, fstep)) + ([npts - 1] if npts else [])
-        cats = ["formate<br>→ %.2g M" % nmax[0], "acetate<br>→ %.2g M" % nmax[1],
-                "pyruvate<br>→ %.2g M" % nmax[2]]
-        cols = [teal, amber, rust]
-        def _frac(k):
-            return [fo[k] / nmax[0], ac[k] / nmax[1], py[k] / nmax[2]]
+        idxs = [k for k in range(2, npts, fstep)] + ([npts - 1] if npts > 2 else [])
+        def _rev(k):
+            return [go.Scatter(x=tt[:k + 1], y=[max(v, 1e-9) for v in s[:k + 1]],
+                               mode="lines", line=dict(color=c, width=2.6), name=nm)
+                    for nm, s, c in series]
+        yhi = max([max(fo or [1e-9]), max(ac or [1e-9]), max(py or [1e-9]), 1e-9])
+        import math as _m
         anim = go.Figure(
-            data=[go.Bar(x=cats, y=_frac(idxs[0]) if idxs else [0, 0, 0],
-                         marker_color=cols)],
-            frames=[go.Frame(data=[go.Bar(x=cats, y=_frac(k), marker_color=cols)], name=str(j))
-                    for j, k in enumerate(idxs)])
-        anim.update_yaxes(title_text="fraction of final yield", range=[0, 1.08],
+            data=_rev(idxs[0]) if idxs else _rev(0),
+            frames=[go.Frame(data=_rev(k), name=str(j)) for j, k in enumerate(idxs)])
+        anim.update_xaxes(title_text="time", range=[0, tt[-1] if tt else 1],
+                          showgrid=True, gridcolor="#eef2f7")
+        anim.update_yaxes(type="log", title_text="concentration (M)",
+                          range=[-6, _m.ceil(_m.log10(yhi) + 0.3)],
                           showgrid=True, gridcolor="#eef2f7")
         anim.update_layout(
-            template="plotly_white", height=360, width=560, bargap=0.45,
-            title=dict(text="the products accumulating (real eQuilibrator-gated kinetics)",
+            template="plotly_white", height=360, width=620, showlegend=True,
+            legend=dict(orientation="h", y=-0.22, x=0.5, xanchor="center", font=dict(size=10)),
+            title=dict(text="products forming over time (real concentrations, log scale)",
                        x=0.5, xanchor="center", y=0.97, font=dict(size=13, color=ink)),
             margin=dict(l=55, r=20, t=80, b=60), font=dict(color=ink),
             updatemenus=[dict(type="buttons", direction="left", x=0.0, y=1.14, xanchor="left",
