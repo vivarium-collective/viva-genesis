@@ -18,6 +18,9 @@ dependencies = [
     # fipy is the finite-volume PDE solver for the spatial vent reactor.
     "phreeqpython>=1.6",
     "fipy>=4.0",
+    # Campaign-I (og-01) real reaction thermodynamics: eQuilibrator component-
+    # contribution ΔG' (bundled offline cache via equilibrator-cache-data).
+    "equilibrator-api>=0.6",
     # Web-based workspace dashboard (server + templates + assets + lib helpers).
     # Extracted from viva-template as of v0.4.16; provides the `vivarium-workbench
     # serve` CLI invoked by scripts/serve.sh.

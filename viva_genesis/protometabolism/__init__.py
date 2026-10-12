@@ -25,3 +25,8 @@ selectivity. Do NOT substitute steady-state FBA for origins-stage chemistry.
 
 Placeholder package: no Process/Step classes yet.
 """
+
+from .thermo import EquilibratorThermoStep  # noqa: E402,F401
+from .carbon_fixation import CarbonFixationProcess  # noqa: E402,F401
+
+__all__ = ["EquilibratorThermoStep", "CarbonFixationProcess"]

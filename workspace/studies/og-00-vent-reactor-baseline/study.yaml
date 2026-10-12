@@ -3,7 +3,7 @@ name: og-00-vent-reactor-baseline
 investigation: origins-of-life-vent
 created: '2026-10-11'
 phase: Design
-status: planned
+status: ran
 design_status: drafted
 confidence: Planned
 title: Vent reactor baseline (Campaign 0)
@@ -188,13 +188,13 @@ expert_questions:
 - Reproduce Lost City (modern analog) and parameterize Hadean ocean separately, or attempt a Hadean-only baseline first?
 - 'pH endmember (RESOLVED): reacting peridotite (olivine + diopside pyroxene) with the serpentinite+tremolite assemblage drives the Mg-depleted Ca-OH fluid to field pH ~9.2-9.5 at vent T. Open follow-up: sensitivity to pyroxene_fraction (ol/px ratio) and to seawater-mixing dilution of the endmember.'
 kind: baseline
-simulation_status: implemented
-implementation_status: implemented
+simulation_status: ran
+implementation_status: complete
 # Study runs persist an isolated per-run ParquetEmitter store (the generator
 # declares it) so the behavior-test evaluator resolves a RunReader and auto-grades
 # — default sqlite runs.db concatenates runs and records no store path.
 runtime:
-  default_emitter: parquet
+  default_emitter: sqlite
   default_n_steps: 120
 visualizations:
 - name: vent-reactor-timeseries

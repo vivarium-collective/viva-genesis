@@ -22,7 +22,9 @@ generators (so the workbench discovers them even under an editable install that
 # Side-effect imports: fire the @composite_generator decorators + make the
 # Process/Step classes importable so the workspace package alone registers the
 # campaign (the hatchling editable install is invisible to packages_distributions).
-from . import geochemistry  # noqa: E402,F401
-from . import transport     # noqa: E402,F401
-from . import viz           # noqa: E402,F401
-from . import composites    # noqa: E402,F401
+from . import geochemistry      # noqa: E402,F401
+from . import transport         # noqa: E402,F401
+from . import electrochemistry  # noqa: E402,F401
+from . import protometabolism   # noqa: E402,F401
+from . import viz               # noqa: E402,F401
+from . import composites        # noqa: E402,F401

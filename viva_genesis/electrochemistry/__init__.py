@@ -23,3 +23,7 @@ laboratory pH as a constant environmental state.
 
 Placeholder package: no Process/Step classes yet.
 """
+
+from .ph_gradient import PhGradientNernstPlanckProcess  # noqa: E402,F401
+
+__all__ = ["PhGradientNernstPlanckProcess"]

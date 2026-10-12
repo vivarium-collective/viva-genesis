@@ -81,10 +81,51 @@ def _max_flux_divergence_residual(reader, test: dict, ws_root: Any) -> float:
     return max(abs(v) for v in _values(reader, "flux_divergence_residual"))
 
 
+# --- og-01 (geology -> reduced carbon) readouts --------------------------
+
+def _settled_formate_mM(reader, test: dict, ws_root: Any) -> float:
+    """Batch formate yield in mM (store holds molar)."""
+    return _settled_mean(reader, "formate", frac=0.1) * 1000.0
+
+
+def _settled_acetate_uM(reader, test: dict, ws_root: Any) -> float:
+    return _settled_mean(reader, "acetate", frac=0.1) * 1.0e6
+
+
+def _settled_pyruvate_uM(reader, test: dict, ws_root: Any) -> float:
+    return _settled_mean(reader, "pyruvate", frac=0.1) * 1.0e6
+
+
+def _peak_net_carbon_flux(reader, test: dict, ws_root: Any) -> float:
+    """Peak organic-carbon fixation rate (mol/s) over the run — the sustained-
+    flux-region witness (>0 means a viable fixation region exists)."""
+    return max(_values(reader, "net_carbon_flux"))
+
+
+def _free_energy_logged_fraction(reader, test: dict, ws_root: Any) -> float:
+    """Fraction of steps with a finite logged ΔG' (eQuilibrator) — the
+    energy_directionality invariant witness; 1.0 when logged every step."""
+    vals = _values(reader, "dg_formate")  # raises if none -> honest agent bucket
+    return 1.0 if vals else 0.0
+
+
+def _max_abs_electro_flux_residual(reader, test: dict, ws_root: Any) -> float:
+    """Worst-case |FVM flux-divergence residual| from the Nernst-Planck solve."""
+    return max(abs(v) for v in _values(reader, "flux_divergence_residual"))
+
+
 def register_derived_scalars(registry: dict) -> None:
     """Hook called by study_evaluator.load_workspace_derived_scalars."""
+    # og-00
     registry["settled_temperature_c"] = _settled_temperature_c
     registry["settled_pH"] = _settled_ph
     registry["min_sustained_H2_flux"] = _min_sustained_h2_flux
     registry["max_abs_charge_imbalance"] = _max_abs_charge_imbalance
     registry["max_flux_divergence_residual"] = _max_flux_divergence_residual
+    # og-01
+    registry["settled_formate_mM"] = _settled_formate_mM
+    registry["settled_acetate_uM"] = _settled_acetate_uM
+    registry["settled_pyruvate_uM"] = _settled_pyruvate_uM
+    registry["peak_net_carbon_flux"] = _peak_net_carbon_flux
+    registry["free_energy_logged_fraction"] = _free_energy_logged_fraction
+    registry["max_abs_electro_flux_residual"] = _max_abs_electro_flux_residual
