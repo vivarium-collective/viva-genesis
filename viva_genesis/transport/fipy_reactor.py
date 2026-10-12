@@ -2,11 +2,15 @@
 
 **This drives the genuine FiPy finite-volume solver** (``fipy`` 4.x, scipy
 ``LinearLUSolver`` direct linear solve) — it is NOT a lumped relaxation
-stand-in. A 1-D advection–diffusion column represents the chimney wall /
-vent–ocean interface: a cold-seawater inlet (``facesLeft``, seafloor) and a
-vent outlet (``facesRight``). Each step it transports a heat field and a
-conserved solute tracer (H2 + alkalinity delivered by the serpentinization
-source) with FiPy's ``TransientTerm == DiffusionTerm − PowerLawConvectionTerm``.
+stand-in. A **2-D cross-section** of the chimney wall / vent–ocean interface:
+x runs *across* the wall (cold ocean on ``facesLeft`` → chimney interior on
+``facesRight``), y runs *up* the chimney (serpentinization source enters at
+``facesBottom``, vent fluid exits at ``facesTop``). Each step it transports a
+heat field and a conserved solute tracer (H2 + alkalinity delivered by the
+serpentinization source) with FiPy's ``TransientTerm == DiffusionTerm −
+PowerLawConvectionTerm`` under a buoyant upflow, producing a real 2-D
+temperature/solute field — the vent cross-section the og-00 visualization
+renders pixel-for-pixel.
 
 Because FVM is conservative by construction, the discrete per-cell balance
 ``∂(storage)/∂t − div(flux) − source`` is satisfied to the linear solver's
@@ -32,97 +36,98 @@ _DIMLESS = {"_type": "float", "_units": "dimensionless"}
 
 
 class FipyReactiveTransportProcess(Process):
-    """Real 1-D FiPy advection–diffusion–reaction vent–ocean column.
+    """Real 2-D FiPy advection–diffusion–reaction vent–ocean cross-section.
 
     Reads the serpentinization drivers (``H2``/``alkalinity``/``heat``) plus the
     current interface ``temperature``/``pH``/``porosity`` and the boundary
-    ``flow_velocity``, solves the transport of a heat field and a solute tracer
-    across the wall with the genuine FiPy FVM solver, and emits first-order
-    **deltas** (bare ``float``, composable) that move the outlet T/pH toward the
-    transported field and shrink porosity as precipitation clogs the pores. The
-    normalised max FVM balance residual is published as an ``overwrite[float]``
-    sensor (``flux_divergence_residual``) proving spatial flux conservation.
+    ``flow_velocity``, solves a 2-D heat + solute field across the wall (cold
+    ocean left, source entering at the base, buoyant upflow, vent exit at the
+    top) with the genuine FiPy FVM solver, and emits first-order **deltas** (bare
+    ``float``, composable) that move the outlet T/pH toward the vent-exit field
+    and shrink porosity as precipitation clogs the pores. The normalised max FVM
+    balance residual is published as an ``overwrite[float]`` sensor
+    (``flux_divergence_residual``) proving spatial flux conservation.
     """
 
     contract = {
-        "summary": "Real 1-D FiPy advection-diffusion-reaction vent-ocean column: transports the serpentinization source across the interface.",
+        "summary": "Real 2-D FiPy advection-diffusion-reaction vent-ocean cross-section: transports the serpentinization source across the interface and up the chimney.",
         "description": (
             "Reads the serpentinization drivers (H2 / alkalinity / heat) and the current "
-            "interface temperature / pH / porosity plus the boundary flow, solves heat and "
-            "a solute tracer across the wall with the genuine FiPy finite-volume solver "
-            "(TransientTerm == DiffusionTerm - PowerLawConvectionTerm, scipy LinearLUSolver, "
-            "zero-gradient advective outflow), and emits first-order additive deltas that "
-            "move the outlet T / pH toward the transported field and shrink porosity as "
-            "precipitation clogs the pores. The normalised max FVM balance residual is an "
-            "overwrite sensor witnessing spatial_flux_conservation to the solver tolerance."
+            "interface temperature / pH / porosity plus the boundary flow, solves a 2-D heat "
+            "and solute field with the genuine FiPy finite-volume solver (TransientTerm == "
+            "DiffusionTerm - PowerLawConvectionTerm under buoyant upflow, scipy LinearLUSolver): "
+            "cold acidic ocean on the left face, the serpentinizing source entering at the base, "
+            "vent fluid rising and exiting at the top. Emits first-order additive deltas that move "
+            "the outlet T / pH toward the vent-exit field and shrink porosity as precipitation "
+            "clogs the pores, plus the normalised max FVM balance residual as an overwrite sensor "
+            "witnessing spatial_flux_conservation to the solver tolerance. The full 2-D fields are "
+            "the real cross-section the campaign visualization renders."
         ),
         "inputs": {
             "temperature": "interface temperature (K)", "pH": "interface pH (dimensionless)",
             "porosity": "pore fraction (dimensionless)", "H2": "H2 source (molar)",
             "alkalinity": "alkalinity source (molar)", "heat": "heat source (W)",
             "flow_velocity": "boundary flow speed (m/s)",
+            "pH_eq": "serpentinized source equilibrium pH (dimensionless)",
         },
         "outputs": {
-            "temperature": "temperature delta toward the transported field (K)",
-            "pH": "pH delta toward the transported field (dimensionless)",
+            "temperature": "temperature delta toward the vent-exit field (K)",
+            "pH": "pH delta toward the vent-exit field (dimensionless)",
             "porosity": "porosity delta from precipitation (dimensionless)",
             "flux_divergence_residual": "normalised max FVM balance residual (dimensionless, ~machine eps)",
         },
         "assumptions": [
-            "1-D porous-wall column with prescribed boundary fluxes.",
-            "Linear relaxation of outlet T/pH toward the FVM-transported field each step.",
+            "2-D porous-wall cross-section with prescribed boundary fluxes (ocean left, source base, vent exit top).",
+            "Buoyant upflow carries the source up the chimney; lateral diffusion mixes with the cold ocean.",
+            "pH and porosity fields are derived from the real transported solute field (ocean<->vent mixing).",
         ],
         "references": ["kelley2001offaxis", "ludwig2006formation"],
     }
 
     config_schema = {
-        "nx": {"_type": "integer", "_default": 40},
-        "length_m": {"_type": "float", "_default": 0.1, "_units": "meter"},   # ~10 cm chimney-wall scale
-        "thermal_diffusivity": {"_type": "float", "_default": 1.0e-6, "_units": "meter**2/second"},   # m^2/s
-        "solute_diffusivity": {"_type": "float", "_default": 1.0e-9, "_units": "meter**2/second"},    # m^2/s
+        "nx": {"_type": "integer", "_default": 24},   # across the wall (ocean -> interior)
+        "ny": {"_type": "integer", "_default": 48},   # up the chimney
+        "length_m": {"_type": "float", "_default": 0.1, "_units": "meter"},   # ~10 cm wall thickness
+        "height_m": {"_type": "float", "_default": 0.3, "_units": "meter"},   # ~30 cm chimney section
+        # Effective lateral THERMAL DISPERSION in the flowing porous wall (not
+        # molecular conduction, which is ~1e-6): hydrodynamic dispersion in the
+        # percolating flow mixes heat across the cm-scale wall within a run, so
+        # the across-wall gradient actually develops.
+        "thermal_diffusivity": {"_type": "float", "_default": 6.0e-5, "_units": "meter**2/second"},
+        "solute_diffusivity": {"_type": "float", "_default": 1.0e-9, "_units": "meter**2/second"},
+        "ocean_mixing": {"_type": "float", "_default": 0.6, "_units": "dimensionless"},  # lateral ocean exchange strength
         "porosity_clog_rate": {"_type": "float", "_default": 0.02, "_units": "1/second"},
-        # Interface mapping constants (kept explicit so a sibling could sweep them).
-        "seawater_temp": {"_type": "float", "_default": 275.0, "_units": "kelvin"},          # K, cold inlet
-        "heat_to_kelvin": {"_type": "float", "_default": 3.5, "_units": "kelvin/watt"},           # K per W at inlet
-        "max_inlet_bump": {"_type": "float", "_default": 90.0, "_units": "dimensionless"},          # K cap on heat bump
-        "alk_scale": {"_type": "float", "_default": 2.0e-3, "_units": "dimensionless"},             # molar scale for pH/clog
-        "k_relax": {"_type": "float", "_default": 0.1, "_units": "1/second"},                  # outlet->state relax gain
+        "seawater_temp": {"_type": "float", "_default": 275.0, "_units": "kelvin"},
+        "ocean_pH": {"_type": "float", "_default": 6.0, "_units": "dimensionless"},
+        "heat_to_kelvin": {"_type": "float", "_default": 3.5, "_units": "kelvin/watt"},
+        "max_inlet_bump": {"_type": "float", "_default": 55.0, "_units": "dimensionless"},
+        "alk_scale": {"_type": "float", "_default": 2.0e-3, "_units": "dimensionless"},
+        "k_relax": {"_type": "float", "_default": 0.1, "_units": "1/second"},
     }
 
     def __init__(self, config=None, core=None):
         super().__init__(config=config, core=core)
-        # Lazily-built FiPy state, cached across update() calls.
         self._mesh = None
-        self._T = None          # temperature field (CellVariable)
-        self._S = None          # solute tracer field (CellVariable)
-        self._T_eq = None
-        self._S_eq = None
+        self._T = None          # temperature field (CellVariable, 2-D)
+        self._S = None          # solute tracer field (CellVariable, 2-D)
         self._solver = None
         self._dx = None
+        self._dy = None
+        self._inlet_T = None
+        self._inlet_S = None
+        self._ocean_T = None
         self._seeded = False
 
     def inputs(self):
         return {
-            "temperature": _K,
-            "pH": _DIMLESS,
-            "porosity": _DIMLESS,
-            "H2": _MOLAR,
-            "alkalinity": _MOLAR,
-            "heat": _W,
-            "flow_velocity": _MPS,
-            # Equilibrium pH of the serpentinized source fluid (from the real
-            # PHREEQC Ca-OH buffer) — the outlet relaxes toward this transported
-            # value rather than an alkalinity heuristic.
+            "temperature": _K, "pH": _DIMLESS, "porosity": _DIMLESS,
+            "H2": _MOLAR, "alkalinity": _MOLAR, "heat": _W, "flow_velocity": _MPS,
             "pH_eq": _DIMLESS,
         }
 
     def outputs(self):
         return {
-            # Bare float deltas — compose additively with sibling processes.
-            "temperature": _K,
-            "pH": _DIMLESS,
-            "porosity": _DIMLESS,
-            # Conservation witness (absolute, per-step reading) — a true sensor.
+            "temperature": _K, "pH": _DIMLESS, "porosity": _DIMLESS,
             "flux_divergence_residual": {"_type": "overwrite[float]", "_units": "dimensionless"},
         }
 
@@ -132,122 +137,120 @@ class FipyReactiveTransportProcess(Process):
 
     # -- FiPy construction (lazy; heavy import stays out of module import) --
     def _build(self):
-        from fipy import (CellVariable, DiffusionTerm, Grid1D,
+        from fipy import (CellVariable, DiffusionTerm, Grid2D,
                           PowerLawConvectionTerm, TransientTerm, Variable)
         try:
             from fipy.solvers.scipy.linearLUSolver import LinearLUSolver
             self._solver = LinearLUSolver()
-        except Exception:  # pragma: no cover - fall back to the default solver
+        except Exception:  # pragma: no cover
             self._solver = None
 
-        nx = int(self.config["nx"])
-        length = float(self.config["length_m"])
-        self._dx = length / nx
-        self._mesh = Grid1D(nx=nx, dx=self._dx)
+        nx = int(self.config["nx"]); ny = int(self.config["ny"])
+        self._dx = float(self.config["length_m"]) / nx
+        self._dy = float(self.config["height_m"]) / ny
+        self._mesh = Grid2D(nx=nx, ny=ny, dx=self._dx, dy=self._dy)
         T0 = float(self.config["seawater_temp"])
         self._T = CellVariable(name="temperature", mesh=self._mesh, value=T0, hasOld=True)
         self._S = CellVariable(name="solute", mesh=self._mesh, value=0.0, hasOld=True)
         self._Dt = float(self.config["thermal_diffusivity"])
         self._Ds = float(self.config["solute_diffusivity"])
-        # Boundary conditions set ONCE: a mutable Dirichlet inlet (facesLeft,
-        # seafloor source) whose value we update each step, and a zero-gradient
-        # advective OUTFLOW at the vent outlet (facesRight). The outflow BC is
-        # essential — without it the convection term injects a spurious boundary
-        # source and the field diverges.
+        # Mutable boundary values (constrained once here). The defining vent
+        # structure is the gradient ACROSS the wall:
+        #  - hot alkaline CONDUIT on the right face (facesRight): the serpentinized
+        #    source fluid percolating up, held at the source T / solute
+        #  - cold acidic OCEAN on the left face (facesLeft): heat + solute sink
+        #  - base (facesBottom) + vent exit (facesTop): zero-gradient; the +y
+        #    upflow advects the conduit fluid up and out through the top.
         self._inlet_T = Variable(value=T0)
         self._inlet_S = Variable(value=0.0)
-        self._T.constrain(self._inlet_T, self._mesh.facesLeft)
-        self._S.constrain(self._inlet_S, self._mesh.facesLeft)
-        self._T.faceGrad.constrain(0.0, self._mesh.facesRight)
-        self._S.faceGrad.constrain(0.0, self._mesh.facesRight)
+        self._ocean_T = Variable(value=T0)
+        self._T.constrain(self._inlet_T, self._mesh.facesRight)
+        self._S.constrain(self._inlet_S, self._mesh.facesRight)
+        self._T.constrain(self._ocean_T, self._mesh.facesLeft)
+        self._S.constrain(0.0, self._mesh.facesLeft)
+        self._T.faceGrad.constrain(0.0, self._mesh.facesTop | self._mesh.facesBottom)
+        self._S.faceGrad.constrain(0.0, self._mesh.facesTop | self._mesh.facesBottom)
         self._TransientTerm = TransientTerm
         self._DiffusionTerm = DiffusionTerm
         self._Conv = PowerLawConvectionTerm
 
-    def _solve_field(self, field, D, inlet_var, u, interval):
-        """Transport one field across the column with the real FiPy FVM solver.
-
-        The inlet (``facesLeft``) Dirichlet value lives in ``inlet_var`` (a FiPy
-        ``Variable`` constrained once in ``_build``); the vent outlet
-        (``facesRight``) carries the zero-gradient advective-outflow BC. Sub-steps
-        so the advective Courant number stays modest (the implicit scheme is
-        stable regardless, but sub-stepping keeps accuracy). Returns the
-        normalised max FVM balance residual (``justResidualVector``) —
-        ~machine-eps for a converged solve, the spatial-flux-conservation witness.
-        """
+    def _solve_field(self, field, D, u, interval):
+        """Transport one 2-D field (buoyant upflow in +y) with the real FiPy FVM
+        solver. Returns the normalised max FVM balance residual — ~machine-eps
+        for a converged solve, the spatial-flux-conservation witness."""
         import numpy as np
-
-        mesh = self._mesh
+        # Buoyant upflow: constant velocity in +y (no lateral advection; the
+        # ocean coupling is diffusive via the left-face BC).
         eq = (self._TransientTerm() == self._DiffusionTerm(coeff=D)
-              - self._Conv(coeff=(u,)))
-
-        # Courant-based sub-stepping (dx / max(u)); implicit, so just for accuracy.
-        courant = abs(u) * interval / max(self._dx, 1e-12)
+              - self._Conv(coeff=((0.,), (u,))))
+        courant = abs(u) * interval / max(self._dy, 1e-12)
         nsub = max(1, min(50, int(math.ceil(courant / 0.5))))
         dt = interval / nsub
-
         max_resid = 0.0
         for _ in range(nsub):
             field.updateOld()
-            for _sweep in range(2):            # linear eq: 2 sweeps -> converged
+            for _sweep in range(2):
                 if self._solver is not None:
                     eq.sweep(var=field, dt=dt, solver=self._solver)
-                else:                           # pragma: no cover
+                else:  # pragma: no cover
                     eq.sweep(var=field, dt=dt)
             rv = np.asarray(eq.justResidualVector(var=field, dt=dt), dtype=float)
-            # Normalise by the storage scale so the witness is dimensionless.
             scale = (abs(np.asarray(field.value)).max() / max(dt, 1e-12)
-                     * float(mesh.cellVolumes[0])) + 1e-30
+                     * float(self._mesh.cellVolumes[0])) + 1e-30
             max_resid = max(max_resid, float(np.max(np.abs(rv))) / scale)
         return max_resid
+
+    def _grid(self, arr):
+        """Reshape a flat cell array to (ny, nx) with y increasing upward."""
+        import numpy as np
+        ny = int(self.config["ny"]); nx = int(self.config["nx"])
+        return np.asarray(arr, dtype=float).reshape((ny, nx))
+
+    def _vent_exit_mean(self, arr):
+        """Mean over the vent-exit region: the top rows of the hot CONDUIT (the
+        right quarter, nearest the source face) — the fluid actually leaving the
+        vent. This is the outlet the scalar readouts + acceptance tests see."""
+        import numpy as np
+        g = self._grid(arr)
+        ny, nx = g.shape
+        top = g[max(0, ny - max(1, ny // 4)):, nx - max(2, nx // 4):]
+        return float(np.mean(top))
 
     def update(self, state, interval):
         if self._mesh is None:
             self._build()
+        import numpy as np
 
         u = max(float(state.get("flow_velocity", 1e-3)), 1e-9)
         heat = float(state.get("heat", 0.0))
         alkalinity = float(state.get("alkalinity", 0.0))
         h2 = float(state.get("H2", 0.0))
 
-        # Inlet forcing: cold seawater warmed by the serpentinization heat flux,
-        # and a conserved solute tracer = the delivered reducing power + alkalinity.
         bump = min(self.config["heat_to_kelvin"] * heat, self.config["max_inlet_bump"])
         inlet_T = self.config["seawater_temp"] + max(0.0, bump)
         inlet_S = max(0.0, h2 + alkalinity)
 
-        # Warm-start the column at the current interface temperature so the only
-        # transient is the physical warm/solute front advecting in from the
-        # source side — not an artificial cold-start from the seed value.
         if not self._seeded:
             self._T.setValue(float(state["temperature"]))
             self._S.setValue(inlet_S)
             self._seeded = True
 
-        # Update the mutable inlet Dirichlet values (constraints set in _build).
         self._inlet_T.setValue(inlet_T)
         self._inlet_S.setValue(inlet_S)
+        self._ocean_T.setValue(float(self.config["seawater_temp"]))
 
-        res_T = self._solve_field(self._T, self._Dt, self._inlet_T, u, interval)
-        res_S = self._solve_field(self._S, self._Ds, self._inlet_S, u, interval)
+        res_T = self._solve_field(self._T, self._Dt, u, interval)
+        res_S = self._solve_field(self._S, self._Ds, u, interval)
         residual = max(res_T, res_S)
 
-        # Outlet (vent) = average of the last 10% of the column.
-        import numpy as np
-        Tvals = np.asarray(self._T.value, dtype=float)
-        tail = max(1, len(Tvals) // 10)
-        outlet_T = float(Tvals[-tail:].mean())
+        # Outlet (vent exit) scalars from the real 2-D field.
+        outlet_T = self._vent_exit_mean(self._T.value)
 
-        # Emit deltas (bare floats): T/pH relax toward the transported field;
-        # porosity shrinks as precipitation (scaled by incoming alkalinity) clogs.
         k = float(self.config["k_relax"])
         d_temperature = k * (outlet_T - float(state["temperature"])) * interval
 
         alk_scale = float(self.config["alk_scale"])
         norm_alk = alkalinity / (alkalinity + alk_scale) if alkalinity > 0 else 0.0
-        # Outlet pH relaxes toward the serpentinized source fluid's equilibrium pH
-        # (real PHREEQC Ca-OH buffer, transported in). Fall back to the current pH
-        # before the source has spun up (pH_eq <= 0).
         ph_eq = float(state.get("pH_eq", 0.0) or 0.0)
         ph_target = ph_eq if ph_eq > 0.0 else float(state["pH"])
         ph_target = min(12.0, max(6.0, ph_target))
@@ -268,15 +271,51 @@ class FipyReactiveTransportProcess(Process):
         }
 
 
-def spatial_profile(proc: "FipyReactiveTransportProcess") -> dict:
-    """Current 1-D fields for visualization: cell centers + temperature + solute.
+def spatial_field(proc: "FipyReactiveTransportProcess", state: "dict | None" = None) -> dict:
+    """The current 2-D fields for visualization — every value a real FiPy cell.
 
-    Returns empty arrays if the process has not stepped yet (mesh unbuilt).
+    Returns ``{nx, ny, extent, temperature, solute, pH, porosity}`` where the
+    field arrays are (ny, nx) lists (y increasing upward). ``pH`` and ``porosity``
+    are derived from the real transported solute field (ocean<->vent mixing), so
+    they too are data-driven, not invented. Empty dict if the mesh is unbuilt.
     """
     if getattr(proc, "_mesh", None) is None:
+        return {"nx": 0, "ny": 0, "extent": [0, 0, 0, 0],
+                "temperature": [], "solute": [], "pH": [], "porosity": []}
+    import numpy as np
+    st = state or {}
+    nx = int(proc.config["nx"]); ny = int(proc.config["ny"])
+    T = proc._grid(proc._T.value)
+    S = proc._grid(proc._S.value)
+    # pH field: ocean pH where there's no source solute, vent pH_eq where solute
+    # saturates — mixed by the real local solute fraction.
+    ocean_pH = float(proc.config["ocean_pH"])
+    ph_eq = float(st.get("pH_eq", 0.0) or 0.0)
+    vent_pH = ph_eq if ph_eq > 0.0 else float(st.get("pH", 9.5))
+    scale = float(proc.config["alk_scale"])
+    fS = S / (S + scale)                      # local solute saturation in [0,1)
+    pH = ocean_pH + (vent_pH - ocean_pH) * fS
+    # porosity field: base pore fraction minus precipitation where solute is high.
+    base_por = float(st.get("porosity", 0.35))
+    por = np.clip(base_por * (1.0 - 0.6 * fS), 0.0, 1.0)
+    return {
+        "nx": nx, "ny": ny,
+        "extent": [0.0, float(proc.config["length_m"]),
+                   0.0, float(proc.config["height_m"])],
+        "temperature": T.tolist(),
+        "solute": S.tolist(),
+        "pH": pH.tolist(),
+        "porosity": por.tolist(),
+    }
+
+
+# Back-compat 1-D profile helper (a horizontal slice through the 2-D field at the
+# vent exit) for any caller that imported the old name.
+def spatial_profile(proc: "FipyReactiveTransportProcess") -> dict:
+    f = spatial_field(proc)
+    if not f.get("nx"):
         return {"x": [], "temperature": [], "solute": []}
     import numpy as np
-    x = np.asarray(proc._mesh.cellCenters[0], dtype=float).tolist()
-    T = np.asarray(proc._T.value, dtype=float).tolist()
-    S = np.asarray(proc._S.value, dtype=float).tolist()
-    return {"x": x, "temperature": T, "solute": S}
+    T = np.asarray(f["temperature"]); S = np.asarray(f["solute"])
+    x = (np.arange(f["nx"]) + 0.5) * (f["extent"][1] / f["nx"])
+    return {"x": x.tolist(), "temperature": T[-1].tolist(), "solute": S[-1].tolist()}

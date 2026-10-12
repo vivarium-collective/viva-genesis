@@ -289,6 +289,12 @@ runtime:
   default_emitter: sqlite
   default_n_steps: 120
 visualizations:
+- name: vent-cross-section
+  address: local:VentCrossSection
+  config:
+    composite: viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor
+    n_steps: 60
+    title: Campaign 0 — real 2-D vent cross-section (FiPy)
 - name: vent-reactor-timeseries
   address: local:VentReactorTimeseries
   config:
