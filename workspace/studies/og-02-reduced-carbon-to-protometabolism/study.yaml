@@ -35,6 +35,7 @@ findings:
     cites: [muchowska2017metals, muchowska2019synthesis]
   explanation: The reductive-TCA turn OAA+2CO2->2OAA+acetate doubles its own entry molecule per turn — genuine autocatalysis, not an imposed assumption.
   next_action: Add an acetyl-CoA-pathway parallel arm and test cross-feeding.
+  next_action_type: refine_representation
 - id: og02-network-closure
   kind: computational
   status: confirms
@@ -77,12 +78,12 @@ discovery_implications:
   followup_study_proposals:
   - {study: og-02b, rationale: Add the acetyl-CoA-pathway fragments as a parallel arm and test cross-feeding.}
 readouts:
-- {name: OAA, store_path: net/OAA, units: molar, description: Oxaloacetate (autocatalytic rTCA entry), status: available}
-- {name: acetate, store_path: net/acetate, units: molar, description: Acetate network product, status: available}
-- {name: succinate, store_path: net/succinate, units: molar, description: Succinate (reductive branch), status: available}
-- {name: net_carbon_flux, store_path: flux/net_carbon_flux, units: mole/second, description: Net carbon throughput under feed+washout, status: available}
-- {name: autocatalytic_gain, store_path: flux/autocatalytic_gain, units: dimensionless, description: OAA self-amplification ratio, status: available}
-- {name: network_connected, store_path: flux/network_connected, units: dimensionless, description: networkx connectivity of the reaction graph, status: available}
+- {name: OAA, store_path: net.OAA, units: molar, description: Oxaloacetate (autocatalytic rTCA entry), status: available}
+- {name: acetate, store_path: net.acetate, units: molar, description: Acetate network product, status: available}
+- {name: succinate, store_path: net.succinate, units: molar, description: Succinate (reductive branch), status: available}
+- {name: net_carbon_flux, store_path: flux.net_carbon_flux, units: mole/second, description: Net carbon throughput under feed+washout, status: available}
+- {name: autocatalytic_gain, store_path: flux.autocatalytic_gain, units: dimensionless, description: OAA self-amplification ratio, status: available}
+- {name: network_connected, store_path: flux.network_connected, units: dimensionless, description: networkx connectivity of the reaction graph, status: available}
 proposed_mechanisms:
 - 'E: protometabolic network formation'
 - 'D: surface chemistry'
@@ -141,6 +142,8 @@ behavior_tests:
   pass_if: {op: '>', value: 1.0e-6, detail: net throughput > 0 (no imposed accumulation)}
   units: mole/second
   requires_simulation: 'yes'
+  gate_class: acceptance_criterion
+  band_basis: first_principles
 - name: autocatalytic-gain-present
   classification: primary
   description: At least one reinforcing (autocatalytic) motif emerges (gain >= 1).
@@ -149,6 +152,7 @@ behavior_tests:
   units: dimensionless
   requires_simulation: 'yes'
   cites: [muchowska2017metals, muchowska2019synthesis]
+  gate_class: acceptance_criterion
 - name: network-closure-vs-oneoff
   classification: supporting
   description: Products connect into ONE reaction network, not disconnected one-offs.
@@ -156,6 +160,8 @@ behavior_tests:
   pass_if: {op: '>=', value: 1.0, detail: connected network (not one-offs)}
   units: dimensionless
   requires_simulation: 'yes'
+  gate_class: acceptance_criterion
+  band_basis: first_principles
 literature_anchors:
 - expectation: Fe2+ promotes 9/11 TCA intermediates + 5 universal precursors from pyruvate/glyoxylate
   model_observable: edge yields + network reachability
@@ -185,14 +191,8 @@ visualizations:
     composite: viva_genesis.composites.campaign2.og_02_reduced_carbon_to_protometabolism
     n_steps: 120
     title: Campaign II — protometabolic network (libRoadRunner)
-parent_studies:
-- study: og-01-geology-to-reduced-carbon
-  condition: tests-passed
 key_assumptions:
 - Rate laws/mineral dependencies carry provenance; autocatalysis is an emergent observable, not an assumption.
-parent_relations:
-- study: og-01-geology-to-reduced-carbon
-  relation: leads-to
 claim: >-
   A curated rTCA-fragment network under continuous feed + washout sustains nonzero
   carbon throughput, exhibits an autocatalytic motif (OAA self-amplification,
@@ -210,6 +210,9 @@ pipeline_gate:
     - network-closure-vs-oneoff
     evaluated_by: code
     diverges_from_authored: false
+  prerequisites:
+  - study: og-01-geology-to-reduced-carbon
+    condition: tests-passed
 expert_questions:
 - 'RESOLVED: started from rTCA fragments (reductive-TCA turn is the autocatalytic core); acetyl-CoA-pathway fragments are a natural parallel arm for a follow-up.'
 runs:
@@ -304,3 +307,28 @@ runs:
         knob:
         citation:
       auto_evaluated: true
+study_type: exploratory
+conditions:
+  baseline:
+    composite: viva_genesis.composites.campaign2.og_02_reduced_carbon_to_protometabolism
+    params: {}
+variants:
+- name: control-no-co2
+  params:
+    feed_CO2: 1e-12
+simulation_set:
+- name: Reduced carbon to protometabolism (Campaign II)
+  kind: single
+  base_model: viva_genesis.composites.campaign2.og_02_reduced_carbon_to_protometabolism
+  is_baseline: true
+  status: ran
+units_and_time:
+  tick: 1 s per step (forward-Euler / CSTR step)
+  concentration_unit: molar
+  note: Steps are abstract reaction/transport ticks, not wall-clock; concentrations in mol/L, temperature in K.
+study_card:
+  headline: >-
+    All three tests pass — sustained net carbon throughput (9e-4 mol/s) under
+    continuous feed+washout, an autocatalytic motif (OAA self-amplifies, gain ~3
+    steady / 29 peak), and a single connected reaction network.
+  status: PASS — metabolism-like behavior emerges under flow

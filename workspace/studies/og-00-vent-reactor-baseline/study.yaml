@@ -23,13 +23,13 @@ findings:
   statement: Outlet settles at 59.2 °C and pH 9.46 — both inside the Lost City field window (40–91 °C, 9.0–10.8).
   evidence:
     from_test: vent-temperature-in-lostcity-range
-    from_run: canonical
     observed: 'T=59.2 °C, pH=9.46'
     units: °C / pH
   expected:
     cites: [kelley2001offaxis, ludwig2006formation]
   explanation: Real PHREEQC peridotite serpentinization (Ca-OH endmember) + FiPy transport; pH is a genuine speciation result, not tuned.
   next_action: Sweep pyroxene_fraction + seawater-mixing dilution (og-00b).
+  next_action_type: calibrate
 - id: og00-h2-sustained
   kind: computational
   status: confirms
@@ -53,6 +53,7 @@ findings:
   statement: The Lost City pH endmember required reacting PERIDOTITE (olivine+pyroxene), not dunite — Ca released once Mg is consumed buffers the fluid to pH ~9.5.
   explanation: Olivine-only buffers at ~7.8 (brucite); adding diopside gives the Ca-OH endmember that reproduces field pH.
   next_action: Test sensitivity to the olivine/pyroxene ratio.
+  next_action_type: ablate
 report:
   title: Campaign 0 — vent reactor baseline
   verdict: PASS — reproduces the Lost City T/pH window with real geochemistry
@@ -89,11 +90,11 @@ discovery_implications:
   followup_study_proposals:
   - {study: og-00b, rationale: Sweep pyroxene_fraction and mixing dilution to bound the pH endmember.}
 readouts:
-- {name: temperature, store_path: vent/temperature, units: kelvin, description: Outlet interface temperature, status: available}
-- {name: pH, store_path: vent/pH, units: dimensionless, description: Outlet pH, status: available}
-- {name: H2_flux, store_path: rates/H2_flux, units: mole/second, description: Serpentinization H2 source flux, status: available}
-- {name: charge_imbalance, store_path: diagnostics/charge_imbalance, units: eq/kgw, description: PHREEQC charge imbalance, status: available}
-- {name: flux_divergence_residual, store_path: diagnostics/flux_divergence_residual, units: dimensionless, description: FiPy FVM conservation residual, status: available}
+- {name: temperature, store_path: vent.temperature, units: kelvin, description: Outlet interface temperature, status: available}
+- {name: pH, store_path: vent.pH, units: dimensionless, description: Outlet pH, status: available}
+- {name: H2_flux, store_path: rates.H2_flux, units: mole/second, description: Serpentinization H2 source flux, status: available}
+- {name: charge_imbalance, store_path: diagnostics.charge_imbalance, units: eq/kgw, description: PHREEQC charge imbalance, status: available}
+- {name: flux_divergence_residual, store_path: diagnostics.flux_divergence_residual, units: dimensionless, description: FiPy FVM conservation residual, status: available}
 proposed_mechanisms:
 - 'A: serpentinization as boundary flux'
 - 'B: flow/mixing/precipitation, evolving porosity'
@@ -183,6 +184,7 @@ behavior_tests:
   cites:
   - kelley2001offaxis
   - ludwig2006formation
+  gate_class: acceptance_criterion
 - name: h2-flux-sustained
   classification: primary
   description: Real PHREEQC serpentinization delivers a sustained, non-collapsing H2 source.
@@ -198,6 +200,7 @@ behavior_tests:
   requires_simulation: 'yes'
   cites:
   - schwander2023serpentinization
+  gate_class: acceptance_criterion
 - name: charge-conserved
   classification: primary
   description: PHREEQC balances charge every step (charge_neutrality invariant).
@@ -211,6 +214,8 @@ behavior_tests:
     detail: '|charge imbalance| < 1e-6 throughout'
   units: eq/kgw
   requires_simulation: 'yes'
+  gate_class: acceptance_criterion
+  band_basis: first_principles
 - name: spatial-flux-conserved
   classification: primary
   description: FiPy finite-volume transport conserves flux (spatial_flux_conservation invariant).
@@ -224,6 +229,8 @@ behavior_tests:
     detail: max |flux divergence residual| < 1e-3 (direct LU solve ~ machine eps)
   units: dimensionless
   requires_simulation: 'yes'
+  gate_class: acceptance_criterion
+  band_basis: first_principles
 - name: vent-pH-in-lostcity-range
   classification: primary
   description: >-
@@ -246,6 +253,7 @@ behavior_tests:
   cites:
   - kelley2001offaxis
   - ludwig2006formation
+  gate_class: acceptance_criterion
 literature_anchors:
 - expectation: Lost City ~40-91 C, pH ~9-10.8, >=30 ky activity
   model_observable: outlet T,pH; run duration
@@ -263,7 +271,6 @@ baseline:
 - name: Vent reactor baseline (Campaign 0)
   composite: viva_genesis.composites.campaign0.og_00_vent_reactor_baseline
   params: {}
-parent_studies: []
 key_assumptions:
 - Hadean ocean chemistry parameterized separately — never reuse modern seawater as the ancient prior.
 - 'Partial equilibrium: a prescribed olivine dissolution rate (flow/T-driven) feeds PHREEQC equilibrium speciation each step — fast aqueous/mineral equilibrium vs a rate-limited rock reaction, standard for reactive-transport.'
@@ -460,3 +467,21 @@ pipeline_gate:
     - vent-pH-in-lostcity-range
     evaluated_by: code
     diverges_from_authored: false
+study_type: confirmatory
+conditions:
+  baseline:
+    composite: viva_genesis.composites.campaign0.og_00_vent_reactor_baseline
+    params: {}
+variants:
+- name: reference
+  base_composite: Vent reactor baseline (Campaign 0)
+  params: {}
+units_and_time:
+  tick: 1 s per step (forward-Euler / CSTR step)
+  concentration_unit: molar
+  note: Steps are abstract reaction/transport ticks, not wall-clock; concentrations in mol/L, temperature in K.
+study_card:
+  headline: >-
+    All five acceptance criteria pass — outlet T 59.2 °C and pH 9.46 (both in-window),
+    sustained H2 flux 2.2e-4 mol/s, and charge + flux conserved to machine epsilon.
+  status: PASS — reproduces the Lost City T/pH window with real geochemistry
