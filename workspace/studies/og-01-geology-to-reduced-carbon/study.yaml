@@ -289,6 +289,12 @@ canonical_runs:
   script: workspace/studies/og-01-geology-to-reduced-carbon/sims/run.py
   description: Real eQuilibrator+FiPy favorable run (auto-graded) + Tutolo arm + 3 controls (cross-run verdicts).
 visualizations:
+- name: proton-gradient-profile
+  address: local:ProtonGradientProfile
+  config:
+    composite: viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation
+    n_steps: 80
+    title: Campaign I — proton gradient → reduced carbon
 - name: carbon-fixation-timeseries
   address: local:CarbonFixationViz
   config:

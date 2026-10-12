@@ -472,3 +472,145 @@ class VentCrossSection(Visualization):
                 "<div style='display:flex;justify-content:center'>" + s_html + "</div>"
                 "<div style='display:flex;justify-content:center;margin-top:8px'>" + a_html + "</div>"
                 "</body></html>")
+
+class ProtonGradientProfile(Visualization):
+    """Campaign-I REAL proton gradient across the Fe/Ni-S barrier — every value a
+    FiPy cell. Runs the ``hydrothermal_carbon_fixation`` composite step by step and
+    snapshots the genuine 1-D Nernst-Planck proton profile (ocean acidic → vent
+    alkaline) each step, beside the molecular products (formate / acetate /
+    pyruvate) the gradient drives. Static settled profile + an animated profile;
+    the favorable (gradient_efficiency 1.0) vs Tutolo-2026 (~0.1) arm is a config.
+    """
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "Campaign I — proton gradient → reduced carbon"},
+        "n_steps": {"_type": "integer", "_default": 80},
+        "gradient_efficiency": {"_type": "float", "_default": 1.0},
+        "max_frames": {"_type": "integer", "_default": 30},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    @staticmethod
+    def _find_gradient(node):
+        if isinstance(node, dict):
+            inst = node.get("instance")
+            if inst is not None and type(inst).__name__ == "PhGradientNernstPlanckProcess":
+                return inst
+            for v in node.values():
+                r = ProtonGradientProfile._find_gradient(v)
+                if r is not None:
+                    return r
+        return None
+
+    def update(self, state=None):
+        from .core import build_core
+        from .composites.carbon_fixation import hydrothermal_carbon_fixation
+        from .electrochemistry.ph_gradient import spatial_profile
+
+        core = build_core()
+        doc = hydrothermal_carbon_fixation(
+            core, gradient_efficiency=float(self.config["gradient_efficiency"]))
+        sim = Composite({"state": doc}, core=core)
+        grad = self._find_gradient(sim.state)
+        n = int(self.config["n_steps"])
+        profiles, rows = [], []
+        for _ in range(n):
+            sim.run(1)
+            rows = gather_emitter_results(sim)[("emitter",)]
+            p = spatial_profile(grad)
+            if p.get("x_cm"):
+                profiles.append(p)
+        return {"html": self._figure(profiles, rows)}
+
+    def _figure(self, profiles, rows) -> str:
+        import plotly.graph_objects as go
+        from plotly.subplots import make_subplots
+
+        if not profiles:
+            return "<p>No proton profile produced.</p>"
+        ink, teal, amber, rust = "#1e293b", "#0d9488", "#d97706", "#b91c1c"
+        last = profiles[-1]
+        x = last["x_cm"]
+        t = [r.get("global_time", i) for i, r in enumerate(rows)]
+
+        def col(k):
+            return [r.get(k) for r in rows if k in r]
+
+        # static: settled proton profile (across barrier) + products over time
+        stat = make_subplots(rows=1, cols=2, horizontal_spacing=0.13,
+            subplot_titles=("Settled pH profile across the barrier",
+                            "Reduced-carbon products (M)"))
+        stat.add_hrect(y0=9.0, y1=11.0, line_width=0, fillcolor=teal, opacity=0.06, row=1, col=1)
+        stat.add_scatter(x=x, y=last["pH"], mode="lines", line=dict(color=teal, width=3),
+                         name="pH", row=1, col=1)
+        stat.add_annotation(x=x[0], y=last["pH"][0], text="◀ ocean (acidic)", showarrow=False,
+                            font=dict(size=10, color="#2563eb"), xanchor="left", row=1, col=1)
+        stat.add_annotation(x=x[-1], y=last["pH"][-1], text="vent (alkaline) ▶", showarrow=False,
+                            font=dict(size=10, color="#b45309"), xanchor="right", row=1, col=1)
+        for k, c in (("formate", teal), ("acetate", amber), ("pyruvate", rust)):
+            y = col(k)
+            if y:
+                stat.add_scatter(x=t, y=y, mode="lines", line=dict(color=c, width=2.5),
+                                 name=k, row=1, col=2)
+        stat.update_xaxes(title_text="across the barrier (cm)", row=1, col=1, showgrid=False)
+        stat.update_xaxes(title_text="time", row=1, col=2, showgrid=True, gridcolor="#eef2f7")
+        stat.update_yaxes(title_text="pH", row=1, col=1, showgrid=True, gridcolor="#eef2f7")
+        stat.update_yaxes(title_text="concentration (M)", row=1, col=2, showgrid=True, gridcolor="#eef2f7")
+        pmf = col("pmf")
+        pmf_mv = (pmf[-1] * 1000.0) if pmf else 0.0
+        stat.update_layout(
+            template="plotly_white", height=420, width=880, showlegend=True,
+            legend=dict(orientation="h", y=-0.18, x=0.62, font=dict(size=10)),
+            title=dict(text=(self.config.get("title") or "Proton gradient → reduced carbon") +
+                       f"   ·   pmf {pmf_mv:.0f} mV",
+                       font=dict(size=14, color=ink), x=0.5, xanchor="center"),
+            margin=dict(l=55, r=20, t=80, b=70), font=dict(color=ink))
+
+        # motion: the proton profile developing across the barrier
+        step = max(1, len(profiles) // int(self.config["max_frames"]))
+        keep = profiles[::step] + [profiles[-1]]
+        anim = go.Figure(
+            data=[go.Scatter(x=x, y=keep[0]["pH"], mode="lines", line=dict(color=teal, width=3))],
+            frames=[go.Frame(data=[go.Scatter(x=x, y=p["pH"], mode="lines",
+                                              line=dict(color=teal, width=3))], name=str(i))
+                    for i, p in enumerate(keep)])
+        anim.add_hrect(y0=9.0, y1=11.0, line_width=0, fillcolor=teal, opacity=0.06)
+        anim.update_xaxes(title_text="across the barrier (cm)", showgrid=False)
+        anim.update_yaxes(title_text="pH", range=[5.5, 11.0], showgrid=True, gridcolor="#eef2f7")
+        anim.update_layout(
+            template="plotly_white", height=360, width=640,
+            title=dict(text="the proton gradient forming (real FiPy)", x=0.5, xanchor="center",
+                       y=0.97, font=dict(size=13, color=ink)),
+            margin=dict(l=55, r=20, t=80, b=60), font=dict(color=ink),
+            updatemenus=[dict(type="buttons", direction="left", x=0.0, y=1.14, xanchor="left",
+                showactive=False, buttons=[
+                    dict(label="▶ Play", method="animate",
+                         args=[None, dict(frame=dict(duration=90, redraw=True), fromcurrent=True)]),
+                    dict(label="⏸ Pause", method="animate",
+                         args=[[None], dict(frame=dict(duration=0, redraw=False), mode="immediate")]),
+                ])],
+            sliders=[dict(active=0, x=0.08, len=0.88, y=-0.14, currentvalue=dict(visible=False),
+                steps=[dict(method="animate", label="",
+                            args=[[str(i)], dict(frame=dict(duration=0, redraw=True), mode="immediate")])
+                       for i in range(len(keep))])])
+
+        cap = (
+            "<div style='max-width:880px;margin:12px auto 4px;padding:0 16px;color:#334155;"
+            "font-size:13.5px;line-height:1.55'>"
+            "<b>The proton gradient that powers the first carbon fixation</b> — the real 1-D "
+            "Nernst-Planck proton profile across the Fe/Ni-S barrier (every value a FiPy cell), "
+            "from the acidic ocean to the alkaline vent. That gradient is the proton-motive force "
+            "driving H₂ + CO₂ → formate / acetate / pyruvate (right).</div>")
+        s_html = stat.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+        a_html = anim.to_html(full_html=False, include_plotlyjs=False, config={"displayModeBar": False})
+        return ("<!doctype html><html><head><meta charset='utf-8'></head>"
+                "<body style='margin:0;font-family:-apple-system,system-ui,sans-serif;background:#fff'>"
+                f"{cap}"
+                "<div style='display:flex;justify-content:center'>" + s_html + "</div>"
+                "<div style='display:flex;justify-content:center;margin-top:8px'>" + a_html + "</div>"
+                "</body></html>")

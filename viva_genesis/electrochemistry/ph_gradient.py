@@ -198,3 +198,16 @@ class PhGradientNernstPlanckProcess(Process):
             "current_density": current_density,
             "flux_divergence_residual": abs(residual),
         }
+
+
+def spatial_profile(proc: "PhGradientNernstPlanckProcess") -> dict:
+    """The current 1-D proton profile across the Fe/Ni-S barrier for visualization
+    — every value a real FiPy cell. Returns ``{x_cm, H, pH}`` (ocean acidic on the
+    left, vent alkaline on the right). Empty if the mesh has not been built."""
+    if getattr(proc, "_mesh", None) is None:
+        return {"x_cm": [], "H": [], "pH": []}
+    import numpy as np
+    x = np.asarray(proc._mesh.cellCenters[0], dtype=float) * 100.0        # cm
+    H = np.clip(np.asarray(proc._H.value, dtype=float), 1e-14, None)      # mol/L
+    pH = (-np.log10(H))
+    return {"x_cm": x.tolist(), "H": H.tolist(), "pH": pH.tolist()}
