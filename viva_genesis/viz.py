@@ -94,7 +94,7 @@ class VentReactorTimeseries(Visualization):
         fig.add_scatter(x=t, y=[max(v, 1e-18) for v in fdr], mode="lines",
                         line=dict(color=teal, width=2, dash="dot"), name="|flux div. residual|", row=2, col=3)
 
-        fig.update_xaxes(title_text="time", showgrid=True, gridcolor="#eef2f7")
+        fig.update_xaxes(title_text="time (s)", showgrid=True, gridcolor="#eef2f7")
         fig.update_yaxes(showgrid=True, gridcolor="#eef2f7")
         fig.update_yaxes(type="log", row=2, col=3)
         fig.update_layout(
@@ -174,7 +174,7 @@ class CarbonFixationViz(Visualization):
         fig.add_scatter(x=t, y=[f * 100 for f in feas], mode="lines", line=dict(color=teal, width=2, dash="dot"), name="feasibility ×100", row=2, col=3)
         fig.add_hline(y=0.0, line=dict(color=slate, width=1, dash="dot"), row=2, col=3)
 
-        fig.update_xaxes(title_text="time", showgrid=True, gridcolor="#eef2f7")
+        fig.update_xaxes(title_text="time (s)", showgrid=True, gridcolor="#eef2f7")
         fig.update_yaxes(showgrid=True, gridcolor="#eef2f7")
         fig.update_layout(
             title=dict(text=self.config.get("title") or "Campaign I — geology to reduced carbon",
@@ -244,7 +244,7 @@ class ProtometabolismViz(Visualization):
         fig.add_hline(y=1.0, line=dict(color=slate, width=1, dash="dot"), row=1, col=3)
         fig.add_scatter(x=t, y=gain, mode="lines", line=dict(color=rust, width=2.5), row=1, col=3)
 
-        fig.update_xaxes(title_text="time", showgrid=True, gridcolor="#eef2f7")
+        fig.update_xaxes(title_text="time (s)", showgrid=True, gridcolor="#eef2f7")
         fig.update_yaxes(showgrid=True, gridcolor="#eef2f7")
         fig.update_layout(
             title=dict(text=self.config.get("title") or "Campaign II — protometabolic network",
@@ -568,7 +568,7 @@ class ProtonGradientProfile(Visualization):
                 stat.add_scatter(x=t, y=y, mode="lines", line=dict(color=c, width=2.5),
                                  name=k, row=1, col=2)
         stat.update_xaxes(title_text="across the barrier (cm)", row=1, col=1, showgrid=False)
-        stat.update_xaxes(title_text="time", row=1, col=2, showgrid=True, gridcolor="#eef2f7")
+        stat.update_xaxes(title_text="time (s)", row=1, col=2, showgrid=True, gridcolor="#eef2f7")
         stat.update_yaxes(title_text="pH", row=1, col=1, showgrid=True, gridcolor="#eef2f7")
         stat.update_yaxes(title_text="concentration (M, log)", type="log", row=1, col=2,
                           showgrid=True, gridcolor="#eef2f7")
@@ -601,7 +601,7 @@ class ProtonGradientProfile(Visualization):
         anim = go.Figure(
             data=_rev(idxs[0]) if idxs else _rev(0),
             frames=[go.Frame(data=_rev(k), name=str(j)) for j, k in enumerate(idxs)])
-        anim.update_xaxes(title_text="time", range=[0, tt[-1] if tt else 1],
+        anim.update_xaxes(title_text="time (s)", range=[0, tt[-1] if tt else 1],
                           showgrid=True, gridcolor="#eef2f7")
         anim.update_yaxes(type="log", title_text="concentration (M)",
                           range=[-6, _m.ceil(_m.log10(yhi) + 0.3)],
