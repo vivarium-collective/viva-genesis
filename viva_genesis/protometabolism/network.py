@@ -148,3 +148,29 @@ class RoadRunnerNetworkProcess(Process):
             "autocatalytic_gain": gain,
             "network_connected": self._connected if self._connected is not None else 0.0,
         }
+
+
+# Species-reaction graph for visualization: the rTCA-fragment topology + a live
+# snapshot of every species concentration from the REAL libRoadRunner model.
+_VIZ_SPECIES = ["pyruvate", "CO2", "OAA", "malate", "succinate", "acetate"]
+_VIZ_EDGES = [("pyruvate", "OAA"), ("CO2", "OAA"), ("OAA", "acetate"),
+              ("OAA", "malate"), ("malate", "succinate")]
+# Hand-laid layout (x, y) showing the flow: feeds (left) → OAA hub (center,
+# autocatalytic) → reductive branch (down) + acetate (up-right).
+_VIZ_POS = {"pyruvate": (0.0, 0.7), "CO2": (0.0, 0.3), "OAA": (1.0, 0.5),
+            "acetate": (2.0, 0.85), "malate": (1.6, 0.15), "succinate": (2.3, 0.0)}
+
+
+def network_state(proc: "RoadRunnerNetworkProcess") -> dict:
+    """Live species concentrations (M) from the real libRoadRunner model, plus the
+    reaction-graph topology. Returns ``{species, conc, edges, pos}``. Zeros if the
+    model has not been built yet."""
+    rr = getattr(proc, "_rr", None)
+    conc = []
+    for s in _VIZ_SPECIES:
+        try:
+            conc.append(float(rr[s]) if rr is not None else 0.0)
+        except Exception:
+            conc.append(0.0)
+    return {"species": list(_VIZ_SPECIES), "conc": conc,
+            "edges": list(_VIZ_EDGES), "pos": dict(_VIZ_POS)}

@@ -640,3 +640,164 @@ class ProtonGradientProfile(Visualization):
                 "<div style='display:flex;justify-content:center'>" + s_html + "</div>"
                 "<div style='display:flex;justify-content:center;margin-top:8px'>" + a_html + "</div>"
                 "</body></html>")
+
+class ProtometabolicNetwork(Visualization):
+    """Campaign-II REAL rTCA-fragment network igniting — every value a libRoadRunner
+    concentration. Runs the ``protometabolic_network`` composite step by step and
+    snapshots the live species concentrations each tick, laid out as the reaction
+    graph (pyruvate + CO2 → the autocatalytic OAA hub → acetate + the reductive
+    branch). Static settled network + an animation of it lighting up, beside the
+    autocatalytic gain and net carbon throughput (does it self-amplify + sustain
+    under washout?).
+    """
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "Campaign II — the protometabolic network igniting"},
+        "n_steps": {"_type": "integer", "_default": 60},
+        "k_rtca": {"_type": "float", "_default": 800.0},
+        "max_frames": {"_type": "integer", "_default": 30},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    @staticmethod
+    def _find_net(node):
+        if isinstance(node, dict):
+            inst = node.get("instance")
+            if inst is not None and type(inst).__name__ == "RoadRunnerNetworkProcess":
+                return inst
+            for v in node.values():
+                r = ProtometabolicNetwork._find_net(v)
+                if r is not None:
+                    return r
+        return None
+
+    def update(self, state=None):
+        from .core import build_core
+        from .composites.protometabolism import protometabolic_network
+        from .protometabolism.network import network_state
+
+        core = build_core()
+        doc = protometabolic_network(core, k_rtca=float(self.config["k_rtca"]))
+        sim = Composite({"state": doc}, core=core)
+        net = self._find_net(sim.state)
+        n = int(self.config["n_steps"])
+        snaps, rows = [], []
+        for _ in range(n):
+            sim.run(1)
+            rows = gather_emitter_results(sim)[("emitter",)]
+            s = network_state(net)
+            snaps.append(s["conc"])
+        topo = network_state(net)
+        return {"html": self._figure(snaps, rows, topo)}
+
+    def _figure(self, snaps, rows, topo) -> str:
+        import math as _m
+        import plotly.graph_objects as go
+
+        if not snaps:
+            return "<p>No network snapshots produced.</p>"
+        ink, teal, amber, rust = "#1e293b", "#0d9488", "#d97706", "#b91c1c"
+        sp = topo["species"]; pos = topo["pos"]; edges = topo["edges"]
+        xn = [pos[s][0] for s in sp]; yn = [pos[s][1] for s in sp]
+        gmax = max(max(c for c in snap) for snap in snaps) or 1e-9
+
+        def node_trace(conc, show_text=True):
+            sizes = [12 + 46 * _m.sqrt(max(c, 0) / gmax) for c in conc]
+            txt = ["%s<br>%.2g M" % (s, c) for s, c in zip(sp, conc)]
+            return go.Scatter(
+                x=xn, y=yn, mode="markers+text" if show_text else "markers",
+                marker=dict(size=sizes, color=conc, colorscale="Viridis", cmin=0, cmax=gmax,
+                            line=dict(color="#334155", width=1.2),
+                            colorbar=dict(title="M", thickness=12, len=0.8)),
+                text=sp, textposition="middle center", textfont=dict(size=9, color="#f8fafc"),
+                hovertext=txt, hoverinfo="text")
+
+        # edge lines (static)
+        ex, ey = [], []
+        for a, b in edges:
+            ex += [pos[a][0], pos[b][0], None]; ey += [pos[a][1], pos[b][1], None]
+        edge_trace = go.Scatter(x=ex, y=ey, mode="lines",
+                                line=dict(color="#cbd5e1", width=2), hoverinfo="skip")
+
+        def col(k):
+            return [r.get(k) for r in rows if k in r]
+        t = [r.get("global_time", i) for i, r in enumerate(rows)]
+
+        # ---- STATIC: settled network (left) + gain & flux (right) via two figures
+        net_fig = go.Figure([edge_trace, node_trace(snaps[-1])])
+        net_fig.add_annotation(x=pos["OAA"][0], y=pos["OAA"][1] + 0.22,
+                               text="⟳ autocatalytic<br>OAA + 2CO₂ → 2 OAA + acetate",
+                               showarrow=False, font=dict(size=9, color=rust))
+        net_fig.update_xaxes(visible=False, range=[-0.4, 2.7])
+        net_fig.update_yaxes(visible=False, range=[-0.3, 1.15])
+        net_fig.update_layout(template="plotly_white", height=360, width=560, showlegend=False,
+            title=dict(text="Settled network (node size = concentration)", x=0.5, xanchor="center",
+                       font=dict(size=13, color=ink)),
+            margin=dict(l=10, r=10, t=50, b=10), font=dict(color=ink))
+
+        gain = col("autocatalytic_gain"); flux = col("net_carbon_flux")
+        dyn = go.Figure()
+        if gain:
+            dyn.add_hline(y=1.0, line=dict(color="#94a3b8", width=1, dash="dot"))
+            dyn.add_scatter(x=t, y=gain, mode="lines", line=dict(color=rust, width=2.5),
+                            name="autocatalytic gain")
+        if flux:
+            dyn.add_scatter(x=t, y=flux, mode="lines", yaxis="y2",
+                            line=dict(color=teal, width=2.5), name="net carbon flux")
+        dyn.update_layout(template="plotly_white", height=360, width=520, showlegend=True,
+            legend=dict(orientation="h", y=1.14, x=1.0, xanchor="right", font=dict(size=10)),
+            title=dict(text="does it ignite? gain > 1 + sustained flux", x=0.5, xanchor="center",
+                       y=0.98, font=dict(size=13, color=ink)),
+            xaxis=dict(title="time (s)", showgrid=True, gridcolor="#eef2f7"),
+            yaxis=dict(title="autocatalytic gain", showgrid=True, gridcolor="#eef2f7"),
+            yaxis2=dict(title="net carbon flux (mol/s)", overlaying="y", side="right", showgrid=False),
+            margin=dict(l=55, r=60, t=70, b=50), font=dict(color=ink))
+
+        # ---- MOTION: the network igniting ----
+        step = max(1, len(snaps) // int(self.config["max_frames"]))
+        keep = list(range(0, len(snaps), step)) + [len(snaps) - 1]
+        anim = go.Figure(
+            data=[edge_trace, node_trace(snaps[keep[0]])],
+            frames=[go.Frame(data=[edge_trace, node_trace(snaps[k])], name=str(j))
+                    for j, k in enumerate(keep)])
+        anim.update_xaxes(visible=False, range=[-0.4, 2.7])
+        anim.update_yaxes(visible=False, range=[-0.3, 1.15])
+        anim.update_layout(template="plotly_white", height=380, width=620, showlegend=False,
+            title=dict(text="the network igniting (real libRoadRunner)", x=0.5, xanchor="center",
+                       y=0.99, font=dict(size=13, color=ink)),
+            margin=dict(l=10, r=10, t=70, b=50), font=dict(color=ink),
+            updatemenus=[dict(type="buttons", direction="left", x=0.0, y=1.1, xanchor="left",
+                yanchor="bottom", showactive=False, buttons=[
+                    dict(label="▶ Play", method="animate",
+                         args=[None, dict(frame=dict(duration=110, redraw=True), fromcurrent=True)]),
+                    dict(label="⏸ Pause", method="animate",
+                         args=[[None], dict(frame=dict(duration=0, redraw=False), mode="immediate")]),
+                ])],
+            sliders=[dict(active=0, x=0.08, len=0.88, y=-0.08, currentvalue=dict(visible=False),
+                steps=[dict(method="animate", label="",
+                            args=[[str(i)], dict(frame=dict(duration=0, redraw=True), mode="immediate")])
+                       for i in range(len(keep))])])
+
+        cap = (
+            "<div style='max-width:900px;margin:12px auto 4px;padding:0 16px;color:#334155;"
+            "font-size:13.5px;line-height:1.55'>"
+            "<b>The first metabolism, igniting</b> — the real libRoadRunner rTCA-fragment network: "
+            "pyruvate + CO₂ feed the <b>autocatalytic OAA hub</b> (OAA + 2 CO₂ → 2 OAA + acetate), "
+            "which drives the reductive branch (malate, succinate) and acetate under continuous "
+            "feed + washout. Node size is the live concentration; the network lights up as it "
+            "self-amplifies.</div>")
+        n_html = net_fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+        d_html = dyn.to_html(full_html=False, include_plotlyjs=False, config={"displayModeBar": False})
+        a_html = anim.to_html(full_html=False, include_plotlyjs=False, config={"displayModeBar": False})
+        return ("<!doctype html><html><head><meta charset='utf-8'></head>"
+                "<body style='margin:0;font-family:-apple-system,system-ui,sans-serif;background:#fff'>"
+                f"{cap}"
+                "<div style='display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:flex-start'>"
+                f"<div>{n_html}</div><div>{d_html}</div></div>"
+                "<div style='display:flex;justify-content:center;margin-top:8px'>" + a_html + "</div>"
+                "</body></html>")

@@ -186,6 +186,12 @@ canonical_runs:
   script: workspace/studies/og-02-reduced-carbon-to-protometabolism/sims/run.py
   description: Real libRoadRunner rTCA-fragment CSTR run -> auto-graded throughput / autocatalysis / connectivity.
 visualizations:
+- name: protometabolic-network
+  address: local:ProtometabolicNetwork
+  config:
+    composite: viva_genesis.composites.protometabolism.protometabolic_network
+    n_steps: 60
+    title: Campaign II — the protometabolic network igniting
 - name: protometabolism-network
   address: local:ProtometabolismViz
   config:
