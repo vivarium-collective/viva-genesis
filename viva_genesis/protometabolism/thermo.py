@@ -26,10 +26,10 @@ from process_bigraph import Step
 _MOLAR = {"_type": "float", "_units": "molar"}
 _K = {"_type": "float", "_units": "kelvin"}
 _DIMLESS = {"_type": "float", "_units": "dimensionless"}
-# Plain overwrite[float] sensor (value is kJ/mol by convention — the
-# "kilojoule/mole" unit string does not resolve in the core's unit registry, which
-# silently drops the port write, so we keep it unitless and document the unit).
-_KJ = {"_type": "overwrite[float]"}
+# Gibbs free-energy sensor (overwrite): kilojoule/mole. The core's unit registry
+# resolves kilojoule/mole, so the port write is kept (verified by the og-01
+# free-energy-directionality test passing with the unit attached).
+_KJ = {"_type": "overwrite[float]", "_units": "kilojoule/mole"}
 
 # KEGG ids. CO2 C00011, H2 C00282, H2O C00001, formate C00058, acetate C00033,
 # pyruvate C00022.
@@ -50,6 +50,35 @@ class EquilibratorThermoStep(Step):
     cached (ΔG'° recomputed only when pH/I/T change) so it is cheap to run every
     tick.
     """
+
+    contract = {
+        "summary": "Real eQuilibrator feasibility gate: (pH, I, T, H2, CO2, products) -> dG' + feasibility for formate/acetate/pyruvate synthesis.",
+        "description": (
+            "A stateless Step: each tick it reads the vent conditions and emits the real "
+            "eQuilibrator physiological dG' (ComponentContribution, offline) for H2-driven "
+            "CO2 reduction to formate / acetate / pyruvate, plus a feasibility multiplier "
+            "in [0,1] (logistic in -dG'/RT) that gates the downstream kinetics. dG'0 is "
+            "cached and recomputed only when pH / ionic strength / temperature change."
+        ),
+        "inputs": {
+            "pH": "fluid pH (dimensionless)", "ionic_strength": "ionic strength (molar)",
+            "temperature": "temperature (K)", "H2": "dissolved H2 (molar)", "CO2": "dissolved CO2 (molar)",
+            "formate": "formate concentration (molar)", "acetate": "acetate concentration (molar)",
+            "pyruvate": "pyruvate concentration (molar)",
+        },
+        "outputs": {
+            "dg_formate": "dG' of CO2->formate (kJ/mol)", "dg_acetate": "dG' of CO2->acetate (kJ/mol)",
+            "dg_pyruvate": "dG' of CO2->pyruvate (kJ/mol)",
+            "feasible_formate": "feasibility multiplier in [0,1] (dimensionless)",
+            "feasible_acetate": "feasibility multiplier in [0,1] (dimensionless)",
+            "feasible_pyruvate": "feasibility multiplier in [0,1] (dimensionless)",
+            "free_energy_logged": "witness that dG' was logged this tick (dimensionless)",
+        },
+        "math": ["dG' = dG'0 + RT ln Q", "feasible = 1 / (1 + exp(dG'/RT))"],
+        "symbols": {"Q": "reaction quotient", "R": "gas constant", "T": "temperature (K)"},
+        "assumptions": ["Physiological (transformed) dG' at the given pH / I / T.", "H2-dependent reductive carbon fixation (acetyl-CoA-like)."],
+        "references": ["preiner2020hydrogen", "huber1997activated", "martin2008hydrothermal"],
+    }
 
     config_schema = {
         "conc_floor": {"_type": "float", "_default": 1.0e-9},  # activity floor for ln(Q)

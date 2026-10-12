@@ -44,6 +44,37 @@ class FipyReactiveTransportProcess(Process):
     sensor (``flux_divergence_residual``) proving spatial flux conservation.
     """
 
+    contract = {
+        "summary": "Real 1-D FiPy advection-diffusion-reaction vent-ocean column: transports the serpentinization source across the interface.",
+        "description": (
+            "Reads the serpentinization drivers (H2 / alkalinity / heat) and the current "
+            "interface temperature / pH / porosity plus the boundary flow, solves heat and "
+            "a solute tracer across the wall with the genuine FiPy finite-volume solver "
+            "(TransientTerm == DiffusionTerm - PowerLawConvectionTerm, scipy LinearLUSolver, "
+            "zero-gradient advective outflow), and emits first-order additive deltas that "
+            "move the outlet T / pH toward the transported field and shrink porosity as "
+            "precipitation clogs the pores. The normalised max FVM balance residual is an "
+            "overwrite sensor witnessing spatial_flux_conservation to the solver tolerance."
+        ),
+        "inputs": {
+            "temperature": "interface temperature (K)", "pH": "interface pH (dimensionless)",
+            "porosity": "pore fraction (dimensionless)", "H2": "H2 source (molar)",
+            "alkalinity": "alkalinity source (molar)", "heat": "heat source (W)",
+            "flow_velocity": "boundary flow speed (m/s)",
+        },
+        "outputs": {
+            "temperature": "temperature delta toward the transported field (K)",
+            "pH": "pH delta toward the transported field (dimensionless)",
+            "porosity": "porosity delta from precipitation (dimensionless)",
+            "flux_divergence_residual": "normalised max FVM balance residual (dimensionless, ~machine eps)",
+        },
+        "assumptions": [
+            "1-D porous-wall column with prescribed boundary fluxes.",
+            "Linear relaxation of outlet T/pH toward the FVM-transported field each step.",
+        ],
+        "references": ["kelley2001offaxis", "ludwig2006formation"],
+    }
+
     config_schema = {
         "nx": {"_type": "integer", "_default": 40},
         "length_m": {"_type": "float", "_default": 0.1},   # ~10 cm chimney-wall scale

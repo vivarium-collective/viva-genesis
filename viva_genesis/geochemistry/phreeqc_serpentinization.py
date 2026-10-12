@@ -60,6 +60,40 @@ class PhreeqcSerpentinizationProcess(Process):
     the ``charge_neutrality`` invariant audits).
     """
 
+    contract = {
+        "summary": "Real PHREEQC serpentinization source: (T, flow, DIC) -> H2, alkalinity, heat.",
+        "description": (
+            "Drives the genuine USGS IPhreeqc engine every step over a peridotite "
+            "assemblage (forsterite + fayalite + diopside with serpentine / brucite / "
+            "magnetite / quartz). Emits the serpentinization source into the vent fluid "
+            "as additive float deltas (H2, alkalinity, heat accumulate; a sibling "
+            "transport process removes them, so the fluid settles at source = sink), "
+            "plus overwrite sensors: instantaneous fluxes, redox pe, the equilibrium pH, "
+            "and the PHREEQC charge imbalance the charge_neutrality invariant audits."
+        ),
+        "inputs": {
+            "temperature": "vent fluid temperature (K)",
+            "flow_velocity": "boundary flow speed (m/s)",
+            "DIC": "dissolved inorganic carbon fed back from the vent fluid (molar)",
+        },
+        "outputs": {
+            "H2": "dissolved H2 source delta (molar) - reducing power",
+            "alkalinity": "alkalinity source delta (molar)",
+            "heat": "serpentinization heat delta (W)",
+            "H2_flux": "instantaneous H2 production rate (mol/s)",
+            "alkalinity_flux": "instantaneous alkalinity production rate (mol/s)",
+            "heat_flux": "instantaneous heat rate (W)",
+            "pe": "redox potential pe (dimensionless)",
+            "pH_eq": "PHREEQC equilibrium pH (dimensionless)",
+            "charge_imbalance": "PHREEQC charge-balance residual (dimensionless, ~0)",
+        },
+        "assumptions": [
+            "Partial equilibrium: a prescribed olivine dissolution rate feeds full PHREEQC speciation each step.",
+            "Peridotite (olivine + diopside), not dunite, so Ca-OH buffering reaches the Lost City high-pH endmember.",
+        ],
+        "references": ["kelley2005serpentinite", "proskurowski2008abiogenic", "schwander2023serpentinization"],
+    }
+
     config_schema = {
         "database": {"_type": "string", "_default": "llnl.dat"},
         # Olivine dissolution rate (mol olivine per unit flow-saturated reaction
@@ -119,15 +153,15 @@ class PhreeqcSerpentinizationProcess(Process):
             "alkalinity": _MOLAR,
             "heat": _W,
             # Instantaneous sensors (current readings — overwrite semantics).
-            "H2_flux": "overwrite[float]",
-            "alkalinity_flux": "overwrite[float]",
-            "heat_flux": "overwrite[float]",
-            "pe": "overwrite[float]",
+            "H2_flux": {"_type": "overwrite[float]", "_units": "mole/second"},
+            "alkalinity_flux": {"_type": "overwrite[float]", "_units": "mole/second"},
+            "heat_flux": {"_type": "overwrite[float]", "_units": "watt"},
+            "pe": {"_type": "overwrite[float]", "_units": "dimensionless"},
             # Equilibrium pH of the serpentinized fluid (the Ca-OH buffer sets it)
             # — the transport process relaxes the vent outlet toward this.
             "pH_eq": {"_type": "overwrite[float]", "_units": "dimensionless"},
             # PHREEQC charge imbalance (eq/kgw) — audited by charge_neutrality.
-            "charge_imbalance": "overwrite[float]",
+            "charge_imbalance": {"_type": "overwrite[float]", "_units": "dimensionless"},
         }
 
     def initial_state(self):

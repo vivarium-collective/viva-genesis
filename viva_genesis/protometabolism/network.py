@@ -23,6 +23,10 @@ _MOLAR = {"_type": "float", "_units": "molar"}
 _DIMLESS = {"_type": "float", "_units": "dimensionless"}
 _MOLS = {"_type": "float", "_units": "mole/second"}
 _OW = {"_type": "overwrite[float]"}
+# Sensor (overwrite) ports with units — the instantaneous reading, not an
+# accumulating pool. Concentrations are molar; gains/flags are dimensionless.
+_OW_MOLAR = {"_type": "overwrite[float]", "_units": "molar"}
+_OW_DIMLESS = {"_type": "overwrite[float]", "_units": "dimensionless"}
 
 # Antimony reaction network (rTCA fragment, CSTR). co2_in / pyr_in are the feed
 # set-points driven from the upstream (og-01) products each tick.
@@ -53,6 +57,34 @@ class RoadRunnerNetworkProcess(Process):
     and emits the network species (overwrite — roadrunner is the authority) plus
     the emergent throughput / autocatalysis / connectivity observables."""
 
+    contract = {
+        "summary": "Real libRoadRunner rTCA-fragment CSTR: does a reaction network persist and self-amplify under continuous feed + washout?",
+        "description": (
+            "An Antimony/SBML reductive-TCA fragment (pyruvate carboxylation, an "
+            "autocatalytic OAA + 2 CO2 -> 2 OAA + acetate loop, a reductive branch and "
+            "washout) integrated every step by the genuine libRoadRunner ODE engine as a "
+            "continuous-flow stirred reactor. Emits the intermediate concentrations plus "
+            "the net carbon flux, the autocatalytic gain, and a networkx connectivity "
+            "flag as overwrite sensors."
+        ),
+        "inputs": {
+            "feed_pyruvate": "pyruvate feed concentration (molar)",
+            "feed_CO2": "CO2 feed concentration (molar)",
+        },
+        "outputs": {
+            "OAA": "oxaloacetate concentration (molar)", "malate": "malate concentration (molar)",
+            "succinate": "succinate concentration (molar)", "acetate": "acetate concentration (molar)",
+            "net_carbon_flux": "net carbon throughput (mole/second)",
+            "autocatalytic_gain": "autocatalytic gain k_rtca*CO2 / k_wash (dimensionless)",
+            "network_connected": "networkx single-connected-component flag (dimensionless, 0/1)",
+        },
+        "assumptions": [
+            "CSTR continuation: rr.simulate(t, t+dt, 2) each step with feed + first-order washout.",
+            "Autocatalysis via OAA + 2 CO2 -> 2 OAA + acetate.",
+        ],
+        "references": ["muchowska2019synthesis", "muchowska2017metals"],
+    }
+
     config_schema = {
         "k_rtca": {"_type": "float", "_default": 800.0},
         "k_wash": {"_type": "float", "_default": 0.05},
@@ -70,10 +102,10 @@ class RoadRunnerNetworkProcess(Process):
 
     def outputs(self):
         return {
-            "OAA": _OW, "malate": _OW, "succinate": _OW, "acetate": _OW,
+            "OAA": _OW_MOLAR, "malate": _OW_MOLAR, "succinate": _OW_MOLAR, "acetate": _OW_MOLAR,
             "net_carbon_flux": {"_type": "overwrite[float]", "_units": "mole/second"},
-            "autocatalytic_gain": _OW,
-            "network_connected": _OW,
+            "autocatalytic_gain": _OW_DIMLESS,
+            "network_connected": _OW_DIMLESS,
         }
 
     def initial_state(self):

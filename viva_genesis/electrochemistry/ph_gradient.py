@@ -44,6 +44,38 @@ class PhGradientNernstPlanckProcess(Process):
     and current density (bare-float deltas toward the transported steady value;
     overwrite sensors for the conservation witness)."""
 
+    contract = {
+        "summary": "Real 1-D FiPy electroneutral Nernst-Planck proton electrodiffusion across the Fe(Ni)S barrier.",
+        "description": (
+            "Reads the vent (alkaline) and ocean (acidic) pH plus temperature, solves the "
+            "steady electroneutral proton profile with the genuine FiPy finite-volume "
+            "solver, and emits the usable delta-pH, proton-motive force, diffusion "
+            "potential and current density as overwrite sensors (the current state of the "
+            "barrier, not an accumulating pool), with the FVM balance residual as a "
+            "conservation witness. gradient_efficiency scales the favorable (1.0) vs the "
+            "Tutolo-2026 in-situ (~0.1) proton-gradient arm."
+        ),
+        "inputs": {
+            "pH_vent": "vent (alkaline) pH (dimensionless)",
+            "pH_ocean": "ocean (acidic) pH (dimensionless)",
+            "temperature": "barrier temperature (K)",
+        },
+        "outputs": {
+            "delta_pH": "usable proton gradient across the barrier (dimensionless)",
+            "pmf": "proton-motive force (volt)",
+            "electric_potential": "diffusion (membrane) potential (volt)",
+            "current_density": "proton current density (ampere/meter**2)",
+            "flux_divergence_residual": "FVM balance residual (dimensionless, ~machine eps)",
+        },
+        "assumptions": [
+            "Steady electroneutral Nernst-Planck profile each step (fast relative to the vent).",
+            "pmf = (RT/F) ln10 * delta_pH + diffusion potential.",
+        ],
+        "math": ["pmf = (RT/F) * ln(10) * dpH + psi_diff", "electroneutral: sum z_i c_i = 0"],
+        "symbols": {"R": "gas constant", "T": "temperature (K)", "F": "Faraday constant", "dpH": "pH_ocean - pH_vent"},
+        "references": ["lane2012origin", "sojo2016origin", "tutolo2026rethinking"],
+    }
+
     config_schema = {
         "nx": {"_type": "integer", "_default": 40},
         "barrier_length": {"_type": "float", "_default": 1.0e-4},  # 100 um FeS wall

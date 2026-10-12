@@ -49,6 +49,34 @@ class CarbonFixationProcess(Process):
     Emits product concentration increments (bare ``float`` deltas — pools
     accumulate) and the net organic-carbon flux (overwrite sensor)."""
 
+    contract = {
+        "summary": "Lab-calibrated mineral-catalyzed CO2 reduction, gated by thermodynamic feasibility, proton drive, availability and catalyst.",
+        "description": (
+            "Emits product concentration increments (additive float deltas - pools "
+            "accumulate) for H2-driven CO2 reduction to formate / acetate / pyruvate on "
+            "Fe/Ni/S mineral catalysts, with the rate gated by the eQuilibrator "
+            "feasibility, the proton-motive drive, substrate availability (H2, CO2), a "
+            "temperature window and headroom to the Preiner-calibrated yield caps. Net "
+            "organic-carbon flux is an overwrite sensor."
+        ),
+        "inputs": {
+            "H2": "dissolved H2 (molar)", "CO2": "dissolved CO2 (molar)", "temperature": "temperature (K)",
+            "pmf": "proton-motive force drive (volt)", "catalyst_activity": "active Fe/Ni/S catalyst in [0,1] (dimensionless; 0 = no-mineral control)",
+            "feasible_formate": "feasibility gate (dimensionless)", "feasible_acetate": "feasibility gate (dimensionless)",
+            "feasible_pyruvate": "feasibility gate (dimensionless)",
+        },
+        "outputs": {
+            "formate": "formate production delta (molar)", "acetate": "acetate production delta (molar)",
+            "pyruvate": "pyruvate production delta (molar)",
+            "net_carbon_flux": "net organic-carbon fixation rate (mole/second)",
+        },
+        "assumptions": [
+            "Yields capped at Preiner/Hudson lab values (formate 0.2 M, acetate 1e-4, pyruvate 1e-5).",
+            "rate = k * catalyst * feasible * drive(pmf) * avail(H2,CO2) * T-window * headroom.",
+        ],
+        "references": ["preiner2020hydrogen", "hudson2020co2", "varma2018native"],
+    }
+
     config_schema = {
         "pmf_half": {"_type": "float", "_default": 0.08},           # V, half-max drive
         "km_h2": {"_type": "float", "_default": 1.0e-4},            # M
