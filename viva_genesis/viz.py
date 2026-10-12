@@ -254,3 +254,45 @@ class ProtometabolismViz(Visualization):
             margin=dict(l=60, r=30, t=70, b=60), font=dict(color=ink),
         )
         return fig.to_html(full_html=True, include_plotlyjs="cdn", config={"displayModeBar": False})
+
+
+def render_declared_viz_json(study_dir, run_id, ws_root):
+    """Render a study's declared ``visualizations[]`` to
+    ``<ws_root>/.pbg/runs/<run_id>/viz.json`` ({viz_name: html}) — the file the
+    workbench native viz gallery (study_native_gallery) reads for the latest run.
+
+    Mirrors ``run_runner._render_viz`` for the canonical ``sims/run.py`` path,
+    which otherwise leaves the live gallery empty (only the committed
+    ``viz/*.html`` disk file surfaces via the auto-discover path).
+    """
+    import json
+    import yaml
+    from pathlib import Path
+    from .core import build_core
+
+    study_dir = Path(study_dir)
+    ws_root = Path(ws_root)
+    spec = yaml.safe_load((study_dir / "study.yaml").read_text(encoding="utf-8")) or {}
+    core = build_core()
+    reg = core.link_registry
+    panels = {}
+    for entry in (spec.get("visualizations") or []):
+        name = entry.get("name") or "viz"
+        addr = (entry.get("address") or "").split(":")[-1]  # local:<Class> -> <Class>
+        try:
+            cls = reg[addr]
+        except Exception:  # noqa: BLE001
+            continue
+        schema_keys = set(getattr(cls, "config_schema", {}) or {})
+        cfg = {k: v for k, v in (entry.get("config") or {}).items() if k in schema_keys}
+        try:
+            out = cls(config=cfg, core=build_core()).update({})
+            html = out.get("html") if isinstance(out, dict) else None
+            if isinstance(html, str) and html.strip():
+                panels[name] = html
+        except Exception:  # noqa: BLE001 — one viz must not fail the run
+            continue
+    run_dir = ws_root / ".pbg" / "runs" / str(run_id)
+    run_dir.mkdir(parents=True, exist_ok=True)
+    (run_dir / "viz.json").write_text(json.dumps(panels, default=str), encoding="utf-8")
+    return list(panels)

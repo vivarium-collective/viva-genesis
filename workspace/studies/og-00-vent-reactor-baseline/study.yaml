@@ -2,14 +2,98 @@ schema_version: 4
 name: og-00-vent-reactor-baseline
 investigation: origins-of-life-vent
 created: '2026-10-11'
-phase: Design
+phase: Evaluate
 status: ran
-design_status: drafted
-confidence: Planned
+design_status: approved
+confidence: Accepted
 title: Vent reactor baseline (Campaign 0)
 question: Can a Lost City–like, serpentinization-fed vent–ocean interface reproduce observed fluid mixing, heat transport, mineral precipitation and H2/alkalinity delivery under field-constrained conditions — with no origin-of-life claim?
 hypothesis: A 1D/2D porous-wall reactor with prescribed boundary fluxes reproduces published Lost City ranges (T, pH, H2, DIC) and qualitative precipitation trends while conserving mass and charge.
 objective: Build a reduced vent–ocean reactor and validate it against Lost City field ranges to establish a geochemical/spatial testbed.
+claim: >-
+  A real PHREEQC + FiPy serpentinization reactor settles into the Lost City window
+  (T 59 °C, pH 9.46) with sustained H2 and exact mass/charge/spatial-flux conservation.
+result: >-
+  All five acceptance criteria pass — outlet T 59.2 °C and pH 9.46 (both in-window),
+  sustained H2 flux 2.2e-4 mol/s, and charge + flux conserved to machine epsilon.
+findings:
+- id: og00-temperature-ph-in-window
+  kind: computational
+  status: confirms
+  statement: Outlet settles at 59.2 °C and pH 9.46 — both inside the Lost City field window (40–91 °C, 9.0–10.8).
+  evidence:
+    from_test: vent-temperature-in-lostcity-range
+    from_run: canonical
+    observed: 'T=59.2 °C, pH=9.46'
+    units: °C / pH
+  expected:
+    cites: [kelley2001offaxis, ludwig2006formation]
+  explanation: Real PHREEQC peridotite serpentinization (Ca-OH endmember) + FiPy transport; pH is a genuine speciation result, not tuned.
+  next_action: Sweep pyroxene_fraction + seawater-mixing dilution (og-00b).
+- id: og00-h2-sustained
+  kind: computational
+  status: confirms
+  statement: Serpentinization delivers a sustained H2 reducing-power flux (min 2.2e-4 mol/s over the back half of the run).
+  evidence:
+    from_test: h2-flux-sustained
+    observed: 2.2e-4 mol/s
+    units: mole/second
+  expected:
+    cites: [schwander2023serpentinization]
+- id: og00-conservation
+  kind: computational
+  status: confirms
+  statement: PHREEQC charge balance and FiPy FVM spatial-flux divergence are conserved to machine epsilon (<1e-6 and ~5e-16).
+  evidence:
+    from_test: charge-conserved
+    observed: '|charge|=0, |flux residual|=5e-16'
+- id: og00-peridotite-endmember
+  kind: methodological
+  status: novel
+  statement: The Lost City pH endmember required reacting PERIDOTITE (olivine+pyroxene), not dunite — Ca released once Mg is consumed buffers the fluid to pH ~9.5.
+  explanation: Olivine-only buffers at ~7.8 (brucite); adding diopside gives the Ca-OH endmember that reproduces field pH.
+  next_action: Test sensitivity to the olivine/pyroxene ratio.
+report:
+  title: Campaign 0 — vent reactor baseline
+  verdict: PASS — reproduces the Lost City T/pH window with real geochemistry
+  confidence: high
+  main_insight: Real PHREEQC speciation + FiPy transport reproduce the field window and reveal that the high pH requires a peridotite (Ca-OH) endmember.
+  conclusion: >-
+    The coupled real model satisfies every acceptance criterion and the contract
+    invariants; it is a validated geochemical/spatial testbed for the downstream
+    carbon-fixation campaigns. No origin-of-life claim is made at this stage.
+  caveat: The heat-partition fraction is calibrated to the observed vent temperature; all chemistry is emergent.
+  key_metrics:
+  - {label: Outlet T, value: 59.2 °C, status: pass}
+  - {label: Outlet pH, value: '9.46', status: pass}
+  - {label: H2 flux, value: 2.2e-4 mol/s, status: pass}
+  - {label: Charge imbalance, value: '0', status: pass}
+conclusion: >-
+  The real PHREEQC + FiPy vent reactor reproduces the Lost City field window and
+  conserves mass/charge/flux, establishing the geochemical testbed og-01 builds on.
+conclusion_verdicts:
+  biological_validation:
+    result: PENDING
+    basis: No origin-of-life claim at this stage — this is a geochemical/spatial testbed only.
+  explanatory_gain:
+    result: POSITIVE
+    basis: Real speciation reproduces the field T/pH window AND reveals the peridotite Ca-OH endmember requirement — a mechanistic gain over the tuned box.
+limitations:
+- Heat-partition fraction calibrated to the observed vent temperature (chemistry otherwise emergent).
+- Single well-mixed interface; full 2-D chimney geometry deferred.
+discovery_implications:
+  resolved_uncertainties:
+  - The Lost City high-pH endmember is the peridotite Ca-OH buffer (not the olivine brucite buffer).
+  remaining_uncertainties:
+  - Sensitivity to the olivine/pyroxene ratio and to seawater-mixing dilution of the endmember.
+  followup_study_proposals:
+  - {study: og-00b, rationale: Sweep pyroxene_fraction and mixing dilution to bound the pH endmember.}
+readouts:
+- {name: temperature, store_path: vent/temperature, units: kelvin, description: Outlet interface temperature, status: available}
+- {name: pH, store_path: vent/pH, units: dimensionless, description: Outlet pH, status: available}
+- {name: H2_flux, store_path: rates/H2_flux, units: mole/second, description: Serpentinization H2 source flux, status: available}
+- {name: charge_imbalance, store_path: diagnostics/charge_imbalance, units: eq/kgw, description: PHREEQC charge imbalance, status: available}
+- {name: flux_divergence_residual, store_path: diagnostics/flux_divergence_residual, units: dimensionless, description: FiPy FVM conservation residual, status: available}
 proposed_mechanisms:
 - 'A: serpentinization as boundary flux'
 - 'B: flow/mixing/precipitation, evolving porosity'
@@ -214,14 +298,14 @@ canonical_runs:
 # reduced-reproduction runs, which shared this id). Auto-graded by the
 # behavior-test derived readouts.
 runs:
-- name: viva_genesis.composites.campaign0.og_00_vent_reactor_baseline__1791781806__461030
+- name: viva_genesis.composites.campaign0.og_00_vent_reactor_baseline__1791808349__ec482f
   status: completed
-  timestamp: 1791781810.059243
+  timestamp: 1791808353.715091
   canonical: true
   emitter:
     kind: sqlite
-    store: canonical-runs/viva_genesis.composites.campaign0.og_00_vent_reactor_baseline__1791781806__461030/run.db
-  store_path: canonical-runs/viva_genesis.composites.campaign0.og_00_vent_reactor_baseline__1791781806__461030/run.db
+    store: canonical-runs/viva_genesis.composites.campaign0.og_00_vent_reactor_baseline__1791808349__ec482f/run.db
+  store_path: canonical-runs/viva_genesis.composites.campaign0.og_00_vent_reactor_baseline__1791808349__ec482f/run.db
   params: '{}'
   outcomes:
     vent-temperature-in-lostcity-range:

@@ -113,6 +113,15 @@ def main() -> int:
     summary = evaluate_on_run_completion(STUDY_DIR, run_id, ws_root=WORKSPACE_ROOT,
                                          overwrite_authored=True)
     print("evaluate_on_run_completion:", summary)
+    # Render declared visualizations to .pbg/runs/<run_id>/viz.json so the
+    # workbench native viz gallery shows this run's figures.
+    try:
+        from viva_genesis.viz import render_declared_viz_json
+        panels = render_declared_viz_json(STUDY_DIR, run_id, WORKSPACE_ROOT)
+        print("viz.json panels:", panels)
+    except Exception as _viz_exc:  # noqa: BLE001
+        print("viz render skipped:", _viz_exc)
+
 
     if append_run_event is not None:
         append_run_event(WORKSPACE_ROOT, {
