@@ -37,3 +37,16 @@ workspace/studies/*/canonical-runs/
 
 # Per-run subprocess scripts (run artifacts)
 workspace/studies/*/sims/*.subprocess.py
+
+# --- additional runtime/generated artifacts (prevent accidental `git add -A`) ---
+# Jupyter checkpoints
+.ipynb_checkpoints/
+# Downloaded / generated notebooks (the workbench "↓ notebook" export)
+/*.ipynb
+workspace/reports/notebooks/
+# Per-study run state (sqlite) — mirrors investigations/*/runs.db above
+workspace/studies/*/runs.db
+workspace/studies/*/runs.db-shm
+workspace/studies/*/runs.db-wal
+# Generated report-card artifacts (rendered by sims/run.py grading, regenerated per run)
+workspace/studies/*/viz/report_card/
