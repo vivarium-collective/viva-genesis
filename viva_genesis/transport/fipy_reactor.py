@@ -79,6 +79,10 @@ class FipyReactiveTransportProcess(Process):
             "alkalinity": _MOLAR,
             "heat": _W,
             "flow_velocity": _MPS,
+            # Equilibrium pH of the serpentinized source fluid (from the real
+            # PHREEQC Ca-OH buffer) — the outlet relaxes toward this transported
+            # value rather than an alkalinity heuristic.
+            "pH_eq": _DIMLESS,
         }
 
     def outputs(self):
@@ -210,8 +214,12 @@ class FipyReactiveTransportProcess(Process):
 
         alk_scale = float(self.config["alk_scale"])
         norm_alk = alkalinity / (alkalinity + alk_scale) if alkalinity > 0 else 0.0
-        ph_target = 7.0 + 4.0 * math.tanh(alkalinity / alk_scale) if alk_scale > 0 else 7.0
-        ph_target = min(11.0, max(7.0, ph_target))
+        # Outlet pH relaxes toward the serpentinized source fluid's equilibrium pH
+        # (real PHREEQC Ca-OH buffer, transported in). Fall back to the current pH
+        # before the source has spun up (pH_eq <= 0).
+        ph_eq = float(state.get("pH_eq", 0.0) or 0.0)
+        ph_target = ph_eq if ph_eq > 0.0 else float(state["pH"])
+        ph_target = min(12.0, max(6.0, ph_target))
         d_ph = k * (ph_target - float(state["pH"])) * interval
 
         porosity = float(state["porosity"])

@@ -25,7 +25,7 @@ def test_ports_declared():
     assert set(p.inputs()) == {"temperature", "flow_velocity", "DIC"}
     assert set(p.outputs()) == {
         "H2", "alkalinity", "heat", "H2_flux", "alkalinity_flux",
-        "heat_flux", "pe", "charge_imbalance",
+        "heat_flux", "pe", "pH_eq", "charge_imbalance",
     }
 
 

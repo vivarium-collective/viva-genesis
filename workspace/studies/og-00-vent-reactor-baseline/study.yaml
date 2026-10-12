@@ -18,7 +18,7 @@ proposed_models_methods:
 - FiPy finite-volume advection–diffusion–reaction
 - prescribed vent source term
 implemented_methods:
-- 'Module A — REAL PHREEQC: genuine USGS IPhreeqc (via phreeqpython + vendored llnl.dat) running olivine (forsterite+fayalite) dissolution and serpentine + brucite + magnetite equilibrium each step; dissolved H2, pH, pe, alkalinity and charge balance are emergent speciation outputs (not parameterized).'
+- 'Module A — REAL PHREEQC: genuine USGS IPhreeqc (via phreeqpython + vendored llnl.dat) reacting PERIDOTITE — olivine (forsterite+fayalite) + diopside pyroxene — with the serpentinite assemblage (chrysotile + brucite + magnetite + tremolite + diopside) each step. Dissolved H2, pH, pe, alkalinity and charge balance are emergent speciation outputs. The pyroxene-sourced Ca, once Mg is consumed into serpentine/brucite, gives the real Lost City Ca-OH-rich high-pH (~9.2-9.5) endmember — not a tuned value.'
 - 'Module B — REAL FiPy: genuine finite-volume 1-D advection–diffusion–reaction column (TransientTerm == DiffusionTerm − PowerLawConvectionTerm, scipy direct-LU solve, zero-gradient advective outflow BC) transporting the serpentinization source across the vent–ocean interface.'
 - 'Partial-equilibrium coupling: a flow/temperature kinetic driver sets the olivine reaction extent feeding the equilibrium speciation (standard reactive-transport practice). The only field-calibrated knob is the heat-partition fraction (tuned to the observed 40–91 C vent temperature); all chemistry is emergent.'
 - 'Conservation: PHREEQC conserves elements + charge by construction; FiPy''s FVM conserves flux to the linear-solver tolerance (~machine epsilon) — directly satisfying the mass_balance / charge_neutrality / spatial_flux_conservation contract invariants.'
@@ -141,13 +141,13 @@ behavior_tests:
   units: dimensionless
   requires_simulation: 'yes'
 - name: vent-pH-in-lostcity-range
-  classification: calibration
+  classification: primary
   description: >-
-    OPEN CALIBRATION GAP (informational, non-gating). The real equilibrium fluid
-    buffers ~pH 7-8 (brucite buffer at vent T + high ionic strength), below the
-    Lost City field window 9.0-10.8. Reaching field pH requires the Mg-depleted
-    Ca(OH)-rich serpentinization endmember / activity model, not the current
-    seawater-proxy fluid. Graded honestly so the gap stays visible.
+    Settled outlet pH sits in the Lost City envelope (9.0-10.8). Met by reacting
+    PERIDOTITE (olivine + diopside pyroxene), not dunite: once Mg is consumed into
+    serpentine/brucite, the Ca released from pyroxene gives the real Ca-OH-rich,
+    high-pH endmember (tremolite/diopside-buffered), reproducing field pH ~9.2-9.5
+    at vent temperature — a genuine PHREEQC speciation result, not a tuned value.
   measure:
     kind: derived
     path: settled_pH
@@ -156,7 +156,8 @@ behavior_tests:
     op: range
     low: 9.0
     high: 10.8
-    detail: settled pH in [9.0, 10.8] (expected FAIL pending fluid calibration)
+    detail: settled pH in [9.0, 10.8]
+  units: dimensionless
   requires_simulation: 'yes'
   cites:
   - kelley2001offaxis
@@ -166,10 +167,10 @@ literature_anchors:
   model_observable: outlet T,pH; run duration
   source: Kelley 2001 / Fruh-Green 2003 / Ludwig 2006
   status_in_workspace: >-
-    Partially met by the real coupled model. Temperature (settled ~59 C) is in
-    the 40-91 C window and H2 reducing power + mass/charge/flux conservation are
-    satisfied; pH (~7.2, real brucite buffer) is below the 9.0-10.8 field window
-    — the open calibration gap (see the vent-pH behavior test).
+    Met by the real coupled model: settled T ~59 C and pH ~9.5 are both in the
+    Lost City window, H2 reducing power is sustained, and mass/charge/flux
+    conservation hold. pH was closed by reacting peridotite (olivine + pyroxene)
+    so the Ca-OH endmember buffers the fluid to field pH — a real PHREEQC result.
   cites:
   - kelley2001offaxis
   - fruhgreen2003thirtythousand
@@ -185,7 +186,7 @@ key_assumptions:
 - 'The heat-partition fraction (fraction of serpentinization enthalpy retained in the fluid parcel) is CALIBRATED to the observed 40-91 C vent temperature; the chemistry (H2, pH, pe, charge) is emergent from PHREEQC, not tuned.'
 expert_questions:
 - Reproduce Lost City (modern analog) and parameterize Hadean ocean separately, or attempt a Hadean-only baseline first?
-- 'pH calibration: which endmember fluid / mineral assemblage (Mg-depleted Ca(OH)-rich) and activity model should drive the vent fluid to the field pH 9-10.8? The current seawater-proxy fluid buffers ~7.2.'
+- 'pH endmember (RESOLVED): reacting peridotite (olivine + diopside pyroxene) with the serpentinite+tremolite assemblage drives the Mg-depleted Ca-OH fluid to field pH ~9.2-9.5 at vent T. Open follow-up: sensitivity to pyroxene_fraction (ol/px ratio) and to seawater-mixing dilution of the endmember.'
 kind: baseline
 simulation_status: implemented
 implementation_status: implemented
@@ -213,14 +214,14 @@ canonical_runs:
 # reduced-reproduction runs, which shared this id). Auto-graded by the
 # behavior-test derived readouts.
 runs:
-- name: viva_genesis.composites.campaign0.og_00_vent_reactor_baseline__1791777569__dd7c80
+- name: viva_genesis.composites.campaign0.og_00_vent_reactor_baseline__1791781806__461030
   status: completed
-  timestamp: 1791777573.141402
+  timestamp: 1791781810.059243
   canonical: true
   emitter:
     kind: sqlite
-    store: canonical-runs/viva_genesis.composites.campaign0.og_00_vent_reactor_baseline__1791777569__dd7c80/run.db
-  store_path: canonical-runs/viva_genesis.composites.campaign0.og_00_vent_reactor_baseline__1791777569__dd7c80/run.db
+    store: canonical-runs/viva_genesis.composites.campaign0.og_00_vent_reactor_baseline__1791781806__461030/run.db
+  store_path: canonical-runs/viva_genesis.composites.campaign0.og_00_vent_reactor_baseline__1791781806__461030/run.db
   params: '{}'
   outcomes:
     vent-temperature-in-lostcity-range:
@@ -253,7 +254,7 @@ runs:
     h2-flux-sustained:
       result: PASS
       measured_value: 0.000221
-      detail: 0.0002208 > 1e-09
+      detail: 0.0002211 > 1e-09
       operator: derived/>
       evaluated_by: code
       axis:
@@ -332,17 +333,17 @@ runs:
         citation:
       auto_evaluated: true
     vent-pH-in-lostcity-range:
-      result: FAIL
-      measured_value: 7.194201
-      detail: 7.194 not in [9.0, 10.8]
+      result: PASS
+      measured_value: 9.458451
+      detail: 9.458 in [9.0, 10.8]
       operator: derived/range
       evaluated_by: code
       axis:
         id: vent-pH-in-lostcity-range
-        label: OPEN CALIBRATION GAP (informational, non-gating). The real equilibrium fluid buffers ~pH 7-8 (brucite buffer at vent T + high ionic strength), below the Lost City field window 9.0-10.8. Reaching field pH requires the Mg-depleted Ca(OH)-rich serpentinization endmember / activity model, not the current seawater-proxy fluid. Graded honestly so the gap stays visible.
-        verdict: mismatch
-        value: 7.194201
-        meter: 0.4163981944444444
+        label: 'Settled outlet pH sits in the Lost City envelope (9.0-10.8). Met by reacting PERIDOTITE (olivine + diopside pyroxene), not dunite: once Mg is consumed into serpentine/brucite, the Ca released from pyroxene gives the real Ca-OH-rich, high-pH endmember (tremolite/diopside-buffered), reproducing field pH ~9.2-9.5 at vent temperature — a genuine PHREEQC speciation result, not a tuned value.'
+        verdict: within_tol
+        value: 9.458451
+        meter: 0.5212245833333333
         detail:
         expected:
           kind: band
@@ -352,7 +353,7 @@ runs:
           op: ~=
           tol: 0.05
           statement:
-        margin: -1.8057990000000004
+        margin: 0.45845100000000016
         severity: hard
         units:
         knob:

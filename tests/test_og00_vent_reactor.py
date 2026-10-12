@@ -76,9 +76,10 @@ def test_real_composite_conserves_reduces_and_warms():
     assert max(abs(r["flux_divergence_residual"]) for r in rows) < 1e-3
     # Heat-calibrated outlet temperature lands in the Lost City window.
     assert 40.0 <= settled("temperature") - 273.15 <= 91.0
-    # NOTE: pH is intentionally NOT asserted in [9, 10.8]; the real equilibrium
-    # fluid buffers ~pH 7-8, below the field range — the documented open
-    # calibration gap (Mg-depleted Ca-OH endmount). See study.yaml.
+    # pH lands in the Lost City window via the real peridotite (olivine+pyroxene)
+    # Ca-OH endmember — the serpentinized-fluid equilibrium pH transported to the
+    # outlet, not a tuned value.
+    assert 9.0 <= settled("pH") <= 10.8
 
 
 def test_viz_renders_html():

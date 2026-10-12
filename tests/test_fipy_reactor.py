@@ -13,7 +13,7 @@ from viva_genesis.transport.fipy_reactor import (
     FipyReactiveTransportProcess, spatial_profile,
 )
 
-_IN_KEYS = {"temperature", "pH", "porosity", "H2", "alkalinity", "heat", "flow_velocity"}
+_IN_KEYS = {"temperature", "pH", "porosity", "H2", "alkalinity", "heat", "flow_velocity", "pH_eq"}
 _OUT_KEYS = {"temperature", "pH", "porosity", "flux_divergence_residual"}
 
 
@@ -38,7 +38,8 @@ def test_real_fvm_run_conserves_and_drives_state():
     proc = _make()
     # Running interface state we advance ourselves by applying the emitted deltas.
     st = {"temperature": 300.0, "pH": 7.2, "porosity": 0.30,
-          "H2": 5.0e-3, "alkalinity": 2.0e-3, "heat": 20.0, "flow_velocity": 5.0e-3}
+          "H2": 5.0e-3, "alkalinity": 2.0e-3, "heat": 20.0, "flow_velocity": 5.0e-3,
+          "pH_eq": 9.5}
     temps = []
     for _ in range(20):
         upd = proc.update(st, interval=1.0)
@@ -57,8 +58,8 @@ def test_real_fvm_run_conserves_and_drives_state():
     assert temps[-1] > temps[0] + 5.0, (temps[0], temps[-1])
     rises = sum(1 for i in range(1, len(temps)) if temps[i] >= temps[i - 1] - 1e-9)
     assert rises >= len(temps) - 2, "temperature should climb near-monotonically"
-    # pH driven toward the alkalinity-set target (> starting 7.2)
-    assert st["pH"] > 7.2
+    # pH driven toward the transported equilibrium pH_eq (> starting 7.2, <= pH_eq)
+    assert 7.2 < st["pH"] <= 9.5 + 1e-6
     # porosity clogged below its start
     assert st["porosity"] < 0.30
 
@@ -67,7 +68,8 @@ def test_spatial_profile_available_after_run():
     proc = _make()
     assert spatial_profile(proc)["x"] == []     # unbuilt before first step
     proc.update({"temperature": 300.0, "pH": 7.2, "porosity": 0.3,
-                 "H2": 5e-3, "alkalinity": 2e-3, "heat": 20.0, "flow_velocity": 1e-3},
+                 "H2": 5e-3, "alkalinity": 2e-3, "heat": 20.0, "flow_velocity": 1e-3,
+                 "pH_eq": 9.5},
                 interval=1.0)
     prof = spatial_profile(proc)
     assert len(prof["x"]) == 40

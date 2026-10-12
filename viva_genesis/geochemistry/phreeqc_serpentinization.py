@@ -68,6 +68,12 @@ class PhreeqcSerpentinizationProcess(Process):
         # Fe-olivine (fayalite) fraction of the dissolving olivine — the Fe(II)
         # oxidized into magnetite is what reduces water to H2.
         "fe_fraction": {"_type": "float", "_default": 0.25},
+        # Pyroxene (diopside CaMgSi2O6) dissolved per mole of olivine — this makes
+        # the reactant PERIDOTITE (olivine + pyroxene), not dunite. The Ca it
+        # releases once Mg is consumed into serpentine/brucite is what drives the
+        # fluid to the Lost City Ca-OH-rich, pH 9-11 endmember (vs the brucite
+        # buffer ~pH 7-8 for olivine alone).
+        "pyroxene_fraction": {"_type": "float", "_default": 0.5},
         # Serpentinization kinetic temperature window (K): activity peaks at
         # t_opt and falls off with t_width (reaction is sluggish when cold and
         # the serpentine phases are unstable when very hot).
@@ -117,6 +123,9 @@ class PhreeqcSerpentinizationProcess(Process):
             "alkalinity_flux": "overwrite[float]",
             "heat_flux": "overwrite[float]",
             "pe": "overwrite[float]",
+            # Equilibrium pH of the serpentinized fluid (the Ca-OH buffer sets it)
+            # — the transport process relaxes the vent outlet toward this.
+            "pH_eq": {"_type": "overwrite[float]", "_units": "dimensionless"},
             # PHREEQC charge imbalance (eq/kgw) — audited by charge_neutrality.
             "charge_imbalance": "overwrite[float]",
         }
@@ -160,8 +169,14 @@ class PhreeqcSerpentinizationProcess(Process):
                 fe = c["fe_fraction"]
                 sol.add("Forsterite", moles_olivine * (1.0 - fe), "mol")
                 sol.add("Fayalite", moles_olivine * fe, "mol")
-                # Precipitate the serpentinite assemblage (quartz-undersaturated).
-                sol.equalize(["Chrysotile", "Brucite", "Magnetite"], [0.0, 0.0, 0.0])
+                # Pyroxene makes it peridotite -> the Ca-OH high-pH endmember.
+                diopside = moles_olivine * c["pyroxene_fraction"]
+                if diopside > 0.0:
+                    sol.add("Diopside", diopside, "mol")
+                # Precipitate the serpentinite assemblage (quartz-undersaturated);
+                # tremolite + diopside buffer the Ca-OH fluid to the field pH.
+                sol.equalize(["Chrysotile", "Brucite", "Magnetite", "Tremolite", "Diopside"],
+                             [0.0, 0.0, 0.0, 0.0, 0.0])
             sp = sol.species
             h2 = float(sp.get("H2", 0.0))                       # dissolved H2, mol/kgw
             oh = float(sp.get("OH-", 0.0))
@@ -207,5 +222,6 @@ class PhreeqcSerpentinizationProcess(Process):
             "alkalinity_flux": alk_flux,
             "heat_flux": heat_flux,
             "pe": fluid["pe"],
+            "pH_eq": fluid["pH"],
             "charge_imbalance": fluid["charge"],
         }
