@@ -312,28 +312,28 @@ canonical_runs:
 # reduced-reproduction runs, which shared this id). Auto-graded by the
 # behavior-test derived readouts.
 runs:
-- name: viva_genesis.composites.campaign0.og_00_vent_reactor_baseline__1791808349__ec482f
+- name: viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor__1791858182__6ba3ef
   status: completed
-  timestamp: 1791808353.715091
+  timestamp: 1791858189.192055
   canonical: true
   emitter:
     kind: sqlite
-    store: canonical-runs/viva_genesis.composites.campaign0.og_00_vent_reactor_baseline__1791808349__ec482f/run.db
-  store_path: canonical-runs/viva_genesis.composites.campaign0.og_00_vent_reactor_baseline__1791808349__ec482f/run.db
+    store: canonical-runs/viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor__1791858182__6ba3ef/run.db
+  store_path: canonical-runs/viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor__1791858182__6ba3ef/run.db
   params: '{}'
   outcomes:
     vent-temperature-in-lostcity-range:
       result: PASS
-      measured_value: 59.233647
-      detail: 59.23 in [40.0, 91.0]
+      measured_value: 49.849126
+      detail: 49.85 in [40.0, 91.0]
       operator: derived/range
       evaluated_by: code
       axis:
         id: vent-temperature-in-lostcity-range
         label: Settled outlet temperature sits in the Lost City envelope (40-91 C).
         verdict: within_tol
-        value: 59.233647
-        meter: 0.6056793791208791
+        value: 49.849126
+        meter: 0.554116076923077
         detail:
         expected:
           kind: band
@@ -343,7 +343,7 @@ runs:
           op: ~=
           tol: 0.05
           statement:
-        margin: 19.233646999999998
+        margin: 9.849125999999998
         severity: hard
         units:
         knob:
@@ -351,15 +351,15 @@ runs:
       auto_evaluated: true
     h2-flux-sustained:
       result: PASS
-      measured_value: 0.000221
-      detail: 0.0002211 > 1e-09
+      measured_value: 0.000276
+      detail: 0.0002763 > 1e-09
       operator: derived/>
       evaluated_by: code
       axis:
         id: h2-flux-sustained
         label: Real PHREEQC serpentinization delivers a sustained, non-collapsing H2 source.
         verdict: within_tol
-        value: 0.000221
+        value: 0.000276
         meter: 1.0
         detail:
         expected:
@@ -370,7 +370,7 @@ runs:
           op: '>'
           tol: 0.05
           statement:
-        margin: 0.00022099900000000002
+        margin: 0.00027599899999999997
         severity: hard
         units:
         knob:
@@ -405,16 +405,16 @@ runs:
       auto_evaluated: true
     spatial-flux-conserved:
       result: PASS
-      measured_value: 0.0
-      detail: 4.867e-16 <= 0.001
+      measured_value: 6e-05
+      detail: 5.98e-05 <= 0.001
       operator: derived/<=
       evaluated_by: code
       axis:
         id: spatial-flux-conserved
         label: FiPy finite-volume transport conserves flux (spatial_flux_conservation invariant).
         verdict: within_tol
-        value: 0.0
-        meter: 1.0
+        value: 6e-05
+        meter: 0.97
         detail:
         expected:
           kind: value
@@ -424,7 +424,7 @@ runs:
           op: <=
           tol: 0.05
           statement:
-        margin: 0.001
+        margin: 0.00094
         severity: hard
         units:
         knob:
@@ -432,16 +432,16 @@ runs:
       auto_evaluated: true
     vent-pH-in-lostcity-range:
       result: PASS
-      measured_value: 9.458451
-      detail: 9.458 in [9.0, 10.8]
+      measured_value: 9.396768
+      detail: 9.397 in [9.0, 10.8]
       operator: derived/range
       evaluated_by: code
       axis:
         id: vent-pH-in-lostcity-range
         label: 'Settled outlet pH sits in the Lost City envelope (9.0-10.8). Met by reacting PERIDOTITE (olivine + diopside pyroxene), not dunite: once Mg is consumed into serpentine/brucite, the Ca released from pyroxene gives the real Ca-OH-rich, high-pH endmember (tremolite/diopside-buffered), reproducing field pH ~9.2-9.5 at vent temperature — a genuine PHREEQC speciation result, not a tuned value.'
         verdict: within_tol
-        value: 9.458451
-        meter: 0.5212245833333333
+        value: 9.396768
+        meter: 0.5183688888888889
         detail:
         expected:
           kind: band
@@ -451,7 +451,7 @@ runs:
           op: ~=
           tol: 0.05
           statement:
-        margin: 0.45845100000000016
+        margin: 0.3967679999999998
         severity: hard
         units:
         knob:

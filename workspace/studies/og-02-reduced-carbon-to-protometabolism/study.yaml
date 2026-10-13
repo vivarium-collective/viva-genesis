@@ -220,14 +220,14 @@ pipeline_gate:
 expert_questions:
 - 'RESOLVED: started from rTCA fragments (reductive-TCA turn is the autocatalytic core); acetyl-CoA-pathway fragments are a natural parallel arm for a follow-up.'
 runs:
-- name: viva_genesis.composites.campaign2.og_02_reduced_carbon_to_protometabolism__1791808367__0cbdac
+- name: viva_genesis.composites.protometabolism.protometabolic_network__1791858208__cae24f
   status: completed
-  timestamp: 1791808368.9813418
+  timestamp: 1791858209.893334
   canonical: true
   emitter:
     kind: sqlite
-    store: canonical-runs/viva_genesis.composites.campaign2.og_02_reduced_carbon_to_protometabolism__1791808367__0cbdac/run.db
-  store_path: canonical-runs/viva_genesis.composites.campaign2.og_02_reduced_carbon_to_protometabolism__1791808367__0cbdac/run.db
+    store: canonical-runs/viva_genesis.composites.protometabolism.protometabolic_network__1791858208__cae24f/run.db
+  store_path: canonical-runs/viva_genesis.composites.protometabolism.protometabolic_network__1791858208__cae24f/run.db
   params: '{}'
   outcomes:
     sustained-carbon-throughput:
