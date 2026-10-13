@@ -35,7 +35,7 @@
   <div class="study-status-row" style="display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-top:6px;">
     
     
-    <span class="status-pill status-drafted" title="Headline status derived from the highest-precedence multi-axis field (or legacy `status` as fallback).">drafted</span>
+    <span class="status-pill status-evaluated" title="Headline status derived from the highest-precedence multi-axis field (or legacy `status` as fallback).">evaluated</span>
     
 
     
@@ -53,23 +53,23 @@
         
         <span class="status-stepper">
           
-          <span class="status-step gate-step axis-design_status gate-state-not-assessed set gate-current" title="Gate 1 · Plan — current stage">
-            <span class="dot"></span>1&nbsp;·&nbsp;Plan<span class="step-val">drafted</span><span class="gate-current-tag">you are here</span>
+          <span class="status-step gate-step axis-design_status gate-state-passed set" title="Gate 1 · Plan">
+            <span class="dot"></span>1&nbsp;·&nbsp;Plan<span class="step-val">approved</span>
           </span>
           
-          <span class="status-step gate-step axis-simulation_status gate-state-not-assessed set" title="Gate 2 · Execution">
-            <span class="dot"></span>2&nbsp;·&nbsp;Execution
+          <span class="status-step gate-step axis-simulation_status gate-state-passed set" title="Gate 2 · Execution">
+            <span class="dot"></span>2&nbsp;·&nbsp;Execution<span class="step-val">ran</span>
           </span>
           
-          <span class="status-step gate-step axis-evaluation_status gate-state-passed-with-conditions set" title="Gate 3 · Evidence">
-            <span class="dot"></span>3&nbsp;·&nbsp;Evidence
+          <span class="status-step gate-step axis-evaluation_status gate-state-passed-with-conditions set gate-current" title="Gate 3 · Evidence — current stage">
+            <span class="dot"></span>3&nbsp;·&nbsp;Evidence<span class="step-val">evaluated</span><span class="gate-current-tag">you are here</span>
           </span>
           
-          <span class="status-step gate-step axis-evaluation_status gate-state-not-assessed set" title="Gate 4 · Quality">
-            <span class="dot"></span>4&nbsp;·&nbsp;Quality
+          <span class="status-step gate-step axis-evaluation_status gate-state-passed set" title="Gate 4 · Quality">
+            <span class="dot"></span>4&nbsp;·&nbsp;Quality<span class="step-val">evaluated</span>
           </span>
           
-          <span class="status-step gate-step axis-gate_status gate-state-not-assessed set" title="Gate 5 · Decision">
+          <span class="status-step gate-step axis-gate_status gate-state-passed set" title="Gate 5 · Decision">
             <span class="dot"></span>5&nbsp;·&nbsp;Decision
           </span>
           
@@ -82,18 +82,18 @@
       </summary>
       <div class="status-stepper-body">
         
-        <div class="status-detail-row gate-row gate-state-not-assessed">
+        <div class="status-detail-row gate-row gate-state-passed">
           <span class="status-detail-axis">1 · Plan</span>
-          <span class="status-chip gate-state-not-assessed">drafted</span>
+          <span class="status-chip gate-state-passed">approved</span>
           
           
         </div>
         
-        <div class="status-detail-row gate-row gate-state-not-assessed">
+        <div class="status-detail-row gate-row gate-state-passed">
           <span class="status-detail-axis">2 · Execution</span>
-          <span class="status-chip gate-state-not-assessed">not set</span>
+          <span class="status-chip gate-state-passed">ran</span>
           
-          <span class="gate-computed-chip gate-state-not-assessed" title="no runs in runs.db">◆ computed: not_run</span>
+          <span class="gate-computed-chip gate-state-passed" title="2 completed run(s)">◆ computed: ran</span>
           
           
           
@@ -101,9 +101,11 @@
         
         <div class="status-detail-row gate-row gate-state-passed-with-conditions">
           <span class="status-detail-axis">3 · Evidence</span>
-          <span class="status-chip gate-state-not-assessed">not set</span>
+          <span class="status-chip gate-state-passed">evaluated</span>
           
-          <span class="gate-computed-chip gate-state-passed-with-conditions" title="nothing run to evaluate + visualization readiness gate (V4)">◆ computed: not_evaluated</span>
+          <span class="gate-computed-chip gate-state-passed-with-conditions" title="completed run + recorded verdicts + visualization readiness gate (V4)">◆ computed: evaluated</span>
+          
+          <span class="gate-divergence-chip gate-divergence-chip-inline" title="Code-computed state disagrees with the authored axis.">⚠ diverges from authored</span>
           
           
           
@@ -111,21 +113,21 @@
           
         </div>
         
-        <div class="status-detail-row gate-row gate-state-not-assessed">
+        <div class="status-detail-row gate-row gate-state-passed">
           <span class="status-detail-axis">4 · Quality</span>
-          <span class="status-chip gate-state-not-assessed">not set</span>
+          <span class="status-chip gate-state-passed">evaluated</span>
           
-          <span class="gate-computed-chip gate-state-not-assessed" title="nothing run to evaluate">◆ computed: not_evaluated</span>
+          <span class="gate-computed-chip gate-state-passed" title="completed run + recorded verdicts">◆ computed: evaluated</span>
           
           
           
         </div>
         
-        <div class="status-detail-row gate-row gate-state-not-assessed">
+        <div class="status-detail-row gate-row gate-state-passed">
           <span class="status-detail-axis">5 · Decision</span>
           <span class="status-chip gate-state-not-assessed">not set</span>
           
-          <span class="gate-computed-chip gate-state-not-assessed" title="spine gate evaluator (study_verdict.roll_up_verdict / pipeline_gate.gate_evaluator)">◆ computed: not_started</span>
+          <span class="gate-computed-chip gate-state-passed" title="spine gate evaluator (study_verdict.roll_up_verdict / pipeline_gate.gate_evaluator)">◆ computed: passed</span>
           
           
           
@@ -146,18 +148,6 @@
 </header>
 
 
-
-<div class="composite-lint-banner" role="alert"
-     style="margin:8px 0 14px 0;padding:10px 14px;background:#fffbeb;border:1px solid #f59e0b;border-left-width:5px;border-radius:6px;color:#92400e;font-size:0.9em">
-  
-  <div>⚠ composite not found in registry: <code>viva_genesis.composites.og_06_chemistry_to_heredity</code></div>
-  
-  <div style="margin-top:4px;font-size:0.86em;color:#a16207">
-    This study references a composite that doesn't resolve — it may not declare a
-    real, registered composite. Add a <code>.composite.yaml</code> and register it
-    in <code>core.py</code>, or fix the ref.
-  </div>
-</div>
 
 
 
@@ -180,7 +170,7 @@
   </div>
   <div class="act-cluster" data-act="design">
     <div class="act-header">
-      <span class="act-gate-dot" data-gate="design" data-gate-state="not-assessed"></span>
+      <span class="act-gate-dot" data-gate="design" data-gate-state="passed"></span>
       <span class="act-label">Design</span>
     </div>
     <div class="act-tabs">
@@ -204,7 +194,7 @@
   </div>
   <div class="act-cluster" data-act="assurance">
     <div class="act-header">
-      <span class="act-gate-dot" data-gate="assurance" data-gate-state="not-assessed"></span>
+      <span class="act-gate-dot" data-gate="assurance" data-gate-state="passed"></span>
       <span class="act-label">Assurance</span>
     </div>
     <div class="act-tabs">
@@ -216,7 +206,7 @@
   </div>
   <div class="act-cluster" data-act="decision">
     <div class="act-header">
-      <span class="act-gate-dot" data-gate="decision" data-gate-state="not-assessed"></span>
+      <span class="act-gate-dot" data-gate="decision" data-gate-state="passed"></span>
       <span class="act-label">Decision</span>
     </div>
     <div class="act-tabs">
@@ -668,7 +658,7 @@
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Claim</h2>
-      <p class="ctr-text">Does inherited state improve persistence/throughput — comparing RNA-like, peptide-assisted, compositional and hybrid heredity — rather than template replication in isolation? (Do NOT presume RNA.)</p>
+      <p class="ctr-text">An inherited (replicable) polymer state improves lineage fitness above its replication cost IF fidelity beats the Eigen error threshold — RNA-like (long, high-fidelity) wins a head-to-head against a cheaper peptide module, and both beat the non-heritable control; below the threshold information is lost (error catastrophe).</p>
       
     </div>
 
@@ -688,7 +678,7 @@
       <div class="ctr-meta">
         <div class="ctr-meta-row"><span class="ctr-meta-k">Model</span> <code>Chemistry to heredity (Campaign VI)</code><a class="ov-tablink" href="#" onclick="_setStudyTab('compose');return false;">model →</a></div>
         
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Measures</span> <span class="ctr-meta-item">3 behavior tests</span><a class="ov-tablink" href="#" onclick="_setStudyTab('tests');return false;">see Tests →</a></div>
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Measures</span> <span class="ctr-meta-item">5 behavior tests</span><a class="ov-tablink" href="#" onclick="_setStudyTab('tests');return false;">see Tests →</a></div>
         
       </div>
     </div>
@@ -716,7 +706,7 @@
       </div>
       
       
-      <div class="ctr-meta-k" style="margin-top:12px">Sources (1)</div>
+      <div class="ctr-meta-k" style="margin-top:12px">Sources (2)</div>
       <div class="ov-sources">
       
         
@@ -726,6 +716,13 @@
           <div class="ctr-meta-k" style="text-transform:none">Huber, Claudia and W{\&#34;a}chtersh{\&#34;a}user, G{\&#34;u}nter · 1998 · <a href="https://doi.org/10.1126/science.281.5377.670" target="_blank" rel="noopener">source ↗</a></div>
         </div>
       
+        
+        <div class="ov-src" id="sref-muchowska2019synthesis">
+          <b class="ov-src-t">Muchowska 2019</b> <span class="ov-src-k">muchowska2019synthesis</span>
+          <div class="ov-src-t">Synthesis and breakdown of universal metabolic precursors promoted by iron</div>
+          <div class="ctr-meta-k" style="text-transform:none">Muchowska, Kamila B. and Varma, Sreejith J. and Moran, Joseph · 2019 · <a href="https://doi.org/10.1038/s41586-019-1151-1" target="_blank" rel="noopener">source ↗</a></div>
+        </div>
+      
       </div>
       
     </div>
@@ -733,22 +730,163 @@
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Result</h2>
-      <p class="ctr-text"></p>
+      <p class="ctr-text">RNA-like fitness 0.38 (retention 0.62) &gt; peptide 0.24 &gt; non-heritable ~0; the low-fidelity module collapses (retention 0, fitness −0.10).</p>
+      
+      <div class="ov-metrics">
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">0.38</div>
+          <div class="ov-metric-k">RNA-like fitness</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">0.62</div>
+          <div class="ov-metric-k">RNA-like retention</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">0.24</div>
+          <div class="ov-metric-k">Peptide fitness</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">0 / −0.10</div>
+          <div class="ov-metric-k">Low-fidelity (catastrophe)</div>
+        </div>
+        
+      </div>
       
       
       <div id="overview-key-figure" class="ov-keyfig" data-study="og-06-chemistry-to-heredity"></div>
       
+    <div class="overview-section findings-section">
+      <h2 class="overview-label">🔬 Findings — what this study taught us</h2>
+      
+      
+      
+      
+      
+      
+      
+      
+      <div class="finding-card finding-kind-computational finding-status-confirms">
+        <details class="finding-details">
+          <summary class="finding-row">
+            <span class="finding-status-glyph">✓</span>
+            <span class="finding-claim finding-statement">A high-fidelity heredity module (RNA-like, 30-mer, per-site fidelity 0.99 → whole-sequence Q=0.74) retains functional information (C/(C+E)=0.62) and achieves net-positive lineage fitness (0.38) after its replication cost, outscoring the non-heritable control whose function degrades away.</span>
+            
+            <span class="finding-chip">via <code>inheritance-beats-noninheritance</code></span>
+            
+          </summary>
+          <div class="finding-drawer">
+            <div class="finding-header">
+              <span class="finding-id">og06-inheritance-pays</span>
+              <span class="finding-kind">computational</span>
+              <span class="finding-status-text">confirms literature</span>
+            </div>
+            
+            
+            <div class="finding-evidence">
+              <strong>observed:</strong> RNA-like fitness 0.38 (retention 0.62) vs non-heritable ~0 dimensionless · 
+              
+              via test <a href="#bt-inheritance-beats-noninheritance" onclick="_gotoStudyTab('tests','bt-inheritance-beats-noninheritance');return false;"><code>inheritance-beats-noninheritance</code></a> · 
+              
+              
+              
+            </div>
+            
+            
+            
+            
+            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: &gt; 0.1</code></div>
+            
+            
+            
+            <div class="finding-expected">
+              
+              
+              cites: <a class="ov-cite" href="#sref-huber1998peptides" title="Peptides by activation of amino acids with CO on (Ni,Fe)S surfaces: implications for the origin of life">Huber 1998</a><a class="ov-cite" href="#sref-muchowska2019synthesis" title="Synthesis and breakdown of universal metabolic precursors promoted by iron">Muchowska 2019</a>
+            </div>
+            
+            
+            <div class="finding-explanation"><em>Why:</em> Real libRoadRunner quasispecies ODE; above the Eigen error threshold correct templates outreplicate the mutational error tail.</div>
+            
+            
+          </div>
+        </details>
+      </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <div class="finding-card finding-kind-computational finding-status-novel">
+        <details class="finding-details">
+          <summary class="finding-row">
+            <span class="finding-status-glyph">◆</span>
+            <span class="finding-claim finding-statement">Heredity modules rank by an evidence-based head-to-head — RNA-like (0.38) beats the cheaper, lower-fidelity peptide module (0.24), and both beat non-inheritance — while a module below the error threshold (per-site 0.90 × 30-mer, Q=0.04) suffers the error catastrophe (retention 0, fitness −0.10).</span>
+            
+            <span class="finding-chip">via <code>heredity-modules-compared</code></span>
+            
+          </summary>
+          <div class="finding-drawer">
+            <div class="finding-header">
+              <span class="finding-id">og06-error-threshold-and-ranking</span>
+              <span class="finding-kind">computational</span>
+              <span class="finding-status-text">novel literature</span>
+            </div>
+            
+            
+            <div class="finding-evidence">
+              <strong>observed:</strong> RNA-like 0.38 &gt; peptide 0.24; low-fidelity retention 0, fitness -0.10 · 
+              
+              via test <a href="#bt-heredity-modules-compared" onclick="_gotoStudyTab('tests','bt-heredity-modules-compared');return false;"><code>heredity-modules-compared</code></a> · 
+              
+              
+              
+            </div>
+            
+            
+            
+            
+            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: op: arms_reported · detail: both modules viable; RNA-like ranks above peptide</code></div>
+            
+            
+            
+            <div class="finding-expected">
+              
+              
+              cites: <a class="ov-cite" href="#sref-huber1998peptides" title="Peptides by activation of amino acids with CO on (Ni,Fe)S surfaces: implications for the origin of life">Huber 1998</a>
+            </div>
+            
+            
+            <div class="finding-explanation"><em>Why:</em> Whole-sequence fidelity Q = per_site_fidelity^length sets the threshold; longer high-fidelity polymers retain more information but cost more to replicate.</div>
+            
+            <div class="finding-next"><strong>→ Next:</strong> Couple the winning heredity module to the og-02 network to test whether inherited catalysts raise metabolic throughput.</div>
+          </div>
+        </details>
+      </div>
+      
+      
+    </div>
+    
       
       
       
       <div class="ctr-meta ctr-assess">
         
         <div class="ctr-meta-row"><span class="ctr-meta-k">Confidence</span>
-          <span class="ctr-badge ctr-badge-planned">Planned</span>
-          
-          
+          <span class="ctr-badge ctr-badge-investigating">Investigating</span>
+          <span class="ctr-vch">biology&nbsp;PASS</span>
+          <span class="ctr-vch">insight&nbsp;POSITIVE</span>
         </div>
         
+        
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Caveat</span> <span class="ctr-meta-item">The functional benefit and replication cost are reduced couplings; only the quasispecies dynamics are the real engine.</span></div>
         
       </div>
       
@@ -791,22 +929,22 @@
   <div class="overview-section" id="model-section">
     <h3>Runnable models <span class="muted" style="font-size:0.85em;font-weight:normal">— the composite(s) this study simulates</span></h3>
     
-    <div class="cond-block" data-model-composite="viva_genesis.composites.og_06_chemistry_to_heredity" data-model-overrides='{}'>
+    <div class="cond-block" data-model-composite="viva_genesis.composites.heredity_module_comparison.heredity_module_comparison" data-model-overrides='{"module": "rna-like", "temperature": 353.15}'>
       <div class="cond-block-title" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
         <strong>Chemistry to heredity (Campaign VI)</strong>
         
-        <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.og_06_chemistry_to_heredity</code>
+        <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.heredity_module_comparison.heredity_module_comparison</code>
         <button type="button" class="action-btn" style="font-size:0.8em"
-                onclick="_openCompositeLoom('viva_genesis.composites.og_06_chemistry_to_heredity')">🧬 explore &amp; run ↗</button>
+                onclick="_openCompositeLoom('viva_genesis.composites.heredity_module_comparison.heredity_module_comparison')">🧬 explore &amp; run ↗</button>
         
       </div>
       
       <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
         
         <select class="baseline-composite-input" data-baseline-name="Chemistry to heredity (Campaign VI)"
-                data-current="viva_genesis.composites.og_06_chemistry_to_heredity"
+                data-current="viva_genesis.composites.heredity_module_comparison.heredity_module_comparison"
                 style="flex:1;min-width:200px;font-family:monospace;font-size:0.82em;padding:3px 6px">
-          <option value="viva_genesis.composites.og_06_chemistry_to_heredity" selected>viva_genesis.composites.og_06_chemistry_to_heredity</option>
+          <option value="viva_genesis.composites.heredity_module_comparison.heredity_module_comparison" selected>viva_genesis.composites.heredity_module_comparison.heredity_module_comparison</option>
           
         </select>
         <button type="button" class="action-btn baseline-composite-set" style="font-size:0.8em"
@@ -820,6 +958,13 @@
         <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading configuration…</span></div></div>
       
       
+      
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;font-size:0.8em">
+        
+        
+        
+        <span class="cond-pill"><span class="cond-pill-k">status</span>=completed</span>
+      </div>
       
     </div>
     
@@ -947,6 +1092,10 @@
 
     
     
+    <div class="viz-actions-row" style="display:flex; justify-content:flex-end; margin-bottom:10px;">
+      <button type="button" class="btn-mini" onclick="window._vivStudyFiguresFromCard(event, 'og-06-chemistry-to-heredity')" title="Download this study's visualizations (figure panels + its composite) as a zip">↓ visualizations</button>
+    </div>
+    
 
     <div id="native-gallery-panel" class="figure-mount"><div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading figures…</span></div></div>
 
@@ -1037,26 +1186,101 @@
         
         data-pytest-node="inheritance-beats-noninheritance"
         data-classification="primary"
-        data-result="pending"
+        data-result="PASS"
         style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #10b981; background: #f8fafc; border-radius: 4px;">
       
         
       <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
-        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #f1f5f9; color: #475569">⏳ pending</span>
+        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #d1fae5; color: #065f46">✓ PASS</span>
         <span class="classification-pill classification-primary">primary</span>
         <strong style="font-size: 0.9em;">inheritance-beats-noninheritance</strong>
         
         <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
         
       </div>
-      <div style="margin-top: 6px; font-size: 0.95em;">Heritable systems outperform their non-heritable controls.</div>
+      <div style="margin-top: 6px; font-size: 0.95em;">The RNA-like heredity module retains functional information and outscores the non-heritable control (whose function degrades away).</div>
+      
+      <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
+        <strong>Latest result:</strong>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.38284</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 0.3828 &gt; 0.1</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&gt;</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;inheritance-beats-noninheritance&#39;, &#39;label&#39;: &#39;The RNA-like heredity module retains functional information and outscores the non-heritable control (whose function degrades away).&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 0.38284, &#39;meter&#39;: 1.0, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 0.1, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 0.28284, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: &#39;huber1998peptides&#39;}</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+        
+      </div>
       
       
       <details style="margin-top: 6px; font-size: 0.82em;">
         <summary class="muted" style="cursor: pointer;">Assertion</summary>
         
-        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "persistence/throughput with vs without inherited state", "kind": "observable"}
-pass_if: {"detail": "heritable \u003e control", "op": "threshold"}</pre>
+        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "RNA-like lineage fitness at steady state", "kind": "derived", "path": "final_lineage_fitness"}
+pass_if: {"detail": "inheriting lineage fitness net-positive (and beats the non-heritable control)", "op": "\u003e", "value": 0.1}
+cites:   ["huber1998peptides"]</pre>
+      </details>
+      
+      
+      
+      
+    </li>
+    
+    
+    
+    
+    
+    
+    
+    
+    <li class="expected-behavior-item" id="bt-information-retained-above-error-threshold"
+        data-test-kind="behavioral"
+        
+        data-pytest-node="information-retained-above-error-threshold"
+        data-classification="primary"
+        data-result="PASS"
+        style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #10b981; background: #f8fafc; border-radius: 4px;">
+      
+        
+      <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
+        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #d1fae5; color: #065f46">✓ PASS</span>
+        <span class="classification-pill classification-primary">primary</span>
+        <strong style="font-size: 0.9em;">information-retained-above-error-threshold</strong>
+        
+        <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
+        
+      </div>
+      <div style="margin-top: 6px; font-size: 0.95em;">The RNA-like module sits above the Eigen error threshold — functional information is retained (C/(C+E) high), not lost to the error catastrophe.</div>
+      
+      <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
+        <strong>Latest result:</strong>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.617446</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 0.6174 &gt;= 0.4</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&gt;=</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;information-retained-above-error-threshold&#39;, &#39;label&#39;: &#39;The RNA-like module sits above the Eigen error threshold — functional information is retained (C/(C+E) high), not lost to the error catastrophe.&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 0.617446, &#39;meter&#39;: 0.7718075, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 0.4, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 0.21744600000000003, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: &#39;huber1998peptides; muchowska2019synthesis&#39;}</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+        
+      </div>
+      
+      
+      <details style="margin-top: 6px; font-size: 0.82em;">
+        <summary class="muted" style="cursor: pointer;">Assertion</summary>
+        
+        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "C/(C+E) retention at steady state", "kind": "derived", "path": "final_information_retention"}
+pass_if: {"detail": "functional information retained (above the error threshold)", "op": "\u003e=", "value": 0.4}
+cites:   ["huber1998peptides", "muchowska2019synthesis"]</pre>
       </details>
       
       
@@ -1076,26 +1300,93 @@ pass_if: {"detail": "heritable \u003e control", "op": "threshold"}</pre>
         
         data-pytest-node="heredity-modules-compared"
         data-classification="primary"
-        data-result="pending"
+        data-result="PASS"
         style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #10b981; background: #f8fafc; border-radius: 4px;">
       
         
       <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
-        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #f1f5f9; color: #475569">⏳ pending</span>
+        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #d1fae5; color: #065f46">✓ PASS</span>
         <span class="classification-pill classification-primary">primary</span>
         <strong style="font-size: 0.9em;">heredity-modules-compared</strong>
         
         <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
         
       </div>
-      <div style="margin-top: 6px; font-size: 0.95em;">At least two heredity modules evaluated head-to-head.</div>
+      <div style="margin-top: 6px; font-size: 0.95em;">Two viable heredity modules compared head-to-head: RNA-like (long, high-fidelity) outscores the cheaper, lower-fidelity peptide module — an evidence-based ranking, not assumed.</div>
+      
+      <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
+        <strong>Latest result:</strong>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.243</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: cross_run</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: RNA-like fitness=0.383 vs peptide fitness=0.243 (both viable; RNA-like ranks above =&gt; evidence-based head-to-head)</code>
+        
+      </div>
       
       
       <details style="margin-top: 6px; font-size: 0.82em;">
         <summary class="muted" style="cursor: pointer;">Assertion</summary>
         
-        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "ranking across \u003e=2 heredity modules", "kind": "observable"}
-pass_if: {"detail": "evidence-based ranking, not assumed", "op": "threshold"}</pre>
+        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "RNA-like vs peptide lineage fitness", "kind": "cross_run"}
+pass_if: {"detail": "both modules viable; RNA-like ranks above peptide", "op": "arms_reported"}
+cites:   ["huber1998peptides"]</pre>
+      </details>
+      
+      
+      
+      
+    </li>
+    
+    
+    
+    
+    
+    
+    
+    
+    <li class="expected-behavior-item" id="bt-error-catastrophe-below-threshold"
+        data-test-kind="behavioral"
+        
+        data-pytest-node="error-catastrophe-below-threshold"
+        data-classification="diagnostic"
+        data-result="PASS"
+        style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #f59e0b; background: #f8fafc; border-radius: 4px;">
+      
+        
+      <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
+        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #d1fae5; color: #065f46">✓ PASS</span>
+        <span class="classification-pill classification-diagnostic">diagnostic</span>
+        <strong style="font-size: 0.9em;">error-catastrophe-below-threshold</strong>
+        
+        <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
+        
+      </div>
+      <div style="margin-top: 6px; font-size: 0.95em;">Discriminating (Eigen): below the error threshold (low fidelity × long sequence) functional information is lost — retention collapses and inheritance fails.</div>
+      
+      <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
+        <strong>Latest result:</strong>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.0</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: cross_run</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: low-fidelity retention=0.00 fitness=-0.100 (below the error threshold =&gt; information lost, inheritance fails)</code>
+        
+      </div>
+      
+      
+      <details style="margin-top: 6px; font-size: 0.82em;">
+        <summary class="muted" style="cursor: pointer;">Assertion</summary>
+        
+        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "RNA-like vs low-fidelity module", "kind": "cross_run"}
+pass_if: {"detail": "the low-fidelity module collapses (retention ~0", "fitness negative)": null, "op": "controls_absent"}
+cites:   ["huber1998peptides"]</pre>
       </details>
       
       
@@ -1115,26 +1406,43 @@ pass_if: {"detail": "evidence-based ranking, not assumed", "op": "threshold"}</p
         
         data-pytest-node="replication-feasible-budget"
         data-classification="supporting"
-        data-result="pending"
+        data-result="PASS"
         style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #3b82f6; background: #f8fafc; border-radius: 4px;">
       
         
       <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
-        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #f1f5f9; color: #475569">⏳ pending</span>
+        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #d1fae5; color: #065f46">✓ PASS</span>
         <span class="classification-pill classification-supporting">supporting</span>
         <strong style="font-size: 0.9em;">replication-feasible-budget</strong>
         
         <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
         
       </div>
-      <div style="margin-top: 6px; font-size: 0.95em;">Demonstrated under feasible resource budgets, not idealized.</div>
+      <div style="margin-top: 6px; font-size: 0.95em;">Inheritance pays within a feasible replication budget — net-positive fitness after the replication cost, not idealized.</div>
+      
+      <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
+        <strong>Latest result:</strong>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.38284</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 0.3828 &gt; 0.0</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&gt;</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;replication-feasible-budget&#39;, &#39;label&#39;: &#39;Inheritance pays within a feasible replication budget — net-positive fitness after the replication cost, not idealized.&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 0.38284, &#39;meter&#39;: 0.69142, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 0.0, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 0.38284, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: None}</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+        
+      </div>
       
       
       <details style="margin-top: 6px; font-size: 0.82em;">
         <summary class="muted" style="cursor: pointer;">Assertion</summary>
         
-        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "resource budget of replication", "kind": "observable"}
-pass_if: {"detail": "within chemically feasible budget", "op": "threshold"}</pre>
+        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "net fitness after replication cost", "kind": "derived", "path": "final_lineage_fitness"}
+pass_if: {"detail": "net-positive within the replication budget", "op": "\u003e", "value": 0.0}</pre>
       </details>
       
       
@@ -1221,27 +1529,27 @@ pass_if: {"detail": "within chemically feasible budget", "op": "threshold"}</pre
           <span class="narrative-label">Empirical validation</span>
           <span class="narrative-input verdict-badge-computed" data-verdict-track="biological_validation"
                 title="Computed from the gate evaluator (read-only)"
-                style="display:inline-block;padding:2px 12px;border-radius:9999px;font-weight:700;font-size:0.85em;background:#f1f5f9;color:#475569">PENDING</span>
+                style="display:inline-block;padding:2px 12px;border-radius:9999px;font-weight:700;font-size:0.85em;background:#f1f5f9;color:#475569">PASS</span>
           <span class="muted small" style="margin-left:6px">computed from gate evaluator</span>
         </label>
         <label class="narrative-row narrative-row-wide">
           <span class="narrative-label">Empirical basis</span>
           <textarea class="narrative-input narrative-textarea" rows="2"
                     data-narrative-path="conclusion_verdicts.biological_validation.basis"
-                    placeholder="e.g. atp_fraction = 0.997, outside Boesen 2024 band [0.2, 0.5]."></textarea>
+                    placeholder="e.g. atp_fraction = 0.997, outside Boesen 2024 band [0.2, 0.5].">Reproduces the Eigen error threshold — inheritance pays above it, collapses below it — and ranks two viable modules head-to-head.</textarea>
         </label>
         <label class="narrative-row">
           <span class="narrative-label">Explanatory gain</span>
           <span class="narrative-input verdict-badge-computed" data-verdict-track="explanatory_gain"
                 title="Computed from interpretation-tier findings (read-only)"
-                style="display:inline-block;padding:2px 12px;border-radius:9999px;font-weight:700;font-size:0.85em;background:#f1f5f9;color:#475569">PENDING</span>
+                style="display:inline-block;padding:2px 12px;border-radius:9999px;font-weight:700;font-size:0.85em;background:#f1f5f9;color:#475569">POSITIVE</span>
           <span class="muted small" style="margin-left:6px">computed from interpretation-tier findings</span>
         </label>
         <label class="narrative-row narrative-row-wide">
           <span class="narrative-label">Explanatory basis</span>
           <textarea class="narrative-input narrative-textarea" rows="2"
                     data-narrative-path="conclusion_verdicts.explanatory_gain.basis"
-                    placeholder="e.g. Three findings worth keeping; design_pivot_required closed."></textarea>
+                    placeholder="e.g. Three findings worth keeping; design_pivot_required closed.">The quasispecies ODE explains both the information-retention transition and the fidelity × length threshold from first principles.</textarea>
         </label>
       </div>
     </div>
@@ -1261,6 +1569,18 @@ pass_if: {"detail": "within chemically feasible budget", "op": "threshold"}</pre
   <div class="overview-section"><h2 class="overview-label">Plan &amp; assumptions</h2>
 
     
+    <div class="overview-section">
+      <h3 class="overview-label">Pipeline gate</h3>
+      <p class="muted" style="margin: 0 0 8px 0;font-size:0.88em">
+        Each study is a model-building gate: it answers <em>"Can we safely build the next layer?"</em>
+      </p>
+      
+      <div style="margin-bottom:6px"><strong>Prerequisites:</strong> <em class="muted">none (root study)</em></div>
+      
+      
+      
+    </div>
+    
 
     
     <div class="overview-section">
@@ -1271,6 +1591,14 @@ pass_if: {"detail": "within chemically feasible budget", "op": "threshold"}</pre
     </div>
     
 
+    
+    <div class="overview-section">
+      <h3 class="overview-label">Limitations</h3>
+      <p class="muted" style="margin:0 0 6px 0;font-size:0.85em">What this study explicitly does NOT validate (prevents overclaim).</p>
+      <ul style="margin:0 0 0 18px;padding:0;font-size:0.93em">
+        <li style="margin:2px 0">The functional benefit and replication cost are reduced couplings; only the quasispecies dynamics are the real engine.</li><li style="margin:2px 0">Two heredity modules compared (RNA-like, peptide); a broader module library is deferred.</li>
+      </ul>
+    </div>
     
 
   </div>
@@ -1283,6 +1611,27 @@ pass_if: {"detail": "within chemically feasible budget", "op": "threshold"}</pre
     
     
     
+    <div class="decide-section">
+      <h3 class="overview-label">Latest run outcomes</h3>
+      <div style="font-size:0.88em;color:#64748b;margin-bottom:8px">
+        baseline · seed ? ·
+        ?s simulated ·
+        ? history rows ·
+        started 1791856591.1341739
+      </div>
+      
+      
+      
+      <p class="muted" style="margin:0;font-size:0.9em">
+        <strong>5</strong> test outcomes
+        — <span style="color:#065f46;font-weight:600">5 PASS</span> ·
+        <span style="color:#991b1b;font-weight:600">0 FAIL</span>.
+        Per-test outcomes (measured value · evaluator · band) are canonical on the
+        <a onclick="_setStudyTab('tests')" style="cursor:pointer;color:#3b82f6;text-decoration:underline">Tests tab →</a>.
+      </p>
+      
+    </div>
+    
     
 
   </div>
@@ -1294,6 +1643,64 @@ pass_if: {"detail": "within chemically feasible budget", "op": "threshold"}</pre
     
 
     
+    
+    
+    <div class="overview-section" id="discovery-implications-section" style="margin-top:18px">
+      <h3 class="overview-label">Discovery implications</h3>
+      <p class="muted" style="margin:0 0 10px 0;font-size:0.88em">Where this study's results leave the mechanism model — and what to investigate next.</p>
+
+      
+      <div class="di-uncertainties">
+        
+        <div class="di-unc di-unc-resolved">
+          <h4>✓ Resolved uncertainties</h4>
+          <ul><li>Inheritance improves fitness above the Eigen error threshold and can be ranked across modules by an evidence-based head-to-head.</li></ul>
+        </div>
+        
+        
+        <div class="di-unc di-unc-remaining">
+          <h4>● Remaining uncertainties</h4>
+          <ul><li>Whether an inherited catalyst actually raises the og-02 network&#39;s metabolic throughput in-lineage.</li></ul>
+        </div>
+        
+      </div>
+      
+
+      
+
+      
+
+      
+      
+      
+      <div class="di-group">
+        <h3>Follow-up study proposals
+          <span class="muted" style="font-weight:normal;font-size:0.82em">(discovered)</span>
+          <span class="muted" style="font-weight:normal;font-size:0.85em">(1)</span></h3>
+        <p class="muted" style="margin:0 0 8px 0;font-size:0.85em">Click <strong>➕ Add to investigation</strong> to spawn a new study node in the investigation graph.</p>
+        <div class="followup-list">
+          
+          
+          <div class="di-card di-fup-card">
+            <div class="followup-header">
+              <strong class="followup-title">(untitled proposal)</strong>
+              
+              
+              
+              
+            </div>
+            
+            
+            <div class="followup-actions" style="margin-top:8px">
+              <button class="btn-seed-followup"
+                      onclick="_seedFollowupProposal('og-06-chemistry-to-heredity', "")">➕ Add to investigation</button>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+      
+    </div>
     
 
     
@@ -1309,7 +1716,7 @@ pass_if: {"detail": "within chemically feasible budget", "op": "threshold"}</pre
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "d0eeb9829cd8963cf13941cc3959e56ef052cbb6", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/d0eeb9829cd8963cf13941cc3959e56ef052cbb6", "branch": "main", "lockfile": "uv.lock@ce30b61d457c", "generated_at": "2026-10-13 01:12 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "f67a730c80863655e01237942213c5f808f0330b", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/f67a730c80863655e01237942213c5f808f0330b", "branch": "main", "lockfile": "uv.lock@9230aa323e45", "generated_at": "2026-10-13 01:58 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>

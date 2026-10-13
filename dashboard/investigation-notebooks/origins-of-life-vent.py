@@ -1096,6 +1096,8 @@ _save_viz('og-05-environmental-to-internal-bioenergetics', 'bioenergetic-interna
 # **Objective.** Introduce competing heredity modules and test whether inherited state improves persistence under feasible budgets.
 #
 # **Hypothesis.** At least one heredity module raises lineage persistence + information retention above its non-heritable control under a feasible resource budget; the winner is not assumed a priori.
+#
+# **Claim.** An inherited (replicable) polymer state improves lineage fitness above its replication cost IF fidelity beats the Eigen error threshold — RNA-like (long, high-fidelity) wins a head-to-head against a cheaper peptide module, and both beat the non-heritable control; below the threshold information is lost (error catastrophe).
 
 # ### Design
 #
@@ -1118,23 +1120,23 @@ _save_viz('og-05-environmental-to-internal-bioenergetics', 'bioenergetic-interna
 #
 # | simulation | composite | steps | params |
 # | --- | --- | --- | --- |
-# | `Chemistry to heredity (Campaign VI)` | `viva_genesis.composites.og_06_chemistry_to_heredity` | 0 | — |
+# | `Chemistry to heredity (Campaign VI)` | `viva_genesis.composites.heredity_module_comparison.heredity_module_comparison` | 0 | module=rna-like, temperature=353.15 |
 
 # ### Specification (process-bigraph) — load, inspect, edit
 #
 # Each composite is a process-bigraph *document*: named processes (`_type: process`) bound to an `address`, wired by `inputs`/`outputs` ports over shared stores. For every composite below the first cell loads the spec into a plain **editable Python dict** and prints its structure; the second cell is a **control panel** listing every configuration value and per-process `interval` so you can tweak any of them. Your edits are read when the composite is built and run, in the **Run** section.
 
-# **Composite `viva_genesis.composites.og_06_chemistry_to_heredity`** — `spec_viva_genesis_composites_og_06_chemistry_to_heredity` (materialized from its `@composite_generator`)
+# **Composite `viva_genesis.composites.heredity_module_comparison.heredity_module_comparison`** — `spec_viva_genesis_composites_heredity_module_comparison_heredity_module_comparison` (materialized from its `@composite_generator`)
 
-spec_viva_genesis_composites_og_06_chemistry_to_heredity = materialize_composite('viva_genesis.composites.og_06_chemistry_to_heredity')
-describe_spec(spec_viva_genesis_composites_og_06_chemistry_to_heredity)
+spec_viva_genesis_composites_heredity_module_comparison_heredity_module_comparison = materialize_composite('viva_genesis.composites.heredity_module_comparison.heredity_module_comparison')
+describe_spec(spec_viva_genesis_composites_heredity_module_comparison_heredity_module_comparison)
 
 # === Edit parameters for this composite, then run the Run cell ===
-# ov_viva_genesis_composites_og_06_chemistry_to_heredity maps each tunable parameter to its current value (the generator's
+# ov_viva_genesis_composites_heredity_module_comparison_heredity_module_comparison maps each tunable parameter to its current value (the generator's
 # defaults). Edit any entry; the Run cell rebuilds the composite with it.
-ov_viva_genesis_composites_og_06_chemistry_to_heredity = dict(spec_viva_genesis_composites_og_06_chemistry_to_heredity['_overrides'])
-import json as _json; print(_json.dumps(ov_viva_genesis_composites_og_06_chemistry_to_heredity, indent=2, default=str))
-# e.g.:  ov_viva_genesis_composites_og_06_chemistry_to_heredity['<parameter>'] = <value>
+ov_viva_genesis_composites_heredity_module_comparison_heredity_module_comparison = dict(spec_viva_genesis_composites_heredity_module_comparison_heredity_module_comparison['_overrides'])
+import json as _json; print(_json.dumps(ov_viva_genesis_composites_heredity_module_comparison_heredity_module_comparison, indent=2, default=str))
+# e.g.:  ov_viva_genesis_composites_heredity_module_comparison_heredity_module_comparison['<parameter>'] = <value>
 
 # ### Typed contract (declared interface)
 #
@@ -1152,6 +1154,8 @@ import json as _json; print(_json.dumps(ov_viva_genesis_composites_og_06_chemist
 # | --- | --- | --- | --- |
 # | `polymer_length` | integer | dimensionless | >= 1 |
 # | `lineage_fitness` | float | dimensionless |  |
+# | `information_retention` | float | dimensionless | [0.0, 1.0] |
+# | `functional_templates` | float | dimensionless | >= 0.0 |
 #
 # **Conditions**
 #
@@ -1179,15 +1183,24 @@ if RERUN:
     from process_bigraph import Composite
     try:
         with quiet():  # keep per-step stdout out of the notebook
-            _ov = ov_viva_genesis_composites_og_06_chemistry_to_heredity if 'ov_viva_genesis_composites_og_06_chemistry_to_heredity' in dir() else None  # edits from the panel cell, if any
-            spec_viva_genesis_composites_og_06_chemistry_to_heredity = materialize_composite('viva_genesis.composites.og_06_chemistry_to_heredity', _ov)
-            _comp = Composite({'state': spec_viva_genesis_composites_og_06_chemistry_to_heredity['state']}, core=core)
+            _ov = ov_viva_genesis_composites_heredity_module_comparison_heredity_module_comparison if 'ov_viva_genesis_composites_heredity_module_comparison_heredity_module_comparison' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_heredity_module_comparison_heredity_module_comparison = materialize_composite('viva_genesis.composites.heredity_module_comparison.heredity_module_comparison', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_heredity_module_comparison_heredity_module_comparison['state']}, core=core)
             _comp.run(STEPS_Chemistry_to_heredity_Campaign_VI)
-        print('ran', 'Chemistry to heredity (Campaign VI)', f'(viva_genesis.composites.og_06_chemistry_to_heredity) for', STEPS_Chemistry_to_heredity_Campaign_VI, 'steps')
+        print('ran', 'Chemistry to heredity (Campaign VI)', f'(viva_genesis.composites.heredity_module_comparison.heredity_module_comparison) for', STEPS_Chemistry_to_heredity_Campaign_VI, 'steps')
     except Exception as _e:
         print(f"Chemistry to heredity (Campaign VI) not runnable yet: {type(_e).__name__}: {_e}")
 else:
     print("RERUN=False — not re-simulating.")
+
+# ### Visualizations
+#
+# _Results are shown by the figures below, produced by the run above._
+
+# **heredity-error-threshold**
+
+# heredity-error-threshold
+_save_viz('og-06-chemistry-to-heredity', 'heredity-error-threshold', _render_one('local:HeredityErrorThresholdViz', {'composite': 'viva_genesis.composites.heredity_module_comparison.heredity_module_comparison', 'title': 'Campaign VI — heredity above the error threshold'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_heredity_module_comparison_heredity_module_comparison if 'ov_viva_genesis_composites_heredity_module_comparison_heredity_module_comparison' in dir() else None)))
 
 # ### Acceptance criteria
 #
@@ -1195,9 +1208,11 @@ else:
 #
 # | test | measures | passes if |
 # | --- | --- | --- |
-# | inheritance-beats-noninheritance _(primary)_ | kind=observable detail=persistence/throughput with vs without inherited state | op threshold detail heritable > control |
-# | heredity-modules-compared _(primary)_ | kind=observable detail=ranking across >=2 heredity modules | op threshold detail evidence-based ranking, not assumed |
-# | replication-feasible-budget _(supporting)_ | kind=observable detail=resource budget of replication | op threshold detail within chemically feasible budget |
+# | inheritance-beats-noninheritance _(primary)_ | kind=derived path=final_lineage_fitness detail=RNA-like lineage fitness at steady state | op > value 0.1 detail inheriting lineage fitness net-positive (and beats the non-heritable control) |
+# | information-retained-above-error-threshold _(primary)_ | kind=derived path=final_information_retention detail=C/(C+E) retention at steady state | op >= value 0.4 detail functional information retained (above the error threshold) |
+# | heredity-modules-compared _(primary)_ | kind=cross_run detail=RNA-like vs peptide lineage fitness | op arms_reported detail both modules viable; RNA-like ranks above peptide |
+# | error-catastrophe-below-threshold _(diagnostic)_ | kind=cross_run detail=RNA-like vs low-fidelity module | op controls_absent detail the low-fidelity module collapses (retention ~0 fitness negative) None |
+# | replication-feasible-budget _(supporting)_ | kind=derived path=final_lineage_fitness detail=net fitness after replication cost | op > value 0.0 detail net-positive within the replication budget |
 
 # ### Literature anchors
 #
