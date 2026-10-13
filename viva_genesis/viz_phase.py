@@ -198,6 +198,133 @@ class ProtometabolismGainPhaseMap(Visualization):
         return {"html": protometabolism_gain_figure(res, title=self.config["title"])}
 
 
+def pore_ignition_figure(gain_grid, traj, enrichment, dilute, enriched, k_wash, *, title=None) -> str:
+    """og-03 headline: the thermophoretic trap's localization moves the dilute vent
+    feed ACROSS og-02's ignition threshold — a metabolizing individual appears in the
+    pore but not in the well-mixed ocean. Left: the og-02 ignition landscape with the
+    dilute→enriched crossing. Right: the OAA trajectories (well-mixed dead vs pore
+    ignites). ``gain_grid`` is the og-02 grid view; ``traj`` = {t, oaa_mixed, oaa_pore}."""
+    import numpy as np
+    import plotly.graph_objects as go
+    from plotly.subplots import make_subplots
+
+    fig = make_subplots(rows=1, cols=2, horizontal_spacing=0.13,
+                        subplot_titles=("Crossing the ignition threshold",
+                                        "Does a metabolizing individual appear?"))
+    # --- left: og-02 ignition landscape + the crossing ---
+    feed = gain_grid.axes["feed_CO2"]
+    wash = gain_grid.axes["k_wash"]
+    oaa = np.log10(np.clip(gain_grid.surfaces["oaa_pool"] * 1e3, 1e-4, None))
+    gain = gain_grid.surfaces["gain"]
+    fig.add_trace(go.Contour(x=wash, y=feed, z=oaa, colorscale="Viridis", ncontours=12,
+                             colorbar=dict(title="log₁₀<br>OAA (mM)", len=0.9, x=0.44),
+                             line=dict(width=0.4, color="rgba(255,255,255,0.3)")), row=1, col=1)
+    fig.add_trace(go.Contour(x=wash, y=feed, z=gain, showscale=False,
+                             contours=dict(start=1, end=1, coloring="lines"),
+                             line=dict(color="#f8fafc", width=2.2, dash="dash"), hoverinfo="skip"), row=1, col=1)
+    fig.add_trace(go.Scatter(x=[k_wash, k_wash], y=[dilute, enriched], mode="lines",
+                             line=dict(color=_AMBER, width=2.5), showlegend=False,
+                             hoverinfo="skip"), row=1, col=1)
+    fig.add_annotation(x=np.log10(k_wash), y=np.log10(enriched), ax=np.log10(k_wash), ay=np.log10(dilute),
+                       xref="x", yref="y", axref="x", ayref="y", showarrow=True, arrowhead=2,
+                       arrowwidth=2, arrowcolor=_AMBER, row=1, col=1)
+    fig.add_trace(go.Scatter(x=[k_wash], y=[dilute], mode="markers+text", text=["well-mixed<br>(dilute)"],
+                             textposition="bottom center", textfont=dict(size=9, color=_INK),
+                             marker=dict(size=12, color=_SLATE, line=dict(width=1, color=_INK)),
+                             showlegend=False), row=1, col=1)
+    fig.add_trace(go.Scatter(x=[k_wash], y=[enriched], mode="markers+text",
+                             text=[f"in pore<br>(×{enrichment:.0f} trap)"], textposition="top center",
+                             textfont=dict(size=9, color=_INK),
+                             marker=dict(symbol="star", size=15, color=_TEAL, line=dict(width=1.1, color=_INK)),
+                             showlegend=False), row=1, col=1)
+    fig.update_xaxes(type="log", title_text="washout k_wash (1/s)", row=1, col=1)
+    fig.update_yaxes(type="log", title_text="feed CO₂ (M)", row=1, col=1)
+    # --- right: the OAA trajectories ---
+    t = traj["t"]
+    fig.add_trace(go.Scatter(x=t, y=[v * 1e3 for v in traj["oaa_mixed"]], mode="lines",
+                             line=dict(color=_SLATE, width=2.5, dash="dot"), name="well-mixed ocean"), row=1, col=2)
+    fig.add_trace(go.Scatter(x=t, y=[v * 1e3 for v in traj["oaa_pore"]], mode="lines",
+                             line=dict(color=_TEAL, width=3), name="inside the pore"), row=1, col=2)
+    fig.update_xaxes(title_text="time (s)", row=1, col=2)
+    fig.update_yaxes(title_text="autocatalytic hub OAA (mM)", row=1, col=2)
+
+    ttl = title or "Campaign III — localization makes the individual"
+    fig.update_layout(
+        title=dict(text=(f"<b>{ttl}</b><br><span style='font-size:12px;color:{_SLATE}'>"
+                         f"A real thermophoretic pore concentrates the dilute vent feed ×{enrichment:.0f}, "
+                         "lifting it across og-02's ignition threshold (dashed). The same chemistry stays "
+                         "dead in the well-mixed ocean — the metabolizing individual is a product of "
+                         "localization, not of new reactions.</span>"), x=0.5, xanchor="center"),
+        height=450, width=960, margin=dict(t=100, b=60, l=70, r=20),
+        legend=dict(orientation="h", y=1.02, x=1.0, xanchor="right", font=dict(size=10)),
+        font=dict(family="system-ui, -apple-system, sans-serif", color=_INK),
+        paper_bgcolor="white", plot_bgcolor="white")
+    return fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+
+
+class PoreIgnitionCoupling(Visualization):
+    """og-03 Decision/Mechanism view: couples the real thermophoretic trap to the
+    real og-02 network. The pore's enrichment lifts the dilute vent feed across the
+    ignition threshold, so a metabolizing individual appears in the pore but not in
+    the well-mixed ocean. Loads the og-02 gain grid (``grid_json``) or computes one."""
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "Campaign III — localization makes the individual"},
+        "grid_json": {"_type": "string", "_default": ""},
+        "pore_length": {"_type": "float", "_default": 1.5e-3},
+        "porosity": {"_type": "float", "_default": 0.6},
+        "dilute_feed": {"_type": "float", "_default": 5.0e-5},
+        "enrichment_cap": {"_type": "float", "_default": 60.0},
+        "k_wash": {"_type": "float", "_default": 0.05},
+        "n_steps": {"_type": "integer", "_default": 60},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        from process_bigraph import Composite, gather_emitter_results
+
+        from .composites.protometabolism import protometabolic_network
+        from .composites.thermophoretic_concentration import thermophoretic_concentration
+        from .core import build_core
+        from .phase_maps import protometabolism_gain_phase_map
+
+        core = build_core()
+        # real trap enrichment
+        tdoc = thermophoretic_concentration(core, pore_length=float(self.config["pore_length"]),
+                                            porosity=float(self.config["porosity"]))
+        tsim = Composite({"state": tdoc}, core=core); tsim.run(10)
+        E = float(gather_emitter_results(tsim)[("emitter",)][-1]["enrichment_factor"])
+        dilute = float(self.config["dilute_feed"])
+        enriched = dilute * min(E, float(self.config["enrichment_cap"]))
+        # run og-02 at both feeds → OAA trajectories
+        n = int(self.config["n_steps"])
+        traj = {"t": list(range(n + 1)), "oaa_mixed": [], "oaa_pore": []}
+        for feed, key in ((dilute, "oaa_mixed"), (enriched, "oaa_pore")):
+            doc = protometabolic_network(core, feed_CO2=feed, feed_pyruvate=feed * 0.05)
+            sim = Composite({"state": doc}, core=core)
+            sim.run(n)
+            rows = gather_emitter_results(sim)[("emitter",)]
+            traj[key] = [r.get("OAA", 0.0) for r in rows]
+            traj["t"] = [r.get("global_time", i) for i, r in enumerate(rows)]
+        # og-02 ignition landscape (persisted grid or a modest live grid)
+        resolved = _resolve_grid_path(str(self.config.get("grid_json", "") or ""))
+        if resolved:
+            with open(resolved) as f:
+                blob = json.load(f)
+            grid = _ResultView(*_grid_from_json(blob["gain"] if "gain" in blob else blob))
+        else:
+            grid = protometabolism_gain_phase_map(feed_CO2=(1e-4, 1e-2, 12), k_wash=(2e-3, 1.0, 12),
+                                                  n_steps=50, n_jobs=1)
+        return {"html": pore_ignition_figure(grid, traj, min(E, float(self.config["enrichment_cap"])),
+                                             dilute, enriched, float(self.config["k_wash"]),
+                                             title=self.config["title"])}
+
+
 class CarbonFixationPhaseMap(Visualization):
     """og-01 Decision view: the carbon-fixation landscape over (vent pH × H₂),
     favourable vs the Tutolo gradient collapse, rendered from a parameter sweep of
