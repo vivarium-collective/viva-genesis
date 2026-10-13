@@ -965,6 +965,8 @@ _save_viz('og-04-mineral-compartments-to-protocells', 'protocell-window', _rende
 # **Objective.** Allow catalytic ion transport and active pumping; test whether selection favors internalized gradient generation.
 #
 # **Hypothesis.** When membrane permeability, Na+/H+ coupling and catalyst efficiency vary under selection, systems with increasing internal gradient generation win on throughput + persistence — but only if membranes stay sufficiently leaky (Sojo constraint).
+#
+# **Claim.** Under a declining external gradient, selection drives an efficient-pump population to internalize gradient generation (pump fraction 0→0.95) and persist, while a weak-pump lineage collapses — the Sojo-2014 leaky-membrane constraint on bioenergetic internalization.
 
 # ### Design
 #
@@ -986,23 +988,23 @@ _save_viz('og-04-mineral-compartments-to-protocells', 'protocell-window', _rende
 #
 # | simulation | composite | steps | params |
 # | --- | --- | --- | --- |
-# | `Environmental to internal bioenergetics (Campaign V)` | `viva_genesis.composites.og_05_environmental_to_internal_bioenergetics` | 0 | — |
+# | `Environmental to internal bioenergetics (Campaign V)` | `viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization` | 0 | catalyst_efficiency=1.0, v_start=0.4, decline_rate=0.01 |
 
 # ### Specification (process-bigraph) — load, inspect, edit
 #
 # Each composite is a process-bigraph *document*: named processes (`_type: process`) bound to an `address`, wired by `inputs`/`outputs` ports over shared stores. For every composite below the first cell loads the spec into a plain **editable Python dict** and prints its structure; the second cell is a **control panel** listing every configuration value and per-process `interval` so you can tweak any of them. Your edits are read when the composite is built and run, in the **Run** section.
 
-# **Composite `viva_genesis.composites.og_05_environmental_to_internal_bioenergetics`** — `spec_viva_genesis_composites_og_05_environmental_to_internal_bioenergetics` (materialized from its `@composite_generator`)
+# **Composite `viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization`** — `spec_viva_genesis_composites_bioenergetic_internalization_bioenergetic_internalization` (materialized from its `@composite_generator`)
 
-spec_viva_genesis_composites_og_05_environmental_to_internal_bioenergetics = materialize_composite('viva_genesis.composites.og_05_environmental_to_internal_bioenergetics')
-describe_spec(spec_viva_genesis_composites_og_05_environmental_to_internal_bioenergetics)
+spec_viva_genesis_composites_bioenergetic_internalization_bioenergetic_internalization = materialize_composite('viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization')
+describe_spec(spec_viva_genesis_composites_bioenergetic_internalization_bioenergetic_internalization)
 
 # === Edit parameters for this composite, then run the Run cell ===
-# ov_viva_genesis_composites_og_05_environmental_to_internal_bioenergetics maps each tunable parameter to its current value (the generator's
+# ov_viva_genesis_composites_bioenergetic_internalization_bioenergetic_internalization maps each tunable parameter to its current value (the generator's
 # defaults). Edit any entry; the Run cell rebuilds the composite with it.
-ov_viva_genesis_composites_og_05_environmental_to_internal_bioenergetics = dict(spec_viva_genesis_composites_og_05_environmental_to_internal_bioenergetics['_overrides'])
-import json as _json; print(_json.dumps(ov_viva_genesis_composites_og_05_environmental_to_internal_bioenergetics, indent=2, default=str))
-# e.g.:  ov_viva_genesis_composites_og_05_environmental_to_internal_bioenergetics['<parameter>'] = <value>
+ov_viva_genesis_composites_bioenergetic_internalization_bioenergetic_internalization = dict(spec_viva_genesis_composites_bioenergetic_internalization_bioenergetic_internalization['_overrides'])
+import json as _json; print(_json.dumps(ov_viva_genesis_composites_bioenergetic_internalization_bioenergetic_internalization, indent=2, default=str))
+# e.g.:  ov_viva_genesis_composites_bioenergetic_internalization_bioenergetic_internalization['<parameter>'] = <value>
 
 # ### Typed contract (declared interface)
 #
@@ -1012,8 +1014,8 @@ import json as _json; print(_json.dumps(ov_viva_genesis_composites_og_05_environ
 #
 # | port | type | units | bounds |
 # | --- | --- | --- | --- |
-# | `permeability` | float | meter**2 | >= 0.0 |
 # | `electric_potential` | float | volt |  |
+# | `catalyst_efficiency` | float | dimensionless | >= 0.0 |
 #
 # **Outputs**
 #
@@ -1021,6 +1023,9 @@ import json as _json; print(_json.dumps(ov_viva_genesis_composites_og_05_environ
 # | --- | --- | --- | --- |
 # | `lineage_fitness` | float | dimensionless |  |
 # | `free_energy_flux` | float | watt |  |
+# | `internalization` | float | dimensionless | [0.0, 1.0] |
+# | `survivors` | float | dimensionless | [0.0, 1.0] |
+# | `mean_permeability` | float | meter/second | >= 0.0 |
 #
 # **Conditions**
 #
@@ -1048,15 +1053,24 @@ if RERUN:
     from process_bigraph import Composite
     try:
         with quiet():  # keep per-step stdout out of the notebook
-            _ov = ov_viva_genesis_composites_og_05_environmental_to_internal_bioenergetics if 'ov_viva_genesis_composites_og_05_environmental_to_internal_bioenergetics' in dir() else None  # edits from the panel cell, if any
-            spec_viva_genesis_composites_og_05_environmental_to_internal_bioenergetics = materialize_composite('viva_genesis.composites.og_05_environmental_to_internal_bioenergetics', _ov)
-            _comp = Composite({'state': spec_viva_genesis_composites_og_05_environmental_to_internal_bioenergetics['state']}, core=core)
+            _ov = ov_viva_genesis_composites_bioenergetic_internalization_bioenergetic_internalization if 'ov_viva_genesis_composites_bioenergetic_internalization_bioenergetic_internalization' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_bioenergetic_internalization_bioenergetic_internalization = materialize_composite('viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_bioenergetic_internalization_bioenergetic_internalization['state']}, core=core)
             _comp.run(STEPS_Environmental_to_internal_bioenergetics_Campaign_V)
-        print('ran', 'Environmental to internal bioenergetics (Campaign V)', f'(viva_genesis.composites.og_05_environmental_to_internal_bioenergetics) for', STEPS_Environmental_to_internal_bioenergetics_Campaign_V, 'steps')
+        print('ran', 'Environmental to internal bioenergetics (Campaign V)', f'(viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization) for', STEPS_Environmental_to_internal_bioenergetics_Campaign_V, 'steps')
     except Exception as _e:
         print(f"Environmental to internal bioenergetics (Campaign V) not runnable yet: {type(_e).__name__}: {_e}")
 else:
     print("RERUN=False — not re-simulating.")
+
+# ### Visualizations
+#
+# _Results are shown by the figures below, produced by the run above._
+
+# **bioenergetic-internalization**
+
+# bioenergetic-internalization
+_save_viz('og-05-environmental-to-internal-bioenergetics', 'bioenergetic-internalization', _render_one('local:BioenergeticInternalizationViz', {'composite': 'viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization', 'title': 'Campaign V — selection internalizes the gradient'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_bioenergetic_internalization_bioenergetic_internalization if 'ov_viva_genesis_composites_bioenergetic_internalization_bioenergetic_internalization' in dir() else None)))
 
 # ### Acceptance criteria
 #
@@ -1064,8 +1078,10 @@ else:
 #
 # | test | measures | passes if |
 # | --- | --- | --- |
-# | reduced-gradient-dependence _(primary)_ | kind=observable detail=survival as external gradient is reduced | op threshold detail internalizing lineages persist longer |
-# | energy-cost-accounted _(supporting)_ | kind=observable detail=membrane-maintenance energy vs benefit | op threshold detail net-positive region exists |
+# | selection-internalizes-gradient-generation _(primary)_ | kind=derived path=final_internalization detail=active-pump fraction of the surviving population at the collapsed gradient | op >= value 0.6 detail the population internalizes (pump fraction >= 0.6) as the external gradient falls |
+# | reduced-gradient-dependence _(primary)_ | kind=derived path=final_survivors detail=surviving strategy mass at the collapsed external gradient | op >= value 0.5 detail internalizing lineage persists (survivors >= 0.5) at the collapsed gradient |
+# | sojo-constraint-weak-pump-collapses _(primary)_ | kind=cross_run detail=efficient-pump survivors vs weak-pump control | op controls_absent detail the weak-pump control collapses (survivors ~0) where the efficient pump persists |
+# | energy-cost-accounted _(supporting)_ | kind=derived path=final_internalization detail=internalized population has net-positive flux | op > value 0.0 detail a net-positive-flux internalized region exists |
 
 # ### Literature anchors
 #

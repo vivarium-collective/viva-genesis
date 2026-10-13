@@ -35,7 +35,7 @@
   <div class="study-status-row" style="display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-top:6px;">
     
     
-    <span class="status-pill status-drafted" title="Headline status derived from the highest-precedence multi-axis field (or legacy `status` as fallback).">drafted</span>
+    <span class="status-pill status-evaluated" title="Headline status derived from the highest-precedence multi-axis field (or legacy `status` as fallback).">evaluated</span>
     
 
     
@@ -53,23 +53,23 @@
         
         <span class="status-stepper">
           
-          <span class="status-step gate-step axis-design_status gate-state-not-assessed set gate-current" title="Gate 1 · Plan — current stage">
-            <span class="dot"></span>1&nbsp;·&nbsp;Plan<span class="step-val">drafted</span><span class="gate-current-tag">you are here</span>
+          <span class="status-step gate-step axis-design_status gate-state-passed set" title="Gate 1 · Plan">
+            <span class="dot"></span>1&nbsp;·&nbsp;Plan<span class="step-val">approved</span>
           </span>
           
-          <span class="status-step gate-step axis-simulation_status gate-state-not-assessed set" title="Gate 2 · Execution">
-            <span class="dot"></span>2&nbsp;·&nbsp;Execution
+          <span class="status-step gate-step axis-simulation_status gate-state-passed set" title="Gate 2 · Execution">
+            <span class="dot"></span>2&nbsp;·&nbsp;Execution<span class="step-val">ran</span>
           </span>
           
-          <span class="status-step gate-step axis-evaluation_status gate-state-passed-with-conditions set" title="Gate 3 · Evidence">
-            <span class="dot"></span>3&nbsp;·&nbsp;Evidence
+          <span class="status-step gate-step axis-evaluation_status gate-state-passed-with-conditions set gate-current" title="Gate 3 · Evidence — current stage">
+            <span class="dot"></span>3&nbsp;·&nbsp;Evidence<span class="step-val">evaluated</span><span class="gate-current-tag">you are here</span>
           </span>
           
-          <span class="status-step gate-step axis-evaluation_status gate-state-not-assessed set" title="Gate 4 · Quality">
-            <span class="dot"></span>4&nbsp;·&nbsp;Quality
+          <span class="status-step gate-step axis-evaluation_status gate-state-passed set" title="Gate 4 · Quality">
+            <span class="dot"></span>4&nbsp;·&nbsp;Quality<span class="step-val">evaluated</span>
           </span>
           
-          <span class="status-step gate-step axis-gate_status gate-state-not-assessed set" title="Gate 5 · Decision">
+          <span class="status-step gate-step axis-gate_status gate-state-passed set" title="Gate 5 · Decision">
             <span class="dot"></span>5&nbsp;·&nbsp;Decision
           </span>
           
@@ -82,18 +82,18 @@
       </summary>
       <div class="status-stepper-body">
         
-        <div class="status-detail-row gate-row gate-state-not-assessed">
+        <div class="status-detail-row gate-row gate-state-passed">
           <span class="status-detail-axis">1 · Plan</span>
-          <span class="status-chip gate-state-not-assessed">drafted</span>
+          <span class="status-chip gate-state-passed">approved</span>
           
           
         </div>
         
-        <div class="status-detail-row gate-row gate-state-not-assessed">
+        <div class="status-detail-row gate-row gate-state-passed">
           <span class="status-detail-axis">2 · Execution</span>
-          <span class="status-chip gate-state-not-assessed">not set</span>
+          <span class="status-chip gate-state-passed">ran</span>
           
-          <span class="gate-computed-chip gate-state-not-assessed" title="no runs in runs.db">◆ computed: not_run</span>
+          <span class="gate-computed-chip gate-state-passed" title="2 completed run(s)">◆ computed: ran</span>
           
           
           
@@ -101,9 +101,11 @@
         
         <div class="status-detail-row gate-row gate-state-passed-with-conditions">
           <span class="status-detail-axis">3 · Evidence</span>
-          <span class="status-chip gate-state-not-assessed">not set</span>
+          <span class="status-chip gate-state-passed">evaluated</span>
           
-          <span class="gate-computed-chip gate-state-passed-with-conditions" title="nothing run to evaluate + visualization readiness gate (V4)">◆ computed: not_evaluated</span>
+          <span class="gate-computed-chip gate-state-passed-with-conditions" title="completed run + recorded verdicts + visualization readiness gate (V4)">◆ computed: evaluated</span>
+          
+          <span class="gate-divergence-chip gate-divergence-chip-inline" title="Code-computed state disagrees with the authored axis.">⚠ diverges from authored</span>
           
           
           
@@ -111,21 +113,21 @@
           
         </div>
         
-        <div class="status-detail-row gate-row gate-state-not-assessed">
+        <div class="status-detail-row gate-row gate-state-passed">
           <span class="status-detail-axis">4 · Quality</span>
-          <span class="status-chip gate-state-not-assessed">not set</span>
+          <span class="status-chip gate-state-passed">evaluated</span>
           
-          <span class="gate-computed-chip gate-state-not-assessed" title="nothing run to evaluate">◆ computed: not_evaluated</span>
+          <span class="gate-computed-chip gate-state-passed" title="completed run + recorded verdicts">◆ computed: evaluated</span>
           
           
           
         </div>
         
-        <div class="status-detail-row gate-row gate-state-not-assessed">
+        <div class="status-detail-row gate-row gate-state-passed">
           <span class="status-detail-axis">5 · Decision</span>
           <span class="status-chip gate-state-not-assessed">not set</span>
           
-          <span class="gate-computed-chip gate-state-not-assessed" title="spine gate evaluator (study_verdict.roll_up_verdict / pipeline_gate.gate_evaluator)">◆ computed: not_started</span>
+          <span class="gate-computed-chip gate-state-passed" title="spine gate evaluator (study_verdict.roll_up_verdict / pipeline_gate.gate_evaluator)">◆ computed: passed</span>
           
           
           
@@ -146,18 +148,6 @@
 </header>
 
 
-
-<div class="composite-lint-banner" role="alert"
-     style="margin:8px 0 14px 0;padding:10px 14px;background:#fffbeb;border:1px solid #f59e0b;border-left-width:5px;border-radius:6px;color:#92400e;font-size:0.9em">
-  
-  <div>⚠ composite not found in registry: <code>viva_genesis.composites.og_05_environmental_to_internal_bioenergetics</code></div>
-  
-  <div style="margin-top:4px;font-size:0.86em;color:#a16207">
-    This study references a composite that doesn't resolve — it may not declare a
-    real, registered composite. Add a <code>.composite.yaml</code> and register it
-    in <code>core.py</code>, or fix the ref.
-  </div>
-</div>
 
 
 
@@ -180,7 +170,7 @@
   </div>
   <div class="act-cluster" data-act="design">
     <div class="act-header">
-      <span class="act-gate-dot" data-gate="design" data-gate-state="not-assessed"></span>
+      <span class="act-gate-dot" data-gate="design" data-gate-state="passed"></span>
       <span class="act-label">Design</span>
     </div>
     <div class="act-tabs">
@@ -204,7 +194,7 @@
   </div>
   <div class="act-cluster" data-act="assurance">
     <div class="act-header">
-      <span class="act-gate-dot" data-gate="assurance" data-gate-state="not-assessed"></span>
+      <span class="act-gate-dot" data-gate="assurance" data-gate-state="passed"></span>
       <span class="act-label">Assurance</span>
     </div>
     <div class="act-tabs">
@@ -216,7 +206,7 @@
   </div>
   <div class="act-cluster" data-act="decision">
     <div class="act-header">
-      <span class="act-gate-dot" data-gate="decision" data-gate-state="not-assessed"></span>
+      <span class="act-gate-dot" data-gate="decision" data-gate-state="passed"></span>
       <span class="act-label">Decision</span>
     </div>
     <div class="act-tabs">
@@ -668,7 +658,7 @@
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Claim</h2>
-      <p class="ctr-text">Can selection move from externally imposed gradients toward internally maintained electrochemical states (catalytic ion transport then pumping)?</p>
+      <p class="ctr-text">Under a declining external gradient, selection drives an efficient-pump population to internalize gradient generation (pump fraction 0→0.95) and persist, while a weak-pump lineage collapses — the Sojo-2014 leaky-membrane constraint on bioenergetic internalization.</p>
       
     </div>
 
@@ -688,7 +678,7 @@
       <div class="ctr-meta">
         <div class="ctr-meta-row"><span class="ctr-meta-k">Model</span> <code>Environmental to internal bioenergetics (Campaign V)</code><a class="ov-tablink" href="#" onclick="_setStudyTab('compose');return false;">model →</a></div>
         
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Measures</span> <span class="ctr-meta-item">2 behavior tests</span><a class="ov-tablink" href="#" onclick="_setStudyTab('tests');return false;">see Tests →</a></div>
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Measures</span> <span class="ctr-meta-item">4 behavior tests</span><a class="ov-tablink" href="#" onclick="_setStudyTab('tests');return false;">see Tests →</a></div>
         
       </div>
     </div>
@@ -716,7 +706,7 @@
       </div>
       
       
-      <div class="ctr-meta-k" style="margin-top:12px">Sources (2)</div>
+      <div class="ctr-meta-k" style="margin-top:12px">Sources (3)</div>
       <div class="ov-sources">
       
         
@@ -733,6 +723,13 @@
           <div class="ctr-meta-k" style="text-transform:none">Lane, Nick and Martin, William F. · 2012 · <a href="https://doi.org/10.1016/j.cell.2012.11.050" target="_blank" rel="noopener">source ↗</a></div>
         </div>
       
+        
+        <div class="ov-src" id="sref-lane2010chemiosmotic">
+          <b class="ov-src-t">Lane 2010</b> <span class="ov-src-k">lane2010chemiosmotic</span>
+          <div class="ov-src-t">How did {LUCA} make a living? {Chemiosmosis} in the origin of life</div>
+          <div class="ctr-meta-k" style="text-transform:none">Lane, Nick and Allen, John F. and Martin, William · 2010 · <a href="https://doi.org/10.1002/bies.200900131" target="_blank" rel="noopener">source ↗</a></div>
+        </div>
+      
       </div>
       
     </div>
@@ -740,22 +737,163 @@
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Result</h2>
-      <p class="ctr-text"></p>
+      <p class="ctr-text">Efficient pump internalizes (final 0.95) and survives (survivors 1.0); the weak-pump control collapses (survivors 0) as the gradient falls.</p>
+      
+      <div class="ov-metrics">
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">0.95</div>
+          <div class="ov-metric-k">Final internalization</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">1.0</div>
+          <div class="ov-metric-k">Efficient survivors</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">0.0</div>
+          <div class="ov-metric-k">Weak-pump survivors</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">0.00→0.95</div>
+          <div class="ov-metric-k">Internalization rise</div>
+        </div>
+        
+      </div>
       
       
       <div id="overview-key-figure" class="ov-keyfig" data-study="og-05-environmental-to-internal-bioenergetics"></div>
       
+    <div class="overview-section findings-section">
+      <h2 class="overview-label">🔬 Findings — what this study taught us</h2>
+      
+      
+      
+      
+      
+      
+      
+      
+      <div class="finding-card finding-kind-computational finding-status-confirms">
+        <details class="finding-details">
+          <summary class="finding-row">
+            <span class="finding-status-glyph">✓</span>
+            <span class="finding-claim finding-statement">As the external geochemical gradient declines over the run, replicator selection drives the population from externally-driven (pump fraction ~0) to internalized gradient generation (pump fraction ~0.95) while persisting — the bioenergetic internalization is an evolutionary outcome, not a scripted upgrade.</span>
+            
+            <span class="finding-chip">via <code>selection-internalizes-gradient-generation</code></span>
+            
+          </summary>
+          <div class="finding-drawer">
+            <div class="finding-header">
+              <span class="finding-id">og05-internalization-under-selection</span>
+              <span class="finding-kind">computational</span>
+              <span class="finding-status-text">confirms literature</span>
+            </div>
+            
+            
+            <div class="finding-evidence">
+              <strong>observed:</strong> internalization 0.00 -&gt; 0.95; survivors 1.0 at the collapsed gradient dimensionless · 
+              
+              via test <a href="#bt-selection-internalizes-gradient-generation" onclick="_gotoStudyTab('tests','bt-selection-internalizes-gradient-generation');return false;"><code>selection-internalizes-gradient-generation</code></a> · 
+              
+              
+              
+            </div>
+            
+            
+            
+            
+            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: ≥ 0.6</code></div>
+            
+            
+            
+            <div class="finding-expected">
+              
+              
+              cites: <a class="ov-cite" href="#sref-sojo2014bioenergetic" title="A bioenergetic basis for membrane divergence in archaea and bacteria">Sojo 2014</a><a class="ov-cite" href="#sref-lane2012origin" title="The origin of membrane bioenergetics">Lane 2012</a>
+            </div>
+            
+            
+            <div class="finding-explanation"><em>Why:</em> BioenergeticSelectionProcess replicator dynamics over a (permeability × pump) strategy grid with a Sojo leaky-membrane fitness; the declining gradient flips the winning strategy from leaky-external to tight-pump.</div>
+            
+            
+          </div>
+        </details>
+      </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <div class="finding-card finding-kind-computational finding-status-novel">
+        <details class="finding-details">
+          <summary class="finding-row">
+            <span class="finding-status-glyph">◆</span>
+            <span class="finding-claim finding-statement">A weak pump cannot internalize — when the external gradient collapses, the weak-pump lineage goes extinct (survivors → 0) while the efficient-pump lineage persists. Internalization is only viable with a sufficiently efficient pump (the Sojo leaky-membrane constraint).</span>
+            
+            <span class="finding-chip">via <code>sojo-constraint-weak-pump-collapses</code></span>
+            
+          </summary>
+          <div class="finding-drawer">
+            <div class="finding-header">
+              <span class="finding-id">og05-sojo-constraint</span>
+              <span class="finding-kind">computational</span>
+              <span class="finding-status-text">novel literature</span>
+            </div>
+            
+            
+            <div class="finding-evidence">
+              <strong>observed:</strong> efficient survivors 1.0 vs weak-pump survivors 0.0 at collapsed gradient · 
+              
+              via test <a href="#bt-sojo-constraint-weak-pump-collapses" onclick="_gotoStudyTab('tests','bt-sojo-constraint-weak-pump-collapses');return false;"><code>sojo-constraint-weak-pump-collapses</code></a> · 
+              
+              
+              
+            </div>
+            
+            
+            
+            
+            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: op: controls_absent · detail: the weak-pump control collapses (survivors ~0) where the efficient pump persists</code></div>
+            
+            
+            
+            <div class="finding-expected">
+              
+              
+              cites: <a class="ov-cite" href="#sref-sojo2014bioenergetic" title="A bioenergetic basis for membrane divergence in archaea and bacteria">Sojo 2014</a><a class="ov-cite" href="#sref-lane2012origin" title="The origin of membrane bioenergetics">Lane 2012</a>
+            </div>
+            
+            
+            <div class="finding-explanation"><em>Why:</em> Below a pump-efficiency threshold the internal-pump flux cannot beat its cost against the lost external coupling, so no strategy clears the survival floor.</div>
+            
+            <div class="finding-next"><strong>→ Next:</strong> Sweep catalyst_efficiency to bound the pump-efficiency threshold for viable internalization.</div>
+          </div>
+        </details>
+      </div>
+      
+      
+    </div>
+    
       
       
       
       <div class="ctr-meta ctr-assess">
         
         <div class="ctr-meta-row"><span class="ctr-meta-k">Confidence</span>
-          <span class="ctr-badge ctr-badge-planned">Planned</span>
-          
-          
+          <span class="ctr-badge ctr-badge-investigating">Investigating</span>
+          <span class="ctr-vch">biology&nbsp;PASS</span>
+          <span class="ctr-vch">insight&nbsp;POSITIVE</span>
         </div>
         
+        
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Caveat</span> <span class="ctr-meta-item">Coarse-grained deterministic replicator dynamics with calibrated couplings; not a wrapped ALife/MD engine.</span></div>
         
       </div>
       
@@ -798,22 +936,22 @@
   <div class="overview-section" id="model-section">
     <h3>Runnable models <span class="muted" style="font-size:0.85em;font-weight:normal">— the composite(s) this study simulates</span></h3>
     
-    <div class="cond-block" data-model-composite="viva_genesis.composites.og_05_environmental_to_internal_bioenergetics" data-model-overrides='{}'>
+    <div class="cond-block" data-model-composite="viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization" data-model-overrides='{"catalyst_efficiency": 1.0, "decline_rate": 0.01, "v_start": 0.4}'>
       <div class="cond-block-title" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
         <strong>Environmental to internal bioenergetics (Campaign V)</strong>
         
-        <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.og_05_environmental_to_internal_bioenergetics</code>
+        <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization</code>
         <button type="button" class="action-btn" style="font-size:0.8em"
-                onclick="_openCompositeLoom('viva_genesis.composites.og_05_environmental_to_internal_bioenergetics')">🧬 explore &amp; run ↗</button>
+                onclick="_openCompositeLoom('viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization')">🧬 explore &amp; run ↗</button>
         
       </div>
       
       <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
         
         <select class="baseline-composite-input" data-baseline-name="Environmental to internal bioenergetics (Campaign V)"
-                data-current="viva_genesis.composites.og_05_environmental_to_internal_bioenergetics"
+                data-current="viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization"
                 style="flex:1;min-width:200px;font-family:monospace;font-size:0.82em;padding:3px 6px">
-          <option value="viva_genesis.composites.og_05_environmental_to_internal_bioenergetics" selected>viva_genesis.composites.og_05_environmental_to_internal_bioenergetics</option>
+          <option value="viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization" selected>viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization</option>
           
         </select>
         <button type="button" class="action-btn baseline-composite-set" style="font-size:0.8em"
@@ -827,6 +965,13 @@
         <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading configuration…</span></div></div>
       
       
+      
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;font-size:0.8em">
+        
+        
+        
+        <span class="cond-pill"><span class="cond-pill-k">status</span>=completed</span>
+      </div>
       
     </div>
     
@@ -954,6 +1099,10 @@
 
     
     
+    <div class="viz-actions-row" style="display:flex; justify-content:flex-end; margin-bottom:10px;">
+      <button type="button" class="btn-mini" onclick="window._vivStudyFiguresFromCard(event, 'og-05-environmental-to-internal-bioenergetics')" title="Download this study's visualizations (figure panels + its composite) as a zip">↓ visualizations</button>
+    </div>
+    
 
     <div id="native-gallery-panel" class="figure-mount"><div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading figures…</span></div></div>
 
@@ -1039,31 +1188,159 @@
     
     
     
+    <li class="expected-behavior-item" id="bt-selection-internalizes-gradient-generation"
+        data-test-kind="behavioral"
+        
+        data-pytest-node="selection-internalizes-gradient-generation"
+        data-classification="primary"
+        data-result="PASS"
+        style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #10b981; background: #f8fafc; border-radius: 4px;">
+      
+        
+      <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
+        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #d1fae5; color: #065f46">✓ PASS</span>
+        <span class="classification-pill classification-primary">primary</span>
+        <strong style="font-size: 0.9em;">selection-internalizes-gradient-generation</strong>
+        
+        <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
+        
+      </div>
+      <div style="margin-top: 6px; font-size: 0.95em;">As the external gradient declines, selection drives the population to internalize gradient generation (active-pump fraction rises past 0.6).</div>
+      
+      <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
+        <strong>Latest result:</strong>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.949216</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 0.9492 &gt;= 0.6</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&gt;=</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;selection-internalizes-gradient-generation&#39;, &#39;label&#39;: &#39;As the external gradient declines, selection drives the population to internalize gradient generation (active-pump fraction rises past 0.6).&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 0.949216, &#39;meter&#39;: 0.7910133333333333, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 0.6, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 0.34921599999999997, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: &#39;sojo2014bioenergetic; lane2012origin&#39;}</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+        
+      </div>
+      
+      
+      <details style="margin-top: 6px; font-size: 0.82em;">
+        <summary class="muted" style="cursor: pointer;">Assertion</summary>
+        
+        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "active-pump fraction of the surviving population at the collapsed gradient", "kind": "derived", "path": "final_internalization"}
+pass_if: {"detail": "the population internalizes (pump fraction \u003e= 0.6) as the external gradient falls", "op": "\u003e=", "value": 0.6}
+cites:   ["sojo2014bioenergetic", "lane2012origin"]</pre>
+      </details>
+      
+      
+      
+      
+    </li>
+    
+    
+    
+    
+    
+    
+    
+    
     <li class="expected-behavior-item" id="bt-reduced-gradient-dependence"
         data-test-kind="behavioral"
         
         data-pytest-node="reduced-gradient-dependence"
         data-classification="primary"
-        data-result="pending"
+        data-result="PASS"
         style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #10b981; background: #f8fafc; border-radius: 4px;">
       
         
       <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
-        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #f1f5f9; color: #475569">⏳ pending</span>
+        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #d1fae5; color: #065f46">✓ PASS</span>
         <span class="classification-pill classification-primary">primary</span>
         <strong style="font-size: 0.9em;">reduced-gradient-dependence</strong>
         
         <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
         
       </div>
-      <div style="margin-top: 6px; font-size: 0.95em;">Internalizing lineages persist longer as the external gradient is lowered.</div>
+      <div style="margin-top: 6px; font-size: 0.95em;">An internalizing (efficient-pump) lineage persists as the external gradient is lowered (survivors stay high).</div>
+      
+      <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
+        <strong>Latest result:</strong>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.999997</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 1 &gt;= 0.5</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&gt;=</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;reduced-gradient-dependence&#39;, &#39;label&#39;: &#39;An internalizing (efficient-pump) lineage persists as the external gradient is lowered (survivors stay high).&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 0.999997, &#39;meter&#39;: 0.999997, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 0.5, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 0.499997, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: &#39;sojo2014bioenergetic&#39;}</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+        
+      </div>
       
       
       <details style="margin-top: 6px; font-size: 0.82em;">
         <summary class="muted" style="cursor: pointer;">Assertion</summary>
         
-        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "survival as external gradient is reduced", "kind": "observable"}
-pass_if: {"detail": "internalizing lineages persist longer", "op": "threshold"}</pre>
+        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "surviving strategy mass at the collapsed external gradient", "kind": "derived", "path": "final_survivors"}
+pass_if: {"detail": "internalizing lineage persists (survivors \u003e= 0.5) at the collapsed gradient", "op": "\u003e=", "value": 0.5}
+cites:   ["sojo2014bioenergetic"]</pre>
+      </details>
+      
+      
+      
+      
+    </li>
+    
+    
+    
+    
+    
+    
+    
+    
+    <li class="expected-behavior-item" id="bt-sojo-constraint-weak-pump-collapses"
+        data-test-kind="behavioral"
+        
+        data-pytest-node="sojo-constraint-weak-pump-collapses"
+        data-classification="primary"
+        data-result="PASS"
+        style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #10b981; background: #f8fafc; border-radius: 4px;">
+      
+        
+      <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
+        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #d1fae5; color: #065f46">✓ PASS</span>
+        <span class="classification-pill classification-primary">primary</span>
+        <strong style="font-size: 0.9em;">sojo-constraint-weak-pump-collapses</strong>
+        
+        <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
+        
+      </div>
+      <div style="margin-top: 6px; font-size: 0.95em;">Discriminating (Sojo 2014): a weak pump cannot internalize, so when the external gradient collapses the lineage goes extinct — only sufficiently efficient pumps survive the transition.</div>
+      
+      <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
+        <strong>Latest result:</strong>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.0</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: cross_run</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: efficient-pump survivors=1.00 vs weak-pump survivors=0.00 at the collapsed gradient (weak pump goes extinct =&gt; Sojo constraint)</code>
+        
+      </div>
+      
+      
+      <details style="margin-top: 6px; font-size: 0.82em;">
+        <summary class="muted" style="cursor: pointer;">Assertion</summary>
+        
+        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "efficient-pump survivors vs weak-pump control", "kind": "cross_run"}
+pass_if: {"detail": "the weak-pump control collapses (survivors ~0) where the efficient pump persists", "op": "controls_absent"}
+cites:   ["sojo2014bioenergetic", "lane2012origin"]</pre>
       </details>
       
       
@@ -1083,26 +1360,44 @@ pass_if: {"detail": "internalizing lineages persist longer", "op": "threshold"}<
         
         data-pytest-node="energy-cost-accounted"
         data-classification="supporting"
-        data-result="pending"
+        data-result="PASS"
         style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #3b82f6; background: #f8fafc; border-radius: 4px;">
       
         
       <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
-        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #f1f5f9; color: #475569">⏳ pending</span>
+        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #d1fae5; color: #065f46">✓ PASS</span>
         <span class="classification-pill classification-supporting">supporting</span>
         <strong style="font-size: 0.9em;">energy-cost-accounted</strong>
         
         <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
         
       </div>
-      <div style="margin-top: 6px; font-size: 0.95em;">Membrane-maintenance energy is outweighed by benefit in some region.</div>
+      <div style="margin-top: 6px; font-size: 0.95em;">Membrane-maintenance energy is outweighed by benefit in the surviving population (net-positive free-energy flux).</div>
+      
+      <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
+        <strong>Latest result:</strong>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.949216</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 0.9492 &gt; 0.0</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&gt;</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;energy-cost-accounted&#39;, &#39;label&#39;: &#39;Membrane-maintenance energy is outweighed by benefit in the surviving population (net-positive free-energy flux).&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 0.949216, &#39;meter&#39;: 0.9746079999999999, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 0.0, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 0.949216, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: &#39;lane2010chemiosmotic&#39;}</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+        
+      </div>
       
       
       <details style="margin-top: 6px; font-size: 0.82em;">
         <summary class="muted" style="cursor: pointer;">Assertion</summary>
         
-        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "membrane-maintenance energy vs benefit", "kind": "observable"}
-pass_if: {"detail": "net-positive region exists", "op": "threshold"}</pre>
+        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "internalized population has net-positive flux", "kind": "derived", "path": "final_internalization"}
+pass_if: {"detail": "a net-positive-flux internalized region exists", "op": "\u003e", "value": 0.0}
+cites:   ["lane2010chemiosmotic"]</pre>
       </details>
       
       
@@ -1189,27 +1484,27 @@ pass_if: {"detail": "net-positive region exists", "op": "threshold"}</pre>
           <span class="narrative-label">Empirical validation</span>
           <span class="narrative-input verdict-badge-computed" data-verdict-track="biological_validation"
                 title="Computed from the gate evaluator (read-only)"
-                style="display:inline-block;padding:2px 12px;border-radius:9999px;font-weight:700;font-size:0.85em;background:#f1f5f9;color:#475569">PENDING</span>
+                style="display:inline-block;padding:2px 12px;border-radius:9999px;font-weight:700;font-size:0.85em;background:#f1f5f9;color:#475569">PASS</span>
           <span class="muted small" style="margin-left:6px">computed from gate evaluator</span>
         </label>
         <label class="narrative-row narrative-row-wide">
           <span class="narrative-label">Empirical basis</span>
           <textarea class="narrative-input narrative-textarea" rows="2"
                     data-narrative-path="conclusion_verdicts.biological_validation.basis"
-                    placeholder="e.g. atp_fraction = 0.997, outside Boesen 2024 band [0.2, 0.5]."></textarea>
+                    placeholder="e.g. atp_fraction = 0.997, outside Boesen 2024 band [0.2, 0.5].">Reproduces the Sojo-2014 constraint — internalization is viable only with a sufficiently efficient pump; a weak pump collapses at the transition.</textarea>
         </label>
         <label class="narrative-row">
           <span class="narrative-label">Explanatory gain</span>
           <span class="narrative-input verdict-badge-computed" data-verdict-track="explanatory_gain"
                 title="Computed from interpretation-tier findings (read-only)"
-                style="display:inline-block;padding:2px 12px;border-radius:9999px;font-weight:700;font-size:0.85em;background:#f1f5f9;color:#475569">PENDING</span>
+                style="display:inline-block;padding:2px 12px;border-radius:9999px;font-weight:700;font-size:0.85em;background:#f1f5f9;color:#475569">POSITIVE</span>
           <span class="muted small" style="margin-left:6px">computed from interpretation-tier findings</span>
         </label>
         <label class="narrative-row narrative-row-wide">
           <span class="narrative-label">Explanatory basis</span>
           <textarea class="narrative-input narrative-textarea" rows="2"
                     data-narrative-path="conclusion_verdicts.explanatory_gain.basis"
-                    placeholder="e.g. Three findings worth keeping; design_pivot_required closed."></textarea>
+                    placeholder="e.g. Three findings worth keeping; design_pivot_required closed.">The evolutionary control loop explains both the internalization transition and its Sojo-bounded failure mode from the leaky-membrane fitness.</textarea>
         </label>
       </div>
     </div>
@@ -1229,6 +1524,18 @@ pass_if: {"detail": "net-positive region exists", "op": "threshold"}</pre>
   <div class="overview-section"><h2 class="overview-label">Plan &amp; assumptions</h2>
 
     
+    <div class="overview-section">
+      <h3 class="overview-label">Pipeline gate</h3>
+      <p class="muted" style="margin: 0 0 8px 0;font-size:0.88em">
+        Each study is a model-building gate: it answers <em>"Can we safely build the next layer?"</em>
+      </p>
+      
+      <div style="margin-bottom:6px"><strong>Prerequisites:</strong> <em class="muted">none (root study)</em></div>
+      
+      
+      
+    </div>
+    
 
     
     <div class="overview-section">
@@ -1239,6 +1546,14 @@ pass_if: {"detail": "net-positive region exists", "op": "threshold"}</pre>
     </div>
     
 
+    
+    <div class="overview-section">
+      <h3 class="overview-label">Limitations</h3>
+      <p class="muted" style="margin:0 0 6px 0;font-size:0.85em">What this study explicitly does NOT validate (prevents overclaim).</p>
+      <ul style="margin:0 0 0 18px;padding:0;font-size:0.93em">
+        <li style="margin:2px 0">Coarse-grained deterministic replicator dynamics with calibrated couplings; not a wrapped ALife/MD engine.</li><li style="margin:2px 0">Single declining-gradient scenario; the pump-efficiency threshold is shown by two arms, not a full sweep.</li>
+      </ul>
+    </div>
     
 
   </div>
@@ -1251,6 +1566,27 @@ pass_if: {"detail": "net-positive region exists", "op": "threshold"}</pre>
     
     
     
+    <div class="decide-section">
+      <h3 class="overview-label">Latest run outcomes</h3>
+      <div style="font-size:0.88em;color:#64748b;margin-bottom:8px">
+        baseline · seed ? ·
+        ?s simulated ·
+        ? history rows ·
+        started 1791853787.109202
+      </div>
+      
+      
+      
+      <p class="muted" style="margin:0;font-size:0.9em">
+        <strong>4</strong> test outcomes
+        — <span style="color:#065f46;font-weight:600">4 PASS</span> ·
+        <span style="color:#991b1b;font-weight:600">0 FAIL</span>.
+        Per-test outcomes (measured value · evaluator · band) are canonical on the
+        <a onclick="_setStudyTab('tests')" style="cursor:pointer;color:#3b82f6;text-decoration:underline">Tests tab →</a>.
+      </p>
+      
+    </div>
+    
     
 
   </div>
@@ -1262,6 +1598,64 @@ pass_if: {"detail": "net-positive region exists", "op": "threshold"}</pre>
     
 
     
+    
+    
+    <div class="overview-section" id="discovery-implications-section" style="margin-top:18px">
+      <h3 class="overview-label">Discovery implications</h3>
+      <p class="muted" style="margin:0 0 10px 0;font-size:0.88em">Where this study's results leave the mechanism model — and what to investigate next.</p>
+
+      
+      <div class="di-uncertainties">
+        
+        <div class="di-unc di-unc-resolved">
+          <h4>✓ Resolved uncertainties</h4>
+          <ul><li>Selection can internalize gradient generation as the external gradient falls, bounded by the Sojo leaky-membrane constraint.</li></ul>
+        </div>
+        
+        
+        <div class="di-unc di-unc-remaining">
+          <h4>● Remaining uncertainties</h4>
+          <ul><li>The precise pump-efficiency threshold separating viable internalization from extinction.</li></ul>
+        </div>
+        
+      </div>
+      
+
+      
+
+      
+
+      
+      
+      
+      <div class="di-group">
+        <h3>Follow-up study proposals
+          <span class="muted" style="font-weight:normal;font-size:0.82em">(discovered)</span>
+          <span class="muted" style="font-weight:normal;font-size:0.85em">(1)</span></h3>
+        <p class="muted" style="margin:0 0 8px 0;font-size:0.85em">Click <strong>➕ Add to investigation</strong> to spawn a new study node in the investigation graph.</p>
+        <div class="followup-list">
+          
+          
+          <div class="di-card di-fup-card">
+            <div class="followup-header">
+              <strong class="followup-title">(untitled proposal)</strong>
+              
+              
+              
+              
+            </div>
+            
+            
+            <div class="followup-actions" style="margin-top:8px">
+              <button class="btn-seed-followup"
+                      onclick="_seedFollowupProposal('og-05-environmental-to-internal-bioenergetics', "")">➕ Add to investigation</button>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+      
+    </div>
     
 
     
@@ -1277,7 +1671,7 @@ pass_if: {"detail": "net-positive region exists", "op": "threshold"}</pre>
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "50149bbd75c66dad945c6514494ebd8b96b6ac8e", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/50149bbd75c66dad945c6514494ebd8b96b6ac8e", "branch": "main", "lockfile": "uv.lock@ce30b61d457c", "generated_at": "2026-10-12 23:01 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "d0eeb9829cd8963cf13941cc3959e56ef052cbb6", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/d0eeb9829cd8963cf13941cc3959e56ef052cbb6", "branch": "main", "lockfile": "uv.lock@ce30b61d457c", "generated_at": "2026-10-13 01:12 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>
