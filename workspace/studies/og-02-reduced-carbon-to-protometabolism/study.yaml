@@ -13,8 +13,8 @@ hypothesis: A curated graph (formate/acetate/pyruvate/glyoxylate + rTCA fragment
 objective: Insert an experimentally-motivated reaction graph and test whether metabolism-like subnetworks emerge under flow.
 result: >-
   All three tests pass — sustained net carbon throughput (9e-4 mol/s) under
-  continuous feed+washout, an autocatalytic motif (OAA self-amplifies, gain ~3
-  steady / 29 peak), and a single connected reaction network.
+  continuous feed+washout, an autocatalytic motif (OAA self-amplifies; autocatalytic gain peaks at 29.5,
+  settling lower as CO2 limits), and a single connected reaction network.
 findings:
 - id: og02-sustained-throughput
   kind: computational
@@ -30,13 +30,13 @@ findings:
 - id: og02-autocatalysis
   kind: computational
   status: novel
-  statement: An autocatalytic motif emerges — OAA self-amplifies ~60× (gain ~3 steady, ~29 peak) via the lumped reductive-TCA turn; a no-CO2 control collapses it.
+  statement: An autocatalytic motif emerges — the autocatalytic gain peaks at 29.5 (graded; settling lower as CO2 limits) via the lumped reductive-TCA turn; a no-CO2 control collapses it to 0.
   evidence:
     from_test: autocatalytic-gain-present
-    observed: 'gain 29 peak / ~3 steady; control gain 0'
+    observed: 'peak autocatalytic gain 29.5; no-CO2 control gain 0'
   expected:
     cites: [muchowska2017metals, muchowska2019synthesis]
-  explanation: The reductive-TCA turn OAA+2CO2->2OAA+acetate doubles its own entry molecule per turn — genuine autocatalysis, not an imposed assumption.
+  explanation: The reductive-TCA turn OAA+2CO2->2OAA+acetate doubles its own entry molecule per turn; the autocatalytic stoichiometry is a curated lumped reaction, so what is EMERGENT is that it sustains ignition under continuous feed + washout (a no-CO2 control collapses gain to 0), not the motif itself.
 - id: og02-network-closure
   kind: computational
   status: confirms
@@ -192,7 +192,7 @@ literature_anchors:
   - muchowska2019synthesis
 implemented_methods:
 - 'Module E — REAL libRoadRunner/Tellurium: a curated SBML rTCA-fragment network (pyruvate carboxylation + a lumped autocatalytic reductive-TCA turn OAA+2CO2 -> 2OAA+acetate + reductive branch to malate/succinate) run as a continuous-feed / washout CSTR, advanced each tick by the genuine roadrunner ODE integrator.'
-- 'Emergent observables (not assumptions): net carbon throughput under feed+washout; the autocatalytic gain k_rtca.[CO2]/k_wash (>1 => a reinforcing motif is active, OAA amplifies ~60x then CO2-limits); networkx connectivity of the species-reaction graph (a single connected network). A no-CO2 control collapses flux + gain to 0.'
+- 'Emergent observables (not assumptions): net carbon throughput under feed+washout; the autocatalytic gain k_rtca.[CO2]/k_wash (>1 => a reinforcing motif is active; gain peaks ~29.5 then CO2-limits); networkx connectivity of the species-reaction graph (a single connected network). A no-CO2 control collapses flux + gain to 0.'
 baseline:
 - name: Reduced carbon to protometabolism (Campaign II)
   composite: viva_genesis.composites.protometabolism.protometabolic_network
@@ -228,7 +228,7 @@ key_assumptions:
 claim: >-
   A curated rTCA-fragment network under continuous feed + washout sustains nonzero
   carbon throughput, exhibits an autocatalytic motif (OAA self-amplification,
-  gain ~3), and forms a single connected reaction network — metabolism-like
+  autocatalytic gain peaking ~29.5), and forms a single connected reaction network — metabolism-like
   behavior emerging without imposed product accumulation.
 kind: baseline
 simulation_status: ran
@@ -358,6 +358,6 @@ units_and_time:
 study_card:
   headline: >-
     All three tests pass — sustained net carbon throughput (9e-4 mol/s) under
-    continuous feed+washout, an autocatalytic motif (OAA self-amplifies, gain ~3
-    steady / 29 peak), and a single connected reaction network.
+    continuous feed+washout, an autocatalytic motif (OAA self-amplifies; autocatalytic
+    gain peaks at 29.5, settling as CO2 limits), and a single connected reaction network.
   status: PASS — metabolism-like behavior emerges under flow

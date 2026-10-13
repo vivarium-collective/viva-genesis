@@ -123,7 +123,9 @@ def main() -> int:
 
     # Cross-run adversarial grading: run every og-01/02/03 gate in vent vs generic mode.
     v = adversarial_verdict(core)
-    worst = min(v["gate_rows"], key=lambda g: g["generic"] / g["threshold"])
+    # "tightest" = the gate with the SMALLEST rejection margin (closest to passing)
+    # = the largest generic/threshold ratio; this is the one min_reject_decades reports.
+    worst = max(v["gate_rows"], key=lambda g: g["generic"] / g["threshold"])
     reject_verdict = {
         "result": "PASS" if v["generic_rejected"] else "FAIL",
         "measured_value": round(v["min_reject_decades"], 3),

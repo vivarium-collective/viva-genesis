@@ -11,7 +11,7 @@ simulation_status: ran
 implementation_status: complete
 title: Geology to reduced carbon (Campaign I)
 question: Which combinations of T, pH, pressure, H2, CO2 and mineralogy generate sustained net organic-carbon flux across the interface — reproducing Hudson/Preiner/Altair regimes before any extrapolation?
-hypothesis: Over Fe/Ni/S surfaces and across the pH gradient, H2-driven CO2 reduction yields formate/acetate/pyruvate at lab-calibrated rates within a bounded (T,pH,H2,pressure) region; outside it net flux goes to zero.
+hypothesis: Over Fe/Ni/S surfaces and across the pH gradient, H2-driven CO2 reduction yields formate/acetate/pyruvate at lab-calibrated rates within a bounded (T,pH,H2,pressure) region; the Tutolo-2026 in-situ arm roughly halves the flux, and the feature-ablation controls (no gradient / no H2 / no catalyst) zero it.
 objective: Add H2-driven CO2 reduction, reproduce the three benchmark experiments, and map the parameter region of sustained net organic-carbon flux.
 result: >-
   All eight tests pass — Preiner yields reproduced (formate 200 mM, acetate 100 µM,
@@ -363,7 +363,9 @@ kind: baseline
 claim: >-
   H2-driven CO2 reduction over Fe/Ni/S reproduces the Preiner/Hudson lab yields
   and net organic-carbon flux in a bounded favorable regime; the Tutolo-2026 arm
-  shows the usable proton-motive gradient collapses at in-situ T/P, zeroing the flux.
+  shows the usable proton-motive gradient collapses at in-situ T/P (427 -> 43 mV),
+  roughly halving the sustained flux; only the no-gradient / no-H2 / no-catalyst
+  controls zero it.
 pipeline_gate:
   gate_evaluator:
     result: passed

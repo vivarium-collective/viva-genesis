@@ -47,7 +47,7 @@ executive:
     eQuilibrator + FiPy; libRoadRunner; a FiPy thermal trap; amphiphile self-assembly; bioenergetic 
     internalization; an agent-based heredity lineage) and passes its conservation and acceptance 
     behavior tests. og-06's compositional-heredity headline ('heredity need not presume RNA') is 
-    seed-robust (8/8 seeds). The adversarial generic-nonequilibrium control (og-adv) runs and passes
+    seed-robust (5/5 graded seeds, 0.878±0.005). The adversarial generic-nonequilibrium control (og-adv) runs and passes
     by rejection — all five discriminating gates reject a vent-feature-ablated control (min margin 
     1.8 decades) while the vent passes all five. og-07 (ecology before LUCA) and og-08 (escape from 
     the vent) remain at Design with contracts (ports + conservation invariants) and behavior tests 
@@ -63,7 +63,7 @@ executive:
   - "Heredity strategy for og-06: compare all modules without presuming RNA. og-06's agent-based lineage
     grades RNA-like template, compositional (GARD), a template-focused hybrid and a non-heritable control
     head-to-head; compositional and hybrid heredity persist length-independently (functional persistence
-    ~0.88, seed-robust 8/8) where a long low-fidelity template suffers the Eigen length catastrophe —
+    ~0.88, seed-robust 5/5 graded seeds) where a long low-fidelity template suffers the Eigen length catastrophe —
     so heredity need NOT presume a long high-fidelity RNA template."
   decisions_needed:
   - question: 'Publication milestone: close the first paper at the pre-genetic arc (og-00 -> og-03) or

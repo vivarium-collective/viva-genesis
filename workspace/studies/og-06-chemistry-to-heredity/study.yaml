@@ -122,7 +122,7 @@ baseline:
 - name: Chemistry to heredity (Campaign VI)
   composite: viva_genesis.composites.heredity_module_comparison.heredity_module_comparison
   params: {module: rna-like, temperature: 353.15}
-claim: An inherited chemical state improves lineage fitness above its replication cost when it clears the Eigen error threshold — but heredity need NOT presume a long high-fidelity RNA template. An agent-based lineage shows template heredity suffers the length catastrophe (Q=fidelity^length collapses with length) while compositional (GARD) and template-focused hybrid heredity persist length-independently (functional persistence ~0.88, seed-robust across 8 seeds) above the non-heritable control, which loses the parent↔offspring correlation and collapses. (A mean-field quasispecies arm still ranks a long high-fidelity template above a cheaper peptide module above non-inheritance when all clear the threshold.)
+claim: An inherited chemical state improves lineage fitness above its replication cost when it clears the Eigen error threshold — but heredity need NOT presume a long high-fidelity RNA template. An agent-based lineage shows template heredity suffers the length catastrophe (Q=fidelity^length collapses with length) while compositional (GARD) and template-focused hybrid heredity persist length-independently (functional persistence ~0.88, seed-robust across the 5 graded seeds — 0.878±0.005, and 8/8 in a wider sweep) above the non-heritable control, which loses the parent↔offspring correlation and collapses. (A mean-field quasispecies arm still ranks a long high-fidelity template above a cheaper peptide module above non-inheritance when all clear the threshold.)
 result: RNA-like fitness 0.38 (retention 0.62) > peptide 0.24 > non-heritable ~0; the low-fidelity module collapses (retention 0, fitness −0.10).
 findings:
 - id: og06-inheritance-pays
@@ -149,10 +149,10 @@ findings:
 - id: og06-lineage-compositional-escapes-length-catastrophe
   kind: computational
   status: novel
-  statement: An agent-based LINEAGE model (individuals inherit a chemical phenotype at fission into a real tree) re-derives the Eigen error threshold as a functional-persistence boundary in (per-site fidelity × length) space — AND shows that heredity need not presume a long high-fidelity template — compositional (GARD) and template-focused hybrid heredity persist at functional-persistence ~0.88 (seed-robust across 8 seeds, 0.875±0.006) INDEPENDENT of length, where a long low-fidelity template collapses; the non-heritable control loses the parent↔offspring correlation (realized heritability ~0.04–0.11 vs 0.92–0.99 for the heritable modules) and crashes to ~5 individuals.
+  statement: An agent-based LINEAGE model (individuals inherit a chemical phenotype at fission into a real tree) reproduces the Eigen error threshold (the imposed Q=fidelity^length relation) as a functional-persistence boundary in (per-site fidelity × length) space — AND shows that heredity need not presume a long high-fidelity template — compositional (GARD) and template-focused hybrid heredity persist at functional-persistence ~0.88 (seed-robust — 0.878±0.005 across the 5 graded seeds, 8/8 in a wider sweep) INDEPENDENT of length, where a long low-fidelity template collapses; the non-heritable control loses the parent↔offspring correlation (realized heritability ~0.04–0.11 vs 0.92–0.99 for the heritable modules) and crashes to ~5 individuals.
   evidence:
     from_test: heredity-lineage-compositional-persists
-    observed: 'compositional persistence 0.875±0.006 across 8 seeds (heritability 0.92), hybrid ~0.88 (0.92) — length-independent; template needs Q=fidelity^length above threshold; non-heritable heritability ~0.04–0.11, collapses every seed'
+    observed: 'compositional persistence 0.878±0.005 across 5 graded seeds (heritability 0.92), hybrid ~0.88 (0.92) — length-independent; template needs Q=fidelity^length above threshold; non-heritable heritability ~0.04–0.11, collapses every seed'
     units: dimensionless
   expected:
     cites: [eigen1971selforganization, segre2000compositional, sutherland2017opinion]
@@ -161,11 +161,11 @@ report:
   title: Campaign VI — chemistry to heredity
   verdict: PASS — inheritance pays above the Eigen error threshold, and heredity need not presume RNA — compositional/hybrid heredity persists length-independently
   confidence: high
-  main_insight: Heredity need not presume a long high-fidelity RNA template. An agent-based lineage re-derives the Eigen error threshold at the individual level — a long low-fidelity template suffers the length catastrophe — while compositional (GARD) and template-focused hybrid heredity persist length-independently (functional persistence ~0.88, seed-robust) above the non-heritable control. A mean-field quasispecies arm separately ranks a long high-fidelity (RNA-like) template above a cheaper peptide module above non-inheritance once all clear the threshold.
+  main_insight: Heredity need not presume a long high-fidelity RNA template. An agent-based lineage reproduces the Eigen error threshold (imposed Q=fidelity^length) at the individual level — a long low-fidelity template suffers the length catastrophe — while compositional (GARD) and template-focused hybrid heredity persist length-independently (functional persistence ~0.88, seed-robust) above the non-heritable control. A mean-field quasispecies arm separately ranks a long high-fidelity (RNA-like) template above a cheaper peptide module above non-inheritance once all clear the threshold.
   conclusion: >-
     Two real engines agree. A libRoadRunner quasispecies ODE shows inheritance is
     favored above the Eigen error threshold and ranks modules head-to-head; an
-    agent-based lineage (individuals dividing into a phenotype tree) re-derives that
+    agent-based lineage (individuals dividing into a phenotype tree) reproduces that
     threshold AND shows that compositional/hybrid heredity escapes the length
     catastrophe — so the heredity transition does not require a long high-fidelity RNA
     template. Opens the genetic era of the campaign (og-07 ecology, og-08 escape).
@@ -177,14 +177,14 @@ report:
   - {label: Low-fidelity (catastrophe), value: 0 / −0.10, status: pass}
   - {label: Compositional persistence (seed-robust), value: 0.88, status: pass}
   - {label: Compositional heritability, value: 0.92, status: pass}
-  - {label: Non-heritable control heritability, value: 0.11, status: pass}
+  - {label: Non-heritable control heritability, value: ~0.05 (graded), status: pass}
 conclusion_verdicts:
   biological_validation:
     result: PASS
     basis: Reproduces the Eigen error threshold (inheritance pays above it, collapses below it) at both mean-field and individual-lineage level, ranks viable modules head-to-head, and shows non-template (compositional/hybrid) heredity persisting length-independently.
   explanatory_gain:
     result: POSITIVE
-    basis: Two independent engines — a quasispecies ODE and an agent-based lineage — both derive the fidelity × length error threshold from first principles, and the lineage additionally shows compositional/hybrid heredity escaping the length catastrophe (heredity need not presume RNA).
+    basis: Two independent engines — a quasispecies ODE and an agent-based lineage — both reproduce the consequences of the fidelity × length error threshold (the imposed Q=fidelity^length relation) — collapse above the length catastrophe, escape for non-template modes — and the lineage additionally shows compositional/hybrid heredity escaping the length catastrophe (heredity need not presume RNA).
 limitations:
 - The functional benefit and replication cost are reduced couplings; the quasispecies ODE and the agent-based lineage are the real engines.
 - The mean-field arm compares two modules (RNA-like, peptide); the agent-based lineage compares four (template, compositional, hybrid, non-heritable). A fuller chemical module library is deferred.
