@@ -236,6 +236,41 @@ def _luca_capability_overlap(reader, test: dict, ws_root: Any) -> float:
     return _settled_mean(reader, "luca_capability_overlap", frac=0.2)
 
 
+# --- og-res (nitrogen as a limiting resource) readouts ------------------
+
+def _settled_nh4_uM(reader, test: dict, ws_root: Any) -> float:
+    """Settled ammonium pool in µM (store holds molar) — the standing reduced-N the
+    FeS-mediated reduction accumulates under feed + washout. ~0 in the no-FeS / no-H2
+    controls, a sustained pool in the favourable arm."""
+    return _settled_mean(reader, "NH4", frac=0.2) * 1.0e6
+
+
+def _settled_reduced_n_uM(reader, test: dict, ws_root: Any) -> float:
+    """Settled useful reduced N (NH4+ + amino-acid precursor) in µM."""
+    return _settled_mean(reader, "reduced_n", frac=0.2) * 1.0e6
+
+
+def _settled_cn_supply_ratio(reader, test: dict, ws_root: Any) -> float:
+    """Settled C:N supply ratio = carbon demand / reduced-N production. Within a viable
+    band (~Redfield) reduced N keeps pace with carbon; large means nitrogen is limiting."""
+    vals = [min(v, 1.0e6) for v in _values(reader, "cn_supply_ratio")]
+    return sum(_tail(vals, 0.2)) / len(_tail(vals, 0.2))
+
+
+def _peak_nh4_production_rate(reader, test: dict, ws_root: Any) -> float:
+    """Peak reduced-nitrogen (ammonium) production rate (mol/s) over the run — the
+    witness that a viable reduced-N source exists (>0 in the favourable arm, ~0 in
+    the no-FeS / no-H2 controls)."""
+    return max(_values(reader, "nh4_production_rate"))
+
+
+def _max_abs_n_mass_residual(reader, test: dict, ws_root: Any) -> float:
+    """Worst-case |per-step nitrogen-mass accounting error| (M) — every internal
+    reaction conserves N atoms, so Delta(total N) must equal feed - washout exactly;
+    this stays ~0 to machine precision (the matter-accounting invariant witness)."""
+    return max(abs(v) for v in _values(reader, "n_mass_residual"))
+
+
 def register_derived_scalars(registry: dict) -> None:
     """Hook called by study_evaluator.load_workspace_derived_scalars."""
     # og-00
@@ -274,3 +309,9 @@ def register_derived_scalars(registry: dict) -> None:
     # og-07
     registry["metacommunity_robustness"] = _connected_metacommunity_robustness
     registry["luca_capability_overlap"] = _luca_capability_overlap
+    # og-res (nitrogen as a limiting resource)
+    registry["settled_nh4_uM"] = _settled_nh4_uM
+    registry["settled_reduced_n_uM"] = _settled_reduced_n_uM
+    registry["cn_supply_ratio_settled"] = _settled_cn_supply_ratio
+    registry["peak_nh4_production_rate"] = _peak_nh4_production_rate
+    registry["max_abs_n_mass_residual"] = _max_abs_n_mass_residual

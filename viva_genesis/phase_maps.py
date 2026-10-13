@@ -507,3 +507,93 @@ def vent_specificity_map(
         "generic_corner": {"h2": float(h2_lo), "catalyst_active": 0.0},
     })
     return res
+
+
+# ----------------------------------------------------------------------------
+# og-res — nitrogen as a limiting resource : the C:N supply-ratio landscape
+# ----------------------------------------------------------------------------
+# Carbon fixation is not the only requirement — every amino acid and nucleobase needs
+# REDUCED nitrogen (NH4+), and the early ocean's accessible N was oxidised (NO3-/NO2-)
+# or inert (N2). Decision: does FeS-mediated reduced-N production keep pace with the
+# carbon-fixation demand, or does nitrogen become limiting first? The controlling
+# trade-off is the nitrate feed vs the FeS catalyst activity: feed enough NO3- over an
+# active mineral and the C:N supply ratio (carbon demand / reduced-N production) sits at
+# ~Redfield (N keeps pace); starve the feed or passivate the mineral and the ratio blows
+# up (N limiting). Swept over (nitrate supply x FeS activity). Reducers are module-level
+# so sweep_grid can fan the grid out over a process pool / Ray.
+_CN_KEEPS_PACE_THRESHOLD = 8.0   # C:N supply ratio at/below which reduced N keeps pace
+
+
+def nitrogen_cn_ratio_settled(rows) -> float:
+    """Settled C:N supply ratio (carbon demand / reduced-N production). <= ~Redfield
+    means reduced N keeps pace with carbon; large means nitrogen is limiting."""
+    if not rows:
+        return float("nan")
+    tail = rows[-max(1, len(rows) // 5):]
+    return float(np.mean([min(r.get("cn_supply_ratio", float("nan")), 1.0e6) for r in tail]))
+
+
+def nitrogen_production_settled(rows) -> float:
+    """Settled reduced-nitrogen (ammonium) production rate (mol/s)."""
+    if not rows:
+        return float("nan")
+    tail = rows[-max(1, len(rows) // 5):]
+    return float(np.mean([r.get("nh4_production_rate", 0.0) for r in tail]))
+
+
+def nitrogen_nh4_settled(rows) -> float:
+    """Settled ammonium pool (M) — the standing reduced-N the stage accumulates."""
+    return float(rows[-1].get("NH4", 0.0)) if rows else float("nan")
+
+
+def nitrogen_keeps_pace(rows) -> float:
+    """1.0 where the settled C:N supply ratio is at/below the keeps-pace threshold."""
+    cn = nitrogen_cn_ratio_settled(rows)
+    if cn != cn:  # nan
+        return 0.0
+    return 1.0 if cn <= _CN_KEEPS_PACE_THRESHOLD else 0.0
+
+
+def nitrogen_assimilation_phase_map(
+    *,
+    no3_supply=(2.0e-6, 1.0e-4, 16),
+    fes_activity=(0.05, 1.0, 16),
+    h2: float = 5.0e-3,
+    temperature: float = 353.15,
+    c_demand: float = 1.0e-4,
+    loss_rate: float = 1.0e-2,
+    no3_init: float = 1.0e-4,
+    n_steps: int = 140,
+    n_jobs: int = 1,
+) -> SweepResult:
+    """og-res reduced-nitrogen landscape over (nitrate supply x FeS activity).
+
+    Run open-flow (``loss_rate`` > 0) so the decision metric is the sustained C:N
+    supply ratio, not a batch pool. ``no3_supply`` is swept on a log grid (it spans
+    decades); ``fes_activity`` linearly in (0, 1]. The primary surface is the C:N
+    supply ratio — below ~Redfield (``_CN_KEEPS_PACE_THRESHOLD``) reduced N keeps pace
+    with carbon; above it nitrogen is limiting. The ``keeps_pace`` mask traces the
+    PASS boundary, with the ammonium-production rate and standing pool alongside."""
+    from .composites.nitrogen_assimilation import reduced_nitrogen_reactor
+
+    s_lo, s_hi, s_n = no3_supply
+    f_lo, f_hi, f_n = fes_activity
+    axes = {
+        "no3_supply": np.geomspace(s_lo, s_hi, int(s_n)),
+        "fes_activity": np.linspace(f_lo, f_hi, int(f_n)),
+    }
+    return sweep_grid(
+        reduced_nitrogen_reactor,
+        axes,
+        reduce={
+            "cn_ratio": nitrogen_cn_ratio_settled,       # primary decision surface
+            "keeps_pace": nitrogen_keeps_pace,
+            "nh4_production": nitrogen_production_settled,
+            "nh4_pool": nitrogen_nh4_settled,
+        },
+        fixed={"h2": float(h2), "temperature": float(temperature),
+               "c_demand": float(c_demand), "loss_rate": float(loss_rate),
+               "no3_init": float(no3_init)},
+        n_steps=n_steps,
+        n_jobs=n_jobs,
+    )

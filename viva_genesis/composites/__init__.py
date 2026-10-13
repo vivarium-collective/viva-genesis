@@ -14,6 +14,7 @@ from . import heredity_module_comparison  # noqa: F401
 from . import heredity_lineage  # noqa: F401
 from . import off_gradient_persistence  # noqa: F401
 from . import cross_feeding_metacommunity  # noqa: F401
+from . import nitrogen_assimilation  # noqa: F401
 
 from .vent_reactor import serpentinizing_vent_reactor, serpentinizing_vent_reactor_reduced
 from .carbon_fixation import hydrothermal_carbon_fixation
@@ -25,6 +26,7 @@ from .heredity_module_comparison import heredity_module_comparison
 from .heredity_lineage import heredity_lineage_comparison
 from .off_gradient_persistence import off_gradient_persistence
 from .cross_feeding_metacommunity import cross_feeding_metacommunity
+from .nitrogen_assimilation import reduced_nitrogen_reactor
 
 __all__ = [
     "serpentinizing_vent_reactor", "serpentinizing_vent_reactor_reduced",
@@ -37,4 +39,5 @@ __all__ = [
     "heredity_lineage_comparison",
     "off_gradient_persistence",
     "cross_feeding_metacommunity",
+    "reduced_nitrogen_reactor",
 ]

@@ -1092,3 +1092,111 @@ class VentSpecificityMap(Visualization):
             res = vent_specificity_map(h2=(1.0e-9, 2.0e-2, n), catalyst_active=(0.0, 1.0, n),
                                        n_steps=int(self.config["n_steps"]), n_jobs=1)
         return {"html": vent_specificity_figure(res, gate_rows=gate_rows, title=self.config["title"])}
+
+
+# ----------------------------------------------------------------------------
+# og-res — nitrogen as a limiting resource : the C:N supply-ratio landscape
+# ----------------------------------------------------------------------------
+def nitrogen_assimilation_phase_figure(res, *, title=None) -> str:
+    """og-res Decision view: does reduced nitrogen keep pace with carbon? **Left**: the
+    C:N supply-ratio landscape over (nitrate supply x FeS activity) with the keeps-pace
+    boundary (C:N == threshold) and the favourable operating point; reduced N keeps pace
+    only where BOTH the nitrate feed is sufficient AND the FeS catalyst is active.
+    **Right**: the sustained ammonium-production rate, with the carbon-demand-matched
+    contour (production = c_demand / cn_target) overlaid — the same keeps-pace frontier
+    read on the supply side. ``res`` is a SweepResult / grid view with ``cn_ratio``,
+    ``keeps_pace``, ``nh4_production`` and ``nh4_pool`` surfaces."""
+    import numpy as np
+    import plotly.graph_objects as go
+    from plotly.subplots import make_subplots
+
+    supply = np.asarray(res.axes["no3_supply"], float)
+    fes = np.asarray(res.axes["fes_activity"], float)
+    cn = np.asarray(res.surfaces["cn_ratio"], float)                 # [supply, fes]
+    prod = np.asarray(res.surfaces.get("nh4_production", np.zeros_like(cn)), float)
+    thr = float(res.meta.get("cn_keeps_pace_threshold", 8.0))
+    c_demand = float((res.meta.get("fixed") or {}).get("c_demand", 1.0e-4))
+    cn_target = float((res.meta.get("fixed") or {}).get("cn_target", 5.0))
+    # carbon-demand-matched production (mol/s): where reduced-N supply just meets demand.
+    prod_match = c_demand / max(cn_target, 1e-6)
+    op_supply, op_fes = 2.0e-5, 1.0                                  # favourable operating point
+
+    z_cn = np.log10(np.clip(cn, 1.0, None))                          # log — spans decades
+    z_prod = np.log10(np.clip(prod * 1e6, 1e-3, None))               # umol/s, log
+
+    fig = make_subplots(rows=1, cols=2, horizontal_spacing=0.13, shared_yaxes=True,
+                        subplot_titles=("C:N supply ratio (does reduced N keep pace?)",
+                                        "Sustained ammonium production (umol/s)"))
+    # --- left: C:N landscape + the keeps-pace boundary ---
+    fig.add_trace(go.Contour(x=fes, y=supply, z=z_cn, colorscale="Viridis_r", ncontours=16,
+                             colorbar=dict(title="log10<br>C:N", len=0.9, x=0.44),
+                             contours=dict(showlabels=True, labelfont=dict(size=9, color="white")),
+                             line=dict(width=0.4, color="rgba(255,255,255,0.3)")), row=1, col=1)
+    fig.add_trace(go.Contour(x=fes, y=supply, z=cn, showscale=False,
+                             contours=dict(start=thr, end=thr, coloring="lines"),
+                             line=dict(color="#f8fafc", width=2.6, dash="dash"),
+                             hoverinfo="skip"), row=1, col=1)
+    # --- right: reduced-N production + the carbon-demand-matched frontier ---
+    fig.add_trace(go.Contour(x=fes, y=supply, z=z_prod, colorscale="Inferno", ncontours=16, showscale=True,
+                             colorbar=dict(title="log10<br>umol/s", len=0.9),
+                             line=dict(width=0.4, color="rgba(255,255,255,0.3)")), row=1, col=2)
+    fig.add_trace(go.Contour(x=fes, y=supply, z=prod, showscale=False,
+                             contours=dict(start=prod_match, end=prod_match, coloring="lines"),
+                             line=dict(color="#f8fafc", width=2.4, dash="dash"),
+                             hoverinfo="skip"), row=1, col=2)
+    for c in (1, 2):
+        fig.add_trace(go.Scatter(x=[op_fes], y=[op_supply], mode="markers+text",
+                                 text=["favourable<br>operating point"], textposition="bottom center",
+                                 textfont=dict(size=9, color=_INK),
+                                 marker=dict(symbol="star", size=14, color=_AMBER,
+                                             line=dict(width=1.1, color=_INK)), showlegend=False), row=1, col=c)
+        fig.update_xaxes(title_text="FeS catalyst activity", row=1, col=c)
+    fig.update_yaxes(type="log", title_text="nitrate supply (M/s)", row=1, col=1)
+
+    ttl = title or "Campaign I — nitrogen as a limiting resource"
+    fig.update_layout(
+        title=dict(text=(f"<b>{ttl}</b><br><span style='font-size:12px;color:{_SLATE}'>"
+                         "Reduced nitrogen keeps pace with carbon only where the nitrate feed is "
+                         "sufficient AND the FeS catalyst is active (dashed = keeps-pace boundary, "
+                         f"C:N = {thr:.0f}). Above the feed/activity frontier the C:N supply ratio "
+                         "blows up and nitrogen — not carbon or energy — becomes limiting first. The "
+                         "no-FeS / no-H2 controls sit off-scale at zero production.</span>"),
+                   x=0.5, xanchor="center"),
+        height=450, width=960, margin=dict(t=100, b=60, l=75, r=20),
+        font=dict(family="system-ui, -apple-system, sans-serif", color=_INK),
+        paper_bgcolor="white", plot_bgcolor="white")
+    return fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+
+
+class NitrogenAssimilationPhaseMap(Visualization):
+    """og-res Decision view: the C:N supply-ratio landscape over (nitrate supply x FeS
+    activity) + the sustained ammonium-production surface, with the keeps-pace boundary
+    where reduced N meets the carbon-fixation demand. Renders from a persisted grid
+    (``grid_json``) or computes a modest grid live."""
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "Campaign I — nitrogen as a limiting resource"},
+        "grid_json": {"_type": "string", "_default": ""},
+        "n_grid": {"_type": "integer", "_default": 12},
+        "n_steps": {"_type": "integer", "_default": 100},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        from .phase_maps import nitrogen_assimilation_phase_map
+        resolved = _resolve_grid_path(str(self.config.get("grid_json", "") or ""))
+        if resolved:
+            with open(resolved) as f:
+                blob = json.load(f)
+            res = _ResultView(*_grid_from_json(blob))
+        else:
+            n = int(self.config["n_grid"])
+            res = nitrogen_assimilation_phase_map(
+                no3_supply=(2.0e-6, 1.0e-4, n), fes_activity=(0.05, 1.0, n),
+                n_steps=int(self.config["n_steps"]), n_jobs=1)
+        return {"html": nitrogen_assimilation_phase_figure(res, title=self.config["title"])}

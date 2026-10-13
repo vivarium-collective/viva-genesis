@@ -1372,3 +1372,164 @@ class HeredityErrorThresholdViz(Visualization):
                 f"{cap}<div style='display:flex;justify-content:center'>{s_html}</div>"
                 "<div style='display:flex;justify-content:center;margin-top:8px'>" + a_html + "</div>"
                 "</body></html>")
+
+
+class NitrogenAssimilationViz(Visualization):
+    """Campaign-I (Module I) WORLD view — reduced-nitrogen assimilation at the vent.
+    Runs the real ``reduced_nitrogen_reactor`` composite and shows the nitrogen pools
+    moving down the reduction chain (NO3- -> NO2- -> NH4+ -> amino-acid precursor) over
+    time, the standing reduced-N pool, and the ammonium-production rate — the first
+    fixed nitrogen appearing on the FeS catalyst. Drives the genuine
+    ``ReducedNitrogenProductionProcess``.
+    """
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "Campaign I — reduced-nitrogen assimilation (FeS)"},
+        "n_steps": {"_type": "integer", "_default": 120},
+        "no3_supply": {"_type": "float", "_default": 2.0e-5},
+        "fes_activity": {"_type": "float", "_default": 1.0},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        from .core import build_core
+        from .composites.nitrogen_assimilation import reduced_nitrogen_reactor
+        core = build_core()
+        doc = reduced_nitrogen_reactor(core, no3_supply=float(self.config["no3_supply"]),
+                                       fes_activity=float(self.config["fes_activity"]))
+        sim = Composite({"state": doc}, core=core)
+        sim.run(float(self.config["n_steps"]))
+        rows = gather_emitter_results(sim)[("emitter",)]
+        return {"html": self._figure(rows)}
+
+    def _figure(self, rows) -> str:
+        from plotly.subplots import make_subplots
+
+        def col(k):
+            return [r[k] for r in rows if k in r]
+
+        t = [r.get("global_time", i) for i, r in enumerate(rows)]
+        no3 = [v * 1e6 for v in col("NO3")]
+        no2 = [v * 1e6 for v in col("NO2")]
+        nh4 = [v * 1e6 for v in col("NH4")]
+        amino = [v * 1e6 for v in col("amino_precursor")]
+        reduced = [v * 1e6 for v in col("reduced_n")]
+        prod = col("nh4_production_rate")
+
+        ink, teal, amber, slate, rust, violet = "#1e293b", "#0d9488", "#d97706", "#64748b", "#b91c1c", "#7c3aed"
+        fig = make_subplots(
+            rows=1, cols=3, horizontal_spacing=0.08,
+            subplot_titles=("Nitrogen pools down the reduction chain (µM)",
+                            "Standing reduced nitrogen (µM)",
+                            "Ammonium production rate (mol/s)"))
+        fig.add_scatter(x=t, y=no3, mode="lines", line=dict(color=slate, width=2), name="NO₃⁻", row=1, col=1)
+        fig.add_scatter(x=t, y=no2, mode="lines", line=dict(color=amber, width=2), name="NO₂⁻", row=1, col=1)
+        fig.add_scatter(x=t, y=nh4, mode="lines", line=dict(color=teal, width=2.5), name="NH₄⁺", row=1, col=1)
+        fig.add_scatter(x=t, y=amino, mode="lines", line=dict(color=violet, width=2, dash="dot"), name="amino precursor", row=1, col=1)
+        fig.add_scatter(x=t, y=reduced, mode="lines", line=dict(color=teal, width=2.5),
+                        fill="tozeroy", fillcolor="rgba(13,148,136,0.12)", name="reduced N (NH₄⁺+precursor)", row=1, col=2)
+        fig.add_scatter(x=t, y=prod, mode="lines", line=dict(color=ink, width=2.5), row=1, col=3)
+
+        fig.update_xaxes(title_text="time (s)", showgrid=True, gridcolor="#eef2f7")
+        fig.update_yaxes(showgrid=True, gridcolor="#eef2f7")
+        fig.update_layout(
+            title=dict(text=self.config.get("title") or "Campaign I — reduced-nitrogen assimilation",
+                       font=dict(size=16, color=ink)),
+            template="plotly_white", height=400, showlegend=True,
+            legend=dict(orientation="h", y=-0.2, x=0.0, font=dict(size=10)),
+            margin=dict(l=60, r=30, t=70, b=70), font=dict(color=ink))
+        return fig.to_html(full_html=True, include_plotlyjs="cdn", config={"displayModeBar": False})
+
+
+class NitrogenCarbonBalanceViz(Visualization):
+    """Campaign-I (Module I) MECHANISM view — the C:N supply-ratio panel. Runs the real
+    ``reduced_nitrogen_reactor`` composite in both the favourable and a nitrogen-limited
+    arm and shows (left) the reduced-N production rate against the carbon-fixation demand
+    over time — where N production keeps pace vs falls behind — and (right) the C:N supply
+    ratio trajectory with the keeps-pace threshold, so the limiting regime is explicit.
+    """
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "Campaign I — does reduced N keep pace with carbon?"},
+        "n_steps": {"_type": "integer", "_default": 120},
+        "c_demand": {"_type": "float", "_default": 1.0e-4},
+        "limited_no3_supply": {"_type": "float", "_default": 3.0e-6},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        from .core import build_core
+        from .composites.nitrogen_assimilation import reduced_nitrogen_reactor
+        core = build_core()
+        n = int(self.config["n_steps"])
+        cd = float(self.config["c_demand"])
+
+        def run(**kw):
+            sim = Composite({"state": reduced_nitrogen_reactor(core, c_demand=cd, **kw)}, core=core)
+            sim.run(n)
+            return gather_emitter_results(sim)[("emitter",)]
+
+        fav = run(no3_supply=2.0e-5, fes_activity=1.0)
+        lim = run(no3_supply=float(self.config["limited_no3_supply"]), fes_activity=1.0)
+        return {"html": self._figure(fav, lim, cd)}
+
+    def _figure(self, fav, lim, c_demand) -> str:
+        from plotly.subplots import make_subplots
+
+        def col(rows, k):
+            return [r.get(k) for r in rows if k in r]
+
+        tf = [r.get("global_time", i) for i, r in enumerate(fav)]
+        tl = [r.get("global_time", i) for i, r in enumerate(lim)]
+        prod_f = col(fav, "nh4_production_rate")
+        prod_l = col(lim, "nh4_production_rate")
+        cn_f = [min(v, 1e3) for v in col(fav, "cn_supply_ratio")]
+        cn_l = [min(v, 1e3) for v in col(lim, "cn_supply_ratio")]
+        # N production rate matched to carbon demand at the keeps-pace threshold (mol/s).
+        thr = 8.0
+        demand_match = c_demand / thr
+
+        ink, teal, amber, slate, rust = "#1e293b", "#0d9488", "#d97706", "#64748b", "#b91c1c"
+        fig = make_subplots(
+            rows=1, cols=2, horizontal_spacing=0.12,
+            subplot_titles=("Reduced-N production vs carbon demand (mol/s)",
+                            "C:N supply ratio — keeps pace vs limiting"))
+        # --- left: production rates vs the carbon-demand-matched line ---
+        fig.add_hline(y=demand_match, line=dict(color=slate, width=1.5, dash="dot"), row=1, col=1)
+        fig.add_annotation(x=tf[-1], y=demand_match, text="N needed to keep pace", showarrow=False,
+                           yshift=10, xanchor="right", font=dict(size=9, color=slate), row=1, col=1)
+        fig.add_scatter(x=tf, y=prod_f, mode="lines", line=dict(color=teal, width=3),
+                        name="favourable (keeps pace)", row=1, col=1)
+        fig.add_scatter(x=tl, y=prod_l, mode="lines", line=dict(color=rust, width=2.5, dash="dash"),
+                        name="N-limited feed", row=1, col=1)
+        # --- right: C:N ratio with the keeps-pace band shaded ---
+        fig.add_hrect(y0=0, y1=thr, line_width=0, fillcolor=teal, opacity=0.08, row=1, col=2)
+        fig.add_hline(y=thr, line=dict(color=slate, width=1.5, dash="dot"), row=1, col=2)
+        fig.add_scatter(x=tf, y=cn_f, mode="lines", line=dict(color=teal, width=3),
+                        name="favourable", row=1, col=2)
+        fig.add_scatter(x=tl, y=cn_l, mode="lines", line=dict(color=rust, width=2.5, dash="dash"),
+                        name="N-limited", row=1, col=2)
+        fig.add_annotation(x=tf[-1], y=thr, text="keeps-pace band", showarrow=False, yshift=-10,
+                           xanchor="right", font=dict(size=9, color=teal), row=1, col=2)
+
+        fig.update_xaxes(title_text="time (s)", showgrid=True, gridcolor="#eef2f7")
+        fig.update_yaxes(title_text="production (mol/s)", row=1, col=1, showgrid=True, gridcolor="#eef2f7")
+        fig.update_yaxes(title_text="C:N supply ratio (log)", type="log", row=1, col=2,
+                         showgrid=True, gridcolor="#eef2f7")
+        fig.update_layout(
+            title=dict(text=self.config.get("title") or "Campaign I — does reduced N keep pace with carbon?",
+                       font=dict(size=16, color=ink)),
+            template="plotly_white", height=420, showlegend=True,
+            legend=dict(orientation="h", y=-0.2, x=0.0, font=dict(size=10)),
+            margin=dict(l=65, r=30, t=70, b=70), font=dict(color=ink))
+        return fig.to_html(full_html=True, include_plotlyjs="cdn", config={"displayModeBar": False})
