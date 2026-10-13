@@ -1685,6 +1685,181 @@ _save_viz('og-adv-generic-nonequilibrium', 'vent-specificity-map', _render_one('
 # | gates-reject-generic _(primary)_ | kind=observable detail=run og-01/02/03 gates on the generic control; each measured value below its threshold | op controls_absent detail all five gates reject generic (net flux / formate / throughput / Péclet / enrichment below threshold) |
 # | vent-specificity-demonstrated _(primary)_ | kind=observable detail=vent vs generic on identical gates | op arms_reported detail vent passes 5/5 where the control fails 5/5 |
 
+# ## Study: Nitrogen as a limiting resource — reduced-N assimilation (Campaign I, Module I) (`og-res-nitrogen-assimilation`)
+#
+# **Question.** Carbon fixation is not the only requirement for a protocell. Can an FeS-mediated vent reduce the early ocean's oxidised / inert nitrogen (NO3-/NO2-/N2) to ammonium fast enough to keep pace with carbon fixation, and which conditions (FeS activity, nitrate supply, temperature) decide whether nitrogen becomes limiting first?
+#
+# **Objective.** Add nitrogen as its own module (FeS-mediated NO3-/NO2- -> NH4+ with minor N2 fixation and carbon-demanded reductive amination), track the C:N supply ratio, and map the region where reduced-N production keeps pace with the carbon-fixation demand.
+#
+# **Hypothesis.** On an Fe/Ni/S catalyst with an H2 reductant, nitrate is reduced through nitrite to ammonium and drawn into amino-acid precursors by reductive amination; reduced N keeps pace with reduced carbon (C:N supply ratio near Redfield) only inside a bounded region of (nitrate supply x FeS activity), and outside it — low feed or passivated mineral — the C:N ratio blows up and nitrogen, not carbon or energy, becomes the first limiting resource.
+#
+# **Claim.** FeS-mediated reduction of oxidised/inert nitrogen supplies ammonium and amino-acid precursors fast enough to keep pace with carbon fixation (C:N supply ratio near Redfield) only inside a bounded region of (nitrate supply x FeS activity); outside it nitrogen — not carbon or energy — becomes the first limiting resource.
+
+# ### Design — originally proposed
+#
+# _The mechanisms and methods proposed when this study was designed; the model **actually built** (and the tools it uses) is shown below. These may differ as the design was realized._
+#
+# **Proposed mechanisms**
+#
+# - I: FeS-mediated nitrate/nitrite reduction to ammonium
+# - I: minor abiotic N2 fixation on fresh FeS
+# - I: carbon-demanded reductive amination toward amino-acid precursors
+#
+# **Proposed models / methods**
+#
+# - FeS-catalysed dissimilatory nitrate reduction kinetics (H2-gated, temperature-windowed)
+# - Redfield-like C:N supply-ratio accounting
+# - Open-flow (feed + washout) sustained-throughput reactor
+#
+# **Key assumptions**
+#
+# - Reduced nitrogen (NH4+) is a hard co-requirement with reduced carbon; the early ocean's accessible N is oxidised (NO3-/NO2-) or inert (N2).
+# - The useful decision observable is the C:N SUPPLY ratio (production vs demand), not any single pool.
+
+# ### Parameters
+#
+# | simulation | composite | steps | params |
+# | --- | --- | --- | --- |
+# | `Nitrogen as a limiting resource — favourable` | `viva_genesis.composites.nitrogen_assimilation.reduced_nitrogen_reactor` | 0 | — |
+# | `Nitrogen-limited (scarce nitrate feed)` | `viva_genesis.composites.nitrogen_assimilation.reduced_nitrogen_reactor` | 0 | no3_supply=2e-06 |
+#
+# Declared parameter sets (`study.yaml` variants):
+#
+# - **nitrogen-limited** — `no3_supply=2e-06`
+# - **control-no-fes** — `fes_activity=1e-06`
+# - **control-no-h2** — `h2=1e-12`
+
+# ### The model & its parameters
+#
+# Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
+
+# **The model — `viva_genesis.composites.nitrogen_assimilation.reduced_nitrogen_reactor`**
+#
+# A reusable FeS-mediated reduced-nitrogen module. The real ReducedNitrogenProductionProcess reduces NO3-/NO2- to NH4+ on an Fe/Ni/S catalyst (H2-dependent, temperature-windowed), adds a minor abiotic N2-fixation source, and draws ammonium into amino-acid precursors by reductive amination at a rate set by the carbon-fixation demand. Tracks the C:N supply ratio (carbon demand / reduced-N production) to test whether reduced nitrogen keeps pace with reduced carbon. fes_activity=0 / h2=0 are the no-mineral / no-reductant controls.
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_nitrogen_assimilation_reduced_nitrogen_reactor = {
+    'no3_supply'  : 2e-05,   # Open-flow nitrate feed (M/s); sets the ceiling on sustained reduced-N production
+    'fes_activity': 1.0,   # Active Fe/Ni/S catalyst in [0,1] (0 = no-mineral control)
+    'h2'          : 0.005,   # Dissolved H2 reductant (M); ~0 = no-reductant control
+    'temperature' : 353.15,   # Temperature (K); FeS nitrate-reduction optimum ~80 C
+    'c_demand'    : 0.0001,   # Carbon-fixation demand pulling reduced N into precursors (mol/s)
+    'no3_init'    : 0.001,   # Initial nitrate pool (M)
+    'n2'          : 0.0005,   # Dissolved N2 available for minor fixation (M)
+    'loss_rate'   : 0.01,   # Open-flow washout of NH4+/precursor (1/s); 0 = closed batch (conservation control)
+}
+
+# ### Typed contract (declared interface)
+#
+# _The bigraph-schema typed ports + conservation predicates this study's composite must satisfy (audited in the workbench §Contract panel). Declared design — independent of whether a run exists yet._
+#
+# **Inputs**
+#
+# | port | type | units | bounds |
+# | --- | --- | --- | --- |
+# | `NO3` | float | molar | >= 0.0 |
+# | `H2` | float | molar | >= 0.0 |
+# | `temperature` | float | kelvin | [273.0, 673.0] |
+# | `fes_activity` | float | dimensionless | [0.0, 1.0] |
+# | `c_demand` | float | mole/second | >= 0.0 |
+#
+# **Outputs**
+#
+# | port | type | units | bounds |
+# | --- | --- | --- | --- |
+# | `NH4` | float | molar | >= 0.0 |
+# | `amino_precursor` | float | molar | >= 0.0 |
+# | `nh4_production_rate` | float | mole/second | >= 0.0 |
+# | `cn_supply_ratio` | float | dimensionless | >= 0.0 |
+# | `total_n` | float | molar | >= 0.0 |
+#
+# **Conditions**
+#
+# - `nitrogen_mass_balance` (invariant): `abs(delta_total_N - (feed - washout)) < tol`
+# - `reductant_necessity` (invariant): `nh4_production == 0 when (fes_activity == 0 or H2 == 0)`
+# - `non_negative_pools` (invariant): `NO3 >= 0 and NO2 >= 0 and NH4 >= 0`
+
+# ### Run
+#
+# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
+
+# === Study: og-res-nitrogen-assimilation ===
+STUDY = 'og-res-nitrogen-assimilation'
+STUDY_DIR = REPO / 'workspace/studies' / STUDY
+STUDY_YAML = str(STUDY_DIR / "study.yaml")
+RUNS_DB = str(STUDY_DIR / "runs.db")
+
+# This study has no *recorded* runs yet. RERUN builds its declared
+# composite(s) live and runs them; a composite whose module processes
+# are not implemented yet reports the error instead of crashing.
+STEPS_Nitrogen_as_a_limiting_resource_favourable = 100
+INTERVAL_Nitrogen_as_a_limiting_resource_favourable = 1.0
+STEPS_Nitrogen_limited_scarce_nitrate_feed = 100
+INTERVAL_Nitrogen_limited_scarce_nitrate_feed = 1.0
+
+if RERUN:
+    from process_bigraph import Composite
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_nitrogen_assimilation_reduced_nitrogen_reactor if 'ov_viva_genesis_composites_nitrogen_assimilation_reduced_nitrogen_reactor' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_nitrogen_assimilation_reduced_nitrogen_reactor = materialize_composite('viva_genesis.composites.nitrogen_assimilation.reduced_nitrogen_reactor', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_nitrogen_assimilation_reduced_nitrogen_reactor['state']}, core=core)
+            _comp.run(STEPS_Nitrogen_as_a_limiting_resource_favourable)
+        print('ran', 'Nitrogen as a limiting resource — favourable', f'(viva_genesis.composites.nitrogen_assimilation.reduced_nitrogen_reactor) for', STEPS_Nitrogen_as_a_limiting_resource_favourable, 'steps')
+    except Exception as _e:
+        print(f"Nitrogen as a limiting resource — favourable not runnable yet: {type(_e).__name__}: {_e}")
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_nitrogen_assimilation_reduced_nitrogen_reactor if 'ov_viva_genesis_composites_nitrogen_assimilation_reduced_nitrogen_reactor' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_nitrogen_assimilation_reduced_nitrogen_reactor = materialize_composite('viva_genesis.composites.nitrogen_assimilation.reduced_nitrogen_reactor', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_nitrogen_assimilation_reduced_nitrogen_reactor['state']}, core=core)
+            _comp.run(STEPS_Nitrogen_limited_scarce_nitrate_feed)
+        print('ran', 'Nitrogen-limited (scarce nitrate feed)', f'(viva_genesis.composites.nitrogen_assimilation.reduced_nitrogen_reactor) for', STEPS_Nitrogen_limited_scarce_nitrate_feed, 'steps')
+    except Exception as _e:
+        print(f"Nitrogen-limited (scarce nitrate feed) not runnable yet: {type(_e).__name__}: {_e}")
+else:
+    print("RERUN=False — not re-simulating.")
+
+# ### Visualizations
+#
+# _Results are shown by the figures below, produced by the run above._
+
+# **nitrogen-assimilation-timeseries**
+
+# nitrogen-assimilation-timeseries
+_save_viz('og-res-nitrogen-assimilation', 'nitrogen-assimilation-timeseries', _render_one('local:NitrogenAssimilationViz', {'composite': 'viva_genesis.composites.nitrogen_assimilation.reduced_nitrogen_reactor', 'n_steps': 120, 'title': 'Campaign I — reduced-nitrogen assimilation (World view)'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_nitrogen_assimilation_reduced_nitrogen_reactor if 'ov_viva_genesis_composites_nitrogen_assimilation_reduced_nitrogen_reactor' in dir() else None)))
+
+# **c-to-n-supply-balance**
+
+# c-to-n-supply-balance
+_save_viz('og-res-nitrogen-assimilation', 'c-to-n-supply-balance', _render_one('local:NitrogenCarbonBalanceViz', {'composite': 'viva_genesis.composites.nitrogen_assimilation.reduced_nitrogen_reactor', 'n_steps': 120, 'title': 'Campaign I — does reduced N keep pace with carbon? (Mechanism view)'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_nitrogen_assimilation_reduced_nitrogen_reactor if 'ov_viva_genesis_composites_nitrogen_assimilation_reduced_nitrogen_reactor' in dir() else None)))
+
+# **nitrogen-assimilation-phase-map**
+
+# nitrogen-assimilation-phase-map
+_save_viz('og-res-nitrogen-assimilation', 'nitrogen-assimilation-phase-map', _render_one('local:NitrogenAssimilationPhaseMap', {'title': 'Campaign I — nitrogen as a limiting resource (Decision view)', 'grid_json': 'workspace/studies/og-res-nitrogen-assimilation/artifacts/nitrogen_assimilation_phase_grid.json'}, RUNS_DB, STUDY_YAML))
+
+# ### Acceptance criteria
+#
+# _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
+#
+# | test | measures | passes if |
+# | --- | --- | --- |
+# | ammonium-production-sustained _(primary)_ | kind=derived path=settled_nh4_uM detail=settled ammonium pool uM=None | op > value 100.0 detail settled NH4+ > 100 uM (a sustained reduced-N pool) |
+# | reduced-nitrogen-source-exists _(primary)_ | kind=derived path=peak_nh4_production_rate detail=peak ammonium production rate | op > value 1e-06 detail peak NH4+ production > 0 (viable reduced-N source) |
+# | nitrogen-keeps-pace-with-carbon _(primary)_ | kind=derived path=cn_supply_ratio_settled detail=settled C:N supply ratio | op range low 1.0 high 8.0 detail C:N in the viable keeps-pace band (near Redfield) |
+# | nitrogen-mass-conserved _(diagnostic)_ | kind=derived path=max_abs_n_mass_residual detail=max |per-step N-mass residual| | op <= value 1e-09 detail max |nitrogen-mass residual| at machine precision |
+# | feature-ablation-no-ammonium _(primary)_ | kind=cross_run detail=favourable ammonium vs no-FeS / no-H2 | op controls_absent detail ammonium present with FeS+H2 <1 uM in every control None |
+# | nitrogen-supply-sets-cn _(diagnostic)_ | kind=cross_run detail=favourable C:N vs scarce-nitrate C:N | op arms_reported detail report both arms; flag where nitrogen becomes limiting first |
+
+# ### Literature anchors
+#
+# | expectation | model observable | source | status |
+# | --- | --- | --- | --- |
+# | Ammonia forms from dinitrogen on iron-sulfide surfaces (low yield, fresh-surface dependent) at ~70-80 C | ammonium production on FeS vs controls | Doerr 2003 | Met qualitatively — the FeS-mediated route produces ammonium only with an active mineral and an H2 reductant; N2 fixation is modelled as a deliberately minor source alongside the dominant nitrate-reduction route. |
+# | Native-metal / mineral catalysis drives reductive prebiotic chemistry toward amino-acid precursors | reduced-N draw into amino-acid precursors | Varma 2018 / Huber 1997 | Met — reductive amination draws ammonium into an amino-acid-precursor pool at a rate set by the carbon-fixation demand (the C:N coupling). |
+
 # ## Open decisions
 # - Publication milestone: close the first paper at the pre-genetic arc (og-00 -> og-03) or extend through the early-genetic arc (og-04 protocells -> og-06 heredity)?
 # - First limiting resource / next module: which enrichment-plan module to build first — nitrogen assimilation (N2/NO3->NH4, FeS), phosphorus availability (phosphate/polyphosphate co-concentration), proto-energetics (thioester/acyl-phosphate energy currency before pumping), or metabolism->growth/division (osmotic growth)?
