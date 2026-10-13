@@ -7,7 +7,7 @@ status: ran
 design_status: approved
 confidence: Accepted
 gate_status: passed
-title: Vent reactor baseline (Campaign 0)
+title: The Serpentinizing Vent
 question: Can a Lost City–like, serpentinization-fed vent–ocean interface reproduce observed fluid mixing, heat transport, mineral precipitation and H2/alkalinity delivery under field-constrained conditions — with no origin-of-life claim?
 hypothesis: A 1D/2D porous-wall reactor with prescribed boundary fluxes reproduces published Lost City ranges (T, pH, H2, DIC) and qualitative precipitation trends while conserving mass and charge.
 objective: Build a reduced vent–ocean reactor and validate it against Lost City field ranges to establish a geochemical/spatial testbed.
@@ -75,7 +75,7 @@ findings:
     ψ contours are the streamlines the cross-section viz overlays. buoyancy=0 recovers
     the old constant upflow.
 report:
-  title: Campaign 0 — vent reactor baseline
+  title: Vent reactor baseline
   verdict: PASS — reproduces the Lost City T/pH window with real geochemistry
   confidence: high
   main_insight: Real PHREEQC speciation + FiPy Darcy–Boussinesq convection reproduce the field window, reveal that the high pH requires a peridotite (Ca-OH) endmember, and show the wall as a buoyantly convecting recirculation cell rather than a uniform upflow.
@@ -288,7 +288,7 @@ literature_anchors:
   - fruhgreen2003thirtythousand
   - ludwig2006formation
 baseline:
-- name: Vent reactor baseline (Campaign 0)
+- name: Vent reactor baseline
   composite: viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor
   params: {}
 key_assumptions:
@@ -313,13 +313,13 @@ visualizations:
   config:
     composite: viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor
     n_steps: 60
-    title: Campaign 0 — real 2-D vent cross-section (FiPy)
+    title: Real 2-D vent cross-section (FiPy)
 - name: vent-reactor-timeseries
   address: local:VentReactorTimeseries
   config:
     composite: viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor
     n_steps: 120
-    title: Campaign 0 — real vent reactor (PHREEQC + FiPy)
+    title: Real vent reactor (PHREEQC + FiPy)
 # Canonical runner: builds the real coupled model, writes an isolated per-run
 # sqlite store the evaluator can open, and auto-grades the behavior tests into
 # runs[].outcomes (the dashboard's shared runs.db records no resolvable store).
@@ -526,7 +526,7 @@ runs:
         citation: kelley2001offaxis; ludwig2006formation
       auto_evaluated: true
 simulation_set:
-- name: Vent reactor baseline (Campaign 0)-baseline
+- name: Vent reactor baseline-baseline
   kind: single
   base_model: viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor
   is_baseline: true
@@ -561,7 +561,7 @@ conditions:
     params: {}
 variants:
 - name: reference
-  base_composite: Vent reactor baseline (Campaign 0)
+  base_composite: Vent reactor baseline
   params: {}
 units_and_time:
   tick: 1 s per step (forward-Euler / CSTR step)

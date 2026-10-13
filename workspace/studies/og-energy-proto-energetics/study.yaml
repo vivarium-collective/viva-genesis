@@ -9,7 +9,7 @@ simulation_status: ran
 evaluation_status: evaluated
 confidence: Accepted
 gate_status: passed
-title: Proto-energetics — an energy currency before modern pumping
+title: The Energy Currency
 question: Can a primitive system capture environmental (geochemical) free energy into a transferable chemical currency — charged by an exergonic drive, spent on endergonic work, lost to hydrolysis — before any modern-style ion pumping, and what fraction of the geochemical free energy becomes stored usable work?
 hypothesis: A pre-ATP carrier (thioester / acyl-phosphate class) coupled to an exergonic geochemical drive maintains a transferable currency above threshold under endergonic load — but only where the drive ΔG clears the carrier's high-energy bond and the coupling is efficient enough to beat discharge + hydrolysis. A bounded fraction of the geochemical free energy is captured as stored usable work; the rest is dissipated. Remove the coupling or starve the drive below the bond and the currency collapses.
 objective: Represent the exergonic-to-endergonic coupling as explicit energetic bookkeeping (a free-energy ledger), not a favourable reaction direction; map where a transferable currency is maintained and measure the stored-work fraction.

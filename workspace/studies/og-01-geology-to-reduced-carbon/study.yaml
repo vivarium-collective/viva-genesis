@@ -9,7 +9,7 @@ confidence: Accepted
 gate_status: passed
 simulation_status: ran
 implementation_status: complete
-title: Geology to reduced carbon (Campaign I)
+title: The First Carbon
 question: Which combinations of T, pH, pressure, H2, CO2 and mineralogy generate sustained net organic-carbon flux across the interface — reproducing Hudson/Preiner/Altair regimes before any extrapolation?
 hypothesis: Over Fe/Ni/S surfaces and across the pH gradient, H2-driven CO2 reduction yields formate/acetate/pyruvate at lab-calibrated rates within a bounded (T,pH,H2,pressure) region; the Tutolo-2026 in-situ arm roughly halves the flux, and the feature-ablation controls (no gradient / no H2 / no catalyst) zero it.
 objective: Add H2-driven CO2 reduction, reproduce the three benchmark experiments, and map the parameter region of sustained net organic-carbon flux.
@@ -85,7 +85,7 @@ findings:
     washout) reduced to sustained throughput per point; rendered as the
     carbon-fixation phase map (Decision view). Runner sims/compute_phase_grid.py.
 report:
-  title: Campaign I — geology to reduced carbon
+  title: Geology to reduced carbon
   verdict: PASS — reproduces the benchmarks; Tutolo arm flags the in-situ risk
   confidence: high
   main_insight: H2-driven CO2 reduction over Fe/Ni/S reproduces the Preiner/Hudson lab yields in a bounded favorable regime; the Tutolo-2026 arm shows the usable gradient can collapse at in-situ T/P.
@@ -320,7 +320,7 @@ implemented_methods:
 - 'Module D (thermo) — REAL eQuilibrator: genuine component-contribution ΔG'' (offline) for CO2+H2->formate/acetate/pyruvate, with the reaction-quotient term from live concentrations; a logistic feasibility gate makes energy_directionality explicit (fixation stops where ΔG'' >= 0 — real product inhibition).'
 - 'Module D (kinetics) — lab-calibrated heterogeneous CO2 reduction: rate = k · catalyst · feasible(ΔG'') · drive(pmf) · avail(H2,CO2) · T-window · headroom, hitting the Preiner-2020 yield ceilings. Controls (no gradient / H2 / catalyst) zero it out; the Tutolo arm collapses the pmf drive.'
 baseline:
-- name: Geology to reduced carbon (Campaign I) — favorable
+- name: Geology to reduced carbon — favorable
   composite: viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation
   params: {}
   canonical: true
@@ -342,17 +342,17 @@ visualizations:
   config:
     composite: viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation
     n_steps: 80
-    title: Campaign I — proton gradient → reduced carbon
+    title: Proton gradient → reduced carbon
 - name: carbon-fixation-timeseries
   address: local:CarbonFixationViz
   config:
     composite: viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation
     n_steps: 120
-    title: Campaign I — geology to reduced carbon (eQuilibrator + FiPy)
+    title: Geology to reduced carbon (eQuilibrator + FiPy)
 - name: carbon-fixation-phase-map
   address: local:CarbonFixationPhaseMap
   config:
-    title: Campaign I — the carbon-fixation landscape (Decision view)
+    title: The carbon-fixation landscape (Decision view)
     grid_json: workspace/studies/og-01-geology-to-reduced-carbon/artifacts/carbon_fixation_phase_grid.json
 key_assumptions:
 - Encode pH(T,P,ionic_strength), never laboratory pH as a constant environmental state.
@@ -606,7 +606,7 @@ variants:
   params:
     catalyst_active: 1e-06
 simulation_set:
-- name: Geology to reduced carbon (Campaign I) — favorable
+- name: Geology to reduced carbon — favorable
   kind: single
   base_model: viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation
   is_baseline: true

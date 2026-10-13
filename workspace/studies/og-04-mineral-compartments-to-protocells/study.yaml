@@ -9,7 +9,7 @@ simulation_status: ran
 evaluation_status: evaluated
 confidence: Accepted
 gate_status: passed
-title: Mineral compartments to protocells (Campaign IV)
+title: The First Boundary
 question: Do mixed-amphiphile organic boundaries enhance persistence without cutting the system off from geochemical energy?
 hypothesis: Over a salt/pH/divalent-cation/T window, vesicles form and selectively retain while remaining permeable enough to exploit the external gradient — a non-empty individuality-vs-access region exists.
 objective: Introduce mixed amphiphiles + membrane assembly; measure whether organic boundaries enhance persistence without isolating the system.
@@ -109,7 +109,7 @@ literature_anchors:
   cites:
   - jordan2019promotion
 baseline:
-- name: Mineral compartments to protocells (Campaign IV)
+- name: Mineral compartments to protocells
   composite: viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell
   params: {mix_fraction: 0.4, pH: 9.0, ionic_strength: 0.35, temperature: 318.15}
 claim: Mixed single-chain amphiphiles form viable vesicles across the alkaline / seawater-salt window where single fatty acids fail (Jordan 2019), and those compartments retain internal chemistry while staying permeable to the gradient — a non-empty individuality-without-isolation region.
@@ -166,7 +166,7 @@ findings:
     input, so the control is honored. (The study runner had already dodged it with 0.001.)
   explanation: A sweep axis starting at exactly 0.0 revealed the gotcha; the fix hardens the composite for any caller passing 0.0.
 report:
-  title: Campaign IV — mineral compartments to protocells
+  title: Mineral compartments to protocells
   verdict: PASS — mixed amphiphiles form vesicles that retain without isolating; controls bound the survival region
   confidence: high
   main_insight: Mixed single-chain amphiphiles broaden the vesicle stability window to the alkaline / salty vent regime (where single fatty acids fail) and form compartments that retain chemistry while staying permeable to the gradient — individuality without isolation.
@@ -219,11 +219,11 @@ visualizations:
   address: local:ProtocellWindowViz
   config:
     composite: viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell
-    title: Campaign IV — the protocell window broadens (mixed amphiphiles)
+    title: The protocell window broadens (mixed amphiphiles)
 - name: protocell-retention-access
   address: local:ProtocellPhaseMap
   config:
-    title: Campaign IV — a boundary that retains without isolating (Decision view)
+    title: A boundary that retains without isolating (Decision view)
 runs:
 - name: viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791844641__01fe12
   status: completed

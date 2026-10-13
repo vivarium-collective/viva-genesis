@@ -9,7 +9,7 @@ simulation_status: ran
 evaluation_status: evaluated
 confidence: Accepted
 gate_status: passed
-title: Escape from the vent (Campaign VIII)
+title: Escape From the Vent
 question: What is the minimum set of innovations required for autonomous persistence away from the geological reactor, as environmental support is relaxed?
 hypothesis: A bounded innovation set (internal energy conversion + resource import + heredity) allows persistence as gradient strength/mineral access/feed are reduced; below it, systems stay obligately vent-tied.
 objective: Relax environmental support via ablation sweeps and identify the minimum innovation set for autonomy.
@@ -85,7 +85,7 @@ literature_anchors:
   status_in_workspace: Reproduced as a coarse-grained co-limited budget — the full innovation set persists off-gradient; each single knockout collapses.
   cites: [martin2007origin, lane2012origin, sojo2014bioenergetic]
 baseline:
-- name: Escape from the vent (Campaign VIII)
+- name: Escape from the vent
   composite: viva_genesis.composites.off_gradient_persistence.off_gradient_persistence
   params: {}
   canonical: true
@@ -126,7 +126,7 @@ findings:
     cites: [lane2012origin]
   explanation: The heredity flag gates the per-step machinery decay; without it the innovation terms (pump, importer) scale toward zero as machinery is lost, so the budget falls below the survival floor.
 report:
-  title: Campaign VIII — escape from the vent
+  title: Escape from the vent
   verdict: PASS — autonomy off-gradient requires an irreducible set {pump, importer, heredity}; each single knockout collapses
   confidence: high
   main_insight: Escaping the vent is not one innovation but an irreducible set. Because the lineage's budget is co-limited (energy AND resources, Liebig's minimum), only internal energy conversion + resource import + heredity together keep it above the survival floor as geological support is withdrawn; removing any one collapses off-gradient persistence.
@@ -185,7 +185,7 @@ visualizations:
   config:
     composite: viva_genesis.composites.off_gradient_persistence.off_gradient_persistence
     grid_json: workspace/studies/og-08-escape-from-the-vent/artifacts/off_gradient_grid.json
-    title: Campaign VIII — the survival frontier off the gradient
+    title: The survival frontier off the gradient
 runtime:
   default_emitter: sqlite
   default_n_steps: 60

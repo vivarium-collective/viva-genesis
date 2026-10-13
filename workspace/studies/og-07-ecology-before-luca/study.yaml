@@ -9,7 +9,7 @@ simulation_status: ran
 evaluation_status: evaluated
 confidence: Accepted
 gate_status: passed
-title: Ecology before LUCA (Campaign VII)
+title: Ecology Before LUCA
 question: In connected pore networks with cross-feeding, parasitism, cooperation and horizontal exchange, what emergent capabilities arise — compared to ancestral reconstructions, without assuming LUCA is primitive?
 hypothesis: Heterogeneous populations develop metabolic diversity, cross-feeding and robustness single compartments do not; the emergent capability set overlaps the anaerobic H2/CO2/FeS LUCA reconstruction as a boundary.
 objective: Run heterogeneous populations over a connected pore network; compare emergent capability redundancy (robustness) to the isolated counterfactual, and the collective repertoire to the LUCA reconstruction as a constraint.
@@ -88,7 +88,7 @@ literature_anchors:
   - weiss2016physiology
   - moody2024nature
 baseline:
-- name: Ecology before LUCA (Campaign VII)
+- name: Ecology before LUCA
   composite: viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity
   params: {n_compartments: 8, exchange_rate: 0.3, diversity: 0.75, hgt_rate: 0.1, seed: 1}
   canonical: true
@@ -129,7 +129,7 @@ findings:
     cites: [weiss2016physiology, moody2024nature]
   explanation: The LUCA reconstruction (anaerobic, H2-dependent, CO2-fixing, FeS-rich; Weiss 2016, 355 protein families; Moody 2024, LUCA embedded in an ecosystem ~4.2 Ga) is a constraint on which capabilities the lineage eventually acquired, used as a boundary condition on the emergent repertoire rather than as evidence the first compartments were LUCA-like.
 report:
-  title: Campaign VII — ecology before LUCA
+  title: Ecology before LUCA
   verdict: PASS — a connected metacommunity builds functional redundancy a single compartment cannot, in a bounded diversity x exchange region; LUCA overlap reported as a boundary, not a target
   confidence: high
   main_insight: Connectivity, not complexity, is what makes a population robust before LUCA. Cross-feeding and horizontal transfer spread sparse protometabolic capabilities into redundant coverage across a pore network, so most functions survive a single-compartment loss — but only where diversity gives cross-feeding something to share AND exchange spreads it (a phase boundary). The collective repertoire's overlap with the anaerobic H2/CO2/FeS LUCA reconstruction (~0.6-0.7) is a far-end boundary the emergent set approaches, not a target.
@@ -195,7 +195,7 @@ visualizations:
   config:
     composite: viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity
     grid_json: workspace/studies/og-07-ecology-before-luca/artifacts/metacommunity_robustness_grid.json
-    title: Campaign VII — where cross-feeding robustness emerges
+    title: Where cross-feeding robustness emerges
 pipeline_gate:
   gate_evaluator:
     result: passed
