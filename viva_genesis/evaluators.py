@@ -299,6 +299,31 @@ def _phosphorus_p_mass_residual(reader, test: dict, ws_root: Any) -> float:
     return max(abs(v) for v in _values(reader, "p_mass_residual"))
 
 
+# --- og-proto-energetics (an energy currency before modern pumping) readouts ---
+
+def _energy_final_charge_fraction(reader, test: dict, ws_root: Any) -> float:
+    """Charged fraction of the carrier pool at the end of the run, under continuous
+    endergonic load — >0 (above threshold) means the transferable currency is
+    MAINTAINED, not merely charged transiently. ~0 in the no-coupling / no-drive
+    ablations (the store never builds)."""
+    return _values(reader, "energy_charge_fraction")[-1]
+
+
+def _energy_stored_work_fraction(reader, test: dict, ws_root: Any) -> float:
+    """Fraction of the input geochemical free energy captured as transferable usable
+    work ((delivered work + currently stored)/input) at the end of the run — the
+    stored-work fraction; the remainder is dissipated (uncoupled drive, discharge
+    inefficiency, hydrolysis)."""
+    return _values(reader, "energy_stored_work_fraction")[-1]
+
+
+def _energy_ledger_residual(reader, test: dict, ws_root: Any) -> float:
+    """Worst-case |free-energy ledger residual| = |input-(work+stored+dissipated)|
+    over the run — the free-energy-accounting conservation witness; stays at machine
+    precision (~0) by construction."""
+    return max(abs(v) for v in _values(reader, "energy_ledger_residual"))
+
+
 def register_derived_scalars(registry: dict) -> None:
     """Hook called by study_evaluator.load_workspace_derived_scalars."""
     # og-00
@@ -348,3 +373,7 @@ def register_derived_scalars(registry: dict) -> None:
     registry["phosphorus_net_reactive_availability"] = _phosphorus_net_reactive_availability
     registry["phosphate_precipitated_fraction_final"] = _phosphate_precipitated_fraction_final
     registry["phosphorus_p_mass_residual"] = _phosphorus_p_mass_residual
+    # og-proto-energetics
+    registry["energy_final_charge_fraction"] = _energy_final_charge_fraction
+    registry["energy_stored_work_fraction"] = _energy_stored_work_fraction
+    registry["energy_ledger_residual"] = _energy_ledger_residual

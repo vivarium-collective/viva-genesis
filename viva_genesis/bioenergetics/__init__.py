@@ -10,5 +10,14 @@ from .selection import (  # noqa: E402,F401
     BioenergeticSelectionProcess,
     EnvironmentalDeclineProcess,
 )
+from .proto_energetics import (  # noqa: E402,F401
+    GeochemicalDriveProcess,
+    ProtoEnergyCurrencyProcess,
+)
 
-__all__ = ["BioenergeticSelectionProcess", "EnvironmentalDeclineProcess"]
+__all__ = [
+    "BioenergeticSelectionProcess",
+    "EnvironmentalDeclineProcess",
+    "GeochemicalDriveProcess",
+    "ProtoEnergyCurrencyProcess",
+]

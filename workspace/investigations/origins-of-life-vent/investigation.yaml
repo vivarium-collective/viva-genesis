@@ -207,6 +207,8 @@ at_a_glance:
   role: 'The first nitrogen — reduced-N keeps pace with carbon, or limits first'
 - study: og-res-phosphorus-availability
   role: Phosphorus — can the pore co-concentrate P with C and N, or does it precipitate first?
+- study: og-energy-proto-energetics
+  role: Owning its energy currency — capturing geochemical free energy into a transferable store before modern pumps
 studies:
 - og-00-vent-reactor-baseline
 - og-01-geology-to-reduced-carbon
@@ -220,6 +222,7 @@ studies:
 - og-adv-generic-nonequilibrium
 - og-res-nitrogen-assimilation
 - og-res-phosphorus-availability
+- og-energy-proto-energetics
 acceptance_criteria:
 - study: og-00-vent-reactor-baseline
   behavior: vent-pH-in-lostcity-range
@@ -245,6 +248,8 @@ acceptance_criteria:
   behavior: nitrogen-keeps-pace-with-carbon
 - study: og-res-phosphorus-availability
   behavior: reactive-p-available
+- study: og-energy-proto-energetics
+  behavior: currency-maintained
 expert_docs:
 - Origins-of-Life Simulation Campaign
 - Origins-of-Life Computational Methods Atlas
@@ -340,4 +345,21 @@ proposed_inputs:
       before precipitation removes it."
     provenance: "Scientific Enrichment Plan (§6). Not yet on main's references/papers.bib; recorded here as
       pending (not cited on the branch) until the full bib entry is added on accept."
+    status: pending
+  - id: natcomm2025fedisproportionation
+    kind: reference
+    doi: 10.1038/s41467-025-65716-w
+    citation: "Nature Communications (2025). Fe disproportionation as a geochemical free-energy drive at
+      hydrothermal conditions. Nat. Commun. 16, DOI 10.1038/s41467-025-65716-w."
+    proposed_by: agent
+    proposed_at: '2026-10-13'
+    related_study: og-energy-proto-energetics
+    rationale: "og-energy-proto-energetics models an exergonic geochemical drive charging a pre-ATP energy
+      currency. Fe-disproportionation is a concrete candidate for that drive ΔG (a redox free-energy source
+      at vent conditions), so this would anchor the drive term quantitatively rather than as a generic ΔG.
+      The energetic-coupling mechanism itself is currently cited to buckel2013energy and lane2010chemiosmotic
+      (both on main)."
+    provenance: "Scientific Enrichment Plan (section 7). Not on main / not in references/papers.bib; recorded
+      here (not cited as provided) pending expert review. On accept its id becomes the bibkey to wire onto the
+      proto-energetics drive anchor."
     status: pending

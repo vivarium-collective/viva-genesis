@@ -1297,3 +1297,210 @@ class PhosphorusAvailabilityMap(Visualization):
                                               pore_enrichment=(1.0, 60.0, n),
                                               n_steps=int(self.config["n_steps"]), n_jobs=1)
         return {"html": phosphorus_availability_figure(res, title=self.config["title"])}
+
+
+# ----------------------------------------------------------------------------
+# og-proto-energetics — an energy currency before modern pumping
+# ----------------------------------------------------------------------------
+def energy_phase_figure(res, *, title=None) -> str:
+    """og-proto-energetics Decision view: the free-energy-capture phase map over
+    (geochemical free-energy drive × coupling efficiency). **Left:** the charged
+    fraction maintained under load, with the PASS boundary (currency maintained above
+    threshold) dashed and the carrier-bond gate (the drive must clear the bond)
+    marked. **Right:** the captured stored-work fraction — what share of the
+    geochemical free energy becomes transferable usable work. ``res`` is the
+    proto_energetics_map SweepResult (or a duck-typed view)."""
+    import numpy as np
+    import plotly.graph_objects as go
+    from plotly.subplots import make_subplots
+
+    drive = np.asarray(res.axes["drive_free_energy"], float)
+    eta = np.asarray(res.axes["coupling_efficiency"], float)
+    # surfaces indexed [drive, eta]; Contour wants z[y][x] with x=eta, y=drive → as-is.
+    charge = np.asarray(res.surfaces["charge_fraction"], float)
+    stored = np.asarray(res.surfaces.get("stored_work_fraction", np.zeros_like(charge)), float)
+    thr = float(res.meta.get("energy_currency_threshold", 0.25))
+    bond = float(res.meta.get("carrier_bond_kjmol", 35.0))
+    carrier = str(res.meta.get("carrier", "thioester")).replace("_", " ")
+    op_drive, op_eta = 50.0, 0.6                                   # canonical operating point
+
+    fig = make_subplots(rows=1, cols=2, horizontal_spacing=0.13, shared_yaxes=True,
+                        subplot_titles=("Currency maintained under load (charged fraction)",
+                                        "Captured as transferable work (stored-work fraction)"))
+    # --- left: the charged-fraction landscape + the viability boundary ---
+    fig.add_trace(go.Contour(x=eta, y=drive, z=charge, colorscale="Viridis", ncontours=14,
+                             zmin=0.0, zmax=max(0.5, float(np.nanmax(charge))),
+                             colorbar=dict(title="charged<br>fraction", len=0.9, x=0.44),
+                             contours=dict(showlabels=True, labelfont=dict(size=9, color="white")),
+                             line=dict(width=0.4, color="rgba(255,255,255,0.3)")), row=1, col=1)
+    fig.add_trace(go.Contour(x=eta, y=drive, z=charge, showscale=False,
+                             contours=dict(start=thr, end=thr, coloring="lines"),
+                             line=dict(color="#f8fafc", width=2.4, dash="dash"),
+                             hoverinfo="skip"), row=1, col=1)
+    # the thermodynamic gate: below the carrier bond the drive cannot charge it
+    fig.add_hline(y=bond, line=dict(color=_RUST, width=1.6, dash="dot"), row=1, col=1)
+    fig.add_annotation(x=eta.min(), y=bond, xanchor="left", yanchor="bottom",
+                       text=f"{carrier} bond ({bond:.0f} kJ/mol) — drive must clear it",
+                       showarrow=False, font=dict(size=9, color=_RUST), row=1, col=1)
+    # --- right: the stored-work (capture efficiency) landscape ---
+    fig.add_trace(go.Contour(x=eta, y=drive, z=stored, colorscale="Tealgrn", ncontours=14,
+                             zmin=0.0, zmax=max(0.5, float(np.nanmax(stored))),
+                             colorbar=dict(title="stored-work<br>fraction", len=0.9),
+                             contours=dict(showlabels=True, labelfont=dict(size=9, color="#0f172a")),
+                             line=dict(width=0.4, color="rgba(15,23,42,0.18)")), row=1, col=2)
+    fig.add_hline(y=bond, line=dict(color=_RUST, width=1.6, dash="dot"), row=1, col=2)
+    for c in (1, 2):
+        fig.add_trace(go.Scatter(x=[op_eta], y=[op_drive], mode="markers+text",
+                                 text=["operating<br>point"], textposition="top center",
+                                 textfont=dict(size=9, color=_INK),
+                                 marker=dict(symbol="star", size=14, color=_AMBER,
+                                             line=dict(width=1.1, color=_INK)), showlegend=False), row=1, col=c)
+        fig.update_xaxes(title_text="coupling efficiency", row=1, col=c)
+    fig.update_yaxes(title_text="geochemical free-energy drive ΔG (kJ/mol)", row=1, col=1)
+
+    ttl = title or "Proto-energetics — capturing free energy into a transferable currency"
+    fig.update_layout(
+        title=dict(text=(f"<b>{ttl}</b><br><span style='font-size:12px;color:{_SLATE}'>"
+                         "A pre-ATP carrier is only a currency where the geochemical drive clears the "
+                         "carrier bond (red dotted gate) AND the coupling is efficient enough to hold "
+                         "it charged against load + hydrolysis (dashed = viability boundary). Right: the "
+                         "fraction of geochemical free energy that becomes transferable usable work — the "
+                         "rest is dissipated. No-coupling / no-drive controls sit at zero (ablations).</span>"),
+                   x=0.5, xanchor="center"),
+        height=450, width=960, margin=dict(t=105, b=60, l=75, r=20),
+        font=dict(family="system-ui, -apple-system, sans-serif", color=_INK),
+        paper_bgcolor="white", plot_bgcolor="white")
+    return fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+
+
+class ProtoEnergeticsMap(Visualization):
+    """og-proto-energetics Decision view: the free-energy-capture phase map over
+    (geochemical free-energy drive × coupling efficiency) — the bounded region where a
+    transferable energy currency is maintained above threshold under endergonic load,
+    with the carrier-bond thermodynamic gate and the captured stored-work fraction.
+    Renders from a persisted grid (``grid_json``) or computes a modest grid live."""
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "Proto-energetics — capturing free energy into a transferable currency"},
+        "grid_json": {"_type": "string", "_default": ""},
+        "n_grid": {"_type": "integer", "_default": 14},
+        "n_steps": {"_type": "integer", "_default": 60},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        from .phase_maps import proto_energetics_map
+        resolved = _resolve_grid_path(str(self.config.get("grid_json", "") or ""))
+        if resolved:
+            with open(resolved) as f:
+                blob = json.load(f)
+            res = _ResultView(*_grid_from_json(blob))
+        else:
+            n = int(self.config["n_grid"])
+            res = proto_energetics_map(drive_free_energy=(15.0, 70.0, n),
+                                       coupling_efficiency=(0.05, 1.0, n),
+                                       n_steps=int(self.config["n_steps"]), n_jobs=1)
+        return {"html": energy_phase_figure(res, title=self.config["title"])}
+
+
+def energy_provenance_figure(rows, *, title=None) -> str:
+    """og-proto-energetics Mechanism view — the energy-provenance panel. (Left) the
+    free-energy ledger as stacked SHARES of the input geochemical free energy: the
+    fraction captured as transferable currency (delivered work + still stored) vs the
+    fraction dissipated (uncoupled drive + discharge inefficiency + hydrolysis), with
+    the overall capture efficiency traced. (Right) the cumulative ledger in kJ/liter
+    (input, work, stored, dissipated), showing input accounted to machine precision.
+    ``rows`` is the favourable-run emitter row list."""
+    import plotly.graph_objects as go
+    from plotly.subplots import make_subplots
+
+    def col(k):
+        return [float(r.get(k, 0.0)) for r in rows]
+
+    t = [r.get("global_time", i) for i, r in enumerate(rows)]
+    inp = col("energy_input"); work = col("energy_work")
+    stored = col("energy_stored"); diss = col("energy_dissipated")
+    cap_frac = [(w + s) / i * 100 if i > 1e-30 else 0.0 for w, s, i in zip(work, stored, inp)]
+    diss_frac = [d / i * 100 if i > 1e-30 else 0.0 for d, i in zip(diss, inp)]
+
+    fig = make_subplots(rows=1, cols=2, horizontal_spacing=0.12,
+                        specs=[[{"secondary_y": True}, {"secondary_y": False}]],
+                        subplot_titles=("Where the geochemical free energy goes",
+                                        "The free-energy ledger (kJ/liter)"))
+    # --- left: stacked provenance shares of the input free energy ---
+    fig.add_trace(go.Scatter(x=t, y=cap_frac, mode="lines", name="captured as currency",
+                             stackgroup="prov", line=dict(width=0.5, color=_TEAL),
+                             fillcolor="rgba(13,148,136,0.55)"), row=1, col=1, secondary_y=False)
+    fig.add_trace(go.Scatter(x=t, y=diss_frac, mode="lines", name="dissipated",
+                             stackgroup="prov", line=dict(width=0.5, color=_SLATE),
+                             fillcolor="rgba(100,116,139,0.45)"), row=1, col=1, secondary_y=False)
+    fig.add_trace(go.Scatter(x=t, y=col("energy_stored_work_fraction"), mode="lines",
+                             name="capture efficiency", line=dict(color=_AMBER, width=2.4, dash="dot")),
+                  row=1, col=1, secondary_y=True)
+    fig.update_yaxes(title_text="share of input free energy (%)", range=[0, 100], row=1, col=1, secondary_y=False)
+    fig.update_yaxes(title_text="capture efficiency", range=[0, 1], row=1, col=1, secondary_y=True, showgrid=False)
+    fig.update_xaxes(title_text="time (s)", row=1, col=1)
+    # --- right: the cumulative ledger ---
+    fig.add_trace(go.Scatter(x=t, y=inp, mode="lines", name="input (drive)",
+                             line=dict(color=_INK, width=2.6)), row=1, col=2)
+    fig.add_trace(go.Scatter(x=t, y=work, mode="lines", name="useful work",
+                             line=dict(color=_TEAL, width=2.4)), row=1, col=2)
+    fig.add_trace(go.Scatter(x=t, y=stored, mode="lines", name="stored in pool",
+                             line=dict(color=_AMBER, width=2.0)), row=1, col=2)
+    fig.add_trace(go.Scatter(x=t, y=diss, mode="lines", name="dissipated",
+                             line=dict(color=_SLATE, width=2.0, dash="dash")), row=1, col=2)
+    fig.update_yaxes(title_text="cumulative free energy (kJ/liter)", row=1, col=2)
+    fig.update_xaxes(title_text="time (s)", row=1, col=2)
+
+    ttl = title or "Proto-energetics — the energy-provenance ledger"
+    fig.update_layout(
+        title=dict(text=(f"<b>{ttl}</b><br><span style='font-size:12px;color:{_SLATE}'>"
+                         "Every kilojoule of tapped geochemical free energy is accounted: a bounded "
+                         "fraction is captured as transferable currency (teal — delivered work plus the "
+                         "pool still charged), the rest dissipated (uncoupled drive, discharge loss, "
+                         "hydrolysis). Right: input = work + stored + dissipated, held to machine "
+                         "precision — free-energy accounting is the stage's conservation invariant.</span>"),
+                   x=0.5, xanchor="center"),
+        height=450, width=960, margin=dict(t=105, b=60, l=70, r=60),
+        legend=dict(orientation="h", y=-0.18, x=0.5, xanchor="center", font=dict(size=9)),
+        font=dict(family="system-ui, -apple-system, sans-serif", color=_INK),
+        paper_bgcolor="white", plot_bgcolor="white")
+    return fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+
+
+class ProtoEnergeticsProvenanceViz(Visualization):
+    """og-proto-energetics Mechanism view: the energy-provenance panel — the fraction
+    of input geochemical free energy stored as transferable currency vs dissipated,
+    plus the conserved cumulative ledger — from the real proto_energetics composite
+    run at the favourable operating point."""
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "Proto-energetics — the energy-provenance ledger"},
+        "n_steps": {"_type": "integer", "_default": 60},
+        "drive_free_energy": {"_type": "float", "_default": 50.0},
+        "coupling_efficiency": {"_type": "float", "_default": 0.6},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        from process_bigraph import Composite, gather_emitter_results
+
+        from .composites.proto_energetics import proto_energetics
+        from .core import build_core
+        core = build_core()
+        sim = Composite({"state": proto_energetics(
+            core, drive_free_energy=float(self.config["drive_free_energy"]),
+            coupling_efficiency=float(self.config["coupling_efficiency"]))}, core=core)
+        sim.run(int(self.config["n_steps"]))
+        rows = gather_emitter_results(sim)[("emitter",)]
+        return {"html": energy_provenance_figure(rows, title=self.config["title"])}
