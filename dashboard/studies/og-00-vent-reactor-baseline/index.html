@@ -61,8 +61,8 @@
             <span class="dot"></span>2&nbsp;·&nbsp;Execution<span class="step-val">ran</span>
           </span>
           
-          <span class="status-step gate-step axis-evaluation_status gate-state-passed-with-conditions set gate-current" title="Gate 3 · Evidence — current stage">
-            <span class="dot"></span>3&nbsp;·&nbsp;Evidence<span class="gate-current-tag">you are here</span>
+          <span class="status-step gate-step axis-evaluation_status gate-state-passed set" title="Gate 3 · Evidence">
+            <span class="dot"></span>3&nbsp;·&nbsp;Evidence
           </span>
           
           <span class="status-step gate-step axis-evaluation_status gate-state-passed set" title="Gate 4 · Quality">
@@ -73,8 +73,8 @@
             <span class="dot"></span>5&nbsp;·&nbsp;Decision<span class="step-val">passed</span>
           </span>
           
-          <span class="status-step gate-step axis-expert_review_status gate-state-not-assessed" title="Gate 6 · Release">
-            <span class="dot"></span>6&nbsp;·&nbsp;Release
+          <span class="status-step gate-step axis-expert_review_status gate-state-not-assessed gate-current" title="Gate 6 · Release — current stage">
+            <span class="dot"></span>6&nbsp;·&nbsp;Release<span class="gate-current-tag">you are here</span>
           </span>
           
           
@@ -103,15 +103,13 @@
           
         </div>
         
-        <div class="status-detail-row gate-row gate-state-passed-with-conditions">
+        <div class="status-detail-row gate-row gate-state-passed">
           <span class="status-detail-axis">3 · Evidence</span>
           <span class="status-chip gate-state-not-assessed">not set</span>
           
-          <span class="gate-computed-chip gate-state-passed-with-conditions" title="completed run + recorded verdicts + visualization readiness gate (V4)">◆ computed: evaluated</span>
+          <span class="gate-computed-chip gate-state-passed" title="completed run + recorded verdicts">◆ computed: evaluated</span>
           
           
-          
-          <span class="gate-viz-gap-note" style="font-size:0.86em;color:#92400e">visualization gap: no figures</span>
           
         </div>
         
@@ -168,7 +166,7 @@
   
   <div class="act-cluster" data-act="study">
     <div class="act-header">
-      <span class="act-gate-dot" data-gate="study" data-gate-state="passed-with-conditions"></span>
+      <span class="act-gate-dot" data-gate="study" data-gate-state="passed"></span>
       <span class="act-label">The Study</span>
     </div>
     <div class="act-tabs">
@@ -189,7 +187,7 @@
   </div>
   <div class="act-cluster" data-act="evidence">
     <div class="act-header">
-      <span class="act-gate-dot" data-gate="evidence" data-gate-state="passed-with-conditions"></span>
+      <span class="act-gate-dot" data-gate="evidence" data-gate-state="passed"></span>
       <span class="act-label">Evidence</span>
     </div>
     <div class="act-tabs">
@@ -1308,15 +1306,15 @@
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
-          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 59.233647</code>
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 49.849126</code>
         
-          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 59.23 in [40.0, 91.0]</code>
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 49.85 in [40.0, 91.0]</code>
         
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/range</code>
         
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
         
-          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;vent-temperature-in-lostcity-range&#39;, &#39;label&#39;: &#39;Settled outlet temperature sits in the Lost City envelope (40-91 C).&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 59.233647, &#39;meter&#39;: 0.6056793791208791, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;band&#39;, &#39;value&#39;: None, &#39;low&#39;: 40.0, &#39;high&#39;: 91.0, &#39;op&#39;: &#39;~=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 19.233646999999998, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: &#39;kelley2001offaxis; ludwig2006formation&#39;}</code>
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;vent-temperature-in-lostcity-range&#39;, &#39;label&#39;: &#39;Settled outlet temperature sits in the Lost City envelope (40-91 C).&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 49.849126, &#39;meter&#39;: 0.554116076923077, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;band&#39;, &#39;value&#39;: None, &#39;low&#39;: 40.0, &#39;high&#39;: 91.0, &#39;op&#39;: &#39;~=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 9.849125999999998, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: &#39;kelley2001offaxis; ludwig2006formation&#39;}</code>
         
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
         
@@ -1365,15 +1363,15 @@ cites:   ["kelley2001offaxis", "ludwig2006formation"]</pre>
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
-          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.000221</code>
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.000276</code>
         
-          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 0.0002211 &gt; 1e-09</code>
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 0.0002763 &gt; 1e-09</code>
         
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&gt;</code>
         
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
         
-          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;h2-flux-sustained&#39;, &#39;label&#39;: &#39;Real PHREEQC serpentinization delivers a sustained, non-collapsing H2 source.&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 0.000221, &#39;meter&#39;: 1.0, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: &#39;1e-09&#39;, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 0.00022099900000000002, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: &#39;schwander2023serpentinization&#39;}</code>
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;h2-flux-sustained&#39;, &#39;label&#39;: &#39;Real PHREEQC serpentinization delivers a sustained, non-collapsing H2 source.&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 0.000276, &#39;meter&#39;: 1.0, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: &#39;1e-09&#39;, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 0.00027599899999999997, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: &#39;schwander2023serpentinization&#39;}</code>
         
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
         
@@ -1478,15 +1476,15 @@ pass_if: {"detail": "|charge imbalance| \u003c 1e-6 throughout", "op": "\u003c="
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
-          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.0</code>
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 6e-05</code>
         
-          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 4.867e-16 &lt;= 0.001</code>
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 5.98e-05 &lt;= 0.001</code>
         
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&lt;=</code>
         
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
         
-          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;spatial-flux-conserved&#39;, &#39;label&#39;: &#39;FiPy finite-volume transport conserves flux (spatial_flux_conservation invariant).&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 0.0, &#39;meter&#39;: 1.0, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 0.001, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&lt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 0.001, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: None}</code>
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;spatial-flux-conserved&#39;, &#39;label&#39;: &#39;FiPy finite-volume transport conserves flux (spatial_flux_conservation invariant).&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: &#39;6e-05&#39;, &#39;meter&#39;: 0.97, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 0.001, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&lt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 0.00094, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: None}</code>
         
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
         
@@ -1534,15 +1532,15 @@ pass_if: {"detail": "max |flux divergence residual| \u003c 1e-3 (direct LU solve
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
-          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 9.458451</code>
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 9.396768</code>
         
-          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 9.458 in [9.0, 10.8]</code>
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 9.397 in [9.0, 10.8]</code>
         
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/range</code>
         
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
         
-          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;vent-pH-in-lostcity-range&#39;, &#39;label&#39;: &#39;Settled outlet pH sits in the Lost City envelope (9.0-10.8). Met by reacting PERIDOTITE (olivine + diopside pyroxene), not dunite: once Mg is consumed into serpentine/brucite, the Ca released from pyroxene gives the real Ca-OH-rich, high-pH endmember (tremolite/diopside-buffered), reproducing field pH ~9.2-9.5 at vent temperature — a genuine PHREEQC speciation result, not a tuned value.&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 9.458451, &#39;meter&#39;: 0.5212245833333333, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;band&#39;, &#39;value&#39;: None, &#39;low&#39;: 9.0, &#39;high&#39;: 10.8, &#39;op&#39;: &#39;~=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 0.45845100000000016, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: &#39;kelley2001offaxis; ludwig2006formation&#39;}</code>
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;vent-pH-in-lostcity-range&#39;, &#39;label&#39;: &#39;Settled outlet pH sits in the Lost City envelope (9.0-10.8). Met by reacting PERIDOTITE (olivine + diopside pyroxene), not dunite: once Mg is consumed into serpentine/brucite, the Ca released from pyroxene gives the real Ca-OH-rich, high-pH endmember (tremolite/diopside-buffered), reproducing field pH ~9.2-9.5 at vent temperature — a genuine PHREEQC speciation result, not a tuned value.&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 9.396768, &#39;meter&#39;: 0.5183688888888889, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;band&#39;, &#39;value&#39;: None, &#39;low&#39;: 9.0, &#39;high&#39;: 10.8, &#39;op&#39;: &#39;~=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 0.3967679999999998, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: &#39;kelley2001offaxis; ludwig2006formation&#39;}</code>
         
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
         
@@ -1735,7 +1733,7 @@ cites:   ["kelley2001offaxis", "ludwig2006formation"]</pre>
         baseline · seed ? ·
         ?s simulated ·
         ? history rows ·
-        started 1791808353.715091
+        started 1791858189.192055
       </div>
       
       
@@ -1834,7 +1832,7 @@ cites:   ["kelley2001offaxis", "ludwig2006formation"]</pre>
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "f67a730c80863655e01237942213c5f808f0330b", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/f67a730c80863655e01237942213c5f808f0330b", "branch": "main", "lockfile": "uv.lock@9230aa323e45", "generated_at": "2026-10-13 01:58 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "d1d00169828dc6c09e26d4eead2cc269b60918d2", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/d1d00169828dc6c09e26d4eead2cc269b60918d2", "branch": "main", "lockfile": "uv.lock@9230aa323e45", "generated_at": "2026-10-13 02:29 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>
