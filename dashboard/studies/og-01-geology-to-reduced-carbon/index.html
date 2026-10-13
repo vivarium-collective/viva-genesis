@@ -29,7 +29,7 @@
     
     <button type="button" id="study-run-composite" class="btn-mini" title="Dispatch a specific process-bigraph composite_id to the remote compute backend (pbg-native multi_node/mbp, or the Nextflow campaign path) — advanced, independent of this study's own pinned baseline">⚙ Dispatch composite</button>
     
-    <button type="button" id="study-next" class="btn-mini" style="display:none" title="Go to the next study in this investigation's narrative (leads-to)">Next study →</button>
+    <button type="button" id="study-next" class="btn-mini" style="display:none" data-investigation="origins-of-life-vent" title="Go to the next study in this investigation's narrative (leads-to)">Next study →</button>
   </span>
   </div>
   <div class="study-status-row" style="display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-top:6px;">
@@ -336,7 +336,7 @@
 .charts-panel{display:flex;flex-direction:column;gap:16px}
 .figure-card{border:1px solid #e2e8f0;border-radius:8px;overflow:hidden;background:#fff}
 .figure-media-frame{display:block;width:100%;border:0;background:#fff}
-.figure-media-frame--native{height:480px}
+.figure-media-frame--native{height:auto;min-height:320px}  /* JS (_autosizeNativeFrames) grows this to the figure's full content height */
 .figure-media-frame--embed{min-height:200px}
 /* SVGs/PNGs scale to fit their card; preserves aspect ratio so a 1400×484
    chart shrinks instead of overflowing horizontally + clipping. */
@@ -694,34 +694,6 @@
     
     <div class="ctr-block ov-prov">
       <h2 class="overview-label ctr-h">Provenance &amp; sources</h2>
-      
-      <div class="ov-anchors">
-      
-        
-        <div class="ov-anchor">
-          <div class="ov-anchor-exp">Formate up to ~200 mM, acetate ~100 uM, pyruvate ~10 uM at 100 C</div>
-          <div class="ov-anchor-obs">observable: product concentrations by mineral/T/P</div>
-          <div class="ov-anchor-src">
-            source: Preiner 2020
-            <a class="ov-cite" href="#sref-preiner2020hydrogen" title="A hydrogen-dependent geochemical analogue of primordial carbon and energy metabolism">Preiner 2020</a>
-          </div>
-          <div class="ov-anchor-src ov-anchor-met">status: Met by the favorable arm — batch formate ~200 mM, acetate ~100 uM, pyruvate ~10 uM (Preiner hierarchy), via real eQuilibrator-gated, lab-calibrated mineral kinetics.</div>
-        </div>
-      
-        
-        <div class="ov-anchor">
-          <div class="ov-anchor-exp">CO2+H2-&gt;formate across pH gradient at room T, ~1.5 bar</div>
-          <div class="ov-anchor-obs">observable: formate yield vs delta-pH + controls</div>
-          <div class="ov-anchor-src">
-            source: Hudson 2020
-            <a class="ov-cite" href="#sref-hudson2020co2" title="CO2 reduction driven by a pH gradient">Hudson 2020</a>
-          </div>
-          <div class="ov-anchor-src ov-anchor-met">status: Met — formate is present with the pH-gradient proton-motive force and collapses to &lt;1 mM in every control (no gradient / no H2 / no catalyst).</div>
-        </div>
-      
-      </div>
-      
-      
       <div class="ctr-meta-k" style="margin-top:12px">Sources (9)</div>
       <div class="ov-sources">
       
@@ -789,7 +761,6 @@
         </div>
       
       </div>
-      
     </div>
     
 
@@ -1339,6 +1310,11 @@
         <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading emitter configuration…</span></div>
       </div>
     </details>
+
+    <h4>Emitted paths</h4>
+    <p class="muted" style="font-size:0.9em">Each row is an emitter <code>store_path</code>
+    the composite will save; authored entries in <code>study.yaml</code> add names,
+    descriptions, and units on top.</p>
 
     
     <div id="readouts-download" style="margin:0 0 16px 0"></div>
@@ -2237,7 +2213,7 @@ cites:   ["tutolo2026rethinking", "jackson2016natural"]</pre>
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "d1d00169828dc6c09e26d4eead2cc269b60918d2", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/d1d00169828dc6c09e26d4eead2cc269b60918d2", "branch": "main", "lockfile": "uv.lock@9230aa323e45", "generated_at": "2026-10-13 02:29 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "d1d00169828dc6c09e26d4eead2cc269b60918d2", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/d1d00169828dc6c09e26d4eead2cc269b60918d2", "branch": "main", "lockfile": "uv.lock@bd0a5349c194", "generated_at": "2026-10-13 11:47 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>
