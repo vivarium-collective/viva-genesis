@@ -37,6 +37,8 @@ _EMIT_PATHS = [
                      "description": "CO2 feed set-point (M); ~0 = no-carbon control"},
         "k_rtca": {"type": "float", "default": 800.0,
                    "description": "Autocatalytic rTCA-turn rate constant (Fe-promoted)"},
+        "k_wash": {"type": "float", "default": 0.05,
+                   "description": "CSTR washout / dilution rate (1/s); the feed-vs-washout axis of the gain phase map"},
     },
     visualizations=[
         {"name": "protometabolic-network", "address": "local:ProtometabolicNetwork",
@@ -49,12 +51,12 @@ _EMIT_PATHS = [
     emitters=[{"address": "local:ParquetEmitter", "paths": _EMIT_PATHS}],
 )
 def protometabolic_network(core=None, *, feed_pyruvate=1.0e-4,
-                                            feed_CO2=2.0e-3, k_rtca=800.0):
+                                            feed_CO2=2.0e-3, k_rtca=800.0, k_wash=0.05):
     return {
         "network": {
             "_type": "process",
             "address": "local:RoadRunnerNetworkProcess",
-            "config": {"k_rtca": k_rtca},
+            "config": {"k_rtca": k_rtca, "k_wash": k_wash},
             "interval": 1.0,
             "inputs": {"feed_pyruvate": ["feed", "pyruvate"], "feed_CO2": ["feed", "CO2"]},
             "outputs": {"OAA": ["net", "OAA"], "malate": ["net", "malate"],

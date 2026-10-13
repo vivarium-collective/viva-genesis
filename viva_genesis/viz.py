@@ -757,26 +757,38 @@ class ProtometabolicNetwork(Visualization):
                 text=sp, textposition="middle center", textfont=dict(size=9, color="#f8fafc"),
                 hovertext=txt, hoverinfo="text")
 
-        # edge lines (static)
-        ex, ey = [], []
-        for a, b in edges:
-            ex += [pos[a][0], pos[b][0], None]; ey += [pos[a][1], pos[b][1], None]
-        edge_trace = go.Scatter(x=ex, y=ey, mode="lines",
-                                line=dict(color="#cbd5e1", width=2), hoverinfo="skip")
+        # edge lines weighted by the LIVE libRoadRunner reaction flux — the living
+        # flux map: thick edges carry most of the carbon. Falls back to uniform
+        # edges if no flux is available.
+        redges = topo.get("reaction_edges") or []
+        fmax = max((abs(e["rate"]) for e in redges), default=0.0) or 1e-12
+        if redges:
+            edge_traces = [go.Scatter(
+                x=[pos[e["src"]][0], pos[e["dst"]][0]], y=[pos[e["src"]][1], pos[e["dst"]][1]],
+                mode="lines", line=dict(color="rgba(13,148,136,0.55)",
+                                        width=1.2 + 7.0 * (abs(e["rate"]) / fmax)),
+                hovertext="%s: %.1e" % (e["reaction"], e["rate"]), hoverinfo="text")
+                for e in redges]
+        else:
+            ex, ey = [], []
+            for a, b in edges:
+                ex += [pos[a][0], pos[b][0], None]; ey += [pos[a][1], pos[b][1], None]
+            edge_traces = [go.Scatter(x=ex, y=ey, mode="lines",
+                                      line=dict(color="#cbd5e1", width=2), hoverinfo="skip")]
 
         def col(k):
             return [r.get(k) for r in rows if k in r]
         t = [r.get("global_time", i) for i, r in enumerate(rows)]
 
         # ---- STATIC: settled network (left) + gain & flux (right) via two figures
-        net_fig = go.Figure([edge_trace, node_trace(snaps[-1])])
+        net_fig = go.Figure(edge_traces + [node_trace(snaps[-1])])
         net_fig.add_annotation(x=pos["OAA"][0], y=pos["OAA"][1] + 0.22,
                                text="⟳ autocatalytic<br>OAA + 2CO₂ → 2 OAA + acetate",
                                showarrow=False, font=dict(size=9, color=rust))
         net_fig.update_xaxes(visible=False, range=[-0.4, 2.7])
         net_fig.update_yaxes(visible=False, range=[-0.3, 1.15])
         net_fig.update_layout(template="plotly_white", height=360, width=560, showlegend=False,
-            title=dict(text="Settled network (node size = concentration)", x=0.5, xanchor="center",
+            title=dict(text="Settled network (node size = concentration, edge width = live flux)", x=0.5, xanchor="center",
                        font=dict(size=13, color=ink)),
             margin=dict(l=10, r=10, t=50, b=10), font=dict(color=ink))
 
@@ -802,8 +814,8 @@ class ProtometabolicNetwork(Visualization):
         step = max(1, len(snaps) // int(self.config["max_frames"]))
         keep = list(range(0, len(snaps), step)) + [len(snaps) - 1]
         anim = go.Figure(
-            data=[edge_trace, node_trace(snaps[keep[0]])],
-            frames=[go.Frame(data=[edge_trace, node_trace(snaps[k])], name=str(j))
+            data=edge_traces + [node_trace(snaps[keep[0]])],
+            frames=[go.Frame(data=edge_traces + [node_trace(snaps[k])], name=str(j))
                     for j, k in enumerate(keep)])
         anim.update_xaxes(visible=False, range=[-0.4, 2.7])
         anim.update_yaxes(visible=False, range=[-0.3, 1.15])

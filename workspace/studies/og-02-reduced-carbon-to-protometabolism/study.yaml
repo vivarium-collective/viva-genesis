@@ -42,6 +42,26 @@ findings:
   evidence:
     from_test: network-closure-vs-oneoff
     observed: connected=1.0
+- id: og02-ignition-landscape
+  kind: computational
+  status: novel
+  statement: >-
+    A sweep over (feed CO₂ × washout rate) maps where the network IGNITES, not just
+    that it does at one point. The autocatalytic hub (OAA) persists in a sharply
+    bounded region — enough geological CO₂ in, slow enough washout (gain > 1) — and
+    collapses to zero across a clean diagonal boundary when the feed is starved or
+    the reactor flushed too fast. The favorable operating point sits well inside the
+    ignition region; the gain=1 contour is the autocatalytic threshold.
+  evidence:
+    observed: 'OAA hub 0 → 24 mM across the (feed × washout) plane; ignition bounded by gain=1'
+    units: molar
+  expected:
+    cites: [muchowska2019synthesis, muchowska2017metals]
+  explanation: >-
+    16×16 sweep of the real libRoadRunner composite reduced to the settled OAA pool,
+    net throughput and gain; rendered as the ignition phase map (Decision view).
+    Runner sims/compute_gain_grid.py. Per-reaction fluxes are now read live from the
+    engine (getReactionRates) so the network view is flux-weighted.
 report:
   title: Campaign II — reduced carbon to protometabolism
   verdict: PASS — metabolism-like behavior emerges under flow
@@ -196,6 +216,11 @@ visualizations:
     composite: viva_genesis.composites.protometabolism.protometabolic_network
     n_steps: 120
     title: Campaign II — protometabolic network (libRoadRunner)
+- name: protometabolism-gain-phase-map
+  address: local:ProtometabolismGainPhaseMap
+  config:
+    title: Campaign II — the protometabolic ignition landscape (Decision view)
+    grid_json: workspace/studies/og-02-reduced-carbon-to-protometabolism/artifacts/protometabolism_gain_grid.json
 key_assumptions:
 - Rate laws/mineral dependencies carry provenance; autocatalysis is an emergent observable, not an assumption.
 claim: >-

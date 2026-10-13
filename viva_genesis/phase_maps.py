@@ -107,3 +107,69 @@ def carbon_fixation_phase_map(
         n_steps=n_steps,
         n_jobs=n_jobs,
     )
+
+
+# ----------------------------------------------------------------------------
+# og-02 — reduced carbon → protometabolism : the persistence / autocatalytic-gain map
+# ----------------------------------------------------------------------------
+# Decision: a protometabolic network is "alive" when it PERSISTS and SELF-AMPLIFIES
+# against washout — the autocatalytic OAA hub stays populated and net carbon
+# throughput is sustained. The controlling trade-off is feed vs dilution: enough
+# geological carbon in, slow enough washout, and the rTCA loop ignites; starve the
+# feed or flush too fast and it collapses. Swept over (feed CO₂ × washout rate).
+def net_sustained_flux(rows) -> float:
+    """Settled net carbon throughput (mol-C/s) — sustained if the network persists."""
+    if not rows:
+        return float("nan")
+    tail = [r.get("net_carbon_flux", 0.0) for r in rows[-max(1, len(rows) // 10):]]
+    return float(np.mean(tail))
+
+
+def network_oaa_pool(rows) -> float:
+    """Settled OAA hub concentration (M) — the autocatalytic loop's state; >0 and
+    sustained means the self-amplifying cycle is populated, not washed out."""
+    if not rows:
+        return float("nan")
+    return float(rows[-1].get("OAA", 0.0))
+
+
+def network_gain(rows) -> float:
+    """Settled autocatalytic gain (k_rtca·[CO2]/k_wash); >1 ⇒ self-amplifying."""
+    if not rows:
+        return float("nan")
+    return float(rows[-1].get("autocatalytic_gain", 0.0))
+
+
+def protometabolism_gain_phase_map(
+    *,
+    feed_CO2=(1.0e-4, 1.0e-2, 14),
+    k_wash=(2.0e-3, 1.0, 14),
+    k_rtca: float = 800.0,
+    n_steps: int = 60,
+    n_jobs: int = 1,
+) -> SweepResult:
+    """og-02 persistence / autocatalytic-gain landscape over (feed CO₂ × washout).
+
+    Both axes are log (each spans decades). The primary surface is the settled OAA
+    hub pool — the clearest witness of whether the autocatalytic cycle persists —
+    with net throughput and the gain ratio alongside."""
+    from .composites.protometabolism import protometabolic_network
+
+    c_lo, c_hi, c_n = feed_CO2
+    w_lo, w_hi, w_n = k_wash
+    axes = {
+        "feed_CO2": np.geomspace(c_lo, c_hi, int(c_n)),
+        "k_wash": np.geomspace(w_lo, w_hi, int(w_n)),
+    }
+    return sweep_grid(
+        protometabolic_network,
+        axes,
+        reduce={
+            "oaa_pool": network_oaa_pool,            # primary: autocatalytic hub persistence
+            "net_flux": net_sustained_flux,
+            "gain": network_gain,
+        },
+        fixed={"k_rtca": float(k_rtca)},
+        n_steps=n_steps,
+        n_jobs=n_jobs,
+    )

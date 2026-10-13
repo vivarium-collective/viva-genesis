@@ -112,6 +112,92 @@ def carbon_fixation_phase_figure(fav, tut=None, *, title=None) -> str:
                        config={"displayModeBar": False})
 
 
+def protometabolism_gain_figure(res, *, title=None) -> str:
+    """og-02 Decision view: the protometabolic ignition landscape — settled OAA hub
+    pool + net throughput over (washout × feed CO₂), with the autocatalytic
+    threshold (gain=1) overlaid. ``res`` is a SweepResult / grid view."""
+    import numpy as np
+    import plotly.graph_objects as go
+    from plotly.subplots import make_subplots
+
+    feed = res.axes["feed_CO2"]
+    wash = res.axes["k_wash"]
+    oaa = res.surfaces["oaa_pool"] * 1e3            # mM, indexed [feed, wash] → z[y=feed][x=wash]
+    net = res.surfaces["net_flux"] * 1e3            # 10⁻³ mol-C/s
+    gain = res.surfaces["gain"]
+    z_oaa = np.log10(np.clip(oaa, 1e-4, None))
+
+    fig = make_subplots(rows=1, cols=2, shared_yaxes=True, horizontal_spacing=0.12,
+                        subplot_titles=("Autocatalytic hub (OAA, mM — log)",
+                                        "Net carbon throughput (10⁻³ mol-C/s)"))
+    fig.add_trace(go.Contour(x=wash, y=feed, z=z_oaa, colorscale="Viridis", ncontours=14,
+                             colorbar=dict(title="log₁₀<br>OAA (mM)", len=0.9, x=0.44),
+                             contours=dict(showlabels=True, labelfont=dict(size=9, color="white")),
+                             line=dict(width=0.4, color="rgba(255,255,255,0.3)")), row=1, col=1)
+    fig.add_trace(go.Contour(x=wash, y=feed, z=net, colorscale="Inferno", ncontours=14, showscale=True,
+                             colorbar=dict(title="net flux", len=0.9),
+                             line=dict(width=0.4, color="rgba(255,255,255,0.3)")), row=1, col=2)
+    # autocatalytic threshold (gain = 1) on both panels.
+    for c in (1, 2):
+        fig.add_trace(go.Contour(x=wash, y=feed, z=gain, showscale=False,
+                                 contours=dict(start=1, end=1, coloring="lines"),
+                                 line=dict(color="#f8fafc", width=2.2, dash="dash"),
+                                 hoverinfo="skip"), row=1, col=c)
+        fig.add_trace(go.Scatter(x=[0.05], y=[2.0e-3], mode="markers+text",
+                                 text=["operating<br>point"], textposition="top center",
+                                 textfont=dict(size=9, color=_INK),
+                                 marker=dict(symbol="star", size=14, color=_AMBER,
+                                             line=dict(width=1.1, color=_INK)), showlegend=False), row=1, col=c)
+        fig.update_xaxes(type="log", title_text="washout / dilution k_wash (1/s)", row=1, col=c)
+    fig.update_yaxes(type="log", title_text="feed CO₂ (M)", row=1, col=1)
+
+    ttl = title or "Campaign II — the protometabolic ignition landscape"
+    fig.update_layout(
+        title=dict(text=(f"<b>{ttl}</b><br><span style='font-size:12px;color:{_SLATE}'>"
+                         "The rTCA network ignites in a bounded region — enough geological CO₂ in, "
+                         "slow enough washout. Dashed line = the autocatalytic threshold (gain=1); "
+                         "beyond it the loop cannot outpace dilution and the hub washes out.</span>"),
+                   x=0.5, xanchor="center"),
+        height=450, width=940, margin=dict(t=95, b=60, l=70, r=20),
+        font=dict(family="system-ui, -apple-system, sans-serif", color=_INK),
+        paper_bgcolor="white", plot_bgcolor="white")
+    return fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+
+
+class ProtometabolismGainPhaseMap(Visualization):
+    """og-02 Decision view: the protometabolic ignition landscape over
+    (washout × feed CO₂) — the bounded region where the real libRoadRunner rTCA
+    network persists + self-amplifies, with the gain=1 autocatalytic threshold.
+    Renders from a persisted grid (``grid_json``) or computes a modest grid live."""
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "Campaign II — the protometabolic ignition landscape"},
+        "grid_json": {"_type": "string", "_default": ""},
+        "n_grid": {"_type": "integer", "_default": 12},
+        "n_steps": {"_type": "integer", "_default": 60},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        from .phase_maps import protometabolism_gain_phase_map
+        resolved = _resolve_grid_path(str(self.config.get("grid_json", "") or ""))
+        if resolved:
+            with open(resolved) as f:
+                blob = json.load(f)
+            res = _ResultView(*_grid_from_json(blob["gain"] if "gain" in blob else blob))
+        else:
+            n = int(self.config["n_grid"])
+            res = protometabolism_gain_phase_map(feed_CO2=(1.0e-4, 1.0e-2, n),
+                                                 k_wash=(2.0e-3, 1.0, n),
+                                                 n_steps=int(self.config["n_steps"]), n_jobs=1)
+        return {"html": protometabolism_gain_figure(res, title=self.config["title"])}
+
+
 class CarbonFixationPhaseMap(Visualization):
     """og-01 Decision view: the carbon-fixation landscape over (vent pH × H₂),
     favourable vs the Tutolo gradient collapse, rendered from a parameter sweep of
