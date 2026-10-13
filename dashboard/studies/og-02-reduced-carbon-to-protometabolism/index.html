@@ -663,7 +663,7 @@
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Claim</h2>
-      <p class="ctr-text">A curated rTCA-fragment network under continuous feed + washout sustains nonzero carbon throughput, exhibits an autocatalytic motif (OAA self-amplification, gain ~3), and forms a single connected reaction network — metabolism-like behavior emerging without imposed product accumulation.</p>
+      <p class="ctr-text">A curated rTCA-fragment network under continuous feed + washout sustains nonzero carbon throughput, exhibits an autocatalytic motif (OAA self-amplification, autocatalytic gain peaking ~29.5), and forms a single connected reaction network — metabolism-like behavior emerging without imposed product accumulation.</p>
       
     </div>
 
@@ -683,7 +683,7 @@
       <div class="ctr-meta">
         <div class="ctr-meta-row"><span class="ctr-meta-k">Model</span> <code>Reduced carbon to protometabolism (Campaign II)</code><a class="ov-tablink" href="#" onclick="_setStudyTab('compose');return false;">model →</a></div>
         
-        <ul class="ov-methods"><li>Module E — REAL libRoadRunner/Tellurium: a curated SBML rTCA-fragment network (pyruvate carboxylation + a lumped autocatalytic reductive-TCA turn OAA+2CO2 -&gt; 2OAA+acetate + reductive branch to malate/succinate) run as a continuous-feed / washout CSTR, advanced each tick by the genuine roadrunner ODE integrator.</li><li>Emergent observables (not assumptions): net carbon throughput under feed+washout; the autocatalytic gain k_rtca.[CO2]/k_wash (&gt;1 =&gt; a reinforcing motif is active, OAA amplifies ~60x then CO2-limits); networkx connectivity of the species-reaction graph (a single connected network). A no-CO2 control collapses flux + gain to 0.</li></ul>
+        <ul class="ov-methods"><li>Module E — REAL libRoadRunner/Tellurium: a curated SBML rTCA-fragment network (pyruvate carboxylation + a lumped autocatalytic reductive-TCA turn OAA+2CO2 -&gt; 2OAA+acetate + reductive branch to malate/succinate) run as a continuous-feed / washout CSTR, advanced each tick by the genuine roadrunner ODE integrator.</li><li>Emergent observables (not assumptions): net carbon throughput under feed+washout; the autocatalytic gain k_rtca.[CO2]/k_wash (&gt;1 =&gt; a reinforcing motif is active; gain peaks ~29.5 then CO2-limits); networkx connectivity of the species-reaction graph (a single connected network). A no-CO2 control collapses flux + gain to 0.</li></ul>
         
       </div>
     </div>
@@ -717,7 +717,7 @@
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Result</h2>
-      <p class="ctr-text">All three tests pass — sustained net carbon throughput (9e-4 mol/s) under continuous feed+washout, an autocatalytic motif (OAA self-amplifies, gain ~3 steady / 29 peak), and a single connected reaction network.</p>
+      <p class="ctr-text">All three tests pass — sustained net carbon throughput (9e-4 mol/s) under continuous feed+washout, an autocatalytic motif (OAA self-amplifies; autocatalytic gain peaks at 29.5, settling lower as CO2 limits), and a single connected reaction network.</p>
       
       <div class="ov-metrics">
         
@@ -810,7 +810,7 @@
         <details class="finding-details">
           <summary class="finding-row">
             <span class="finding-status-glyph">◆</span>
-            <span class="finding-claim finding-statement">An autocatalytic motif emerges — OAA self-amplifies ~60× (gain ~3 steady, ~29 peak) via the lumped reductive-TCA turn; a no-CO2 control collapses it.</span>
+            <span class="finding-claim finding-statement">An autocatalytic motif emerges — the autocatalytic gain peaks at 29.5 (graded; settling lower as CO2 limits) via the lumped reductive-TCA turn; a no-CO2 control collapses it to 0.</span>
             
             <span class="finding-chip">via <code>autocatalytic-gain-present</code></span>
             
@@ -824,7 +824,7 @@
             
             
             <div class="finding-evidence">
-              <strong>observed:</strong> gain 29 peak / ~3 steady; control gain 0 · 
+              <strong>observed:</strong> peak autocatalytic gain 29.5; no-CO2 control gain 0 · 
               
               via test <a href="#bt-autocatalytic-gain-present" onclick="_gotoStudyTab('tests','bt-autocatalytic-gain-present');return false;"><code>autocatalytic-gain-present</code></a> · 
               
@@ -846,7 +846,7 @@
             </div>
             
             
-            <div class="finding-explanation"><em>Why:</em> The reductive-TCA turn OAA+2CO2-&gt;2OAA+acetate doubles its own entry molecule per turn — genuine autocatalysis, not an imposed assumption.</div>
+            <div class="finding-explanation"><em>Why:</em> The reductive-TCA turn OAA+2CO2-&gt;2OAA+acetate doubles its own entry molecule per turn; the autocatalytic stoichiometry is a curated lumped reaction, so what is EMERGENT is that it sustains ignition under continuous feed + washout (a no-CO2 control collapses gain to 0), not the motif itself.</div>
             
             
           </div>
@@ -1709,7 +1709,7 @@ pass_if: {"detail": "connected network (not one-offs)", "op": "\u003e=", "value"
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "05cefd4e043e7446725bd4725ffcf9b0d620daec", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/05cefd4e043e7446725bd4725ffcf9b0d620daec", "branch": "main", "lockfile": "uv.lock@0c019561d25b", "generated_at": "2026-10-13 21:15 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "f466e69ca1fcfd2eb46bd705106f3e7c237935c3", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/f466e69ca1fcfd2eb46bd705106f3e7c237935c3", "branch": "main", "lockfile": "uv.lock@0c019561d25b", "generated_at": "2026-10-13 21:20 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>

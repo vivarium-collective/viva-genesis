@@ -663,7 +663,7 @@
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Claim</h2>
-      <p class="ctr-text">A real PHREEQC + FiPy serpentinization reactor settles into the Lost City window (T 51 °C, pH 9.37) with sustained H2 and exact mass/charge/spatial-flux conservation.</p>
+      <p class="ctr-text">A real PHREEQC + FiPy serpentinization reactor settles into the Lost City window (T 51 °C, pH 9.37) with sustained H2, exact charge balance (|charge|=0) and spatial-flux divergence held within the contract tolerance (~5e-5).</p>
       
     </div>
 
@@ -683,7 +683,7 @@
       <div class="ctr-meta">
         <div class="ctr-meta-row"><span class="ctr-meta-k">Model</span> <code>Vent reactor baseline (Campaign 0)</code><a class="ov-tablink" href="#" onclick="_setStudyTab('compose');return false;">model →</a></div>
         
-        <ul class="ov-methods"><li>Module A — REAL PHREEQC: genuine USGS IPhreeqc (via phreeqpython + vendored llnl.dat) reacting PERIDOTITE — olivine (forsterite+fayalite) + diopside pyroxene — with the serpentinite assemblage (chrysotile + brucite + magnetite + tremolite + diopside) each step. Dissolved H2, pH, pe, alkalinity and charge balance are emergent speciation outputs. The pyroxene-sourced Ca, once Mg is consumed into serpentine/brucite, gives the real Lost City Ca-OH-rich high-pH (~9.2-9.5) endmember — not a tuned value.</li><li>Module B — REAL FiPy: genuine finite-volume 1-D advection–diffusion–reaction column (TransientTerm == DiffusionTerm − PowerLawConvectionTerm, scipy direct-LU solve, zero-gradient advective outflow BC) transporting the serpentinization source across the vent–ocean interface.</li><li>Partial-equilibrium coupling: a flow/temperature kinetic driver sets the olivine reaction extent feeding the equilibrium speciation (standard reactive-transport practice). The only field-calibrated knob is the heat-partition fraction (tuned to the observed 40–91 C vent temperature); all chemistry is emergent.</li><li>Conservation: PHREEQC conserves elements + charge by construction; FiPy&#39;s FVM conserves flux to the linear-solver tolerance (~machine epsilon) — directly satisfying the mass_balance / charge_neutrality / spatial_flux_conservation contract invariants.</li></ul>
+        <ul class="ov-methods"><li>Module A — REAL PHREEQC: genuine USGS IPhreeqc (via phreeqpython + vendored llnl.dat) reacting PERIDOTITE — olivine (forsterite+fayalite) + diopside pyroxene — with the serpentinite assemblage (chrysotile + brucite + magnetite + tremolite + diopside) each step. Dissolved H2, pH, pe, alkalinity and charge balance are emergent speciation outputs. The pyroxene-sourced Ca, once Mg is consumed into serpentine/brucite, gives the real Lost City Ca-OH-rich high-pH (~9.2-9.5) endmember — not a tuned value.</li><li>Module B — REAL FiPy: genuine finite-volume 1-D advection–diffusion–reaction column (TransientTerm == DiffusionTerm − PowerLawConvectionTerm, scipy direct-LU solve, zero-gradient advective outflow BC) transporting the serpentinization source across the vent–ocean interface.</li><li>Partial-equilibrium coupling: a flow/temperature kinetic driver sets the olivine reaction extent feeding the equilibrium speciation (standard reactive-transport practice). The only field-calibrated knob is the heat-partition fraction (tuned to the observed 40–91 C vent temperature); all chemistry is emergent.</li><li>Conservation: PHREEQC conserves elements + charge by construction; FiPy&#39;s FVM conserves flux to the linear-solver tolerance (residual ~5e-5, within the 1e-3 bound) — directly satisfying the mass_balance / charge_neutrality / spatial_flux_conservation contract invariants.</li></ul>
         
       </div>
     </div>
@@ -738,7 +738,7 @@
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Result</h2>
-      <p class="ctr-text">All five acceptance criteria pass — outlet T 50.6 °C and pH 9.37 (both in-window), sustained H2 flux 2.2e-4 mol/s, and charge + flux conserved to machine epsilon.</p>
+      <p class="ctr-text">All five acceptance criteria pass — outlet T 50.6 °C and pH 9.37 (both in-window), sustained H2 flux 2.75e-4 mol/s; charge balance exact (|charge|=0) and spatial-flux divergence 4.9e-5 (within the 1e-3 contract tolerance).</p>
       
       <div class="ov-metrics">
         
@@ -753,7 +753,7 @@
         </div>
         
         <div class="ov-metric ov-metric-pass">
-          <div class="ov-metric-v">2.2e-4 mol/s</div>
+          <div class="ov-metric-v">2.75e-4 mol/s</div>
           <div class="ov-metric-k">H2 flux</div>
         </div>
         
@@ -836,7 +836,7 @@
         <details class="finding-details">
           <summary class="finding-row">
             <span class="finding-status-glyph">✓</span>
-            <span class="finding-claim finding-statement">Serpentinization delivers a sustained H2 reducing-power flux (min 2.2e-4 mol/s over the back half of the run).</span>
+            <span class="finding-claim finding-statement">Serpentinization delivers a sustained H2 reducing-power flux (min 2.75e-4 mol/s over the back half of the run).</span>
             
             <span class="finding-chip">via <code>h2-flux-sustained</code></span>
             
@@ -850,7 +850,7 @@
             
             
             <div class="finding-evidence">
-              <strong>observed:</strong> 2.2e-4 mol/s mole/second · 
+              <strong>observed:</strong> 2.75e-4 mol/s mole/second · 
               
               via test <a href="#bt-h2-flux-sustained" onclick="_gotoStudyTab('tests','bt-h2-flux-sustained');return false;"><code>h2-flux-sustained</code></a> · 
               
@@ -891,7 +891,7 @@
         <details class="finding-details">
           <summary class="finding-row">
             <span class="finding-status-glyph">✓</span>
-            <span class="finding-claim finding-statement">PHREEQC charge balance and FiPy FVM spatial-flux divergence are conserved to machine epsilon (&lt;1e-6 and ~5e-16).</span>
+            <span class="finding-claim finding-statement">PHREEQC charge balance is conserved exactly (|charge|=0) and the FiPy FVM spatial-flux divergence is held to 4.9e-5 — within the 1e-3 contract tolerance (not machine epsilon).</span>
             
             <span class="finding-chip">via <code>charge-conserved</code></span>
             
@@ -905,7 +905,7 @@
             
             
             <div class="finding-evidence">
-              <strong>observed:</strong> |charge|=0, |flux residual|=5e-16 · 
+              <strong>observed:</strong> |charge|=0, |flux residual|=4.9e-5 (within 1e-3 tol) · 
               
               via test <a href="#bt-charge-conserved" onclick="_gotoStudyTab('tests','bt-charge-conserved');return false;"><code>charge-conserved</code></a> · 
               
@@ -976,7 +976,7 @@
         <details class="finding-details">
           <summary class="finding-row">
             <span class="finding-status-glyph">◆</span>
-            <span class="finding-claim finding-statement">The vent wall convects. Solving Darcy–Boussinesq porous flow (a stream-function Poisson ∇²ψ = −buoyancy·∂T/∂x on the real FiPy mesh) gives a buoyant recirculation cell — the hot alkaline conduit rises, the cold ocean sinks, convective velocities ~5× the background upflow (Peclet ~8) — rather than a prescribed uniform upflow. The recirculation mixes cold ocean inward, settling the outlet ~8 °C cooler (59 → 51 °C) while staying inside the Lost City window; flux conservation is preserved to machine epsilon.</span>
+            <span class="finding-claim finding-statement">The vent wall convects. Solving Darcy–Boussinesq porous flow (a stream-function Poisson ∇²ψ = −buoyancy·∂T/∂x on the real FiPy mesh) gives a buoyant recirculation cell — the hot alkaline conduit rises, the cold ocean sinks, convective velocities ~5× the background upflow (Peclet ~8) — rather than a prescribed uniform upflow. The recirculation mixes cold ocean inward, settling the outlet ~8 °C cooler (59 → 51 °C) while staying inside the Lost City window; flux conservation is preserved within the solver tolerance (flux residual ~5e-5, within the 1e-3 bound).</span>
             
           </summary>
           <div class="finding-drawer">
@@ -1884,7 +1884,7 @@ cites:   ["kelley2001offaxis", "ludwig2006formation"]</pre>
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "05cefd4e043e7446725bd4725ffcf9b0d620daec", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/05cefd4e043e7446725bd4725ffcf9b0d620daec", "branch": "main", "lockfile": "uv.lock@0c019561d25b", "generated_at": "2026-10-13 21:15 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "f466e69ca1fcfd2eb46bd705106f3e7c237935c3", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/f466e69ca1fcfd2eb46bd705106f3e7c237935c3", "branch": "main", "lockfile": "uv.lock@0c019561d25b", "generated_at": "2026-10-13 21:20 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>

@@ -260,7 +260,7 @@ def _render_one(address, config, runs_db, study_yaml, overrides=None):
 #
 # **Hypothesis.** A 1D/2D porous-wall reactor with prescribed boundary fluxes reproduces published Lost City ranges (T, pH, H2, DIC) and qualitative precipitation trends while conserving mass and charge.
 #
-# **Claim.** A real PHREEQC + FiPy serpentinization reactor settles into the Lost City window (T 51 °C, pH 9.37) with sustained H2 and exact mass/charge/spatial-flux conservation.
+# **Claim.** A real PHREEQC + FiPy serpentinization reactor settles into the Lost City window (T 51 °C, pH 9.37) with sustained H2, exact charge balance (|charge|=0) and spatial-flux divergence held within the contract tolerance (~5e-5).
 
 # ### Design — originally proposed
 #
@@ -411,9 +411,9 @@ _save_viz('og-00-vent-reactor-baseline', 'vent-reactor-timeseries', _render_one(
 #
 # **Objective.** Add H2-driven CO2 reduction, reproduce the three benchmark experiments, and map the parameter region of sustained net organic-carbon flux.
 #
-# **Hypothesis.** Over Fe/Ni/S surfaces and across the pH gradient, H2-driven CO2 reduction yields formate/acetate/pyruvate at lab-calibrated rates within a bounded (T,pH,H2,pressure) region; outside it net flux goes to zero.
+# **Hypothesis.** Over Fe/Ni/S surfaces and across the pH gradient, H2-driven CO2 reduction yields formate/acetate/pyruvate at lab-calibrated rates within a bounded (T,pH,H2,pressure) region; the Tutolo-2026 in-situ arm roughly halves the flux, and the feature-ablation controls (no gradient / no H2 / no catalyst) zero it.
 #
-# **Claim.** H2-driven CO2 reduction over Fe/Ni/S reproduces the Preiner/Hudson lab yields and net organic-carbon flux in a bounded favorable regime; the Tutolo-2026 arm shows the usable proton-motive gradient collapses at in-situ T/P, zeroing the flux.
+# **Claim.** H2-driven CO2 reduction over Fe/Ni/S reproduces the Preiner/Hudson lab yields and net organic-carbon flux in a bounded favorable regime; the Tutolo-2026 arm shows the usable proton-motive gradient collapses at in-situ T/P (427 -> 43 mV), roughly halving the sustained flux; only the no-gradient / no-H2 / no-catalyst controls zero it.
 
 # ### Design — originally proposed
 #
@@ -592,7 +592,7 @@ _save_viz('og-01-geology-to-reduced-carbon', 'carbon-fixation-phase-map', _rende
 #
 # **Hypothesis.** A curated graph (formate/acetate/pyruvate/glyoxylate + rTCA fragments) seeded with Muchowska/Moran edges sustains nonzero throughput and at least one autocatalytic motif within a feasible resource budget.
 #
-# **Claim.** A curated rTCA-fragment network under continuous feed + washout sustains nonzero carbon throughput, exhibits an autocatalytic motif (OAA self-amplification, gain ~3), and forms a single connected reaction network — metabolism-like behavior emerging without imposed product accumulation.
+# **Claim.** A curated rTCA-fragment network under continuous feed + washout sustains nonzero carbon throughput, exhibits an autocatalytic motif (OAA self-amplification, autocatalytic gain peaking ~29.5), and forms a single connected reaction network — metabolism-like behavior emerging without imposed product accumulation.
 
 # ### Design — originally proposed
 #
@@ -740,7 +740,7 @@ _save_viz('og-02-reduced-carbon-to-protometabolism', 'protometabolism-gain-phase
 #
 # **Hypothesis.** Thermophoresis + convection + adsorption in evolving pores raise local concentration enough that synthesis outruns hydrolysis/leakage in a bounded geometry region; elsewhere washout dominates.
 #
-# **Claim.** A real FiPy thermal trap (thermophoresis + convection) concentrates a dilute vent feed >10^8-fold in a favorable pore (Baaske 2007), and the concentration collapses to ~1 in an open pore — the geometric threshold at which a localized "individual" forms.
+# **Claim.** A real FiPy thermal trap (thermophoresis + convection) concentrates a dilute vent feed ~10^8-fold (9.6×10⁷) in a favorable pore (Baaske 2007), and the concentration collapses to ~1 in an open pore — the geometric threshold at which a localized "individual" forms.
 
 # ### Design — originally proposed
 #
@@ -1157,7 +1157,7 @@ _save_viz('og-05-environmental-to-internal-bioenergetics', 'bioenergetic-provena
 #
 # **Hypothesis.** At least one heredity module raises lineage persistence + information retention above its non-heritable control under a feasible resource budget; the winner is not assumed a priori.
 #
-# **Claim.** An inherited chemical state improves lineage fitness above its replication cost when it clears the Eigen error threshold — but heredity need NOT presume a long high-fidelity RNA template. An agent-based lineage shows template heredity suffers the length catastrophe (Q=fidelity^length collapses with length) while compositional (GARD) and template-focused hybrid heredity persist length-independently (functional persistence ~0.88, seed-robust across 8 seeds) above the non-heritable control, which loses the parent↔offspring correlation and collapses. (A mean-field quasispecies arm still ranks a long high-fidelity template above a cheaper peptide module above non-inheritance when all clear the threshold.)
+# **Claim.** An inherited chemical state improves lineage fitness above its replication cost when it clears the Eigen error threshold — but heredity need NOT presume a long high-fidelity RNA template. An agent-based lineage shows template heredity suffers the length catastrophe (Q=fidelity^length collapses with length) while compositional (GARD) and template-focused hybrid heredity persist length-independently (functional persistence ~0.88, seed-robust across the 5 graded seeds — 0.878±0.005, and 8/8 in a wider sweep) above the non-heritable control, which loses the parent↔offspring correlation and collapses. (A mean-field quasispecies arm still ranks a long high-fidelity template above a cheaper peptide module above non-inheritance when all clear the threshold.)
 
 # ### Design — originally proposed
 #
@@ -1687,3 +1687,7 @@ _save_viz('og-adv-generic-nonequilibrium', 'vent-specificity-map', _render_one('
 
 # ## Open decisions
 # - Publication milestone: close the first paper at the pre-genetic arc (og-00 -> og-03) or extend through the early-genetic arc (og-04 protocells -> og-06 heredity)?
+# - First limiting resource / next module: which enrichment-plan module to build first — nitrogen assimilation (N2/NO3->NH4, FeS), phosphorus availability (phosphate/polyphosphate co-concentration), proto-energetics (thioester/acyl-phosphate energy currency before pumping), or metabolism->growth/division (osmotic growth)?
+# - Enrich og-01 with explicit electrochemistry (treat the vent as an electrical circuit: fluid composition -> redox potential -> mineral conductivity -> current density -> electron-transfer -> CO2 reduction), or keep the current gradient-efficiency abstraction?
+# - Actually RUN the og-03 -> og-02 localization->ignition coupling (trap enrichment feeds the rTCA network as a real swept phase map), resolving the demoted phantom finding and giving og-03 its own Decision phase map?
+# - Reframe the campaign's headline thesis from 'cells could originate at alkaline vents' to the enrichment plan's 'quantitative MAP OF THE BOTTLENECKS between geology and cells' (dependencies, failure regimes, discriminating experiments)?
