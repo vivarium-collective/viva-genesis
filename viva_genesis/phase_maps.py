@@ -678,3 +678,80 @@ def phosphorus_availability_map(
     )
     res.meta["carbon_coconc_floor"] = _CARBON_COCONC_FLOOR
     return res
+
+
+# ----------------------------------------------------------------------------
+# og-proto-energetics — an energy currency before modern pumping : the
+# free-energy-capture phase map
+# ----------------------------------------------------------------------------
+# Decision: a pre-ATP energy currency is viable when it CAPTURES environmental free
+# energy into a transferable store that STAYS CHARGED under endergonic load — not
+# merely when a reaction runs downhill. The controlling trade-off is the geochemical
+# drive vs the coupling chemistry: the drive ΔG must clear the carrier's high-energy
+# bond (a thermodynamic gate), and the coupling must be efficient enough that the
+# charging flux beats discharge + hydrolysis. Swept over (free-energy drive ×
+# coupling efficiency); the PASS region is "net transferable currency maintained
+# above threshold under load". Reducers are module-level so sweep_grid can fan the
+# grid out over a process pool / Ray. All symbols energy_*-prefixed (shared file).
+_ENERGY_CURRENCY_THRESHOLD = 0.25   # charged fraction above this (under load) = currency maintained
+
+
+def energy_charge_fraction_final(rows) -> float:
+    """Settled charged fraction of the carrier pool at the final tick — is the
+    transferable currency MAINTAINED under load (not just transiently charged)?"""
+    return float(rows[-1].get("energy_charge_fraction", 0.0)) if rows else float("nan")
+
+
+def energy_stored_work_fraction_final(rows) -> float:
+    """Final fraction of input geochemical free energy captured as transferable
+    usable work ((work + stored)/input) — the rest is dissipated."""
+    return float(rows[-1].get("energy_stored_work_fraction", 0.0)) if rows else float("nan")
+
+
+def energy_work_final(rows) -> float:
+    """Cumulative useful endergonic work delivered (kJ/liter) over the run."""
+    return float(rows[-1].get("energy_work", 0.0)) if rows else float("nan")
+
+
+def proto_energetics_map(
+    *, drive_free_energy=(15.0, 70.0, 16), coupling_efficiency=(0.05, 1.0, 16),
+    carrier_pool: float = 1.0e-3, loss_rate: float = 0.05, load: float = 0.20,
+    carrier: str = "thioester", n_steps: int = 60, n_jobs: int = 1,
+) -> SweepResult:
+    """og-proto-energetics Decision view over (geochemical free-energy drive ×
+    coupling efficiency): where a transferable energy currency is maintained above
+    threshold under endergonic load. Primary surface = settled ``charge_fraction``
+    (the currency maintained), with the captured stored-work fraction and the useful
+    work delivered alongside. The drive axis spans below the thioester bond (~35
+    kJ/mol, where the drive cannot charge the carrier) to well above it; the
+    efficiency axis starts strictly above 0.0 (a literal 0.0 is the ablation, read
+    from the composite's no-coupling control, not a sweep point). The composite is
+    pure-numpy and fast, so this sweeps the real generator with :func:`sweep_grid`;
+    a higher-res grid is the persisted-artifact runner's job."""
+    from .composites.proto_energetics import proto_energetics
+
+    d_lo, d_hi, d_n = drive_free_energy
+    e_lo, e_hi, e_n = coupling_efficiency
+    axes = {
+        "drive_free_energy": np.linspace(d_lo, d_hi, int(d_n)),
+        "coupling_efficiency": np.linspace(e_lo, e_hi, int(e_n)),
+    }
+    res = sweep_grid(
+        proto_energetics,
+        axes,
+        reduce={
+            "charge_fraction": energy_charge_fraction_final,           # primary decision surface
+            "stored_work_fraction": energy_stored_work_fraction_final,
+            "work": energy_work_final,
+        },
+        fixed={"carrier_pool": float(carrier_pool), "loss_rate": float(loss_rate),
+               "load": float(load), "carrier": str(carrier)},
+        n_steps=n_steps,
+        n_jobs=n_jobs,
+    )
+    res.meta["energy_currency_threshold"] = _ENERGY_CURRENCY_THRESHOLD
+    # The carrier bond energy marks the drive-axis gate (drive must clear it).
+    from .bioenergetics.proto_energetics import CARRIER_BOND_KJMOL
+    res.meta["carrier_bond_kjmol"] = CARRIER_BOND_KJMOL.get(str(carrier), 35.0)
+    res.meta["carrier"] = str(carrier)
+    return res

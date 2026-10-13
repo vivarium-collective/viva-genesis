@@ -1675,3 +1675,134 @@ class PhosphorusMechanismViz(Visualization):
             margin=dict(l=60, r=30, t=70, b=70), font=dict(color=ink),
         )
         return fig.to_html(full_html=True, include_plotlyjs="cdn", config={"displayModeBar": False})
+
+
+class ProtoEnergeticsWorldViz(Visualization):
+    """Proto-energetics World view — charging and spending a pre-ATP energy currency.
+    Runs the ``proto_energetics`` composite step by step and shows the carrier pool
+    being CHARGED by the geochemical drive, DISCHARGED to do endergonic work under
+    load, and bled by hydrolysis — the charge/discharge/loss flux trajectories and
+    the carrier-charge time course, against the no-coupling and no-drive ablations
+    that never build a store. Every value a real free-energy-ledger state."""
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "Proto-energetics — charging and spending the currency"},
+        "n_steps": {"_type": "integer", "_default": 60},
+        "drive_free_energy": {"_type": "float", "_default": 50.0},
+        "coupling_efficiency": {"_type": "float", "_default": 0.6},
+        "max_frames": {"_type": "integer", "_default": 24},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        from .core import build_core
+        from .composites.proto_energetics import proto_energetics
+        core = build_core()
+        n = int(self.config["n_steps"])
+
+        def run(**kw):
+            sim = Composite({"state": proto_energetics(core=core, **kw)}, core=core)
+            sim.run(n)
+            return gather_emitter_results(sim)[("emitter",)]
+
+        fav = run(drive_free_energy=float(self.config["drive_free_energy"]),
+                  coupling_efficiency=float(self.config["coupling_efficiency"]))
+        no_coupling = run(coupling_efficiency=0.0)
+        no_drive = run(drive_free_energy=10.0)
+        return {"html": self._figure(fav, no_coupling, no_drive)}
+
+    def _figure(self, fav, no_coupling, no_drive) -> str:
+        import plotly.graph_objects as go
+        from plotly.subplots import make_subplots
+        if not fav:
+            return "<p>No proto-energetics run produced.</p>"
+        ink, teal, amber, slate, rust = "#1e293b", "#0d9488", "#d97706", "#64748b", "#b91c1c"
+
+        def col(rows, k):
+            return [float(r.get(k, 0.0)) for r in rows]
+        t = [r.get("global_time", i) for i, r in enumerate(fav)]
+        # molar -> mM, per-tick fluxes -> µM/tick for readability
+        charge_mM = [v * 1e3 for v in col(fav, "energy_charge")]
+        chg_flux = [v * 1e6 for v in col(fav, "energy_charge_flux")]
+        dis_flux = [v * 1e6 for v in col(fav, "energy_discharge_flux")]
+        loss_flux = [v * 1e6 for v in col(fav, "energy_loss_flux")]
+
+        stat = make_subplots(rows=1, cols=2, horizontal_spacing=0.13,
+            subplot_titles=("Carrier charge vs the ablations",
+                            "Charge / discharge / loss fluxes (favourable)"))
+        stat.add_scatter(x=t, y=charge_mM, mode="lines", line=dict(color=teal, width=3),
+                         name="favourable", row=1, col=1)
+        stat.add_scatter(x=t, y=[v * 1e3 for v in col(no_coupling, "energy_charge")], mode="lines",
+                         line=dict(color=slate, width=2, dash="dash"), name="no coupling", row=1, col=1)
+        stat.add_scatter(x=t, y=[v * 1e3 for v in col(no_drive, "energy_charge")], mode="lines",
+                         line=dict(color=rust, width=2, dash="dot"), name="no drive (ΔG < bond)", row=1, col=1)
+        stat.add_scatter(x=t, y=chg_flux, mode="lines", line=dict(color=teal, width=2.4),
+                         name="charging", row=1, col=2)
+        stat.add_scatter(x=t, y=dis_flux, mode="lines", line=dict(color=amber, width=2.4),
+                         name="discharge→work", row=1, col=2)
+        stat.add_scatter(x=t, y=loss_flux, mode="lines", line=dict(color=rust, width=1.8, dash="dot"),
+                         name="hydrolysis", row=1, col=2)
+        stat.update_xaxes(title_text="time (s)", row=1, col=1, showgrid=True, gridcolor="#eef2f7")
+        stat.update_yaxes(title_text="charged carrier (mM)", row=1, col=1, showgrid=True, gridcolor="#eef2f7")
+        stat.update_xaxes(title_text="time (s)", row=1, col=2, showgrid=True, gridcolor="#eef2f7")
+        stat.update_yaxes(title_text="flux (µM / tick)", row=1, col=2, showgrid=True, gridcolor="#eef2f7")
+        stat.update_layout(template="plotly_white", height=430, width=960, showlegend=True,
+            legend=dict(orientation="h", y=-0.2, x=0.5, xanchor="center", font=dict(size=9)),
+            title=dict(text=(self.config.get("title") or "Proto-energetics"),
+                       x=0.5, xanchor="center", font=dict(size=14, color=ink)),
+            margin=dict(l=60, r=20, t=80, b=70), font=dict(color=ink))
+
+        # motion: the charged fraction of the pool filling then holding under load.
+        frac = col(fav, "energy_charge_fraction")
+        capt = col(fav, "energy_stored_work_fraction")
+        nf = max(2, int(self.config["max_frames"]))
+        step = max(1, len(fav) // nf)
+        keep = list(range(0, len(fav), step)) + [len(fav) - 1]
+        frames = [go.Frame(data=[go.Bar(x=["charged", "free"],
+                        y=[100 * frac[k], 100 * (1.0 - frac[k])],
+                        marker_color=[teal, "#e2e8f0"])],
+                  name=str(j),
+                  layout=go.Layout(annotations=[dict(x=0.5, y=1.06,
+                      text="t=%.0f · charged %.0f%% of pool · capture %.0f%%" % (
+                          t[k], 100 * frac[k], 100 * capt[k]),
+                      showarrow=False, xref="paper", yref="paper",
+                      font=dict(size=12, color=ink))]))
+                  for j, k in enumerate(keep)]
+        anim = go.Figure(data=frames[0].data, frames=frames)
+        anim.update_yaxes(title_text="% of carrier pool", range=[0, 105])
+        anim.update_layout(template="plotly_white", height=430, width=520, showlegend=False,
+            title=dict(text="the currency pool charging + holding under load", x=0.5, xanchor="center",
+                       y=0.99, font=dict(size=13, color=ink)),
+            margin=dict(l=60, r=20, t=70, b=55), font=dict(color=ink),
+            updatemenus=[dict(type="buttons", direction="left", x=0.0, y=1.12, xanchor="left",
+                yanchor="bottom", showactive=False, buttons=[
+                    dict(label="▶ Play", method="animate",
+                         args=[None, dict(frame=dict(duration=130, redraw=True), fromcurrent=True)]),
+                    dict(label="⏸ Pause", method="animate",
+                         args=[[None], dict(frame=dict(duration=0, redraw=False), mode="immediate")]),
+                ])],
+            sliders=[dict(active=0, x=0.08, len=0.88, y=-0.06, currentvalue=dict(visible=False),
+                steps=[dict(method="animate", label="",
+                            args=[[f.name], dict(frame=dict(duration=0, redraw=True), mode="immediate")])
+                       for f in frames])])
+
+        cap = (
+            "<div style='max-width:900px;margin:12px auto 4px;padding:0 16px;color:#334155;"
+            "font-size:13.5px;line-height:1.55'>"
+            "<b>An energy currency before modern pumping</b> — a real free-energy-ledger composite. "
+            "An exergonic geochemical drive charges a transferable carrier (teal) that is discharged "
+            "to do endergonic work under load (amber) and bled by hydrolysis (red). The store reaches "
+            "a steady charge it holds against the drain — a spendable currency. With no coupling or a "
+            "drive too weak to clear the carrier bond, the pool never charges (the ablations).</div>")
+        s_html = stat.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+        a_html = anim.to_html(full_html=False, include_plotlyjs=False, config={"displayModeBar": False})
+        return ("<!doctype html><html><head><meta charset='utf-8'></head>"
+                "<body style='margin:0;font-family:-apple-system,system-ui,sans-serif;background:#fff'>"
+                f"{cap}<div style='display:flex;justify-content:center'>{s_html}</div>"
+                "<div style='display:flex;justify-content:center;margin-top:8px'>" + a_html + "</div>"
+                "</body></html>")
