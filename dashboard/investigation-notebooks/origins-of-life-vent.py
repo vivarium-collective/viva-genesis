@@ -1412,6 +1412,8 @@ else:
 # **Objective.** Relax environmental support via ablation sweeps and identify the minimum innovation set for autonomy.
 #
 # **Hypothesis.** A bounded innovation set (internal energy conversion + resource import + heredity) allows persistence as gradient strength/mineral access/feed are reduced; below it, systems stay obligately vent-tied.
+#
+# **Claim.** Autonomy away from the geological reactor requires an irreducible innovation set — internal energy conversion (a pump), active resource import, and heredity to hold them. Because the lineage's budget is co-limited (it needs BOTH usable free energy AND usable resources, Liebig's minimum), a single innovation is a cost without a co-benefit; only the full set keeps the net budget above the survival floor as the external gradient, mineral access and feed are all withdrawn. A knockout sweep shows the full set persists off-gradient (surviving fraction 1.0) while removing any one innovation collapses persistence to 0 — so the minimum robust set for escaping the vent is {pump, importer, heredity}.
 
 # ### Design — originally proposed
 #
@@ -1436,23 +1438,28 @@ else:
 #
 # | simulation | composite | steps | params |
 # | --- | --- | --- | --- |
-# | `Escape from the vent (Campaign VIII)` | `viva_genesis.composites.og_08_escape_from_the_vent` | 0 | — |
+# | `Escape from the vent (Campaign VIII)` | `viva_genesis.composites.off_gradient_persistence.off_gradient_persistence` | 0 | — |
 
 # ### The model & its parameters
 #
 # Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
 
-# **Composite `viva_genesis.composites.og_08_escape_from_the_vent`** — `spec_viva_genesis_composites_og_08_escape_from_the_vent` (materialized from its `@composite_generator`)
+# **The model — `viva_genesis.composites.off_gradient_persistence.off_gradient_persistence`**
+#
+# A reusable off-gradient-persistence module (Module M). A lineage's co-limited (Liebig-minimum) free-energy + resource budget under relaxing geological support (external gradient, mineral access, feed all declining over the run), with three toggleable innovations: internal energy conversion (has_pump), active resource import (has_importer) and information maintenance (has_heredity). Because the budget is co-limited the innovation set is irreducible — as support -> 0 only the full set keeps net budget above the survival floor, so a knockout sweep identifies {pump, importer, heredity} as the minimum robust set for autonomy. Coarse-grained, deterministic reproduction (not a wrapped ALife engine).
 
-spec_viva_genesis_composites_og_08_escape_from_the_vent = materialize_composite('viva_genesis.composites.og_08_escape_from_the_vent')
-describe_spec(spec_viva_genesis_composites_og_08_escape_from_the_vent)
-
-# === Edit parameters for this composite, then run the Run cell ===
-# ov_viva_genesis_composites_og_08_escape_from_the_vent maps each tunable parameter to its current value (the generator's
-# defaults). Edit any entry; the Run cell rebuilds the composite with it.
-ov_viva_genesis_composites_og_08_escape_from_the_vent = dict(spec_viva_genesis_composites_og_08_escape_from_the_vent['_overrides'])
-import json as _json; print(_json.dumps(ov_viva_genesis_composites_og_08_escape_from_the_vent, indent=2, default=str))
-# e.g.:  ov_viva_genesis_composites_og_08_escape_from_the_vent['<parameter>'] = <value>
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_off_gradient_persistence_off_gradient_persistence = {
+    'gradient_support'   : 1.0,   # Starting external-gradient support, relaxed to 0 over the run (dimensionless, 0-1)
+    'mineral_access'     : 1.0,   # Starting mineral / FeS-catalyst access, relaxed to 0 (dimensionless, 0-1)
+    'feed'               : 1.0,   # Starting geochemical feed, relaxed to 0 (dimensionless, 0-1)
+    'has_pump'           : 1.0,   # Internal energy conversion innovation (1 present; 0 knockout)
+    'has_importer'       : 1.0,   # Active resource-import innovation (1 present; 0 knockout)
+    'has_heredity'       : 1.0,   # Information-maintenance innovation; without it the machinery degrades (1 present; 0 knockout)
+    'catalyst_efficiency': 1.0,   # Internal-pump catalytic efficiency (dimensionless)
+    'decline_rate'       : 0.02,   # Support relaxation per step (1/s); support reaches 0 partway through the run
+}
 
 # ### Typed contract (declared interface)
 #
@@ -1462,20 +1469,21 @@ import json as _json; print(_json.dumps(ov_viva_genesis_composites_og_08_escape_
 #
 # | port | type | units | bounds |
 # | --- | --- | --- | --- |
-# | `H2` | float | molar | >= 0.0 |
-# | `temperature` | float | kelvin | [273.0, 673.0] |
+# | `gradient_support` | float | dimensionless | [0.0, 1.0] |
+# | `mineral_access` | float | dimensionless | [0.0, 1.0] |
+# | `feed` | float | dimensionless | [0.0, 1.0] |
 #
 # **Outputs**
 #
 # | port | type | units | bounds |
 # | --- | --- | --- | --- |
+# | `survivors` | float | dimensionless | [0.0, 1.0] |
 # | `lineage_fitness` | float | dimensionless |  |
 # | `free_energy_flux` | float | watt |  |
 #
 # **Conditions**
 #
-# - `energy_directionality` (invariant): `free_energy_flux_logged == true`
-# - `mass_balance` (invariant): `abs(residual_C)+abs(residual_H)+abs(residual_O) < tol`
+# - `energy_directionality` (invariant): `free_energy_flux >= 0 and co-limited budget (min of energy, resource)`
 # - `reproducibility` (invariant): `solver and db and seed and scenario recorded`
 
 # ### Run
@@ -1498,15 +1506,24 @@ if RERUN:
     from process_bigraph import Composite
     try:
         with quiet():  # keep per-step stdout out of the notebook
-            _ov = ov_viva_genesis_composites_og_08_escape_from_the_vent if 'ov_viva_genesis_composites_og_08_escape_from_the_vent' in dir() else None  # edits from the panel cell, if any
-            spec_viva_genesis_composites_og_08_escape_from_the_vent = materialize_composite('viva_genesis.composites.og_08_escape_from_the_vent', _ov)
-            _comp = Composite({'state': spec_viva_genesis_composites_og_08_escape_from_the_vent['state']}, core=core)
+            _ov = ov_viva_genesis_composites_off_gradient_persistence_off_gradient_persistence if 'ov_viva_genesis_composites_off_gradient_persistence_off_gradient_persistence' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_off_gradient_persistence_off_gradient_persistence = materialize_composite('viva_genesis.composites.off_gradient_persistence.off_gradient_persistence', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_off_gradient_persistence_off_gradient_persistence['state']}, core=core)
             _comp.run(STEPS_Escape_from_the_vent_Campaign_VIII)
-        print('ran', 'Escape from the vent (Campaign VIII)', f'(viva_genesis.composites.og_08_escape_from_the_vent) for', STEPS_Escape_from_the_vent_Campaign_VIII, 'steps')
+        print('ran', 'Escape from the vent (Campaign VIII)', f'(viva_genesis.composites.off_gradient_persistence.off_gradient_persistence) for', STEPS_Escape_from_the_vent_Campaign_VIII, 'steps')
     except Exception as _e:
         print(f"Escape from the vent (Campaign VIII) not runnable yet: {type(_e).__name__}: {_e}")
 else:
     print("RERUN=False — not re-simulating.")
+
+# ### Visualizations
+#
+# _Results are shown by the figures below, produced by the run above._
+
+# **off-gradient-survival-frontier**
+
+# off-gradient-survival-frontier
+_save_viz('og-08-escape-from-the-vent', 'off-gradient-survival-frontier', _render_one('local:OffGradientPhaseMap', {'composite': 'viva_genesis.composites.off_gradient_persistence.off_gradient_persistence', 'grid_json': 'workspace/studies/og-08-escape-from-the-vent/artifacts/off_gradient_grid.json', 'title': 'Campaign VIII — the survival frontier off the gradient'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_off_gradient_persistence_off_gradient_persistence if 'ov_viva_genesis_composites_off_gradient_persistence_off_gradient_persistence' in dir() else None)))
 
 # ### Acceptance criteria
 #
@@ -1514,8 +1531,14 @@ else:
 #
 # | test | measures | passes if |
 # | --- | --- | --- |
-# | survival-off-gradient _(primary)_ | kind=observable detail=survival as external gradient -> 0 | op threshold detail >=1 lineage persists |
-# | minimum-innovation-set _(primary)_ | kind=observable detail=ablation sweep over innovations | op threshold detail minimum robust set identified |
+# | survival-off-gradient _(primary)_ | kind=derived path=offgradient_survival detail=surviving fraction at the end of the run as support -> 0=None | op >= value 0.5 detail a lineage persists off-gradient (surviving fraction >= 0.5) |
+# | minimum-innovation-set _(primary)_ | kind=cross_run detail=full set vs each single knockout surviving fraction off-gradient=None | op arms_reported detail full set persists off-gradient and every single knockout collapses (each innovation is necessary) |
+
+# ### Literature anchors
+#
+# | expectation | model observable | source | status |
+# | --- | --- | --- | --- |
+# | Alkaline-vent origin — the first cells are vent-tied, dependent on the geochemical proton gradient and FeS mineral catalysis; escaping to free-living requires internalising energy generation. | off-gradient persistence vs innovation set | Martin & Russell 2007; Lane & Martin 2012; Sojo et al. 2014 | Reproduced as a coarse-grained co-limited budget — the full innovation set persists off-gradient; each single knockout collapses. |
 
 # ## Study: Adversarial: generic nonequilibrium control (`og-adv-generic-nonequilibrium`)
 #

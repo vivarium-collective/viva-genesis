@@ -35,7 +35,7 @@
   <div class="study-status-row" style="display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-top:6px;">
     
     
-    <span class="status-pill status-drafted" title="Headline status derived from the highest-precedence multi-axis field (or legacy `status` as fallback).">drafted</span>
+    <span class="status-pill gate-status gate-status-passed" title="Pipeline gate verdict (Pass A multi-axis status). Drives downstream unblocking.">gate: passed</span>
     
 
     
@@ -53,28 +53,28 @@
         
         <span class="status-stepper">
           
-          <span class="status-step gate-step axis-design_status gate-state-not-assessed set gate-current" title="Gate 1 · Plan — current stage">
-            <span class="dot"></span>1&nbsp;·&nbsp;Plan<span class="step-val">drafted</span><span class="gate-current-tag">you are here</span>
+          <span class="status-step gate-step axis-design_status gate-state-passed set" title="Gate 1 · Plan">
+            <span class="dot"></span>1&nbsp;·&nbsp;Plan<span class="step-val">approved</span>
           </span>
           
-          <span class="status-step gate-step axis-simulation_status gate-state-not-assessed set" title="Gate 2 · Execution">
-            <span class="dot"></span>2&nbsp;·&nbsp;Execution
+          <span class="status-step gate-step axis-simulation_status gate-state-passed set" title="Gate 2 · Execution">
+            <span class="dot"></span>2&nbsp;·&nbsp;Execution<span class="step-val">ran</span>
           </span>
           
-          <span class="status-step gate-step axis-evaluation_status gate-state-passed-with-conditions set" title="Gate 3 · Evidence">
-            <span class="dot"></span>3&nbsp;·&nbsp;Evidence
+          <span class="status-step gate-step axis-evaluation_status gate-state-passed set" title="Gate 3 · Evidence">
+            <span class="dot"></span>3&nbsp;·&nbsp;Evidence<span class="step-val">evaluated</span>
           </span>
           
-          <span class="status-step gate-step axis-evaluation_status gate-state-not-assessed set" title="Gate 4 · Quality">
-            <span class="dot"></span>4&nbsp;·&nbsp;Quality
+          <span class="status-step gate-step axis-evaluation_status gate-state-passed set" title="Gate 4 · Quality">
+            <span class="dot"></span>4&nbsp;·&nbsp;Quality<span class="step-val">evaluated</span>
           </span>
           
-          <span class="status-step gate-step axis-gate_status gate-state-not-assessed set" title="Gate 5 · Decision">
-            <span class="dot"></span>5&nbsp;·&nbsp;Decision
+          <span class="status-step gate-step axis-gate_status gate-state-passed set" title="Gate 5 · Decision">
+            <span class="dot"></span>5&nbsp;·&nbsp;Decision<span class="step-val">passed</span>
           </span>
           
-          <span class="status-step gate-step axis-expert_review_status gate-state-not-assessed" title="Gate 6 · Release">
-            <span class="dot"></span>6&nbsp;·&nbsp;Release
+          <span class="status-step gate-step axis-expert_review_status gate-state-not-assessed gate-current" title="Gate 6 · Release — current stage">
+            <span class="dot"></span>6&nbsp;·&nbsp;Release<span class="gate-current-tag">you are here</span>
           </span>
           
           
@@ -82,50 +82,48 @@
       </summary>
       <div class="status-stepper-body">
         
-        <div class="status-detail-row gate-row gate-state-not-assessed">
+        <div class="status-detail-row gate-row gate-state-passed">
           <span class="status-detail-axis">1 · Plan</span>
-          <span class="status-chip gate-state-not-assessed">drafted</span>
+          <span class="status-chip gate-state-passed">approved</span>
           
           
         </div>
         
-        <div class="status-detail-row gate-row gate-state-not-assessed">
+        <div class="status-detail-row gate-row gate-state-passed">
           <span class="status-detail-axis">2 · Execution</span>
-          <span class="status-chip gate-state-not-assessed">not set</span>
+          <span class="status-chip gate-state-passed">ran</span>
           
-          <span class="gate-computed-chip gate-state-not-assessed" title="no runs in runs.db">◆ computed: not_run</span>
+          <span class="gate-computed-chip gate-state-passed" title="2 completed run(s)">◆ computed: ran</span>
           
           
           
         </div>
         
-        <div class="status-detail-row gate-row gate-state-passed-with-conditions">
+        <div class="status-detail-row gate-row gate-state-passed">
           <span class="status-detail-axis">3 · Evidence</span>
-          <span class="status-chip gate-state-not-assessed">not set</span>
+          <span class="status-chip gate-state-passed">evaluated</span>
           
-          <span class="gate-computed-chip gate-state-passed-with-conditions" title="nothing run to evaluate + visualization readiness gate (V4)">◆ computed: not_evaluated</span>
+          <span class="gate-computed-chip gate-state-passed" title="completed run + recorded verdicts">◆ computed: evaluated</span>
           
           
-          
-          <span class="gate-viz-gap-note" style="font-size:0.86em;color:#92400e">visualization gap: no figures</span>
           
         </div>
         
-        <div class="status-detail-row gate-row gate-state-not-assessed">
+        <div class="status-detail-row gate-row gate-state-passed">
           <span class="status-detail-axis">4 · Quality</span>
-          <span class="status-chip gate-state-not-assessed">not set</span>
+          <span class="status-chip gate-state-passed">evaluated</span>
           
-          <span class="gate-computed-chip gate-state-not-assessed" title="nothing run to evaluate">◆ computed: not_evaluated</span>
+          <span class="gate-computed-chip gate-state-passed" title="completed run + recorded verdicts">◆ computed: evaluated</span>
           
           
           
         </div>
         
-        <div class="status-detail-row gate-row gate-state-not-assessed">
+        <div class="status-detail-row gate-row gate-state-passed">
           <span class="status-detail-axis">5 · Decision</span>
-          <span class="status-chip gate-state-not-assessed">not set</span>
+          <span class="status-chip gate-state-passed">passed</span>
           
-          <span class="gate-computed-chip gate-state-not-assessed" title="spine gate evaluator (study_verdict.roll_up_verdict / pipeline_gate.gate_evaluator)">◆ computed: not_started</span>
+          <span class="gate-computed-chip gate-state-passed" title="spine gate evaluator (study_verdict.roll_up_verdict / pipeline_gate.gate_evaluator)">◆ computed: passed</span>
           
           
           
@@ -147,18 +145,6 @@
 
 
 
-<div class="composite-lint-banner" role="alert"
-     style="margin:8px 0 14px 0;padding:10px 14px;background:#fffbeb;border:1px solid #f59e0b;border-left-width:5px;border-radius:6px;color:#92400e;font-size:0.9em">
-  
-  <div>⚠ composite not found in registry: <code>viva_genesis.composites.og_08_escape_from_the_vent</code></div>
-  
-  <div style="margin-top:4px;font-size:0.86em;color:#a16207">
-    This study references a composite that doesn't resolve — it may not declare a
-    real, registered composite. Add a <code>.composite.yaml</code> and register it
-    in <code>core.py</code>, or fix the ref.
-  </div>
-</div>
-
 
 
 
@@ -171,7 +157,7 @@
   
   <div class="act-cluster" data-act="study">
     <div class="act-header">
-      <span class="act-gate-dot" data-gate="study" data-gate-state="passed-with-conditions"></span>
+      <span class="act-gate-dot" data-gate="study" data-gate-state="passed"></span>
       <span class="act-label">The Study</span>
     </div>
     <div class="act-tabs">
@@ -180,7 +166,7 @@
   </div>
   <div class="act-cluster" data-act="design">
     <div class="act-header">
-      <span class="act-gate-dot" data-gate="design" data-gate-state="not-assessed"></span>
+      <span class="act-gate-dot" data-gate="design" data-gate-state="passed"></span>
       <span class="act-label">Design</span>
     </div>
     <div class="act-tabs">
@@ -192,7 +178,7 @@
   </div>
   <div class="act-cluster" data-act="evidence">
     <div class="act-header">
-      <span class="act-gate-dot" data-gate="evidence" data-gate-state="passed-with-conditions"></span>
+      <span class="act-gate-dot" data-gate="evidence" data-gate-state="passed"></span>
       <span class="act-label">Evidence</span>
     </div>
     <div class="act-tabs">
@@ -204,7 +190,7 @@
   </div>
   <div class="act-cluster" data-act="assurance">
     <div class="act-header">
-      <span class="act-gate-dot" data-gate="assurance" data-gate-state="not-assessed"></span>
+      <span class="act-gate-dot" data-gate="assurance" data-gate-state="passed"></span>
       <span class="act-label">Assurance</span>
     </div>
     <div class="act-tabs">
@@ -216,7 +202,7 @@
   </div>
   <div class="act-cluster" data-act="decision">
     <div class="act-header">
-      <span class="act-gate-dot" data-gate="decision" data-gate-state="not-assessed"></span>
+      <span class="act-gate-dot" data-gate="decision" data-gate-state="passed"></span>
       <span class="act-label">Decision</span>
     </div>
     <div class="act-tabs">
@@ -668,7 +654,7 @@
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Claim</h2>
-      <p class="ctr-text">What is the minimum set of innovations required for autonomous persistence away from the geological reactor, as environmental support is relaxed?</p>
+      <p class="ctr-text">Autonomy away from the geological reactor requires an irreducible innovation set — internal energy conversion (a pump), active resource import, and heredity to hold them. Because the lineage&#39;s budget is co-limited (it needs BOTH usable free energy AND usable resources, Liebig&#39;s minimum), a single innovation is a cost without a co-benefit; only the full set keeps the net budget above the survival floor as the external gradient, mineral access and feed are all withdrawn. A knockout sweep shows the full set persists off-gradient (surviving fraction 1.0) while removing any one innovation collapses persistence to 0 — so the minimum robust set for escaping the vent is {pump, importer, heredity}.</p>
       
     </div>
 
@@ -697,25 +683,260 @@
     
     
     
+    <div class="ctr-block ov-prov">
+      <h2 class="overview-label ctr-h">Provenance &amp; sources</h2>
+      <div class="ctr-meta-k" style="margin-top:12px">Sources (3)</div>
+      <div class="ov-sources">
+      
+        
+        <div class="ov-src" id="sref-martin2007origin">
+          <b class="ov-src-t">Martin 2007</b> <span class="ov-src-k">martin2007origin</span>
+          <div class="ov-src-t">On the origin of biochemistry at an alkaline hydrothermal vent</div>
+          <div class="ctr-meta-k" style="text-transform:none">Martin, William and Russell, Michael J. · 2007 · <a href="https://doi.org/10.1098/rstb.2006.1881" target="_blank" rel="noopener">source ↗</a></div>
+        </div>
+      
+        
+        <div class="ov-src" id="sref-lane2012origin">
+          <b class="ov-src-t">Lane 2012</b> <span class="ov-src-k">lane2012origin</span>
+          <div class="ov-src-t">The origin of membrane bioenergetics</div>
+          <div class="ctr-meta-k" style="text-transform:none">Lane, Nick and Martin, William F. · 2012 · <a href="https://doi.org/10.1016/j.cell.2012.11.050" target="_blank" rel="noopener">source ↗</a></div>
+        </div>
+      
+        
+        <div class="ov-src" id="sref-sojo2014bioenergetic">
+          <b class="ov-src-t">Sojo 2014</b> <span class="ov-src-k">sojo2014bioenergetic</span>
+          <div class="ov-src-t">A bioenergetic basis for membrane divergence in archaea and bacteria</div>
+          <div class="ctr-meta-k" style="text-transform:none">Sojo, Victor and Pomiankowski, Andrew and Lane, Nick · 2014 · <a href="https://doi.org/10.1371/journal.pbio.1001926" target="_blank" rel="noopener">source ↗</a></div>
+        </div>
+      
+      </div>
+    </div>
+    
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Result</h2>
-      <p class="ctr-text"></p>
+      <p class="ctr-text">Full set survivors 1.0 off-gradient (support -&gt; 0); -pump 0.0, -importer 0.0, -heredity 0.0 (machinery lost to the error catastrophe). Survival frontier reaches support 0 only for the full set; every knockout is lifted off the gradient.</p>
+      
+      <div class="ov-metrics">
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">1.0</div>
+          <div class="ov-metric-k">Full set survivors off-gradient</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">0.0</div>
+          <div class="ov-metric-k">-pump survivors</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">0.0</div>
+          <div class="ov-metric-k">-importer survivors</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">0.0</div>
+          <div class="ov-metric-k">-heredity survivors</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">0.007</div>
+          <div class="ov-metric-k">-heredity machinery integrity</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">3</div>
+          <div class="ov-metric-k">Minimum robust set size</div>
+        </div>
+        
+      </div>
       
       
       <div id="overview-key-figure" class="ov-keyfig" data-study="og-08-escape-from-the-vent"></div>
       
+    <div class="overview-section findings-section">
+      <h2 class="overview-label">🔬 Findings — what this study taught us</h2>
+      
+      
+      
+      
+      
+      
+      
+      
+      <div class="finding-card finding-kind-computational finding-status-confirms">
+        <details class="finding-details">
+          <summary class="finding-row">
+            <span class="finding-status-glyph">✓</span>
+            <span class="finding-claim finding-statement">Under withdrawing geological support (external gradient, mineral access and feed all relaxed to zero), the full innovation set persists off-gradient (surviving fraction 1.0, net budget +0.36) while removing any single innovation collapses persistence to 0 — so the minimum robust set for autonomy is irreducible, {internal pump, resource importer, heredity}.</span>
+            
+            <span class="finding-chip">via <code>minimum-innovation-set</code></span>
+            
+          </summary>
+          <div class="finding-drawer">
+            <div class="finding-header">
+              <span class="finding-id">og08-minimum-innovation-set</span>
+              <span class="finding-kind">computational</span>
+              <span class="finding-status-text">confirms literature</span>
+            </div>
+            
+            
+            <div class="finding-evidence">
+              <strong>observed:</strong> full set survivors 1.0; -pump 0.0, -importer 0.0, -heredity 0.0 dimensionless · 
+              
+              via test <a href="#bt-minimum-innovation-set" onclick="_gotoStudyTab('tests','bt-minimum-innovation-set');return false;"><code>minimum-innovation-set</code></a> · 
+              
+              
+              
+            </div>
+            
+            
+            
+            
+            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: op: arms_reported · detail: full set persists off-gradient and every single knockout collapses (each innovation is necessary)</code></div>
+            
+            
+            
+            <div class="finding-expected">
+              
+              
+              cites: <a class="ov-cite" href="#sref-martin2007origin" title="On the origin of biochemistry at an alkaline hydrothermal vent">Martin 2007</a><a class="ov-cite" href="#sref-lane2012origin" title="The origin of membrane bioenergetics">Lane 2012</a><a class="ov-cite" href="#sref-sojo2014bioenergetic" title="A bioenergetic basis for membrane divergence in archaea and bacteria">Sojo 2014</a>
+            </div>
+            
+            
+            <div class="finding-explanation"><em>Why:</em> Deterministic co-limited (Liebig-minimum) free-energy + resource budget; as support -&gt; 0 the external tap and ambient substrate both vanish, so persistence needs an internal pump (energy) AND an importer (resource) at once, held by heredity (information maintenance).</div>
+            
+            
+          </div>
+        </details>
+      </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <div class="finding-card finding-kind-computational finding-status-novel">
+        <details class="finding-details">
+          <summary class="finding-row">
+            <span class="finding-status-glyph">◆</span>
+            <span class="finding-claim finding-statement">The innovation set is irreducible precisely because the budget is co-limited — gross = min(energy, resource). A lone pump raises energy but the resource term still limits growth (and vice versa), so a half-equipped lineage pays an innovation&#39;s upkeep without a co-benefit; the survival frontier shows single knockouts needing MORE environmental support than even the bare control over part of the range.</span>
+            
+            <span class="finding-chip">via <code>minimum-innovation-set</code></span>
+            
+          </summary>
+          <div class="finding-drawer">
+            <div class="finding-header">
+              <span class="finding-id">og08-co-limitation-makes-set-irreducible</span>
+              <span class="finding-kind">computational</span>
+              <span class="finding-status-text">novel literature</span>
+            </div>
+            
+            
+            <div class="finding-evidence">
+              <strong>observed:</strong> frontier: full persists to support 0; -pump 0.33, -heredity 0.44, none 0.48, -importer 0.59 dimensionless · 
+              
+              via test <a href="#bt-minimum-innovation-set" onclick="_gotoStudyTab('tests','bt-minimum-innovation-set');return false;"><code>minimum-innovation-set</code></a> · 
+              
+              
+              
+            </div>
+            
+            
+            
+            
+            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: op: arms_reported · detail: full set persists off-gradient and every single knockout collapses (each innovation is necessary)</code></div>
+            
+            
+            
+            <div class="finding-expected">
+              
+              
+              cites: <a class="ov-cite" href="#sref-sojo2014bioenergetic" title="A bioenergetic basis for membrane divergence in archaea and bacteria">Sojo 2014</a><a class="ov-cite" href="#sref-martin2007origin" title="On the origin of biochemistry at an alkaline hydrothermal vent">Martin 2007</a>
+            </div>
+            
+            
+            <div class="finding-explanation"><em>Why:</em> Liebig&#39;s law of the minimum — co-limitation means energy and resource cannot substitute for one another, so autonomy requires acquiring both independently of the vent (pump + importer) and holding that machinery (heredity).</div>
+            
+            
+          </div>
+        </details>
+      </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <div class="finding-card finding-kind-computational finding-status-novel">
+        <details class="finding-details">
+          <summary class="finding-row">
+            <span class="finding-status-glyph">◆</span>
+            <span class="finding-claim finding-statement">Heredity is necessary not as an energy or resource term but as information maintenance — without it the adaptive machinery degrades over the run (machinery integrity 1.0 -&gt; 0.007, an error-catastrophe decay), so the pump and importer cannot be held and the lineage collapses even though it carries them.</span>
+            
+            <span class="finding-chip">via <code>minimum-innovation-set</code></span>
+            
+          </summary>
+          <div class="finding-drawer">
+            <div class="finding-header">
+              <span class="finding-id">og08-heredity-holds-the-innovations</span>
+              <span class="finding-kind">computational</span>
+              <span class="finding-status-text">novel literature</span>
+            </div>
+            
+            
+            <div class="finding-evidence">
+              <strong>observed:</strong> -heredity: machinery integrity 0.007 at run end, survivors 0.0 dimensionless · 
+              
+              via test <a href="#bt-minimum-innovation-set" onclick="_gotoStudyTab('tests','bt-minimum-innovation-set');return false;"><code>minimum-innovation-set</code></a> · 
+              
+              
+              
+            </div>
+            
+            
+            
+            
+            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: op: arms_reported · detail: full set persists off-gradient and every single knockout collapses (each innovation is necessary)</code></div>
+            
+            
+            
+            <div class="finding-expected">
+              
+              
+              cites: <a class="ov-cite" href="#sref-lane2012origin" title="The origin of membrane bioenergetics">Lane 2012</a>
+            </div>
+            
+            
+            <div class="finding-explanation"><em>Why:</em> The heredity flag gates the per-step machinery decay; without it the innovation terms (pump, importer) scale toward zero as machinery is lost, so the budget falls below the survival floor.</div>
+            
+            
+          </div>
+        </details>
+      </div>
+      
+      
+    </div>
+    
       
       
       
       <div class="ctr-meta ctr-assess">
         
         <div class="ctr-meta-row"><span class="ctr-meta-k">Confidence</span>
-          <span class="ctr-badge ctr-badge-planned">Planned</span>
-          
-          
+          <span class="ctr-badge ctr-badge-accepted">Accepted</span>
+          <span class="ctr-vch">biology&nbsp;PASS</span>
+          <span class="ctr-vch">insight&nbsp;POSITIVE</span>
         </div>
         
+        
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Caveat</span> <span class="ctr-meta-item">The budget couplings and the machinery-decay rate are reduced coarse-grained parameters; the model is a deterministic budget, not a wrapped genome-scale / ALife engine.</span></div>
         
       </div>
       
@@ -758,22 +979,22 @@
   <div class="overview-section" id="model-section">
     <h3>Runnable models <span class="muted" style="font-size:0.85em;font-weight:normal">— the composite(s) this study simulates</span></h3>
     
-    <div class="cond-block" data-model-composite="viva_genesis.composites.og_08_escape_from_the_vent" data-model-overrides='{}'>
+    <div class="cond-block" data-model-composite="viva_genesis.composites.off_gradient_persistence.off_gradient_persistence" data-model-overrides='{}'>
       <div class="cond-block-title" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
         <strong>Escape from the vent (Campaign VIII)</strong>
         
-        <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.og_08_escape_from_the_vent</code>
+        <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.off_gradient_persistence.off_gradient_persistence</code>
         <button type="button" class="action-btn" style="font-size:0.8em"
-                onclick="_openCompositeLoom('viva_genesis.composites.og_08_escape_from_the_vent')">🧬 explore &amp; run ↗</button>
+                onclick="_openCompositeLoom('viva_genesis.composites.off_gradient_persistence.off_gradient_persistence')">🧬 explore &amp; run ↗</button>
         
       </div>
       
       <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
         
         <select class="baseline-composite-input" data-baseline-name="Escape from the vent (Campaign VIII)"
-                data-current="viva_genesis.composites.og_08_escape_from_the_vent"
+                data-current="viva_genesis.composites.off_gradient_persistence.off_gradient_persistence"
                 style="flex:1;min-width:200px;font-family:monospace;font-size:0.82em;padding:3px 6px">
-          <option value="viva_genesis.composites.og_08_escape_from_the_vent" selected>viva_genesis.composites.og_08_escape_from_the_vent</option>
+          <option value="viva_genesis.composites.off_gradient_persistence.off_gradient_persistence" selected>viva_genesis.composites.off_gradient_persistence.off_gradient_persistence</option>
           
         </select>
         <button type="button" class="action-btn baseline-composite-set" style="font-size:0.8em"
@@ -787,6 +1008,13 @@
         <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading configuration…</span></div></div>
       
       
+      
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;font-size:0.8em">
+        
+        
+        
+        <span class="cond-pill"><span class="cond-pill-k">status</span>=completed</span>
+      </div>
       
     </div>
     
@@ -919,6 +1147,10 @@
 
     
     
+    <div class="viz-actions-row" style="display:flex; justify-content:flex-end; margin-bottom:10px;">
+      <button type="button" class="btn-mini" onclick="window._vivStudyFiguresFromCard(event, 'og-08-escape-from-the-vent')" title="Download this study's visualizations (figure panels + its composite) as a zip">↓ visualizations</button>
+    </div>
+    
 
     <div id="native-gallery-panel" class="figure-mount"><div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading figures…</span></div></div>
 
@@ -937,6 +1169,30 @@
   <p class="muted" style="margin:0 0 12px 0"><strong>The bar.</strong> What must be true for this model to count as correct — the acceptance criteria, their bands, and the report cards that grade them.</p>
 
   
+  
+  
+  <div class="overview-section expectations-band" id="expectations-band">
+    <h3 class="section-title">Expectations
+      <span class="muted" style="font-size:0.85em;font-weight:normal">— from literature, mapped to the model observable that measures each</span>
+    </h3>
+    <ul class="literature-anchor-list" style="list-style:none;padding-left:0">
+    
+      
+      <li class="literature-anchor-card expectation-item">
+        <div class="anchor-expectation" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <span>Alkaline-vent origin — the first cells are vent-tied, dependent on the geochemical proton gradient and FeS mineral catalysis; escaping to free-living requires internalising energy generation.</span>
+          
+        </div>
+        <div class="anchor-observable">
+          <em>Model observable:</em> <code>off-gradient persistence vs innovation set</code>
+        </div>
+        
+        <div class="anchor-source"><em>Source:</em> Martin &amp; Russell 2007; Lane &amp; Martin 2012; Sojo et al. 2014</div>
+        
+      </li>
+    
+    </ul>
+  </div>
   
 
   
@@ -985,26 +1241,44 @@
         
         data-pytest-node="survival-off-gradient"
         data-classification="primary"
-        data-result="pending"
+        data-result="PASS"
         style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #10b981; background: #f8fafc; border-radius: 4px;">
       
         
       <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
-        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #f1f5f9; color: #475569">⏳ pending</span>
+        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #d1fae5; color: #065f46">✓ PASS</span>
         <span class="classification-pill classification-primary">primary</span>
         <strong style="font-size: 0.9em;">survival-off-gradient</strong>
         
         <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
         
       </div>
-      <div style="margin-top: 6px; font-size: 0.95em;">At least one lineage persists as the external gradient goes to zero.</div>
+      <div style="margin-top: 6px; font-size: 0.95em;">At least one lineage persists as the external geological support (gradient, mineral access, feed) is withdrawn toward zero — the full innovation set stays above the survival floor off-gradient.</div>
+      
+      <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
+        <strong>Latest result:</strong>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 1.0</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 1 &gt;= 0.5</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&gt;=</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;survival-off-gradient&#39;, &#39;label&#39;: &#39;At least one lineage persists as the external geological support (gradient, mineral access, feed) is withdrawn toward zero — the full innovation set stays above the survival floor off-gradient.&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 1.0, &#39;meter&#39;: 1.0, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 0.5, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 0.5, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: &#39;sojo2014bioenergetic; lane2012origin&#39;}</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+        
+      </div>
       
       
       <details style="margin-top: 6px; font-size: 0.82em;">
         <summary class="muted" style="cursor: pointer;">Assertion</summary>
         
-        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "survival as external gradient -\u003e 0", "kind": "observable"}
-pass_if: {"detail": "\u003e=1 lineage persists", "op": "threshold"}</pre>
+        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"as support -\u003e 0": null, "detail": "surviving fraction at the end of the run", "kind": "derived", "path": "offgradient_survival"}
+pass_if: {"detail": "a lineage persists off-gradient (surviving fraction \u003e= 0.5)", "op": "\u003e=", "value": 0.5}
+cites:   ["sojo2014bioenergetic", "lane2012origin"]</pre>
       </details>
       
       
@@ -1024,26 +1298,40 @@ pass_if: {"detail": "\u003e=1 lineage persists", "op": "threshold"}</pre>
         
         data-pytest-node="minimum-innovation-set"
         data-classification="primary"
-        data-result="pending"
+        data-result="PASS"
         style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #10b981; background: #f8fafc; border-radius: 4px;">
       
         
       <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
-        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #f1f5f9; color: #475569">⏳ pending</span>
+        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #d1fae5; color: #065f46">✓ PASS</span>
         <span class="classification-pill classification-primary">primary</span>
         <strong style="font-size: 0.9em;">minimum-innovation-set</strong>
         
         <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
         
       </div>
-      <div style="margin-top: 6px; font-size: 0.95em;">The smallest ablation-robust innovation set is identified.</div>
+      <div style="margin-top: 6px; font-size: 0.95em;">A knockout sweep identifies the minimum robust innovation set: the full set persists off-gradient while removing any single innovation (internal pump, resource importer, or heredity) collapses persistence — so the set is irreducible, {pump, importer, heredity}.</div>
+      
+      <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
+        <strong>Latest result:</strong>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.0</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: cross_run</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: full set survivors=1.00 off-gradient; knockouts -pump=0.00 -importer=0.00 -heredity=0.00 (each necessary =&gt; minimum robust set = {heredity, importer, pump})</code>
+        
+      </div>
       
       
       <details style="margin-top: 6px; font-size: 0.82em;">
         <summary class="muted" style="cursor: pointer;">Assertion</summary>
         
-        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "ablation sweep over innovations", "kind": "observable"}
-pass_if: {"detail": "minimum robust set identified", "op": "threshold"}</pre>
+        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "full set vs each single knockout", "kind": "cross_run", "surviving fraction off-gradient": null}
+pass_if: {"detail": "full set persists off-gradient and every single knockout collapses (each innovation is necessary)", "op": "arms_reported"}
+cites:   ["martin2007origin"]</pre>
       </details>
       
       
@@ -1130,27 +1418,27 @@ pass_if: {"detail": "minimum robust set identified", "op": "threshold"}</pre>
           <span class="narrative-label">Empirical validation</span>
           <span class="narrative-input verdict-badge-computed" data-verdict-track="biological_validation"
                 title="Computed from the gate evaluator (read-only)"
-                style="display:inline-block;padding:2px 12px;border-radius:9999px;font-weight:700;font-size:0.85em;background:#f1f5f9;color:#475569">PENDING</span>
+                style="display:inline-block;padding:2px 12px;border-radius:9999px;font-weight:700;font-size:0.85em;background:#f1f5f9;color:#475569">PASS</span>
           <span class="muted small" style="margin-left:6px">computed from gate evaluator</span>
         </label>
         <label class="narrative-row narrative-row-wide">
           <span class="narrative-label">Empirical basis</span>
           <textarea class="narrative-input narrative-textarea" rows="2"
                     data-narrative-path="conclusion_verdicts.biological_validation.basis"
-                    placeholder="e.g. atp_fraction = 0.997, outside Boesen 2024 band [0.2, 0.5]."></textarea>
+                    placeholder="e.g. atp_fraction = 0.997, outside Boesen 2024 band [0.2, 0.5].">Reproduces the alkaline-vent origin expectation — the first cells are vent-tied and escaping to free-living requires internalising energy generation (a pump), acquiring resources (an importer) and maintaining the machinery (heredity); each is shown necessary by knockout.</textarea>
         </label>
         <label class="narrative-row">
           <span class="narrative-label">Explanatory gain</span>
           <span class="narrative-input verdict-badge-computed" data-verdict-track="explanatory_gain"
                 title="Computed from interpretation-tier findings (read-only)"
-                style="display:inline-block;padding:2px 12px;border-radius:9999px;font-weight:700;font-size:0.85em;background:#f1f5f9;color:#475569">PENDING</span>
+                style="display:inline-block;padding:2px 12px;border-radius:9999px;font-weight:700;font-size:0.85em;background:#f1f5f9;color:#475569">POSITIVE</span>
           <span class="muted small" style="margin-left:6px">computed from interpretation-tier findings</span>
         </label>
         <label class="narrative-row narrative-row-wide">
           <span class="narrative-label">Explanatory basis</span>
           <textarea class="narrative-input narrative-textarea" rows="2"
                     data-narrative-path="conclusion_verdicts.explanatory_gain.basis"
-                    placeholder="e.g. Three findings worth keeping; design_pivot_required closed."></textarea>
+                    placeholder="e.g. Three findings worth keeping; design_pivot_required closed.">Explains WHY autonomy requires a set rather than a single step — co-limitation (Liebig&#39;s minimum) makes energy and resource acquisition non-substitutable, so the minimum innovation set is irreducible.</textarea>
         </label>
       </div>
     </div>
@@ -1170,6 +1458,20 @@ pass_if: {"detail": "minimum robust set identified", "op": "threshold"}</pre>
   <div class="overview-section"><h2 class="overview-label">Plan &amp; assumptions</h2>
 
     
+    <div class="overview-section">
+      <h3 class="overview-label">Pipeline gate</h3>
+      <p class="muted" style="margin: 0 0 8px 0;font-size:0.88em">
+        Each study is a model-building gate: it answers <em>"Can we safely build the next layer?"</em>
+      </p>
+      
+      <div style="margin-bottom:6px"><strong>Prerequisites:</strong>
+        <code>{&#39;study&#39;: &#39;og-07-ecology-before-luca&#39;, &#39;condition&#39;: &#39;tests-passed&#39;}</code>
+      </div>
+      
+      
+      
+    </div>
+    
 
     
     <div class="overview-section">
@@ -1180,6 +1482,14 @@ pass_if: {"detail": "minimum robust set identified", "op": "threshold"}</pre>
     </div>
     
 
+    
+    <div class="overview-section">
+      <h3 class="overview-label">Limitations</h3>
+      <p class="muted" style="margin:0 0 6px 0;font-size:0.85em">What this study explicitly does NOT validate (prevents overclaim).</p>
+      <ul style="margin:0 0 0 18px;padding:0;font-size:0.93em">
+        <li style="margin:2px 0">The budget couplings and the machinery-decay rate are reduced coarse-grained parameters; the model is a deterministic budget, not a wrapped genome-scale / ALife engine.</li><li style="margin:2px 0">Autonomy is modelled as persistence under equal relaxation of all three support channels; differentiated relaxation (e.g. mineral access withdrawn first) is a follow-up.</li>
+      </ul>
+    </div>
     
 
   </div>
@@ -1192,6 +1502,27 @@ pass_if: {"detail": "minimum robust set identified", "op": "threshold"}</pre>
     
     
     
+    <div class="decide-section">
+      <h3 class="overview-label">Latest run outcomes</h3>
+      <div style="font-size:0.88em;color:#64748b;margin-bottom:8px">
+        baseline · seed ? ·
+        ?s simulated ·
+        ? history rows ·
+        started 1791923886.752985
+      </div>
+      
+      
+      
+      <p class="muted" style="margin:0;font-size:0.9em">
+        <strong>2</strong> test outcomes
+        — <span style="color:#065f46;font-weight:600">2 PASS</span> ·
+        <span style="color:#991b1b;font-weight:600">0 FAIL</span>.
+        Per-test outcomes (measured value · evaluator · band) are canonical on the
+        <a onclick="_setStudyTab('tests')" style="cursor:pointer;color:#3b82f6;text-decoration:underline">Tests tab →</a>.
+      </p>
+      
+    </div>
+    
     
 
   </div>
@@ -1203,6 +1534,64 @@ pass_if: {"detail": "minimum robust set identified", "op": "threshold"}</pre>
     
 
     
+    
+    
+    <div class="overview-section" id="discovery-implications-section" style="margin-top:18px">
+      <h3 class="overview-label">Discovery implications</h3>
+      <p class="muted" style="margin:0 0 10px 0;font-size:0.88em">Where this study's results leave the mechanism model — and what to investigate next.</p>
+
+      
+      <div class="di-uncertainties">
+        
+        <div class="di-unc di-unc-resolved">
+          <h4>✓ Resolved uncertainties</h4>
+          <ul><li>Autonomy away from the vent requires an irreducible innovation set {pump, importer, heredity}, not a single innovation — each is necessary under withdrawing support.</li><li>Co-limitation (energy AND resources) is the structural reason the set is irreducible.</li></ul>
+        </div>
+        
+        
+        <div class="di-unc di-unc-remaining">
+          <h4>● Remaining uncertainties</h4>
+          <ul><li>Whether a staged acquisition order (which innovation is acquired first) matters when support channels are withdrawn at different rates.</li></ul>
+        </div>
+        
+      </div>
+      
+
+      
+
+      
+
+      
+      
+      
+      <div class="di-group">
+        <h3>Follow-up study proposals
+          <span class="muted" style="font-weight:normal;font-size:0.82em">(discovered)</span>
+          <span class="muted" style="font-weight:normal;font-size:0.85em">(1)</span></h3>
+        <p class="muted" style="margin:0 0 8px 0;font-size:0.85em">Click <strong>➕ Add to investigation</strong> to spawn a new study node in the investigation graph.</p>
+        <div class="followup-list">
+          
+          
+          <div class="di-card di-fup-card">
+            <div class="followup-header">
+              <strong class="followup-title">(untitled proposal)</strong>
+              
+              
+              
+              
+            </div>
+            
+            
+            <div class="followup-actions" style="margin-top:8px">
+              <button class="btn-seed-followup"
+                      onclick="_seedFollowupProposal('og-08-escape-from-the-vent', "")">➕ Add to investigation</button>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+      
+    </div>
     
 
     
@@ -1218,7 +1607,7 @@ pass_if: {"detail": "minimum robust set identified", "op": "threshold"}</pre>
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "07a55e996f0ed645cf068df4422e8400a32c1e63", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/07a55e996f0ed645cf068df4422e8400a32c1e63", "branch": "main", "lockfile": "uv.lock@0c019561d25b", "generated_at": "2026-10-13 20:00 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "930d7680a713504f49ddd22b5fdf7bf5ff389d65", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/930d7680a713504f49ddd22b5fdf7bf5ff389d65", "branch": "main", "lockfile": "uv.lock@0c019561d25b", "generated_at": "2026-10-13 21:00 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>
