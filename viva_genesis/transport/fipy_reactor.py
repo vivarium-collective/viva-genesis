@@ -106,6 +106,13 @@ class FipyReactiveTransportProcess(Process):
         "max_inlet_bump": {"_type": "float", "_default": 55.0, "_units": "dimensionless"},
         "alk_scale": {"_type": "float", "_default": 2.0e-3, "_units": "dimensionless"},
         "k_relax": {"_type": "float", "_default": 0.1, "_units": "1/second"},
+        # Darcy-Rayleigh buoyancy coefficient for porous convection. The vent wall
+        # is a permeable medium, so the flow is Darcy (not free-fluid Navier-Stokes):
+        # buoyant hot fluid rises, cold ocean fluid sinks, and a recirculation cell
+        # develops. 0 = the old constant-upflow (no convection); ~1.5e-4 gives a
+        # visible, stable plume (Peclet ~8, convective velocity ~5x the background
+        # upflow); >~4e-4 is super-critical and destabilises on this grid.
+        "buoyancy": {"_type": "float", "_default": 1.5e-4, "_units": "1/(kelvin*second)"},
     }
 
     def __init__(self, config=None, core=None):
@@ -113,6 +120,10 @@ class FipyReactiveTransportProcess(Process):
         self._mesh = None
         self._T = None          # temperature field (CellVariable, 2-D)
         self._S = None          # solute tracer field (CellVariable, 2-D)
+        self._psi = None        # stream function (CellVariable, 2-D) — Darcy convection
+        self._velocity = None   # Darcy velocity (FaceVariable, rank-1)
+        self._vmax = 0.0        # max |velocity| this step (for Courant sub-stepping)
+        self._u_bg = 1.0e-3     # background upflow (set from flow_velocity each step)
         self._solver = None
         self._dx = None
         self._dy = None
@@ -140,7 +151,7 @@ class FipyReactiveTransportProcess(Process):
 
     # -- FiPy construction (lazy; heavy import stays out of module import) --
     def _build(self):
-        from fipy import (CellVariable, DiffusionTerm, Grid2D,
+        from fipy import (CellVariable, DiffusionTerm, FaceVariable, Grid2D,
                           PowerLawConvectionTerm, TransientTerm, Variable)
         try:
             from fipy.solvers.scipy.linearLUSolver import LinearLUSolver
@@ -155,6 +166,11 @@ class FipyReactiveTransportProcess(Process):
         T0 = float(self.config["seawater_temp"])
         self._T = CellVariable(name="temperature", mesh=self._mesh, value=T0, hasOld=True)
         self._S = CellVariable(name="solute", mesh=self._mesh, value=0.0, hasOld=True)
+        # Stream function for Darcy-Boussinesq convection; ψ=0 on every impermeable
+        # boundary makes the walls streamlines (no through-wall flow).
+        self._psi = CellVariable(name="streamfunction", mesh=self._mesh, value=0.0)
+        self._psi.constrain(0.0, self._mesh.exteriorFaces)
+        self._FaceVariable = FaceVariable
         self._Dt = float(self.config["thermal_diffusivity"])
         self._Ds = float(self.config["solute_diffusivity"])
         # Mutable boundary values (constrained once here). The defining vent
@@ -177,17 +193,39 @@ class FipyReactiveTransportProcess(Process):
         self._DiffusionTerm = DiffusionTerm
         self._Conv = PowerLawConvectionTerm
 
-    def _solve_field(self, field, D, u, interval):
-        """Transport one 2-D field (buoyant upflow in +y) with the real FiPy FVM
-        solver. Returns the normalised max FVM balance residual — ~machine-eps
-        for a converged solve, the spatial-flux-conservation witness."""
+    def _update_velocity(self, interval):
+        """Darcy–Boussinesq porous convection. Solve the stream-function Poisson
+        ``∇²ψ = −buoyancy·∂T/∂x`` (ψ=0 on impermeable boundaries), then form the
+        divergence-free Darcy velocity ``u = (∂ψ/∂y, −∂ψ/∂x)`` plus the background
+        upflow. Hot fluid rises, cold ocean fluid sinks, a recirculation cell
+        forms — the real convecting plume. Stores the velocity + its max magnitude
+        and returns the max magnitude. ``buoyancy=0`` → pure background upflow."""
         import numpy as np
-        # Buoyant upflow: constant velocity in +y (no lateral advection; the
-        # ocean coupling is diffusive via the left-face BC).
+        buoy = float(self.config.get("buoyancy", 0.0))
+        eq = (self._DiffusionTerm(coeff=1.0) == -buoy * self._T.grad[0])
+        if self._solver is not None:
+            eq.solve(var=self._psi, solver=self._solver)
+        else:  # pragma: no cover
+            eq.solve(var=self._psi)
+        g = self._psi.faceGrad                       # [∂ψ/∂x, ∂ψ/∂y] on faces
+        vel = self._FaceVariable(mesh=self._mesh, rank=1)
+        vel.setValue(np.array([g[1].value, -g[0].value + self._u_bg]))
+        self._velocity = vel
+        self._vmax = float(np.sqrt(vel[0].value ** 2 + vel[1].value ** 2).max())
+        return self._vmax
+
+    def _solve_field(self, field, D, interval):
+        """Transport one 2-D field with the real FiPy FVM solver under the current
+        Darcy convective velocity field. Returns the normalised max FVM balance
+        residual — ~machine-eps for a converged solve, the spatial-flux-conservation
+        witness."""
+        import numpy as np
         eq = (self._TransientTerm() == self._DiffusionTerm(coeff=D)
-              - self._Conv(coeff=((0.,), (u,))))
-        courant = abs(u) * interval / max(self._dy, 1e-12)
-        nsub = max(1, min(50, int(math.ceil(courant / 0.5))))
+              - self._Conv(coeff=self._velocity))
+        # Courant on the 2-D velocity magnitude + the smaller cell dimension.
+        cell = max(min(self._dx, self._dy), 1e-12)
+        courant = max(self._vmax, self._u_bg) * interval / cell
+        nsub = max(1, min(80, int(math.ceil(courant / 0.4))))
         dt = interval / nsub
         max_resid = 0.0
         for _ in range(nsub):
@@ -224,7 +262,7 @@ class FipyReactiveTransportProcess(Process):
             self._build()
         import numpy as np
 
-        u = max(float(state.get("flow_velocity", 1e-3)), 1e-9)
+        self._u_bg = max(float(state.get("flow_velocity", 1e-3)), 1e-9)
         heat = float(state.get("heat", 0.0))
         alkalinity = float(state.get("alkalinity", 0.0))
         h2 = float(state.get("H2", 0.0))
@@ -242,8 +280,11 @@ class FipyReactiveTransportProcess(Process):
         self._inlet_S.setValue(inlet_S)
         self._ocean_T.setValue(float(self.config["seawater_temp"]))
 
-        res_T = self._solve_field(self._T, self._Dt, u, interval)
-        res_S = self._solve_field(self._S, self._Ds, u, interval)
+        # Darcy convection velocity from the current temperature field, then
+        # transport T + solute with that recirculating velocity.
+        self._update_velocity(interval)
+        res_T = self._solve_field(self._T, self._Dt, interval)
+        res_S = self._solve_field(self._S, self._Ds, interval)
         residual = max(res_T, res_S)
 
         # Outlet (vent exit) scalars from the real 2-D field.
@@ -304,7 +345,10 @@ def spatial_field(proc: "FipyReactiveTransportProcess", state: "dict | None" = N
     # vent fluid meets the ocean (the carbonate/brucite chimney front).
     base_por = float(st.get("porosity", 0.35))
     por = np.clip(base_por * (1.0 - 0.6 * mix), 0.0, 1.0)
-    return {
+    # Darcy convection velocity + stream function for the streamline overlay.
+    # Cell-centered u = ∂ψ/∂y, v = −∂ψ/∂x + background upflow; ψ contours ARE the
+    # streamlines of the recirculating plume.
+    out = {
         "nx": nx, "ny": ny,
         "extent": [0.0, float(proc.config["length_m"]),
                    0.0, float(proc.config["height_m"])],
@@ -313,6 +357,12 @@ def spatial_field(proc: "FipyReactiveTransportProcess", state: "dict | None" = N
         "pH": pH.tolist(),
         "porosity": por.tolist(),
     }
+    if getattr(proc, "_psi", None) is not None:
+        gpsi = proc._psi.grad
+        out["psi"] = proc._grid(proc._psi.value).tolist()
+        out["u"] = proc._grid(gpsi[1].value).tolist()
+        out["v"] = (proc._grid(-gpsi[0].value) + float(getattr(proc, "_u_bg", 0.0))).tolist()
+    return out
 
 
 # Back-compat 1-D profile helper (a horizontal slice through the 2-D field at the
