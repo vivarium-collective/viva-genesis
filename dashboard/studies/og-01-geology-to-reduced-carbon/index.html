@@ -19,7 +19,7 @@
 <header class="study-header">
   <div style="display:flex; align-items:baseline; gap:12px; justify-content:space-between;">
   <h1 class="study-title">
-    <span class="study-num-chip" style="font-size:0.5em; font-weight:700; color:#64748b; background:#f1f5f9; padding:3px 9px; border-radius:9999px; vertical-align:middle; margin-right:8px">og-01</span><span class="study-name" id="study-name" data-slug="og-01-geology-to-reduced-carbon" data-study-kind="computational" title="og-01-geology-to-reduced-carbon">Geology to reduced carbon (Campaign I)</span>
+    <span class="study-num-chip" style="font-size:0.5em; font-weight:700; color:#64748b; background:#f1f5f9; padding:3px 9px; border-radius:9999px; vertical-align:middle; margin-right:8px">og-01</span><span class="study-name" id="study-name" data-slug="og-01-geology-to-reduced-carbon" data-study-kind="computational" title="og-01-geology-to-reduced-carbon">The First Carbon</span>
     
   </h1>
   <span class="study-header-actions" style="display:inline-flex; gap:6px; flex-shrink:0;">
@@ -681,7 +681,7 @@
       <h2 class="overview-label ctr-h">Model &amp; approach</h2>
       <p class="ctr-text">Add H2-driven CO2 reduction, reproduce the three benchmark experiments, and map the parameter region of sustained net organic-carbon flux.</p>
       <div class="ctr-meta">
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Model</span> <code>Geology to reduced carbon (Campaign I) — favorable</code>, <code>Tutolo-2026 in-situ (unfavorable arm)</code><a class="ov-tablink" href="#" onclick="_setStudyTab('compose');return false;">model →</a></div>
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Model</span> <code>Geology to reduced carbon — favorable</code>, <code>Tutolo-2026 in-situ (unfavorable arm)</code><a class="ov-tablink" href="#" onclick="_setStudyTab('compose');return false;">model →</a></div>
         
         <ul class="ov-methods"><li>Module C — REAL FiPy Nernst-Planck: genuine finite-volume proton electrodiffusion across the Fe(Ni)S barrier (ocean-&gt;vent pH gradient) giving the proton-motive force, current density and diffusion potential. gradient_efficiency is the favorable (1.0) vs Tutolo-2026 in-situ-collapse (&lt;&lt;1) arm knob.</li><li>Module D (thermo) — REAL eQuilibrator: genuine component-contribution ΔG&#39; (offline) for CO2+H2-&gt;formate/acetate/pyruvate, with the reaction-quotient term from live concentrations; a logistic feasibility gate makes energy_directionality explicit (fixation stops where ΔG&#39; &gt;= 0 — real product inhibition).</li><li>Module D (kinetics) — lab-calibrated heterogeneous CO2 reduction: rate = k · catalyst · feasible(ΔG&#39;) · drive(pmf) · avail(H2,CO2) · T-window · headroom, hitting the Preiner-2020 yield ceilings. Controls (no gradient / H2 / catalyst) zero it out; the Tutolo arm collapses the pmf drive.</li></ul>
         
@@ -1186,7 +1186,7 @@
     
     <div class="cond-block" data-model-composite="viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation" data-model-overrides='{}'>
       <div class="cond-block-title" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-        <strong>Geology to reduced carbon (Campaign I) — favorable</strong>
+        <strong>Geology to reduced carbon — favorable</strong>
         
         <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation</code>
         <button type="button" class="action-btn" style="font-size:0.8em"
@@ -1196,16 +1196,16 @@
       
       <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
         
-        <select class="baseline-composite-input" data-baseline-name="Geology to reduced carbon (Campaign I) — favorable"
+        <select class="baseline-composite-input" data-baseline-name="Geology to reduced carbon — favorable"
                 data-current="viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation"
                 style="flex:1;min-width:200px;font-family:monospace;font-size:0.82em;padding:3px 6px">
           <option value="viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation" selected>viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation</option>
           
         </select>
         <button type="button" class="action-btn baseline-composite-set" style="font-size:0.8em"
-                data-baseline-name="Geology to reduced carbon (Campaign I) — favorable">Set composite</button>
+                data-baseline-name="Geology to reduced carbon — favorable">Set composite</button>
       </div>
-      <div class="baseline-composite-status muted" data-baseline-name="Geology to reduced carbon (Campaign I) — favorable" style="font-size:0.8em;margin-top:2px"></div>
+      <div class="baseline-composite-status muted" data-baseline-name="Geology to reduced carbon — favorable" style="font-size:0.8em;margin-top:2px"></div>
       
       
       
@@ -2269,7 +2269,7 @@ cites:   ["tutolo2026rethinking", "jackson2016natural"]</pre>
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "507fa32712592301e59c9d3f567bb51c09336b03", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/507fa32712592301e59c9d3f567bb51c09336b03", "branch": "main", "lockfile": "uv.lock@0c019561d25b", "generated_at": "2026-10-13 22:11 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "ffa9e4a7df202e2b59607fc25ad25977da488a8a", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/ffa9e4a7df202e2b59607fc25ad25977da488a8a", "branch": "main", "lockfile": "uv.lock@dab5c4c40206", "generated_at": "2026-10-13 23:41 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>

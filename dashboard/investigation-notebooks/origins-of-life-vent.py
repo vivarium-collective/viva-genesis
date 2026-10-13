@@ -252,7 +252,7 @@ def _render_one(address, config, runs_db, study_yaml, overrides=None):
         return _p.read_text(encoding='utf-8', errors='replace')
     return f'<p style="color:#6b7280">unsupported figure type: {address}</p>'
 
-# ## Study: Vent reactor baseline (Campaign 0) (`og-00-vent-reactor-baseline`)
+# ## Study: The Serpentinizing Vent (`og-00-vent-reactor-baseline`)
 #
 # **Question.** Can a Lost City–like, serpentinization-fed vent–ocean interface reproduce observed fluid mixing, heat transport, mineral precipitation and H2/alkalinity delivery under field-constrained conditions — with no origin-of-life claim?
 #
@@ -287,7 +287,7 @@ def _render_one(address, config, runs_db, study_yaml, overrides=None):
 #
 # | simulation | composite | steps | params |
 # | --- | --- | --- | --- |
-# | `Vent reactor baseline (Campaign 0)` | `viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor` | 0 | — |
+# | `Vent reactor baseline` | `viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor` | 0 | — |
 
 # ### The model & its parameters
 #
@@ -348,8 +348,8 @@ RUNS_DB = str(STUDY_DIR / "runs.db")
 # This study has no *recorded* runs yet. RERUN builds its declared
 # composite(s) live and runs them; a composite whose module processes
 # are not implemented yet reports the error instead of crashing.
-STEPS_Vent_reactor_baseline_Campaign_0 = 100
-INTERVAL_Vent_reactor_baseline_Campaign_0 = 1.0
+STEPS_Vent_reactor_baseline = 100
+INTERVAL_Vent_reactor_baseline = 1.0
 
 if RERUN:
     from process_bigraph import Composite
@@ -358,10 +358,10 @@ if RERUN:
             _ov = ov_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor if 'ov_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor' in dir() else None  # edits from the panel cell, if any
             spec_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor = materialize_composite('viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor', _ov)
             _comp = Composite({'state': spec_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor['state']}, core=core)
-            _comp.run(STEPS_Vent_reactor_baseline_Campaign_0)
-        print('ran', 'Vent reactor baseline (Campaign 0)', f'(viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor) for', STEPS_Vent_reactor_baseline_Campaign_0, 'steps')
+            _comp.run(STEPS_Vent_reactor_baseline)
+        print('ran', 'Vent reactor baseline', f'(viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor) for', STEPS_Vent_reactor_baseline, 'steps')
     except Exception as _e:
-        print(f"Vent reactor baseline (Campaign 0) not runnable yet: {type(_e).__name__}: {_e}")
+        print(f"Vent reactor baseline not runnable yet: {type(_e).__name__}: {_e}")
 else:
     print("RERUN=False — not re-simulating.")
 
@@ -380,12 +380,12 @@ def _save_viz(study, slug, html):
 
 
 # vent-cross-section
-_save_viz('og-00-vent-reactor-baseline', 'vent-cross-section', _render_one('local:VentCrossSection', {'composite': 'viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor', 'n_steps': 60, 'title': 'Campaign 0 — real 2-D vent cross-section (FiPy)'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor if 'ov_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor' in dir() else None)))
+_save_viz('og-00-vent-reactor-baseline', 'vent-cross-section', _render_one('local:VentCrossSection', {'composite': 'viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor', 'n_steps': 60, 'title': 'Real 2-D vent cross-section (FiPy)'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor if 'ov_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor' in dir() else None)))
 
 # **vent-reactor-timeseries**
 
 # vent-reactor-timeseries
-_save_viz('og-00-vent-reactor-baseline', 'vent-reactor-timeseries', _render_one('local:VentReactorTimeseries', {'composite': 'viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor', 'n_steps': 120, 'title': 'Campaign 0 — real vent reactor (PHREEQC + FiPy)'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor if 'ov_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor' in dir() else None)))
+_save_viz('og-00-vent-reactor-baseline', 'vent-reactor-timeseries', _render_one('local:VentReactorTimeseries', {'composite': 'viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor', 'n_steps': 120, 'title': 'Real vent reactor (PHREEQC + FiPy)'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor if 'ov_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor' in dir() else None)))
 
 # ### Acceptance criteria
 #
@@ -405,7 +405,7 @@ _save_viz('og-00-vent-reactor-baseline', 'vent-reactor-timeseries', _render_one(
 # | --- | --- | --- | --- |
 # | Lost City ~40-91 C, pH ~9-10.8, >=30 ky activity | outlet T,pH; run duration | Kelley 2001 / Fruh-Green 2003 / Ludwig 2006 | Met by the real coupled model: settled T ~51 C and pH ~9.4 are both in the Lost City window, H2 reducing power is sustained, and mass/charge/flux conservation hold. pH was closed by reacting peridotite (olivine + pyroxene) so the Ca-OH endmember buffers the fluid to field pH — a real PHREEQC result. |
 
-# ## Study: Geology to reduced carbon (Campaign I) (`og-01-geology-to-reduced-carbon`)
+# ## Study: The First Carbon (`og-01-geology-to-reduced-carbon`)
 #
 # **Question.** Which combinations of T, pH, pressure, H2, CO2 and mineralogy generate sustained net organic-carbon flux across the interface — reproducing Hudson/Preiner/Altair regimes before any extrapolation?
 #
@@ -439,7 +439,7 @@ _save_viz('og-00-vent-reactor-baseline', 'vent-reactor-timeseries', _render_one(
 #
 # | simulation | composite | steps | params |
 # | --- | --- | --- | --- |
-# | `Geology to reduced carbon (Campaign I) — favorable` | `viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation` | 0 | — |
+# | `Geology to reduced carbon — favorable` | `viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation` | 0 | — |
 # | `Tutolo-2026 in-situ (unfavorable arm)` | `viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation` | 0 | gradient_efficiency=0.1 |
 #
 # Declared parameter sets (`study.yaml` variants):
@@ -514,8 +514,8 @@ RUNS_DB = str(STUDY_DIR / "runs.db")
 # This study has no *recorded* runs yet. RERUN builds its declared
 # composite(s) live and runs them; a composite whose module processes
 # are not implemented yet reports the error instead of crashing.
-STEPS_Geology_to_reduced_carbon_Campaign_I_favorable = 100
-INTERVAL_Geology_to_reduced_carbon_Campaign_I_favorable = 1.0
+STEPS_Geology_to_reduced_carbon_favorable = 100
+INTERVAL_Geology_to_reduced_carbon_favorable = 1.0
 STEPS_Tutolo_2026_in_situ_unfavorable_arm = 100
 INTERVAL_Tutolo_2026_in_situ_unfavorable_arm = 1.0
 
@@ -526,10 +526,10 @@ if RERUN:
             _ov = ov_viva_genesis_composites_carbon_fixation_hydrothermal_carbon_fixation if 'ov_viva_genesis_composites_carbon_fixation_hydrothermal_carbon_fixation' in dir() else None  # edits from the panel cell, if any
             spec_viva_genesis_composites_carbon_fixation_hydrothermal_carbon_fixation = materialize_composite('viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation', _ov)
             _comp = Composite({'state': spec_viva_genesis_composites_carbon_fixation_hydrothermal_carbon_fixation['state']}, core=core)
-            _comp.run(STEPS_Geology_to_reduced_carbon_Campaign_I_favorable)
-        print('ran', 'Geology to reduced carbon (Campaign I) — favorable', f'(viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation) for', STEPS_Geology_to_reduced_carbon_Campaign_I_favorable, 'steps')
+            _comp.run(STEPS_Geology_to_reduced_carbon_favorable)
+        print('ran', 'Geology to reduced carbon — favorable', f'(viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation) for', STEPS_Geology_to_reduced_carbon_favorable, 'steps')
     except Exception as _e:
-        print(f"Geology to reduced carbon (Campaign I) — favorable not runnable yet: {type(_e).__name__}: {_e}")
+        print(f"Geology to reduced carbon — favorable not runnable yet: {type(_e).__name__}: {_e}")
     try:
         with quiet():  # keep per-step stdout out of the notebook
             _ov = ov_viva_genesis_composites_carbon_fixation_hydrothermal_carbon_fixation if 'ov_viva_genesis_composites_carbon_fixation_hydrothermal_carbon_fixation' in dir() else None  # edits from the panel cell, if any
@@ -549,17 +549,17 @@ else:
 # **proton-gradient-profile**
 
 # proton-gradient-profile
-_save_viz('og-01-geology-to-reduced-carbon', 'proton-gradient-profile', _render_one('local:ProtonGradientProfile', {'composite': 'viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation', 'n_steps': 80, 'title': 'Campaign I — proton gradient → reduced carbon'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_carbon_fixation_hydrothermal_carbon_fixation if 'ov_viva_genesis_composites_carbon_fixation_hydrothermal_carbon_fixation' in dir() else None)))
+_save_viz('og-01-geology-to-reduced-carbon', 'proton-gradient-profile', _render_one('local:ProtonGradientProfile', {'composite': 'viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation', 'n_steps': 80, 'title': 'Proton gradient → reduced carbon'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_carbon_fixation_hydrothermal_carbon_fixation if 'ov_viva_genesis_composites_carbon_fixation_hydrothermal_carbon_fixation' in dir() else None)))
 
 # **carbon-fixation-timeseries**
 
 # carbon-fixation-timeseries
-_save_viz('og-01-geology-to-reduced-carbon', 'carbon-fixation-timeseries', _render_one('local:CarbonFixationViz', {'composite': 'viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation', 'n_steps': 120, 'title': 'Campaign I — geology to reduced carbon (eQuilibrator + FiPy)'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_carbon_fixation_hydrothermal_carbon_fixation if 'ov_viva_genesis_composites_carbon_fixation_hydrothermal_carbon_fixation' in dir() else None)))
+_save_viz('og-01-geology-to-reduced-carbon', 'carbon-fixation-timeseries', _render_one('local:CarbonFixationViz', {'composite': 'viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation', 'n_steps': 120, 'title': 'Geology to reduced carbon (eQuilibrator + FiPy)'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_carbon_fixation_hydrothermal_carbon_fixation if 'ov_viva_genesis_composites_carbon_fixation_hydrothermal_carbon_fixation' in dir() else None)))
 
 # **carbon-fixation-phase-map**
 
 # carbon-fixation-phase-map
-_save_viz('og-01-geology-to-reduced-carbon', 'carbon-fixation-phase-map', _render_one('local:CarbonFixationPhaseMap', {'title': 'Campaign I — the carbon-fixation landscape (Decision view)', 'grid_json': 'workspace/studies/og-01-geology-to-reduced-carbon/artifacts/carbon_fixation_phase_grid.json'}, RUNS_DB, STUDY_YAML))
+_save_viz('og-01-geology-to-reduced-carbon', 'carbon-fixation-phase-map', _render_one('local:CarbonFixationPhaseMap', {'title': 'The carbon-fixation landscape (Decision view)', 'grid_json': 'workspace/studies/og-01-geology-to-reduced-carbon/artifacts/carbon_fixation_phase_grid.json'}, RUNS_DB, STUDY_YAML))
 
 # ### Acceptance criteria
 #
@@ -584,7 +584,7 @@ _save_viz('og-01-geology-to-reduced-carbon', 'carbon-fixation-phase-map', _rende
 # | Formate up to ~200 mM, acetate ~100 uM, pyruvate ~10 uM at 100 C | product concentrations by mineral/T/P | Preiner 2020 | Met by the favorable arm — batch formate ~200 mM, acetate ~100 uM, pyruvate ~10 uM (Preiner hierarchy), via real eQuilibrator-gated, lab-calibrated mineral kinetics. |
 # | CO2+H2->formate across pH gradient at room T, ~1.5 bar | formate yield vs delta-pH + controls | Hudson 2020 | Met — formate is present with the pH-gradient proton-motive force and collapses to <1 mM in every control (no gradient / no H2 / no catalyst). |
 
-# ## Study: Reduced carbon to protometabolism (Campaign II) (`og-02-reduced-carbon-to-protometabolism`)
+# ## Study: The First Metabolism (`og-02-reduced-carbon-to-protometabolism`)
 #
 # **Question.** Under continuous feed and washout, do reaction subnetworks become self-reinforcing — persistent cycles, flux amplification, product reuse, autocatalytic motifs — without imposed product accumulation?
 #
@@ -618,7 +618,7 @@ _save_viz('og-01-geology-to-reduced-carbon', 'carbon-fixation-phase-map', _rende
 #
 # | simulation | composite | steps | params |
 # | --- | --- | --- | --- |
-# | `Reduced carbon to protometabolism (Campaign II)` | `viva_genesis.composites.protometabolism.protometabolic_network` | 0 | — |
+# | `Reduced carbon to protometabolism` | `viva_genesis.composites.protometabolism.protometabolic_network` | 0 | — |
 #
 # Declared parameter sets (`study.yaml` variants):
 #
@@ -680,8 +680,8 @@ RUNS_DB = str(STUDY_DIR / "runs.db")
 # This study has no *recorded* runs yet. RERUN builds its declared
 # composite(s) live and runs them; a composite whose module processes
 # are not implemented yet reports the error instead of crashing.
-STEPS_Reduced_carbon_to_protometabolism_Campaign_II = 100
-INTERVAL_Reduced_carbon_to_protometabolism_Campaign_II = 1.0
+STEPS_Reduced_carbon_to_protometabolism = 100
+INTERVAL_Reduced_carbon_to_protometabolism = 1.0
 
 if RERUN:
     from process_bigraph import Composite
@@ -690,10 +690,10 @@ if RERUN:
             _ov = ov_viva_genesis_composites_protometabolism_protometabolic_network if 'ov_viva_genesis_composites_protometabolism_protometabolic_network' in dir() else None  # edits from the panel cell, if any
             spec_viva_genesis_composites_protometabolism_protometabolic_network = materialize_composite('viva_genesis.composites.protometabolism.protometabolic_network', _ov)
             _comp = Composite({'state': spec_viva_genesis_composites_protometabolism_protometabolic_network['state']}, core=core)
-            _comp.run(STEPS_Reduced_carbon_to_protometabolism_Campaign_II)
-        print('ran', 'Reduced carbon to protometabolism (Campaign II)', f'(viva_genesis.composites.protometabolism.protometabolic_network) for', STEPS_Reduced_carbon_to_protometabolism_Campaign_II, 'steps')
+            _comp.run(STEPS_Reduced_carbon_to_protometabolism)
+        print('ran', 'Reduced carbon to protometabolism', f'(viva_genesis.composites.protometabolism.protometabolic_network) for', STEPS_Reduced_carbon_to_protometabolism, 'steps')
     except Exception as _e:
-        print(f"Reduced carbon to protometabolism (Campaign II) not runnable yet: {type(_e).__name__}: {_e}")
+        print(f"Reduced carbon to protometabolism not runnable yet: {type(_e).__name__}: {_e}")
 else:
     print("RERUN=False — not re-simulating.")
 
@@ -704,17 +704,17 @@ else:
 # **protometabolic-network**
 
 # protometabolic-network
-_save_viz('og-02-reduced-carbon-to-protometabolism', 'protometabolic-network', _render_one('local:ProtometabolicNetwork', {'composite': 'viva_genesis.composites.protometabolism.protometabolic_network', 'n_steps': 60, 'title': 'Campaign II — the protometabolic network igniting'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_protometabolism_protometabolic_network if 'ov_viva_genesis_composites_protometabolism_protometabolic_network' in dir() else None)))
+_save_viz('og-02-reduced-carbon-to-protometabolism', 'protometabolic-network', _render_one('local:ProtometabolicNetwork', {'composite': 'viva_genesis.composites.protometabolism.protometabolic_network', 'n_steps': 60, 'title': 'The protometabolic network igniting'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_protometabolism_protometabolic_network if 'ov_viva_genesis_composites_protometabolism_protometabolic_network' in dir() else None)))
 
 # **protometabolism-network**
 
 # protometabolism-network
-_save_viz('og-02-reduced-carbon-to-protometabolism', 'protometabolism-network', _render_one('local:ProtometabolismViz', {'composite': 'viva_genesis.composites.protometabolism.protometabolic_network', 'n_steps': 120, 'title': 'Campaign II — protometabolic network (libRoadRunner)'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_protometabolism_protometabolic_network if 'ov_viva_genesis_composites_protometabolism_protometabolic_network' in dir() else None)))
+_save_viz('og-02-reduced-carbon-to-protometabolism', 'protometabolism-network', _render_one('local:ProtometabolismViz', {'composite': 'viva_genesis.composites.protometabolism.protometabolic_network', 'n_steps': 120, 'title': 'Protometabolic network (libRoadRunner)'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_protometabolism_protometabolic_network if 'ov_viva_genesis_composites_protometabolism_protometabolic_network' in dir() else None)))
 
 # **protometabolism-gain-phase-map**
 
 # protometabolism-gain-phase-map
-_save_viz('og-02-reduced-carbon-to-protometabolism', 'protometabolism-gain-phase-map', _render_one('local:ProtometabolismGainPhaseMap', {'title': 'Campaign II — the protometabolic ignition landscape (Decision view)', 'grid_json': 'workspace/studies/og-02-reduced-carbon-to-protometabolism/artifacts/protometabolism_gain_grid.json'}, RUNS_DB, STUDY_YAML))
+_save_viz('og-02-reduced-carbon-to-protometabolism', 'protometabolism-gain-phase-map', _render_one('local:ProtometabolismGainPhaseMap', {'title': 'The protometabolic ignition landscape (Decision view)', 'grid_json': 'workspace/studies/og-02-reduced-carbon-to-protometabolism/artifacts/protometabolism_gain_grid.json'}, RUNS_DB, STUDY_YAML))
 
 # ### Acceptance criteria
 #
@@ -732,7 +732,7 @@ _save_viz('og-02-reduced-carbon-to-protometabolism', 'protometabolism-gain-phase
 # | --- | --- | --- | --- |
 # | Fe2+ promotes 9/11 TCA intermediates + 5 universal precursors from pyruvate/glyoxylate | edge yields + network reachability | Muchowska 2019 | Not yet measurable — module processes not built |
 
-# ## Study: Dilution to localized individuals (Campaign III) (`og-03-dilution-to-localized-individuals`)
+# ## Study: The First Individual (`og-03-dilution-to-localized-individuals`)
 #
 # **Question.** When do retention time and concentration cross the thresholds for network persistence, as pore morphology evolves via precipitation/dissolution?
 #
@@ -766,7 +766,7 @@ _save_viz('og-02-reduced-carbon-to-protometabolism', 'protometabolism-gain-phase
 #
 # | simulation | composite | steps | params |
 # | --- | --- | --- | --- |
-# | `Dilution to localized individuals (Campaign III)` | `viva_genesis.composites.thermophoretic_concentration.thermophoretic_concentration` | 0 | flow_velocity=0.0001, porosity=0.3, pore_length=0.005, delta_T=30.0 |
+# | `Dilution to localized individuals` | `viva_genesis.composites.thermophoretic_concentration.thermophoretic_concentration` | 0 | flow_velocity=0.0001, porosity=0.3, pore_length=0.005, delta_T=30.0 |
 
 # ### The model & its parameters
 #
@@ -823,8 +823,8 @@ RUNS_DB = str(STUDY_DIR / "runs.db")
 # This study has no *recorded* runs yet. RERUN builds its declared
 # composite(s) live and runs them; a composite whose module processes
 # are not implemented yet reports the error instead of crashing.
-STEPS_Dilution_to_localized_individuals_Campaign_III = 100
-INTERVAL_Dilution_to_localized_individuals_Campaign_III = 1.0
+STEPS_Dilution_to_localized_individuals = 100
+INTERVAL_Dilution_to_localized_individuals = 1.0
 
 if RERUN:
     from process_bigraph import Composite
@@ -833,10 +833,10 @@ if RERUN:
             _ov = ov_viva_genesis_composites_thermophoretic_concentration_thermophoretic_concentration if 'ov_viva_genesis_composites_thermophoretic_concentration_thermophoretic_concentration' in dir() else None  # edits from the panel cell, if any
             spec_viva_genesis_composites_thermophoretic_concentration_thermophoretic_concentration = materialize_composite('viva_genesis.composites.thermophoretic_concentration.thermophoretic_concentration', _ov)
             _comp = Composite({'state': spec_viva_genesis_composites_thermophoretic_concentration_thermophoretic_concentration['state']}, core=core)
-            _comp.run(STEPS_Dilution_to_localized_individuals_Campaign_III)
-        print('ran', 'Dilution to localized individuals (Campaign III)', f'(viva_genesis.composites.thermophoretic_concentration.thermophoretic_concentration) for', STEPS_Dilution_to_localized_individuals_Campaign_III, 'steps')
+            _comp.run(STEPS_Dilution_to_localized_individuals)
+        print('ran', 'Dilution to localized individuals', f'(viva_genesis.composites.thermophoretic_concentration.thermophoretic_concentration) for', STEPS_Dilution_to_localized_individuals, 'steps')
     except Exception as _e:
-        print(f"Dilution to localized individuals (Campaign III) not runnable yet: {type(_e).__name__}: {_e}")
+        print(f"Dilution to localized individuals not runnable yet: {type(_e).__name__}: {_e}")
 else:
     print("RERUN=False — not re-simulating.")
 
@@ -847,12 +847,12 @@ else:
 # **thermophoretic-trap**
 
 # thermophoretic-trap
-_save_viz('og-03-dilution-to-localized-individuals', 'thermophoretic-trap', _render_one('local:ThermophoreticTrapViz', {'composite': 'viva_genesis.composites.thermophoretic_concentration.thermophoretic_concentration', 'title': 'Campaign III — the thermal trap concentrates an individual'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_thermophoretic_concentration_thermophoretic_concentration if 'ov_viva_genesis_composites_thermophoretic_concentration_thermophoretic_concentration' in dir() else None)))
+_save_viz('og-03-dilution-to-localized-individuals', 'thermophoretic-trap', _render_one('local:ThermophoreticTrapViz', {'composite': 'viva_genesis.composites.thermophoretic_concentration.thermophoretic_concentration', 'title': 'The thermal trap concentrates an individual'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_thermophoretic_concentration_thermophoretic_concentration if 'ov_viva_genesis_composites_thermophoretic_concentration_thermophoretic_concentration' in dir() else None)))
 
 # **pore-ignition-coupling**
 
 # pore-ignition-coupling
-_save_viz('og-03-dilution-to-localized-individuals', 'pore-ignition-coupling', _render_one('local:PoreIgnitionCoupling', {'title': 'Campaign III — localization makes the individual (Decision view)', 'grid_json': 'workspace/studies/og-02-reduced-carbon-to-protometabolism/artifacts/protometabolism_gain_grid.json'}, RUNS_DB, STUDY_YAML))
+_save_viz('og-03-dilution-to-localized-individuals', 'pore-ignition-coupling', _render_one('local:PoreIgnitionCoupling', {'title': 'Localization makes the individual (Decision view)', 'grid_json': 'workspace/studies/og-02-reduced-carbon-to-protometabolism/artifacts/protometabolism_gain_grid.json'}, RUNS_DB, STUDY_YAML))
 
 # ### Acceptance criteria
 #
@@ -872,7 +872,7 @@ _save_viz('og-03-dilution-to-localized-individuals', 'pore-ignition-coupling', _
 # | --- | --- | --- | --- |
 # | >10^8-fold nucleotide accumulation in favorable modeled pore geometries | enrichment vs geometry | Baaske 2007 | Not yet measurable — module processes not built |
 
-# ## Study: Mineral compartments to protocells (Campaign IV) (`og-04-mineral-compartments-to-protocells`)
+# ## Study: The First Boundary (`og-04-mineral-compartments-to-protocells`)
 #
 # **Question.** Do mixed-amphiphile organic boundaries enhance persistence without cutting the system off from geochemical energy?
 #
@@ -904,7 +904,7 @@ _save_viz('og-03-dilution-to-localized-individuals', 'pore-ignition-coupling', _
 #
 # | simulation | composite | steps | params |
 # | --- | --- | --- | --- |
-# | `Mineral compartments to protocells (Campaign IV)` | `viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell` | 0 | mix_fraction=0.4, pH=9.0, ionic_strength=0.35, temperature=318.15 |
+# | `Mineral compartments to protocells` | `viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell` | 0 | mix_fraction=0.4, pH=9.0, ionic_strength=0.35, temperature=318.15 |
 
 # ### The model & its parameters
 #
@@ -963,8 +963,8 @@ RUNS_DB = str(STUDY_DIR / "runs.db")
 # This study has no *recorded* runs yet. RERUN builds its declared
 # composite(s) live and runs them; a composite whose module processes
 # are not implemented yet reports the error instead of crashing.
-STEPS_Mineral_compartments_to_protocells_Campaign_IV = 100
-INTERVAL_Mineral_compartments_to_protocells_Campaign_IV = 1.0
+STEPS_Mineral_compartments_to_protocells = 100
+INTERVAL_Mineral_compartments_to_protocells = 1.0
 
 if RERUN:
     from process_bigraph import Composite
@@ -973,10 +973,10 @@ if RERUN:
             _ov = ov_viva_genesis_composites_mixed_amphiphile_protocell_mixed_amphiphile_protocell if 'ov_viva_genesis_composites_mixed_amphiphile_protocell_mixed_amphiphile_protocell' in dir() else None  # edits from the panel cell, if any
             spec_viva_genesis_composites_mixed_amphiphile_protocell_mixed_amphiphile_protocell = materialize_composite('viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell', _ov)
             _comp = Composite({'state': spec_viva_genesis_composites_mixed_amphiphile_protocell_mixed_amphiphile_protocell['state']}, core=core)
-            _comp.run(STEPS_Mineral_compartments_to_protocells_Campaign_IV)
-        print('ran', 'Mineral compartments to protocells (Campaign IV)', f'(viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell) for', STEPS_Mineral_compartments_to_protocells_Campaign_IV, 'steps')
+            _comp.run(STEPS_Mineral_compartments_to_protocells)
+        print('ran', 'Mineral compartments to protocells', f'(viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell) for', STEPS_Mineral_compartments_to_protocells, 'steps')
     except Exception as _e:
-        print(f"Mineral compartments to protocells (Campaign IV) not runnable yet: {type(_e).__name__}: {_e}")
+        print(f"Mineral compartments to protocells not runnable yet: {type(_e).__name__}: {_e}")
 else:
     print("RERUN=False — not re-simulating.")
 
@@ -987,12 +987,12 @@ else:
 # **protocell-window**
 
 # protocell-window
-_save_viz('og-04-mineral-compartments-to-protocells', 'protocell-window', _render_one('local:ProtocellWindowViz', {'composite': 'viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell', 'title': 'Campaign IV — the protocell window broadens (mixed amphiphiles)'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_mixed_amphiphile_protocell_mixed_amphiphile_protocell if 'ov_viva_genesis_composites_mixed_amphiphile_protocell_mixed_amphiphile_protocell' in dir() else None)))
+_save_viz('og-04-mineral-compartments-to-protocells', 'protocell-window', _render_one('local:ProtocellWindowViz', {'composite': 'viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell', 'title': 'The protocell window broadens (mixed amphiphiles)'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_mixed_amphiphile_protocell_mixed_amphiphile_protocell if 'ov_viva_genesis_composites_mixed_amphiphile_protocell_mixed_amphiphile_protocell' in dir() else None)))
 
 # **protocell-retention-access**
 
 # protocell-retention-access
-_save_viz('og-04-mineral-compartments-to-protocells', 'protocell-retention-access', _render_one('local:ProtocellPhaseMap', {'title': 'Campaign IV — a boundary that retains without isolating (Decision view)'}, RUNS_DB, STUDY_YAML))
+_save_viz('og-04-mineral-compartments-to-protocells', 'protocell-retention-access', _render_one('local:ProtocellPhaseMap', {'title': 'A boundary that retains without isolating (Decision view)'}, RUNS_DB, STUDY_YAML))
 
 # ### Acceptance criteria
 #
@@ -1011,7 +1011,7 @@ _save_viz('og-04-mineral-compartments-to-protocells', 'protocell-retention-acces
 # | --- | --- | --- | --- |
 # | Mixed single-chain amphiphiles form vesicles across broader alkaline pH/salinity/divalent/T than single-fatty-acid models | vesicle stability map | Jordan 2019 | Not yet measurable — module processes not built |
 
-# ## Study: Environmental to internal bioenergetics (Campaign V) (`og-05-environmental-to-internal-bioenergetics`)
+# ## Study: Owning Its Energy (`og-05-environmental-to-internal-bioenergetics`)
 #
 # **Question.** Can selection move from externally imposed gradients toward internally maintained electrochemical states (catalytic ion transport then pumping)?
 #
@@ -1043,7 +1043,7 @@ _save_viz('og-04-mineral-compartments-to-protocells', 'protocell-retention-acces
 #
 # | simulation | composite | steps | params |
 # | --- | --- | --- | --- |
-# | `Environmental to internal bioenergetics (Campaign V)` | `viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization` | 0 | catalyst_efficiency=1.0, v_start=0.4, decline_rate=0.01 |
+# | `Environmental to internal bioenergetics` | `viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization` | 0 | catalyst_efficiency=1.0, v_start=0.4, decline_rate=0.01 |
 
 # ### The model & its parameters
 #
@@ -1101,8 +1101,8 @@ RUNS_DB = str(STUDY_DIR / "runs.db")
 # This study has no *recorded* runs yet. RERUN builds its declared
 # composite(s) live and runs them; a composite whose module processes
 # are not implemented yet reports the error instead of crashing.
-STEPS_Environmental_to_internal_bioenergetics_Campaign_V = 100
-INTERVAL_Environmental_to_internal_bioenergetics_Campaign_V = 1.0
+STEPS_Environmental_to_internal_bioenergetics = 100
+INTERVAL_Environmental_to_internal_bioenergetics = 1.0
 
 if RERUN:
     from process_bigraph import Composite
@@ -1111,10 +1111,10 @@ if RERUN:
             _ov = ov_viva_genesis_composites_bioenergetic_internalization_bioenergetic_internalization if 'ov_viva_genesis_composites_bioenergetic_internalization_bioenergetic_internalization' in dir() else None  # edits from the panel cell, if any
             spec_viva_genesis_composites_bioenergetic_internalization_bioenergetic_internalization = materialize_composite('viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization', _ov)
             _comp = Composite({'state': spec_viva_genesis_composites_bioenergetic_internalization_bioenergetic_internalization['state']}, core=core)
-            _comp.run(STEPS_Environmental_to_internal_bioenergetics_Campaign_V)
-        print('ran', 'Environmental to internal bioenergetics (Campaign V)', f'(viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization) for', STEPS_Environmental_to_internal_bioenergetics_Campaign_V, 'steps')
+            _comp.run(STEPS_Environmental_to_internal_bioenergetics)
+        print('ran', 'Environmental to internal bioenergetics', f'(viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization) for', STEPS_Environmental_to_internal_bioenergetics, 'steps')
     except Exception as _e:
-        print(f"Environmental to internal bioenergetics (Campaign V) not runnable yet: {type(_e).__name__}: {_e}")
+        print(f"Environmental to internal bioenergetics not runnable yet: {type(_e).__name__}: {_e}")
 else:
     print("RERUN=False — not re-simulating.")
 
@@ -1125,12 +1125,12 @@ else:
 # **bioenergetic-internalization**
 
 # bioenergetic-internalization
-_save_viz('og-05-environmental-to-internal-bioenergetics', 'bioenergetic-internalization', _render_one('local:BioenergeticInternalizationViz', {'composite': 'viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization', 'title': 'Campaign V — selection internalizes the gradient'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_bioenergetic_internalization_bioenergetic_internalization if 'ov_viva_genesis_composites_bioenergetic_internalization_bioenergetic_internalization' in dir() else None)))
+_save_viz('og-05-environmental-to-internal-bioenergetics', 'bioenergetic-internalization', _render_one('local:BioenergeticInternalizationViz', {'composite': 'viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization', 'title': 'Selection internalizes the gradient'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_bioenergetic_internalization_bioenergetic_internalization if 'ov_viva_genesis_composites_bioenergetic_internalization_bioenergetic_internalization' in dir() else None)))
 
 # **bioenergetic-provenance**
 
 # bioenergetic-provenance
-_save_viz('og-05-environmental-to-internal-bioenergetics', 'bioenergetic-provenance', _render_one('local:BioenergeticProvenanceViz', {'title': 'Campaign V — the organism begins to own its energy (Decision view)'}, RUNS_DB, STUDY_YAML))
+_save_viz('og-05-environmental-to-internal-bioenergetics', 'bioenergetic-provenance', _render_one('local:BioenergeticProvenanceViz', {'title': 'The organism begins to own its energy (Decision view)'}, RUNS_DB, STUDY_YAML))
 
 # ### Acceptance criteria
 #
@@ -1149,7 +1149,7 @@ _save_viz('og-05-environmental-to-internal-bioenergetics', 'bioenergetic-provena
 # | --- | --- | --- | --- |
 # | LUCA-like cells can use proton gradients only if membranes remain sufficiently leaky | permeability vs viability | Sojo 2014 / Lane 2012 | Not yet measurable — module processes not built |
 
-# ## Study: Chemistry to heredity (Campaign VI) (`og-06-chemistry-to-heredity`)
+# ## Study: The First Heredity (`og-06-chemistry-to-heredity`)
 #
 # **Question.** Does inherited state improve persistence/throughput — comparing RNA-like, peptide-assisted, compositional and hybrid heredity — rather than template replication in isolation? (Do NOT presume RNA.)
 #
@@ -1182,7 +1182,7 @@ _save_viz('og-05-environmental-to-internal-bioenergetics', 'bioenergetic-provena
 #
 # | simulation | composite | steps | params |
 # | --- | --- | --- | --- |
-# | `Chemistry to heredity (Campaign VI)` | `viva_genesis.composites.heredity_module_comparison.heredity_module_comparison` | 0 | module=rna-like, temperature=353.15 |
+# | `Chemistry to heredity` | `viva_genesis.composites.heredity_module_comparison.heredity_module_comparison` | 0 | module=rna-like, temperature=353.15 |
 
 # ### The model & its parameters
 #
@@ -1237,8 +1237,8 @@ RUNS_DB = str(STUDY_DIR / "runs.db")
 # This study has no *recorded* runs yet. RERUN builds its declared
 # composite(s) live and runs them; a composite whose module processes
 # are not implemented yet reports the error instead of crashing.
-STEPS_Chemistry_to_heredity_Campaign_VI = 100
-INTERVAL_Chemistry_to_heredity_Campaign_VI = 1.0
+STEPS_Chemistry_to_heredity = 100
+INTERVAL_Chemistry_to_heredity = 1.0
 
 if RERUN:
     from process_bigraph import Composite
@@ -1247,10 +1247,10 @@ if RERUN:
             _ov = ov_viva_genesis_composites_heredity_module_comparison_heredity_module_comparison if 'ov_viva_genesis_composites_heredity_module_comparison_heredity_module_comparison' in dir() else None  # edits from the panel cell, if any
             spec_viva_genesis_composites_heredity_module_comparison_heredity_module_comparison = materialize_composite('viva_genesis.composites.heredity_module_comparison.heredity_module_comparison', _ov)
             _comp = Composite({'state': spec_viva_genesis_composites_heredity_module_comparison_heredity_module_comparison['state']}, core=core)
-            _comp.run(STEPS_Chemistry_to_heredity_Campaign_VI)
-        print('ran', 'Chemistry to heredity (Campaign VI)', f'(viva_genesis.composites.heredity_module_comparison.heredity_module_comparison) for', STEPS_Chemistry_to_heredity_Campaign_VI, 'steps')
+            _comp.run(STEPS_Chemistry_to_heredity)
+        print('ran', 'Chemistry to heredity', f'(viva_genesis.composites.heredity_module_comparison.heredity_module_comparison) for', STEPS_Chemistry_to_heredity, 'steps')
     except Exception as _e:
-        print(f"Chemistry to heredity (Campaign VI) not runnable yet: {type(_e).__name__}: {_e}")
+        print(f"Chemistry to heredity not runnable yet: {type(_e).__name__}: {_e}")
 else:
     print("RERUN=False — not re-simulating.")
 
@@ -1261,12 +1261,12 @@ else:
 # **heredity-lineage-tree**
 
 # heredity-lineage-tree
-_save_viz('og-06-chemistry-to-heredity', 'heredity-lineage-tree', _render_one('local:HeredityLineageTree', {'composite': 'viva_genesis.composites.heredity_lineage.heredity_lineage_comparison', 'grid_json': 'workspace/studies/og-06-chemistry-to-heredity/artifacts/heredity_error_threshold_grid.json', 'title': 'Campaign VI — heredity as an inherited lineage'}, RUNS_DB, STUDY_YAML))
+_save_viz('og-06-chemistry-to-heredity', 'heredity-lineage-tree', _render_one('local:HeredityLineageTree', {'composite': 'viva_genesis.composites.heredity_lineage.heredity_lineage_comparison', 'grid_json': 'workspace/studies/og-06-chemistry-to-heredity/artifacts/heredity_error_threshold_grid.json', 'title': 'Heredity as an inherited lineage'}, RUNS_DB, STUDY_YAML))
 
 # **heredity-error-threshold**
 
 # heredity-error-threshold
-_save_viz('og-06-chemistry-to-heredity', 'heredity-error-threshold', _render_one('local:HeredityErrorThresholdViz', {'composite': 'viva_genesis.composites.heredity_module_comparison.heredity_module_comparison', 'title': 'Campaign VI — heredity above the error threshold'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_heredity_module_comparison_heredity_module_comparison if 'ov_viva_genesis_composites_heredity_module_comparison_heredity_module_comparison' in dir() else None)))
+_save_viz('og-06-chemistry-to-heredity', 'heredity-error-threshold', _render_one('local:HeredityErrorThresholdViz', {'composite': 'viva_genesis.composites.heredity_module_comparison.heredity_module_comparison', 'title': 'Heredity above the error threshold'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_heredity_module_comparison_heredity_module_comparison if 'ov_viva_genesis_composites_heredity_module_comparison_heredity_module_comparison' in dir() else None)))
 
 # ### Acceptance criteria
 #
@@ -1287,7 +1287,7 @@ _save_viz('og-06-chemistry-to-heredity', 'heredity-error-threshold', _render_one
 # | --- | --- | --- | --- |
 # | Mineral/CO-driven peptide formation at 100 C, pH 7-10 | peptide formation rate/conditions | Huber & Wachtershauser 1998 | Not yet measurable — module processes not built |
 
-# ## Study: Ecology before LUCA (Campaign VII) (`og-07-ecology-before-luca`)
+# ## Study: Ecology Before LUCA (`og-07-ecology-before-luca`)
 #
 # **Question.** In connected pore networks with cross-feeding, parasitism, cooperation and horizontal exchange, what emergent capabilities arise — compared to ancestral reconstructions, without assuming LUCA is primitive?
 #
@@ -1321,7 +1321,7 @@ _save_viz('og-06-chemistry-to-heredity', 'heredity-error-threshold', _render_one
 #
 # | simulation | composite | steps | params |
 # | --- | --- | --- | --- |
-# | `Ecology before LUCA (Campaign VII)` | `viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity` | 0 | n_compartments=8, exchange_rate=0.3, diversity=0.75, hgt_rate=0.1, seed=1 |
+# | `Ecology before LUCA` | `viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity` | 0 | n_compartments=8, exchange_rate=0.3, diversity=0.75, hgt_rate=0.1, seed=1 |
 
 # ### The model & its parameters
 #
@@ -1380,8 +1380,8 @@ RUNS_DB = str(STUDY_DIR / "runs.db")
 # This study has no *recorded* runs yet. RERUN builds its declared
 # composite(s) live and runs them; a composite whose module processes
 # are not implemented yet reports the error instead of crashing.
-STEPS_Ecology_before_LUCA_Campaign_VII = 100
-INTERVAL_Ecology_before_LUCA_Campaign_VII = 1.0
+STEPS_Ecology_before_LUCA = 100
+INTERVAL_Ecology_before_LUCA = 1.0
 
 if RERUN:
     from process_bigraph import Composite
@@ -1390,10 +1390,10 @@ if RERUN:
             _ov = ov_viva_genesis_composites_cross_feeding_metacommunity_cross_feeding_metacommunity if 'ov_viva_genesis_composites_cross_feeding_metacommunity_cross_feeding_metacommunity' in dir() else None  # edits from the panel cell, if any
             spec_viva_genesis_composites_cross_feeding_metacommunity_cross_feeding_metacommunity = materialize_composite('viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity', _ov)
             _comp = Composite({'state': spec_viva_genesis_composites_cross_feeding_metacommunity_cross_feeding_metacommunity['state']}, core=core)
-            _comp.run(STEPS_Ecology_before_LUCA_Campaign_VII)
-        print('ran', 'Ecology before LUCA (Campaign VII)', f'(viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity) for', STEPS_Ecology_before_LUCA_Campaign_VII, 'steps')
+            _comp.run(STEPS_Ecology_before_LUCA)
+        print('ran', 'Ecology before LUCA', f'(viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity) for', STEPS_Ecology_before_LUCA, 'steps')
     except Exception as _e:
-        print(f"Ecology before LUCA (Campaign VII) not runnable yet: {type(_e).__name__}: {_e}")
+        print(f"Ecology before LUCA not runnable yet: {type(_e).__name__}: {_e}")
 else:
     print("RERUN=False — not re-simulating.")
 
@@ -1404,7 +1404,7 @@ else:
 # **metacommunity-phase-map**
 
 # metacommunity-phase-map
-_save_viz('og-07-ecology-before-luca', 'metacommunity-phase-map', _render_one('local:MetacommunityPhaseMap', {'composite': 'viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity', 'grid_json': 'workspace/studies/og-07-ecology-before-luca/artifacts/metacommunity_robustness_grid.json', 'title': 'Campaign VII — where cross-feeding robustness emerges'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_cross_feeding_metacommunity_cross_feeding_metacommunity if 'ov_viva_genesis_composites_cross_feeding_metacommunity_cross_feeding_metacommunity' in dir() else None)))
+_save_viz('og-07-ecology-before-luca', 'metacommunity-phase-map', _render_one('local:MetacommunityPhaseMap', {'composite': 'viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity', 'grid_json': 'workspace/studies/og-07-ecology-before-luca/artifacts/metacommunity_robustness_grid.json', 'title': 'Where cross-feeding robustness emerges'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_cross_feeding_metacommunity_cross_feeding_metacommunity if 'ov_viva_genesis_composites_cross_feeding_metacommunity_cross_feeding_metacommunity' in dir() else None)))
 
 # ### Acceptance criteria
 #
@@ -1422,7 +1422,7 @@ _save_viz('og-07-ecology-before-luca', 'metacommunity-phase-map', _render_one('l
 # | --- | --- | --- | --- |
 # | LUCA: anaerobic, H2-dependent, CO2-fixing, FeS-rich (355 protein families) | emergent capability overlap | Weiss 2016 / Moody 2024 | Measured — collective repertoire overlaps the anaerobic LUCA core at ~0.6-0.7 (reported boundary) |
 
-# ## Study: Escape from the vent (Campaign VIII) (`og-08-escape-from-the-vent`)
+# ## Study: Escape From the Vent (`og-08-escape-from-the-vent`)
 #
 # **Question.** What is the minimum set of innovations required for autonomous persistence away from the geological reactor, as environmental support is relaxed?
 #
@@ -1455,7 +1455,7 @@ _save_viz('og-07-ecology-before-luca', 'metacommunity-phase-map', _render_one('l
 #
 # | simulation | composite | steps | params |
 # | --- | --- | --- | --- |
-# | `Escape from the vent (Campaign VIII)` | `viva_genesis.composites.off_gradient_persistence.off_gradient_persistence` | 0 | — |
+# | `Escape from the vent` | `viva_genesis.composites.off_gradient_persistence.off_gradient_persistence` | 0 | — |
 
 # ### The model & its parameters
 #
@@ -1516,8 +1516,8 @@ RUNS_DB = str(STUDY_DIR / "runs.db")
 # This study has no *recorded* runs yet. RERUN builds its declared
 # composite(s) live and runs them; a composite whose module processes
 # are not implemented yet reports the error instead of crashing.
-STEPS_Escape_from_the_vent_Campaign_VIII = 100
-INTERVAL_Escape_from_the_vent_Campaign_VIII = 1.0
+STEPS_Escape_from_the_vent = 100
+INTERVAL_Escape_from_the_vent = 1.0
 
 if RERUN:
     from process_bigraph import Composite
@@ -1526,10 +1526,10 @@ if RERUN:
             _ov = ov_viva_genesis_composites_off_gradient_persistence_off_gradient_persistence if 'ov_viva_genesis_composites_off_gradient_persistence_off_gradient_persistence' in dir() else None  # edits from the panel cell, if any
             spec_viva_genesis_composites_off_gradient_persistence_off_gradient_persistence = materialize_composite('viva_genesis.composites.off_gradient_persistence.off_gradient_persistence', _ov)
             _comp = Composite({'state': spec_viva_genesis_composites_off_gradient_persistence_off_gradient_persistence['state']}, core=core)
-            _comp.run(STEPS_Escape_from_the_vent_Campaign_VIII)
-        print('ran', 'Escape from the vent (Campaign VIII)', f'(viva_genesis.composites.off_gradient_persistence.off_gradient_persistence) for', STEPS_Escape_from_the_vent_Campaign_VIII, 'steps')
+            _comp.run(STEPS_Escape_from_the_vent)
+        print('ran', 'Escape from the vent', f'(viva_genesis.composites.off_gradient_persistence.off_gradient_persistence) for', STEPS_Escape_from_the_vent, 'steps')
     except Exception as _e:
-        print(f"Escape from the vent (Campaign VIII) not runnable yet: {type(_e).__name__}: {_e}")
+        print(f"Escape from the vent not runnable yet: {type(_e).__name__}: {_e}")
 else:
     print("RERUN=False — not re-simulating.")
 
@@ -1540,7 +1540,7 @@ else:
 # **off-gradient-survival-frontier**
 
 # off-gradient-survival-frontier
-_save_viz('og-08-escape-from-the-vent', 'off-gradient-survival-frontier', _render_one('local:OffGradientPhaseMap', {'composite': 'viva_genesis.composites.off_gradient_persistence.off_gradient_persistence', 'grid_json': 'workspace/studies/og-08-escape-from-the-vent/artifacts/off_gradient_grid.json', 'title': 'Campaign VIII — the survival frontier off the gradient'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_off_gradient_persistence_off_gradient_persistence if 'ov_viva_genesis_composites_off_gradient_persistence_off_gradient_persistence' in dir() else None)))
+_save_viz('og-08-escape-from-the-vent', 'off-gradient-survival-frontier', _render_one('local:OffGradientPhaseMap', {'composite': 'viva_genesis.composites.off_gradient_persistence.off_gradient_persistence', 'grid_json': 'workspace/studies/og-08-escape-from-the-vent/artifacts/off_gradient_grid.json', 'title': 'The survival frontier off the gradient'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_off_gradient_persistence_off_gradient_persistence if 'ov_viva_genesis_composites_off_gradient_persistence_off_gradient_persistence' in dir() else None)))
 
 # ### Acceptance criteria
 #
@@ -1557,7 +1557,7 @@ _save_viz('og-08-escape-from-the-vent', 'off-gradient-survival-frontier', _rende
 # | --- | --- | --- | --- |
 # | Alkaline-vent origin — the first cells are vent-tied, dependent on the geochemical proton gradient and FeS mineral catalysis; escaping to free-living requires internalising energy generation. | off-gradient persistence vs innovation set | Martin & Russell 2007; Lane & Martin 2012; Sojo et al. 2014 | Reproduced as a coarse-grained co-limited budget — the full innovation set persists off-gradient; each single knockout collapses. |
 
-# ## Study: Adversarial: generic nonequilibrium control (`og-adv-generic-nonequilibrium`)
+# ## Study: The Adversarial Control (`og-adv-generic-nonequilibrium`)
 #
 # **Question.** Does a generic nonequilibrium chemical system with no vent-specific features (no sustained H2, no Fe/Ni/S catalytic interface, no pore concentration) pass the vent-specific gates? It SHOULD NOT.
 #
@@ -1685,7 +1685,7 @@ _save_viz('og-adv-generic-nonequilibrium', 'vent-specificity-map', _render_one('
 # | gates-reject-generic _(primary)_ | kind=observable detail=run og-01/02/03 gates on the generic control; each measured value below its threshold | op controls_absent detail all five gates reject generic (net flux / formate / throughput / Péclet / enrichment below threshold) |
 # | vent-specificity-demonstrated _(primary)_ | kind=observable detail=vent vs generic on identical gates | op arms_reported detail vent passes 5/5 where the control fails 5/5 |
 
-# ## Study: Nitrogen as a limiting resource — reduced-N assimilation (Campaign I, Module I) (`og-res-nitrogen-assimilation`)
+# ## Study: The Nitrogen Bottleneck (`og-res-nitrogen-assimilation`)
 #
 # **Question.** Carbon fixation is not the only requirement for a protocell. Can an FeS-mediated vent reduce the early ocean's oxidised / inert nitrogen (NO3-/NO2-/N2) to ammonium fast enough to keep pace with carbon fixation, and which conditions (FeS activity, nitrate supply, temperature) decide whether nitrogen becomes limiting first?
 #
@@ -1828,17 +1828,17 @@ else:
 # **nitrogen-assimilation-timeseries**
 
 # nitrogen-assimilation-timeseries
-_save_viz('og-res-nitrogen-assimilation', 'nitrogen-assimilation-timeseries', _render_one('local:NitrogenAssimilationViz', {'composite': 'viva_genesis.composites.nitrogen_assimilation.reduced_nitrogen_reactor', 'n_steps': 120, 'title': 'Campaign I — reduced-nitrogen assimilation (World view)'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_nitrogen_assimilation_reduced_nitrogen_reactor if 'ov_viva_genesis_composites_nitrogen_assimilation_reduced_nitrogen_reactor' in dir() else None)))
+_save_viz('og-res-nitrogen-assimilation', 'nitrogen-assimilation-timeseries', _render_one('local:NitrogenAssimilationViz', {'composite': 'viva_genesis.composites.nitrogen_assimilation.reduced_nitrogen_reactor', 'n_steps': 120, 'title': 'Reduced-nitrogen assimilation (World view)'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_nitrogen_assimilation_reduced_nitrogen_reactor if 'ov_viva_genesis_composites_nitrogen_assimilation_reduced_nitrogen_reactor' in dir() else None)))
 
 # **c-to-n-supply-balance**
 
 # c-to-n-supply-balance
-_save_viz('og-res-nitrogen-assimilation', 'c-to-n-supply-balance', _render_one('local:NitrogenCarbonBalanceViz', {'composite': 'viva_genesis.composites.nitrogen_assimilation.reduced_nitrogen_reactor', 'n_steps': 120, 'title': 'Campaign I — does reduced N keep pace with carbon? (Mechanism view)'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_nitrogen_assimilation_reduced_nitrogen_reactor if 'ov_viva_genesis_composites_nitrogen_assimilation_reduced_nitrogen_reactor' in dir() else None)))
+_save_viz('og-res-nitrogen-assimilation', 'c-to-n-supply-balance', _render_one('local:NitrogenCarbonBalanceViz', {'composite': 'viva_genesis.composites.nitrogen_assimilation.reduced_nitrogen_reactor', 'n_steps': 120, 'title': 'Does reduced N keep pace with carbon? (Mechanism view)'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_nitrogen_assimilation_reduced_nitrogen_reactor if 'ov_viva_genesis_composites_nitrogen_assimilation_reduced_nitrogen_reactor' in dir() else None)))
 
 # **nitrogen-assimilation-phase-map**
 
 # nitrogen-assimilation-phase-map
-_save_viz('og-res-nitrogen-assimilation', 'nitrogen-assimilation-phase-map', _render_one('local:NitrogenAssimilationPhaseMap', {'title': 'Campaign I — nitrogen as a limiting resource (Decision view)', 'grid_json': 'workspace/studies/og-res-nitrogen-assimilation/artifacts/nitrogen_assimilation_phase_grid.json'}, RUNS_DB, STUDY_YAML))
+_save_viz('og-res-nitrogen-assimilation', 'nitrogen-assimilation-phase-map', _render_one('local:NitrogenAssimilationPhaseMap', {'title': 'Nitrogen as a limiting resource (Decision view)', 'grid_json': 'workspace/studies/og-res-nitrogen-assimilation/artifacts/nitrogen_assimilation_phase_grid.json'}, RUNS_DB, STUDY_YAML))
 
 # ### Acceptance criteria
 #
@@ -1860,7 +1860,7 @@ _save_viz('og-res-nitrogen-assimilation', 'nitrogen-assimilation-phase-map', _re
 # | Ammonia forms from dinitrogen on iron-sulfide surfaces (low yield, fresh-surface dependent) at ~70-80 C | ammonium production on FeS vs controls | Doerr 2003 | Met qualitatively — the FeS-mediated route produces ammonium only with an active mineral and an H2 reductant; N2 fixation is modelled as a deliberately minor source alongside the dominant nitrate-reduction route. |
 # | Native-metal / mineral catalysis drives reductive prebiotic chemistry toward amino-acid precursors | reduced-N draw into amino-acid precursors | Varma 2018 / Huber 1997 | Met — reductive amination draws ammonium into an amino-acid-precursor pool at a rate set by the carbon-fixation demand (the C:N coupling). |
 
-# ## Study: Phosphorus availability: the phosphorus bottleneck (`og-res-phosphorus-availability`)
+# ## Study: The Phosphorus Bottleneck (`og-res-phosphorus-availability`)
 #
 # **Question.** Phosphorus may be a harder bottleneck than carbon. Can the same thermal-gradient vent pore that concentrates C and N also co-concentrate P — tracking dissolved phosphate, mineral-bound P, polyphosphate and reactive P with explicit precipitation/adsorption loss — or does phosphate precipitate/adsorb before it is chemically useful? Are there local windows where reactive P is produced faster than it is lost?
 #
@@ -2008,7 +2008,7 @@ _save_viz('og-res-phosphorus-availability', 'phosphorus-availability-map', _rend
 # | --- | --- | --- | --- |
 # | Reactive reduced-P (schreibersite-derived) and condensed/activated phosphates form under basic conditions; dissolved phosphate is prone to precipitation/adsorption. | reactive-P availability vs precipitated fraction | Pasek 2017 | measured — reactive-P availability + precipitated fraction graded from the real run |
 
-# ## Study: Proto-energetics — an energy currency before modern pumping (`og-energy-proto-energetics`)
+# ## Study: The Energy Currency (`og-energy-proto-energetics`)
 #
 # **Question.** Can a primitive system capture environmental (geochemical) free energy into a transferable chemical currency — charged by an exergonic drive, spent on endergonic work, lost to hydrolysis — before any modern-style ion pumping, and what fraction of the geochemical free energy becomes stored usable work?
 #
@@ -2159,7 +2159,7 @@ _save_viz('og-energy-proto-energetics', 'proto-energetics-map', _render_one('loc
 # | --- | --- | --- | --- |
 # | Pre-ATP carriers (thioesters, acyl phosphates) couple exergonic to endergonic chemistry as a transferable energy currency before membrane bioenergetics / ATP | charged fraction + stored-work fraction vs drive and coupling | Buckel & Thauer 2013 (flavin-based electron bifurcation / energy coupling); Lane & Martin 2010 (chemiosmotic coupling at the vent) | Reproduced as explicit free-energy bookkeeping (coarse-grained reduced kinetics) |
 
-# ## Study: Metabolism to osmotic growth and division (`og-growth-division`)
+# ## Study: Growth and Division (`og-growth-division`)
 #
 # **Question.** Does an internal autocatalytic/metabolic chemistry change a compartment's PHYSICAL fate — accumulating product, generating osmotic pressure, drawing in solvent, expanding, and forcing division — and under what permeability regime does it divide rather than lyse or starve?
 #

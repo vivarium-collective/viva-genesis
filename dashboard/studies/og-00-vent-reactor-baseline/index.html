@@ -19,7 +19,7 @@
 <header class="study-header">
   <div style="display:flex; align-items:baseline; gap:12px; justify-content:space-between;">
   <h1 class="study-title">
-    <span class="study-num-chip" style="font-size:0.5em; font-weight:700; color:#64748b; background:#f1f5f9; padding:3px 9px; border-radius:9999px; vertical-align:middle; margin-right:8px">og-00</span><span class="study-name" id="study-name" data-slug="og-00-vent-reactor-baseline" data-study-kind="computational" title="og-00-vent-reactor-baseline">Vent reactor baseline (Campaign 0)</span>
+    <span class="study-num-chip" style="font-size:0.5em; font-weight:700; color:#64748b; background:#f1f5f9; padding:3px 9px; border-radius:9999px; vertical-align:middle; margin-right:8px">og-00</span><span class="study-name" id="study-name" data-slug="og-00-vent-reactor-baseline" data-study-kind="computational" title="og-00-vent-reactor-baseline">The Serpentinizing Vent</span>
     
   </h1>
   <span class="study-header-actions" style="display:inline-flex; gap:6px; flex-shrink:0;">
@@ -681,7 +681,7 @@
       <h2 class="overview-label ctr-h">Model &amp; approach</h2>
       <p class="ctr-text">Build a reduced vent–ocean reactor and validate it against Lost City field ranges to establish a geochemical/spatial testbed.</p>
       <div class="ctr-meta">
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Model</span> <code>Vent reactor baseline (Campaign 0)</code><a class="ov-tablink" href="#" onclick="_setStudyTab('compose');return false;">model →</a></div>
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Model</span> <code>Vent reactor baseline</code><a class="ov-tablink" href="#" onclick="_setStudyTab('compose');return false;">model →</a></div>
         
         <ul class="ov-methods"><li>Module A — REAL PHREEQC: genuine USGS IPhreeqc (via phreeqpython + vendored llnl.dat) reacting PERIDOTITE — olivine (forsterite+fayalite) + diopside pyroxene — with the serpentinite assemblage (chrysotile + brucite + magnetite + tremolite + diopside) each step. Dissolved H2, pH, pe, alkalinity and charge balance are emergent speciation outputs. The pyroxene-sourced Ca, once Mg is consumed into serpentine/brucite, gives the real Lost City Ca-OH-rich high-pH (~9.2-9.5) endmember — not a tuned value.</li><li>Module B — REAL FiPy: genuine finite-volume 1-D advection–diffusion–reaction column (TransientTerm == DiffusionTerm − PowerLawConvectionTerm, scipy direct-LU solve, zero-gradient advective outflow BC) transporting the serpentinization source across the vent–ocean interface.</li><li>Partial-equilibrium coupling: a flow/temperature kinetic driver sets the olivine reaction extent feeding the equilibrium speciation (standard reactive-transport practice). The only field-calibrated knob is the heat-partition fraction (tuned to the observed 40–91 C vent temperature); all chemistry is emergent.</li><li>Conservation: PHREEQC conserves elements + charge by construction; FiPy&#39;s FVM conserves flux to the linear-solver tolerance (residual ~5e-5, within the 1e-3 bound) — directly satisfying the mass_balance / charge_neutrality / spatial_flux_conservation contract invariants.</li></ul>
         
@@ -1075,7 +1075,7 @@
     
     <div class="cond-block" data-model-composite="viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor" data-model-overrides='{}'>
       <div class="cond-block-title" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-        <strong>Vent reactor baseline (Campaign 0)</strong>
+        <strong>Vent reactor baseline</strong>
         
         <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor</code>
         <button type="button" class="action-btn" style="font-size:0.8em"
@@ -1085,16 +1085,16 @@
       
       <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
         
-        <select class="baseline-composite-input" data-baseline-name="Vent reactor baseline (Campaign 0)"
+        <select class="baseline-composite-input" data-baseline-name="Vent reactor baseline"
                 data-current="viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor"
                 style="flex:1;min-width:200px;font-family:monospace;font-size:0.82em;padding:3px 6px">
           <option value="viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor" selected>viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor</option>
           
         </select>
         <button type="button" class="action-btn baseline-composite-set" style="font-size:0.8em"
-                data-baseline-name="Vent reactor baseline (Campaign 0)">Set composite</button>
+                data-baseline-name="Vent reactor baseline">Set composite</button>
       </div>
-      <div class="baseline-composite-status muted" data-baseline-name="Vent reactor baseline (Campaign 0)" style="font-size:0.8em;margin-top:2px"></div>
+      <div class="baseline-composite-status muted" data-baseline-name="Vent reactor baseline" style="font-size:0.8em;margin-top:2px"></div>
       
       
       
@@ -1884,7 +1884,7 @@ cites:   ["kelley2001offaxis", "ludwig2006formation"]</pre>
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "507fa32712592301e59c9d3f567bb51c09336b03", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/507fa32712592301e59c9d3f567bb51c09336b03", "branch": "main", "lockfile": "uv.lock@0c019561d25b", "generated_at": "2026-10-13 22:11 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "ffa9e4a7df202e2b59607fc25ad25977da488a8a", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/ffa9e4a7df202e2b59607fc25ad25977da488a8a", "branch": "main", "lockfile": "uv.lock@dab5c4c40206", "generated_at": "2026-10-13 23:41 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>
