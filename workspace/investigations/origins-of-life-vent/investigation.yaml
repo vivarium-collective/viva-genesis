@@ -203,6 +203,8 @@ at_a_glance:
   role: Leaving home — the minimum innovation set for an autonomous cell off-gradient
 - study: og-adv-generic-nonequilibrium
   role: 'Adversarial control: the gates must reject generic non-vent chemistry'
+- study: og-res-nitrogen-assimilation
+  role: 'The first nitrogen — reduced-N keeps pace with carbon, or limits first'
 studies:
 - og-00-vent-reactor-baseline
 - og-01-geology-to-reduced-carbon
@@ -214,6 +216,7 @@ studies:
 - og-07-ecology-before-luca
 - og-08-escape-from-the-vent
 - og-adv-generic-nonequilibrium
+- og-res-nitrogen-assimilation
 acceptance_criteria:
 - study: og-00-vent-reactor-baseline
   behavior: vent-pH-in-lostcity-range
@@ -235,6 +238,8 @@ acceptance_criteria:
   behavior: survival-off-gradient
 - study: og-adv-generic-nonequilibrium
   behavior: gates-reject-generic
+- study: og-res-nitrogen-assimilation
+  behavior: nitrogen-keeps-pace-with-carbon
 expert_docs:
 - Origins-of-Life Simulation Campaign
 - Origins-of-Life Computational Methods Atlas
@@ -275,3 +280,31 @@ proposed_inputs:
     status: accepted
     decided_at: '2026-10-13'
     decided_by: expert
+  - id: est2024fesnitrate
+    kind: reference
+    citation: "FeS-mediated reduction of nitrate to ammonium under early-Earth hydrothermal conditions
+      (Environmental Science & Technology, 2024). Full bibliographic details pending."
+    proposed_by: agent
+    proposed_at: '2026-10-13'
+    related_study: og-res-nitrogen-assimilation
+    rationale: "og-res models FeS-catalysed dissimilatory reduction of nitrate through nitrite to ammonium
+      as the dominant reduced-nitrogen source; this is the primary provenance for that route. Cited in the
+      stage's plan but absent from references/papers.bib on this branch, so the findings currently cite the
+      present FeS/native-metal chemistry refs (dorr2003prebiotic, huber1997activated, varma2018native) and
+      this entry records the specific nitrate->ammonium anchor pending its addition."
+    provenance: "Named in the Scientific Enrichment Plan for the nitrogen stage; not yet in references/papers.bib
+      on this branch. Recorded here (not cited as provided) pending expert review / bib addition."
+    status: pending
+  - id: natcomm2025reducednitrogen
+    kind: reference
+    citation: "Abiotic production of reduced nitrogen (ammonium) at hydrothermal systems (Nature Communications,
+      2025). Full bibliographic details pending."
+    proposed_by: agent
+    proposed_at: '2026-10-13'
+    related_study: og-res-nitrogen-assimilation
+    rationale: "Supports the stage's premise that abiotic reduced nitrogen (NH4+) can be produced at vent
+      conditions fast enough to matter for a C:N budget. Cited in the stage's plan but absent from
+      references/papers.bib on this branch."
+    provenance: "Named in the Scientific Enrichment Plan for the nitrogen stage; not yet in references/papers.bib
+      on this branch. Recorded here (not cited as provided) pending expert review / bib addition."
+    status: pending
