@@ -134,7 +134,7 @@ findings:
     units: dimensionless
   expected:
     cites: [huber1998peptides, muchowska2019synthesis]
-  explanation: Real libRoadRunner quasispecies ODE; above the Eigen error threshold correct templates outreplicate the mutational error tail.
+  explanation: Real libRoadRunner quasispecies ODE; above the Eigen error threshold correct templates outreplicate the mutational error tail. (The error-threshold/quasispecies theory is Eigen 1971 — a proposed input pending expert review.)
 - id: og06-error-threshold-and-ranking
   kind: computational
   status: novel

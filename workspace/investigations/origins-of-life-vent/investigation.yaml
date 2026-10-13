@@ -217,3 +217,19 @@ proposed_inputs:
     provenance: "Not in the expert dossier or references/papers.bib; introduced while building the og-06
       lineage model. Recorded here (not cited as provided) pending expert review."
     status: pending
+  - id: eigen1971selforganization
+    kind: reference
+    citation: "Eigen M. (1971). Selforganization of matter and the evolution of biological macromolecules.
+      Die Naturwissenschaften 58(10):465-523."
+    proposed_by: agent
+    proposed_at: '2026-10-13'
+    related_study: og-06-chemistry-to-heredity
+    rationale: "og-06's quasispecies replicator and its central result — the error threshold Q=fidelity^length,
+      above which correct templates outreplicate the error tail and below which the error catastrophe destroys
+      information — are Eigen's error-threshold/quasispecies theory. It is the load-bearing mechanism of the
+      stage, currently anchored in prose only (findings cite huber1998peptides for the peptide module, not the
+      threshold theory)."
+    provenance: "Not in the expert dossier or references/papers.bib; the error-threshold mechanism was used
+      from the start of og-06. Recorded here (not cited as provided) pending expert review; on accept its id
+      becomes the bibkey to wire onto the error-threshold findings."
+    status: pending

@@ -51,6 +51,8 @@ findings:
   status: novel
   statement: The Lost City pH endmember required reacting PERIDOTITE (olivine+pyroxene), not dunite — Ca released once Mg is consumed buffers the fluid to pH ~9.5.
   explanation: Olivine-only buffers at ~7.8 (brucite); adding diopside gives the Ca-OH endmember that reproduces field pH.
+  expected:
+    cites: [kelley2005serpentinite, ludwig2006formation]
 - id: og00-buoyant-convection
   kind: computational
   status: novel

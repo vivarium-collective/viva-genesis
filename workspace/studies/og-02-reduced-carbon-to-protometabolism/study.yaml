@@ -25,6 +25,8 @@ findings:
     observed: 9e-4 mol/s
     units: mole/second
   explanation: Real libRoadRunner SBML CSTR — throughput is a steady balance of production and washout.
+  expected:
+    cites: [muchowska2019synthesis, muchowska2017metals]
 - id: og02-autocatalysis
   kind: computational
   status: novel
