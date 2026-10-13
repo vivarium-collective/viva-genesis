@@ -7,7 +7,7 @@ status: ran
 design_status: approved
 confidence: Accepted
 gate_status: passed
-title: Reduced carbon to protometabolism (Campaign II)
+title: The First Metabolism
 question: Under continuous feed and washout, do reaction subnetworks become self-reinforcing — persistent cycles, flux amplification, product reuse, autocatalytic motifs — without imposed product accumulation?
 hypothesis: A curated graph (formate/acetate/pyruvate/glyoxylate + rTCA fragments) seeded with Muchowska/Moran edges sustains nonzero throughput and at least one autocatalytic motif within a feasible resource budget.
 objective: Insert an experimentally-motivated reaction graph and test whether metabolism-like subnetworks emerge under flow.
@@ -65,7 +65,7 @@ findings:
     Runner sims/compute_gain_grid.py. Per-reaction fluxes are now read live from the
     engine (getReactionRates) so the network view is flux-weighted.
 report:
-  title: Campaign II — reduced carbon to protometabolism
+  title: Reduced carbon to protometabolism
   verdict: PASS — metabolism-like behavior emerges under flow
   confidence: high
   main_insight: A curated rTCA-fragment network under feed+washout sustains carbon throughput AND an emergent autocatalytic motif — metabolism-like behavior without imposed product accumulation.
@@ -80,7 +80,7 @@ report:
 conclusion: >-
   A real SBML rTCA-fragment network sustains throughput and an autocatalytic motif
   under flow — reaction subnetworks become self-reinforcing, the metabolism-like
-  emergence Campaign II set out to test.
+  emergence this study set out to test.
 conclusion_verdicts:
   biological_validation:
     result: PASS
@@ -194,7 +194,7 @@ implemented_methods:
 - 'Module E — REAL libRoadRunner/Tellurium: a curated SBML rTCA-fragment network (pyruvate carboxylation + a lumped autocatalytic reductive-TCA turn OAA+2CO2 -> 2OAA+acetate + reductive branch to malate/succinate) run as a continuous-feed / washout CSTR, advanced each tick by the genuine roadrunner ODE integrator.'
 - 'Emergent observables (not assumptions): net carbon throughput under feed+washout; the autocatalytic gain k_rtca.[CO2]/k_wash (>1 => a reinforcing motif is active; gain peaks ~29.5 then CO2-limits); networkx connectivity of the species-reaction graph (a single connected network). A no-CO2 control collapses flux + gain to 0.'
 baseline:
-- name: Reduced carbon to protometabolism (Campaign II)
+- name: Reduced carbon to protometabolism
   composite: viva_genesis.composites.protometabolism.protometabolic_network
   params: {}
   canonical: true
@@ -211,17 +211,17 @@ visualizations:
   config:
     composite: viva_genesis.composites.protometabolism.protometabolic_network
     n_steps: 60
-    title: Campaign II — the protometabolic network igniting
+    title: The protometabolic network igniting
 - name: protometabolism-network
   address: local:ProtometabolismViz
   config:
     composite: viva_genesis.composites.protometabolism.protometabolic_network
     n_steps: 120
-    title: Campaign II — protometabolic network (libRoadRunner)
+    title: Protometabolic network (libRoadRunner)
 - name: protometabolism-gain-phase-map
   address: local:ProtometabolismGainPhaseMap
   config:
-    title: Campaign II — the protometabolic ignition landscape (Decision view)
+    title: The protometabolic ignition landscape (Decision view)
     grid_json: workspace/studies/og-02-reduced-carbon-to-protometabolism/artifacts/protometabolism_gain_grid.json
 key_assumptions:
 - Rate laws/mineral dependencies carry provenance; autocatalysis is an emergent observable, not an assumption.
@@ -346,7 +346,7 @@ variants:
   params:
     feed_CO2: 1e-12
 simulation_set:
-- name: Reduced carbon to protometabolism (Campaign II)
+- name: Reduced carbon to protometabolism
   kind: single
   base_model: viva_genesis.composites.protometabolism.protometabolic_network
   is_baseline: true

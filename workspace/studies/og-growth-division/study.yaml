@@ -9,7 +9,7 @@ simulation_status: ran
 evaluation_status: evaluated
 confidence: Accepted
 gate_status: passed
-title: Metabolism to osmotic growth and division
+title: Growth and Division
 question: Does an internal autocatalytic/metabolic chemistry change a compartment's PHYSICAL fate — accumulating product, generating osmotic pressure, drawing in solvent, expanding, and forcing division — and under what permeability regime does it divide rather than lyse or starve?
 hypothesis: Product accumulation from an internal autocatalytic source generates osmotic pressure that drives solvent influx and volume growth to a division threshold; there is a bounded membrane-permeability band in which the compartment sustains net growth leading to division, flanked by starvation (too permeable, the product leaks before osmotic pressure can build) and lysis (too impermeable, the pressure bursts the membrane).
 objective: Couple a reduced autocatalytic osmolyte source to compartment osmotic physics (osmotic pressure → solvent influx → volume → division) with a semi-permeable membrane; map the (network throughput × membrane permeability) plane and locate the viable growth→division band between starvation and lysis, conserving mass across growth and division.

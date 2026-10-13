@@ -9,7 +9,7 @@ simulation_status: ran
 evaluation_status: evaluated
 confidence: Accepted
 gate_status: passed
-title: Environmental to internal bioenergetics (Campaign V)
+title: Owning Its Energy
 question: Can selection move from externally imposed gradients toward internally maintained electrochemical states (catalytic ion transport then pumping)?
 hypothesis: When membrane permeability, Na+/H+ coupling and catalyst efficiency vary under selection, systems with increasing internal gradient generation win on throughput + persistence — but only if membranes stay sufficiently leaky (Sojo constraint).
 objective: Allow catalytic ion transport and active pumping; test whether selection favors internalized gradient generation.
@@ -109,7 +109,7 @@ literature_anchors:
   - sojo2014bioenergetic
   - lane2012origin
 baseline:
-- name: Environmental to internal bioenergetics (Campaign V)
+- name: Environmental to internal bioenergetics
   composite: viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization
   params: {catalyst_efficiency: 1.0, v_start: 0.40, decline_rate: 0.01}
 claim: Under a declining external gradient, selection drives an efficient-pump population to internalize gradient generation (pump fraction 0→0.95) and persist, while a weak-pump lineage collapses — the Sojo-2014 leaky-membrane constraint on bioenergetic internalization.
@@ -156,7 +156,7 @@ findings:
     tap k_ext·pmf·P vs internal pump k_int·pump·eff·(1−P) vs maintenance cost); rendered
     as the stacked energy-provenance trajectory + the gradient-dependence curve (Decision view).
 report:
-  title: Campaign V — environmental to internal bioenergetics
+  title: Environmental to internal bioenergetics
   verdict: PASS — selection internalizes gradient generation; the Sojo constraint bounds it
   confidence: high
   main_insight: Under a declining external gradient, selection favors internalized gradient generation — but only where the pump is efficient enough (the Sojo leaky-membrane constraint); a weak pump goes extinct at the transition.
@@ -210,11 +210,11 @@ visualizations:
   address: local:BioenergeticInternalizationViz
   config:
     composite: viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization
-    title: Campaign V — selection internalizes the gradient
+    title: Selection internalizes the gradient
 - name: bioenergetic-provenance
   address: local:BioenergeticProvenanceViz
   config:
-    title: Campaign V — the organism begins to own its energy (Decision view)
+    title: The organism begins to own its energy (Decision view)
 runs:
 - name: viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization__1791853786__638056
   status: completed

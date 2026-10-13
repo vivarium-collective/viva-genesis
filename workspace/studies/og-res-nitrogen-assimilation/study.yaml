@@ -9,7 +9,7 @@ confidence: Accepted
 gate_status: passed
 simulation_status: ran
 implementation_status: complete
-title: Nitrogen as a limiting resource — reduced-N assimilation (Campaign I, Module I)
+title: The Nitrogen Bottleneck
 question: >-
   Carbon fixation is not the only requirement for a protocell. Can an FeS-mediated
   vent reduce the early ocean's oxidised / inert nitrogen (NO3-/NO2-/N2) to ammonium
@@ -91,7 +91,7 @@ findings:
     observed: 'max |n_mass_residual| ~1e-20 M over the run'
     units: molar
 report:
-  title: Campaign I (Module I) — nitrogen as a limiting resource
+  title: (Module I) — nitrogen as a limiting resource
   verdict: PASS — reduced N keeps pace in a bounded region; nitrogen limits first outside it
   confidence: high
   main_insight: FeS-mediated nitrate reduction supplies ammonium fast enough to keep pace with carbon (C:N ~5) only where the nitrate feed is sufficient AND the mineral is active; outside that region nitrogen is the first limiting resource.
@@ -317,17 +317,17 @@ visualizations:
   config:
     composite: viva_genesis.composites.nitrogen_assimilation.reduced_nitrogen_reactor
     n_steps: 120
-    title: Campaign I — reduced-nitrogen assimilation (World view)
+    title: Reduced-nitrogen assimilation (World view)
 - name: c-to-n-supply-balance
   address: local:NitrogenCarbonBalanceViz
   config:
     composite: viva_genesis.composites.nitrogen_assimilation.reduced_nitrogen_reactor
     n_steps: 120
-    title: Campaign I — does reduced N keep pace with carbon? (Mechanism view)
+    title: Does reduced N keep pace with carbon? (Mechanism view)
 - name: nitrogen-assimilation-phase-map
   address: local:NitrogenAssimilationPhaseMap
   config:
-    title: Campaign I — nitrogen as a limiting resource (Decision view)
+    title: Nitrogen as a limiting resource (Decision view)
     grid_json: workspace/studies/og-res-nitrogen-assimilation/artifacts/nitrogen_assimilation_phase_grid.json
 key_assumptions:
 - Reduced nitrogen (NH4+) is a hard co-requirement with reduced carbon; the early ocean's accessible N is oxidised (NO3-/NO2-) or inert (N2).

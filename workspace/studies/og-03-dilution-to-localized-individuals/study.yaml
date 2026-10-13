@@ -9,7 +9,7 @@ simulation_status: ran
 evaluation_status: evaluated
 confidence: Accepted
 gate_status: passed
-title: Dilution to localized individuals (Campaign III)
+title: The First Individual
 question: When do retention time and concentration cross the thresholds for network persistence, as pore morphology evolves via precipitation/dissolution?
 hypothesis: Thermophoresis + convection + adsorption in evolving pores raise local concentration enough that synthesis outruns hydrolysis/leakage in a bounded geometry region; elsewhere washout dominates.
 objective: Add pore geometry, adsorption, convection and thermophoresis; find where retention + concentration cross persistence thresholds.
@@ -81,7 +81,7 @@ findings:
     cites: [baaske2007extreme]
   explanation: Enrichment is exponential in pore length and vanishes with confinement — the dilution/localization boundary the campaign sought.
 report:
-  title: Campaign III — dilution to localized individuals
+  title: Dilution to localized individuals
   verdict: PASS — the thermal trap reaches Baaske enrichment; controls map the washout boundary
   confidence: high
   main_insight: A serpentinite pore's thermophoresis + convection concentrate a dilute feed ~10^8-fold (9.6×10⁷) in favorable geometry, and collapse to ~1 when the pore is open or short — the first localized "individual" emerges at a geometric threshold.
@@ -170,7 +170,7 @@ literature_anchors:
   cites:
   - baaske2007extreme
 baseline:
-- name: Dilution to localized individuals (Campaign III)
+- name: Dilution to localized individuals
   composite: viva_genesis.composites.thermophoretic_concentration.thermophoretic_concentration
   params: {flow_velocity: 1.0e-4, porosity: 0.3, pore_length: 5.0e-3, delta_T: 30.0}
 parent_studies:
@@ -298,9 +298,9 @@ visualizations:
   address: local:ThermophoreticTrapViz
   config:
     composite: viva_genesis.composites.thermophoretic_concentration.thermophoretic_concentration
-    title: Campaign III — the thermal trap concentrates an individual
+    title: The thermal trap concentrates an individual
 - name: pore-ignition-coupling
   address: local:PoreIgnitionCoupling
   config:
-    title: Campaign III — localization makes the individual (Decision view)
+    title: Localization makes the individual (Decision view)
     grid_json: workspace/studies/og-02-reduced-carbon-to-protometabolism/artifacts/protometabolism_gain_grid.json

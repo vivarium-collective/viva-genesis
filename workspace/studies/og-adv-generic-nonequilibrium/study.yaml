@@ -7,7 +7,7 @@ status: ran
 design_status: approved
 confidence: Accepted
 gate_status: passed
-title: 'Adversarial: generic nonequilibrium control'
+title: 'The Adversarial Control'
 question: Does a generic nonequilibrium chemical system with no vent-specific features (no sustained H2, no Fe/Ni/S catalytic interface, no pore concentration) pass the vent-specific gates? It SHOULD NOT.
 hypothesis: The og-01/og-02/og-03 gates REJECT this control; if they pass it, the gates measure generic nonequilibrium chemistry, not the vent mechanism.
 objective: Run the og-01..03 behavior tests on a vent-feature-ablated control; the campaign's gates must reject it, and the vent must pass the same tests.

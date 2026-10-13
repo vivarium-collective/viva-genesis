@@ -9,7 +9,7 @@ simulation_status: ran
 evaluation_status: evaluated
 confidence: Accepted
 gate_status: passed
-title: Chemistry to heredity (Campaign VI)
+title: The First Heredity
 question: Does inherited state improve persistence/throughput — comparing RNA-like, peptide-assisted, compositional and hybrid heredity — rather than template replication in isolation? (Do NOT presume RNA.)
 hypothesis: At least one heredity module raises lineage persistence + information retention above its non-heritable control under a feasible resource budget; the winner is not assumed a priori.
 objective: Introduce competing heredity modules and test whether inherited state improves persistence under feasible budgets.
@@ -119,7 +119,7 @@ literature_anchors:
   cites:
   - huber1998peptides
 baseline:
-- name: Chemistry to heredity (Campaign VI)
+- name: Chemistry to heredity
   composite: viva_genesis.composites.heredity_module_comparison.heredity_module_comparison
   params: {module: rna-like, temperature: 353.15}
 claim: An inherited chemical state improves lineage fitness above its replication cost when it clears the Eigen error threshold — but heredity need NOT presume a long high-fidelity RNA template. An agent-based lineage shows template heredity suffers the length catastrophe (Q=fidelity^length collapses with length) while compositional (GARD) and template-focused hybrid heredity persist length-independently (functional persistence ~0.88, seed-robust across the 5 graded seeds — 0.878±0.005, and 8/8 in a wider sweep) above the non-heritable control, which loses the parent↔offspring correlation and collapses. (A mean-field quasispecies arm still ranks a long high-fidelity template above a cheaper peptide module above non-inheritance when all clear the threshold.)
@@ -158,7 +158,7 @@ findings:
     cites: [eigen1971selforganization, segre2000compositional, sutherland2017opinion]
   explanation: Coarse-grained agent-based reproduction with explicit fidelity/cost/competition. Template inheritance ratchets (Eigen 1971, no back-mutation) so a long low-fidelity template loses information; compositional inheritance drifts by multinomial fission of an autocatalytic composition (GARD, Segré 2000) — length-independent, so it escapes the length catastrophe. The realized heritability (offspring↔parent φ slope) separates true inheritance from the non-heritable control.
 report:
-  title: Campaign VI — chemistry to heredity
+  title: Chemistry to heredity
   verdict: PASS — inheritance pays above the Eigen error threshold, and heredity need not presume RNA — compositional/hybrid heredity persists length-independently
   confidence: high
   main_insight: Heredity need not presume a long high-fidelity RNA template. An agent-based lineage reproduces the Eigen error threshold (imposed Q=fidelity^length) at the individual level — a long low-fidelity template suffers the length catastrophe — while compositional (GARD) and template-focused hybrid heredity persist length-independently (functional persistence ~0.88, seed-robust) above the non-heritable control. A mean-field quasispecies arm separately ranks a long high-fidelity (RNA-like) template above a cheaper peptide module above non-inheritance once all clear the threshold.
@@ -217,12 +217,12 @@ visualizations:
   config:
     composite: viva_genesis.composites.heredity_lineage.heredity_lineage_comparison
     grid_json: workspace/studies/og-06-chemistry-to-heredity/artifacts/heredity_error_threshold_grid.json
-    title: Campaign VI — heredity as an inherited lineage
+    title: Heredity as an inherited lineage
 - name: heredity-error-threshold
   address: local:HeredityErrorThresholdViz
   config:
     composite: viva_genesis.composites.heredity_module_comparison.heredity_module_comparison
-    title: Campaign VI — heredity above the error threshold
+    title: Heredity above the error threshold
 runs:
 - name: viva_genesis.composites.heredity_module_comparison.heredity_module_comparison__1791919314__5ab0db
   status: completed
