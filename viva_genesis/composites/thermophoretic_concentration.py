@@ -45,6 +45,10 @@ _EMIT_PATHS = [
         "pore_length": {"type": "float", "default": 5.0e-3, "description": "Pore length (m); longer = more enrichment"},
         "delta_T": {"type": "float", "default": 30.0, "description": "Cross-pore temperature difference (K)"},
     },
+    visualizations=[
+        {"name": "thermophoretic-trap", "address": "local:ThermophoreticTrapViz",
+         "config": {"title": "Campaign III — the thermal trap concentrates an individual"}},
+    ],
     default_n_steps=30,
     core_extensions=[build_core],
     emitters=[{"address": "local:ParquetEmitter", "paths": _EMIT_PATHS}],

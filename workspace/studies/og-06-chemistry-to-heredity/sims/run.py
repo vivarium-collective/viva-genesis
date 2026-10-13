@@ -140,11 +140,49 @@ def main() -> int:
         "detail": (f"low-fidelity retention={low['information_retention']:.2f} fitness={low['lineage_fitness']:.3f} "
                    f"(below the error threshold => information lost, inheritance fails)"),
     }
+    # Cross-run (agent-based lineage): compositional (GARD) heredity retains function
+    # across generations — length-independent — above the non-heritable control, so
+    # heredity need not presume a long high-fidelity template ("do NOT presume RNA").
+    # Graded across a SEED SWEEP (all seeds must pass) so the verdict is robust, not
+    # knife-edge at one seed.
+    import statistics
+
+    from viva_genesis.heredity.lineage import simulate_lineage
+    CAP = 220
+    SEEDS = range(5)
+
+    def _persist(r):
+        return r["final_function"] * min(r["final_population"] / CAP, 1.0)
+
+    comp_ps, nonh_ps, comp_hs, nonh_hs, per_seed_pass = [], [], [], [], []
+    for s in SEEDS:
+        comp = simulate_lineage("compositional", capacity=CAP, n_gen=40, seed=s)
+        nonh = simulate_lineage("non-heritable", length=30, capacity=CAP, n_gen=40, seed=s)
+        cp, np_ = _persist(comp), _persist(nonh)
+        comp_ps.append(cp); nonh_ps.append(np_)
+        comp_hs.append(comp["heritability"]); nonh_hs.append(nonh["heritability"])
+        per_seed_pass.append(cp > 0.35 and cp > np_
+                             and comp["heritability"] > 0.5 and nonh["heritability"] < 0.3)
+    n_seeds = len(comp_ps)
+    comp_p = statistics.fmean(comp_ps); comp_sd = statistics.pstdev(comp_ps)
+    nonh_p = statistics.fmean(nonh_ps)
+    lineage_verdict = {
+        "result": "PASS" if all(per_seed_pass) else "FAIL",
+        "measured_value": round(comp_p, 3),
+        "detail": (f"compositional persistence={comp_p:.3f}±{comp_sd:.3f} "
+                   f"(heritability~{statistics.fmean(comp_hs):.2f}) vs non-heritable "
+                   f"persistence={nonh_p:.3f} (heritability~{statistics.fmean(nonh_hs):.2f}) "
+                   f"across {n_seeds} seeds, {sum(per_seed_pass)}/{n_seeds} pass => compositional "
+                   f"heredity persists length-independently and seed-robustly; the non-heritable "
+                   f"control collapses every seed"),
+    }
     _write_cross_run_outcomes(study_yaml, run_id, {
         "heredity-modules-compared": ranking_verdict,
         "error-catastrophe-below-threshold": catastrophe_verdict,
+        "heredity-lineage-compositional-persists": lineage_verdict,
     })
-    print("cross-run: ranking", ranking_verdict["result"], "| catastrophe", catastrophe_verdict["result"])
+    print("cross-run: ranking", ranking_verdict["result"], "| catastrophe", catastrophe_verdict["result"],
+          "| lineage", lineage_verdict["result"])
 
     if append_run_event:
         append_run_event(WORKSPACE_ROOT, {

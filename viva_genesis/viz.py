@@ -414,16 +414,24 @@ class VentCrossSection(Visualization):
                                   contours=dict(start=lvl, end=lvl, coloring="lines"),
                                   line=dict(color="#e2e8f0", width=1.6, dash="dot"),
                                   hoverinfo="skip"), row=1, col=1)
-        # Upflow: the serpentinized fluid percolates up the conduit — a couple of
-        # arrows on the hot (right) side mark the real +y flow direction.
-        xr = xs[int(len(xs) * 0.82)]
-        for yfrac in (0.30, 0.68):
-            y0 = ys[int(len(ys) * (yfrac - 0.12))]; y1 = ys[int(len(ys) * (yfrac + 0.12))]
-            stat.add_annotation(x=xr, y=y1, ax=xr, ay=y0, xref="x", yref="y",
-                                axref="x", ayref="y", showarrow=True, arrowhead=2,
-                                arrowwidth=1.6, arrowcolor="rgba(255,255,255,0.85)", text="")
-        stat.add_annotation(x=xr, y=ys[-1], xref="x", yref="y", text="upflow",
-                            showarrow=False, yshift=8, font=dict(size=9, color="#fde68a"))
+        # Streamlines: contours of the stream function ψ ARE the streamlines of the
+        # real Darcy–Boussinesq convection — the buoyant recirculation cell. Hot
+        # conduit fluid rises, cold ocean fluid sinks. Overlaid on temperature (1,1).
+        if last.get("psi"):
+            stat.add_trace(go.Contour(z=last["psi"], x=xs, y=ys, showscale=False, ncontours=14,
+                                      contours=dict(coloring="lines"),
+                                      line=dict(color="rgba(255,255,255,0.55)", width=1.0),
+                                      hoverinfo="skip"), row=1, col=1)
+            xL, xR = xs[int(len(xs) * 0.20)], xs[int(len(xs) * 0.80)]
+            y0, y1 = ys[int(len(ys) * 0.36)], ys[int(len(ys) * 0.64)]
+            stat.add_annotation(x=xR, y=y1, ax=xR, ay=y0, xref="x", yref="y", axref="x", ayref="y",
+                                showarrow=True, arrowhead=2, arrowwidth=1.5, arrowcolor="#fde68a", text="")
+            stat.add_annotation(x=xL, y=y0, ax=xL, ay=y1, xref="x", yref="y", axref="x", ayref="y",
+                                showarrow=True, arrowhead=2, arrowwidth=1.5, arrowcolor="#bae6fd", text="")
+            stat.add_annotation(x=xR, y=ys[-1], xref="x", yref="y", text="rises", showarrow=False,
+                                yshift=8, font=dict(size=9, color="#fde68a"))
+            stat.add_annotation(x=xL, y=ys[0], xref="x", yref="y", text="sinks", showarrow=False,
+                                yshift=-8, font=dict(size=9, color="#bae6fd"))
         stat.update_xaxes(showgrid=False, zeroline=False,
                           title_text="across the wall (cm)", title_font=dict(size=10))
         stat.update_yaxes(showgrid=False, zeroline=False,
@@ -439,12 +447,22 @@ class VentCrossSection(Visualization):
         keep = frames[::step] + [frames[-1]]
         zmin = min(min(min(r) for r in f["t_c"]) for f in keep)
         zmax = max(max(max(r) for r in f["t_c"]) for f in keep)
+        def _flow(f):
+            """Streamline overlay (\u03c8 contours) for a frame, if the field carries it."""
+            if not f.get("psi"):
+                return []
+            return [go.Contour(z=f["psi"], x=xs, y=ys, showscale=False, ncontours=12,
+                               contours=dict(coloring="lines"),
+                               line=dict(color="rgba(255,255,255,0.45)", width=0.9),
+                               hoverinfo="skip")]
+
+        def _heat(f):
+            return go.Heatmap(z=f["t_c"], x=xs, y=ys, colorscale="Inferno", zmin=zmin, zmax=zmax,
+                              colorbar=dict(title="\u00b0C", thickness=13, len=0.9))
+
         anim = go.Figure(
-            data=[go.Heatmap(z=keep[0]["t_c"], x=xs, y=ys, colorscale="Inferno",
-                             zmin=zmin, zmax=zmax, colorbar=dict(title="\u00b0C", thickness=13, len=0.9))],
-            frames=[go.Frame(data=[go.Heatmap(z=f["t_c"], x=xs, y=ys, colorscale="Inferno",
-                                              zmin=zmin, zmax=zmax)], name=str(i))
-                    for i, f in enumerate(keep)])
+            data=[_heat(keep[0])] + _flow(keep[0]),
+            frames=[go.Frame(data=[_heat(f)] + _flow(f), name=str(i)) for i, f in enumerate(keep)])
         anim.update_xaxes(showgrid=False, zeroline=False, title_text="across the wall (cm)")
         anim.update_yaxes(showgrid=False, zeroline=False, title_text="up the chimney (cm)")
         anim.update_layout(
@@ -471,7 +489,10 @@ class VentCrossSection(Visualization):
             "<b>A cross-section through the chimney wall</b> \u2014 a real 2-D FiPy finite-volume "
             "field, <b>every pixel a solved cell</b>. Cold acidic seawater bathes the outer wall "
             "(left); the hot alkaline serpentinized fluid percolates up the conduit (right). The "
-            "<b>gradient across the wall</b> is the engine of the vent. "
+            "<b>gradient across the wall</b> is the engine of the vent. White "
+            "<b>streamlines (constant \u03c8)</b> trace the real Darcy\u2013Boussinesq "
+            "convection: the hot conduit rises, the cold ocean sinks, a recirculation "
+            "cell forms and stirs the field. "
             f"<b>Settled: {last['settled_T']:.0f}\u202f\u00b0C, pH {last['settled_pH']:.2f}</b> "
             "(the Lost City window).</div>")
         s_html = stat.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
@@ -736,26 +757,38 @@ class ProtometabolicNetwork(Visualization):
                 text=sp, textposition="middle center", textfont=dict(size=9, color="#f8fafc"),
                 hovertext=txt, hoverinfo="text")
 
-        # edge lines (static)
-        ex, ey = [], []
-        for a, b in edges:
-            ex += [pos[a][0], pos[b][0], None]; ey += [pos[a][1], pos[b][1], None]
-        edge_trace = go.Scatter(x=ex, y=ey, mode="lines",
-                                line=dict(color="#cbd5e1", width=2), hoverinfo="skip")
+        # edge lines weighted by the LIVE libRoadRunner reaction flux — the living
+        # flux map: thick edges carry most of the carbon. Falls back to uniform
+        # edges if no flux is available.
+        redges = topo.get("reaction_edges") or []
+        fmax = max((abs(e["rate"]) for e in redges), default=0.0) or 1e-12
+        if redges:
+            edge_traces = [go.Scatter(
+                x=[pos[e["src"]][0], pos[e["dst"]][0]], y=[pos[e["src"]][1], pos[e["dst"]][1]],
+                mode="lines", line=dict(color="rgba(13,148,136,0.55)",
+                                        width=1.2 + 7.0 * (abs(e["rate"]) / fmax)),
+                hovertext="%s: %.1e" % (e["reaction"], e["rate"]), hoverinfo="text")
+                for e in redges]
+        else:
+            ex, ey = [], []
+            for a, b in edges:
+                ex += [pos[a][0], pos[b][0], None]; ey += [pos[a][1], pos[b][1], None]
+            edge_traces = [go.Scatter(x=ex, y=ey, mode="lines",
+                                      line=dict(color="#cbd5e1", width=2), hoverinfo="skip")]
 
         def col(k):
             return [r.get(k) for r in rows if k in r]
         t = [r.get("global_time", i) for i, r in enumerate(rows)]
 
         # ---- STATIC: settled network (left) + gain & flux (right) via two figures
-        net_fig = go.Figure([edge_trace, node_trace(snaps[-1])])
+        net_fig = go.Figure(edge_traces + [node_trace(snaps[-1])])
         net_fig.add_annotation(x=pos["OAA"][0], y=pos["OAA"][1] + 0.22,
                                text="⟳ autocatalytic<br>OAA + 2CO₂ → 2 OAA + acetate",
                                showarrow=False, font=dict(size=9, color=rust))
         net_fig.update_xaxes(visible=False, range=[-0.4, 2.7])
         net_fig.update_yaxes(visible=False, range=[-0.3, 1.15])
         net_fig.update_layout(template="plotly_white", height=360, width=560, showlegend=False,
-            title=dict(text="Settled network (node size = concentration)", x=0.5, xanchor="center",
+            title=dict(text="Settled network (node size = concentration, edge width = live flux)", x=0.5, xanchor="center",
                        font=dict(size=13, color=ink)),
             margin=dict(l=10, r=10, t=50, b=10), font=dict(color=ink))
 
@@ -781,8 +814,8 @@ class ProtometabolicNetwork(Visualization):
         step = max(1, len(snaps) // int(self.config["max_frames"]))
         keep = list(range(0, len(snaps), step)) + [len(snaps) - 1]
         anim = go.Figure(
-            data=[edge_trace, node_trace(snaps[keep[0]])],
-            frames=[go.Frame(data=[edge_trace, node_trace(snaps[k])], name=str(j))
+            data=edge_traces + [node_trace(snaps[keep[0]])],
+            frames=[go.Frame(data=edge_traces + [node_trace(snaps[k])], name=str(j))
                     for j, k in enumerate(keep)])
         anim.update_xaxes(visible=False, range=[-0.4, 2.7])
         anim.update_yaxes(visible=False, range=[-0.3, 1.15])

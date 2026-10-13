@@ -96,6 +96,7 @@ class RoadRunnerNetworkProcess(Process):
         self._rr = None
         self._t = 0.0
         self._connected = None
+        self._fluxes = {}       # live per-reaction rate {reaction_id: rate} (living flux map)
 
     def inputs(self):
         return {"feed_pyruvate": _MOLAR, "feed_CO2": _MOLAR}
@@ -134,6 +135,12 @@ class RoadRunnerNetworkProcess(Process):
         rr.simulate(self._t, self._t + dt, 2)   # continue from current state
         self._t += dt
 
+        # Live per-reaction fluxes straight from the engine — the living flux map.
+        try:
+            self._fluxes = dict(zip(rr.getReactionIds(), (float(r) for r in rr.getReactionRates())))
+        except Exception:  # noqa: BLE001
+            self._fluxes = {}
+
         co2 = float(rr.CO2); oaa = float(rr.OAA); pyr = float(rr.pyruvate)
         k_carb = float(rr.k_carb); k_rtca = float(rr.k_rtca); k_wash = float(rr.k_wash)
         vol = max(float(self.config["reactor_volume_scale"]), 1e-12)
@@ -160,11 +167,22 @@ _VIZ_EDGES = [("pyruvate", "OAA"), ("CO2", "OAA"), ("OAA", "acetate"),
 _VIZ_POS = {"pyruvate": (0.0, 0.7), "CO2": (0.0, 0.3), "OAA": (1.0, 0.5),
             "acetate": (2.0, 0.85), "malate": (1.6, 0.15), "succinate": (2.3, 0.0)}
 
+# Directed substrate→product edges per real reaction — the living flux map draws
+# each with thickness ∝ the live libRoadRunner reaction rate.
+_FLUX_EDGES = {
+    "R_carb": [("pyruvate", "OAA"), ("CO2", "OAA")],
+    "R_rtca": [("CO2", "OAA"), ("OAA", "acetate")],   # autocatalytic turn
+    "R_mal": [("OAA", "malate")],
+    "R_suc": [("malate", "succinate")],
+}
+
 
 def network_state(proc: "RoadRunnerNetworkProcess") -> dict:
-    """Live species concentrations (M) from the real libRoadRunner model, plus the
-    reaction-graph topology. Returns ``{species, conc, edges, pos}``. Zeros if the
-    model has not been built yet."""
+    """Live species concentrations (M) + live per-reaction fluxes from the real
+    libRoadRunner model. Returns ``{species, conc, edges, pos, fluxes,
+    reaction_edges}`` where ``reaction_edges`` are directed substrate→product edges
+    carrying the live reaction rate (edge weight for the living flux map). Zeros if
+    the model has not been built yet."""
     rr = getattr(proc, "_rr", None)
     conc = []
     for s in _VIZ_SPECIES:
@@ -172,5 +190,11 @@ def network_state(proc: "RoadRunnerNetworkProcess") -> dict:
             conc.append(float(rr[s]) if rr is not None else 0.0)
         except Exception:
             conc.append(0.0)
+    fluxes = dict(getattr(proc, "_fluxes", {}) or {})
+    reaction_edges = [
+        {"src": src, "dst": dst, "rate": float(fluxes.get(rxn, 0.0)), "reaction": rxn}
+        for rxn, pairs in _FLUX_EDGES.items() for (src, dst) in pairs
+    ]
     return {"species": list(_VIZ_SPECIES), "conc": conc,
-            "edges": list(_VIZ_EDGES), "pos": dict(_VIZ_POS)}
+            "edges": list(_VIZ_EDGES), "pos": dict(_VIZ_POS),
+            "fluxes": fluxes, "reaction_edges": reaction_edges}

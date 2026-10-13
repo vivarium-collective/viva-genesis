@@ -7,7 +7,8 @@ status: running
 design_status: approved
 simulation_status: ran
 evaluation_status: evaluated
-confidence: Investigating
+confidence: Accepted
+gate_status: passed
 title: Mineral compartments to protocells (Campaign IV)
 question: Do mixed-amphiphile organic boundaries enhance persistence without cutting the system off from geochemical energy?
 hypothesis: Over a salt/pH/divalent-cation/T window, vesicles form and selectively retain while remaining permeable enough to exploit the external gradient — a non-empty individuality-vs-access region exists.
@@ -135,8 +136,35 @@ findings:
   expected:
     cites: [jordan2019promotion, sutherland2017opinion]
   explanation: Selective permeability — low effective permeability to large/charged internal metabolites, higher to small external resources.
-  next_action: Couple the og-02 network inside the vesicle to test whether the boundary improves network persistence vs the open pore.
-  next_action_type: extend
+- id: og04-retention-access-plane
+  kind: computational
+  status: novel
+  statement: >-
+    Sweeping permeability (via temperature) traces the compartment through THREE
+    regimes on the retention-access plane — too closed (retains but starves; low T),
+    a viable window (individuality + access, peak ret×acc ≈ 0.91 at ~312 K), and too
+    open (leaks; high T) before the membrane destabilizes entirely. Orthogonally, the
+    viable SALT ceiling rises with co-surfactant fraction: vesicles survive at
+    seawater salt (0.35 M) and beyond only above mix ≈ 0.4 — the Jordan mixed-amphiphile
+    advantage as a bounded 2-D region, not a single point.
+  evidence:
+    observed: 'retention 0.97→0 and access 0.71→1→0 across T; viable salt ceiling rises with mix_fraction'
+    units: dimensionless
+  expected:
+    cites: [jordan2019promotion, sutherland2017opinion]
+  explanation: >-
+    Temperature sweep → retention-access arc; (mix × ionic strength) sweep →
+    salt-tolerance feasibility map; rendered as the retention-access Decision view.
+- id: og04-mix-fraction-gotcha
+  kind: methodological
+  status: novel
+  statement: >-
+    The parameter sweep exposed that an exact mix_fraction=0.0 is swallowed by
+    process-bigraph's is_empty(Float, 0.0) and refilled with the default (0.4), which
+    would silently turn the single-fatty-acid control into a mixed-amphiphile run. The
+    composite now clamps 0.0 to a negligible 1e-6 and reads mix_fraction via a state
+    input, so the control is honored. (The study runner had already dodged it with 0.001.)
+  explanation: A sweep axis starting at exactly 0.0 revealed the gotcha; the fix hardens the composite for any caller passing 0.0.
 report:
   title: Campaign IV — mineral compartments to protocells
   verdict: PASS — mixed amphiphiles form vesicles that retain without isolating; controls bound the survival region
@@ -192,6 +220,10 @@ visualizations:
   config:
     composite: viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell
     title: Campaign IV — the protocell window broadens (mixed amphiphiles)
+- name: protocell-retention-access
+  address: local:ProtocellPhaseMap
+  config:
+    title: Campaign IV — a boundary that retains without isolating (Decision view)
 runs:
 - name: viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791844641__01fe12
   status: completed

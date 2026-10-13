@@ -33,6 +33,12 @@ _REAL_EMIT_PATHS = [
 
 @composite_generator(
     name="serpentinizing_vent_reactor",
+    visualizations=[
+        {"name": "vent-cross-section", "address": "local:VentCrossSection",
+         "config": {"n_steps": 60, "title": "Campaign 0 — real 2-D vent cross-section (FiPy)"}},
+        {"name": "vent-reactor-timeseries", "address": "local:VentReactorTimeseries",
+         "config": {"n_steps": 120, "title": "Campaign 0 — real vent reactor (PHREEQC + FiPy)"}},
+    ],
     description=(
         "A reusable alkaline-vent reactor module. Module A = genuine PHREEQC "
         "serpentinization (phreeqpython + vendored llnl.dat): olivine dissolution "
@@ -116,6 +122,12 @@ def serpentinizing_vent_reactor(core=None, *, flow_velocity=1.0e-3, olivine_rate
 
 @composite_generator(
     name="serpentinizing_vent_reactor_reduced",
+    visualizations=[
+        {"name": "vent-cross-section", "address": "local:VentCrossSection",
+         "config": {"n_steps": 40, "title": "Campaign 0 — vent cross-section (reduced, FiPy)"}},
+        {"name": "vent-reactor-timeseries", "address": "local:VentReactorTimeseries",
+         "config": {"n_steps": 60, "title": "Campaign 0 — vent reactor (reduced)"}},
+    ],
     description="Reduced tuned-relaxation vent reactor (fallback / A-B "
                 "comparison): Gaussian serpentinization source feeding a first-order "
                 "relaxation box. Runs anywhere (no phreeqpython/fipy). NOT real geochemistry.",

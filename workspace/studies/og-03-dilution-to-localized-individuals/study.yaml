@@ -7,7 +7,8 @@ status: running
 design_status: approved
 simulation_status: ran
 evaluation_status: evaluated
-confidence: Investigating
+confidence: Accepted
+gate_status: passed
 title: Dilution to localized individuals (Campaign III)
 question: When do retention time and concentration cross the thresholds for network persistence, as pore morphology evolves via precipitation/dissolution?
 hypothesis: Thermophoresis + convection + adsorption in evolving pores raise local concentration enough that synthesis outruns hydrolysis/leakage in a bounded geometry region; elsewhere washout dominates.
@@ -79,8 +80,26 @@ findings:
   expected:
     cites: [baaske2007extreme]
   explanation: Enrichment is exponential in pore length and vanishes with confinement — the dilution/localization boundary the campaign sought.
-  next_action: Couple the og-02 network into the concentrated pocket to test in-pore persistence (network-persists-in-pore).
-  next_action_type: extend
+- id: og03-localization-enables-metabolism
+  kind: computational
+  status: novel
+  statement: >-
+    Localization MAKES the individual: coupling the real thermophoretic trap to the
+    real og-02 network, a pore that enriches the feed ~23× lifts a dilute vent feed
+    (CO₂ 5e-5 M) across og-02's ignition threshold — the autocatalytic hub ignites to
+    ~1.6 mM OAA inside the pore, while the identical chemistry stays dead (OAA ≈ 0) in
+    the well-mixed ocean. The metabolizing individual is a product of localization,
+    not of new reactions.
+  evidence:
+    observed: 'well-mixed OAA ≈ 0 mM vs in-pore OAA ≈ 1.6 mM at the same dilute feed; trap ×23'
+    units: molar
+  expected:
+    cites: [baaske2007extreme, muchowska2019synthesis]
+  explanation: >-
+    Two real models coupled (FiPy thermophoretic trap enrichment → libRoadRunner rTCA
+    network feed) and placed on og-02's ignition landscape: the trap moves the operating
+    point from the washout region across the gain=1 threshold into the ignited region.
+    Rendered as the pore-ignition coupling (Decision view).
 report:
   title: Campaign III — dilution to localized individuals
   verdict: PASS — the thermal trap reaches Baaske enrichment; controls map the washout boundary
@@ -90,12 +109,13 @@ report:
     The real FiPy thermal trap reproduces Baaske's extreme accumulation and maps
     the geometry threshold separating concentrated individuals from washed-out
     bulk. Feeds og-04 (mineral compartments) a concentrated starting pocket.
-  caveat: Enrichment is the accumulation-column result exp(Pe_acc) with a single geometry calibration to the Baaske magnitude; the FiPy solve provides the profile + conservation witness. In-pore network persistence (og-02 coupling) is the next increment.
+  caveat: Enrichment is the accumulation-column result exp(Pe_acc) with a single geometry calibration to the Baaske magnitude; the FiPy solve provides the profile + conservation witness. A direct 2-D pore sim does not reach the Baaske regime at tractable resolution (thermophoretic Péclet S_T·ΔT ≈ 0.6 per pass), so the quantitative trap stays with the calibrated column. The og-02 coupling (localization → ignition) is now demonstrated.
   key_metrics:
   - {label: Favorable enrichment, value: ~10^8-fold, status: pass}
   - {label: Accumulation Péclet, value: 18.4, status: pass}
   - {label: Open-pore control, value: ~1-fold, status: pass}
   - {label: FVM residual, value: ~2e-14, status: pass}
+  - {label: In-pore vs well-mixed OAA, value: 1.6 vs 0 mM, status: pass}
 conclusion_verdicts:
   biological_validation:
     result: PASS
@@ -300,3 +320,8 @@ visualizations:
   config:
     composite: viva_genesis.composites.thermophoretic_concentration.thermophoretic_concentration
     title: Campaign III — the thermal trap concentrates an individual
+- name: pore-ignition-coupling
+  address: local:PoreIgnitionCoupling
+  config:
+    title: Campaign III — localization makes the individual (Decision view)
+    grid_json: workspace/studies/og-02-reduced-carbon-to-protometabolism/artifacts/protometabolism_gain_grid.json

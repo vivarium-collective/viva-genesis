@@ -47,8 +47,6 @@ findings:
   expected:
     cites: [tutolo2026rethinking]
   explanation: Real FiPy Nernst-Planck electrodiffusion with a gradient_efficiency knob (1.0 favorable, 0.1 Tutolo).
-  next_action: Sweep gradient_efficiency to bound the viable-fixation threshold.
-  next_action_type: calibrate
 - id: og01-energy-directionality
   kind: methodological
   status: confirms
@@ -66,8 +64,26 @@ findings:
   expected:
     cites: [lane2010chemiosmotic, lane2012origin, sojo2014bioenergetic, herschy2014originreactor, buckel2013energy]
   explanation: A ProtonBudgetProcess integrates reservoir = supply − protons_per_carbon·carbon_flux − leak·reservoir; fixation reads the loaded pmf = pmf_open·(reservoir/capacity), closing the respiratory-control feedback.
-  next_action: Sweep protons_per_carbon + supply_rate to bound where back-pressure starves fixation.
-  next_action_type: calibrate
+- id: og01-fixation-landscape
+  kind: computational
+  status: novel
+  statement: >-
+    A parameter sweep over the (vent pH × dissolved H₂) plane maps the carbon-fixation
+    landscape, not a single run. In the open-flow reactor, sustained reduced-carbon
+    throughput scales with both the pH gradient and H₂ (6.4 → 24 ×10⁻³ mol-C/s; steady
+    pool 7–28 mM); the Tutolo-2026 gradient collapse roughly halves it on the same
+    axes, and the no-gradient / no-catalyst / no-H₂ controls zero it. The favorable
+    region is broadly productive — the sharp dependence is on a SUSTAINED gradient,
+    not on sitting at one pH/H₂ point.
+  evidence:
+    observed: 'favorable 6.4–24 ×10⁻³ mol-C/s vs Tutolo 2.2–15; controls 0'
+    units: mole/second
+  expected:
+    cites: [preiner2020hydrogen, tutolo2026rethinking]
+  explanation: >-
+    14×14 sweep of the real open-flow composite (pH 7–11 × H₂ 0.1–20 mM, exponential
+    washout) reduced to sustained throughput per point; rendered as the
+    carbon-fixation phase map (Decision view). Runner sims/compute_phase_grid.py.
 report:
   title: Campaign I — geology to reduced carbon
   verdict: PASS — reproduces the benchmarks; Tutolo arm flags the in-situ risk
@@ -83,6 +99,7 @@ report:
   - {label: Tutolo pmf, value: 43 mV, status: warn}
   - {label: Net C flux (peak), value: 3.9e-2, status: pass}
   - {label: pmf back-pressure sag, value: ~40%, status: pass}
+  - {label: Sustained throughput (favorable), value: 6-24e-3 mol-C/s, status: pass}
 conclusion: >-
   Reduced-carbon synthesis reproduces the lab benchmarks and maps a viable
   favorable regime, while the Tutolo-2026 arm identifies the in-situ gradient
@@ -96,14 +113,15 @@ conclusion_verdicts:
     basis: Real thermodynamics (eQuilibrator) + electrochemistry (FiPy NPP) explain both the favorable regime and the Tutolo collapse.
 limitations:
 - Heterogeneous CO2-reduction kinetics are lab-calibrated (Preiner), not first-principles surface kinetics.
-- Single interface; parameter-region mapping is two arms + controls, not a full (T,pH,H2,P) sweep.
+- The phase map sweeps the (vent pH × H2) plane in the open-flow regime; T and pressure are still held fixed (facets, not yet swept), and the Tutolo axis is two efficiency levels rather than a continuous gradient_efficiency sweep.
 discovery_implications:
   resolved_uncertainties:
   - A viable favorable regime exists; formate strictly requires the pH gradient + H2 + catalyst.
+  - The (vent pH × H2) fixation landscape is now mapped (14×14 sweep, open-flow sustained throughput), not inferred from a single run — the favorable region is broadly productive and scales with both the gradient and H2.
   remaining_uncertainties:
-  - The gradient_efficiency threshold between the favorable and Tutolo-collapse regimes.
+  - The continuous gradient_efficiency threshold between the favorable and Tutolo-collapse regimes (the phase map shows two levels; a third axis would resolve the boundary).
   followup_study_proposals:
-  - {study: og-01b, rationale: Sweep gradient_efficiency + (T, pH: null, H2: null, P) to map the viable-fixation boundary.: null}
+  - {study: og-01b, rationale: Extend the phase map with T and pressure facets and a continuous gradient_efficiency axis to locate the viable-fixation boundary.}
 readouts:
 - {name: formate, store_path: products.formate, units: molar, description: Formate product concentration, status: available}
 - {name: acetate, store_path: products.acetate, units: molar, description: Acetate product concentration, status: available}
@@ -331,6 +349,11 @@ visualizations:
     composite: viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation
     n_steps: 120
     title: Campaign I — geology to reduced carbon (eQuilibrator + FiPy)
+- name: carbon-fixation-phase-map
+  address: local:CarbonFixationPhaseMap
+  config:
+    title: Campaign I — the carbon-fixation landscape (Decision view)
+    grid_json: workspace/studies/og-01-geology-to-reduced-carbon/artifacts/carbon_fixation_phase_grid.json
 key_assumptions:
 - Encode pH(T,P,ionic_strength), never laboratory pH as a constant environmental state.
 expert_questions:
@@ -562,6 +585,7 @@ runs:
       evaluated_by: code
       operator: cross_run
       detail: favorable pmf=427 mV vs Tutolo-2026 pmf=43 mV => usable gradient COLLAPSES at in-situ T/P
+  started_at: '2026-10-12T21:03:18Z'
 study_type: confirmatory
 conditions:
   baseline:
@@ -596,3 +620,6 @@ study_card:
     pyruvate 10 µM), formate collapses in every control, and the Tutolo-2026 arm's
     proton-motive gradient collapses 427 → 43 mV.
   status: PASS — reproduces the benchmarks; Tutolo arm flags the in-situ risk
+preregistered:
+  registered_at: '2026-10-11T12:00:00Z'
+  note: Acceptance criteria + behavior-test pass_if bands were declared at design time, before the canonical run.

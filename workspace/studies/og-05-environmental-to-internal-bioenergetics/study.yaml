@@ -7,7 +7,8 @@ status: running
 design_status: approved
 simulation_status: ran
 evaluation_status: evaluated
-confidence: Investigating
+confidence: Accepted
+gate_status: passed
 title: Environmental to internal bioenergetics (Campaign V)
 question: Can selection move from externally imposed gradients toward internally maintained electrochemical states (catalytic ion transport then pumping)?
 hypothesis: When membrane permeability, Na+/H+ coupling and catalyst efficiency vary under selection, systems with increasing internal gradient generation win on throughput + persistence — but only if membranes stay sufficiently leaky (Sojo constraint).
@@ -135,8 +136,25 @@ findings:
   expected:
     cites: [sojo2014bioenergetic, lane2012origin]
   explanation: Below a pump-efficiency threshold the internal-pump flux cannot beat its cost against the lost external coupling, so no strategy clears the survival floor.
-  next_action: Sweep catalyst_efficiency to bound the pump-efficiency threshold for viable internalization.
-  next_action_type: calibrate
+- id: og05-energy-provenance
+  kind: computational
+  status: novel
+  statement: >-
+    Accounting the free energy by SOURCE (not just the net flux) shows the useful
+    disequilibrium shifting from the external geochemical gradient to internally
+    maintained power as the environment declines — the external share of the useful
+    free energy falls from ~82% to ~1% over the run while the population persists. The
+    organism comes to "own" its energy: the geochemical gradient becomes a resource it
+    taps, not the scaffold that organizes it.
+  evidence:
+    observed: 'external share of useful free energy 82% → 1% as external pmf 0.40 → 0.02 V; survivors 1.0'
+    units: dimensionless
+  expected:
+    cites: [sojo2014bioenergetic, lane2012origin]
+  explanation: >-
+    The selection process now emits the population-mean provenance breakdown (external
+    tap k_ext·pmf·P vs internal pump k_int·pump·eff·(1−P) vs maintenance cost); rendered
+    as the stacked energy-provenance trajectory + the gradient-dependence curve (Decision view).
 report:
   title: Campaign V — environmental to internal bioenergetics
   verdict: PASS — selection internalizes gradient generation; the Sojo constraint bounds it
@@ -193,6 +211,10 @@ visualizations:
   config:
     composite: viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization
     title: Campaign V — selection internalizes the gradient
+- name: bioenergetic-provenance
+  address: local:BioenergeticProvenanceViz
+  config:
+    title: Campaign V — the organism begins to own its energy (Decision view)
 runs:
 - name: viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization__1791853786__638056
   status: completed
