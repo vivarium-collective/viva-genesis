@@ -155,6 +155,7 @@ findings:
     The selection process now emits the population-mean provenance breakdown (external
     tap k_ext·pmf·P vs internal pump k_int·pump·eff·(1−P) vs maintenance cost); rendered
     as the stacked energy-provenance trajectory + the gradient-dependence curve (Decision view).
+report:
   title: Campaign V — environmental to internal bioenergetics
   verdict: PASS — selection internalizes gradient generation; the Sojo constraint bounds it
   confidence: high
