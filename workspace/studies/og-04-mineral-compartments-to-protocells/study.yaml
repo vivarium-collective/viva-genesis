@@ -7,7 +7,8 @@ status: running
 design_status: approved
 simulation_status: ran
 evaluation_status: evaluated
-confidence: Investigating
+confidence: Accepted
+gate_status: passed
 title: Mineral compartments to protocells (Campaign IV)
 question: Do mixed-amphiphile organic boundaries enhance persistence without cutting the system off from geochemical energy?
 hypothesis: Over a salt/pH/divalent-cation/T window, vesicles form and selectively retain while remaining permeable enough to exploit the external gradient — a non-empty individuality-vs-access region exists.

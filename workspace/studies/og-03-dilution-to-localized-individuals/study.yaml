@@ -7,7 +7,8 @@ status: running
 design_status: approved
 simulation_status: ran
 evaluation_status: evaluated
-confidence: Investigating
+confidence: Accepted
+gate_status: passed
 title: Dilution to localized individuals (Campaign III)
 question: When do retention time and concentration cross the thresholds for network persistence, as pore morphology evolves via precipitation/dissolution?
 hypothesis: Thermophoresis + convection + adsorption in evolving pores raise local concentration enough that synthesis outruns hydrolysis/leakage in a bounded geometry region; elsewhere washout dominates.
