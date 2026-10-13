@@ -38,6 +38,12 @@ _EMIT_PATHS = [
         "k_rtca": {"type": "float", "default": 800.0,
                    "description": "Autocatalytic rTCA-turn rate constant (Fe-promoted)"},
     },
+    visualizations=[
+        {"name": "protometabolic-network", "address": "local:ProtometabolicNetwork",
+         "config": {"n_steps": 60, "title": "Campaign II — the protometabolic network igniting"}},
+        {"name": "protometabolism-network", "address": "local:ProtometabolismViz",
+         "config": {"n_steps": 120, "title": "Campaign II — protometabolic network (libRoadRunner)"}},
+    ],
     default_n_steps=120,
     core_extensions=[build_core],
     emitters=[{"address": "local:ParquetEmitter", "paths": _EMIT_PATHS}],

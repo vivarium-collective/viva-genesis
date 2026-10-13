@@ -45,6 +45,10 @@ _EMIT_PATHS = [
         "v_start": {"type": "float", "default": 0.40, "description": "Initial external gradient (V)"},
         "decline_rate": {"type": "float", "default": 0.01, "description": "External-gradient decline per step (V/s)"},
     },
+    visualizations=[
+        {"name": "bioenergetic-internalization", "address": "local:BioenergeticInternalizationViz",
+         "config": {"title": "Campaign V — selection internalizes the gradient"}},
+    ],
     default_n_steps=40,
     core_extensions=[build_core],
     emitters=[{"address": "local:ParquetEmitter", "paths": _EMIT_PATHS}],

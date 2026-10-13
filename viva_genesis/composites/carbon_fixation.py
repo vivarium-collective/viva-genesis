@@ -59,6 +59,12 @@ _EMIT_PATHS = [
         "ph_vent": {"type": "float", "default": 9.5, "description": "Alkaline vent-side pH (from og-00)"},
         "ph_ocean": {"type": "float", "default": 6.0, "description": "Acidic early-ocean-side pH"},
     },
+    visualizations=[
+        {"name": "proton-gradient-profile", "address": "local:ProtonGradientProfile",
+         "config": {"n_steps": 80, "title": "Campaign I — proton gradient → reduced carbon"}},
+        {"name": "carbon-fixation-timeseries", "address": "local:CarbonFixationViz",
+         "config": {"n_steps": 120, "title": "Campaign I — geology to reduced carbon (eQuilibrator + FiPy)"}},
+    ],
     default_n_steps=120,
     core_extensions=[build_core],
     emitters=[{"address": "local:ParquetEmitter", "paths": _EMIT_PATHS}],

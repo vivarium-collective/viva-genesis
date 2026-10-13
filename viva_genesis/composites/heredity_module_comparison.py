@@ -50,6 +50,10 @@ _MODULES = {
                    "description": "Heredity-module preset: rna-like | peptide | low-fidelity | non-heritable"},
         "temperature": {"type": "float", "default": 353.15, "description": "Temperature (K; ~80 C vent)"},
     },
+    visualizations=[
+        {"name": "heredity-error-threshold", "address": "local:HeredityErrorThresholdViz",
+         "config": {"title": "Campaign VI — heredity above the error threshold"}},
+    ],
     default_n_steps=50,
     core_extensions=[build_core],
     emitters=[{"address": "local:ParquetEmitter", "paths": _EMIT_PATHS}],

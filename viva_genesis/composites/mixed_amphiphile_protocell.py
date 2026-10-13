@@ -45,6 +45,10 @@ _EMIT_PATHS = [
         "ionic_strength": {"type": "float", "default": 0.35, "description": "Ionic strength (M); ~seawater 0.35"},
         "temperature": {"type": "float", "default": 318.15, "description": "Temperature (K)"},
     },
+    visualizations=[
+        {"name": "protocell-window", "address": "local:ProtocellWindowViz",
+         "config": {"title": "Campaign IV — the protocell window broadens (mixed amphiphiles)"}},
+    ],
     default_n_steps=20,
     core_extensions=[build_core],
     emitters=[{"address": "local:ParquetEmitter", "paths": _EMIT_PATHS}],
