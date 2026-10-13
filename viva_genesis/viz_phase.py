@@ -421,6 +421,98 @@ class ProtocellPhaseMap(Visualization):
         return {"html": protocell_decision_figure(arc, feas, title=self.config["title"])}
 
 
+def bioenergetic_provenance_figure(fav, weak, *, title=None) -> str:
+    """og-05 Decision view: (left) the energy-provenance trajectory — the useful
+    disequilibrium shifts from the external geochemical gradient to internally
+    maintained power as the environment declines; (right) gradient dependence — the
+    efficient pump survives the collapse, the weak pump does not (Sojo). ``fav`` /
+    ``weak`` are the emitter row lists for the two arms."""
+    import plotly.graph_objects as go
+    from plotly.subplots import make_subplots
+
+    def col(rows, k):
+        return [float(r.get(k, 0.0)) for r in rows]
+
+    t = [r.get("global_time", i) for i, r in enumerate(fav)]
+    ext = col(fav, "external_power")
+    intl = col(fav, "internal_power")
+    frac_ext = [e / (e + n) if (e + n) > 1e-30 else 0.0 for e, n in zip(ext, intl)]
+    frac_int = [1.0 - f if (e + n) > 1e-30 else 0.0 for f, e, n in zip(frac_ext, ext, intl)]
+    vext = col(fav, "electric_potential")
+
+    fig = make_subplots(rows=1, cols=2, horizontal_spacing=0.12,
+                        specs=[[{"secondary_y": True}, {"secondary_y": False}]],
+                        subplot_titles=("Energy provenance: external → internal",
+                                        "Gradient dependence (the Sojo constraint)"))
+    # --- left: stacked provenance fractions + declining gradient ---
+    fig.add_trace(go.Scatter(x=t, y=[f * 100 for f in frac_ext], mode="lines", name="external gradient",
+                             stackgroup="prov", line=dict(width=0.5, color=_AMBER),
+                             fillcolor="rgba(217,119,6,0.55)"), row=1, col=1, secondary_y=False)
+    fig.add_trace(go.Scatter(x=t, y=[f * 100 for f in frac_int], mode="lines", name="internally maintained",
+                             stackgroup="prov", line=dict(width=0.5, color=_TEAL),
+                             fillcolor="rgba(13,148,136,0.55)"), row=1, col=1, secondary_y=False)
+    fig.add_trace(go.Scatter(x=t, y=vext, mode="lines", name="external pmf (V)",
+                             line=dict(color=_INK, width=2, dash="dot")), row=1, col=1, secondary_y=True)
+    fig.update_yaxes(title_text="share of useful free energy (%)", range=[0, 100], row=1, col=1, secondary_y=False)
+    fig.update_yaxes(title_text="external pmf (V)", row=1, col=1, secondary_y=True, showgrid=False)
+    fig.update_xaxes(title_text="time (s)", row=1, col=1)
+    # --- right: survivors, efficient vs weak pump ---
+    fig.add_trace(go.Scatter(x=t, y=col(fav, "survivors"), mode="lines", name="efficient pump",
+                             line=dict(color=_TEAL, width=3)), row=1, col=2)
+    fig.add_trace(go.Scatter(x=[r.get("global_time", i) for i, r in enumerate(weak)],
+                             y=col(weak, "survivors"), mode="lines", name="weak-pump control",
+                             line=dict(color=_RUST, width=2.5, dash="dash")), row=1, col=2)
+    fig.add_trace(go.Scatter(x=t, y=col(fav, "internalization"), mode="lines", name="internalization",
+                             line=dict(color=_SLATE, width=1.5, dash="dot")), row=1, col=2)
+    fig.update_yaxes(title_text="surviving population fraction", range=[-0.02, 1.05], row=1, col=2)
+    fig.update_xaxes(title_text="time (s)", row=1, col=2)
+
+    ttl = title or "Campaign V — the organism begins to own its energy"
+    fig.update_layout(
+        title=dict(text=(f"<b>{ttl}</b><br><span style='font-size:12px;color:{_SLATE}'>"
+                         "As the geochemical gradient collapses, selection shifts the useful free energy "
+                         "from external (amber) to internally pumped (teal). The efficient pump internalizes "
+                         "and survives; the weak pump cannot beat its cost and collapses — the gradient "
+                         "becomes a resource, not the scaffold.</span>"), x=0.5, xanchor="center"),
+        height=450, width=960, margin=dict(t=100, b=60, l=70, r=60),
+        legend=dict(orientation="h", y=-0.18, x=0.5, xanchor="center", font=dict(size=9)),
+        font=dict(family="system-ui, -apple-system, sans-serif", color=_INK),
+        paper_bgcolor="white", plot_bgcolor="white")
+    return fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+
+
+class BioenergeticProvenanceViz(Visualization):
+    """og-05 Decision view: the energy-provenance trajectory (external → internal) +
+    the gradient-dependence of survival (efficient vs weak pump), from the real
+    replicator composite run under a declining external gradient."""
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "Campaign V — the organism begins to own its energy"},
+        "n_steps": {"_type": "integer", "_default": 40},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        from process_bigraph import Composite, gather_emitter_results
+
+        from .composites.bioenergetic_internalization import bioenergetic_internalization
+        from .core import build_core
+        core = build_core()
+        n = int(self.config["n_steps"])
+
+        def run(eff):
+            sim = Composite({"state": bioenergetic_internalization(core, catalyst_efficiency=eff)}, core=core)
+            sim.run(n)
+            return gather_emitter_results(sim)[("emitter",)]
+
+        return {"html": bioenergetic_provenance_figure(run(1.0), run(0.3), title=self.config["title"])}
+
+
 class CarbonFixationPhaseMap(Visualization):
     """og-01 Decision view: the carbon-fixation landscape over (vent pH × H₂),
     favourable vs the Tutolo gradient collapse, rendered from a parameter sweep of

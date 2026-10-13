@@ -120,19 +120,27 @@ class BioenergeticSelectionProcess(Process):
             "internalization": {"_type": "overwrite[float]", "_units": "dimensionless"},
             "mean_permeability": {"_type": "overwrite[float]", "_units": "meter/second"},
             "survivors": {"_type": "overwrite[float]", "_units": "dimensionless"},
+            "external_power": {"_type": "overwrite[float]", "_units": "watt"},
+            "internal_power": {"_type": "overwrite[float]", "_units": "watt"},
+            "maintenance_power": {"_type": "overwrite[float]", "_units": "watt"},
         }
 
     def initial_state(self):
         return {"electric_potential": 0.3, "catalyst_efficiency": 1.0}
 
+    def _flux_terms(self, vext, eff):
+        """Per-strategy free-energy terms: (external tap, internal pump, maintenance
+        cost). The net flux is max(ext + int − cost, 0)."""
+        P, pump = self._Pflat, self._pumpflat
+        external = float(self.config["k_ext"]) * vext * P
+        internal = float(self.config["k_int"]) * pump * eff * (1.0 - P)
+        cost = float(self.config["c_pump"]) * pump + float(self.config["c_base"])
+        return external, internal, cost
+
     def _flux(self, vext, eff):
         import numpy as np
-        P, pump = self._Pflat, self._pumpflat
-        f = (float(self.config["k_ext"]) * vext * P
-             + float(self.config["k_int"]) * pump * eff * (1.0 - P)
-             - float(self.config["c_pump"]) * pump
-             - float(self.config["c_base"]))
-        return np.maximum(f, 0.0)
+        external, internal, cost = self._flux_terms(vext, eff)
+        return np.maximum(external + internal - cost, 0.0)
 
     def update(self, state, interval):
         import numpy as np
@@ -163,12 +171,24 @@ class BioenergeticSelectionProcess(Process):
         mean_P = float((self._freq * self._Pflat).sum()) if mass > 0 else 0.0
         survivors = float(self._freq[flux > float(self.config["survival_threshold"])].sum())
 
+        # Energy PROVENANCE: population-mean of each term, so the trajectory shows
+        # the useful disequilibrium shifting from the external geochemical gradient
+        # to internally maintained (pumped) power as the environment declines.
+        external, internal, cost = self._flux_terms(vext, eff)
+        scale = float(self.config["flux_scale_watt"])
+        external_power = float((self._freq * external).sum()) * scale
+        internal_power = float((self._freq * internal).sum()) * scale
+        maintenance_power = float((self._freq * cost).sum()) * scale
+
         return {
             "lineage_fitness": mean_flux,
-            "free_energy_flux": mean_flux * float(self.config["flux_scale_watt"]),
+            "free_energy_flux": mean_flux * scale,
             "internalization": internalization,
             "mean_permeability": mean_P * float(self.config["perm_scale"]),
             "survivors": survivors,
+            "external_power": external_power,
+            "internal_power": internal_power,
+            "maintenance_power": maintenance_power,
         }
 
 
