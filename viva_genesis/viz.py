@@ -1533,3 +1533,145 @@ class NitrogenCarbonBalanceViz(Visualization):
             legend=dict(orientation="h", y=-0.2, x=0.0, font=dict(size=10)),
             margin=dict(l=65, r=30, t=70, b=70), font=dict(color=ink))
         return fig.to_html(full_html=True, include_plotlyjs="cdn", config={"displayModeBar": False})
+
+
+class PhosphorusSpeciationViz(Visualization):
+    """og-res-phosphorus World view: the P-species trajectories of the real
+    libRoadRunner phosphorus-speciation network — dissolved phosphate, condensed
+    polyphosphate, reactive (activated) P, and the mineral-bound (precipitated/
+    adsorbed) sink — in the favorable thermal-gradient pore. Shows reactive P
+    accumulating while only a small fraction precipitates.
+
+    Drives the genuine libRoadRunner/Tellurium composite
+    (``viva_genesis.composites.phosphorus_availability``).
+    """
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "Phosphorus bottleneck — P-species trajectories"},
+        "n_steps": {"_type": "integer", "_default": 120},
+        "pore_enrichment": {"_type": "float", "_default": 30.0},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        from .core import build_core
+        from .composites.phosphorus_availability import phosphorus_availability
+        core = build_core()
+        doc = phosphorus_availability(core, pore_enrichment=float(self.config["pore_enrichment"]))
+        sim = Composite({"state": doc}, core=core)
+        sim.run(float(self.config["n_steps"]))
+        rows = gather_emitter_results(sim)[("emitter",)]
+        return {"html": self._figure(rows)}
+
+    def _figure(self, rows) -> str:
+        from plotly.subplots import make_subplots
+
+        def col(k):
+            return [r[k] for r in rows if k in r]
+
+        t = [r.get("global_time", i) for i, r in enumerate(rows)]
+        phosphate = [v * 1e6 for v in col("phosphate")]        # µM
+        polyp = [v * 1e6 for v in col("polyphosphate")]
+        reactivep = [v * 1e6 for v in col("reactive_P")]
+        mineralp = [v * 1e6 for v in col("mineral_P")]
+        precipf = col("precipitated_fraction")
+
+        ink, teal, amber, slate, rust = "#1e293b", "#0d9488", "#d97706", "#64748b", "#b91c1c"
+        fig = make_subplots(
+            rows=1, cols=2, horizontal_spacing=0.1,
+            subplot_titles=("P-species pools (µM)", "Precipitated (mineral-bound) fraction"),
+        )
+        fig.add_scatter(x=t, y=reactivep, mode="lines", line=dict(color=teal, width=3), name="reactive P", row=1, col=1)
+        fig.add_scatter(x=t, y=phosphate, mode="lines", line=dict(color=slate, width=2), name="phosphate", row=1, col=1)
+        fig.add_scatter(x=t, y=polyp, mode="lines", line=dict(color=amber, width=2, dash="dash"), name="polyphosphate", row=1, col=1)
+        fig.add_scatter(x=t, y=mineralp, mode="lines", line=dict(color=rust, width=2, dash="dot"), name="mineral-bound P", row=1, col=1)
+        fig.add_scatter(x=t, y=precipf, mode="lines", line=dict(color=rust, width=2.5), showlegend=False, row=1, col=2)
+
+        fig.update_xaxes(title_text="time (s)", showgrid=True, gridcolor="#eef2f7")
+        fig.update_yaxes(showgrid=True, gridcolor="#eef2f7")
+        fig.update_yaxes(range=[0, 1], row=1, col=2)
+        fig.update_layout(
+            title=dict(text=self.config.get("title") or "Phosphorus bottleneck — P-species trajectories",
+                       font=dict(size=16, color=ink)),
+            template="plotly_white", height=400, showlegend=True,
+            legend=dict(orientation="h", y=-0.2, x=0.0, font=dict(size=10)),
+            margin=dict(l=60, r=30, t=70, b=70), font=dict(color=ink),
+        )
+        return fig.to_html(full_html=True, include_plotlyjs="cdn", config={"displayModeBar": False})
+
+
+class PhosphorusMechanismViz(Visualization):
+    """og-res-phosphorus Mechanism view: the reactive-P production flux vs the
+    precipitation / adsorption loss flux, and their difference (net availability),
+    for the favorable pore vs an open-pore / no-gradient control. The mechanism of
+    the phosphorus bottleneck: without the thermal-gradient enrichment, precipitation
+    outpaces reactive-P formation and net availability is negative.
+
+    Drives the genuine libRoadRunner/Tellurium composite
+    (``viva_genesis.composites.phosphorus_availability``).
+    """
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "Phosphorus bottleneck — reactive-P production vs loss"},
+        "n_steps": {"_type": "integer", "_default": 120},
+        "pore_enrichment": {"_type": "float", "_default": 30.0},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def _run(self, enr):
+        from .core import build_core
+        from .composites.phosphorus_availability import phosphorus_availability
+        core = build_core()
+        sim = Composite({"state": phosphorus_availability(core, pore_enrichment=float(enr))}, core=core)
+        sim.run(float(self.config["n_steps"]))
+        return gather_emitter_results(sim)[("emitter",)]
+
+    def update(self, state=None):
+        fav = self._run(float(self.config["pore_enrichment"]))
+        ctl = self._run(1.0)
+        return {"html": self._figure(fav, ctl)}
+
+    def _figure(self, fav, ctl) -> str:
+        from plotly.subplots import make_subplots
+
+        def series(rows, k):
+            return [r.get(k, 0.0) * 1e6 for r in rows]   # µmol/s
+
+        t = [r.get("global_time", i) for i, r in enumerate(fav)]
+        ink, teal, amber, slate, rust = "#1e293b", "#0d9488", "#d97706", "#64748b", "#b91c1c"
+        fig = make_subplots(
+            rows=1, cols=2, horizontal_spacing=0.1, shared_yaxes=False,
+            subplot_titles=("Favorable pore (enriched)", "Open pore / no gradient (control)"),
+        )
+        for col_i, rows in ((1, fav), (2, ctl)):
+            prod = series(rows, "reactive_P_production")
+            loss = series(rows, "phosphate_loss")
+            net = series(rows, "net_reactive_P")
+            fig.add_scatter(x=t, y=prod, mode="lines", line=dict(color=teal, width=2.5),
+                            name="reactive-P production", showlegend=(col_i == 1), row=1, col=col_i)
+            fig.add_scatter(x=t, y=loss, mode="lines", line=dict(color=rust, width=2.5, dash="dash"),
+                            name="precipitation loss", showlegend=(col_i == 1), row=1, col=col_i)
+            fig.add_scatter(x=t, y=net, mode="lines", line=dict(color=ink, width=2),
+                            name="net availability", showlegend=(col_i == 1), row=1, col=col_i)
+            fig.add_hline(y=0.0, line=dict(color=slate, width=1, dash="dot"), row=1, col=col_i)
+
+        fig.update_xaxes(title_text="time (s)", showgrid=True, gridcolor="#eef2f7")
+        fig.update_yaxes(title_text="flux (µmol/s)", showgrid=True, gridcolor="#eef2f7")
+        fig.update_layout(
+            title=dict(text=self.config.get("title") or "Phosphorus bottleneck — reactive-P production vs loss",
+                       font=dict(size=16, color=ink)),
+            template="plotly_white", height=400, showlegend=True,
+            legend=dict(orientation="h", y=-0.2, x=0.0, font=dict(size=10)),
+            margin=dict(l=60, r=30, t=70, b=70), font=dict(color=ink),
+        )
+        return fig.to_html(full_html=True, include_plotlyjs="cdn", config={"displayModeBar": False})

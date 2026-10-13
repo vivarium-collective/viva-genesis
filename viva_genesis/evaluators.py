@@ -271,6 +271,34 @@ def _max_abs_n_mass_residual(reader, test: dict, ws_root: Any) -> float:
     return max(abs(v) for v in _values(reader, "n_mass_residual"))
 
 
+# --- og-res-phosphorus-availability (the phosphorus bottleneck) readouts ----
+
+def _phosphate_reactive_p_settled(reader, test: dict, ws_root: Any) -> float:
+    """Settled standing reactive-P pool in µM (store holds molar) — the available
+    reactive phosphorus in the favorable (enriched) pore. >0 and above threshold
+    means reactive P accumulates rather than precipitating."""
+    return _settled_mean(reader, "reactive_P", frac=0.2) * 1.0e6
+
+
+def _phosphorus_net_reactive_availability(reader, test: dict, ws_root: Any) -> float:
+    """Settled net reactive-P availability (mol/s) = reactive-P production flux −
+    precipitation/adsorption loss flux. >0 means reactive P is produced FASTER than
+    phosphate precipitates — a local window where P is usable before it is lost."""
+    return _settled_mean(reader, "net_reactive_P", frac=0.2)
+
+
+def _phosphate_precipitated_fraction_final(reader, test: dict, ws_root: Any) -> float:
+    """Final mineral-bound (precipitated/adsorbed) fraction of total P — ~0 in the
+    favorable pore (reactive route wins), ~1 in the open-pore control (the sink wins)."""
+    return _values(reader, "precipitated_fraction")[-1]
+
+
+def _phosphorus_p_mass_residual(reader, test: dict, ws_root: Any) -> float:
+    """Worst-case |total P − supplied| / supplied over the run — the P-mass
+    conservation witness; ~0 because the speciation network is P-atom-conserving."""
+    return max(abs(v) for v in _values(reader, "p_mass_residual"))
+
+
 def register_derived_scalars(registry: dict) -> None:
     """Hook called by study_evaluator.load_workspace_derived_scalars."""
     # og-00
@@ -315,3 +343,8 @@ def register_derived_scalars(registry: dict) -> None:
     registry["cn_supply_ratio_settled"] = _settled_cn_supply_ratio
     registry["peak_nh4_production_rate"] = _peak_nh4_production_rate
     registry["max_abs_n_mass_residual"] = _max_abs_n_mass_residual
+    # og-res-phosphorus-availability
+    registry["phosphate_reactive_p_settled"] = _phosphate_reactive_p_settled
+    registry["phosphorus_net_reactive_availability"] = _phosphorus_net_reactive_availability
+    registry["phosphate_precipitated_fraction_final"] = _phosphate_precipitated_fraction_final
+    registry["phosphorus_p_mass_residual"] = _phosphorus_p_mass_residual

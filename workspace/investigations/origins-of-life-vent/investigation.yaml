@@ -205,6 +205,8 @@ at_a_glance:
   role: 'Adversarial control: the gates must reject generic non-vent chemistry'
 - study: og-res-nitrogen-assimilation
   role: 'The first nitrogen — reduced-N keeps pace with carbon, or limits first'
+- study: og-res-phosphorus-availability
+  role: Phosphorus — can the pore co-concentrate P with C and N, or does it precipitate first?
 studies:
 - og-00-vent-reactor-baseline
 - og-01-geology-to-reduced-carbon
@@ -217,6 +219,7 @@ studies:
 - og-08-escape-from-the-vent
 - og-adv-generic-nonequilibrium
 - og-res-nitrogen-assimilation
+- og-res-phosphorus-availability
 acceptance_criteria:
 - study: og-00-vent-reactor-baseline
   behavior: vent-pH-in-lostcity-range
@@ -240,6 +243,8 @@ acceptance_criteria:
   behavior: gates-reject-generic
 - study: og-res-nitrogen-assimilation
   behavior: nitrogen-keeps-pace-with-carbon
+- study: og-res-phosphorus-availability
+  behavior: reactive-p-available
 expert_docs:
 - Origins-of-Life Simulation Campaign
 - Origins-of-Life Computational Methods Atlas
@@ -307,4 +312,32 @@ proposed_inputs:
       references/papers.bib on this branch."
     provenance: "Named in the Scientific Enrichment Plan for the nitrogen stage; not yet in references/papers.bib
       on this branch. Recorded here (not cited as provided) pending expert review / bib addition."
+    status: pending
+  - id: natcomm2023phosphorus
+    kind: reference
+    citation: "Nature Communications (2023). Phosphorus availability / mobilization at the origin of life.
+      Nat Commun (2023)."
+    doi: 10.1038/s41467-023-37770-9
+    proposed_by: agent
+    proposed_at: '2026-10-13'
+    related_study: og-res-phosphorus-availability
+    rationale: "Primary enrichment-plan reference (§6) for the phosphorus-bottleneck framing — dissolved
+      phosphate availability vs mineral precipitation/adsorption at the vent, which og-res-phosphorus models
+      as the reactive-P-vs-precipitation competition."
+    provenance: "Scientific Enrichment Plan (§6). Not yet on main's references/papers.bib; recorded here as
+      pending (not cited on the branch) until the full bib entry is added on accept."
+    status: pending
+  - id: natcomm2025phosphateactivation
+    kind: reference
+    citation: "Nature Communications (2025). Phosphate activation / phosphorylation chemistry relevant to
+      prebiotic reactive phosphorus. Nat Commun (2025)."
+    doi: 10.1038/s41467-025-57110-3
+    proposed_by: agent
+    proposed_at: '2026-10-13'
+    related_study: og-res-phosphorus-availability
+    rationale: "Enrichment-plan reference (§6) for the activation of phosphate to reactive/usable phosphorus
+      — the condensation/activation route og-res-phosphorus models (phosphate -> polyphosphate -> reactive-P)
+      before precipitation removes it."
+    provenance: "Scientific Enrichment Plan (§6). Not yet on main's references/papers.bib; recorded here as
+      pending (not cited on the branch) until the full bib entry is added on accept."
     status: pending
