@@ -3,10 +3,10 @@ name: origins-of-life-vent
 title: Origins-of-life vent campaign
 created: '2026-10-11'
 status: running
-question: Could the first cells have originated at alkaline hydrothermal vents? Can a physically plausible
-  early-Earth vent–ocean interface generate and sustain, in order, the free energy, reduced carbon,
-  self-amplifying chemistry, concentration, and compartments a protocell needs — without inserting
-  metabolism, membranes, or heredity by assumption?
+question: Could the first cells have originated at alkaline hydrothermal vents? Can a physically 
+  plausible early-Earth vent–ocean interface generate and sustain, in order, the free energy, 
+  reduced carbon, self-amplifying chemistry, concentration, and compartments a protocell needs — 
+  without inserting metabolism, membranes, or heredity by assumption?
 hypothesis: >-
   Under field- and lab-consistent parameter ranges, a serpentinization-fed, spatially resolved
   alkaline vent reproduces the conditions for a cellular origin: it crosses, in order, falsifiable
@@ -28,42 +28,53 @@ lead: |
   remaining stages toward a compartmentalized, bioenergetically autonomous protocell are designed and
   waiting to run.
 executive:
-  what_is_this: A staged, falsifiable Vivarium campaign testing the alkaline-vent theory for the origin
-    of cells — treating a cellular origin as coupled transitions from geochemistry to bioenergetic autonomy,
-    grounded in serpentinization-driven alkaline hydrothermal vents, with explicit competing scenarios.
-  verdict: In progress — the pre-genetic milestone is three-for-three. og-00 (geochemical/spatial testbed),
-    og-01 (geology → reduced carbon, favorable vs. Tutolo-2026 arms) and og-02 (reduced carbon → protometabolism)
-    are built on real simulators, run, and accepted against pre-stated gates with conservation held to
-    machine precision. og-03 (dilution → localized individuals) is next; og-04–og-08 and the adversarial
-    control are designed but not yet run.
+  what_is_this: A staged, falsifiable Vivarium campaign testing the alkaline-vent theory for the 
+    origin of cells — treating a cellular origin as coupled transitions from geochemistry to 
+    bioenergetic autonomy, grounded in serpentinization-driven alkaline hydrothermal vents, with 
+    explicit competing scenarios.
+  verdict: In progress — the full pre-genetic to early-genetic arc is complete and passing. og-00 
+    (geochemical/spatial testbed), og-01 (geology -> reduced carbon, favorable vs. Tutolo-2026 
+    arms), og-02 (reduced carbon -> protometabolism), og-03 (dilution -> localized individuals), 
+    og-04 (mineral compartments -> protocells), og-05 (environmental -> internal bioenergetics) and 
+    og-06 (chemistry -> heredity) are built on real simulators, run, and pass their pre-stated gates
+    with conservation held to machine precision. og-07, og-08 and the adversarial control are 
+    designed but not yet run.
   verdict_status: in-progress
-  verdict_detail: 10 member studies (Campaigns 0–VIII + an adversarial control) wired into a DAG. Stages
-    0–2 are complete — each runs a coupled Vivarium composite of real tools (PHREEQC + FiPy; eQuilibrator
-    + FiPy; libRoadRunner) and passes its conservation and acceptance behavior tests. The remaining stages
-    open at Design with a contract (ports + conservation invariants) and behavior tests derived from the
-    acceptance gates and discriminating experiments.
+  verdict_detail: 10 member studies (Campaigns 0-VIII + an adversarial control) wired into a DAG. 
+    Stages 0-6 are complete — each runs a coupled Vivarium composite of real tools (PHREEQC + FiPy; 
+    eQuilibrator + FiPy; libRoadRunner; a FiPy thermal trap; amphiphile self-assembly; bioenergetic 
+    internalization; an agent-based heredity lineage) and passes its conservation and acceptance 
+    behavior tests. og-06's compositional-heredity headline ('heredity need not presume RNA') is 
+    seed-robust (8/8 seeds). og-07 (ecology before LUCA), og-08 (escape from the vent) and the 
+    adversarial generic-nonequilibrium control remain at Design with contracts (ports + conservation
+    invariants) and behavior tests derived from their acceptance gates.
   decisions_resolved:
   - 'Baseline parameterization: run BOTH arms — classical favorable (Russell/Lane/Sojo) and the 2026 unfavorable
     reassessment (Tutolo/Jackson) — so the campaign adjudicates rather than assumes. Implemented in og-01.'
   - 'Primary geochemistry engine: real PHREEQC (phreeqpython + vendored llnl.dat), which fields the Lost
-    City pH endmember once peridotite (not dunite) is reacted. Reaktoro was conda-only and off the uv path.'
+    City pH endmember once peridotite (not dunite) is reacted. Reaktoro was conda-only and off the uv
+    path.'
   - 'Build order: geochemistry + transport first (og-00/og-01), then the reaction network (og-02) — not
     a thin end-to-end skeleton. This put a real composite in the workbench at stage 0.'
+  - "Heredity strategy for og-06: compare all modules without presuming RNA. og-06's agent-based lineage
+    grades RNA-like template, compositional (GARD), a template-focused hybrid and a non-heritable control
+    head-to-head; compositional and hybrid heredity persist length-independently (functional persistence
+    ~0.88, seed-robust 8/8) where a long low-fidelity template suffers the Eigen length catastrophe —
+    so heredity need NOT presume a long high-fidelity RNA template."
   decisions_needed:
-  - question: 'Confirm the first-publication milestone stays og-00 → og-03 (pre-genetic: a precipitating
-      interface that retains a persistent protometabolic carbon flux), or extend to og-04 (protocells)?'
-    context: Extending to og-04 adds membrane biophysics and roughly one more module before a publishable
-      result. og-00 → og-02 are already accepted, so og-03 is the one remaining stage for the current scope.
-  - question: 'Heredity strategy for og-06: which modules to prioritize (RNA-world, peptide-first, compositional,
-      mineral-templating)?'
-    context: og-06 is the weakest link and a deliberate branch point; the choice sets what the late campaign
-      compares.
+  - question: 'Publication milestone: close the first paper at the pre-genetic arc (og-00 -> og-03) or
+      extend through the early-genetic arc (og-04 protocells -> og-06 heredity)?'
+    context: 'og-00 -> og-06 have now all run and passed, so both scopes are available. The pre-genetic
+      arc (og-00->03: a precipitating interface retaining a persistent protometabolic carbon flux, then
+      localized individuals) is the tightest standalone story; extending through og-04-06 adds membrane
+      compartmentation, bioenergetic internalization and the agent-based heredity result. Editorial scope
+      call.'
 scientific_argument:
-  main_claim: Cells could have originated at alkaline hydrothermal vents — the vent–ocean interface supplies,
-    in order, the free energy, reduced carbon, self-amplifying chemistry, concentration, compartmentation and
-    bioenergetic internalization a protocell needs, and each step is an independently falsifiable nonequilibrium
-    transition a Vivarium simulation can pass or fail, so simulations adjudicate among scenarios rather than
-    illustrate one story.
+  main_claim: Cells could have originated at alkaline hydrothermal vents — the vent–ocean interface 
+    supplies, in order, the free energy, reduced carbon, self-amplifying chemistry, concentration, 
+    compartmentation and bioenergetic internalization a protocell needs, and each step is an 
+    independently falsifiable nonequilibrium transition a Vivarium simulation can pass or fail, so 
+    simulations adjudicate among scenarios rather than illustrate one story.
   evidence_for:
   - H2-dependent mineral-catalyzed CO2 fixation (Preiner, Varma, Huber)
   - pH-gradient-driven CO2 reduction with isotope controls (Hudson, Altair)
@@ -71,38 +82,41 @@ scientific_argument:
   - thermophoretic concentration in pores (Baaske, Mast & Braun)
   - vesicle feasibility under vent-like conditions (Jordan)
   evidence_against:
-  - in-situ pH/sulfur/longevity may be far less favorable than classical models assume (Tutolo 2026; Jackson
-    2016)
+  - in-situ pH/sulfur/longevity may be far less favorable than classical models assume (Tutolo 2026;
+    Jackson 2016)
   - no validated vent pathway spans to open-ended heredity (Module J)
   - lab yields are not Hadean environmental concentrations
   key_figures: []
   caveats:
-  - Stages 0–2 are complete and accepted; stages 3–8 and the adversarial control are designed but not
-    yet run. Every quantitative anchor is laboratory/field provenance, not a Hadean environmental concentration.
+  - Stages 0–2 are complete and accepted; stages 3–8 and the adversarial control are designed but 
+    not yet run. Every quantitative anchor is laboratory/field provenance, not a Hadean 
+    environmental concentration.
 # The origin-of-cells thesis, broken into the claims the campaign tests — each
 # tied to the literature it rests on (bibkeys resolve against references/papers.bib).
 # The report renders these as cited bullets so every top-level claim traces to a source.
 key_claims:
-- claim: Alkaline hydrothermal vents sustain a natural proton gradient across thin inorganic (Fe/Ni-sulfide)
-    walls — a geologically free energy source a nascent cell could tap before evolving its own membrane and pumps.
+- claim: Alkaline hydrothermal vents sustain a natural proton gradient across thin inorganic 
+    (Fe/Ni-sulfide) walls — a geologically free energy source a nascent cell could tap before 
+    evolving its own membrane and pumps.
   cites: [russell1997emergence, martin2007origin, lane2012origin, sojo2016origin]
-- claim: Serpentinization of olivine delivers a sustained supply of H2, the reducing power that drives
-    prebiotic chemistry at the vent.
+- claim: Serpentinization of olivine delivers a sustained supply of H2, the reducing power that 
+    drives prebiotic chemistry at the vent.
   cites: [kelley2005serpentinite, proskurowski2008abiogenic, schwander2023serpentinization]
-- claim: That H2 reduces CO2 to organic carbon on native-metal and mineral catalysts without enzymes,
-    reproducing the acetyl-CoA–like chemistry thought ancestral to life.
+- claim: That H2 reduces CO2 to organic carbon on native-metal and mineral catalysts without 
+    enzymes, reproducing the acetyl-CoA–like chemistry thought ancestral to life.
   cites: [preiner2020hydrogen, varma2018native, huber1997activated, martin2008hydrothermal]
 - claim: Nonenzymatic reaction networks (reductive-TCA fragments) can persist and self-amplify under
     continuous vent flow, a precursor to metabolism.
   cites: [muchowska2019synthesis, muchowska2017metals]
-- claim: Thermal gradients in vent pores concentrate molecules by thermophoresis — a route to localized,
-    individual-like accumulations against dilution.
+- claim: Thermal gradients in vent pores concentrate molecules by thermophoresis — a route to 
+    localized, individual-like accumulations against dilution.
   cites: [baaske2007extreme, mast2010thermal]
 - claim: Fatty-acid vesicles can assemble and persist under vent-like temperature and pH, giving the
     chemistry a compartment.
   cites: [jordan2019promotion]
-- claim: The classical favorable picture is contested — in-situ pH, sulfide availability and vent longevity
-    may be far less favorable than classical models assume, so each step is run against that challenge.
+- claim: The classical favorable picture is contested — in-situ pH, sulfide availability and vent 
+    longevity may be far less favorable than classical models assume, so each step is run against 
+    that challenge.
   cites: [tutolo2026rethinking, jackson2016natural, weiss2016physiology]
 competing_frameworks:
 - name: Classical alkaline-vent (Russell/Martin/Lane/Sojo)
@@ -132,11 +146,13 @@ at_a_glance:
 - study: og-00-vent-reactor-baseline
   role: The vent a cell would form in — validated geochemical/spatial testbed (no origin claim yet)
 - study: og-01-geology-to-reduced-carbon
-  role: The cell's first carbon — H2-driven CO2 reduction; reproduce lab benchmarks; map the flux region
+  role: The cell's first carbon — H2-driven CO2 reduction; reproduce lab benchmarks; map the flux 
+    region
 - study: og-02-reduced-carbon-to-protometabolism
   role: The first metabolism — reaction-network persistence and autocatalysis under flow
 - study: og-03-dilution-to-localized-individuals
-  role: Becoming an individual — concentration/retention crosses persistence thresholds (milestone end)
+  role: Becoming an individual — concentration/retention crosses persistence thresholds (milestone 
+    end)
 - study: og-04-mineral-compartments-to-protocells
   role: The first boundary — amphiphile compartments give retention without isolation
 - study: og-05-environmental-to-internal-bioenergetics
@@ -184,3 +200,20 @@ acceptance_criteria:
 expert_docs:
 - Origins-of-Life Simulation Campaign
 - Origins-of-Life Computational Methods Atlas
+proposed_inputs:
+  _note: "Agent-suggested inputs the expert did NOT provide; the expert Accepts or Declines each in the
+    report."
+  items:
+  - id: segre2000compositional
+    kind: reference
+    citation: "Segre D., Ben-Eli D. & Lancet D. (2000). Compositional genomes: prebiotic information transfer
+      in mutually catalytic noncovalent assemblies. PNAS 97(8):4112-4117."
+    proposed_by: agent
+    proposed_at: '2026-10-13'
+    related_study: og-06-chemistry-to-heredity
+    rationale: "og-06's agent-based lineage uses a GARD-style compositional module (multinomial fission
+      of an autocatalytic composition vector) as the length-independent, non-template heredity arm that
+      escapes the Eigen length catastrophe — the basis of the 'do NOT presume RNA' finding."
+    provenance: "Not in the expert dossier or references/papers.bib; introduced while building the og-06
+      lineage model. Recorded here (not cited as provided) pending expert review."
+    status: pending
