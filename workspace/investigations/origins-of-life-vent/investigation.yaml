@@ -38,20 +38,20 @@ executive:
     og-04 (mineral compartments -> protocells), og-05 (environmental -> internal bioenergetics) and 
     og-06 (chemistry -> heredity) are built on real simulators, run, and pass their pre-stated gates
     with conservation held to machine precision. The adversarial generic-nonequilibrium control runs
-    and PASSES by rejection — every discriminating gate rejects a vent-feature-ablated control while the
-    vent passes, so the gates are falsifiable and vent-specific. og-07 and og-08 remain designed but not
-    yet run.
+    and PASSES by rejection — every discriminating gate rejects a vent-feature-ablated control while
+    the vent passes, so the gates are falsifiable and vent-specific. og-07 and og-08 remain designed
+    but not yet run.
   verdict_status: in-progress
   verdict_detail: 10 member studies (Campaigns 0-VIII + an adversarial control) wired into a DAG. 
     Stages 0-6 are complete — each runs a coupled Vivarium composite of real tools (PHREEQC + FiPy; 
     eQuilibrator + FiPy; libRoadRunner; a FiPy thermal trap; amphiphile self-assembly; bioenergetic 
     internalization; an agent-based heredity lineage) and passes its conservation and acceptance 
     behavior tests. og-06's compositional-heredity headline ('heredity need not presume RNA') is 
-    seed-robust (8/8 seeds). The adversarial generic-nonequilibrium control (og-adv) runs and passes by
-    rejection — all five discriminating gates reject a vent-feature-ablated control (min margin 1.8
-    decades) while the vent passes all five. og-07 (ecology before LUCA) and og-08 (escape from the vent)
-    remain at Design with contracts (ports + conservation invariants) and behavior tests derived from
-    their acceptance gates.
+    seed-robust (8/8 seeds). The adversarial generic-nonequilibrium control (og-adv) runs and passes
+    by rejection — all five discriminating gates reject a vent-feature-ablated control (min margin 
+    1.8 decades) while the vent passes all five. og-07 (ecology before LUCA) and og-08 (escape from 
+    the vent) remain at Design with contracts (ports + conservation invariants) and behavior tests 
+    derived from their acceptance gates.
   decisions_resolved:
   - 'Baseline parameterization: run BOTH arms — classical favorable (Russell/Lane/Sojo) and the 2026 unfavorable
     reassessment (Tutolo/Jackson) — so the campaign adjudicates rather than assumes. Implemented in og-01.'
@@ -73,6 +73,36 @@ executive:
       localized individuals) is the tightest standalone story; extending through og-04-06 adds membrane
       compartmentation, bioenergetic internalization and the agent-based heredity result. Editorial scope
       call.'
+  - question: 'First limiting resource / next module: which enrichment-plan module to build first — nitrogen
+      assimilation (N2/NO3->NH4, FeS), phosphorus availability (phosphate/polyphosphate co-concentration),
+      proto-energetics (thioester/acyl-phosphate energy currency before pumping), or metabolism->growth/division
+      (osmotic growth)?'
+    context: The Scientific Enrichment Plan (references/scientific-enrichment-plan.md) argues carbon
+      is not the only bottleneck. Its recommended arc inserts N, then P, then a coupled C-N-P 
+      protometabolism, with proto-energetics before og-05 and growth/division after og-04. Each is a
+      new adjacent study of similar size to og-00..06; help-team is already building og-07/08.
+  - question: 'Enrich og-01 with explicit electrochemistry (treat the vent as an electrical circuit: fluid
+      composition -> redox potential -> mineral conductivity -> current density -> electron-transfer ->
+      CO2 reduction), or keep the current gradient-efficiency abstraction?'
+    context: "Plan section 2 (strongest near-term enrichment). Would replace the abstract gradient_efficiency
+      scalar with electrode-potential/current-density physics and let the campaign ask 'is the conductive
+      Fe/Ni/S architecture the real limiting variable?'. New references added: altair2025electrochemical,
+      commchem2026currentproducing, commchem2026energeticconstraints."
+  - question: Actually RUN the og-03 -> og-02 localization->ignition coupling (trap enrichment feeds
+      the rTCA network as a real swept phase map), resolving the demoted phantom finding and giving 
+      og-03 its own Decision phase map?
+    context: The claims audit found an og-03 finding asserting an in-pore ignition result that was 
+      never run (now demoted to a proposed next step). Running it as a (porosity x k_wash) coupled 
+      sweep would both make the 'localization makes the individual' claim real AND fix the viz 
+      audit's finding that og-03's Decision view borrows og-02's axes.
+  - question: Reframe the campaign's headline thesis from 'cells could originate at alkaline vents' 
+      to the enrichment plan's 'quantitative MAP OF THE BOTTLENECKS between geology and cells' 
+      (dependencies, failure regimes, discriminating experiments)?
+    context: The plan's core thesis. The vent hypothesis stays as the primary lens, but the framing 
+      shifts from demonstrating one story to mapping where the geology->cells path is physically 
+      continuous, where it depends on narrow regimes, and where it breaks. Several design principles
+      (phase maps not trajectories, feature ablations, negative controls, 
+      negative-results-as-output) are already partly realized (og-adv, the phase maps).
 scientific_argument:
   main_claim: Cells could have originated at alkaline hydrothermal vents — the vent–ocean interface 
     supplies, in order, the free energy, reduced carbon, self-amplifying chemistry, concentration, 
@@ -148,6 +178,8 @@ inputs:
   expert_docs:
   - name: Origins-of-Life Simulation Campaign
   - name: Origins-of-Life Computational Methods Atlas
+  - name: Scientific Enrichment Plan (bottleneck-map reframing + new modules)
+    path: references/scientific-enrichment-plan.md
 at_a_glance:
 - study: og-00-vent-reactor-baseline
   role: The vent a cell would form in — validated geochemical/spatial testbed (no origin claim yet)
@@ -233,13 +265,13 @@ proposed_inputs:
     proposed_at: '2026-10-13'
     related_study: og-06-chemistry-to-heredity
     rationale: "og-06's quasispecies replicator and its central result — the error threshold Q=fidelity^length,
-      above which correct templates outreplicate the error tail and below which the error catastrophe destroys
-      information — are Eigen's error-threshold/quasispecies theory. It is the load-bearing mechanism of the
-      stage, currently anchored in prose only (findings cite huber1998peptides for the peptide module, not the
-      threshold theory)."
-    provenance: "Not in the expert dossier or references/papers.bib; the error-threshold mechanism was used
-      from the start of og-06. Recorded here (not cited as provided) pending expert review; on accept its id
-      becomes the bibkey to wire onto the error-threshold findings."
+      above which correct templates outreplicate the error tail and below which the error catastrophe
+      destroys information — are Eigen's error-threshold/quasispecies theory. It is the load-bearing mechanism
+      of the stage, currently anchored in prose only (findings cite huber1998peptides for the peptide
+      module, not the threshold theory)."
+    provenance: "Not in the expert dossier or references/papers.bib; the error-threshold mechanism was
+      used from the start of og-06. Recorded here (not cited as provided) pending expert review; on accept
+      its id becomes the bibkey to wire onto the error-threshold findings."
     status: accepted
     decided_at: '2026-10-13'
     decided_by: expert

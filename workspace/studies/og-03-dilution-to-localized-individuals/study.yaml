@@ -55,7 +55,7 @@ contract:
     name: mass_balance
     expr: abs(residual_C)+abs(residual_H)+abs(residual_O) < tol
   note: bigraph-schema typed ports (_type/_units/bounds) + conservation predicates; the composite built for this study must declare a ProcessContract matching this face (audited via the workbench §Contract panel).
-claim: A real FiPy thermal trap (thermophoresis + convection) concentrates a dilute vent feed >10^8-fold in a favorable pore (Baaske 2007), and the concentration collapses to ~1 in an open pore — the geometric threshold at which a localized "individual" forms.
+claim: A real FiPy thermal trap (thermophoresis + convection) concentrates a dilute vent feed ~10^8-fold (9.6×10⁷) in a favorable pore (Baaske 2007), and the concentration collapses to ~1 in an open pore — the geometric threshold at which a localized "individual" forms.
 result: Favorable pore enriches ~10^8-fold (accumulation Péclet 18.4); open-pore / short-pore controls collapse to ~1.
 confidence_level: high
 findings:
@@ -80,46 +80,25 @@ findings:
   expected:
     cites: [baaske2007extreme]
   explanation: Enrichment is exponential in pore length and vanishes with confinement — the dilution/localization boundary the campaign sought.
-- id: og03-localization-enables-metabolism
-  kind: computational
-  status: novel
-  statement: >-
-    Localization MAKES the individual: coupling the real thermophoretic trap to the
-    real og-02 network, a pore that enriches the feed ~23× lifts a dilute vent feed
-    (CO₂ 5e-5 M) across og-02's ignition threshold — the autocatalytic hub ignites to
-    ~1.6 mM OAA inside the pore, while the identical chemistry stays dead (OAA ≈ 0) in
-    the well-mixed ocean. The metabolizing individual is a product of localization,
-    not of new reactions.
-  evidence:
-    observed: 'well-mixed OAA ≈ 0 mM vs in-pore OAA ≈ 1.6 mM at the same dilute feed; trap ×23'
-    units: molar
-  expected:
-    cites: [baaske2007extreme, muchowska2019synthesis]
-  explanation: >-
-    Two real models coupled (FiPy thermophoretic trap enrichment → libRoadRunner rTCA
-    network feed) and placed on og-02's ignition landscape: the trap moves the operating
-    point from the washout region across the gain=1 threshold into the ignited region.
-    Rendered as the pore-ignition coupling (Decision view).
 report:
   title: Campaign III — dilution to localized individuals
   verdict: PASS — the thermal trap reaches Baaske enrichment; controls map the washout boundary
   confidence: high
-  main_insight: A serpentinite pore's thermophoresis + convection concentrate a dilute feed >10^8-fold in favorable geometry, and collapse to ~1 when the pore is open or short — the first localized "individual" emerges at a geometric threshold.
+  main_insight: A serpentinite pore's thermophoresis + convection concentrate a dilute feed ~10^8-fold (9.6×10⁷) in favorable geometry, and collapse to ~1 when the pore is open or short — the first localized "individual" emerges at a geometric threshold.
   conclusion: >-
     The real FiPy thermal trap reproduces Baaske's extreme accumulation and maps
     the geometry threshold separating concentrated individuals from washed-out
     bulk. Feeds og-04 (mineral compartments) a concentrated starting pocket.
-  caveat: Enrichment is the accumulation-column result exp(Pe_acc) with a single geometry calibration to the Baaske magnitude; the FiPy solve provides the profile + conservation witness. A direct 2-D pore sim does not reach the Baaske regime at tractable resolution (thermophoretic Péclet S_T·ΔT ≈ 0.6 per pass), so the quantitative trap stays with the calibrated column. The og-02 coupling (localization → ignition) is now demonstrated.
+  caveat: Enrichment is the accumulation-column result exp(Pe_acc) with a single geometry calibration to the Baaske magnitude; the FiPy solve provides the profile + conservation witness. A direct 2-D pore sim does not reach the Baaske regime at tractable resolution (thermophoretic Péclet S_T·ΔT ≈ 0.6 per pass), so the quantitative trap stays with the calibrated column. Coupling the trap to the og-02 network (localization → ignition) is a PROPOSED next step (see og-03b followup), not yet run.
   key_metrics:
   - {label: Favorable enrichment, value: ~10^8-fold, status: pass}
   - {label: Accumulation Péclet, value: 18.4, status: pass}
   - {label: Open-pore control, value: ~1-fold, status: pass}
   - {label: FVM residual, value: ~2e-14, status: pass}
-  - {label: In-pore vs well-mixed OAA, value: 1.6 vs 0 mM, status: pass}
 conclusion_verdicts:
   biological_validation:
     result: PASS
-    basis: Reproduces the Baaske-2007 >10^8-fold accumulation benchmark with controls collapsing to ~1.
+    basis: Reproduces the Baaske-2007 ~10^8-fold accumulation benchmark (9.6×10⁷, accumulation Péclet 18.4) with controls collapsing to ~1.
   explanatory_gain:
     result: POSITIVE
     basis: Real transport (thermophoresis + convection) explains both the extreme enrichment and the geometry threshold for localization.
@@ -128,7 +107,7 @@ limitations:
 - In-pore network persistence (coupling og-02) is declared but not yet run.
 discovery_implications:
   resolved_uncertainties:
-  - A geometric threshold exists — favorable pores concentrate >10^8-fold while open/short pores wash through.
+  - A geometric threshold exists — favorable pores concentrate ~10^8-fold (9.6×10⁷) while open/short pores wash through.
   remaining_uncertainties:
   - Whether the og-02 autocatalytic network actually persists in the concentrated pocket vs well-mixed bulk.
   followup_study_proposals:
@@ -141,7 +120,7 @@ readouts:
 behavior_tests:
 - name: thermophoretic-enrichment-reproduces-baaske
   classification: primary
-  description: A favorable pore (5 mm × 0.1 mm, ΔT 30 K, convective flow) reproduces Baaske-2007 extreme accumulation — >10^8-fold (accumulation Péclet ≳ 18).
+  description: A favorable pore (5 mm × 0.1 mm, ΔT 30 K, convective flow) reproduces Baaske-2007 extreme accumulation — ~10^8-fold, 9.6×10⁷ (accumulation Péclet 18.4).
   measure: {kind: derived, path: settled_accumulation_peclet, detail: ln(enrichment) = beta × pore length}
   pass_if: {op: '>=', value: 18.0, detail: Pe_acc ≥ ln(1e8) ≈ 18.4 in favorable geometry}
   units: dimensionless
@@ -223,7 +202,7 @@ runs:
       evaluated_by: code
       axis:
         id: thermophoretic-enrichment-reproduces-baaske
-        label: A favorable pore (5 mm × 0.1 mm, ΔT 30 K, convective flow) reproduces Baaske-2007 extreme accumulation — >10^8-fold (accumulation Péclet ≳ 18).
+        label: A favorable pore (5 mm × 0.1 mm, ΔT 30 K, convective flow) reproduces Baaske-2007 extreme accumulation — ~10^8-fold, 9.6×10⁷ (accumulation Péclet 18.4).
         verdict: within_tol
         value: 18.375
         meter: 0.5104166666666666
