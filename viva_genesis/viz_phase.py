@@ -740,6 +740,110 @@ class HeredityLineageTree(Visualization):
                                                 title=self.config["title"])}
 
 
+def metacommunity_phase_figure(res, *, title=None) -> str:
+    """og-07 Decision view: where cross-feeding robustness EMERGES. **Left**: the
+    metacommunity-robustness landscape over (cross-feeding exchange_rate × inter-
+    compartment diversity) with the emergence boundary (robustness == threshold) and
+    the operating point; robustness rises only in the high-diversity, sufficient-
+    exchange corner. **Right**: the connected-vs-isolated contrast — the redundancy
+    GAIN (connected minus the isolated counterfactual) that connectivity builds, with
+    the LUCA-overlap boundary contour overlaid (reported, not targeted). ``res`` is a
+    SweepResult / grid view with ``robustness``, ``isolated_robustness``,
+    ``capability_diversity`` and ``luca_overlap`` surfaces."""
+    import numpy as np
+    import plotly.graph_objects as go
+    from plotly.subplots import make_subplots
+
+    ex = np.asarray(res.axes["exchange_rate"], float)
+    div = np.asarray(res.axes["diversity"], float)
+    rob = np.asarray(res.surfaces["robustness"], float)              # [exchange, diversity]
+    iso = np.asarray(res.surfaces.get("isolated_robustness", np.zeros_like(rob)), float)
+    luca = np.asarray(res.surfaces.get("luca_overlap", np.zeros_like(rob)), float)
+    gain = rob - iso
+    thr = float(res.meta.get("robust_emerge_threshold", 0.5))
+    op_ex, op_div = 0.3, 0.75                                        # canonical operating point
+
+    fig = make_subplots(rows=1, cols=2, horizontal_spacing=0.13, shared_yaxes=True,
+                        subplot_titles=("Where cross-feeding robustness emerges",
+                                        "Connectivity builds redundancy (connected − isolated)"))
+    # --- left: robustness landscape + emergence boundary ---
+    fig.add_trace(go.Contour(x=div, y=ex, z=rob, colorscale="Viridis", ncontours=14,
+                             zmin=0.0, zmax=1.0,
+                             colorbar=dict(title="robustness<br>(redundancy)", len=0.9, x=0.44),
+                             contours=dict(showlabels=True, labelfont=dict(size=9, color="white")),
+                             line=dict(width=0.4, color="rgba(255,255,255,0.3)")), row=1, col=1)
+    fig.add_trace(go.Contour(x=div, y=ex, z=rob, showscale=False,
+                             contours=dict(start=thr, end=thr, coloring="lines"),
+                             line=dict(color="#f8fafc", width=2.4, dash="dash"),
+                             hoverinfo="skip"), row=1, col=1)
+    # --- right: the connected-vs-isolated redundancy gain (diverging), + LUCA boundary ---
+    gmax = max(float(np.nanmax(np.abs(gain))), 0.1)
+    fig.add_trace(go.Heatmap(x=div, y=ex, z=gain, colorscale="RdBu", zmid=0.0,
+                             zmin=-gmax, zmax=gmax,
+                             colorbar=dict(title="robustness<br>gain", len=0.9),
+                             hovertemplate="div=%{x:.2f}, exch=%{y:.2f}<br>gain=%{z:.2f}<extra></extra>"), row=1, col=2)
+    fig.add_trace(go.Contour(x=div, y=ex, z=luca, showscale=False, ncontours=6,
+                             contours=dict(coloring="lines", showlabels=True,
+                                           labelfont=dict(size=9, color=_INK)),
+                             line=dict(color=_INK, width=1.1), hoverinfo="skip"), row=1, col=2)
+    for c in (1, 2):
+        fig.add_trace(go.Scatter(x=[op_div], y=[op_ex], mode="markers+text",
+                                 text=["operating<br>point"], textposition="top center",
+                                 textfont=dict(size=9, color=_INK),
+                                 marker=dict(symbol="star", size=14, color=_AMBER,
+                                             line=dict(width=1.1, color=_INK)), showlegend=False), row=1, col=c)
+        fig.update_xaxes(title_text="inter-compartment diversity", row=1, col=c)
+    fig.update_yaxes(title_text="cross-feeding exchange rate", row=1, col=1)
+
+    ttl = title or "Campaign VII — where cross-feeding robustness emerges"
+    fig.update_layout(
+        title=dict(text=(f"<b>{ttl}</b><br><span style='font-size:12px;color:{_SLATE}'>"
+                         "A connected metacommunity develops functional redundancy a single compartment "
+                         "cannot — but only where diversity gives cross-feeding something to share AND "
+                         "exchange spreads it (dashed = emergence boundary). Right: the redundancy gain over "
+                         "the isolated counterfactual; black contours = overlap with the anaerobic LUCA "
+                         "reconstruction, a reported boundary, not a target.</span>"),
+                   x=0.5, xanchor="center"),
+        height=450, width=960, margin=dict(t=100, b=60, l=70, r=20),
+        font=dict(family="system-ui, -apple-system, sans-serif", color=_INK),
+        paper_bgcolor="white", plot_bgcolor="white")
+    return fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+
+
+class MetacommunityPhaseMap(Visualization):
+    """og-07 Decision view: the cross-feeding metacommunity robustness-emergence
+    boundary over (exchange_rate × diversity) + the connected-vs-isolated redundancy
+    gain, with the anaerobic LUCA-overlap boundary overlaid. Renders from a persisted
+    grid (``grid_json``) or computes a modest grid live."""
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "Campaign VII — where cross-feeding robustness emerges"},
+        "grid_json": {"_type": "string", "_default": ""},
+        "n_grid": {"_type": "integer", "_default": 12},
+        "n_steps": {"_type": "integer", "_default": 40},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        from .phase_maps import metacommunity_robustness_phase_map
+        resolved = _resolve_grid_path(str(self.config.get("grid_json", "") or ""))
+        if resolved:
+            with open(resolved) as f:
+                blob = json.load(f)
+            res = _ResultView(*_grid_from_json(blob))
+        else:
+            n = int(self.config["n_grid"])
+            res = metacommunity_robustness_phase_map(
+                exchange_rate=(0.02, 0.8, n), diversity=(0.05, 1.0, n),
+                n_steps=int(self.config["n_steps"]), n_jobs=1)
+        return {"html": metacommunity_phase_figure(res, title=self.config["title"])}
+
+
 class _ResultView:
     """Minimal duck-typed SweepResult for rendering from a persisted grid."""
 

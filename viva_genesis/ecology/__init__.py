@@ -24,5 +24,10 @@ LUCA embedded in an ecosystem).
 
 Outputs: autonomous lineages, metabolic diversity, cross-feeding and robustness.
 
-Placeholder package: no Process/Step classes yet.
+Implemented (og-07): ``CrossFeedingMetacommunityProcess`` — a coarse-grained,
+deterministic cross-feeding metacommunity over N connected compartments.
 """
+
+from .metacommunity import CrossFeedingMetacommunityProcess  # noqa: E402,F401
+
+__all__ = ["CrossFeedingMetacommunityProcess"]
