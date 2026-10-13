@@ -209,6 +209,9 @@ at_a_glance:
   role: Phosphorus — can the pore co-concentrate P with C and N, or does it precipitate first?
 - study: og-energy-proto-energetics
   role: Owning its energy currency — capturing geochemical free energy into a transferable store before modern pumps
+- study: og-growth-division
+  role: Growth and division — metabolism changes the compartment's physical fate (grow->divide vs lyse
+    vs starve)
 studies:
 - og-00-vent-reactor-baseline
 - og-01-geology-to-reduced-carbon
@@ -223,6 +226,7 @@ studies:
 - og-res-nitrogen-assimilation
 - og-res-phosphorus-availability
 - og-energy-proto-energetics
+- og-growth-division
 acceptance_criteria:
 - study: og-00-vent-reactor-baseline
   behavior: vent-pH-in-lostcity-range
@@ -250,6 +254,8 @@ acceptance_criteria:
   behavior: reactive-p-available
 - study: og-energy-proto-energetics
   behavior: currency-maintained
+- study: og-growth-division
+  behavior: net-growth-to-division
 expert_docs:
 - Origins-of-Life Simulation Campaign
 - Origins-of-Life Computational Methods Atlas
@@ -362,4 +368,21 @@ proposed_inputs:
     provenance: "Scientific Enrichment Plan (section 7). Not on main / not in references/papers.bib; recorded
       here (not cited as provided) pending expert review. On accept its id becomes the bibkey to wire onto the
       proto-energetics drive anchor."
+    status: pending
+  - id: natchem2023osmoticgrowth
+    kind: reference
+    doi: 10.1038/s41557-023-01276-0
+    citation: "Osmotic growth and division of protocells (2023). Nature Chemistry (DOI 10.1038/s41557-023-01276-0)
+      — internal product accumulation generates osmotic pressure that drives solvent influx, compartment
+      growth and division."
+    proposed_by: agent
+    proposed_at: '2026-10-13'
+    related_study: og-growth-division
+    rationale: "og-growth-division's mechanism — internal osmolyte accumulation → osmotic pressure (van 't
+      Hoff) → solvent influx → volume growth → division at a size threshold, bounded between starvation and
+      lysis by membrane permeability — is the osmotic-growth-and-division route this paper reports. It is the
+      load-bearing physical picture of the stage."
+    provenance: "Scientific Enrichment Plan (section 9); not in the expert dossier or references/papers.bib.
+      Recorded here (not cited as provided) pending expert review; on accept its id becomes the bibkey to
+      wire onto the growth→division findings."
     status: pending

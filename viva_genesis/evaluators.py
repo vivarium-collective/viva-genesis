@@ -324,6 +324,36 @@ def _energy_ledger_residual(reader, test: dict, ws_root: Any) -> float:
     return max(abs(v) for v in _values(reader, "energy_ledger_residual"))
 
 
+# --- og-growth-division (metabolism -> osmotic growth & division) readouts --
+
+def _growth_division_count(reader, test: dict, ws_root: Any) -> float:
+    """Final cumulative division count — >0 means the compartment's chemistry drove
+    repeated osmotic growth to the division threshold (net growth leading to
+    DIVISION), the physical-selection milestone of this stage."""
+    return _values(reader, "division_count")[-1]
+
+
+def _growth_net_growth(reader, test: dict, ws_root: Any) -> float:
+    """Final net volume growth factor V/V0 — the compartment expanded under the
+    osmotic load its metabolism generated (>1 = growth)."""
+    return _values(reader, "net_growth")[-1]
+
+
+def _osmotic_peak_pressure(reader, test: dict, ws_root: Any) -> float:
+    """Peak internal osmotic pressure (Pa) over the run — the van 't Hoff pressure
+    the product accumulation generated; bounded below the burst tension in the viable
+    (dividing) regime, spiking past it in the lysis regime."""
+    return max(_values(reader, "osmotic_pressure"))
+
+
+def _osmotic_balance_residual_max(reader, test: dict, ws_root: Any) -> float:
+    """Worst-case |osmolyte mass-balance residual| (mol) over the run — the growth /
+    division mass-conservation witness ``(N0 + produced) - (N + leaked + daughter_mass)``;
+    stays ~0 (machine precision) because division halves V and N exactly and the leak
+    is capped at the amount present."""
+    return max(abs(v) for v in _values(reader, "osmolyte_balance_residual"))
+
+
 def register_derived_scalars(registry: dict) -> None:
     """Hook called by study_evaluator.load_workspace_derived_scalars."""
     # og-00
@@ -377,3 +407,8 @@ def register_derived_scalars(registry: dict) -> None:
     registry["energy_final_charge_fraction"] = _energy_final_charge_fraction
     registry["energy_stored_work_fraction"] = _energy_stored_work_fraction
     registry["energy_ledger_residual"] = _energy_ledger_residual
+    # og-growth-division
+    registry["growth_division_count"] = _growth_division_count
+    registry["growth_net_growth"] = _growth_net_growth
+    registry["osmotic_peak_pressure"] = _osmotic_peak_pressure
+    registry["osmotic_balance_residual_max"] = _osmotic_balance_residual_max
