@@ -219,6 +219,23 @@ def _offgradient_survival(reader, test: dict, ws_root: Any) -> float:
     return _values(reader, "survivors")[-1]
 
 
+# --- og-07 (ecology before LUCA) readouts -------------------------------
+
+def _connected_metacommunity_robustness(reader, test: dict, ws_root: Any) -> float:
+    """Settled functional redundancy (robustness) of the connected metacommunity —
+    the fraction of protometabolic capabilities covered by >= R compartments (so each
+    survives a single-compartment loss). Above the isolated counterfactual because
+    cross-feeding + horizontal transfer spread capabilities into redundant coverage."""
+    return _settled_mean(reader, "metacommunity_robustness", frac=0.2)
+
+
+def _luca_capability_overlap(reader, test: dict, ws_root: Any) -> float:
+    """Settled overlap of the metacommunity's collective capability repertoire with
+    the anaerobic H2/CO2/FeS LUCA reconstruction (Weiss 2016) — reported as a far-end
+    BOUNDARY the emergent set approaches, NOT a fitting target."""
+    return _settled_mean(reader, "luca_capability_overlap", frac=0.2)
+
+
 def register_derived_scalars(registry: dict) -> None:
     """Hook called by study_evaluator.load_workspace_derived_scalars."""
     # og-00
@@ -254,3 +271,6 @@ def register_derived_scalars(registry: dict) -> None:
     registry["final_information_retention"] = _final_information_retention
     # og-08
     registry["offgradient_survival"] = _offgradient_survival
+    # og-07
+    registry["metacommunity_robustness"] = _connected_metacommunity_robustness
+    registry["luca_capability_overlap"] = _luca_capability_overlap

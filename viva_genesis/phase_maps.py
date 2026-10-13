@@ -373,3 +373,79 @@ def off_gradient_phase_map(
               "innovation_sets": [label for label, _ in _INNOVATION_SETS],
               "frontier": frontier},
     )
+
+
+# ----------------------------------------------------------------------------
+# og-07 — ecology before LUCA : where cross-feeding robustness EMERGES
+# ----------------------------------------------------------------------------
+# Decision: a metacommunity of connected pore compartments develops functional
+# REDUNDANCY (robustness) that an isolated compartment cannot — but only in a bounded
+# region of (exchange_rate × diversity). With too little diversity the compartments
+# are near-identical, so cross-feeding/HGT have nothing to share and robustness stays
+# at the sparse intrinsic floor; with too little exchange, a diverse-but-disconnected
+# set holds a broad repertoire fragilely (each capability in one compartment). Only
+# where BOTH are high do capabilities spread into redundant coverage. The LUCA overlap
+# climbs alongside and is reported as a BOUNDARY the emergent repertoire approaches,
+# never a fitting target. Reducers are module-level so sweep_grid can fan the grid
+# out over a process pool / Ray.
+_ROBUST_EMERGE_THRESHOLD = 0.5   # metacommunity robustness above this = redundancy emerged
+
+
+def metacommunity_robustness_final(rows) -> float:
+    """Settled metacommunity robustness (functional redundancy) at the final tick."""
+    return float(rows[-1].get("metacommunity_robustness", 0.0)) if rows else float("nan")
+
+
+def metacommunity_isolated_final(rows) -> float:
+    """Settled isolated-counterfactual robustness (same seeded assignment, no exchange)."""
+    return float(rows[-1].get("isolated_robustness", 0.0)) if rows else float("nan")
+
+
+def metacommunity_diversity_final(rows) -> float:
+    """Settled mean per-compartment functional breadth (collective diversity)."""
+    return float(rows[-1].get("capability_diversity", 0.0)) if rows else float("nan")
+
+
+def metacommunity_luca_final(rows) -> float:
+    """Settled overlap of the collective repertoire with the anaerobic LUCA core
+    (a reported boundary, not a target)."""
+    return float(rows[-1].get("luca_capability_overlap", 0.0)) if rows else float("nan")
+
+
+def metacommunity_robustness_phase_map(
+    *, exchange_rate=(0.02, 0.8, 16), diversity=(0.05, 1.0, 16),
+    parasite_load: float = 0.0, hgt_rate: float = 0.1, n_compartments: int = 8,
+    seed: int = 1, n_steps: int = 40, n_jobs: int = 1,
+) -> SweepResult:
+    """og-07 Decision view over (cross-feeding exchange_rate × inter-compartment
+    diversity): the metacommunity-robustness emergence boundary. Primary surface =
+    ``robustness`` (functional redundancy), with the isolated counterfactual, the
+    collective ``capability_diversity`` and the ``luca_overlap`` boundary alongside.
+
+    Both axes start strictly above 0.0 on purpose — process-bigraph's config merge
+    ignores a falsy 0.0 override, so the true isolated / homogeneous edges are read
+    from the process's internal counterfactual, not from a 0.0 sweep point. The
+    composite is pure-numpy and fast, so this sweeps the real generator with
+    :func:`sweep_grid`; a higher-res grid is the artifact runner's job."""
+    from .composites.cross_feeding_metacommunity import cross_feeding_metacommunity
+
+    e_lo, e_hi, e_n = exchange_rate
+    d_lo, d_hi, d_n = diversity
+    axes = {
+        "exchange_rate": np.linspace(e_lo, e_hi, int(e_n)),
+        "diversity": np.linspace(d_lo, d_hi, int(d_n)),
+    }
+    return sweep_grid(
+        cross_feeding_metacommunity,
+        axes,
+        reduce={
+            "robustness": metacommunity_robustness_final,           # primary decision surface
+            "capability_diversity": metacommunity_diversity_final,
+            "luca_overlap": metacommunity_luca_final,
+            "isolated_robustness": metacommunity_isolated_final,
+        },
+        fixed={"parasite_load": float(parasite_load), "hgt_rate": float(hgt_rate),
+               "n_compartments": int(n_compartments), "seed": int(seed)},
+        n_steps=n_steps,
+        n_jobs=n_jobs,
+    )
