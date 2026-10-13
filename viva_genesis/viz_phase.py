@@ -325,6 +325,102 @@ class PoreIgnitionCoupling(Visualization):
                                              title=self.config["title"])}
 
 
+def protocell_decision_figure(arc, feas, *, title=None) -> str:
+    """og-04 Decision view: (left) the retention-access plane — the compartment sweeps
+    from too-closed through a viable window to too-open as permeability rises; (right)
+    the salt-tolerance feasibility map — the viable ceiling rises with mixed
+    amphiphiles. ``arc`` is the temperature sweep; ``feas`` the (mix × salt) sweep."""
+    import numpy as np
+    import plotly.graph_objects as go
+    from plotly.subplots import make_subplots
+
+    acc = arc.surfaces["access"]
+    ret = arc.surfaces["retention"]
+    ind = arc.surfaces["individuality"]
+    ipk = int(np.argmax(ind))
+
+    fig = make_subplots(rows=1, cols=2, horizontal_spacing=0.13,
+                        subplot_titles=("Retention vs access (permeability rising with T)",
+                                        "Viable salt ceiling rises with mixed amphiphiles"))
+    # --- left: retention-access plane with 3 regimes ---
+    fig.add_shape(type="rect", x0=0.0, x1=0.55, y0=0.55, y1=1.02, line=dict(width=0),
+                  fillcolor="rgba(100,116,139,0.10)", row=1, col=1)
+    fig.add_shape(type="rect", x0=0.55, x1=1.02, y0=0.0, y1=0.55, line=dict(width=0),
+                  fillcolor="rgba(185,28,28,0.08)", row=1, col=1)
+    fig.add_shape(type="rect", x0=0.55, x1=1.02, y0=0.55, y1=1.02, line=dict(width=0),
+                  fillcolor="rgba(13,148,136,0.12)", row=1, col=1)
+    fig.add_trace(go.Scatter(x=acc, y=ret, mode="lines+markers",
+                             marker=dict(size=7, color=ind, colorscale="Viridis", cmin=0,
+                                         cmax=float(np.nanmax(ind)) or 1.0,
+                                         colorbar=dict(title="individ.<br>ret×acc", len=0.9, x=0.44),
+                                         line=dict(width=0.5, color="#334155")),
+                             line=dict(color="#cbd5e1", width=1), showlegend=False,
+                             hovertext=[f"T={t:.0f}K" for t in arc.axes["temperature"]], hoverinfo="text"), row=1, col=1)
+    fig.add_trace(go.Scatter(x=[acc[ipk]], y=[ret[ipk]], mode="markers+text", text=["viable<br>optimum"],
+                             textposition="bottom left", textfont=dict(size=9, color=_INK),
+                             marker=dict(symbol="star", size=16, color=_AMBER, line=dict(width=1.1, color=_INK)),
+                             showlegend=False), row=1, col=1)
+    for x, y, t, col in [(0.26, 0.9, "too closed<br>(starves)", _SLATE),
+                         (0.8, 0.28, "too open<br>(leaks)", _RUST),
+                         (0.8, 0.9, "viable", _TEAL)]:
+        fig.add_annotation(x=x, y=y, text=t, showarrow=False, font=dict(size=10, color=col), row=1, col=1)
+    fig.update_xaxes(title_text="access (gradient import)", range=[0, 1.02], row=1, col=1)
+    fig.update_yaxes(title_text="retention (chemistry held)", range=[0, 1.02], row=1, col=1)
+    # --- right: feasibility map ---
+    mix = feas.axes["mix_fraction"]
+    salt = feas.axes["ionic_strength"]
+    fi = feas.surfaces["individuality"]            # [mix, salt] → z[y=mix][x=salt]
+    fig.add_trace(go.Contour(x=salt, y=mix, z=fi, colorscale="Viridis", ncontours=12, showscale=True,
+                             colorbar=dict(title="individ.", len=0.9),
+                             line=dict(width=0.4, color="rgba(255,255,255,0.3)")), row=1, col=2)
+    fig.add_vline(x=0.35, line=dict(color="#f8fafc", width=1.5, dash="dot"), row=1, col=2)
+    fig.add_annotation(x=0.35, y=float(mix.max()), text="seawater", showarrow=False, yshift=8,
+                       font=dict(size=9, color=_SLATE), row=1, col=2)
+    fig.update_xaxes(title_text="ionic strength (M)", row=1, col=2)
+    fig.update_yaxes(title_text="co-surfactant fraction", row=1, col=2)
+
+    ttl = title or "Campaign IV — a boundary that retains without isolating"
+    fig.update_layout(
+        title=dict(text=(f"<b>{ttl}</b><br><span style='font-size:12px;color:{_SLATE}'>"
+                         "A membrane is useful only in the viable window — permeable enough to import "
+                         "the gradient, tight enough to hold its chemistry. Mixed amphiphiles lift the "
+                         "salt ceiling so vesicles survive at seawater salt (Jordan 2019).</span>"),
+                   x=0.5, xanchor="center"),
+        height=450, width=960, margin=dict(t=100, b=60, l=70, r=20),
+        font=dict(family="system-ui, -apple-system, sans-serif", color=_INK),
+        paper_bgcolor="white", plot_bgcolor="white")
+    return fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+
+
+class ProtocellPhaseMap(Visualization):
+    """og-04 Decision view: the retention-access plane (3 regimes) + the salt-tolerance
+    feasibility map (mixed amphiphiles lift the viable salt ceiling). Computed from
+    sweeps of the real protocell composite."""
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "Campaign IV — a boundary that retains without isolating"},
+        "n_temp": {"_type": "integer", "_default": 24},
+        "n_grid": {"_type": "integer", "_default": 14},
+        "n_steps": {"_type": "integer", "_default": 15},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        from .phase_maps import protocell_feasibility_map, protocell_retention_access_arc
+        ns = int(self.config["n_steps"])
+        arc = protocell_retention_access_arc(temperature=(285.0, 360.0, int(self.config["n_temp"])),
+                                             n_steps=ns)
+        n = int(self.config["n_grid"])
+        feas = protocell_feasibility_map(mix_fraction=(0.0, 0.6, n), ionic_strength=(0.05, 1.2, n),
+                                         n_steps=ns)
+        return {"html": protocell_decision_figure(arc, feas, title=self.config["title"])}
+
+
 class CarbonFixationPhaseMap(Visualization):
     """og-01 Decision view: the carbon-fixation landscape over (vent pH × H₂),
     favourable vs the Tutolo gradient collapse, rendered from a parameter sweep of

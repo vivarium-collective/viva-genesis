@@ -120,7 +120,12 @@ class ProtocellAssemblyProcess(Process):
     }
 
     def inputs(self):
-        return {"pH": _DIMLESS, "ionic_strength": _MOLAR, "temperature": _K}
+        # mix_fraction is a STATE input (not only config) so an explicit 0.0
+        # (the single-fatty-acid control) is HONORED rather than swallowed by the
+        # is_empty(Float, 0.0) config-fill default — otherwise the control silently
+        # runs as the mixed-amphiphile default and stops being a control.
+        return {"pH": _DIMLESS, "ionic_strength": _MOLAR, "temperature": _K,
+                "mix_fraction": _DIMLESS}
 
     def outputs(self):
         return {
@@ -134,14 +139,17 @@ class ProtocellAssemblyProcess(Process):
         }
 
     def initial_state(self):
-        return {"pH": 9.0, "ionic_strength": 0.35, "temperature": 318.15}
+        return {"pH": 9.0, "ionic_strength": 0.35, "temperature": 318.15, "mix_fraction": 0.4}
 
     def update(self, state, interval):
         pH = float(state.get("pH", 9.0))
         ionic = max(float(state.get("ionic_strength", 0.0)), 0.0)
         temp_k = max(float(state.get("temperature", 318.15)), 250.0)
 
-        mix = min(max(float(self.config["mix_fraction"]), 0.0), 1.0)
+        # Prefer the state input (honors 0.0); fall back to config for callers that
+        # don't wire it.
+        mix = float(state.get("mix_fraction", self.config.get("mix_fraction", 0.4)))
+        mix = min(max(mix, 0.0), 1.0)
         # Co-surfactant broadens the pH window, salt tolerance and divalent
         # tolerance (the Jordan-2019 mixed-amphiphile result).
         window_eff = float(self.config["ph_window"]) * (1.0 + 1.6 * mix)

@@ -173,3 +173,65 @@ def protometabolism_gain_phase_map(
         n_steps=n_steps,
         n_jobs=n_jobs,
     )
+
+
+# ----------------------------------------------------------------------------
+# og-04 — mineral compartments → protocells : the retention-access tradeoff
+# ----------------------------------------------------------------------------
+# Decision: a membrane is only useful if it RETAINS internal chemistry without
+# SEVERING access to the external gradient. As permeability rises (driven by
+# temperature / composition) the compartment sweeps from "too closed" (retains but
+# starves) through a VIABLE window (individuality + access) to "too open" (leaks /
+# washes out). Plotted as the retention-access plane; the Jordan mixed-amphiphile
+# result (co-surfactant broadens the viable window) is the 2-D feasibility map.
+def protocell_retention(rows) -> float:
+    return float(rows[-1].get("retention", 0.0)) if rows else float("nan")
+
+
+def protocell_access(rows) -> float:
+    return float(rows[-1].get("access", 0.0)) if rows else float("nan")
+
+
+def protocell_individuality(rows) -> float:
+    """retention × access — individuality WITHOUT isolation (the viable product)."""
+    return float(rows[-1].get("individuality_access", 0.0)) if rows else float("nan")
+
+
+def protocell_retention_access_arc(
+    *, temperature=(285.0, 360.0, 24), mix_fraction: float = 0.4, pH: float = 9.0,
+    n_steps: int = 20, n_jobs: int = 1,
+) -> SweepResult:
+    """1-D sweep over temperature (the permeability driver) tracing the arc through
+    (access, retention) space — too closed → viable → too open."""
+    from .composites.mixed_amphiphile_protocell import mixed_amphiphile_protocell
+    t_lo, t_hi, t_n = temperature
+    axes = {"temperature": np.linspace(t_lo, t_hi, int(t_n))}
+    return sweep_grid(
+        mixed_amphiphile_protocell, axes,
+        reduce={"retention": protocell_retention, "access": protocell_access,
+                "individuality": protocell_individuality},
+        fixed={"mix_fraction": float(mix_fraction), "pH": float(pH)},
+        n_steps=n_steps, n_jobs=n_jobs,
+    )
+
+
+def protocell_feasibility_map(
+    *, mix_fraction=(0.0, 0.6, 16), ionic_strength=(0.05, 1.2, 16),
+    pH: float = 9.0, temperature: float = 318.15, n_steps: int = 20, n_jobs: int = 1,
+) -> SweepResult:
+    """2-D feasibility over (co-surfactant fraction × ionic strength): the viable salt
+    ceiling RISES with mixed amphiphiles — vesicles survive at seawater salt and
+    beyond only with enough co-surfactant (Jordan 2019). Primary surface =
+    individuality (retention × access)."""
+    from .composites.mixed_amphiphile_protocell import mixed_amphiphile_protocell
+    m_lo, m_hi, m_n = mix_fraction
+    i_lo, i_hi, i_n = ionic_strength
+    axes = {"mix_fraction": np.linspace(m_lo, m_hi, int(m_n)),
+            "ionic_strength": np.linspace(i_lo, i_hi, int(i_n))}
+    return sweep_grid(
+        mixed_amphiphile_protocell, axes,
+        reduce={"individuality": protocell_individuality,
+                "retention": protocell_retention, "access": protocell_access},
+        fixed={"pH": float(pH), "temperature": float(temperature)},
+        n_steps=n_steps, n_jobs=n_jobs,
+    )
