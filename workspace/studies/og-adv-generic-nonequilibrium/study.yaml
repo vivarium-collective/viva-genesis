@@ -204,7 +204,7 @@ runs:
       measured_value: 1.836
       evaluated_by: code
       operator: cross_run
-      detail: 'all 5 vent-specific gates REJECT the generic control (min margin 1.84 decades below threshold; tightest: og-01 formate (mM) generic=1.8e-08 < 50) => the gates measure the vent mechanism, not generic nonequilibrium chemistry'
+      detail: 'all 5 vent-specific gates REJECT the generic control (min margin 1.84 decades below threshold; tightest: og-03 accumulation Péclet generic=0.26 < 18) => the gates measure the vent mechanism, not generic nonequilibrium chemistry'
     vent-specificity-demonstrated:
       result: PASS
       measured_value: 5

@@ -13,10 +13,10 @@ hypothesis: A 1D/2D porous-wall reactor with prescribed boundary fluxes reproduc
 objective: Build a reduced vent–ocean reactor and validate it against Lost City field ranges to establish a geochemical/spatial testbed.
 claim: >-
   A real PHREEQC + FiPy serpentinization reactor settles into the Lost City window
-  (T 51 °C, pH 9.37) with sustained H2 and exact mass/charge/spatial-flux conservation.
+  (T 51 °C, pH 9.37) with sustained H2, exact charge balance (|charge|=0) and spatial-flux divergence held within the contract tolerance (~5e-5).
 result: >-
   All five acceptance criteria pass — outlet T 50.6 °C and pH 9.37 (both in-window),
-  sustained H2 flux 2.2e-4 mol/s, and charge + flux conserved to machine epsilon.
+  sustained H2 flux 2.75e-4 mol/s; charge balance exact (|charge|=0) and spatial-flux divergence 4.9e-5 (within the 1e-3 contract tolerance).
 findings:
 - id: og00-temperature-ph-in-window
   kind: computational
@@ -32,20 +32,20 @@ findings:
 - id: og00-h2-sustained
   kind: computational
   status: confirms
-  statement: Serpentinization delivers a sustained H2 reducing-power flux (min 2.2e-4 mol/s over the back half of the run).
+  statement: Serpentinization delivers a sustained H2 reducing-power flux (min 2.75e-4 mol/s over the back half of the run).
   evidence:
     from_test: h2-flux-sustained
-    observed: 2.2e-4 mol/s
+    observed: 2.75e-4 mol/s
     units: mole/second
   expected:
     cites: [schwander2023serpentinization]
 - id: og00-conservation
   kind: computational
   status: confirms
-  statement: PHREEQC charge balance and FiPy FVM spatial-flux divergence are conserved to machine epsilon (<1e-6 and ~5e-16).
+  statement: PHREEQC charge balance is conserved exactly (|charge|=0) and the FiPy FVM spatial-flux divergence is held to 4.9e-5 — within the 1e-3 contract tolerance (not machine epsilon).
   evidence:
     from_test: charge-conserved
-    observed: '|charge|=0, |flux residual|=5e-16'
+    observed: '|charge|=0, |flux residual|=4.9e-5 (within 1e-3 tol)'
 - id: og00-peridotite-endmember
   kind: methodological
   status: novel
@@ -63,7 +63,7 @@ findings:
     ~5× the background upflow (Peclet ~8) — rather than a prescribed uniform upflow.
     The recirculation mixes cold ocean inward, settling the outlet ~8 °C cooler
     (59 → 51 °C) while staying inside the Lost City window; flux conservation is
-    preserved to machine epsilon.
+    preserved within the solver tolerance (flux residual ~5e-5, within the 1e-3 bound).
   evidence:
     observed: 'recirculation cell (cold-left sinks, hot-right rises); vmax ~5× background; outlet 50.6 °C'
     units: dimensionless
@@ -87,7 +87,7 @@ report:
   key_metrics:
   - {label: Outlet T, value: 50.6 °C, status: pass}
   - {label: Outlet pH, value: '9.37', status: pass}
-  - {label: H2 flux, value: 2.2e-4 mol/s, status: pass}
+  - {label: H2 flux, value: 2.75e-4 mol/s, status: pass}
   - {label: Charge imbalance, value: '0', status: pass}
 conclusion: >-
   The real PHREEQC + FiPy vent reactor reproduces the Lost City field window and
@@ -126,7 +126,7 @@ implemented_methods:
 - 'Module A — REAL PHREEQC: genuine USGS IPhreeqc (via phreeqpython + vendored llnl.dat) reacting PERIDOTITE — olivine (forsterite+fayalite) + diopside pyroxene — with the serpentinite assemblage (chrysotile + brucite + magnetite + tremolite + diopside) each step. Dissolved H2, pH, pe, alkalinity and charge balance are emergent speciation outputs. The pyroxene-sourced Ca, once Mg is consumed into serpentine/brucite, gives the real Lost City Ca-OH-rich high-pH (~9.2-9.5) endmember — not a tuned value.'
 - 'Module B — REAL FiPy: genuine finite-volume 1-D advection–diffusion–reaction column (TransientTerm == DiffusionTerm − PowerLawConvectionTerm, scipy direct-LU solve, zero-gradient advective outflow BC) transporting the serpentinization source across the vent–ocean interface.'
 - 'Partial-equilibrium coupling: a flow/temperature kinetic driver sets the olivine reaction extent feeding the equilibrium speciation (standard reactive-transport practice). The only field-calibrated knob is the heat-partition fraction (tuned to the observed 40–91 C vent temperature); all chemistry is emergent.'
-- 'Conservation: PHREEQC conserves elements + charge by construction; FiPy''s FVM conserves flux to the linear-solver tolerance (~machine epsilon) — directly satisfying the mass_balance / charge_neutrality / spatial_flux_conservation contract invariants.'
+- 'Conservation: PHREEQC conserves elements + charge by construction; FiPy''s FVM conserves flux to the linear-solver tolerance (residual ~5e-5, within the 1e-3 bound) — directly satisfying the mass_balance / charge_neutrality / spatial_flux_conservation contract invariants.'
 contract:
   face:
     inputs:
@@ -570,7 +570,7 @@ units_and_time:
 study_card:
   headline: >-
     All five acceptance criteria pass — outlet T 50.6 °C and pH 9.37 (both in-window),
-    sustained H2 flux 2.2e-4 mol/s, and charge + flux conserved to machine epsilon.
+    sustained H2 flux 2.75e-4 mol/s; charge balance exact (|charge|=0) and spatial-flux divergence 4.9e-5 (within the 1e-3 contract tolerance).
   status: PASS — reproduces the Lost City T/pH window with real geochemistry
 preregistered:
   registered_at: '2026-10-11T12:00:00Z'
