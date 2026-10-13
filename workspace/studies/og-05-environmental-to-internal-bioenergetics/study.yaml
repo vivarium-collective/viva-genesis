@@ -135,8 +135,6 @@ findings:
   expected:
     cites: [sojo2014bioenergetic, lane2012origin]
   explanation: Below a pump-efficiency threshold the internal-pump flux cannot beat its cost against the lost external coupling, so no strategy clears the survival floor.
-  next_action: Sweep catalyst_efficiency to bound the pump-efficiency threshold for viable internalization.
-  next_action_type: calibrate
 report:
   title: Campaign V — environmental to internal bioenergetics
   verdict: PASS — selection internalizes gradient generation; the Sojo constraint bounds it

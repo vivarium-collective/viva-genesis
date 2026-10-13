@@ -35,8 +35,6 @@ findings:
   expected:
     cites: [muchowska2017metals, muchowska2019synthesis]
   explanation: The reductive-TCA turn OAA+2CO2->2OAA+acetate doubles its own entry molecule per turn — genuine autocatalysis, not an imposed assumption.
-  next_action: Add an acetyl-CoA-pathway parallel arm and test cross-feeding.
-  next_action_type: refine_representation
 - id: og02-network-closure
   kind: computational
   status: confirms

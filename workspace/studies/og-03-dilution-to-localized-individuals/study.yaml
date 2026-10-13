@@ -79,8 +79,6 @@ findings:
   expected:
     cites: [baaske2007extreme]
   explanation: Enrichment is exponential in pore length and vanishes with confinement — the dilution/localization boundary the campaign sought.
-  next_action: Couple the og-02 network into the concentrated pocket to test in-pore persistence (network-persists-in-pore).
-  next_action_type: extend
 report:
   title: Campaign III — dilution to localized individuals
   verdict: PASS — the thermal trap reaches Baaske enrichment; controls map the washout boundary

@@ -135,8 +135,6 @@ findings:
   expected:
     cites: [jordan2019promotion, sutherland2017opinion]
   explanation: Selective permeability — low effective permeability to large/charged internal metabolites, higher to small external resources.
-  next_action: Couple the og-02 network inside the vesicle to test whether the boundary improves network persistence vs the open pore.
-  next_action_type: extend
 report:
   title: Campaign IV — mineral compartments to protocells
   verdict: PASS — mixed amphiphiles form vesicles that retain without isolating; controls bound the survival region

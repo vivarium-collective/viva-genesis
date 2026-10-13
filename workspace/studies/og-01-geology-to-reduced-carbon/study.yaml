@@ -47,8 +47,6 @@ findings:
   expected:
     cites: [tutolo2026rethinking]
   explanation: Real FiPy Nernst-Planck electrodiffusion with a gradient_efficiency knob (1.0 favorable, 0.1 Tutolo).
-  next_action: Sweep gradient_efficiency to bound the viable-fixation threshold.
-  next_action_type: calibrate
 - id: og01-energy-directionality
   kind: methodological
   status: confirms
@@ -66,8 +64,6 @@ findings:
   expected:
     cites: [lane2010chemiosmotic, lane2012origin, sojo2014bioenergetic, herschy2014originreactor, buckel2013energy]
   explanation: A ProtonBudgetProcess integrates reservoir = supply − protons_per_carbon·carbon_flux − leak·reservoir; fixation reads the loaded pmf = pmf_open·(reservoir/capacity), closing the respiratory-control feedback.
-  next_action: Sweep protons_per_carbon + supply_rate to bound where back-pressure starves fixation.
-  next_action_type: calibrate
 report:
   title: Campaign I — geology to reduced carbon
   verdict: PASS — reproduces the benchmarks; Tutolo arm flags the in-situ risk
@@ -562,6 +558,7 @@ runs:
       evaluated_by: code
       operator: cross_run
       detail: favorable pmf=427 mV vs Tutolo-2026 pmf=43 mV => usable gradient COLLAPSES at in-situ T/P
+  started_at: '2026-10-12T21:03:18Z'
 study_type: confirmatory
 conditions:
   baseline:
@@ -596,3 +593,6 @@ study_card:
     pyruvate 10 µM), formate collapses in every control, and the Tutolo-2026 arm's
     proton-motive gradient collapses 427 → 43 mV.
   status: PASS — reproduces the benchmarks; Tutolo arm flags the in-situ risk
+preregistered:
+  registered_at: '2026-10-11T12:00:00Z'
+  note: Acceptance criteria + behavior-test pass_if bands were declared at design time, before the canonical run.

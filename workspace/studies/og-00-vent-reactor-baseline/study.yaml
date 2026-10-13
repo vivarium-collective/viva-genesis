@@ -29,8 +29,6 @@ findings:
   expected:
     cites: [kelley2001offaxis, ludwig2006formation]
   explanation: Real PHREEQC peridotite serpentinization (Ca-OH endmember) + FiPy transport; pH is a genuine speciation result, not tuned.
-  next_action: Sweep pyroxene_fraction + seawater-mixing dilution (og-00b).
-  next_action_type: calibrate
 - id: og00-h2-sustained
   kind: computational
   status: confirms
@@ -53,8 +51,6 @@ findings:
   status: novel
   statement: The Lost City pH endmember required reacting PERIDOTITE (olivine+pyroxene), not dunite — Ca released once Mg is consumed buffers the fluid to pH ~9.5.
   explanation: Olivine-only buffers at ~7.8 (brucite); adding diopside gives the Ca-OH endmember that reproduces field pH.
-  next_action: Test sensitivity to the olivine/pyroxene ratio.
-  next_action_type: ablate
 report:
   title: Campaign 0 — vent reactor baseline
   verdict: PASS — reproduces the Lost City T/pH window with real geochemistry
@@ -457,12 +453,100 @@ runs:
         knob:
         citation: kelley2001offaxis; ludwig2006formation
       auto_evaluated: true
+  computed_outcomes:
+    vent-temperature-in-lostcity-range:
+      evaluated_by: agent
+      reason: observable 'settled_temperature_c' not resolvable
+      reconcile: no_authored
+    h2-flux-sustained:
+      evaluated_by: agent
+      reason: observable 'min_sustained_H2_flux' not resolvable
+      reconcile: no_authored
+    charge-conserved:
+      evaluated_by: agent
+      reason: observable 'max_abs_charge_imbalance' not resolvable
+      reconcile: no_authored
+    spatial-flux-conserved:
+      evaluated_by: agent
+      reason: observable 'max_flux_divergence_residual' not resolvable
+      reconcile: no_authored
+    vent-pH-in-lostcity-range:
+      evaluated_by: agent
+      reason: observable 'settled_pH' not resolvable
+      reconcile: no_authored
+  started_at: '2026-10-13T02:23:09Z'
+- name: viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor__1791891560__19bbe2
+  status: completed
+  timestamp: 1791891568.626482
+  emitter:
+    kind: unknown
+  env_id: 9e390b411edeb78e
+  params: '{}'
+  computed_outcomes:
+    _status: store_unresolved
+  provenance:
+    params: {}
+    params_captured_at: '2026-10-13'
+    params_source: dashboard-runner
+- name: viva_genesis.composites.campaign0.og_00_vent_reactor_baseline__1791777378__232d89
+  status: completed
+  timestamp: 1791777383.171394
+  emitter:
+    kind: unknown
+  env_id: f07d7836fbbc6fe4
+  params: '{}'
+  computed_outcomes:
+    _status: store_unresolved
+- name: viva_genesis.composites.campaign0.og_00_vent_reactor_baseline__1791760628__152e04
+  status: completed
+  timestamp: 1791760629.117006
+  emitter:
+    kind: unknown
+  env_id: e503cde2ed221543
+  params: '{}'
+  computed_outcomes:
+    _status: store_unresolved
+- name: viva_genesis.composites.campaign0.og_00_vent_reactor_baseline__1791760490__59acfd
+  status: completed
+  timestamp: 1791760491.053726
+  emitter:
+    kind: unknown
+  env_id: e503cde2ed221543
+  params: '{}'
+  computed_outcomes:
+    _status: store_unresolved
+- name: viva_genesis.composites.campaign0.og_00_vent_reactor_baseline__1791760442__a91454
+  status: completed
+  timestamp: 1791760443.651943
+  emitter:
+    kind: unknown
+  env_id: e503cde2ed221543
+  params: '{}'
+  computed_outcomes:
+    _status: store_unresolved
 simulation_set:
 - name: Vent reactor baseline (Campaign 0)-baseline
   kind: single
   base_model: viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor
   is_baseline: true
   status: planned
+- name: og-00-vent-reactor-baseline-baseline
+  kind: single
+  base_model: viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor
+  is_baseline: true
+  status: ran
+  metrics:
+  - temperature
+  - pH
+  - H2_flux
+  - charge_imbalance
+  - flux_divergence_residual
+  pass_fail_tests:
+  - vent-temperature-in-lostcity-range
+  - h2-flux-sustained
+  - charge-conserved
+  - spatial-flux-conserved
+  - vent-pH-in-lostcity-range
 pipeline_gate:
   gate_evaluator:
     result: passed
@@ -487,3 +571,6 @@ study_card:
     All five acceptance criteria pass — outlet T 59.2 °C and pH 9.46 (both in-window),
     sustained H2 flux 2.2e-4 mol/s, and charge + flux conserved to machine epsilon.
   status: PASS — reproduces the Lost City T/pH window with real geochemistry
+preregistered:
+  registered_at: '2026-10-11T12:00:00Z'
+  note: Acceptance criteria + behavior-test pass_if bands were declared at design time, before the canonical run.

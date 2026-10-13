@@ -136,8 +136,6 @@ findings:
   expected:
     cites: [huber1998peptides]
   explanation: Whole-sequence fidelity Q = per_site_fidelity^length sets the threshold; longer high-fidelity polymers retain more information but cost more to replicate.
-  next_action: Couple the winning heredity module to the og-02 network to test whether inherited catalysts raise metabolic throughput.
-  next_action_type: extend
 report:
   title: Campaign VI — chemistry to heredity
   verdict: PASS — inheritance pays above the error threshold; modules ranked head-to-head
