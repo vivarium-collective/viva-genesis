@@ -35,7 +35,7 @@
   <div class="study-status-row" style="display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-top:6px;">
     
     
-    <span class="status-pill status-evaluated" title="Headline status derived from the highest-precedence multi-axis field (or legacy `status` as fallback).">evaluated</span>
+    <span class="status-pill gate-status gate-status-passed" title="Pipeline gate verdict (Pass A multi-axis status). Drives downstream unblocking.">gate: passed</span>
     
 
     
@@ -70,7 +70,7 @@
           </span>
           
           <span class="status-step gate-step axis-gate_status gate-state-passed set" title="Gate 5 · Decision">
-            <span class="dot"></span>5&nbsp;·&nbsp;Decision
+            <span class="dot"></span>5&nbsp;·&nbsp;Decision<span class="step-val">passed</span>
           </span>
           
           <span class="status-step gate-step axis-expert_review_status gate-state-not-assessed gate-current" title="Gate 6 · Release — current stage">
@@ -121,7 +121,7 @@
         
         <div class="status-detail-row gate-row gate-state-passed">
           <span class="status-detail-axis">5 · Decision</span>
-          <span class="status-chip gate-state-not-assessed">not set</span>
+          <span class="status-chip gate-state-passed">passed</span>
           
           <span class="gate-computed-chip gate-state-passed" title="spine gate evaluator (study_verdict.roll_up_verdict / pipeline_gate.gate_evaluator)">◆ computed: passed</span>
           
@@ -654,7 +654,7 @@
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Claim</h2>
-      <p class="ctr-text">An inherited (replicable) polymer state improves lineage fitness above its replication cost IF fidelity beats the Eigen error threshold — RNA-like (long, high-fidelity) wins a head-to-head against a cheaper peptide module, and both beat the non-heritable control; below the threshold information is lost (error catastrophe).</p>
+      <p class="ctr-text">An inherited chemical state improves lineage fitness above its replication cost when it clears the Eigen error threshold — but heredity need NOT presume a long high-fidelity RNA template. An agent-based lineage shows template heredity suffers the length catastrophe (Q=fidelity^length collapses with length) while compositional (GARD) and template-focused hybrid heredity persist length-independently (functional persistence ~0.88, seed-robust across 8 seeds) above the non-heritable control, which loses the parent↔offspring correlation and collapses. (A mean-field quasispecies arm still ranks a long high-fidelity template above a cheaper peptide module above non-inheritance when all clear the threshold.)</p>
       
     </div>
 
@@ -674,7 +674,7 @@
       <div class="ctr-meta">
         <div class="ctr-meta-row"><span class="ctr-meta-k">Model</span> <code>Chemistry to heredity (Campaign VI)</code><a class="ov-tablink" href="#" onclick="_setStudyTab('compose');return false;">model →</a></div>
         
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Measures</span> <span class="ctr-meta-item">5 behavior tests</span><a class="ov-tablink" href="#" onclick="_setStudyTab('tests');return false;">see Tests →</a></div>
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Measures</span> <span class="ctr-meta-item">6 behavior tests</span><a class="ov-tablink" href="#" onclick="_setStudyTab('tests');return false;">see Tests →</a></div>
         
       </div>
     </div>
@@ -685,7 +685,7 @@
     
     <div class="ctr-block ov-prov">
       <h2 class="overview-label ctr-h">Provenance &amp; sources</h2>
-      <div class="ctr-meta-k" style="margin-top:12px">Sources (2)</div>
+      <div class="ctr-meta-k" style="margin-top:12px">Sources (5)</div>
       <div class="ov-sources">
       
         
@@ -700,6 +700,27 @@
           <b class="ov-src-t">Muchowska 2019</b> <span class="ov-src-k">muchowska2019synthesis</span>
           <div class="ov-src-t">Synthesis and breakdown of universal metabolic precursors promoted by iron</div>
           <div class="ctr-meta-k" style="text-transform:none">Muchowska, Kamila B. and Varma, Sreejith J. and Moran, Joseph · 2019 · <a href="https://doi.org/10.1038/s41586-019-1151-1" target="_blank" rel="noopener">source ↗</a></div>
+        </div>
+      
+        
+        <div class="ov-src" id="sref-sutherland2017opinion">
+          <b class="ov-src-t">Sutherland 2017</b> <span class="ov-src-k">sutherland2017opinion</span>
+          <div class="ov-src-t">Studies on the origin of life - the end of the beginning</div>
+          <div class="ctr-meta-k" style="text-transform:none">Sutherland, John D. · 2017 · <a href="https://doi.org/10.1038/s41570-016-0012" target="_blank" rel="noopener">source ↗</a></div>
+        </div>
+      
+        
+        <div class="ov-src" id="sref-eigen1971selforganization">
+          <b class="ov-src-t">Eigen 1971</b> <span class="ov-src-k">eigen1971selforganization</span>
+          <div class="ov-src-t">Selforganization of matter and the evolution of biological macromolecules</div>
+          <div class="ctr-meta-k" style="text-transform:none">Eigen, Manfred · 1971 · <a href="https://doi.org/10.1007/BF00623322" target="_blank" rel="noopener">source ↗</a></div>
+        </div>
+      
+        
+        <div class="ov-src" id="sref-segre2000compositional">
+          <b class="ov-src-t">Segr{\&#39;e} 2000</b> <span class="ov-src-k">segre2000compositional</span>
+          <div class="ov-src-t">Compositional genomes: prebiotic information transfer in mutually catalytic noncovalent assemblies</div>
+          <div class="ctr-meta-k" style="text-transform:none">Segr{\&#39;e}, Daniel and Ben-Eli, Dafna and Lancet, Doron · 2000 · <a href="https://doi.org/10.1073/pnas.97.8.4112" target="_blank" rel="noopener">source ↗</a></div>
         </div>
       
       </div>
@@ -730,6 +751,21 @@
         <div class="ov-metric ov-metric-pass">
           <div class="ov-metric-v">0 / −0.10</div>
           <div class="ov-metric-k">Low-fidelity (catastrophe)</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">0.88</div>
+          <div class="ov-metric-k">Compositional persistence (seed-robust)</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">0.92</div>
+          <div class="ov-metric-k">Compositional heritability</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">0.11</div>
+          <div class="ov-metric-k">Non-heritable control heritability</div>
         </div>
         
       </div>
@@ -783,11 +819,11 @@
             <div class="finding-expected">
               
               
-              cites: <a class="ov-cite" href="#sref-huber1998peptides" title="Peptides by activation of amino acids with CO on (Ni,Fe)S surfaces: implications for the origin of life">Huber 1998</a><a class="ov-cite" href="#sref-muchowska2019synthesis" title="Synthesis and breakdown of universal metabolic precursors promoted by iron">Muchowska 2019</a>
+              cites: <a class="ov-cite" href="#sref-eigen1971selforganization" title="Selforganization of matter and the evolution of biological macromolecules">Eigen 1971</a><a class="ov-cite" href="#sref-huber1998peptides" title="Peptides by activation of amino acids with CO on (Ni,Fe)S surfaces: implications for the origin of life">Huber 1998</a><a class="ov-cite" href="#sref-muchowska2019synthesis" title="Synthesis and breakdown of universal metabolic precursors promoted by iron">Muchowska 2019</a>
             </div>
             
             
-            <div class="finding-explanation"><em>Why:</em> Real libRoadRunner quasispecies ODE; above the Eigen error threshold correct templates outreplicate the mutational error tail.</div>
+            <div class="finding-explanation"><em>Why:</em> Real libRoadRunner quasispecies ODE; above the Eigen error threshold correct templates outreplicate the mutational error tail (Eigen 1971).</div>
             
             
           </div>
@@ -838,13 +874,68 @@
             <div class="finding-expected">
               
               
-              cites: <a class="ov-cite" href="#sref-huber1998peptides" title="Peptides by activation of amino acids with CO on (Ni,Fe)S surfaces: implications for the origin of life">Huber 1998</a>
+              cites: <a class="ov-cite" href="#sref-eigen1971selforganization" title="Selforganization of matter and the evolution of biological macromolecules">Eigen 1971</a><a class="ov-cite" href="#sref-huber1998peptides" title="Peptides by activation of amino acids with CO on (Ni,Fe)S surfaces: implications for the origin of life">Huber 1998</a>
             </div>
             
             
             <div class="finding-explanation"><em>Why:</em> Whole-sequence fidelity Q = per_site_fidelity^length sets the threshold; longer high-fidelity polymers retain more information but cost more to replicate.</div>
             
-            <div class="finding-next"><strong>→ Next:</strong> Couple the winning heredity module to the og-02 network to test whether inherited catalysts raise metabolic throughput.</div>
+            
+          </div>
+        </details>
+      </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <div class="finding-card finding-kind-computational finding-status-novel">
+        <details class="finding-details">
+          <summary class="finding-row">
+            <span class="finding-status-glyph">◆</span>
+            <span class="finding-claim finding-statement">An agent-based LINEAGE model (individuals inherit a chemical phenotype at fission into a real tree) re-derives the Eigen error threshold as a functional-persistence boundary in (per-site fidelity × length) space — AND shows that heredity need not presume a long high-fidelity template — compositional (GARD) and template-focused hybrid heredity persist at functional-persistence ~0.88 (seed-robust across 8 seeds, 0.875±0.006) INDEPENDENT of length, where a long low-fidelity template collapses; the non-heritable control loses the parent↔offspring correlation (realized heritability ~0.04–0.11 vs 0.92–0.99 for the heritable modules) and crashes to ~5 individuals.</span>
+            
+            <span class="finding-chip">via <code>heredity-lineage-compositional-persists</code></span>
+            
+          </summary>
+          <div class="finding-drawer">
+            <div class="finding-header">
+              <span class="finding-id">og06-lineage-compositional-escapes-length-catastrophe</span>
+              <span class="finding-kind">computational</span>
+              <span class="finding-status-text">novel literature</span>
+            </div>
+            
+            
+            <div class="finding-evidence">
+              <strong>observed:</strong> compositional persistence 0.875±0.006 across 8 seeds (heritability 0.92), hybrid ~0.88 (0.92) — length-independent; template needs Q=fidelity^length above threshold; non-heritable heritability ~0.04–0.11, collapses every seed dimensionless · 
+              
+              via test <a href="#bt-heredity-lineage-compositional-persists" onclick="_gotoStudyTab('tests','bt-heredity-lineage-compositional-persists');return false;"><code>heredity-lineage-compositional-persists</code></a> · 
+              
+              
+              
+            </div>
+            
+            
+            
+            
+            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: op: arms_reported · detail: compositional persistence above threshold and above the non-heritable control (realized heritability separates them)</code></div>
+            
+            
+            
+            <div class="finding-expected">
+              
+              
+              cites: <a class="ov-cite" href="#sref-eigen1971selforganization" title="Selforganization of matter and the evolution of biological macromolecules">Eigen 1971</a><a class="ov-cite" href="#sref-segre2000compositional" title="Compositional genomes: prebiotic information transfer in mutually catalytic noncovalent assemblies">Segr{\&#39;e} 2000</a><a class="ov-cite" href="#sref-sutherland2017opinion" title="Studies on the origin of life - the end of the beginning">Sutherland 2017</a>
+            </div>
+            
+            
+            <div class="finding-explanation"><em>Why:</em> Coarse-grained agent-based reproduction with explicit fidelity/cost/competition. Template inheritance ratchets (Eigen 1971, no back-mutation) so a long low-fidelity template loses information; compositional inheritance drifts by multinomial fission of an autocatalytic composition (GARD, Segré 2000) — length-independent, so it escapes the length catastrophe. The realized heritability (offspring↔parent φ slope) separates true inheritance from the non-heritable control.</div>
+            
+            
           </div>
         </details>
       </div>
@@ -858,13 +949,13 @@
       <div class="ctr-meta ctr-assess">
         
         <div class="ctr-meta-row"><span class="ctr-meta-k">Confidence</span>
-          <span class="ctr-badge ctr-badge-investigating">Investigating</span>
+          <span class="ctr-badge ctr-badge-accepted">Accepted</span>
           <span class="ctr-vch">biology&nbsp;PASS</span>
           <span class="ctr-vch">insight&nbsp;POSITIVE</span>
         </div>
         
         
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Caveat</span> <span class="ctr-meta-item">The functional benefit and replication cost are reduced couplings; only the quasispecies dynamics are the real engine.</span></div>
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Caveat</span> <span class="ctr-meta-item">The functional benefit and replication cost are reduced couplings; the quasispecies ODE and the agent-based lineage are the real engines.</span></div>
         
       </div>
       
@@ -1433,6 +1524,59 @@ pass_if: {"detail": "net-positive within the replication budget", "op": "\u003e"
       
     </li>
     
+    
+    
+    
+    
+    
+    
+    
+    <li class="expected-behavior-item" id="bt-heredity-lineage-compositional-persists"
+        data-test-kind="behavioral"
+        
+        data-pytest-node="heredity-lineage-compositional-persists"
+        data-classification="primary"
+        data-result="PASS"
+        style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #10b981; background: #f8fafc; border-radius: 4px;">
+      
+        
+      <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
+        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #d1fae5; color: #065f46">✓ PASS</span>
+        <span class="classification-pill classification-primary">primary</span>
+        <strong style="font-size: 0.9em;">heredity-lineage-compositional-persists</strong>
+        
+        <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
+        
+      </div>
+      <div style="margin-top: 6px; font-size: 0.95em;">Do NOT presume RNA. In the agent-based lineage model, compositional (GARD) heredity retains functional information across generations — length-independent — above the non-heritable control, so heredity need not be a long high-fidelity template.</div>
+      
+      <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
+        <strong>Latest result:</strong>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.878</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: cross_run</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: compositional persistence=0.878±0.005 (heritability~0.92) vs non-heritable persistence=0.011 (heritability~0.05) across 5 seeds, 5/5 pass =&gt; compositional heredity persists length-independently and seed-robustly; the non-heritable control collapses every seed</code>
+        
+      </div>
+      
+      
+      <details style="margin-top: 6px; font-size: 0.82em;">
+        <summary class="muted" style="cursor: pointer;">Assertion</summary>
+        
+        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "compositional vs non-heritable functional persistence in the agent-based lineage", "kind": "cross_run"}
+pass_if: {"detail": "compositional persistence above threshold and above the non-heritable control (realized heritability separates them)", "op": "arms_reported"}
+cites:   ["sutherland2017opinion"]</pre>
+      </details>
+      
+      
+      
+      
+    </li>
+    
   </ul>
   
   </div>
@@ -1519,7 +1663,7 @@ pass_if: {"detail": "net-positive within the replication budget", "op": "\u003e"
           <span class="narrative-label">Empirical basis</span>
           <textarea class="narrative-input narrative-textarea" rows="2"
                     data-narrative-path="conclusion_verdicts.biological_validation.basis"
-                    placeholder="e.g. atp_fraction = 0.997, outside Boesen 2024 band [0.2, 0.5].">Reproduces the Eigen error threshold — inheritance pays above it, collapses below it — and ranks two viable modules head-to-head.</textarea>
+                    placeholder="e.g. atp_fraction = 0.997, outside Boesen 2024 band [0.2, 0.5].">Reproduces the Eigen error threshold (inheritance pays above it, collapses below it) at both mean-field and individual-lineage level, ranks viable modules head-to-head, and shows non-template (compositional/hybrid) heredity persisting length-independently.</textarea>
         </label>
         <label class="narrative-row">
           <span class="narrative-label">Explanatory gain</span>
@@ -1532,7 +1676,7 @@ pass_if: {"detail": "net-positive within the replication budget", "op": "\u003e"
           <span class="narrative-label">Explanatory basis</span>
           <textarea class="narrative-input narrative-textarea" rows="2"
                     data-narrative-path="conclusion_verdicts.explanatory_gain.basis"
-                    placeholder="e.g. Three findings worth keeping; design_pivot_required closed.">The quasispecies ODE explains both the information-retention transition and the fidelity × length threshold from first principles.</textarea>
+                    placeholder="e.g. Three findings worth keeping; design_pivot_required closed.">Two independent engines — a quasispecies ODE and an agent-based lineage — both derive the fidelity × length error threshold from first principles, and the lineage additionally shows compositional/hybrid heredity escaping the length catastrophe (heredity need not presume RNA).</textarea>
         </label>
       </div>
     </div>
@@ -1579,7 +1723,7 @@ pass_if: {"detail": "net-positive within the replication budget", "op": "\u003e"
       <h3 class="overview-label">Limitations</h3>
       <p class="muted" style="margin:0 0 6px 0;font-size:0.85em">What this study explicitly does NOT validate (prevents overclaim).</p>
       <ul style="margin:0 0 0 18px;padding:0;font-size:0.93em">
-        <li style="margin:2px 0">The functional benefit and replication cost are reduced couplings; only the quasispecies dynamics are the real engine.</li><li style="margin:2px 0">Two heredity modules compared (RNA-like, peptide); a broader module library is deferred.</li>
+        <li style="margin:2px 0">The functional benefit and replication cost are reduced couplings; the quasispecies ODE and the agent-based lineage are the real engines.</li><li style="margin:2px 0">The mean-field arm compares two modules (RNA-like, peptide); the agent-based lineage compares four (template, compositional, hybrid, non-heritable). A fuller chemical module library is deferred.</li>
       </ul>
     </div>
     
@@ -1600,14 +1744,14 @@ pass_if: {"detail": "net-positive within the replication budget", "op": "\u003e"
         baseline · seed ? ·
         ?s simulated ·
         ? history rows ·
-        started 1791856591.1341739
+        started 1791919315.552316
       </div>
       
       
       
       <p class="muted" style="margin:0;font-size:0.9em">
-        <strong>5</strong> test outcomes
-        — <span style="color:#065f46;font-weight:600">5 PASS</span> ·
+        <strong>6</strong> test outcomes
+        — <span style="color:#065f46;font-weight:600">6 PASS</span> ·
         <span style="color:#991b1b;font-weight:600">0 FAIL</span>.
         Per-test outcomes (measured value · evaluator · band) are canonical on the
         <a onclick="_setStudyTab('tests')" style="cursor:pointer;color:#3b82f6;text-decoration:underline">Tests tab →</a>.
@@ -1637,7 +1781,7 @@ pass_if: {"detail": "net-positive within the replication budget", "op": "\u003e"
         
         <div class="di-unc di-unc-resolved">
           <h4>✓ Resolved uncertainties</h4>
-          <ul><li>Inheritance improves fitness above the Eigen error threshold and can be ranked across modules by an evidence-based head-to-head.</li></ul>
+          <ul><li>Inheritance improves fitness above the Eigen error threshold and can be ranked across modules by an evidence-based head-to-head.</li><li>Heredity need not presume a long high-fidelity RNA template — compositional (GARD) and hybrid heredity persist length-independently above the non-heritable control.</li></ul>
         </div>
         
         
@@ -1699,7 +1843,7 @@ pass_if: {"detail": "net-positive within the replication budget", "op": "\u003e"
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "d1d00169828dc6c09e26d4eead2cc269b60918d2", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/d1d00169828dc6c09e26d4eead2cc269b60918d2", "branch": "main", "lockfile": "uv.lock@087acd9ec431", "generated_at": "2026-10-13 14:29 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "07a55e996f0ed645cf068df4422e8400a32c1e63", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/07a55e996f0ed645cf068df4422e8400a32c1e63", "branch": "main", "lockfile": "uv.lock@0c019561d25b", "generated_at": "2026-10-13 20:00 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>

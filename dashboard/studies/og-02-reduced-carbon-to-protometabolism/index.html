@@ -784,6 +784,13 @@
             
             
             
+            <div class="finding-expected">
+              
+              
+              cites: <a class="ov-cite" href="#sref-muchowska2019synthesis" title="Synthesis and breakdown of universal metabolic precursors promoted by iron">Muchowska 2019</a><a class="ov-cite" href="#sref-muchowska2017metals" title="Metals promote sequences of the reverse Krebs cycle">Muchowska 2017</a>
+            </div>
+            
+            
             <div class="finding-explanation"><em>Why:</em> Real libRoadRunner SBML CSTR — throughput is a steady balance of production and washout.</div>
             
             
@@ -841,7 +848,7 @@
             
             <div class="finding-explanation"><em>Why:</em> The reductive-TCA turn OAA+2CO2-&gt;2OAA+acetate doubles its own entry molecule per turn — genuine autocatalysis, not an imposed assumption.</div>
             
-            <div class="finding-next"><strong>→ Next:</strong> Add an acetyl-CoA-pathway parallel arm and test cross-feeding.</div>
+            
           </div>
         </details>
       </div>
@@ -888,6 +895,57 @@
             
             
             
+            
+            
+          </div>
+        </details>
+      </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <div class="finding-card finding-kind-computational finding-status-novel">
+        <details class="finding-details">
+          <summary class="finding-row">
+            <span class="finding-status-glyph">◆</span>
+            <span class="finding-claim finding-statement">A sweep over (feed CO₂ × washout rate) maps where the network IGNITES, not just that it does at one point. The autocatalytic hub (OAA) persists in a sharply bounded region — enough geological CO₂ in, slow enough washout (gain &gt; 1) — and collapses to zero across a clean diagonal boundary when the feed is starved or the reactor flushed too fast. The favorable operating point sits well inside the ignition region; the gain=1 contour is the autocatalytic threshold.</span>
+            
+          </summary>
+          <div class="finding-drawer">
+            <div class="finding-header">
+              <span class="finding-id">og02-ignition-landscape</span>
+              <span class="finding-kind">computational</span>
+              <span class="finding-status-text">novel literature</span>
+            </div>
+            
+            
+            <div class="finding-evidence">
+              <strong>observed:</strong> OAA hub 0 → 24 mM across the (feed × washout) plane; ignition bounded by gain=1 molar · 
+              
+              
+              
+              
+              
+            </div>
+            
+            
+            
+            
+            
+            
+            <div class="finding-expected">
+              
+              
+              cites: <a class="ov-cite" href="#sref-muchowska2019synthesis" title="Synthesis and breakdown of universal metabolic precursors promoted by iron">Muchowska 2019</a><a class="ov-cite" href="#sref-muchowska2017metals" title="Metals promote sequences of the reverse Krebs cycle">Muchowska 2017</a>
+            </div>
+            
+            
+            <div class="finding-explanation"><em>Why:</em> 16×16 sweep of the real libRoadRunner composite reduced to the settled OAA pool, net throughput and gain; rendered as the ignition phase map (Decision view). Runner sims/compute_gain_grid.py. Per-reaction fluxes are now read live from the engine (getReactionRates) so the network view is flux-weighted.</div>
             
             
           </div>
@@ -1651,7 +1709,7 @@ pass_if: {"detail": "connected network (not one-offs)", "op": "\u003e=", "value"
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "d1d00169828dc6c09e26d4eead2cc269b60918d2", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/d1d00169828dc6c09e26d4eead2cc269b60918d2", "branch": "main", "lockfile": "uv.lock@087acd9ec431", "generated_at": "2026-10-13 14:29 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "07a55e996f0ed645cf068df4422e8400a32c1e63", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/07a55e996f0ed645cf068df4422e8400a32c1e63", "branch": "main", "lockfile": "uv.lock@0c019561d25b", "generated_at": "2026-10-13 20:00 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>

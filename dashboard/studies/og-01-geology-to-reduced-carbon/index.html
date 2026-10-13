@@ -795,6 +795,11 @@
           <div class="ov-metric-k">pmf back-pressure sag</div>
         </div>
         
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">6-24e-3 mol-C/s</div>
+          <div class="ov-metric-k">Sustained throughput (favorable)</div>
+        </div>
+        
       </div>
       
       
@@ -962,7 +967,7 @@
             
             <div class="finding-explanation"><em>Why:</em> Real FiPy Nernst-Planck electrodiffusion with a gradient_efficiency knob (1.0 favorable, 0.1 Tutolo).</div>
             
-            <div class="finding-next"><strong>→ Next:</strong> Sweep gradient_efficiency to bound the viable-fixation threshold.</div>
+            
           </div>
         </details>
       </div>
@@ -1065,7 +1070,58 @@
             
             <div class="finding-explanation"><em>Why:</em> A ProtonBudgetProcess integrates reservoir = supply − protons_per_carbon·carbon_flux − leak·reservoir; fixation reads the loaded pmf = pmf_open·(reservoir/capacity), closing the respiratory-control feedback.</div>
             
-            <div class="finding-next"><strong>→ Next:</strong> Sweep protons_per_carbon + supply_rate to bound where back-pressure starves fixation.</div>
+            
+          </div>
+        </details>
+      </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <div class="finding-card finding-kind-computational finding-status-novel">
+        <details class="finding-details">
+          <summary class="finding-row">
+            <span class="finding-status-glyph">◆</span>
+            <span class="finding-claim finding-statement">A parameter sweep over the (vent pH × dissolved H₂) plane maps the carbon-fixation landscape, not a single run. In the open-flow reactor, sustained reduced-carbon throughput scales with both the pH gradient and H₂ (6.4 → 24 ×10⁻³ mol-C/s; steady pool 7–28 mM); the Tutolo-2026 gradient collapse roughly halves it on the same axes, and the no-gradient / no-catalyst / no-H₂ controls zero it. The favorable region is broadly productive — the sharp dependence is on a SUSTAINED gradient, not on sitting at one pH/H₂ point.</span>
+            
+          </summary>
+          <div class="finding-drawer">
+            <div class="finding-header">
+              <span class="finding-id">og01-fixation-landscape</span>
+              <span class="finding-kind">computational</span>
+              <span class="finding-status-text">novel literature</span>
+            </div>
+            
+            
+            <div class="finding-evidence">
+              <strong>observed:</strong> favorable 6.4–24 ×10⁻³ mol-C/s vs Tutolo 2.2–15; controls 0 mole/second · 
+              
+              
+              
+              
+              
+            </div>
+            
+            
+            
+            
+            
+            
+            <div class="finding-expected">
+              
+              
+              cites: <a class="ov-cite" href="#sref-preiner2020hydrogen" title="A hydrogen-dependent geochemical analogue of primordial carbon and energy metabolism">Preiner 2020</a><a class="ov-cite" href="#sref-tutolo2026rethinking" title="Rethinking the origin of life at seafloor hydrothermal vents">Tutolo 2026</a>
+            </div>
+            
+            
+            <div class="finding-explanation"><em>Why:</em> 14×14 sweep of the real open-flow composite (pH 7–11 × H₂ 0.1–20 mM, exponential washout) reduced to sustained throughput per point; rendered as the carbon-fixation phase map (Decision view). Runner sims/compute_phase_grid.py.</div>
+            
+            
           </div>
         </details>
       </div>
@@ -2093,7 +2149,7 @@ cites:   ["tutolo2026rethinking", "jackson2016natural"]</pre>
       <h3 class="overview-label">Limitations</h3>
       <p class="muted" style="margin:0 0 6px 0;font-size:0.85em">What this study explicitly does NOT validate (prevents overclaim).</p>
       <ul style="margin:0 0 0 18px;padding:0;font-size:0.93em">
-        <li style="margin:2px 0">Heterogeneous CO2-reduction kinetics are lab-calibrated (Preiner), not first-principles surface kinetics.</li><li style="margin:2px 0">Single interface; parameter-region mapping is two arms + controls, not a full (T,pH,H2,P) sweep.</li>
+        <li style="margin:2px 0">Heterogeneous CO2-reduction kinetics are lab-calibrated (Preiner), not first-principles surface kinetics.</li><li style="margin:2px 0">The phase map sweeps the (vent pH × H2) plane in the open-flow regime; T and pressure are still held fixed (facets, not yet swept), and the Tutolo axis is two efficiency levels rather than a continuous gradient_efficiency sweep.</li>
       </ul>
     </div>
     
@@ -2114,7 +2170,7 @@ cites:   ["tutolo2026rethinking", "jackson2016natural"]</pre>
         baseline · seed ? ·
         ?s simulated ·
         ? history rows ·
-        started 1791838998.855241
+        started 1791838998.0
       </div>
       
       
@@ -2151,13 +2207,13 @@ cites:   ["tutolo2026rethinking", "jackson2016natural"]</pre>
         
         <div class="di-unc di-unc-resolved">
           <h4>✓ Resolved uncertainties</h4>
-          <ul><li>A viable favorable regime exists; formate strictly requires the pH gradient + H2 + catalyst.</li></ul>
+          <ul><li>A viable favorable regime exists; formate strictly requires the pH gradient + H2 + catalyst.</li><li>The (vent pH × H2) fixation landscape is now mapped (14×14 sweep, open-flow sustained throughput), not inferred from a single run — the favorable region is broadly productive and scales with both the gradient and H2.</li></ul>
         </div>
         
         
         <div class="di-unc di-unc-remaining">
           <h4>● Remaining uncertainties</h4>
-          <ul><li>The gradient_efficiency threshold between the favorable and Tutolo-collapse regimes.</li></ul>
+          <ul><li>The continuous gradient_efficiency threshold between the favorable and Tutolo-collapse regimes (the phase map shows two levels; a third axis would resolve the boundary).</li></ul>
         </div>
         
       </div>
@@ -2213,7 +2269,7 @@ cites:   ["tutolo2026rethinking", "jackson2016natural"]</pre>
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "d1d00169828dc6c09e26d4eead2cc269b60918d2", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/d1d00169828dc6c09e26d4eead2cc269b60918d2", "branch": "main", "lockfile": "uv.lock@087acd9ec431", "generated_at": "2026-10-13 14:29 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "07a55e996f0ed645cf068df4422e8400a32c1e63", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/07a55e996f0ed645cf068df4422e8400a32c1e63", "branch": "main", "lockfile": "uv.lock@0c019561d25b", "generated_at": "2026-10-13 20:00 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>

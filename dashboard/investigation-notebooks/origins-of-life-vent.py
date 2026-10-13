@@ -260,7 +260,7 @@ def _render_one(address, config, runs_db, study_yaml, overrides=None):
 #
 # **Hypothesis.** A 1D/2D porous-wall reactor with prescribed boundary fluxes reproduces published Lost City ranges (T, pH, H2, DIC) and qualitative precipitation trends while conserving mass and charge.
 #
-# **Claim.** A real PHREEQC + FiPy serpentinization reactor settles into the Lost City window (T 59 °C, pH 9.46) with sustained H2 and exact mass/charge/spatial-flux conservation.
+# **Claim.** A real PHREEQC + FiPy serpentinization reactor settles into the Lost City window (T 51 °C, pH 9.37) with sustained H2 and exact mass/charge/spatial-flux conservation.
 
 # ### Design — originally proposed
 #
@@ -403,7 +403,7 @@ _save_viz('og-00-vent-reactor-baseline', 'vent-reactor-timeseries', _render_one(
 #
 # | expectation | model observable | source | status |
 # | --- | --- | --- | --- |
-# | Lost City ~40-91 C, pH ~9-10.8, >=30 ky activity | outlet T,pH; run duration | Kelley 2001 / Fruh-Green 2003 / Ludwig 2006 | Met by the real coupled model: settled T ~59 C and pH ~9.5 are both in the Lost City window, H2 reducing power is sustained, and mass/charge/flux conservation hold. pH was closed by reacting peridotite (olivine + pyroxene) so the Ca-OH endmember buffers the fluid to field pH — a real PHREEQC result. |
+# | Lost City ~40-91 C, pH ~9-10.8, >=30 ky activity | outlet T,pH; run duration | Kelley 2001 / Fruh-Green 2003 / Ludwig 2006 | Met by the real coupled model: settled T ~51 C and pH ~9.4 are both in the Lost City window, H2 reducing power is sustained, and mass/charge/flux conservation hold. pH was closed by reacting peridotite (olivine + pyroxene) so the Ca-OH endmember buffers the fluid to field pH — a real PHREEQC result. |
 
 # ## Study: Geology to reduced carbon (Campaign I) (`og-01-geology-to-reduced-carbon`)
 #
@@ -466,6 +466,7 @@ ov_viva_genesis_composites_carbon_fixation_hydrothermal_carbon_fixation = {
     'co2'                : 0.002,   # Dissolved CO2 feed (M)
     'ph_vent'            : 9.5,   # Alkaline vent-side pH (from og-00)
     'ph_ocean'           : 6.0,   # Acidic early-ocean-side pH
+    'dilution_rate'      : 0.0,   # Open-flow washout (1/s); 0 = closed batch (yield studies), >0 = open vent reactor → sustained-throughput regime (phase map)
 }
 
 # ### Typed contract (declared interface)
@@ -555,6 +556,11 @@ _save_viz('og-01-geology-to-reduced-carbon', 'proton-gradient-profile', _render_
 # carbon-fixation-timeseries
 _save_viz('og-01-geology-to-reduced-carbon', 'carbon-fixation-timeseries', _render_one('local:CarbonFixationViz', {'composite': 'viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation', 'n_steps': 120, 'title': 'Campaign I — geology to reduced carbon (eQuilibrator + FiPy)'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_carbon_fixation_hydrothermal_carbon_fixation if 'ov_viva_genesis_composites_carbon_fixation_hydrothermal_carbon_fixation' in dir() else None)))
 
+# **carbon-fixation-phase-map**
+
+# carbon-fixation-phase-map
+_save_viz('og-01-geology-to-reduced-carbon', 'carbon-fixation-phase-map', _render_one('local:CarbonFixationPhaseMap', {'title': 'Campaign I — the carbon-fixation landscape (Decision view)', 'grid_json': 'workspace/studies/og-01-geology-to-reduced-carbon/artifacts/carbon_fixation_phase_grid.json'}, RUNS_DB, STUDY_YAML))
+
 # ### Acceptance criteria
 #
 # _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
@@ -632,6 +638,7 @@ ov_viva_genesis_composites_protometabolism_protometabolic_network = {
     'feed_pyruvate': 0.0001,   # Pyruvate feed set-point (M) from og-01 reduced carbon
     'feed_CO2'     : 0.002,   # CO2 feed set-point (M); ~0 = no-carbon control
     'k_rtca'       : 800.0,   # Autocatalytic rTCA-turn rate constant (Fe-promoted)
+    'k_wash'       : 0.05,   # CSTR washout / dilution rate (1/s); the feed-vs-washout axis of the gain phase map
 }
 
 # ### Typed contract (declared interface)
@@ -703,6 +710,11 @@ _save_viz('og-02-reduced-carbon-to-protometabolism', 'protometabolic-network', _
 
 # protometabolism-network
 _save_viz('og-02-reduced-carbon-to-protometabolism', 'protometabolism-network', _render_one('local:ProtometabolismViz', {'composite': 'viva_genesis.composites.protometabolism.protometabolic_network', 'n_steps': 120, 'title': 'Campaign II — protometabolic network (libRoadRunner)'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_protometabolism_protometabolic_network if 'ov_viva_genesis_composites_protometabolism_protometabolic_network' in dir() else None)))
+
+# **protometabolism-gain-phase-map**
+
+# protometabolism-gain-phase-map
+_save_viz('og-02-reduced-carbon-to-protometabolism', 'protometabolism-gain-phase-map', _render_one('local:ProtometabolismGainPhaseMap', {'title': 'Campaign II — the protometabolic ignition landscape (Decision view)', 'grid_json': 'workspace/studies/og-02-reduced-carbon-to-protometabolism/artifacts/protometabolism_gain_grid.json'}, RUNS_DB, STUDY_YAML))
 
 # ### Acceptance criteria
 #
@@ -836,6 +848,11 @@ else:
 
 # thermophoretic-trap
 _save_viz('og-03-dilution-to-localized-individuals', 'thermophoretic-trap', _render_one('local:ThermophoreticTrapViz', {'composite': 'viva_genesis.composites.thermophoretic_concentration.thermophoretic_concentration', 'title': 'Campaign III — the thermal trap concentrates an individual'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_thermophoretic_concentration_thermophoretic_concentration if 'ov_viva_genesis_composites_thermophoretic_concentration_thermophoretic_concentration' in dir() else None)))
+
+# **pore-ignition-coupling**
+
+# pore-ignition-coupling
+_save_viz('og-03-dilution-to-localized-individuals', 'pore-ignition-coupling', _render_one('local:PoreIgnitionCoupling', {'title': 'Campaign III — localization makes the individual (Decision view)', 'grid_json': 'workspace/studies/og-02-reduced-carbon-to-protometabolism/artifacts/protometabolism_gain_grid.json'}, RUNS_DB, STUDY_YAML))
 
 # ### Acceptance criteria
 #
@@ -972,6 +989,11 @@ else:
 # protocell-window
 _save_viz('og-04-mineral-compartments-to-protocells', 'protocell-window', _render_one('local:ProtocellWindowViz', {'composite': 'viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell', 'title': 'Campaign IV — the protocell window broadens (mixed amphiphiles)'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_mixed_amphiphile_protocell_mixed_amphiphile_protocell if 'ov_viva_genesis_composites_mixed_amphiphile_protocell_mixed_amphiphile_protocell' in dir() else None)))
 
+# **protocell-retention-access**
+
+# protocell-retention-access
+_save_viz('og-04-mineral-compartments-to-protocells', 'protocell-retention-access', _render_one('local:ProtocellPhaseMap', {'title': 'Campaign IV — a boundary that retains without isolating (Decision view)'}, RUNS_DB, STUDY_YAML))
+
 # ### Acceptance criteria
 #
 # _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
@@ -1105,6 +1127,11 @@ else:
 # bioenergetic-internalization
 _save_viz('og-05-environmental-to-internal-bioenergetics', 'bioenergetic-internalization', _render_one('local:BioenergeticInternalizationViz', {'composite': 'viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization', 'title': 'Campaign V — selection internalizes the gradient'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_bioenergetic_internalization_bioenergetic_internalization if 'ov_viva_genesis_composites_bioenergetic_internalization_bioenergetic_internalization' in dir() else None)))
 
+# **bioenergetic-provenance**
+
+# bioenergetic-provenance
+_save_viz('og-05-environmental-to-internal-bioenergetics', 'bioenergetic-provenance', _render_one('local:BioenergeticProvenanceViz', {'title': 'Campaign V — the organism begins to own its energy (Decision view)'}, RUNS_DB, STUDY_YAML))
+
 # ### Acceptance criteria
 #
 # _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
@@ -1130,7 +1157,7 @@ _save_viz('og-05-environmental-to-internal-bioenergetics', 'bioenergetic-interna
 #
 # **Hypothesis.** At least one heredity module raises lineage persistence + information retention above its non-heritable control under a feasible resource budget; the winner is not assumed a priori.
 #
-# **Claim.** An inherited (replicable) polymer state improves lineage fitness above its replication cost IF fidelity beats the Eigen error threshold — RNA-like (long, high-fidelity) wins a head-to-head against a cheaper peptide module, and both beat the non-heritable control; below the threshold information is lost (error catastrophe).
+# **Claim.** An inherited chemical state improves lineage fitness above its replication cost when it clears the Eigen error threshold — but heredity need NOT presume a long high-fidelity RNA template. An agent-based lineage shows template heredity suffers the length catastrophe (Q=fidelity^length collapses with length) while compositional (GARD) and template-focused hybrid heredity persist length-independently (functional persistence ~0.88, seed-robust across 8 seeds) above the non-heritable control, which loses the parent↔offspring correlation and collapses. (A mean-field quasispecies arm still ranks a long high-fidelity template above a cheaper peptide module above non-inheritance when all clear the threshold.)
 
 # ### Design — originally proposed
 #
@@ -1231,6 +1258,11 @@ else:
 #
 # _Results are shown by the figures below, produced by the run above._
 
+# **heredity-lineage-tree**
+
+# heredity-lineage-tree
+_save_viz('og-06-chemistry-to-heredity', 'heredity-lineage-tree', _render_one('local:HeredityLineageTree', {'composite': 'viva_genesis.composites.heredity_lineage.heredity_lineage_comparison', 'grid_json': 'workspace/studies/og-06-chemistry-to-heredity/artifacts/heredity_error_threshold_grid.json', 'title': 'Campaign VI — heredity as an inherited lineage'}, RUNS_DB, STUDY_YAML))
+
 # **heredity-error-threshold**
 
 # heredity-error-threshold
@@ -1247,6 +1279,7 @@ _save_viz('og-06-chemistry-to-heredity', 'heredity-error-threshold', _render_one
 # | heredity-modules-compared _(primary)_ | kind=cross_run detail=RNA-like vs peptide lineage fitness | op arms_reported detail both modules viable; RNA-like ranks above peptide |
 # | error-catastrophe-below-threshold _(diagnostic)_ | kind=cross_run detail=RNA-like vs low-fidelity module | op controls_absent detail the low-fidelity module collapses (retention ~0 fitness negative) None |
 # | replication-feasible-budget _(supporting)_ | kind=derived path=final_lineage_fitness detail=net fitness after replication cost | op > value 0.0 detail net-positive within the replication budget |
+# | heredity-lineage-compositional-persists _(primary)_ | kind=cross_run detail=compositional vs non-heritable functional persistence in the agent-based lineage | op arms_reported detail compositional persistence above threshold and above the non-heritable control (realized heritability separates them) |
 
 # ### Literature anchors
 #
@@ -1597,5 +1630,4 @@ else:
 # | vent-specificity-demonstrated _(primary)_ | kind=observable detail=vent arm vs control on identical tests | op threshold detail vent passes where control fails |
 
 # ## Open decisions
-# - Confirm the first-publication milestone stays og-00 → og-03 (pre-genetic: a precipitating interface that retains a persistent protometabolic carbon flux), or extend to og-04 (protocells)?
-# - Heredity strategy for og-06: which modules to prioritize (RNA-world, peptide-first, compositional, mineral-templating)?
+# - Publication milestone: close the first paper at the pre-genetic arc (og-00 -> og-03) or extend through the early-genetic arc (og-04 protocells -> og-06 heredity)?
