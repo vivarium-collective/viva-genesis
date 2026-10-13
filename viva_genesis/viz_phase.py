@@ -1200,3 +1200,100 @@ class NitrogenAssimilationPhaseMap(Visualization):
                 no3_supply=(2.0e-6, 1.0e-4, n), fes_activity=(0.05, 1.0, n),
                 n_steps=int(self.config["n_steps"]), n_jobs=1)
         return {"html": nitrogen_assimilation_phase_figure(res, title=self.config["title"])}
+
+
+# ----------------------------------------------------------------------------
+# og-res-phosphorus — the phosphorus bottleneck : reactive-P availability map
+# ----------------------------------------------------------------------------
+def phosphorus_availability_figure(res, *, title=None) -> str:
+    """og-res-phosphorus Decision view: the reactive-P availability landscape over
+    (phosphate source × pore/thermal enrichment). Left: the settled reactive-P pool
+    (µM, log) with the net-availability boundary (production = loss) and the carbon
+    co-concentration floor overlaid — their intersection is the PASS region (reactive
+    P wins AND co-concentrates with carbon). Right: the precipitated (mineral-bound)
+    fraction — where phosphate is lost to the sink before it is useful. ``res`` is a
+    SweepResult / grid view."""
+    import numpy as np
+    import plotly.graph_objects as go
+    from plotly.subplots import make_subplots
+
+    supply = res.axes["phosphate_supply"]
+    enr = res.axes["pore_enrichment"]
+    # surfaces indexed [supply, enr] -> Contour wants z[y=supply][x=enr].
+    rp = res.surfaces["reactive_pool"] * 1.0e6                 # µM
+    net = res.surfaces["net_available"]
+    precip = res.surfaces["precipitated_fraction"]
+    z_rp = np.log10(np.clip(rp, 1e-4, None))
+    floor = float(res.meta.get("carbon_coconc_floor", 10.0))
+
+    fig = make_subplots(rows=1, cols=2, shared_yaxes=True, horizontal_spacing=0.12,
+                        subplot_titles=("Reactive-P available (µM — log)",
+                                        "Phosphate lost to the mineral sink (precipitated fraction)"))
+    fig.add_trace(go.Contour(x=enr, y=supply, z=z_rp, colorscale="Viridis", ncontours=14,
+                             colorbar=dict(title="log₁₀<br>reactive P<br>(µM)", len=0.9, x=0.44),
+                             contours=dict(showlabels=True, labelfont=dict(size=9, color="white")),
+                             line=dict(width=0.4, color="rgba(255,255,255,0.3)")), row=1, col=1)
+    fig.add_trace(go.Contour(x=enr, y=supply, z=precip, colorscale="Inferno_r", ncontours=14,
+                             showscale=True, colorbar=dict(title="precipitated<br>fraction", len=0.9),
+                             zmin=0.0, zmax=1.0,
+                             line=dict(width=0.4, color="rgba(255,255,255,0.3)")), row=1, col=2)
+    # availability boundary (net = 0: reactive-P production = precipitation loss) + the
+    # carbon co-concentration floor. The PASS region is to the right of BOTH.
+    for c in (1, 2):
+        fig.add_trace(go.Contour(x=enr, y=supply, z=net, showscale=False,
+                                 contours=dict(start=0, end=0, coloring="lines"),
+                                 line=dict(color="#f8fafc", width=2.4, dash="dash"),
+                                 hoverinfo="skip"), row=1, col=c)
+        fig.add_vline(x=floor, line=dict(color=_AMBER, width=2, dash="dot"), row=1, col=c)
+        fig.update_xaxes(title_text="pore / thermal enrichment (×)", row=1, col=c)
+    fig.update_yaxes(type="log", title_text="phosphate source (M)", row=1, col=1)
+
+    ttl = title or "The phosphorus bottleneck — reactive-P availability landscape"
+    fig.update_layout(
+        title=dict(text=(f"<b>{ttl}</b><br><span style='font-size:12px;color:{_SLATE}'>"
+                         "Reactive P is available only in a bounded region — enough pore enrichment "
+                         "that condensation/activation outpace precipitation. Dashed = availability "
+                         "threshold (production = loss); dotted amber = the enrichment at which the "
+                         "same og-03 pore co-concentrates carbon. PASS = right of both; left of the "
+                         "dashed line phosphate precipitates before it is useful.</span>"),
+                   x=0.5, xanchor="center"),
+        height=450, width=960, margin=dict(t=100, b=60, l=70, r=20),
+        font=dict(family="system-ui, -apple-system, sans-serif", color=_INK),
+        paper_bgcolor="white", plot_bgcolor="white")
+    return fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+
+
+class PhosphorusAvailabilityMap(Visualization):
+    """og-res-phosphorus Decision view: the reactive-P availability landscape over
+    (phosphate source × pore/thermal enrichment) — the bounded region where the real
+    libRoadRunner P-speciation network produces reactive P faster than phosphate
+    precipitates AND the pore co-concentrates carbon. Renders from a persisted grid
+    (``grid_json``) or computes a modest grid live."""
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "The phosphorus bottleneck — reactive-P availability landscape"},
+        "grid_json": {"_type": "string", "_default": ""},
+        "n_grid": {"_type": "integer", "_default": 12},
+        "n_steps": {"_type": "integer", "_default": 100},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        from .phase_maps import phosphorus_availability_map
+        resolved = _resolve_grid_path(str(self.config.get("grid_json", "") or ""))
+        if resolved:
+            with open(resolved) as f:
+                blob = json.load(f)
+            inner = blob["phosphorus"] if "phosphorus" in blob else blob
+            res = _ResultView(*_grid_from_json(inner))
+        else:
+            n = int(self.config["n_grid"])
+            res = phosphorus_availability_map(phosphate_supply=(1.0e-6, 1.0e-3, n),
+                                              pore_enrichment=(1.0, 60.0, n),
+                                              n_steps=int(self.config["n_steps"]), n_jobs=1)
+        return {"html": phosphorus_availability_figure(res, title=self.config["title"])}

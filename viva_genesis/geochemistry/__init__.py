@@ -32,6 +32,7 @@ registers them.
 from .phreeqc_serpentinization import PhreeqcSerpentinizationProcess  # noqa: E402,F401
 from .serpentinization import SerpentinizationReproductionProcess  # noqa: E402,F401
 from .nitrogen_assimilation import ReducedNitrogenProductionProcess  # noqa: E402,F401
+from .phosphorus_speciation import PhosphorusSpeciationProcess  # noqa: E402,F401
 
 __all__ = ["PhreeqcSerpentinizationProcess", "SerpentinizationReproductionProcess",
-           "ReducedNitrogenProductionProcess"]
+           "ReducedNitrogenProductionProcess", "PhosphorusSpeciationProcess"]

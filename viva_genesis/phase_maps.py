@@ -597,3 +597,84 @@ def nitrogen_assimilation_phase_map(
         n_steps=n_steps,
         n_jobs=n_jobs,
     )
+
+
+# ----------------------------------------------------------------------------
+# og-res-phosphorus — the phosphorus bottleneck : the reactive-P availability map
+# ----------------------------------------------------------------------------
+# Decision: phosphorus may be a HARDER bottleneck than carbon — dissolved phosphate
+# precipitates / adsorbs onto minerals before it is chemically useful. The question
+# is whether the SAME thermal-gradient pore that concentrates carbon (og-03) can
+# co-concentrate P enough that reactive-P formation outpaces the precipitation sink.
+# Swept over (phosphate source × pore/thermal enrichment): the reactive route wins
+# only where enrichment lifts the condensation/activation fluxes above the
+# first-order precipitation loss. The PASS region is where reactive-P availability
+# beats loss (net > 0) AND the enrichment co-concentrates carbon (enr >= the carbon
+# co-concentration floor the same og-03 pore provides). Reducers are module-level so
+# sweep_grid can fan the grid out over a process pool / Ray.
+_CARBON_COCONC_FLOOR = 10.0   # pore enrichment at which the same trap also concentrates carbon usefully
+
+
+def phosphorus_reactive_pool(rows) -> float:
+    """Settled standing reactive-P pool (M) — the available reactive phosphorus."""
+    if not rows:
+        return float("nan")
+    tail = [r.get("reactive_P", 0.0) for r in rows[-max(1, len(rows) // 5):]]
+    return float(np.mean(tail))
+
+
+def phosphorus_net_available(rows) -> float:
+    """Settled net reactive-P availability (mol/s) = production − precipitation loss;
+    > 0 ⇒ reactive P is produced faster than phosphate precipitates."""
+    if not rows:
+        return float("nan")
+    tail = [r.get("net_reactive_P", 0.0) for r in rows[-max(1, len(rows) // 5):]]
+    return float(np.mean(tail))
+
+
+def phosphorus_precipitated_fraction(rows) -> float:
+    """Final mineral-bound (precipitated/adsorbed) fraction of total P."""
+    return float(rows[-1].get("precipitated_fraction", 0.0)) if rows else float("nan")
+
+
+def phosphorus_availability_map(
+    *,
+    phosphate_supply=(1.0e-6, 1.0e-3, 14),
+    pore_enrichment=(1.0, 60.0, 14),
+    temperature: float = 333.15,
+    loss_rate: float = 0.08,
+    n_steps: int = 120,
+    n_jobs: int = 1,
+) -> SweepResult:
+    """og-res-phosphorus Decision view over (phosphate source × pore/thermal
+    enrichment): the reactive-P availability landscape. Primary surface = the
+    settled reactive-P pool, with the net availability (production − loss) and the
+    precipitated fraction alongside. ``meta['carbon_coconc_floor']`` records the
+    enrichment at which the same og-03 pore also concentrates carbon, so the figure
+    can mark the PASS region = net availability > 0 AND enrichment >= that floor
+    (reactive P wins AND co-concentrates with carbon). The supply axis is log (it
+    spans decades); the enrichment axis is linear. The composite is a fast
+    libRoadRunner ODE, so this sweeps the real generator with :func:`sweep_grid`; a
+    higher-res grid is the artifact runner's job."""
+    from .composites.phosphorus_availability import phosphorus_availability
+
+    s_lo, s_hi, s_n = phosphate_supply
+    e_lo, e_hi, e_n = pore_enrichment
+    axes = {
+        "phosphate_supply": np.geomspace(s_lo, s_hi, int(s_n)),
+        "pore_enrichment": np.linspace(e_lo, e_hi, int(e_n)),
+    }
+    res = sweep_grid(
+        phosphorus_availability,
+        axes,
+        reduce={
+            "reactive_pool": phosphorus_reactive_pool,          # primary decision surface
+            "net_available": phosphorus_net_available,
+            "precipitated_fraction": phosphorus_precipitated_fraction,
+        },
+        fixed={"temperature": float(temperature), "loss_rate": float(loss_rate)},
+        n_steps=n_steps,
+        n_jobs=n_jobs,
+    )
+    res.meta["carbon_coconc_floor"] = _CARBON_COCONC_FLOOR
+    return res
