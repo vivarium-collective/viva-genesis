@@ -75,6 +75,11 @@ _EMIT_PATHS = [
 def hydrothermal_carbon_fixation(core=None, *, gradient_efficiency=1.0, catalyst_active=1.0,
                                     h2=5.0e-3, co2=2.0e-3, ph_vent=9.5, ph_ocean=6.0,
                                     dilution_rate=0.0):
+    # process-bigraph's is_empty(Float, 0.0) swallows an exact-0.0 state value and
+    # refills the port default — which would silently turn the no-catalyst control
+    # (catalyst_active=0) back ON at full activity. Clamp to a negligible floor so
+    # "no Fe/Ni/S interface" is honored (same fix as og-04's mix_fraction=0 gotcha).
+    catalyst_active = max(float(catalyst_active), 1.0e-6)
     return {
         "gradient": {
             "_type": "process",

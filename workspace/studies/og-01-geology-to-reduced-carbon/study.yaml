@@ -374,14 +374,14 @@ pipeline_gate:
   - study: og-00-vent-reactor-baseline
     condition: tests-passed
 runs:
-- name: viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation__1791838996__a6afbd
+- name: viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation__1791922499__eeba3d
   status: completed
-  timestamp: 1791838998.855241
+  timestamp: 1791922501.704677
   canonical: true
   emitter:
     kind: sqlite
-    store: canonical-runs/viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation__1791838996__a6afbd/run.db
-  store_path: canonical-runs/viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation__1791838996__a6afbd/run.db
+    store: canonical-runs/viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation__1791922499__eeba3d/run.db
+  store_path: canonical-runs/viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation__1791922499__eeba3d/run.db
   params: '{}'
   outcomes:
     formate-yield-reproduces-preiner:
@@ -585,7 +585,6 @@ runs:
       evaluated_by: code
       operator: cross_run
       detail: favorable pmf=427 mV vs Tutolo-2026 pmf=43 mV => usable gradient COLLAPSES at in-situ T/P
-  started_at: '2026-10-12T21:03:18Z'
 study_type: confirmatory
 conditions:
   baseline:
