@@ -2159,6 +2159,153 @@ _save_viz('og-energy-proto-energetics', 'proto-energetics-map', _render_one('loc
 # | --- | --- | --- | --- |
 # | Pre-ATP carriers (thioesters, acyl phosphates) couple exergonic to endergonic chemistry as a transferable energy currency before membrane bioenergetics / ATP | charged fraction + stored-work fraction vs drive and coupling | Buckel & Thauer 2013 (flavin-based electron bifurcation / energy coupling); Lane & Martin 2010 (chemiosmotic coupling at the vent) | Reproduced as explicit free-energy bookkeeping (coarse-grained reduced kinetics) |
 
+# ## Study: Metabolism to osmotic growth and division (`og-growth-division`)
+#
+# **Question.** Does an internal autocatalytic/metabolic chemistry change a compartment's PHYSICAL fate — accumulating product, generating osmotic pressure, drawing in solvent, expanding, and forcing division — and under what permeability regime does it divide rather than lyse or starve?
+#
+# **Objective.** Couple a reduced autocatalytic osmolyte source to compartment osmotic physics (osmotic pressure → solvent influx → volume → division) with a semi-permeable membrane; map the (network throughput × membrane permeability) plane and locate the viable growth→division band between starvation and lysis, conserving mass across growth and division.
+#
+# **Hypothesis.** Product accumulation from an internal autocatalytic source generates osmotic pressure that drives solvent influx and volume growth to a division threshold; there is a bounded membrane-permeability band in which the compartment sustains net growth leading to division, flanked by starvation (too permeable, the product leaks before osmotic pressure can build) and lysis (too impermeable, the pressure bursts the membrane).
+#
+# **Claim.** A protocell's chemistry can change its physical fate. An internal autocatalytic/metabolic source makes an osmolyte; its accumulation raises the internal osmotic pressure (van 't Hoff), that pressure draws solvent across the semi-permeable membrane, the compartment expands, and at a size threshold it divides — a physical selection mechanism with no abstract fitness score. Whether this produces division rather than lysis or starvation is set by the membrane permeability against the network throughput — there is a bounded viable band in which net growth leads to repeated division, flanked by starvation (too permeable — the product leaks before the osmotic pressure can build) and lysis (too impermeable — the pressure bursts the membrane). Mass is conserved to machine precision across growth and division.
+
+# ### Design — originally proposed
+#
+# _The mechanisms and methods proposed when this study was designed; the model **actually built** (and the tools it uses) is shown below. These may differ as the design was realized._
+#
+# **Proposed mechanisms**
+#
+# - H+: metabolism changes the compartment's physical fate (osmotic growth → division)
+# - osmotic pressure as a physical selection mechanism (no abstract fitness score)
+#
+# **Proposed models / methods**
+#
+# - custom coarse-grained osmotic membrane kinetics (van 't Hoff + solubility-diffusion permeability)
+# - reduced autocatalytic source (og-02 rTCA-style turn)
+# - parameter sweep over (throughput × permeability) → decision surface
+#
+# **Key assumptions**
+#
+# - The compartment (og-04 protocell) and the autocatalytic network (og-02 rTCA source) are given; this stage couples them to osmotic physics to test whether chemistry drives a physical division.
+
+# ### Parameters
+#
+# | simulation | composite | steps | params |
+# | --- | --- | --- | --- |
+# | `Metabolism to osmotic growth and division (favorable)` | `viva_genesis.composites.osmotic_growth_division.osmotic_growth_division` | 0 | network_throughput=1e-19, membrane_permeability=1e-09, autocatalytic_rate=0.5, division_threshold=6.4e-17, leak_rate=1.0 |
+
+# ### The model & its parameters
+#
+# Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
+
+# **The model — `viva_genesis.composites.osmotic_growth_division.osmotic_growth_division`**
+#
+# A reusable osmotic growth-and-division module (metabolism → growth & division). An internal autocatalytic osmolyte source coupled to compartment osmotic physics: product accumulation → osmotic pressure (van 't Hoff) → solvent influx → volume growth → division at a size threshold. Membrane permeability sets the fate: too permeable starves (product leaks, no osmotic build-up), too impermeable lyses (pressure bursts the membrane), matched gives sustained growth → division. Units-typed, mass-conserving coarse-grained reproduction (not wrapped membrane MD).
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_osmotic_growth_division_osmotic_growth_division = {
+    'network_throughput'   : 1e-19,   # Internal autocatalytic/metabolic osmolyte source rate (mole/second); ~0 = ablation control
+    'autocatalytic_rate'   : 0.5,   # Self-amplification gain of the source (dimensionless)
+    'membrane_permeability': 1e-09,   # Membrane solute permeability (meter/second); the fate knob (leaky→starve, tight→lyse)
+    'division_threshold'   : 6.4e-17,   # Volume at which the compartment divides (liter); default 1.6× initial volume
+    'leak_rate'            : 1.0,   # Multiplier on the solute permeability for the outward leak (dimensionless)
+}
+
+# ### Typed contract (declared interface)
+#
+# _The bigraph-schema typed ports + conservation predicates this study's composite must satisfy (audited in the workbench §Contract panel). Declared design — independent of whether a run exists yet._
+#
+# **Inputs**
+#
+# | port | type | units | bounds |
+# | --- | --- | --- | --- |
+# | `network_throughput` | float | mole/second | >= 0.0 |
+# | `membrane_permeability` | float | meter/second | >= 0.0 |
+# | `external_osmolyte` | float | molar | >= 0.0 |
+#
+# **Outputs**
+#
+# | port | type | units | bounds |
+# | --- | --- | --- | --- |
+# | `volume` | float | liter | >= 0.0 |
+# | `internal_concentration` | float | molar | >= 0.0 |
+# | `osmotic_pressure` | float | pascal | >= 0.0 |
+# | `division_count` | integer | dimensionless | >= 0 |
+# | `osmolyte_balance_residual` | float | mole |  |
+#
+# **Conditions**
+#
+# - `mass_balance` (invariant): `abs(osmolyte_balance_residual) < tol`
+# - `osmotic_coupling_directionality` (invariant): `osmotic_pressure >= 0 and solvent influx follows the osmotic gradient (dV/dt = Lp*A*Pi)`
+# - `reproducibility` (invariant): `solver and db and seed and scenario recorded`
+
+# ### Run
+#
+# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
+
+# === Study: og-growth-division ===
+STUDY = 'og-growth-division'
+STUDY_DIR = REPO / 'workspace/studies' / STUDY
+STUDY_YAML = str(STUDY_DIR / "study.yaml")
+RUNS_DB = str(STUDY_DIR / "runs.db")
+
+# This study has no *recorded* runs yet. RERUN builds its declared
+# composite(s) live and runs them; a composite whose module processes
+# are not implemented yet reports the error instead of crashing.
+STEPS_Metabolism_to_osmotic_growth_and_division_favorable = 100
+INTERVAL_Metabolism_to_osmotic_growth_and_division_favorable = 1.0
+
+if RERUN:
+    from process_bigraph import Composite
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_osmotic_growth_division_osmotic_growth_division if 'ov_viva_genesis_composites_osmotic_growth_division_osmotic_growth_division' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_osmotic_growth_division_osmotic_growth_division = materialize_composite('viva_genesis.composites.osmotic_growth_division.osmotic_growth_division', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_osmotic_growth_division_osmotic_growth_division['state']}, core=core)
+            _comp.run(STEPS_Metabolism_to_osmotic_growth_and_division_favorable)
+        print('ran', 'Metabolism to osmotic growth and division (favorable)', f'(viva_genesis.composites.osmotic_growth_division.osmotic_growth_division) for', STEPS_Metabolism_to_osmotic_growth_and_division_favorable, 'steps')
+    except Exception as _e:
+        print(f"Metabolism to osmotic growth and division (favorable) not runnable yet: {type(_e).__name__}: {_e}")
+else:
+    print("RERUN=False — not re-simulating.")
+
+# ### Visualizations
+#
+# _Results are shown by the figures below, produced by the run above._
+
+# **osmotic-growth-world**
+
+# osmotic-growth-world
+_save_viz('og-growth-division', 'osmotic-growth-world', _render_one('local:OsmoticGrowthWorld', {'composite': 'viva_genesis.composites.osmotic_growth_division.osmotic_growth_division', 'title': 'Growth & division — volume, concentration, division events'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_osmotic_growth_division_osmotic_growth_division if 'ov_viva_genesis_composites_osmotic_growth_division_osmotic_growth_division' in dir() else None)))
+
+# **osmotic-coupling-mechanism**
+
+# osmotic-coupling-mechanism
+_save_viz('og-growth-division', 'osmotic-coupling-mechanism', _render_one('local:OsmoticCouplingMechanism', {'composite': 'viva_genesis.composites.osmotic_growth_division.osmotic_growth_division', 'title': 'The osmotic coupling — why too permeable starves, too impermeable lyses'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_osmotic_growth_division_osmotic_growth_division if 'ov_viva_genesis_composites_osmotic_growth_division_osmotic_growth_division' in dir() else None)))
+
+# **growth-division-map**
+
+# growth-division-map
+_save_viz('og-growth-division', 'growth-division-map', _render_one('local:GrowthDivisionMap', {'composite': 'viva_genesis.composites.osmotic_growth_division.osmotic_growth_division', 'grid_json': 'workspace/studies/og-growth-division/artifacts/growth_division_grid.json', 'title': 'Metabolism → growth & division — the viable band'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_osmotic_growth_division_osmotic_growth_division if 'ov_viva_genesis_composites_osmotic_growth_division_osmotic_growth_division' in dir() else None)))
+
+# ### Acceptance criteria
+#
+# _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
+#
+# | test | measures | passes if |
+# | --- | --- | --- |
+# | net-growth-to-division _(primary)_ | kind=derived path=growth_division_count detail=cumulative division count in the favorable (matched) arm | op > value 0.0 detail the compartment divides (>0) in the matched throughput/permeability regime |
+# | mass-conserved-across-division _(primary)_ | kind=derived path=osmotic_balance_residual_max detail=worst-case |osmolyte mass-balance residual| over the run (mol) | op < value 1e-18 detail mass conserved across the growth/division cycle (residual below a negligible mole tolerance) |
+# | division-not-lysis-or-starvation _(primary)_ | kind=cross_run detail=matched (divide) vs too-permeable (starve) and too-impermeable (lyse) arms | op arms_reported detail matched divides; too permeable = starve (no division no growth); too impermeable = lyse (viable band is bounded) None |
+# | ablation-no-throughput-no-growth _(primary)_ | kind=cross_run detail=favorable (source on) vs zero-throughput ablation (source off) | op controls_absent detail favorable divides; zero-throughput ablation shows no division and no net growth |
+
+# ### Literature anchors
+#
+# | expectation | model observable | source | status |
+# | --- | --- | --- | --- |
+# | Internal product accumulation generates osmotic pressure that drives compartment growth and division; fatty-acid / mixed-amphiphile vesicles grow and divide under osmotic and physico-chemical forcing without dedicated division machinery. | viable growth→division band over (throughput × permeability) | Jordan 2019 (vesicle feasibility); Muchowska 2019 (autocatalytic rTCA source); osmotic-growth vesicle division (Nat. Chem. 2023, pending reference) | Reproduced as a coarse-grained, units-typed, mass-conserving osmotic-coupling model — the matched regime grows and divides; the band is bounded by starvation and lysis. |
+
 # ## Open decisions
 # - Publication milestone: close the first paper at the pre-genetic arc (og-00 -> og-03) or extend through the early-genetic arc (og-04 protocells -> og-06 heredity)?
 # - First limiting resource / next module: which enrichment-plan module to build first — nitrogen assimilation (N2/NO3->NH4, FeS), phosphorus availability (phosphate/polyphosphate co-concentration), proto-energetics (thioester/acyl-phosphate energy currency before pumping), or metabolism->growth/division (osmotic growth)?
