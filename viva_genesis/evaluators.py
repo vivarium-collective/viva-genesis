@@ -178,6 +178,22 @@ def _settled_individuality_access(reader, test: dict, ws_root: Any) -> float:
     return _settled_mean(reader, "individuality_access", frac=0.2)
 
 
+# --- og-05 (environmental -> internal bioenergetics) readouts ------------
+
+def _final_internalization(reader, test: dict, ws_root: Any) -> float:
+    """Active-pump fraction of the surviving population at the end of the run, as
+    the external gradient collapses — >0.5 means selection internalized gradient
+    generation (the bioenergetic transition)."""
+    return _values(reader, "internalization")[-1]
+
+
+def _final_survivors(reader, test: dict, ws_root: Any) -> float:
+    """Surviving strategy mass at the end of the run — a lineage that internalized
+    persists (~1); one that could not (weak pump) collapses (~0) as the external
+    gradient drops (the Sojo constraint)."""
+    return _values(reader, "survivors")[-1]
+
+
 def register_derived_scalars(registry: dict) -> None:
     """Hook called by study_evaluator.load_workspace_derived_scalars."""
     # og-00
@@ -205,3 +221,6 @@ def register_derived_scalars(registry: dict) -> None:
     # og-04
     registry["settled_viable_compartments"] = _settled_viable_compartments
     registry["settled_individuality_access"] = _settled_individuality_access
+    # og-05
+    registry["final_internalization"] = _final_internalization
+    registry["final_survivors"] = _final_survivors

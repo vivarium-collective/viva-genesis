@@ -9,12 +9,14 @@ from . import carbon_fixation  # noqa: F401
 from . import protometabolism  # noqa: F401
 from . import thermophoretic_concentration  # noqa: F401
 from . import mixed_amphiphile_protocell  # noqa: F401
+from . import bioenergetic_internalization  # noqa: F401
 
 from .vent_reactor import serpentinizing_vent_reactor, serpentinizing_vent_reactor_reduced
 from .carbon_fixation import hydrothermal_carbon_fixation
 from .protometabolism import protometabolic_network
 from .thermophoretic_concentration import thermophoretic_concentration
 from .mixed_amphiphile_protocell import mixed_amphiphile_protocell
+from .bioenergetic_internalization import bioenergetic_internalization
 
 __all__ = [
     "serpentinizing_vent_reactor", "serpentinizing_vent_reactor_reduced",
@@ -22,4 +24,5 @@ __all__ = [
     "protometabolic_network",
     "thermophoretic_concentration",
     "mixed_amphiphile_protocell",
+    "bioenergetic_internalization",
 ]

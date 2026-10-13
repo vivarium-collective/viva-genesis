@@ -1076,3 +1076,133 @@ class ProtocellWindowViz(Visualization):
                 f"{cap}<div style='display:flex;justify-content:center'>{s_html}</div>"
                 "<div style='display:flex;justify-content:center;margin-top:8px'>" + a_html + "</div>"
                 "</body></html>")
+
+class BioenergeticInternalizationViz(Visualization):
+    """Campaign-V REAL bioenergetic internalization under selection. Runs the
+    ``bioenergetic_internalization`` composite step by step, reading the live
+    replicator strategy landscape (permeability × pump) and the internalization /
+    survival time series as the external gradient declines. Shows the transition
+    (internalization rising, gradient falling) + the strategy mass migrating from
+    the leaky-external corner to the tight-pump corner, with an animation of the
+    migration. Every value a real replicator state (Sojo-2014 fitness)."""
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "Campaign V — selection internalizes the gradient"},
+        "n_steps": {"_type": "integer", "_default": 40},
+        "catalyst_efficiency": {"_type": "float", "_default": 1.0},
+        "max_frames": {"_type": "integer", "_default": 20},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    @staticmethod
+    def _find_sel(node):
+        if isinstance(node, dict):
+            inst = node.get("instance")
+            if inst is not None and type(inst).__name__ == "BioenergeticSelectionProcess":
+                return inst
+            for v in node.values():
+                r = BioenergeticInternalizationViz._find_sel(v)
+                if r is not None:
+                    return r
+        return None
+
+    def update(self, state=None):
+        from .core import build_core
+        from .composites.bioenergetic_internalization import bioenergetic_internalization
+        from .bioenergetics.selection import selection_state
+        core = build_core()
+        doc = bioenergetic_internalization(core, catalyst_efficiency=float(self.config["catalyst_efficiency"]))
+        sim = Composite({"state": doc}, core=core)
+        sel = self._find_sel(sim.state)
+        snaps, rows = [], []
+        for _ in range(int(self.config["n_steps"])):
+            sim.run(1)
+            rows = gather_emitter_results(sim)[("emitter",)]
+            snaps.append(selection_state(sel))
+        return {"html": self._figure(snaps, rows)}
+
+    def _figure(self, snaps, rows) -> str:
+        import plotly.graph_objects as go
+        from plotly.subplots import make_subplots
+        if not snaps or not rows:
+            return "<p>No selection snapshots produced.</p>"
+        ink, teal, rust, amber = "#1e293b", "#0d9488", "#b91c1c", "#d97706"
+
+        def col(k):
+            return [r.get(k) for r in rows if k in r]
+        t = [r.get("global_time", i) for i, r in enumerate(rows)]
+        intern = col("internalization"); surv = col("survivors"); vext = col("electric_potential")
+        P = snaps[-1]["P"]; pump = snaps[-1]["pump"]
+
+        stat = make_subplots(rows=1, cols=2, horizontal_spacing=0.13,
+            subplot_titles=("The transition as the gradient declines",
+                            "Settled strategy landscape (internalized)"))
+        stat.add_scatter(x=t, y=intern, mode="lines", line=dict(color=rust, width=2.8),
+                         name="internalization", row=1, col=1)
+        stat.add_scatter(x=t, y=surv, mode="lines", line=dict(color=teal, width=2.5),
+                         name="survivors", row=1, col=1)
+        stat.add_scatter(x=t, y=vext, mode="lines", yaxis="y2", line=dict(color=amber, width=2, dash="dot"),
+                         name="external gradient (V)", row=1, col=1)
+        stat.add_trace(go.Heatmap(z=snaps[-1]["freq"], x=P, y=pump, colorscale="Oranges",
+                       colorbar=dict(title="freq", thickness=12, len=0.8)), row=1, col=2)
+        stat.update_xaxes(title_text="time (s)", row=1, col=1, showgrid=True, gridcolor="#eef2f7")
+        stat.update_yaxes(title_text="fraction", row=1, col=1, showgrid=True, gridcolor="#eef2f7")
+        stat.update_xaxes(title_text="permeability (leaky →)", row=1, col=2)
+        stat.update_yaxes(title_text="active-pump rate (→ internalized)", row=1, col=2)
+        stat.update_layout(template="plotly_white", height=430, width=940, showlegend=True,
+            legend=dict(orientation="h", y=-0.2, x=0.25, font=dict(size=10)),
+            yaxis2=dict(overlaying="y", side="right", showgrid=False, title="gradient (V)"),
+            title=dict(text=(self.config.get("title") or "Bioenergetic internalization"),
+                       x=0.5, xanchor="center", font=dict(size=14, color=ink)),
+            margin=dict(l=55, r=55, t=80, b=70), font=dict(color=ink))
+
+        # motion: the strategy mass migrating leaky-external -> tight-pump.
+        step = max(1, len(snaps) // int(self.config["max_frames"]))
+        keep = list(range(0, len(snaps), step)) + [len(snaps) - 1]
+        frames = [go.Frame(data=[go.Heatmap(z=snaps[k]["freq"], x=P, y=pump, colorscale="Oranges",
+                           colorbar=dict(title="freq", thickness=12, len=0.8))],
+                           name=str(j),
+                           layout=go.Layout(annotations=[dict(x=0.5, y=1.05,
+                               text="gradient %.3f V · internalization %.2f" % (vext[k], intern[k]),
+                               showarrow=False, xref="x domain", yref="y domain",
+                               font=dict(size=12, color=ink))]))
+                  for j, k in enumerate(keep)]
+        anim = go.Figure(data=frames[0].data, frames=frames)
+        anim.update_xaxes(title_text="permeability (leaky →)")
+        anim.update_yaxes(title_text="active-pump rate (→ internalized)")
+        anim.update_layout(template="plotly_white", height=440, width=560, showlegend=False,
+            title=dict(text="the population migrating to internal pumping", x=0.5, xanchor="center",
+                       y=0.99, font=dict(size=13, color=ink)),
+            margin=dict(l=60, r=20, t=70, b=55), font=dict(color=ink),
+            updatemenus=[dict(type="buttons", direction="left", x=0.0, y=1.1, xanchor="left",
+                yanchor="bottom", showactive=False, buttons=[
+                    dict(label="▶ Play", method="animate",
+                         args=[None, dict(frame=dict(duration=150, redraw=True), fromcurrent=True)]),
+                    dict(label="⏸ Pause", method="animate",
+                         args=[[None], dict(frame=dict(duration=0, redraw=False), mode="immediate")]),
+                ])],
+            sliders=[dict(active=0, x=0.08, len=0.88, y=-0.08, currentvalue=dict(visible=False),
+                steps=[dict(method="animate", label="",
+                            args=[[f.name], dict(frame=dict(duration=0, redraw=True), mode="immediate")])
+                       for f in frames])])
+
+        cap = (
+            "<div style='max-width:900px;margin:12px auto 4px;padding:0 16px;color:#334155;"
+            "font-size:13.5px;line-height:1.55'>"
+            "<b>From environmental to internal bioenergetics</b> — a real evolutionary control "
+            "loop (replicator dynamics, Sojo-2014 fitness). As the external geochemical gradient "
+            "declines (dotted), selection drives the population from the leaky-external corner to "
+            "the <b>tight-membrane, active-pump</b> corner — internalizing gradient generation "
+            "(red) while persisting (teal). A weak pump cannot make this move and goes extinct.</div>")
+        s_html = stat.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+        a_html = anim.to_html(full_html=False, include_plotlyjs=False, config={"displayModeBar": False})
+        return ("<!doctype html><html><head><meta charset='utf-8'></head>"
+                "<body style='margin:0;font-family:-apple-system,system-ui,sans-serif;background:#fff'>"
+                f"{cap}<div style='display:flex;justify-content:center'>{s_html}</div>"
+                "<div style='display:flex;justify-content:center;margin-top:8px'>" + a_html + "</div>"
+                "</body></html>")
