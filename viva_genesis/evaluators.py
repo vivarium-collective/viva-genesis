@@ -194,6 +194,21 @@ def _final_survivors(reader, test: dict, ws_root: Any) -> float:
     return _values(reader, "survivors")[-1]
 
 
+# --- og-06 (chemistry -> heredity) readouts ------------------------------
+
+def _final_lineage_fitness(reader, test: dict, ws_root: Any) -> float:
+    """Heredity-module lineage fitness at the end of the run = benefit*(retention*C)
+    - cost*krep. >0 means inheritance pays within the replication budget; the best
+    module wins the head-to-head."""
+    return _values(reader, "lineage_fitness")[-1]
+
+
+def _final_information_retention(reader, test: dict, ws_root: Any) -> float:
+    """Functional-information retention C/(C+E) at the end — high above the Eigen
+    error threshold, ~0 in the error catastrophe."""
+    return _values(reader, "information_retention")[-1]
+
+
 def register_derived_scalars(registry: dict) -> None:
     """Hook called by study_evaluator.load_workspace_derived_scalars."""
     # og-00
@@ -224,3 +239,6 @@ def register_derived_scalars(registry: dict) -> None:
     # og-05
     registry["final_internalization"] = _final_internalization
     registry["final_survivors"] = _final_survivors
+    # og-06
+    registry["final_lineage_fitness"] = _final_lineage_fitness
+    registry["final_information_retention"] = _final_information_retention

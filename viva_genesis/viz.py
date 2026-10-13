@@ -1206,3 +1206,136 @@ class BioenergeticInternalizationViz(Visualization):
                 f"{cap}<div style='display:flex;justify-content:center'>{s_html}</div>"
                 "<div style='display:flex;justify-content:center;margin-top:8px'>" + a_html + "</div>"
                 "</body></html>")
+
+class HeredityErrorThresholdViz(Visualization):
+    """Campaign-VI REAL quasispecies heredity — the Eigen error threshold and the
+    head-to-head module ranking. Sweeps ``HeredityReplicatorProcess`` over a
+    (per-site fidelity × polymer length) grid for the information-retention
+    landscape (the error threshold), marks the heredity modules on it, and animates
+    the retention trajectories of the modules diverging over time (RNA-like retains;
+    the sub-threshold module collapses). Every value a real libRoadRunner solve."""
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "Campaign VI — heredity above the error threshold"},
+        "n_fid": {"_type": "integer", "_default": 22},
+        "n_len": {"_type": "integer", "_default": 22},
+        "n_steps": {"_type": "integer", "_default": 50},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        import numpy as np
+
+        from .core import build_core
+        from .heredity.replicator import HeredityReplicatorProcess
+        core = build_core()
+        fids = np.linspace(0.86, 0.999, int(self.config["n_fid"]))
+        lens = np.linspace(5, 40, int(self.config["n_len"])).astype(int)
+
+        def retention(fid, L):
+            p = HeredityReplicatorProcess(config={"per_site_fidelity": float(fid),
+                                                  "polymer_length": int(L)}, core=core)
+            r = None
+            for _ in range(30):
+                r = p.update({"temperature": 353.15}, 1.0)
+            return r["information_retention"]
+
+        land = np.array([[retention(f, L) for f in fids] for L in lens])
+
+        # module trajectories over time
+        from .composites.heredity_module_comparison import heredity_module_comparison, _MODULES
+        from process_bigraph import Composite, gather_emitter_results
+        mods = {}
+        for m in ("rna-like", "peptide", "low-fidelity", "non-heritable"):
+            sim = Composite({"state": heredity_module_comparison(core=core, module=m)}, core=core)
+            traj = []
+            for _ in range(int(self.config["n_steps"])):
+                sim.run(1)
+                traj.append(gather_emitter_results(sim)[("emitter",)][-1])
+            mods[m] = traj
+        module_pts = {m: (_MODULES[m]["per_site_fidelity"], _MODULES[m]["polymer_length"]) for m in mods}
+        return {"html": self._figure(fids.tolist(), lens.tolist(), land, mods, module_pts)}
+
+    def _figure(self, fids, lens, land, mods, module_pts) -> str:
+        import plotly.graph_objects as go
+        from plotly.subplots import make_subplots
+
+        ink = "#1e293b"
+        COL = {"rna-like": "#0d9488", "peptide": "#d97706",
+               "low-fidelity": "#b91c1c", "non-heritable": "#64748b"}
+
+        stat = make_subplots(rows=1, cols=2, horizontal_spacing=0.12,
+            subplot_titles=("Eigen error threshold (retention landscape)",
+                            "Module head-to-head: lineage fitness"))
+        stat.add_trace(go.Heatmap(z=land, x=fids, y=lens, colorscale="Tealgrn", zmin=0, zmax=1,
+                       colorbar=dict(title="retention", thickness=12, len=0.8)), row=1, col=1)
+        for m, (f, L) in module_pts.items():
+            stat.add_trace(go.Scatter(x=[f], y=[L], mode="markers+text", text=[m],
+                           textposition="top center", marker=dict(size=11, color=COL[m], symbol="star",
+                           line=dict(color="#fff", width=1)), showlegend=False,
+                           textfont=dict(size=9, color=COL[m])), row=1, col=1)
+        names = ["rna-like", "peptide", "low-fidelity", "non-heritable"]
+        fit = [mods[m][-1]["lineage_fitness"] for m in names]
+        stat.add_trace(go.Bar(x=names, y=fit, marker_color=[COL[m] for m in names], showlegend=False),
+                       row=1, col=2)
+        stat.add_hline(y=0.0, line=dict(color="#94a3b8", width=1), row=1, col=2)
+        stat.update_xaxes(title_text="per-site fidelity", row=1, col=1)
+        stat.update_yaxes(title_text="polymer length", row=1, col=1)
+        stat.update_yaxes(title_text="lineage fitness", row=1, col=2, showgrid=True, gridcolor="#eef2f7")
+        stat.update_layout(template="plotly_white", height=430, width=940, showlegend=False,
+            title=dict(text=self.config.get("title") or "Heredity error threshold",
+                       x=0.5, xanchor="center", font=dict(size=14, color=ink)),
+            margin=dict(l=55, r=20, t=80, b=55), font=dict(color=ink))
+
+        # motion: retention trajectories diverging over time.
+        n = max(len(v) for v in mods.values())
+        t = list(range(n))
+        def _series(m, k):
+            return [r.get("information_retention") for r in mods[m]]
+        anim = go.Figure(
+            data=[go.Scatter(x=[0], y=[_series(m, 0)[0]], mode="lines", name=m,
+                             line=dict(color=COL[m], width=2.6)) for m in names],
+            frames=[go.Frame(data=[go.Scatter(x=t[:j + 1], y=_series(m, j)[:j + 1], mode="lines",
+                             line=dict(color=COL[m], width=2.6), name=m) for m in names], name=str(j))
+                    for j in range(1, n)])
+        anim.update_xaxes(title_text="time (s)", range=[0, n], showgrid=True, gridcolor="#eef2f7")
+        anim.update_yaxes(title_text="information retention C/(C+E)", range=[-0.03, 1.03],
+                          showgrid=True, gridcolor="#eef2f7")
+        anim.update_layout(template="plotly_white", height=430, width=580, showlegend=True,
+            legend=dict(orientation="h", y=1.14, x=0.5, xanchor="center", font=dict(size=10)),
+            title=dict(text="information retained over time (modules diverging)", x=0.5, xanchor="center",
+                       y=0.99, font=dict(size=13, color=ink)),
+            margin=dict(l=60, r=20, t=90, b=55), font=dict(color=ink),
+            updatemenus=[dict(type="buttons", direction="left", x=0.0, y=1.14, xanchor="left",
+                yanchor="bottom", showactive=False, buttons=[
+                    dict(label="▶ Play", method="animate",
+                         args=[None, dict(frame=dict(duration=90, redraw=True), fromcurrent=True)]),
+                    dict(label="⏸ Pause", method="animate",
+                         args=[[None], dict(frame=dict(duration=0, redraw=False), mode="immediate")]),
+                ])],
+            sliders=[dict(active=0, x=0.08, len=0.88, y=-0.12, currentvalue=dict(visible=False),
+                steps=[dict(method="animate", label="",
+                            args=[[str(j)], dict(frame=dict(duration=0, redraw=True), mode="immediate")])
+                       for j in range(1, n)])])
+
+        cap = (
+            "<div style='max-width:900px;margin:12px auto 4px;padding:0 16px;color:#334155;"
+            "font-size:13.5px;line-height:1.55'>"
+            "<b>Heredity above the error threshold</b> — the real libRoadRunner quasispecies "
+            "replicator (Eigen). Longer, higher-fidelity polymers retain functional information "
+            "(teal) up to the error threshold; beyond it, errors win and information is lost. "
+            "RNA-like clears the threshold and wins the head-to-head over the cheaper peptide "
+            "module; both beat non-inheritance, while a sub-threshold module suffers the "
+            "error catastrophe.</div>")
+        s_html = stat.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+        a_html = anim.to_html(full_html=False, include_plotlyjs=False, config={"displayModeBar": False})
+        return ("<!doctype html><html><head><meta charset='utf-8'></head>"
+                "<body style='margin:0;font-family:-apple-system,system-ui,sans-serif;background:#fff'>"
+                f"{cap}<div style='display:flex;justify-content:center'>{s_html}</div>"
+                "<div style='display:flex;justify-content:center;margin-top:8px'>" + a_html + "</div>"
+                "</body></html>")
