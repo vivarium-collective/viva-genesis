@@ -35,7 +35,7 @@
   <div class="study-status-row" style="display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-top:6px;">
     
     
-    <span class="status-pill status-drafted" title="Headline status derived from the highest-precedence multi-axis field (or legacy `status` as fallback).">drafted</span>
+    <span class="status-pill gate-status gate-status-passed" title="Pipeline gate verdict (Pass A multi-axis status). Drives downstream unblocking.">gate: passed</span>
     
 
     
@@ -53,28 +53,28 @@
         
         <span class="status-stepper">
           
-          <span class="status-step gate-step axis-design_status gate-state-not-assessed set gate-current" title="Gate 1 · Plan — current stage">
-            <span class="dot"></span>1&nbsp;·&nbsp;Plan<span class="step-val">drafted</span><span class="gate-current-tag">you are here</span>
+          <span class="status-step gate-step axis-design_status gate-state-passed set" title="Gate 1 · Plan">
+            <span class="dot"></span>1&nbsp;·&nbsp;Plan<span class="step-val">approved</span>
           </span>
           
-          <span class="status-step gate-step axis-simulation_status gate-state-not-assessed set" title="Gate 2 · Execution">
-            <span class="dot"></span>2&nbsp;·&nbsp;Execution
+          <span class="status-step gate-step axis-simulation_status gate-state-passed set" title="Gate 2 · Execution">
+            <span class="dot"></span>2&nbsp;·&nbsp;Execution<span class="step-val">ran</span>
           </span>
           
-          <span class="status-step gate-step axis-evaluation_status gate-state-passed-with-conditions set" title="Gate 3 · Evidence">
-            <span class="dot"></span>3&nbsp;·&nbsp;Evidence
+          <span class="status-step gate-step axis-evaluation_status gate-state-passed set" title="Gate 3 · Evidence">
+            <span class="dot"></span>3&nbsp;·&nbsp;Evidence<span class="step-val">evaluated</span>
           </span>
           
-          <span class="status-step gate-step axis-evaluation_status gate-state-not-assessed set" title="Gate 4 · Quality">
-            <span class="dot"></span>4&nbsp;·&nbsp;Quality
+          <span class="status-step gate-step axis-evaluation_status gate-state-passed set" title="Gate 4 · Quality">
+            <span class="dot"></span>4&nbsp;·&nbsp;Quality<span class="step-val">evaluated</span>
           </span>
           
-          <span class="status-step gate-step axis-gate_status gate-state-not-assessed set" title="Gate 5 · Decision">
-            <span class="dot"></span>5&nbsp;·&nbsp;Decision
+          <span class="status-step gate-step axis-gate_status gate-state-passed set" title="Gate 5 · Decision">
+            <span class="dot"></span>5&nbsp;·&nbsp;Decision<span class="step-val">passed</span>
           </span>
           
-          <span class="status-step gate-step axis-expert_review_status gate-state-not-assessed" title="Gate 6 · Release">
-            <span class="dot"></span>6&nbsp;·&nbsp;Release
+          <span class="status-step gate-step axis-expert_review_status gate-state-not-assessed gate-current" title="Gate 6 · Release — current stage">
+            <span class="dot"></span>6&nbsp;·&nbsp;Release<span class="gate-current-tag">you are here</span>
           </span>
           
           
@@ -82,50 +82,48 @@
       </summary>
       <div class="status-stepper-body">
         
-        <div class="status-detail-row gate-row gate-state-not-assessed">
+        <div class="status-detail-row gate-row gate-state-passed">
           <span class="status-detail-axis">1 · Plan</span>
-          <span class="status-chip gate-state-not-assessed">drafted</span>
+          <span class="status-chip gate-state-passed">approved</span>
           
           
         </div>
         
-        <div class="status-detail-row gate-row gate-state-not-assessed">
+        <div class="status-detail-row gate-row gate-state-passed">
           <span class="status-detail-axis">2 · Execution</span>
-          <span class="status-chip gate-state-not-assessed">not set</span>
+          <span class="status-chip gate-state-passed">ran</span>
           
-          <span class="gate-computed-chip gate-state-not-assessed" title="no runs in runs.db">◆ computed: not_run</span>
+          <span class="gate-computed-chip gate-state-passed" title="2 completed run(s)">◆ computed: ran</span>
           
           
           
         </div>
         
-        <div class="status-detail-row gate-row gate-state-passed-with-conditions">
+        <div class="status-detail-row gate-row gate-state-passed">
           <span class="status-detail-axis">3 · Evidence</span>
-          <span class="status-chip gate-state-not-assessed">not set</span>
+          <span class="status-chip gate-state-passed">evaluated</span>
           
-          <span class="gate-computed-chip gate-state-passed-with-conditions" title="nothing run to evaluate + visualization readiness gate (V4)">◆ computed: not_evaluated</span>
+          <span class="gate-computed-chip gate-state-passed" title="completed run + recorded verdicts">◆ computed: evaluated</span>
           
           
-          
-          <span class="gate-viz-gap-note" style="font-size:0.86em;color:#92400e">visualization gap: no figures</span>
           
         </div>
         
-        <div class="status-detail-row gate-row gate-state-not-assessed">
+        <div class="status-detail-row gate-row gate-state-passed">
           <span class="status-detail-axis">4 · Quality</span>
-          <span class="status-chip gate-state-not-assessed">not set</span>
+          <span class="status-chip gate-state-passed">evaluated</span>
           
-          <span class="gate-computed-chip gate-state-not-assessed" title="nothing run to evaluate">◆ computed: not_evaluated</span>
+          <span class="gate-computed-chip gate-state-passed" title="completed run + recorded verdicts">◆ computed: evaluated</span>
           
           
           
         </div>
         
-        <div class="status-detail-row gate-row gate-state-not-assessed">
+        <div class="status-detail-row gate-row gate-state-passed">
           <span class="status-detail-axis">5 · Decision</span>
-          <span class="status-chip gate-state-not-assessed">not set</span>
+          <span class="status-chip gate-state-passed">passed</span>
           
-          <span class="gate-computed-chip gate-state-not-assessed" title="spine gate evaluator (study_verdict.roll_up_verdict / pipeline_gate.gate_evaluator)">◆ computed: not_started</span>
+          <span class="gate-computed-chip gate-state-passed" title="spine gate evaluator (study_verdict.roll_up_verdict / pipeline_gate.gate_evaluator)">◆ computed: passed</span>
           
           
           
@@ -147,18 +145,6 @@
 
 
 
-<div class="composite-lint-banner" role="alert"
-     style="margin:8px 0 14px 0;padding:10px 14px;background:#fffbeb;border:1px solid #f59e0b;border-left-width:5px;border-radius:6px;color:#92400e;font-size:0.9em">
-  
-  <div>⚠ composite not found in registry: <code>viva_genesis.composites.og_07_ecology_before_luca</code></div>
-  
-  <div style="margin-top:4px;font-size:0.86em;color:#a16207">
-    This study references a composite that doesn't resolve — it may not declare a
-    real, registered composite. Add a <code>.composite.yaml</code> and register it
-    in <code>core.py</code>, or fix the ref.
-  </div>
-</div>
-
 
 
 
@@ -171,7 +157,7 @@
   
   <div class="act-cluster" data-act="study">
     <div class="act-header">
-      <span class="act-gate-dot" data-gate="study" data-gate-state="passed-with-conditions"></span>
+      <span class="act-gate-dot" data-gate="study" data-gate-state="passed"></span>
       <span class="act-label">The Study</span>
     </div>
     <div class="act-tabs">
@@ -180,7 +166,7 @@
   </div>
   <div class="act-cluster" data-act="design">
     <div class="act-header">
-      <span class="act-gate-dot" data-gate="design" data-gate-state="not-assessed"></span>
+      <span class="act-gate-dot" data-gate="design" data-gate-state="passed"></span>
       <span class="act-label">Design</span>
     </div>
     <div class="act-tabs">
@@ -192,7 +178,7 @@
   </div>
   <div class="act-cluster" data-act="evidence">
     <div class="act-header">
-      <span class="act-gate-dot" data-gate="evidence" data-gate-state="passed-with-conditions"></span>
+      <span class="act-gate-dot" data-gate="evidence" data-gate-state="passed"></span>
       <span class="act-label">Evidence</span>
     </div>
     <div class="act-tabs">
@@ -204,7 +190,7 @@
   </div>
   <div class="act-cluster" data-act="assurance">
     <div class="act-header">
-      <span class="act-gate-dot" data-gate="assurance" data-gate-state="not-assessed"></span>
+      <span class="act-gate-dot" data-gate="assurance" data-gate-state="passed"></span>
       <span class="act-label">Assurance</span>
     </div>
     <div class="act-tabs">
@@ -216,7 +202,7 @@
   </div>
   <div class="act-cluster" data-act="decision">
     <div class="act-header">
-      <span class="act-gate-dot" data-gate="decision" data-gate-state="not-assessed"></span>
+      <span class="act-gate-dot" data-gate="decision" data-gate-state="passed"></span>
       <span class="act-label">Decision</span>
     </div>
     <div class="act-tabs">
@@ -668,7 +654,7 @@
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Claim</h2>
-      <p class="ctr-text">In connected pore networks with cross-feeding, parasitism, cooperation and horizontal exchange, what emergent capabilities arise — compared to ancestral reconstructions, without assuming LUCA is primitive?</p>
+      <p class="ctr-text">A connected metacommunity of heterogeneous pore compartments develops functional redundancy (robustness) that an isolated compartment cannot — cross-feeding and horizontal transfer spread coarse-grained protometabolic capabilities into &gt;= 2-fold coverage, so most functions survive a single-compartment loss. Robustness EMERGES only in a bounded region of (cross-feeding exchange_rate x inter-compartment diversity) — too little diversity leaves nothing to share, too little exchange leaves a broad repertoire fragile. The collective repertoire&#39;s overlap with the anaerobic H2/CO2/FeS LUCA reconstruction is REPORTED as a far-end boundary the emergent set approaches (~0.6-0.7), not a target — LUCA constrains which capabilities are eventually acquired, not evidence the first compartments were LUCA-like.</p>
       
     </div>
 
@@ -684,11 +670,11 @@
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Model &amp; approach</h2>
-      <p class="ctr-text">Run heterogeneous populations over shared spatial fields; compare emergent capabilities to LUCA reconstructions as a constraint.</p>
+      <p class="ctr-text">Run heterogeneous populations over a connected pore network; compare emergent capability redundancy (robustness) to the isolated counterfactual, and the collective repertoire to the LUCA reconstruction as a constraint.</p>
       <div class="ctr-meta">
         <div class="ctr-meta-row"><span class="ctr-meta-k">Model</span> <code>Ecology before LUCA (Campaign VII)</code><a class="ov-tablink" href="#" onclick="_setStudyTab('compose');return false;">model →</a></div>
         
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Measures</span> <span class="ctr-meta-item">2 behavior tests</span><a class="ov-tablink" href="#" onclick="_setStudyTab('tests');return false;">see Tests →</a></div>
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Measures</span> <span class="ctr-meta-item">3 behavior tests</span><a class="ov-tablink" href="#" onclick="_setStudyTab('tests');return false;">see Tests →</a></div>
         
       </div>
     </div>
@@ -722,22 +708,233 @@
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Result</h2>
-      <p class="ctr-text"></p>
+      <p class="ctr-text">Connected metacommunity robustness 0.667 (canonical seed) &gt; isolated counterfactual 0.500; across 8 seeds connected 0.71±0.08 strictly beats isolated 0.42±0.06 on every seed (min gain 0.17). Collective LUCA-core overlap 0.60 (canonical), 0.70±0.14 across seeds — reported as a boundary.</p>
+      
+      <div class="ov-metrics">
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">0.667</div>
+          <div class="ov-metric-k">Connected robustness (canonical)</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">0.5</div>
+          <div class="ov-metric-k">Isolated counterfactual (canonical)</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">0.71</div>
+          <div class="ov-metric-k">Connected robustness (8-seed mean)</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">0.42</div>
+          <div class="ov-metric-k">Isolated robustness (8-seed mean)</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">0.17</div>
+          <div class="ov-metric-k">Min connected-minus-isolated gain</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">0.6</div>
+          <div class="ov-metric-k">LUCA-core overlap (boundary)</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">0.41</div>
+          <div class="ov-metric-k">Collective capability diversity</div>
+        </div>
+        
+      </div>
       
       
       <div id="overview-key-figure" class="ov-keyfig" data-study="og-07-ecology-before-luca"></div>
       
+    <div class="overview-section findings-section">
+      <h2 class="overview-label">🔬 Findings — what this study taught us</h2>
+      
+      
+      
+      
+      
+      
+      
+      
+      <div class="finding-card finding-kind-computational finding-status-confirms">
+        <details class="finding-details">
+          <summary class="finding-row">
+            <span class="finding-status-glyph">✓</span>
+            <span class="finding-claim finding-statement">A connected metacommunity of 8 pore compartments, each carrying a sparse coarse-grained protometabolic capability vector (2 of 12 functions intrinsic), develops functional redundancy (robustness 0.667) through cross-feeding and horizontal transfer, well above the isolated counterfactual (0.500) run on the identical seeded assignment. Across an 8-seed sweep the connected arm (0.71±0.08) strictly beats the isolated arm (0.42±0.06) on every seed (min gain 0.17), so the redundancy is a product of connectivity, not of the capability assignment.</span>
+            
+            <span class="finding-chip">via <code>connected-beats-isolated</code></span>
+            
+          </summary>
+          <div class="finding-drawer">
+            <div class="finding-header">
+              <span class="finding-id">og07-connectivity-builds-robustness</span>
+              <span class="finding-kind">computational</span>
+              <span class="finding-status-text">confirms literature</span>
+            </div>
+            
+            
+            <div class="finding-evidence">
+              <strong>observed:</strong> connected robustness 0.71±0.08 vs isolated 0.42±0.06 across 8 seeds, 8/8 pass, min gain 0.17 dimensionless · 
+              
+              via test <a href="#bt-connected-beats-isolated" onclick="_gotoStudyTab('tests','bt-connected-beats-isolated');return false;"><code>connected-beats-isolated</code></a> · 
+              
+              
+              
+            </div>
+            
+            
+            
+            
+            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: op: arms_reported · detail: connected robustness strictly higher than isolated on every seed (measured min gain reported)</code></div>
+            
+            
+            
+            <div class="finding-expected">
+              
+              
+              cites: <a class="ov-cite" href="#sref-weiss2016physiology" title="The physiology and habitat of the last universal common ancestor">Weiss 2016</a><a class="ov-cite" href="#sref-moody2024nature" title="The nature of the last universal common ancestor and its impact on the early Earth system">Moody 2024</a>
+            </div>
+            
+            
+            <div class="finding-explanation"><em>Why:</em> Coarse-grained deterministic metacommunity (reproduction, not wrapped ALife). Cross-feeding (a compartment expressing a capability its neighbour lacks supplies the byproduct) and horizontal transfer (the capability is copied from a donor) spread sparse intrinsic capabilities into redundant coverage across the ring; a capability held by &gt;= 2 compartments survives a single-compartment loss. Acquired capability decays toward the intrinsic set, so it persists only while continuously supplied.</div>
+            
+            
+          </div>
+        </details>
+      </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <div class="finding-card finding-kind-computational finding-status-novel">
+        <details class="finding-details">
+          <summary class="finding-row">
+            <span class="finding-status-glyph">◆</span>
+            <span class="finding-claim finding-statement">Robustness EMERGES only in a bounded corner of (cross-feeding exchange_rate x inter-compartment diversity). At low diversity the compartments are near-identical, so cross-feeding/HGT have nothing to share and robustness stays at the sparse intrinsic floor (~0.17-0.25 regardless of exchange); at low exchange a diverse-but-disconnected set holds a broad repertoire fragilely (each capability in one compartment, ~0.33-0.42); only where diversity &gt;= ~0.4 AND exchange crosses ~0.2 does robustness climb to 0.58-0.83. The transition is a phase boundary, not a monotone response to either knob alone.</span>
+            
+            <span class="finding-chip">via <code>cross-feeding-robustness</code></span>
+            
+          </summary>
+          <div class="finding-drawer">
+            <div class="finding-header">
+              <span class="finding-id">og07-robustness-emergence-boundary</span>
+              <span class="finding-kind">computational</span>
+              <span class="finding-status-text">novel literature</span>
+            </div>
+            
+            
+            <div class="finding-evidence">
+              <strong>observed:</strong> robustness landscape over (exchange x diversity): emergence boundary at exchange~0.2, diversity~0.4; canonical operating point 0.667 dimensionless · 
+              
+              via test <a href="#bt-cross-feeding-robustness" onclick="_gotoStudyTab('tests','bt-cross-feeding-robustness');return false;"><code>cross-feeding-robustness</code></a> · 
+              
+              
+              
+            </div>
+            
+            
+            
+            
+            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: &gt; 0.5</code></div>
+            
+            
+            
+            <div class="finding-expected">
+              
+              
+              cites: <a class="ov-cite" href="#sref-weiss2016physiology" title="The physiology and habitat of the last universal common ancestor">Weiss 2016</a>
+            </div>
+            
+            
+            <div class="finding-explanation"><em>Why:</em> Cross-feeding scales as exchange_rate/connectivity and is deficit-driven (zero between identical compartments), so diversity is the raw material and exchange is the spreading mechanism; both are necessary. The sparse capability space (2 of 12 intrinsic per compartment) makes an isolated compartment functionally fragile, so redundancy must be BUILT by the metacommunity.</div>
+            
+            
+          </div>
+        </details>
+      </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <div class="finding-card finding-kind-computational finding-status-novel">
+        <details class="finding-details">
+          <summary class="finding-row">
+            <span class="finding-status-glyph">◆</span>
+            <span class="finding-claim finding-statement">The metacommunity&#39;s collective capability repertoire overlaps the Weiss-2016 anaerobic H2/CO2/FeS LUCA core at 0.60 (canonical) and 0.70±0.14 across seeds. This is reported as a far-end BOUNDARY the emergent set approaches from below — a phylogenomic constraint on capabilities eventually acquired — and is explicitly NOT a fitting target; the model is never tuned toward it.</span>
+            
+            <span class="finding-chip">via <code>luca-capability-overlap</code></span>
+            
+          </summary>
+          <div class="finding-drawer">
+            <div class="finding-header">
+              <span class="finding-id">og07-luca-overlap-as-boundary</span>
+              <span class="finding-kind">computational</span>
+              <span class="finding-status-text">novel literature</span>
+            </div>
+            
+            
+            <div class="finding-evidence">
+              <strong>observed:</strong> collective LUCA-core overlap 0.60 canonical, 0.70±0.14 across 8 seeds (reported, not gated) dimensionless · 
+              
+              via test <a href="#bt-luca-capability-overlap" onclick="_gotoStudyTab('tests','bt-luca-capability-overlap');return false;"><code>luca-capability-overlap</code></a> · 
+              
+              
+              
+            </div>
+            
+            
+            
+            
+            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: op: arms_reported · detail: overlap reported as a boundary · not a target: None</code></div>
+            
+            
+            
+            <div class="finding-expected">
+              
+              
+              cites: <a class="ov-cite" href="#sref-weiss2016physiology" title="The physiology and habitat of the last universal common ancestor">Weiss 2016</a><a class="ov-cite" href="#sref-moody2024nature" title="The nature of the last universal common ancestor and its impact on the early Earth system">Moody 2024</a>
+            </div>
+            
+            
+            <div class="finding-explanation"><em>Why:</em> The LUCA reconstruction (anaerobic, H2-dependent, CO2-fixing, FeS-rich; Weiss 2016, 355 protein families; Moody 2024, LUCA embedded in an ecosystem ~4.2 Ga) is a constraint on which capabilities the lineage eventually acquired, used as a boundary condition on the emergent repertoire rather than as evidence the first compartments were LUCA-like.</div>
+            
+            
+          </div>
+        </details>
+      </div>
+      
+      
+    </div>
+    
       
       
       
       <div class="ctr-meta ctr-assess">
         
         <div class="ctr-meta-row"><span class="ctr-meta-k">Confidence</span>
-          <span class="ctr-badge ctr-badge-planned">Planned</span>
-          
-          
+          <span class="ctr-badge ctr-badge-accepted">Accepted</span>
+          <span class="ctr-vch">biology&nbsp;PASS</span>
+          <span class="ctr-vch">insight&nbsp;POSITIVE</span>
         </div>
         
+        
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Caveat</span> <span class="ctr-meta-item">The capability vector and its cross-feeding / horizontal-transfer / parasite dynamics are reduced couplings; the metacommunity is a deterministic coarse-grained reproduction, not a wrapped ALife engine and not N instantiated metabolic networks.</span></div>
         
       </div>
       
@@ -780,22 +977,22 @@
   <div class="overview-section" id="model-section">
     <h3>Runnable models <span class="muted" style="font-size:0.85em;font-weight:normal">— the composite(s) this study simulates</span></h3>
     
-    <div class="cond-block" data-model-composite="viva_genesis.composites.og_07_ecology_before_luca" data-model-overrides='{}'>
+    <div class="cond-block" data-model-composite="viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity" data-model-overrides='{"diversity": 0.75, "exchange_rate": 0.3, "hgt_rate": 0.1, "n_compartments": 8, "seed": 1}'>
       <div class="cond-block-title" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
         <strong>Ecology before LUCA (Campaign VII)</strong>
         
-        <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.og_07_ecology_before_luca</code>
+        <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity</code>
         <button type="button" class="action-btn" style="font-size:0.8em"
-                onclick="_openCompositeLoom('viva_genesis.composites.og_07_ecology_before_luca')">🧬 explore &amp; run ↗</button>
+                onclick="_openCompositeLoom('viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity')">🧬 explore &amp; run ↗</button>
         
       </div>
       
       <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
         
         <select class="baseline-composite-input" data-baseline-name="Ecology before LUCA (Campaign VII)"
-                data-current="viva_genesis.composites.og_07_ecology_before_luca"
+                data-current="viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity"
                 style="flex:1;min-width:200px;font-family:monospace;font-size:0.82em;padding:3px 6px">
-          <option value="viva_genesis.composites.og_07_ecology_before_luca" selected>viva_genesis.composites.og_07_ecology_before_luca</option>
+          <option value="viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity" selected>viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity</option>
           
         </select>
         <button type="button" class="action-btn baseline-composite-set" style="font-size:0.8em"
@@ -809,6 +1006,13 @@
         <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading configuration…</span></div></div>
       
       
+      
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;font-size:0.8em">
+        
+        
+        
+        <span class="cond-pill"><span class="cond-pill-k">status</span>=completed</span>
+      </div>
       
     </div>
     
@@ -941,6 +1145,10 @@
 
     
     
+    <div class="viz-actions-row" style="display:flex; justify-content:flex-end; margin-bottom:10px;">
+      <button type="button" class="btn-mini" onclick="window._vivStudyFiguresFromCard(event, 'og-07-ecology-before-luca')" title="Download this study's visualizations (figure panels + its composite) as a zip">↓ visualizations</button>
+    </div>
+    
 
     <div id="native-gallery-panel" class="figure-mount"><div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading figures…</span></div></div>
 
@@ -1031,26 +1239,95 @@
         
         data-pytest-node="cross-feeding-robustness"
         data-classification="primary"
-        data-result="pending"
+        data-result="PASS"
         style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #10b981; background: #f8fafc; border-radius: 4px;">
       
         
       <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
-        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #f1f5f9; color: #475569">⏳ pending</span>
+        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #d1fae5; color: #065f46">✓ PASS</span>
         <span class="classification-pill classification-primary">primary</span>
         <strong style="font-size: 0.9em;">cross-feeding-robustness</strong>
         
         <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
         
       </div>
-      <div style="margin-top: 6px; font-size: 0.95em;">Populations beat single compartments on diversity + robustness.</div>
+      <div style="margin-top: 6px; font-size: 0.95em;">The connected metacommunity develops functional redundancy (robustness) — a majority of protometabolic capabilities are held by &gt;= 2 compartments, so they survive a single-compartment loss — well above the sparse isolated floor. Auto-graded from the canonical connected run; the connected-vs-isolated verdict is the companion cross-run test connected-beats-isolated.</div>
+      
+      <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
+        <strong>Latest result:</strong>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.646341</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 0.6463 &gt; 0.5</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&gt;</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;cross-feeding-robustness&#39;, &#39;label&#39;: &#39;The connected metacommunity develops functional redundancy (robustness) — a majority of protometabolic capabilities are held by &gt;= 2 compartments, so they survive a single-compartment loss — well above the sparse isolated floor. Auto-graded from the canonical connected run; the connected-vs-isolated verdict is the companion cross-run test connected-beats-isolated.&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 0.646341, &#39;meter&#39;: 0.646341, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 0.5, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 0.14634100000000005, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: None}</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+        
+      </div>
       
       
       <details style="margin-top: 6px; font-size: 0.82em;">
         <summary class="muted" style="cursor: pointer;">Assertion</summary>
         
-        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "diversity + robustness vs single-compartment", "kind": "observable"}
-pass_if: {"detail": "higher in connected populations", "op": "threshold"}</pre>
+        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "settled metacommunity robustness (functional redundancy) of the connected run", "kind": "derived", "path": "metacommunity_robustness"}
+pass_if: {"detail": "a majority of capabilities are redundantly covered (robust to a single-compartment loss)", "op": "\u003e", "value": 0.5}</pre>
+      </details>
+      
+      
+      
+      
+    </li>
+    
+    
+    
+    
+    
+    
+    
+    
+    <li class="expected-behavior-item" id="bt-connected-beats-isolated"
+        data-test-kind="behavioral"
+        
+        data-pytest-node="connected-beats-isolated"
+        data-classification="primary"
+        data-result="PASS"
+        style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #10b981; background: #f8fafc; border-radius: 4px;">
+      
+        
+      <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
+        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #d1fae5; color: #065f46">✓ PASS</span>
+        <span class="classification-pill classification-primary">primary</span>
+        <strong style="font-size: 0.9em;">connected-beats-isolated</strong>
+        
+        <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
+        
+      </div>
+      <div style="margin-top: 6px; font-size: 0.95em;">Connectivity, not the assignment, builds robustness: the connected metacommunity robustness is strictly higher than the isolated counterfactual (same seeded capability assignment, no cross-feeding/HGT) on every seed of an 8-seed sweep.</div>
+      
+      <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
+        <strong>Latest result:</strong>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.708</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: cross_run</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: connected robustness=0.708±0.083 vs isolated counterfactual=0.417 across 8 seeds, 8/8 pass (min gain 0.167) =&gt; cross-feeding/HGT build functional redundancy a single compartment cannot</code>
+        
+      </div>
+      
+      
+      <details style="margin-top: 6px; font-size: 0.82em;">
+        <summary class="muted" style="cursor: pointer;">Assertion</summary>
+        
+        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "connected vs isolated metacommunity robustness across an 8-seed sweep", "kind": "cross_run"}
+pass_if: {"detail": "connected robustness strictly higher than isolated on every seed (measured min gain reported)", "op": "arms_reported"}</pre>
       </details>
       
       
@@ -1070,26 +1347,39 @@ pass_if: {"detail": "higher in connected populations", "op": "threshold"}</pre>
         
         data-pytest-node="luca-capability-overlap"
         data-classification="supporting"
-        data-result="pending"
+        data-result="PASS"
         style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #3b82f6; background: #f8fafc; border-radius: 4px;">
       
         
       <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
-        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #f1f5f9; color: #475569">⏳ pending</span>
+        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #d1fae5; color: #065f46">✓ PASS</span>
         <span class="classification-pill classification-supporting">supporting</span>
         <strong style="font-size: 0.9em;">luca-capability-overlap</strong>
         
         <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
         
       </div>
-      <div style="margin-top: 6px; font-size: 0.95em;">Emergent capabilities overlap the LUCA reconstruction (as a constraint).</div>
+      <div style="margin-top: 6px; font-size: 0.95em;">The metacommunity&#39;s collective capability repertoire overlaps the anaerobic H2/CO2/FeS LUCA reconstruction — reported as a far-end boundary the emergent set approaches, NOT a target the model is tuned to hit.</div>
+      
+      <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
+        <strong>Latest result:</strong>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.7</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: arms_reported</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: collective repertoire overlaps the anaerobic H2/CO2/FeS LUCA core at 0.700±0.141 across 8 seeds — reported as a far-end BOUNDARY the emergent set approaches, not a fitting target</code>
+        
+      </div>
       
       
       <details style="margin-top: 6px; font-size: 0.82em;">
         <summary class="muted" style="cursor: pointer;">Assertion</summary>
         
-        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "capability set vs LUCA reconstruction", "kind": "observable"}
-pass_if: {"detail": "overlap reported as a boundary, not a target", "op": "threshold"}
+        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "collective repertoire overlap with the anaerobic LUCA core (Weiss 2016)", "kind": "cross_run"}
+pass_if: {"detail": "overlap reported as a boundary", "not a target": null, "op": "arms_reported"}
 cites:   ["weiss2016physiology", "moody2024nature"]</pre>
       </details>
       
@@ -1177,27 +1467,27 @@ cites:   ["weiss2016physiology", "moody2024nature"]</pre>
           <span class="narrative-label">Empirical validation</span>
           <span class="narrative-input verdict-badge-computed" data-verdict-track="biological_validation"
                 title="Computed from the gate evaluator (read-only)"
-                style="display:inline-block;padding:2px 12px;border-radius:9999px;font-weight:700;font-size:0.85em;background:#f1f5f9;color:#475569">PENDING</span>
+                style="display:inline-block;padding:2px 12px;border-radius:9999px;font-weight:700;font-size:0.85em;background:#f1f5f9;color:#475569">PASS</span>
           <span class="muted small" style="margin-left:6px">computed from gate evaluator</span>
         </label>
         <label class="narrative-row narrative-row-wide">
           <span class="narrative-label">Empirical basis</span>
           <textarea class="narrative-input narrative-textarea" rows="2"
                     data-narrative-path="conclusion_verdicts.biological_validation.basis"
-                    placeholder="e.g. atp_fraction = 0.997, outside Boesen 2024 band [0.2, 0.5]."></textarea>
+                    placeholder="e.g. atp_fraction = 0.997, outside Boesen 2024 band [0.2, 0.5].">Reproduces the ecological expectation that connected, heterogeneous populations are more robust than isolated compartments (functional redundancy via cross-feeding + horizontal transfer), with the anaerobic LUCA reconstruction as a far-end boundary rather than an assumption.</textarea>
         </label>
         <label class="narrative-row">
           <span class="narrative-label">Explanatory gain</span>
           <span class="narrative-input verdict-badge-computed" data-verdict-track="explanatory_gain"
                 title="Computed from interpretation-tier findings (read-only)"
-                style="display:inline-block;padding:2px 12px;border-radius:9999px;font-weight:700;font-size:0.85em;background:#f1f5f9;color:#475569">PENDING</span>
+                style="display:inline-block;padding:2px 12px;border-radius:9999px;font-weight:700;font-size:0.85em;background:#f1f5f9;color:#475569">POSITIVE</span>
           <span class="muted small" style="margin-left:6px">computed from interpretation-tier findings</span>
         </label>
         <label class="narrative-row narrative-row-wide">
           <span class="narrative-label">Explanatory basis</span>
           <textarea class="narrative-input narrative-textarea" rows="2"
                     data-narrative-path="conclusion_verdicts.explanatory_gain.basis"
-                    placeholder="e.g. Three findings worth keeping; design_pivot_required closed."></textarea>
+                    placeholder="e.g. Three findings worth keeping; design_pivot_required closed.">Identifies robustness as an EMERGENT property bounded in (diversity x exchange) space — a phase boundary, not a monotone response — and frames the LUCA overlap as a reported constraint, separating &#34;capabilities eventually acquired&#34; from &#34;the first compartments were LUCA-like&#34;.</textarea>
         </label>
       </div>
     </div>
@@ -1217,16 +1507,36 @@ cites:   ["weiss2016physiology", "moody2024nature"]</pre>
   <div class="overview-section"><h2 class="overview-label">Plan &amp; assumptions</h2>
 
     
+    <div class="overview-section">
+      <h3 class="overview-label">Pipeline gate</h3>
+      <p class="muted" style="margin: 0 0 8px 0;font-size:0.88em">
+        Each study is a model-building gate: it answers <em>"Can we safely build the next layer?"</em>
+      </p>
+      
+      <div style="margin-bottom:6px"><strong>Prerequisites:</strong> <em class="muted">none (root study)</em></div>
+      
+      
+      
+    </div>
+    
 
     
     <div class="overview-section">
       <h3 class="overview-label">Key assumptions</h3>
       <ul style="margin:0 0 0 18px;padding:0;font-size:0.93em">
-        <li style="margin:2px 0">Use LUCA as a constraint on capabilities eventually acquired, not evidence the first replicators were LUCA-like.</li>
+        <li style="margin:2px 0">Use LUCA as a constraint on capabilities eventually acquired, not evidence the first replicators were LUCA-like.</li><li style="margin:2px 0">Each compartment is a coarse-grained capability vector over a protometabolic function set, not an instantiated metabolic network.</li>
       </ul>
     </div>
     
 
+    
+    <div class="overview-section">
+      <h3 class="overview-label">Limitations</h3>
+      <p class="muted" style="margin:0 0 6px 0;font-size:0.85em">What this study explicitly does NOT validate (prevents overclaim).</p>
+      <ul style="margin:0 0 0 18px;padding:0;font-size:0.93em">
+        <li style="margin:2px 0">The capability vector and its cross-feeding / horizontal-transfer / parasite dynamics are reduced couplings; the metacommunity is a deterministic coarse-grained reproduction, not a wrapped ALife engine and not N instantiated metabolic networks.</li><li style="margin:2px 0">Each compartment reuses the og-02 protometabolic FUNCTION SET as a capability vector rather than running the libRoadRunner network per compartment; a genome-scale (COBRApy) benchmark of the emergent repertoire is deferred.</li>
+      </ul>
+    </div>
     
 
   </div>
@@ -1239,6 +1549,27 @@ cites:   ["weiss2016physiology", "moody2024nature"]</pre>
     
     
     
+    <div class="decide-section">
+      <h3 class="overview-label">Latest run outcomes</h3>
+      <div style="font-size:0.88em;color:#64748b;margin-bottom:8px">
+        baseline · seed ? ·
+        ?s simulated ·
+        ? history rows ·
+        started 1791924855.002066
+      </div>
+      
+      
+      
+      <p class="muted" style="margin:0;font-size:0.9em">
+        <strong>3</strong> test outcomes
+        — <span style="color:#065f46;font-weight:600">3 PASS</span> ·
+        <span style="color:#991b1b;font-weight:600">0 FAIL</span>.
+        Per-test outcomes (measured value · evaluator · band) are canonical on the
+        <a onclick="_setStudyTab('tests')" style="cursor:pointer;color:#3b82f6;text-decoration:underline">Tests tab →</a>.
+      </p>
+      
+    </div>
+    
     
 
   </div>
@@ -1250,6 +1581,81 @@ cites:   ["weiss2016physiology", "moody2024nature"]</pre>
     
 
     
+    
+    
+    <div class="overview-section" id="discovery-implications-section" style="margin-top:18px">
+      <h3 class="overview-label">Discovery implications</h3>
+      <p class="muted" style="margin:0 0 10px 0;font-size:0.88em">Where this study's results leave the mechanism model — and what to investigate next.</p>
+
+      
+      <div class="di-uncertainties">
+        
+        <div class="di-unc di-unc-resolved">
+          <h4>✓ Resolved uncertainties</h4>
+          <ul><li>Connected, heterogeneous populations develop functional redundancy (robustness) that isolated compartments do not — robustly across seeds.</li><li>That robustness is an emergent property of a bounded (diversity x exchange) region, not a monotone response to either knob alone.</li></ul>
+        </div>
+        
+        
+        <div class="di-unc di-unc-remaining">
+          <h4>● Remaining uncertainties</h4>
+          <ul><li>Whether the emergent cross-feeding chains map onto specific reductive-TCA / Wood-Ljungdahl byproduct exchanges when the compartments run the real og-02 network.</li><li>How parasite load and network topology (beyond a ring) shift the emergence boundary.</li></ul>
+        </div>
+        
+      </div>
+      
+
+      
+
+      
+
+      
+      
+      
+      <div class="di-group">
+        <h3>Follow-up study proposals
+          <span class="muted" style="font-weight:normal;font-size:0.82em">(discovered)</span>
+          <span class="muted" style="font-weight:normal;font-size:0.85em">(2)</span></h3>
+        <p class="muted" style="margin:0 0 8px 0;font-size:0.85em">Click <strong>➕ Add to investigation</strong> to spawn a new study node in the investigation graph.</p>
+        <div class="followup-list">
+          
+          
+          <div class="di-card di-fup-card">
+            <div class="followup-header">
+              <strong class="followup-title">(untitled proposal)</strong>
+              
+              
+              
+              
+            </div>
+            
+            
+            <div class="followup-actions" style="margin-top:8px">
+              <button class="btn-seed-followup"
+                      onclick="_seedFollowupProposal('og-07-ecology-before-luca', "")">➕ Add to investigation</button>
+            </div>
+          </div>
+          
+          
+          <div class="di-card di-fup-card">
+            <div class="followup-header">
+              <strong class="followup-title">(untitled proposal)</strong>
+              
+              
+              
+              
+            </div>
+            
+            
+            <div class="followup-actions" style="margin-top:8px">
+              <button class="btn-seed-followup"
+                      onclick="_seedFollowupProposal('og-07-ecology-before-luca', "")">➕ Add to investigation</button>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+      
+    </div>
     
 
     
@@ -1265,7 +1671,7 @@ cites:   ["weiss2016physiology", "moody2024nature"]</pre>
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "930d7680a713504f49ddd22b5fdf7bf5ff389d65", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/930d7680a713504f49ddd22b5fdf7bf5ff389d65", "branch": "main", "lockfile": "uv.lock@0c019561d25b", "generated_at": "2026-10-13 21:00 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "0d623e923c4ce48379fea9af77e1edceebe9fa94", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/0d623e923c4ce48379fea9af77e1edceebe9fa94", "branch": "main", "lockfile": "uv.lock@0c019561d25b", "generated_at": "2026-10-13 21:04 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>

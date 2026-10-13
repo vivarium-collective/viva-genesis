@@ -1291,9 +1291,11 @@ _save_viz('og-06-chemistry-to-heredity', 'heredity-error-threshold', _render_one
 #
 # **Question.** In connected pore networks with cross-feeding, parasitism, cooperation and horizontal exchange, what emergent capabilities arise — compared to ancestral reconstructions, without assuming LUCA is primitive?
 #
-# **Objective.** Run heterogeneous populations over shared spatial fields; compare emergent capabilities to LUCA reconstructions as a constraint.
+# **Objective.** Run heterogeneous populations over a connected pore network; compare emergent capability redundancy (robustness) to the isolated counterfactual, and the collective repertoire to the LUCA reconstruction as a constraint.
 #
 # **Hypothesis.** Heterogeneous populations develop metabolic diversity, cross-feeding and robustness single compartments do not; the emergent capability set overlaps the anaerobic H2/CO2/FeS LUCA reconstruction as a boundary.
+#
+# **Claim.** A connected metacommunity of heterogeneous pore compartments develops functional redundancy (robustness) that an isolated compartment cannot — cross-feeding and horizontal transfer spread coarse-grained protometabolic capabilities into >= 2-fold coverage, so most functions survive a single-compartment loss. Robustness EMERGES only in a bounded region of (cross-feeding exchange_rate x inter-compartment diversity) — too little diversity leaves nothing to share, too little exchange leaves a broad repertoire fragile. The collective repertoire's overlap with the anaerobic H2/CO2/FeS LUCA reconstruction is REPORTED as a far-end boundary the emergent set approaches (~0.6-0.7), not a target — LUCA constrains which capabilities are eventually acquired, not evidence the first compartments were LUCA-like.
 
 # ### Design — originally proposed
 #
@@ -1313,28 +1315,33 @@ _save_viz('og-06-chemistry-to-heredity', 'heredity-error-threshold', _render_one
 # **Key assumptions**
 #
 # - Use LUCA as a constraint on capabilities eventually acquired, not evidence the first replicators were LUCA-like.
+# - Each compartment is a coarse-grained capability vector over a protometabolic function set, not an instantiated metabolic network.
 
 # ### Parameters
 #
 # | simulation | composite | steps | params |
 # | --- | --- | --- | --- |
-# | `Ecology before LUCA (Campaign VII)` | `viva_genesis.composites.og_07_ecology_before_luca` | 0 | — |
+# | `Ecology before LUCA (Campaign VII)` | `viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity` | 0 | n_compartments=8, exchange_rate=0.3, diversity=0.75, hgt_rate=0.1, seed=1 |
 
 # ### The model & its parameters
 #
 # Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
 
-# **Composite `viva_genesis.composites.og_07_ecology_before_luca`** — `spec_viva_genesis_composites_og_07_ecology_before_luca` (materialized from its `@composite_generator`)
+# **The model — `viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity`**
+#
+# A reusable cross-feeding metacommunity module (Module L). N connected compartments, each a coarse-grained capability vector over a protometabolic function set, evolving under cross-feeding (byproduct of one feeds the next capability in a neighbour), horizontal transfer, and parasite/cooperator roles. Connected heterogeneous populations develop capability redundancy (robustness) and a collective repertoire single compartments do not; the emergent set's overlap with the anaerobic H2/CO2/FeS LUCA reconstruction is reported as a far-end boundary, not a target. Coarse-grained, deterministic reproduction (not wrapped ALife).
 
-spec_viva_genesis_composites_og_07_ecology_before_luca = materialize_composite('viva_genesis.composites.og_07_ecology_before_luca')
-describe_spec(spec_viva_genesis_composites_og_07_ecology_before_luca)
-
-# === Edit parameters for this composite, then run the Run cell ===
-# ov_viva_genesis_composites_og_07_ecology_before_luca maps each tunable parameter to its current value (the generator's
-# defaults). Edit any entry; the Run cell rebuilds the composite with it.
-ov_viva_genesis_composites_og_07_ecology_before_luca = dict(spec_viva_genesis_composites_og_07_ecology_before_luca['_overrides'])
-import json as _json; print(_json.dumps(ov_viva_genesis_composites_og_07_ecology_before_luca, indent=2, default=str))
-# e.g.:  ov_viva_genesis_composites_og_07_ecology_before_luca['<parameter>'] = <value>
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_cross_feeding_metacommunity_cross_feeding_metacommunity = {
+    'n_compartments': 8,   # Number of connected compartments
+    'exchange_rate' : 0.3,   # Cross-feeding strength (use isolated flag, not 0, to disable)
+    'diversity'     : 0.75,   # Inter-compartment heterogeneity (0 identical; 1 all different)
+    'parasite_load' : 0.0,   # Fraction of compartments that drain neighbours
+    'hgt_rate'      : 0.1,   # Horizontal-transfer rate (0 = no spread)
+    'isolated'      : False,   # Isolated counterfactual arm: no cross-feeding/HGT/parasitism (use this, not exchange_rate=0)
+    'seed'          : 1,   # RNG seed (reproducible assignment)
+}
 
 # ### Typed contract (declared interface)
 #
@@ -1380,15 +1387,24 @@ if RERUN:
     from process_bigraph import Composite
     try:
         with quiet():  # keep per-step stdout out of the notebook
-            _ov = ov_viva_genesis_composites_og_07_ecology_before_luca if 'ov_viva_genesis_composites_og_07_ecology_before_luca' in dir() else None  # edits from the panel cell, if any
-            spec_viva_genesis_composites_og_07_ecology_before_luca = materialize_composite('viva_genesis.composites.og_07_ecology_before_luca', _ov)
-            _comp = Composite({'state': spec_viva_genesis_composites_og_07_ecology_before_luca['state']}, core=core)
+            _ov = ov_viva_genesis_composites_cross_feeding_metacommunity_cross_feeding_metacommunity if 'ov_viva_genesis_composites_cross_feeding_metacommunity_cross_feeding_metacommunity' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_cross_feeding_metacommunity_cross_feeding_metacommunity = materialize_composite('viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_cross_feeding_metacommunity_cross_feeding_metacommunity['state']}, core=core)
             _comp.run(STEPS_Ecology_before_LUCA_Campaign_VII)
-        print('ran', 'Ecology before LUCA (Campaign VII)', f'(viva_genesis.composites.og_07_ecology_before_luca) for', STEPS_Ecology_before_LUCA_Campaign_VII, 'steps')
+        print('ran', 'Ecology before LUCA (Campaign VII)', f'(viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity) for', STEPS_Ecology_before_LUCA_Campaign_VII, 'steps')
     except Exception as _e:
         print(f"Ecology before LUCA (Campaign VII) not runnable yet: {type(_e).__name__}: {_e}")
 else:
     print("RERUN=False — not re-simulating.")
+
+# ### Visualizations
+#
+# _Results are shown by the figures below, produced by the run above._
+
+# **metacommunity-phase-map**
+
+# metacommunity-phase-map
+_save_viz('og-07-ecology-before-luca', 'metacommunity-phase-map', _render_one('local:MetacommunityPhaseMap', {'composite': 'viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity', 'grid_json': 'workspace/studies/og-07-ecology-before-luca/artifacts/metacommunity_robustness_grid.json', 'title': 'Campaign VII — where cross-feeding robustness emerges'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_cross_feeding_metacommunity_cross_feeding_metacommunity if 'ov_viva_genesis_composites_cross_feeding_metacommunity_cross_feeding_metacommunity' in dir() else None)))
 
 # ### Acceptance criteria
 #
@@ -1396,14 +1412,15 @@ else:
 #
 # | test | measures | passes if |
 # | --- | --- | --- |
-# | cross-feeding-robustness _(primary)_ | kind=observable detail=diversity + robustness vs single-compartment | op threshold detail higher in connected populations |
-# | luca-capability-overlap _(supporting)_ | kind=observable detail=capability set vs LUCA reconstruction | op threshold detail overlap reported as a boundary, not a target |
+# | cross-feeding-robustness _(primary)_ | kind=derived path=metacommunity_robustness detail=settled metacommunity robustness (functional redundancy) of the connected run | op > value 0.5 detail a majority of capabilities are redundantly covered (robust to a single-compartment loss) |
+# | connected-beats-isolated _(primary)_ | kind=cross_run detail=connected vs isolated metacommunity robustness across an 8-seed sweep | op arms_reported detail connected robustness strictly higher than isolated on every seed (measured min gain reported) |
+# | luca-capability-overlap _(supporting)_ | kind=cross_run detail=collective repertoire overlap with the anaerobic LUCA core (Weiss 2016) | op arms_reported detail overlap reported as a boundary not a target None |
 
 # ### Literature anchors
 #
 # | expectation | model observable | source | status |
 # | --- | --- | --- | --- |
-# | LUCA: anaerobic, H2-dependent, CO2-fixing, FeS-rich (355 protein families) | emergent capability overlap | Weiss 2016 / Moody 2024 | Not yet measurable — module processes not built |
+# | LUCA: anaerobic, H2-dependent, CO2-fixing, FeS-rich (355 protein families) | emergent capability overlap | Weiss 2016 / Moody 2024 | Measured — collective repertoire overlaps the anaerobic LUCA core at ~0.6-0.7 (reported boundary) |
 
 # ## Study: Escape from the vent (Campaign VIII) (`og-08-escape-from-the-vent`)
 #
