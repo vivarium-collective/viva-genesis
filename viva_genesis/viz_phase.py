@@ -977,3 +977,118 @@ class OffGradientPhaseMap(Visualization):
         trajectories = {label: decline_trajectory(n_steps=n, **flags)
                         for label, flags in _INNOVATION_SETS}
         return {"html": off_gradient_phase_figure(phase, trajectories, title=self.config["title"])}
+
+
+# ----------------------------------------------------------------------------
+# og-adv — adversarial control : vent-specificity of the carbon-fixation gate
+# ----------------------------------------------------------------------------
+def vent_specificity_figure(res, gate_rows=None, *, title=None) -> str:
+    """og-adv Decision view: the vent-specificity of the carbon-fixation gate.
+
+    Left — the og-01 net-carbon-flux gate over (dissolved H₂ × Fe/Ni/S catalyst
+    activity); the PASS region is the vent corner, and the generic control (H₂≈0,
+    no catalyst) sits far below the gate threshold. Right (when ``gate_rows`` is
+    given) — each vent-specific gate's margin log₁₀(value/threshold) for the vent
+    vs the generic control: every bar for the generic control is below the gate
+    line (rejected), every vent bar above it (passes)."""
+    import numpy as np
+    import plotly.graph_objects as go
+    from plotly.subplots import make_subplots
+
+    h2 = res.axes["h2"]
+    cat = res.axes["catalyst_active"]
+    thr = float(res.meta.get("gate_threshold", 1.0e-6))
+    pf = res.surfaces["peak_flux"]                       # indexed [h2, catalyst]
+    z = np.log10(np.clip(pf.T, 1e-15, None))             # z[y=catalyst][x=h2]
+
+    have_bars = bool(gate_rows)
+    fig = make_subplots(
+        rows=1, cols=2 if have_bars else 1,
+        column_widths=[0.56, 0.44] if have_bars else [1.0],
+        horizontal_spacing=0.14,
+        subplot_titles=(["Carbon-fixation gate over (H₂ × catalyst)",
+                         "Every vent-specific gate rejects the control"]
+                        if have_bars else ["Carbon-fixation gate over (H₂ × catalyst)"]))
+
+    fig.add_trace(go.Contour(
+        x=h2, y=cat, z=z, colorscale="Viridis", ncontours=16,
+        colorbar=dict(title="log₁₀ peak<br>net C-flux", len=0.9, x=0.49 if have_bars else 1.02),
+        contours=dict(showlabels=True, labelfont=dict(size=9, color="white")),
+        line=dict(width=0.4, color="rgba(255,255,255,0.3)")), row=1, col=1)
+    # the gate threshold as a bold boundary: pass region is above/right of it.
+    fig.add_trace(go.Contour(
+        x=h2, y=cat, z=z, showscale=False,
+        contours=dict(start=np.log10(thr), end=np.log10(thr), coloring="lines"),
+        line=dict(color="#f8fafc", width=2.6, dash="dash"), hoverinfo="skip"), row=1, col=1)
+    fig.add_trace(go.Scatter(
+        x=[float(h2[-1])], y=[float(cat[-1])], mode="markers+text", text=["vent<br>(passes)"],
+        textposition="bottom left", textfont=dict(size=10, color=_INK),
+        marker=dict(symbol="star", size=15, color=_AMBER, line=dict(width=1.2, color=_INK)),
+        showlegend=False), row=1, col=1)
+    fig.add_trace(go.Scatter(
+        x=[float(h2[0])], y=[float(cat[0])], mode="markers+text",
+        text=["generic control<br>(rejected)"], textposition="top right",
+        textfont=dict(size=10, color=_RUST),
+        marker=dict(symbol="x", size=13, color=_RUST, line=dict(width=1.2, color=_INK)),
+        showlegend=False), row=1, col=1)
+    fig.update_xaxes(type="log", title_text="dissolved H₂ (M)", row=1, col=1)
+    fig.update_yaxes(title_text="Fe/Ni/S catalyst activity", row=1, col=1)
+
+    if have_bars:
+        labels = [g["label"] for g in gate_rows]
+        m_vent = [float(np.log10(max(g["vent"], 1e-300) / g["threshold"])) for g in gate_rows]
+        m_ctrl = [float(np.log10(max(g["generic"], 1e-300) / g["threshold"])) for g in gate_rows]
+        fig.add_trace(go.Bar(y=labels, x=m_vent, orientation="h", name="vent",
+                             marker_color=_TEAL), row=1, col=2)
+        fig.add_trace(go.Bar(y=labels, x=m_ctrl, orientation="h", name="generic control",
+                             marker_color=_RUST), row=1, col=2)
+        fig.add_vline(x=0.0, line=dict(color=_INK, width=1.6), row=1, col=2)
+        fig.update_xaxes(title_text="gate margin  log₁₀(value / threshold)", row=1, col=2)
+        fig.update_layout(barmode="group", legend=dict(orientation="h", y=1.12, x=0.72))
+
+    ttl = title or "Adversarial control — vent-specificity of the gates"
+    fig.update_layout(
+        title=dict(text=(f"<b>{ttl}</b><br><span style='font-size:12px;color:{_SLATE}'>"
+                         "The gates pass only in the vent corner (sustained H₂ AND a Fe/Ni/S "
+                         "catalytic interface). Generic non-vent chemistry sits below every "
+                         "threshold — the gates measure the vent mechanism, not generic "
+                         "nonequilibrium chemistry.</span>"), x=0.5, xanchor="center"),
+        height=470, width=980 if have_bars else 560, margin=dict(t=100, b=60, l=80, r=30),
+        font=dict(family="system-ui, -apple-system, sans-serif", color=_INK),
+        paper_bgcolor="white", plot_bgcolor="white")
+    return fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+
+
+class VentSpecificityMap(Visualization):
+    """og-adv Decision view: vent-specificity of the carbon-fixation gate over
+    (dissolved H₂ × Fe/Ni/S catalyst), plus the per-gate rejection of the generic
+    control. Renders from a persisted grid (``grid_json`` — whose meta carries the
+    per-gate ``gate_rows``) or computes a modest grid live (contour only)."""
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "Adversarial control — vent-specificity of the gates"},
+        "grid_json": {"_type": "string", "_default": ""},
+        "n_grid": {"_type": "integer", "_default": 12},
+        "n_steps": {"_type": "integer", "_default": 40},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        from .phase_maps import vent_specificity_map
+        resolved = _resolve_grid_path(str(self.config.get("grid_json", "") or ""))
+        gate_rows = None
+        if resolved:
+            with open(resolved) as f:
+                blob = json.load(f)
+            res = _ResultView(*_grid_from_json(blob))
+            gate_rows = res.meta.get("gate_rows")
+        else:
+            n = int(self.config["n_grid"])
+            res = vent_specificity_map(h2=(1.0e-9, 2.0e-2, n), catalyst_active=(0.0, 1.0, n),
+                                       n_steps=int(self.config["n_steps"]), n_jobs=1)
+        return {"html": vent_specificity_figure(res, gate_rows=gate_rows, title=self.config["title"])}

@@ -449,3 +449,61 @@ def metacommunity_robustness_phase_map(
         n_steps=n_steps,
         n_jobs=n_jobs,
     )
+
+
+# ----------------------------------------------------------------------------
+# og-adv — adversarial control : vent-specificity of the carbon-fixation gate
+# ----------------------------------------------------------------------------
+# The og-01 "net-carbon-flux-nonzero-region" gate passes only when BOTH the Fe/Ni/S
+# catalytic interface is active AND dissolved H2 (the reductant) is present — i.e.
+# in the vent corner. A generic non-vent mixture (no catalyst, no sustained H2) sits
+# at the origin of this plane, far below the gate threshold. Swept over
+# (dissolved H2 x catalyst activity); the gate's PASS region IS the vent corner, so
+# the plane shows the gate REJECTING generic chemistry rather than measuring generic
+# nonequilibrium chemistry.
+def vent_specificity_map(
+    *,
+    h2=(1.0e-9, 2.0e-2, 16),
+    catalyst_active=(0.0, 1.0, 16),
+    gradient_efficiency: float = 1.0,
+    dilution_rate: float = 2.0,
+    n_steps: int = 60,
+    n_jobs: int = 1,
+) -> SweepResult:
+    """og-adv vent-specificity plane over (dissolved H₂ × Fe/Ni/S catalyst activity).
+
+    Reuses the real og-01 ``hydrothermal_carbon_fixation`` composite. ``h2`` is swept
+    on a log grid (it spans decades, down to a generic ~0); ``catalyst_active`` linearly
+    from 0 (no mineral interface) to 1 (full vent). The primary surface is the peak net
+    carbon-fixation flux the og-01 gate reads; ``GATE_THRESHOLD`` marks the pass/fail
+    boundary (> 1e-6). The generic-control corner (H₂≈0, catalyst=0) is deep in the
+    fail region; only the vent corner passes.
+    """
+    from .composites.carbon_fixation import hydrothermal_carbon_fixation
+
+    h2_lo, h2_hi, h2_n = h2
+    cat_lo, cat_hi, cat_n = catalyst_active
+    axes = {
+        "h2": np.geomspace(h2_lo, h2_hi, int(h2_n)),
+        "catalyst_active": np.linspace(cat_lo, cat_hi, int(cat_n)),
+    }
+    res = sweep_grid(
+        hydrothermal_carbon_fixation,
+        axes,
+        reduce={
+            "peak_flux": carbon_peak_flux,                       # the og-01 net-flux gate
+            "sustained_throughput": carbon_sustained_throughput,
+            "carbon_total": carbon_total,
+        },
+        fixed={"gradient_efficiency": float(gradient_efficiency),
+               "dilution_rate": float(dilution_rate)},
+        n_steps=n_steps,
+        n_jobs=n_jobs,
+    )
+    res.meta.update({
+        "stage": "og-adv", "model": "vent_specificity_control",
+        "gate": "net-carbon-flux-nonzero-region", "gate_threshold": 1.0e-6,
+        "vent_corner": {"h2": float(h2_hi), "catalyst_active": 1.0},
+        "generic_corner": {"h2": float(h2_lo), "catalyst_active": 0.0},
+    })
+    return res

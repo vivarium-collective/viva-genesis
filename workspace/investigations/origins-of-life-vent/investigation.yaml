@@ -37,17 +37,21 @@ executive:
     arms), og-02 (reduced carbon -> protometabolism), og-03 (dilution -> localized individuals), 
     og-04 (mineral compartments -> protocells), og-05 (environmental -> internal bioenergetics) and 
     og-06 (chemistry -> heredity) are built on real simulators, run, and pass their pre-stated gates
-    with conservation held to machine precision. og-07, og-08 and the adversarial control are 
-    designed but not yet run.
+    with conservation held to machine precision. The adversarial generic-nonequilibrium control runs
+    and PASSES by rejection — every discriminating gate rejects a vent-feature-ablated control while the
+    vent passes, so the gates are falsifiable and vent-specific. og-07 and og-08 remain designed but not
+    yet run.
   verdict_status: in-progress
   verdict_detail: 10 member studies (Campaigns 0-VIII + an adversarial control) wired into a DAG. 
     Stages 0-6 are complete — each runs a coupled Vivarium composite of real tools (PHREEQC + FiPy; 
     eQuilibrator + FiPy; libRoadRunner; a FiPy thermal trap; amphiphile self-assembly; bioenergetic 
     internalization; an agent-based heredity lineage) and passes its conservation and acceptance 
     behavior tests. og-06's compositional-heredity headline ('heredity need not presume RNA') is 
-    seed-robust (8/8 seeds). og-07 (ecology before LUCA), og-08 (escape from the vent) and the 
-    adversarial generic-nonequilibrium control remain at Design with contracts (ports + conservation
-    invariants) and behavior tests derived from their acceptance gates.
+    seed-robust (8/8 seeds). The adversarial generic-nonequilibrium control (og-adv) runs and passes by
+    rejection — all five discriminating gates reject a vent-feature-ablated control (min margin 1.8
+    decades) while the vent passes all five. og-07 (ecology before LUCA) and og-08 (escape from the vent)
+    remain at Design with contracts (ports + conservation invariants) and behavior tests derived from
+    their acceptance gates.
   decisions_resolved:
   - 'Baseline parameterization: run BOTH arms — classical favorable (Russell/Lane/Sojo) and the 2026 unfavorable
     reassessment (Tutolo/Jackson) — so the campaign adjudicates rather than assumes. Implemented in og-01.'
