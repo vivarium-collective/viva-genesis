@@ -58,6 +58,9 @@ _EMIT_PATHS = [
         "co2": {"type": "float", "default": 2.0e-3, "description": "Dissolved CO2 feed (M)"},
         "ph_vent": {"type": "float", "default": 9.5, "description": "Alkaline vent-side pH (from og-00)"},
         "ph_ocean": {"type": "float", "default": 6.0, "description": "Acidic early-ocean-side pH"},
+        "dilution_rate": {"type": "float", "default": 0.0,
+                          "description": "Open-flow washout (1/s); 0 = closed batch (yield studies), "
+                                         ">0 = open vent reactor → sustained-throughput regime (phase map)"},
     },
     visualizations=[
         {"name": "proton-gradient-profile", "address": "local:ProtonGradientProfile",
@@ -70,7 +73,8 @@ _EMIT_PATHS = [
     emitters=[{"address": "local:ParquetEmitter", "paths": _EMIT_PATHS}],
 )
 def hydrothermal_carbon_fixation(core=None, *, gradient_efficiency=1.0, catalyst_active=1.0,
-                                    h2=5.0e-3, co2=2.0e-3, ph_vent=9.5, ph_ocean=6.0):
+                                    h2=5.0e-3, co2=2.0e-3, ph_vent=9.5, ph_ocean=6.0,
+                                    dilution_rate=0.0):
     return {
         "gradient": {
             "_type": "process",
@@ -119,7 +123,7 @@ def hydrothermal_carbon_fixation(core=None, *, gradient_efficiency=1.0, catalyst
         "fixation": {
             "_type": "process",
             "address": "local:CarbonFixationProcess",
-            "config": {},
+            "config": {"dilution_rate": dilution_rate},
             "interval": 1.0,
             "inputs": {"H2": ["env", "H2"], "CO2": ["env", "CO2"],
                        "temperature": ["env", "temperature"], "pmf": ["electro", "pmf"],

@@ -84,6 +84,15 @@ class CarbonFixationProcess(Process):
         "t_opt": {"_type": "float", "_default": 373.15, "_units": "kelvin"},           # K (~100 C, Preiner)
         "t_width": {"_type": "float", "_default": 60.0, "_units": "kelvin"},           # K
         "reactor_volume_scale": {"_type": "float", "_default": 1.0, "_units": "liter"},  # L, flux scaling
+        # Open-flow washout. 0.0 = closed batch (products relax to the Preiner
+        # ceiling; back-compat default for the yield studies). >0 makes the vent
+        # the open-flow reactor it physically is: products are flushed at this
+        # rate, so each pool reaches a CONDITION-DEPENDENT steady state
+        # [product]_ss ~ production_rate / dilution_rate (capped by the ceiling)
+        # and net_carbon_flux settles to a genuine SUSTAINED throughput rather
+        # than collapsing to zero at saturation. This is what makes the
+        # carbon-fixation phase map a real decision surface.
+        "dilution_rate": {"_type": "float", "_default": 0.0, "_units": "1/second"},
     }
 
     def inputs(self):
@@ -124,6 +133,7 @@ class CarbonFixationProcess(Process):
         t_opt, t_w = self.config["t_opt"], max(self.config["t_width"], 1.0)
         t_window = math.exp(-((temp_k - t_opt) ** 2) / (2.0 * t_w ** 2))
         vol = max(self.config["reactor_volume_scale"], 1e-12)
+        dilution = max(float(self.config.get("dilution_rate", 0.0)), 0.0)  # 1/s washout
 
         deltas = {}
         carbon_rate = 0.0
@@ -132,8 +142,16 @@ class CarbonFixationProcess(Process):
             product = max(float(state.get(name, 0.0)), 0.0)
             headroom = max(0.0, 1.0 - product / _YIELD_MAX[name])
             rate = (_K_RATE[name] * cat * feasible * drive * avail
-                    * t_window * headroom)            # M/s
-            deltas[name] = rate * interval
-            carbon_rate += _CARBON[name] * rate * vol  # mol/s (carbon atoms)
+                    * t_window * headroom)            # M/s production
+            # Open-flow washout, applied as exponential decay so it is stable at
+            # ANY dilution (linear D·product·interval overshoots once D·interval>1,
+            # and the dilution needed to pull a fast-producing pool below the
+            # Preiner ceiling is large). At steady state production balances
+            # washout, so the pool reaches a CONDITION-DEPENDENT value
+            # ~ production/(1-e^{-D·dt}) instead of the ceiling, and net_carbon_flux
+            # settles to a genuine sustained throughput. D=0 → no washout (batch).
+            washout = product * (1.0 - math.exp(-dilution * interval))  # M removed, in (0, product]
+            deltas[name] = rate * interval - washout
+            carbon_rate += _CARBON[name] * rate * vol  # mol/s carbon FIXED (gross production)
         deltas["net_carbon_flux"] = carbon_rate
         return deltas
