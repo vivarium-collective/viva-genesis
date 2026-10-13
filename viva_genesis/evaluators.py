@@ -209,6 +209,16 @@ def _final_information_retention(reader, test: dict, ws_root: Any) -> float:
     return _values(reader, "information_retention")[-1]
 
 
+# --- og-08 (escape from the vent) readouts ------------------------------
+
+def _offgradient_survival(reader, test: dict, ws_root: Any) -> float:
+    """Surviving population fraction at the end of the run, as geological support is
+    withdrawn (the external gradient, mineral access and feed all relaxed toward zero).
+    ~1 means the full innovation set persists OFF the gradient (autonomy); ~0 means the
+    lineage collapses with the vent (a knockout that cannot hold the minimum set)."""
+    return _values(reader, "survivors")[-1]
+
+
 def register_derived_scalars(registry: dict) -> None:
     """Hook called by study_evaluator.load_workspace_derived_scalars."""
     # og-00
@@ -242,3 +252,5 @@ def register_derived_scalars(registry: dict) -> None:
     # og-06
     registry["final_lineage_fitness"] = _final_lineage_fitness
     registry["final_information_retention"] = _final_information_retention
+    # og-08
+    registry["offgradient_survival"] = _offgradient_survival

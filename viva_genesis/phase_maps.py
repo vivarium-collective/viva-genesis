@@ -311,3 +311,65 @@ def heredity_error_threshold_map(
               "persist_threshold": _PERSIST_THRESHOLD, "capacity": capacity,
               "reference_modules": refs},
     )
+
+
+# ----------------------------------------------------------------------------
+# og-08 — escape from the vent : the off-gradient survival frontier
+# ----------------------------------------------------------------------------
+# Decision: as the geological reactor's support is withdrawn (external gradient,
+# mineral/FeS access, feed all relaxing toward zero), which minimum INNOVATION SET lets
+# a lineage persist? The budget is co-limited (energy AND resources), so a lone
+# innovation is a cost without a co-benefit — the set is irreducible. Swept over
+# (environmental-support level × innovation-set); the pass region (persistence) reaches
+# support→0 only for the FULL set, and each single knockout lifts the frontier. The
+# off-gradient lineage model is deterministic (no RNG), so the surface is reproducible
+# and built by hand (same SweepResult the Workbench renders).
+_OFFGRID_PERSIST_THRESHOLD = 0.5   # surviving-fraction above this = the lineage persists
+
+# The innovation-set axis (full set, each single knockout, and the bare control).
+_INNOVATION_SETS = [
+    ("full", {"has_pump": 1.0, "has_importer": 1.0, "has_heredity": 1.0}),
+    ("-pump", {"has_pump": 0.0, "has_importer": 1.0, "has_heredity": 1.0}),
+    ("-importer", {"has_pump": 1.0, "has_importer": 0.0, "has_heredity": 1.0}),
+    ("-heredity", {"has_pump": 1.0, "has_importer": 1.0, "has_heredity": 0.0}),
+    ("none", {"has_pump": 0.0, "has_importer": 0.0, "has_heredity": 0.0}),
+]
+
+
+def off_gradient_phase_map(
+    *, support=(0.0, 1.0, 16), n_steps: int = 60, catalyst_efficiency: float = 1.0,
+) -> SweepResult:
+    """2-D Decision view over (environmental-support level × innovation-set) for the
+    off-gradient lineage: final-run persistence (surviving fraction) and a persists mask
+    trace the SURVIVAL FRONTIER. The frontier (minimum support at which each set
+    persists) is recorded in ``meta['frontier']`` — the full set reaches support→0 while
+    each single knockout is lifted off the gradient. Serial (the model is fast);
+    a higher-res grid is the persisted-artifact runner's job."""
+    from .autonomy.off_gradient import simulate_offgradient
+
+    s_lo, s_hi, s_n = support
+    s_axis = np.linspace(s_lo, s_hi, int(s_n))
+    set_axis = np.arange(len(_INNOVATION_SETS), dtype=float)
+
+    persistence = np.zeros((int(s_n), len(_INNOVATION_SETS)))
+    for i, s in enumerate(s_axis):
+        for j, (_, flags) in enumerate(_INNOVATION_SETS):
+            persistence[i, j] = simulate_offgradient(
+                float(s), n_steps=n_steps, catalyst_efficiency=catalyst_efficiency, **flags)["survivors"]
+    persists = (persistence >= _OFFGRID_PERSIST_THRESHOLD).astype(float)
+
+    # Survival frontier: the minimum support level at which each set persists.
+    frontier = {}
+    for j, (label, _) in enumerate(_INNOVATION_SETS):
+        col = persists[:, j]
+        frontier[label] = float(s_axis[int(np.argmax(col > 0))]) if col.any() else None
+
+    return SweepResult(
+        axis_order=["support", "innovation_set"],
+        axes={"support": s_axis, "innovation_set": set_axis},
+        surfaces={"persistence": persistence, "persists": persists},
+        meta={"model": "off_gradient_autonomy", "n_steps": int(n_steps),
+              "persist_threshold": _OFFGRID_PERSIST_THRESHOLD,
+              "innovation_sets": [label for label, _ in _INNOVATION_SETS],
+              "frontier": frontier},
+    )

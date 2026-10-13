@@ -12,6 +12,7 @@ from . import mixed_amphiphile_protocell  # noqa: F401
 from . import bioenergetic_internalization  # noqa: F401
 from . import heredity_module_comparison  # noqa: F401
 from . import heredity_lineage  # noqa: F401
+from . import off_gradient_persistence  # noqa: F401
 
 from .vent_reactor import serpentinizing_vent_reactor, serpentinizing_vent_reactor_reduced
 from .carbon_fixation import hydrothermal_carbon_fixation
@@ -21,6 +22,7 @@ from .mixed_amphiphile_protocell import mixed_amphiphile_protocell
 from .bioenergetic_internalization import bioenergetic_internalization
 from .heredity_module_comparison import heredity_module_comparison
 from .heredity_lineage import heredity_lineage_comparison
+from .off_gradient_persistence import off_gradient_persistence
 
 __all__ = [
     "serpentinizing_vent_reactor", "serpentinizing_vent_reactor_reduced",
@@ -31,4 +33,5 @@ __all__ = [
     "bioenergetic_internalization",
     "heredity_module_comparison",
     "heredity_lineage_comparison",
+    "off_gradient_persistence",
 ]

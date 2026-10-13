@@ -745,3 +745,131 @@ class _ResultView:
 
     def __init__(self, axis_order, axes, surfaces, meta):
         self.axis_order, self.axes, self.surfaces, self.meta = axis_order, axes, surfaces, meta
+
+
+# ----------------------------------------------------------------------------
+# og-08 — escape from the vent : the off-gradient survival frontier
+# ----------------------------------------------------------------------------
+_OFFGRID_SET_COLORS = {"full": _TEAL, "-pump": _AMBER, "-importer": "#7c3aed",
+                       "-heredity": _RUST, "none": _SLATE}
+
+
+def off_gradient_phase_figure(phase, trajectories, *, title=None) -> str:
+    """og-08 Decision view. **Left:** the survival frontier — persistence over
+    (environmental-support level × innovation-set); the pass region reaches support→0
+    only for the FULL set, and each single knockout is lifted off the gradient (a
+    higher minimum support). **Right:** the escape time-course — as geological support
+    is withdrawn, the full set persists while every knockout collapses, so the minimum
+    robust innovation set is {pump, importer, heredity}. ``phase`` is the
+    off_gradient_phase_map SweepResult (or a duck-typed view); ``trajectories`` =
+    {set_label: {t, survivors, support}}."""
+    import numpy as np
+    import plotly.graph_objects as go
+    from plotly.subplots import make_subplots
+
+    labels = list(phase.meta.get("innovation_sets")
+                  or ["full", "-pump", "-importer", "-heredity", "none"])
+    support = np.asarray(phase.axes["support"], float)
+    Z = np.asarray(phase.surfaces["persistence"], float)        # shape (support, set)
+    frontier = phase.meta.get("frontier") or {}
+    thr = float(phase.meta.get("persist_threshold", 0.5))
+    set_idx = list(range(len(labels)))
+
+    fig = make_subplots(
+        rows=1, cols=2, horizontal_spacing=0.13, column_widths=[0.48, 0.52],
+        subplot_titles=("Survival frontier (persistence vs support × innovation set)",
+                        "Escape: persistence as geological support is withdrawn"))
+
+    # --- left: the phase map + the survival frontier -----------------------------
+    fig.add_trace(go.Heatmap(
+        x=set_idx, y=support, z=Z, colorscale="Viridis", zmin=0, zmax=1,
+        colorbar=dict(title="persist.", len=0.9, x=0.44),
+        hovertemplate="%{customdata}<br>support=%{y:.2f}<br>persistence=%{z:.2f}<extra></extra>",
+        customdata=np.array([[labels[j] for j in set_idx] for _ in support])), row=1, col=1)
+    # the frontier line: minimum support at which each set persists (None → off the top)
+    fx, fy = [], []
+    for j, lab in enumerate(labels):
+        fv = frontier.get(lab)
+        fx.append(j)
+        fy.append(float(fv) if fv is not None else float(support.max()) + 1.0)
+    fig.add_trace(go.Scatter(
+        x=fx, y=fy, mode="lines+markers", line=dict(color="#f8fafc", width=2.5, dash="dot"),
+        marker=dict(size=11, color="#f8fafc", line=dict(width=1.2, color=_INK)),
+        name="survival frontier", showlegend=False,
+        hovertemplate="%{text}: min support %{y:.2f}<extra></extra>",
+        text=labels), row=1, col=1)
+    # mark the full set reaching support→0 (autonomy)
+    if frontier.get(labels[0]) is not None and float(frontier[labels[0]]) <= support.min() + 1e-9:
+        fig.add_annotation(x=0, y=support.min(), text="autonomous<br>(persists to 0)", showarrow=True,
+                           arrowhead=2, ax=38, ay=-28, font=dict(size=9, color=_TEAL), row=1, col=1)
+    fig.update_xaxes(tickmode="array", tickvals=set_idx, ticktext=labels,
+                     title_text="innovation set", row=1, col=1)
+    fig.update_yaxes(title_text="environmental support (1 = vent, 0 = off-gradient)", row=1, col=1)
+
+    # --- right: the escape time-course -------------------------------------------
+    for lab in labels:
+        tr = (trajectories or {}).get(lab)
+        if not tr:
+            continue
+        fig.add_trace(go.Scatter(
+            x=tr["t"], y=tr["survivors"], mode="lines", name=lab,
+            line=dict(color=_OFFGRID_SET_COLORS.get(lab, _SLATE),
+                      width=3 if lab == "full" else 2,
+                      dash="solid" if lab == "full" else "dash")), row=1, col=2)
+    any_tr = next((t for t in (trajectories or {}).values() if t), None)
+    if any_tr:
+        fig.add_trace(go.Scatter(
+            x=any_tr["t"], y=any_tr["support"], mode="lines", name="support (withdrawn)",
+            line=dict(color=_INK, width=1.5, dash="dot"), opacity=0.5), row=1, col=2)
+    fig.add_hline(y=thr, line=dict(color=_SLATE, width=1, dash="dot"), row=1, col=2)
+    fig.update_xaxes(title_text="time (support withdrawn over the run)", row=1, col=2)
+    fig.update_yaxes(title_text="surviving fraction", range=[-0.03, 1.05], row=1, col=2)
+
+    ttl = title or "Campaign VIII — the survival frontier off the gradient"
+    fig.update_layout(
+        title=dict(text=(f"<b>{ttl}</b><br><span style='font-size:12px;color:{_SLATE}'>"
+                         "As the geological reactor's support is withdrawn, only the full innovation "
+                         "set — internal pump + resource importer + heredity — persists off-gradient. "
+                         "The budget is co-limited (energy AND resources), so each single knockout "
+                         "collapses: the minimum robust set for autonomy is irreducible.</span>"),
+                   x=0.5, xanchor="center"),
+        height=460, width=980, margin=dict(t=105, b=60, l=75, r=20),
+        legend=dict(orientation="h", y=-0.2, x=0.74, xanchor="center", font=dict(size=9)),
+        font=dict(family="system-ui, -apple-system, sans-serif", color=_INK),
+        paper_bgcolor="white", plot_bgcolor="white")
+    return fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+
+
+class OffGradientPhaseMap(Visualization):
+    """og-08 Decision view: the off-gradient survival frontier over (environmental
+    support × innovation set) + the escape time-course as support is withdrawn. Renders
+    from a persisted grid (``grid_json``) or computes a modest grid live; the knockout
+    trajectories are always computed live (cheap, deterministic)."""
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "Campaign VIII — the survival frontier off the gradient"},
+        "grid_json": {"_type": "string", "_default": ""},
+        "n_grid": {"_type": "integer", "_default": 16},
+        "n_steps": {"_type": "integer", "_default": 60},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        from .autonomy.off_gradient import decline_trajectory
+        from .phase_maps import _INNOVATION_SETS, off_gradient_phase_map
+        resolved = _resolve_grid_path(str(self.config.get("grid_json", "") or ""))
+        if resolved:
+            with open(resolved) as f:
+                phase = _ResultView(*_grid_from_json(json.load(f)))
+        else:
+            phase = off_gradient_phase_map(support=(0.0, 1.0, int(self.config["n_grid"])),
+                                           n_steps=int(self.config["n_steps"]))
+        n = int(self.config["n_steps"])
+        trajectories = {label: decline_trajectory(n_steps=n, **flags)
+                        for label, flags in _INNOVATION_SETS}
+        return {"html": off_gradient_phase_figure(phase, trajectories, title=self.config["title"])}
