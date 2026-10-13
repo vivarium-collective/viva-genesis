@@ -1860,6 +1860,154 @@ _save_viz('og-res-nitrogen-assimilation', 'nitrogen-assimilation-phase-map', _re
 # | Ammonia forms from dinitrogen on iron-sulfide surfaces (low yield, fresh-surface dependent) at ~70-80 C | ammonium production on FeS vs controls | Doerr 2003 | Met qualitatively — the FeS-mediated route produces ammonium only with an active mineral and an H2 reductant; N2 fixation is modelled as a deliberately minor source alongside the dominant nitrate-reduction route. |
 # | Native-metal / mineral catalysis drives reductive prebiotic chemistry toward amino-acid precursors | reduced-N draw into amino-acid precursors | Varma 2018 / Huber 1997 | Met — reductive amination draws ammonium into an amino-acid-precursor pool at a rate set by the carbon-fixation demand (the C:N coupling). |
 
+# ## Study: Phosphorus availability: the phosphorus bottleneck (`og-res-phosphorus-availability`)
+#
+# **Question.** Phosphorus may be a harder bottleneck than carbon. Can the same thermal-gradient vent pore that concentrates C and N also co-concentrate P — tracking dissolved phosphate, mineral-bound P, polyphosphate and reactive P with explicit precipitation/adsorption loss — or does phosphate precipitate/adsorb before it is chemically useful? Are there local windows where reactive P is produced faster than it is lost?
+#
+# **Objective.** Build a real P-speciation process (phosphate <-> polyphosphate <-> reactive-P with a precipitation/adsorption mineral sink), couple it to the og-03 thermal pore, and map where reactive-P availability beats loss and co-concentrates with carbon.
+#
+# **Hypothesis.** In a thermal-gradient pore (coupled from og-03), enrichment drives phosphate condensation and activation steeply enough that reactive-P formation outruns the first-order precipitation/adsorption sink in a bounded (source × enrichment) region — and that same enrichment co-concentrates P alongside carbon; without the gradient (open pore), precipitation wins and no reactive P accumulates.
+#
+# **Claim.** A real libRoadRunner P-speciation network coupled to the og-03 thermal pore shows reactive phosphorus becomes available only in a bounded (phosphate source × pore enrichment) window where condensation + activation outrun the precipitation/adsorption sink; the same pore enrichment that concentrates carbon co-concentrates P, and without the gradient phosphate precipitates before it is useful — phosphorus is a localization-gated bottleneck, not a free resource.
+
+# ### Design — originally proposed
+#
+# _The mechanisms and methods proposed when this study was designed; the model **actually built** (and the tools it uses) is shown below. These may differ as the design was realized._
+#
+# **Proposed mechanisms**
+#
+# - I: limiting-resource phosphorus speciation
+# - F: transport/concentration/retention (og-03 pore coupling)
+#
+# **Proposed models / methods**
+#
+# - SBML + libRoadRunner/Tellurium P-speciation network
+# - og-03 FiPy thermophoretic trap as the enrichment coupling
+# - P-atom mass balance + precipitation/adsorption sink
+#
+# **Key assumptions**
+#
+# - Reactive-P availability arises from the balance of condensation, activation, hydrolysis and precipitation/adsorption — not assumed; the precipitation sink is explicit.
+
+# ### Parameters
+#
+# | simulation | composite | steps | params |
+# | --- | --- | --- | --- |
+# | `Phosphorus availability: the phosphorus bottleneck` | `viva_genesis.composites.phosphorus_availability.phosphorus_availability` | 0 | phosphate_supply=0.0001, pore_enrichment=30.0, temperature=333.15, loss_rate=0.08 |
+#
+# Declared parameter sets (`study.yaml` variants):
+#
+# - **control-open-pore** — `pore_enrichment=1.0`
+
+# ### The model & its parameters
+#
+# Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
+
+# **The model — `viva_genesis.composites.phosphorus_availability.phosphorus_availability`**
+#
+# A reusable phosphorus-availability module. libRoadRunner/Tellurium SBML P-speciation network (phosphate <-> polyphosphate <-> reactive-P with a precipitation/adsorption mineral sink) driven by a dissolved-phosphate supply, the og-03 thermal-gradient pore enrichment, and pore temperature. Emergent: the standing reactive-P pool, reactive-P production vs precipitation loss (net availability), and the precipitated fraction — does reactive P become available before phosphate precipitates? Requires tellurium.
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_phosphorus_availability_phosphorus_availability = {
+    'phosphate_supply': 0.0001,   # Dissolved orthophosphate supply / initial pool (M)
+    'pore_enrichment' : 30.0,   # Thermal-gradient pore enrichment from the og-03 trap (>=1; 1 = open pore / no gradient control)
+    'temperature'     : 333.15,   # Mean pore temperature (K)
+    'loss_rate'       : 0.08,   # Precipitation / adsorption loss rate k_prec (1/s) — the mineral-sink bottleneck
+}
+
+# ### Typed contract (declared interface)
+#
+# _The bigraph-schema typed ports + conservation predicates this study's composite must satisfy (audited in the workbench §Contract panel). Declared design — independent of whether a run exists yet._
+#
+# **Inputs**
+#
+# | port | type | units | bounds |
+# | --- | --- | --- | --- |
+# | `phosphate_supply` | float | molar | >= 0.0 |
+# | `pore_enrichment` | float | dimensionless | >= 1.0 |
+# | `temperature` | float | kelvin | [273.0, 673.0] |
+#
+# **Outputs**
+#
+# | port | type | units | bounds |
+# | --- | --- | --- | --- |
+# | `reactive_P` | float | molar | >= 0.0 |
+# | `net_reactive_P` | float | mole/second |  |
+# | `precipitated_fraction` | float | dimensionless | [0.0, 1.0] |
+#
+# **Conditions**
+#
+# - `phosphorus_mass_balance` (invariant): `abs(total_P - supplied_P) / supplied_P < tol`
+# - `nonnegative_pools` (invariant): `phosphate >= 0 and polyphosphate >= 0 and reactive_P >= 0 and mineral_P >= 0`
+# - `reproducibility` (invariant): `solver and db and seed and scenario recorded`
+
+# ### Run
+#
+# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
+
+# === Study: og-res-phosphorus-availability ===
+STUDY = 'og-res-phosphorus-availability'
+STUDY_DIR = REPO / 'workspace/studies' / STUDY
+STUDY_YAML = str(STUDY_DIR / "study.yaml")
+RUNS_DB = str(STUDY_DIR / "runs.db")
+
+# This study has no *recorded* runs yet. RERUN builds its declared
+# composite(s) live and runs them; a composite whose module processes
+# are not implemented yet reports the error instead of crashing.
+STEPS_Phosphorus_availability_the_phosphorus_bottleneck = 100
+INTERVAL_Phosphorus_availability_the_phosphorus_bottleneck = 1.0
+
+if RERUN:
+    from process_bigraph import Composite
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_phosphorus_availability_phosphorus_availability if 'ov_viva_genesis_composites_phosphorus_availability_phosphorus_availability' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_phosphorus_availability_phosphorus_availability = materialize_composite('viva_genesis.composites.phosphorus_availability.phosphorus_availability', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_phosphorus_availability_phosphorus_availability['state']}, core=core)
+            _comp.run(STEPS_Phosphorus_availability_the_phosphorus_bottleneck)
+        print('ran', 'Phosphorus availability: the phosphorus bottleneck', f'(viva_genesis.composites.phosphorus_availability.phosphorus_availability) for', STEPS_Phosphorus_availability_the_phosphorus_bottleneck, 'steps')
+    except Exception as _e:
+        print(f"Phosphorus availability: the phosphorus bottleneck not runnable yet: {type(_e).__name__}: {_e}")
+else:
+    print("RERUN=False — not re-simulating.")
+
+# ### Visualizations
+#
+# _Results are shown by the figures below, produced by the run above._
+
+# **phosphorus-speciation**
+
+# phosphorus-speciation
+_save_viz('og-res-phosphorus-availability', 'phosphorus-speciation', _render_one('local:PhosphorusSpeciationViz', {'composite': 'viva_genesis.composites.phosphorus_availability.phosphorus_availability', 'n_steps': 120, 'title': 'Phosphorus bottleneck — P-species trajectories (World view)'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_phosphorus_availability_phosphorus_availability if 'ov_viva_genesis_composites_phosphorus_availability_phosphorus_availability' in dir() else None)))
+
+# **phosphorus-mechanism**
+
+# phosphorus-mechanism
+_save_viz('og-res-phosphorus-availability', 'phosphorus-mechanism', _render_one('local:PhosphorusMechanismViz', {'composite': 'viva_genesis.composites.phosphorus_availability.phosphorus_availability', 'n_steps': 120, 'title': 'Phosphorus bottleneck — reactive-P production vs loss (Mechanism view)'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_phosphorus_availability_phosphorus_availability if 'ov_viva_genesis_composites_phosphorus_availability_phosphorus_availability' in dir() else None)))
+
+# **phosphorus-availability-map**
+
+# phosphorus-availability-map
+_save_viz('og-res-phosphorus-availability', 'phosphorus-availability-map', _render_one('local:PhosphorusAvailabilityMap', {'title': 'The phosphorus bottleneck — reactive-P availability landscape (Decision view)', 'grid_json': 'workspace/studies/og-res-phosphorus-availability/artifacts/phosphorus_availability_grid.json'}, RUNS_DB, STUDY_YAML))
+
+# ### Acceptance criteria
+#
+# _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
+#
+# | test | measures | passes if |
+# | --- | --- | --- |
+# | reactive-p-available _(primary)_ | kind=derived path=phosphorus_net_reactive_availability detail=settled net reactive-P availability = production - precipitation loss | op > value 0.0 detail net availability > 0 (reactive P produced faster than lost) |
+# | p-coconcentrates-with-carbon _(primary)_ | kind=cross_run detail=og-03 pore enrichment vs the carbon co-concentration floor; P reactive-availability at that enrichment | op arms_reported detail the same pore regime co-concentrates P with C (enrichment >= carbon floor AND P reactive-availability positive) |
+# | open-pore-no-enrichment-control _(primary)_ | kind=cross_run detail=favorable enriched pore vs open-pore / no-gradient control | op controls_absent detail reactive-P availability collapses (net <= 0 ~fully precipitated) without enrichment None |
+# | p-mass-conserved _(diagnostic)_ | kind=derived path=phosphorus_p_mass_residual detail=max |total P - supplied| / supplied | op <= value 1e-06 detail P-mass residual small (P-atom-conserving network) |
+
+# ### Literature anchors
+#
+# | expectation | model observable | source | status |
+# | --- | --- | --- | --- |
+# | Reactive reduced-P (schreibersite-derived) and condensed/activated phosphates form under basic conditions; dissolved phosphate is prone to precipitation/adsorption. | reactive-P availability vs precipitated fraction | Pasek 2017 | measured — reactive-P availability + precipitated fraction graded from the real run |
+
 # ## Open decisions
 # - Publication milestone: close the first paper at the pre-genetic arc (og-00 -> og-03) or extend through the early-genetic arc (og-04 protocells -> og-06 heredity)?
 # - First limiting resource / next module: which enrichment-plan module to build first — nitrogen assimilation (N2/NO3->NH4, FeS), phosphorus availability (phosphate/polyphosphate co-concentration), proto-energetics (thioester/acyl-phosphate energy currency before pumping), or metabolism->growth/division (osmotic growth)?
