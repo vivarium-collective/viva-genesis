@@ -27,6 +27,30 @@ def sweep_to_json(res) -> str:
     })
 
 
+def _resolve_grid_path(path: str) -> str | None:
+    """Resolve a persisted-grid path robustly: as-is, then relative to cwd, then
+    relative to the workspace root (walk up for workspace.yaml). Returns the first
+    existing path, or None (→ the viz computes a modest grid live)."""
+    import os
+    if not path:
+        return None
+    if os.path.isabs(path) and os.path.exists(path):
+        return path
+    cand = os.path.abspath(path)
+    if os.path.exists(cand):
+        return cand
+    here = os.path.abspath(os.getcwd())
+    for _ in range(8):
+        if os.path.exists(os.path.join(here, "workspace.yaml")):
+            cand = os.path.join(here, path)
+            return cand if os.path.exists(cand) else None
+        parent = os.path.dirname(here)
+        if parent == here:
+            break
+        here = parent
+    return None
+
+
 def _grid_from_json(blob: dict):
     axes = {k: np.asarray(v, float) for k, v in blob["axes"].items()}
     surfaces = {k: np.asarray(v, float) for k, v in blob["surfaces"].items()}
@@ -112,12 +136,10 @@ class CarbonFixationPhaseMap(Visualization):
         return {"html": "string"}
 
     def update(self, state=None):
-        import os
-
         from .phase_maps import carbon_fixation_phase_map
-        path = str(self.config.get("grid_json", "") or "")
-        if path and os.path.exists(path):
-            with open(path) as f:
+        resolved = _resolve_grid_path(str(self.config.get("grid_json", "") or ""))
+        if resolved:
+            with open(resolved) as f:
                 blobs = json.load(f)
             fav = _ResultView(*_grid_from_json(blobs["favourable"]))
             tut = _ResultView(*_grid_from_json(blobs["tutolo"])) if "tutolo" in blobs else None
