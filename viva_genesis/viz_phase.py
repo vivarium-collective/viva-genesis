@@ -1504,3 +1504,108 @@ class ProtoEnergeticsProvenanceViz(Visualization):
         sim.run(int(self.config["n_steps"]))
         rows = gather_emitter_results(sim)[("emitter",)]
         return {"html": energy_provenance_figure(rows, title=self.config["title"])}
+
+
+# ----------------------------------------------------------------------------
+# og-growth-division — metabolism → osmotic growth & division : the viable band
+# ----------------------------------------------------------------------------
+def growth_division_phase_figure(res, *, title=None) -> str:
+    """og-growth-division Decision view: the bounded viable growth→division band.
+    **Left:** the number of divisions over (network throughput × membrane permeability)
+    — chemistry drives net growth to DIVISION only in a bounded band (white dashed =
+    the band boundary, divisions == 1). **Right:** the physical-fate regime map — the
+    same band sits between STARVATION (too permeable: the product leaks out, the
+    osmotic pressure never builds, nothing grows) and LYSIS (too impermeable: the
+    pressure spikes past the membrane's burst tension). The operating point (★) is the
+    canonical favorable run. ``res`` is a SweepResult / grid view with ``divisions``,
+    ``outcome``, ``net_growth`` and ``peak_pressure`` surfaces."""
+    import numpy as np
+    import plotly.graph_objects as go
+    from plotly.subplots import make_subplots
+
+    thr = np.asarray(res.axes["network_throughput"], float)          # y
+    perm = np.asarray(res.axes["membrane_permeability"], float)      # x
+    div = np.asarray(res.surfaces["divisions"], float)               # [throughput, perm]
+    outcome = np.asarray(res.surfaces.get("outcome", np.zeros_like(div)), float)
+    log_thr, log_perm = np.log10(thr), np.log10(perm)
+    op_thr, op_perm = 1.0e-19, 1.0e-9                                # canonical operating point
+    viable_frac = float(res.meta.get("viable_fraction", np.mean(div >= 1.0)))
+
+    fig = make_subplots(rows=1, cols=2, horizontal_spacing=0.14,
+                        subplot_titles=("Divisions over throughput × permeability",
+                                        "Physical fate: starve · divide · lyse"))
+    # --- left: the division-count landscape + the viable-band boundary ---
+    fig.add_trace(go.Heatmap(
+        x=log_perm, y=log_thr, z=div, colorscale="Tealgrn", zmin=0.0,
+        colorbar=dict(title="divisions", len=0.9, x=0.44),
+        hovertemplate="log10 P=%{x:.2f}, log10 J=%{y:.2f}<br>divisions=%{z:.0f}<extra></extra>"), row=1, col=1)
+    fig.add_trace(go.Contour(
+        x=log_perm, y=log_thr, z=div, showscale=False,
+        contours=dict(start=1.0, end=1.0, coloring="lines"),
+        line=dict(color="#f8fafc", width=2.4, dash="dash"), hoverinfo="skip"), row=1, col=1)
+    # --- right: the physical-fate regime map (discrete outcome code) ---
+    fate_colorscale = [[0.0, _AMBER], [0.33, _AMBER], [0.34, "#9ca3af"], [0.49, "#9ca3af"],
+                       [0.5, _TEAL], [0.74, _TEAL], [0.75, _RUST], [1.0, _RUST]]
+    fig.add_trace(go.Heatmap(
+        x=log_perm, y=log_thr, z=outcome, colorscale=fate_colorscale, zmin=0.0, zmax=3.0,
+        colorbar=dict(title="fate", tickvals=[0.4, 1.1, 1.9, 2.6],
+                      ticktext=["starve", "grow", "divide", "lyse"], len=0.9),
+        hovertemplate="log10 P=%{x:.2f}, log10 J=%{y:.2f}<br>fate=%{z:.0f}<extra></extra>"), row=1, col=2)
+    for c in (1, 2):
+        fig.add_trace(go.Scatter(
+            x=[np.log10(op_perm)], y=[np.log10(op_thr)], mode="markers+text",
+            text=["operating<br>point"], textposition="top center",
+            textfont=dict(size=9, color=_INK),
+            marker=dict(symbol="star", size=14, color="#fde68a",
+                        line=dict(width=1.1, color=_INK)), showlegend=False), row=1, col=c)
+        fig.update_xaxes(title_text="log₁₀ membrane permeability (m/s)", row=1, col=c)
+    fig.update_yaxes(title_text="log₁₀ network throughput (mol/s)", row=1, col=1)
+
+    ttl = title or "Metabolism → growth & division — the viable band"
+    fig.update_layout(
+        title=dict(text=(f"<b>{ttl}</b><br><span style='font-size:12px;color:{_SLATE}'>"
+                         "A protocell's chemistry changes its physical fate: product accumulation → "
+                         "osmotic pressure → solvent influx → volume growth → division. Sustained net "
+                         f"growth leading to DIVISION is a BOUNDED viable band ({viable_frac * 100:.0f}% of "
+                         "the grid, dashed boundary) — too permeable starves (the product leaks before the "
+                         "osmotic pressure can build), too impermeable lyses (the pressure bursts the "
+                         "membrane). Physical selection without an abstract fitness score.</span>"),
+                   x=0.5, xanchor="center"),
+        height=460, width=980, margin=dict(t=108, b=62, l=78, r=20),
+        font=dict(family="system-ui, -apple-system, sans-serif", color=_INK),
+        paper_bgcolor="white", plot_bgcolor="white")
+    return fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+
+
+class GrowthDivisionMap(Visualization):
+    """og-growth-division Decision view: the bounded viable growth→division band over
+    (network throughput × membrane permeability) + the physical-fate regime map
+    (starve · divide · lyse). Renders from a persisted grid (``grid_json``) or computes
+    a modest grid live."""
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "Metabolism → growth & division — the viable band"},
+        "grid_json": {"_type": "string", "_default": ""},
+        "n_grid": {"_type": "integer", "_default": 14},
+        "n_steps": {"_type": "integer", "_default": 100},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        from .phase_maps import growth_division_map
+        resolved = _resolve_grid_path(str(self.config.get("grid_json", "") or ""))
+        if resolved:
+            with open(resolved) as f:
+                res = _ResultView(*_grid_from_json(json.load(f)))
+        else:
+            n = int(self.config["n_grid"])
+            res = growth_division_map(
+                network_throughput=(1.0e-21, 1.0e-18, n),
+                membrane_permeability=(1.0e-10, 1.0e-4, n),
+                n_steps=int(self.config["n_steps"]), n_jobs=1)
+        return {"html": growth_division_phase_figure(res, title=self.config["title"])}

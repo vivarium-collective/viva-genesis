@@ -755,3 +755,101 @@ def proto_energetics_map(
     res.meta["carrier_bond_kjmol"] = CARRIER_BOND_KJMOL.get(str(carrier), 35.0)
     res.meta["carrier"] = str(carrier)
     return res
+
+
+# ----------------------------------------------------------------------------
+# og-growth-division — metabolism → osmotic growth & division : the viable band
+# ----------------------------------------------------------------------------
+# Decision: a protocell should not merely persist — its chemistry should change its
+# physical fate. The internal autocatalytic source makes an osmolyte; its
+# accumulation sets the osmotic pressure that pulls water in and grows the
+# compartment to the division threshold. The controlling trade-off is the internal
+# throughput against the membrane permeability: retain enough product to build the
+# osmotic drive, yet leak enough to keep the pressure below the burst tension. Swept
+# over (network throughput × membrane permeability); the PASS region is sustained net
+# growth leading to DIVISION — a BOUNDED viable band between STARVATION (too
+# permeable: product leaks, no osmotic build-up) and LYSIS (too impermeable: pressure
+# spikes past the burst tension). outcome_code: 0 starve · 1 grow-no-division · 2
+# divide · 3 lysis.
+_OSMOTIC_STARVE, _OSMOTIC_GROW, _OSMOTIC_DIVIDE, _OSMOTIC_LYSIS = 0, 1, 2, 3
+
+
+def growth_divisions_final(rows) -> float:
+    """Final cumulative division count — the headline decision metric (>=1 ⇒ the
+    compartment's chemistry drove net growth to DIVISION)."""
+    return float(rows[-1].get("division_count", 0.0)) if rows else float("nan")
+
+
+def growth_net_growth_final(rows) -> float:
+    """Final net volume growth factor V/V0 (>1 ⇒ the compartment expanded)."""
+    return float(rows[-1].get("net_growth", 0.0)) if rows else float("nan")
+
+
+def growth_lysed_final(rows) -> float:
+    """1 if the compartment burst (osmotic pressure exceeded the membrane tension)."""
+    return float(rows[-1].get("lysed", 0.0)) if rows else float("nan")
+
+
+def growth_outcome_final(rows) -> float:
+    """Physical fate code: 0 starve · 1 grow-no-division · 2 divide · 3 lysis."""
+    return float(rows[-1].get("outcome_code", 0.0)) if rows else float("nan")
+
+
+def growth_peak_pressure(rows) -> float:
+    """Peak osmotic pressure (Pa) over the run — bounded in the viable band, spiking in
+    the lysis regime."""
+    return max((r.get("osmotic_pressure", 0.0) for r in rows), default=float("nan"))
+
+
+def growth_division_map(
+    *,
+    network_throughput=(1.0e-21, 1.0e-18, 16),
+    membrane_permeability=(1.0e-10, 1.0e-4, 16),
+    autocatalytic_rate: float = 0.5,
+    division_threshold: float = 6.4e-17,
+    leak_rate: float = 1.0,
+    n_steps: int = 100,
+    n_jobs: int = 1,
+) -> SweepResult:
+    """og-growth-division Decision view over (network throughput × membrane permeability).
+
+    Both axes are log (each spans decades) and start strictly above 0.0 on purpose —
+    process-bigraph's config merge ignores a falsy 0.0 override, so the true zero-
+    throughput / zero-permeability edges are read from the run's cross-run ablation
+    arm, not from a 0.0 sweep point. The primary surface is ``divisions`` (the clearest
+    witness that chemistry drove net growth to DIVISION); ``outcome`` (0 starve · 1
+    grow-no-division · 2 divide · 3 lysis), ``net_growth``, ``lysed`` and
+    ``peak_pressure`` are alongside so the figure can draw the bounded viable band
+    between starvation and lysis. ``meta['viable_fraction']`` records the share of the
+    grid in sustained growth → division. The composite is pure-numpy and fast, so this
+    sweeps the real generator with :func:`sweep_grid`; a higher-res grid is the
+    artifact runner's job."""
+    from .composites.osmotic_growth_division import osmotic_growth_division
+
+    t_lo, t_hi, t_n = network_throughput
+    p_lo, p_hi, p_n = membrane_permeability
+    axes = {
+        "network_throughput": np.geomspace(t_lo, t_hi, int(t_n)),
+        "membrane_permeability": np.geomspace(p_lo, p_hi, int(p_n)),
+    }
+    res = sweep_grid(
+        osmotic_growth_division,
+        axes,
+        reduce={
+            "divisions": growth_divisions_final,          # primary decision surface
+            "outcome": growth_outcome_final,
+            "net_growth": growth_net_growth_final,
+            "lysed": growth_lysed_final,
+            "peak_pressure": growth_peak_pressure,
+        },
+        fixed={"autocatalytic_rate": float(autocatalytic_rate),
+               "division_threshold": float(division_threshold),
+               "leak_rate": float(leak_rate)},
+        n_steps=n_steps,
+        n_jobs=n_jobs,
+    )
+    divides = np.asarray(res.surfaces["divisions"], float) >= 1.0
+    res.meta["viable_fraction"] = float(np.mean(divides))
+    res.meta["outcome_legend"] = {"0": "starve", "1": "grow-no-division",
+                                  "2": "divide", "3": "lysis"}
+    return res

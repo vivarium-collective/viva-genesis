@@ -23,5 +23,12 @@ Central tension: retain enough for selection while staying permeable enough to
 exploit external gradients. Outputs: viable compartment count, chemical retention,
 membrane growth and stability.
 
-Placeholder package: no Process/Step classes yet.
+Implemented: ``OsmoticGrowthDivisionProcess`` (metabolism → growth & division) —
+an internal autocatalytic osmolyte source coupled to compartment osmotic physics
+(product → osmotic pressure → solvent influx → volume growth → division / lysis /
+starvation set by membrane permeability).
 """
+
+from .osmotic_growth_division import OsmoticGrowthDivisionProcess  # noqa: E402,F401
+
+__all__ = ["OsmoticGrowthDivisionProcess"]

@@ -1806,3 +1806,168 @@ class ProtoEnergeticsWorldViz(Visualization):
                 f"{cap}<div style='display:flex;justify-content:center'>{s_html}</div>"
                 "<div style='display:flex;justify-content:center;margin-top:8px'>" + a_html + "</div>"
                 "</body></html>")
+
+
+# ----------------------------------------------------------------------------
+# og-growth-division — metabolism → osmotic growth & division
+# ----------------------------------------------------------------------------
+class OsmoticGrowthWorld(Visualization):
+    """og-growth-division World view — the favorable (matched) compartment's physical
+    trajectory: the volume growing under the osmotic load its metabolism generates, the
+    internal osmolyte concentration being drawn down by each division (the sawtooth),
+    and the division events as the compartment doubles. Drives the real
+    ``viva_genesis.composites.osmotic_growth_division`` composite."""
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "Growth & division — volume, concentration, division events"},
+        "n_steps": {"_type": "integer", "_default": 100},
+        "network_throughput": {"_type": "float", "_default": 1.0e-19},
+        "membrane_permeability": {"_type": "float", "_default": 1.0e-9},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        from .core import build_core
+        from .composites.osmotic_growth_division import osmotic_growth_division
+        core = build_core()
+        doc = osmotic_growth_division(
+            core, network_throughput=float(self.config["network_throughput"]),
+            membrane_permeability=float(self.config["membrane_permeability"]))
+        sim = Composite({"state": doc}, core=core)
+        sim.run(float(self.config["n_steps"]))
+        rows = gather_emitter_results(sim)[("emitter",)]
+        return {"html": self._figure(rows)}
+
+    def _figure(self, rows) -> str:
+        from plotly.subplots import make_subplots
+
+        def col(k):
+            return [r.get(k) for r in rows]
+
+        t = [r.get("global_time", i) for i, r in enumerate(rows)]
+        vol = [v * 1e18 for v in col("volume")]               # aL (1e-18 L)
+        conc = [v * 1e3 for v in col("internal_concentration")]  # mM
+        div_count = col("division_count")
+        events = [t[i] for i, e in enumerate(col("division_event")) if e]
+
+        ink, teal, amber, slate = "#1e293b", "#0d9488", "#d97706", "#64748b"
+        fig = make_subplots(
+            rows=1, cols=3, horizontal_spacing=0.08,
+            subplot_titles=("Compartment volume (aL)", "Internal osmolyte (mM)",
+                            "Cumulative divisions"))
+        fig.add_scatter(x=t, y=vol, mode="lines", line=dict(color=teal, width=2.5), name="volume", row=1, col=1)
+        for e in events:
+            fig.add_vline(x=e, line=dict(color=amber, width=1, dash="dot"), row=1, col=1)
+        fig.add_scatter(x=t, y=conc, mode="lines", line=dict(color=ink, width=2.5), name="c_in", row=1, col=2)
+        fig.add_scatter(x=t, y=div_count, mode="lines", line=dict(color=amber, width=2.5, shape="hv"),
+                        name="divisions", row=1, col=3)
+        fig.update_xaxes(title_text="time (s)", showgrid=True, gridcolor="#eef2f7")
+        fig.update_yaxes(showgrid=True, gridcolor="#eef2f7")
+        fig.update_layout(
+            title=dict(text=self.config.get("title") or "Growth & division — World view",
+                       font=dict(size=15, color=ink)),
+            template="plotly_white", height=380, showlegend=False,
+            margin=dict(l=60, r=30, t=70, b=60), font=dict(color=ink),
+            annotations=list(fig.layout.annotations) + [dict(
+                x=0.5, y=-0.28, xref="paper", yref="paper", showarrow=False,
+                font=dict(size=11, color=slate),
+                text=("The internal concentration (the osmotic drive) is drawn down at every division "
+                      "(dotted lines) as volume and contents halve — metabolism changes the compartment's physical fate."))])
+        return fig.to_html(full_html=True, include_plotlyjs="cdn", config={"displayModeBar": False})
+
+
+class OsmoticCouplingMechanism(Visualization):
+    """og-growth-division Mechanism view — the osmotic coupling panel. **Left:** for the
+    favorable (matched) compartment, the coupling chain product accumulation → osmotic
+    pressure → volume on shared time, so the causal order is visible. **Right:** the
+    three permeability regimes on the (osmotic pressure vs volume) plane — WHY too
+    permeable STARVES (the product leaks, the pressure never builds, the compartment
+    never grows) and too impermeable LYSES (the pressure spikes past the burst tension,
+    dashed line). Drives the real ``osmotic_growth_division`` composite in three arms."""
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "The osmotic coupling — why too permeable starves, too impermeable lyses"},
+        "n_steps": {"_type": "integer", "_default": 100},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def _run(self, **params):
+        from .core import build_core
+        from .composites.osmotic_growth_division import osmotic_growth_division
+        core = build_core()
+        doc = osmotic_growth_division(core, **params)
+        sim = Composite({"state": doc}, core=core)
+        sim.run(float(self.config["n_steps"]))
+        return gather_emitter_results(sim)[("emitter",)]
+
+    def update(self, state=None):
+        fav = self._run(network_throughput=1.0e-19, membrane_permeability=1.0e-9)
+        starve = self._run(network_throughput=1.0e-19, membrane_permeability=1.0e-5)
+        lyse = self._run(network_throughput=1.0e-18, membrane_permeability=1.0e-10)
+        return {"html": self._figure(fav, starve, lyse)}
+
+    def _figure(self, fav, starve, lyse) -> str:
+        from plotly.subplots import make_subplots
+
+        def series(rows, k, scale=1.0):
+            return [r.get(k, 0.0) * scale for r in rows]
+
+        def tt(rows):
+            return [r.get("global_time", i) for i, r in enumerate(rows)]
+
+        ink, teal, amber, rust, slate = "#1e293b", "#0d9488", "#d97706", "#b91c1c", "#64748b"
+        pi_lyse_bar = 1.5e5 / 1e3   # kPa
+
+        fig = make_subplots(
+            rows=1, cols=2, horizontal_spacing=0.13, column_widths=[0.52, 0.48],
+            specs=[[{"secondary_y": True}, {}]],
+            subplot_titles=("The coupling chain (matched regime)",
+                            "The three fates on the pressure–volume plane"))
+        t = tt(fav)
+        fig.add_scatter(x=t, y=series(fav, "product_amount", 1e18), mode="lines",
+                        line=dict(color=teal, width=2.5), name="product (amol)",
+                        row=1, col=1, secondary_y=False)
+        fig.add_scatter(x=t, y=series(fav, "osmotic_pressure", 1e-3), mode="lines",
+                        line=dict(color=amber, width=2.5), name="osmotic pressure (kPa)",
+                        row=1, col=1, secondary_y=True)
+        fig.add_scatter(x=t, y=series(fav, "volume", 1e18), mode="lines",
+                        line=dict(color=ink, width=2.5, dash="dot"), name="volume (aL)",
+                        row=1, col=1, secondary_y=False)
+
+        for rows, lab, color in ((starve, "too permeable → starve", slate),
+                                 (fav, "matched → divide", teal),
+                                 (lyse, "too impermeable → lyse", rust)):
+            fig.add_scatter(x=series(rows, "volume", 1e18), y=series(rows, "osmotic_pressure", 1e-3),
+                            mode="lines", line=dict(color=color, width=2.5), name=lab, row=1, col=2)
+        fig.add_hline(y=pi_lyse_bar, line=dict(color=rust, width=1.2, dash="dash"), row=1, col=2)
+        fig.add_annotation(x=0.98, y=pi_lyse_bar, xref="x2 domain", yref="y2",
+                           text="burst tension", showarrow=False, xanchor="right",
+                           font=dict(size=9, color=rust))
+
+        fig.update_xaxes(title_text="time (s)", row=1, col=1)
+        fig.update_xaxes(title_text="volume (aL)", row=1, col=2)
+        fig.update_yaxes(title_text="product (amol) · volume (aL)", row=1, col=1, secondary_y=False)
+        fig.update_yaxes(title_text="osmotic pressure (kPa)", row=1, col=1, secondary_y=True)
+        fig.update_yaxes(title_text="osmotic pressure (kPa)", row=1, col=2)
+        ttl = self.config.get("title") or "The osmotic coupling"
+        fig.update_layout(
+            title=dict(text=(f"<b>{ttl}</b><br><span style='font-size:11.5px;color:{slate}'>"
+                             "Left: in the matched regime the product accumulates, that raises the osmotic "
+                             "pressure, and the pressure draws water in to grow the volume (sawtooth = division). "
+                             "Right: too permeable leaks the product so the pressure never builds (starve); too "
+                             "impermeable traps it so the pressure spikes past the burst tension (lyse).</span>"),
+                       x=0.5, xanchor="center", font=dict(size=14, color=ink)),
+            template="plotly_white", height=430,
+            legend=dict(orientation="h", y=-0.22, x=0.5, xanchor="center", font=dict(size=9)),
+            margin=dict(l=65, r=65, t=100, b=70), font=dict(color=ink))
+        return fig.to_html(full_html=True, include_plotlyjs="cdn", config={"displayModeBar": False})
