@@ -139,6 +139,8 @@ inputs:
   - jordan2019promotion
   - tutolo2026rethinking
   - weiss2016physiology
+  - eigen1971selforganization
+  - segre2000compositional
   expert_docs:
   - name: Origins-of-Life Simulation Campaign
   - name: Origins-of-Life Computational Methods Atlas
@@ -216,7 +218,9 @@ proposed_inputs:
       escapes the Eigen length catastrophe — the basis of the 'do NOT presume RNA' finding."
     provenance: "Not in the expert dossier or references/papers.bib; introduced while building the og-06
       lineage model. Recorded here (not cited as provided) pending expert review."
-    status: pending
+    status: accepted
+    decided_at: '2026-10-13'
+    decided_by: expert
   - id: eigen1971selforganization
     kind: reference
     citation: "Eigen M. (1971). Selforganization of matter and the evolution of biological macromolecules.
@@ -232,4 +236,6 @@ proposed_inputs:
     provenance: "Not in the expert dossier or references/papers.bib; the error-threshold mechanism was used
       from the start of og-06. Recorded here (not cited as provided) pending expert review; on accept its id
       becomes the bibkey to wire onto the error-threshold findings."
-    status: pending
+    status: accepted
+    decided_at: '2026-10-13'
+    decided_by: expert

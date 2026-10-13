@@ -133,8 +133,8 @@ findings:
     observed: 'RNA-like fitness 0.38 (retention 0.62) vs non-heritable ~0'
     units: dimensionless
   expected:
-    cites: [huber1998peptides, muchowska2019synthesis]
-  explanation: Real libRoadRunner quasispecies ODE; above the Eigen error threshold correct templates outreplicate the mutational error tail. (The error-threshold/quasispecies theory is Eigen 1971 — a proposed input pending expert review.)
+    cites: [eigen1971selforganization, huber1998peptides, muchowska2019synthesis]
+  explanation: Real libRoadRunner quasispecies ODE; above the Eigen error threshold correct templates outreplicate the mutational error tail (Eigen 1971).
 - id: og06-error-threshold-and-ranking
   kind: computational
   status: novel
@@ -143,7 +143,7 @@ findings:
     from_test: heredity-modules-compared
     observed: 'RNA-like 0.38 > peptide 0.24; low-fidelity retention 0, fitness -0.10'
   expected:
-    cites: [huber1998peptides]
+    cites: [eigen1971selforganization, huber1998peptides]
   explanation: Whole-sequence fidelity Q = per_site_fidelity^length sets the threshold; longer high-fidelity polymers retain more information but cost more to replicate.
 - id: og06-lineage-compositional-escapes-length-catastrophe
   kind: computational
@@ -154,8 +154,8 @@ findings:
     observed: 'compositional persistence 0.875±0.006 across 8 seeds (heritability 0.92), hybrid ~0.88 (0.92) — length-independent; template needs Q=fidelity^length above threshold; non-heritable heritability ~0.04–0.11, collapses every seed'
     units: dimensionless
   expected:
-    cites: [sutherland2017opinion]
-  explanation: Coarse-grained agent-based reproduction with explicit fidelity/cost/competition. Template inheritance ratchets (Eigen, no back-mutation) so a long low-fidelity template loses information; compositional inheritance drifts by multinomial fission of an autocatalytic composition (GARD, Segré-2000 — a proposed input pending expert review) — length-independent, so it escapes the length catastrophe. The realized heritability (offspring↔parent φ slope) separates true inheritance from the non-heritable control.
+    cites: [eigen1971selforganization, segre2000compositional, sutherland2017opinion]
+  explanation: Coarse-grained agent-based reproduction with explicit fidelity/cost/competition. Template inheritance ratchets (Eigen 1971, no back-mutation) so a long low-fidelity template loses information; compositional inheritance drifts by multinomial fission of an autocatalytic composition (GARD, Segré 2000) — length-independent, so it escapes the length catastrophe. The realized heritability (offspring↔parent φ slope) separates true inheritance from the non-heritable control.
 report:
   title: Campaign VI — chemistry to heredity
   verdict: PASS — inheritance pays above the error threshold; modules ranked head-to-head
