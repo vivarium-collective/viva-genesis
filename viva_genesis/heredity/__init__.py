@@ -6,5 +6,6 @@ cost — the Eigen quasispecies error threshold — comparing heredity modules h
 """
 
 from .replicator import HeredityReplicatorProcess  # noqa: E402,F401
+from .lineage import LineageReplicatorProcess  # noqa: E402,F401
 
-__all__ = ["HeredityReplicatorProcess"]
+__all__ = ["HeredityReplicatorProcess", "LineageReplicatorProcess"]

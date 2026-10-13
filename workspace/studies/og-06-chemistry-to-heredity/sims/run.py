@@ -140,11 +140,33 @@ def main() -> int:
         "detail": (f"low-fidelity retention={low['information_retention']:.2f} fitness={low['lineage_fitness']:.3f} "
                    f"(below the error threshold => information lost, inheritance fails)"),
     }
+    # Cross-run (agent-based lineage): compositional (GARD) heredity retains function
+    # across generations — length-independent — above the non-heritable control, so
+    # heredity need not presume a long high-fidelity template ("do NOT presume RNA").
+    from viva_genesis.heredity.lineage import simulate_lineage
+    CAP = 220
+
+    def _persist(r):
+        return r["final_function"] * min(r["final_population"] / CAP, 1.0)
+
+    comp = simulate_lineage("compositional", capacity=CAP, n_gen=40, seed=1)
+    nonh = simulate_lineage("non-heritable", length=30, capacity=CAP, n_gen=40, seed=1)
+    comp_p, nonh_p = _persist(comp), _persist(nonh)
+    lineage_verdict = {
+        "result": "PASS" if (comp_p > 0.35 and comp_p > nonh_p
+                             and comp["heritability"] > 0.5 and nonh["heritability"] < 0.3) else "FAIL",
+        "measured_value": round(comp_p, 3),
+        "detail": (f"compositional persistence={comp_p:.2f} (heritability={comp['heritability']:.2f}) "
+                   f"vs non-heritable persistence={nonh_p:.2f} (heritability={nonh['heritability']:.2f}) "
+                   f"=> compositional heredity persists length-independently; the non-heritable control collapses"),
+    }
     _write_cross_run_outcomes(study_yaml, run_id, {
         "heredity-modules-compared": ranking_verdict,
         "error-catastrophe-below-threshold": catastrophe_verdict,
+        "heredity-lineage-compositional-persists": lineage_verdict,
     })
-    print("cross-run: ranking", ranking_verdict["result"], "| catastrophe", catastrophe_verdict["result"])
+    print("cross-run: ranking", ranking_verdict["result"], "| catastrophe", catastrophe_verdict["result"],
+          "| lineage", lineage_verdict["result"])
 
     if append_run_event:
         append_run_event(WORKSPACE_ROOT, {

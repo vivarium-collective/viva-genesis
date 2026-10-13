@@ -554,6 +554,192 @@ class CarbonFixationPhaseMap(Visualization):
         return {"html": carbon_fixation_phase_figure(fav, tut, title=self.config["title"])}
 
 
+def _tree_layout(nodes, *, max_nodes=520):
+    """Lay out a lineage tree for plotting: x = birth generation, y assigned so
+    children sit near their parent. Subsamples to ``max_nodes`` (keeping whole
+    generations from the root) so a 10k-node tree stays renderable. Returns
+    ``(xs, ys, phis, edge_x, edge_y)``."""
+    if not nodes:
+        return [], [], [], [], []
+    by_gen: dict = {}
+    for n in nodes:
+        by_gen.setdefault(int(n["gen"]), []).append(n)
+    gens = sorted(by_gen)
+    # Keep early generations whole; stop once we'd exceed the node budget.
+    kept, total = {}, 0
+    for g in gens:
+        rows = by_gen[g]
+        if total + len(rows) > max_nodes and kept:
+            break
+        for n in rows:
+            kept[int(n["id"])] = n
+        total += len(rows)
+    # y-position: order siblings next to each other by walking generations in id order.
+    pos: dict = {}
+    for g in sorted({int(n["gen"]) for n in kept.values()}):
+        rows = sorted((n for n in kept.values() if int(n["gen"]) == g), key=lambda n: int(n["id"]))
+        for k, n in enumerate(rows):
+            # anchor near the parent's y when the parent is kept, else spread evenly
+            par = kept.get(int(n["parent"]))
+            base = pos[int(par["id"])][1] if par else (k - len(rows) / 2.0)
+            pos[int(n["id"])] = (g, base + (k - len(rows) / 2.0) * 0.04)
+    xs = [pos[i][0] for i in kept]
+    ys = [pos[i][1] for i in kept]
+    phis = [float(kept[i]["phi"]) for i in kept]
+    edge_x: list = []
+    edge_y: list = []
+    for i, n in kept.items():
+        p = kept.get(int(n["parent"]))
+        if p is not None:
+            edge_x += [pos[int(p["id"])][0], pos[i][0], None]
+            edge_y += [pos[int(p["id"])][1], pos[i][1], None]
+    return xs, ys, phis, edge_x, edge_y
+
+
+def heredity_lineage_figure(tree, herit_pairs, phase, *, title=None) -> str:
+    """og-06 three-view figure. **World** (left): the agent-based lineage TREE of the
+    RNA-like template module, every node a real individual coloured by its chemical
+    phenotype function φ. **Mechanism** (top-right): parent↔offspring φ — a tight
+    diagonal for a heritable module vs the flat cloud of the non-heritable control
+    (the realized-heritability signature). **Decision** (bottom-right): the Eigen
+    error-threshold phase map over (per-site fidelity × template length) — functional
+    persistence with the pass/fail boundary, and the length-independent compositional /
+    hybrid modules marked where a long template already fails.
+
+    ``tree`` = {module, nodes}; ``herit_pairs`` = {module: [[parent_phi, off_phi], …]};
+    ``phase`` = the heredity_error_threshold_map SweepResult (or a duck-typed view)."""
+    import numpy as np
+    import plotly.graph_objects as go
+    from plotly.subplots import make_subplots
+
+    fig = make_subplots(
+        rows=2, cols=2, column_widths=[0.52, 0.48], row_heights=[0.5, 0.5],
+        horizontal_spacing=0.1, vertical_spacing=0.14,
+        specs=[[{"rowspan": 2}, {}], [None, {}]],
+        subplot_titles=("World — the lineage tree (nodes coloured by function φ)",
+                        "Mechanism — heredity: offspring vs parent φ",
+                        "Decision — the Eigen error threshold (persistence)"))
+
+    # --- World: the lineage tree ------------------------------------------------
+    xs, ys, phis, ex, ey = _tree_layout(tree.get("nodes") or [])
+    fig.add_trace(go.Scatter(x=ex, y=ey, mode="lines", line=dict(color="rgba(100,116,139,0.28)", width=0.6),
+                             hoverinfo="skip", showlegend=False), row=1, col=1)
+    fig.add_trace(go.Scatter(
+        x=xs, y=ys, mode="markers", showlegend=False,
+        marker=dict(size=5, color=phis, colorscale="Viridis", cmin=0, cmax=1,
+                    colorbar=dict(title="φ", len=0.45, y=0.78, x=0.46, thickness=10)),
+        hovertemplate="gen %{x}<br>φ=%{marker.color:.2f}<extra></extra>"), row=1, col=1)
+    fig.update_xaxes(title_text="generation", row=1, col=1)
+    fig.update_yaxes(showticklabels=False, row=1, col=1)
+
+    # --- Mechanism: parent↔offspring φ (heritability) ---------------------------
+    colmap = {"template": _TEAL, "compositional": _AMBER, "non-heritable": _RUST, "hybrid": "#7c3aed"}
+    for mod, pairs in (herit_pairs or {}).items():
+        if not pairs:
+            continue
+        arr = np.asarray(pairs, float)
+        idx = np.random.default_rng(0).choice(len(arr), size=min(len(arr), 600), replace=False)
+        sl = float(np.polyfit(arr[:, 0], arr[:, 1], 1)[0]) if arr[:, 0].std() > 1e-6 else float("nan")
+        fig.add_trace(go.Scatter(
+            x=arr[idx, 0], y=arr[idx, 1], mode="markers",
+            name=f"{mod} (h={sl:.2f})", legendgroup=mod,
+            marker=dict(size=4, color=colmap.get(mod, _SLATE), opacity=0.45)), row=1, col=2)
+    fig.add_trace(go.Scatter(x=[0, 1], y=[0, 1], mode="lines", line=dict(color=_INK, width=1, dash="dot"),
+                             name="h=1 (perfect)", showlegend=True), row=1, col=2)
+    fig.update_xaxes(title_text="parent φ", range=[0, 1], row=1, col=2)
+    fig.update_yaxes(title_text="offspring φ", range=[0, 1], row=1, col=2)
+
+    # --- Decision: the error-threshold persistence map --------------------------
+    f_axis = np.asarray(phase.axes["per_site_fidelity"], float)
+    l_axis = np.asarray(phase.axes["length"], float)
+    Z = np.asarray(phase.surfaces["persistence"], float)   # shape (fidelity, length)
+    thr = float(phase.meta.get("persist_threshold", 0.35))
+    fig.add_trace(go.Heatmap(
+        x=l_axis, y=f_axis, z=Z, colorscale="Viridis", zmin=0, zmax=float(max(Z.max(), thr * 2)),
+        colorbar=dict(title="persist.", len=0.45, y=0.22, x=1.0, thickness=10),
+        hovertemplate="L=%{x:.0f}, f=%{y:.3f}<br>persistence=%{z:.2f}<extra></extra>"), row=2, col=2)
+    # the pass/fail boundary (persistence == threshold)
+    fig.add_trace(go.Contour(
+        x=l_axis, y=f_axis, z=Z, showscale=False, contours=dict(start=thr, end=thr, size=1,
+            coloring="none"), line=dict(color="#f8fafc", width=2.2),
+        hoverinfo="skip"), row=2, col=2)
+    # non-template modules: horizontal bands (length-independent) where they persist
+    refs = phase.meta.get("reference_modules") or {}
+    for mod, rec in refs.items():
+        if mod == "non-heritable" or (rec.get("persistence", 0) <= thr):
+            continue
+        fig.add_trace(go.Scatter(
+            x=[l_axis.min(), l_axis.max()], y=[f_axis.min(), f_axis.min()],
+            mode="lines", line=dict(width=0), hoverinfo="skip", showlegend=False), row=2, col=2)
+        fig.add_annotation(x=l_axis.max(), y=f_axis.min() + 0.004, xref="x3", yref="y3",
+                           text=f"{mod}: persists at any length", showarrow=False,
+                           font=dict(size=9, color=colmap.get(mod, _SLATE)), xanchor="right")
+    fig.update_xaxes(title_text="template length (sites)", row=2, col=2)
+    fig.update_yaxes(title_text="per-site fidelity", row=2, col=2)
+
+    ttl = title or "Campaign VI — heredity as an inherited lineage"
+    fig.update_layout(
+        title=dict(text=(f"<b>{ttl}</b><br><span style='font-size:12px;color:{_SLATE}'>"
+                         "Individuals inherit a chemical phenotype at fission into a real lineage tree. The "
+                         "template (RNA-like) module holds function only above the Eigen error threshold "
+                         "(white line); the non-heritable control loses the parent↔offspring correlation "
+                         "(flat cloud) and collapses — while compositional / hybrid heredity persist at ANY "
+                         "length. Heredity need not presume a long, high-fidelity template.</span>")),
+        height=620, margin=dict(l=60, r=70, t=110, b=55),
+        legend=dict(orientation="h", y=1.02, x=0.56, font=dict(size=10)),
+        plot_bgcolor="white", paper_bgcolor="white")
+    return fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+
+
+class HeredityLineageTree(Visualization):
+    """og-06 Decision view: the agent-based heredity lineage. Runs the real lineage
+    model live (template tree + the non-heritable control for heritability) and a
+    modest error-threshold phase map, rendered once into viz.json. Loads a persisted
+    grid from ``grid_json`` when present (fast)."""
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "Campaign VI — heredity as an inherited lineage"},
+        "grid_json": {"_type": "string", "_default": ""},
+        "n_grid": {"_type": "integer", "_default": 9},
+        "n_gen": {"_type": "integer", "_default": 40},
+        "tree_capacity": {"_type": "integer", "_default": 36},
+        "tree_n_gen": {"_type": "integer", "_default": 15},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        from .heredity.lineage import simulate_lineage
+        from .phase_maps import heredity_error_threshold_map
+        # World tree + Mechanism pairs: a small, readable template tree + the controls.
+        tcap = int(self.config["tree_capacity"])
+        tgen = int(self.config["tree_n_gen"])
+        tree_run = simulate_lineage("template", per_site_fidelity=0.99, length=30,
+                                    capacity=tcap, n_gen=tgen, seed=1)
+        tree = {"module": "template", "nodes": tree_run["nodes"]}
+        herit_pairs = {
+            "template": tree_run["po_pairs"],
+            "non-heritable": simulate_lineage("non-heritable", length=30, capacity=tcap,
+                                              n_gen=tgen, seed=1)["po_pairs"],
+        }
+        # Decision map: persisted grid if available, else a modest live grid.
+        resolved = _resolve_grid_path(str(self.config.get("grid_json", "") or ""))
+        if resolved:
+            with open(resolved) as f:
+                phase = _ResultView(*_grid_from_json(json.load(f)))
+        else:
+            n = int(self.config["n_grid"])
+            phase = heredity_error_threshold_map(
+                per_site_fidelity=(0.90, 0.995, n), length=(6, 44, n),
+                n_gen=int(self.config["n_gen"]))
+        return {"html": heredity_lineage_figure(tree, herit_pairs, phase,
+                                                title=self.config["title"])}
+
+
 class _ResultView:
     """Minimal duck-typed SweepResult for rendering from a persisted grid."""
 

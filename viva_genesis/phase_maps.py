@@ -235,3 +235,79 @@ def protocell_feasibility_map(
         fixed={"pH": float(pH), "temperature": float(temperature)},
         n_steps=n_steps, n_jobs=n_jobs,
     )
+
+
+# ----------------------------------------------------------------------------
+# og-06 — chemistry → heredity : the error-threshold phase map
+# ----------------------------------------------------------------------------
+# The agent-based lineage (viva_genesis.heredity.lineage) is NOT a composite, so
+# this builder loops the real simulator directly and assembles a SweepResult by
+# hand (same dataclass the Workbench renders). The decision metric is the lineage's
+# FUNCTIONAL PERSISTENCE at the final generation = mean phenotype function × surviving-
+# population fraction. Mean function alone is survivor-biased (a near-collapsed
+# lineage's few lucky survivors can read high-φ), so it is weighted by how much of the
+# carrying capacity the lineage still holds: above the Eigen error threshold a template
+# lineage holds BOTH its function and its numbers; below it it ratchets down and crashes
+# (the error catastrophe). The boundary Q = fidelity^length = const is a curve in
+# (fidelity × length) space — and the non-template modules (compositional / hybrid) are
+# sampled as reference lines, persisting where a long template cannot ("heredity need
+# not presume a long, high-fidelity template").
+_PERSIST_THRESHOLD = 0.35   # functional persistence above this = information retained
+
+
+def _lineage_persistence(r: dict, capacity: int) -> float:
+    """Functional persistence = mean function × surviving fraction of capacity."""
+    frac = min(float(r.get("final_population", 0)) / max(capacity, 1), 1.0)
+    return float(r.get("final_function", 0.0)) * frac
+
+
+def heredity_error_threshold_map(
+    *, per_site_fidelity=(0.90, 0.995, 14), length=(6, 44, 12),
+    n_gen: int = 40, seed: int = 1, replicates: int = 1, capacity: int = 220,
+) -> SweepResult:
+    """2-D Decision view over (per-site fidelity × template length) for the TEMPLATE
+    module: final-generation functional persistence (function × surviving fraction) and
+    a persists mask trace the Eigen error threshold Q = fidelity^length.
+    ``meta['reference_modules']`` records where the non-template modules land (length-
+    independent compositional / hybrid, and the non-heritable control) so the figure can
+    overlay them. Serial (the simulator is fast); a higher-res grid is a persisted
+    artifact runner's job."""
+    from .heredity.lineage import simulate_lineage
+
+    f_lo, f_hi, f_n = per_site_fidelity
+    l_lo, l_hi, l_n = length
+    f_axis = np.linspace(f_lo, f_hi, int(f_n))
+    l_axis = np.round(np.linspace(l_lo, l_hi, int(l_n))).astype(int)
+
+    persistence = np.zeros((int(f_n), int(l_n)))
+    final_fn = np.zeros((int(f_n), int(l_n)))
+    q_whole = np.zeros((int(f_n), int(l_n)))
+    for i, f in enumerate(f_axis):
+        for j, L in enumerate(l_axis):
+            runs = [simulate_lineage("template", per_site_fidelity=float(f), length=int(L),
+                                     n_gen=n_gen, capacity=capacity, seed=seed + k)
+                    for k in range(max(int(replicates), 1))]
+            persistence[i, j] = float(np.mean([_lineage_persistence(r, capacity) for r in runs]))
+            final_fn[i, j] = float(np.mean([r["final_function"] for r in runs]))
+            q_whole[i, j] = float(f) ** int(L)
+    persists = (persistence > _PERSIST_THRESHOLD).astype(float)
+
+    # Reference modules: the non-template heredity mechanisms, as (persistence,
+    # realized heritability) — length-independent, so they plot as horizontal bands.
+    refs = {}
+    for mod in ("compositional", "hybrid", "non-heritable"):
+        r = simulate_lineage(mod, per_site_fidelity=0.98, length=30, n_gen=n_gen,
+                             capacity=capacity, seed=seed)
+        refs[mod] = {"persistence": round(_lineage_persistence(r, capacity), 4),
+                     "final_function": round(r["final_function"], 4),
+                     "heritability": round(float(r["heritability"]), 4)}
+
+    return SweepResult(
+        axis_order=["per_site_fidelity", "length"],
+        axes={"per_site_fidelity": f_axis, "length": l_axis.astype(float)},
+        surfaces={"persistence": persistence, "persists": persists,
+                  "final_function": final_fn, "whole_fidelity": q_whole},
+        meta={"model": "agent_based_lineage", "module": "template", "n_gen": n_gen,
+              "persist_threshold": _PERSIST_THRESHOLD, "capacity": capacity,
+              "reference_modules": refs},
+    )
