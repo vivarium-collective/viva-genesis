@@ -39,7 +39,7 @@ findings:
   statement: FeS-mediated reduction of nitrate through nitrite sustains a standing ammonium pool (~1.0 mM) with an H2 reductant at ~80 C, the first reduced nitrogen the chemistry needs.
   evidence:
     from_test: ammonium-production-sustained
-    observed: 'settled NH4+ ~1.0 mM; peak production ~2.0e-5 mol/s'
+    observed: 'settled NH4+ ~1.0 mM; peak production ~4.2e-5 mol/s'
   expected:
     cites: [dorr2003prebiotic, huber1997activated]
   explanation: A real ReducedNitrogenProductionProcess reduces NO3- -> NO2- -> NH4+ gated by H2 availability, an FeS temperature window and catalyst activity.
@@ -103,7 +103,7 @@ report:
   key_metrics:
   - {label: Ammonium (settled), value: ~1.0 mM, status: pass}
   - {label: C:N supply ratio (favourable), value: ~5.0, status: pass}
-  - {label: NH4+ production (peak), value: 2.0e-5 mol/s, status: pass}
+  - {label: NH4+ production (peak), value: 4.2e-5 mol/s, status: pass}
   - {label: C:N (scarce nitrate), value: ~47, status: warn}
   - {label: N-mass residual, value: ~1e-20 M, status: pass}
   - {label: No-FeS / no-H2 ammonium, value: <1 µM, status: pass}

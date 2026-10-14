@@ -29,7 +29,7 @@ result: >-
   All three gates pass — a favorable enriched pore produces reactive P faster than phosphate
   precipitates (net availability ~+1.8e-6 mol/s, only ~6% precipitated), the real og-03 thermophoretic
   pore co-concentrates P alongside carbon, and the open-pore / no-gradient ablation collapses reactive-P
-  availability (net < 0, ~96% precipitated). P mass is conserved to ~1e-7.
+  availability (net < 0, ~96% precipitated). P mass is conserved to ~5e-7.
 claim: >-
   A real libRoadRunner P-speciation network coupled to the og-03 thermal pore shows reactive phosphorus
   becomes available only in a bounded (phosphate source × pore enrichment) window where condensation +
@@ -100,7 +100,7 @@ findings:
     enrichment co-concentrates carbon (right of the ~10× carbon floor). Below the threshold phosphate
     precipitates before it is useful.
   evidence:
-    observed: reactive-P pool 0 -> ~100 µM across the (source × enrichment) plane; availability bounded by net=0 and the carbon co-concentration floor
+    observed: reactive-P pool ranges ~0 to ~1 mM across the (source × enrichment) plane (~94% of supply, ~94 µM, at the favorable 1e-4 M point); availability bounded by net=0 and the carbon co-concentration floor
     units: molar
   explanation: >-
     16×16 sweep of the real libRoadRunner composite reduced to the settled reactive-P pool, net
@@ -127,7 +127,7 @@ report:
   - {label: Net reactive-P availability (favorable), value: ~+1.8e-6 mol/s, status: pass}
   - {label: Reactive-P pool (favorable), value: ~94% of supply, status: pass}
   - {label: Precipitated fraction (favorable / open-pore), value: 6% / 96%, status: pass}
-  - {label: P-mass residual, value: ~1e-7, status: pass}
+  - {label: P-mass residual, value: ~5e-7, status: pass}
 conclusion: >-
   Reactive phosphorus becomes available only in a bounded enriched-pore window where condensation and
   activation outrun the precipitation/adsorption sink; the same og-03 pore co-concentrates P with carbon,
@@ -325,7 +325,7 @@ study_card:
   headline: >-
     All three gates pass — a favorable enriched pore produces reactive P faster than phosphate
     precipitates (~6% precipitated), the og-03 pore co-concentrates P with carbon, and the open-pore
-    ablation collapses availability (~96% precipitated). P mass conserved to ~1e-7.
+    ablation collapses availability (~96% precipitated). P mass conserved to ~5e-7.
   status: PASS — reactive-P availability + co-concentration in a bounded enriched-pore window
 runs:
 - name: viva_genesis.composites.phosphorus_availability.phosphorus_availability__1791926628__6912fc

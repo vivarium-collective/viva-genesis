@@ -3,7 +3,7 @@ name: og-05-environmental-to-internal-bioenergetics
 investigation: origins-of-life-vent
 created: '2026-10-11'
 phase: Evaluate
-status: running
+status: ran
 design_status: approved
 simulation_status: ran
 evaluation_status: evaluated
@@ -104,7 +104,10 @@ literature_anchors:
 - expectation: LUCA-like cells can use proton gradients only if membranes remain sufficiently leaky
   model_observable: permeability vs viability
   source: Sojo 2014 / Lane 2012
-  status_in_workspace: Not yet measurable — module processes not built
+  status_in_workspace: >-
+    Met by the real replicator selection loop — the survival Decision map over (pump efficiency ×
+    gradient floor) is bounded by the Sojo cost line (η ≈ 0.30): efficient pumps internalize and persist
+    (~94% of the grid survives) while weak pumps collapse at the gradient transition.
   cites:
   - sojo2014bioenergetic
   - lane2012origin
@@ -112,8 +115,19 @@ baseline:
 - name: Environmental to internal bioenergetics
   composite: viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization
   params: {catalyst_efficiency: 1.0, v_start: 0.40, decline_rate: 0.01}
-claim: Under a declining external gradient, selection drives an efficient-pump population to internalize gradient generation (pump fraction 0→0.95) and persist, while a weak-pump lineage collapses — the Sojo-2014 leaky-membrane constraint on bioenergetic internalization.
-result: Efficient pump internalizes (final 0.95) and survives (survivors 1.0); the weak-pump control collapses (survivors 0) as the gradient falls.
+claim: >-
+  Survival off a collapsing gradient is a bounded REGION of (pump catalyst efficiency × gradient
+  floor), mapped by a real replicator sweep — a lineage persists either by riding a floor that never
+  falls too far OR by internalizing gradient generation, but internalizing only pays above the Sojo
+  cost line (η ≈ 0.30). At the operating point an efficient pump internalizes (pump fraction 0→0.95)
+  and survives while a weak pump collapses — the Sojo-2014 leaky-membrane constraint on bioenergetic
+  internalization.
+result: >-
+  The survival Decision map (catalyst_efficiency 0.05–1.3 × gradient_floor 0.005–0.35) survives at
+  185/196 points (~94%); the low-floor / low-efficiency corner goes extinct, bounded by the Sojo cost
+  line η ≈ 0.30, and internalization (owning its energy, pump fraction > 0.5) fills the efficient
+  interior. At the operating point the efficient pump internalizes (final 0.95) and survives (survivors
+  1.0) while the weak-pump control collapses (survivors 0) as the gradient falls.
 findings:
 - id: og05-internalization-under-selection
   kind: computational
@@ -136,6 +150,27 @@ findings:
   expected:
     cites: [sojo2014bioenergetic, lane2012origin]
   explanation: Below a pump-efficiency threshold the internal-pump flux cannot beat its cost against the lost external coupling, so no strategy clears the survival floor.
+- id: og05-survival-phase-map
+  kind: computational
+  status: novel
+  statement: >-
+    Survival off the collapsing gradient is a bounded REGION, not two representative runs: the native
+    (pump catalyst efficiency × gradient floor) Decision map survives at 185/196 points (~94%), with the
+    low-floor / low-efficiency corner going extinct. The Sojo cost line (η ≈ 0.30 — where internal
+    pumping clears its maintenance cost plus the survival floor) marks the internalize-or-die boundary,
+    and internalization (pump fraction > 0.5) fills the efficient interior where the lineage truly OWNS
+    its energy rather than riding the residual external gradient.
+  evidence:
+    observed: '185/196 (94%) survive over (catalyst_efficiency 0.05–1.3 × gradient_floor 0.005–0.35); Sojo cost line η≈0.30; internalization 0.009–0.949 across the grid; operating point (η=1.0, floor=0.02) deep inside'
+    units: dimensionless
+  expected:
+    cites: [sojo2014bioenergetic, lane2012origin]
+  explanation: >-
+    The bioenergetic_survival_map sweeps the real replicator loop under the declining gradient and
+    reduces each point to the surviving fraction + the survives PASS mask; the Sojo efficiency floor is
+    read from the selection process config ((survival_threshold + c_pump + c_base)/k_int). Rendered as
+    the survival landscape + internalization map (Decision view).
+  next_action: Sweep decline_rate / alternative collapse scenarios to test how the survival region deforms with the speed of gradient loss (og-05b).
 - id: og05-energy-provenance
   kind: computational
   status: novel
@@ -143,34 +178,34 @@ findings:
     Accounting the free energy by SOURCE (not just the net flux) shows the useful
     disequilibrium shifting from the external geochemical gradient to internally
     maintained power as the environment declines — the external share of the useful
-    free energy falls from ~82% to ~1% over the run while the population persists. The
-    organism comes to "own" its energy: the geochemical gradient becomes a resource it
-    taps, not the scaffold that organizes it.
+    free energy peaks near ~82% early in the run, then collapses to ~1% as the gradient
+    falls while the population persists. The organism comes to "own" its energy: the
+    geochemical gradient becomes a resource it taps, not the scaffold that organizes it.
   evidence:
-    observed: 'external share of useful free energy 82% → 1% as external pmf 0.40 → 0.02 V; survivors 1.0'
+    observed: 'external share of useful free energy peaks ~82% then falls to ~1% as external pmf 0.40 → 0.02 V; survivors 1.0, internalization → 0.95'
     units: dimensionless
   expected:
     cites: [sojo2014bioenergetic, lane2012origin]
   explanation: >-
-    The selection process now emits the population-mean provenance breakdown (external
+    The selection process emits the population-mean provenance breakdown (external
     tap k_ext·pmf·P vs internal pump k_int·pump·eff·(1−P) vs maintenance cost); rendered
-    as the stacked energy-provenance trajectory + the gradient-dependence curve (Decision view).
+    as the stacked energy-provenance trajectory + the gradient-dependence curve (Mechanism view).
 report:
   title: Environmental to internal bioenergetics
   verdict: PASS — selection internalizes gradient generation; the Sojo constraint bounds it
   confidence: high
-  main_insight: Under a declining external gradient, selection favors internalized gradient generation — but only where the pump is efficient enough (the Sojo leaky-membrane constraint); a weak pump goes extinct at the transition.
+  main_insight: Survival off a collapsing gradient is a bounded REGION of (pump efficiency × gradient floor) — ~94% of the grid persists — bounded by the Sojo cost line (η ≈ 0.30) below which internalization cannot beat its cost; a weak pump goes extinct at the transition while an efficient pump internalizes and OWNS its energy.
   conclusion: >-
-    The evolutionary control loop shows the final pre-LUCA transition: lineages
-    move from externally imposed to internally maintained electrochemical states
-    under selection, bounded by the Sojo requirement. Closes the pre-genetic
-    milestone of the campaign.
-  caveat: Coarse-grained deterministic replicator dynamics (the proposed primary method), not a wrapped ALife/MD engine. The fitness is a Sojo-grounded reduced model with calibrated couplings.
+    The evolutionary control loop maps the final pre-LUCA transition as a survival region (the Decision
+    view): lineages move from externally imposed to internally maintained electrochemical states under
+    selection, bounded by the Sojo cost line. Closes the pre-genetic milestone of the campaign.
+  caveat: Coarse-grained deterministic replicator dynamics (the proposed primary method), not a wrapped ALife/MD engine. The fitness is a Sojo-grounded reduced model with calibrated couplings; the survival map fixes the gradient-decline scenario (v_start 0.40, decline_rate 0.01) and sweeps efficiency × floor.
   key_metrics:
+  - {label: Survival region, value: 185/196 (~94%), status: pass}
+  - {label: Sojo cost line, value: η ≈ 0.30, status: pass}
   - {label: Final internalization, value: 0.95, status: pass}
   - {label: Efficient survivors, value: 1.0, status: pass}
   - {label: Weak-pump survivors, value: 0.0, status: pass}
-  - {label: Internalization rise, value: 0.00→0.95, status: pass}
 conclusion_verdicts:
   biological_validation:
     result: PASS
@@ -180,14 +215,15 @@ conclusion_verdicts:
     basis: The evolutionary control loop explains both the internalization transition and its Sojo-bounded failure mode from the leaky-membrane fitness.
 limitations:
 - Coarse-grained deterministic replicator dynamics with calibrated couplings; not a wrapped ALife/MD engine.
-- Single declining-gradient scenario; the pump-efficiency threshold is shown by two arms, not a full sweep.
+- The survival map fixes a single gradient-decline scenario (v_start 0.40, decline_rate 0.01); only efficiency × floor are swept, so the sensitivity to the speed/shape of the collapse is not yet mapped.
 discovery_implications:
   resolved_uncertainties:
   - Selection can internalize gradient generation as the external gradient falls, bounded by the Sojo leaky-membrane constraint.
+  - The pump-efficiency threshold is now mapped — the Sojo cost line (η ≈ 0.30) bounds a ~94% survival region of (efficiency × floor).
   remaining_uncertainties:
-  - The precise pump-efficiency threshold separating viable internalization from extinction.
+  - How the survival region deforms with the speed/shape of the gradient collapse (decline_rate is held fixed in the current map).
   followup_study_proposals:
-  - {study: og-05b, rationale: Sweep catalyst_efficiency and decline_rate to map the viable-internalization boundary.}
+  - {study: og-05b, rationale: Sweep decline_rate / alternative collapse scenarios to test how the survival region and the Sojo boundary shift with the speed of gradient loss.}
 readouts:
 - {name: internalization, store_path: pop.internalization, units: dimensionless, description: Active-pump fraction of the surviving population, status: available}
 - {name: survivors, store_path: pop.survivors, units: dimensionless, description: Surviving strategy mass (persistence), status: available}
