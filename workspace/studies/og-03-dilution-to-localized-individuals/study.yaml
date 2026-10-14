@@ -80,7 +80,7 @@ findings:
     units: dimensionless
   expected:
     cites: [baaske2007extreme, mast2010thermal]
-  explanation: ThermophoreticTrapProcess solves the steady accumulation column; the Péclet is the resolved readout, while the fold-enrichment = exp(beta·L) is a reduced-model extrapolation. A forthcoming FiPy↔FEniCS head-to-head cross-check finds the two solvers diverge by up to ~5.6 decades at Pe ≳ 13, so the extreme fold-magnitude is not treated as a precise resolved result.
+  explanation: ThermophoreticTrapProcess solves the steady accumulation column; the Péclet is the resolved readout, while the fold-enrichment = exp(beta·L) is a reduced-model extrapolation. A FiPy↔FEniCS head-to-head cross-check finds the two solvers diverge by up to ~5.6 decades at Pe ≳ 13, so the extreme fold-magnitude is not treated as a precise resolved result.
 - id: og03-individual-threshold
   kind: computational
   status: novel
@@ -110,7 +110,7 @@ report:
     concentrated individuals from washed-out bulk. Feeds og-04 (mineral compartments) a concentrated
     starting pocket. Localization holds; the precise enrichment magnitude is caveated as a
     reduced-model extrapolation.
-  caveat: Enrichment is the accumulation-column result exp(Pe_acc) with a single geometry calibration to the Baaske magnitude; the FiPy solve provides the profile + conservation witness, but a forthcoming FiPy↔FEniCS head-to-head cross-check finds the two solvers diverge by up to ~5.6 decades at Pe ≳ 13 — so the extreme fold-enrichment at the trap's Péclet ≈ 18 is a reduced-model extrapolation, not a resolved finite-element result. The robust, defensible finding is that localization occurs (a persistent individual forms vs washes through), not the exact fold-magnitude. The Mechanism view shows a reduced, enrichment-capped live coupling in which the concentrated pore feed crosses og-02's ignition threshold while the well-mixed ocean stays dead — an illustration of why localization matters, not a graded acceptance criterion; quantitative in-pore network persistence is left to the downstream enclosed-network studies (og-04/og-05).
+  caveat: Enrichment is the accumulation-column result exp(Pe_acc) with a single geometry calibration to the Baaske magnitude; the FiPy solve provides the profile + conservation witness, but a FiPy↔FEniCS head-to-head cross-check finds the two solvers diverge by up to ~5.6 decades at Pe ≳ 13 — so the extreme fold-enrichment at the trap's Péclet ≈ 18 is a reduced-model extrapolation, not a resolved finite-element result. The robust, defensible finding is that localization occurs (a persistent individual forms vs washes through), not the exact fold-magnitude. The Mechanism view shows a reduced, enrichment-capped live coupling in which the concentrated pore feed crosses og-02's ignition threshold while the well-mixed ocean stays dead — an illustration of why localization matters, not a graded acceptance criterion; quantitative in-pore network persistence is left to the downstream enclosed-network studies (og-04/og-05).
   key_metrics:
   - {label: Localized grid fraction, value: 25/144 (~17%), status: pass}
   - {label: Accumulation Péclet, value: 18.4, status: pass}
@@ -126,7 +126,7 @@ conclusion_verdicts:
     basis: Real transport (thermophoresis + convection) explains the geometry threshold for localization; it explains that strong concentration occurs, while the exact fold in the high-Péclet interior remains solver-sensitive.
 limitations:
 - Enrichment uses the accumulation-column reduced model (exp(Pe_acc)) with one geometry calibration to Baaske; the full 2-D convection-roll enrichment is not solved.
-- Enrichment MAGNITUDE is solver-sensitive above Pe ≈ 13 — a forthcoming FiPy↔FEniCS (dolfinx) head-to-head cross-check of the same spatial-transport face finds the two solvers diverge by up to ~5.6 decades in that regime, where the trap's Péclet ≈ 18 sits. So the ~1e6–1e7-fold figures are reduced-model extrapolations a resolved FEM solver does not confirm; the robust result is that localization occurs, not the exact fold.
+- Enrichment MAGNITUDE is solver-sensitive above Pe ≈ 13 — a FiPy↔FEniCS (dolfinx) head-to-head cross-check of the same spatial-transport face finds the two solvers diverge by up to ~5.6 decades in that regime, where the trap's Péclet ≈ 18 sits. So the ~1e6–1e7-fold figures are reduced-model extrapolations a resolved FEM solver does not confirm; the robust result is that localization occurs, not the exact fold.
 - The Mechanism-view trap→network coupling is a reduced, enrichment-capped (60×) illustration, not a graded result; the quantitative in-pore network persistence is carried by the downstream enclosed-network studies.
 discovery_implications:
   resolved_uncertainties:

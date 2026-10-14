@@ -138,7 +138,7 @@ discovery_implications:
   resolved_uncertainties:
   - The Lost City high-pH endmember is the peridotite Ca-OH buffer (not the olivine brucite buffer).
   - Habitability is a bounded region (~80% of the olivine-rate × flow-velocity grid), not a single tuned point — the baseline sits inside it.
-  - The habitability result is solver-robust — a forthcoming FiPy↔FEniCS (dolfinx) head-to-head cross-check of the same spatial-transport face agrees on the vent (outlet T within 0.30%, identical pH, flux conserved ~1e-15), so the finding does not depend on the FiPy solver.
+  - The habitability result is solver-robust — a FiPy↔FEniCS (dolfinx) head-to-head cross-check of the same spatial-transport face agrees on the vent (outlet T within 0.30%, identical pH, flux conserved ~1e-15), so the finding does not depend on the FiPy solver.
   remaining_uncertainties:
   - Sensitivity to the olivine/pyroxene ratio and to seawater-mixing dilution of the endmember.
   - The physical fate of the 12 flow-extreme points that exceed PHREEQC's 0–100 °C validity (currently FAIL by convention).
