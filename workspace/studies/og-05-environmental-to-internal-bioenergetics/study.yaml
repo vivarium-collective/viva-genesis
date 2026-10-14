@@ -214,16 +214,21 @@ visualizations:
 - name: bioenergetic-provenance
   address: local:BioenergeticProvenanceViz
   config:
-    title: The organism begins to own its energy (Decision view)
+    title: Energy provenance — external to internal (Mechanism view)
+- name: bioenergetic-survival-map
+  address: local:BioenergeticSurvivalMap
+  config:
+    grid_json: workspace/studies/og-05-environmental-to-internal-bioenergetics/artifacts/bioenergetic_survival_grid.json
+    title: Survival off the collapsing gradient (Decision view)
 runs:
-- name: viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization__1791853786__638056
+- name: viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization__1791944483__bef477
   status: completed
-  timestamp: 1791853787.109202
+  timestamp: 1791944484.2687502
   canonical: true
   emitter:
     kind: sqlite
-    store: canonical-runs/viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization__1791853786__638056/run.db
-  store_path: canonical-runs/viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization__1791853786__638056/run.db
+    store: canonical-runs/viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization__1791944483__bef477/run.db
+  store_path: canonical-runs/viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization__1791944483__bef477/run.db
   params: '{}'
   outcomes:
     selection-internalizes-gradient-generation:

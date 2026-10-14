@@ -44,6 +44,8 @@ _EMIT_PATHS = [
                                 "description": "Active-pump (Na+/H+) efficiency (1.0 efficient; ~0.3 weak-pump control)"},
         "v_start": {"type": "float", "default": 0.40, "description": "Initial external gradient (V)"},
         "decline_rate": {"type": "float", "default": 0.01, "description": "External-gradient decline per step (V/s)"},
+        "gradient_floor": {"type": "float", "default": 0.02,
+                           "description": "Floor the external gradient decays to (V); low floor forces internalization-or-die"},
     },
     visualizations=[
         {"name": "bioenergetic-internalization", "address": "local:BioenergeticInternalizationViz",
@@ -54,12 +56,13 @@ _EMIT_PATHS = [
     emitters=[{"address": "local:ParquetEmitter", "paths": _EMIT_PATHS}],
 )
 def bioenergetic_internalization(core=None, *, catalyst_efficiency=1.0,
-                                 v_start=0.40, decline_rate=0.01):
+                                 v_start=0.40, decline_rate=0.01, gradient_floor=0.02):
     return {
         "decline": {
             "_type": "process",
             "address": "local:EnvironmentalDeclineProcess",
-            "config": {"v_start": v_start, "decline_rate": decline_rate},
+            "config": {"v_start": v_start, "decline_rate": decline_rate,
+                       "v_floor": gradient_floor},
             "interval": 1.0,
             "inputs": {},
             "outputs": {"electric_potential": ["env", "electric_potential"]},

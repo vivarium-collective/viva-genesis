@@ -215,24 +215,32 @@ parent_relations:
 expert_questions:
 - Model mineral-confined and free vesicles both, or start mineral-confined only?
 visualizations:
+- name: protocell-boundary-world
+  address: local:ProtocellBoundaryWorld
+  config:
+    mix_fraction: 0.4
+    ionic_strength: 0.35
+    pH: 9.0
+    title: The compartment and the gradient (World view)
 - name: protocell-window
   address: local:ProtocellWindowViz
   config:
     composite: viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell
-    title: The protocell window broadens (mixed amphiphiles)
+    title: The protocell window broadens — mixed amphiphiles (Mechanism view)
 - name: protocell-retention-access
   address: local:ProtocellPhaseMap
   config:
+    grid_json: workspace/studies/og-04-mineral-compartments-to-protocells/artifacts/protocell_grid.json
     title: A boundary that retains without isolating (Decision view)
 runs:
-- name: viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791844641__01fe12
+- name: viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791944482__977ceb
   status: completed
-  timestamp: 1791844641.547795
+  timestamp: 1791944483.107282
   canonical: true
   emitter:
     kind: sqlite
-    store: canonical-runs/viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791844641__01fe12/run.db
-  store_path: canonical-runs/viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791844641__01fe12/run.db
+    store: canonical-runs/viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791944482__977ceb/run.db
+  store_path: canonical-runs/viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791944482__977ceb/run.db
   params: '{}'
   outcomes:
     vesicles-form-in-window:

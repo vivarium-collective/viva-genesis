@@ -371,8 +371,19 @@ def protocell_decision_figure(arc, feas, *, title=None) -> str:
     salt = feas.axes["ionic_strength"]
     fi = feas.surfaces["individuality"]            # [mix, salt] → z[y=mix][x=salt]
     fig.add_trace(go.Contour(x=salt, y=mix, z=fi, colorscale="Viridis", ncontours=12, showscale=True,
-                             colorbar=dict(title="individ.", len=0.9),
+                             zmin=0.0, zmax=max(0.5, float(np.nanmax(fi))),
+                             colorbar=dict(title="individ.<br>ret×acc", len=0.9),
                              line=dict(width=0.4, color="rgba(255,255,255,0.3)")), row=1, col=2)
+    # explicit viable-region PASS boundary (individuality == 0.1): inside it the
+    # vesicle both retains chemistry AND imports the gradient — a usable boundary.
+    _pass = float(feas.meta.get("viable_threshold", 0.1))
+    fig.add_trace(go.Contour(x=salt, y=mix, z=fi, showscale=False,
+                             contours=dict(start=_pass, end=_pass, coloring="lines"),
+                             line=dict(color="#f8fafc", width=2.6, dash="dash"),
+                             hoverinfo="skip"), row=1, col=2)
+    fig.add_annotation(x=float(salt.min()), y=float(mix.max()), text=f"viable (individ. > {_pass:g})",
+                       showarrow=False, xanchor="left", yshift=6,
+                       font=dict(size=9, color=_TEAL), row=1, col=2)
     fig.add_vline(x=0.35, line=dict(color="#f8fafc", width=1.5, dash="dot"), row=1, col=2)
     fig.add_annotation(x=0.35, y=float(mix.max()), text="seawater", showarrow=False, yshift=8,
                        font=dict(size=9, color=_SLATE), row=1, col=2)
@@ -399,6 +410,7 @@ class ProtocellPhaseMap(Visualization):
 
     config_schema = {
         "title": {"_type": "string", "_default": "Campaign IV — a boundary that retains without isolating"},
+        "grid_json": {"_type": "string", "_default": ""},
         "n_temp": {"_type": "integer", "_default": 24},
         "n_grid": {"_type": "integer", "_default": 14},
         "n_steps": {"_type": "integer", "_default": 15},
@@ -412,12 +424,19 @@ class ProtocellPhaseMap(Visualization):
 
     def update(self, state=None):
         from .phase_maps import protocell_feasibility_map, protocell_retention_access_arc
-        ns = int(self.config["n_steps"])
-        arc = protocell_retention_access_arc(temperature=(285.0, 360.0, int(self.config["n_temp"])),
+        resolved = _resolve_grid_path(str(self.config.get("grid_json", "") or ""))
+        if resolved:
+            with open(resolved) as f:
+                blob = json.load(f)
+            arc = _ResultView(*_grid_from_json(blob["arc"]))
+            feas = _ResultView(*_grid_from_json(blob["feas"]))
+        else:
+            ns = int(self.config["n_steps"])
+            arc = protocell_retention_access_arc(temperature=(285.0, 360.0, int(self.config["n_temp"])),
+                                                 n_steps=ns)
+            n = int(self.config["n_grid"])
+            feas = protocell_feasibility_map(mix_fraction=(0.0, 0.6, n), ionic_strength=(0.05, 1.2, n),
                                              n_steps=ns)
-        n = int(self.config["n_grid"])
-        feas = protocell_feasibility_map(mix_fraction=(0.0, 0.6, n), ionic_strength=(0.05, 1.2, n),
-                                         n_steps=ns)
         return {"html": protocell_decision_figure(arc, feas, title=self.config["title"])}
 
 
@@ -1609,6 +1628,557 @@ class GrowthDivisionMap(Visualization):
                 membrane_permeability=(1.0e-10, 1.0e-4, n),
                 n_steps=int(self.config["n_steps"]), n_jobs=1)
         return {"html": growth_division_phase_figure(res, title=self.config["title"])}
+
+
+# ----------------------------------------------------------------------------
+# og-00 — vent reactor baseline : the Lost City habitability window + the engine
+# ----------------------------------------------------------------------------
+def vent_habitability_figure(res, *, title=None) -> str:
+    """og-00 Decision view: the Lost City habitability window over (olivine reaction
+    rate × flow velocity). **Left:** settled outlet temperature (°C) with the Lost City
+    T-window edges (40 / 91 °C) dashed and the too-hot FAIL region shaded; **right:**
+    settled outlet pH with the pH-window edges (9.0 / 10.8). The bold teal contour on
+    BOTH panels is the combined habitability PASS boundary (inside the T AND pH window
+    with a positive H₂ flux). ``res`` is the vent_habitability_phase_map SweepResult."""
+    import numpy as np
+    import plotly.graph_objects as go
+    from plotly.subplots import make_subplots
+
+    olv = np.asarray(res.axes["olivine_rate"], float)        # y
+    flow = np.asarray(res.axes["flow_velocity"], float)      # x (log)
+    T = np.asarray(res.surfaces["temperature_C"], float)     # [olivine, flow]
+    pH = np.asarray(res.surfaces["pH"], float)
+    hab = np.nan_to_num(np.asarray(res.surfaces["habitable"], float), nan=0.0)
+    win = res.meta.get("window", {})
+    t_lo, t_hi = win.get("T_C", [40.0, 91.0])
+    ph_lo, ph_hi = win.get("pH", [9.0, 10.8])
+    op = res.meta.get("operating_point", {})
+    op_o = float(op.get("olivine_rate", 0.15)); op_f = float(op.get("flow_velocity", 1.0e-3))
+    # over-heated / out-of-range points (NaN) read as "too hot" and "fail-pH".
+    t_cap = max(float(np.nanmax(T)) if np.isfinite(np.nanmax(T)) else 120.0, t_hi + 40.0)
+    T_disp = np.where(np.isnan(T), t_cap, T)
+    pH_disp = np.where(np.isnan(pH), ph_lo - 2.0, pH)
+
+    fig = make_subplots(rows=1, cols=2, shared_yaxes=True, horizontal_spacing=0.12,
+                        subplot_titles=("Settled outlet temperature (°C)",
+                                        "Settled outlet pH"))
+    # --- left: temperature landscape + T-window edges + PASS boundary ---
+    fig.add_trace(go.Contour(x=flow, y=olv, z=T_disp, colorscale="Inferno", ncontours=16,
+                             colorbar=dict(title="outlet T<br>(°C)", len=0.9, x=0.44),
+                             contours=dict(showlabels=True, labelfont=dict(size=9, color="white")),
+                             line=dict(width=0.4, color="rgba(255,255,255,0.25)")), row=1, col=1)
+    for edge in (t_lo, t_hi):
+        fig.add_trace(go.Contour(x=flow, y=olv, z=T_disp, showscale=False,
+                                 contours=dict(start=edge, end=edge, coloring="lines"),
+                                 line=dict(color="#e2e8f0", width=1.6, dash="dot"),
+                                 hoverinfo="skip"), row=1, col=1)
+    # --- right: pH landscape + pH-window edges ---
+    fig.add_trace(go.Contour(x=flow, y=olv, z=pH_disp, colorscale="Viridis", ncontours=16,
+                             colorbar=dict(title="outlet<br>pH", len=0.9),
+                             contours=dict(showlabels=True, labelfont=dict(size=9, color="white")),
+                             line=dict(width=0.4, color="rgba(255,255,255,0.25)")), row=1, col=2)
+    for edge in (ph_lo, ph_hi):
+        fig.add_trace(go.Contour(x=flow, y=olv, z=pH_disp, showscale=False,
+                                 contours=dict(start=edge, end=edge, coloring="lines"),
+                                 line=dict(color="#e2e8f0", width=1.6, dash="dot"),
+                                 hoverinfo="skip"), row=1, col=2)
+    # the combined habitability PASS boundary + operating point on both panels.
+    for c in (1, 2):
+        fig.add_trace(go.Contour(x=flow, y=olv, z=hab, showscale=False,
+                                 contours=dict(start=0.5, end=0.5, coloring="lines"),
+                                 line=dict(color=_TEAL, width=2.8, dash="dash"),
+                                 hoverinfo="skip"), row=1, col=c)
+        fig.add_trace(go.Scatter(x=[op_f], y=[op_o], mode="markers+text",
+                                 text=["baseline<br>(51 °C, pH 9.4)"], textposition="top center",
+                                 textfont=dict(size=9, color=_INK),
+                                 marker=dict(symbol="star", size=15, color=_AMBER,
+                                             line=dict(width=1.2, color=_INK)), showlegend=False), row=1, col=c)
+        fig.update_xaxes(type="log", title_text="flow velocity (m/s)", row=1, col=c)
+    fig.update_yaxes(title_text="olivine reaction rate (mol/step)", row=1, col=1)
+
+    ttl = title or "Campaign 0 — the Lost City habitability window"
+    fig.update_layout(
+        title=dict(text=(f"<b>{ttl}</b><br><span style='font-size:12px;color:{_SLATE}'>"
+                         "The real PHREEQC + FiPy vent settles inside the Lost City field window "
+                         "(teal dashed = habitability PASS) only in a bounded band: enough serpentinization "
+                         "to drive H₂ + alkalinity, slow enough flow to hold 40–91 °C / pH 9.0–10.8. Too fast "
+                         "flushes it cold; too much reaction at low flow over-heats past the window — the "
+                         "baseline (★) sits safely inside.</span>"), x=0.5, xanchor="center"),
+        height=450, width=960, margin=dict(t=100, b=60, l=72, r=20),
+        font=dict(family="system-ui, -apple-system, sans-serif", color=_INK),
+        paper_bgcolor="white", plot_bgcolor="white")
+    return fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+
+
+class VentHabitabilityMap(Visualization):
+    """og-00 Decision view: the Lost City habitability window over (olivine reaction
+    rate × flow velocity) — the bounded region where the real PHREEQC + FiPy vent
+    settles inside the field T/pH window with a positive H₂ flux. Renders from a
+    persisted grid (``grid_json``) or computes a modest grid live (slow — FiPy)."""
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "Campaign 0 — the Lost City habitability window"},
+        "grid_json": {"_type": "string", "_default": ""},
+        "n_grid": {"_type": "integer", "_default": 12},
+        "nx": {"_type": "integer", "_default": 20},
+        "n_steps": {"_type": "integer", "_default": 30},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        from .phase_maps import vent_habitability_phase_map
+        resolved = _resolve_grid_path(str(self.config.get("grid_json", "") or ""))
+        if resolved:
+            with open(resolved) as f:
+                res = _ResultView(*_grid_from_json(json.load(f)))
+        else:
+            n = int(self.config["n_grid"])
+            res = vent_habitability_phase_map(olivine_rate=(0.005, 0.4, n),
+                                              flow_velocity=(2.0e-4, 3.0e-2, n),
+                                              nx=int(self.config["nx"]),
+                                              n_steps=int(self.config["n_steps"]), n_jobs=1)
+        return {"html": vent_habitability_figure(res, title=self.config["title"])}
+
+
+def vent_engine_figure(rows, *, title=None) -> str:
+    """og-00 Mechanism view: the serpentinization engine behind the baseline. **Left:**
+    the pH the engine drives — PHREEQC's equilibrium endmember pH_eq (the Ca-OH buffer)
+    vs the realized outlet pH after FiPy transport/mixing, with the gap shaded (mixing
+    with cold ocean relaxes the realized pH below the full endmember). **Right:** the
+    reducing power + alkalinity the engine generates — the dissolved H₂ and alkalinity
+    pools building over the run, with the H₂ source flux on the right axis. ``rows`` is
+    the baseline run's emitter row list (patched to also emit pH_eq)."""
+    import plotly.graph_objects as go
+    from plotly.subplots import make_subplots
+
+    def col(k):
+        return [float(r.get(k, 0.0)) for r in rows]
+
+    t = [r.get("global_time", i) for i, r in enumerate(rows)]
+    ph_eq = col("pH_eq"); ph = col("pH")
+    h2 = col("H2"); alk = col("alkalinity"); h2_flux = col("H2_flux")
+
+    fig = make_subplots(rows=1, cols=2, horizontal_spacing=0.12,
+                        specs=[[{"secondary_y": False}, {"secondary_y": True}]],
+                        subplot_titles=("The pH the engine drives (speciation vs realized)",
+                                        "Reducing power + alkalinity generated"))
+    # --- left: pH_eq vs realized pH, gap shaded ---
+    fig.add_trace(go.Scatter(x=t, y=ph_eq, mode="lines", name="PHREEQC endmember pH_eq",
+                             line=dict(color=_RUST, width=2.6)), row=1, col=1)
+    fig.add_trace(go.Scatter(x=t, y=ph, mode="lines", name="realized outlet pH",
+                             line=dict(color=_TEAL, width=3),
+                             fill="tonexty", fillcolor="rgba(100,116,139,0.18)"), row=1, col=1)
+    fig.add_hrect(y0=9.0, y1=10.8, line_width=0, fillcolor="rgba(13,148,136,0.07)", row=1, col=1)
+    fig.add_annotation(x=t[-1], y=10.8, text="Lost City pH window", showarrow=False, yshift=7,
+                       xanchor="right", font=dict(size=9, color=_SLATE), row=1, col=1)
+    fig.update_yaxes(title_text="pH", row=1, col=1)
+    fig.update_xaxes(title_text="time (s)", row=1, col=1)
+    # --- right: H2 + alkalinity pools + H2 flux (secondary) ---
+    fig.add_trace(go.Scatter(x=t, y=[v * 1e3 for v in h2], mode="lines", name="dissolved H₂ (mM)",
+                             line=dict(color=_INK, width=2.6)), row=1, col=2, secondary_y=False)
+    fig.add_trace(go.Scatter(x=t, y=[v * 1e3 for v in alk], mode="lines", name="alkalinity (mmol/L)",
+                             line=dict(color=_AMBER, width=2.4)), row=1, col=2, secondary_y=False)
+    fig.add_trace(go.Scatter(x=t, y=[v * 1e6 for v in h2_flux], mode="lines", name="H₂ source flux (µmol/s)",
+                             line=dict(color=_TEAL, width=2.0, dash="dot")), row=1, col=2, secondary_y=True)
+    fig.update_yaxes(title_text="pool (mM / mmol·L⁻¹)", row=1, col=2, secondary_y=False)
+    fig.update_yaxes(title_text="H₂ source flux (µmol/s)", row=1, col=2, secondary_y=True, showgrid=False)
+    fig.update_xaxes(title_text="time (s)", row=1, col=2)
+
+    ttl = title or "Campaign 0 — the serpentinization engine"
+    fig.update_layout(
+        title=dict(text=(f"<b>{ttl}</b><br><span style='font-size:12px;color:{_SLATE}'>"
+                         "Peridotite serpentinization is the engine: PHREEQC's Ca-OH endmember drives the "
+                         "pH high (red), FiPy transport mixes in cold ocean to settle the realized outlet pH "
+                         "just below it (teal — the shaded gap is the mixing relaxation), inside the field "
+                         "window. The same reaction delivers a sustained dissolved-H₂ reducing flux and "
+                         "alkalinity — the free energy the downstream campaigns tap.</span>"),
+                   x=0.5, xanchor="center"),
+        height=450, width=960, margin=dict(t=100, b=60, l=70, r=60),
+        legend=dict(orientation="h", y=-0.18, x=0.5, xanchor="center", font=dict(size=9)),
+        font=dict(family="system-ui, -apple-system, sans-serif", color=_INK),
+        paper_bgcolor="white", plot_bgcolor="white")
+    return fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+
+
+class VentSerpentinizationEngine(Visualization):
+    """og-00 Mechanism view: the serpentinization engine — the PHREEQC endmember pH_eq
+    vs the FiPy-realized outlet pH (the mixing gap), and the dissolved H₂ + alkalinity
+    the reaction generates — from the real coupled baseline run."""
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "Campaign 0 — the serpentinization engine"},
+        "n_steps": {"_type": "integer", "_default": 120},
+        "nx": {"_type": "integer", "_default": 40},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        from process_bigraph import Composite, gather_emitter_results
+
+        from .composites.vent_reactor import serpentinizing_vent_reactor
+        from .core import build_core
+        core = build_core()
+        doc = serpentinizing_vent_reactor(core, nx=int(self.config["nx"]))
+        # the baseline emitter does not carry pH_eq — add it (the store exists) so the
+        # mechanism panel can show the endmember vs realized-pH gap. Composite untouched.
+        doc["emitter"]["config"]["emit"]["pH_eq"] = "float"
+        doc["emitter"]["inputs"]["pH_eq"] = ["chem", "pH_eq"]
+        sim = Composite({"state": doc}, core=core)
+        sim.run(int(self.config["n_steps"]))
+        rows = gather_emitter_results(sim)[("emitter",)]
+        return {"html": vent_engine_figure(rows, title=self.config["title"])}
+
+
+# ----------------------------------------------------------------------------
+# og-03 — dilution → localized individuals : the pore-localization phase map
+# ----------------------------------------------------------------------------
+def localization_figure(res, *, title=None) -> str:
+    """og-03 Decision view: the pore-localization landscape over (pore porosity × pore
+    length). **Left:** the fold-enrichment the real thermophoretic trap achieves (log),
+    with the localization PASS boundary (enrichment ≈ 1e6) dashed and the favourable
+    trap (★) deep inside it. **Right:** the accumulation Péclet number (advective
+    trapping vs back-diffusion) with the same frontier (Pe ≈ 18). ``res`` is the
+    pore_localization_map SweepResult / grid view."""
+    import numpy as np
+    import plotly.graph_objects as go
+    from plotly.subplots import make_subplots
+
+    por = np.asarray(res.axes["porosity"], float)          # y
+    L = np.asarray(res.axes["pore_length"], float)         # x (log)
+    enr = np.asarray(res.surfaces["enrichment"], float)    # [porosity, pore_length]
+    pec = np.asarray(res.surfaces["peclet"], float)
+    e_thr = float(res.meta.get("enrichment_threshold", 1.0e6))
+    pe_thr = float(res.meta.get("peclet_threshold", 18.0))
+    op = res.meta.get("operating_point", {})
+    op_p = float(op.get("porosity", 0.3)); op_L = float(op.get("pore_length", 5.0e-3))
+    z_enr = np.log10(np.clip(enr, 1.0, None))
+
+    fig = make_subplots(rows=1, cols=2, shared_yaxes=True, horizontal_spacing=0.12,
+                        subplot_titles=("Fold-enrichment of the feed (log — the trap)",
+                                        "Accumulation Péclet (trapping vs back-diffusion)"))
+    # --- left: enrichment landscape + the localization boundary ---
+    fig.add_trace(go.Contour(x=L, y=por, z=z_enr, colorscale="Viridis", ncontours=16,
+                             colorbar=dict(title="log₁₀<br>enrichment<br>(×)", len=0.9, x=0.44),
+                             contours=dict(showlabels=True, labelfont=dict(size=9, color="white")),
+                             line=dict(width=0.4, color="rgba(255,255,255,0.3)")), row=1, col=1)
+    fig.add_trace(go.Contour(x=L, y=por, z=z_enr, showscale=False,
+                             contours=dict(start=np.log10(e_thr), end=np.log10(e_thr), coloring="lines"),
+                             line=dict(color="#f8fafc", width=2.8, dash="dash"),
+                             hoverinfo="skip"), row=1, col=1)
+    # --- right: Péclet landscape + the same frontier ---
+    fig.add_trace(go.Contour(x=L, y=por, z=pec, colorscale="Inferno", ncontours=16, showscale=True,
+                             colorbar=dict(title="accumulation<br>Péclet", len=0.9),
+                             contours=dict(showlabels=True, labelfont=dict(size=9, color="white")),
+                             line=dict(width=0.4, color="rgba(255,255,255,0.3)")), row=1, col=2)
+    fig.add_trace(go.Contour(x=L, y=por, z=pec, showscale=False,
+                             contours=dict(start=pe_thr, end=pe_thr, coloring="lines"),
+                             line=dict(color="#f8fafc", width=2.8, dash="dash"),
+                             hoverinfo="skip"), row=1, col=2)
+    for c in (1, 2):
+        fig.add_trace(go.Scatter(x=[op_L], y=[op_p], mode="markers+text",
+                                 text=["favourable<br>trap"], textposition="top right",
+                                 textfont=dict(size=9, color=_INK),
+                                 marker=dict(symbol="star", size=15, color=_AMBER,
+                                             line=dict(width=1.2, color=_INK)), showlegend=False), row=1, col=c)
+        fig.update_xaxes(type="log", title_text="pore length (m)", row=1, col=c)
+    fig.update_yaxes(title_text="pore porosity / openness", row=1, col=1)
+
+    ttl = title or "Campaign III — the pore-localization frontier"
+    fig.update_layout(
+        title=dict(text=(f"<b>{ttl}</b><br><span style='font-size:12px;color:{_SLATE}'>"
+                         "A dilute vent feed becomes a LOCALIZED individual only where the real FiPy "
+                         "thermophoretic trap concentrates it above threshold (white dashed = enrichment ≈ "
+                         f"{e_thr:.0e}×, Péclet ≈ {pe_thr:.0f}). A long, tight pore traps (enrichment "
+                         "exponential in length — Baaske 2007); an open / short pore washes through. The "
+                         "favourable trap (★) localizes the feed >10⁷-fold.</span>"), x=0.5, xanchor="center"),
+        height=450, width=960, margin=dict(t=100, b=60, l=72, r=20),
+        font=dict(family="system-ui, -apple-system, sans-serif", color=_INK),
+        paper_bgcolor="white", plot_bgcolor="white")
+    return fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+
+
+class PoreLocalizationMap(Visualization):
+    """og-03 Decision view: the native pore-localization phase map over (pore porosity
+    × pore length) — the bounded region where the real thermophoretic trap concentrates
+    the dilute feed above the localization threshold (a metabolizing individual appears).
+    Renders from a persisted grid (``grid_json``) or computes a modest grid live."""
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "Campaign III — the pore-localization frontier"},
+        "grid_json": {"_type": "string", "_default": ""},
+        "n_grid": {"_type": "integer", "_default": 12},
+        "n_steps": {"_type": "integer", "_default": 15},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        from .phase_maps import pore_localization_map
+        resolved = _resolve_grid_path(str(self.config.get("grid_json", "") or ""))
+        if resolved:
+            with open(resolved) as f:
+                res = _ResultView(*_grid_from_json(json.load(f)))
+        else:
+            n = int(self.config["n_grid"])
+            res = pore_localization_map(porosity=(0.05, 0.95, n), pore_length=(5.0e-4, 8.0e-3, n),
+                                        n_steps=int(self.config["n_steps"]), n_jobs=1)
+        return {"html": localization_figure(res, title=self.config["title"])}
+
+
+# ----------------------------------------------------------------------------
+# og-04 — mineral compartments → protocells : the World (compartment + gradient)
+# ----------------------------------------------------------------------------
+def protocell_boundary_figure(rows, *, title=None) -> str:
+    """og-04 World view: the physical compartment and the gradient crossing it, drawn
+    from the real protocell run at the operating point. **Left:** a cross-section of the
+    vesicle — the membrane boundary (ring) around a lumen, with inward arrows sized by
+    the measured ACCESS (gradient import) and the boundary drawn tighter as RETENTION
+    rises. **Right:** the radial concentration profile across the boundary — the
+    external gradient substrate imported into the lumen (∝ access) and the internal
+    product retained inside (∝ retention). ``rows`` is the operating-point emitter
+    rows."""
+    import numpy as np
+    import plotly.graph_objects as go
+    from plotly.subplots import make_subplots
+
+    r = rows[-1] if rows else {}
+    retention = float(r.get("retention", 0.0))
+    access = float(r.get("access", 0.0))
+    individ = float(r.get("individuality_access", retention * access))
+    viable = float(r.get("viable_compartments", 0.0))
+
+    fig = make_subplots(rows=1, cols=2, horizontal_spacing=0.14, column_widths=[0.46, 0.54],
+                        specs=[[{"type": "xy"}, {"type": "xy"}]],
+                        subplot_titles=("The compartment (membrane + lumen)",
+                                        "Concentration across the boundary"))
+    # --- left: vesicle cross-section ---
+    th = np.linspace(0, 2 * np.pi, 200)
+    R = 1.0
+    wall = 0.06 + 0.12 * retention                       # a tighter wall as retention rises
+    fig.add_trace(go.Scatter(x=(R + wall) * np.cos(th), y=(R + wall) * np.sin(th), mode="lines",
+                             line=dict(color=_INK, width=2), fill="toself",
+                             fillcolor="rgba(30,41,59,0.10)", hoverinfo="skip", showlegend=False), row=1, col=1)
+    fig.add_trace(go.Scatter(x=R * np.cos(th), y=R * np.sin(th), mode="lines",
+                             line=dict(color=_TEAL, width=2.4), fill="toself",
+                             fillcolor="rgba(13,148,136,0.16)", hoverinfo="skip",
+                             name="lumen (retained chemistry)"), row=1, col=1)
+    # inward gradient-import arrows, count/length ∝ access
+    n_arrow = max(1, int(round(3 + 9 * access)))
+    for k in range(n_arrow):
+        a = 2 * np.pi * k / n_arrow
+        x1, y1 = (R + wall + 0.5) * np.cos(a), (R + wall + 0.5) * np.sin(a)
+        x2, y2 = (R - 0.12) * np.cos(a), (R - 0.12) * np.sin(a)
+        fig.add_annotation(x=x2, y=y2, ax=x1, ay=y1, xref="x", yref="y", axref="x", ayref="y",
+                           showarrow=True, arrowhead=2, arrowwidth=1.6, arrowcolor=_AMBER, row=1, col=1)
+    fig.add_annotation(x=0, y=0, text=(f"retention {retention:.2f}<br>access {access:.2f}"
+                                       f"<br><b>individuality {individ:.2f}</b>"),
+                       showarrow=False, font=dict(size=11, color=_INK), row=1, col=1)
+    fig.add_annotation(x=0, y=-(R + wall + 0.45), text="external geochemical gradient",
+                       showarrow=False, font=dict(size=9, color=_AMBER), row=1, col=1)
+    fig.update_xaxes(visible=False, range=[-(R + wall + 0.7), R + wall + 0.7],
+                     scaleanchor="y", scaleratio=1, row=1, col=1)
+    fig.update_yaxes(visible=False, range=[-(R + wall + 0.7), R + wall + 0.7], row=1, col=1)
+    # --- right: the radial concentration profile across the boundary ---
+    x = np.linspace(-2.0, 2.0, 400)                      # radial coordinate (lumen centre = 0)
+    edge = R                                             # membrane at |x| = R
+    k_sharp = 7.0
+    outside = 0.5 * (1 + np.tanh(k_sharp * (np.abs(x) - edge)))   # ~1 in ocean, ~0 in lumen
+    inside = 1.0 - outside
+    # imported gradient substrate: ~1 in the ocean, falls to the import efficiency
+    # (access) inside the lumen — a permeable boundary lets the gradient in.
+    substrate = outside + access * inside
+    # internal product: held at the retention level inside the lumen, with a small
+    # leak tail into the ocean that grows as retention falls.
+    product = retention * inside + (1.0 - retention) * 0.4 * outside
+    fig.add_trace(go.Scatter(x=x, y=substrate, mode="lines", name="imported gradient substrate",
+                             line=dict(color=_AMBER, width=2.8)), row=1, col=2)
+    fig.add_trace(go.Scatter(x=x, y=product, mode="lines", name="retained internal product",
+                             line=dict(color=_TEAL, width=2.8)), row=1, col=2)
+    for xe in (-edge, edge):
+        fig.add_vrect(x0=xe - wall, x1=xe + wall, line_width=0, fillcolor="rgba(30,41,59,0.14)", row=1, col=2)
+    fig.add_annotation(x=0, y=1.02, text="lumen", showarrow=False, font=dict(size=9, color=_TEAL), row=1, col=2)
+    fig.add_annotation(x=1.6, y=1.02, text="ocean", showarrow=False, font=dict(size=9, color=_AMBER), row=1, col=2)
+    fig.update_xaxes(title_text="radial position (membrane = shaded)", row=1, col=2)
+    fig.update_yaxes(title_text="relative concentration", range=[-0.03, 1.1], row=1, col=2)
+
+    ttl = title or "Campaign IV — the compartment and the gradient"
+    fig.update_layout(
+        title=dict(text=(f"<b>{ttl}</b><br><span style='font-size:12px;color:{_SLATE}'>"
+                         "A viable boundary at the operating point ({:.0f} vesicles): the membrane (grey) "
+                         "holds internal chemistry (teal, retention {:.2f}) while staying permeable enough to "
+                         "import the external gradient (amber arrows, access {:.2f}). Individuality = retention × "
+                         "access = {:.2f} — a boundary that retains WITHOUT isolating.</span>").format(
+                             viable, retention, access, individ), x=0.5, xanchor="center"),
+        height=440, width=960, margin=dict(t=104, b=56, l=40, r=20),
+        legend=dict(orientation="h", y=-0.16, x=0.5, xanchor="center", font=dict(size=9)),
+        font=dict(family="system-ui, -apple-system, sans-serif", color=_INK),
+        paper_bgcolor="white", plot_bgcolor="white")
+    return fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+
+
+class ProtocellBoundaryWorld(Visualization):
+    """og-04 World view: the physical compartment + the gradient crossing it — a vesicle
+    cross-section (membrane + lumen, inward import arrows) and the radial concentration
+    profile across the boundary, drawn from the real protocell run at the operating
+    point (retention / access / individuality are measured, the cross-section is a
+    schematic driven by them)."""
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "Campaign IV — the compartment and the gradient"},
+        "mix_fraction": {"_type": "float", "_default": 0.4},
+        "pH": {"_type": "float", "_default": 9.0},
+        "ionic_strength": {"_type": "float", "_default": 0.35},
+        "temperature": {"_type": "float", "_default": 318.15},
+        "n_steps": {"_type": "integer", "_default": 20},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        from process_bigraph import Composite, gather_emitter_results
+
+        from .composites.mixed_amphiphile_protocell import mixed_amphiphile_protocell
+        from .core import build_core
+        core = build_core()
+        doc = mixed_amphiphile_protocell(core, mix_fraction=float(self.config["mix_fraction"]),
+                                         pH=float(self.config["pH"]),
+                                         ionic_strength=float(self.config["ionic_strength"]),
+                                         temperature=float(self.config["temperature"]))
+        sim = Composite({"state": doc}, core=core)
+        sim.run(int(self.config["n_steps"]))
+        rows = gather_emitter_results(sim)[("emitter",)]
+        return {"html": protocell_boundary_figure(rows, title=self.config["title"])}
+
+
+# ----------------------------------------------------------------------------
+# og-05 — environmental → internal bioenergetics : the survival phase map
+# ----------------------------------------------------------------------------
+def bioenergetic_survival_figure(res, *, title=None) -> str:
+    """og-05 Decision view: the survival landscape over (pump catalyst efficiency ×
+    gradient floor). **Left:** the final surviving fraction after the gradient collapse,
+    with the PASS boundary (survivors = 0.5) dashed and the Sojo cost line (minimum pump
+    efficiency to internalize) marked — the low-floor / low-efficiency corner is
+    extinction. **Right:** the final internalization — WHERE the survivors truly OWN
+    their energy (pump-dominated) vs ride the residual external gradient. ``res`` is the
+    bioenergetic_survival_map SweepResult / grid view."""
+    import numpy as np
+    import plotly.graph_objects as go
+    from plotly.subplots import make_subplots
+
+    eff = np.asarray(res.axes["catalyst_efficiency"], float)     # x
+    floor = np.asarray(res.axes["gradient_floor"], float)        # y
+    surv = np.asarray(res.surfaces["survivors"], float).T        # [eff, floor] -> z[y=floor][x=eff]
+    intl = np.asarray(res.surfaces["internalization"], float).T
+    s_thr = float(res.meta.get("survival_threshold", 0.5))
+    i_thr = float(res.meta.get("internalize_threshold", 0.5))
+    eff_sojo = float(res.meta.get("sojo_efficiency", 0.3))
+    op = res.meta.get("operating_point", {})
+    op_e = float(op.get("catalyst_efficiency", 1.0)); op_g = float(op.get("gradient_floor", 0.02))
+
+    fig = make_subplots(rows=1, cols=2, shared_yaxes=True, horizontal_spacing=0.12,
+                        subplot_titles=("Survival after the gradient collapse",
+                                        "Owning its energy (internalization)"))
+    # --- left: survival landscape + PASS boundary + Sojo cost line ---
+    fig.add_trace(go.Contour(x=eff, y=floor, z=surv, colorscale="Tealgrn", ncontours=14,
+                             zmin=0.0, zmax=1.0,
+                             colorbar=dict(title="surviving<br>fraction", len=0.9, x=0.44),
+                             contours=dict(showlabels=True, labelfont=dict(size=9, color="#0f172a")),
+                             line=dict(width=0.4, color="rgba(15,23,42,0.18)")), row=1, col=1)
+    fig.add_trace(go.Contour(x=eff, y=floor, z=surv, showscale=False,
+                             contours=dict(start=s_thr, end=s_thr, coloring="lines"),
+                             line=dict(color=_INK, width=2.6, dash="dash"),
+                             hoverinfo="skip"), row=1, col=1)
+    fig.add_vline(x=eff_sojo, line=dict(color=_RUST, width=1.8, dash="dot"), row=1, col=1)
+    fig.add_annotation(x=eff_sojo, y=float(floor.max()), xanchor="left", yanchor="top",
+                       text=f"  Sojo cost line (η≈{eff_sojo:.2f})", showarrow=False,
+                       font=dict(size=9, color=_RUST), row=1, col=1)
+    fig.add_annotation(x=float(eff.min()), y=float(floor.min()), xanchor="left", yanchor="bottom",
+                       text="extinction", showarrow=False, font=dict(size=10, color=_RUST), row=1, col=1)
+    # --- right: internalization landscape + the owns-its-energy boundary ---
+    fig.add_trace(go.Contour(x=eff, y=floor, z=intl, colorscale="Viridis", ncontours=14,
+                             zmin=0.0, zmax=1.0,
+                             colorbar=dict(title="internaliz.<br>(pump frac)", len=0.9),
+                             contours=dict(showlabels=True, labelfont=dict(size=9, color="white")),
+                             line=dict(width=0.4, color="rgba(255,255,255,0.3)")), row=1, col=2)
+    fig.add_trace(go.Contour(x=eff, y=floor, z=intl, showscale=False,
+                             contours=dict(start=i_thr, end=i_thr, coloring="lines"),
+                             line=dict(color="#f8fafc", width=2.6, dash="dash"),
+                             hoverinfo="skip"), row=1, col=2)
+    for c in (1, 2):
+        fig.add_trace(go.Scatter(x=[op_e], y=[op_g], mode="markers+text",
+                                 text=["operating<br>point"], textposition="top center",
+                                 textfont=dict(size=9, color=_INK),
+                                 marker=dict(symbol="star", size=14, color=_AMBER,
+                                             line=dict(width=1.1, color=_INK)), showlegend=False), row=1, col=c)
+        fig.update_xaxes(title_text="pump catalyst efficiency η", row=1, col=c)
+    fig.update_yaxes(title_text="gradient floor (V)", row=1, col=1)
+
+    ttl = title or "Campaign V — survival off the collapsing gradient"
+    fig.update_layout(
+        title=dict(text=(f"<b>{ttl}</b><br><span style='font-size:12px;color:{_SLATE}'>"
+                         "As the external gradient collapses to its floor, a lineage persists either by "
+                         "riding a floor that never falls too far OR by internalizing — but internalizing "
+                         f"only pays above the Sojo cost line (η≈{eff_sojo:.2f}, red). The low-floor / "
+                         "low-efficiency corner goes extinct. Right: only an efficient pump truly OWNS its "
+                         "energy (white dashed = internalization > 0.5), independent of the floor.</span>"),
+                   x=0.5, xanchor="center"),
+        height=450, width=960, margin=dict(t=102, b=60, l=72, r=20),
+        font=dict(family="system-ui, -apple-system, sans-serif", color=_INK),
+        paper_bgcolor="white", plot_bgcolor="white")
+    return fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+
+
+class BioenergeticSurvivalMap(Visualization):
+    """og-05 Decision view: the survival phase map over (pump catalyst efficiency ×
+    gradient floor) — the region where the population survives the gradient collapse,
+    with the Sojo cost line, plus the internalization ("owns its energy") surface.
+    Renders from a persisted grid (``grid_json``) or computes a modest grid live."""
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "Campaign V — survival off the collapsing gradient"},
+        "grid_json": {"_type": "string", "_default": ""},
+        "n_grid": {"_type": "integer", "_default": 14},
+        "n_steps": {"_type": "integer", "_default": 40},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        from .phase_maps import bioenergetic_survival_map
+        resolved = _resolve_grid_path(str(self.config.get("grid_json", "") or ""))
+        if resolved:
+            with open(resolved) as f:
+                res = _ResultView(*_grid_from_json(json.load(f)))
+        else:
+            n = int(self.config["n_grid"])
+            res = bioenergetic_survival_map(catalyst_efficiency=(0.05, 1.3, n),
+                                            gradient_floor=(0.005, 0.35, n),
+                                            n_steps=int(self.config["n_steps"]), n_jobs=1)
+        return {"html": bioenergetic_survival_figure(res, title=self.config["title"])}
+
+
 
 
 # ============================================================================
