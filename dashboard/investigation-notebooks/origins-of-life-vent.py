@@ -260,7 +260,7 @@ def _render_one(address, config, runs_db, study_yaml, overrides=None):
 #
 # **Hypothesis.** A 1D/2D porous-wall reactor with prescribed boundary fluxes reproduces published Lost City ranges (T, pH, H2, DIC) and qualitative precipitation trends while conserving mass and charge.
 #
-# **Claim.** A real PHREEQC + FiPy serpentinization reactor settles into the Lost City window (T 51 °C, pH 9.37) with sustained H2, exact charge balance (|charge|=0) and spatial-flux divergence held within the contract tolerance (~5e-5).
+# **Claim.** Habitability is a bounded REGION of the operating space, not a single tuned run: across the (olivine reaction rate × flow velocity) grid the real PHREEQC + FiPy serpentinizing vent settles inside the Lost City window — T 40–91 °C AND pH 9.0–10.8 AND a positive H2 flux — over ~80% of the swept grid, and the baseline operating point sits safely inside it (T 50.6 °C, pH 9.37) with sustained H2, exact charge balance (|charge|=0) and FiPy flux divergence within the contract tolerance (4.9e-5 vs the 1e-3 bound).
 
 # ### Design — originally proposed
 #
@@ -744,13 +744,13 @@ _save_viz('og-02-reduced-carbon-to-protometabolism', 'protometabolism-gain-phase
 
 # ## Study: The First Individual (`og-03-dilution-to-localized-individuals`)
 #
-# **Question.** When do retention time and concentration cross the thresholds for network persistence, as pore morphology evolves via precipitation/dissolution?
+# **Question.** Where in pore geometry (openness × length) does a real thermophoretic + convective trap concentrate a dilute vent feed across the localization threshold — the point at which a bounded, concentrated "individual" forms rather than washing through?
 #
 # **Objective.** Add pore geometry, adsorption, convection and thermophoresis; find where retention + concentration cross persistence thresholds.
 #
 # **Hypothesis.** Thermophoresis + convection + adsorption in evolving pores raise local concentration enough that synthesis outruns hydrolysis/leakage in a bounded geometry region; elsewhere washout dominates.
 #
-# **Claim.** A real FiPy thermal trap (thermophoresis + convection) concentrates a dilute vent feed ~10^8-fold (9.6×10⁷) in a favorable pore (Baaske 2007), and the concentration collapses to ~1 in an open pore — the geometric threshold at which a localized "individual" forms.
+# **Claim.** Localization is real and robust: a real FiPy thermophoretic + convective trap concentrates a dilute vent feed into a bounded REGION of pore geometry, mapped natively over (porosity × pore length) — long, tight pores localize strongly (a persistent local "individual" emerges) while open / short pores wash the feed through (enrichment ~1). The EXTENT of enrichment the favourable trap reaches (reduced-model estimate ~1e6–1e7-fold at accumulation Péclet ≈ 18) is a solver-sensitive extrapolation above Pe ≈ 13, not a precise resolved result — the defensible claim is that localization occurs, not the exact fold-magnitude (Baaske 2007).
 
 # ### Design — originally proposed
 #
@@ -885,7 +885,7 @@ _save_viz('og-03-dilution-to-localized-individuals', 'pore-localization-map', _r
 #
 # | expectation | model observable | source | status |
 # | --- | --- | --- | --- |
-# | >10^8-fold nucleotide accumulation in favorable modeled pore geometries | enrichment vs geometry | Baaske 2007 | Not yet measurable — module processes not built |
+# | >10^8-fold nucleotide accumulation in favorable modeled pore geometries | enrichment vs geometry | Baaske 2007 | Partially met by the real FiPy thermophoretic trap — the favourable pore reaches the extreme-accumulation regime (accumulation Péclet 18.4) and the native (porosity × pore length) phase map localizes at ~17% of the grid with open/short-pore controls not concentrating. The exact Baaske fold-magnitude (reduced-model ~1e6–1e7) is solver-sensitive above Pe ≈ 13 (FiPy↔FEniCS diverge by up to ~5.6 decades there), so localization is confirmed but the precise fold is not. |
 
 # ## Study: The First Boundary (`og-04-mineral-compartments-to-protocells`)
 #
@@ -1029,7 +1029,7 @@ _save_viz('og-04-mineral-compartments-to-protocells', 'protocell-retention-acces
 #
 # | expectation | model observable | source | status |
 # | --- | --- | --- | --- |
-# | Mixed single-chain amphiphiles form vesicles across broader alkaline pH/salinity/divalent/T than single-fatty-acid models | vesicle stability map | Jordan 2019 | Not yet measurable — module processes not built |
+# | Mixed single-chain amphiphiles form vesicles across broader alkaline pH/salinity/divalent/T than single-fatty-acid models | vesicle stability map | Jordan 2019 | Met by the coarse-grained Jordan-calibrated protocell — mixed amphiphiles form ~8000 viable vesicles at alkaline vent pH and seawater salt where a single fatty acid forms none, and the (co-surfactant × ionic strength) feasibility map marks a viable region (individuality > 0.1) at 63/256 points. |
 
 # ## Study: Owning Its Energy (`og-05-environmental-to-internal-bioenergetics`)
 #
@@ -1039,7 +1039,7 @@ _save_viz('og-04-mineral-compartments-to-protocells', 'protocell-retention-acces
 #
 # **Hypothesis.** When membrane permeability, Na+/H+ coupling and catalyst efficiency vary under selection, systems with increasing internal gradient generation win on throughput + persistence — but only if membranes stay sufficiently leaky (Sojo constraint).
 #
-# **Claim.** Under a declining external gradient, selection drives an efficient-pump population to internalize gradient generation (pump fraction 0→0.95) and persist, while a weak-pump lineage collapses — the Sojo-2014 leaky-membrane constraint on bioenergetic internalization.
+# **Claim.** Survival off a collapsing gradient is a bounded REGION of (pump catalyst efficiency × gradient floor), mapped by a real replicator sweep — a lineage persists either by riding a floor that never falls too far OR by internalizing gradient generation, but internalizing only pays above the Sojo cost line (η ≈ 0.30). At the operating point an efficient pump internalizes (pump fraction 0→0.95) and survives while a weak pump collapses — the Sojo-2014 leaky-membrane constraint on bioenergetic internalization.
 
 # ### Design — originally proposed
 #
@@ -1173,7 +1173,7 @@ _save_viz('og-05-environmental-to-internal-bioenergetics', 'bioenergetic-surviva
 #
 # | expectation | model observable | source | status |
 # | --- | --- | --- | --- |
-# | LUCA-like cells can use proton gradients only if membranes remain sufficiently leaky | permeability vs viability | Sojo 2014 / Lane 2012 | Not yet measurable — module processes not built |
+# | LUCA-like cells can use proton gradients only if membranes remain sufficiently leaky | permeability vs viability | Sojo 2014 / Lane 2012 | Met by the real replicator selection loop — the survival Decision map over (pump efficiency × gradient floor) is bounded by the Sojo cost line (η ≈ 0.30): efficient pumps internalize and persist (~94% of the grid survives) while weak pumps collapse at the gradient transition. |
 
 # ## Study: The First Heredity (`og-06-chemistry-to-heredity`)
 #
@@ -1321,7 +1321,7 @@ _save_viz('og-06-chemistry-to-heredity', 'heredity-error-threshold', _render_one
 #
 # **Hypothesis.** Heterogeneous populations develop metabolic diversity, cross-feeding and robustness single compartments do not; the emergent capability set overlaps the anaerobic H2/CO2/FeS LUCA reconstruction as a boundary.
 #
-# **Claim.** A connected metacommunity of heterogeneous pore compartments develops functional redundancy (robustness) that an isolated compartment cannot — cross-feeding and horizontal transfer spread coarse-grained protometabolic capabilities into >= 2-fold coverage, so most functions survive a single-compartment loss. Robustness EMERGES only in a bounded region of (cross-feeding exchange_rate x inter-compartment diversity) — too little diversity leaves nothing to share, too little exchange leaves a broad repertoire fragile. The collective repertoire's overlap with the anaerobic H2/CO2/FeS LUCA reconstruction is REPORTED as a far-end boundary the emergent set approaches (~0.6-0.7), not a target — LUCA constrains which capabilities are eventually acquired, not evidence the first compartments were LUCA-like.
+# **Claim.** A connected metacommunity of heterogeneous pore compartments develops functional redundancy (robustness) that an isolated compartment cannot — cross-feeding and horizontal transfer spread coarse-grained protometabolic capabilities into >= 2-fold coverage, so most functions survive a single-compartment loss. Robustness EMERGES only in a bounded corner of the swept phase maps — it needs enough inter-compartment diversity to give cross-feeding something to share AND enough exchange to spread it, and it collapses as parasite load rises — too little diversity leaves nothing to share, too little exchange leaves a broad repertoire fragile, and parasites draining their neighbours erase the redundancy. The three-view Decision map over (exchange_rate x parasite_load) at the canonical diversity shows cross-feeding robustness emerging only in the well-connected, low-parasite corner (PASS boundary at robustness 0.5). The collective repertoire's overlap with the anaerobic H2/CO2/FeS LUCA reconstruction is REPORTED as a far-end boundary the emergent set approaches (~0.6-0.7), not a target — LUCA constrains which capabilities are eventually acquired, not evidence the first compartments were LUCA-like.
 
 # ### Design — originally proposed
 #

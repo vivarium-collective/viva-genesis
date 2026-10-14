@@ -654,7 +654,7 @@
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Claim</h2>
-      <p class="ctr-text">Under a declining external gradient, selection drives an efficient-pump population to internalize gradient generation (pump fraction 0→0.95) and persist, while a weak-pump lineage collapses — the Sojo-2014 leaky-membrane constraint on bioenergetic internalization.</p>
+      <p class="ctr-text">Survival off a collapsing gradient is a bounded REGION of (pump catalyst efficiency × gradient floor), mapped by a real replicator sweep — a lineage persists either by riding a floor that never falls too far OR by internalizing gradient generation, but internalizing only pays above the Sojo cost line (η ≈ 0.30). At the operating point an efficient pump internalizes (pump fraction 0→0.95) and survives while a weak pump collapses — the Sojo-2014 leaky-membrane constraint on bioenergetic internalization.</p>
       
     </div>
 
@@ -715,9 +715,19 @@
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Result</h2>
-      <p class="ctr-text">Efficient pump internalizes (final 0.95) and survives (survivors 1.0); the weak-pump control collapses (survivors 0) as the gradient falls.</p>
+      <p class="ctr-text">The survival Decision map (catalyst_efficiency 0.05–1.3 × gradient_floor 0.005–0.35) survives at 185/196 points (~94%); the low-floor / low-efficiency corner goes extinct, bounded by the Sojo cost line η ≈ 0.30, and internalization (owning its energy, pump fraction &gt; 0.5) fills the efficient interior. At the operating point the efficient pump internalizes (final 0.95) and survives (survivors 1.0) while the weak-pump control collapses (survivors 0) as the gradient falls.</p>
       
       <div class="ov-metrics">
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">185/196 (~94%)</div>
+          <div class="ov-metric-k">Survival region</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">η ≈ 0.30</div>
+          <div class="ov-metric-k">Sojo cost line</div>
+        </div>
         
         <div class="ov-metric ov-metric-pass">
           <div class="ov-metric-v">0.95</div>
@@ -732,11 +742,6 @@
         <div class="ov-metric ov-metric-pass">
           <div class="ov-metric-v">0.0</div>
           <div class="ov-metric-k">Weak-pump survivors</div>
-        </div>
-        
-        <div class="ov-metric ov-metric-pass">
-          <div class="ov-metric-v">0.00→0.95</div>
-          <div class="ov-metric-k">Internalization rise</div>
         </div>
         
       </div>
@@ -868,19 +873,19 @@
         <details class="finding-details">
           <summary class="finding-row">
             <span class="finding-status-glyph">◆</span>
-            <span class="finding-claim finding-statement">Accounting the free energy by SOURCE (not just the net flux) shows the useful disequilibrium shifting from the external geochemical gradient to internally maintained power as the environment declines — the external share of the useful free energy falls from ~82% to ~1% over the run while the population persists. The organism comes to &#34;own&#34; its energy: the geochemical gradient becomes a resource it taps, not the scaffold that organizes it.</span>
+            <span class="finding-claim finding-statement">Survival off the collapsing gradient is a bounded REGION, not two representative runs: the native (pump catalyst efficiency × gradient floor) Decision map survives at 185/196 points (~94%), with the low-floor / low-efficiency corner going extinct. The Sojo cost line (η ≈ 0.30 — where internal pumping clears its maintenance cost plus the survival floor) marks the internalize-or-die boundary, and internalization (pump fraction &gt; 0.5) fills the efficient interior where the lineage truly OWNS its energy rather than riding the residual external gradient.</span>
             
           </summary>
           <div class="finding-drawer">
             <div class="finding-header">
-              <span class="finding-id">og05-energy-provenance</span>
+              <span class="finding-id">og05-survival-phase-map</span>
               <span class="finding-kind">computational</span>
               <span class="finding-status-text">novel literature</span>
             </div>
             
             
             <div class="finding-evidence">
-              <strong>observed:</strong> external share of useful free energy 82% → 1% as external pmf 0.40 → 0.02 V; survivors 1.0 dimensionless · 
+              <strong>observed:</strong> 185/196 (94%) survive over (catalyst_efficiency 0.05–1.3 × gradient_floor 0.005–0.35); Sojo cost line η≈0.30; internalization 0.009–0.949 across the grid; operating point (η=1.0, floor=0.02) deep inside dimensionless · 
               
               
               
@@ -900,7 +905,58 @@
             </div>
             
             
-            <div class="finding-explanation"><em>Why:</em> The selection process now emits the population-mean provenance breakdown (external tap k_ext·pmf·P vs internal pump k_int·pump·eff·(1−P) vs maintenance cost); rendered as the stacked energy-provenance trajectory + the gradient-dependence curve (Decision view).</div>
+            <div class="finding-explanation"><em>Why:</em> The bioenergetic_survival_map sweeps the real replicator loop under the declining gradient and reduces each point to the surviving fraction + the survives PASS mask; the Sojo efficiency floor is read from the selection process config ((survival_threshold + c_pump + c_base)/k_int). Rendered as the survival landscape + internalization map (Decision view).</div>
+            
+            <div class="finding-next"><strong>→ Next:</strong> Sweep decline_rate / alternative collapse scenarios to test how the survival region deforms with the speed of gradient loss (og-05b).</div>
+          </div>
+        </details>
+      </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <div class="finding-card finding-kind-computational finding-status-novel">
+        <details class="finding-details">
+          <summary class="finding-row">
+            <span class="finding-status-glyph">◆</span>
+            <span class="finding-claim finding-statement">Accounting the free energy by SOURCE (not just the net flux) shows the useful disequilibrium shifting from the external geochemical gradient to internally maintained power as the environment declines — the external share of the useful free energy peaks near ~82% early in the run, then collapses to ~1% as the gradient falls while the population persists. The organism comes to &#34;own&#34; its energy: the geochemical gradient becomes a resource it taps, not the scaffold that organizes it.</span>
+            
+          </summary>
+          <div class="finding-drawer">
+            <div class="finding-header">
+              <span class="finding-id">og05-energy-provenance</span>
+              <span class="finding-kind">computational</span>
+              <span class="finding-status-text">novel literature</span>
+            </div>
+            
+            
+            <div class="finding-evidence">
+              <strong>observed:</strong> external share of useful free energy peaks ~82% then falls to ~1% as external pmf 0.40 → 0.02 V; survivors 1.0, internalization → 0.95 dimensionless · 
+              
+              
+              
+              
+              
+            </div>
+            
+            
+            
+            
+            
+            
+            <div class="finding-expected">
+              
+              
+              cites: <a class="ov-cite" href="#sref-sojo2014bioenergetic" title="A bioenergetic basis for membrane divergence in archaea and bacteria">Sojo 2014</a><a class="ov-cite" href="#sref-lane2012origin" title="The origin of membrane bioenergetics">Lane 2012</a>
+            </div>
+            
+            
+            <div class="finding-explanation"><em>Why:</em> The selection process emits the population-mean provenance breakdown (external tap k_ext·pmf·P vs internal pump k_int·pump·eff·(1−P) vs maintenance cost); rendered as the stacked energy-provenance trajectory + the gradient-dependence curve (Mechanism view).</div>
             
             
           </div>
@@ -1585,7 +1641,7 @@ cites:   ["lane2010chemiosmotic"]</pre>
       <h3 class="overview-label">Limitations</h3>
       <p class="muted" style="margin:0 0 6px 0;font-size:0.85em">What this study explicitly does NOT validate (prevents overclaim).</p>
       <ul style="margin:0 0 0 18px;padding:0;font-size:0.93em">
-        <li style="margin:2px 0">Coarse-grained deterministic replicator dynamics with calibrated couplings; not a wrapped ALife/MD engine.</li><li style="margin:2px 0">Single declining-gradient scenario; the pump-efficiency threshold is shown by two arms, not a full sweep.</li>
+        <li style="margin:2px 0">Coarse-grained deterministic replicator dynamics with calibrated couplings; not a wrapped ALife/MD engine.</li><li style="margin:2px 0">The survival map fixes a single gradient-decline scenario (v_start 0.40, decline_rate 0.01); only efficiency × floor are swept, so the sensitivity to the speed/shape of the collapse is not yet mapped.</li>
       </ul>
     </div>
     
@@ -1643,13 +1699,13 @@ cites:   ["lane2010chemiosmotic"]</pre>
         
         <div class="di-unc di-unc-resolved">
           <h4>✓ Resolved uncertainties</h4>
-          <ul><li>Selection can internalize gradient generation as the external gradient falls, bounded by the Sojo leaky-membrane constraint.</li></ul>
+          <ul><li>Selection can internalize gradient generation as the external gradient falls, bounded by the Sojo leaky-membrane constraint.</li><li>The pump-efficiency threshold is now mapped — the Sojo cost line (η ≈ 0.30) bounds a ~94% survival region of (efficiency × floor).</li></ul>
         </div>
         
         
         <div class="di-unc di-unc-remaining">
           <h4>● Remaining uncertainties</h4>
-          <ul><li>The precise pump-efficiency threshold separating viable internalization from extinction.</li></ul>
+          <ul><li>How the survival region deforms with the speed/shape of the gradient collapse (decline_rate is held fixed in the current map).</li></ul>
         </div>
         
       </div>
@@ -1705,7 +1761,7 @@ cites:   ["lane2010chemiosmotic"]</pre>
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "128a23031f1ab5517cc123a292e0cccf943021e6", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/128a23031f1ab5517cc123a292e0cccf943021e6", "branch": "main", "lockfile": "uv.lock@891a4364e14e", "generated_at": "2026-10-14 03:44 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "aa517dac90cfd1e019a4489e4d5a51472c8fdca0", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/aa517dac90cfd1e019a4489e4d5a51472c8fdca0", "branch": "main", "lockfile": "uv.lock@8bfd640f85eb", "generated_at": "2026-10-14 12:15 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>
