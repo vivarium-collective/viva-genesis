@@ -105,7 +105,11 @@ literature_anchors:
 - expectation: Mixed single-chain amphiphiles form vesicles across broader alkaline pH/salinity/divalent/T than single-fatty-acid models
   model_observable: vesicle stability map
   source: Jordan 2019
-  status_in_workspace: Not yet measurable — module processes not built
+  status_in_workspace: >-
+    Met by the coarse-grained Jordan-calibrated protocell — mixed amphiphiles form ~8000 viable
+    vesicles at alkaline vent pH and seawater salt where a single fatty acid forms none, and the
+    (co-surfactant × ionic strength) feasibility map marks a viable region (individuality > 0.1) at
+    63/256 points.
   cites:
   - jordan2019promotion
 baseline:
@@ -142,13 +146,14 @@ findings:
   statement: >-
     Sweeping permeability (via temperature) traces the compartment through THREE
     regimes on the retention-access plane — too closed (retains but starves; low T),
-    a viable window (individuality + access, peak ret×acc ≈ 0.91 at ~312 K), and too
+    a viable window (individuality + access, peak ret×acc ≈ 0.92 at ~310 K), and too
     open (leaks; high T) before the membrane destabilizes entirely. Orthogonally, the
-    viable SALT ceiling rises with co-surfactant fraction: vesicles survive at
-    seawater salt (0.35 M) and beyond only above mix ≈ 0.4 — the Jordan mixed-amphiphile
-    advantage as a bounded 2-D region, not a single point.
+    viable SALT ceiling rises with co-surfactant fraction: the feasibility map marks a
+    viable region (individuality > 0.1) at 63/256 points (~25%) — vesicles survive at
+    seawater salt (0.35 M) and beyond only with enough co-surfactant — the Jordan
+    mixed-amphiphile advantage as a bounded 2-D region, not a single point.
   evidence:
-    observed: 'retention 0.97→0 and access 0.71→1→0 across T; viable salt ceiling rises with mix_fraction'
+    observed: 'retention 0.97→0 and access rising to 1.00 then falling to 0 across 285–360 K; feasibility viable (individ>0.1) at 63/256 points, viable salt ceiling rising with mix_fraction'
     units: dimensionless
   expected:
     cites: [jordan2019promotion, sutherland2017opinion]
@@ -180,6 +185,7 @@ report:
   - {label: Individuality × access, value: ~0.90, status: pass}
   - {label: Single fatty acid at salt, value: 0 viable, status: pass}
   - {label: Retention / access, value: 0.91 / 1.0, status: pass}
+  - {label: Viable region (feasibility map), value: 63/256 (individ>0.1), status: pass}
 conclusion_verdicts:
   biological_validation:
     result: PASS
