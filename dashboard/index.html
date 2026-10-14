@@ -1530,6 +1530,12 @@ a.viv-bs-commit:hover { text-decoration: underline; }
            Built entirely by _renderInvOpening(d) from the investigation data. -->
       <div id="investigation-detail-description" class="inv-brief-host"></div>
     </div>
+    <!-- Decision cockpit: the open expert decisions (executive.decisions_needed)
+         surfaced prominently as an actionable card with inline Resolve controls,
+         plus the campaign-plan docs and the resolved-decision log. Built by
+         _renderInvDecisionCockpit(d); renders nothing when there are no
+         decisions and no plan docs. -->
+    <div id="investigation-decision-cockpit"></div>
     <!-- Discourse-graph framing: studies as knowledge-producing operations. -->
     <div id="investigation-dag-lead" style="margin: 4px 0 8px; font-size: 0.88em; color: #475569; line-height: 1.4;">
       <strong>Investigation graph</strong>
@@ -1545,6 +1551,7 @@ a.viv-bs-commit:hover { text-decoration: underline; }
         <button type="button" title="Zoom out" onclick="window._aigZoomBy(0.8)" style="border:1px solid #e2e8f0;background:transparent;border-radius:5px 0 0 5px;padding:2px 9px;cursor:pointer;font-size:1em;line-height:1.3">−</button>
         <button type="button" title="Zoom in" onclick="window._aigZoomBy(1.25)" style="border:1px solid #e2e8f0;border-left:none;background:transparent;padding:2px 9px;cursor:pointer;font-size:1em;line-height:1.3">+</button>
         <button type="button" title="Fit to view" onclick="window._aigFit()" style="border:1px solid #e2e8f0;border-left:none;background:transparent;padding:2px 7px;cursor:pointer;font-size:0.95em;line-height:1.3">⤢</button>
+        <button id="aig-expand-btn" type="button" title="Expand graph — snap to top and grow it tall (workbench stays)" onclick="window._aigExpand()" style="border:1px solid #e2e8f0;border-left:none;background:transparent;padding:2px 7px;cursor:pointer;font-size:0.95em;line-height:1.3">⤒</button>
         <button type="button" title="Fullscreen" onclick="window._aigFullscreen()" style="border:1px solid #e2e8f0;border-left:none;background:transparent;border-radius:0 5px 5px 0;padding:2px 7px;cursor:pointer;font-size:0.95em;line-height:1.3">⛶</button>
       </span>
       <span class="aig-orient-ctl" style="float:right;display:inline-flex;align-items:center;gap:2px;font-size:0.9em;color:#64748b;margin-right:14px" role="group" aria-label="Graph orientation">
@@ -2525,7 +2532,7 @@ Nothing on <code id="pr-base-display-2">main</code> changes until someone presse
      DataSource global that renderers call to fetch narrative data.
      local-server mode (default) fetches from the same-origin /api/* endpoints.
      Hosted mode (sub-projects #2/#3) will set a different config here. -->
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "ffa9e4a7df202e2b59607fc25ad25977da488a8a", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/ffa9e4a7df202e2b59607fc25ad25977da488a8a", "branch": "main", "lockfile": "uv.lock@dab5c4c40206", "generated_at": "2026-10-13 23:41 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "ffa9e4a7df202e2b59607fc25ad25977da488a8a", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/ffa9e4a7df202e2b59607fc25ad25977da488a8a", "branch": "main", "lockfile": "uv.lock@891a4364e14e", "generated_at": "2026-10-14 01:50 UTC"} };</script>
 <!-- Derive the global URL prefix from the (possibly publish-injected) config.
      Many renderers prefix workspace-root-absolute links (/studies/, /api/)
      with window.__BASE_PATH__ so they resolve when the read-only bundle is
