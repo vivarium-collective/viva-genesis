@@ -32,6 +32,9 @@ _EMIT_PATHS = [
 
 @composite_generator(
     name="reduced_nitrogen_reactor",
+    methods=["coarse-grained FeS nitrate->ammonium reduction kinetics",
+             "reductive-amination N-assimilation"],
+    fidelity="reproduction",
     description=(
         "A reusable FeS-mediated reduced-nitrogen module. The real "
         "ReducedNitrogenProductionProcess reduces NO3-/NO2- to NH4+ on an Fe/Ni/S "

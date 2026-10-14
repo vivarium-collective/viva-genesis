@@ -39,6 +39,8 @@ _EMIT_PATHS = [
 
 @composite_generator(
     name="hydrothermal_carbon_fixation",
+    methods=["FiPy FVM Nernst-Planck", "eQuilibrator ΔG′", "lab-calibrated mineral kinetics"],
+    fidelity="real",
     description=(
         "A reusable H2/pH-driven carbon-fixation module. Module C = genuine FiPy "
         "finite-volume Nernst-Planck pH-gradient electrochemistry (pmf, current "

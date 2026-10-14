@@ -33,6 +33,8 @@ _EMIT_PATHS = [
 
 @composite_generator(
     name="cross_feeding_metacommunity",
+    methods=["coarse-grained metacommunity exchange model"],
+    fidelity="reproduction",
     description=(
         "A reusable cross-feeding metacommunity module (Module L). N connected "
         "compartments, each a coarse-grained capability vector over a protometabolic "

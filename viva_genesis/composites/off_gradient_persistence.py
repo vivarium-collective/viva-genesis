@@ -31,6 +31,8 @@ _EMIT_PATHS = [
 
 @composite_generator(
     name="off_gradient_persistence",
+    methods=["coarse-grained co-limited free-energy budget"],
+    fidelity="reproduction",
     description=(
         "A reusable off-gradient-persistence module (Module M). A lineage's co-limited "
         "(Liebig-minimum) free-energy + resource budget under relaxing geological support "

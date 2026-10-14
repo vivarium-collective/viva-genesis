@@ -29,6 +29,8 @@ _EMIT_PATHS = [
 
 @composite_generator(
     name="thermophoretic_concentration",
+    methods=["FiPy finite-volume accumulation column"],
+    fidelity="real",
     description=(
         "A reusable thermophoretic-concentration module for the Baaske thermal "
         "trap. Module F = genuine FiPy finite-volume accumulation column (needs "

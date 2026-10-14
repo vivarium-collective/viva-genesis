@@ -38,6 +38,8 @@ _EMIT_PATHS = [
 
 @composite_generator(
     name="proto_energetics",
+    methods=["coarse-grained energy-currency bookkeeping"],
+    fidelity="reproduction",
     description=(
         "A transferable energy currency before modern pumping (pre-og-05). An exergonic "
         "geochemical drive charges a carrier pool (thioester / acyl-phosphate class) that is "

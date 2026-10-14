@@ -24,6 +24,8 @@ _EMIT_PATHS = [
 
 @composite_generator(
     name="protometabolic_network",
+    methods=["libRoadRunner/Tellurium SBML ODE", "networkx connectivity"],
+    fidelity="real",
     description=(
         "A reusable protometabolic reaction-network module. A genuine libRoadRunner/"
         "Tellurium SBML ODE integration (needs tellurium) of an rTCA-fragment CSTR "

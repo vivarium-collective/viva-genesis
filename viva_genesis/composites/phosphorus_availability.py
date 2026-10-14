@@ -35,6 +35,8 @@ _EMIT_PATHS = [
 
 @composite_generator(
     name="phosphorus_availability",
+    methods=["libRoadRunner/Tellurium SBML P-speciation ODE"],
+    fidelity="real",
     description=(
         "A reusable phosphorus-availability module. A genuine libRoadRunner/Tellurium "
         "SBML ODE integration (needs tellurium) of a P-speciation network (phosphate "

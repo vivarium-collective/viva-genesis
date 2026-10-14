@@ -31,6 +31,8 @@ _EMIT_PATHS = [
 
 @composite_generator(
     name="bioenergetic_internalization",
+    methods=["deterministic replicator-dynamics selection loop"],
+    fidelity="reproduction",
     description=(
         "A reusable bioenergetic-internalization module (Module H). An evolutionary "
         "control loop (replicator dynamics, Sojo-2014 leaky-membrane fitness) under a "
