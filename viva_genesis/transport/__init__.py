@@ -33,9 +33,22 @@ first-order relaxation) as a runs-anywhere fallback. Both are re-exported here s
 from .fipy_reactor import FipyReactiveTransportProcess  # noqa: E402,F401
 from .thermophoretic_trap import ThermophoreticTrapProcess  # noqa: E402,F401
 from .vent_reactor import VentReactorReproductionProcess  # noqa: E402,F401
+# FEniCS/dolfinx spatial-transport models (full modeling plan section 4.5): the
+# high-fidelity twins behind the same spatial_transport face. dolfinx is imported
+# LAZILY (inside update()), so these modules import -- and the classes register --
+# even in the uv .venv without dolfinx; only *running* one there raises a clear
+# "run under pixi" error. The surrogate is the reduced Decision-map filler (4.6).
+from .fenics_reactor import (  # noqa: E402,F401
+    FenicsReactiveTransportProcess,
+    FenicsThermophoreticTrapProcess,
+    SurrogateThermophoreticTrapProcess,
+)
 
 __all__ = [
     "FipyReactiveTransportProcess",
     "ThermophoreticTrapProcess",
     "VentReactorReproductionProcess",
+    "FenicsReactiveTransportProcess",
+    "FenicsThermophoreticTrapProcess",
+    "SurrogateThermophoreticTrapProcess",
 ]

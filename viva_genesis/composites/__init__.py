@@ -18,6 +18,7 @@ from . import nitrogen_assimilation  # noqa: F401
 from . import phosphorus_availability  # noqa: F401
 from . import proto_energetics  # noqa: F401
 from . import osmotic_growth_division  # noqa: F401
+from . import spatial_transport  # noqa: F401
 
 from .vent_reactor import serpentinizing_vent_reactor, serpentinizing_vent_reactor_reduced
 from .carbon_fixation import hydrothermal_carbon_fixation
@@ -33,6 +34,7 @@ from .nitrogen_assimilation import reduced_nitrogen_reactor
 from .phosphorus_availability import phosphorus_availability
 from .proto_energetics import proto_energetics
 from .osmotic_growth_division import osmotic_growth_division
+from .spatial_transport import spatial_transport_trap, spatial_transport_vent
 
 __all__ = [
     "serpentinizing_vent_reactor", "serpentinizing_vent_reactor_reduced",
@@ -49,4 +51,6 @@ __all__ = [
     "phosphorus_availability",
     "proto_energetics",
     "osmotic_growth_division",
+    "spatial_transport_trap",
+    "spatial_transport_vent",
 ]

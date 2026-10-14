@@ -91,7 +91,7 @@ def sweep_grid(
     reduce: Mapping[str, Callable],
     fixed: Mapping[str, object] | None = None,
     n_steps: int = 120,
-    n_jobs: int = 1,
+    n_jobs: int | str = 1,
     tolerant: bool = False,
 ) -> SweepResult:
     """Sweep ``generator`` over the Cartesian product of ``axes``.
@@ -102,7 +102,12 @@ def sweep_grid(
         reduce: ``{surface_name: reducer(rows) -> float}`` (module-level functions).
         fixed: param overrides held constant across the grid.
         n_steps: steps to run each point.
-        n_jobs: ``1`` serial; ``>1`` fan out over a process pool.
+        n_jobs: ``1`` serial; integer ``>1`` fans out over a process pool;
+            ``"ray"`` fans out over a Ray cluster (one Ray task per grid point,
+            the core rebuilt per worker) -- the standing rule for heavy phase-map
+            sweeps on the mini (full modeling plan section 4.6). Ray is an
+            optional import, serialised with cloudpickle (so the closure reducers
+            ``last``/``peak`` work on the Ray path, unlike the process pool).
         tolerant: when True, a point that raises is recorded as NaN for every surface
             rather than aborting the sweep (default False — the existing strict
             behaviour). Use for engines that reject part of the swept domain (e.g.
@@ -130,8 +135,21 @@ def sweep_grid(
 
     if n_jobs == 1:
         results = [_run_point(generator, kw, n_steps, reduce, tolerant) for kw in point_kwargs]
+    elif n_jobs == "ray":
+        # Ray-parallel path for heavy sweeps on the mini (plan 4.6). One task per
+        # grid point; each worker rebuilds its own (unpicklable) core inside
+        # _run_point. Ray serialises with cloudpickle, so closure reducers work.
+        import ray  # optional dependency — only needed for the mini path
+        if not ray.is_initialized():
+            ray.init(ignore_reinit_error=True)
+        _remote = ray.remote(_run_point)
+        futures = [
+            _remote.remote(generator, kw, n_steps, reduce, tolerant)
+            for kw in point_kwargs
+        ]
+        results = ray.get(futures)
     else:
-        with ProcessPoolExecutor(max_workers=n_jobs) as ex:
+        with ProcessPoolExecutor(max_workers=int(n_jobs)) as ex:
             results = list(
                 ex.map(
                     _run_point,
