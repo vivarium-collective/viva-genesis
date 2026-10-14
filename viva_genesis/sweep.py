@@ -54,22 +54,34 @@ class SweepResult:
         return self.surfaces[next(iter(self.surfaces))]
 
 
-def _run_point(generator, kwargs, n_steps, reducers):
+def _run_point(generator, kwargs, n_steps, reducers, tolerant=False):
     """Build → run → reduce ONE grid point. Module-level so the pool can pickle it.
 
     Each worker builds its own ``core`` (process-bigraph cores are not picklable and
     hold C-extension handles). Returns ``{reducer_name: scalar}``.
+
+    ``tolerant`` catches a failed point (e.g. a parameter combination the underlying
+    engine rejects — PHREEQC's LLNL aqueous model is only valid 0–100 °C, so an
+    over-reacted / under-flushed vent point raises "Temperature out of range") and
+    returns NaN for every reducer instead of aborting the whole sweep. The NaN then
+    reads as "outside the viable window" in the phase map, which is physically correct:
+    that corner is a FAIL, not a missing datum.
     """
     from process_bigraph import Composite, gather_emitter_results
 
     from .core import build_core
 
-    core = build_core()
-    doc = generator(core, **kwargs)
-    sim = Composite({"state": doc}, core=core)
-    sim.run(float(n_steps))
-    rows = gather_emitter_results(sim)[("emitter",)]
-    return {name: float(fn(rows)) for name, fn in reducers.items()}
+    try:
+        core = build_core()
+        doc = generator(core, **kwargs)
+        sim = Composite({"state": doc}, core=core)
+        sim.run(float(n_steps))
+        rows = gather_emitter_results(sim)[("emitter",)]
+        return {name: float(fn(rows)) for name, fn in reducers.items()}
+    except Exception:
+        if tolerant:
+            return {name: float("nan") for name in reducers}
+        raise
 
 
 def sweep_grid(
@@ -80,6 +92,7 @@ def sweep_grid(
     fixed: Mapping[str, object] | None = None,
     n_steps: int = 120,
     n_jobs: int = 1,
+    tolerant: bool = False,
 ) -> SweepResult:
     """Sweep ``generator`` over the Cartesian product of ``axes``.
 
@@ -90,6 +103,11 @@ def sweep_grid(
         fixed: param overrides held constant across the grid.
         n_steps: steps to run each point.
         n_jobs: ``1`` serial; ``>1`` fan out over a process pool.
+        tolerant: when True, a point that raises is recorded as NaN for every surface
+            rather than aborting the sweep (default False — the existing strict
+            behaviour). Use for engines that reject part of the swept domain (e.g.
+            PHREEQC's 0–100 °C aqueous-model validity): the NaN corner reads as a
+            FAIL region in the phase map, which is physically correct.
 
     Returns:
         A :class:`SweepResult` with one N-D surface per reducer.
@@ -111,7 +129,7 @@ def sweep_grid(
     surfaces = {name: np.full(shape, np.nan) for name in reduce}
 
     if n_jobs == 1:
-        results = [_run_point(generator, kw, n_steps, reduce) for kw in point_kwargs]
+        results = [_run_point(generator, kw, n_steps, reduce, tolerant) for kw in point_kwargs]
     else:
         with ProcessPoolExecutor(max_workers=n_jobs) as ex:
             results = list(
@@ -121,6 +139,7 @@ def sweep_grid(
                     point_kwargs,
                     itertools.repeat(n_steps),
                     itertools.repeat(reduce),
+                    itertools.repeat(tolerant),
                 )
             )
 

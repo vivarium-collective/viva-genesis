@@ -184,14 +184,14 @@ parent_relations:
 expert_questions:
 - Is og-03 the right end-point for the first publication milestone (pre-genetic), or extend the milestone to include og-04?
 runs:
-- name: viva_genesis.composites.thermophoretic_concentration.thermophoretic_concentration__1791843263__1acceb
+- name: viva_genesis.composites.thermophoretic_concentration.thermophoretic_concentration__1791944471__df60ba
   status: completed
-  timestamp: 1791843264.5747359
+  timestamp: 1791944472.511042
   canonical: true
   emitter:
     kind: sqlite
-    store: canonical-runs/viva_genesis.composites.thermophoretic_concentration.thermophoretic_concentration__1791843263__1acceb/run.db
-  store_path: canonical-runs/viva_genesis.composites.thermophoretic_concentration.thermophoretic_concentration__1791843263__1acceb/run.db
+    store: canonical-runs/viva_genesis.composites.thermophoretic_concentration.thermophoretic_concentration__1791944471__df60ba/run.db
+  store_path: canonical-runs/viva_genesis.composites.thermophoretic_concentration.thermophoretic_concentration__1791944471__df60ba/run.db
   params: '{}'
   outcomes:
     thermophoretic-enrichment-reproduces-baaske:
@@ -302,5 +302,10 @@ visualizations:
 - name: pore-ignition-coupling
   address: local:PoreIgnitionCoupling
   config:
-    title: Localization makes the individual (Decision view)
+    title: Localization lifts the feed across the ignition threshold (Mechanism view)
     grid_json: workspace/studies/og-02-reduced-carbon-to-protometabolism/artifacts/protometabolism_gain_grid.json
+- name: pore-localization-map
+  address: local:PoreLocalizationMap
+  config:
+    grid_json: workspace/studies/og-03-dilution-to-localized-individuals/artifacts/pore_localization_grid.json
+    title: The pore-localization frontier (Decision view)

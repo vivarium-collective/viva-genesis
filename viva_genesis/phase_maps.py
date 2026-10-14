@@ -228,13 +228,17 @@ def protocell_feasibility_map(
     i_lo, i_hi, i_n = ionic_strength
     axes = {"mix_fraction": np.linspace(m_lo, m_hi, int(m_n)),
             "ionic_strength": np.linspace(i_lo, i_hi, int(i_n))}
-    return sweep_grid(
+    res = sweep_grid(
         mixed_amphiphile_protocell, axes,
         reduce={"individuality": protocell_individuality,
                 "retention": protocell_retention, "access": protocell_access},
         fixed={"pH": float(pH), "temperature": float(temperature)},
         n_steps=n_steps, n_jobs=n_jobs,
     )
+    # viable region PASS boundary: individuality (retention × access) above this is a
+    # usable boundary (retains chemistry AND imports the gradient).
+    res.meta["viable_threshold"] = 0.1
+    return res
 
 
 # ----------------------------------------------------------------------------
@@ -896,4 +900,269 @@ def growth_division_map(
     res.meta["viable_fraction"] = float(np.mean(divides))
     res.meta["outcome_legend"] = {"0": "starve", "1": "grow-no-division",
                                   "2": "divide", "3": "lysis"}
+    return res
+
+
+# ----------------------------------------------------------------------------
+# og-00 — vent reactor baseline : the Lost City HABITABILITY window
+# ----------------------------------------------------------------------------
+# Decision: the baseline testbed is "habitable" (reproduces the Lost City field
+# window) only in a bounded region of (serpentinization intensity × mixing) — enough
+# olivine reaction to drive H2 + alkalinity, slow enough flow that the outlet settles
+# in the 40–91 °C / pH 9.0–10.8 window with a positive H2 flux. Too little reaction (or
+# too much flushing) falls out the cold/low-pH side; too much reaction at low flow
+# over-heats the fluid past PHREEQC's 0–100 °C aqueous-model validity (a real FAIL —
+# the vent is too hot to be Lost City). Swept over (olivine_rate × flow_velocity); the
+# sweep is TOLERANT so the over-heated corner reads as a FAIL region, not an abort.
+_LC_T_LO, _LC_T_HI = 40.0, 91.0          # Lost City outlet temperature window (°C)
+_LC_PH_LO, _LC_PH_HI = 9.0, 10.8         # Lost City pH window
+
+
+def vent_settled_temperature_C(rows) -> float:
+    """Settled outlet temperature (°C) over the back tenth of the run."""
+    if not rows:
+        return float("nan")
+    tail = [r.get("temperature", 0.0) for r in rows[-max(1, len(rows) // 10):]]
+    return float(np.mean(tail)) - 273.15
+
+
+def vent_settled_pH(rows) -> float:
+    """Settled outlet pH over the back tenth of the run."""
+    if not rows:
+        return float("nan")
+    tail = [r.get("pH", 0.0) for r in rows[-max(1, len(rows) // 10):]]
+    return float(np.mean(tail))
+
+
+def vent_settled_h2_flux(rows) -> float:
+    """Settled serpentinization H2 source flux (mol/s) over the back tenth."""
+    if not rows:
+        return float("nan")
+    tail = [r.get("H2_flux", 0.0) for r in rows[-max(1, len(rows) // 10):]]
+    return float(np.mean(tail))
+
+
+def vent_in_lost_city_window(rows) -> float:
+    """1.0 when the settled outlet is inside the Lost City window (T in 40–91 °C AND
+    pH in 9.0–10.8 AND a positive H2 flux), else 0.0 — the habitability PASS flag."""
+    t = vent_settled_temperature_C(rows)
+    ph = vent_settled_pH(rows)
+    h2 = vent_settled_h2_flux(rows)
+    if t != t or ph != ph:   # NaN (a crashed / out-of-range point) → not habitable
+        return 0.0
+    ok = (_LC_T_LO <= t <= _LC_T_HI) and (_LC_PH_LO <= ph <= _LC_PH_HI) and (h2 > 0.0)
+    return 1.0 if ok else 0.0
+
+
+def vent_habitability_phase_map(
+    *,
+    olivine_rate=(0.005, 0.4, 12),
+    flow_velocity=(2.0e-4, 3.0e-2, 12),
+    nx: int = 20,
+    n_steps: int = 30,
+    n_jobs: int = 1,
+) -> SweepResult:
+    """og-00 Lost City habitability window over (olivine reaction rate × flow velocity).
+
+    Reuses the real ``serpentinizing_vent_reactor`` (PHREEQC + FiPy). ``flow_velocity``
+    is swept on a log grid (it spans decades). The primary surface is the habitability
+    PASS flag (settled outlet inside the Lost City T/pH window with a positive H2 flux);
+    the temperature / pH / H2-flux surfaces show which bound is violated outside it. The
+    sweep is TOLERANT: an over-reacted / under-flushed point that over-heats past
+    PHREEQC's 0–100 °C validity is recorded NaN and reads as a FAIL (too-hot) region."""
+    from .composites.vent_reactor import serpentinizing_vent_reactor
+
+    o_lo, o_hi, o_n = olivine_rate
+    f_lo, f_hi, f_n = flow_velocity
+    axes = {
+        "olivine_rate": np.linspace(o_lo, o_hi, int(o_n)),
+        "flow_velocity": np.geomspace(f_lo, f_hi, int(f_n)),
+    }
+    res = sweep_grid(
+        serpentinizing_vent_reactor,
+        axes,
+        reduce={
+            "habitable": vent_in_lost_city_window,   # primary PASS surface
+            "temperature_C": vent_settled_temperature_C,
+            "pH": vent_settled_pH,
+            "h2_flux": vent_settled_h2_flux,
+        },
+        fixed={"nx": int(nx)},
+        n_steps=n_steps,
+        n_jobs=n_jobs,
+        tolerant=True,
+    )
+    res.meta.update({
+        "stage": "og-00", "model": "vent_habitability",
+        "window": {"T_C": [_LC_T_LO, _LC_T_HI], "pH": [_LC_PH_LO, _LC_PH_HI]},
+        "operating_point": {"olivine_rate": 0.15, "flow_velocity": 1.0e-3},
+    })
+    return res
+
+
+# ----------------------------------------------------------------------------
+# og-03 — dilution → localized individuals : the pore-localization phase map
+# ----------------------------------------------------------------------------
+# Decision: a dilute vent feed becomes a LOCALIZED individual only where the real
+# thermophoretic trap concentrates it above a localization threshold. The controlling
+# geometry is the pore's openness (porosity) against its length: a long, tight pore
+# traps (enrichment exponential in length, Baaske-2007), an open / short pore washes
+# through. Swept over (porosity × pore_length); the PASS region is enrichment above the
+# localization threshold (~1e6, accumulation Péclet ~ 14–18), the real trap readouts
+# read straight from the FiPy accumulation solve.
+_LOCALIZATION_ENRICHMENT_THRESHOLD = 1.0e6   # fold-enrichment above this = a localized individual
+_LOCALIZATION_PECLET = 18.0                  # accumulation Péclet marking the same frontier
+
+
+def trap_enrichment_final(rows) -> float:
+    """Settled fold-enrichment of the feed in the pore (dimensionless)."""
+    return float(rows[-1].get("enrichment_factor", 0.0)) if rows else float("nan")
+
+
+def trap_peclet_final(rows) -> float:
+    """Settled accumulation Péclet number (advective trapping / back-diffusion)."""
+    return float(rows[-1].get("accumulation_peclet", 0.0)) if rows else float("nan")
+
+
+def trap_localized(rows) -> float:
+    """1.0 where the settled enrichment clears the localization threshold, else 0.0."""
+    e = trap_enrichment_final(rows)
+    if e != e:   # NaN
+        return 0.0
+    return 1.0 if e >= _LOCALIZATION_ENRICHMENT_THRESHOLD else 0.0
+
+
+def pore_localization_map(
+    *,
+    porosity=(0.05, 0.95, 12),
+    pore_length=(5.0e-4, 8.0e-3, 12),
+    delta_T: float = 30.0,
+    temperature: float = 333.15,
+    flow_velocity: float = 1.0e-4,
+    n_steps: int = 15,
+    n_jobs: int = 1,
+) -> SweepResult:
+    """og-03 pore-localization landscape over (pore porosity × pore length).
+
+    Reuses the real ``thermophoretic_concentration`` (FiPy) trap. ``pore_length`` is
+    swept on a log grid (enrichment is exponential in length). The primary surface is
+    the settled fold-enrichment the trap achieves; ``peclet`` and the ``localized`` PASS
+    mask trace the localization frontier (enrichment ≥ ~1e6, Péclet ~ 18). Below the
+    frontier the feed stays dilute — no individual; above it a concentrated pocket
+    appears. The favourable trap (porosity 0.3, 5 mm pore) sits deep in the PASS
+    region."""
+    from .composites.thermophoretic_concentration import thermophoretic_concentration
+
+    p_lo, p_hi, p_n = porosity
+    l_lo, l_hi, l_n = pore_length
+    axes = {
+        "porosity": np.linspace(p_lo, p_hi, int(p_n)),
+        "pore_length": np.geomspace(l_lo, l_hi, int(l_n)),
+    }
+    res = sweep_grid(
+        thermophoretic_concentration,
+        axes,
+        reduce={
+            "enrichment": trap_enrichment_final,     # primary decision surface
+            "peclet": trap_peclet_final,
+            "localized": trap_localized,
+        },
+        fixed={"delta_T": float(delta_T), "temperature": float(temperature),
+               "flow_velocity": float(flow_velocity)},
+        n_steps=n_steps,
+        n_jobs=n_jobs,
+    )
+    res.meta.update({
+        "stage": "og-03", "model": "pore_localization",
+        "enrichment_threshold": _LOCALIZATION_ENRICHMENT_THRESHOLD,
+        "peclet_threshold": _LOCALIZATION_PECLET,
+        "operating_point": {"porosity": 0.3, "pore_length": 5.0e-3},
+    })
+    return res
+
+
+# ----------------------------------------------------------------------------
+# og-05 — environmental → internal bioenergetics : the survival phase map
+# ----------------------------------------------------------------------------
+# Decision: as the external geochemical gradient collapses to a floor, which lineages
+# PERSIST? Two routes to survival: ride a gradient that never falls too far (a high
+# floor keeps the external tap alive for any pump), OR internalize gradient generation
+# — but internalizing only pays off above the Sojo cost line, where an efficient pump
+# clears its maintenance cost plus the survival floor. Swept over (catalyst_efficiency
+# × gradient_floor): the PASS region is the surviving-fraction region, and the Sojo
+# efficiency floor marks the internalization-only boundary (low-floor, low-efficiency
+# corner = extinction). internalization alongside shows WHERE the lineage truly "owns
+# its energy" (pump-dominated) vs merely rides the residual external gradient.
+_SURVIVAL_THRESHOLD = 0.5      # final surviving fraction above this = the population persists
+
+
+def bioenergetic_final_survivors(rows) -> float:
+    """Final surviving-population fraction after the gradient collapse."""
+    return float(rows[-1].get("survivors", 0.0)) if rows else float("nan")
+
+
+def bioenergetic_final_internalization(rows) -> float:
+    """Final internalization (mean active-pump fraction) — how much the surviving
+    lineage OWNS its energy vs rides the residual external gradient."""
+    return float(rows[-1].get("internalization", 0.0)) if rows else float("nan")
+
+
+def bioenergetic_survives(rows) -> float:
+    """1.0 where the surviving fraction clears the survival threshold, else 0.0."""
+    s = bioenergetic_final_survivors(rows)
+    if s != s:   # NaN
+        return 0.0
+    return 1.0 if s >= _SURVIVAL_THRESHOLD else 0.0
+
+
+def bioenergetic_survival_map(
+    *,
+    catalyst_efficiency=(0.05, 1.3, 14),
+    gradient_floor=(0.005, 0.35, 14),
+    v_start: float = 0.40,
+    decline_rate: float = 0.01,
+    n_steps: int = 40,
+    n_jobs: int = 1,
+) -> SweepResult:
+    """og-05 survival landscape over (pump catalyst efficiency × gradient floor).
+
+    Reuses the real ``bioenergetic_internalization`` replicator loop under the declining
+    external gradient. The primary surface is the final surviving fraction after the
+    collapse; ``internalization`` (how pump-dominated the survivors are) and the
+    ``survives`` PASS mask trace the frontier. ``meta['sojo_efficiency']`` is the Sojo
+    cost line — the minimum pump efficiency at which internal pumping clears its cost
+    plus the survival floor (k_int·η − c_pump − c_base > survival_threshold) — the
+    boundary of the internalize-or-die regime at a collapsed gradient floor."""
+    from .composites.bioenergetic_internalization import bioenergetic_internalization
+
+    e_lo, e_hi, e_n = catalyst_efficiency
+    g_lo, g_hi, g_n = gradient_floor
+    axes = {
+        "catalyst_efficiency": np.linspace(e_lo, e_hi, int(e_n)),
+        "gradient_floor": np.linspace(g_lo, g_hi, int(g_n)),
+    }
+    res = sweep_grid(
+        bioenergetic_internalization,
+        axes,
+        reduce={
+            "survivors": bioenergetic_final_survivors,     # primary decision surface
+            "internalization": bioenergetic_final_internalization,
+            "survives": bioenergetic_survives,
+        },
+        fixed={"v_start": float(v_start), "decline_rate": float(decline_rate)},
+        n_steps=n_steps,
+        n_jobs=n_jobs,
+    )
+    # Sojo cost line: the minimum pump efficiency at which internal pumping clears its
+    # maintenance cost + the survival floor — read from the real process's config.
+    from .bioenergetics.selection import BioenergeticSelectionProcess as _Sel
+    cs = _Sel.config_schema
+    eff_sojo = ((float(cs["survival_threshold"]["_default"]) + float(cs["c_pump"]["_default"])
+                 + float(cs["c_base"]["_default"])) / float(cs["k_int"]["_default"]))
+    res.meta.update({
+        "stage": "og-05", "model": "bioenergetic_survival",
+        "survival_threshold": _SURVIVAL_THRESHOLD, "internalize_threshold": 0.5,
+        "sojo_efficiency": float(eff_sojo),
+        "operating_point": {"catalyst_efficiency": 1.0, "gradient_floor": 0.02},
+    })
     return res
