@@ -295,7 +295,7 @@ def _render_one(address, config, runs_db, study_yaml, overrides=None):
 
 # **The model — `viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor`**
 #
-# A reusable alkaline-vent reactor module. Module A = genuine PHREEQC serpentinization (phreeqpython + vendored llnl.dat): olivine dissolution + serpentine/brucite/magnetite equilibrium gives dissolved H2 (reducing power), alkalinity, heat, pe, and a charge-balanced fluid. Module B = genuine FiPy finite-volume advection-diffusion-reaction column transporting those sources across the vent-ocean interface and setting outlet T/pH/porosity. PHREEQC conserves mass+charge and FiPy's FVM conserves flux, satisfying the og-00 contract invariants. Requires phreeqpython + fipy.
+# A reusable alkaline-vent reactor module. Module A = genuine PHREEQC serpentinization (phreeqpython + vendored llnl.dat): olivine dissolution + serpentine/brucite/magnetite equilibrium gives dissolved H2 (reducing power), alkalinity, heat, pe, and a charge-balanced fluid. Module B = genuine FiPy finite-volume advection-diffusion-reaction column transporting those sources across the vent-ocean interface and setting outlet T/pH/porosity. PHREEQC conserves mass+charge and FiPy's FVM conserves flux, satisfying the og-00 contract invariants; the coupled model is driven by a real IPhreeqc speciation (needs phreeqpython) and a real FiPy FVM solve (needs fipy).
 
 # === Parameters — edit any value, then re-run from the Run cell below ===
 # Each entry is the composite's current default; the comment explains it.
@@ -465,7 +465,7 @@ _save_viz('og-00-vent-reactor-baseline', 'vent-habitability-map', _render_one('l
 
 # **The model — `viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation`**
 #
-# A reusable H2/pH-driven carbon-fixation module. Module C = genuine FiPy Nernst-Planck pH-gradient electrochemistry (pmf, current density). Module D = genuine eQuilibrator ΔG' feasibility gate + lab-calibrated (Preiner/Hudson) mineral-catalyzed CO2 reduction to formate/acetate/pyruvate. gradient_efficiency=1.0 is the favorable arm; ~0.1 is the Tutolo-2026 in-situ collapse. catalyst_active/h2=0 give the controls. Requires equilibrator_api + fipy.
+# A reusable H2/pH-driven carbon-fixation module. Module C = genuine FiPy finite-volume Nernst-Planck pH-gradient electrochemistry (pmf, current density; needs fipy). Module D = genuine eQuilibrator ΔG' feasibility gate (needs equilibrator_api) + lab-calibrated (Preiner/Hudson) mineral-catalyzed CO2 reduction to formate/acetate/pyruvate. gradient_efficiency=1.0 is the favorable arm; ~0.1 is the Tutolo-2026 in-situ collapse. catalyst_active/h2=0 give the controls.
 
 # === Parameters — edit any value, then re-run from the Run cell below ===
 # Each entry is the composite's current default; the comment explains it.
@@ -640,7 +640,7 @@ _save_viz('og-01-geology-to-reduced-carbon', 'carbon-fixation-phase-map', _rende
 
 # **The model — `viva_genesis.composites.protometabolism.protometabolic_network`**
 #
-# A reusable protometabolic reaction-network module. libRoadRunner/Tellurium SBML rTCA-fragment CSTR (pyruvate carboxylation + lumped autocatalytic rTCA turn + reductive branch) fed the og-01 reduced-carbon products under continuous feed+washout. Emergent: sustained carbon throughput, an autocatalytic motif (gain>1), and a connected reaction network. Requires tellurium + networkx.
+# A reusable protometabolic reaction-network module. A genuine libRoadRunner/Tellurium SBML ODE integration (needs tellurium) of an rTCA-fragment CSTR (pyruvate carboxylation + lumped autocatalytic rTCA turn + reductive branch) fed the og-01 reduced-carbon products under continuous feed+washout, with a networkx connectivity check on the species-reaction graph (needs networkx). Emergent: sustained carbon throughput, an autocatalytic motif (gain>1), and a connected reaction network.
 
 # === Parameters — edit any value, then re-run from the Run cell below ===
 # Each entry is the composite's current default; the comment explains it.
@@ -784,7 +784,7 @@ _save_viz('og-02-reduced-carbon-to-protometabolism', 'protometabolism-gain-phase
 
 # **The model — `viva_genesis.composites.thermophoretic_concentration.thermophoretic_concentration`**
 #
-# A reusable thermophoretic-concentration module for the Baaske thermal trap. Module F = genuine FiPy finite-volume accumulation column: thermophoresis (Soret) + buoyant convection concentrate a dilute feed, enrichment exponential in pore length (>10^8 favorable, ~1 in controls). flow_velocity=0 / porosity=1 give the no-trap controls. Requires fipy.
+# A reusable thermophoretic-concentration module for the Baaske thermal trap. Module F = genuine FiPy finite-volume accumulation column (needs fipy): thermophoresis (Soret) + buoyant convection concentrate a dilute feed, enrichment exponential in pore length (>10^8 favorable, ~1 in controls). flow_velocity=0 / porosity=1 give the no-trap controls.
 
 # === Parameters — edit any value, then re-run from the Run cell below ===
 # Each entry is the composite's current default; the comment explains it.
@@ -1216,7 +1216,7 @@ _save_viz('og-05-environmental-to-internal-bioenergetics', 'bioenergetic-surviva
 
 # **The model — `viva_genesis.composites.heredity_module_comparison.heredity_module_comparison`**
 #
-# A reusable heredity-module comparison (Module J). Genuine libRoadRunner quasispecies replicator (Eigen error threshold): a heredity module (RNA-like / peptide / low-fidelity / non-heritable) replicates a polymer with whole-sequence fidelity Q = fidelity^length; above the threshold the functional information is retained and inheritance pays, below it errors win. Compares modules head-to-head on lineage fitness. Requires tellurium/libroadrunner.
+# A reusable heredity-module comparison (Module J). A genuine libRoadRunner/Tellurium SBML ODE integration (needs tellurium) of a quasispecies replicator (Eigen error threshold): a heredity module (RNA-like / peptide / low-fidelity / non-heritable) replicates a polymer with whole-sequence fidelity Q = fidelity^length; above the threshold the functional information is retained and inheritance pays, below it errors win. Compares modules head-to-head on lineage fitness.
 
 # === Parameters — edit any value, then re-run from the Run cell below ===
 # Each entry is the composite's current default; the comment explains it.
@@ -1633,7 +1633,7 @@ _save_viz('og-08-escape-from-the-vent', 'off-gradient-survival-frontier', _rende
 
 # **The model — `viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation`**
 #
-# A reusable H2/pH-driven carbon-fixation module. Module C = genuine FiPy Nernst-Planck pH-gradient electrochemistry (pmf, current density). Module D = genuine eQuilibrator ΔG' feasibility gate + lab-calibrated (Preiner/Hudson) mineral-catalyzed CO2 reduction to formate/acetate/pyruvate. gradient_efficiency=1.0 is the favorable arm; ~0.1 is the Tutolo-2026 in-situ collapse. catalyst_active/h2=0 give the controls. Requires equilibrator_api + fipy.
+# A reusable H2/pH-driven carbon-fixation module. Module C = genuine FiPy finite-volume Nernst-Planck pH-gradient electrochemistry (pmf, current density; needs fipy). Module D = genuine eQuilibrator ΔG' feasibility gate (needs equilibrator_api) + lab-calibrated (Preiner/Hudson) mineral-catalyzed CO2 reduction to formate/acetate/pyruvate. gradient_efficiency=1.0 is the favorable arm; ~0.1 is the Tutolo-2026 in-situ collapse. catalyst_active/h2=0 give the controls.
 
 # === Parameters — edit any value, then re-run from the Run cell below ===
 # Each entry is the composite's current default; the comment explains it.
@@ -1946,7 +1946,7 @@ _save_viz('og-res-nitrogen-assimilation', 'nitrogen-assimilation-phase-map', _re
 
 # **The model — `viva_genesis.composites.phosphorus_availability.phosphorus_availability`**
 #
-# A reusable phosphorus-availability module. libRoadRunner/Tellurium SBML P-speciation network (phosphate <-> polyphosphate <-> reactive-P with a precipitation/adsorption mineral sink) driven by a dissolved-phosphate supply, the og-03 thermal-gradient pore enrichment, and pore temperature. Emergent: the standing reactive-P pool, reactive-P production vs precipitation loss (net availability), and the precipitated fraction — does reactive P become available before phosphate precipitates? Requires tellurium.
+# A reusable phosphorus-availability module. A genuine libRoadRunner/Tellurium SBML ODE integration (needs tellurium) of a P-speciation network (phosphate <-> polyphosphate <-> reactive-P with a precipitation/adsorption mineral sink) driven by a dissolved-phosphate supply, the og-03 thermal-gradient pore enrichment, and pore temperature. Emergent: the standing reactive-P pool, reactive-P production vs precipitation loss (net availability), and the precipitated fraction — does reactive P become available before phosphate precipitates?
 
 # === Parameters — edit any value, then re-run from the Run cell below ===
 # Each entry is the composite's current default; the comment explains it.
