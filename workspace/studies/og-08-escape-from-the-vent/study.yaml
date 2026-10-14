@@ -180,6 +180,12 @@ parent_relations:
 expert_questions:
 - Define 'autonomy' as survival off-gradient, or as a quantitative reduced-dependence threshold?
 visualizations:
+- name: escape-three-view
+  address: local:EscapeOffGradientThreeView
+  config:
+    composite: viva_genesis.composites.off_gradient_persistence.off_gradient_persistence
+    grid_json: workspace/studies/og-08-escape-from-the-vent/artifacts/off_gradient_grid.json
+    title: Campaign VIII — escape from the vent
 - name: off-gradient-survival-frontier
   address: local:OffGradientPhaseMap
   config:

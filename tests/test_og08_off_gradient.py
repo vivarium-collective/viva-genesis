@@ -68,3 +68,14 @@ def test_survival_frontier_monotone_in_support():
     assert fr["full"] == 0.0
     for ko in ("-pump", "-importer", "-heredity"):
         assert fr[ko] is not None and fr[ko] > 0.0
+
+
+def test_escape_three_view_registered_and_renders():
+    """The complete three-view (World persistence trajectories + Mechanism knockout bars
+    + Decision survival-frontier phase map) is registered and renders a Plotly figure."""
+    reg = build_core().link_registry
+    assert "EscapeOffGradientThreeView" in reg
+    out = reg["EscapeOffGradientThreeView"](
+        config={"n_grid": 10, "n_steps": 40}, core=build_core()).update({})
+    html = out["html"]
+    assert isinstance(html, str) and "plotly" in html.lower() and len(html) > 5000

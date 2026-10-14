@@ -81,3 +81,22 @@ def test_generic_carbon_control_below_og01_band():
     rows = gather_emitter_results(sim)[("emitter",)]
     settled_formate_mM = (sum(r.get("formate", 0.0) for r in rows[-5:]) / 5) * 1e3
     assert settled_formate_mM < 50.0
+
+
+def test_vent_specificity_three_view_registered_and_renders():
+    """The complete three-view (World vent-vs-generic trajectories + Mechanism per-gate
+    rejection bars + Decision gate contour) is registered and renders a Plotly figure.
+    Rendered via the figure builder on a small duck-typed grid to stay fast."""
+    import numpy as np
+    assert "VentSpecificityThreeView" in build_core().link_registry
+    from viva_genesis.viz_phase import _ResultView, vent_specificity_threeview_figure
+    h2 = np.geomspace(1e-9, 2e-2, 6)
+    cat = np.linspace(0.0, 1.0, 6)
+    peak = np.outer(np.linspace(1e-13, 4e-2, 6), np.linspace(1e-13, 1.0, 6))
+    res = _ResultView(["h2", "catalyst_active"], {"h2": h2, "catalyst_active": cat},
+                      {"peak_flux": peak}, {"gate_threshold": 1e-6})
+    traj = {"vent": {"t": list(range(5)), "formate_mM": [1e-3, 1, 50, 150, 200]},
+            "generic": {"t": list(range(5)), "formate_mM": [1e-8] * 5}}
+    gate_rows = [{"label": "og-01 net C-flux", "threshold": 1e-6, "vent": 0.04, "generic": 4e-13}]
+    html = vent_specificity_threeview_figure(res, traj, gate_rows=gate_rows)
+    assert isinstance(html, str) and "plotly" in html.lower() and len(html) > 5000

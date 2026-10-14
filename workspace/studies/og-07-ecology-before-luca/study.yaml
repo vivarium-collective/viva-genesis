@@ -190,6 +190,12 @@ parent_relations:
 expert_questions:
 - Scope og-07 to cross-feeding only first, or include horizontal exchange + parasitism from the start? (Implemented — cross-feeding + horizontal transfer + optional parasite/cooperator roles.)
 visualizations:
+- name: ecology-three-view
+  address: local:EcologyMetacommunityThreeView
+  config:
+    composite: viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity
+    grid_json: workspace/studies/og-07-ecology-before-luca/artifacts/ecology_robustness_grid.json
+    title: Campaign VII — ecology before LUCA
 - name: metacommunity-phase-map
   address: local:MetacommunityPhaseMap
   config:

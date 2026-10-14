@@ -451,6 +451,50 @@ def metacommunity_robustness_phase_map(
     )
 
 
+# og-07 Decision (ecology_): the robustness-vs-parasite phase map. Where
+# metacommunity_robustness_phase_map sweeps (exchange × diversity) — the raw material
+# and the spreading mechanism — this second slice holds diversity at the canonical
+# operating point and sweeps (cross-feeding exchange_rate × parasite_load): robustness
+# EMERGES above the floor once exchange crosses ~0.2, but a rising parasite load (drain
+# on neighbours) pushes the community back below the emergence threshold. The PASS
+# region (robustness ≥ threshold) is the cooperative, well-connected corner.
+def ecology_robustness_parasite_map(
+    *, exchange_rate=(0.02, 0.8, 16), parasite_load=(0.0, 0.9, 16),
+    diversity: float = 0.75, hgt_rate: float = 0.1, n_compartments: int = 8,
+    seed: int = 1, n_steps: int = 40, n_jobs: int = 1,
+) -> SweepResult:
+    """og-07 Decision view over (cross-feeding exchange_rate × parasite_load) at the
+    canonical inter-compartment diversity. Primary surface = ``robustness`` (functional
+    redundancy), with the LUCA-overlap boundary alongside. Cross-feeding robustness
+    emerges in the well-connected, low-parasite corner and collapses as parasites drain
+    their neighbours — a PASS/FAIL boundary at ``_ROBUST_EMERGE_THRESHOLD``."""
+    from .composites.cross_feeding_metacommunity import cross_feeding_metacommunity
+
+    e_lo, e_hi, e_n = exchange_rate
+    p_lo, p_hi, p_n = parasite_load
+    axes = {
+        "exchange_rate": np.linspace(e_lo, e_hi, int(e_n)),
+        "parasite_load": np.linspace(p_lo, p_hi, int(p_n)),
+    }
+    res = sweep_grid(
+        cross_feeding_metacommunity,
+        axes,
+        reduce={
+            "robustness": metacommunity_robustness_final,
+            "luca_overlap": metacommunity_luca_final,
+            "isolated_robustness": metacommunity_isolated_final,
+        },
+        fixed={"diversity": float(diversity), "hgt_rate": float(hgt_rate),
+               "n_compartments": int(n_compartments), "seed": int(seed)},
+        n_steps=n_steps,
+        n_jobs=n_jobs,
+    )
+    res.meta.update({"stage": "og-07", "model": "cross_feeding_metacommunity_parasite",
+                     "robust_emerge_threshold": _ROBUST_EMERGE_THRESHOLD,
+                     "diversity": float(diversity)})
+    return res
+
+
 # ----------------------------------------------------------------------------
 # og-adv — adversarial control : vent-specificity of the carbon-fixation gate
 # ----------------------------------------------------------------------------
