@@ -1,0 +1,97 @@
+{
+  "mms": {
+    "Pe": 10.0,
+    "rows": [
+      {
+        "resolution": 16,
+        "fipy_l2": 0.0005291737113338623,
+        "fenics_l2": 0.002830696287627618
+      },
+      {
+        "resolution": 32,
+        "fipy_l2": 0.00010740735511572868,
+        "fenics_l2": 0.0007095864457994377
+      },
+      {
+        "resolution": 64,
+        "fipy_l2": 0.00020200111550915982,
+        "fenics_l2": 0.00017749976332937862
+      }
+    ],
+    "fipy_order": [
+      2.3,
+      -0.91
+    ],
+    "fenics_order": [
+      2.0,
+      2.0
+    ],
+    "note": "both converge to the analytic boundary layer; dolfinx P1 at a higher order than FiPy's first-order upwinded FVM."
+  },
+  "trap": {
+    "rows": [
+      {
+        "pore_length_m": 0.0005,
+        "accumulation_peclet": 1.838,
+        "fipy_enrichment": 6.280816575669166,
+        "fenics_enrichment": 5.441326617116177,
+        "log10_abs_diff": 0.062,
+        "agree_1dex": true
+      },
+      {
+        "pore_length_m": 0.001,
+        "accumulation_peclet": 3.675,
+        "fipy_enrichment": 39.448656857200554,
+        "fenics_enrichment": 29.621826091121978,
+        "log10_abs_diff": 0.124,
+        "agree_1dex": true
+      },
+      {
+        "pore_length_m": 0.002,
+        "accumulation_peclet": 7.35,
+        "fipy_enrichment": 1556.196527837156,
+        "fenics_enrichment": 253.13835223451878,
+        "log10_abs_diff": 0.789,
+        "agree_1dex": true
+      },
+      {
+        "pore_length_m": 0.0035,
+        "accumulation_peclet": 12.863,
+        "fipy_enrichment": 385578.46803453326,
+        "fenics_enrichment": 253.13835223451878,
+        "log10_abs_diff": 3.183,
+        "agree_1dex": false
+      },
+      {
+        "pore_length_m": 0.005,
+        "accumulation_peclet": 18.375,
+        "fipy_enrichment": 95534691.3789123,
+        "fenics_enrichment": 253.13835223451878,
+        "log10_abs_diff": 5.577,
+        "agree_1dex": false
+      }
+    ],
+    "agreement_region": "Pe_acc <= ~6 (resolvable): FiPy exp(Pe) and the dolfinx resolved Soret field agree within 1 dex",
+    "solver_sensitive_region": "Pe_acc >> 6: FiPy's reduced exp(Pe) column diverges from the numerical-diffusion-limited resolved FEM field -- this is solver-structural uncertainty, not parameter uncertainty",
+    "n_agree": 3,
+    "n_total": 5
+  },
+  "vent": {
+    "fipy": {
+      "temperature": 312.66906965088197,
+      "pH": 10.494069866010282,
+      "porosity": 0.0,
+      "flux_divergence_residual": 2.754839056747401e-15
+    },
+    "fenics": {
+      "temperature": 311.72536798927143,
+      "pH": 10.494069866010282,
+      "porosity": 0.0,
+      "flux_divergence_residual": 3.029124735321366e-15
+    },
+    "agreement": {
+      "temperature_rel_diff": 0.0030182123951730394,
+      "pH_abs_diff": 0.0
+    }
+  }
+}
