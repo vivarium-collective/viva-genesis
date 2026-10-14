@@ -190,6 +190,12 @@ guidelines:
     units-typed vg_* types) so model classes are substitutable behind one face.
   - "Model substitution is an experiment: sweep the model class as a categorical axis against the same
     gates; report parameter-robust vs structure-sensitive regions."
+  - "Spatial transport (advection-diffusion-reaction + thermophoretic drift over the vent/pore domain)
+    is a solver-agnostic interface with two real classes: FiPy (pure-Python finite volume, uv .venv)
+    and FEniCS/dolfinx via viva-fenics (compiled FEM + PETSc, pixi env) — the recommended high-fidelity
+    path; og-00 and og-03 run either, and FiPy-vs-FEniCS agreement is a gate. Phase maps are sped up
+    independently of solver choice by Ray-parallel sweeps on the mini and a declared reduced surrogate
+    for Decision-map cells (full PDE for the World view)."
   - C-N-P chemistry, proto-energetics and free-energy accounting are cross-cutting layers (one shared
     molecule pool, a resource-budget step, a world-and-individual energy currency, a ledger), not side
     studies.

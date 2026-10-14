@@ -38,6 +38,7 @@ have is the architecture the plan asks for:
 | Cross-cutting C-N-P + energetics | og-res-nitrogen, og-res-phosphorus, og-energy-proto-energetics are **separate studies with separate composites**; `cn_supply_ratio` lives only in the N composite | No shared molecule pool or energy ledger that threads through stages |
 | Free-energy / matter / charge accounting across model boundaries | Per-process residuals (`charge_imbalance`, `n_mass_residual`, `p_mass_residual`, `energy_ledger_residual`, `osmolyte_balance_residual`) | No composite-level ledger that sums across processes and across the environment/individual boundary |
 | Autonomy continuum readout | `OffGradientPersistenceProcess` emits `external_power` / `internal_power`; `BioenergeticSelectionProcess` emits `internalization` | Exists for one stage; not a persistent per-individual quantity |
+| Spatial transport as a swappable, high-fidelity layer | `FipyReactiveTransportProcess` (2-D FVM) and `ThermophoreticTrapProcess` (1-D column) are the only spatial solvers; pure-Python FiPy, single-species trap | No solver-agnostic face; FEniCS/dolfinx (real wrapper in `~/code/viva-fenics`) not usable; solver uncertainty never measured (section 4.5) |
 
 Everything below is designed to close those gaps **by composition on top of the
 existing processes**, never by replacing them. The 24 process classes and 14
@@ -421,10 +422,10 @@ runs; the new ones are added under `viva_genesis/composites/layers/`.
 
 | Plan composite | Builds from (existing) | Add / refactor |
 |---|---|---|
-| `geochemical_world` | `serpentinizing_vent_reactor` (`PhreeqcSerpentinizationProcess` + `FipyReactiveTransportProcess`) and its reduced twin | New `layers/geochemical_world.py::geochemical_world(core, *, engine="phreeqc" \| "reduced", ...)` returning the `world` block of section 2.2 with canonical stores. Add `MineralEvolutionProcess` (precipitation/dissolution updating `minerals.phase_abundance`, `surface_area`, `porosity_feedback`) — the plan's Stage 0 "porosity/permeability feedback" that og-00 lacks; feed `porosity_feedback` into `FipyReactiveTransportProcess.porosity`. |
+| `geochemical_world` | `serpentinizing_vent_reactor` (`PhreeqcSerpentinizationProcess` + `FipyReactiveTransportProcess`) and its reduced twin | New `layers/geochemical_world.py::geochemical_world(core, *, engine="phreeqc" \| "reduced", transport="fipy" \| "fenics" \| "surrogate", ...)` returning the `world` block of section 2.2 with canonical stores; the transport class is selected through the `spatial_transport` face (section 4.5). Add `MineralEvolutionProcess` (precipitation/dissolution updating `minerals.phase_abundance`, `surface_area`, `porosity_feedback`) — the plan's Stage 0 "porosity/permeability feedback" that og-00 lacks; feed `porosity_feedback` into `FipyReactiveTransportProcess.porosity`. |
 | `electrochemical_interface` | `PhGradientNernstPlanckProcess` + `ProtonBudgetProcess` (og-01) | Wrap as `layers/electrochemical_interface.py`. Add `MineralConductivityProcess` (fluid `energy.redox_potential` + `minerals.conductivity/passivation` -> `energy.current_density`) so `gradient_efficiency` is **derived** from circuit physics instead of a free scalar (the open og-01 decision in `investigation.yaml`). |
 | `prebiotic_chemistry` | `CarbonFixationProcess` + `EquilibratorThermoStep` (C), `RoadRunnerNetworkProcess` (network), `ReducedNitrogenProductionProcess` (N), `PhosphorusSpeciationProcess` (P), `GeochemicalDriveProcess` + `ProtoEnergyCurrencyProcess` (currency) | `layers/prebiotic_chemistry.py` merges all six onto the **single** `world.molecules.dissolved` map (section 5). The four currently separate composites' stores (`products/`, `net/`, `pools/`, `pool/`) collapse into that map. |
-| `pore_localization` | `ThermophoreticTrapProcess` (og-03) + FiPy fields | `layers/pore_localization.py`: species-specific thermophoresis (Soret coefficient per species, plan Stage III), `AdsorptionProcess` (`dissolved` <-> `adsorbed`), `DegradationProcess`, and `LocalizationStep` that **creates `localized[r]` entries** (an `_add` sentinel) when enrichment x retention beats destruction in a cell — the first rewrite in the sequence. |
+| `pore_localization` | `ThermophoreticTrapProcess` (og-03) + spatial fields | `layers/pore_localization.py`: species-specific thermophoresis (Soret coefficient per species, plan Stage III) on the `spatial_transport` face — FEniCS (`viva_fenics` advection-diffusion + Soret extension, section 4.5) recommended, FiPy fallback; `AdsorptionProcess` (`dissolved` <-> `adsorbed`), `DegradationProcess`, and `LocalizationStep` that **creates `localized[r]` entries** (an `_add` sentinel) when enrichment x retention beats destruction in a cell — the first rewrite in the sequence. |
 | `proto_boundary` | `ProtocellAssemblyProcess` (og-04) | `layers/proto_boundary.py`: add `AmphiphileSynthesisProcess` (endogenous fatty-acid/alkanol from `molecules.dissolved.{acetate, formate}` — plan's "endogenous amphiphile production") feeding `dissolved.amphiphile`; `ProtocellAssemblyProcess` reads it instead of its `amphiphile_conc` config; `BoundaryFormationStep` from section 2.3. |
 | `proto_individual` | `OsmoticGrowthDivisionProcess` (og-growth-division) | `composites/proto_individual.py::protocell_composite(...)` — the nested `local:Composite` document of section 2.3 with `MembraneExchangeProcess` (new), `DivisionStep`, `LysisStep`. |
 | `proto_bioenergetics` | `BioenergeticSelectionProcess` + `EnvironmentalDeclineProcess` (og-05), `ProtoEnergyCurrencyProcess` | `layers/proto_bioenergetics.py`: `MembraneElectrochemistryProcess` (delta-pH, membrane potential, H+/Na+ leak from `boundary.permeability`) + `IonTransportProcess` (primitive pumping at energetic cost) + the currency process **inside** each protocell composite; `BioenergeticSelectionProcess`'s population-mean `internalization` is replaced by the per-individual `autonomy` field. |
@@ -452,7 +453,8 @@ implement it. `E` = exists, `A` = add.
 | `environment` (`vg_environment` + `vg_minerals` producers) | `PhreeqcSerpentinizationProcess` + `FipyReactiveTransportProcess` (E, deep alkaline vent); `SerpentinizationReproductionProcess` + `VentReactorReproductionProcess` (E, reduced); `ShallowVentEnvironment` (A, Barge & Price: lower T, higher O2, Fe-oxyhydroxide); `TerrestrialGeothermalEnvironment` (A, Mulkidjanian: K+/Zn, drying cycles); `GenericNonequilibriumEnvironment` (A — promote `viva_genesis/adversarial.py` into a class) | og-adv already shows the gates reject the generic control; this makes it a first-class swap |
 | `carbon_fixation` | `CarbonFixationProcess` (E, empirical Preiner/Hudson kinetics); `MineralSurfaceMicrokineticModel` (A, adsorption + elementary steps on Ni/Fe/S sites from `minerals.catalytic_sites`); `CurrentLimitedFixationModel` (A, rate = `energy.current_density` / nF x faradaic efficiency); `AlternativeCatalystModel` (A, awaruite/greigite parameter sets of the microkinetic model) | Distinguishes "failure is thermodynamic vs kinetic vs electrical" (plan Stage I) |
 | `proto_metabolism` | `RoadRunnerNetworkProcess` (E, curated rTCA fragment, SBML) ; `BroadC123Network` (A, larger SBML from the enrichment plan's C1/C2/C3 landscape, same class, different SBML); `AutocatalyticSetModel` (A, RAF detection over realized fluxes); `ConstraintBasedModel` (A, cobra-style FBA on the same stoichiometry, optional) | All write `molecules.dissolved`; `diagnostics.autocatalytic_gain` / `network_connected` are the shared readouts |
-| `localization` | `ThermophoreticTrapProcess` (E, idealized trap); `IrregularPoreFipyModel` (A, FiPy ADR on an irregular pore geometry from `minerals`); `AdsorptionDominatedRetention` (A); `MixedLocalization` (A = composition of the three) | Phase maps re-run per class |
+| `spatial_transport` (`vg_environment.fields` producer: advection-diffusion-reaction + thermophoretic drift over the vent / pore domain) | `FipyReactiveTransportProcess` + `ThermophoreticTrapProcess` (E, pure-Python finite volume, runs in the uv `.venv`); **`viva_fenics` dolfinx FEM** (E as `viva_fenics.processes.diffusion.DiffusionProcess` for diffusion + reaction-diffusion; **A**: advection + thermophoretic-drift terms, see section 4.5) | The recommended high-fidelity spatial path. Same world, two solvers: solver/structural uncertainty becomes a first-class experiment (section 4.5) |
+| `localization` | `ThermophoreticTrapProcess` (E, idealized trap); `IrregularPoreModel` (A, ADR on an irregular pore geometry from `minerals`, behind the `spatial_transport` face so it runs on either solver); `AdsorptionDominatedRetention` (A); `MixedLocalization` (A = composition of the three) | Phase maps re-run per class |
 | `boundary` | `ProtocellAssemblyProcess` with `mix_fraction=0` (E, single-chain), `>0` (E, mixed); `ThioesterAminothiolMembrane` (A, different viability window and permeability law) | Already a parameter-selected pair; becomes class-selected |
 | `heredity` | `CompositionalHeredity`, `NetworkHeredity`, `PeptideHeredity`, `RnaLikeHeredity`, `HybridHeredity`, `MineralStateHeredity` (all A, carved out of `LineageReplicatorProcess` / `HeredityReplicatorProcess`) | og-06's result ("heredity need not presume RNA") becomes a model-substitution result by construction |
 
@@ -509,6 +511,141 @@ the list of model classes compared — so a finding can say "sustained carbon
 fixation is robust to kinetic model choice above 1 mM H2 but depends on the
 current-limited assumption below it", which is a stronger and more honest claim
 than the current single-model band.
+
+### 4.5 The spatial-transport interface: FiPy and FEniCS/dolfinx behind one face
+
+The plan's Stage 0 / III model classes ("reactive transport", "advection-
+diffusion-reaction PDE", "dynamic pore geometry") are today bound to one
+solver: `FipyReactiveTransportProcess` (`viva_genesis/transport/fipy_reactor.py`,
+2-D `Grid2D`, `TransientTerm == DiffusionTerm - PowerLawConvectionTerm` under a
+stream-function Darcy upflow, scipy `LinearLUSolver`) and
+`ThermophoreticTrapProcess` (`transport/thermophoretic_trap.py`, 1-D `Grid1D`
+accumulation column with a Soret drift velocity). The ecosystem already has a
+**real** second solver: `~/code/viva-fenics` wraps dolfinx (compiled FEM, PETSc
+linear algebra, ~1-2 orders of magnitude faster per solve than FiPy's pure-Python
+assembly at equal resolution, and higher fidelity: P1/P2 elements, gmsh
+geometry, adaptive refinement). This is the recommended high-fidelity spatial
+path; FiPy stays as the runs-anywhere class.
+
+**The face.** Both solvers implement one `spatial_transport` interface over the
+`world` block of section 2.2:
+
+```python
+SPATIAL_TRANSPORT_FACE = {
+  "inputs": {
+      "temperature": "vg_temperature", "pH": "vg_ph", "porosity": "vg_fraction",
+      "flow_velocity": "vg_velocity",                     # boundary Darcy flux
+      "sources": "map[vg_rate]",                          # H2, alkalinity, heat from serpentinization
+      "species_params": "map[tree]",                      # per-species D, Soret coefficient S_T
+      "geometry": "vg_minerals",                          # porosity_feedback / pore geometry
+  },
+  "outputs": {
+      "temperature": "vg_temperature", "pH": "vg_ph", "porosity": "vg_fraction",  # outlet deltas (as today)
+      "fields": "map[array[float]]",                      # per-species cell/nodal fields (World view)
+      "enrichment": "map[vg_fraction]",                   # per-species base/top ratio (og-03's readout)
+      "residence_time": "vg_time",
+      "flux_divergence_residual": "overwrite[float]",    # discrete conservation witness
+  },
+}
+```
+
+`FipyReactiveTransportProcess` already has every input/output except
+`species_params`, `fields` (it exposes the grid through a module-level helper
+for the viz) and per-species `enrichment`; `ThermophoreticTrapProcess` already
+has `enrichment_factor` / `residence_time`. Adding the canonical-face wrappers
+(section 1.4) is the whole FiPy side.
+
+**The FEniCS side — a viva-fenics extension, not a rewrite.**
+`viva_fenics.processes.diffusion.DiffusionProcess` (ports `source`,
+`solution: array[float]`; `integral: overwrite[float]`; config `resolution`,
+`degree`, `D`, `dt`, `apply_boundary`, `boundary_value`) steps the backward-Euler
+form in `viva_fenics/fem.py::diffusion_step`:
+
+    (u·v + dt·D·∇u·∇v) dx = (u_n + dt·source)·v dx
+
+Two terms must be added to that variational form, both as new optional
+arguments so every existing viva-fenics study keeps its exact behaviour:
+
+1. **Advection** — `+ dt·(w·∇u)·v dx` with `w` a `dolfinx.fem.Function` in a
+   vector space (SUPG stabilisation when the cell Peclet number exceeds 1;
+   dolfinx has the standard residual-based form). The velocity field comes
+   from either the boundary `flow_velocity` (uniform / stream-function upflow,
+   matching og-00's Darcy convection) or, for Stage III's irregular pore, from
+   `viva_fenics.processes.flow.PorousFlowStep` (`porous_lattice` composite:
+   Taylor-Hood Stokes through a gmsh pillar lattice returning the Darcy `k_eff`
+   and the velocity field) — which also gives `MineralEvolutionProcess` a
+   physical `porosity -> permeability -> flow` feedback.
+2. **Thermophoretic drift** — `+ dt·(D·S_T·u·∇T)·v dx`, the Soret term, with `T`
+   the solved temperature field (a second `DiffusionProcess` instance, or one
+   coupled two-field form) and `S_T` per species from `species_params`. This is
+   what makes og-03's trap species-specific, which the plan asks for and the
+   1-D FiPy column cannot do without a rewrite.
+
+Concretely, in `~/code/viva-fenics`: add `fem.advection_diffusion_step(domain, V,
+u_n, source, dt, D, velocity=None, soret=None, temperature=None, bc_value=None,
+supg=True)` beside `diffusion_step`; add
+`viva_fenics.processes.transport.AdvectionDiffusionProcess(DiffusionProcess)`
+with the two extra config keys (`velocity_mode: uniform | stream_function |
+porous_flow`, `soret_coeff`) and the extra inputs (`velocity`, `temperature`);
+a `reactive_transport` composite (`AdvectionDiffusionProcess` for heat +
+solute, optional `PorousFlowStep`) tested against the existing
+`reaction_diffusion` and `transient_diffusion` tests plus a manufactured
+advection solution. Then in viva-genesis: `viva_genesis/transport/fenics_reactor.py::
+FenicsReactiveTransportProcess` adapts that process to the face above (same
+outlet-delta semantics as the FiPy class, so og-00's gates read identically).
+
+**Integration cost and path.** dolfinx is conda-forge only (PETSc/MPI stack);
+it does not install into the uv `.venv`. viva-fenics solves this with pixi:
+`pixi.toml` pins `fenics-dolfinx`, `mpich`, `gmsh`, `python-gmsh` from
+conda-forge and layers `process-bigraph` / `vivarium-workbench` /
+`viva-superpowers` from git plus the package itself as an editable
+`pypi-dependencies` entry; everything runs as `pixi run <cmd>`. viva-genesis
+adopts the same pattern for the spatial studies only: **add** a `pixi.toml`
+(copy viva-fenics's, add `viva-fenics = { path = "../viva-fenics", editable =
+true }` or its git URL, plus `phreeqpython`, `fipy`, `equilibrator-api` from
+PyPI so both solvers coexist in one env), keep `pyproject.toml` / uv as the
+default env, and make the FEniCS class an **optional registration**:
+`build_core()` already swallows import errors per module, so
+`transport/fenics_reactor.py` registers only when dolfinx imports, and
+`models.resolve("spatial_transport", "fenics")` raises a clear "run under pixi"
+error otherwise. CI: one extra job (`pixi run pytest tests/test_fenics_*.py`)
+mirroring viva-fenics's workflow; the uv job stays green without dolfinx.
+
+**The experiment.** og-00 and og-03 gain a `model_spatial_transport ∈ {fipy,
+fenics}` axis. Head-to-head on the same world: (a) a mesh-convergence gate —
+both solvers reproduce the manufactured advection-diffusion solution with their
+expected orders (FiPy O(h), dolfinx P1 O(h²); viva-fenics already ships
+`mesh_convergence`); (b) `solver-agreement` — outlet T / pH / `H2` and
+og-03's `enrichment` agree within a stated tolerance at matched resolution
+across the og-00 and og-03 phase-map grids, with the disagreement region
+reported as **solver-structural uncertainty** using the same
+`structure_agreement` reducer as section 4.3. Where they disagree is where the
+FiPy discretisation (power-law upwinding, 1-D trap) is the limiting assumption
+and FEniCS is the one to trust.
+
+### 4.6 Sweep-speed levers, orthogonal to solver choice
+
+Phase maps are the expensive part, not single runs. Two levers apply whichever
+solver is behind the face:
+
+1. **Ray-parallel sweeps on the mini.** `sweep_grid` (`viva_genesis/sweep.py`)
+   already fans points over a `ProcessPoolExecutor` with module-level
+   generators and reducers so they pickle by reference; the same point
+   function is what a Ray driver calls. Add `n_jobs="ray"` dispatch in
+   `sweep.py` (one Ray task per grid point, the core rebuilt per worker) and
+   run the og-00 / og-03 / og-01 grids on the mini under its `.venv` (FiPy) or
+   pixi env (FEniCS). This is the standing rule for heavy sweeps.
+2. **A reduced surrogate for Decision-map cells.** The Decision view needs the
+   reduced scalar per cell, not the field. Fit a cheap surrogate per stage
+   from a coarse full-PDE grid — for og-00 the existing
+   `serpentinizing_vent_reactor_reduced` (`VentReactorReproductionProcess`,
+   first-order relaxation) calibrated to the PDE's settled outlet values; for
+   og-03 the closed form `enrichment = exp(beta · pore_length)` that
+   `ThermophoreticTrapProcess` documents — and use it to fill the fine grid,
+   with the full PDE run only at the World-view points and at a random audit
+   subset of cells (report the surrogate's max error on that subset beside the
+   map). Register the surrogate as another class on the `spatial_transport`
+   face (`"surrogate"`) so its use is declared, not hidden.
 
 ## 5. Cross-cutting layers: C-N-P, proto-energetics, free-energy accounting
 
@@ -587,7 +724,11 @@ Built: `serpentinizing_vent_reactor` (PHREEQC + FiPy), reduced twin, og-00
 gates (`vent-pH-in-lostcity-range`, conservation). Add: `schemas.py` +
 `build_core` registration; `layers/geochemical_world.py`; `MineralEvolutionProcess`
 (FeS/carbonate/brucite precipitation updating `minerals` and `porosity_feedback`);
-`ConservationLedgerStep`; the rewrite spike test (section 2.8). New gate:
+`ConservationLedgerStep`; the rewrite spike test (section 2.8); the
+`spatial_transport` face with FiPy behind it and the **FEniCS class as the
+high-fidelity path** — the viva-fenics advection + Soret extension, `pixi.toml`,
+`FenicsReactiveTransportProcess`, and the og-00 `solver-agreement` gate
+(section 4.5). New gate:
 `reactor-stays-open` — H2 flux, pH >= 9, catalytic phase abundance and porosity
 above a floor **co-persist** for the settled window (plan Stage 0 key test:
 "does the reactor poison or seal itself?"). Viz: World = existing vent
@@ -626,9 +767,13 @@ band; Mechanism = resource-budget Sankey; Decision = free-energy-ledger figure
 
 **P4 — `pore_localization` on shared spatial fields (Stage III).**
 Built: `ThermophoreticTrapProcess`, og-03 gate `retention-beats-destruction`.
-Add: species-specific Soret coefficients; `AdsorptionProcess`,
+Add: species-specific Soret coefficients via the FEniCS Soret term (the 1-D
+FiPy column stays as the single-species fallback); `AdsorptionProcess`,
 `DegradationProcess`; `LocalizationStep` creating `localized[r]` entries
-(first `_add` rewrite); `IrregularPoreFipyModel`. New gate:
+(first `_add` rewrite); `IrregularPoreModel` on a gmsh pore geometry with
+`PorousFlowStep` supplying the velocity field; og-03's `solver-agreement`
+gate on `enrichment`; Ray-parallel sweep on the mini + the `exp(beta·L)`
+surrogate for the Decision grid (section 4.6). New gate:
 `persistent-local-history` — at least one `localized` region survives
 `tau_min` with regeneration > destruction + exchange (plan's "individuality
 begins when local chemical states have persistent histories"), **and** the
@@ -779,3 +924,9 @@ hypothetical parameters per stage — a one-glance honesty indicator.
 5. **Which heredity attachment thresholds** are defensible (precursor
    availability, fidelity floor) — expert input needed; until then they are
    `_provenance: hypothetical` and swept.
+6. **Two environments.** FEniCS studies run under pixi, FiPy studies under uv;
+   the workbench's "Run" flow and the canonical-run emitters must be pointed at
+   the right interpreter per study (a `runtime.env: pixi | uv` key on the study
+   is the simplest declaration). Decide whether the published read-only
+   dashboard needs the FEniCS canonical runs committed (it cannot recompute
+   them).
