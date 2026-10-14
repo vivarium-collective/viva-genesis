@@ -49,7 +49,7 @@ _EMIT_PATHS = [
     },
     visualizations=[
         {"name": "bioenergetic-internalization", "address": "local:BioenergeticInternalizationViz",
-         "config": {"title": "Campaign V — selection internalizes the gradient"}},
+         "config": {"title": "Selection internalizes the gradient"}},
     ],
     default_n_steps=40,
     core_extensions=[build_core],

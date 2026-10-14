@@ -169,7 +169,7 @@ compare.
 
 Charts rendered from observable trajectories. Two creation paths:
 
-- **Configure a registered class** — pick from the Visualization classes discovered in the Registry (subclasses of `pbg_superpowers.visualization.Visualization` in any installed viva-* package), give it settings.
+- **Configure a registered class** — pick from the Visualization classes discovered in the Registry (subclasses of `viva_superpowers.visualization.Visualization` in any installed viva-* package), give it settings.
 - **Generate from natural language** — describe what you want; the dashboard writes a request file and prompts you to run `/viva-viz <name>`, which scaffolds a new Visualization function into `viva_genesis/visualizations/` and commits it on a stage branch.
 
 ## 6 — GitHub Branches

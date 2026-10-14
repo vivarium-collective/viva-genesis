@@ -5,7 +5,9 @@ rTCA-fragment CSTR (``RoadRunnerNetworkProcess``), fed the reduced-carbon produc
 from og-01 (pyruvate + CO2) under continuous feed + washout. The emergent
 observables — sustained net carbon throughput, autocatalytic gain, network
 connectivity — test whether metabolism-like subnetworks arise under flow without
-imposed product accumulation. Requires ``tellurium`` + ``networkx`` installed.
+imposed product accumulation. Driven by a genuine libRoadRunner/Tellurium SBML
+ODE integration (needs ``tellurium``) with a ``networkx`` connectivity check
+(needs ``networkx``).
 """
 from __future__ import annotations
 
@@ -23,12 +25,13 @@ _EMIT_PATHS = [
 @composite_generator(
     name="protometabolic_network",
     description=(
-        "A reusable protometabolic reaction-network module. libRoadRunner/Tellurium SBML "
-        "rTCA-fragment CSTR (pyruvate carboxylation + lumped autocatalytic rTCA "
-        "turn + reductive branch) fed the og-01 reduced-carbon products under "
-        "continuous feed+washout. Emergent: sustained carbon throughput, an "
-        "autocatalytic motif (gain>1), and a connected reaction network. Requires "
-        "tellurium + networkx."
+        "A reusable protometabolic reaction-network module. A genuine libRoadRunner/"
+        "Tellurium SBML ODE integration (needs tellurium) of an rTCA-fragment CSTR "
+        "(pyruvate carboxylation + lumped autocatalytic rTCA turn + reductive branch) "
+        "fed the og-01 reduced-carbon products under continuous feed+washout, with a "
+        "networkx connectivity check on the species-reaction graph (needs networkx). "
+        "Emergent: sustained carbon throughput, an autocatalytic motif (gain>1), and a "
+        "connected reaction network."
     ),
     parameters={
         "feed_pyruvate": {"type": "float", "default": 1.0e-4,
@@ -42,9 +45,9 @@ _EMIT_PATHS = [
     },
     visualizations=[
         {"name": "protometabolic-network", "address": "local:ProtometabolicNetwork",
-         "config": {"n_steps": 60, "title": "Campaign II — the protometabolic network igniting"}},
+         "config": {"n_steps": 60, "title": "The protometabolic network igniting"}},
         {"name": "protometabolism-network", "address": "local:ProtometabolismViz",
-         "config": {"n_steps": 120, "title": "Campaign II — protometabolic network (libRoadRunner)"}},
+         "config": {"n_steps": 120, "title": "Protometabolic network (libRoadRunner)"}},
     ],
     default_n_steps=120,
     core_extensions=[build_core],

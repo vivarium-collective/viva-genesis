@@ -59,9 +59,9 @@ _EMIT_PATHS = [
     },
     visualizations=[
         {"name": "nitrogen-assimilation-timeseries", "address": "local:NitrogenAssimilationViz",
-         "config": {"n_steps": 120, "title": "Campaign I — reduced-nitrogen assimilation (FeS)"}},
+         "config": {"n_steps": 120, "title": "Reduced-nitrogen assimilation (FeS)"}},
         {"name": "c-to-n-supply-balance", "address": "local:NitrogenCarbonBalanceViz",
-         "config": {"n_steps": 120, "title": "Campaign I — does reduced N keep pace with carbon?"}},
+         "config": {"n_steps": 120, "title": "Does reduced N keep pace with carbon?"}},
     ],
     default_n_steps=120,
     core_extensions=[build_core],

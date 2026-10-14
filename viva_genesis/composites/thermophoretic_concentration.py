@@ -11,8 +11,8 @@ every study condition:
   - open-pore control: porosity≈1 (feed washes through → no individual)
 
 The ``enrichment_factor`` and ``accumulation_peclet`` are read from the trap's
-FiPy solve; ``residence_time`` and the FVM conservation residual come with them.
-Requires ``fipy`` installed.
+real FiPy FVM solve (needs ``fipy``); ``residence_time`` and the FVM conservation
+residual come with them.
 """
 from __future__ import annotations
 
@@ -31,10 +31,10 @@ _EMIT_PATHS = [
     name="thermophoretic_concentration",
     description=(
         "A reusable thermophoretic-concentration module for the Baaske thermal "
-        "trap. Module F = genuine FiPy finite-volume accumulation column: "
-        "thermophoresis (Soret) + buoyant convection concentrate a dilute feed, "
-        "enrichment exponential in pore length (>10^8 favorable, ~1 in controls). "
-        "flow_velocity=0 / porosity=1 give the no-trap controls. Requires fipy."
+        "trap. Module F = genuine FiPy finite-volume accumulation column (needs "
+        "fipy): thermophoresis (Soret) + buoyant convection concentrate a dilute "
+        "feed, enrichment exponential in pore length (>10^8 favorable, ~1 in "
+        "controls). flow_velocity=0 / porosity=1 give the no-trap controls."
     ),
     parameters={
         "flow_velocity": {"type": "float", "default": 1.0e-4,
@@ -47,7 +47,7 @@ _EMIT_PATHS = [
     },
     visualizations=[
         {"name": "thermophoretic-trap", "address": "local:ThermophoreticTrapViz",
-         "config": {"title": "Campaign III — the thermal trap concentrates an individual"}},
+         "config": {"title": "The thermal trap concentrates an individual"}},
     ],
     default_n_steps=30,
     core_extensions=[build_core],

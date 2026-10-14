@@ -47,7 +47,7 @@ _EMIT_PATHS = [
     },
     visualizations=[
         {"name": "protocell-window", "address": "local:ProtocellWindowViz",
-         "config": {"title": "Campaign IV — the protocell window broadens (mixed amphiphiles)"}},
+         "config": {"title": "The protocell window broadens (mixed amphiphiles)"}},
     ],
     default_n_steps=20,
     core_extensions=[build_core],

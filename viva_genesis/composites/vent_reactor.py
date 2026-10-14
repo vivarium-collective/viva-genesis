@@ -9,7 +9,8 @@ a real FiPy finite-volume advection–diffusion–reaction column) through share
 ``vent`` / ``rates`` / ``diagnostics`` stores. PHREEQC conserves elements + charge
 and FiPy's FVM conserves flux by construction, so the composite satisfies the
 og-00 contract invariants (``mass_balance``, ``charge_neutrality``,
-``spatial_flux_conservation``). Requires ``phreeqpython`` + ``fipy`` installed.
+``spatial_flux_conservation``): driven by a real IPhreeqc speciation (needs
+``phreeqpython``) and a real FiPy FVM solve (needs ``fipy``).
 
 ``serpentinizing_vent_reactor_reduced`` is the original tuned-relaxation reproduction
 (``SerpentinizationReproductionProcess`` → ``VentReactorReproductionProcess``),
@@ -35,9 +36,9 @@ _REAL_EMIT_PATHS = [
     name="serpentinizing_vent_reactor",
     visualizations=[
         {"name": "vent-cross-section", "address": "local:VentCrossSection",
-         "config": {"n_steps": 60, "title": "Campaign 0 — real 2-D vent cross-section (FiPy)"}},
+         "config": {"n_steps": 60, "title": "Real 2-D vent cross-section (FiPy)"}},
         {"name": "vent-reactor-timeseries", "address": "local:VentReactorTimeseries",
-         "config": {"n_steps": 120, "title": "Campaign 0 — real vent reactor (PHREEQC + FiPy)"}},
+         "config": {"n_steps": 120, "title": "Real vent reactor (PHREEQC + FiPy)"}},
     ],
     description=(
         "A reusable alkaline-vent reactor module. Module A = genuine PHREEQC "
@@ -47,7 +48,8 @@ _REAL_EMIT_PATHS = [
         "genuine FiPy finite-volume advection-diffusion-reaction column transporting "
         "those sources across the vent-ocean interface and setting outlet T/pH/porosity. "
         "PHREEQC conserves mass+charge and FiPy's FVM conserves flux, satisfying the "
-        "og-00 contract invariants. Requires phreeqpython + fipy."
+        "og-00 contract invariants; the coupled model is driven by a real IPhreeqc "
+        "speciation (needs phreeqpython) and a real FiPy FVM solve (needs fipy)."
     ),
     parameters={
         "flow_velocity": {"type": "float", "default": 1.0e-3,
@@ -124,9 +126,9 @@ def serpentinizing_vent_reactor(core=None, *, flow_velocity=1.0e-3, olivine_rate
     name="serpentinizing_vent_reactor_reduced",
     visualizations=[
         {"name": "vent-cross-section", "address": "local:VentCrossSection",
-         "config": {"n_steps": 40, "title": "Campaign 0 — vent cross-section (reduced, FiPy)"}},
+         "config": {"n_steps": 40, "title": "Vent cross-section (reduced, FiPy)"}},
         {"name": "vent-reactor-timeseries", "address": "local:VentReactorTimeseries",
-         "config": {"n_steps": 60, "title": "Campaign 0 — vent reactor (reduced)"}},
+         "config": {"n_steps": 60, "title": "Vent reactor (reduced)"}},
     ],
     description="Reduced tuned-relaxation vent reactor (fallback / A-B "
                 "comparison): Gaussian serpentinization source feeding a first-order "

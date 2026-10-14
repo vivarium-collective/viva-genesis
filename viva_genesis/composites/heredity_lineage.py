@@ -55,7 +55,7 @@ _EMIT_PATHS = [
     },
     visualizations=[
         {"name": "heredity-lineage-tree", "address": "local:HeredityLineageTree",
-         "config": {"title": "Campaign VI — heredity as an inherited lineage"}},
+         "config": {"title": "Heredity as an inherited lineage"}},
     ],
     default_n_steps=40,
     core_extensions=[build_core],
