@@ -62,7 +62,7 @@ _EMIT_PATHS = [
     },
     visualizations=[
         {"name": "off-gradient-survival-frontier", "address": "local:OffGradientPhaseMap",
-         "config": {"title": "Campaign VIII — the survival frontier off the gradient"}},
+         "config": {"title": "The survival frontier off the gradient"}},
     ],
     default_n_steps=60,
     core_extensions=[build_core],

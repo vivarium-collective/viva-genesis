@@ -5,9 +5,13 @@ selected by the study param ``model_spatial_transport ∈ {"fipy", "fenics"}``.
 Each generator resolves the transport class through :func:`viva_genesis.models`
 and calls ``assert_face`` at build time (``resolve_checked``), so a class that
 does not honour the face fails loudly before the Composite is constructed.
-"fenics" selects the real dolfinx FEM model and runs only under viva-fenics's
-pixi env (it raises a clear "run under pixi" error in the uv ``.venv``); "fipy"
-runs anywhere.
+``"fipy"`` is the LIVE, default solver — a pure-Python FiPy FVM solve that runs
+anywhere and backs every canonical run. ``"fenics"`` names the swappable dolfinx
+FEM alternative: that class only *registers* today (so ``models.resolve`` /
+``assert_face`` and the dashboard see it), but is NOT yet active — the dolfinx
+solver extension lives on a held branch and dolfinx is conda-only, so selecting
+it raises a clear "run under pixi" error in the canonical ``.venv``. The face
+exists so the FEM solver can be swapped in and compared once it lands.
 """
 
 from __future__ import annotations
@@ -26,11 +30,15 @@ _TRAP_EMIT = [
 @composite_generator(
     name="spatial_transport_trap",
     description=(
-        "og-03 thermophoretic trap behind the swappable spatial_transport face: "
-        "model_spatial_transport='fipy' (1-D FiPy accumulation column, runs "
-        "anywhere) or 'fenics' (real dolfinx FEM with the Soret-drift weak-form "
-        "term, species-specific, runs under pixi). assert_face is enforced at "
-        "build. Same pore physics, two solvers (plan 4.5)."
+        "og-03 thermophoretic trap behind the swappable spatial_transport face. "
+        "The live, default solver is a genuine 1-D FiPy finite-volume accumulation "
+        "column (model_spatial_transport='fipy', runs anywhere, backs every "
+        "canonical run). The face also lets you swap in a dolfinx FEM solver with a "
+        "Soret-drift weak-form term (model_spatial_transport='fenics') — that class "
+        "only registers today and is not yet active (dolfinx is conda-only and its "
+        "solver extension is on a held branch, so it raises a 'run under pixi' "
+        "error in the canonical venv). assert_face is enforced at build. Same pore "
+        "physics, one live solver plus a swappable FEM alternative (plan 4.5)."
     ),
     parameters={
         "model_spatial_transport": {"type": "string", "default": "fipy",
@@ -95,10 +103,15 @@ _VENT_EMIT = [
     name="spatial_transport_vent",
     description=(
         "og-00 vent reactor transport behind the swappable spatial_transport "
-        "face: model_spatial_transport='fipy' (2-D FiPy FVM) or 'fenics' (real "
-        "dolfinx FEM advection-diffusion). Prescribed serpentinization drivers "
-        "(H2/alkalinity/heat) so the comparison isolates the transport solver; "
-        "assert_face enforced at build. Same world, two solvers (plan 4.5)."
+        "face. The live, default solver is a genuine 2-D FiPy finite-volume "
+        "advection-diffusion FVM (model_spatial_transport='fipy', backs every "
+        "canonical run); the face can swap in a dolfinx FEM advection-diffusion "
+        "solver (model_spatial_transport='fenics'), which only registers today and "
+        "is not yet active (solver extension on a held branch, dolfinx conda-only, "
+        "raises 'run under pixi' in the canonical venv). Prescribed serpentinization "
+        "drivers (H2/alkalinity/heat) isolate the transport solver; assert_face "
+        "enforced at build. Same world, one live solver plus a swappable FEM "
+        "alternative (plan 4.5)."
     ),
     parameters={
         "model_spatial_transport": {"type": "string", "default": "fipy",

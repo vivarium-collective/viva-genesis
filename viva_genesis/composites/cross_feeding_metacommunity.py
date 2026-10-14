@@ -55,7 +55,7 @@ _EMIT_PATHS = [
     },
     visualizations=[
         {"name": "metacommunity-phase-map", "address": "local:MetacommunityPhaseMap",
-         "config": {"title": "Campaign VII — where cross-feeding robustness emerges"}},
+         "config": {"title": "Where cross-feeding robustness emerges"}},
     ],
     default_n_steps=40,
     core_extensions=[build_core],

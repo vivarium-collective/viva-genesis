@@ -38,12 +38,13 @@ _MODULES = {
 @composite_generator(
     name="heredity_module_comparison",
     description=(
-        "A reusable heredity-module comparison (Module J). Genuine libRoadRunner "
-        "quasispecies replicator (Eigen error threshold): a heredity module "
-        "(RNA-like / peptide / low-fidelity / non-heritable) replicates a polymer with "
-        "whole-sequence fidelity Q = fidelity^length; above the threshold the functional "
-        "information is retained and inheritance pays, below it errors win. Compares "
-        "modules head-to-head on lineage fitness. Requires tellurium/libroadrunner."
+        "A reusable heredity-module comparison (Module J). A genuine libRoadRunner/"
+        "Tellurium SBML ODE integration (needs tellurium) of a quasispecies replicator "
+        "(Eigen error threshold): a heredity module (RNA-like / peptide / low-fidelity / "
+        "non-heritable) replicates a polymer with whole-sequence fidelity "
+        "Q = fidelity^length; above the threshold the functional information is retained "
+        "and inheritance pays, below it errors win. Compares modules head-to-head on "
+        "lineage fitness."
     ),
     parameters={
         "module": {"type": "string", "default": "rna-like",
@@ -52,7 +53,7 @@ _MODULES = {
     },
     visualizations=[
         {"name": "heredity-error-threshold", "address": "local:HeredityErrorThresholdViz",
-         "config": {"title": "Campaign VI — heredity above the error threshold"}},
+         "config": {"title": "Heredity above the error threshold"}},
     ],
     default_n_steps=50,
     core_extensions=[build_core],

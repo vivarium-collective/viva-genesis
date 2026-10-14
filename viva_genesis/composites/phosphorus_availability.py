@@ -16,7 +16,8 @@ One parameterized generator drives every study condition:
   - open-pore / no-gradient control : ``pore_enrichment = 1`` -> precipitation
                      dominates, reactive P collapses (the ablation control)
 
-Requires ``tellurium`` installed.
+The speciation network is a genuine libRoadRunner/Tellurium SBML ODE integration
+(needs ``tellurium``).
 """
 from __future__ import annotations
 
@@ -35,13 +36,14 @@ _EMIT_PATHS = [
 @composite_generator(
     name="phosphorus_availability",
     description=(
-        "A reusable phosphorus-availability module. libRoadRunner/Tellurium SBML "
-        "P-speciation network (phosphate <-> polyphosphate <-> reactive-P with a "
-        "precipitation/adsorption mineral sink) driven by a dissolved-phosphate "
-        "supply, the og-03 thermal-gradient pore enrichment, and pore temperature. "
-        "Emergent: the standing reactive-P pool, reactive-P production vs "
-        "precipitation loss (net availability), and the precipitated fraction — does "
-        "reactive P become available before phosphate precipitates? Requires tellurium."
+        "A reusable phosphorus-availability module. A genuine libRoadRunner/Tellurium "
+        "SBML ODE integration (needs tellurium) of a P-speciation network (phosphate "
+        "<-> polyphosphate <-> reactive-P with a precipitation/adsorption mineral sink) "
+        "driven by a dissolved-phosphate supply, the og-03 thermal-gradient pore "
+        "enrichment, and pore temperature. Emergent: the standing reactive-P pool, "
+        "reactive-P production vs precipitation loss (net availability), and the "
+        "precipitated fraction — does reactive P become available before phosphate "
+        "precipitates?"
     ),
     parameters={
         "phosphate_supply": {"type": "float", "default": 1.0e-4,

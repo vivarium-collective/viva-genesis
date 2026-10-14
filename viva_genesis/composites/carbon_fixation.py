@@ -16,7 +16,8 @@ One parameterized generator drives every study condition:
   - favorable baseline   : defaults (gradient_efficiency=1.0)
   - Tutolo-2026 arm       : gradient_efficiency≈0.1 (usable gradient collapses)
   - controls              : catalyst_active=0 / h2≈0 / gradient_efficiency≈0
-Requires ``equilibrator_api`` + ``fipy`` installed.
+Driven by a real FiPy FVM Nernst-Planck solve (needs ``fipy``) and eQuilibrator
+ΔG′ feasibility (needs ``equilibrator_api``).
 """
 from __future__ import annotations
 
@@ -40,12 +41,12 @@ _EMIT_PATHS = [
     name="hydrothermal_carbon_fixation",
     description=(
         "A reusable H2/pH-driven carbon-fixation module. Module C = genuine FiPy "
-        "Nernst-Planck pH-gradient electrochemistry (pmf, current density). "
-        "Module D = genuine eQuilibrator ΔG' feasibility gate + lab-calibrated "
-        "(Preiner/Hudson) mineral-catalyzed CO2 reduction to formate/acetate/"
-        "pyruvate. gradient_efficiency=1.0 is the favorable arm; ~0.1 is the "
-        "Tutolo-2026 in-situ collapse. catalyst_active/h2=0 give the controls. "
-        "Requires equilibrator_api + fipy."
+        "finite-volume Nernst-Planck pH-gradient electrochemistry (pmf, current "
+        "density; needs fipy). Module D = genuine eQuilibrator ΔG' feasibility gate "
+        "(needs equilibrator_api) + lab-calibrated (Preiner/Hudson) mineral-catalyzed "
+        "CO2 reduction to formate/acetate/pyruvate. gradient_efficiency=1.0 is the "
+        "favorable arm; ~0.1 is the Tutolo-2026 in-situ collapse. catalyst_active/h2=0 "
+        "give the controls."
     ),
     parameters={
         "gradient_efficiency": {"type": "float", "default": 1.0,
@@ -64,9 +65,9 @@ _EMIT_PATHS = [
     },
     visualizations=[
         {"name": "proton-gradient-profile", "address": "local:ProtonGradientProfile",
-         "config": {"n_steps": 80, "title": "Campaign I — proton gradient → reduced carbon"}},
+         "config": {"n_steps": 80, "title": "Proton gradient → reduced carbon"}},
         {"name": "carbon-fixation-timeseries", "address": "local:CarbonFixationViz",
-         "config": {"n_steps": 120, "title": "Campaign I — geology to reduced carbon (eQuilibrator + FiPy)"}},
+         "config": {"n_steps": 120, "title": "Geology to reduced carbon (eQuilibrator + FiPy)"}},
     ],
     default_n_steps=120,
     core_extensions=[build_core],
