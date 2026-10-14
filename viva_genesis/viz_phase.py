@@ -1609,3 +1609,541 @@ class GrowthDivisionMap(Visualization):
                 membrane_permeability=(1.0e-10, 1.0e-4, n),
                 n_steps=int(self.config["n_steps"]), n_jobs=1)
         return {"html": growth_division_phase_figure(res, title=self.config["title"])}
+
+
+# ============================================================================
+# og-07 — ecology before LUCA : the complete three-view (World / Mechanism /
+# Decision). Prefix: ecology_ / crossfeeding_.
+# ============================================================================
+def ecology_metacommunity_figure(world, mech, phase, *, title=None) -> str:
+    """og-07 three-view figure. **World** (left): the connected-compartment
+    metacommunity — a ring of pore compartments (nodes coloured by functional breadth,
+    parasites ringed in red), edges = cross-feeding + horizontal transfer. **Mechanism**
+    (top-right): WHY connectivity builds robustness — functional redundancy climbs with
+    the cross-feeding exchange rate from the isolated counterfactual floor across the
+    emergence threshold, approaching the anaerobic-LUCA overlap boundary (reported, not
+    a target). **Decision** (bottom-right): the ``ecology_robustness_map`` phase map over
+    (exchange_rate × parasite_load) at the canonical diversity — cross-feeding robustness
+    emerges in the well-connected, low-parasite corner (PASS boundary = white dashed).
+
+    ``world`` = {n, pos, edges, breadth, is_parasite, max_breadth}; ``mech`` =
+    {exchange, robustness, isolated, luca, connected_val}; ``phase`` = the
+    ecology_robustness_parasite_map SweepResult (or a duck-typed view)."""
+    import numpy as np
+    import plotly.graph_objects as go
+    from plotly.subplots import make_subplots
+
+    fig = make_subplots(
+        rows=2, cols=2, column_widths=[0.52, 0.48], row_heights=[0.5, 0.5],
+        horizontal_spacing=0.1, vertical_spacing=0.15,
+        specs=[[{"rowspan": 2}, {}], [None, {}]],
+        subplot_titles=("World — the connected metacommunity (nodes = pore compartments)",
+                        "Mechanism — connectivity builds redundancy",
+                        "Decision — where cross-feeding robustness emerges"))
+
+    # --- World: the cross-feeding / HGT ring network ---------------------------
+    pos = world["pos"]
+    ex, ey = [], []
+    for i, j in world["edges"]:
+        ex += [pos[i][0], pos[j][0], None]
+        ey += [pos[i][1], pos[j][1], None]
+    fig.add_trace(go.Scatter(x=ex, y=ey, mode="lines",
+                             line=dict(color="rgba(100,116,139,0.45)", width=1.1),
+                             hoverinfo="skip", showlegend=False), row=1, col=1)
+    xs = [p[0] for p in pos]
+    ys = [p[1] for p in pos]
+    breadth = world["breadth"]
+    roles = ["parasite" if p else "cooperator" for p in world["is_parasite"]]
+    fig.add_trace(go.Scatter(
+        x=xs, y=ys, mode="markers", showlegend=False,
+        marker=dict(size=[16 + 5 * b for b in breadth], color=breadth, colorscale="Viridis",
+                    cmin=0, cmax=max(world["max_breadth"], 1),
+                    colorbar=dict(title="functional<br>breadth", len=0.45, y=0.78, x=0.46, thickness=10),
+                    line=dict(width=1.2, color="#ffffff")),
+        customdata=np.stack([np.array(roles), np.array(breadth)], axis=-1),
+        hovertemplate="compartment %{pointNumber}<br>role: %{customdata[0]}"
+                      "<br>breadth: %{customdata[1]} capabilities<extra></extra>"), row=1, col=1)
+    # parasites: an open red ring over the drained compartments.
+    par_idx = [i for i, p in enumerate(world["is_parasite"]) if p]
+    if par_idx:
+        fig.add_trace(go.Scatter(
+            x=[xs[i] for i in par_idx], y=[ys[i] for i in par_idx], mode="markers",
+            marker=dict(symbol="circle-open", size=[22 + 5 * breadth[i] for i in par_idx],
+                        color=_RUST, line=dict(width=2.4, color=_RUST)),
+            name="parasite", hoverinfo="skip"), row=1, col=1)
+        fig.add_annotation(x=0.0, y=-1.32, xref="x", yref="y", showarrow=False,
+                           text="red ring = parasite (drains neighbours) · edges = cross-feeding + HGT",
+                           font=dict(size=9, color=_SLATE), row=1, col=1)
+    fig.update_xaxes(showticklabels=False, showgrid=False, zeroline=False,
+                     range=[-1.45, 1.45], row=1, col=1)
+    fig.update_yaxes(showticklabels=False, showgrid=False, zeroline=False,
+                     range=[-1.5, 1.4], scaleanchor="x", scaleratio=1, row=1, col=1)
+
+    # --- Mechanism: robustness vs connectivity (exchange rate) -----------------
+    exx = np.asarray(mech["exchange"], float)
+    rob = np.asarray(mech["robustness"], float)
+    iso = float(mech["isolated"])
+    luca = float(mech["luca"])
+    thr = float(phase.meta.get("robust_emerge_threshold", 0.5))
+    fig.add_trace(go.Scatter(x=exx, y=rob, mode="lines+markers", name="connected",
+                             line=dict(color=_TEAL, width=3),
+                             marker=dict(size=6, color=_TEAL)), row=1, col=2)
+    fig.add_hline(y=iso, line=dict(color=_SLATE, width=2, dash="dash"), row=1, col=2)
+    fig.add_annotation(x=exx.max(), y=iso, xref="x2", yref="y2", xanchor="right", yanchor="bottom",
+                       text=f"isolated counterfactual ({iso:.2f})", showarrow=False,
+                       font=dict(size=9, color=_SLATE))
+    fig.add_hline(y=thr, line=dict(color=_INK, width=1, dash="dot"), row=1, col=2)
+    fig.add_annotation(x=exx.min(), y=thr + 0.02, xref="x2", yref="y2", xanchor="left", yanchor="bottom",
+                       text=f"emergence threshold ({thr:.1f})", showarrow=False,
+                       font=dict(size=8.5, color=_INK))
+    fig.add_hline(y=luca, line=dict(color=_AMBER, width=2, dash="dot"), row=1, col=2)
+    fig.add_annotation(x=exx.max(), y=luca, xref="x2", yref="y2", xanchor="right", yanchor="top",
+                       text=f"LUCA-core overlap boundary ({luca:.2f}) — reported, not a target",
+                       showarrow=False, font=dict(size=8.5, color=_AMBER))
+    fig.update_xaxes(title_text="cross-feeding exchange rate (connectivity)", row=1, col=2)
+    fig.update_yaxes(title_text="metacommunity robustness", range=[0, 1.02], row=1, col=2)
+
+    # --- Decision: the (exchange × parasite_load) robustness phase map ---------
+    e_axis = np.asarray(phase.axes["exchange_rate"], float)
+    p_axis = np.asarray(phase.axes["parasite_load"], float)
+    Z = np.asarray(phase.surfaces["robustness"], float)        # [exchange, parasite]
+    fig.add_trace(go.Contour(
+        x=p_axis, y=e_axis, z=Z, colorscale="Viridis", zmin=0.0, zmax=1.0, ncontours=14,
+        colorbar=dict(title="robustness<br>(redundancy)", len=0.45, y=0.22, x=1.0, thickness=10),
+        contours=dict(showlabels=True, labelfont=dict(size=8, color="white")),
+        line=dict(width=0.4, color="rgba(255,255,255,0.3)"),
+        hovertemplate="parasite load=%{x:.2f}, exchange=%{y:.2f}<br>robustness=%{z:.2f}<extra></extra>"), row=2, col=2)
+    fig.add_trace(go.Contour(
+        x=p_axis, y=e_axis, z=Z, showscale=False,
+        contours=dict(start=thr, end=thr, coloring="lines"),
+        line=dict(color="#f8fafc", width=2.4, dash="dash"), hoverinfo="skip"), row=2, col=2)
+    fig.add_trace(go.Scatter(x=[0.0], y=[0.3], mode="markers+text", text=["operating<br>point"],
+                             textposition="top right", textfont=dict(size=9, color=_INK),
+                             marker=dict(symbol="star", size=14, color=_AMBER,
+                                         line=dict(width=1.1, color=_INK)), showlegend=False), row=2, col=2)
+    fig.update_xaxes(title_text="parasite load (fraction draining neighbours)", row=2, col=2)
+    fig.update_yaxes(title_text="exchange rate", row=2, col=2)
+
+    ttl = title or "Campaign VII — ecology before LUCA"
+    fig.update_layout(
+        title=dict(text=(f"<b>{ttl}</b><br><span style='font-size:12px;color:{_SLATE}'>"
+                         "Connectivity, not complexity, makes a population robust. Cross-feeding and "
+                         "horizontal transfer spread sparse capabilities across a pore network into "
+                         "redundant coverage — robustness climbs from the isolated floor (0.42) to 0.71 "
+                         "and approaches the anaerobic-LUCA overlap boundary, but only in the well-"
+                         "connected, low-parasite corner (dashed = emergence boundary).</span>")),
+        height=640, margin=dict(l=40, r=80, t=112, b=60),
+        showlegend=False,
+        font=dict(family="system-ui, -apple-system, sans-serif", color=_INK),
+        plot_bgcolor="white", paper_bgcolor="white")
+    return fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+
+
+class EcologyMetacommunityThreeView(Visualization):
+    """og-07 complete three-view (World network + Mechanism robustness-vs-connectivity
+    + Decision robustness phase map). Runs the real cross-feeding metacommunity live for
+    the World network and the Mechanism curve (pure-numpy, fast) and loads the persisted
+    (exchange × parasite_load) grid (``grid_json``) for the Decision panel, computing a
+    modest grid live as a fallback."""
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "Campaign VII — ecology before LUCA"},
+        "grid_json": {"_type": "string", "_default": ""},
+        "n_grid": {"_type": "integer", "_default": 12},
+        "n_steps": {"_type": "integer", "_default": 40},
+        "n_compartments": {"_type": "integer", "_default": 8},
+        "diversity": {"_type": "float", "_default": 0.75},
+        "parasite_load": {"_type": "float", "_default": 0.25},
+        "seed": {"_type": "integer", "_default": 1},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        import math
+
+        import numpy as np
+
+        from .composites.cross_feeding_metacommunity import cross_feeding_metacommunity
+        from .core import build_core
+        from .ecology.metacommunity import CrossFeedingMetacommunityProcess, metacommunity_state
+        from .phase_maps import ecology_robustness_parasite_map
+        from process_bigraph import Composite, gather_emitter_results
+
+        core = build_core()
+        n_steps = int(self.config["n_steps"])
+        n_comp = int(self.config["n_compartments"])
+        div = float(self.config["diversity"])
+        seed = int(self.config["seed"])
+
+        # --- World: run the real metacommunity process and read its settled state.
+        # A visible parasite load so the drained compartments read in the network.
+        proc = CrossFeedingMetacommunityProcess(
+            config={"n_compartments": n_comp, "exchange_rate": 0.3, "diversity": div,
+                    "hgt_rate": 0.1, "seed": seed,
+                    "parasite_load": float(self.config["parasite_load"])}, core=core)
+        for _ in range(n_steps):
+            proc.update({}, 1.0)
+        st = metacommunity_state(proc)
+        eff = np.asarray(st["eff"], float)
+        thr_cov = float(proc.config["coverage_threshold"])
+        breadth = [int((eff[i] > thr_cov).sum()) for i in range(eff.shape[0])]
+        pos = [(math.cos(2 * math.pi * i / n_comp), math.sin(2 * math.pi * i / n_comp))
+               for i in range(n_comp)]
+        edges = sorted({(min(i, j), max(i, j)) for i, nb in enumerate(proc._neighbours) for j in nb})
+        world = {"n": n_comp, "pos": pos, "edges": edges, "breadth": breadth,
+                 "is_parasite": [bool(x) for x in st["is_parasite"]],
+                 "max_breadth": max(breadth + [1])}
+
+        # --- Mechanism: robustness vs connectivity (exchange rate), + isolated floor.
+        def _run(**kw):
+            sim = Composite({"state": cross_feeding_metacommunity(core=core, **kw)}, core=core)
+            sim.run(float(n_steps))
+            return gather_emitter_results(sim)[("emitter",)][-1]
+        exchange = list(np.linspace(0.02, 0.8, 8))
+        robustness = [_run(exchange_rate=float(e), diversity=div, parasite_load=0.0,
+                           seed=seed)["metacommunity_robustness"] for e in exchange]
+        canon = _run(diversity=div, parasite_load=0.0, seed=seed)
+        iso = _run(isolated=True, diversity=div, parasite_load=0.0, seed=seed)
+        mech = {"exchange": exchange, "robustness": robustness,
+                "isolated": iso["metacommunity_robustness"],
+                "luca": canon["luca_capability_overlap"],
+                "connected_val": canon["metacommunity_robustness"]}
+
+        # --- Decision: the persisted (exchange × parasite_load) grid, or a live one.
+        resolved = _resolve_grid_path(str(self.config.get("grid_json", "") or ""))
+        if resolved:
+            with open(resolved) as f:
+                phase = _ResultView(*_grid_from_json(json.load(f)))
+        else:
+            n = int(self.config["n_grid"])
+            phase = ecology_robustness_parasite_map(
+                exchange_rate=(0.02, 0.8, n), parasite_load=(0.0, 0.9, n),
+                diversity=div, n_steps=n_steps, n_jobs=1)
+        return {"html": ecology_metacommunity_figure(world, mech, phase, title=self.config["title"])}
+
+
+# ============================================================================
+# og-08 — escape from the vent : the complete three-view. Prefix: escape_ /
+# offgradient_.
+# ============================================================================
+def escape_offgradient_figure(phase, trajectories, knockouts, *, title=None) -> str:
+    """og-08 three-view figure. **World** (top-left): the lineage-persistence
+    trajectories off-gradient — as geological support is withdrawn over the run only the
+    full innovation set persists; each knockout collapses. **Mechanism** (bottom-left):
+    the minimum-innovation-set knockout bars — final surviving fraction for the full set
+    vs each single knockout {−pump, −importer, −heredity}; removing ANY one collapses
+    persistence, so the set is irreducible. **Decision** (right): the ``escape_survival_map``
+    — the survival frontier over (environmental-support × innovation set); the full set
+    reaches support→0 (autonomy), each knockout is lifted off the gradient.
+
+    ``phase`` = the off_gradient_phase_map SweepResult/view; ``trajectories`` =
+    {set: {t, survivors, support}}; ``knockouts`` = {set: {survivors, machinery}}."""
+    import numpy as np
+    import plotly.graph_objects as go
+    from plotly.subplots import make_subplots
+
+    labels = list(phase.meta.get("innovation_sets")
+                  or ["full", "-pump", "-importer", "-heredity", "none"])
+    support = np.asarray(phase.axes["support"], float)
+    Z = np.asarray(phase.surfaces["persistence"], float)       # [support, set]
+    frontier = phase.meta.get("frontier") or {}
+    thr = float(phase.meta.get("persist_threshold", 0.5))
+    set_idx = list(range(len(labels)))
+
+    fig = make_subplots(
+        rows=2, cols=2, column_widths=[0.5, 0.5], row_heights=[0.52, 0.48],
+        horizontal_spacing=0.12, vertical_spacing=0.17,
+        specs=[[{}, {"rowspan": 2}], [{}, None]],
+        subplot_titles=("World — lineage persistence as support is withdrawn",
+                        "Decision — the survival frontier off the gradient",
+                        "Mechanism — each innovation is necessary (knockouts)"))
+
+    # --- World (top-left): the escape time-course ------------------------------
+    for lab in labels:
+        tr = (trajectories or {}).get(lab)
+        if not tr:
+            continue
+        fig.add_trace(go.Scatter(
+            x=tr["t"], y=tr["survivors"], mode="lines", name=lab,
+            legendgroup=lab,
+            line=dict(color=_OFFGRID_SET_COLORS.get(lab, _SLATE),
+                      width=3.2 if lab == "full" else 2,
+                      dash="solid" if lab == "full" else "dash")), row=1, col=1)
+    any_tr = next((t for t in (trajectories or {}).values() if t), None)
+    if any_tr:
+        fig.add_trace(go.Scatter(
+            x=any_tr["t"], y=any_tr["support"], mode="lines", name="support (withdrawn)",
+            line=dict(color=_INK, width=1.5, dash="dot"), opacity=0.5, legendgroup="support"), row=1, col=1)
+    fig.add_hline(y=thr, line=dict(color=_SLATE, width=1, dash="dot"), row=1, col=1)
+    fig.update_xaxes(title_text="time (geological support withdrawn over the run)", row=1, col=1)
+    fig.update_yaxes(title_text="surviving fraction", range=[-0.03, 1.06], row=1, col=1)
+
+    # --- Mechanism (bottom-left): the knockout bars ----------------------------
+    ko_labels = [l for l in labels if l != "none"]
+    ko_vals = [float((knockouts or {}).get(l, {}).get("survivors", 0.0)) for l in ko_labels]
+    ko_colors = [_OFFGRID_SET_COLORS.get(l, _SLATE) for l in ko_labels]
+    fig.add_trace(go.Bar(
+        x=ko_labels, y=ko_vals, marker_color=ko_colors, showlegend=False,
+        text=[f"{v:.2f}" for v in ko_vals], textposition="outside",
+        hovertemplate="%{x}: survivors %{y:.2f}<extra></extra>"), row=2, col=1)
+    fig.add_hline(y=thr, line=dict(color=_SLATE, width=1, dash="dot"), row=2, col=1)
+    # the -heredity error-catastrophe annotation (machinery lost).
+    mh = (knockouts or {}).get("-heredity", {}).get("machinery")
+    if mh is not None:
+        fig.add_annotation(x="-heredity", y=0.12, xref="x3", yref="y3", showarrow=True,
+                           arrowhead=2, ax=0, ay=-34,
+                           text=f"machinery → {mh:.2f}<br>(error catastrophe)",
+                           font=dict(size=8.5, color=_RUST), row=2, col=1)
+    fig.update_xaxes(title_text="innovation set", row=2, col=1)
+    fig.update_yaxes(title_text="surviving fraction<br>off-gradient", range=[0, 1.15], row=2, col=1)
+
+    # --- Decision (right, rowspan 2): the survival-frontier phase map ----------
+    fig.add_trace(go.Heatmap(
+        x=set_idx, y=support, z=Z, colorscale="Viridis", zmin=0, zmax=1,
+        colorbar=dict(title="persist.", len=0.9, x=1.0, thickness=12),
+        customdata=np.array([[labels[j] for j in set_idx] for _ in support]),
+        hovertemplate="%{customdata}<br>support=%{y:.2f}<br>persistence=%{z:.2f}<extra></extra>"), row=1, col=2)
+    fx, fy = [], []
+    for j, lab in enumerate(labels):
+        fv = frontier.get(lab)
+        fx.append(j)
+        fy.append(float(fv) if fv is not None else float(support.max()) + 1.0)
+    fig.add_trace(go.Scatter(
+        x=fx, y=fy, mode="lines+markers", line=dict(color="#f8fafc", width=2.5, dash="dot"),
+        marker=dict(size=11, color="#f8fafc", line=dict(width=1.2, color=_INK)),
+        name="survival frontier", showlegend=False, text=labels,
+        hovertemplate="%{text}: min support %{y:.2f}<extra></extra>"), row=1, col=2)
+    if frontier.get(labels[0]) is not None and float(frontier[labels[0]]) <= support.min() + 1e-9:
+        fig.add_annotation(x=0, y=support.min(), text="autonomous<br>(persists to 0)", showarrow=True,
+                           arrowhead=2, ax=44, ay=-30, font=dict(size=9, color=_TEAL),
+                           xref="x2", yref="y2")
+    fig.update_xaxes(tickmode="array", tickvals=set_idx, ticktext=labels,
+                     title_text="innovation set", row=1, col=2)
+    fig.update_yaxes(title_text="environmental support (1 = vent, 0 = off-gradient)", row=1, col=2)
+
+    ttl = title or "Campaign VIII — escape from the vent"
+    fig.update_layout(
+        title=dict(text=(f"<b>{ttl}</b><br><span style='font-size:12px;color:{_SLATE}'>"
+                         "Escaping the vent is not one innovation but an irreducible set. Because the "
+                         "lineage's budget is co-limited (energy AND resources), only internal pump + "
+                         "resource importer + heredity together persist as geological support → 0; "
+                         "removing any one collapses off-gradient persistence.</span>")),
+        height=640, margin=dict(l=70, r=40, t=112, b=60),
+        legend=dict(orientation="h", y=1.03, x=0.0, xanchor="left", font=dict(size=9)),
+        font=dict(family="system-ui, -apple-system, sans-serif", color=_INK),
+        plot_bgcolor="white", paper_bgcolor="white")
+    return fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+
+
+class EscapeOffGradientThreeView(Visualization):
+    """og-08 complete three-view (World persistence trajectories + Mechanism knockout
+    bars + Decision survival-frontier phase map). The deterministic off-gradient lineage
+    is cheap, so the trajectories and knockouts are always computed live; the survival-
+    frontier grid loads from ``grid_json`` (or a modest live grid)."""
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "Campaign VIII — escape from the vent"},
+        "grid_json": {"_type": "string", "_default": ""},
+        "n_grid": {"_type": "integer", "_default": 28},
+        "n_steps": {"_type": "integer", "_default": 60},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        from .autonomy.off_gradient import decline_trajectory, simulate_offgradient
+        from .phase_maps import _INNOVATION_SETS, off_gradient_phase_map
+        resolved = _resolve_grid_path(str(self.config.get("grid_json", "") or ""))
+        if resolved:
+            with open(resolved) as f:
+                phase = _ResultView(*_grid_from_json(json.load(f)))
+        else:
+            phase = off_gradient_phase_map(support=(0.0, 1.0, int(self.config["n_grid"])),
+                                           n_steps=int(self.config["n_steps"]))
+        n = int(self.config["n_steps"])
+        trajectories = {label: decline_trajectory(n_steps=n, **flags)
+                        for label, flags in _INNOVATION_SETS}
+        # Knockouts off-gradient (support held at 0): final survivors + machinery integrity.
+        knockouts = {}
+        for label, flags in _INNOVATION_SETS:
+            r = simulate_offgradient(0.0, n_steps=n, **flags)
+            knockouts[label] = {"survivors": r["survivors"], "machinery": r["machinery"]}
+        return {"html": escape_offgradient_figure(phase, trajectories, knockouts,
+                                                  title=self.config["title"])}
+
+
+# ============================================================================
+# og-adv — the adversarial control : the complete three-view (polished gate +
+# per-gate bars, plus a World trajectory panel). Prefix: vent_specificity_ /
+# advcontrol_.
+# ============================================================================
+def advcontrol_trajectory_panel(fig, trajectories, *, row, col, gate_mM=50.0):
+    """World panel for og-adv: formate (mM, log) over time — the vent is productive
+    (climbs past the og-01 formate gate) while the generic control stays flat at ≈0."""
+    import plotly.graph_objects as go
+
+    vent = (trajectories or {}).get("vent") or {}
+    generic = (trajectories or {}).get("generic") or {}
+    if vent:
+        fig.add_trace(go.Scatter(x=vent["t"], y=vent["formate_mM"], mode="lines",
+                                 name="vent", line=dict(color=_TEAL, width=3)), row=row, col=col)
+    if generic:
+        fig.add_trace(go.Scatter(x=generic["t"], y=generic["formate_mM"], mode="lines",
+                                 name="generic control",
+                                 line=dict(color=_RUST, width=2.4, dash="dash")), row=row, col=col)
+    fig.add_hline(y=gate_mM, line=dict(color=_INK, width=1.4, dash="dot"), row=row, col=col)
+    return fig
+
+
+def vent_specificity_threeview_figure(res, trajectories, gate_rows=None, *, title=None) -> str:
+    """og-adv complete three-view figure. **World** (top-left): formate (mM, log) over
+    time — the vent is productive (→ 200 mM) while the generic control stays flat at ≈0
+    (the same real composite, vent features off). **Mechanism** (bottom-left): every
+    vent-specific gate's margin log₁₀(value / threshold) for the vent vs the generic
+    control — every generic bar below the gate line (rejected), every vent bar above it
+    (passes). **Decision** (right): the og-01 carbon-flux gate over (dissolved H₂ ×
+    Fe/Ni/S catalyst); the PASS region is the vent corner, the generic control sits far
+    below the threshold boundary (white dashed).
+
+    ``res`` = the vent_specificity_map SweepResult/view; ``trajectories`` =
+    {"vent"/"generic": {t, formate_mM}}; ``gate_rows`` = per-gate vent/generic/threshold."""
+    import numpy as np
+    import plotly.graph_objects as go
+    from plotly.subplots import make_subplots
+
+    h2 = np.asarray(res.axes["h2"], float)
+    cat = np.asarray(res.axes["catalyst_active"], float)
+    thr = float(res.meta.get("gate_threshold", 1.0e-6))
+    pf = np.asarray(res.surfaces["peak_flux"], float)          # [h2, catalyst]
+    z = np.log10(np.clip(pf.T, 1e-15, None))                   # z[y=catalyst][x=h2]
+
+    fig = make_subplots(
+        rows=2, cols=2, column_widths=[0.5, 0.5], row_heights=[0.52, 0.48],
+        horizontal_spacing=0.13, vertical_spacing=0.17,
+        specs=[[{}, {"rowspan": 2}], [{}, None]],
+        subplot_titles=("World — vent is productive, the generic control is not",
+                        "Decision — carbon-fixation gate over (H₂ × catalyst)",
+                        "Mechanism — every gate rejects the generic control"))
+
+    # --- World (top-left): formate trajectories --------------------------------
+    advcontrol_trajectory_panel(fig, trajectories, row=1, col=1, gate_mM=50.0)
+    fig.add_annotation(x=0.02, y=0.96, xref="x domain", yref="y domain", xanchor="left",
+                       text="og-01 formate gate (50 mM)", showarrow=False,
+                       font=dict(size=8.5, color=_INK))
+    fig.update_xaxes(title_text="time (s)", row=1, col=1)
+    fig.update_yaxes(type="log", title_text="formate (mM)", row=1, col=1)
+
+    # --- Mechanism (bottom-left): the per-gate rejection bars ------------------
+    if gate_rows:
+        labels = [g["label"] for g in gate_rows]
+        m_vent = [float(np.log10(max(g["vent"], 1e-300) / g["threshold"])) for g in gate_rows]
+        m_ctrl = [float(np.log10(max(g["generic"], 1e-300) / g["threshold"])) for g in gate_rows]
+        fig.add_trace(go.Bar(y=labels, x=m_vent, orientation="h", name="vent",
+                             marker_color=_TEAL, legendgroup="vent"), row=2, col=1)
+        fig.add_trace(go.Bar(y=labels, x=m_ctrl, orientation="h", name="generic control",
+                             marker_color=_RUST, legendgroup="generic control"), row=2, col=1)
+        fig.add_vline(x=0.0, line=dict(color=_INK, width=1.6), row=2, col=1)
+        fig.update_xaxes(title_text="gate margin  log₁₀(value / threshold)", row=2, col=1)
+
+    # --- Decision (right, rowspan 2): the gate contour -------------------------
+    fig.add_trace(go.Contour(
+        x=h2, y=cat, z=z, colorscale="Viridis", ncontours=16,
+        colorbar=dict(title="log₁₀ peak<br>net C-flux<br>(mol/s)", len=0.9, x=1.0, thickness=12),
+        contours=dict(showlabels=True, labelfont=dict(size=8, color="white")),
+        line=dict(width=0.4, color="rgba(255,255,255,0.3)")), row=1, col=2)
+    fig.add_trace(go.Contour(
+        x=h2, y=cat, z=z, showscale=False,
+        contours=dict(start=np.log10(thr), end=np.log10(thr), coloring="lines"),
+        line=dict(color="#f8fafc", width=2.6, dash="dash"), hoverinfo="skip"), row=1, col=2)
+    fig.add_trace(go.Scatter(
+        x=[float(h2[-1])], y=[float(cat[-1])], mode="markers+text", text=["vent<br>(passes)"],
+        textposition="bottom left", textfont=dict(size=10, color=_INK),
+        marker=dict(symbol="star", size=15, color=_AMBER, line=dict(width=1.2, color=_INK)),
+        showlegend=False), row=1, col=2)
+    fig.add_trace(go.Scatter(
+        x=[float(h2[0])], y=[float(cat[0])], mode="markers+text",
+        text=["generic control<br>(rejected)"], textposition="top right",
+        textfont=dict(size=10, color=_RUST),
+        marker=dict(symbol="x", size=13, color=_RUST, line=dict(width=1.2, color=_INK)),
+        showlegend=False), row=1, col=2)
+    fig.update_xaxes(type="log", title_text="dissolved H₂ (M)", row=1, col=2)
+    fig.update_yaxes(title_text="Fe/Ni/S catalyst activity", row=1, col=2)
+
+    ttl = title or "Adversarial control — vent-specificity of the gates"
+    fig.update_layout(
+        title=dict(text=(f"<b>{ttl}</b><br><span style='font-size:12px;color:{_SLATE}'>"
+                         "The SAME real composites with no sustained H₂, no Fe/Ni/S catalyst and no pore "
+                         "concentration are rejected by every discriminating gate, where the vent passes "
+                         "all five — so a PASS certifies the vent mechanism, not generic nonequilibrium "
+                         "chemistry.</span>")),
+        height=640, margin=dict(l=70, r=40, t=112, b=60), barmode="group",
+        legend=dict(orientation="h", y=1.03, x=0.0, xanchor="left", font=dict(size=9)),
+        font=dict(family="system-ui, -apple-system, sans-serif", color=_INK),
+        plot_bgcolor="white", paper_bgcolor="white")
+    return fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+
+
+class VentSpecificityThreeView(Visualization):
+    """og-adv complete three-view (World vent-vs-generic trajectories + Mechanism
+    per-gate rejection bars + Decision carbon-flux gate contour). Loads the persisted
+    grid (``grid_json`` — whose meta carries the per-gate ``gate_rows``) for the contour
+    and bars, and runs the real carbon-fixation composite in vent vs generic mode live
+    for the World trajectory panel."""
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "Adversarial control — vent-specificity of the gates"},
+        "grid_json": {"_type": "string", "_default": ""},
+        "n_grid": {"_type": "integer", "_default": 12},
+        "n_steps": {"_type": "integer", "_default": 40},
+        "traj_steps": {"_type": "integer", "_default": 50},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        from .adversarial import GENERIC_PARAMS, VENT_PARAMS
+        from .composites.carbon_fixation import hydrothermal_carbon_fixation
+        from .core import build_core
+        from .phase_maps import vent_specificity_map
+        from process_bigraph import Composite, gather_emitter_results
+
+        core = build_core()
+        resolved = _resolve_grid_path(str(self.config.get("grid_json", "") or ""))
+        gate_rows = None
+        if resolved:
+            with open(resolved) as f:
+                blob = json.load(f)
+            res = _ResultView(*_grid_from_json(blob))
+            gate_rows = res.meta.get("gate_rows")
+        else:
+            n = int(self.config["n_grid"])
+            res = vent_specificity_map(h2=(1.0e-9, 2.0e-2, n), catalyst_active=(0.0, 1.0, n),
+                                       n_steps=int(self.config["n_steps"]), n_jobs=1)
+
+        # World trajectories: the real carbon-fixation composite, vent vs generic.
+        tsteps = int(self.config["traj_steps"])
+
+        def _traj(params):
+            sim = Composite({"state": hydrothermal_carbon_fixation(core=core, **params)}, core=core)
+            sim.run(float(tsteps))
+            rows = gather_emitter_results(sim)[("emitter",)]
+            t = [float(r.get("global_time", i)) for i, r in enumerate(rows)]
+            form = [max(float(r.get("formate", 0.0)) * 1e3, 1e-12) for r in rows]
+            return {"t": t, "formate_mM": form}
+        trajectories = {"vent": _traj(VENT_PARAMS["carbon"]),
+                        "generic": _traj(GENERIC_PARAMS["carbon"])}
+        return {"html": vent_specificity_threeview_figure(res, trajectories, gate_rows=gate_rows,
+                                                          title=self.config["title"])}

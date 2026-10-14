@@ -96,3 +96,16 @@ def test_derived_evaluators_registered():
     register_derived_scalars(reg)
     assert "metacommunity_robustness" in reg
     assert "luca_capability_overlap" in reg
+
+
+def test_ecology_three_view_registered_and_renders():
+    """The complete three-view (World network + Mechanism robustness-vs-connectivity +
+    Decision robustness phase map) is registered and renders a Plotly figure."""
+    reg = build_core().link_registry
+    assert "EcologyMetacommunityThreeView" in reg
+    from viva_genesis import phase_maps
+    assert hasattr(phase_maps, "ecology_robustness_parasite_map")
+    out = reg["EcologyMetacommunityThreeView"](
+        config={"n_grid": 5, "n_steps": 20}, core=build_core()).update({})
+    html = out["html"]
+    assert isinstance(html, str) and "plotly" in html.lower() and len(html) > 5000
