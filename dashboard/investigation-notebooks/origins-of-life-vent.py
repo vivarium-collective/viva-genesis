@@ -1401,6 +1401,11 @@ else:
 #
 # _Results are shown by the figures below, produced by the run above._
 
+# **ecology-three-view**
+
+# ecology-three-view
+_save_viz('og-07-ecology-before-luca', 'ecology-three-view', _render_one('local:EcologyMetacommunityThreeView', {'composite': 'viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity', 'grid_json': 'workspace/studies/og-07-ecology-before-luca/artifacts/ecology_robustness_grid.json', 'title': 'Campaign VII — ecology before LUCA'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_cross_feeding_metacommunity_cross_feeding_metacommunity if 'ov_viva_genesis_composites_cross_feeding_metacommunity_cross_feeding_metacommunity' in dir() else None)))
+
 # **metacommunity-phase-map**
 
 # metacommunity-phase-map
@@ -1537,6 +1542,11 @@ else:
 #
 # _Results are shown by the figures below, produced by the run above._
 
+# **escape-three-view**
+
+# escape-three-view
+_save_viz('og-08-escape-from-the-vent', 'escape-three-view', _render_one('local:EscapeOffGradientThreeView', {'composite': 'viva_genesis.composites.off_gradient_persistence.off_gradient_persistence', 'grid_json': 'workspace/studies/og-08-escape-from-the-vent/artifacts/off_gradient_grid.json', 'title': 'Campaign VIII — escape from the vent'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_off_gradient_persistence_off_gradient_persistence if 'ov_viva_genesis_composites_off_gradient_persistence_off_gradient_persistence' in dir() else None)))
+
 # **off-gradient-survival-frontier**
 
 # off-gradient-survival-frontier
@@ -1670,6 +1680,11 @@ else:
 # ### Visualizations
 #
 # _Results are shown by the figures below, produced by the run above._
+
+# **vent-specificity-three-view**
+
+# vent-specificity-three-view
+_save_viz('og-adv-generic-nonequilibrium', 'vent-specificity-three-view', _render_one('local:VentSpecificityThreeView', {'title': 'Adversarial control — vent-specificity of the gates', 'grid_json': 'workspace/studies/og-adv-generic-nonequilibrium/artifacts/vent_specificity_grid.json'}, RUNS_DB, STUDY_YAML))
 
 # **vent-specificity-map**
 
