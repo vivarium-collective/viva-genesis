@@ -3,7 +3,7 @@ name: og-growth-division
 investigation: origins-of-life-vent
 created: '2026-10-13'
 phase: Evaluate
-status: running
+status: ran
 design_status: approved
 simulation_status: ran
 evaluation_status: evaluated
@@ -114,7 +114,7 @@ baseline:
   params: {network_throughput: 1.0e-19, membrane_permeability: 1.0e-9, autocatalytic_rate: 0.5, division_threshold: 6.4e-17, leak_rate: 1.0}
   canonical: true
 claim: A protocell's chemistry can change its physical fate. An internal autocatalytic/metabolic source makes an osmolyte; its accumulation raises the internal osmotic pressure (van 't Hoff), that pressure draws solvent across the semi-permeable membrane, the compartment expands, and at a size threshold it divides — a physical selection mechanism with no abstract fitness score. Whether this produces division rather than lysis or starvation is set by the membrane permeability against the network throughput — there is a bounded viable band in which net growth leads to repeated division, flanked by starvation (too permeable — the product leaks before the osmotic pressure can build) and lysis (too impermeable — the pressure bursts the membrane). Mass is conserved to machine precision across growth and division.
-result: The matched (favorable) compartment divides 8 times over the run (net growth to division, outcome = divide), with the mass-balance residual ~1e-32 mol (conserved across every division). The viable growth→division band is ~25% of the (throughput × permeability) grid, bounded by starvation (too permeable → no division, net growth ~1.00) and lysis (too impermeable → membrane bursts at ~1.5e5 Pa). Zero-throughput ablation gives no division and essentially no growth.
+result: The matched (favorable) compartment divides 8 times over the run (net growth to division, outcome = divide), with the mass-balance residual ~4e-32 mol (conserved across every division). The viable growth→division band is ~25% of the (throughput × permeability) grid, bounded by starvation (too permeable → no division, net growth ~1.00) and lysis (too impermeable → membrane bursts at ~1.5e5 Pa). Zero-throughput ablation gives no division and essentially no growth.
 findings:
 - id: oggd-metabolism-changes-physical-fate
   kind: computational
@@ -141,10 +141,10 @@ findings:
 - id: oggd-growth-is-chemistry-driven
   kind: computational
   status: confirms
-  statement: The growth is driven by the chemistry, not by the compartment physics alone — with the autocatalytic source ablated (zero throughput) the compartment neither grows nor divides, while mass stays conserved across the whole cycle (residual ~1e-32 mol).
+  statement: The growth is driven by the chemistry, not by the compartment physics alone — with the autocatalytic source ablated (zero throughput) the compartment neither grows nor divides, while mass stays conserved across the whole cycle (residual ~4e-32 mol).
   evidence:
     from_test: ablation-no-throughput-no-growth
-    observed: 'ablation (throughput ~0) → 0 divisions, net growth ~1.04; favorable → 8 divisions; mass residual ~1e-32 mol'
+    observed: 'ablation (throughput ~0) → 0 divisions, net growth ~1.04; favorable → 8 divisions; mass residual ~4e-32 mol'
     units: dimensionless
   expected:
     cites: [muchowska2019synthesis]
@@ -168,7 +168,7 @@ report:
   - {label: Viable growth→division band, value: ~25% of grid, status: pass}
   - {label: Too-permeable arm, value: 0 divisions (starve), status: pass}
   - {label: Too-impermeable arm, value: lysed (burst), status: pass}
-  - {label: Mass-balance residual, value: ~1e-32 mol, status: pass}
+  - {label: Mass-balance residual, value: ~4e-32 mol, status: pass}
   - {label: Zero-throughput ablation, value: 0 divisions, status: pass}
 conclusion_verdicts:
   biological_validation:

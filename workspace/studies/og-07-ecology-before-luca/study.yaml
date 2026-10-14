@@ -3,7 +3,7 @@ name: og-07-ecology-before-luca
 investigation: origins-of-life-vent
 created: '2026-10-11'
 phase: Evaluate
-status: running
+status: ran
 design_status: approved
 simulation_status: ran
 evaluation_status: evaluated
@@ -92,8 +92,8 @@ baseline:
   composite: viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity
   params: {n_compartments: 8, exchange_rate: 0.3, diversity: 0.75, hgt_rate: 0.1, seed: 1}
   canonical: true
-claim: A connected metacommunity of heterogeneous pore compartments develops functional redundancy (robustness) that an isolated compartment cannot — cross-feeding and horizontal transfer spread coarse-grained protometabolic capabilities into >= 2-fold coverage, so most functions survive a single-compartment loss. Robustness EMERGES only in a bounded region of (cross-feeding exchange_rate x inter-compartment diversity) — too little diversity leaves nothing to share, too little exchange leaves a broad repertoire fragile. The collective repertoire's overlap with the anaerobic H2/CO2/FeS LUCA reconstruction is REPORTED as a far-end boundary the emergent set approaches (~0.6-0.7), not a target — LUCA constrains which capabilities are eventually acquired, not evidence the first compartments were LUCA-like.
-result: Connected metacommunity robustness 0.667 (canonical seed) > isolated counterfactual 0.500; across 8 seeds connected 0.71±0.08 strictly beats isolated 0.42±0.06 on every seed (min gain 0.17). Collective LUCA-core overlap 0.60 (canonical), 0.70±0.14 across seeds — reported as a boundary.
+claim: A connected metacommunity of heterogeneous pore compartments develops functional redundancy (robustness) that an isolated compartment cannot — cross-feeding and horizontal transfer spread coarse-grained protometabolic capabilities into >= 2-fold coverage, so most functions survive a single-compartment loss. Robustness EMERGES only in a bounded corner of the swept phase maps — it needs enough inter-compartment diversity to give cross-feeding something to share AND enough exchange to spread it, and it collapses as parasite load rises — too little diversity leaves nothing to share, too little exchange leaves a broad repertoire fragile, and parasites draining their neighbours erase the redundancy. The three-view Decision map over (exchange_rate x parasite_load) at the canonical diversity shows cross-feeding robustness emerging only in the well-connected, low-parasite corner (PASS boundary at robustness 0.5). The collective repertoire's overlap with the anaerobic H2/CO2/FeS LUCA reconstruction is REPORTED as a far-end boundary the emergent set approaches (~0.6-0.7), not a target — LUCA constrains which capabilities are eventually acquired, not evidence the first compartments were LUCA-like.
+result: Connected metacommunity robustness 0.667 at the canonical operating point of the Decision map (exchange 0.3, parasite 0; auto-graded primary gate 0.646) > isolated counterfactual 0.500; across 8 seeds connected 0.71±0.08 strictly beats isolated 0.42±0.06 on every seed (min gain 0.17). Collective LUCA-core overlap 0.60 (canonical), 0.70±0.14 across seeds — reported as a boundary.
 findings:
 - id: og07-connectivity-builds-robustness
   kind: computational
@@ -109,10 +109,10 @@ findings:
 - id: og07-robustness-emergence-boundary
   kind: computational
   status: novel
-  statement: Robustness EMERGES only in a bounded corner of (cross-feeding exchange_rate x inter-compartment diversity). At low diversity the compartments are near-identical, so cross-feeding/HGT have nothing to share and robustness stays at the sparse intrinsic floor (~0.17-0.25 regardless of exchange); at low exchange a diverse-but-disconnected set holds a broad repertoire fragilely (each capability in one compartment, ~0.33-0.42); only where diversity >= ~0.4 AND exchange crosses ~0.2 does robustness climb to 0.58-0.83. The transition is a phase boundary, not a monotone response to either knob alone.
+  statement: Robustness EMERGES only in a bounded corner of (cross-feeding exchange_rate x inter-compartment diversity). At low diversity the compartments are near-identical, so cross-feeding/HGT have nothing to share and robustness stays at the sparse intrinsic floor (~0.17-0.25 regardless of exchange); at low exchange a diverse-but-disconnected set holds a broad repertoire fragilely (each capability in one compartment, ~0.33-0.42); only where diversity >= ~0.4 AND exchange crosses ~0.2 does robustness climb to 0.58-0.83. The transition is a phase boundary, not a monotone response to either knob alone. The companion three-view Decision map over (exchange_rate x parasite_load) at the canonical diversity sharpens this — robustness clears the 0.5 emergence boundary only once exchange crosses ~0.2 AND parasite load stays low (0.667 at the parasite-free operating point), collapsing toward 0 as parasites drain their neighbours.
   evidence:
     from_test: cross-feeding-robustness
-    observed: 'robustness landscape over (exchange x diversity): emergence boundary at exchange~0.2, diversity~0.4; canonical operating point 0.667'
+    observed: 'robustness landscape over (exchange x diversity): emergence boundary at exchange~0.2, diversity~0.4; companion (exchange x parasite_load) Decision map clears 0.5 only in the well-connected, low-parasite corner; canonical operating point 0.667 (auto-graded gate 0.646)'
     units: dimensionless
   expected:
     cites: [weiss2016physiology]
@@ -132,7 +132,7 @@ report:
   title: Ecology before LUCA
   verdict: PASS — a connected metacommunity builds functional redundancy a single compartment cannot, in a bounded diversity x exchange region; LUCA overlap reported as a boundary, not a target
   confidence: high
-  main_insight: Connectivity, not complexity, is what makes a population robust before LUCA. Cross-feeding and horizontal transfer spread sparse protometabolic capabilities into redundant coverage across a pore network, so most functions survive a single-compartment loss — but only where diversity gives cross-feeding something to share AND exchange spreads it (a phase boundary). The collective repertoire's overlap with the anaerobic H2/CO2/FeS LUCA reconstruction (~0.6-0.7) is a far-end boundary the emergent set approaches, not a target.
+  main_insight: Connectivity, not complexity, is what makes a population robust before LUCA. Cross-feeding and horizontal transfer spread sparse protometabolic capabilities into redundant coverage across a pore network, so most functions survive a single-compartment loss — but only where diversity gives cross-feeding something to share, exchange spreads it, AND parasite load stays low (a phase boundary, mapped in the three-view Decision panel over exchange_rate x parasite_load). The collective repertoire's overlap with the anaerobic H2/CO2/FeS LUCA reconstruction (~0.6-0.7) is a far-end boundary the emergent set approaches, not a target.
   conclusion: >-
     A coarse-grained, deterministic cross-feeding metacommunity shows that heterogeneous,
     connected pore compartments develop capability redundancy (robustness) a single
@@ -145,7 +145,8 @@ report:
     (escape from the vent).
   caveat: The capability vector and its exchange/transfer dynamics are coarse-grained couplings (a deterministic reproduction, not a wrapped ALife/agent engine, and not N instantiated libRoadRunner networks); the metacommunity dynamics are explicit and reproducible given the seed.
   key_metrics:
-  - {label: Connected robustness (canonical), value: 0.667, status: pass}
+  - {label: Connected robustness (canonical operating point), value: 0.667, status: pass}
+  - {label: Connected robustness (auto-graded gate), value: 0.646, status: pass}
   - {label: Isolated counterfactual (canonical), value: 0.500, status: pass}
   - {label: Connected robustness (8-seed mean), value: 0.71, status: pass}
   - {label: Isolated robustness (8-seed mean), value: 0.42, status: pass}
@@ -165,10 +166,10 @@ limitations:
 discovery_implications:
   resolved_uncertainties:
   - Connected, heterogeneous populations develop functional redundancy (robustness) that isolated compartments do not — robustly across seeds.
-  - That robustness is an emergent property of a bounded (diversity x exchange) region, not a monotone response to either knob alone.
+  - That robustness is an emergent property of a bounded region of the swept phase maps — needing diversity AND exchange, and collapsing under parasite load (the three-view Decision map over exchange_rate x parasite_load) — not a monotone response to any one knob.
   remaining_uncertainties:
   - Whether the emergent cross-feeding chains map onto specific reductive-TCA / Wood-Ljungdahl byproduct exchanges when the compartments run the real og-02 network.
-  - How parasite load and network topology (beyond a ring) shift the emergence boundary.
+  - How network topology beyond a ring (and higher connectivity degree) shifts the emergence boundary now that exchange, diversity and parasite load are mapped.
   followup_study_proposals:
   - {study: og-07b, rationale: Instantiate the real og-02 libRoadRunner network per compartment for a small N and check the coarse-grained cross-feeding chains against metabolite exchange.}
   - {study: og-08, rationale: Carry the robust metacommunity into the escape-from-the-vent transition (dispersal to a fluctuating environment).}

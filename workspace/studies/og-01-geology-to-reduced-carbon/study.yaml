@@ -14,7 +14,7 @@ question: Which combinations of T, pH, pressure, H2, CO2 and mineralogy generate
 hypothesis: Over Fe/Ni/S surfaces and across the pH gradient, H2-driven CO2 reduction yields formate/acetate/pyruvate at lab-calibrated rates within a bounded (T,pH,H2,pressure) region; the Tutolo-2026 in-situ arm roughly halves the flux, and the feature-ablation controls (no gradient / no H2 / no catalyst) zero it.
 objective: Add H2-driven CO2 reduction, reproduce the three benchmark experiments, and map the parameter region of sustained net organic-carbon flux.
 result: >-
-  All eight tests pass — Preiner yields reproduced (formate 200 mM, acetate 100 µM,
+  All nine tests pass — Preiner yields reproduced (formate 200 mM, acetate 100 µM,
   pyruvate 10 µM), formate collapses in every control, and the Tutolo-2026 arm's
   proton-motive gradient collapses 427 → 43 mV.
 findings:
@@ -205,7 +205,7 @@ contract:
     expr: abs(residual_C)+abs(residual_H)+abs(residual_O) < tol
   note: bigraph-schema typed ports (_type/_units/bounds) + conservation predicates; the composite built for this study must declare a ProcessContract matching this face (audited via the workbench §Contract panel).
 behavior_tests:
-# Six single-run tests auto-grade (derived readouts in viva_genesis/evaluators.py)
+# Seven single-run tests auto-grade (derived readouts in viva_genesis/evaluators.py)
 # against the FAVORABLE canonical run; the two cross-run tests (controls, in-situ
 # collapse) are graded by the canonical runner (sims/run.py) which runs the
 # control + Tutolo arms and writes their verdicts.
@@ -617,7 +617,7 @@ units_and_time:
   note: Steps are abstract reaction/transport ticks, not wall-clock; concentrations in mol/L, temperature in K.
 study_card:
   headline: >-
-    All eight tests pass — Preiner yields reproduced (formate 200 mM, acetate 100 µM,
+    All nine tests pass — Preiner yields reproduced (formate 200 mM, acetate 100 µM,
     pyruvate 10 µM), formate collapses in every control, and the Tutolo-2026 arm's
     proton-motive gradient collapses 427 → 43 mV.
   status: PASS — reproduces the benchmarks; Tutolo arm flags the in-situ risk

@@ -3,7 +3,7 @@ name: og-energy-proto-energetics
 investigation: origins-of-life-vent
 created: '2026-10-13'
 phase: Evaluate
-status: running
+status: ran
 design_status: approved
 simulation_status: ran
 evaluation_status: evaluated
@@ -132,7 +132,7 @@ baseline:
   composite: viva_genesis.composites.proto_energetics.proto_energetics
   params: {drive_free_energy: 50.0, coupling_efficiency: 0.6, carrier_pool: 0.001, loss_rate: 0.05, load: 0.2, carrier: thioester}
 claim: A pre-ATP thioester-class carrier coupled to an exergonic geochemical drive maintains a transferable energy currency under endergonic load (charged fraction ~0.39) and captures ~47% of the tapped geochemical free energy as stored usable work; removing the coupling or starving the drive below the carrier bond collapses the currency — capturing free energy into a transferable store is an explicit, bounded, falsifiable transition, not a favourable reaction direction.
-result: Favourable arm maintains the currency (final charged fraction 0.39 >= 0.25) and captures 0.47 of the input free energy as transferable work (>= 0.30); the no-coupling and no-drive ablations collapse to ~0; the free-energy ledger residual stays at machine precision (~1e-15 kJ/L).
+result: Favourable arm maintains the currency (final charged fraction 0.39 >= 0.25) and captures 0.47 of the input free energy as transferable work (>= 0.30); the no-coupling and no-drive ablations collapse to ~0; the free-energy ledger residual stays at machine precision (~1e-16 kJ/L).
 findings:
 - id: ogenergy-currency-maintained
   kind: computational
@@ -157,7 +157,7 @@ findings:
     coupling efficiency or the drive margin over the carrier bond declines.
   evidence:
     from_test: captures-free-energy
-    observed: 'stored-work fraction 0.47 of input free energy; ledger residual ~1e-15 kJ/L'
+    observed: 'stored-work fraction 0.47 of input free energy; ledger residual ~1e-16 kJ/L'
     units: dimensionless
   expected:
     cites: [buckel2013energy]
@@ -196,7 +196,7 @@ report:
   - {label: Stored-work fraction, value: 0.47, status: pass}
   - {label: No-coupling charged fraction, value: 0.00, status: pass}
   - {label: No-drive charged fraction, value: 0.00, status: pass}
-  - {label: Ledger residual (kJ/L), value: ~1e-15, status: pass}
+  - {label: Ledger residual (kJ/L), value: ~1e-16, status: pass}
 conclusion_verdicts:
   biological_validation:
     result: PASS
