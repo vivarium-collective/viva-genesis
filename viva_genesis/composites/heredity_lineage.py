@@ -35,6 +35,8 @@ _EMIT_PATHS = [
 
 @composite_generator(
     name="heredity_lineage_comparison",
+    methods=["agent-based lineage model"],
+    fidelity="reproduction",
     description=(
         "A reusable agent-based heredity-lineage comparison (Module K). Individuals carry "
         "a chemical phenotype inherited at fission into a real lineage tree, with a module-"

@@ -50,4 +50,5 @@ allow-direct-references = true
 packages = ["viva_genesis"]
 
 [tool.uv.sources]
+process-bigraph = { git = "https://github.com/vivarium-collective/process-bigraph.git", branch = "main" }
 vivarium-workbench = { git = "https://github.com/vivarium-collective/vivarium-workbench.git", branch = "main" }

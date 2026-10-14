@@ -29,6 +29,8 @@ _TRAP_EMIT = [
 
 @composite_generator(
     name="spatial_transport_trap",
+    methods=["FiPy FVM (live default)", "dolfinx FEM (swappable)"],
+    fidelity="real",
     description=(
         "og-03 thermophoretic trap behind the swappable spatial_transport face. "
         "The live, default solver is a genuine 1-D FiPy finite-volume accumulation "
@@ -101,6 +103,8 @@ _VENT_EMIT = [
 
 @composite_generator(
     name="spatial_transport_vent",
+    methods=["FiPy FVM (live default)", "dolfinx FEM (swappable)"],
+    fidelity="real",
     description=(
         "og-00 vent reactor transport behind the swappable spatial_transport "
         "face. The live, default solver is a genuine 2-D FiPy finite-volume "

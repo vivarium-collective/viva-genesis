@@ -37,6 +37,8 @@ _MODULES = {
 
 @composite_generator(
     name="heredity_module_comparison",
+    methods=["libRoadRunner/Tellurium SBML quasispecies ODE"],
+    fidelity="real",
     description=(
         "A reusable heredity-module comparison (Module J). A genuine libRoadRunner/"
         "Tellurium SBML ODE integration (needs tellurium) of a quasispecies replicator "

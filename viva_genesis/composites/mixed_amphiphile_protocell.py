@@ -30,6 +30,8 @@ _EMIT_PATHS = [
 
 @composite_generator(
     name="mixed_amphiphile_protocell",
+    methods=["coarse-grained protocell-stability model"],
+    fidelity="reproduction",
     description=(
         "A reusable mixed-amphiphile protocell module (Module G). Coarse-grained "
         "vesicle self-assembly + permeability calibrated to Jordan 2019: mixed "

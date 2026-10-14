@@ -36,6 +36,8 @@ _EMIT_PATHS = [
 
 @composite_generator(
     name="osmotic_growth_division",
+    methods=["coarse-grained osmotic growth-division model"],
+    fidelity="reproduction",
     description=(
         "A reusable osmotic growth-and-division module (metabolism → growth & "
         "division). An internal autocatalytic osmolyte source coupled to compartment "
