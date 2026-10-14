@@ -387,6 +387,16 @@ _save_viz('og-00-vent-reactor-baseline', 'vent-cross-section', _render_one('loca
 # vent-reactor-timeseries
 _save_viz('og-00-vent-reactor-baseline', 'vent-reactor-timeseries', _render_one('local:VentReactorTimeseries', {'composite': 'viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor', 'n_steps': 120, 'title': 'Real vent reactor (PHREEQC + FiPy)'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor if 'ov_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor' in dir() else None)))
 
+# **vent-serpentinization-engine**
+
+# vent-serpentinization-engine
+_save_viz('og-00-vent-reactor-baseline', 'vent-serpentinization-engine', _render_one('local:VentSerpentinizationEngine', {'n_steps': 120, 'nx': 40, 'title': 'The serpentinization engine (Mechanism view)'}, RUNS_DB, STUDY_YAML))
+
+# **vent-habitability-map**
+
+# vent-habitability-map
+_save_viz('og-00-vent-reactor-baseline', 'vent-habitability-map', _render_one('local:VentHabitabilityMap', {'grid_json': 'workspace/studies/og-00-vent-reactor-baseline/artifacts/vent_habitability_grid.json', 'title': 'The Lost City habitability window (Decision view)'}, RUNS_DB, STUDY_YAML))
+
 # ### Acceptance criteria
 #
 # _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
@@ -852,7 +862,12 @@ _save_viz('og-03-dilution-to-localized-individuals', 'thermophoretic-trap', _ren
 # **pore-ignition-coupling**
 
 # pore-ignition-coupling
-_save_viz('og-03-dilution-to-localized-individuals', 'pore-ignition-coupling', _render_one('local:PoreIgnitionCoupling', {'title': 'Localization makes the individual (Decision view)', 'grid_json': 'workspace/studies/og-02-reduced-carbon-to-protometabolism/artifacts/protometabolism_gain_grid.json'}, RUNS_DB, STUDY_YAML))
+_save_viz('og-03-dilution-to-localized-individuals', 'pore-ignition-coupling', _render_one('local:PoreIgnitionCoupling', {'title': 'Localization lifts the feed across the ignition threshold (Mechanism view)', 'grid_json': 'workspace/studies/og-02-reduced-carbon-to-protometabolism/artifacts/protometabolism_gain_grid.json'}, RUNS_DB, STUDY_YAML))
+
+# **pore-localization-map**
+
+# pore-localization-map
+_save_viz('og-03-dilution-to-localized-individuals', 'pore-localization-map', _render_one('local:PoreLocalizationMap', {'grid_json': 'workspace/studies/og-03-dilution-to-localized-individuals/artifacts/pore_localization_grid.json', 'title': 'The pore-localization frontier (Decision view)'}, RUNS_DB, STUDY_YAML))
 
 # ### Acceptance criteria
 #
@@ -984,15 +999,20 @@ else:
 #
 # _Results are shown by the figures below, produced by the run above._
 
+# **protocell-boundary-world**
+
+# protocell-boundary-world
+_save_viz('og-04-mineral-compartments-to-protocells', 'protocell-boundary-world', _render_one('local:ProtocellBoundaryWorld', {'mix_fraction': 0.4, 'ionic_strength': 0.35, 'pH': 9.0, 'title': 'The compartment and the gradient (World view)'}, RUNS_DB, STUDY_YAML))
+
 # **protocell-window**
 
 # protocell-window
-_save_viz('og-04-mineral-compartments-to-protocells', 'protocell-window', _render_one('local:ProtocellWindowViz', {'composite': 'viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell', 'title': 'The protocell window broadens (mixed amphiphiles)'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_mixed_amphiphile_protocell_mixed_amphiphile_protocell if 'ov_viva_genesis_composites_mixed_amphiphile_protocell_mixed_amphiphile_protocell' in dir() else None)))
+_save_viz('og-04-mineral-compartments-to-protocells', 'protocell-window', _render_one('local:ProtocellWindowViz', {'composite': 'viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell', 'title': 'The protocell window broadens — mixed amphiphiles (Mechanism view)'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_mixed_amphiphile_protocell_mixed_amphiphile_protocell if 'ov_viva_genesis_composites_mixed_amphiphile_protocell_mixed_amphiphile_protocell' in dir() else None)))
 
 # **protocell-retention-access**
 
 # protocell-retention-access
-_save_viz('og-04-mineral-compartments-to-protocells', 'protocell-retention-access', _render_one('local:ProtocellPhaseMap', {'title': 'A boundary that retains without isolating (Decision view)'}, RUNS_DB, STUDY_YAML))
+_save_viz('og-04-mineral-compartments-to-protocells', 'protocell-retention-access', _render_one('local:ProtocellPhaseMap', {'grid_json': 'workspace/studies/og-04-mineral-compartments-to-protocells/artifacts/protocell_grid.json', 'title': 'A boundary that retains without isolating (Decision view)'}, RUNS_DB, STUDY_YAML))
 
 # ### Acceptance criteria
 #
@@ -1059,6 +1079,7 @@ ov_viva_genesis_composites_bioenergetic_internalization_bioenergetic_internaliza
     'catalyst_efficiency': 1.0,   # Active-pump (Na+/H+) efficiency (1.0 efficient; ~0.3 weak-pump control)
     'v_start'            : 0.4,   # Initial external gradient (V)
     'decline_rate'       : 0.01,   # External-gradient decline per step (V/s)
+    'gradient_floor'     : 0.02,   # Floor the external gradient decays to (V); low floor forces internalization-or-die
 }
 
 # ### Typed contract (declared interface)
@@ -1130,7 +1151,12 @@ _save_viz('og-05-environmental-to-internal-bioenergetics', 'bioenergetic-interna
 # **bioenergetic-provenance**
 
 # bioenergetic-provenance
-_save_viz('og-05-environmental-to-internal-bioenergetics', 'bioenergetic-provenance', _render_one('local:BioenergeticProvenanceViz', {'title': 'The organism begins to own its energy (Decision view)'}, RUNS_DB, STUDY_YAML))
+_save_viz('og-05-environmental-to-internal-bioenergetics', 'bioenergetic-provenance', _render_one('local:BioenergeticProvenanceViz', {'title': 'Energy provenance — external to internal (Mechanism view)'}, RUNS_DB, STUDY_YAML))
+
+# **bioenergetic-survival-map**
+
+# bioenergetic-survival-map
+_save_viz('og-05-environmental-to-internal-bioenergetics', 'bioenergetic-survival-map', _render_one('local:BioenergeticSurvivalMap', {'grid_json': 'workspace/studies/og-05-environmental-to-internal-bioenergetics/artifacts/bioenergetic_survival_grid.json', 'title': 'Survival off the collapsing gradient (Decision view)'}, RUNS_DB, STUDY_YAML))
 
 # ### Acceptance criteria
 #
