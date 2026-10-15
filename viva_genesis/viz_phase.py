@@ -2779,8 +2779,9 @@ def colocalization_figure(res, *, title=None) -> str:
             x=0.5, y=-0.22, xref="paper", yref="paper", showarrow=False,
             font=dict(size=11, color=_SLATE),
             text=("Low index where single species concentrate = the mixture "
-                  "<b>fractionates</b> (strongly-adsorbed phosphate + labile "
-                  "pyruvate/nucleotides lag the thermophoretic solutes)."))])
+                  "<b>fractionates</b> by Soret strength (low-S_T solutes like "
+                  "ammonium lag the strong thermophoretic ones; adsorption + "
+                  "degradation are kinetically minor over a pore transit)."))])
     return fig.to_html(full_html=True, include_plotlyjs="cdn",
                        config={"displayModeBar": False})
 

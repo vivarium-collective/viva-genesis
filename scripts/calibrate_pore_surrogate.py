@@ -25,12 +25,14 @@ import numpy as np
 from viva_fenics.fem_convergence import run_pore_enrichment
 
 # nondimensional matched to the FEM solve (fem_convergence: L=1, dT=30, porosity
-# not applied in the single-species reference, so porosity=0 here).
+# not applied in the single-species reference, so porosity=0 here). The Soret
+# grid now spans up to ~1.0 (the scale~8 regime where the narrow-range fit broke
+# down) so geom/pe0 hold across the whole phase map.
 DT = 30.0
 L = 1.0
 POROSITY = 0.0
 PECLETS = (2.0, 4.0, 8.0, 16.0, 30.0)
-SORETS = (0.04, 0.08, 0.14)
+SORETS = (0.05, 0.15, 0.30, 0.60, 1.00)
 
 
 def _fem_grid():
@@ -68,17 +70,61 @@ def _fit(rows):
     return geom, pe0, float(np.max(rel)), float(np.mean(rel))
 
 
+def _calibrate_adsorption(peclet=4.0, soret=0.3):
+    """Fit the kinetic-adsorption contact time ``tau_contact``: run the FEM with
+    and without adsorption and match the surrogate's kinetic mobile fraction
+    ``1 - (k_ads/ktot)(1 - exp(-ktot*tau))`` to the FEM's effective mobile
+    fraction (E_with / E_without). At prebiotic rates the FEM barely adsorbs, so
+    the instant-equilibrium ``k_des/(k_ads+k_des)`` is wrong and a finite tau is
+    needed."""
+    from viva_fenics.fem_convergence import run_pore_enrichment  # noqa: F401
+    # single-species helper reused via run_pore_enrichment doesn't take k_ads, so
+    # call the multisolute step directly through a tiny inline run.
+    import numpy as np
+    from dolfinx import fem
+    from viva_fenics.fem_multisolute import enrichment, multisolute_pore_step
+    from viva_fenics.fem_pore3d import build_pore3d_mesh
+
+    def _E(k_ads, k_des):
+        dom, ft, mk = build_pore3d_mesh(h_throat=0.05)
+        V = fem.functionspace(dom, ("Lagrange", 1)); n = V.dofmap.index_map.size_local
+        z = V.tabulate_dof_coordinates()[:, 2]; T = 330.0 - DT * z; w = peclet * 0.05
+        sp = [{"name": "t", "dissolved": np.zeros(n), "adsorbed": np.zeros(n), "D": 0.05,
+               "soret": soret, "inlet": 1.0, "k_ads": k_ads, "k_des": k_des, "k_deg": 0.0}]
+        for _ in range(120):
+            sp = multisolute_pore_step(dom, V, ft, mk, sp, dt=0.02, velocity=(0, 0, w), temperature_array=T)
+        return enrichment(dom, V, ft, mk, sp[0]["dissolved"])
+
+    E0 = _E(0.0, 5e-4)
+    fem_mobile = {}
+    for k_ads in (1e-3, 5e-3, 2e-2, 1e-1):
+        fem_mobile[k_ads] = _E(k_ads, 5e-4) / E0
+    # fit tau: minimise error of kinetic mobile vs fem_mobile
+    best = None
+    for tau in np.linspace(0.1, 5.0, 500):
+        err = 0.0
+        for k_ads, fm in fem_mobile.items():
+            ktot = k_ads + 5e-4
+            m = 1.0 - (k_ads / ktot) * (1.0 - np.exp(-ktot * tau))
+            err += (m - fm) ** 2
+        if best is None or err < best[0]:
+            best = (err, tau)
+    return best[1], fem_mobile
+
+
 def main():
     print("Running FEM reference grid (real dolfinx 3-D pore)...")
     rows = _fem_grid()
     geom, pe0, max_err, mean_err = _fit(rows)
-    print("\n=== calibrated surrogate constants ===")
-    print(f"  geom = {geom:.4f}")
-    print(f"  pe0  = {pe0:.4f}")
-    print(f"  surrogate max rel error vs FEM on grid = {max_err:.1%}")
-    print(f"  surrogate mean rel error vs FEM on grid = {mean_err:.1%}")
+    print(f"\nSoret fit (wide range): geom={geom:.4f} pe0={pe0:.4f} "
+          f"max_err={max_err:.1%} mean_err={mean_err:.1%}")
+    print("\nCalibrating kinetic adsorption contact time...")
+    tau, fem_mobile = _calibrate_adsorption()
+    print(f"  FEM effective mobile fractions: "
+          f"{ {k: round(v, 3) for k, v in fem_mobile.items()} }")
+    print(f"  tau_contact = {tau:.3f}")
     print("\nPaste into _SURROGATE in viva_genesis/multisolute_localization.py:")
-    print(f'  _SURROGATE = {{"geom": {geom:.4f}, "pe0": {pe0:.4f}, "coloc_k": 1.0}}')
+    print(f'  _SURROGATE = {{"geom": {geom:.4f}, "pe0": {pe0:.4f}, "tau_contact": {tau:.3f}}}')
 
 
 if __name__ == "__main__":

@@ -83,13 +83,17 @@ def _default_species_params():
     }
 
 
-# Surrogate constants calibrated to the viva-fenics FEM reference over a
-# (Peclet x Soret) grid (scripts/calibrate_pore_surrogate.py): max 6.8% / mean
-# 1.7% relative error on single-species enrichment. ``geom`` is the pore-geometry
-# accumulation factor; ``pe0`` sets the advective-washout scale (in a FLOW-THROUGH
-# pore, enrichment is strongest at low Peclet and washes out as advection
-# dominates -- the convective factor is 1/(1 + Pe/pe0), NOT increasing with Pe).
-_SURROGATE = {"geom": 0.1623, "pe0": 8.8439, "coloc_k": 1.0}
+# Surrogate constants calibrated to the viva-fenics FEM reference
+# (scripts/calibrate_pore_surrogate.py). ``geom``/``pe0`` fit single-species
+# enrichment over a WIDE (Peclet x Soret) grid (soret up to the scale~8 regime):
+# the FLOW-THROUGH washout factor is 1/(1+Pe/pe0) (enrichment strongest at low
+# Peclet), and ``geom`` the pore-geometry accumulation factor. ``tau_contact`` is
+# the nondimensional contact time for the KINETIC adsorption/degradation factors:
+# calibrated so the surrogate's effective mobile fraction matches the FEM's (at
+# prebiotic rates, adsorption barely equilibrates within the pore transit, so the
+# dissolved pool is NOT depleted the way an instant-equilibrium k_des/(k_ads+k_des)
+# would predict -- that was the main surrogate-vs-FEM disagreement).
+_SURROGATE = {"geom": 0.1358, "pe0": 7.155, "tau_contact": 0.748}
 
 
 class MultisolutePoreSurrogateProcess(Process):
@@ -144,9 +148,9 @@ class MultisolutePoreSurrogateProcess(Process):
         peclet = max(float(cfg["peclet"]), 1e-9)
         geom = _SURROGATE["geom"]
         pe0 = _SURROGATE["pe0"]
+        tau = _SURROGATE["tau_contact"]
         species = self._species()
         D_mean = float(np.mean([float(p["diffusivity"]) for p in species.values()])) or 1e-18
-        residence = 1.0 / peclet                    # nondim residence ~ 1/Pe
         enr = {}
         for name, p in species.items():
             D = float(p["diffusivity"])
@@ -158,8 +162,13 @@ class MultisolutePoreSurrogateProcess(Process):
             washout = 1.0 / (1.0 + pe_i / pe0)         # flow-through de-concentration
             ns = sT * dT                               # nondimensional Soret number
             beta = geom * ns * washout * (1.0 - porosity)
-            mobile = (k_des / (k_ads + k_des)) if (k_ads + k_des) > 0 else 1.0
-            deg = 1.0 / (1.0 + k_deg * residence)
+            # KINETIC adsorption over the contact time (matches the FEM): a solute
+            # only equilibrates with the surface if k*tau is appreciable, so at
+            # prebiotic rates mobile ~ 1 -- NOT the instant-equilibrium fraction.
+            ktot = k_ads + k_des
+            a_frac = (k_ads / ktot) * (1.0 - np.exp(-ktot * tau)) if ktot > 0 else 0.0
+            mobile = 1.0 - a_frac
+            deg = float(np.exp(-k_deg * tau))          # first-order decay over contact time
             enr[name] = float(np.exp(min(beta, 45.0)) * mobile * deg)
         return {"flux_divergence_residual": 0.0, "enrichment": enr}
 
