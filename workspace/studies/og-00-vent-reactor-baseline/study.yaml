@@ -349,6 +349,7 @@ visualizations:
     composite: viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor
     n_steps: 60
     title: Real 2-D vent cross-section (FiPy)
+    max_frames: 20
 - name: vent-reactor-timeseries
   address: local:VentReactorTimeseries
   config:
