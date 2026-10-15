@@ -90,7 +90,6 @@ baseline:
   params: {}
   canonical: true
 claim: Autonomy away from the geological reactor requires an irreducible innovation set — internal energy conversion (a pump), active resource import, and heredity to hold them. Because the lineage's budget is co-limited (it needs BOTH usable free energy AND usable resources, Liebig's minimum), a single innovation is a cost without a co-benefit; only the full set keeps the net budget above the survival floor as the external gradient, mineral access and feed are all withdrawn. A knockout sweep shows the full set persists off-gradient (surviving fraction 1.0) while removing any one innovation collapses persistence to 0 — so the minimum robust set for escaping the vent is {pump, importer, heredity}.
-result: Full set survivors 1.0 off-gradient (support -> 0); -pump 0.0, -importer 0.0, -heredity 0.0 (machinery lost to the error catastrophe). Survival frontier reaches support 0 only for the full set; every knockout is lifted off the gradient.
 findings:
 - id: og08-minimum-innovation-set
   kind: computational
@@ -125,27 +124,6 @@ findings:
   expected:
     cites: [lane2012origin]
   explanation: The heredity flag gates the per-step machinery decay; without it the innovation terms (pump, importer) scale toward zero as machinery is lost, so the budget falls below the survival floor.
-report:
-  title: Escape from the vent
-  verdict: PASS — autonomy off-gradient requires an irreducible set {pump, importer, heredity}; each single knockout collapses
-  confidence: high
-  main_insight: Escaping the vent is not one innovation but an irreducible set. Because the lineage's budget is co-limited (energy AND resources, Liebig's minimum), only internal energy conversion + resource import + heredity together keep it above the survival floor as geological support is withdrawn; removing any one collapses off-gradient persistence.
-  conclusion: >-
-    A deterministic co-limited free-energy + resource budget shows that persistence away from the
-    geological reactor requires three innovations at once — a pump to make free energy without the external
-    gradient, an importer to acquire resources without ambient abundance, and heredity to hold that
-    machinery against decay. The full set persists to support 0 (autonomous); each single knockout is lifted
-    off the gradient and collapses. Co-limitation is what makes the set irreducible — a half-equipped
-    lineage pays upkeep without a co-benefit. Closes the campaign's arc from vent chemistry (og-00) to a
-    free-living lineage.
-  caveat: The budget couplings (k_ext, k_pump, k_imp, costs) and the machinery-decay rate are reduced, coarse-grained parameters; the model is a deterministic budget, not a wrapped ALife/genome-scale engine. The claim is structural (co-limitation ⇒ irreducibility), robust to the exact coefficients, not a quantitative prediction of a specific escape threshold.
-  key_metrics:
-  - {label: Full set survivors off-gradient, value: 1.0, status: pass}
-  - {label: '-pump survivors', value: 0.0, status: pass}
-  - {label: '-importer survivors', value: 0.0, status: pass}
-  - {label: '-heredity survivors', value: 0.0, status: pass}
-  - {label: '-heredity machinery integrity', value: 0.007, status: pass}
-  - {label: Minimum robust set size, value: 3, status: pass}
 conclusion_verdicts:
   biological_validation:
     result: PASS
@@ -252,3 +230,11 @@ runs:
       evaluated_by: code
       operator: cross_run
       detail: full set survivors=1.00 off-gradient; knockouts -pump=0.00 -importer=0.00 -heredity=0.00 (each necessary => minimum robust set = {heredity, importer, pump})
+conclusion: >-
+  A deterministic co-limited free-energy + resource budget shows that persistence away from the
+  geological reactor requires three innovations at once — a pump to make free energy without the external
+  gradient, an importer to acquire resources without ambient abundance, and heredity to hold that
+  machinery against decay. The full set persists to support 0 (autonomous); each single knockout is lifted
+  off the gradient and collapses. Co-limitation is what makes the set irreducible — a half-equipped
+  lineage pays upkeep without a co-benefit. Closes the campaign's arc from vent chemistry (og-00) to a
+  free-living lineage.

@@ -35,27 +35,6 @@ objective: >-
   community, its two monocultures, the private (no-sharing) counterfactual, the complete-cell (generalist)
   arm, the segregated placement and the rewired-null arms at the canonical point, and the four arms over
   (diacid permeability x pore residence); grade the pre-registered gates.
-result: >-
-  At the canonical point (diacid permeability 1e-8 m/s, monoacid 1e-7, residence 100 s, 4 fixers + 4
-  reducers interleaved on a 4-cell pore, 250 ticks) the community holds 15 product classes; one of them —
-  c4_diacid_hydroxy (malate) — is held by NO lineage in monoculture (fixer alone: 7 classes, reducer alone:
-  9; neither holds or makes malate), is absent in the private arm (0 M), and sits at 6.4e-9 M in the reducer
-  lineage of the community (a mean-field occupancy of 3.9e-3 molecules per 1-fL agent — 3.9 molecules in a
-  1-pL pore compartment; 4.7 % of a complete generalist cell's 1.36e-7 M, itself 0.08 molecules per fL).
-  Its precursor oxaloacetate — made only by the fixer (gross carboxylation 5e-6 M/s) — crosses between the
-  lineages at 1.8e-27 mol per tick (1.1e-3 molecules per tick over the 8 agents; formate and lactate carry
-  the largest cross-lineage fluxes, 1.7e-24 and 3.6e-25 mol/tick). No cell is complete: the best agent holds
-  14/15 of the union (0.933; mean 0.867); the generalist arm holds 19 classes with completeness 1. At
-  these copy numbers the ODE description is a mean-field expectation (the chance a reducer holds a malate
-  molecule at any instant is ~0.4 %), which is why the tier is conceptual demonstration. The
-  function emerges from a diacid permeability of 3e-9 m/s at 20-100 s residence and only at 1e-7 m/s at
-  500 s (feed depletion), and it survives segregating the lineages into separate pore blocks (pore diffusion
-  carries the intermediate). The rewired null gives 0 (seed 0) and 1 (seed 1, methanol) community-only
-  classes, so division of labour under a rule partition is not unique to real chemistry — what is specific is
-  which function. og-07's readouts recomputed from the agents: metacommunity robustness 0.54 (community) vs
-  0.46 (private), 0.25 / 0.32 (monocultures), 0.68 (generalist); LUCA-core overlap 0.8 (ceiling 0.8: ion
-  pumping unreachable). The C / N / P ledger over agents + field closes on all 98 runs (C residual <= 6.5e-9,
-  the CVODE tolerance; N <= 1.1e-15, P <= 1.4e-15); 468,331 exchange-rule firings on the canonical run.
 claim: >-
   With real chemistry inside every protocell, a community of two incomplete lineages performs a metabolic
   function — the reductive C4 branch from oxaloacetate to malate — that neither lineage performs alone and
@@ -194,39 +173,6 @@ findings:
   explanation: The honesty indicator; the headline permeability boundary rests on the one hypothetical class and the measured anchor is pending.
   expected:
     cites: [kelley2005serpentinite, pasek2017schreibersite, dorr2003prebiotic]
-report:
-  title: 'Phase 8 — biochemical ecology: a community function before cell completeness'
-  verdict: PASS — a function no lineage performs alone (the reductive C4 branch, malate from oxaloacetate) is held by the community of two incomplete lineages, vanishes without sharing, is carried by a real dicarboxylate flux, and appears while the best cell holds 14/15 of the union; it needs a diacid permeability above ~3e-9 m/s
-  confidence: medium
-  main_insight: >-
-    When cross-feeding is matter rather than a symbol, division of labour is a property of the membrane as
-    much as of the chemistry: two incomplete protocells run a carbon-fixation branch together only where
-    the intermediate crosses faster than it decarboxylates and washes out, and at that point the community
-    reaches a twentieth of what a complete cell does — four molecules of malate per cell, sustained by a
-    thousandth of an oxaloacetate per tick — four thousandths of a molecule per femtolitre cell, four
-    molecules per picolitre pore compartment.
-  conclusion: >-
-    Phase 8 exits with the proto_ecology face (the Phase-3 universe and its null inside every agent), the
-    reactive system of counted exchange rules on the Phase-4 field, og-07's readouts recomputed from real
-    agents and the C/N/P ledger across agents + field; og-07's "ecology before LUCA" survives as a statement
-    about exchanged intermediates whose feasibility turns on one hypothetical number, the permeability of a
-    dicarboxylate through the Phase-5 boundary.
-  caveat: >-
-    The function lives at copy numbers where a continuum description is a mean-field expectation (3.9e-3
-    malate molecules per 1-fL agent, 1.1e-3 precursor molecules per tick; a complete cell holds 0.08), so
-    the result is the expected occupancy,
-    not a stochastic one; every permeability is extrapolated or hypothetical and the emergence boundary
-    sits above the measured charged-solute range; agents neither grow, divide nor move; the C/H/O universe
-    has no N or P rules, so the N and P budgets are conserved but inert; the rewired null also splits a
-    pathway in one of two seeds; one lineage partition (carboxylation vs hydrogenation) was studied.
-  key_metrics:
-  - {label: Community-only product classes (nominal), value: 1 (c4_diacid_hydroxy — malate), status: pass}
-  - {label: Level community / monocultures / private / generalist, value: '6.4e-9 / 0 / 0 / 1.4e-7 M (3.9e-3 vs 0.08 molecules per fL)', status: pass}
-  - {label: Precursor crossing between lineages, value: oxaloacetate 1.1e-3 molecules per tick, status: pass}
-  - {label: Max cell completeness in the community, value: 0.933 (14 / 15), status: pass}
-  - {label: Emergence boundary (diacid permeability at 100 s residence), value: 3e-9 m/s, status: info}
-  - {label: C / N / P ledger residual (98 runs), value: '<= 6.5e-9 / 1.1e-15 / 1.4e-15', status: pass}
-  - {label: Exchange-rule firings (canonical run), value: '468,331', status: pass}
 conclusion: >-
   One product class — malate, the reductive C4 branch — is held by the community of a carboxylating and a
   hydrogenating lineage and by neither alone; it vanishes without sharing, its oxaloacetate precursor

@@ -31,20 +31,6 @@ objective: >-
   (Kirchhoff residual per tick, faradaic efficiency <= 1, current-voltage residual) and the vg-data package
   electrochemical_interface; sweep (pH x H2 x conductivity x Ni) x classes in open flow; attribute the
   limitation at every point; measure cross-class agreement; report Feasibility / Robustness / Discrimination.
-result: >-
-  375 grid points x 2 runnable classes (750 real runs, 40 ticks, 117 s on 6 workers; the microkinetic class
-  is registered but its backend is pixi-only, so it is recorded as deferred). Every point is labelled
-  (coverage 1.00 in both classes) and the charge ledger closes on all 750 runs (Kirchhoff residual <= 1.7e-13,
-  faradaic efficiency <= 1, circuit residual <= 8.5e-9). The Butler-Volmer cell sits inside the Altair-2025
-  current window on 79.7% of the grid (1.4e-7 .. 3.0e-3 A/m^2; nominal 1.06e-3 A/m^2, FE 0.92, emf 0.49 V)
-  and derives og-01's gradient efficiency as 0.01 / 0.42 / 0.98 / 1.00 at 1e-9 / 1e-7 / 1e-5 / >= 1e-3 S/m.
-  The mechanism map disagrees between classes: the Butler-Volmer class labels its whole favorable region
-  (93/93 points) CATALYTIC (activation overpotential ~ 0.99 of the fresh-fluid emf at Altair-level exchange
-  currents), electrical only below ~1e-6 S/m (149 points), never transport or thermodynamic; the empirical
-  class labels the same region electrical (pmf-drive headroom, 47) / catalytic (117) / transport (28, Michaelis
-  in H2 below ~1e-4 M). Label agreement is 0.47 on the 78 points both classes call favorable (0.45 overall;
-  0.81 where the wall is insulating, 0.01 at 1 uM H2), so the pre-registered gate (>= 0.8) FAILS and the
-  decision-discipline audit flags the attribution as structure-sensitive.
 claim: >-
   Explicit electrochemistry is feasible, calibrated and ledger-exact, and it changes the answer to "why does
   fixation stop": under the Butler-Volmer class the alkaline-vent cell is activation-limited everywhere the
@@ -146,38 +132,6 @@ findings:
     from_test: charge-ledger-closes
     observed: 'charge residual <= 1.7e-13; FE max 1.0000000000001; iv residual <= 8.5e-9; 0/750 failed'
     units: dimensionless
-report:
-  title: 'Phase 2 — electrochemical carbon fixation: the mechanism map'
-  verdict: FAIL on the pre-registered agreement gate (0.47 < 0.8) — the limitation label is structure-sensitive; explicit electrochemistry is built, calibrated to the Altair current window, ledger-exact, and attributes the favorable region to the catalyst, not the gradient
-  confidence: medium
-  main_insight: >-
-    Making the vent wall an explicit galvanic cell moves the answer to "why does fixation stop": at
-    Altair-level exchange currents the cell is activation-limited everywhere the wall conducts, the Tutolo
-    collapse is an electrical regime below ~1e-6 S/m that the circuit derives rather than assumes, and
-    thermodynamics never binds in open flow. The empirical class cannot see this because one Michaelis
-    drive term lumps the electrical and catalytic limitations and its substrate Michaelis constant invents a
-    transport limit the cell physics does not reach — so the classes agree only where the wall is insulating.
-  conclusion: >-
-    Phase 2 delivers its reusable component (the carbon_fixation face with two real classes and a pixi-only
-    third), its vg-data package (13 parameters, none unsourced except the deliberately flagged ocean-side H2
-    and Ni gain), its charge + electron ledger and its mechanism map — but not the agreement the gate asked
-    for. The honest reading is that the attribution of a limitation is a property of the model class, which
-    is exactly the structure-sensitivity the plan says must be reported; the discriminating experiment is the
-    wall's polarization curve (current vs a 10x catalyst change), recorded as a decision for the expert.
-  caveat: >-
-    Exchange currents are calibrated to the dossier's current WINDOW (10 nA .. 10 uA), not to Altair's
-    per-condition time courses (not attached); the Ni gain shape and the ocean-side H2 are hypothetical; the
-    two classes live on different absolute throughput scales (empirical abstract tick vs physical second),
-    so favorability is defined per class relative to its own maximum; the microkinetic class is registered
-    but not run (CatMAP/Cantera under pixi); the grid is uniform in log over the priors, not a conditioned
-    posterior.
-  key_metrics:
-  - {label: Points labelled (both classes), value: 375/375 (coverage 1.00), status: pass}
-  - {label: Label agreement in the favorable-both region (gate >= 0.8), value: '0.47 (37/78)', status: fail}
-  - {label: Label agreement overall / insulating wall / 1 uM H2, value: 0.45 / 0.81 / 0.01, status: info}
-  - {label: Butler-Volmer favorable region label, value: catalytic 93/93, status: info}
-  - {label: Canonical current density vs Altair window, value: '1.06e-3 A/m^2 in [1e-5, 1e-2]', status: pass}
-  - {label: Charge ledger (Kirchhoff / FE <= 1 / circuit residual), value: 1.7e-13 / 1.0 / 8.5e-9, status: pass}
 conclusion: >-
   The electrochemical interface is real, calibrated and ledger-exact; its mechanism map says the conducting
   vent wall is catalyst-limited and the insulating wall gradient-limited; the empirical class disagrees in
