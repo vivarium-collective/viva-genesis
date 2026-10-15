@@ -483,3 +483,8 @@ runs:
       auto_evaluated: true
 verdict: supported
 evidence_tier: mechanistic_prediction
+
+loom:
+  layout: hierarchy
+  figure: true
+  detail: contract

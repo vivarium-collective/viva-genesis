@@ -344,3 +344,8 @@ conclusion: A deterministic co-limited free-energy + resource budget shows that 
   from vent chemistry (og-00) to a free-living lineage.
 verdict: supported
 evidence_tier: mechanistic_prediction
+
+loom:
+  layout: hierarchy
+  figure: true
+  detail: contract

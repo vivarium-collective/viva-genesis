@@ -512,3 +512,8 @@ conclusion: The real FiPy thermal trap localizes a dilute feed into a bounded re
   holds; the precise enrichment magnitude is caveated as a reduced-model extrapolation.
 verdict: supported
 evidence_tier: mechanistic_prediction
+
+loom:
+  layout: hierarchy
+  figure: true
+  detail: contract

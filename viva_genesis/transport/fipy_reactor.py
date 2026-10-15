@@ -81,6 +81,17 @@ class FipyReactiveTransportProcess(Process):
             "Buoyant upflow carries the source up the chimney; lateral diffusion mixes with the cold ocean.",
             "pH and porosity fields are derived from the real transported solute field (ocean<->vent mixing).",
         ],
+        "math": [
+            "dc/dt = div(D grad c) - div(u c) + R        (advection-diffusion-reaction)",
+            "FiPy form: TransientTerm == DiffusionTerm - PowerLawConvectionTerm, scipy LinearLUSolver",
+            "flux_divergence_residual = max |div(flux)| / scale  (spatial flux conservation witness)",
+        ],
+        "symbols": {
+            "D": "solute / thermal diffusivity (m^2/s)",
+            "u": "buoyant upflow velocity field (m/s)",
+            "R": "reactive source/sink (serpentinization drivers)",
+            "c": "transported field (temperature / solute / pH)",
+        },
         "references": ["kelley2001offaxis", "ludwig2006formation"],
     }
 

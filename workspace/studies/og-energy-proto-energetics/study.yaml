@@ -496,3 +496,8 @@ conclusion: 'The energy-currency bookkeeping shows the missing pre-modern transi
   owning a spendable energy currency is the prerequisite the later pumping stage internalizes.'
 verdict: supported
 evidence_tier: mechanistic_prediction
+
+loom:
+  layout: hierarchy
+  figure: true
+  detail: contract

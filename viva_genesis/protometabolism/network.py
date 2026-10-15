@@ -82,6 +82,16 @@ class RoadRunnerNetworkProcess(Process):
             "CSTR continuation: rr.simulate(t, t+dt, 2) each step with feed + first-order washout.",
             "Autocatalysis via OAA + 2 CO2 -> 2 OAA + acetate.",
         ],
+        "math": [
+            "OAA + 2 CO2  ->  2 OAA + acetate        (autocatalytic rTCA loop)",
+            "d[X]/dt = v_network([X]) - k_wash [X]   (CSTR: SBML network minus first-order washout)",
+            "autocatalytic_gain = k_rtca * CO2 / k_wash   (persists + self-amplifies when gain > 1)",
+        ],
+        "symbols": {
+            "k_rtca": "autocatalytic rTCA rate constant (1/s)",
+            "k_wash": "first-order washout / dilution rate (1/s)",
+            "autocatalytic_gain": "production vs washout ratio (dimensionless; >1 = net self-amplification)",
+        },
         "references": ["muchowska2019synthesis", "muchowska2017metals"],
     }
 

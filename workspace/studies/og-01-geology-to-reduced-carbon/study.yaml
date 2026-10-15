@@ -763,3 +763,8 @@ preregistered:
     time, before the canonical run.
 verdict: supported
 evidence_tier: mechanistic_prediction
+
+loom:
+  layout: hierarchy
+  figure: true
+  detail: contract

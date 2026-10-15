@@ -91,6 +91,17 @@ class PhreeqcSerpentinizationProcess(Process):
             "Partial equilibrium: a prescribed olivine dissolution rate feeds full PHREEQC speciation each step.",
             "Peridotite (olivine + diopside), not dunite, so Ca-OH buffering reaches the Lost City high-pH endmember.",
         ],
+        "math": [
+            "(Fe,Mg)2SiO4 + H2O  ->  Mg3Si2O5(OH)4 (serpentine) + Fe3O4 (magnetite) + H2",
+            "H2 arises from Fe(II) -> Fe(III) oxidation by water; PHREEQC solves the full multicomponent speciation",
+            "source flux_i  ~  olivine_rate * fe_fraction * window(T),   window(T) = exp(-((T - t_opt)/t_width)^2)",
+        ],
+        "symbols": {
+            "olivine_rate": "prescribed olivine dissolution rate (per flow-saturated reaction progress)",
+            "fe_fraction": "Fe-olivine (fayalite) fraction — the Fe(II) oxidised to magnetite + H2",
+            "pyroxene_fraction": "diopside dissolved per olivine (makes it peridotite -> Lost City Ca-OH pH)",
+            "pe": "redox potential (dimensionless)", "pH_eq": "PHREEQC equilibrium pH (dimensionless)",
+        },
         "references": ["kelley2005serpentinite", "proskurowski2008abiogenic", "schwander2023serpentinization"],
     }
 

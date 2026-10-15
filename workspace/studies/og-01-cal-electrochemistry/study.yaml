@@ -848,3 +848,8 @@ runs:
       auto_evaluated: true
 verdict: honest-negative
 evidence_tier: mechanistic_prediction
+
+loom:
+  layout: hierarchy
+  figure: true
+  detail: contract

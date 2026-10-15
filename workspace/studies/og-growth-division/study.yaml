@@ -477,3 +477,8 @@ conclusion: 'A coarse-grained, units-typed, mass-conserving osmotic-coupling mod
   persists.'
 verdict: supported
 evidence_tier: mechanistic_prediction
+
+loom:
+  layout: hierarchy
+  figure: true
+  detail: contract

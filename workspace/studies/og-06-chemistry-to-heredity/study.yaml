@@ -467,3 +467,8 @@ conclusion: Two real engines agree. A libRoadRunner quasispecies ODE shows inher
   genetic era of the campaign (og-07 ecology, og-08 escape).
 verdict: supported
 evidence_tier: mechanistic_prediction
+
+loom:
+  layout: hierarchy
+  figure: true
+  detail: contract
