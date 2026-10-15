@@ -598,7 +598,11 @@ class FreeEnergyLedgerProcess(Process):
         self._work += w * dt
         self._diss += d * dt
         margin = self._in + self._e0 - self._work - self._diss
-        residual = abs(margin - e) / max(abs(self._in), 1e-30)
+        # relative to the energy that has passed through the budget: the intake, or —
+        # for an individual that draws nothing (a withdrawn world) — the store itself,
+        # so an empty budget is not graded against a zero denominator
+        self._e_scale = max(getattr(self, "_e_scale", 0.0), abs(e), abs(self._e0))
+        residual = abs(margin - e) / max(abs(self._in), self._e_scale, 1e-30)
         eff = (self._work / self._in) if self._in > 0.0 else 0.0
         self._res_max = max(self._res_max, residual)
         self._margin_min = min(self._margin_min, margin)
@@ -726,7 +730,9 @@ class InformationLedgerProcess(Process):
         self._births += float(state.get("births", 0.0))
         e_total = self._used + 0.0  # direct quanta; precursor equivalents are priced separately below
         expected = self._w0 + self._in - self._used
-        residual = abs(w - expected) / max(abs(self._in), 1e-30)
+        # relative to the energy that passed through the store, or to the store itself
+        # when nothing has (a withdrawn world): an idle store is not graded against zero
+        residual = abs(w - expected) / max(abs(self._in), abs(self._w0), 1e-30)
         self._res_max = max(self._res_max, residual)
         converged = float(state.get("mi_converged", 0.0)) >= 0.5
         bits = float(state.get("information_content", 0.0)) if converged else 0.0

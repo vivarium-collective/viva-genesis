@@ -505,17 +505,18 @@ class MaintenanceDemandProcess(Process):
     individual), calibrated to coincide at the reference point (full machinery,
     fatty-acid leakiness, pump on) and to differ in what they scale with:
 
-    * ``constant`` — ``m_base + m_active a_eff`` (the Phase-6 law: upkeep
-      follows the machinery actively coupled, ``a_eff = coupling x machinery``);
-    * ``leak_repair`` — ``m_base + m_active a_eff x relative_leak`` (Sojo 2014:
-      a leakier membrane costs proportionally more to keep energised);
+    * ``constant`` — ``m_base + m_active a`` (the Phase-6 law: upkeep follows
+      the coupling activity INVESTED, ``a = coupling_activity`` while the pump
+      is on, whatever machinery the lineage actually holds);
+    * ``leak_repair`` — ``m_base + m_active a x relative_leak`` (Sojo 2014: a
+      leakier membrane costs proportionally more to keep energised);
     * ``turnover`` — ``m_base + m_active x machinery`` (Lane & Martin 2012:
-      re-synthesis of the machinery held, whether or not it is used).
+      re-synthesis of the machinery actually held, whether or not it is used).
     """
 
     contract = {
         "summary": "Maintenance power under one of three laws: constant (Phase 6), leak_repair (scales with membrane leakiness), turnover (scales with machinery held).",
-        "description": "m = m_base + m_active a_eff | m_base + m_active a_eff rel_leak | m_base + m_active machinery.",
+        "description": "m = m_base + m_active a | m_base + m_active a rel_leak | m_base + m_active machinery (a = coupling_activity while the pump is on).",
         "inputs": {"machinery": "0-1", "relative_leak": ">= 1", "pump_on": "0/1"},
         "outputs": {"maintenance_power": "watt"},
         "references": ["sojo2014bioenergetic", "lane2012origin"],
@@ -526,6 +527,7 @@ class MaintenanceDemandProcess(Process):
         "m_base": _p(1.0e-19, "watt"),
         "m_active": _p(5.0e-18, "watt"),
         "pump": {"_type": "string", "_default": "on", "_provenance": "inferred"},
+        "coupling_activity": _p(1.0),
     }
 
     def inputs(self):
@@ -543,12 +545,12 @@ class MaintenanceDemandProcess(Process):
             raise ValueError(f"maintenance law must be one of {MAINTENANCE_LAWS}, got {law!r}")
         m = min(max(float(state.get("machinery", 0.0)), 0.0), 1.0)
         rel = max(float(state.get("relative_leak", 1.0)), 1.0)
-        a_eff = m if str(self.config["pump"]).lower() == "on" else 0.0
+        a = float(self.config["coupling_activity"]) if str(self.config["pump"]).lower() == "on" else 0.0
         base, active = float(self.config["m_base"]), float(self.config["m_active"])
         if law == "constant":
-            demand = base + active * a_eff
+            demand = base + active * a
         elif law == "leak_repair":
-            demand = base + active * a_eff * rel
+            demand = base + active * a * rel
         else:
             demand = base + active * m
         return {"maintenance_power": demand}
@@ -649,6 +651,7 @@ class AutonomyBudgetStep(Step):
         "dt": _p(10.0, "second", "inferred"),
         "power_scale": _p(1.0e-17, "watt", "inferred"),
         "material_scale": _p(1.0e-23, "mole/second", "inferred"),
+        "material_tolerance": _p(0.02),
         "max_carbons": _p(4, typ="integer", prov="hypothetical"),
     }
 
@@ -667,8 +670,8 @@ class AutonomyBudgetStep(Step):
         return {"work_supply": _OW_W, "work_demand": _OW_W, "heredity_power": _OW_W, "net_power": _OW_W,
                 "passive_carbon": _OW_MOLS, "secreted_carbon": _OW_MOLS, "active_carbon": _OW_MOLS, "fixation_carbon": _OW_MOLS,
                 "degradation_carbon": _OW_MOLS, "material_supply": _OW_MOLS, "material_net": _OW_MOLS,
-                "autonomy_work": _OW, "autonomy_material": _OW, "autonomy_information": _OW, "autonomy": _OW,
-                "lineage_fitness": _OW, "energy_ok": _OW, "material_ok": _OW}
+                "material_margin": _OW, "autonomy_work": _OW, "autonomy_material": _OW, "autonomy_information": _OW,
+                "autonomy": _OW, "lineage_fitness": _OW, "energy_ok": _OW, "material_ok": _OW}
 
     def perform_update(self, state) -> bool:
         t = state.get("global_time")
@@ -710,6 +713,13 @@ class AutonomyBudgetStep(Step):
         self._deg_prev = deg_cum
         material_supply = passive + active + fixation
         material_net = material_supply - degradation
+        # a pool at steady state (a tight cell whose production all turns to tar) has
+        # zero net; its margin is reported relative to the supply and graded to a tolerance
+        margin = material_net / material_supply if material_supply > 0.0 else (0.0 if material_net == 0.0 else -1.0)
+        tol = float(c["material_tolerance"])
+        material_ok = margin >= -tol
+        if material_ok and material_net < 0.0:
+            material_net = 0.0
         a_work = inte / supply if supply > 0.0 else 0.0
         own = active + fixation
         a_mat = own / material_supply if material_supply > 0.0 else 0.0
@@ -722,8 +732,8 @@ class AutonomyBudgetStep(Step):
                 "degradation_carbon": degradation, "material_supply": material_supply, "material_net": material_net,
                 "autonomy_work": a_work, "autonomy_material": a_mat,
                 "autonomy_information": min(max(float(state.get("autonomy_information", 0.0)), 0.0), 1.0),
-                "autonomy": a_tot, "lineage_fitness": fitness,
-                "energy_ok": 1.0 if net >= 0.0 else 0.0, "material_ok": 1.0 if material_net >= 0.0 else 0.0}
+                "material_margin": margin, "autonomy": a_tot, "lineage_fitness": fitness,
+                "energy_ok": 1.0 if net >= 0.0 else 0.0, "material_ok": 1.0 if material_ok else 0.0}
 
 
 # --------------------------------------------------------------------------- #

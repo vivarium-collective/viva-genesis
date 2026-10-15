@@ -281,18 +281,18 @@ class ActiveUptakeRule(ExchangeRule):
             outside = ctx.background[a["cell"]]
             c_out = outside.get(s, 0.0)
             moles = vmax * c_out / (self.k_m + c_out) * ctx.dt
-            if moles <= 0.0:
-                return 0.0
-            for el, v in ctx.element_moles(s, moles).items():
-                ctx.inflow[el] += v
         else:
             cell = ctx.cells[a["cell"]]
             c_out = cell.get(s, 0.0)
             moles = min(vmax * c_out / (self.k_m + c_out) * ctx.dt, c_out * ctx.cell_volume)
-            if moles <= 0.0:
-                return 0.0
-            cell[s] = c_out - moles / ctx.cell_volume
         c_in = a["internal"].get(s, 0.0)
+        # regulation within the tick: the transporter stops at its set-point and at the ratio cap
+        room = min(float(self.targets[s]) if s in self.targets else float("inf"), self.max_ratio * c_out) - c_in
+        moles = min(moles, max(room, 0.0) * a["volume"])
+        if moles <= 0.0:
+            return 0.0
+        if not ctx.private:
+            cell[s] = c_out - moles / ctx.cell_volume
         # thermodynamic cost of concentrating (uphill only), per mole, over efficiency;
         # a finite work budget (ctx.import_budget, J) caps what can be moved this tick
         ratio = max(c_in, 1e-30) / max(c_out, 1e-30)
@@ -302,12 +302,14 @@ class ActiveUptakeRule(ExchangeRule):
             allowed = budget / cost
             if allowed < moles:
                 if not ctx.private:
-                    cell[s] = c_out - allowed / ctx.cell_volume + (moles - allowed) / ctx.cell_volume * 0.0
-                    cell[s] = (c_out - moles / ctx.cell_volume) + (moles - allowed) / ctx.cell_volume
+                    cell[s] = c_out - allowed / ctx.cell_volume      # give back what the budget cannot pay for
                 moles = allowed
             if moles <= 0.0:
                 return 0.0
             ctx.import_budget = budget - moles * cost
+        if ctx.private:
+            for el, v in ctx.element_moles(s, moles).items():
+                ctx.inflow[el] += v
         a["internal"][s] = c_in + moles / a["volume"]
         if not hasattr(ctx, "import_energy"):
             ctx.import_energy = 0.0

@@ -187,8 +187,9 @@ def relative_leak(core, model_boundary: str, *, temperature: float, ph: float = 
         "ablation_duration": {"type": "float", "default": 6000.0, "description": "Duration of the linear withdrawal (s)"},
         "feed_floor": {"type": "float", "default": 1.0e-2, "description": "Ocean floor of the feed fraction (H2, organics, N, P) [vg-data: hypothetical, swept]"},
         "gradient_floor": {"type": "float", "default": 0.0, "description": "Ocean floor of the gradient fraction"},
-        "mineral_floor": {"type": "float", "default": 0.0, "description": "Ocean floor of the mineral access"},
+        "mineral_floor": {"type": "float", "default": -1.0, "description": "Ocean floor of the mineral access (residual catalytic mineral; < 0 = same as feed_floor) [vg-data: hypothetical]"},
         "tick_seconds": {"type": "float", "default": 60.0, "description": "World seconds per tick (every process runs at this interval)"},
+        "store_seconds": {"type": "float", "default": 10.0, "description": "Interval of the storage class + its ledger, the cell's chemistry and the importer (s; the Phase-6 step)"},
         "heredity_clock_ratio": {"type": "float", "default": 1.0 / 60.0, "description": "Lineage-time units of the heredity class per world second (one per tick) [vg-data: hypothetical]"},
         "coupling_activity": {"type": "float", "default": 1.0, "description": "Storage-class coupling activity when the pump is on [vg-data: hypothetical]"},
         "permeability_reference": {"type": "float", "default": 1.0e-6, "description": "H+ permeability of the fatty-acid reference membrane (m/s) [vg-data: extrapolated]"},
@@ -196,7 +197,7 @@ def relative_leak(core, model_boundary: str, *, temperature: float, ph: float = 
         "v_max_import": {"type": "float", "default": 1.0e-19, "description": "Importer capacity per substrate at full machinery (mol/s; ~6e4 molecules/s) [vg-data: hypothetical]"},
         "k_m_import": {"type": "float", "default": 1.0e-6, "description": "Importer half-saturation (M) [vg-data: hypothetical]"},
         "import_ratio_cap": {"type": "float", "default": 100.0, "description": "Inside / outside ratio at which the importer stops [vg-data: hypothetical]"},
-        "import_setpoint": {"type": "float", "default": 0.1, "description": "The importer holds each substrate at this fraction of its in-vent level [vg-data: hypothetical]"},
+        "import_setpoint": {"type": "float", "default": 0.3, "description": "The importer holds each substrate at this fraction of its in-vent level [vg-data: hypothetical]"},
         "import_budget_fraction": {"type": "float", "default": 0.3, "description": "Share of the lineage's work the importer may spend per tick [vg-data: hypothetical]"},
         "permeability_anchor": {"type": "string", "default": "extrapolated", "description": "Charged-solute exchange permeabilities: extrapolated (Phase-8 classes) | measured (1000x tighter: the fatty-acid-vesicle charged-solute anchor, og-07-alt decision)"},
         "k_org": {"type": "float", "default": 1.0e-5, "description": "Drive half-saturation on the cell's organic substrate (M) [vg-data: hypothetical]"},
@@ -211,7 +212,7 @@ def relative_leak(core, model_boundary: str, *, temperature: float, ph: float = 
         "protocell_radius": {"type": "float", "default": 5.0e-7, "description": "Protocell radius (m): the cell's volume, membrane area and A/V [vg-data: inferred, Phase 6]"},
         "seed": {"type": "integer", "default": 1, "description": "Heredity-class RNG seed"},
     },
-    default_n_steps=14400,
+    default_n_steps=18000,
     core_extensions=[build_core],
     emitters=[{"address": "local:ParquetEmitter", "paths": _EMIT_PATHS}],
 )
@@ -220,10 +221,10 @@ def integrated_autonomy_world(core=None, *, model_energy_coupling="thioester_acy
                               maintenance_law="constant", pump="on", importer="on", heredity="on", environment="vent",
                               h2_vent=1.08e-2, delta_ph=3.5, temperature=322.15, dic=2.0e-3, flow_velocity=3.0e-3,
                               olivine_rate=0.2, ph_ocean=6.0, ablation_start=3600.0, ablation_duration=6000.0,
-                              feed_floor=1.0e-2, gradient_floor=0.0, mineral_floor=0.0, tick_seconds=60.0,
+                              feed_floor=1.0e-2, gradient_floor=0.0, mineral_floor=-1.0, tick_seconds=60.0, store_seconds=10.0,
                               heredity_clock_ratio=1.0 / 60.0, coupling_activity=1.0, permeability_reference=1.0e-6,
                               max_relative_leak=100.0, v_max_import=1.0e-19, k_m_import=1.0e-6, import_ratio_cap=100.0,
-                              import_setpoint=0.1, import_budget_fraction=0.3, permeability_anchor="extrapolated",
+                              import_setpoint=0.3, import_budget_fraction=0.3, permeability_anchor="extrapolated",
                               k_org=1.0e-5, k_h2=1.0e-5, function_reference=0.25, heredity_allocation=0.05, k_wash=0.01, peclet=8.0,
                               pore_flow_velocity=1.0e-5, feed_pyruvate=1.0e-4, n_initial=8, protocell_radius=5.0e-7,
                               seed=1):
@@ -252,8 +253,10 @@ def integrated_autonomy_world(core=None, *, model_energy_coupling="thioester_acy
     fix_addr = models.resolve_checked(core, "carbon_fixation", "butler_volmer")
 
     dt = float(tick_seconds)
+    store_dt = min(float(store_seconds), dt)
     T = float(temperature)
     generic = environment == "generic"
+    mineral_floor = float(feed_floor) if float(mineral_floor) < 0.0 else float(mineral_floor)
     pump_on, importer_on, heredity_on = (str(v).lower() == "on" for v in (pump, importer, heredity))
 
     # the permeability assumption: the boundary class's leakiness relative to the fatty-acid vesicle
@@ -287,7 +290,8 @@ def integrated_autonomy_world(core=None, *, model_energy_coupling="thioester_acy
 
     # the population: founders at half the division mass (the cell's organic carbon at 1 mM C)
     division_mass = 1.0e-3 * v_agent
-    population = {f"ind-{i}": {"id": f"ind-{i}", "volume": v_agent, "internal_amounts": {"carbon": 0.5 * division_mass},
+    # (keyed "founder-i": the Phase-5 _divide rewrite names daughters "ind-<n>")
+    population = {f"founder-{i}": {"id": f"founder-{i}", "volume": v_agent, "internal_amounts": {"carbon": 0.5 * division_mass},
                                "boundary": {"area": area, "integrity": 1.0}, "division_state": 0.5, "persistence": 0.0}
                   for i in range(int(n_initial))}
 
@@ -372,8 +376,10 @@ def integrated_autonomy_world(core=None, *, model_energy_coupling="thioester_acy
                         {"enrichment_factor": ["pore", "enrichment_factor"], "flux_divergence_residual": ["pore", "flux_residual"]}),
         },
         # ---- the cell: the Phase-3 universe inside the protocell ----------------------------------
+        # the cell's chemistry and the importer run at the finer interval too, so an
+        # import pulse is small against what the network consumes within one integration
         "network_cell-0": {
-            "_type": "process", "address": net_addr, "interval": dt,
+            "_type": "process", "address": net_addr, "interval": store_dt,
             "config": {"lineage": "generalist", "volume": v_agent},
             "inputs": {"internal": ["agents", "cell-0", "internal", "dissolved"], "catalyst_activity": ["lineage", "catalysis_total"]},
             "outputs": {"internal": ["agents", "cell-0", "internal", "dissolved"],
@@ -393,7 +399,7 @@ def integrated_autonomy_world(core=None, *, model_energy_coupling="thioester_acy
                         "inflow": ["exchange", "inflow"], "outflow": ["exchange", "outflow"], "exchange": ["exchange", "exchange"]},
         },
         "active_import": {
-            "_type": "process", "address": "local:ActiveImportProcess", "interval": dt,
+            "_type": "process", "address": "local:ActiveImportProcess", "interval": store_dt,
             "config": {"importer": "on" if importer_on else "off", "v_max": float(v_max_import), "k_m": float(k_m_import),
                        "max_ratio": float(import_ratio_cap), "budget_fraction": float(import_budget_fraction),
                        "targets": {U.H2: float(import_setpoint) * float(h2_vent), "X_AKM": float(import_setpoint) * float(feed_pyruvate),
@@ -430,8 +436,11 @@ def integrated_autonomy_world(core=None, *, model_energy_coupling="thioester_acy
                         "access": ["boundary", "access"], "individuality_access": ["boundary", "individuality_access"]},
         },
         # ---- the storage model: the cell's power budget under the free-energy ledger ---------------
+        # the storage class and its ledger run at a finer interval (the store's exact
+        # free-energy differences close to rounding only at steps short against its
+        # draw / leak timescales); the budget step reads them once per world tick
         "energy": {
-            "_type": "process", "address": energy_addr, "config": energy_cfg, "interval": dt,
+            "_type": "process", "address": energy_addr, "config": energy_cfg, "interval": store_dt,
             "inputs": {"electric_potential": ["env", "electric_potential"],
                        "drive_free_energy": ["env", "drive_fe_redox" if model_energy_coupling == "fe_redox" else "drive_chemical"],
                        "permeability": ["boundary", "leak_permeability"], "membrane_area": ["individual", "membrane_area"],
@@ -441,14 +450,14 @@ def integrated_autonomy_world(core=None, *, model_energy_coupling="thioester_acy
                         **({"pmf": ["budget", "pmf"]} if model_energy_coupling == "h_na_gradient_leaky_membrane" else {})},
         },
         "free_energy_ledger": {
-            "_type": "process", "address": "local:FreeEnergyLedgerProcess", "config": {"seconds_per_tick": 1.0}, "interval": dt,
+            "_type": "process", "address": "local:FreeEnergyLedgerProcess", "config": {"seconds_per_tick": 1.0}, "interval": store_dt,
             "inputs": {"free_energy_in": ["budget", "free_energy_in"], "work": ["budget", "work"],
                        "dissipated": ["budget", "dissipated"], "energy_stored": ["budget", "energy_stored"]},
             "outputs": {k: ["ledger_fe", k] for k in FREE_ENERGY_LEDGER_KEYS},
         },
         "maintenance_demand": {
             "_type": "process", "address": "local:MaintenanceDemandProcess", "interval": dt,
-            "config": {"law": maintenance_law, "pump": "on" if pump_on else "off"},
+            "config": {"law": maintenance_law, "pump": "on" if pump_on else "off", "coupling_activity": float(coupling_activity)},
             "inputs": {"machinery": ["lineage", "machinery"], "relative_leak": ["boundary", "relative_leak"]},
             "outputs": {"maintenance_power": ["maintenance", "maintenance_power"]},
         },
@@ -536,12 +545,12 @@ def integrated_autonomy_world(core=None, *, model_energy_coupling="thioester_acy
         # ---- stores -----------------------------------------------------------------------------------
         "env": {"temperature": T, "pH_ocean": float(ph_ocean), "pH_vent": float(ph_ocean) + float(delta_ph) * (0.0 if generic else 1.0),
                 "ionic_strength": 0.25, "electric_potential": pmf0, "drive_chemical": 50.0, "drive_fe_redox": 40.0, "unity": 1.0,
-                "gradient_support": 0.0 if generic else 1.0, "mineral_access": 0.0 if generic else 1.0,
+                "gradient_support": float(gradient_floor) if generic else 1.0, "mineral_access": mineral_floor if generic else 1.0,
                 "feed_support": float(feed_floor) if generic else 1.0, "ablation_phase": 0.0, "fixation_relative": 0.0},
         "geo": {"temperature": T, "flow_velocity": float(flow_velocity), "H2": 0.0, "alkalinity": 0.0, "heat": 0.0,
                 "rates": {"H2_flux": 0.0, "alkalinity_flux": 0.0, "heat_flux": 0.0}, "charge_imbalance": 0.0,
                 "flux_divergence_residual": 0.0},
-        "catalyst": {"active": 1.0e-6 if generic else 1.0},
+        "catalyst": {"active": max(mineral_floor, 1.0e-6) if generic else 1.0},
         "minerals": {"conductivity": 1.0e-3, "layer_thickness": 1.0e-3, "ni_fraction": 0.75, "porosity": 0.35},
         "interface": {"env": {"H2": h2_pore, "CO2": float(dic)}, "products": {"formate": 0.0, "acetate": 0.0, "pyruvate": 0.0},
                       "flux": {"net_carbon_flux": 0.0},

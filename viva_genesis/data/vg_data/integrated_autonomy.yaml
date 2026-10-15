@@ -1,0 +1,278 @@
+# vg-data package: the INTEGRATED AUTONOMY world (Model Upgrade plan, Phase 9 — the capstone).
+#
+# What the Phase-9 world needs that the earlier packages do not already carry: the Phase-1
+# POSTERIOR carried as a distribution (the vent endmembers the lineage leaves — dissolved H2,
+# the pH contrast, the vent temperature, the inflowing DIC and the flow — summarised here from
+# the six og-cal-vent-environment draws that survive the Lost City windows AND the downstream
+# requirements; the world draws the ACTUAL posterior draws through
+# viva_genesis.uq.phase1_posterior, not this summary), the ocean endmembers the withdrawal
+# relaxes toward, the ablation schedule, the importer's transporter kinetics and regulation,
+# the drive's substrate affinities, the machinery normalisation, the heredity supply, the
+# maintenance laws' constants, the population's matter bookkeeping and the clock ratio of the
+# heredity class. The audit is the honesty indicator: the vent endmembers are CALIBRATED (Phase
+# 1), the cell geometry and the Phase-6/7/8 constants reused here are INFERRED or
+# EXTRAPOLATED where their own packages say so, and every number that makes the off-gradient
+# verdict — the ocean floors, the transporter, the affinities, the machinery reference, the
+# heredity allocation — is HYPOTHETICAL and swept or declared. Agent-proposed references
+# (Mansy 2008 for the measured charged-solute anchor) stay PENDING in the investigation's
+# proposed_inputs and are not cited here.
+name: integrated_autonomy
+version: '1'
+description: >-
+  Phase-9 integrated autonomy: the Phase-1 posterior as the vent endmembers, the ocean floors the
+  ablation relaxes toward, the schedule of the withdrawal, the importer transporter, the drive's
+  substrate affinities, the machinery normalisation, the heredity supply, the maintenance laws and
+  the population bookkeeping behind integrated_autonomy_world and og-08-alt-robust-innovation-set.
+sources:
+- kelley2005serpentinite
+- proskurowski2008abiogenic
+- martin2007origin
+- lane2012origin
+- sojo2014bioenergetic
+- jordan2019promotion
+- eigen1971selforganization
+- weiss2016physiology
+parameters:
+# ---- the vent endmembers: the Phase-1 posterior (six viable draws of og-cal-vent-environment) ----
+- id: h2_vent
+  units: molar
+  provenance: calibrated
+  value: 5.9e-3
+  context: {source: "og-cal-vent-environment posterior: dissolved H2 of the six draws consistent with the Lost City windows and viable for carbon fixation (2.3-10.8 mmol/kg)", n_draws: 6}
+  sources: [kelley2005serpentinite, proskurowski2008abiogenic]
+  distribution: {kind: uniform, low: 2.26e-3, high: 1.08e-2}
+  consumed_by: integrated_autonomy_world.h2_vent
+  how_to_use: The dissolved H2 of the vent fluid the lineage leaves; the pore H2 is h2_vent x feed_support, relaxing to the ocean floor.
+- id: delta_ph
+  units: dimensionless
+  provenance: calibrated
+  value: 3.39
+  context: {source: "og-cal posterior: vent pH 9.38-9.40 against the ocean prior 6.0"}
+  sources: [kelley2005serpentinite]
+  distribution: {kind: uniform, low: 3.384, high: 3.402}
+  consumed_by: integrated_autonomy_world.delta_ph
+  how_to_use: The pmf the storage class taps is ln(10) R T / F x delta_ph x gradient_support (0.22 V at full support).
+- id: temperature
+  units: kelvin
+  provenance: calibrated
+  value: 321.9
+  context: {source: "og-cal posterior: settled outlet temperature 48.1-49.2 C"}
+  sources: [kelley2005serpentinite]
+  distribution: {kind: uniform, low: 321.2, high: 322.4}
+  consumed_by: integrated_autonomy_world.temperature
+  how_to_use: Vent fluid temperature; thermal withdrawal (the cold ocean) is deferred — the lineage keeps the vent temperature.
+- id: dic
+  units: molar
+  provenance: extrapolated
+  value: 2.1e-3
+  context: {source: "og-cal posterior draws' inflowing DIC (the Hadean-ocean proxy prior, unsourced by design in vent_environment)"}
+  distribution: {kind: uniform, low: 1.2e-3, high: 2.9e-3}
+  consumed_by: integrated_autonomy_world.dic
+  how_to_use: The ocean's CO2 — never withdrawn; the cell's own fixation runs on it wherever H2 and catalysis remain.
+- id: flow_velocity
+  units: meter/second
+  provenance: calibrated
+  value: 3.1e-3
+  context: {source: "og-cal posterior"}
+  sources: [kelley2005serpentinite]
+  distribution: {kind: loguniform, low: 3.2e-4, high: 6.3e-3}
+  consumed_by: integrated_autonomy_world.flow_velocity
+  how_to_use: The geology layer's flow (the reduced serpentinization class under the conservation ledger).
+- id: olivine_rate
+  units: dimensionless
+  provenance: calibrated
+  value: 0.21
+  context: {source: "og-cal posterior (hypothetical prior, conditioned)"}
+  distribution: {kind: uniform, low: 0.089, high: 0.38}
+  consumed_by: integrated_autonomy_world.olivine_rate
+  how_to_use: The geology layer's serpentinization extent.
+- id: ph_ocean
+  units: dimensionless
+  provenance: extrapolated
+  value: 6.0
+  context: {source: "the Phase-1 Hadean-ocean prior (decisions_needed: the expert's prior)"}
+  consumed_by: integrated_autonomy_world.ph_ocean
+  how_to_use: The ocean-side pH the vent-side pH relaxes to as the gradient is withdrawn.
+# ---- the withdrawal: the ocean floors and the schedule --------------------------------------
+- id: feed_floor
+  units: dimensionless
+  provenance: hypothetical
+  value: 1.0e-2
+  context: {regime: "residual vent influence / ocean background of H2 and organics as a fraction of the vent level (1e-2 = 100 uM H2, 1 uM pyruvate)"}
+  distribution: {kind: loguniform, low: 1.0e-3, high: 1.0e-1}
+  consumed_by: integrated_autonomy_world.feed_floor
+  how_to_use: The Decision axis of the study (swept 1e-3 .. 1e-1); it is the weakest number in the package and decides the off-gradient verdict.
+- id: mineral_floor
+  units: dimensionless
+  provenance: hypothetical
+  value: 1.0e-2
+  context: {regime: "residual catalytic mineral access in the ocean (same fraction as the feed by default)"}
+  consumed_by: integrated_autonomy_world.mineral_floor
+  how_to_use: The Butler-Volmer interface stays numerically resolved (iv residual < 1e-6) only above ~1e-3; below it the Phase-2 charge ledger's current-voltage witness fails.
+- id: gradient_floor
+  units: dimensionless
+  provenance: inferred
+  value: 0.0
+  context: {regime: "the pH contrast of the wall vanishes away from it"}
+  consumed_by: integrated_autonomy_world.gradient_floor
+  how_to_use: The external pmf goes to zero at full withdrawal.
+- id: ablation_start
+  units: second
+  provenance: hypothetical
+  value: 3600.0
+  consumed_by: integrated_autonomy_world.ablation_start
+  how_to_use: One hour of the vent steady state before withdrawal (the storage classes settle in ~1e3 s).
+- id: ablation_duration
+  units: second
+  provenance: hypothetical
+  value: 6000.0
+  consumed_by: integrated_autonomy_world.ablation_duration
+  how_to_use: Linear withdrawal over 100 minutes; the verdict is read over the last 15 % of a 4-hour run, 80 minutes after the drivers reach their floors.
+- id: tick_seconds
+  units: second
+  provenance: inferred
+  value: 60.0
+  consumed_by: integrated_autonomy_world.tick_seconds
+  how_to_use: Every process runs at this interval (the chemistry integrated by CVODE within it; the exchange rules' exact relaxation over it).
+# ---- the cell -------------------------------------------------------------------------------
+- id: protocell_radius
+  units: meter
+  provenance: inferred
+  value: 5.0e-7
+  context: {source: "the Phase-6 individual (energy_currencies); the Phase-8 chemistry and exchange are carried at this geometry (A/V = 3/r)"}
+  sources: [jordan2019promotion]
+  consumed_by: integrated_autonomy_world.protocell_radius
+  how_to_use: Volume 0.52 pL, membrane area 3.1e-12 m^2; the storage class's store capacity and the exchange rate constants scale with it.
+- id: permeability_reference
+  units: meter/second
+  provenance: extrapolated
+  value: 1.0e-6
+  context: {source: "the Phase-6 H+ permeability of the fatty-acid reference membrane (energy_currencies)"}
+  sources: [sojo2014bioenergetic]
+  consumed_by: integrated_autonomy_world.permeability_reference
+  how_to_use: The storage class's leak = permeability_reference x the boundary class's relative leak.
+- id: max_relative_leak
+  units: dimensionless
+  provenance: hypothetical
+  value: 100.0
+  context: {note: "the thioester_aminothiol class's coarse permeability is a viability window, not a calibrated permeability; its leakiness relative to the fatty-acid vesicle is capped here"}
+  consumed_by: integrated_autonomy_world.max_relative_leak
+  how_to_use: The permeability-assumption axis spans {single_chain 1, mixed 1.6, thioester 100} x {extrapolated, measured charged-solute anchor (1e-3)}.
+# ---- the importer: a regulated, budgeted transporter -----------------------------------------
+- id: v_max_import
+  units: mole/second
+  provenance: hypothetical
+  value: 1.0e-19
+  context: {regime: "~6e4 molecules/s per 1-um protocell: 1e3-1e4 transporters at 10-100/s"}
+  distribution: {kind: loguniform, low: 1.0e-21, high: 1.0e-18}
+  consumed_by: integrated_autonomy_world.v_max_import
+  how_to_use: Capacity per substrate at full machinery; scaled by the lineage's machinery.
+- id: k_m_import
+  units: molar
+  provenance: hypothetical
+  value: 1.0e-6
+  context: {regime: "a high-affinity transporter"}
+  distribution: {kind: loguniform, low: 1.0e-7, high: 1.0e-5}
+  consumed_by: integrated_autonomy_world.k_m_import
+  how_to_use: Michaelis constant of the active-uptake rule.
+- id: import_setpoint
+  units: dimensionless
+  provenance: hypothetical
+  value: 0.3
+  context: {regime: "the transporter holds each substrate at 30 % of its in-vent level and is idle above it"}
+  consumed_by: integrated_autonomy_world.import_setpoint
+  how_to_use: Regulation (a transporter does not pump into a pool it has filled); the ratio cap (100) is the second regulator.
+- id: import_budget_fraction
+  units: dimensionless
+  provenance: hypothetical
+  value: 0.3
+  consumed_by: integrated_autonomy_world.import_budget_fraction
+  how_to_use: The importer may spend at most this share of the lineage's work supply per tick (its cost is RT ln(c_in / c_out) per mole over a 0.5 coupling efficiency).
+# ---- the drive's substrate affinities and the machinery ---------------------------------------
+- id: k_h2
+  units: molar
+  provenance: hypothetical
+  value: 1.0e-5
+  context: {regime: "hydrogenase-like affinity: the drive is half-saturated at 10 uM H2 inside the cell"}
+  distribution: {kind: loguniform, low: 1.0e-6, high: 1.0e-3}
+  consumed_by: integrated_autonomy_world.k_h2
+  how_to_use: drive_availability = max(H2 / (H2 + k_h2), org / (org + k_org)) x machinery.
+- id: k_org
+  units: molar
+  provenance: hypothetical
+  value: 1.0e-5
+  distribution: {kind: loguniform, low: 1.0e-6, high: 1.0e-3}
+  consumed_by: integrated_autonomy_world.k_org
+  how_to_use: The drive's half-saturation on the cell's organic substrates (pyruvate, formate, acetate).
+- id: function_reference
+  units: dimensionless
+  provenance: hypothetical
+  value: 0.25
+  context: {regime: "the heredity class's mean function at which the lineage holds its full machinery (Phase-7 attached classes settle at 0.12-0.40)"}
+  consumed_by: integrated_autonomy_world.function_reference
+  how_to_use: machinery = min(mean_function / function_reference, 1); scales the pump's drive, the importer's capacity and the cell's own catalysis of its mineral rules.
+- id: coupling_activity
+  units: dimensionless
+  provenance: hypothetical
+  value: 1.0
+  context: {source: "the Phase-6 passive -> active axis at its active end"}
+  consumed_by: integrated_autonomy_world.coupling_activity
+  how_to_use: The storage class's coupling when the pump is on (0 = the pump knockout, the Phase-6 passive_gradient behaviour).
+# ---- the heredity supply and clock -----------------------------------------------------------
+- id: heredity_allocation
+  units: dimensionless
+  provenance: hypothetical
+  value: 0.05
+  context: {note: "0.05 x work x 32 individuals x 60 s per tick ~ 6e-16 J per tick, the Phase-7 nominal energy supply"}
+  consumed_by: integrated_autonomy_world.heredity_allocation
+  how_to_use: Share of the lineage's work fed to the heredity class's energy store (a demand on the budget; audited by the information ledger).
+- id: precursor_yield
+  units: dimensionless
+  provenance: hypothetical
+  value: 0.1
+  context: {note: "fraction of the cell's organic carbon that is activated precursor; 0.1 x the in-vent 1 mM C reproduces the Phase-7 nominal 1e-4 M feed"}
+  consumed_by: LineageSupplyProcess.precursor_yield
+  how_to_use: The heredity class's precursor pools relax toward precursor_yield x total_organic_carbon — so a cell whose carbon collapses starves its heredity.
+- id: heredity_clock_ratio
+  units: 1/second
+  provenance: hypothetical
+  value: 0.0167
+  context: {note: "one lineage-time unit of the Gillespie class per 60-s world tick; the class's rate constants are hypothetical in inheritance_budgets, so their absolute scale is a declared assumption"}
+  consumed_by: integrated_autonomy_world.heredity_clock_ratio
+  how_to_use: Every heredity rate constant is multiplied by this ratio.
+# ---- the maintenance laws ---------------------------------------------------------------------
+- id: m_base
+  units: watt
+  provenance: hypothetical
+  value: 1.0e-19
+  context: {source: "energy_currencies maintenance_base"}
+  consumed_by: MaintenanceDemandProcess.m_base
+  how_to_use: The upkeep of a lineage with no machinery (og-08's c_base).
+- id: m_active
+  units: watt
+  provenance: hypothetical
+  value: 5.0e-18
+  context: {source: "energy_currencies maintenance_active"}
+  consumed_by: MaintenanceDemandProcess.m_active
+  how_to_use: "constant: x coupling activity invested; leak_repair: x coupling activity x relative leak; turnover: x machinery held."
+# ---- the population bookkeeping ----------------------------------------------------------------
+- id: carbon_energy_equivalent
+  units: joule/mole
+  provenance: hypothetical
+  value: 4.0e4
+  context: {note: "work per mole of carbon turned into biomass; the co-limited gain is min(material_net, net_power / this)"}
+  consumed_by: PopulationBudgetProcess.carbon_energy_equivalent
+  how_to_use: Prices carbon in work when the two autonomy fractions are combined and when the population grows or starves.
+- id: division_mass
+  units: mole
+  provenance: inferred
+  value: 5.2e-19
+  context: {note: "the cell's organic carbon at 1 mM C in 0.52 pL"}
+  consumed_by: PopulationBudgetProcess.division_mass
+  how_to_use: An individual divides (_divide) at this matter and is removed (_remove) below a tenth of it.
+- id: n_initial
+  units: dimensionless
+  provenance: hypothetical
+  value: 8
+  consumed_by: integrated_autonomy_world.n_initial
+  how_to_use: Founding individuals; survivors = alive / n_initial.
