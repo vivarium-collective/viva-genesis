@@ -238,6 +238,10 @@ visualizations:
   config:
     grid_json: workspace/studies/og-04-mineral-compartments-to-protocells/artifacts/protocell_grid.json
     title: A boundary that retains without isolating (Decision view)
+- name: protocell-vesicle-3d
+  address: local:ProtocellVesicle3D
+  config:
+    title: The protocell in 3-D — a boundary that retains without isolating (World view)
 runs:
 - name: viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791944482__977ceb
   status: completed

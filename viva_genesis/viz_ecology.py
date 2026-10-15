@@ -27,12 +27,15 @@ from process_bigraph.visualization import Visualization
 
 from .viz_uq import _resolve
 
-_INK, _TEAL, _AMBER, _SLATE, _RUST, _MUTED, _VIOLET, _GREEN = (
-    "#1e293b", "#0d9488", "#d97706", "#64748b", "#b91c1c", "#94a3b8", "#7c3aed", "#15803d")
+from . import viz_style as S
+from .viz_style import (INK as _INK, TEAL as _TEAL, AMBER as _AMBER, SLATE as _SLATE,
+                        RUST as _RUST, MUTED as _MUTED, VIOLET as _VIOLET)
+
+_GREEN = "#15803d"  # 6th categorical (not in the core palette)
 _ARM_COLORS = {"community": _TEAL, "mono_fixer": _AMBER, "mono_reducer": _VIOLET, "private": _SLATE,
                "generalist": _RUST, "segregated": _GREEN}
 _LINEAGE_COLORS = {"fixer": _AMBER, "reducer": _VIOLET, "generalist": _RUST, "condenser": _GREEN}
-_FONT = dict(family="Inter, Helvetica, Arial, sans-serif", color=_INK, size=12)
+_FONT = S.FONT()
 # the range the charged-solute permeability literature places fatty-acid
 # vesicles in (nucleotides / ribose, ~1e-11-1e-10 m/s; proposed_inputs, pending)
 _MEASURED_CHARGED_RANGE = (1.0e-11, 1.0e-10)
@@ -57,13 +60,15 @@ def community_function_figure(rep: dict, *, title: str = "") -> str:
     zlog = [[math.log10(v) if v > 0 else None for v in row] for row in z]
     text = [[f"{cell[(p, k)]['n_community_only']} fn<br>{', '.join(_pretty(f) for f in cell[(p, k)]['community_only_functions']) or '—'}"
              for p in ps] for k in ks]
-    fig = make_subplots(rows=1, cols=2, column_widths=[0.55, 0.45], horizontal_spacing=0.12,
-                        subplot_titles=["Where the community-only function emerges (log10 M of its best product class)",
-                                        "Community-only product classes at the canonical point, per arm"])
+    fig = make_subplots(rows=1, cols=2, column_widths=[0.55, 0.45], horizontal_spacing=0.17,
+                        subplot_titles=["Where community-only function emerges",
+                                        "Product classes at the canonical point, per arm"])
     fig.add_trace(go.Heatmap(
         x=[f"{p:.0e}" for p in ps], y=[f"{1 / k:.0f} s" for k in ks], z=zlog, text=text,
         hovertemplate="P(diacid) %{x} m/s<br>residence %{y}<br>level 10^%{z:.1f} M<br>%{text}<extra></extra>",
-        colorscale=[[0.0, "#e2e8f0"], [1.0, _TEAL]], colorbar=dict(title="log10 M", x=0.5, len=0.9),
+        colorscale=[[0.0, "#e2e8f0"], [1.0, _TEAL]],
+        colorbar=dict(title="log₁₀ M", x=0.455, len=0.9, thickness=9,
+                      title_font=dict(size=10), tickfont=dict(size=9)),
         zmin=-9.5, zmax=-6.5, showscale=True), row=1, col=1)
     # the canonical point and the measured charged-solute range
     nom = rep["meta"]["nominal"]
@@ -104,10 +109,19 @@ def community_function_figure(rep: dict, *, title: str = "") -> str:
            + (f"{prec[0]['name']} from the {prec[0]['made_by'] and 'other'} lineage ({_fmt(prec[0]['molecules_per_tick'])} molecules/tick)" if prec else "none")
            + f" | max cell completeness {_fmt(gate['max_cell_completeness'])}"
            + (f" | community / generalist {_fmt(gate['community_over_generalist'])}" if gate.get("community_over_generalist") else ""))
-    fig.update_layout(title=dict(text=f"{title}<br><span style='font-size:11px;color:{_SLATE}'>{sub}</span>", x=0.01),
-                      template="plotly_white", font=_FONT, height=520, barmode="group",
-                      legend=dict(orientation="h", y=-0.22, x=0.0, font=dict(size=10)), margin=dict(t=90, b=90))
-    return fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    fig.update_layout(**S.base_layout(height=520, barmode="group", margin=dict(t=44, b=90),
+                                      legend=dict(orientation="h", y=-0.22, x=0.0, font=dict(size=10))))
+    cap = (
+        "A metabolic function the mixed community produces that no single lineage does, over "
+        "(diacid permeability × pore residence). The red dotted line is the emergence boundary; the "
+        "shaded band is the measured charged-solute range. Right: the best product class per arm vs the "
+        f"1 nM floor. <b>{sub}</b>. These are mean-field, community-level concentrations (not single-molecule "
+        "lineages), so the result is a coarse-grained demonstration of cross-feeding function, not a cell."
+    )
+    inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    return S.frame(inner, title=(title or "Does cross-feeding build community-only function?"),
+                   phase="Phase 8", view="Decision", tier="conceptual_demonstration",
+                   caption_text=cap, caption_prefix="How to read", tone="caution")
 
 
 def exchange_map_figure(rep: dict, *, title: str = "") -> str:
@@ -118,10 +132,10 @@ def exchange_map_figure(rep: dict, *, title: str = "") -> str:
     gate = rep["gate"]
     series = rep["series"]
     og07 = rep["og07"]
-    fig = make_subplots(rows=1, cols=3, column_widths=[0.38, 0.3, 0.32], horizontal_spacing=0.08,
-                        subplot_titles=["Agents on the pore, and what crosses between lineages",
-                                        "Functions held by the community over time",
-                                        "og-07's readouts, recomputed from real agents"])
+    fig = make_subplots(rows=1, cols=3, column_widths=[0.38, 0.3, 0.32], horizontal_spacing=0.1,
+                        subplot_titles=["Agents + cross-lineage exchange",
+                                        "Functions held over time",
+                                        "og-07 readouts, recomputed"])
     # --- World: agents on cells, intermediates as arrows ---------------------------------------
     lineages = {aid.rsplit("-", 1)[0]: None for aid in comm["rates_final"]}
     n_agents = len(comm["rates_final"])
@@ -184,10 +198,18 @@ def exchange_map_figure(rep: dict, *, title: str = "") -> str:
     sub = (f"element ledger over agents + field: C residual ≤ {_fmt(led['C_residual_max'])}, N ≤ {_fmt(led['N_residual_max'])}, "
            f"P ≤ {_fmt(led['P_residual_max'])} on {led['n_runs']} runs | exchange-rule firings (canonical community): "
            + ", ".join(f"{k} {int(v)}" for k, v in (led.get("firings_by_rule_nominal_community") or {}).items()))
-    fig.update_layout(title=dict(text=f"{title}<br><span style='font-size:11px;color:{_SLATE}'>{sub}</span>", x=0.01),
-                      template="plotly_white", font=_FONT, height=520, barmode="group",
-                      legend=dict(orientation="h", y=-0.22, x=0.0, font=dict(size=10)), margin=dict(t=90, b=90))
-    return fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    fig.update_layout(**S.base_layout(height=520, barmode="group", margin=dict(t=44, b=90),
+                                      legend=dict(orientation="h", y=-0.22, x=0.0, font=dict(size=10))))
+    cap = (
+        "Real metabolite flux between lineages on the pore. Left: agents on cells with the intermediates "
+        "that cross between lineages (teal = a precursor one lineage makes for the other). Middle: product "
+        "classes the community holds over time. Right: og-07's robustness / completeness readouts recomputed "
+        f"from the real agents. <b>{sub}</b>."
+    )
+    inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    return S.frame(inner, title=(title or "What crosses between lineages"),
+                   phase="Phase 8", view="Mechanism", tier="conceptual_demonstration",
+                   caption_text=cap, caption_prefix="How to read", tone="neutral", max_width=1100)
 
 
 class _ArtifactViz(Visualization):

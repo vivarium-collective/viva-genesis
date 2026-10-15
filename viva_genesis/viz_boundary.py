@@ -8,8 +8,8 @@ from __future__ import annotations
 
 from process_bigraph.visualization import Visualization
 
-
-_INK, _TEAL, _AMBER, _SLATE = "#1e293b", "#0d9488", "#d97706", "#64748b"
+from . import viz_style as S
+from .viz_style import INK as _INK, TEAL as _TEAL, AMBER as _AMBER, SLATE as _SLATE
 
 
 def _rows(generator, core, **kwargs):
@@ -56,12 +56,16 @@ class EndogenousBoundaryViz(Visualization):
         fig.add_trace(go.Scatter(x=list(range(len(abl))), y=_series(abl, "n_agents"),
                                  mode="lines", name="synthesis ablated (control)",
                                  line=dict(color=_SLATE, width=2, dash="dash")))
-        fig.update_layout(title=self.config["title"], template="plotly_white",
-                          height=420, width=720, xaxis_title="step",
-                          yaxis_title="individuals in the agents map (n_agents)",
-                          margin=dict(l=60, r=30, t=60, b=50))
-        return {"html": fig.to_html(full_html=True, include_plotlyjs="cdn",
-                                    config={"displayModeBar": False})}
+        fig.update_layout(**S.base_layout(height=420, width=720, margin=dict(l=60, r=30, t=40, b=50)),
+                          xaxis_title="step", yaxis_title="individuals in the agents map (n_agents)")
+        cap = ("The individuals count (n_agents) climbs in the favorable arm, where endogenous amphiphile "
+               "synthesis builds the boundary, but stays flat when synthesis is ablated (dashed). The "
+               "boundary forms from the chemistry, and does not without it &mdash; that favorable-vs-ablated "
+               "contrast is the result.")
+        inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+        return {"html": S.frame(inner, title=(self.config.get("title") or "Boundary forms from chemistry"),
+                                phase="Phase 5", view="Mechanism", tier="mechanistic_prediction",
+                                caption_text=cap, caption_prefix="How to read", tone="neutral", max_width=760)}
 
 
 class PhysicalReproductionViz(Visualization):
@@ -97,10 +101,14 @@ class PhysicalReproductionViz(Visualization):
                                  line=dict(color=_TEAL, width=2.5)), secondary_y=False)
         fig.add_trace(go.Scatter(x=t, y=s("max_generation"), mode="lines", name="deepest generation",
                                  line=dict(color=_AMBER, width=2.5)), secondary_y=True)
-        fig.update_layout(title=self.config["title"], template="plotly_white",
-                          height=420, width=720, xaxis_title="step",
-                          margin=dict(l=60, r=60, t=60, b=50))
+        fig.update_layout(**S.base_layout(height=420, width=720, margin=dict(l=60, r=60, t=40, b=50)),
+                          xaxis_title="step")
         fig.update_yaxes(title_text="population", secondary_y=False)
         fig.update_yaxes(title_text="generation", secondary_y=True)
-        return {"html": fig.to_html(full_html=True, include_plotlyjs="cdn",
-                                    config={"displayModeBar": False})}
+        cap = ("Population (n_agents) and the deepest generation both climb as individuals grow and divide; "
+               "total volume is conserved across each division (daughter volumes sum to the mother), so this "
+               "is physical reproduction of a lineage, not spawning.")
+        inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+        return {"html": S.frame(inner, title=(self.config.get("title") or "A multi-generation lineage in the agents map"),
+                                phase="Phase 5", view="Mechanism", tier="mechanistic_prediction",
+                                caption_text=cap, caption_prefix="How to read", tone="neutral", max_width=760)}

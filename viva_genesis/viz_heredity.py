@@ -22,11 +22,14 @@ from process_bigraph.visualization import Visualization
 
 from .viz_uq import _resolve
 
-_INK, _TEAL, _AMBER, _SLATE, _RUST, _MUTED, _VIOLET, _GREEN = (
-    "#1e293b", "#0d9488", "#d97706", "#64748b", "#b91c1c", "#94a3b8", "#7c3aed", "#15803d")
+from . import viz_style as S
+from .viz_style import (INK as _INK, TEAL as _TEAL, AMBER as _AMBER, SLATE as _SLATE,
+                        RUST as _RUST, MUTED as _MUTED, VIOLET as _VIOLET)
+
+_GREEN = "#15803d"  # 6th categorical (not in the core palette)
 _CLASS_COLORS = {"rna_like": _RUST, "hybrid": _VIOLET, "peptide": _AMBER, "compositional": _TEAL,
                  "network": _GREEN, "mineral_state": _SLATE}
-_FONT = dict(family="Inter, Helvetica, Arial, sans-serif", color=_INK, size=12)
+_FONT = S.FONT()
 
 
 def _fmt(v, nd=2):
@@ -79,16 +82,17 @@ def frontier_figure(rep: dict, *, title: str = "") -> str:
     fig.update_yaxes(title_text="realised heritable bits (MI net of null)", row=1, col=1)
     fig.update_yaxes(type="log", title_text="bits per joule", row=1, col=2)
     g = rep["gates"]
-    fig.update_layout(title=title or "Phase 7 — the information-per-cost frontier of competing heredity",
-                      height=520, margin=dict(l=20, r=20, t=80, b=60), plot_bgcolor="white", paper_bgcolor="white",
-                      font=_FONT, legend=dict(orientation="h", y=-0.18))
-    note = (f"{g['n_classes_ancestry_predicts']}/{len(names)} classes pass ancestry-predicts-phenotype "
-            f"(converged MI ≥ {rep['meta']['pass_rule']['min_bits']} bit and ≥ {rep['meta']['pass_rule']['min_delta_vs_control']} bit above control); "
-            f"Pareto front ★ = {', '.join(sorted(pareto)) or 'none'}; bits/J spans {_fmt(g['frontier_span_decades'])} decades; "
-            f"among certified classes the best non-RNA class ({g['best_nonrna_class']}) carries {_fmt(g['nonrna_bits_fraction'])}× the RNA-like bits per offspring "
-            f"and {g.get('best_nonrna_bits_per_joule_class')} carries {_fmt(g.get('nonrna_bits_per_joule_fraction'))}× its bits per joule.")
-    return (fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
-            + f"<p style='font: 12px Inter, sans-serif; color:{_SLATE}; margin:6px 0'>{note}</p>")
+    fig.update_layout(**S.base_layout(height=520, margin=dict(l=20, r=20, t=50, b=60),
+                                      legend=dict(y=-0.18)))
+    cap = (f"{g['n_classes_ancestry_predicts']}/{len(names)} classes pass ancestry-predicts-phenotype "
+           f"(converged MI &ge; {rep['meta']['pass_rule']['min_bits']} bit and &ge; {rep['meta']['pass_rule']['min_delta_vs_control']} bit above control); "
+           f"Pareto front &starf; = {', '.join(sorted(pareto)) or 'none'}; bits/J spans {_fmt(g['frontier_span_decades'])} decades. "
+           f"Among certified classes the best non-RNA class ({g['best_nonrna_class']}) carries {_fmt(g['nonrna_bits_fraction'])}&times; the RNA-like bits per offspring "
+           f"and {g.get('best_nonrna_bits_per_joule_class')} carries {_fmt(g.get('nonrna_bits_per_joule_fraction'))}&times; its bits per joule &mdash; heredity need not be RNA.")
+    inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    return S.frame(inner, title=(title or "The information-per-cost frontier of competing heredity"),
+                   phase="Phase 7", view="Decision", tier="conceptual_demonstration",
+                   caption_text=cap, caption_prefix="How to read", tone="neutral")
 
 
 def attachment_figure(rep: dict, *, title: str = "") -> str:
@@ -124,16 +128,17 @@ def attachment_figure(rep: dict, *, title: str = "") -> str:
     fig.update_xaxes(title_text="matched budget (feeds and power × nominal)", row=1, col=1)
     fig.update_xaxes(title_text="copy fidelity knob (q, q_p; p_m for mineral — reversed sense)", row=1, col=2)
     fig.update_yaxes(title_text="realised heritable bits", row=1, col=2)
-    fig.update_layout(title=title or "Phase 7 — conditional attachment and the transition to templated heredity",
-                      height=520, margin=dict(l=20, r=20, t=80, b=60), plot_bgcolor="white", paper_bgcolor="white",
-                      font=_FONT, legend=dict(orientation="h", y=-0.2))
+    fig.update_layout(**S.base_layout(height=520, margin=dict(l=20, r=20, t=50, b=60),
+                                      legend=dict(y=-0.2)))
     g = rep["gates"]
-    note = (f"Filled markers: the step attaches (≥ 50 % of ticks); open: refused (budget or Eigen floor). "
-            f"Mean attached-fraction span low→high budget over attachable classes: {_fmt(g['attachment_budget_span'])}; "
+    note = (f"Filled markers: the step attaches (&ge; 50 % of ticks); open: refused (budget or Eigen floor). "
+            f"Mean attached-fraction span low&rarr;high budget over attachable classes: {_fmt(g['attachment_budget_span'])}; "
             f"rna_like overtakes the organic non-templated classes (compositional / network) from q = {g['templated_takeover_fidelity']} "
             f"and the mineral class from q = {g['templated_takeover_vs_mineral']}.")
-    return (fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
-            + f"<p style='font: 12px Inter, sans-serif; color:{_SLATE}; margin:6px 0'>{note}</p>")
+    inner = (fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False}))
+    return S.frame(inner, title=(title or "Conditional attachment and the transition to templated heredity"),
+                   phase="Phase 7", view="Mechanism", tier="conceptual_demonstration",
+                   caption_text=note, caption_prefix="How to read", tone="neutral")
 
 
 class _ArtifactViz(Visualization):

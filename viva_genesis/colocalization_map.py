@@ -3,8 +3,12 @@
 The decisive Stage-III question as a Decision surface: over the pore's control
 space -- advective Peclet x Soret strength -- does the chemically-necessary
 prebiotic MIXTURE co-localize (all eight solutes concentrate together, a
-positive concentrating mechanism) or fractionate (some concentrate while others
-are swept out, adsorbed away or degraded -- a fatal incompatibility)?
+positive concentrating mechanism) or fractionate (different solutes concentrate
+to DIFFERENT DEGREES set by their Soret coefficient, so low-S_T solutes such as
+ammonium lag the strong thermophoretic precursors -- a fatal incompatibility)?
+The fractionation is Soret-driven; adsorption and degradation are kinetically
+minor over a single pore transit (the resolved-FEM mobile fraction stays
+~0.93-1.0 even at high adsorption), so they are not the primary driver.
 
 This drives the reduced surrogate (``MultisolutePoreSurrogateProcess``,
 calibrated to the viva-fenics FEM reference to ~7 % on enrichment) over the grid

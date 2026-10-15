@@ -367,6 +367,10 @@ visualizations:
   config:
     grid_json: workspace/studies/og-00-vent-reactor-baseline/artifacts/vent_habitability_grid.json
     title: The Lost City habitability window (Decision view)
+- name: vent-wall-3d
+  address: local:VentChimney3D
+  config:
+    title: The vent wall in 3-D — the across-wall thermal gradient (World view)
 # Canonical runner: builds the real coupled model, writes an isolated per-run
 # sqlite store the evaluator can open, and auto-grades the behavior tests into
 # runs[].outcomes (the dashboard's shared runs.db records no resolvable store).

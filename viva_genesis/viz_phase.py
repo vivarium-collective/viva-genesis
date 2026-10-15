@@ -14,7 +14,8 @@ import json
 import numpy as np
 from process_bigraph.visualization import Visualization
 
-_INK, _TEAL, _AMBER, _SLATE, _RUST = "#1e293b", "#0d9488", "#d97706", "#64748b", "#b91c1c"
+from . import viz_style as S
+from .viz_style import INK as _INK, TEAL as _TEAL, AMBER as _AMBER, SLATE as _SLATE, RUST as _RUST
 
 
 def sweep_to_json(res) -> str:
@@ -97,19 +98,15 @@ def carbon_fixation_phase_figure(fav, tut=None, *, title=None) -> str:
                          row=1, col=i)
         fig.update_xaxes(title_text="vent pH (alkaline side; ocean = 6.0)", row=1, col=i)
 
-    ttl = title or "Campaign I — the carbon-fixation landscape"
-    fig.update_layout(
-        title=dict(text=(f"<b>{ttl}</b><br><span style='font-size:12px;color:{_SLATE}'>"
-                         "Where geological free energy sustains reduced-carbon production "
-                         "(open-flow vent reactor). Dark = productive region fails; the "
-                         "no-gradient / no-catalyst / no-H₂ controls sit off-scale at zero."
-                         "</span>"), x=0.5, xanchor="center"),
-        height=440, width=460 * len(panels), margin=dict(t=95, b=60, l=70, r=20),
-        font=dict(family="system-ui, -apple-system, sans-serif", color=_INK),
-        paper_bgcolor="white", plot_bgcolor="white",
-    )
-    return fig.to_html(full_html=False, include_plotlyjs="cdn",
-                       config={"displayModeBar": False})
+    fig.update_layout(**S.base_layout(height=440, width=460 * len(panels),
+                                      margin=dict(t=48, b=60, l=70, r=20), showlegend=False))
+    cap = ("Where geological free energy sustains reduced-carbon production (open-flow vent "
+           "reactor). Dark = productive region fails; the no-gradient / no-catalyst / no-H₂ "
+           "controls sit off-scale at zero.")
+    inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    return S.frame(inner, title=(title or "The carbon-fixation landscape"),
+                   phase="Campaign I", view="Decision", tier="mechanistic_prediction",
+                   caption_text=cap, caption_prefix="How to read", tone="neutral")
 
 
 def protometabolism_gain_figure(res, *, title=None) -> str:
@@ -151,17 +148,15 @@ def protometabolism_gain_figure(res, *, title=None) -> str:
         fig.update_xaxes(type="log", title_text="washout / dilution k_wash (1/s)", row=1, col=c)
     fig.update_yaxes(type="log", title_text="feed CO₂ (M)", row=1, col=1)
 
-    ttl = title or "Campaign II — the protometabolic ignition landscape"
-    fig.update_layout(
-        title=dict(text=(f"<b>{ttl}</b><br><span style='font-size:12px;color:{_SLATE}'>"
-                         "The rTCA network ignites in a bounded region — enough geological CO₂ in, "
-                         "slow enough washout. Dashed line = the autocatalytic threshold (gain=1); "
-                         "beyond it the loop cannot outpace dilution and the hub washes out.</span>"),
-                   x=0.5, xanchor="center"),
-        height=450, width=940, margin=dict(t=95, b=60, l=70, r=20),
-        font=dict(family="system-ui, -apple-system, sans-serif", color=_INK),
-        paper_bgcolor="white", plot_bgcolor="white")
-    return fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    fig.update_layout(**S.base_layout(height=450, width=940, margin=dict(t=48, b=60, l=70, r=20),
+                                      showlegend=False))
+    cap = ("The rTCA network ignites in a bounded region &mdash; enough geological CO₂ in, "
+           "slow enough washout. Dashed line = the autocatalytic threshold (gain=1); beyond it "
+           "the loop cannot outpace dilution and the hub washes out.")
+    inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    return S.frame(inner, title=(title or "The protometabolic ignition landscape"),
+                   phase="Campaign II", view="Decision", tier="mechanistic_prediction",
+                   caption_text=cap, caption_prefix="How to read", tone="neutral")
 
 
 class ProtometabolismGainPhaseMap(Visualization):
@@ -229,11 +224,11 @@ def pore_ignition_figure(gain_grid, traj, enrichment, dilute, enriched, k_wash, 
                        xref="x", yref="y", axref="x", ayref="y", showarrow=True, arrowhead=2,
                        arrowwidth=2, arrowcolor=_AMBER, row=1, col=1)
     fig.add_trace(go.Scatter(x=[k_wash], y=[dilute], mode="markers+text", text=["well-mixed<br>(dilute)"],
-                             textposition="bottom center", textfont=dict(size=9, color=_INK),
+                             textposition="middle right", textfont=dict(size=9, color=_INK),
                              marker=dict(size=12, color=_SLATE, line=dict(width=1, color=_INK)),
                              showlegend=False), row=1, col=1)
     fig.add_trace(go.Scatter(x=[k_wash], y=[enriched], mode="markers+text",
-                             text=[f"in pore<br>(×{enrichment:.0f} trap)"], textposition="top center",
+                             text=[f"in pore<br>(×{enrichment:.0f}, capped)"], textposition="top center",
                              textfont=dict(size=9, color=_INK),
                              marker=dict(symbol="star", size=15, color=_TEAL, line=dict(width=1.1, color=_INK)),
                              showlegend=False), row=1, col=1)
@@ -248,18 +243,21 @@ def pore_ignition_figure(gain_grid, traj, enrichment, dilute, enriched, k_wash, 
     fig.update_xaxes(title_text="time (s)", row=1, col=2)
     fig.update_yaxes(title_text="autocatalytic hub OAA (mM)", row=1, col=2)
 
-    ttl = title or "Campaign III — localization makes the individual"
-    fig.update_layout(
-        title=dict(text=(f"<b>{ttl}</b><br><span style='font-size:12px;color:{_SLATE}'>"
-                         f"A real thermophoretic pore concentrates the dilute vent feed ×{enrichment:.0f}, "
-                         "lifting it across og-02's ignition threshold (dashed). The same chemistry stays "
-                         "dead in the well-mixed ocean — the metabolizing individual is a product of "
-                         "localization, not of new reactions.</span>"), x=0.5, xanchor="center"),
-        height=450, width=960, margin=dict(t=100, b=60, l=70, r=20),
-        legend=dict(orientation="h", y=1.02, x=1.0, xanchor="right", font=dict(size=10)),
-        font=dict(family="system-ui, -apple-system, sans-serif", color=_INK),
-        paper_bgcolor="white", plot_bgcolor="white")
-    return fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    fig.update_layout(**S.base_layout(height=450, width=960, margin=dict(t=48, b=60, l=70, r=20),
+                                      legend=dict(orientation="h", y=1.02, x=1.0, xanchor="right",
+                                                  font=dict(size=10))))
+    cap = (
+        f"A reduced, enrichment-capped illustration (&times;{enrichment:.0f}, within the 60&times; cap, "
+        "not a graded result): the pore's localization lifts the dilute feed across og-02's ignition "
+        "threshold (dashed) while the same chemistry stays dead in the well-mixed ocean &mdash; so the "
+        "metabolizing individual is a product of <i>localization</i>, not of new reactions. The graded "
+        "localization result is the pore-localization frontier (Decision view); this couples it to the "
+        "og-02 network to show the consequence."
+    )
+    inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    return S.frame(inner, title=(title or "Localization lifts the feed across the ignition threshold"),
+                   phase="Campaign III", view="Mechanism", tier="mechanistic_prediction",
+                   caption_text=cap, caption_prefix="How to read", tone="caution")
 
 
 class PoreIgnitionCoupling(Visualization):
@@ -339,7 +337,7 @@ def protocell_decision_figure(arc, feas, *, title=None) -> str:
     ind = arc.surfaces["individuality"]
     ipk = int(np.argmax(ind))
 
-    fig = make_subplots(rows=1, cols=2, horizontal_spacing=0.13,
+    fig = make_subplots(rows=1, cols=2, horizontal_spacing=0.18,
                         subplot_titles=("Retention vs access (permeability rising with T)",
                                         "Viable salt ceiling rises with mixed amphiphiles"))
     # --- left: retention-access plane with 3 regimes ---
@@ -352,7 +350,9 @@ def protocell_decision_figure(arc, feas, *, title=None) -> str:
     fig.add_trace(go.Scatter(x=acc, y=ret, mode="lines+markers",
                              marker=dict(size=7, color=ind, colorscale="Viridis", cmin=0,
                                          cmax=float(np.nanmax(ind)) or 1.0,
-                                         colorbar=dict(title="individ.<br>ret×acc", len=0.9, x=0.44),
+                                         colorbar=dict(title="individ.<br>ret×acc", len=0.9, x=0.44,
+                                                       thickness=9, title_font=dict(size=10),
+                                                       tickfont=dict(size=9)),
                                          line=dict(width=0.5, color="#334155")),
                              line=dict(color="#cbd5e1", width=1), showlegend=False,
                              hovertext=[f"T={t:.0f}K" for t in arc.axes["temperature"]], hoverinfo="text"), row=1, col=1)
@@ -385,22 +385,20 @@ def protocell_decision_figure(arc, feas, *, title=None) -> str:
                        showarrow=False, xanchor="left", yshift=6,
                        font=dict(size=9, color=_TEAL), row=1, col=2)
     fig.add_vline(x=0.35, line=dict(color="#f8fafc", width=1.5, dash="dot"), row=1, col=2)
-    fig.add_annotation(x=0.35, y=float(mix.max()), text="seawater", showarrow=False, yshift=8,
-                       font=dict(size=9, color=_SLATE), row=1, col=2)
+    fig.add_annotation(x=0.35, y=float(mix.min()), text="seawater", showarrow=False, yshift=10,
+                       yanchor="bottom", font=dict(size=9, color=_SLATE), row=1, col=2)
     fig.update_xaxes(title_text="ionic strength (M)", row=1, col=2)
     fig.update_yaxes(title_text="co-surfactant fraction", row=1, col=2)
 
-    ttl = title or "Campaign IV — a boundary that retains without isolating"
-    fig.update_layout(
-        title=dict(text=(f"<b>{ttl}</b><br><span style='font-size:12px;color:{_SLATE}'>"
-                         "A membrane is useful only in the viable window — permeable enough to import "
-                         "the gradient, tight enough to hold its chemistry. Mixed amphiphiles lift the "
-                         "salt ceiling so vesicles survive at seawater salt (Jordan 2019).</span>"),
-                   x=0.5, xanchor="center"),
-        height=450, width=960, margin=dict(t=100, b=60, l=70, r=20),
-        font=dict(family="system-ui, -apple-system, sans-serif", color=_INK),
-        paper_bgcolor="white", plot_bgcolor="white")
-    return fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    fig.update_layout(**S.base_layout(height=450, width=960, margin=dict(t=48, b=60, l=70, r=20),
+                                      showlegend=False))
+    cap = ("A membrane is useful only in the viable window &mdash; permeable enough to import the "
+           "gradient, tight enough to hold its chemistry. Mixed amphiphiles lift the salt ceiling so "
+           "vesicles survive at seawater salt (Jordan 2019).")
+    inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    return S.frame(inner, title=(title or "A boundary that retains without isolating"),
+                   phase="Campaign IV", view="Decision", tier="mechanistic_prediction",
+                   caption_text=cap, caption_prefix="How to read", tone="neutral")
 
 
 class ProtocellPhaseMap(Visualization):
@@ -459,7 +457,7 @@ def bioenergetic_provenance_figure(fav, weak, *, title=None) -> str:
     frac_int = [1.0 - f if (e + n) > 1e-30 else 0.0 for f, e, n in zip(frac_ext, ext, intl)]
     vext = col(fav, "electric_potential")
 
-    fig = make_subplots(rows=1, cols=2, horizontal_spacing=0.12,
+    fig = make_subplots(rows=1, cols=2, horizontal_spacing=0.2,
                         specs=[[{"secondary_y": True}, {"secondary_y": False}]],
                         subplot_titles=("Energy provenance: external → internal",
                                         "Gradient dependence (the Sojo constraint)"))
@@ -486,18 +484,17 @@ def bioenergetic_provenance_figure(fav, weak, *, title=None) -> str:
     fig.update_yaxes(title_text="surviving population fraction", range=[-0.02, 1.05], row=1, col=2)
     fig.update_xaxes(title_text="time (s)", row=1, col=2)
 
-    ttl = title or "Campaign V — the organism begins to own its energy"
-    fig.update_layout(
-        title=dict(text=(f"<b>{ttl}</b><br><span style='font-size:12px;color:{_SLATE}'>"
-                         "As the geochemical gradient collapses, selection shifts the useful free energy "
-                         "from external (amber) to internally pumped (teal). The efficient pump internalizes "
-                         "and survives; the weak pump cannot beat its cost and collapses — the gradient "
-                         "becomes a resource, not the scaffold.</span>"), x=0.5, xanchor="center"),
-        height=450, width=960, margin=dict(t=100, b=60, l=70, r=60),
-        legend=dict(orientation="h", y=-0.18, x=0.5, xanchor="center", font=dict(size=9)),
-        font=dict(family="system-ui, -apple-system, sans-serif", color=_INK),
-        paper_bgcolor="white", plot_bgcolor="white")
-    return fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    fig.update_layout(**S.base_layout(
+        height=450, width=960, margin=dict(t=48, b=60, l=70, r=60),
+        legend=dict(orientation="h", y=-0.18, x=0.5, xanchor="center", font=dict(size=9))))
+    cap = ("As the geochemical gradient collapses, selection shifts the useful free energy from external "
+           "(amber) to internally pumped (teal). The efficient pump internalizes and survives; the weak "
+           "pump cannot beat its cost and collapses &mdash; the gradient becomes a resource, not the "
+           "scaffold.")
+    inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    return S.frame(inner, title=(title or "Energy provenance — external to internal"),
+                   phase="Campaign V", view="Mechanism", tier="conceptual_demonstration",
+                   caption_text=cap, caption_prefix="How to read", tone="neutral")
 
 
 class BioenergeticProvenanceViz(Visualization):
@@ -696,18 +693,18 @@ def heredity_lineage_figure(tree, herit_pairs, phase, *, title=None) -> str:
     fig.update_xaxes(title_text="template length (sites)", row=2, col=2)
     fig.update_yaxes(title_text="per-site fidelity", row=2, col=2)
 
-    ttl = title or "Campaign VI — heredity as an inherited lineage"
-    fig.update_layout(
-        title=dict(text=(f"<b>{ttl}</b><br><span style='font-size:12px;color:{_SLATE}'>"
-                         "Individuals inherit a chemical phenotype at fission into a real lineage tree. The "
-                         "template (RNA-like) module holds function only above the Eigen error threshold "
-                         "(white line); the non-heritable control loses the parent↔offspring correlation "
-                         "(flat cloud) and collapses — while compositional / hybrid heredity persist at ANY "
-                         "length. Heredity need not presume a long, high-fidelity template.</span>")),
-        height=620, margin=dict(l=60, r=70, t=110, b=55),
-        legend=dict(orientation="h", y=1.02, x=0.56, font=dict(size=10)),
-        plot_bgcolor="white", paper_bgcolor="white")
-    return fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    fig.update_layout(**S.base_layout(
+        height=620, margin=dict(l=60, r=70, t=50, b=55),
+        legend=dict(orientation="h", y=1.02, x=0.56, font=dict(size=10))))
+    cap = ("All three views at once. <b>World</b>: individuals inherit a chemical phenotype φ at fission "
+           "into a real lineage tree. <b>Mechanism</b>: the template (RNA-like) module holds function only "
+           "above the Eigen error threshold (white line); the non-heritable control loses the parent&harr;"
+           "offspring correlation (flat cloud) and collapses. <b>Decision</b>: compositional / hybrid "
+           "heredity persist at ANY length &mdash; heredity need not presume a long, high-fidelity template.")
+    inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    return S.frame(inner, title=(title or "Heredity as an inherited lineage"),
+                   phase="Campaign VI", view="Decision", tier="conceptual_demonstration",
+                   caption_text=cap, caption_prefix="How to read", tone="neutral", max_width=1100)
 
 
 class HeredityLineageTree(Visualization):
@@ -814,19 +811,17 @@ def metacommunity_phase_figure(res, *, title=None) -> str:
         fig.update_xaxes(title_text="inter-compartment diversity", row=1, col=c)
     fig.update_yaxes(title_text="cross-feeding exchange rate", row=1, col=1)
 
-    ttl = title or "Campaign VII — where cross-feeding robustness emerges"
-    fig.update_layout(
-        title=dict(text=(f"<b>{ttl}</b><br><span style='font-size:12px;color:{_SLATE}'>"
-                         "A connected metacommunity develops functional redundancy a single compartment "
-                         "cannot — but only where diversity gives cross-feeding something to share AND "
-                         "exchange spreads it (dashed = emergence boundary). Right: the redundancy gain over "
-                         "the isolated counterfactual; black contours = overlap with the anaerobic LUCA "
-                         "reconstruction, a reported boundary, not a target.</span>"),
-                   x=0.5, xanchor="center"),
-        height=450, width=960, margin=dict(t=100, b=60, l=70, r=20),
-        font=dict(family="system-ui, -apple-system, sans-serif", color=_INK),
-        paper_bgcolor="white", plot_bgcolor="white")
-    return fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    fig.update_layout(**S.base_layout(height=450, width=960, margin=dict(t=48, b=60, l=70, r=20),
+                                      showlegend=False))
+    cap = ("A connected metacommunity develops functional redundancy a single compartment cannot &mdash; "
+           "but only where diversity gives cross-feeding something to share AND exchange spreads it "
+           "(dashed = emergence boundary). Right: the redundancy gain over the isolated counterfactual; "
+           "black contours = overlap with the anaerobic LUCA reconstruction, a reported boundary, not a "
+           "target.")
+    inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    return S.frame(inner, title=(title or "Where cross-feeding robustness emerges"),
+                   phase="Campaign VII", view="Decision", tier="conceptual_demonstration",
+                   caption_text=cap, caption_prefix="How to read", tone="neutral")
 
 
 class MetacommunityPhaseMap(Visualization):
@@ -899,14 +894,15 @@ def off_gradient_phase_figure(phase, trajectories, *, title=None) -> str:
     set_idx = list(range(len(labels)))
 
     fig = make_subplots(
-        rows=1, cols=2, horizontal_spacing=0.13, column_widths=[0.48, 0.52],
+        rows=1, cols=2, horizontal_spacing=0.17, column_widths=[0.48, 0.52],
         subplot_titles=("Survival frontier (persistence vs support × innovation set)",
                         "Escape: persistence as geological support is withdrawn"))
 
     # --- left: the phase map + the survival frontier -----------------------------
     fig.add_trace(go.Heatmap(
         x=set_idx, y=support, z=Z, colorscale="Viridis", zmin=0, zmax=1,
-        colorbar=dict(title="persist.", len=0.9, x=0.44),
+        colorbar=dict(title="persist.", len=0.9, x=0.42, thickness=9,
+                      title_font=dict(size=10), tickfont=dict(size=9)),
         hovertemplate="%{customdata}<br>support=%{y:.2f}<br>persistence=%{z:.2f}<extra></extra>",
         customdata=np.array([[labels[j] for j in set_idx] for _ in support])), row=1, col=1)
     # the frontier line: minimum support at which each set persists (None → off the top)
@@ -948,19 +944,17 @@ def off_gradient_phase_figure(phase, trajectories, *, title=None) -> str:
     fig.update_xaxes(title_text="time (support withdrawn over the run)", row=1, col=2)
     fig.update_yaxes(title_text="surviving fraction", range=[-0.03, 1.05], row=1, col=2)
 
-    ttl = title or "Campaign VIII — the survival frontier off the gradient"
-    fig.update_layout(
-        title=dict(text=(f"<b>{ttl}</b><br><span style='font-size:12px;color:{_SLATE}'>"
-                         "As the geological reactor's support is withdrawn, only the full innovation "
-                         "set — internal pump + resource importer + heredity — persists off-gradient. "
-                         "The budget is co-limited (energy AND resources), so each single knockout "
-                         "collapses: the minimum robust set for autonomy is irreducible.</span>"),
-                   x=0.5, xanchor="center"),
-        height=460, width=980, margin=dict(t=105, b=60, l=75, r=20),
-        legend=dict(orientation="h", y=-0.2, x=0.74, xanchor="center", font=dict(size=9)),
-        font=dict(family="system-ui, -apple-system, sans-serif", color=_INK),
-        paper_bgcolor="white", plot_bgcolor="white")
-    return fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    fig.update_layout(**S.base_layout(
+        height=460, width=980, margin=dict(t=48, b=60, l=75, r=20),
+        legend=dict(orientation="h", y=-0.2, x=0.74, xanchor="center", font=dict(size=9))))
+    cap = ("As the geological reactor's support is withdrawn, only the full innovation set &mdash; "
+           "internal pump + resource importer + heredity &mdash; persists off-gradient. The budget is "
+           "co-limited (energy AND resources), so each single knockout collapses: the minimum robust set "
+           "for autonomy is irreducible.")
+    inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    return S.frame(inner, title=(title or "The survival frontier off the gradient"),
+                   phase="Campaign VIII", view="Decision", tier="conceptual_demonstration",
+                   caption_text=cap, caption_prefix="How to read", tone="neutral")
 
 
 class OffGradientPhaseMap(Visualization):
@@ -1023,15 +1017,20 @@ def vent_specificity_figure(res, gate_rows=None, *, title=None) -> str:
     have_bars = bool(gate_rows)
     fig = make_subplots(
         rows=1, cols=2 if have_bars else 1,
-        column_widths=[0.56, 0.44] if have_bars else [1.0],
-        horizontal_spacing=0.14,
+        column_widths=[0.5, 0.5] if have_bars else [1.0],
+        horizontal_spacing=0.22,
         subplot_titles=(["Carbon-fixation gate over (H₂ × catalyst)",
                          "Every vent-specific gate rejects the control"]
                         if have_bars else ["Carbon-fixation gate over (H₂ × catalyst)"]))
 
     fig.add_trace(go.Contour(
         x=h2, y=cat, z=z, colorscale="Viridis", ncontours=16,
-        colorbar=dict(title="log₁₀ peak<br>net C-flux", len=0.9, x=0.49 if have_bars else 1.02),
+        colorbar=dict(title=dict(text="log₁₀ peak net C-flux", side="right",
+                                 font=dict(size=10)),
+                      len=0.9,
+                      x=0.42 if have_bars else 1.02,
+                      thickness=9 if have_bars else 14,
+                      tickfont=dict(size=9)),
         contours=dict(showlabels=True, labelfont=dict(size=9, color="white")),
         line=dict(width=0.4, color="rgba(255,255,255,0.3)")), row=1, col=1)
     # the gate threshold as a bold boundary: pass region is above/right of it.
@@ -1065,17 +1064,18 @@ def vent_specificity_figure(res, gate_rows=None, *, title=None) -> str:
         fig.update_xaxes(title_text="gate margin  log₁₀(value / threshold)", row=1, col=2)
         fig.update_layout(barmode="group", legend=dict(orientation="h", y=1.12, x=0.72))
 
-    ttl = title or "Adversarial control — vent-specificity of the gates"
-    fig.update_layout(
-        title=dict(text=(f"<b>{ttl}</b><br><span style='font-size:12px;color:{_SLATE}'>"
-                         "The gates pass only in the vent corner (sustained H₂ AND a Fe/Ni/S "
-                         "catalytic interface). Generic non-vent chemistry sits below every "
-                         "threshold — the gates measure the vent mechanism, not generic "
-                         "nonequilibrium chemistry.</span>"), x=0.5, xanchor="center"),
-        height=470, width=980 if have_bars else 560, margin=dict(t=100, b=60, l=80, r=30),
-        font=dict(family="system-ui, -apple-system, sans-serif", color=_INK),
-        paper_bgcolor="white", plot_bgcolor="white")
-    return fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    fig.update_layout(**S.base_layout(
+        height=470, width=980 if have_bars else 560, margin=dict(t=48, b=60, l=80, r=30),
+        showlegend=have_bars,
+        legend=dict(orientation="h", y=1.12, x=0.72)))
+    cap = ("The gates pass only in the vent corner (sustained H₂ AND a Fe/Ni/S catalytic interface). "
+           "Generic non-vent chemistry sits below every threshold &mdash; the discriminating gates REJECT "
+           "this non-vent control, so they measure the vent mechanism, not generic nonequilibrium "
+           "chemistry.")
+    inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    return S.frame(inner, title=(title or "Vent-specificity of the gates"),
+                   phase="Adversarial control", view="Decision", tier="null_control",
+                   caption_text=cap, caption_prefix="How to read", tone="neutral")
 
 
 class VentSpecificityMap(Visualization):
@@ -1165,26 +1165,24 @@ def nitrogen_assimilation_phase_figure(res, *, title=None) -> str:
                              hoverinfo="skip"), row=1, col=2)
     for c in (1, 2):
         fig.add_trace(go.Scatter(x=[op_fes], y=[op_supply], mode="markers+text",
-                                 text=["favourable<br>operating point"], textposition="bottom center",
+                                 text=["operating point"], textposition="middle left",
                                  textfont=dict(size=9, color=_INK),
                                  marker=dict(symbol="star", size=14, color=_AMBER,
                                              line=dict(width=1.1, color=_INK)), showlegend=False), row=1, col=c)
         fig.update_xaxes(title_text="FeS catalyst activity", row=1, col=c)
     fig.update_yaxes(type="log", title_text="nitrate supply (M/s)", row=1, col=1)
 
-    ttl = title or "Campaign I — nitrogen as a limiting resource"
-    fig.update_layout(
-        title=dict(text=(f"<b>{ttl}</b><br><span style='font-size:12px;color:{_SLATE}'>"
-                         "Reduced nitrogen keeps pace with carbon only where the nitrate feed is "
-                         "sufficient AND the FeS catalyst is active (dashed = keeps-pace boundary, "
-                         f"C:N = {thr:.0f}). Above the feed/activity frontier the C:N supply ratio "
-                         "blows up and nitrogen — not carbon or energy — becomes limiting first. The "
-                         "no-FeS / no-H2 controls sit off-scale at zero production.</span>"),
-                   x=0.5, xanchor="center"),
-        height=450, width=960, margin=dict(t=100, b=60, l=75, r=20),
-        font=dict(family="system-ui, -apple-system, sans-serif", color=_INK),
-        paper_bgcolor="white", plot_bgcolor="white")
-    return fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    fig.update_layout(**S.base_layout(height=450, width=960, margin=dict(t=48, b=60, l=75, r=20),
+                                      showlegend=False))
+    cap = ("Reduced nitrogen keeps pace with carbon only where the nitrate feed is sufficient AND the FeS "
+           "catalyst is active (dashed = keeps-pace boundary, "
+           f"C:N = {thr:.0f}). Above the feed/activity frontier the C:N supply ratio blows up and nitrogen "
+           "&mdash; not carbon or energy &mdash; becomes limiting first. The no-FeS / no-H2 controls sit "
+           "off-scale at zero production.")
+    inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    return S.frame(inner, title=(title or "Nitrogen as a limiting resource"),
+                   phase="Resource limitation", view="Decision", tier="mechanistic_prediction",
+                   caption_text=cap, caption_prefix="How to read", tone="neutral")
 
 
 class NitrogenAssimilationPhaseMap(Visualization):
@@ -1267,19 +1265,16 @@ def phosphorus_availability_figure(res, *, title=None) -> str:
         fig.update_xaxes(title_text="pore / thermal enrichment (×)", row=1, col=c)
     fig.update_yaxes(type="log", title_text="phosphate source (M)", row=1, col=1)
 
-    ttl = title or "The phosphorus bottleneck — reactive-P availability landscape"
-    fig.update_layout(
-        title=dict(text=(f"<b>{ttl}</b><br><span style='font-size:12px;color:{_SLATE}'>"
-                         "Reactive P is available only in a bounded region — enough pore enrichment "
-                         "that condensation/activation outpace precipitation. Dashed = availability "
-                         "threshold (production = loss); dotted amber = the enrichment at which the "
-                         "same og-03 pore co-concentrates carbon. PASS = right of both; left of the "
-                         "dashed line phosphate precipitates before it is useful.</span>"),
-                   x=0.5, xanchor="center"),
-        height=450, width=960, margin=dict(t=100, b=60, l=70, r=20),
-        font=dict(family="system-ui, -apple-system, sans-serif", color=_INK),
-        paper_bgcolor="white", plot_bgcolor="white")
-    return fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    fig.update_layout(**S.base_layout(height=450, width=960, margin=dict(t=48, b=60, l=70, r=20),
+                                      showlegend=False))
+    cap = ("Reactive P is available only in a bounded region &mdash; enough pore enrichment that "
+           "condensation/activation outpace precipitation. Dashed = availability threshold (production = "
+           "loss); dotted amber = the enrichment at which the same og-03 pore co-concentrates carbon. "
+           "PASS = right of both; left of the dashed line phosphate precipitates before it is useful.")
+    inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    return S.frame(inner, title=(title or "The phosphorus bottleneck — reactive-P availability landscape"),
+                   phase="Resource limitation", view="Decision", tier="mechanistic_prediction",
+                   caption_text=cap, caption_prefix="How to read", tone="neutral")
 
 
 class PhosphorusAvailabilityMap(Visualization):
@@ -1358,8 +1353,8 @@ def energy_phase_figure(res, *, title=None) -> str:
                              hoverinfo="skip"), row=1, col=1)
     # the thermodynamic gate: below the carrier bond the drive cannot charge it
     fig.add_hline(y=bond, line=dict(color=_RUST, width=1.6, dash="dot"), row=1, col=1)
-    fig.add_annotation(x=eta.min(), y=bond, xanchor="left", yanchor="bottom",
-                       text=f"{carrier} bond ({bond:.0f} kJ/mol) — drive must clear it",
+    fig.add_annotation(x=eta.min(), y=bond, xanchor="left", yanchor="top",
+                       text=f"{carrier} bond ({bond:.0f} kJ/mol)",
                        showarrow=False, font=dict(size=9, color=_RUST), row=1, col=1)
     # --- right: the stored-work (capture efficiency) landscape ---
     fig.add_trace(go.Contour(x=eta, y=drive, z=stored, colorscale="Tealgrn", ncontours=14,
@@ -1377,19 +1372,17 @@ def energy_phase_figure(res, *, title=None) -> str:
         fig.update_xaxes(title_text="coupling efficiency", row=1, col=c)
     fig.update_yaxes(title_text="geochemical free-energy drive ΔG (kJ/mol)", row=1, col=1)
 
-    ttl = title or "Proto-energetics — capturing free energy into a transferable currency"
-    fig.update_layout(
-        title=dict(text=(f"<b>{ttl}</b><br><span style='font-size:12px;color:{_SLATE}'>"
-                         "A pre-ATP carrier is only a currency where the geochemical drive clears the "
-                         "carrier bond (red dotted gate) AND the coupling is efficient enough to hold "
-                         "it charged against load + hydrolysis (dashed = viability boundary). Right: the "
-                         "fraction of geochemical free energy that becomes transferable usable work — the "
-                         "rest is dissipated. No-coupling / no-drive controls sit at zero (ablations).</span>"),
-                   x=0.5, xanchor="center"),
-        height=450, width=960, margin=dict(t=105, b=60, l=75, r=20),
-        font=dict(family="system-ui, -apple-system, sans-serif", color=_INK),
-        paper_bgcolor="white", plot_bgcolor="white")
-    return fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    fig.update_layout(**S.base_layout(height=450, width=960, margin=dict(t=48, b=60, l=75, r=20),
+                                      showlegend=False))
+    cap = ("A pre-ATP carrier is only a currency where the geochemical drive clears the carrier bond "
+           "(red dotted gate) AND the coupling is efficient enough to hold it charged against load + "
+           "hydrolysis (dashed = viability boundary). Right: the fraction of geochemical free energy that "
+           "becomes transferable usable work &mdash; the rest is dissipated. No-coupling / no-drive "
+           "controls sit at zero (ablations).")
+    inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    return S.frame(inner, title=(title or "Proto-energetics — capturing free energy into a transferable currency"),
+                   phase="Proto-energetics", view="Decision", tier="mechanistic_prediction",
+                   caption_text=cap, caption_prefix="How to read", tone="neutral")
 
 
 class ProtoEnergeticsMap(Visualization):
@@ -1476,20 +1469,18 @@ def energy_provenance_figure(rows, *, title=None) -> str:
     fig.update_yaxes(title_text="cumulative free energy (kJ/liter)", row=1, col=2)
     fig.update_xaxes(title_text="time (s)", row=1, col=2)
 
-    ttl = title or "Proto-energetics — the energy-provenance ledger"
-    fig.update_layout(
-        title=dict(text=(f"<b>{ttl}</b><br><span style='font-size:12px;color:{_SLATE}'>"
-                         "Every kilojoule of tapped geochemical free energy is accounted: a bounded "
-                         "fraction is captured as transferable currency (teal — delivered work plus the "
-                         "pool still charged), the rest dissipated (uncoupled drive, discharge loss, "
-                         "hydrolysis). Right: input = work + stored + dissipated, held to machine "
-                         "precision — free-energy accounting is the stage's conservation invariant.</span>"),
-                   x=0.5, xanchor="center"),
-        height=450, width=960, margin=dict(t=105, b=60, l=70, r=60),
-        legend=dict(orientation="h", y=-0.18, x=0.5, xanchor="center", font=dict(size=9)),
-        font=dict(family="system-ui, -apple-system, sans-serif", color=_INK),
-        paper_bgcolor="white", plot_bgcolor="white")
-    return fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    fig.update_layout(**S.base_layout(
+        height=450, width=960, margin=dict(t=48, b=60, l=70, r=60),
+        legend=dict(orientation="h", y=-0.18, x=0.5, xanchor="center", font=dict(size=9))))
+    cap = ("Every kilojoule of tapped geochemical free energy is accounted: a bounded fraction is captured "
+           "as transferable currency (teal &mdash; delivered work plus the pool still charged), the rest "
+           "dissipated (uncoupled drive, discharge loss, hydrolysis). Right: input = work + stored + "
+           "dissipated, held to machine precision &mdash; free-energy accounting is the stage's "
+           "conservation invariant.")
+    inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    return S.frame(inner, title=(title or "Proto-energetics — the energy-provenance ledger"),
+                   phase="Proto-energetics", view="Mechanism", tier="mechanistic_prediction",
+                   caption_text=cap, caption_prefix="How to read", tone="neutral")
 
 
 class ProtoEnergeticsProvenanceViz(Visualization):
@@ -1580,20 +1571,18 @@ def growth_division_phase_figure(res, *, title=None) -> str:
         fig.update_xaxes(title_text="log₁₀ membrane permeability (m/s)", row=1, col=c)
     fig.update_yaxes(title_text="log₁₀ network throughput (mol/s)", row=1, col=1)
 
-    ttl = title or "Metabolism → growth & division — the viable band"
-    fig.update_layout(
-        title=dict(text=(f"<b>{ttl}</b><br><span style='font-size:12px;color:{_SLATE}'>"
-                         "A protocell's chemistry changes its physical fate: product accumulation → "
-                         "osmotic pressure → solvent influx → volume growth → division. Sustained net "
-                         f"growth leading to DIVISION is a BOUNDED viable band ({viable_frac * 100:.0f}% of "
-                         "the grid, dashed boundary) — too permeable starves (the product leaks before the "
-                         "osmotic pressure can build), too impermeable lyses (the pressure bursts the "
-                         "membrane). Physical selection without an abstract fitness score.</span>"),
-                   x=0.5, xanchor="center"),
-        height=460, width=980, margin=dict(t=108, b=62, l=78, r=20),
-        font=dict(family="system-ui, -apple-system, sans-serif", color=_INK),
-        paper_bgcolor="white", plot_bgcolor="white")
-    return fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    fig.update_layout(**S.base_layout(height=460, width=980, margin=dict(t=48, b=62, l=78, r=20),
+                                      showlegend=False))
+    cap = ("A protocell's chemistry changes its physical fate: product accumulation &rarr; osmotic "
+           "pressure &rarr; solvent influx &rarr; volume growth &rarr; division. Sustained net growth "
+           f"leading to DIVISION is a BOUNDED viable band ({viable_frac * 100:.0f}% of the grid, dashed "
+           "boundary) &mdash; too permeable starves (the product leaks before the osmotic pressure can "
+           "build), too impermeable lyses (the pressure bursts the membrane). Physical selection without "
+           "an abstract fitness score.")
+    inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    return S.frame(inner, title=(title or "Metabolism → growth & division — the viable band"),
+                   phase="Growth & division", view="Decision", tier="mechanistic_prediction",
+                   caption_text=cap, caption_prefix="How to read", tone="neutral")
 
 
 class GrowthDivisionMap(Visualization):
@@ -1696,18 +1685,17 @@ def vent_habitability_figure(res, *, title=None) -> str:
         fig.update_xaxes(type="log", title_text="flow velocity (m/s)", row=1, col=c)
     fig.update_yaxes(title_text="olivine reaction rate (mol/step)", row=1, col=1)
 
-    ttl = title or "Campaign 0 — the Lost City habitability window"
-    fig.update_layout(
-        title=dict(text=(f"<b>{ttl}</b><br><span style='font-size:12px;color:{_SLATE}'>"
-                         "The real PHREEQC + FiPy vent settles inside the Lost City field window "
-                         "(teal dashed = habitability PASS) only in a bounded band: enough serpentinization "
-                         "to drive H₂ + alkalinity, slow enough flow to hold 40–91 °C / pH 9.0–10.8. Too fast "
-                         "flushes it cold; too much reaction at low flow over-heats past the window — the "
-                         "baseline (★) sits safely inside.</span>"), x=0.5, xanchor="center"),
-        height=450, width=960, margin=dict(t=100, b=60, l=72, r=20),
-        font=dict(family="system-ui, -apple-system, sans-serif", color=_INK),
-        paper_bgcolor="white", plot_bgcolor="white")
-    return fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    fig.update_layout(**S.base_layout(height=450, width=960, margin=dict(t=48, b=60, l=72, r=20),
+                                      showlegend=False))
+    cap = ("The real PHREEQC + FiPy vent settles inside the Lost City field window (teal dashed = "
+           "habitability PASS) only in a bounded band: enough serpentinization to drive H₂ + alkalinity, "
+           "slow enough flow to hold 40&ndash;91 °C / pH 9.0&ndash;10.8. Too fast flushes it cold; too "
+           "much reaction at low flow over-heats past the window &mdash; the baseline (&starf;) sits "
+           "safely inside.")
+    inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    return S.frame(inner, title=(title or "The Lost City habitability window"),
+                   phase="Campaign 0", view="Decision", tier="reproduction",
+                   caption_text=cap, caption_prefix="How to read", tone="neutral")
 
 
 class VentHabitabilityMap(Visualization):
@@ -1789,20 +1777,18 @@ def vent_engine_figure(rows, *, title=None) -> str:
     fig.update_yaxes(title_text="H₂ source flux (µmol/s)", row=1, col=2, secondary_y=True, showgrid=False)
     fig.update_xaxes(title_text="time (s)", row=1, col=2)
 
-    ttl = title or "Campaign 0 — the serpentinization engine"
-    fig.update_layout(
-        title=dict(text=(f"<b>{ttl}</b><br><span style='font-size:12px;color:{_SLATE}'>"
-                         "Peridotite serpentinization is the engine: PHREEQC's Ca-OH endmember drives the "
-                         "pH high (red), FiPy transport mixes in cold ocean to settle the realized outlet pH "
-                         "just below it (teal — the shaded gap is the mixing relaxation), inside the field "
-                         "window. The same reaction delivers a sustained dissolved-H₂ reducing flux and "
-                         "alkalinity — the free energy the downstream campaigns tap.</span>"),
-                   x=0.5, xanchor="center"),
-        height=450, width=960, margin=dict(t=100, b=60, l=70, r=60),
-        legend=dict(orientation="h", y=-0.18, x=0.5, xanchor="center", font=dict(size=9)),
-        font=dict(family="system-ui, -apple-system, sans-serif", color=_INK),
-        paper_bgcolor="white", plot_bgcolor="white")
-    return fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    fig.update_layout(**S.base_layout(
+        height=450, width=960, margin=dict(t=48, b=60, l=70, r=60),
+        legend=dict(orientation="h", y=-0.18, x=0.5, xanchor="center", font=dict(size=9))))
+    cap = ("Peridotite serpentinization is the engine: PHREEQC's Ca-OH endmember drives the pH high (red), "
+           "FiPy transport mixes in cold ocean to settle the realized outlet pH just below it (teal &mdash; "
+           "the shaded gap is the mixing relaxation), inside the field window. The same reaction delivers a "
+           "sustained dissolved-H₂ reducing flux and alkalinity &mdash; the free energy the downstream "
+           "campaigns tap.")
+    inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    return S.frame(inner, title=(title or "The serpentinization engine"),
+                   phase="Campaign 0", view="Mechanism", tier="reproduction",
+                   caption_text=cap, caption_prefix="How to read", tone="neutral")
 
 
 class VentSerpentinizationEngine(Visualization):
@@ -1844,10 +1830,12 @@ class VentSerpentinizationEngine(Visualization):
 # ----------------------------------------------------------------------------
 def localization_figure(res, *, title=None) -> str:
     """og-03 Decision view: the pore-localization landscape over (pore porosity × pore
-    length). **Left:** the fold-enrichment the real thermophoretic trap achieves (log),
-    with the localization PASS boundary (enrichment ≈ 1e6) dashed and the favourable
-    trap (★) deep inside it. **Right:** the accumulation Péclet number (advective
-    trapping vs back-diffusion) with the same frontier (Pe ≈ 18). ``res`` is the
+    length). The GRADED quantity is the accumulation Péclet, not the precise fold.
+    **Left:** the reduced-model fold-enrichment the FiPy trap achieves (log), shown as
+    a magnitude surface (no fold PASS line — the extreme folds are solver-sensitive).
+    **Right:** the accumulation Péclet (advective trapping vs back-diffusion), with the
+    localization frontier (Pe ≈ threshold) and the resolvable-Péclet line beyond which
+    the reduced column over-extrapolates the resolved FEM. ``res`` is the
     pore_localization_map SweepResult / grid view."""
     import numpy as np
     import plotly.graph_objects as go
@@ -1866,16 +1854,15 @@ def localization_figure(res, *, title=None) -> str:
     fig = make_subplots(rows=1, cols=2, shared_yaxes=True, horizontal_spacing=0.12,
                         subplot_titles=("Fold-enrichment of the feed (log — the trap)",
                                         "Accumulation Péclet (trapping vs back-diffusion)"))
-    # --- left: enrichment landscape + the localization boundary ---
+    # Resolvable-Péclet line: beyond it the reduced exp(Pe) column over-extrapolates the
+    # resolved FEM (spatial-transport cross-check). No fold PASS boundary is drawn.
+    pe_resolvable = float(res.meta.get("resolvable_peclet", 13.0))
+    # --- left: enrichment magnitude surface (no fold pass-line) ---
     fig.add_trace(go.Contour(x=L, y=por, z=z_enr, colorscale="Viridis", ncontours=16,
                              colorbar=dict(title="log₁₀<br>enrichment<br>(×)", len=0.9, x=0.44),
                              contours=dict(showlabels=True, labelfont=dict(size=9, color="white")),
                              line=dict(width=0.4, color="rgba(255,255,255,0.3)")), row=1, col=1)
-    fig.add_trace(go.Contour(x=L, y=por, z=z_enr, showscale=False,
-                             contours=dict(start=np.log10(e_thr), end=np.log10(e_thr), coloring="lines"),
-                             line=dict(color="#f8fafc", width=2.8, dash="dash"),
-                             hoverinfo="skip"), row=1, col=1)
-    # --- right: Péclet landscape + the same frontier ---
+    # --- right: Péclet landscape + the localization frontier (the graded quantity) ---
     fig.add_trace(go.Contour(x=L, y=por, z=pec, colorscale="Inferno", ncontours=16, showscale=True,
                              colorbar=dict(title="accumulation<br>Péclet", len=0.9),
                              contours=dict(showlabels=True, labelfont=dict(size=9, color="white")),
@@ -1884,27 +1871,35 @@ def localization_figure(res, *, title=None) -> str:
                              contours=dict(start=pe_thr, end=pe_thr, coloring="lines"),
                              line=dict(color="#f8fafc", width=2.8, dash="dash"),
                              hoverinfo="skip"), row=1, col=2)
+    # resolvable-Péclet line (teal) — resolved below, solver-sensitive above
+    fig.add_trace(go.Contour(x=L, y=por, z=pec, showscale=False,
+                             contours=dict(start=pe_resolvable, end=pe_resolvable, coloring="lines"),
+                             line=dict(color=_TEAL, width=2.2, dash="dot"),
+                             hoverinfo="skip"), row=1, col=2)
     for c in (1, 2):
         fig.add_trace(go.Scatter(x=[op_L], y=[op_p], mode="markers+text",
                                  text=["favourable<br>trap"], textposition="top right",
-                                 textfont=dict(size=9, color=_INK),
+                                 textfont=dict(size=9, color="#f8fafc"),
                                  marker=dict(symbol="star", size=15, color=_AMBER,
-                                             line=dict(width=1.2, color=_INK)), showlegend=False), row=1, col=c)
+                                             line=dict(width=1.2, color="#f8fafc")), showlegend=False), row=1, col=c)
         fig.update_xaxes(type="log", title_text="pore length (m)", row=1, col=c)
     fig.update_yaxes(title_text="pore porosity / openness", row=1, col=1)
+    fig.update_layout(**S.base_layout(height=450, width=960, margin=dict(t=48, b=60, l=72, r=20),
+                                      showlegend=False))
 
-    ttl = title or "Campaign III — the pore-localization frontier"
-    fig.update_layout(
-        title=dict(text=(f"<b>{ttl}</b><br><span style='font-size:12px;color:{_SLATE}'>"
-                         "A dilute vent feed becomes a LOCALIZED individual only where the real FiPy "
-                         "thermophoretic trap concentrates it above threshold (white dashed = enrichment ≈ "
-                         f"{e_thr:.0e}×, Péclet ≈ {pe_thr:.0f}). A long, tight pore traps (enrichment "
-                         "exponential in length — Baaske 2007); an open / short pore washes through. The "
-                         "favourable trap (★) localizes the feed >10⁷-fold.</span>"), x=0.5, xanchor="center"),
-        height=450, width=960, margin=dict(t=100, b=60, l=72, r=20),
-        font=dict(family="system-ui, -apple-system, sans-serif", color=_INK),
-        paper_bgcolor="white", plot_bgcolor="white")
-    return fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    cap = (
+        "A dilute vent feed localizes where the accumulation Péclet crosses the frontier (white dashed, "
+        f"Pe &asymp; {pe_thr:.0f}) &mdash; the <b>graded quantity is the Péclet, not the precise fold</b>. "
+        "A long, tight pore traps; an open / short pore washes through. The reduced trap's fold-enrichment "
+        "(left) rises steeply with length, but the teal dotted line marks the resolvable Péclet "
+        f"(&asymp; {pe_resolvable:.0f}): beyond it the favourable trap (&starf;) sits in the solver-sensitive "
+        "region where the reduced column over-extrapolates the resolved FEM. Localization is robust; the "
+        "extreme fold is not. See the FiPy&harr;FEM solver-sensitivity Decision view."
+    )
+    inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    return S.frame(inner, title=(title or "The pore-localization frontier (keyed on Péclet)"),
+                   phase="Campaign III", view="Decision", tier="mechanistic_prediction",
+                   caption_text=cap, caption_prefix="How to read", tone="caution")
 
 
 class PoreLocalizationMap(Visualization):
@@ -1937,6 +1932,99 @@ class PoreLocalizationMap(Visualization):
             res = pore_localization_map(porosity=(0.05, 0.95, n), pore_length=(5.0e-4, 8.0e-3, n),
                                         n_steps=int(self.config["n_steps"]), n_jobs=1)
         return {"html": localization_figure(res, title=self.config["title"])}
+
+
+# ----------------------------------------------------------------------------
+# og-03 — the HONEST enrichment readout: FiPy reduced column vs resolved FEM.
+# Replaces the retired ">1e6-fold" convection-enhanced headline. The robust claim
+# is that localization occurs and is BOUNDED; the extreme fold is a reduced-model
+# exp(Pe) extrapolation the resolved FEM does not confirm past the resolvable Peclet.
+# ----------------------------------------------------------------------------
+def pore_enrichment_solver_figure(data: dict, *, title: str = "") -> str:
+    """og-03 Decision view (honest uncertainty): single-tracer trap enrichment vs
+    accumulation Peclet, FiPy's reduced ``exp(Pe)`` column against the resolved
+    dolfinx Soret field. Shades the Peclet region where the two solvers agree
+    (localization is a resolved result) against the solver-sensitive region where
+    FiPy keeps climbing but the resolved field saturates — so the >10^8 Baaske-
+    favorable number is a reduced-model extrapolation, not a resolved enrichment."""
+    import plotly.graph_objects as go
+
+    trap = data["trap"]
+    rows = sorted(trap["rows"], key=lambda r: r["accumulation_peclet"])
+    pe = [r["accumulation_peclet"] for r in rows]
+    fipy = [r["fipy_enrichment"] for r in rows]
+    fem = [r["fenics_enrichment"] for r in rows]
+    agree = [bool(r.get("agree_1dex")) for r in rows]
+    # Boundary between the agreement and solver-sensitive regions (last Pe that agrees).
+    pe_agree = [p for p, a in zip(pe, agree) if a]
+    pe_split = (max(pe_agree) + min([p for p, a in zip(pe, agree) if not a] or [max(pe_agree)])) / 2 \
+        if pe_agree and not all(agree) else (max(pe) if all(agree) else min(pe))
+    fem_sat = fem[-1]
+
+    fig = go.Figure()
+    # honest-uncertainty zones
+    S.add_zone(fig, min(pe), pe_split, "agree", label="solvers agree (resolved)")
+    S.add_zone(fig, pe_split, max(pe) * 1.02, "sensitive", label="solver-sensitive (reduced-model extrapolation)")
+    fig.add_trace(go.Scatter(x=pe, y=fipy, mode="lines+markers", name="FiPy  reduced exp(Pe) column",
+                             line=dict(color=_AMBER, width=2.6), marker=dict(size=8)))
+    fig.add_trace(go.Scatter(x=pe, y=fem, mode="lines+markers", name="dolfinx  resolved Soret field",
+                             line=dict(color=_TEAL, width=2.6), marker=dict(size=8)))
+    fig.add_hline(y=fem_sat, line=dict(color=_TEAL, width=1, dash="dot"))
+    fig.add_annotation(x=max(pe), y=fem_sat, text=f"resolved field saturates ≈ {fem_sat:.0f}×",
+                       showarrow=False, yshift=-14, xanchor="right",
+                       font=dict(size=10, color=_TEAL, family=S.FONT_STACK))
+    # the default Baaske-favorable pore (the strongest-Pe point) — the retired headline
+    fig.add_annotation(x=pe[-1], y=fipy[-1], text=f"Baaske-favorable pore<br>reduced column ≈ {fipy[-1]:.0e}×",
+                       showarrow=True, arrowhead=2, arrowcolor=_AMBER, ax=-70, ay=-24,
+                       font=dict(size=10, color=_AMBER, family=S.FONT_STACK))
+    fig.update_yaxes(type="log", title_text="single-tracer enrichment (fold, log)")
+    fig.update_xaxes(title_text="accumulation Péclet")
+    S.style_axes(fig)
+    fig.update_layout(**S.base_layout(height=460, legend=dict(y=-0.2)))
+
+    n_agree, n_total = trap.get("n_agree"), trap.get("n_total")
+    cap = (
+        "Localization is real and <b>bounded</b>: where the pore is resolvable (low Péclet) FiPy's "
+        "reduced <i>exp(Pe)</i> column and the resolved dolfinx Soret field agree to within a decade "
+        f"({n_agree} of {n_total} swept pores). Past the resolvable Péclet they diverge &mdash; FiPy keeps "
+        "climbing toward the classical &gt;10&#8310;&ndash;10&#8312;-fold trap, while the resolved field "
+        f"saturates near {fem_sat:.0f}&times; because a P1 mesh cannot resolve the sub-micron accumulation "
+        "layer. The default Baaske-favorable pore sits <i>inside</i> that solver-sensitive region, so the "
+        "extreme fold is a <b>reduced-model extrapolation, not a resolved result</b>. Flow-through enrichment "
+        "weakens further with Péclet; the classical headline belongs to a closed / recirculating cell."
+    )
+    inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    return S.frame(inner, title=(title or "Does the trap concentrate an individual? Localization is bounded"),
+                   subtitle="single-tracer enrichment — reduced column vs. resolved FEM (solver-structural uncertainty)",
+                   phase="Campaign III", view="Decision", tier="mechanistic_prediction",
+                   caption_text=cap, caption_prefix="How to read", tone="caution")
+
+
+class PoreEnrichmentSolverSensitivity(Visualization):
+    """og-03 Decision view: the honest single-tracer enrichment readout (FiPy reduced
+    column vs. resolved dolfinx field across the pore-length / Peclet sweep). Renders
+    from the committed ``spatial-transport-solver-comparison.json`` cross-check."""
+
+    config_schema = {
+        "title": {"_type": "string", "_default": ""},
+        "comparison_json": {"_type": "string",
+                            "_default": "workspace/references/spatial-transport-solver-comparison.json"},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        path = _resolve_grid_path(str(self.config.get("comparison_json", "") or ""))
+        if not path:
+            return {"html": "<p>solver-comparison artifact not found — run "
+                            "scripts/compare_spatial_transport.py first.</p>"}
+        with open(path) as f:
+            data = json.load(f)
+        return {"html": pore_enrichment_solver_figure(data, title=self.config["title"])}
 
 
 # ----------------------------------------------------------------------------
@@ -2015,19 +2103,17 @@ def protocell_boundary_figure(rows, *, title=None) -> str:
     fig.update_xaxes(title_text="radial position (membrane = shaded)", row=1, col=2)
     fig.update_yaxes(title_text="relative concentration", range=[-0.03, 1.1], row=1, col=2)
 
-    ttl = title or "Campaign IV — the compartment and the gradient"
-    fig.update_layout(
-        title=dict(text=(f"<b>{ttl}</b><br><span style='font-size:12px;color:{_SLATE}'>"
-                         "A viable boundary at the operating point ({:.0f} vesicles): the membrane (grey) "
-                         "holds internal chemistry (teal, retention {:.2f}) while staying permeable enough to "
-                         "import the external gradient (amber arrows, access {:.2f}). Individuality = retention × "
-                         "access = {:.2f} — a boundary that retains WITHOUT isolating.</span>").format(
-                             viable, retention, access, individ), x=0.5, xanchor="center"),
-        height=440, width=960, margin=dict(t=104, b=56, l=40, r=20),
-        legend=dict(orientation="h", y=-0.16, x=0.5, xanchor="center", font=dict(size=9)),
-        font=dict(family="system-ui, -apple-system, sans-serif", color=_INK),
-        paper_bgcolor="white", plot_bgcolor="white")
-    return fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    fig.update_layout(**S.base_layout(
+        height=440, width=960, margin=dict(t=48, b=56, l=40, r=20),
+        legend=dict(orientation="h", y=-0.16, x=0.5, xanchor="center", font=dict(size=9))))
+    cap = ("A viable boundary at the operating point ({:.0f} vesicles): the membrane (grey) holds internal "
+           "chemistry (teal, retention {:.2f}) while staying permeable enough to import the external "
+           "gradient (amber arrows, access {:.2f}). Individuality = retention &times; access = {:.2f} "
+           "&mdash; a boundary that retains WITHOUT isolating.").format(viable, retention, access, individ)
+    inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    return S.frame(inner, title=(title or "The compartment and the gradient"),
+                   phase="Campaign IV", view="World", tier="mechanistic_prediction",
+                   caption_text=cap, caption_prefix="How to read", tone="neutral")
 
 
 class ProtocellBoundaryWorld(Visualization):
@@ -2131,19 +2217,17 @@ def bioenergetic_survival_figure(res, *, title=None) -> str:
         fig.update_xaxes(title_text="pump catalyst efficiency η", row=1, col=c)
     fig.update_yaxes(title_text="gradient floor (V)", row=1, col=1)
 
-    ttl = title or "Campaign V — survival off the collapsing gradient"
-    fig.update_layout(
-        title=dict(text=(f"<b>{ttl}</b><br><span style='font-size:12px;color:{_SLATE}'>"
-                         "As the external gradient collapses to its floor, a lineage persists either by "
-                         "riding a floor that never falls too far OR by internalizing — but internalizing "
-                         f"only pays above the Sojo cost line (η≈{eff_sojo:.2f}, red). The low-floor / "
-                         "low-efficiency corner goes extinct. Right: only an efficient pump truly OWNS its "
-                         "energy (white dashed = internalization > 0.5), independent of the floor.</span>"),
-                   x=0.5, xanchor="center"),
-        height=450, width=960, margin=dict(t=102, b=60, l=72, r=20),
-        font=dict(family="system-ui, -apple-system, sans-serif", color=_INK),
-        paper_bgcolor="white", plot_bgcolor="white")
-    return fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    fig.update_layout(**S.base_layout(height=450, width=960, margin=dict(t=48, b=60, l=72, r=20),
+                                      showlegend=False))
+    cap = ("As the external gradient collapses to its floor, a lineage persists either by riding a floor "
+           "that never falls too far OR by internalizing &mdash; but internalizing only pays above the "
+           f"Sojo cost line (η≈{eff_sojo:.2f}, red). The low-floor / low-efficiency corner goes extinct. "
+           "Right: only an efficient pump truly OWNS its energy (white dashed = internalization > 0.5), "
+           "independent of the floor.")
+    inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    return S.frame(inner, title=(title or "Survival off the collapsing gradient"),
+                   phase="Campaign V", view="Decision", tier="conceptual_demonstration",
+                   caption_text=cap, caption_prefix="How to read", tone="neutral")
 
 
 class BioenergeticSurvivalMap(Visualization):
@@ -2204,12 +2288,12 @@ def ecology_metacommunity_figure(world, mech, phase, *, title=None) -> str:
     from plotly.subplots import make_subplots
 
     fig = make_subplots(
-        rows=2, cols=2, column_widths=[0.52, 0.48], row_heights=[0.5, 0.5],
-        horizontal_spacing=0.1, vertical_spacing=0.15,
+        rows=2, cols=2, column_widths=[0.5, 0.5], row_heights=[0.5, 0.5],
+        horizontal_spacing=0.16, vertical_spacing=0.17,
         specs=[[{"rowspan": 2}, {}], [None, {}]],
-        subplot_titles=("World — the connected metacommunity (nodes = pore compartments)",
+        subplot_titles=("World — connected metacommunity",
                         "Mechanism — connectivity builds redundancy",
-                        "Decision — where cross-feeding robustness emerges"))
+                        "Decision — where robustness emerges"))
 
     # --- World: the cross-feeding / HGT ring network ---------------------------
     pos = world["pos"]
@@ -2228,7 +2312,8 @@ def ecology_metacommunity_figure(world, mech, phase, *, title=None) -> str:
         x=xs, y=ys, mode="markers", showlegend=False,
         marker=dict(size=[16 + 5 * b for b in breadth], color=breadth, colorscale="Viridis",
                     cmin=0, cmax=max(world["max_breadth"], 1),
-                    colorbar=dict(title="functional<br>breadth", len=0.45, y=0.78, x=0.46, thickness=10),
+                    colorbar=dict(title="functional<br>breadth", len=0.42, y=0.79, x=0.37, thickness=9,
+                                  title_font=dict(size=10), tickfont=dict(size=9)),
                     line=dict(width=1.2, color="#ffffff")),
         customdata=np.stack([np.array(roles), np.array(breadth)], axis=-1),
         hovertemplate="compartment %{pointNumber}<br>role: %{customdata[0]}"
@@ -2259,17 +2344,17 @@ def ecology_metacommunity_figure(world, mech, phase, *, title=None) -> str:
                              line=dict(color=_TEAL, width=3),
                              marker=dict(size=6, color=_TEAL)), row=1, col=2)
     fig.add_hline(y=iso, line=dict(color=_SLATE, width=2, dash="dash"), row=1, col=2)
-    fig.add_annotation(x=exx.max(), y=iso, xref="x2", yref="y2", xanchor="right", yanchor="bottom",
-                       text=f"isolated counterfactual ({iso:.2f})", showarrow=False,
+    fig.add_annotation(x=exx.max(), y=iso, xref="x2", yref="y2", xanchor="right", yanchor="top",
+                       text=f"isolated floor ({iso:.2f})", showarrow=False,
                        font=dict(size=9, color=_SLATE))
     fig.add_hline(y=thr, line=dict(color=_INK, width=1, dash="dot"), row=1, col=2)
-    fig.add_annotation(x=exx.min(), y=thr + 0.02, xref="x2", yref="y2", xanchor="left", yanchor="bottom",
-                       text=f"emergence threshold ({thr:.1f})", showarrow=False,
-                       font=dict(size=8.5, color=_INK))
+    fig.add_annotation(x=exx.min(), y=thr, xref="x2", yref="y2", xanchor="left", yanchor="bottom",
+                       text=f"emergence ({thr:.1f})", showarrow=False,
+                       font=dict(size=9, color=_INK))
     fig.add_hline(y=luca, line=dict(color=_AMBER, width=2, dash="dot"), row=1, col=2)
-    fig.add_annotation(x=exx.max(), y=luca, xref="x2", yref="y2", xanchor="right", yanchor="top",
-                       text=f"LUCA-core overlap boundary ({luca:.2f}) — reported, not a target",
-                       showarrow=False, font=dict(size=8.5, color=_AMBER))
+    fig.add_annotation(x=exx.max(), y=luca, xref="x2", yref="y2", xanchor="right", yanchor="bottom",
+                       text=f"LUCA overlap ({luca:.2f}, reported)",
+                       showarrow=False, font=dict(size=9, color=_AMBER))
     fig.update_xaxes(title_text="cross-feeding exchange rate (connectivity)", row=1, col=2)
     fig.update_yaxes(title_text="metacommunity robustness", range=[0, 1.02], row=1, col=2)
 
@@ -2279,7 +2364,8 @@ def ecology_metacommunity_figure(world, mech, phase, *, title=None) -> str:
     Z = np.asarray(phase.surfaces["robustness"], float)        # [exchange, parasite]
     fig.add_trace(go.Contour(
         x=p_axis, y=e_axis, z=Z, colorscale="Viridis", zmin=0.0, zmax=1.0, ncontours=14,
-        colorbar=dict(title="robustness<br>(redundancy)", len=0.45, y=0.22, x=1.0, thickness=10),
+        colorbar=dict(title="robustness<br>(redundancy)", len=0.42, y=0.22, x=1.0, thickness=9,
+                      title_font=dict(size=10), tickfont=dict(size=9)),
         contours=dict(showlabels=True, labelfont=dict(size=8, color="white")),
         line=dict(width=0.4, color="rgba(255,255,255,0.3)"),
         hovertemplate="parasite load=%{x:.2f}, exchange=%{y:.2f}<br>robustness=%{z:.2f}<extra></extra>"), row=2, col=2)
@@ -2294,19 +2380,17 @@ def ecology_metacommunity_figure(world, mech, phase, *, title=None) -> str:
     fig.update_xaxes(title_text="parasite load (fraction draining neighbours)", row=2, col=2)
     fig.update_yaxes(title_text="exchange rate", row=2, col=2)
 
-    ttl = title or "Campaign VII — ecology before LUCA"
-    fig.update_layout(
-        title=dict(text=(f"<b>{ttl}</b><br><span style='font-size:12px;color:{_SLATE}'>"
-                         "Connectivity, not complexity, makes a population robust. Cross-feeding and "
-                         "horizontal transfer spread sparse capabilities across a pore network into "
-                         "redundant coverage — robustness climbs from the isolated floor (0.42) to 0.71 "
-                         "and approaches the anaerobic-LUCA overlap boundary, but only in the well-"
-                         "connected, low-parasite corner (dashed = emergence boundary).</span>")),
-        height=640, margin=dict(l=40, r=80, t=112, b=60),
-        showlegend=False,
-        font=dict(family="system-ui, -apple-system, sans-serif", color=_INK),
-        plot_bgcolor="white", paper_bgcolor="white")
-    return fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    fig.update_layout(**S.base_layout(height=640, margin=dict(l=40, r=80, t=50, b=60),
+                                      showlegend=False))
+    cap = ("All three views at once. Connectivity, not complexity, makes a population robust. <b>World</b>: "
+           "cross-feeding + horizontal transfer across a pore network. <b>Mechanism</b>: redundant coverage "
+           "climbs from the isolated floor (0.42) to 0.71 and approaches the anaerobic-LUCA overlap "
+           "boundary. <b>Decision</b>: robustness emerges only in the well-connected, low-parasite corner "
+           "(dashed = emergence boundary).")
+    inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    return S.frame(inner, title=(title or "Ecology before LUCA"),
+                   phase="Campaign VII", view="Decision", tier="conceptual_demonstration",
+                   caption_text=cap, caption_prefix="How to read", tone="neutral", max_width=1100)
 
 
 class EcologyMetacommunityThreeView(Visualization):
@@ -2496,18 +2580,18 @@ def escape_offgradient_figure(phase, trajectories, knockouts, *, title=None) -> 
                      title_text="innovation set", row=1, col=2)
     fig.update_yaxes(title_text="environmental support (1 = vent, 0 = off-gradient)", row=1, col=2)
 
-    ttl = title or "Campaign VIII — escape from the vent"
-    fig.update_layout(
-        title=dict(text=(f"<b>{ttl}</b><br><span style='font-size:12px;color:{_SLATE}'>"
-                         "Escaping the vent is not one innovation but an irreducible set. Because the "
-                         "lineage's budget is co-limited (energy AND resources), only internal pump + "
-                         "resource importer + heredity together persist as geological support → 0; "
-                         "removing any one collapses off-gradient persistence.</span>")),
-        height=640, margin=dict(l=70, r=40, t=112, b=60),
-        legend=dict(orientation="h", y=1.03, x=0.0, xanchor="left", font=dict(size=9)),
-        font=dict(family="system-ui, -apple-system, sans-serif", color=_INK),
-        plot_bgcolor="white", paper_bgcolor="white")
-    return fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    fig.update_layout(**S.base_layout(
+        height=680, margin=dict(l=70, r=40, t=50, b=110),
+        legend=dict(orientation="h", y=-0.12, x=0.5, xanchor="center", font=dict(size=9))))
+    cap = ("All three views at once. Escaping the vent is not one innovation but an irreducible set. "
+           "<b>World</b>: lineage persistence as support is withdrawn. <b>Mechanism</b>: knockouts &mdash; "
+           "removing any one of {pump, importer, heredity} collapses off-gradient persistence. "
+           "<b>Decision</b>: only the full set persists as geological support &rarr; 0, because the budget "
+           "is co-limited (energy AND resources).")
+    inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    return S.frame(inner, title=(title or "Escape from the vent"),
+                   phase="Campaign VIII", view="Decision", tier="conceptual_demonstration",
+                   caption_text=cap, caption_prefix="How to read", tone="neutral", max_width=1100)
 
 
 class EscapeOffGradientThreeView(Visualization):
@@ -2606,7 +2690,7 @@ def vent_specificity_threeview_figure(res, trajectories, gate_rows=None, *, titl
 
     # --- World (top-left): formate trajectories --------------------------------
     advcontrol_trajectory_panel(fig, trajectories, row=1, col=1, gate_mM=50.0)
-    fig.add_annotation(x=0.02, y=0.96, xref="x domain", yref="y domain", xanchor="left",
+    fig.add_annotation(x=0.5, y=0.96, xref="x domain", yref="y domain", xanchor="center",
                        text="og-01 formate gate (50 mM)", showarrow=False,
                        font=dict(size=8.5, color=_INK))
     fig.update_xaxes(title_text="time (s)", row=1, col=1)
@@ -2648,18 +2732,18 @@ def vent_specificity_threeview_figure(res, trajectories, gate_rows=None, *, titl
     fig.update_xaxes(type="log", title_text="dissolved H₂ (M)", row=1, col=2)
     fig.update_yaxes(title_text="Fe/Ni/S catalyst activity", row=1, col=2)
 
-    ttl = title or "Adversarial control — vent-specificity of the gates"
-    fig.update_layout(
-        title=dict(text=(f"<b>{ttl}</b><br><span style='font-size:12px;color:{_SLATE}'>"
-                         "The SAME real composites with no sustained H₂, no Fe/Ni/S catalyst and no pore "
-                         "concentration are rejected by every discriminating gate, where the vent passes "
-                         "all five — so a PASS certifies the vent mechanism, not generic nonequilibrium "
-                         "chemistry.</span>")),
-        height=640, margin=dict(l=70, r=40, t=112, b=60), barmode="group",
-        legend=dict(orientation="h", y=1.03, x=0.0, xanchor="left", font=dict(size=9)),
-        font=dict(family="system-ui, -apple-system, sans-serif", color=_INK),
-        plot_bgcolor="white", paper_bgcolor="white")
-    return fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    fig.update_layout(**S.base_layout(
+        height=680, margin=dict(l=70, r=40, t=50, b=110), barmode="group",
+        legend=dict(orientation="h", y=-0.12, x=0.5, xanchor="center", font=dict(size=9))))
+    cap = ("All three views at once. The SAME real composites with no sustained H₂, no Fe/Ni/S catalyst "
+           "and no pore concentration are REJECTED by every discriminating gate, where the vent passes all "
+           "five. <b>World</b>: vent is productive, the generic control is not. <b>Mechanism</b>: every "
+           "gate rejects the generic control. <b>Decision</b>: the gate PASS region is the vent corner "
+           "&mdash; a PASS certifies the vent mechanism, not generic nonequilibrium chemistry.")
+    inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    return S.frame(inner, title=(title or "Vent-specificity of the gates"),
+                   phase="Adversarial control", view="Decision", tier="null_control",
+                   caption_text=cap, caption_prefix="How to read", tone="neutral", max_width=1100)
 
 
 class VentSpecificityThreeView(Visualization):
@@ -2771,19 +2855,20 @@ def colocalization_figure(res, *, title=None) -> str:
     for c in (1, 2):
         fig.update_xaxes(title_text="Soret strength (× nominal)", type="log", row=1, col=c)
         fig.update_yaxes(title_text="advective Péclet", type="log", row=1, col=c)
-    fig.update_layout(
-        title=title or "Multisolute co-localization frontier",
-        template="plotly_white", height=460, width=980,
-        margin=dict(l=70, r=80, t=70, b=60),
-        annotations=list(fig.layout.annotations) + [dict(
-            x=0.5, y=-0.22, xref="paper", yref="paper", showarrow=False,
-            font=dict(size=11, color=_SLATE),
-            text=("Low index where single species concentrate = the mixture "
-                  "<b>fractionates</b> by Soret strength (low-S_T solutes like "
-                  "ammonium lag the strong thermophoretic ones; adsorption + "
-                  "degradation are kinetically minor over a pore transit)."))])
-    return fig.to_html(full_html=True, include_plotlyjs="cdn",
-                       config={"displayModeBar": False})
+    fig.update_layout(**S.base_layout(height=460, width=980,
+                                      margin=dict(l=70, r=80, t=44, b=60), showlegend=False))
+    cap = (
+        "A low co-localization index where single species still concentrate means the mixture "
+        "<b>fractionates</b>: different solutes concentrate to different degrees set by their Soret "
+        "coefficient (low-S_T solutes such as ammonium lag the strong thermophoretic precursors). "
+        "Adsorption and degradation are kinetically minor over a single pore transit, so they are not "
+        "the primary driver. White diamonds are resolved-FEM audit cells. Strong + uniform = a "
+        "co-localized trap; strong + non-uniform = fractionating; weak = no concentration."
+    )
+    inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    return S.frame(inner, title=(title or "Does the prebiotic mixture co-localize? It fractionates"),
+                   phase="Phase 4", view="Decision", tier="mechanistic_prediction",
+                   caption_text=cap, caption_prefix="How to read", tone="neutral")
 
 
 class PoreColocalizationMap(Visualization):

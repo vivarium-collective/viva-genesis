@@ -11,6 +11,9 @@ from __future__ import annotations
 from process_bigraph import Composite, gather_emitter_results
 from process_bigraph.visualization import Visualization
 
+from . import viz_style as S
+from .viz_style import INK, TEAL, AMBER, SLATE, RUST
+
 
 class VentReactorTimeseries(Visualization):
     """Campaign-0 real vent-reactor trajectory: temperature, pH, reducing power
@@ -97,14 +100,19 @@ class VentReactorTimeseries(Visualization):
         fig.update_xaxes(title_text="time (s)", showgrid=True, gridcolor="#eef2f7")
         fig.update_yaxes(showgrid=True, gridcolor="#eef2f7")
         fig.update_yaxes(type="log", row=2, col=3)
-        fig.update_layout(
-            title=dict(text=self.config.get("title") or "Campaign 0 — real vent reactor",
-                       font=dict(size=16, color=ink)),
-            template="plotly_white", height=620, showlegend=True,
+        fig.update_layout(**S.base_layout(
+            height=620, showlegend=True,
             legend=dict(orientation="h", y=-0.08, x=0.66, font=dict(size=10)),
-            margin=dict(l=60, r=30, t=70, b=60), font=dict(color=ink),
-        )
-        return fig.to_html(full_html=True, include_plotlyjs="cdn", config={"displayModeBar": False})
+            margin=dict(l=60, r=30, t=46, b=60)))
+        inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+        return S.frame(
+            inner, title=(self.config.get("title") or "Real vent reactor (PHREEQC + FiPy)"),
+            phase="Campaign 0", view="World", tier="reproduction", caption_prefix="How to read",
+            caption_text=(
+                "The real PHREEQC + FiPy vent reactor over time — temperature, pH, reducing power "
+                "(H₂ flux + pe), porosity, and the mass/charge + spatial-flux conservation witnesses. "
+                "Shaded bands are the Lost City acceptance windows (40–91&#8239;°C; pH 9.0–10.8); the "
+                "conservation residuals hug zero."))
 
 
 class CarbonFixationViz(Visualization):
@@ -176,14 +184,19 @@ class CarbonFixationViz(Visualization):
 
         fig.update_xaxes(title_text="time (s)", showgrid=True, gridcolor="#eef2f7")
         fig.update_yaxes(showgrid=True, gridcolor="#eef2f7")
-        fig.update_layout(
-            title=dict(text=self.config.get("title") or "Campaign I — geology to reduced carbon",
-                       font=dict(size=16, color=ink)),
-            template="plotly_white", height=620, showlegend=True,
+        fig.update_layout(**S.base_layout(
+            height=620, showlegend=True,
             legend=dict(orientation="h", y=-0.08, x=0.3, font=dict(size=10)),
-            margin=dict(l=60, r=30, t=70, b=60), font=dict(color=ink),
-        )
-        return fig.to_html(full_html=True, include_plotlyjs="cdn", config={"displayModeBar": False})
+            margin=dict(l=60, r=30, t=46, b=60)))
+        inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+        return S.frame(
+            inner, title=(self.config.get("title") or "Geology to reduced carbon (eQuilibrator + FiPy)"),
+            phase="Campaign I", view="World", tier="mechanistic_prediction", caption_prefix="How to read",
+            caption_text=(
+                "The real eQuilibrator + FiPy carbon-fixation trajectory — product yields "
+                "(formate/acetate/pyruvate), the pH-gradient proton-motive force and current density, "
+                "the real ΔG′/feasibility gate, and net organic-carbon flux, all driven by the "
+                "geochemical gradient."))
 
 
 class ProtometabolismViz(Visualization):
@@ -246,14 +259,18 @@ class ProtometabolismViz(Visualization):
 
         fig.update_xaxes(title_text="time (s)", showgrid=True, gridcolor="#eef2f7")
         fig.update_yaxes(showgrid=True, gridcolor="#eef2f7")
-        fig.update_layout(
-            title=dict(text=self.config.get("title") or "Campaign II — protometabolic network",
-                       font=dict(size=16, color=ink)),
-            template="plotly_white", height=380, showlegend=True,
+        fig.update_layout(**S.base_layout(
+            height=380, showlegend=True,
             legend=dict(orientation="h", y=-0.2, x=0.0, font=dict(size=10)),
-            margin=dict(l=60, r=30, t=70, b=60), font=dict(color=ink),
-        )
-        return fig.to_html(full_html=True, include_plotlyjs="cdn", config={"displayModeBar": False})
+            margin=dict(l=60, r=30, t=46, b=60)))
+        inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+        return S.frame(
+            inner, title=(self.config.get("title") or "Protometabolic network (libRoadRunner)"),
+            phase="Campaign II", view="World", tier="mechanistic_prediction", caption_prefix="How to read",
+            caption_text=(
+                "The real libRoadRunner rTCA-fragment network over time — the OAA / acetate / succinate "
+                "pools, the net carbon throughput under continuous feed + washout, and the autocatalytic "
+                "gain (above 1 the network self-amplifies)."))
 
 
 def render_declared_viz_json(study_dir, run_id, ws_root):
@@ -429,18 +446,18 @@ class VentCrossSection(Visualization):
             stat.add_annotation(x=xL, y=y0, ax=xL, ay=y1, xref="x", yref="y", axref="x", ayref="y",
                                 showarrow=True, arrowhead=2, arrowwidth=1.5, arrowcolor="#bae6fd", text="")
             stat.add_annotation(x=xR, y=ys[-1], xref="x", yref="y", text="rises", showarrow=False,
-                                yshift=8, font=dict(size=9, color="#fde68a"))
+                                yshift=-12, yanchor="top", font=dict(size=9, color="#fde68a"))
             stat.add_annotation(x=xL, y=ys[0], xref="x", yref="y", text="sinks", showarrow=False,
                                 yshift=-8, font=dict(size=9, color="#bae6fd"))
         stat.update_xaxes(showgrid=False, zeroline=False,
                           title_text="across the wall (cm)", title_font=dict(size=10))
         stat.update_yaxes(showgrid=False, zeroline=False,
                           title_text="up (cm)", title_font=dict(size=10))
-        stat.update_layout(
-            template="plotly_white", height=560, width=820,
+        stat.update_layout(**S.base_layout(
+            height=560, width=820,
             title=dict(text="Settled cross-section  \u00b7  cold acidic OCEAN (left)  \u2192  hot alkaline CONDUIT (right)",
-                       font=dict(size=14, color=ink), x=0.5, xanchor="center"),
-            margin=dict(l=55, r=20, t=90, b=50), font=dict(color=ink))
+                       font=dict(size=13, color=INK), x=0.5, xanchor="center"),
+            margin=dict(l=55, r=20, t=58, b=50)))
 
         # ---- MOTION: the temperature field heating up (generous, uncramped) ----
         step = max(1, len(frames) // int(self.config["max_frames"]))
@@ -483,9 +500,7 @@ class VentCrossSection(Visualization):
                             args=[[str(i)], dict(frame=dict(duration=0, redraw=True), mode="immediate")])
                        for i in range(len(keep))])])
 
-        cap = (
-            "<div style='max-width:860px;margin:12px auto 4px;padding:0 16px;color:#334155;"
-            "font-size:13.5px;line-height:1.55'>"
+        cap_text = (
             "<b>A cross-section through the chimney wall</b> \u2014 a real 2-D FiPy finite-volume "
             "field, <b>every pixel a solved cell</b>. Cold acidic seawater bathes the outer wall "
             "(left); the hot alkaline serpentinized fluid percolates up the conduit (right). The "
@@ -494,15 +509,14 @@ class VentCrossSection(Visualization):
             "convection: the hot conduit rises, the cold ocean sinks, a recirculation "
             "cell forms and stirs the field. "
             f"<b>Settled: {last['settled_T']:.0f}\u202f\u00b0C, pH {last['settled_pH']:.2f}</b> "
-            "(the Lost City window).</div>")
+            "(the Lost City window).")
         s_html = stat.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
         a_html = anim.to_html(full_html=False, include_plotlyjs=False, config={"displayModeBar": False})
-        return ("<!doctype html><html><head><meta charset='utf-8'></head>"
-                "<body style='margin:0;font-family:-apple-system,system-ui,sans-serif;background:#fff'>"
-                f"{cap}"
-                "<div style='display:flex;justify-content:center'>" + s_html + "</div>"
-                "<div style='display:flex;justify-content:center;margin-top:8px'>" + a_html + "</div>"
-                "</body></html>")
+        inner = ("<div style='display:flex;justify-content:center'>" + s_html + "</div>"
+                 "<div style='display:flex;justify-content:center;margin-top:8px'>" + a_html + "</div>")
+        return S.frame(inner, title=(self.config.get("title") or "Real 2-D vent cross-section (FiPy)"),
+                       phase="Campaign 0", view="World", tier="reproduction",
+                       caption_text=cap_text, caption_prefix="How to read", tone="neutral", max_width=900)
 
 class ProtonGradientProfile(Visualization):
     """Campaign-I REAL proton gradient across the Fe/Ni-S barrier — every value a
@@ -614,13 +628,12 @@ class ProtonGradientProfile(Visualization):
         stat.update_yaxes(title_text="pmf (mV)", row=1, col=3, showgrid=True, gridcolor="#eef2f7")
         pmf_o = (pmf_open[-1] * 1000.0) if pmf_open else 0.0
         pmf_sag = (min(pmf_load) * 1000.0) if pmf_load else 0.0
-        stat.update_layout(
-            template="plotly_white", height=430, width=1180, showlegend=True,
+        stat.update_layout(**S.base_layout(
+            height=430, width=1180, showlegend=True,
             legend=dict(orientation="h", y=-0.17, x=0.5, xanchor="center", font=dict(size=10)),
-            title=dict(text=(self.config.get("title") or "Proton gradient → reduced carbon") +
-                       f"   ·   pmf open {pmf_o:.0f} mV, sags to {pmf_sag:.0f} mV under load",
-                       font=dict(size=14, color=ink), x=0.5, xanchor="center"),
-            margin=dict(l=55, r=20, t=80, b=70), font=dict(color=ink))
+            title=dict(text=f"pmf open {pmf_o:.0f} mV, sags to {pmf_sag:.0f} mV under load",
+                       font=dict(size=13, color=INK), x=0.5, xanchor="center"),
+            margin=dict(l=55, r=20, t=56, b=70)))
 
         # motion: the reduced-carbon products ACCUMULATING over the run, as the
         # REAL concentrations on a log axis (formate ~0.2 M is 20,000x pyruvate's
@@ -665,21 +678,18 @@ class ProtonGradientProfile(Visualization):
                             args=[[str(i)], dict(frame=dict(duration=0, redraw=True), mode="immediate")])
                        for i in range(len(idxs))])])
 
-        cap = (
-            "<div style='max-width:880px;margin:12px auto 4px;padding:0 16px;color:#334155;"
-            "font-size:13.5px;line-height:1.55'>"
+        cap_text = (
             "<b>The proton gradient that powers the first carbon fixation</b> — the real 1-D "
             "Nernst-Planck proton profile across the Fe/Ni-S barrier (every value a FiPy cell), "
             "from the acidic ocean to the alkaline vent. That gradient is the proton-motive force "
-            "driving H₂ + CO₂ → formate / acetate / pyruvate (right).</div>")
+            "driving H₂ + CO₂ → formate / acetate / pyruvate (right).")
         s_html = stat.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
         a_html = anim.to_html(full_html=False, include_plotlyjs=False, config={"displayModeBar": False})
-        return ("<!doctype html><html><head><meta charset='utf-8'></head>"
-                "<body style='margin:0;font-family:-apple-system,system-ui,sans-serif;background:#fff'>"
-                f"{cap}"
-                "<div style='display:flex;justify-content:center'>" + s_html + "</div>"
-                "<div style='display:flex;justify-content:center;margin-top:8px'>" + a_html + "</div>"
-                "</body></html>")
+        inner = ("<div style='display:flex;justify-content:center'>" + s_html + "</div>"
+                 "<div style='display:flex;justify-content:center;margin-top:8px'>" + a_html + "</div>")
+        return S.frame(inner, title=(self.config.get("title") or "Proton gradient → reduced carbon"),
+                       phase="Campaign I", view="World", tier="mechanistic_prediction",
+                       caption_text=cap_text, caption_prefix="How to read", tone="neutral", max_width=1000)
 
 class ProtometabolicNetwork(Visualization):
     """Campaign-II REAL rTCA-fragment network igniting — every value a libRoadRunner
@@ -754,7 +764,7 @@ class ProtometabolicNetwork(Visualization):
                 marker=dict(size=sizes, color=conc, colorscale="Viridis", cmin=0, cmax=gmax,
                             line=dict(color="#334155", width=1.2),
                             colorbar=dict(title="M", thickness=12, len=0.8)),
-                text=sp, textposition="middle center", textfont=dict(size=9, color="#f8fafc"),
+                text=sp, textposition="bottom center", textfont=dict(size=8, color="#1e293b"),
                 hovertext=txt, hoverinfo="text")
 
         # edge lines weighted by the LIVE libRoadRunner reaction flux — the living
@@ -785,7 +795,7 @@ class ProtometabolicNetwork(Visualization):
         net_fig.add_annotation(x=pos["OAA"][0], y=pos["OAA"][1] + 0.22,
                                text="⟳ autocatalytic<br>OAA + 2CO₂ → 2 OAA + acetate",
                                showarrow=False, font=dict(size=9, color=rust))
-        net_fig.update_xaxes(visible=False, range=[-0.4, 2.7])
+        net_fig.update_xaxes(visible=False, range=[-0.9, 3.05])
         net_fig.update_yaxes(visible=False, range=[-0.3, 1.15])
         net_fig.update_layout(template="plotly_white", height=360, width=560, showlegend=False,
             title=dict(text="Settled network (node size = concentration, edge width = live flux)", x=0.5, xanchor="center",
@@ -817,7 +827,7 @@ class ProtometabolicNetwork(Visualization):
             data=edge_traces + [node_trace(snaps[keep[0]])],
             frames=[go.Frame(data=edge_traces + [node_trace(snaps[k])], name=str(j))
                     for j, k in enumerate(keep)])
-        anim.update_xaxes(visible=False, range=[-0.4, 2.7])
+        anim.update_xaxes(visible=False, range=[-0.9, 3.05])
         anim.update_yaxes(visible=False, range=[-0.3, 1.15])
         anim.update_layout(template="plotly_white", height=380, width=620, showlegend=False,
             title=dict(text="the network igniting (real libRoadRunner)", x=0.5, xanchor="center",
@@ -835,24 +845,21 @@ class ProtometabolicNetwork(Visualization):
                             args=[[str(i)], dict(frame=dict(duration=0, redraw=True), mode="immediate")])
                        for i in range(len(keep))])])
 
-        cap = (
-            "<div style='max-width:900px;margin:12px auto 4px;padding:0 16px;color:#334155;"
-            "font-size:13.5px;line-height:1.55'>"
+        cap_text = (
             "<b>The first metabolism, igniting</b> — the real libRoadRunner rTCA-fragment network: "
             "pyruvate + CO₂ feed the <b>autocatalytic OAA hub</b> (OAA + 2 CO₂ → 2 OAA + acetate), "
             "which drives the reductive branch (malate, succinate) and acetate under continuous "
             "feed + washout. Node size is the live concentration; the network lights up as it "
-            "self-amplifies.</div>")
+            "self-amplifies.")
         n_html = net_fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
         d_html = dyn.to_html(full_html=False, include_plotlyjs=False, config={"displayModeBar": False})
         a_html = anim.to_html(full_html=False, include_plotlyjs=False, config={"displayModeBar": False})
-        return ("<!doctype html><html><head><meta charset='utf-8'></head>"
-                "<body style='margin:0;font-family:-apple-system,system-ui,sans-serif;background:#fff'>"
-                f"{cap}"
-                "<div style='display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:flex-start'>"
-                f"<div>{n_html}</div><div>{d_html}</div></div>"
-                "<div style='display:flex;justify-content:center;margin-top:8px'>" + a_html + "</div>"
-                "</body></html>")
+        inner = ("<div style='display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:flex-start'>"
+                 f"<div>{n_html}</div><div>{d_html}</div></div>"
+                 "<div style='display:flex;justify-content:center;margin-top:8px'>" + a_html + "</div>")
+        return S.frame(inner, title=(self.config.get("title") or "The protometabolic network igniting"),
+                       phase="Campaign II", view="Mechanism", tier="mechanistic_prediction",
+                       caption_text=cap_text, caption_prefix="How to read", tone="neutral", max_width=1000)
 
 class ThermophoreticTrapViz(Visualization):
     """Campaign-III REAL thermal trap — the accumulation column and the geometric
@@ -903,43 +910,51 @@ class ThermophoreticTrapViz(Visualization):
         from plotly.subplots import make_subplots
         if not sweep:
             return "<p>No trap sweep produced.</p>"
-        ink, teal, rust, amber = "#1e293b", "#0d9488", "#b91c1c", "#d97706"
+        ink, teal, rust, amber = INK, TEAL, RUST, AMBER
         por = [s[0] for s in sweep]
         enr = [s[1] for s in sweep]
         log_enr = [math.log10(max(e, 1.0)) for e in enr]
         fav = sweep[-1][2]           # most confined = favorable
         z = fav["z_mm"]; cprof = [math.log10(max(c, 1.0)) for c in fav["conc"]]
-        # threshold porosity: where enrichment first exceeds 10^3
-        thr = next((p for p, e in zip(por, enr) if e >= 1e3), None)
+        # Localization threshold: where the trap first concentrates the feed above the
+        # dilute background. Keyed to a modest, RESOLVABLE enrichment (10x), not the
+        # extreme reduced-model fold, which a resolved FEM does not confirm.
+        thr = next((p for p, e in zip(por, enr) if e >= 10.0), None)
+        # The resolved-FEM saturation ceiling (dolfinx, spatial-transport cross-check):
+        # above it the reduced exp(Pe) column is an unconfirmed extrapolation.
+        resolved_log = math.log10(253.0)
+        top = max(max(log_enr) * 1.05, resolved_log + 0.5)
 
         stat = make_subplots(rows=1, cols=2, horizontal_spacing=0.13,
             subplot_titles=("Accumulation column in the favorable pore",
-                            "Enrichment vs porosity — the individual threshold"))
+                            "Enrichment vs porosity (bounded)"))
         stat.add_scatter(x=cprof, y=z, mode="lines", line=dict(color=teal, width=3),
                          name="log10 c(z)", row=1, col=1, showlegend=False)
         stat.add_annotation(x=cprof[0], y=z[0], text="base (trapped) ▲", showarrow=False,
                             font=dict(size=10, color=rust), xanchor="left", row=1, col=1)
         stat.add_annotation(x=cprof[-1], y=z[-1], text="feed (dilute) ▼", showarrow=False,
                             font=dict(size=10, color="#2563eb"), xanchor="left", row=1, col=1)
-        stat.add_scatter(x=por, y=log_enr, mode="lines+markers", line=dict(color=rust, width=2.6),
-                         marker=dict(size=5), name="log10 enrichment", row=1, col=2, showlegend=False)
-        stat.add_hline(y=8.0, line=dict(color="#94a3b8", dash="dot"), row=1, col=2)
-        stat.add_annotation(x=0.15, y=8.2, text="Baaske 10^8", showarrow=False,
-                            font=dict(size=9, color="#64748b"), row=1, col=2)
+        stat.add_scatter(x=por, y=log_enr, mode="lines+markers", line=dict(color=amber, width=2.6),
+                         marker=dict(size=5), name="reduced exp(Pe) column", row=1, col=2, showlegend=False)
+        # Honest-uncertainty wash: everything above the resolved-FEM ceiling is a
+        # reduced-model extrapolation, not a resolved enrichment.
+        stat.add_hrect(y0=resolved_log, y1=top, line_width=0, fillcolor=S.SENSITIVE_FILL, row=1, col=2)
+        stat.add_hline(y=resolved_log, line=dict(color=teal, dash="dot"), row=1, col=2)
+        stat.add_annotation(x=0.5, y=resolved_log, xref="x2", yref="y2", yshift=9, showarrow=False,
+                            text="resolved FEM saturates here — folds above are reduced-model only",
+                            font=dict(size=9, color=teal))
         if thr is not None:
-            stat.add_vline(x=thr, line=dict(color=amber, dash="dash"), row=1, col=2)
-            stat.add_annotation(x=thr, y=1.0, text="individual<br>forms", showarrow=False,
-                                font=dict(size=9, color=amber), row=1, col=2)
-        stat.update_xaxes(title_text="log10 concentration (fold)", row=1, col=1, showgrid=True, gridcolor="#eef2f7")
-        stat.update_yaxes(title_text="height up the pore (mm)", row=1, col=1, showgrid=True, gridcolor="#eef2f7")
+            stat.add_vline(x=thr, line=dict(color=teal, dash="dash"), row=1, col=2)
+            stat.add_annotation(x=thr, y=0.3, text="localization<br>onset", showarrow=False,
+                                font=dict(size=9, color=teal), row=1, col=2)
+        stat.update_xaxes(title_text="log10 concentration (fold)", row=1, col=1, showgrid=True, gridcolor=S.GRID)
+        stat.update_yaxes(title_text="height up the pore (mm)", row=1, col=1, showgrid=True, gridcolor=S.GRID)
         stat.update_xaxes(title_text="porosity (open → confined)", autorange="reversed", row=1, col=2,
-                          showgrid=True, gridcolor="#eef2f7")
-        stat.update_yaxes(title_text="log10 enrichment (fold)", row=1, col=2, showgrid=True, gridcolor="#eef2f7")
-        stat.update_layout(template="plotly_white", height=430, width=900, showlegend=False,
-            title=dict(text=(self.config.get("title") or "The thermal trap") +
-                       f"   ·   favorable {enr[-1]:.1e}-fold",
-                       x=0.5, xanchor="center", font=dict(size=14, color=ink)),
-            margin=dict(l=60, r=20, t=80, b=60), font=dict(color=ink))
+                          showgrid=True, gridcolor=S.GRID)
+        stat.update_yaxes(title_text="log10 enrichment (fold)", row=1, col=2, range=[0, top],
+                          showgrid=True, gridcolor=S.GRID)
+        stat.update_layout(**S.base_layout(height=430, width=900, showlegend=False,
+            margin=dict(l=60, r=20, t=40, b=60)))
 
         # motion: the pore closing — the accumulation column building as porosity
         # drops (the individual emerging from the dilute feed).
@@ -952,7 +967,7 @@ class ThermophoreticTrapViz(Visualization):
                           fillcolor="rgba(13,148,136,0.12)")],
                           name="%.2f" % p,
                           layout=go.Layout(annotations=[dict(x=xmax * 0.5, y=max(prof["z_mm"]) * 0.9,
-                              text="porosity %.2f · %.1e-fold" % (p, e), showarrow=False,
+                              text="porosity %.2f" % p, showarrow=False,
                               font=dict(size=12, color=ink))])))
         anim = go.Figure(data=frames[0].data, frames=frames)
         anim.update_xaxes(title_text="log10 concentration (fold)", range=[0, xmax],
@@ -974,21 +989,265 @@ class ThermophoreticTrapViz(Visualization):
                             args=[[f.name], dict(frame=dict(duration=0, redraw=True), mode="immediate")])
                        for f in frames])])
 
-        cap = (
-            "<div style='max-width:900px;margin:12px auto 4px;padding:0 16px;color:#334155;"
-            "font-size:13.5px;line-height:1.55'>"
-            "<b>From dilute feed to a localized individual</b> — the real FiPy thermal trap "
-            "(thermophoresis + convection, Baaske 2007). A confined pore concentrates the feed "
-            "exponentially up the column (left); as the pore closes (porosity ↓) the enrichment "
-            "crosses the threshold where a localized, concentrated <b>individual</b> forms — an "
-            "open pore just washes the feed through.</div>")
         s_html = stat.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
         a_html = anim.to_html(full_html=False, include_plotlyjs=False, config={"displayModeBar": False})
-        return ("<!doctype html><html><head><meta charset='utf-8'></head>"
-                "<body style='margin:0;font-family:-apple-system,system-ui,sans-serif;background:#fff'>"
-                f"{cap}<div style='display:flex;justify-content:center'>{s_html}</div>"
-                "<div style='display:flex;justify-content:center;margin-top:8px'>" + a_html + "</div>"
-                "</body></html>")
+        inner = (f"<div style='display:flex;justify-content:center'>{s_html}</div>"
+                 f"<div style='display:flex;justify-content:center;margin-top:8px'>{a_html}</div>")
+        cap = (
+            "The real FiPy thermal trap (thermophoresis + convection, Baaske 2007) concentrates the "
+            "dilute feed exponentially up a confined pore (left); as the pore closes, enrichment crosses "
+            "the localization onset and an open pore just washes the feed through. <b>Localization is "
+            "real and bounded</b> — the amber band marks where the reduced <i>exp(Pe)</i> column climbs "
+            "past what a resolved FEM confirms, so the extreme folds are a reduced-model extrapolation. "
+            "The resolved Decision view is the FiPy&harr;FEM solver-sensitivity figure; see "
+            "<code>workspace/references/spatial-transport-solver-comparison.md</code>."
+        )
+        return S.frame(inner, title=(self.config.get("title") or "The thermal trap concentrates an individual"),
+                       phase="Campaign III", view="World", tier="mechanistic_prediction",
+                       caption_text=cap, caption_prefix="How to read", tone="caution", max_width=960)
+
+
+class ThermophoreticTrap3D(Visualization):
+    """og-03 World view in 3-D: the real thermophoretic trap's accumulation column
+    rendered as a pore. The pore is drawn as a cylinder coloured by the steady
+    log-concentration up its length — dense (trapped) at the hot base, dilute at the
+    cold feed end — from one run of the real ``ThermophoreticTrapProcess``. Honest:
+    this is the reduced-model column; the resolved FEM bounds the fold (see the
+    FiPy↔FEM solver-sensitivity Decision view)."""
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "Inside the pore — the accumulation column in 3-D"},
+        "flow_velocity": {"_type": "float", "_default": 1.0e-4},
+        "pore_length": {"_type": "float", "_default": 5.0e-3},
+        "delta_T": {"_type": "float", "_default": 30.0},
+        "porosity": {"_type": "float", "_default": 0.15},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        import math
+
+        import numpy as np
+        import plotly.graph_objects as go
+
+        from .core import build_core
+        from .transport.thermophoretic_trap import ThermophoreticTrapProcess, trap_profile
+        core = build_core()
+        p = ThermophoreticTrapProcess(
+            config={"pore_length": float(self.config["pore_length"]), "delta_T": float(self.config["delta_T"])},
+            core=core)
+        for _ in range(4):
+            p.update({"temperature": 333.15, "flow_velocity": float(self.config["flow_velocity"]),
+                      "porosity": float(self.config["porosity"])}, 1.0)
+        prof = trap_profile(p)
+        z = np.asarray(prof["z_mm"], dtype=float)                       # base..top (mm)
+        conc = np.asarray(prof["conc"], dtype=float)
+        enr = float(prof.get("enrichment", conc.max() / max(conc.min(), 1e-30)))
+        logc = np.log10(np.clip(conc, 1.0, None))                      # fold (log10)
+
+        # The pore as a cylinder, coloured up its length by the log-concentration.
+        theta = np.linspace(0, 2 * np.pi, 48)
+        R = 0.12 * (z.max() - z.min() + 1e-9)                          # a slender pore
+        TH, ZZ = np.meshgrid(theta, z)
+        X, Y = R * np.cos(TH), R * np.sin(TH)
+        C = np.repeat(logc[:, None], theta.size, axis=1)
+        resolved_log = math.log10(253.0)                              # resolved-FEM ceiling
+        fig = go.Figure(go.Surface(
+            x=X, y=Y, z=ZZ, surfacecolor=C, colorscale="YlOrRd", cmin=0.0, cmax=float(logc.max()),
+            colorbar=dict(title="log₁₀<br>fold", thickness=12, len=0.7, x=0.9,
+                          title_font=dict(size=11), tickfont=dict(size=9)),
+            contours={"z": {"show": True, "color": "rgba(255,255,255,0.25)", "width": 1,
+                            "start": 0, "end": float(logc.max()), "size": max(float(logc.max()) / 8, 0.3)}},
+            hovertemplate="height %{z:.2f} mm<br>fold 10^%{surfacecolor:.1f}×<extra></extra>", showscale=True))
+        # hot base / cold feed labels — offset outside the cylinder so they read clearly
+        fig.add_trace(go.Scatter3d(x=[R * 2.1, R * 2.1], y=[0, 0], z=[z.min(), z.max()], mode="markers+text",
+                                   text=["hot base — trapped", "cold feed — dilute"], textposition="middle right",
+                                   textfont=dict(size=11, color=S.INK), marker=dict(size=5, color=[S.RUST, S.SLATE]),
+                                   showlegend=False, hoverinfo="skip"))
+        fig.update_layout(**S.base_layout(height=560, margin=dict(l=0, r=0, t=10, b=0),
+                                          showlegend=False, scene=S.scene_3d(
+                                              zaxis=dict(title="height up the pore (mm)"),
+                                              xaxis=dict(visible=False), yaxis=dict(visible=False),
+                                              aspectratio=dict(x=1, y=1, z=2.0))))
+        cap = (
+            f"One run of the real FiPy thermophoretic trap: the pore concentrates the dilute feed "
+            f"exponentially toward its hot base (reduced-model peak &asymp; {enr:.0e}&times;). This is the "
+            f"reduced accumulation column &mdash; the <b>resolved FEM bounds the fold</b> near a few-hundred-fold "
+            f"(10<sup>{resolved_log:.1f}</sup>&times;) past the resolvable P&eacute;clet, so localization is real "
+            f"but <b>bounded</b>. See the FiPy&harr;FEM solver-sensitivity Decision view for the resolved statement."
+        )
+        inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+        html = S.frame(inner, title=(self.config.get("title") or "Inside the pore — the accumulation column in 3-D"),
+                       phase="Campaign III", view="World", tier="mechanistic_prediction",
+                       caption_text=cap, caption_prefix="How to read", tone="caution", max_width=820)
+        return {"html": html}
+
+
+class VentChimney3D(Visualization):
+    """og-00 World view in 3-D: the alkaline vent chimney as a tapered column coloured
+    by the real settled temperature up its height — the hot serpentinizing conduit at
+    the base cooling into cold ocean — from one run of the real PHREEQC + FiPy
+    ``serpentinizing_vent_reactor``. The Lost City habitability window (40–91 °C) is
+    marked on the chimney. The geometry is schematic; the temperature up the conduit
+    is the real settled field."""
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "The vent wall in 3-D — the across-wall thermal gradient"},
+        "n_steps": {"_type": "integer", "_default": 60},
+        "flow_velocity": {"_type": "float", "_default": 1.0e-3},
+        "olivine_rate": {"_type": "float", "_default": 0.15},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        import numpy as np
+        import plotly.graph_objects as go
+
+        from .core import build_core
+        from .composites.vent_reactor import serpentinizing_vent_reactor
+        from .transport.fipy_reactor import spatial_field
+        core = build_core()
+        doc = serpentinizing_vent_reactor(core, flow_velocity=float(self.config["flow_velocity"]),
+                                          olivine_rate=float(self.config["olivine_rate"]))
+        sim = Composite({"state": doc}, core=core)
+        reactor = VentCrossSection._find_reactor(sim.state)
+        sim.run(int(self.config["n_steps"]))
+        rows = gather_emitter_results(sim)[("emitter",)]
+        last = rows[-1] if rows else {}
+        f = spatial_field(reactor, {"pH": float(last.get("pH", 9.4)),
+                                    "pH_eq": float(last.get("pH_eq", 0.0) or 0.0),
+                                    "porosity": float(last.get("porosity", 0.35))})
+        if not f.get("nx"):
+            return {"html": "<p>vent reactor produced no field.</p>"}
+        t_c = np.asarray([[v - 273.15 for v in row] for row in f["temperature"]], dtype=float)  # [up, across]
+        ny, nx = t_c.shape
+        ext = f.get("extent", [0, 1, 0, 1])
+        xs = np.array([(i + 0.5) * (ext[1] / nx) for i in range(nx)]) * 100.0   # cm across the wall
+        ys = np.array([(j + 0.5) * (ext[3] / ny) for j in range(ny)]) * 100.0   # cm up the chimney
+
+        # The vent wall as a thermal landscape: elevation + colour = the real settled
+        # temperature over (across × up) — the hot serpentinizing conduit rises as a
+        # ridge and cools toward the cold ocean; every cell a FiPy solve.
+        lo, hi = float(t_c.min()), float(t_c.max())
+        fig = go.Figure(go.Surface(
+            x=xs, y=ys, z=t_c, surfacecolor=t_c, colorscale="Inferno", cmin=lo, cmax=hi,
+            colorbar=dict(title="°C", thickness=12, len=0.7, x=0.92, title_font=dict(size=11), tickfont=dict(size=9)),
+            contours={"z": {"show": 40.0 <= hi and lo <= 91.0, "start": 40.0, "end": 91.0, "size": 51.0,
+                            "color": S.TEAL, "width": 3}},
+            hovertemplate="across %{x:.1f} cm · up %{y:.1f} cm<br>%{z:.0f} °C<extra></extra>", showscale=True))
+        fig.update_layout(**S.base_layout(height=580, margin=dict(l=0, r=0, t=10, b=0), showlegend=False,
+                                          scene=S.scene_3d(
+                                              xaxis=dict(title="across the wall (cm)"),
+                                              yaxis=dict(title="up the chimney (cm)"),
+                                              zaxis=dict(title="temperature (°C)"),
+                                              camera=dict(eye=dict(x=1.6, y=1.5, z=1.25)),
+                                              aspectmode="cube")))
+        cap = (
+            "One run of the real PHREEQC + FiPy serpentinizing vent reactor, as a thermal landscape over the "
+            "wall: the hot serpentinizing conduit rises as a ridge and cools toward the cold ocean (every cell "
+            "a FiPy solve). The teal contours bracket the <b>Lost City habitability window</b> (40–91 °C). This "
+            "across-wall cold-ocean → hot-conduit gradient is the defining vent structure a cell would form in."
+        )
+        inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+        return {"html": S.frame(inner, title=(self.config.get("title") or "The vent wall in 3-D — the across-wall thermal gradient"),
+                                phase="Campaign 0", view="World", tier="reproduction",
+                                caption_text=cap, caption_prefix="How to read", tone="neutral", max_width=820)}
+
+
+class ProtocellVesicle3D(Visualization):
+    """og-04 World view in 3-D: the protocell as a vesicle — a semi-transparent
+    amphiphile membrane around a lumen coloured by the measured RETENTION, with inward
+    import arrows sized by the measured ACCESS, from one run of the real
+    ``mixed_amphiphile_protocell``. The geometry is schematic; retention / access /
+    individuality are measured."""
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "The protocell in 3-D — a boundary that retains without isolating"},
+        "mix_fraction": {"_type": "float", "_default": 0.4},
+        "pH": {"_type": "float", "_default": 9.0},
+        "ionic_strength": {"_type": "float", "_default": 0.35},
+        "temperature": {"_type": "float", "_default": 318.15},
+        "n_steps": {"_type": "integer", "_default": 20},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        import numpy as np
+        import plotly.graph_objects as go
+
+        from .composites.mixed_amphiphile_protocell import mixed_amphiphile_protocell
+        from .core import build_core
+        core = build_core()
+        doc = mixed_amphiphile_protocell(core, mix_fraction=float(self.config["mix_fraction"]),
+                                         pH=float(self.config["pH"]),
+                                         ionic_strength=float(self.config["ionic_strength"]),
+                                         temperature=float(self.config["temperature"]))
+        sim = Composite({"state": doc}, core=core)
+        sim.run(int(self.config["n_steps"]))
+        rows = gather_emitter_results(sim)[("emitter",)]
+        r = rows[-1] if rows else {}
+        retention = float(r.get("retention", 0.0))
+        access = float(r.get("access", 0.0))
+        individ = float(r.get("individuality_access", retention * access))
+        viable = float(r.get("viable_compartments", 0.0))
+
+        u = np.linspace(0, 2 * np.pi, 48)
+        v = np.linspace(0, np.pi, 24)
+        U, V = np.meshgrid(u, v)
+        sx, sy, sz = np.cos(U) * np.sin(V), np.sin(U) * np.sin(V), np.cos(V)
+        fig = go.Figure()
+        # membrane shell — semi-transparent; tighter (thicker look) as retention rises
+        fig.add_trace(go.Surface(x=sx, y=sy, z=sz, surfacecolor=np.zeros_like(sx), showscale=False,
+                                 colorscale=[[0, "rgba(30,41,59,0.18)"], [1, "rgba(30,41,59,0.18)"]],
+                                 opacity=0.18, hoverinfo="skip"))
+        # lumen — retained internal chemistry, colour intensity ∝ retention
+        rl = 0.82
+        fig.add_trace(go.Surface(x=rl * sx, y=rl * sy, z=rl * sz, surfacecolor=np.full_like(sx, retention),
+                                 colorscale=[[0, "#e2e8f0"], [1, S.TEAL]], cmin=0, cmax=1,
+                                 colorbar=dict(title="retention", thickness=12, len=0.6, x=0.92,
+                                               title_font=dict(size=10), tickfont=dict(size=9)),
+                                 opacity=0.95, hovertemplate="retained internal product<br>retention %{surfacecolor:.2f}<extra></extra>"))
+        # inward import arrows — count / length ∝ access (the permeable boundary lets the gradient in)
+        n_arr = max(3, int(round(4 + 10 * access)))
+        au = np.linspace(0, 2 * np.pi, n_arr, endpoint=False)
+        av = np.full(n_arr, np.pi / 2) + 0.5 * np.sin(2 * au)
+        ax_, ay_, az_ = np.cos(au) * np.sin(av), np.sin(au) * np.sin(av), np.cos(av)
+        start = 1.55
+        fig.add_trace(go.Cone(x=start * ax_, y=start * ay_, z=start * az_,
+                              u=-ax_, v=-ay_, w=-az_, anchor="tail", showscale=False,
+                              colorscale=[[0, S.AMBER], [1, S.AMBER]], sizemode="scaled",
+                              sizeref=0.6 + 0.8 * access, hoverinfo="skip", opacity=0.9))
+        fig.update_layout(**S.base_layout(height=560, margin=dict(l=0, r=0, t=10, b=0), showlegend=False,
+                                          scene=S.scene_3d(xaxis=dict(visible=False), yaxis=dict(visible=False),
+                                                           zaxis=dict(visible=False),
+                                                           aspectmode="cube")))
+        cap = (
+            f"The real mixed-amphiphile protocell at the operating point ({viable:.0f} viable vesicles). The "
+            f"semi-transparent amphiphile membrane encloses a lumen whose colour is the measured <b>retention</b> "
+            f"({retention:.2f}) of internal product, while amber arrows (import, scaled by <b>access</b> {access:.2f}) "
+            f"show the external gradient still crossing in. Individuality = retention × access = <b>{individ:.2f}</b> — "
+            "a boundary that retains WITHOUT isolating. Geometry schematic; retention / access measured."
+        )
+        inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+        return {"html": S.frame(inner, title=(self.config.get("title") or "The protocell in 3-D"),
+                                phase="Campaign IV", view="World", tier="mechanistic_prediction",
+                                caption_text=cap, caption_prefix="How to read", tone="neutral", max_width=820)}
+
 
 class ProtocellWindowViz(Visualization):
     """Campaign-IV protocell stability window — the Jordan-2019 broadening and the
@@ -1057,10 +1316,9 @@ class ProtocellWindowViz(Visualization):
                            showlegend=False, textfont=dict(size=9, color="#b91c1c")), row=1, col=col)
         stat.update_xaxes(title_text="pH", row=1, col=1); stat.update_xaxes(title_text="pH", row=1, col=2)
         stat.update_yaxes(title_text="ionic strength (M)", row=1, col=1)
-        stat.update_layout(template="plotly_white", height=430, width=900,
-            title=dict(text=self.config.get("title") or "Protocell window", x=0.5, xanchor="center",
-                       font=dict(size=14, color=ink)),
-            margin=dict(l=60, r=20, t=80, b=55), font=dict(color=ink))
+        stat.update_layout(**S.base_layout(
+            height=430, width=900, showlegend=False,
+            margin=dict(l=60, r=20, t=56, b=55)))
 
         # motion: the viable region broadening as the co-surfactant fraction rises.
         frames = [go.Frame(data=[go.Heatmap(z=Z, x=pH, y=ionic, colorscale=cs, zmin=0, zmax=1,
@@ -1093,22 +1351,21 @@ class ProtocellWindowViz(Visualization):
                             args=[[f.name], dict(frame=dict(duration=0, redraw=True), mode="immediate")])
                        for f in frames])])
 
-        cap = (
-            "<div style='max-width:900px;margin:12px auto 4px;padding:0 16px;color:#334155;"
-            "font-size:13.5px;line-height:1.55'>"
+        cap_text = (
             "<b>Organic boundaries without isolation</b> — the coarse-grained protocell model "
             "(Jordan 2019). Colour is the individuality × access product (retains chemistry AND "
             "stays permeable). A single fatty acid is viable only in a narrow corner; adding a "
             "co-surfactant (mixed amphiphiles) <b>broadens the window</b> to the alkaline, salty "
             "vent point (★) — the boundary enhances persistence without cutting the system off "
-            "from the gradient.</div>")
+            "from the gradient.")
         s_html = stat.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
         a_html = anim.to_html(full_html=False, include_plotlyjs=False, config={"displayModeBar": False})
-        return ("<!doctype html><html><head><meta charset='utf-8'></head>"
-                "<body style='margin:0;font-family:-apple-system,system-ui,sans-serif;background:#fff'>"
-                f"{cap}<div style='display:flex;justify-content:center'>{s_html}</div>"
-                "<div style='display:flex;justify-content:center;margin-top:8px'>" + a_html + "</div>"
-                "</body></html>")
+        inner = (f"<div style='display:flex;justify-content:center'>{s_html}</div>"
+                 "<div style='display:flex;justify-content:center;margin-top:8px'>" + a_html + "</div>")
+        return S.frame(inner, title=(self.config.get("title")
+                                     or "The protocell window broadens — mixed amphiphiles"),
+                       phase="Campaign IV", view="Mechanism", tier="mechanistic_prediction",
+                       caption_text=cap_text, caption_prefix="How to read", tone="neutral", max_width=940)
 
 class BioenergeticInternalizationViz(Visualization):
     """Campaign-V REAL bioenergetic internalization under selection. Runs the
@@ -1187,12 +1444,11 @@ class BioenergeticInternalizationViz(Visualization):
         stat.update_yaxes(title_text="fraction", row=1, col=1, showgrid=True, gridcolor="#eef2f7")
         stat.update_xaxes(title_text="permeability (leaky →)", row=1, col=2)
         stat.update_yaxes(title_text="active-pump rate (→ internalized)", row=1, col=2)
-        stat.update_layout(template="plotly_white", height=430, width=940, showlegend=True,
+        stat.update_layout(**S.base_layout(
+            height=430, width=940, showlegend=True,
             legend=dict(orientation="h", y=-0.2, x=0.25, font=dict(size=10)),
-            yaxis2=dict(overlaying="y", side="right", showgrid=False, title="gradient (V)"),
-            title=dict(text=(self.config.get("title") or "Bioenergetic internalization"),
-                       x=0.5, xanchor="center", font=dict(size=14, color=ink)),
-            margin=dict(l=55, r=55, t=80, b=70), font=dict(color=ink))
+            yaxis2=dict(overlaying="y", side="right", anchor="x", showgrid=False, title="gradient (V)"),
+            margin=dict(l=55, r=55, t=56, b=70)))
 
         # motion: the strategy mass migrating leaky-external -> tight-pump.
         step = max(1, len(snaps) // int(self.config["max_frames"]))
@@ -1224,21 +1480,19 @@ class BioenergeticInternalizationViz(Visualization):
                             args=[[f.name], dict(frame=dict(duration=0, redraw=True), mode="immediate")])
                        for f in frames])])
 
-        cap = (
-            "<div style='max-width:900px;margin:12px auto 4px;padding:0 16px;color:#334155;"
-            "font-size:13.5px;line-height:1.55'>"
+        cap_text = (
             "<b>From environmental to internal bioenergetics</b> — a real evolutionary control "
             "loop (replicator dynamics, Sojo-2014 fitness). As the external geochemical gradient "
             "declines (dotted), selection drives the population from the leaky-external corner to "
             "the <b>tight-membrane, active-pump</b> corner — internalizing gradient generation "
-            "(red) while persisting (teal). A weak pump cannot make this move and goes extinct.</div>")
+            "(red) while persisting (teal). A weak pump cannot make this move and goes extinct.")
         s_html = stat.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
         a_html = anim.to_html(full_html=False, include_plotlyjs=False, config={"displayModeBar": False})
-        return ("<!doctype html><html><head><meta charset='utf-8'></head>"
-                "<body style='margin:0;font-family:-apple-system,system-ui,sans-serif;background:#fff'>"
-                f"{cap}<div style='display:flex;justify-content:center'>{s_html}</div>"
-                "<div style='display:flex;justify-content:center;margin-top:8px'>" + a_html + "</div>"
-                "</body></html>")
+        inner = (f"<div style='display:flex;justify-content:center'>{s_html}</div>"
+                 "<div style='display:flex;justify-content:center;margin-top:8px'>" + a_html + "</div>")
+        return S.frame(inner, title=(self.config.get("title") or "Selection internalizes the gradient"),
+                       phase="Campaign V", view="World", tier="conceptual_demonstration",
+                       caption_text=cap_text, caption_prefix="How to read", tone="neutral", max_width=960)
 
 class HeredityErrorThresholdViz(Visualization):
     """Campaign-VI REAL quasispecies heredity — the Eigen error threshold and the
@@ -1307,9 +1561,15 @@ class HeredityErrorThresholdViz(Visualization):
                             "Module head-to-head: lineage fitness"))
         stat.add_trace(go.Heatmap(z=land, x=fids, y=lens, colorscale="Tealgrn", zmin=0, zmax=1,
                        colorbar=dict(title="retention", thickness=12, len=0.8)), row=1, col=1)
+        # rna-like and non-heritable sit at the SAME grid point (fidelity 0.99, len 30)
+        # near the right edge; offset their labels to opposite corners on the left so
+        # they neither overprint each other nor run off the panel edge.
+        TPOS = {"rna-like": "top left", "non-heritable": "bottom left",
+                "peptide": "top center", "low-fidelity": "top center"}
         for m, (f, L) in module_pts.items():
             stat.add_trace(go.Scatter(x=[f], y=[L], mode="markers+text", text=[m],
-                           textposition="top center", marker=dict(size=11, color=COL[m], symbol="star",
+                           textposition=TPOS.get(m, "top center"),
+                           marker=dict(size=11, color=COL[m], symbol="star",
                            line=dict(color="#fff", width=1)), showlegend=False,
                            textfont=dict(size=9, color=COL[m])), row=1, col=1)
         names = ["rna-like", "peptide", "low-fidelity", "non-heritable"]
@@ -1320,10 +1580,9 @@ class HeredityErrorThresholdViz(Visualization):
         stat.update_xaxes(title_text="per-site fidelity", row=1, col=1)
         stat.update_yaxes(title_text="polymer length", row=1, col=1)
         stat.update_yaxes(title_text="lineage fitness", row=1, col=2, showgrid=True, gridcolor="#eef2f7")
-        stat.update_layout(template="plotly_white", height=430, width=940, showlegend=False,
-            title=dict(text=self.config.get("title") or "Heredity error threshold",
-                       x=0.5, xanchor="center", font=dict(size=14, color=ink)),
-            margin=dict(l=55, r=20, t=80, b=55), font=dict(color=ink))
+        stat.update_layout(**S.base_layout(
+            height=430, width=940, showlegend=False,
+            margin=dict(l=55, r=20, t=56, b=55)))
 
         # motion: retention trajectories diverging over time.
         n = max(len(v) for v in mods.values())
@@ -1356,22 +1615,20 @@ class HeredityErrorThresholdViz(Visualization):
                             args=[[str(j)], dict(frame=dict(duration=0, redraw=True), mode="immediate")])
                        for j in range(1, n)])])
 
-        cap = (
-            "<div style='max-width:900px;margin:12px auto 4px;padding:0 16px;color:#334155;"
-            "font-size:13.5px;line-height:1.55'>"
+        cap_text = (
             "<b>Heredity above the error threshold</b> — the real libRoadRunner quasispecies "
             "replicator (Eigen). Longer, higher-fidelity polymers retain functional information "
             "(teal) up to the error threshold; beyond it, errors win and information is lost. "
             "RNA-like clears the threshold and wins the head-to-head over the cheaper peptide "
             "module; both beat non-inheritance, while a sub-threshold module suffers the "
-            "error catastrophe.</div>")
+            "error catastrophe.")
         s_html = stat.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
         a_html = anim.to_html(full_html=False, include_plotlyjs=False, config={"displayModeBar": False})
-        return ("<!doctype html><html><head><meta charset='utf-8'></head>"
-                "<body style='margin:0;font-family:-apple-system,system-ui,sans-serif;background:#fff'>"
-                f"{cap}<div style='display:flex;justify-content:center'>{s_html}</div>"
-                "<div style='display:flex;justify-content:center;margin-top:8px'>" + a_html + "</div>"
-                "</body></html>")
+        inner = (f"<div style='display:flex;justify-content:center'>{s_html}</div>"
+                 "<div style='display:flex;justify-content:center;margin-top:8px'>" + a_html + "</div>")
+        return S.frame(inner, title=(self.config.get("title") or "Heredity above the error threshold"),
+                       phase="Campaign VI", view="Decision", tier="conceptual_demonstration",
+                       caption_text=cap_text, caption_prefix="How to read", tone="neutral", max_width=960)
 
 
 class NitrogenAssimilationViz(Visualization):
@@ -1437,13 +1694,18 @@ class NitrogenAssimilationViz(Visualization):
 
         fig.update_xaxes(title_text="time (s)", showgrid=True, gridcolor="#eef2f7")
         fig.update_yaxes(showgrid=True, gridcolor="#eef2f7")
-        fig.update_layout(
-            title=dict(text=self.config.get("title") or "Campaign I — reduced-nitrogen assimilation",
-                       font=dict(size=16, color=ink)),
-            template="plotly_white", height=400, showlegend=True,
+        fig.update_layout(**S.base_layout(
+            height=400, showlegend=True,
             legend=dict(orientation="h", y=-0.2, x=0.0, font=dict(size=10)),
-            margin=dict(l=60, r=30, t=70, b=70), font=dict(color=ink))
-        return fig.to_html(full_html=True, include_plotlyjs="cdn", config={"displayModeBar": False})
+            margin=dict(l=60, r=30, t=46, b=70)))
+        inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+        return S.frame(
+            inner, title=(self.config.get("title") or "Reduced-nitrogen assimilation (FeS)"),
+            phase="Nitrogen", view="World", tier="mechanistic_prediction", caption_prefix="How to read",
+            caption_text=(
+                "The real reduced-nitrogen reactor — nitrogen moving down the reduction chain "
+                "(NO₃⁻ → NO₂⁻ → NH₄⁺ → amino-acid precursor) on the FeS catalyst, the standing "
+                "reduced-N pool, and the ammonium-production rate as the first fixed nitrogen appears."))
 
 
 class NitrogenCarbonBalanceViz(Visualization):
@@ -1526,13 +1788,19 @@ class NitrogenCarbonBalanceViz(Visualization):
         fig.update_yaxes(title_text="production (mol/s)", row=1, col=1, showgrid=True, gridcolor="#eef2f7")
         fig.update_yaxes(title_text="C:N supply ratio (log)", type="log", row=1, col=2,
                          showgrid=True, gridcolor="#eef2f7")
-        fig.update_layout(
-            title=dict(text=self.config.get("title") or "Campaign I — does reduced N keep pace with carbon?",
-                       font=dict(size=16, color=ink)),
-            template="plotly_white", height=420, showlegend=True,
+        fig.update_layout(**S.base_layout(
+            height=420, showlegend=True,
             legend=dict(orientation="h", y=-0.2, x=0.0, font=dict(size=10)),
-            margin=dict(l=65, r=30, t=70, b=70), font=dict(color=ink))
-        return fig.to_html(full_html=True, include_plotlyjs="cdn", config={"displayModeBar": False})
+            margin=dict(l=65, r=30, t=46, b=70)))
+        inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+        return S.frame(
+            inner, title=(self.config.get("title") or "Does reduced N keep pace with carbon?"),
+            phase="Nitrogen", view="Mechanism", tier="mechanistic_prediction", caption_prefix="How to read",
+            caption_text=(
+                "Does reduced-nitrogen supply keep pace with carbon fixation? Left: the reduced-N "
+                "production rate against the carbon-fixation demand (dotted); right: the C:N supply "
+                "ratio with the keeps-pace band shaded — the favourable feed keeps pace, the "
+                "N-limited feed falls behind."))
 
 
 class PhosphorusSpeciationViz(Visualization):
@@ -1595,14 +1863,18 @@ class PhosphorusSpeciationViz(Visualization):
         fig.update_xaxes(title_text="time (s)", showgrid=True, gridcolor="#eef2f7")
         fig.update_yaxes(showgrid=True, gridcolor="#eef2f7")
         fig.update_yaxes(range=[0, 1], row=1, col=2)
-        fig.update_layout(
-            title=dict(text=self.config.get("title") or "Phosphorus bottleneck — P-species trajectories",
-                       font=dict(size=16, color=ink)),
-            template="plotly_white", height=400, showlegend=True,
+        fig.update_layout(**S.base_layout(
+            height=400, showlegend=True,
             legend=dict(orientation="h", y=-0.2, x=0.0, font=dict(size=10)),
-            margin=dict(l=60, r=30, t=70, b=70), font=dict(color=ink),
-        )
-        return fig.to_html(full_html=True, include_plotlyjs="cdn", config={"displayModeBar": False})
+            margin=dict(l=60, r=30, t=46, b=70)))
+        inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+        return S.frame(
+            inner, title=(self.config.get("title") or "Phosphorus bottleneck — P-species trajectories"),
+            phase="Phosphorus", view="World", tier="mechanistic_prediction", caption_prefix="How to read",
+            caption_text=(
+                "The real libRoadRunner phosphorus-speciation network in the favourable thermal-gradient "
+                "pore — dissolved phosphate, condensed polyphosphate, reactive (activated) P, and the "
+                "mineral-bound sink; reactive P accumulates while only a small fraction precipitates."))
 
 
 class PhosphorusMechanismViz(Visualization):
@@ -1667,14 +1939,19 @@ class PhosphorusMechanismViz(Visualization):
 
         fig.update_xaxes(title_text="time (s)", showgrid=True, gridcolor="#eef2f7")
         fig.update_yaxes(title_text="flux (µmol/s)", showgrid=True, gridcolor="#eef2f7")
-        fig.update_layout(
-            title=dict(text=self.config.get("title") or "Phosphorus bottleneck — reactive-P production vs loss",
-                       font=dict(size=16, color=ink)),
-            template="plotly_white", height=400, showlegend=True,
+        fig.update_layout(**S.base_layout(
+            height=400, showlegend=True,
             legend=dict(orientation="h", y=-0.2, x=0.0, font=dict(size=10)),
-            margin=dict(l=60, r=30, t=70, b=70), font=dict(color=ink),
-        )
-        return fig.to_html(full_html=True, include_plotlyjs="cdn", config={"displayModeBar": False})
+            margin=dict(l=60, r=30, t=46, b=70)))
+        inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+        return S.frame(
+            inner, title=(self.config.get("title") or "Phosphorus bottleneck — reactive-P production vs loss"),
+            phase="Phosphorus", view="Mechanism", tier="mechanistic_prediction", caption_prefix="How to read",
+            caption_text=(
+                "The mechanism of the phosphorus bottleneck — reactive-P production flux vs the "
+                "precipitation / adsorption loss flux and their net, for the enriched favourable pore vs "
+                "an open-pore / no-gradient control. Without the thermal-gradient enrichment, "
+                "precipitation outpaces reactive-P formation and net availability goes negative."))
 
 
 class ProtoEnergeticsWorldViz(Visualization):
@@ -1751,11 +2028,10 @@ class ProtoEnergeticsWorldViz(Visualization):
         stat.update_yaxes(title_text="charged carrier (mM)", row=1, col=1, showgrid=True, gridcolor="#eef2f7")
         stat.update_xaxes(title_text="time (s)", row=1, col=2, showgrid=True, gridcolor="#eef2f7")
         stat.update_yaxes(title_text="flux (µM / tick)", row=1, col=2, showgrid=True, gridcolor="#eef2f7")
-        stat.update_layout(template="plotly_white", height=430, width=960, showlegend=True,
+        stat.update_layout(**S.base_layout(
+            height=430, width=960, showlegend=True,
             legend=dict(orientation="h", y=-0.2, x=0.5, xanchor="center", font=dict(size=9)),
-            title=dict(text=(self.config.get("title") or "Proto-energetics"),
-                       x=0.5, xanchor="center", font=dict(size=14, color=ink)),
-            margin=dict(l=60, r=20, t=80, b=70), font=dict(color=ink))
+            margin=dict(l=60, r=20, t=56, b=70)))
 
         # motion: the charged fraction of the pool filling then holding under load.
         frac = col(fav, "energy_charge_fraction")
@@ -1791,21 +2067,20 @@ class ProtoEnergeticsWorldViz(Visualization):
                             args=[[f.name], dict(frame=dict(duration=0, redraw=True), mode="immediate")])
                        for f in frames])])
 
-        cap = (
-            "<div style='max-width:900px;margin:12px auto 4px;padding:0 16px;color:#334155;"
-            "font-size:13.5px;line-height:1.55'>"
+        cap_text = (
             "<b>An energy currency before modern pumping</b> — a real free-energy-ledger composite. "
             "An exergonic geochemical drive charges a transferable carrier (teal) that is discharged "
             "to do endergonic work under load (amber) and bled by hydrolysis (red). The store reaches "
             "a steady charge it holds against the drain — a spendable currency. With no coupling or a "
-            "drive too weak to clear the carrier bond, the pool never charges (the ablations).</div>")
+            "drive too weak to clear the carrier bond, the pool never charges (the ablations).")
         s_html = stat.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
         a_html = anim.to_html(full_html=False, include_plotlyjs=False, config={"displayModeBar": False})
-        return ("<!doctype html><html><head><meta charset='utf-8'></head>"
-                "<body style='margin:0;font-family:-apple-system,system-ui,sans-serif;background:#fff'>"
-                f"{cap}<div style='display:flex;justify-content:center'>{s_html}</div>"
-                "<div style='display:flex;justify-content:center;margin-top:8px'>" + a_html + "</div>"
-                "</body></html>")
+        inner = (f"<div style='display:flex;justify-content:center'>{s_html}</div>"
+                 "<div style='display:flex;justify-content:center;margin-top:8px'>" + a_html + "</div>")
+        return S.frame(inner, title=(self.config.get("title")
+                                     or "Proto-energetics — charging and spending the currency"),
+                       phase="Energy", view="World", tier="mechanistic_prediction",
+                       caption_text=cap_text, caption_prefix="How to read", tone="neutral", max_width=960)
 
 
 # ----------------------------------------------------------------------------
@@ -1868,17 +2143,17 @@ class OsmoticGrowthWorld(Visualization):
                         name="divisions", row=1, col=3)
         fig.update_xaxes(title_text="time (s)", showgrid=True, gridcolor="#eef2f7")
         fig.update_yaxes(showgrid=True, gridcolor="#eef2f7")
-        fig.update_layout(
-            title=dict(text=self.config.get("title") or "Growth & division — World view",
-                       font=dict(size=15, color=ink)),
-            template="plotly_white", height=380, showlegend=False,
-            margin=dict(l=60, r=30, t=70, b=60), font=dict(color=ink),
-            annotations=list(fig.layout.annotations) + [dict(
-                x=0.5, y=-0.28, xref="paper", yref="paper", showarrow=False,
-                font=dict(size=11, color=slate),
-                text=("The internal concentration (the osmotic drive) is drawn down at every division "
-                      "(dotted lines) as volume and contents halve — metabolism changes the compartment's physical fate."))])
-        return fig.to_html(full_html=True, include_plotlyjs="cdn", config={"displayModeBar": False})
+        fig.update_layout(**S.base_layout(
+            height=380, showlegend=False, margin=dict(l=60, r=30, t=46, b=60)))
+        inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+        return S.frame(
+            inner, title=(self.config.get("title") or "Growth & division — volume, concentration, division events"),
+            phase="Growth & division", view="World", tier="mechanistic_prediction", caption_prefix="How to read",
+            caption_text=(
+                "The favourable (matched) compartment's physical trajectory — the volume growing under "
+                "the osmotic load its metabolism generates, the internal osmolyte concentration (the "
+                "osmotic drive) drawn down at every division (dotted lines) as volume and contents halve, "
+                "and the cumulative divisions. Metabolism changes the compartment's physical fate."))
 
 
 class OsmoticCouplingMechanism(Visualization):
@@ -1929,7 +2204,7 @@ class OsmoticCouplingMechanism(Visualization):
         pi_lyse_bar = 1.5e5 / 1e3   # kPa
 
         fig = make_subplots(
-            rows=1, cols=2, horizontal_spacing=0.13, column_widths=[0.52, 0.48],
+            rows=1, cols=2, horizontal_spacing=0.17, column_widths=[0.52, 0.48],
             specs=[[{"secondary_y": True}, {}]],
             subplot_titles=("The coupling chain (matched regime)",
                             "The three fates on the pressure–volume plane"))
@@ -1959,15 +2234,18 @@ class OsmoticCouplingMechanism(Visualization):
         fig.update_yaxes(title_text="product (amol) · volume (aL)", row=1, col=1, secondary_y=False)
         fig.update_yaxes(title_text="osmotic pressure (kPa)", row=1, col=1, secondary_y=True)
         fig.update_yaxes(title_text="osmotic pressure (kPa)", row=1, col=2)
-        ttl = self.config.get("title") or "The osmotic coupling"
-        fig.update_layout(
-            title=dict(text=(f"<b>{ttl}</b><br><span style='font-size:11.5px;color:{slate}'>"
-                             "Left: in the matched regime the product accumulates, that raises the osmotic "
-                             "pressure, and the pressure draws water in to grow the volume (sawtooth = division). "
-                             "Right: too permeable leaks the product so the pressure never builds (starve); too "
-                             "impermeable traps it so the pressure spikes past the burst tension (lyse).</span>"),
-                       x=0.5, xanchor="center", font=dict(size=14, color=ink)),
-            template="plotly_white", height=430,
+        fig.update_layout(**S.base_layout(
+            height=430,
             legend=dict(orientation="h", y=-0.22, x=0.5, xanchor="center", font=dict(size=9)),
-            margin=dict(l=65, r=65, t=100, b=70), font=dict(color=ink))
-        return fig.to_html(full_html=True, include_plotlyjs="cdn", config={"displayModeBar": False})
+            margin=dict(l=65, r=65, t=54, b=70)))
+        inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+        return S.frame(
+            inner, title=(self.config.get("title")
+                          or "The osmotic coupling — why too permeable starves, too impermeable lyses"),
+            phase="Growth & division", view="Mechanism", tier="mechanistic_prediction",
+            caption_prefix="How to read",
+            caption_text=(
+                "Left: in the matched regime the product accumulates, that raises the osmotic pressure, "
+                "and the pressure draws water in to grow the volume (sawtooth = division). Right: too "
+                "permeable leaks the product so the pressure never builds (starve); too impermeable "
+                "traps it so the pressure spikes past the burst tension (lyse)."))

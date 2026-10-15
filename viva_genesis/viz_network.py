@@ -24,9 +24,11 @@ from process_bigraph.visualization import Visualization
 
 from .viz_uq import _resolve
 
-_INK, _TEAL, _AMBER, _SLATE, _RUST, _MUTED = "#1e293b", "#0d9488", "#d97706", "#64748b", "#b91c1c", "#94a3b8"
+from . import viz_style as S
+from .viz_style import INK as _INK, TEAL as _TEAL, AMBER as _AMBER, SLATE as _SLATE, RUST as _RUST, MUTED as _MUTED
+
 _CLASS_COLORS = {"reaction_universe": _TEAL, "null_network": _SLATE, "curated_rtca": _AMBER}
-_FONT = dict(family="Inter, Helvetica, Arial, sans-serif", color=_INK, size=12)
+_FONT = S.FONT()
 
 
 def enrichment_figure(rep: dict, *, title: str = "") -> str:
@@ -50,16 +52,20 @@ def enrichment_figure(rep: dict, *, title: str = "") -> str:
         fig.add_trace(go.Bar(x=xs, y=counts, name="matched nulls", marker_color=_SLATE, opacity=0.85,
                              showlegend=(c == 1), hovertemplate="%{x} motifs: %{y} nulls<extra>null_network</extra>"),
                       row=1, col=c)
-        for label, val, color in (("reaction_universe", uni, _TEAL), ("curated_rtca", cur, _AMBER)):
-            fig.add_trace(go.Scatter(x=[val], y=[max(counts) * 1.08 if counts else 1], mode="markers+text",
+        # Stack the two markers at different heights with short labels so "universe" and
+        # "curated" don't overprint each other (they often sit at the same motif count).
+        ytop = max(counts) * 1.0 if counts else 1
+        for label, val, color, yfac, short in (("reaction_universe", uni, _TEAL, 1.30, "universe"),
+                                               ("curated_rtca", cur, _AMBER, 1.08, "curated")):
+            fig.add_trace(go.Scatter(x=[val], y=[ytop * yfac], mode="markers+text",
                                      marker=dict(size=14, color=color, symbol="triangle-down",
                                                  line=dict(width=1, color=_INK)),
-                                     text=[label.replace("_", " ")], textposition="top center",
+                                     text=[short], textposition="top center",
                                      textfont=dict(size=10, color=_INK), name=label.replace("_", " "),
                                      showlegend=(c == 1),
                                      hovertemplate=f"{label}: {val:.0f} motif(s)<extra></extra>"), row=1, col=c)
         fig.add_annotation(xref=f"x{c} domain" if c > 1 else "x domain", yref=f"y{c} domain" if c > 1 else "y domain",
-                           x=0.98, y=0.98, xanchor="right", showarrow=False,
+                           x=0.98, y=0.72, xanchor="right", showarrow=False,
                            text=f"p = {p:.3f}, z = {a['enrichment']['n_motifs']['z']:.1f}" if math.isfinite(a['enrichment']['n_motifs']['z']) else f"p = {p:.3f}",
                            font=dict(size=11, color=_INK))
         fig.update_xaxes(title_text="persistent autocatalytic motifs", dtick=1, row=1, col=c)
@@ -77,12 +83,16 @@ def enrichment_figure(rep: dict, *, title: str = "") -> str:
                                            "<br>null mean %{customdata:.2f}<extra></extra>"), row=1, col=col)
     fig.update_xaxes(title_text="washout k_wash (1/s)", row=1, col=col)
     fig.update_yaxes(title_text="formaldehyde feed (mM)", row=1, col=col)
-    fig.update_layout(title=title or "Phase 3 — do autocatalytic motifs emerge, and beyond chance?",
-                      height=460, margin=dict(l=60, r=20, t=90, b=70), plot_bgcolor="white", paper_bgcolor="white",
-                      font=_FONT, legend=dict(orientation="h", y=-0.22), bargap=0.15)
+    fig.update_layout(**S.base_layout(height=460, margin=dict(l=60, r=20, t=50, b=70),
+                                      legend=dict(y=-0.22), bargap=0.15))
     head = rep.get("headline", "")
-    return (fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
-            + f"<p style='font: 12px Inter, sans-serif; color:{_SLATE}; margin:6px 0'>{head}</p>")
+    cap = (head or "Persistent autocatalytic motifs in the rule-generated reaction universe, counted against "
+           "matched null networks (left) and across the feed/washout map (right): enrichment beyond chance is "
+           "the signal that metabolism-like topology is selected, not assumed.")
+    inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    return S.frame(inner, title=(title or "Do autocatalytic motifs emerge, and beyond chance?"),
+                   phase="Phase 3", view="Decision", tier="mechanistic_prediction",
+                   caption_text=cap, caption_prefix="How to read", tone="neutral")
 
 
 def subnetwork_figure(rep: dict, *, arm: str = "formose_feed", title: str = "", max_nodes: int = 40) -> str:
@@ -133,14 +143,16 @@ def subnetwork_figure(rep: dict, *, arm: str = "formose_feed", title: str = "", 
     fig.add_trace(go.Scatter(x=[None], y=[None], mode="markers", marker=dict(size=10, color=_TEAL), name="persistent species"))
     fig.add_trace(go.Scatter(x=[None], y=[None], mode="markers", marker=dict(size=10, color=_AMBER), name="autocatalytic cycle (detected post hoc)"))
     cyc = ", ".join(" → ".join(names.get(s, s) for s in m["species"]) + f" (gain {m['gain']:.0f}×)" for m in motifs[:2]) or "none detected"
-    fig.update_layout(title=title or f"Persistent subnetwork of the reaction universe ({arm.replace('_', ' ')})",
-                      height=520, margin=dict(l=20, r=20, t=70, b=40), plot_bgcolor="white", paper_bgcolor="white",
-                      font=_FONT, legend=dict(orientation="h", y=-0.05),
+    fig.update_layout(**S.base_layout(height=520, margin=dict(l=20, r=20, t=50, b=40),
+                                      legend=dict(y=-0.05)),
                       xaxis=dict(visible=False), yaxis=dict(visible=False))
-    return (fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
-            + f"<p style='font: 12px Inter, sans-serif; color:{_SLATE}; margin:6px 0'>"
-              f"{len(conc)} species above 1e-12 M; {len(rxns)} flux-carrying reactions; cycle(s): {cyc}. "
-              f"Node size ∝ log concentration, edge width ∝ log flux.</p>")
+    cap = (f"{len(conc)} species above 1e-12 M; {len(rxns)} flux-carrying reactions; cycle(s): {cyc}. "
+           "Node size &prop; log concentration, edge width &prop; log flux; teal = persistent species, "
+           "amber = an autocatalytic cycle detected post hoc.")
+    inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    return S.frame(inner, title=(title or f"Persistent subnetwork of the reaction universe ({arm.replace('_', ' ')})"),
+                   phase="Phase 3", view="Mechanism", tier="mechanistic_prediction",
+                   caption_text=cap, caption_prefix="How to read", tone="neutral")
 
 
 class _ArtifactViz(Visualization):
