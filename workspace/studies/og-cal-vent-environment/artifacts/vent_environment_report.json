@@ -1,0 +1,723 @@
+{
+ "conditioning": {
+  "observations": [
+   {
+    "name": "outlet_temperature_C",
+    "readout": "settled_temperature_C",
+    "low": 40.0,
+    "high": 91.0,
+    "units": "celsius",
+    "sources": [
+     "kelley2001offaxis",
+     "kelley2005serpentinite",
+     "ludwig2006formation"
+    ],
+    "provenance": "measured"
+   },
+   {
+    "name": "outlet_pH",
+    "readout": "settled_pH",
+    "low": 9.0,
+    "high": 10.8,
+    "units": "dimensionless",
+    "sources": [
+     "kelley2001offaxis",
+     "ludwig2006formation"
+    ],
+    "provenance": "measured"
+   },
+   {
+    "name": "dissolved_H2_mmol_kg",
+    "readout": "dissolved_H2_mmol_kg",
+    "low": 1.0,
+    "high": 15.0,
+    "units": "millimole/kilogram",
+    "sources": [
+     "kelley2005serpentinite",
+     "proskurowski2008abiogenic"
+    ],
+    "provenance": "measured"
+   }
+  ],
+  "requirements": [
+   {
+    "name": "h2_for_fixation_mM",
+    "readout": "dissolved_H2_mmol_kg",
+    "low": 1.0,
+    "units": "millimolar",
+    "sources": [
+     "preiner2020hydrogen"
+    ],
+    "provenance": "inferred"
+   },
+   {
+    "name": "ph_gradient_units",
+    "readout": "delta_pH",
+    "low": 3.0,
+    "units": "dimensionless",
+    "sources": [
+     "hudson2020co2",
+     "sojo2016origin"
+    ],
+    "provenance": "inferred"
+   },
+   {
+    "name": "below_phreeqc_validity_C",
+    "readout": "settled_temperature_C",
+    "high": 100.0,
+    "units": "celsius",
+    "provenance": "inferred"
+   }
+  ],
+  "per_class": {
+   "serpentinization=phreeqc+spatial_transport=fipy": {
+    "n_runs": 48,
+    "n_ok": 48,
+    "n_failed": 0,
+    "n_consistent": 6,
+    "p_consistent": 0.125,
+    "per_observation": {
+     "outlet_temperature_C": 47,
+     "outlet_pH": 48,
+     "dissolved_H2_mmol_kg": 6
+    },
+    "binding_observation": "dissolved_H2_mmol_kg",
+    "n_viable": 6,
+    "p_viable_given_consistent": 1.0,
+    "p_viable": 0.125,
+    "per_requirement": {
+     "h2_for_fixation_mM": 9,
+     "ph_gradient_units": 48,
+     "below_phreeqc_validity_C": 48
+    },
+    "posterior": {
+     "flow_velocity": {
+      "mean": 0.0030656548413576542,
+      "sd": 0.002330495152384563,
+      "q05": 0.00032344539108391515,
+      "q95": 0.006296940294001232,
+      "n_eff": 5.999999999999998
+     },
+     "olivine_rate": {
+      "mean": 0.20879011506445602,
+      "sd": 0.10689060612199947,
+      "q05": 0.08935698199309855,
+      "q95": 0.38115848756861526,
+      "n_eff": 5.999999999999998
+     },
+     "pyroxene_fraction": {
+      "mean": 0.5107822708354779,
+      "sd": 0.08624192451748534,
+      "q05": 0.3929245860034748,
+      "q95": 0.6715712654947714,
+      "n_eff": 5.999999999999998
+     },
+     "fe_fraction": {
+      "mean": 0.20100289277315853,
+      "sd": 0.04117486306014574,
+      "q05": 0.13758124519827153,
+      "q95": 0.2611271031522162,
+      "n_eff": 5.999999999999998
+     },
+     "heat_to_fluid_fraction": {
+      "mean": 0.0012499294800024853,
+      "sd": 0.0004923045407160643,
+      "q05": 0.0006243718658051081,
+      "q95": 0.0018884995294296161,
+      "n_eff": 5.999999999999998
+     },
+     "fluid_dic": {
+      "mean": 0.0020837850608532394,
+      "sd": 0.0006102762091709328,
+      "q05": 0.0012028922347929998,
+      "q95": 0.002872856841946888,
+      "n_eff": 5.999999999999998
+     }
+    },
+    "prior": {
+     "flow_velocity": {
+      "mean": 0.002772886362230131,
+      "sd": 0.0025884070597900965,
+      "q05": 0.00035534911949543826,
+      "q95": 0.008293815111681821,
+      "n_eff": 47.999999999999986
+     },
+     "olivine_rate": {
+      "mean": 0.1266681953746735,
+      "sd": 0.10203030374750074,
+      "q05": 0.02267290433860157,
+      "q95": 0.34822254883611425,
+      "n_eff": 47.999999999999986
+     },
+     "pyroxene_fraction": {
+      "mean": 0.5004849677080828,
+      "sd": 0.11568344584173651,
+      "q05": 0.3208149359038701,
+      "q95": 0.6826645767163008,
+      "n_eff": 47.999999999999986
+     },
+     "fe_fraction": {
+      "mean": 0.19997279821625905,
+      "sd": 0.05782363911512412,
+      "q05": 0.10854844521605463,
+      "q95": 0.291639124554292,
+      "n_eff": 47.999999999999986
+     },
+     "heat_to_fluid_fraction": {
+      "mean": 0.0008961556006804238,
+      "sd": 0.0004754269243492581,
+      "q05": 0.0003258928633152156,
+      "q95": 0.0017833070925183994,
+      "n_eff": 47.999999999999986
+     },
+     "fluid_dic": {
+      "mean": 0.006351286845362126,
+      "sd": 0.005135105054195936,
+      "q05": 0.0012028922347929998,
+      "q95": 0.017228875062208337,
+      "n_eff": 47.999999999999986
+     }
+    },
+    "ledger": {
+     "all_ok": true,
+     "max_mass_residual": 0.0,
+     "max_energy_residual": 0.0,
+     "max_charge_residual": 0.0,
+     "max_flux_residual": 4.143773354554471e-15,
+     "energy_directionality": true
+    }
+   },
+   "serpentinization=phreeqc+spatial_transport=fipy_uniform_upflow": {
+    "n_runs": 48,
+    "n_ok": 48,
+    "n_failed": 0,
+    "n_consistent": 6,
+    "p_consistent": 0.125,
+    "per_observation": {
+     "outlet_temperature_C": 47,
+     "outlet_pH": 48,
+     "dissolved_H2_mmol_kg": 6
+    },
+    "binding_observation": "dissolved_H2_mmol_kg",
+    "n_viable": 6,
+    "p_viable_given_consistent": 1.0,
+    "p_viable": 0.125,
+    "per_requirement": {
+     "h2_for_fixation_mM": 9,
+     "ph_gradient_units": 48,
+     "below_phreeqc_validity_C": 48
+    },
+    "posterior": {
+     "flow_velocity": {
+      "mean": 0.0030656548413576542,
+      "sd": 0.002330495152384563,
+      "q05": 0.00032344539108391515,
+      "q95": 0.006296940294001232,
+      "n_eff": 5.999999999999998
+     },
+     "olivine_rate": {
+      "mean": 0.20879011506445602,
+      "sd": 0.10689060612199947,
+      "q05": 0.08935698199309855,
+      "q95": 0.38115848756861526,
+      "n_eff": 5.999999999999998
+     },
+     "pyroxene_fraction": {
+      "mean": 0.5107822708354779,
+      "sd": 0.08624192451748534,
+      "q05": 0.3929245860034748,
+      "q95": 0.6715712654947714,
+      "n_eff": 5.999999999999998
+     },
+     "fe_fraction": {
+      "mean": 0.20100289277315853,
+      "sd": 0.04117486306014574,
+      "q05": 0.13758124519827153,
+      "q95": 0.2611271031522162,
+      "n_eff": 5.999999999999998
+     },
+     "heat_to_fluid_fraction": {
+      "mean": 0.0012499294800024853,
+      "sd": 0.0004923045407160643,
+      "q05": 0.0006243718658051081,
+      "q95": 0.0018884995294296161,
+      "n_eff": 5.999999999999998
+     },
+     "fluid_dic": {
+      "mean": 0.0020837850608532394,
+      "sd": 0.0006102762091709328,
+      "q05": 0.0012028922347929998,
+      "q95": 0.002872856841946888,
+      "n_eff": 5.999999999999998
+     }
+    },
+    "prior": {
+     "flow_velocity": {
+      "mean": 0.002772886362230131,
+      "sd": 0.0025884070597900965,
+      "q05": 0.00035534911949543826,
+      "q95": 0.008293815111681821,
+      "n_eff": 47.999999999999986
+     },
+     "olivine_rate": {
+      "mean": 0.1266681953746735,
+      "sd": 0.10203030374750074,
+      "q05": 0.02267290433860157,
+      "q95": 0.34822254883611425,
+      "n_eff": 47.999999999999986
+     },
+     "pyroxene_fraction": {
+      "mean": 0.5004849677080828,
+      "sd": 0.11568344584173651,
+      "q05": 0.3208149359038701,
+      "q95": 0.6826645767163008,
+      "n_eff": 47.999999999999986
+     },
+     "fe_fraction": {
+      "mean": 0.19997279821625905,
+      "sd": 0.05782363911512412,
+      "q05": 0.10854844521605463,
+      "q95": 0.291639124554292,
+      "n_eff": 47.999999999999986
+     },
+     "heat_to_fluid_fraction": {
+      "mean": 0.0008961556006804238,
+      "sd": 0.0004754269243492581,
+      "q05": 0.0003258928633152156,
+      "q95": 0.0017833070925183994,
+      "n_eff": 47.999999999999986
+     },
+     "fluid_dic": {
+      "mean": 0.006351286845362126,
+      "sd": 0.005135105054195936,
+      "q05": 0.0012028922347929998,
+      "q95": 0.017228875062208337,
+      "n_eff": 47.999999999999986
+     }
+    },
+    "ledger": {
+     "all_ok": true,
+     "max_mass_residual": 0.0,
+     "max_energy_residual": 0.0,
+     "max_charge_residual": 0.0,
+     "max_flux_residual": 1.0747340328861955e-14,
+     "energy_directionality": true
+    }
+   }
+  },
+  "cross_class": {
+   "consistent": {
+    "classes": [
+     "serpentinization=phreeqc+spatial_transport=fipy",
+     "serpentinization=phreeqc+spatial_transport=fipy_uniform_upflow"
+    ],
+    "agreement": 1.0,
+    "structure_uncertainty": 0.0,
+    "all_pass_fraction": 0.125,
+    "all_fail_fraction": 0.875,
+    "pass_fraction": {
+     "serpentinization=phreeqc+spatial_transport=fipy": 0.125,
+     "serpentinization=phreeqc+spatial_transport=fipy_uniform_upflow": 0.125
+    }
+   },
+   "viable": {
+    "classes": [
+     "serpentinization=phreeqc+spatial_transport=fipy",
+     "serpentinization=phreeqc+spatial_transport=fipy_uniform_upflow"
+    ],
+    "agreement": 1.0,
+    "structure_uncertainty": 0.0,
+    "all_pass_fraction": 0.125,
+    "all_fail_fraction": 0.875,
+    "pass_fraction": {
+     "serpentinization=phreeqc+spatial_transport=fipy": 0.125,
+     "serpentinization=phreeqc+spatial_transport=fipy_uniform_upflow": 0.125
+    }
+   }
+  },
+  "discrimination": {
+   "settled_temperature_C": {
+    "d": 0.8927417942666707,
+    "mean_diff": 1.9542472278388925,
+    "mean_abs_diff": 1.9542472278388925,
+    "n": 48,
+    "classes": [
+     "serpentinization=phreeqc+spatial_transport=fipy",
+     "serpentinization=phreeqc+spatial_transport=fipy_uniform_upflow"
+    ]
+   },
+   "settled_pH": {
+    "d": -0.5393215457060744,
+    "mean_diff": -0.04508922512979563,
+    "mean_abs_diff": 0.04508922512979563,
+    "n": 48,
+    "classes": [
+     "serpentinization=phreeqc+spatial_transport=fipy",
+     "serpentinization=phreeqc+spatial_transport=fipy_uniform_upflow"
+    ]
+   },
+   "dissolved_H2_mmol_kg": {
+    "d": -0.0011047222313766347,
+    "mean_diff": -0.007472645414011945,
+    "mean_abs_diff": 0.00749307620223733,
+    "n": 48,
+    "classes": [
+     "serpentinization=phreeqc+spatial_transport=fipy",
+     "serpentinization=phreeqc+spatial_transport=fipy_uniform_upflow"
+    ]
+   },
+   "delta_pH": {
+    "d": -0.5393215457060743,
+    "mean_diff": -0.04508922512979563,
+    "mean_abs_diff": 0.04508922512979563,
+    "n": 48,
+    "classes": [
+     "serpentinization=phreeqc+spatial_transport=fipy",
+     "serpentinization=phreeqc+spatial_transport=fipy_uniform_upflow"
+    ]
+   },
+   "settled_H2_flux": {
+    "d": -0.0007693386857053749,
+    "mean_diff": -1.3515756902219027e-06,
+    "mean_abs_diff": 1.3543814560892874e-06,
+    "n": 48,
+    "classes": [
+     "serpentinization=phreeqc+spatial_transport=fipy",
+     "serpentinization=phreeqc+spatial_transport=fipy_uniform_upflow"
+    ]
+   },
+   "settled_pe": {
+    "d": 0.06051153938453204,
+    "mean_diff": 0.05975003143418397,
+    "mean_abs_diff": 0.05975003143418397,
+    "n": 48,
+    "classes": [
+     "serpentinization=phreeqc+spatial_transport=fipy",
+     "serpentinization=phreeqc+spatial_transport=fipy_uniform_upflow"
+    ]
+   }
+  }
+ },
+ "report": {
+  "transition": "Phase 1 \u2014 a physically self-consistent serpentinizing vent sustains the conditions downstream chemistry requires",
+  "tier": "mechanistic_prediction",
+  "language": "predicts under stated assumptions",
+  "gate": "posterior-viable-vent-fraction",
+  "model_classes": [
+   "serpentinization=phreeqc+spatial_transport=fipy",
+   "serpentinization=phreeqc+spatial_transport=fipy_uniform_upflow"
+  ],
+  "feasibility": {
+   "feasible": true,
+   "n_admissible": 6,
+   "n_supporting": 6,
+   "example": {
+    "draw": {
+     "flow_velocity": 0.00032344539108391515,
+     "olivine_rate": 0.38115848756861526,
+     "pyroxene_fraction": 0.5378758976423831,
+     "fe_fraction": 0.2611271031522162,
+     "heat_to_fluid_fraction": 0.0006243718658051081,
+     "fluid_dic": 0.0013784677367088755,
+     "seawater_temp": 275.0,
+     "flux_area": 60.0
+    },
+    "readouts": {
+     "settled_temperature_C": 49.24490449740682,
+     "settled_pH": 9.383895283819735,
+     "dissolved_H2_mmol_kg": 10.80511674632533,
+     "delta_pH": 3.3838952838197347,
+     "settled_H2_flux": 0.0002096919127033534,
+     "settled_pe": -9.778983886863921
+    }
+   },
+   "admissibility": "settled vent state inside every observation window: outlet_temperature_C in [40.0, 91.0] celsius; outlet_pH in [9.0, 10.8] dimensionless; dissolved_H2_mmol_kg in [1.0, 15.0] millimole/kilogram"
+  },
+  "robustness": {
+   "fraction": 1.0,
+   "by_class": {
+    "serpentinization=phreeqc+spatial_transport=fipy": 1.0,
+    "serpentinization=phreeqc+spatial_transport=fipy_uniform_upflow": 1.0
+   },
+   "structure_agreement": 1.0,
+   "structure_uncertainty": 0.0,
+   "n_posterior": 6,
+   "n_prior": 48,
+   "binding_observation": "dissolved_H2_mmol_kg",
+   "note": "fraction of vent states consistent with observation that also satisfy the downstream chemical requirements (posterior predictive); classes = model_spatial_transport"
+  },
+  "discrimination": {
+   "alternatives": [
+    "serpentinization=phreeqc+spatial_transport=fipy_uniform_upflow"
+   ],
+   "discriminating": [
+    {
+     "readout": "settled_temperature_C",
+     "d": 0.8927417942666707,
+     "mean_diff": 1.9542472278388925,
+     "mean_abs_diff": 1.9542472278388925,
+     "n": 48,
+     "classes": [
+      "serpentinization=phreeqc+spatial_transport=fipy",
+      "serpentinization=phreeqc+spatial_transport=fipy_uniform_upflow"
+     ]
+    },
+    {
+     "readout": "settled_pH",
+     "d": -0.5393215457060744,
+     "mean_diff": -0.04508922512979563,
+     "mean_abs_diff": 0.04508922512979563,
+     "n": 48,
+     "classes": [
+      "serpentinization=phreeqc+spatial_transport=fipy",
+      "serpentinization=phreeqc+spatial_transport=fipy_uniform_upflow"
+     ]
+    },
+    {
+     "readout": "delta_pH",
+     "d": -0.5393215457060743,
+     "mean_diff": -0.04508922512979563,
+     "mean_abs_diff": 0.04508922512979563,
+     "n": 48,
+     "classes": [
+      "serpentinization=phreeqc+spatial_transport=fipy",
+      "serpentinization=phreeqc+spatial_transport=fipy_uniform_upflow"
+     ]
+    }
+   ],
+   "non_discriminating": [
+    "settled_pe",
+    "dissolved_H2_mmol_kg",
+    "settled_H2_flux"
+   ],
+   "proposed_perturbations": [
+    "vary flow_velocity across the washout band: the convecting vs uniform-upflow classes separate on outlet temperature, not on pH or H2",
+    "attach MARHYS 4.0 and condition on the ultramafic-vent population instead of Lost City alone",
+    "swap the geochemistry engine (Reaktoro / PFLOTRAN on the serpentinization face) to test database / activity-model dependence of the pH endmember"
+   ],
+   "note": "paired standardised difference d between model classes on identical prior draws"
+  },
+  "provenance_audit": {
+   "n": 8,
+   "counts": {
+    "measured": 0,
+    "calibrated": 2,
+    "inferred": 1,
+    "extrapolated": 3,
+    "hypothetical": 2
+   },
+   "n_free": 6,
+   "hypothetical": [
+    "olivine_rate",
+    "flux_area"
+   ],
+   "extrapolated": [
+    "fe_fraction",
+    "fluid_dic",
+    "seawater_temp"
+   ],
+   "weakest": [
+    "olivine_rate",
+    "flux_area",
+    "fe_fraction"
+   ],
+   "unsourced": [
+    "fluid_dic"
+   ]
+  },
+  "numerical_verification": {
+   "ok": true,
+   "mass_residual": 0.0,
+   "energy_residual": 0.0,
+   "charge_residual": 0.0,
+   "flux_residual": 4.143773354554471e-15,
+   "energy_directionality": true,
+   "n_failed_points": 0
+  },
+  "sensitivity": {
+   "r": 4,
+   "levels": 4,
+   "seed": 0,
+   "class": "serpentinization=phreeqc+spatial_transport=fipy",
+   "bounds": {
+    "flow_velocity": [
+     0.0003,
+     0.01
+    ],
+    "olivine_rate": [
+     0.02,
+     0.4
+    ],
+    "pyroxene_fraction": [
+     0.3,
+     0.7
+    ],
+    "fe_fraction": [
+     0.1,
+     0.3
+    ],
+    "heat_to_fluid_fraction": [
+     0.0003,
+     0.002
+    ],
+    "fluid_dic": [
+     0.001,
+     0.02
+    ]
+   },
+   "log_params": [
+    "flow_velocity",
+    "fluid_dic",
+    "heat_to_fluid_fraction",
+    "olivine_rate"
+   ],
+   "readouts": {
+    "settled_temperature_C": {
+     "method": "morris",
+     "names": [
+      "flow_velocity",
+      "olivine_rate",
+      "pyroxene_fraction",
+      "fe_fraction",
+      "heat_to_fluid_fraction",
+      "fluid_dic"
+     ],
+     "mu": {
+      "flow_velocity": -1.4689855684946167,
+      "olivine_rate": 0.8370469671618395,
+      "pyroxene_fraction": 0.0,
+      "fe_fraction": 0.0,
+      "heat_to_fluid_fraction": 2.1581684677077035,
+      "fluid_dic": 0.0
+     },
+     "mu_star": {
+      "flow_velocity": 1.4689855684946167,
+      "olivine_rate": 0.8370469671618395,
+      "pyroxene_fraction": 0.0,
+      "fe_fraction": 0.0,
+      "heat_to_fluid_fraction": 2.1581684677077035,
+      "fluid_dic": 0.0
+     },
+     "sigma": {
+      "flow_velocity": 1.1063060347171267,
+      "olivine_rate": 0.8742658216657146,
+      "pyroxene_fraction": 0.0,
+      "fe_fraction": 0.0,
+      "heat_to_fluid_fraction": 3.4769926534778817,
+      "fluid_dic": 0.0
+     },
+     "n_evaluations": 28,
+     "ranking": [
+      "heat_to_fluid_fraction",
+      "flow_velocity",
+      "olivine_rate",
+      "pyroxene_fraction",
+      "fe_fraction",
+      "fluid_dic"
+     ]
+    },
+    "settled_pH": {
+     "method": "morris",
+     "names": [
+      "flow_velocity",
+      "olivine_rate",
+      "pyroxene_fraction",
+      "fe_fraction",
+      "heat_to_fluid_fraction",
+      "fluid_dic"
+     ],
+     "mu": {
+      "flow_velocity": 0.013151477361611263,
+      "olivine_rate": -0.07851212109129069,
+      "pyroxene_fraction": -1.568964957954222e-10,
+      "fe_fraction": 0.0004888937504445856,
+      "heat_to_fluid_fraction": -0.10753846781693199,
+      "fluid_dic": 0.013326593533344644
+     },
+     "mu_star": {
+      "flow_velocity": 0.017751576822298443,
+      "olivine_rate": 0.07851212109129069,
+      "pyroxene_fraction": 2.5729884889358345e-10,
+      "fe_fraction": 0.0004888937504445856,
+      "heat_to_fluid_fraction": 0.10753846781693199,
+      "fluid_dic": 0.013326593533344644
+     },
+     "sigma": {
+      "flow_velocity": 0.022463328750971425,
+      "olivine_rate": 0.08867349973815943,
+      "pyroxene_fraction": 3.1632858570502965e-10,
+      "fe_fraction": 0.0004980669537925889,
+      "heat_to_fluid_fraction": 0.1590497686718858,
+      "fluid_dic": 0.006590485438118163
+     },
+     "n_evaluations": 28,
+     "ranking": [
+      "heat_to_fluid_fraction",
+      "olivine_rate",
+      "flow_velocity",
+      "fluid_dic",
+      "fe_fraction",
+      "pyroxene_fraction"
+     ]
+    },
+    "dissolved_H2_mmol_kg": {
+     "method": "morris",
+     "names": [
+      "flow_velocity",
+      "olivine_rate",
+      "pyroxene_fraction",
+      "fe_fraction",
+      "heat_to_fluid_fraction",
+      "fluid_dic"
+     ],
+     "mu": {
+      "flow_velocity": 16.865150794054763,
+      "olivine_rate": 22.98104919525504,
+      "pyroxene_fraction": -8.851504433908679e-08,
+      "fe_fraction": 3.064763142172891,
+      "heat_to_fluid_fraction": -0.00015263188174083727,
+      "fluid_dic": -20.805815271895586
+     },
+     "mu_star": {
+      "flow_velocity": 16.865150794054763,
+      "olivine_rate": 22.98104919525504,
+      "pyroxene_fraction": 1.265440381504079e-07,
+      "fe_fraction": 3.064763142172891,
+      "heat_to_fluid_fraction": 0.00018677249099121777,
+      "fluid_dic": 20.805815271895586
+     },
+     "sigma": {
+      "flow_velocity": 22.0901737759119,
+      "olivine_rate": 2.3708258894486067,
+      "pyroxene_fraction": 2.3054045747455242e-07,
+      "fe_fraction": 6.129393096590961,
+      "heat_to_fluid_fraction": 0.00035148994029885703,
+      "fluid_dic": 4.036716041722652
+     },
+     "n_evaluations": 28,
+     "ranking": [
+      "olivine_rate",
+      "fluid_dic",
+      "flow_velocity",
+      "fe_fraction",
+      "heat_to_fluid_fraction",
+      "pyroxene_fraction"
+     ]
+    }
+   },
+   "n_world_runs": 28
+  },
+  "meta": {
+   "n_draws": 48,
+   "seed": 0,
+   "n_steps": 30,
+   "nx": 20,
+   "headline_class": "serpentinization=phreeqc+spatial_transport=fipy",
+   "package": "vent_environment v1",
+   "conditioning": "ABC rejection on observation windows (uniform likelihood)",
+   "marhys": "pending \u2014 Lost City windows only"
+  },
+  "headline": "Phase 1 \u2014 a physically self-consistent serpentinizing vent sustains the conditions downstream chemistry requires: predicts under stated assumptions; feasible=yes (6/6 admissible parameterizations support it); robustness=1.00 of the posterior (agreement across classes 1.00); most discriminating readout: settled_temperature_C (d=0.89)"
+ },
+ "decision_discipline": []
+}

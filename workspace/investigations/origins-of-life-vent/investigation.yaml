@@ -125,6 +125,26 @@ executive:
       the model CLASS as an axis and report structure-vs-parameter uncertainty, and a conservation
       ledger (matter, charge, free energy) that spans rewrites. Decision needed on sequencing relative
       to the publication milestone and on the hypothetical thresholds (heredity attachment, assembly)."
+  - question: 'Adopt the Model Upgrade plan''s three-quantity standard (feasibility / robustness /
+      discrimination) and evidence tiers as the reporting requirement for every stage — i.e. a stage''s
+      verdict may not advance until it carries a TransitionReport whose decision-discipline audit is
+      clean — and re-label the fourteen existing studies with their tier language?'
+    context: 'Phase 1 is done this way (og-cal-vent-environment; references/model-upgrade-integration.md
+      sections 1 and 6): the Lost-City-conditioned vent ensemble reports the posterior-viable fraction, the
+      cross-class agreement and the discriminating readouts, with the ledger clean. The remaining studies
+      currently report gate PASS/FAIL on swept grids; under the standard most of their claims are
+      mechanistic predictions or conceptual demonstrations (guidelines.scientific_standard.
+      tier_reading_of_current_studies). Editorial + sequencing call: apply the tier language now, and run
+      Phases 2-9 in the recorded order (electrochemistry first) or re-order around the publication scope.'
+  - question: 'Attach the MARHYS 4.0 hydrothermal-fluid compilation (PANGAEA) as a workspace dataset so the
+      Phase-1 conditioning set becomes the ultramafic-vent population rather than Lost City alone — and
+      which Hadean-ocean prior (DIC, pH, T) should replace the modern-seawater proxy the audit flags?'
+    context: 'The vg-data package vent_environment marks marhys_conditioning as pending and leaves fluid_dic
+      / ocean pH 6.0 / 275 K classed extrapolated-and-unsourced on purpose. In the Phase-1 ensemble the
+      dissolved-H2 window is the binding observation (pH is mineral-buffered at ~9.4 for every draw) and,
+      under full redox equilibrium in llnl.dat, DIC is reduced before free H2 appears — so the H2 posterior
+      depends directly on the DIC prior and on the equilibrium-vs-kinetic carbon-redox choice. The expert''s
+      prior here changes the posterior more than any swept knob does.'
   architecture_thesis: >-
     Do not start with a cell. The campaign builds a geological world (environment, minerals,
     molecules, energy) in which increasingly biological organization must EMERGE, and the Process
@@ -193,6 +213,115 @@ scientific_argument:
     change in the Process Bigraph itself.
 guidelines:
   architecture_reference: references/full-modeling-plan-integration.md
+  # The Model Upgrade and Implementation Plan (2026-10-14) supersedes the above as the
+  # campaign's build target; the older doc stays the detailed rewrite/layer design.
+  upgrade_reference: references/model-upgrade-integration.md
+  scientific_standard:
+    source: Model Upgrade and Implementation Plan, section 1 (references/model-upgrade-integration.md section 1)
+    three_quantities:
+    - 'Feasibility: does at least one physically admissible parameterization (inside the stated
+      conditioning set) support the transition?'
+    - 'Robustness: what fraction of the empirically supported (conditioned, not merely swept) parameter
+      distribution supports it, and across which model classes? 1 - structure_agreement is reported
+      separately as model-form uncertainty.'
+    - 'Discrimination: which observations or perturbations distinguish the favored mechanism from
+      plausible alternatives (paired class differences on identical draws)?'
+    implemented_in: viva_genesis/uq/report.py (TransitionReport, EvidenceTier, decision_discipline)
+    evidence_tiers:
+      reproduction: reproduces an external measured or established result -> "reproduces / validates"
+      mechanistic_prediction: a parameterized model makes a new quantitative prediction -> "predicts under stated assumptions"
+      conceptual_demonstration: a reduced model shows an organizational principle is possible -> "demonstrates in a coarse-grained model"
+    tier_reading_of_current_studies:
+      reproduction: [og-00-vent-reactor-baseline, og-01-geology-to-reduced-carbon (Preiner/Hudson yields), og-cal-vent-environment (conditioning step)]
+      mechanistic_prediction: [og-01-geology-to-reduced-carbon (Tutolo collapse), og-02-reduced-carbon-to-protometabolism,
+        og-03-dilution-to-localized-individuals, og-04-mineral-compartments-to-protocells, og-res-nitrogen-assimilation,
+        og-res-phosphorus-availability, og-energy-proto-energetics, og-growth-division, og-cal-vent-environment (posterior prediction)]
+      conceptual_demonstration: [og-05-environmental-to-internal-bioenergetics, og-06-chemistry-to-heredity,
+        og-07-ecology-before-luca, og-08-escape-from-the-vent]
+      null_control: [og-adv-generic-nonequilibrium]
+    decision_discipline:
+    - Do not move a headline conclusion forward if it depends on a numerically unvalidated regime.
+    - Do not call a mechanism necessary until it survives alternative model structures.
+    - Do not call a pathway emergent when its topology or capability was inserted by design.
+    - Treat incompatibility between stages as a primary discovery, not a failure of the campaign.
+    - Prioritize experiments that discriminate between mechanisms over experiments that tighten one fitted parameter.
+    - A phase's posterior gate (threshold + pass logic) is declared before its ensemble is run.
+  vg_deliverables:
+    vg-data: viva_genesis/provenance.py + viva_genesis/data/vg_data/*.yaml (built; first package vent_environment)
+    vg-geochemical-world: viva_genesis/composites/geochemical_world.py + viva_genesis/ledger.py (built; Reaktoro/PFLOTRAN classes + mineral feedback planned)
+    vg-electrochemistry: Phase 2 (planned; carbon_fixation face with butler_volmer + microkinetic classes)
+    vg-reaction-universe: Phase 3 (planned; rule-based generator + matched null networks)
+    vg-pore: Phase 4 (planned; FEniCS multisolute Soret + pore-network surrogate)
+    vg-protoindividual: Phase 5 (planned; endogenous amphiphiles + boundary/division rewrites)
+    vg-energy: Phase 6 (planned; energy ledger + competing coupling classes)
+    vg-heredity: Phase 7 (planned; six heredity classes behind one face + information metrics)
+    vg-ecology: Phase 8 (planned; real networks per protocell on shared fields)
+    campaign-uq-layer: viva_genesis/uq/ (built; ABC/importance calibration, Morris+Sobol, structural ensembles, propagation, report triple)
+  roadmap_phases:
+  - phase: 1
+    name: Environmental calibration
+    status: built-and-run
+    studies: [og-00-vent-reactor-baseline, og-cal-vent-environment]
+    component: geochemical_world behind the serpentinization + spatial_transport faces, with ConservationLedgerProcess
+    data_package: vent_environment (Lost City windows; MARHYS 4.0 pending)
+    exit_criterion: posterior probability of viable vent states; validated mass/charge/energy ledger
+    next: attach MARHYS 4.0; Reaktoro/PFLOTRAN classes under pixi; MineralEvolutionProcess (reactor-stays-open gate); held-out H2 prediction
+  - phase: 2
+    name: Electrochemical carbon fixation
+    status: planned
+    studies: [og-01-geology-to-reduced-carbon, og-01-cal-electrochemistry]
+    component: carbon_fixation face with empirical | butler_volmer | microkinetic classes; MineralConductivityProcess derives gradient_efficiency
+    data_package: electrochemical_interface (Altair 2025, Panico 2026)
+    exit_criterion: mechanism map - thermodynamic vs electrical vs catalytic vs transport limitation, classes agreeing on the label in the favorable region
+  - phase: 3
+    name: Open chemical network
+    status: planned
+    studies: [og-02-reduced-carbon-to-protometabolism, og-02-alt-reaction-universe]
+    component: proto_metabolism face with curated_rtca | reaction_universe | null_network classes
+    data_package: reaction_universe (rule set, eQuilibrator dG', catalyst constraints)
+    exit_criterion: distribution of persistent/autocatalytic subnetworks; motif enrichment vs matched nulls
+  - phase: 4
+    name: 3-D multisolute localization
+    status: planned
+    studies: [og-03-dilution-to-localized-individuals, og-03-alt-colocalization]
+    component: localization face with fipy | fenics (species Soret) | pore_network classes
+    data_package: pore_physics (per-species D, S_T)
+    exit_criterion: co-localization / fractionation phase maps inside a demonstrated numerical-convergence envelope (no gate above the resolvable Peclet)
+  - phase: 5
+    name: Endogenous boundary + growth/division
+    status: planned
+    studies: [og-04-mineral-compartments-to-protocells, og-growth-division, og-04-alt-endogenous-boundary, og-growth-alt-physical-reproduction]
+    component: AmphiphileSynthesisProcess; BoundaryFormation / Division / Lysis / Extinction structural rewrites on agents map[vg_individual]
+    data_package: amphiphile_assembly (Jordan 2019; Lu 2024)
+    exit_criterion: first continuous transition from chemistry to a growing, dividing individual with rewrite_residual == 0
+  - phase: 6
+    name: Proto-energetics
+    status: planned
+    studies: [og-energy-proto-energetics, og-05-environmental-to-internal-bioenergetics, og-energy-alt-internalization-threshold]
+    component: energy_coupling face (passive_gradient | h_na_leaky_membrane | thioester_acyl_phosphate | polyphosphate | fe_redox) inside each protocell; per-individual autonomy
+    data_package: energy_currencies
+    exit_criterion: energy-capture efficiency and the threshold at which internalization beats leakage + maintenance
+  - phase: 7
+    name: Competing heredity
+    status: planned
+    studies: [og-06-chemistry-to-heredity, og-06-alt-information-per-cost]
+    component: heredity face (compositional | network | peptide | rna_like | hybrid | mineral_state) attached conditionally; Gillespie at low copy number
+    data_package: inheritance_budgets
+    exit_criterion: information-per-cost frontier; transition to templated heredity
+  - phase: 8
+    name: Biochemical ecology
+    status: planned
+    studies: [og-07-ecology-before-luca, og-07-alt-real-metabolite-exchange]
+    component: proto_ecology with real networks per protocell on shared spatial fields; exchange rules; EcologyReducerStep keeps og-07 gate names
+    data_package: cnp_resources + reaction_universe
+    exit_criterion: emergent cross-feeding, division of labor and robustness from flux and permeability, not symbolic capability transfer
+  - phase: 9
+    name: Integrated autonomy
+    status: planned
+    studies: [og-08-escape-from-the-vent, og-adv-generic-nonequilibrium, og-08-alt-robust-innovation-set]
+    component: one persistent world with an AblationStep; the {pump, importer, heredity} result re-run under an ensemble of maintenance / transport / storage / permeability / inheritance structures
+    data_package: all packages, posterior-propagated from Phase 1
+    exit_criterion: the intersection of innovations required across model structures, with the continuous autonomy fraction decomposed by function
   architecture_principles:
   - Build the world, not the cell — environmental stores and processes first; no individual-level
     state exists until a structural rewrite creates it.
@@ -218,7 +347,7 @@ guidelines:
     necessity; adversarial controls; negative results as first-class outputs; World / Mechanism /
     Decision views kept in sync for every study.
   canonical_schemas:
-    module: viva_genesis/schemas.py (planned)
+    module: viva_genesis/schemas.py (implemented 2026-10-14 — registered by build_core; faces audited against it)
     layers:
     - physical world — vg_environment, vg_minerals, vg_molecules, vg_energy
     - boundary — vg_boundary
@@ -297,6 +426,10 @@ inputs:
     path: references/expert/viva-genesis-full-modeling-plan.pdf
   - name: Full Modeling Plan — integration architecture (canonical schemas, structural rewrites, model substitution)
     path: references/full-modeling-plan-integration.md
+  - name: Model Upgrade and Implementation Plan
+    path: references/expert/viva-genesis-model-upgrade-and-implementation-plan.pdf
+  - name: Model Upgrade plan — integration architecture (three-quantity standard, canonical interfaces + model class as axis, vg-data, UQ layer, nine-phase roadmap)
+    path: references/model-upgrade-integration.md
 at_a_glance:
 - study: og-00-vent-reactor-baseline
   role: The vent a cell would form in — validated geochemical/spatial testbed (no origin claim yet)
@@ -329,6 +462,9 @@ at_a_glance:
 - study: og-growth-division
   role: Growth and division — metabolism changes the compartment's physical fate (grow->divide vs lyse
     vs starve)
+- study: og-cal-vent-environment
+  role: 'Phase 1 calibration: what fraction of vent states consistent with observation also supply what
+    downstream chemistry needs — posterior, cross-class agreement, discriminating readouts, exact ledger'
 studies:
 - og-00-vent-reactor-baseline
 - og-01-geology-to-reduced-carbon
@@ -344,6 +480,7 @@ studies:
 - og-res-phosphorus-availability
 - og-energy-proto-energetics
 - og-growth-division
+- og-cal-vent-environment
 acceptance_criteria:
 - study: og-00-vent-reactor-baseline
   behavior: vent-pH-in-lostcity-range
@@ -373,10 +510,13 @@ acceptance_criteria:
   behavior: currency-maintained
 - study: og-growth-division
   behavior: net-growth-to-division
+- study: og-cal-vent-environment
+  behavior: posterior-viable-vent-fraction
 expert_docs:
 - Origins-of-Life Simulation Campaign
 - Origins-of-Life Computational Methods Atlas
 - Full Modeling Plan
+- Model Upgrade and Implementation Plan
 proposed_inputs:
   _note: "Agent-suggested inputs the expert did NOT provide; the expert Accepts or Declines each in the
     report."
@@ -503,4 +643,56 @@ proposed_inputs:
     provenance: "Scientific Enrichment Plan (section 9); not in the expert dossier or references/papers.bib.
       Recorded here (not cited as provided) pending expert review; on accept its id becomes the bibkey to
       wire onto the growth→division findings."
+    status: pending
+  - id: marhys4_hydrothermal_fluids
+    kind: dataset
+    citation: "MARHYS 4.0 — MARine HYdrothermal Solutions database (PANGAEA compilation of vent-fluid T, pH,
+      H2, major/minor elements, carbon species, isotopes). DOI landing page to be recorded on attach."
+    proposed_by: agent
+    proposed_at: '2026-10-14'
+    related_study: og-cal-vent-environment
+    rationale: "The Model Upgrade plan's Phase-1 conditioning set (priority upgrade A): environmental priors over
+      T, pH, H2, fluid chemistry and fluid/rock ratio across ultramafic-hosted systems. The current vg-data
+      package vent_environment conditions on the Lost City windows only and marks marhys_conditioning pending."
+    provenance: "Named in the Model Upgrade and Implementation Plan (section 12). Not attached as a workspace
+      dataset; needs the PANGAEA export + sha256 via the Inputs tab."
+    status: pending
+  - id: panico2026fuelcell
+    kind: reference
+    citation: "Panico et al. (2026). A short-circuited fuel cell reproduces hydrothermal FeS chimney conditions
+      for the onset of life. Communications Chemistry. Full bibliographic details pending."
+    proposed_by: agent
+    proposed_at: '2026-10-14'
+    related_study: og-01-geology-to-reduced-carbon
+    rationale: "Phase-2 (electrochemical carbon fixation) calibration anchor: electrochemical coupling across
+      FeS chimney-like interfaces, beside altair2025electrochemical for the Ni/Fe current-density calibration
+      of the planned butler_volmer class on the carbon_fixation face."
+    provenance: "Model Upgrade and Implementation Plan (section 12 / references). Not in references/papers.bib;
+      recorded here pending expert review."
+    status: pending
+  - id: wolos2020synthetic
+    kind: reference
+    citation: "Wołos A. et al. (2020). Synthetic connectivity, emergence, and self-regeneration in the network
+      of prebiotic chemistry. Science 369(6511):eaaw1955."
+    proposed_by: agent
+    proposed_at: '2026-10-14'
+    related_study: og-02-reduced-carbon-to-protometabolism
+    rationale: "Phase-3 (open chemical network) rule set: the reaction-transform library from which the
+      reaction_universe generator and its matched null networks are built, so metabolism-like topology can be
+      tested for enrichment among networks that persist under vent chemistry rather than selected in advance."
+    provenance: "Model Upgrade and Implementation Plan (section 12 / references). Not in references/papers.bib;
+      recorded here pending expert review."
+    status: pending
+  - id: pflotran_theory_guide
+    kind: resource
+    citation: "PFLOTRAN Theory Guide — reactive transport with mineral precipitation/dissolution, sorption,
+      aqueous kinetics and chemistry-dependent material properties."
+    proposed_by: agent
+    proposed_at: '2026-10-14'
+    related_study: og-cal-vent-environment
+    rationale: "Phase-1 follow-up: a second geochemical backend on the serpentinization face (beside PHREEQC and
+      the planned Reaktoro class) with dynamic porosity/permeability feedback — the plan's 'does the reactor
+      poison or seal itself?' question (MineralEvolutionProcess, reactor-stays-open gate)."
+    provenance: "Model Upgrade and Implementation Plan (sections 3 and 12). Compiled dependency; would run under
+      a pixi env like FEniCS."
     status: pending
