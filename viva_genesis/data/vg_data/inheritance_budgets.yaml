@@ -1,0 +1,340 @@
+# vg-data package: INHERITANCE BUDGETS (Model Upgrade plan, Phase 7 — competing heredity).
+#
+# Everything a heredity class needs to be priced: the precursor availability
+# each pool offers a protocell-scale individual, the per-copy template costs
+# (monomers + activated-bond quanta) of each class, the copy error rates, the
+# energy quantum, the low-copy-number scale (volume x concentration) and the
+# attachment thresholds. The provenance audit is the honesty indicator: the
+# copy fidelity of a ribozyme polymerase is MEASURED; nearly every rate and
+# every attachment threshold is HYPOTHETICAL on the og-06 tick scale and is
+# swept rather than fitted.
+name: inheritance_budgets
+version: '1'
+description: >-
+  Phase-7 competing heredity: precursor availability, error rates, template
+  costs, the energy quantum, the low-copy-number scale and the conditional
+  attachment thresholds for the six heredity classes (compositional, network,
+  peptide, rna_like, hybrid, mineral_state) behind the heredity face.
+sources:
+- eigen1971selforganization
+- segre2000compositional
+- vasas2010lack
+- szathmary2006origin
+- huber1998peptides
+- lee1996selfreplicating
+- johnston2001rna
+- rajamani2010effect
+- cairnssmith1982genetic
+- sutherland2017opinion
+- buckel2013energy
+- lane2010chemiosmotic
+- jordan2019promotion
+- kraskov2004estimating
+- miller1955note
+parameters:
+# ---- the low-copy-number scale ------------------------------------------------
+- id: individual_volume
+  units: liter
+  provenance: inferred
+  value: 1.0e-18
+  context: {scale: a ~1.2 um fatty-acid vesicle (og-04 / Phase 5), 1 fL}
+  sources: [jordan2019promotion]
+  consumed_by: _HeredityProcessBase.individual_volume
+  how_to_use: Converts the shared pool concentration into molecules per individual; at 1 fL a 25 uM pool is ~15 molecules, which is why heredity here is simulated exactly (Gillespie), not by rate equations.
+- id: pool_volume_multiplier
+  units: dimensionless
+  provenance: hypothetical
+  value: 10.0
+  context: {meaning: pore volume shared by the population, in units of the population's own volume}
+  consumed_by: _HeredityProcessBase.pool_volume_multiplier
+  how_to_use: Sets the shared pool's molecule count (n_individuals x individual_volume x multiplier x feed x N_A).
+- id: n_individuals
+  units: dimensionless
+  provenance: hypothetical
+  value: 32
+  context: {meaning: lineage carrying capacity; dilution is uniform at capacity}
+  consumed_by: _HeredityProcessBase.n_individuals
+  how_to_use: Computational scale (32 individuals keep a 60-tick lineage under 2 s); the MI estimator's convergence check guards against under-sampling.
+- id: n0_molecules
+  units: dimensionless
+  provenance: inferred
+  value: 16
+  context: {meaning: heritable molecules a founder carries; = 1 fL x 27 uM}
+  sources: [jordan2019promotion]
+  consumed_by: _HeredityProcessBase.n0_molecules
+  how_to_use: The low-copy-number scale every class starts from (and the number of de-novo molecules the unattached control pays for at each fission).
+- id: n_max_molecules
+  units: dimensionless
+  provenance: hypothetical
+  value: 48
+  consumed_by: _HeredityProcessBase.n_max_molecules
+  how_to_use: Per-individual cap on heritable molecules (space / crowding), 3 x n0.
+- id: division_mass
+  units: dimensionless
+  provenance: hypothetical
+  value: 20
+  consumed_by: _HeredityProcessBase.division_mass
+  how_to_use: Bulk units at birth; an individual divides at twice this (og-growth's grow->divide rule, abstracted).
+- id: base_growth_rate
+  units: 1/second
+  provenance: hypothetical
+  value: 0.35
+  consumed_by: _HeredityProcessBase.base_growth_rate
+  how_to_use: Bulk growth rate per unit at zero function; a functional individual grows (1 + sigma phi) times faster. Tick scale (og-06 generation unit).
+- id: selective_superiority
+  units: dimensionless
+  provenance: extrapolated
+  value: 3.0
+  context: {meaning: Eigen's sigma — the master's replicative advantage over the error tail; also the growth advantage function confers}
+  sources: [eigen1971selforganization]
+  distribution: {kind: uniform, low: 1.5, high: 10.0}
+  consumed_by: _HeredityProcessBase.selective_superiority
+  how_to_use: Sets the Eigen error threshold Q >= 1/sigma that the attachment step enforces as its fidelity floor.
+- id: function_half
+  units: dimensionless
+  provenance: hypothetical
+  value: 0.8
+  context: {meaning: match fraction at which the common genotype->function sigmoid is half-maximal}
+  consumed_by: function_from_match.half
+  how_to_use: The single-peak-with-plateau landscape every class shares; width function_width = 0.04 (random 4-letter sequences score ~0).
+# ---- precursor availability (the matched budgets) ------------------------------
+- id: nucleotide_feed
+  units: molar
+  provenance: hypothetical
+  value: 1.0e-4
+  context: {pool: activated nucleotides, note: no vent synthesis route is established (cyanosulfidic chemistry needs UV / cyanide)}
+  sources: [sutherland2017opinion]
+  distribution: {kind: loguniform, low: 1.0e-6, high: 1.0e-3}
+  consumed_by: BudgetFeedProcess.nucleotide_precursor_feed
+  how_to_use: Chemostat set-point of the activated-nucleotide pool; the budget axis of the attachment map.
+- id: amino_feed
+  units: molar
+  provenance: extrapolated
+  value: 1.0e-4
+  context: {pool: activated amino acids at (Fe,Ni)S with CO}
+  sources: [huber1998peptides]
+  distribution: {kind: loguniform, low: 1.0e-6, high: 1.0e-3}
+  consumed_by: BudgetFeedProcess.amino_precursor_feed
+  how_to_use: Chemostat set-point of the activated amino-acid pool (peptide and network classes).
+- id: amphiphile_feed
+  units: molar
+  provenance: inferred
+  value: 1.0e-4
+  context: {pool: single-chain amphiphiles below the vesicle CVC}
+  sources: [jordan2019promotion]
+  distribution: {kind: loguniform, low: 1.0e-6, high: 1.0e-3}
+  consumed_by: BudgetFeedProcess.amphiphile_feed
+  how_to_use: Chemostat set-point of the amphiphile pool (compositional and hybrid classes).
+- id: mineral_feed
+  units: molar
+  provenance: hypothetical
+  value: 1.0e-4
+  context: {pool: dissolved growth units of the templating mineral (clay / sulfide layer)}
+  sources: [cairnssmith1982genetic]
+  distribution: {kind: loguniform, low: 1.0e-6, high: 1.0e-3}
+  consumed_by: BudgetFeedProcess.mineral_precursor_feed
+  how_to_use: Chemostat set-point of the mineral growth-unit pool (mineral_state class).
+- id: feed_rate
+  units: 1/second
+  provenance: hypothetical
+  value: 0.5
+  consumed_by: BudgetFeedProcess.feed_rate
+  how_to_use: Chemostat relaxation rate of every pool toward its set-point (tick scale).
+- id: energy_quantum
+  units: kilojoule/mole
+  provenance: inferred
+  value: 30.0
+  context: {meaning: one activated bond (thioester / acyl phosphate / phosphoanhydride) at vent conditions}
+  sources: [buckel2013energy, lane2010chemiosmotic]
+  consumed_by: _HeredityProcessBase.energy_quantum_kj
+  how_to_use: Every covalent copy step costs one quantum per monomer; the information ledger converts quanta to joules with this.
+- id: power
+  units: joule
+  provenance: hypothetical
+  value: 8.0e-16
+  context: {meaning: energy delivered to the shared store per tick; = 500 quanta per individual per tick at 32 individuals}
+  distribution: {kind: loguniform, low: 8.0e-18, high: 8.0e-15}
+  consumed_by: BudgetFeedProcess.power
+  how_to_use: The energy budget axis; the store is capped at the same value (max_stored_work).
+- id: equiv_nucleotide
+  units: dimensionless
+  provenance: hypothetical
+  value: 3.0
+  context: {meaning: quanta-equivalents to make one activated nucleotide}
+  consumed_by: _HeredityProcessBase.equiv_nucleotide
+  how_to_use: Prices precursor consumption in energy for the bits-per-joule frontier (precursor_energy).
+- id: equiv_amino
+  units: dimensionless
+  provenance: hypothetical
+  value: 1.0
+  consumed_by: _HeredityProcessBase.equiv_amino
+  how_to_use: Quanta-equivalents per activated amino acid.
+- id: equiv_amphiphile
+  units: dimensionless
+  provenance: hypothetical
+  value: 2.0
+  consumed_by: _HeredityProcessBase.equiv_amphiphile
+  how_to_use: Quanta-equivalents per amphiphile (reductive C10 synthesis from the Phase-2 products).
+- id: equiv_mineral
+  units: dimensionless
+  provenance: hypothetical
+  value: 0.1
+  consumed_by: _HeredityProcessBase.equiv_mineral
+  how_to_use: Quanta-equivalents per mineral growth unit (crystal growth is exergonic; near zero).
+# ---- template costs + error rates per class -----------------------------------
+- id: template_length
+  units: dimensionless
+  provenance: extrapolated
+  value: 30
+  context: {class: rna_like, meaning: sites per template; og-06 convention}
+  sources: [sutherland2017opinion, eigen1971selforganization]
+  consumed_by: _HeredityProcessBase.template_length
+  how_to_use: Cost per copy = L nucleotides + L quanta; capacity 2L bits.
+- id: per_site_fidelity
+  units: dimensionless
+  provenance: measured
+  value: 0.967
+  context: {class: rna_like, meaning: per-site copy fidelity of the R18 polymerase ribozyme (96.7 %)}
+  sources: [johnston2001rna]
+  distribution: {kind: uniform, low: 0.85, high: 0.99}
+  consumed_by: _HeredityProcessBase.per_site_fidelity
+  how_to_use: The sweep spans the nonenzymatic range (Rajamani 2010, ~0.8-0.9) up to ribozyme fidelity; Q = q^L against the Eigen floor 1/sigma.
+- id: k_replicate
+  units: 1/second
+  provenance: hypothetical
+  value: 1.0
+  consumed_by: _HeredityProcessBase.k_replicate
+  how_to_use: Copy propensity per template (times 1 + sigma phi) on the tick scale.
+- id: k_degrade
+  units: 1/second
+  provenance: hypothetical
+  value: 0.05
+  consumed_by: _HeredityProcessBase.k_degrade
+  how_to_use: First-order loss of heritable molecules.
+- id: k_denovo
+  units: 1/second
+  provenance: hypothetical
+  value: 0.05
+  consumed_by: _HeredityProcessBase.k_denovo
+  how_to_use: Background non-templated polymerisation (random sequences) per individual.
+- id: hybrid_template_length
+  units: dimensionless
+  provenance: hypothetical
+  value: 8
+  context: {class: hybrid}
+  consumed_by: _HeredityProcessBase.hybrid_template_length
+  how_to_use: Short template whose function focuses the composition (hybrid_focus = 2).
+- id: peptide_length
+  units: dimensionless
+  provenance: extrapolated
+  value: 8
+  context: {class: peptide}
+  sources: [huber1998peptides, lee1996selfreplicating]
+  consumed_by: _HeredityProcessBase.peptide_length
+  how_to_use: Cost per copy = L_p amino acids + L_p quanta over a 20-letter alphabet.
+- id: peptide_fidelity
+  units: dimensionless
+  provenance: hypothetical
+  value: 0.7
+  context: {class: peptide, meaning: per-site selectivity of sequence-templated peptide ligation}
+  sources: [lee1996selfreplicating]
+  distribution: {kind: uniform, low: 0.5, high: 0.95}
+  consumed_by: _HeredityProcessBase.peptide_fidelity
+  how_to_use: Q_p = q_p^L_p; at the nominal value peptide heredity sits below the Eigen floor and is NOT attached.
+- id: composition_types
+  units: dimensionless
+  provenance: extrapolated
+  value: 8
+  context: {class: compositional}
+  sources: [segre2000compositional]
+  consumed_by: _HeredityProcessBase.composition_types
+  how_to_use: K amphiphile types; two composomes (A functional, B not) of K/3 types each.
+- id: catalysis_sd
+  units: dimensionless
+  provenance: extrapolated
+  value: 1.0
+  context: {class: compositional, meaning: log-sd of the GARD mutual-catalysis matrix beta}
+  sources: [segre2000compositional]
+  consumed_by: _HeredityProcessBase.catalysis_sd
+  how_to_use: Lognormal beta plus a composome block of strength K.
+- id: k_incorporate
+  units: 1/second
+  provenance: hypothetical
+  value: 2.0
+  consumed_by: _HeredityProcessBase.k_incorporate
+  how_to_use: Amphiphile incorporation propensity per assembly (no quanta).
+- id: network_cores
+  units: dimensionless
+  provenance: extrapolated
+  value: 4
+  context: {class: network, meaning: number of autocatalytic cores (attractors); capacity M bits}
+  sources: [vasas2010lack]
+  consumed_by: _HeredityProcessBase.network_cores
+  how_to_use: Half the cores are functional; each grows in its own niche of n_max / M.
+- id: k_autocatalysis
+  units: 1/second
+  provenance: hypothetical
+  value: 0.6
+  consumed_by: _HeredityProcessBase.k_autocatalysis
+  how_to_use: Autocatalytic growth per core molecule (1 amino acid + 1 quantum each).
+- id: k_spontaneous
+  units: 1/second
+  provenance: hypothetical
+  value: 0.02
+  consumed_by: _HeredityProcessBase.k_spontaneous
+  how_to_use: Rare uncatalysed seeding of a core (the network class's mutation channel).
+- id: mineral_bits
+  units: dimensionless
+  provenance: extrapolated
+  value: 16
+  context: {class: mineral_state, meaning: defect-pattern bits per crystal-face domain}
+  sources: [cairnssmith1982genetic]
+  consumed_by: _HeredityProcessBase.mineral_bits
+  how_to_use: Capacity B bits; the pattern is copied into every new layer.
+- id: defect_copy_error
+  units: dimensionless
+  provenance: hypothetical
+  value: 0.005
+  context: {class: mineral_state, meaning: per-bit error when a layer copies the face pattern}
+  distribution: {kind: loguniform, low: 1.0e-3, high: 5.0e-2}
+  consumed_by: _HeredityProcessBase.defect_copy_error
+  how_to_use: Per-generation fidelity (1 - p_m)^(B n0/2) against the Eigen floor; no measurement of defect replication fidelity exists — the weakest number in the package.
+- id: k_layer
+  units: 1/second
+  provenance: hypothetical
+  value: 6.0
+  consumed_by: _HeredityProcessBase.k_layer
+  how_to_use: Layer growth propensity per domain (1 mineral growth unit, no quanta).
+# ---- attachment thresholds (expert decision pending) --------------------------
+- id: attach_min_copies
+  units: dimensionless
+  provenance: hypothetical
+  value: 10.0
+  context: {meaning: copies per individual the precursor and energy budgets must cover before heredity is attached}
+  distribution: {kind: uniform, low: 2.0, high: 50.0}
+  consumed_by: HeredityAttachmentStep.attach_min_copies
+  how_to_use: FMP 2.5 attachment threshold; swept until the expert supplies a defensible value (investigation decisions_needed).
+- id: attach_energy_margin
+  units: dimensionless
+  provenance: hypothetical
+  value: 1.0
+  distribution: {kind: uniform, low: 0.5, high: 5.0}
+  consumed_by: HeredityAttachmentStep.attach_energy_margin
+  how_to_use: Safety factor on the energy-budget condition; swept.
+observations:
+  ribozyme_polymerase_fidelity:
+    quantity: per-site copy fidelity of RNA-catalysed RNA polymerisation
+    low: 0.96
+    high: 0.99
+    units: dimensionless
+    sources: [johnston2001rna]
+    note: R18 ligase-derived polymerase, 96.7 % average fidelity over 14-nt extensions.
+  nonenzymatic_copy_fidelity:
+    quantity: per-site fidelity of nonenzymatic template copying with activated nucleotides
+    low: 0.80
+    high: 0.92
+    units: dimensionless
+    sources: [rajamani2010effect]
+    note: mismatch frequencies of order 10 % per site without stalling-aided rejection; the lower end of the per_site_fidelity sweep.
+downstream_requirements:
+  phase_9_autonomy: the heredity class a Phase-9 individual carries (heredity.information_content, energy_per_copy) under the posterior budgets

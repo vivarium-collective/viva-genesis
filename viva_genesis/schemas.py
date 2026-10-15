@@ -177,6 +177,14 @@ SCHEMAS: dict[str, dict] = {
         "mutation_rate": "vg_per_second",
         "information_content": "vg_information",
         "heritability": "vg_fraction",
+        # competing heredity (Phase 7): the class's information capacity (bits
+        # its state space can hold, vs the realised information_content), the
+        # heritable molecules / copies carried, and the per-copy budget costs
+        # the information ledger prices heredity at.
+        "information_capacity": "vg_information",
+        "copies": "vg_count",
+        "energy_per_copy": "vg_energy_amount",
+        "precursor_per_copy": "vg_count",
     },
     # ---- layer 3: individual -------------------------------------------
     "vg_individual": {
@@ -208,6 +216,8 @@ SCHEMAS: dict[str, dict] = {
         "uptake": "map[vg_rate]",
         "secretion": "map[vg_rate]",
         "interaction": "map[vg_fraction]",
+        # competing heredity (Phase 7): the live population of the lineage
+        "population": "vg_count",
     },
 }
 
@@ -394,6 +404,41 @@ PORT_TO_CANONICAL: dict[str, str] = {
     "catalyst_efficiency": "vg_minerals.catalytic_sites",
     "free_energy_residual": "ledger.free_energy_residual",
     "second_law_margin": "ledger.second_law_margin",
+    # competing heredity (heredity face, Phase 7): the mineral growth-unit pool
+    # the mineral_state class draws from, the attachment flag (heredity is the
+    # individual's maybe[vg_heredity] — attached = present), the shared energy
+    # store, the class's information / fidelity / cost readouts, and the
+    # information-ledger witnesses.
+    "mineral_precursor": "vg_molecules.dissolved.mineral_precursor",
+    "attached": "vg_individual.heredity",
+    "stored_work": "vg_energy.stored_work",
+    "work_flux": "vg_energy.stored_work",
+    "mean_function": "vg_individual.growth_rate",
+    "functional_fraction": "diagnostics.functional_fraction",
+    "population": "vg_lineage.population",
+    "fidelity": "vg_heredity.fidelity",
+    "fidelity_floor": "vg_heredity.fidelity",
+    "mutation_rate": "vg_heredity.mutation_rate",
+    "information_content": "vg_heredity.information_content",
+    "information_capacity": "vg_heredity.information_capacity",
+    "mean_molecules": "vg_heredity.copies",
+    "copies": "vg_heredity.copies",
+    "replication_energy": "vg_energy.dissipated",
+    "precursor_energy": "vg_energy.dissipated",
+    "energy_per_offspring": "vg_heredity.energy_per_copy",
+    "precursors_per_offspring": "vg_heredity.precursor_per_copy",
+    "n_attached": "diagnostics.n_attached",
+    "attachment_margin": "diagnostics.attachment_margin",
+    "quanta_used": "diagnostics.quanta_used",
+    "precursors_consumed": "diagnostics.precursors_consumed",
+    "births": "diagnostics.births",
+    "mi_converged": "ledger.mi_converged",
+    "mi_standard_error": "ledger.mi_standard_error",
+    "heritable_bits": "ledger.heritable_bits",
+    "bits_per_joule": "ledger.bits_per_joule",
+    "bits_per_precursor": "ledger.bits_per_precursor",
+    "energy_residual": "ledger.energy_residual",
+    "information_ledger_ok": "ledger.information_ledger_ok",
 }
 
 

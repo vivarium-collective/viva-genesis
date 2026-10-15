@@ -137,6 +137,19 @@ executive:
     FEM does not confirm above Pe ~ 13, so localization is gated on the Peclet, not the fold-magnitude.
     The gate change itself is implemented in a separate og-03 PR; recorded here as the decision-state.'
   decisions_needed:
+  - question: 'Phase-7 heredity attachment thresholds: what precursor budget (copies per individual the pool
+      must cover, attach_min_copies), energy margin (attach_energy_margin) and fidelity floor are defensible
+      for attaching heredity to a lineage? The build uses hypothetical values (10 copies, margin 1.0) and
+      Eigen''s error threshold Q >= 1/sigma as the fidelity floor, and SWEEPS the budget x fidelity space
+      instead of asserting a point.'
+    context: 'og-06-alt-information-per-cost (references/model-upgrade-integration.md section 6e): the
+      HeredityAttachmentStep attaches a class only when all three conditions hold; the attachment map shows
+      compositional / network / mineral classes attaching from 3 % of the nominal budget, hybrid from 30 %,
+      rna_like only at the full budget and q >= 0.967, peptide never at q_p = 0.7. The thresholds are
+      flagged hypothetical in vg-data inheritance_budgets and the gate attachment-is-conditional reads the
+      swept span, not a point. Expert input decides where the step''s thresholds sit — and whether the
+      mineral class''s defect-copy error (0.005 per bit per layer, hypothetical, the number that makes
+      mineral_state dominate the frontier) has any measured anchor.'
   - question: 'Rule-set scope for the Phase-3 reaction universe: keep C1-C3 feedstock / C/H/O-only chemistry
       (as built: products capped at C4, 413 reactions) or include N/P-bearing reactions from the start, folding
       the og-res-N / og-res-P resource chemistries into the universe?'
@@ -321,7 +334,7 @@ guidelines:
       pore_physics vg-data provenance package.
     vg-protoindividual: Phase 5 (planned; endogenous amphiphiles + boundary/division rewrites)
     vg-energy: viva_genesis/bioenergetics/energy_coupling.py + composites/protocell_energetics.py + ledger.FreeEnergyLedgerProcess + data/vg_data/energy_currencies.yaml + uq/energetics_threshold.py (built; energy_coupling face with passive_gradient | h_na_gradient_leaky_membrane | thioester_acyl_phosphate | polyphosphate | fe_redox, per-individual autonomy, free-energy ledger in >= work + dissipated with the store)
-    vg-heredity: Phase 7 (planned; six heredity classes behind one face + information metrics)
+    vg-heredity: viva_genesis/heredity/{competing,information}.py + composites/competing_heredity.py + ledger.InformationLedgerProcess + data/vg_data/inheritance_budgets.yaml (built; six Gillespie heredity classes behind the heredity face, HeredityAttachmentStep, MI estimator with convergence check, information-per-cost ledger)
     vg-ecology: Phase 8 (planned; real networks per protocell on shared fields)
     campaign-uq-layer: viva_genesis/uq/ (built; ABC/importance calibration, Morris+Sobol, structural ensembles, propagation, report triple)
   roadmap_phases:
@@ -393,11 +406,13 @@ guidelines:
     next: propagate the energy_currencies priors (LHS / Sobol over 18 free parameters); put the classes inside each og-05 strategy and re-run selection on per-individual autonomy; feed the og-04 membrane's permeability directly; transcribe the Fe(II)-disproportionation numbers once the reference is accepted
   - phase: 7
     name: Competing heredity
-    status: planned
+    status: built-and-run
     studies: [og-06-chemistry-to-heredity, og-06-alt-information-per-cost]
-    component: heredity face (compositional | network | peptide | rna_like | hybrid | mineral_state) attached conditionally; Gillespie at low copy number
-    data_package: inheritance_budgets
+    component: heredity face with compositional | network | peptide | rna_like | hybrid | mineral_state classes (carved out of og-06's one LineageReplicatorProcess; each an exact Gillespie lineage of 32 protocell-scale individuals carrying ~10-40 heritable molecules, drawing integer precursors and energy quanta from one shared pool / store); HeredityAttachmentStep (precursor budget, energy budget and the Eigen floor Q >= 1/sigma must all hold; latched); InformationLedgerProcess (heritable bits per joule / per precursor, exact energy-store audit, MI-convergence gate)
+    data_package: inheritance_budgets (39 parameters; 1 measured — the R18 ribozyme fidelity 0.967 — 6 inferred, 8 extrapolated, 24 hypothetical; attachment thresholds hypothetical and swept)
     exit_criterion: information-per-cost frontier; transition to templated heredity
+    result: "see og-06-alt-information-per-cost: 4/6 classes pass ancestry-predicts-phenotype under the strict rule (MI converged on every seed, >= 0.1 bit, >= 0.05 bit above the class's own unattached control); peptide at q_p = 0.7 sits below the Eigen floor and is refused by the step, mineral_state's estimate does not converge on every seed (its function decays through layer-copy errors). Bits per joule span 3.8 decades; the certified Pareto front is {network, rna_like}; mineral_state would dominate both axes (2.2 bits at 4e-20 J) on a hypothetical defect-copy error. rna_like transmits 1.46 bits at 3e-17 J per offspring and attaches only at the full budget and q >= 0.967; compositional / network / mineral attach from 3 % of it. og-06's 'need not presume RNA' splits by currency: per offspring the RNA-like template carries the most certified bits (best non-RNA = 0.36x), per joule the network class carries 26x. Energy-store residual <= 3e-14 on all 252 runs."
+    next: expert-defensible attachment thresholds (decisions_needed); a measured defect-replication fidelity for the mineral class (the weakest number); propagate the package priors (LHS over the 11 free parameters); sequence-level (not phenotype-level) information for the template classes; attach the classes to Phase-5 agents as a bigraph rewrite
   - phase: 8
     name: Biochemical ecology
     status: planned
@@ -576,6 +591,13 @@ at_a_glance:
   role: 'Phase 6 internalization threshold: five energy-coupling classes inside one protocell under a free-energy
     ledger — the thioester store pays from a tenth of the drive, Fe-redox only near full activity, the H+/Na+
     gradient only in a 100x tighter membrane, polyphosphate never; per-individual autonomy'
+- study: og-06-alt-information-per-cost
+  role: 'Phase 7 competing heredity: six inheritance mechanisms as classes on one face, each an exact
+    Gillespie lineage at low copy number under matched precursor + energy budgets, attached conditionally;
+    parent-offspring mutual information per class (5/6 pass, converged), bits per joule spanning > 3 decades,
+    mineral-state heredity cheapest and richest under hypothetical costs, templated heredity attaching only
+    at the full budget and ribozyme-level fidelity; og-06''s "need not presume RNA" becomes a
+    class-substitution result that splits by currency (fewer bits per offspring, 26x the bits per joule)'
 studies:
 - og-00-vent-reactor-baseline
 - og-01-geology-to-reduced-carbon
@@ -597,6 +619,7 @@ studies:
 - og-04-alt-endogenous-boundary
 - og-growth-alt-physical-reproduction
 - og-energy-alt-internalization-threshold
+- og-06-alt-information-per-cost
 acceptance_criteria:
 - study: og-00-vent-reactor-baseline
   behavior: vent-pH-in-lostcity-range
@@ -638,6 +661,8 @@ acceptance_criteria:
   behavior: motifs-emerge-not-imposed
 - study: og-energy-alt-internalization-threshold
   behavior: internalization-pays
+- study: og-06-alt-information-per-cost
+  behavior: ancestry-predicts-phenotype
 expert_docs:
 - Origins-of-Life Simulation Campaign
 - Origins-of-Life Computational Methods Atlas
