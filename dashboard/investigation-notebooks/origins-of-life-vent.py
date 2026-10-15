@@ -3279,7 +3279,190 @@ _save_viz('og-energy-alt-internalization-threshold', 'protocell-energy-budget', 
 # | Early membranes were far more permeable to H+ than Na+, so a Na+ gradient is the better internal store and tapping the natural gradient needs leak while owning one needs a tight membrane | the ion-gradient class's store potential and pays region against permeability | Sojo, Pomiankowski & Lane 2014 | Reproduced structurally — the ion store pays only below a permeability ceiling; the chemical carriers do not share the ceiling. |
 # | A transferable currency does work only when its phosphorylation-like potential (bond + RT ln q/(1-q)) clears the endergonic step; low-bond carriers must be held near full charge | store potential vs load per class; polyphosphate's charge fraction at the gate | Buckel & Thauer 2013 | Implemented as the draw gate; polyphosphate's 20 kJ/mol bond needs q > 0.98 for a 30 kJ/mol load. |
 
+# ## Study: Competing Heredity: Which Inheritance Mechanism Transmits the Most Bits Per Joule, and When Is It Attached? (`og-06-alt-information-per-cost`)
+#
+# **Question.** Model Upgrade plan, Phase 7. og-06 compared inheritance mechanisms as modes of one mean-field process and concluded that heredity need not presume a long high-fidelity RNA template. If the six candidate mechanisms (compositional assemblies, autocatalytic-network attractors, templated peptides, RNA-like templates, a template-focused hybrid and mineral-surface defect patterns) are instead separate model classes on one heredity face, each simulated EXACTLY at low copy number (tens of molecules per protocell) under the same precursor pools and the same energy store, and attached to a lineage only when those budgets and the Eigen error threshold allow it — how many bits does each class actually transmit from parent to offspring, at what cost in joules and precursor molecules, and where does templated heredity take over?
+#
+# **Objective.** Build the heredity face (six classes carved out of og-06's LineageReplicatorProcess, each an exact Gillespie lineage drawing integer precursors and quanta from matched budgets), the HeredityAttachmentStep (precursor budget, energy budget, Eigen floor Q >= 1/sigma), the InformationLedgerProcess (heritable bits per joule and per precursor from a parent-offspring mutual-information estimator with a convergence check; exact energy-store audit) and the vg-data package inheritance_budgets; run the frontier (six classes x attached / control x 6 seeds), the attachment map (six classes x six matched budget scales) and the fidelity transition (four template-type classes x six fidelities) and grade the pre-registered gates.
+#
+# **Hypothesis.** Every attached class transmits parent-offspring information its unattached control (daughters re-formed de novo from the same budget) does not; the template classes carry the most bits per offspring but pay the most per bit and are attached only at the highest budgets and fidelities; the attractor classes (compositional, network) are cheap, attach at low budgets and carry few bits; a cheap, high-fidelity mineral pattern would dominate both axes if its copy error were as low as hypothesised; the transition to templated heredity is the point at which the Eigen floor admits the template.
+#
+# **Claim.** Priced under matched budgets at low copy number, heredity splits by currency: the RNA-like template transmits the most certified bits per offspring but needs 30x the precursor and energy budget of the attractor classes and ribozyme-level fidelity (q >= 0.967) to be attached at all, while the cheap classes transmit a third of its bits at 10-1000x the bits per joule. og-06's "heredity need not presume RNA" is therefore a class-substitution result about efficiency, not capacity; the only class that would dominate both axes — mineral-surface patterns — does so on a defect-copy error nobody has measured.
+
+# ### Design — originally proposed
+#
+# _The mechanisms and methods proposed when this study was designed; the model **actually built** (and the tools it uses) is shown below. These may differ as the design was realized._
+#
+# **Proposed mechanisms**
+#
+# - J: heredity as six competing model classes under matched budgets, attached conditionally
+# - Eigen error threshold as the attachment fidelity floor
+#
+# **Proposed models / methods**
+#
+# - Exact Gillespie (direct method) lineages at low copy number, one per heredity class
+# - Conditional heredity attachment (FMP 2.5) on precursor / energy budgets and the Eigen floor
+# - Binned parent-offspring mutual information with Miller-Madow correction, permutation null and a prefix-ladder + bootstrap convergence check
+# - Information ledger (bits per joule / per precursor) with an exact energy-store audit
+#
+# **Key assumptions**
+#
+# - 32 individuals of 1 fL at carrying capacity, 16 heritable molecules per founder (cap 48), bulk mass 20 doubling to divide; bulk and heritable growth both scale with (1 + sigma phi), sigma = 3; dilution uniform at capacity.
+# - One common genotype-to-function landscape: a sigmoid in the match fraction (half 0.8, width 0.04), so the master and its near neighbours are functional and the tail is not.
+# - Matched budgets: every class draws integer molecules from the same chemostat-fed pools (1e-4 M set-points, relaxation 0.5 per tick) and integer quanta (30 kJ/mol) from the same store (8e-16 J per tick, capped).
+# - Information = parent-offspring MI of the phenotype at a 0.05 resolution, Miller-Madow corrected, net of a 20-permutation null; converged when the prefix ladder agrees within 0.05 bit / 15 % and the bootstrap SE <= 0.05 bit.
+# - Attachment: precursor ratio, energy ratio and Q / (1/sigma) all >= 1, latched; before attachment daughters re-form heritable material de novo at the class's price.
+
+# ### Parameters
+#
+# | simulation | composite | steps | params |
+# | --- | --- | --- | --- |
+# | `Competing heredity — rna_like under the attachment step at the nominal matched budget` | `viva_genesis.composites.competing_heredity.competing_heredity` | 0 | model_heredity=rna_like, attachment=step |
+#
+# Declared parameter sets (`study.yaml` variants):
+#
+# - **compositional** — `model_heredity=compositional`
+# - **network** — `model_heredity=network`
+# - **peptide** — `model_heredity=peptide`
+# - **hybrid** — `model_heredity=hybrid`
+# - **mineral-state** — `model_heredity=mineral_state`
+# - **non-heritable-control** — `attachment=off`
+# - **forced-attached** — `attachment=on`
+
+# ### The model & its parameters
+#
+# Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
+
+# **The model — `viva_genesis.composites.competing_heredity.competing_heredity`**
+#
+# og-06's heredity lineage rebuilt as the Phase-7 competing-heredity composite: the inheritance mechanism is a model CLASS on the heredity face (model_heredity: compositional | network | peptide | rna_like | hybrid | mineral_state), every class an exact Gillespie lineage of protocell-scale individuals (tens of heritable molecules each) drawing integer precursors and energy quanta from the SAME chemostat-fed pools and energy store. HeredityAttachmentStep attaches heredity only when the precursor budget, the energy budget and the class's expected copy fidelity (Eigen Q >= 1/sigma) allow it — before that, daughters re-form their heritable material de novo (the non-heritable control). InformationLedgerProcess prices the realised parent-offspring mutual information per joule and per precursor and audits the energy store exactly.
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_competing_heredity_competing_heredity = {
+    'model_heredity'      : 'rna_like',   # Model class behind the 'heredity' face: compositional | hybrid | mineral_state | network | peptide | rna_like
+    'attachment'          : 'step',   # step = HeredityAttachmentStep decides; on = heredity forced attached; off = non-heritable control
+    'nucleotide_feed'     : 0.0001,   # Activated-nucleotide feed set-point (M) [vg-data: hypothetical]
+    'amino_feed'          : 0.0001,   # Activated amino-acid feed set-point (M) [vg-data: extrapolated]
+    'amphiphile_feed'     : 0.0001,   # Amphiphile feed set-point (M) [vg-data: inferred]
+    'mineral_feed'        : 0.0001,   # Mineral growth-unit feed set-point (M) [vg-data: hypothetical]
+    'power'               : 8e-16,   # Energy supply to the shared store (J per tick) [vg-data: hypothetical]
+    'per_site_fidelity'   : 0.967,   # Template per-site copy fidelity q (rna_like / hybrid) [vg-data: measured, Johnston 2001]
+    'peptide_fidelity'    : 0.7,   # Peptide per-site templating fidelity q_p [vg-data: hypothetical]
+    'defect_copy_error'   : 0.005,   # Mineral per-bit defect copy error per layer p_m [vg-data: hypothetical]
+    'attach_min_copies'   : 10.0,   # Attachment threshold: copies per individual the budget must cover [vg-data: hypothetical, swept]
+    'attach_energy_margin': 1.0,   # Attachment threshold: energy-budget margin [vg-data: hypothetical, swept]
+    'n_individuals'       : 32,   # Lineage capacity (individuals)
+    'seed'                : 1,   # RNG seed (reproducible SSA)
+}
+
+# ### Typed contract (declared interface)
+#
+# _The bigraph-schema typed ports + conservation predicates this study's composite must satisfy (audited in the workbench §Contract panel). Declared design — independent of whether a run exists yet._
+#
+# **Inputs**
+#
+# | port | type | units | bounds |
+# | --- | --- | --- | --- |
+# | `attached` | float | dimensionless | [0.0, 1.0] |
+# | `stored_work` | float | joule | >= 0.0 |
+# | `nucleotide_precursor` | float | molar | >= 0.0 |
+# | `amino_precursor` | float | molar | >= 0.0 |
+# | `amphiphile` | float | molar | >= 0.0 |
+# | `mineral_precursor` | float | molar | >= 0.0 |
+#
+# **Outputs**
+#
+# | port | type | units | bounds |
+# | --- | --- | --- | --- |
+# | `information_content` | float | bit | >= 0.0 |
+# | `heritability` | float | dimensionless |  |
+# | `fidelity` | float | dimensionless | [0.0, 1.0] |
+# | `replication_energy` | float | joule | >= 0.0 |
+# | `mi_converged` | float | dimensionless | [0.0, 1.0] |
+#
+# **Conditions**
+#
+# - `energy_store_audit` (invariant): `ledger.energy_residual <= 1e-9`
+# - `integer_budgets` (invariant): `pool molecules + consumed == initial + fed, exactly (integer counts)`
+# - `certified_bits_need_convergence` (invariant): `ledger.heritable_bits == 0 unless info.mi_converged == 1`
+# - `control_is_unattached` (invariant): `attachment = off reforms heritable material de novo from the same budget at the same price`
+
+# ### Run
+#
+# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
+
+# === Study: og-06-alt-information-per-cost ===
+STUDY = 'og-06-alt-information-per-cost'
+STUDY_DIR = REPO / 'workspace/studies' / STUDY
+STUDY_YAML = str(STUDY_DIR / "study.yaml")
+RUNS_DB = str(STUDY_DIR / "runs.db")
+
+# This study has no *recorded* runs yet. RERUN builds its declared
+# composite(s) live and runs them; a composite whose module processes
+# are not implemented yet reports the error instead of crashing.
+STEPS_Competing_heredity_rna_like_under_the_attachment_step_at_the_nominal_matched_budget = 100
+INTERVAL_Competing_heredity_rna_like_under_the_attachment_step_at_the_nominal_matched_budget = 1.0
+
+if RERUN:
+    from process_bigraph import Composite
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_competing_heredity_competing_heredity if 'ov_viva_genesis_composites_competing_heredity_competing_heredity' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_competing_heredity_competing_heredity = materialize_composite('viva_genesis.composites.competing_heredity.competing_heredity', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_competing_heredity_competing_heredity['state']}, core=core)
+            _comp.run(STEPS_Competing_heredity_rna_like_under_the_attachment_step_at_the_nominal_matched_budget)
+        print('ran', 'Competing heredity — rna_like under the attachment step at the nominal matched budget', f'(viva_genesis.composites.competing_heredity.competing_heredity) for', STEPS_Competing_heredity_rna_like_under_the_attachment_step_at_the_nominal_matched_budget, 'steps')
+    except Exception as _e:
+        print(f"Competing heredity — rna_like under the attachment step at the nominal matched budget not runnable yet: {type(_e).__name__}: {_e}")
+else:
+    print("RERUN=False — not re-simulating.")
+
+# ### Visualizations
+#
+# _Results are shown by the figures below, produced by the run above._
+
+# **heredity-information-frontier**
+
+# heredity-information-frontier
+_save_viz('og-06-alt-information-per-cost', 'heredity-information-frontier', _render_one('local:HeredityInformationFrontier', {'title': 'Phase 7 — heritable bits vs energy per offspring, per heredity class, with controls and the Pareto front (Decision view)', 'report_json': 'workspace/studies/og-06-alt-information-per-cost/artifacts/information_frontier.json'}, RUNS_DB, STUDY_YAML))
+
+# **heredity-attachment-map**
+
+# heredity-attachment-map
+_save_viz('og-06-alt-information-per-cost', 'heredity-attachment-map', _render_one('local:HeredityAttachmentMap', {'title': 'Where heredity is attached, and the transition to templated heredity (Mechanism view)', 'report_json': 'workspace/studies/og-06-alt-information-per-cost/artifacts/information_frontier.json'}, RUNS_DB, STUDY_YAML))
+
+# ### Acceptance criteria
+#
+# _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
+#
+# | test | measures | passes if |
+# | --- | --- | --- |
+# | information-ledger-closes _(primary)_ | kind=derived path=energy_store_residual_max detail=worst-case energy-store residual over the run | op <= value 1e-09 detail energy audit at float round-off |
+# | mi-estimator-converged _(primary)_ | kind=derived path=mi_converged_final detail=info.mi_converged on the final tick | op >= value 1.0 detail converged |
+# | information-ledger-certifies _(diagnostic)_ | kind=derived path=information_ledger_ok_final detail=ledger.information_ledger_ok on the final tick | op >= value 1.0 detail certified |
+# | heredity-attached-under-nominal-budget _(supporting)_ | kind=derived path=heredity_attached_final detail=heredity.attached on the final tick | op >= value 1.0 detail attached |
+# | canonical-heritable-bits _(supporting)_ | kind=derived path=heritable_bits_final detail=info.information_content on the final tick | op >= value 0.5 detail >= 0.5 bit |
+# | function-sustained-by-heredity _(diagnostic)_ | kind=derived path=heredity_settled_function detail=last-quartile mean of lineage.mean_function | op > value 0.05 detail function kept above the control's 0.00 |
+# | ancestry-predicts-phenotype _(primary)_ | kind=derived path=n_classes_ancestry_predicts detail=number of classes passing the per-class rule | op >= value 4.0 detail >= 4 of 6 classes |
+# | information-per-cost-frontier-resolved _(primary)_ | kind=derived path=frontier_span_decades detail=log10 range of bits per joule across classes | op >= value 1.0 detail >= 1 decade |
+# | heredity-need-not-presume-rna _(supporting)_ | kind=derived path=nonrna_bits_per_joule_fraction detail=best non-RNA bits per joule / rna_like bits per joule | op >= value 1.0 detail a non-RNA class matches or beats RNA per joule |
+# | nonrna-bits-per-offspring-fraction _(diagnostic)_ | kind=derived path=nonrna_bits_fraction detail=best non-RNA bits / rna_like bits | op >= value 0.0 detail informative readout (any value passes) |
+# | attachment-is-conditional _(supporting)_ | kind=derived path=attachment_budget_span detail=mean attached-fraction span low-to-high budget | op >= value 0.5 detail >= 0.5 span |
+# | templated-takeover-fidelity _(diagnostic)_ | kind=derived path=templated_takeover_fidelity detail=from fidelity_transition.per_class.rna_like | op <= value 0.99 detail a takeover exists inside the swept range |
+# | frontier-pareto-size _(diagnostic)_ | kind=derived path=frontier_pareto_size detail=certified Pareto front size | op >= value 1.0 detail informative readout |
+# | frontier-energy-ledger-closes _(diagnostic)_ | kind=derived path=frontier_energy_within_tolerance detail=1 when all runs within tolerance | op >= value 1.0 detail all runs within tolerance |
+
+# ### Literature anchors
+#
+# | expectation | model observable | source | status |
+# | --- | --- | --- | --- |
+# | A template of length L with per-site fidelity q keeps its information only above the error threshold q^L > 1/sigma | fidelity_transition.per_class.rna_like (attaches from, settled function) | Eigen 1971 | Reproduced at the agent level with exact SSA — rna_like attaches and keeps function from q = 0.967 at L = 30, sigma = 3 (floor 0.964). |
+# | Compositional (GARD) assemblies transmit information by growth and fission without a template, but with limited capacity and heritability | classes.compositional (heritable bits, heritability, capacity) | Segre 2000; Vasas 2010 | 0.47 bit per offspring at heritability 0.70, capacity 18 bits, 0 quanta — cheap, attaches at 3 % of the budget. |
+# | An RNA polymerase ribozyme copies at ~97 % per-site fidelity | the rna_like class's nominal per_site_fidelity | Johnston 2001 | The package's one measured entry (0.967); it sits just above the Eigen floor at L = 30. |
+
 # ## Open decisions
+# - Phase-7 heredity attachment thresholds: what precursor budget (copies per individual the pool must cover, attach_min_copies), energy margin (attach_energy_margin) and fidelity floor are defensible for attaching heredity to a lineage? The build uses hypothetical values (10 copies, margin 1.0) and Eigen's error threshold Q >= 1/sigma as the fidelity floor, and SWEEPS the budget x fidelity space instead of asserting a point.
 # - Rule-set scope for the Phase-3 reaction universe: keep C1-C3 feedstock / C/H/O-only chemistry (as built: products capped at C4, 413 reactions) or include N/P-bearing reactions from the start, folding the og-res-N / og-res-P resource chemistries into the universe?
 # - Publication milestone: close the first paper at the pre-genetic arc (og-00 -> og-03) or extend through the early-genetic arc (og-04 protocells -> og-06 heredity)?
 # - First limiting resource / next module: which enrichment-plan module to build first — nitrogen assimilation (N2/NO3->NH4, FeS), phosphorus availability (phosphate/polyphosphate co-concentration), proto-energetics (thioester/acyl-phosphate energy currency before pumping), or metabolism->growth/division (osmotic growth)?
