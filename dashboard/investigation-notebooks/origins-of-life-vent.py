@@ -3673,7 +3673,215 @@ _save_viz('og-07-alt-real-metabolite-exchange', 'metabolite-exchange-map', _rend
 # | Fatty-acid vesicles pass small uncharged solutes readily and charged solutes slowly | cnp_resources permeability classes (p_small_neutral, p_monoacid, p_diacid) | Jordan 2019 (vesicle system); measured charged-solute passage proposed (Mansy 2008, pending) | The emergence boundary (3e-9 m/s) sits 1-2 decades above the measured charged-solute range; the diacid value is hypothetical and swept. |
 # | Long tight pores retain solutes (residence set by the thermophoretic trap) | SpatialCouplingStep.k_wash (the residence axis) | Baaske 2007 / Mast 2010 | The function needs 20-100 s residence at 3e-9 m/s; at 500 s the feed depletes and it needs 1e-7 m/s. |
 
+# ## Study: Integrated Autonomy: The Minimum Sufficient Innovation Set Across Model Structures (`og-08-alt-robust-innovation-set`)
+#
+# **Question.** Model Upgrade plan, Phase 9 — the capstone. og-08 found that a lineage persists as the vent's support is withdrawn only with the irreducible set {pump, importer, heredity}, but each innovation there was a term of a hand-written co-limited budget. If the same withdrawal is run inside ONE persistent world assembled from the merged phases — the Phase-1 posterior as the vent, the Butler-Volmer interface making the feed, a localization class shaping it, the Phase-3 universe inside the cell, an energy_coupling class as its power budget, a boundary class as its leakiness, a heredity class as the machinery it holds, a maintenance law pricing its upkeep, a population dividing and dying by structural rewrites, seven ledgers beside it — which of the three innovations are required for off-gradient persistence, in how many of the sampled model structures, and what fraction of the lineage's essential work and material does it then supply itself?
+#
+# **Objective.** Build the integrated world (AblationStep, GeologicalDriverStep, LineageStateProcess, ActiveImportProcess with the ActiveUptakeRule, MaintenanceDemandProcess, LineageSupplyProcess, AutonomyBudgetStep, PopulationBudgetProcess, StructuralEventLogStep; the integrated_autonomy_world composite over the energy_coupling / heredity / boundary / localization faces with a permeability anchor and a maintenance law; the vg-data package integrated_autonomy carrying the Phase-1 posterior), run every subset of {pump, importer, heredity} under a sampled structural ensemble at the nominal and a rich ocean floor with the og-adv generic control and the full set over the floor axis, grade the pre-registered gates and report the intersection of the required innovations as a lattice with the continuous autonomy value decomposed by function.
+#
+# **Hypothesis.** og-08's set is a hypothesis generator, not a result: in the integrated world the innovations are real processes whose benefit and cost depend on the structure around them, so the required set will not be the same under every structure. The pump (an internal store charged by the drive the cell's own substrate pool sustains) should be required wherever anything persists, because the external tap vanishes with the gradient; heredity should be required wherever the inheritance class holds more machinery attached than its de-novo control does; the importer should matter only where the membrane is tight enough for concentration to pay and the ocean background is poor enough to need it; and the ocean floor the withdrawal relaxes toward — a hypothetical — should decide whether any subset persists at all.
+#
+# **Claim.** In the integrated world og-08's set is not sufficient: with every innovation a real process of an earlier phase, a lineage leaving the vent into a 1 % ocean persists under no sampled structure, and into a 10 % ocean only with {pump, heredity} — the importer, a transporter concentrating organics against a fatty-acid-vesicle leak while the drive is already fed by ocean H2, costs more than it returns. What decides persistence is the storage model (thioester or Fe-redox), the inheritance class (whether its machinery outlives the cell's falling organic carbon) and the ocean's substrate background — the hypothesis og-08 generated survives as 'a pump held by heredity', and the campaign's honest endpoint is that the vent-to-ocean transition turns on one hypothetical number it cannot yet constrain: what the ocean offers.
+
+# ### Design — originally proposed
+#
+# _The mechanisms and methods proposed when this study was designed; the model **actually built** (and the tools it uses) is shown below. These may differ as the design was realized._
+#
+# **Proposed mechanisms**
+#
+# - M: autonomy as the integrated budget of real processes under withdrawal
+# - co-limitation of work and material; machinery held by inheritance
+#
+# **Proposed models / methods**
+#
+# - One persistent world assembled from the merged faces with a scheduled ablation
+# - A structural ensemble over storage model, inheritance class, permeability assumption, transport law and maintenance function
+# - The innovation lattice with the intersection of required sets across structures
+# - Seven ledgers and a structural-event log over the integrated world
+#
+# **Key assumptions**
+#
+# - One 0.52-pL protocell (the Phase-6 individual) carries the Phase-3 universe (generalist repertoire) and the Phase-8 exchange rules; its vent is one Phase-1 posterior draw (H2 2.3-10.8 mM, dpH 3.4, 322 K); the withdrawal is linear over 100 minutes after one hour in the vent, every driver relaxing to the ocean floor (the gradient to 0).
+# - Pump = coupling_activity 1 on the storage class, its drive sustained by the cell's live H2 / organic pool (half-saturation 10 uM) and coupled by the machinery the heredity class holds (mean function over 0.25); importer = the ActiveUptakeRule (1e-19 mol/s per substrate at full machinery, K_m 1 uM, set-point 30 % of the vent level, at most 30 % of the work supply per tick, at the thermodynamic cost over a 0.5 efficiency); heredity = attachment by the HeredityAttachmentStep (off: og-06's non-heritable control).
+# - Persistence (pre-registered): over the final 15 % of the run the settled work budget and material budget are non-negative and at least half the founders are alive.
+# - The heredity class runs one lineage-time unit per 60-s world tick; its precursor pools follow a tenth of the cell's organic carbon; 5 % of the lineage's work feeds its energy store.
+
+# ### Parameters
+#
+# | simulation | composite | steps | params |
+# | --- | --- | --- | --- |
+# | `Integrated autonomy world — full set at the canonical structure, nominal floor` | `viva_genesis.composites.integrated_autonomy.integrated_autonomy_world` | 0 | model_energy_coupling=thioester_acyl_phosphate, model_heredity=rna_like, model_boundary=single_chain, permeability_anchor=extrapolated, model_localization=multisolute_surrogate, maintenance_law=constant, pump=on, importer=on, heredity=on, feed_floor=0.01 |
+#
+# Declared parameter sets (`study.yaml` variants):
+#
+# - **no-pump** — `pump=off`
+# - **no-importer** — `importer=off`
+# - **no-heredity** — `heredity=off`
+# - **generic-environment** — `environment=generic`
+# - **rich-ocean** — `feed_floor=0.1`
+
+# ### The model & its parameters
+#
+# Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
+
+# **The model — `viva_genesis.composites.integrated_autonomy.integrated_autonomy_world`**
+#
+# og-08's off-gradient test inside ONE persistent world assembled from the merged phases: the lineage lives on what real processes deliver — the external pmf tapped through its membrane leak and an internal store charged by the drive its live substrate pool sustains (an energy_coupling class, the STORAGE MODEL), organic carbon reaching it through a localization class (the TRANSPORT LAW) and the Phase-8 exchange rules at a boundary class's leakiness (the PERMEABILITY ASSUMPTION), the Phase-3 universe inside it catalysed by the mineral surface or by the machinery its heredity class holds (the INHERITANCE CLASS), upkeep priced by a MAINTENANCE LAW, and a population of individuals that divide and go extinct by structural rewrites. An AblationStep withdraws the gradient, the mineral access and the feed; pump (coupling_activity), importer (the ActiveUptakeRule) and heredity (attachment) are the three innovations; environment=generic is the og-adv reject control. Seven ledgers run beside the world and a structural-event log records every event. The vent endmembers are one Phase-1 posterior draw (vg-data integrated_autonomy).
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_integrated_autonomy_integrated_autonomy_world = {
+    'model_energy_coupling' : 'thioester_acyl_phosphate',   # Model class behind the 'energy_coupling' face: fe_redox | h_na_gradient_leaky_membrane | passive_gradient | polyphosphate | thioester_acyl_phosphate
+    'model_heredity'        : 'rna_like',   # Model class behind the 'heredity' face: compositional | hybrid | mineral_state | network | peptide | rna_like
+    'model_boundary'        : 'single_chain',   # Model class behind the 'boundary' face: mixed | single_chain | thioester_aminothiol
+    'model_localization'    : 'multisolute_surrogate',   # Model class behind the 'localization' face: fenics | fenics_multisolute_3d | fipy | multisolute_surrogate | surrogate
+    'maintenance_law'       : 'constant',   # Maintenance function: constant (Phase 6) | leak_repair (scales with leakiness) | turnover (scales with machinery held)
+    'pump'                  : 'on',   # Internal energy conversion: on | off (coupling_activity 1 | 0 on the storage class)
+    'importer'              : 'on',   # Active resource import: on | off (the ActiveUptakeRule fires | not)
+    'heredity'              : 'on',   # Information maintenance: on (HeredityAttachmentStep decides) | off (non-heritable control)
+    'environment'           : 'vent',   # vent | generic (og-adv reject control: every driver at its floor from t = 0, no pore concentration)
+    'h2_vent'               : 0.0108,   # Dissolved H2 of the vent fluid (M) [vg-data: calibrated, Phase-1 posterior draw]
+    'delta_ph'              : 3.5,   # Vent - ocean pH contrast [vg-data: calibrated, Phase-1 posterior draw]
+    'temperature'           : 322.15,   # Vent fluid temperature (K) [vg-data: calibrated, Phase-1 posterior draw]
+    'dic'                   : 0.002,   # Ocean DIC / CO2 (M), never withdrawn [vg-data: extrapolated]
+    'flow_velocity'         : 0.003,   # Vent flow through the reaction zone (m/s) [vg-data: Phase-1 posterior draw]
+    'olivine_rate'          : 0.2,   # Serpentinization extent of the geology layer [vg-data: Phase-1 posterior draw]
+    'ph_ocean'              : 6.0,   # Ocean-side pH [vg-data: extrapolated]
+    'ablation_start'        : 3600.0,   # World time at which withdrawal begins (s)
+    'ablation_duration'     : 6000.0,   # Duration of the linear withdrawal (s)
+    'feed_floor'            : 0.01,   # Ocean floor of the feed fraction (H2, organics, N, P) [vg-data: hypothetical, swept]
+    'gradient_floor'        : 0.0,   # Ocean floor of the gradient fraction
+    'mineral_floor'         : -1.0,   # Ocean floor of the mineral access (residual catalytic mineral; < 0 = same as feed_floor) [vg-data: hypothetical]
+    'tick_seconds'          : 60.0,   # World seconds per tick (every process runs at this interval)
+    'store_seconds'         : 10.0,   # Interval of the storage class + its ledger, the cell's chemistry and the importer (s; the Phase-6 step)
+    'heredity_clock_ratio'  : 0.016666666666666666,   # Lineage-time units of the heredity class per world second (one per tick) [vg-data: hypothetical]
+    'coupling_activity'     : 1.0,   # Storage-class coupling activity when the pump is on [vg-data: hypothetical]
+    'permeability_reference': 1e-06,   # H+ permeability of the fatty-acid reference membrane (m/s) [vg-data: extrapolated]
+    'max_relative_leak'     : 100.0,   # Cap on a boundary class's leakiness relative to the fatty-acid vesicle [vg-data: hypothetical]
+    'v_max_import'          : 1e-19,   # Importer capacity per substrate at full machinery (mol/s; ~6e4 molecules/s) [vg-data: hypothetical]
+    'k_m_import'            : 1e-06,   # Importer half-saturation (M) [vg-data: hypothetical]
+    'import_ratio_cap'      : 100.0,   # Inside / outside ratio at which the importer stops [vg-data: hypothetical]
+    'import_setpoint'       : 0.3,   # The importer holds each substrate at this fraction of its in-vent level [vg-data: hypothetical]
+    'import_budget_fraction': 0.3,   # Share of the lineage's work the importer may spend per tick [vg-data: hypothetical]
+    'permeability_anchor'   : 'extrapolated',   # Charged-solute exchange permeabilities: extrapolated (Phase-8 classes) | measured (1000x tighter: the fatty-acid-vesicle charged-solute anchor, og-07-alt decision)
+    'k_org'                 : 1e-05,   # Drive half-saturation on the cell's organic substrate (M) [vg-data: hypothetical]
+    'k_h2'                  : 1e-05,   # Drive half-saturation on the cell's H2 (M; hydrogenase-like affinity) [vg-data: hypothetical]
+    'function_reference'    : 0.25,   # Heredity-class mean function at which the lineage holds its full machinery [vg-data: hypothetical]
+    'heredity_allocation'   : 0.05,   # Share of the lineage's work allocated to heredity [vg-data: hypothetical]
+    'k_wash'                : 0.01,   # Pore feed / washout rate (1/s) [vg-data: inferred, Phase-8 canonical]
+    'peclet'                : 8.0,   # Control Peclet of the multisolute transport class [Phase-8 operating point]
+    'pore_flow_velocity'    : 1e-05,   # Flow of the single-tracer transport classes (m/s): accumulation Peclet ~1.8, inside og-03's resolvable range
+    'feed_pyruvate'         : 0.0001,   # Organic feed the vent delivers at full support (M) [vg-data: inferred]
+    'n_initial'             : 8,   # Founding individuals of the population
+    'protocell_radius'      : 5e-07,   # Protocell radius (m): the cell's volume, membrane area and A/V [vg-data: inferred, Phase 6]
+    'seed'                  : 1,   # Heredity-class RNG seed
+}
+
+# ### Typed contract (declared interface)
+#
+# _The bigraph-schema typed ports + conservation predicates this study's composite must satisfy (audited in the workbench §Contract panel). Declared design — independent of whether a run exists yet._
+#
+# **Inputs**
+#
+# | port | type | units | bounds |
+# | --- | --- | --- | --- |
+# | `gradient_support` | float | dimensionless | [0.0, 1.0] |
+# | `mineral_access` | float | dimensionless | [0.0, 1.0] |
+# | `feed_support` | float | dimensionless | [0.0, 1.0] |
+#
+# **Outputs**
+#
+# | port | type | units | bounds |
+# | --- | --- | --- | --- |
+# | `net_power` | float | watt |  |
+# | `material_net` | float | mole/second |  |
+# | `autonomy` | float | dimensionless | [0.0, 1.0] |
+# | `survivors` | float | dimensionless | [0.0, 1.0] |
+#
+# **Conditions**
+#
+# - `conservation_ledger` (invariant): `geology: pool == integral of the published source rates`
+# - `charge_ledger` (invariant): `interface: |anode - (carbon + HER)| / anode < 1e-9, faradaic efficiency <= 1, iv residual < 1e-6`
+# - `network_ledger` (invariant): `cell: element residual 0, carbon residual at integrator tolerance, dissipation >= 0`
+# - `ecology_ledger` (invariant): `cell + pore: total_X(t) = total_X(0) + in - out - degraded for C, N, P`
+# - `free_energy_ledger` (invariant): `store: in + E0 - work - dissipated = E(t), margin >= 0, efficiency <= 1`
+# - `information_ledger` (invariant): `heredity store: W(t) = W0 + inflow - spent`
+# - `rewrite_ledger` (invariant): `population: total(t) = total(t-1) - removed + external_flux across every _divide / _remove`
+
+# ### Run
+#
+# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
+
+# === Study: og-08-alt-robust-innovation-set ===
+STUDY = 'og-08-alt-robust-innovation-set'
+STUDY_DIR = REPO / 'workspace/studies' / STUDY
+STUDY_YAML = str(STUDY_DIR / "study.yaml")
+RUNS_DB = str(STUDY_DIR / "runs.db")
+
+# This study has no *recorded* runs yet. RERUN builds its declared
+# composite(s) live and runs them; a composite whose module processes
+# are not implemented yet reports the error instead of crashing.
+STEPS_Integrated_autonomy_world_full_set_at_the_canonical_structure_nominal_floor = 100
+INTERVAL_Integrated_autonomy_world_full_set_at_the_canonical_structure_nominal_floor = 1.0
+
+if RERUN:
+    from process_bigraph import Composite
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_integrated_autonomy_integrated_autonomy_world if 'ov_viva_genesis_composites_integrated_autonomy_integrated_autonomy_world' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_integrated_autonomy_integrated_autonomy_world = materialize_composite('viva_genesis.composites.integrated_autonomy.integrated_autonomy_world', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_integrated_autonomy_integrated_autonomy_world['state']}, core=core)
+            _comp.run(STEPS_Integrated_autonomy_world_full_set_at_the_canonical_structure_nominal_floor)
+        print('ran', 'Integrated autonomy world — full set at the canonical structure, nominal floor', f'(viva_genesis.composites.integrated_autonomy.integrated_autonomy_world) for', STEPS_Integrated_autonomy_world_full_set_at_the_canonical_structure_nominal_floor, 'steps')
+    except Exception as _e:
+        print(f"Integrated autonomy world — full set at the canonical structure, nominal floor not runnable yet: {type(_e).__name__}: {_e}")
+else:
+    print("RERUN=False — not re-simulating.")
+
+# ### Visualizations
+#
+# _Results are shown by the figures below, produced by the run above._
+
+# **robust-innovation-lattice**
+
+# robust-innovation-lattice
+_save_viz('og-08-alt-robust-innovation-set', 'robust-innovation-lattice', _render_one('local:RobustInnovationLattice', {'title': 'Phase 9 — the innovation lattice across model structures (Decision view)', 'report_json': 'workspace/studies/og-08-alt-robust-innovation-set/artifacts/robust_innovation_set.json'}, RUNS_DB, STUDY_YAML))
+
+# **autonomy-ablation-trace**
+
+# autonomy-ablation-trace
+_save_viz('og-08-alt-robust-innovation-set', 'autonomy-ablation-trace', _render_one('local:AutonomyAblationTrace', {'title': 'Phase 9 — the integrated world through the withdrawal (Mechanism / World view)', 'report_json': 'workspace/studies/og-08-alt-robust-innovation-set/artifacts/robust_innovation_set.json'}, RUNS_DB, STUDY_YAML))
+
+# ### Acceptance criteria
+#
+# _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
+#
+# | test | measures | passes if |
+# | --- | --- | --- |
+# | every-ledger-closes-over-the-integrated-world _(primary)_ | kind=derived path=every_ledger_ok_final detail=every ledger's ok flag (the information ledger by its exact energy-store residual) | op >= value 1.0 detail every ledger within tolerance |
+# | ablation-withdraws-every-driver _(supporting)_ | kind=derived path=ablation_complete_final detail=ablation phase == 2 on the final tick | op >= value 1.0 detail withdrawal complete |
+# | structural-events-logged _(supporting)_ | kind=derived path=structural_events_logged detail=cumulative event count | op >= value 3.0 detail events recorded |
+# | autonomy-decomposed-off-gradient _(diagnostic)_ | kind=derived path=settled_autonomy detail=settled autonomy.autonomy | op >= value 0.0 detail informative readout |
+# | net-work-budget-off-gradient _(diagnostic)_ | kind=derived path=settled_net_power_offgradient detail=settled autonomy.net_power | op > value -1.0 detail informative readout |
+# | minimum-sufficient-innovation-set _(primary)_ | kind=derived path=lattice_minimum_sufficient_set_resolved detail=1 when both conditions hold | op >= value 1.0 detail lattice resolved |
+# | minimum-sufficient-innovation-set-rich-ocean _(supporting)_ | kind=derived path=lattice_minimum_sufficient_set_resolved_rich detail=1 when both conditions hold at the rich floor | op >= value 1.0 detail lattice resolved |
+# | full-set-persistence-across-structures _(diagnostic)_ | kind=derived path=lattice_full_set_persistence_fraction detail=n persisting / n structures | op >= value 0.0 detail informative readout |
+# | robust-required-intersection _(diagnostic)_ | kind=derived path=lattice_robust_required_count detail=size of the intersection | op >= value 0.0 detail informative readout |
+# | og08-hypothesis-reproduced _(diagnostic)_ | kind=derived path=lattice_og08_intersection_matches_rich detail=intersection == og-08 set | op >= value 0.0 detail informative readout |
+# | generic-environment-rejected _(primary)_ | kind=derived path=lattice_generic_rejected detail=1 when the control is rejected | op >= value 1.0 detail control rejected |
+# | ensemble-ledgers-close _(primary)_ | kind=derived path=lattice_all_ledgers_ok detail=1 when all runs close | op >= value 1.0 detail all runs within tolerance |
+# | autonomy-of-the-persisting-lineages _(diagnostic)_ | kind=derived path=lattice_autonomy_persisting_any_rich detail=mean over persisting runs of any subset | op >= value 0.0 detail informative readout |
+# | ocean-floor-for-majority-persistence _(diagnostic)_ | kind=derived path=lattice_lowest_floor_majority_persists detail=from floor_map | op <= value 1.0 detail inside the swept range |
+
+# ### Literature anchors
+#
+# | expectation | model observable | source | status |
+# | --- | --- | --- | --- |
+# | Escape from the vent needs internalised energy conversion (a pump), resource acquisition and heredity to hold them | the innovation lattice (lattice.required_intersection / required_union) | Martin & Russell 2007; Lane & Martin 2012; Sojo 2014 | Pump and heredity are required in every viable structure (1 / 1); the importer in 0 — resource acquisition is subsumed by permeant gases (CO2, H2) feeding the cell's own fixation and drive. |
+# | A leaky early membrane cannot hold a gradient or a concentrated pool; tight membranes come with pumps | the permeability-assumption axis (boundary class x anchor) in lattice.by_axis | Sojo 2014; Jordan 2019 (vesicle system) | Under the Phase-8 extrapolated leak the importer's cost (up to 1.9e-18 W, its full budget) exceeds its benefit; under the measured charged-solute anchor it costs ~1e-21 W but the best full-set lineage still sits 1e-19 W short — the leak sets the cost, the upkeep the margin. |
+
 # ## Open decisions
+# - Phase 9 — read og-08's {pump, importer, heredity} as a HYPOTHESIS GENERATOR (plan section 10), not a result: the integrated world (og-08-alt-robust-innovation-set) finds the required set structure-dependent and the off-gradient verdict decided by the ocean floor, the membrane leakiness and the inheritance class's budget sensitivity. Adopt this framing for the campaign's endpoint statement, and supply the ocean's H2 / organic background (the floor) as an expert prior?
 # - Phase-8 agent motion model: DEFERRED. The proto_ecology component points agents at fixed cells of the Phase-4 field (interleaved or segregated along the pore); no motility, chemotaxis or advective drift of agents is modelled. Which motion model (none / advected with the pore flow / Brownian between cells / thermophoretic like the solutes) should Phase 8b adopt?
 # - Phase-8 membrane permeability of dicarboxylates: the community function (the reductive C4 branch crossing from the carboxylating to the hydrogenating lineage) emerges only above a diacid permeability of ~3e-9 m/s at 100 s residence, while the measured passage of charged solutes through fatty-acid vesicles (Mansy 2008, proposed_inputs, pending) is ~1e-11-1e-10 m/s. Is a leakier boundary (mixed / shorter-chain amphiphiles, Phase-5 thioester_aminothiol class) or a longer pore residence the defensible route, or should the exchanged intermediate be a neutral species?
 # - Phase-7 heredity attachment thresholds: what precursor budget (copies per individual the pool must cover, attach_min_copies), energy margin (attach_energy_margin) and fidelity floor are defensible for attaching heredity to a lineage? The build uses hypothetical values (10 copies, margin 1.0) and Eigen's error threshold Q >= 1/sigma as the fidelity floor, and SWEEPS the budget x fidelity space instead of asserting a point.
