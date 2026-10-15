@@ -25,41 +25,81 @@ lead: |
   scenarios head to head rather than assuming either. Each stage is a coupled Vivarium composite of
   genuine simulators (PHREEQC, FiPy, eQuilibrator, libRoadRunner — plus a merged FEniCS/dolfinx FEM
   solver run under pixi as a high-fidelity cross-check) under explicit conservation contracts.
-  All fourteen stages — the full arc from vent geochemistry through carbon fixation, protometabolism,
-  individuality, compartmentation, internalized bioenergetics and heredity to ecology, escape, and the
-  nitrogen/phosphorus/energy/growth bottlenecks — are built, run on real simulators, and pass their
-  pre-stated falsifiable gates, with an adversarial vent-ablated control rejected by every
-  discriminating gate.
+  All seventeen member studies are built and run on real simulators. The fourteen-stage arc — from vent
+  geochemistry through carbon fixation, protometabolism, individuality, compartmentation, internalized
+  bioenergetics and heredity to ecology, escape, and the nitrogen/phosphorus/energy/growth bottlenecks —
+  plus the Phase-1 environmental-calibration study (og-cal-vent-environment) pass their pre-stated
+  falsifiable gates, with an adversarial vent-ablated control rejected by every discriminating gate. Two
+  Model-Upgrade calibration studies report honest results rather than passes: the Phase-2 electrochemistry
+  mechanism map (og-01-cal-electrochemistry) fails its cross-class agreement gate because the limitation
+  attribution is structure-sensitive, and the Phase-3 open-network study (og-02-alt-reaction-universe)
+  finds that no autocatalytic motif emerges at vent conditions without a one-carbon feed.
 executive:
   what_is_this: A staged, falsifiable Vivarium campaign testing the alkaline-vent theory for the 
     origin of cells — treating a cellular origin as coupled transitions from geochemistry to 
     bioenergetic autonomy, grounded in serpentinization-driven alkaline hydrothermal vents, with 
     explicit competing scenarios.
-  verdict: The full geochemistry-to-heredity arc runs and passes. All fourteen member studies
-    execute on real simulators and pass their pre-stated, falsifiable gates with conservation held
+  verdict: The full geochemistry-to-heredity arc runs and passes. All seventeen member studies execute
+    on real simulators; the fourteen-stage arc and the Phase-1 calibration pass their pre-stated,
+    falsifiable gates with conservation held
     to machine precision — a Lost City vent (og-00), H2-driven carbon fixation benchmarked against
     Preiner/Hudson with the Tutolo-2026 risk mapped (og-01), a self-amplifying rTCA network (og-02),
     thermophoretic individuality (og-03), amphiphile compartments (og-04), internalized bioenergetics
     bounded by the Sojo cost (og-05), heredity that need not presume RNA (og-06), metacommunity
     robustness (og-07), an irreducible escape set {pump, importer, heredity} (og-08), plus the
-    nitrogen, phosphorus, energy-currency and growth/division bottleneck modules. Every step also has
-    a mapped failure region, and the adversarial generic-nonequilibrium control passes by rejection —
-    every discriminating gate rejects a vent-feature-ablated control while the vent passes — so the
-    gates are falsifiable and vent-specific. What remains open is editorial (publication scope) and
-    architectural (folding the stages into one persistent world), not unrun science.
+    nitrogen, phosphorus, energy-currency and growth/division bottleneck modules. A Phase-1
+    environmental-calibration study (og-cal) then re-runs og-00's vent under the campaign's new
+    three-quantity standard — conditioning an LHS prior on the Lost City windows leaves a posterior in
+    which 100% of the empirically supported distribution supplies what carbon fixation needs (6 of 48
+    prior draws reproduce all three Lost City windows, and all six meet og-01's requirements), the two
+    transport-structure classes agree on viability, dissolved H2 is the single binding observation, and
+    the conservation ledger is exact (0 of 96 points rejected). The Phase-2 electrochemistry mechanism
+    map (og-01-cal-electrochemistry) is an honest NEGATIVE — the carbon_fixation face is built with real
+    Butler–Volmer, empirical and (pixi-only) microkinetic classes and its charge/electron ledger closes
+    on all 750 runs, but the pre-registered failure-mode-attribution gate FAILS (label agreement 0.47 <
+    0.8) because the limitation label is structure-sensitive (Butler–Volmer attributes the favorable
+    region to the catalyst, the empirical class to its lumped gradient drive), with three decisions
+    pending. The Phase-3 open chemical network (og-02-alt-reaction-universe) is likewise an honest
+    result — a rule-generated C/H/O reaction universe (413 reactions, real eQuilibrator ΔG′) fed the
+    Phase-1 posterior grows 0 autocatalytic motifs (every C–C route uphill at vent activities), while a
+    formaldehyde feed grows exactly one, the formose cycle, enriched over matched nulls (p ≈ 0.04); the
+    curated rTCA motif is reclassed as imposed and non-conserving. No autocatalysis emerges at vent
+    conditions without a one-carbon feed — which sets Phase 4's question. Every step also has a mapped
+    failure region, and the adversarial generic-nonequilibrium control passes by rejection — every
+    discriminating gate rejects a vent-feature-ablated control while the vent passes — so the gates are
+    falsifiable and vent-specific. What remains open is editorial (publication scope), architectural
+    (folding the stages into one persistent world), and the forward Model-Upgrade program that
+    re-grounds each stage under the feasibility/robustness/discrimination standard — its foundation being
+    canonical vg_* schemas, model-class-as-a-sweep-axis, a vg-data provenance layer, a UQ layer and a
+    conservation ledger — is built, Phase 1 (environmental calibration) is done, Phase 2 (electrochemical
+    carbon fixation) is built and run as an honest negative (structure-sensitive attribution, decisions
+    pending), Phase 3 (open chemical network) has run (no autocatalytic motif at vent conditions without
+    a one-carbon feed), and Phase 4 (3-D multisolute localization) has run its co-localization map —
+    finding that the prebiotic mixture fractionates rather than co-localizes in a single thermophoretic
+    pore, a candidate incompatibility — with Phases 5–9 the planned path — not unrun science in the staged
+    arc itself.
   verdict_status: complete
-  verdict_detail: 14 member studies (Campaigns 0–VIII, four resource/energy bottleneck modules, and
-    an adversarial control) wired into a DAG — all run and passing. Each runs a coupled Vivarium
-    composite of real tools (PHREEQC + FiPy; eQuilibrator + FiPy; libRoadRunner; a FiPy thermal trap;
-    amphiphile self-assembly; bioenergetic internalization; an agent-based heredity lineage; a pore
-    metacommunity; an osmotic growth/division compartment) and passes its conservation and acceptance
-    gates. Headline results carry numbers — og-00 holds the Lost City window (T 40–91 °C, pH 9.0–10.8,
-    positive H2 flux) over ~80% of the swept grid with |charge|=0; og-01 reproduces the Preiner/Hudson
-    yields and shows the Tutolo arm halve the usable proton-motive gradient (427→43 mV); og-02 reaches
-    autocatalytic gain ~29.5; og-06's compositional/hybrid heredity is seed-robust (0.878±0.005, 5/5
-    graded seeds, 8/8 in a wider sweep); og-08's escape set is irreducible (full set survives 1.0,
-    any single knockout 0). The adversarial control is rejected by all five discriminating gates
-    (min margin 1.8 decades) while the vent passes all five.
+  verdict_detail: 17 member studies (Campaigns 0–VIII, four resource/energy bottleneck modules, an
+    adversarial control, a Phase-1 environmental-calibration study, a Phase-2 electrochemistry mechanism
+    map, and a Phase-3 open-network study) wired into a DAG — all run; all gate-passing except the Phase-2
+    map, whose agreement gate fails honestly (below). The Phase-3 study (og-02-alt-reaction-universe)
+    passes its motifs-emerge-not-imposed gate as an honest result — 0 autocatalytic motifs on the Phase-1
+    feed, the formose cycle only on a formaldehyde feed (enriched over matched nulls, p ≈ 0.04). Each runs a coupled Vivarium composite of real tools (PHREEQC + FiPy;
+    eQuilibrator + FiPy; libRoadRunner; a FiPy thermal trap; amphiphile self-assembly; bioenergetic
+    internalization; an agent-based heredity lineage; a pore metacommunity; an osmotic growth/division
+    compartment; a Butler–Volmer galvanic cell) and is graded on its conservation and acceptance gates. Headline results carry numbers — og-00 holds the Lost
+    City window (T 40–91 °C, pH 9.0–10.8, positive H2 flux) over ~80% of the swept grid with |charge|=0;
+    og-01 reproduces the Preiner/Hudson yields and shows the Tutolo arm halve the usable proton-motive
+    gradient (427→43 mV); og-02 reaches a peak autocatalytic gain ~29.5 (settling lower as CO2 limits);
+    og-06's compositional/hybrid heredity is seed-robust (0.878±0.005, 5/5 graded seeds, 8/8 in a wider
+    sweep); og-08's escape set is irreducible (full set survives 1.0, any single knockout 0); og-cal's
+    Lost-City-conditioned posterior is 12.5% of the prior yet 100% viable for downstream carbon fixation
+    and transport-class-independent, with the conservation ledger exact (0/96 points rejected);
+    og-01-cal-electrochemistry builds the vent wall as a Butler–Volmer galvanic cell sitting in the
+    Altair-2025 current window (7 of 8 pre-registered gates pass, charge/electron ledger exact on 750
+    runs) but its failure-mode-attribution gate fails at label agreement 0.47 — a structure-sensitive
+    limitation attribution reported as the Phase-2 mechanism map. The adversarial control is rejected by
+    all five discriminating gates (min margin 1.8 decades) while the vent passes all five.
   decisions_resolved:
   - 'Baseline parameterization: run BOTH arms — classical favorable (Russell/Lane/Sojo) and the 2026 unfavorable
     reassessment (Tutolo/Jackson) — so the campaign adjudicates rather than assumes. Implemented in og-01.'
@@ -73,6 +113,29 @@ executive:
     head-to-head; compositional and hybrid heredity persist length-independently (functional persistence
     ~0.88, seed-robust 5/5 graded seeds) where a long low-fidelity template suffers the Eigen length catastrophe —
     so heredity need NOT presume a long high-fidelity RNA template."
+  - 'Explicit electrochemistry for og-01 (Model Upgrade Phase 2): BUILT, not kept as the
+    gradient-efficiency abstraction — the carbon_fixation face adds a real Butler-Volmer galvanic-cell
+    class (Nernst half-cells, Koutecky-Levich transport limits, Preiner electron branching), with
+    MineralConductivityProcess deriving gradient_efficiency from the wall circuit and a ChargeLedger
+    auditing the Kirchhoff/faradaic residuals. The empirical gradient-efficiency class is kept as
+    og-01''s graded default.'
+  - 'Phase 2 attribution + default class (resolved by Eran): ACCEPT the structure-sensitive limitation
+    attribution AS the Phase-2 result — the empirical and Butler-Volmer classes disagreeing on the
+    limitation label in the favorable region (agreement 0.47 < 0.8) IS the finding, reported as the
+    og-01-cal-electrochemistry mechanism map with gate_status failed (an honest negative); the gate is
+    not re-tuned to force a pass. KEEP empirical as og-01''s graded/headline default and butler_volmer as
+    the registered high-fidelity electrochemistry class (the same FiPy-grades / FEniCS-cross-checks
+    pattern), revisiting butler_volmer as the headline once Altair per-condition data turns its
+    calibration window into a fit.'
+  - 'Phase 2 follow-up (accepted, not done): attach the Altair-2025 per-condition current / product time
+    courses (turning the calibration window into a likelihood) and bridge CatMAP/Cantera to run the
+    microkinetic carbon_fixation class under pixi, then re-run the mechanism map with three classes.
+    Deferred because the per-condition dataset is not yet in-workspace and the microkinetic backend needs
+    a pixi env.'
+  - 'og-03 retention gate (resolved by Eran): RESTATE it at the resolvable Peclet rather than the >=1e6
+    enrichment fold — the extreme fold is the closed-cell/reduced-model FiPy exp(Pe) figure the resolved
+    FEM does not confirm above Pe ~ 13, so localization is gated on the Peclet, not the fold-magnitude.
+    The gate change itself is implemented in a separate og-03 PR; recorded here as the decision-state.'
   decisions_needed:
   - question: 'Rule-set scope for the Phase-3 reaction universe: keep C1-C3 feedstock / C/H/O-only chemistry
       (as built: products capped at C4, 413 reactions) or include N/P-bearing reactions from the start, folding
@@ -97,24 +160,6 @@ executive:
       is not the only bottleneck. Its recommended arc inserts N, then P, then a coupled C-N-P 
       protometabolism, with proto-energetics before og-05 and growth/division after og-04. Each is a
       new adjacent study of similar size to og-00..06; help-team is already building og-07/08.
-  - question: 'Enrich og-01 with explicit electrochemistry (treat the vent as an electrical circuit: fluid
-      composition -> redox potential -> mineral conductivity -> current density -> electron-transfer ->
-      CO2 reduction), or keep the current gradient-efficiency abstraction?'
-    context: "Plan section 2 (strongest near-term enrichment). Would replace the abstract gradient_efficiency
-      scalar with electrode-potential/current-density physics and let the campaign ask 'is the conductive
-      Fe/Ni/S architecture the real limiting variable?'. New references added: altair2025electrochemical,
-      commchem2026currentproducing, commchem2026energeticconstraints."
-  - question: 'Phase 2 result: accept that the limitation label (thermodynamic / electrical / catalytic /
-      transport) is structure-sensitive — the Butler-Volmer class attributes the favorable region to the
-      catalyst, the empirical class to its lumped pmf drive, agreement 0.47 < 0.8 — as the mechanism map,
-      or redefine the empirical attribution (lumped electrical+catalytic label) and re-evaluate the gate?
-      And should og-01''s default class become butler_volmer (the Tutolo arm then = wall conductivity)?'
-    context: 'og-01-cal-electrochemistry (references/model-upgrade-integration.md section 6b): the
-      carbon_fixation face is built with empirical | butler_volmer | microkinetic (pixi-only) classes,
-      the charge + electron ledger closes on all 750 runs, the Butler-Volmer cell sits in the Altair-2025
-      current window on 80% of the grid and derives the gradient efficiency from conductivity; the
-      pre-registered agreement gate FAILS. Attaching the Altair-2025 per-condition currents and running
-      the microkinetic class under pixi are the two inputs that would move it.'
   - question: Actually RUN the og-03 -> og-02 localization->ignition coupling (trap enrichment feeds
       the rTCA network as a real swept phase map), resolving the demoted phantom finding and giving 
       og-03 its own Decision phase map?
@@ -147,7 +192,8 @@ executive:
   - question: 'Adopt the Model Upgrade plan''s three-quantity standard (feasibility / robustness /
       discrimination) and evidence tiers as the reporting requirement for every stage — i.e. a stage''s
       verdict may not advance until it carries a TransitionReport whose decision-discipline audit is
-      clean — and re-label the fourteen existing studies with their tier language?'
+      clean — and re-label the fourteen pre-upgrade studies (every member study except the already-
+      tier-labelled og-cal) with their tier language?'
     context: 'Phase 1 is done this way (og-cal-vent-environment; references/model-upgrade-integration.md
       sections 1 and 6): the Lost-City-conditioned vent ensemble reports the posterior-viable fraction, the
       cross-class agreement and the discriminating readouts, with the ledger clean. The remaining studies
@@ -199,15 +245,33 @@ scientific_argument:
     Jackson 2016)
   - no validated vent pathway spans to open-ended heredity (Module J)
   - lab yields are not Hadean environmental concentrations
+  - the chemically-necessary prebiotic mixture fractionates rather than co-localizing in a single
+    thermophoretic pore (Phase-4 co-localization map; surrogate and dolfinx FEM agree on both verdict and
+    degree after the reconciliation) — the fractionation is SORET-DRIVEN — low-S_T species such as
+    ammonium lag the strongly-thermophoretic ones (adsorption is kinetically negligible over the transit),
+    a candidate spatial incompatibility for assembling the set a protocell needs together
   key_figures: []
   caveats:
   - Every quantitative anchor is laboratory or field provenance, not a measured Hadean
     environmental concentration — the campaign tests whether each mechanism is feasible and where
     it fails, not that these exact values held on the early Earth.
   - A few headline magnitudes are solver-sensitive extrapolations, not resolved results — notably
-    og-03's enrichment fold (~1e6–1e7 at accumulation Péclet ≈ 18 is an extrapolation above the
-    Pe ≈ 13 the solver resolves); the defensible claim there is that localization occurs and is
-    bounded, not the exact fold-magnitude.
+    og-03's enrichment fold (the reduced FiPy accumulation column reaches ~10⁸-fold, 9.6×10⁷, at
+    accumulation Péclet ≈ 18, where it diverges ~5.6 decades from the resolved FEniCS/dolfinx field
+    above the Pe ≈ 13 the FEM resolves); the defensible claim there is that localization occurs and is
+    bounded, not the exact fold-magnitude. The resolved 3-D flow-through FEM solve (Phase 4) shows
+    single-pore enrichment is strongest at low Péclet and washes out as flow rises (1/(1+Pe/pe0)), so
+    that extreme fold belongs to the convection-enhanced closed-cell (recirculating) regime, distinct
+    from the resolved flow-through result.
+  - The chemically-necessary prebiotic MIXTURE does not all concentrate in the same place — the Phase-4
+    co-localization map finds the eight-solute mixture FRACTIONATES in a single thermophoretic pore,
+    SORET-DRIVEN — the strongly-thermophoretic species concentrate while low-S_T species such as ammonium
+    lag, holding the co-localization index low in the strong-Soret regime (~0.18, rising toward ~1 where
+    the Soret contrast is weak). Adsorption is kinetically negligible over the pore transit (FEM mobile
+    fraction 0.93–1.0), so it is not the cause. After the surrogate↔FEM reconciliation the surrogate
+    and dolfinx FEM agree on both verdict and degree (within ~2–19%; coloc_index 0.176 vs 0.171 at
+    Pe=1/×8). Reported as a candidate incompatibility, not a passed gate — concentration of one tracer is
+    not concentration of the set a protocell needs together.
   - The stages currently run as separate composites with hand-carried parameters and a division
     counter rather than one persistent world whose bigraph restructures; until the Full Modeling
     Plan architecture lands (references/full-modeling-plan-integration.md), "a boundary forms" and
@@ -271,7 +335,14 @@ guidelines:
     vg-geochemical-world: viva_genesis/composites/geochemical_world.py + viva_genesis/ledger.py (built; Reaktoro/PFLOTRAN classes + mineral feedback planned)
     vg-electrochemistry: viva_genesis/electrochemistry/{butler_volmer,empirical,microkinetic,mineral_conductivity}.py + composites/electrochemical_interface.py + ledger.ChargeLedgerProcess (built; carbon_fixation face with empirical | butler_volmer | microkinetic classes; microkinetic runs under pixi)
     vg-reaction-universe: viva_genesis/protometabolism/{universe,motifs,universe_process}.py + composites/open_chemical_network.py + data/vg_data/reaction_universe.yaml (built; rule-based generator, eQuilibrator potentials, (C,O)-matched nulls, post-hoc detector, NetworkLedgerProcess)
-    vg-pore: Phase 4 (planned; FEniCS multisolute Soret + pore-network surrogate)
+    vg-pore: Phase 4 built and run — the localization face carries two multisolute pore classes
+      (viva_genesis/multisolute_localization.py — a numpy MultisolutePoreSurrogateProcess + a
+      FenicsMultisolutePoreProcess driving viva-fenics's dolfinx 3-D solver under pixi), with
+      literature-sourced per-species D/Soret/adsorption/degradation for the eight co-localization solutes
+      (references/multisolute-pore-physics.md); the surrogate is FEM-calibrated to the dolfinx reference
+      (6.8% max, 1.7% mean error) and viva_genesis/colocalization_map.py sweeps the mixture over
+      (Péclet × Soret) as a co-localization/fractionation Decision surface. Remaining — a loaded
+      pore_physics vg-data provenance package.
     vg-protoindividual: Phase 5 (planned; endogenous amphiphiles + boundary/division rewrites)
     vg-energy: Phase 6 (planned; energy ledger + competing coupling classes)
     vg-heredity: Phase 7 (planned; six heredity classes behind one face + information metrics)
@@ -305,11 +376,29 @@ guidelines:
     next: propagate the rate-constant priors (LHS) through both arms; branched C5/C6 skeletons; rule-set-scope decision (N/P); feed the Phase-4 co-localized concentrations (flagship chain)
   - phase: 4
     name: 3-D multisolute localization
-    status: planned
+    status: built-and-run
     studies: [og-03-dilution-to-localized-individuals, og-03-alt-colocalization]
-    component: localization face with fipy | fenics (species Soret) | pore_network classes
-    data_package: pore_physics (per-species D, S_T)
+    component: localization face with the single-solute fipy | fenics | surrogate classes AND the
+      multisolute pair — MultisolutePoreSurrogateProcess (numpy reduced pore-network) | FenicsMultisolutePoreProcess
+      (dolfinx 3-D under pixi) — which transport the eight-solute mixture with per-species D / Soret /
+      adsorption / degradation and report per-species enrichment (viva_genesis/multisolute_localization.py);
+      viva_genesis/colocalization_map.py sweeps (Péclet × Soret) as the Decision surface
+    data_package: pore_physics (per-species D, S_T, adsorption, degradation for the eight solutes —
+      literature-sourced in references/multisolute-pore-physics.md and baked in as class defaults; not yet
+      a loaded vg-data provenance package)
     exit_criterion: co-localization / fractionation phase maps inside a demonstrated numerical-convergence envelope (no gate above the resolvable Peclet)
+    result: on the eight-solute mixture the pore FRACTIONATES rather than co-localizes, SORET-DRIVEN —
+      the strongly-thermophoretic species concentrate while low-S_T species such as ammonium lag, holding
+      the co-localization index low in the strong-Soret regime (~0.18, rising toward ~1 at weak Soret
+      contrast); adsorption is kinetically negligible over the transit (FEM mobile fraction 0.93–1.0), not
+      the cause. After the reconciliation (kinetic-adsorption fix + contact-time calibration) the
+      FEM-calibrated surrogate agrees with the dolfinx reference within ~2–19% (was ~35–90% off) —
+      coloc_index 0.176 (surrogate) vs 0.171 (FEM) at Pe=1/×8 — so verdict and degree both agree, a small
+      residual model-structure difference. Reported as a candidate incompatibility, not a gate. In the
+      resolved FLOW-THROUGH pore enrichment is strongest at low Péclet and washes out as Pe rises
+      (1/(1+Pe/pe0)) — distinct from the convection-enhanced closed-cell Baaske regime that og-03's
+      reduced column extrapolates
+    remaining: a loaded pore_physics vg-data package; an og-03-alt-colocalization study YAML wrapping the map
   - phase: 5
     name: Endogenous boundary + growth/division
     status: planned
