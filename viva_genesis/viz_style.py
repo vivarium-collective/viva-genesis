@@ -230,7 +230,10 @@ def frame(
     the shared chrome: header band + figure + optional caption, inside a self-contained
     styled section so typography and spacing match across every study."""
     cap = caption(caption_text, tone=tone, prefix=caption_prefix) if caption_text else ""
+    # A charset declaration so the figure decodes as UTF-8 when viewed standalone
+    # (opened directly, or in a gallery iframe) — otherwise η / ≈ / — / × / ° mojibake.
     return (
+        '<meta charset="utf-8">'
         f'<section style="font-family:{FONT_STACK};color:{INK};background:{PAPER};'
         f"max-width:{max_width}px;margin:0 auto;padding:4px 2px;box-sizing:border-box\">"
         f"{header_band(title, subtitle, phase=phase, view=view, tier=tier, tone=tone)}"
