@@ -11,6 +11,9 @@ from __future__ import annotations
 from process_bigraph import Composite, gather_emitter_results
 from process_bigraph.visualization import Visualization
 
+from . import viz_style as S
+from .viz_style import INK, TEAL, AMBER, SLATE, RUST
+
 
 class VentReactorTimeseries(Visualization):
     """Campaign-0 real vent-reactor trajectory: temperature, pH, reducing power
@@ -903,43 +906,51 @@ class ThermophoreticTrapViz(Visualization):
         from plotly.subplots import make_subplots
         if not sweep:
             return "<p>No trap sweep produced.</p>"
-        ink, teal, rust, amber = "#1e293b", "#0d9488", "#b91c1c", "#d97706"
+        ink, teal, rust, amber = INK, TEAL, RUST, AMBER
         por = [s[0] for s in sweep]
         enr = [s[1] for s in sweep]
         log_enr = [math.log10(max(e, 1.0)) for e in enr]
         fav = sweep[-1][2]           # most confined = favorable
         z = fav["z_mm"]; cprof = [math.log10(max(c, 1.0)) for c in fav["conc"]]
-        # threshold porosity: where enrichment first exceeds 10^3
-        thr = next((p for p, e in zip(por, enr) if e >= 1e3), None)
+        # Localization threshold: where the trap first concentrates the feed above the
+        # dilute background. Keyed to a modest, RESOLVABLE enrichment (10x), not the
+        # extreme reduced-model fold, which a resolved FEM does not confirm.
+        thr = next((p for p, e in zip(por, enr) if e >= 10.0), None)
+        # The resolved-FEM saturation ceiling (dolfinx, spatial-transport cross-check):
+        # above it the reduced exp(Pe) column is an unconfirmed extrapolation.
+        resolved_log = math.log10(253.0)
+        top = max(max(log_enr) * 1.05, resolved_log + 0.5)
 
         stat = make_subplots(rows=1, cols=2, horizontal_spacing=0.13,
             subplot_titles=("Accumulation column in the favorable pore",
-                            "Enrichment vs porosity — the individual threshold"))
+                            "Enrichment vs porosity — localization threshold (bounded)"))
         stat.add_scatter(x=cprof, y=z, mode="lines", line=dict(color=teal, width=3),
                          name="log10 c(z)", row=1, col=1, showlegend=False)
         stat.add_annotation(x=cprof[0], y=z[0], text="base (trapped) ▲", showarrow=False,
                             font=dict(size=10, color=rust), xanchor="left", row=1, col=1)
         stat.add_annotation(x=cprof[-1], y=z[-1], text="feed (dilute) ▼", showarrow=False,
                             font=dict(size=10, color="#2563eb"), xanchor="left", row=1, col=1)
-        stat.add_scatter(x=por, y=log_enr, mode="lines+markers", line=dict(color=rust, width=2.6),
-                         marker=dict(size=5), name="log10 enrichment", row=1, col=2, showlegend=False)
-        stat.add_hline(y=8.0, line=dict(color="#94a3b8", dash="dot"), row=1, col=2)
-        stat.add_annotation(x=0.15, y=8.2, text="Baaske 10^8", showarrow=False,
-                            font=dict(size=9, color="#64748b"), row=1, col=2)
+        stat.add_scatter(x=por, y=log_enr, mode="lines+markers", line=dict(color=amber, width=2.6),
+                         marker=dict(size=5), name="reduced exp(Pe) column", row=1, col=2, showlegend=False)
+        # Honest-uncertainty wash: everything above the resolved-FEM ceiling is a
+        # reduced-model extrapolation, not a resolved enrichment.
+        stat.add_hrect(y0=resolved_log, y1=top, line_width=0, fillcolor=S.SENSITIVE_FILL, row=1, col=2)
+        stat.add_hline(y=resolved_log, line=dict(color=teal, dash="dot"), row=1, col=2)
+        stat.add_annotation(x=0.5, y=resolved_log, xref="x2", yref="y2", yshift=9, showarrow=False,
+                            text="resolved FEM saturates here — folds above are reduced-model only",
+                            font=dict(size=9, color=teal))
         if thr is not None:
-            stat.add_vline(x=thr, line=dict(color=amber, dash="dash"), row=1, col=2)
-            stat.add_annotation(x=thr, y=1.0, text="individual<br>forms", showarrow=False,
-                                font=dict(size=9, color=amber), row=1, col=2)
-        stat.update_xaxes(title_text="log10 concentration (fold)", row=1, col=1, showgrid=True, gridcolor="#eef2f7")
-        stat.update_yaxes(title_text="height up the pore (mm)", row=1, col=1, showgrid=True, gridcolor="#eef2f7")
+            stat.add_vline(x=thr, line=dict(color=teal, dash="dash"), row=1, col=2)
+            stat.add_annotation(x=thr, y=0.3, text="localization<br>onset", showarrow=False,
+                                font=dict(size=9, color=teal), row=1, col=2)
+        stat.update_xaxes(title_text="log10 concentration (fold)", row=1, col=1, showgrid=True, gridcolor=S.GRID)
+        stat.update_yaxes(title_text="height up the pore (mm)", row=1, col=1, showgrid=True, gridcolor=S.GRID)
         stat.update_xaxes(title_text="porosity (open → confined)", autorange="reversed", row=1, col=2,
-                          showgrid=True, gridcolor="#eef2f7")
-        stat.update_yaxes(title_text="log10 enrichment (fold)", row=1, col=2, showgrid=True, gridcolor="#eef2f7")
-        stat.update_layout(template="plotly_white", height=430, width=900, showlegend=False,
-            title=dict(text=(self.config.get("title") or "The thermal trap") +
-                       f"   ·   favorable {enr[-1]:.1e}-fold",
-                       x=0.5, xanchor="center", font=dict(size=14, color=ink)),
-            margin=dict(l=60, r=20, t=80, b=60), font=dict(color=ink))
+                          showgrid=True, gridcolor=S.GRID)
+        stat.update_yaxes(title_text="log10 enrichment (fold)", row=1, col=2, range=[0, top],
+                          showgrid=True, gridcolor=S.GRID)
+        stat.update_layout(**S.base_layout(height=430, width=900, showlegend=False,
+            margin=dict(l=60, r=20, t=40, b=60)))
 
         # motion: the pore closing — the accumulation column building as porosity
         # drops (the individual emerging from the dilute feed).
@@ -952,7 +963,7 @@ class ThermophoreticTrapViz(Visualization):
                           fillcolor="rgba(13,148,136,0.12)")],
                           name="%.2f" % p,
                           layout=go.Layout(annotations=[dict(x=xmax * 0.5, y=max(prof["z_mm"]) * 0.9,
-                              text="porosity %.2f · %.1e-fold" % (p, e), showarrow=False,
+                              text="porosity %.2f" % p, showarrow=False,
                               font=dict(size=12, color=ink))])))
         anim = go.Figure(data=frames[0].data, frames=frames)
         anim.update_xaxes(title_text="log10 concentration (fold)", range=[0, xmax],
@@ -974,21 +985,22 @@ class ThermophoreticTrapViz(Visualization):
                             args=[[f.name], dict(frame=dict(duration=0, redraw=True), mode="immediate")])
                        for f in frames])])
 
-        cap = (
-            "<div style='max-width:900px;margin:12px auto 4px;padding:0 16px;color:#334155;"
-            "font-size:13.5px;line-height:1.55'>"
-            "<b>From dilute feed to a localized individual</b> — the real FiPy thermal trap "
-            "(thermophoresis + convection, Baaske 2007). A confined pore concentrates the feed "
-            "exponentially up the column (left); as the pore closes (porosity ↓) the enrichment "
-            "crosses the threshold where a localized, concentrated <b>individual</b> forms — an "
-            "open pore just washes the feed through.</div>")
         s_html = stat.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
         a_html = anim.to_html(full_html=False, include_plotlyjs=False, config={"displayModeBar": False})
-        return ("<!doctype html><html><head><meta charset='utf-8'></head>"
-                "<body style='margin:0;font-family:-apple-system,system-ui,sans-serif;background:#fff'>"
-                f"{cap}<div style='display:flex;justify-content:center'>{s_html}</div>"
-                "<div style='display:flex;justify-content:center;margin-top:8px'>" + a_html + "</div>"
-                "</body></html>")
+        inner = (f"<div style='display:flex;justify-content:center'>{s_html}</div>"
+                 f"<div style='display:flex;justify-content:center;margin-top:8px'>{a_html}</div>")
+        cap = (
+            "The real FiPy thermal trap (thermophoresis + convection, Baaske 2007) concentrates the "
+            "dilute feed exponentially up a confined pore (left); as the pore closes, enrichment crosses "
+            "the localization onset and an open pore just washes the feed through. <b>Localization is "
+            "real and bounded</b> — the amber band marks where the reduced <i>exp(Pe)</i> column climbs "
+            "past what a resolved FEM confirms, so the extreme folds are a reduced-model extrapolation. "
+            "The resolved Decision view is the FiPy&harr;FEM solver-sensitivity figure; see "
+            "<code>workspace/references/spatial-transport-solver-comparison.md</code>."
+        )
+        return S.frame(inner, title=(self.config.get("title") or "The thermal trap concentrates an individual"),
+                       phase="Campaign III", view="World", tier="mechanistic_prediction",
+                       caption_text=cap, caption_prefix="How to read", tone="caution", max_width=960)
 
 class ProtocellWindowViz(Visualization):
     """Campaign-IV protocell stability window — the Jordan-2019 broadening and the

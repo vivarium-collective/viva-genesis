@@ -372,6 +372,11 @@ visualizations:
   config:
     grid_json: workspace/studies/og-03-dilution-to-localized-individuals/artifacts/pore_localization_grid.json
     title: The pore-localization frontier (Decision view)
+- name: pore-enrichment-solver-sensitivity
+  address: local:PoreEnrichmentSolverSensitivity
+  config:
+    comparison_json: workspace/references/spatial-transport-solver-comparison.json
+    title: 'Enrichment is bounded: reduced column vs resolved FEM (Decision view)'
 - name: multisolute-colocalization-map
   address: local:PoreColocalizationMap
   config:

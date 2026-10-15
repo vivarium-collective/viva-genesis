@@ -234,7 +234,7 @@ def pore_ignition_figure(gain_grid, traj, enrichment, dilute, enriched, k_wash, 
                              marker=dict(size=12, color=_SLATE, line=dict(width=1, color=_INK)),
                              showlegend=False), row=1, col=1)
     fig.add_trace(go.Scatter(x=[k_wash], y=[enriched], mode="markers+text",
-                             text=[f"in pore<br>(×{enrichment:.0f} trap)"], textposition="top center",
+                             text=[f"in pore<br>(×{enrichment:.0f}, capped)"], textposition="top center",
                              textfont=dict(size=9, color=_INK),
                              marker=dict(symbol="star", size=15, color=_TEAL, line=dict(width=1.1, color=_INK)),
                              showlegend=False), row=1, col=1)
@@ -249,18 +249,21 @@ def pore_ignition_figure(gain_grid, traj, enrichment, dilute, enriched, k_wash, 
     fig.update_xaxes(title_text="time (s)", row=1, col=2)
     fig.update_yaxes(title_text="autocatalytic hub OAA (mM)", row=1, col=2)
 
-    ttl = title or "Campaign III — localization makes the individual"
-    fig.update_layout(
-        title=dict(text=(f"<b>{ttl}</b><br><span style='font-size:12px;color:{_SLATE}'>"
-                         f"A real thermophoretic pore concentrates the dilute vent feed ×{enrichment:.0f}, "
-                         "lifting it across og-02's ignition threshold (dashed). The same chemistry stays "
-                         "dead in the well-mixed ocean — the metabolizing individual is a product of "
-                         "localization, not of new reactions.</span>"), x=0.5, xanchor="center"),
-        height=450, width=960, margin=dict(t=100, b=60, l=70, r=20),
-        legend=dict(orientation="h", y=1.02, x=1.0, xanchor="right", font=dict(size=10)),
-        font=dict(family="system-ui, -apple-system, sans-serif", color=_INK),
-        paper_bgcolor="white", plot_bgcolor="white")
-    return fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    fig.update_layout(**S.base_layout(height=450, width=960, margin=dict(t=48, b=60, l=70, r=20),
+                                      legend=dict(orientation="h", y=1.02, x=1.0, xanchor="right",
+                                                  font=dict(size=10))))
+    cap = (
+        f"A reduced, enrichment-capped illustration (&times;{enrichment:.0f}, within the 60&times; cap, "
+        "not a graded result): the pore's localization lifts the dilute feed across og-02's ignition "
+        "threshold (dashed) while the same chemistry stays dead in the well-mixed ocean &mdash; so the "
+        "metabolizing individual is a product of <i>localization</i>, not of new reactions. The graded "
+        "localization result is the pore-localization frontier (Decision view); this couples it to the "
+        "og-02 network to show the consequence."
+    )
+    inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    return S.frame(inner, title=(title or "Localization lifts the feed across the ignition threshold"),
+                   phase="Campaign III", view="Mechanism", tier="mechanistic_prediction",
+                   caption_text=cap, caption_prefix="How to read", tone="caution")
 
 
 class PoreIgnitionCoupling(Visualization):
@@ -1845,10 +1848,12 @@ class VentSerpentinizationEngine(Visualization):
 # ----------------------------------------------------------------------------
 def localization_figure(res, *, title=None) -> str:
     """og-03 Decision view: the pore-localization landscape over (pore porosity × pore
-    length). **Left:** the fold-enrichment the real thermophoretic trap achieves (log),
-    with the localization PASS boundary (enrichment ≈ 1e6) dashed and the favourable
-    trap (★) deep inside it. **Right:** the accumulation Péclet number (advective
-    trapping vs back-diffusion) with the same frontier (Pe ≈ 18). ``res`` is the
+    length). The GRADED quantity is the accumulation Péclet, not the precise fold.
+    **Left:** the reduced-model fold-enrichment the FiPy trap achieves (log), shown as
+    a magnitude surface (no fold PASS line — the extreme folds are solver-sensitive).
+    **Right:** the accumulation Péclet (advective trapping vs back-diffusion), with the
+    localization frontier (Pe ≈ threshold) and the resolvable-Péclet line beyond which
+    the reduced column over-extrapolates the resolved FEM. ``res`` is the
     pore_localization_map SweepResult / grid view."""
     import numpy as np
     import plotly.graph_objects as go
@@ -1867,16 +1872,15 @@ def localization_figure(res, *, title=None) -> str:
     fig = make_subplots(rows=1, cols=2, shared_yaxes=True, horizontal_spacing=0.12,
                         subplot_titles=("Fold-enrichment of the feed (log — the trap)",
                                         "Accumulation Péclet (trapping vs back-diffusion)"))
-    # --- left: enrichment landscape + the localization boundary ---
+    # Resolvable-Péclet line: beyond it the reduced exp(Pe) column over-extrapolates the
+    # resolved FEM (spatial-transport cross-check). No fold PASS boundary is drawn.
+    pe_resolvable = float(res.meta.get("resolvable_peclet", 13.0))
+    # --- left: enrichment magnitude surface (no fold pass-line) ---
     fig.add_trace(go.Contour(x=L, y=por, z=z_enr, colorscale="Viridis", ncontours=16,
                              colorbar=dict(title="log₁₀<br>enrichment<br>(×)", len=0.9, x=0.44),
                              contours=dict(showlabels=True, labelfont=dict(size=9, color="white")),
                              line=dict(width=0.4, color="rgba(255,255,255,0.3)")), row=1, col=1)
-    fig.add_trace(go.Contour(x=L, y=por, z=z_enr, showscale=False,
-                             contours=dict(start=np.log10(e_thr), end=np.log10(e_thr), coloring="lines"),
-                             line=dict(color="#f8fafc", width=2.8, dash="dash"),
-                             hoverinfo="skip"), row=1, col=1)
-    # --- right: Péclet landscape + the same frontier ---
+    # --- right: Péclet landscape + the localization frontier (the graded quantity) ---
     fig.add_trace(go.Contour(x=L, y=por, z=pec, colorscale="Inferno", ncontours=16, showscale=True,
                              colorbar=dict(title="accumulation<br>Péclet", len=0.9),
                              contours=dict(showlabels=True, labelfont=dict(size=9, color="white")),
@@ -1885,27 +1889,35 @@ def localization_figure(res, *, title=None) -> str:
                              contours=dict(start=pe_thr, end=pe_thr, coloring="lines"),
                              line=dict(color="#f8fafc", width=2.8, dash="dash"),
                              hoverinfo="skip"), row=1, col=2)
+    # resolvable-Péclet line (teal) — resolved below, solver-sensitive above
+    fig.add_trace(go.Contour(x=L, y=por, z=pec, showscale=False,
+                             contours=dict(start=pe_resolvable, end=pe_resolvable, coloring="lines"),
+                             line=dict(color=_TEAL, width=2.2, dash="dot"),
+                             hoverinfo="skip"), row=1, col=2)
     for c in (1, 2):
         fig.add_trace(go.Scatter(x=[op_L], y=[op_p], mode="markers+text",
                                  text=["favourable<br>trap"], textposition="top right",
-                                 textfont=dict(size=9, color=_INK),
+                                 textfont=dict(size=9, color="#f8fafc"),
                                  marker=dict(symbol="star", size=15, color=_AMBER,
-                                             line=dict(width=1.2, color=_INK)), showlegend=False), row=1, col=c)
+                                             line=dict(width=1.2, color="#f8fafc")), showlegend=False), row=1, col=c)
         fig.update_xaxes(type="log", title_text="pore length (m)", row=1, col=c)
     fig.update_yaxes(title_text="pore porosity / openness", row=1, col=1)
+    fig.update_layout(**S.base_layout(height=450, width=960, margin=dict(t=48, b=60, l=72, r=20),
+                                      showlegend=False))
 
-    ttl = title or "Campaign III — the pore-localization frontier"
-    fig.update_layout(
-        title=dict(text=(f"<b>{ttl}</b><br><span style='font-size:12px;color:{_SLATE}'>"
-                         "A dilute vent feed becomes a LOCALIZED individual only where the real FiPy "
-                         "thermophoretic trap concentrates it above threshold (white dashed = enrichment ≈ "
-                         f"{e_thr:.0e}×, Péclet ≈ {pe_thr:.0f}). A long, tight pore traps (enrichment "
-                         "exponential in length — Baaske 2007); an open / short pore washes through. The "
-                         "favourable trap (★) localizes the feed >10⁷-fold.</span>"), x=0.5, xanchor="center"),
-        height=450, width=960, margin=dict(t=100, b=60, l=72, r=20),
-        font=dict(family="system-ui, -apple-system, sans-serif", color=_INK),
-        paper_bgcolor="white", plot_bgcolor="white")
-    return fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    cap = (
+        "A dilute vent feed localizes where the accumulation Péclet crosses the frontier (white dashed, "
+        f"Pe &asymp; {pe_thr:.0f}) &mdash; the <b>graded quantity is the Péclet, not the precise fold</b>. "
+        "A long, tight pore traps; an open / short pore washes through. The reduced trap's fold-enrichment "
+        "(left) rises steeply with length, but the teal dotted line marks the resolvable Péclet "
+        f"(&asymp; {pe_resolvable:.0f}): beyond it the favourable trap (&starf;) sits in the solver-sensitive "
+        "region where the reduced column over-extrapolates the resolved FEM. Localization is robust; the "
+        "extreme fold is not. See the FiPy&harr;FEM solver-sensitivity Decision view."
+    )
+    inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    return S.frame(inner, title=(title or "The pore-localization frontier (keyed on Péclet)"),
+                   phase="Campaign III", view="Decision", tier="mechanistic_prediction",
+                   caption_text=cap, caption_prefix="How to read", tone="caution")
 
 
 class PoreLocalizationMap(Visualization):
@@ -2865,19 +2877,20 @@ def colocalization_figure(res, *, title=None) -> str:
     for c in (1, 2):
         fig.update_xaxes(title_text="Soret strength (× nominal)", type="log", row=1, col=c)
         fig.update_yaxes(title_text="advective Péclet", type="log", row=1, col=c)
-    fig.update_layout(
-        title=title or "Multisolute co-localization frontier",
-        template="plotly_white", height=460, width=980,
-        margin=dict(l=70, r=80, t=70, b=60),
-        annotations=list(fig.layout.annotations) + [dict(
-            x=0.5, y=-0.22, xref="paper", yref="paper", showarrow=False,
-            font=dict(size=11, color=_SLATE),
-            text=("Low index where single species concentrate = the mixture "
-                  "<b>fractionates</b> by Soret strength (low-S_T solutes like "
-                  "ammonium lag the strong thermophoretic ones; adsorption + "
-                  "degradation are kinetically minor over a pore transit)."))])
-    return fig.to_html(full_html=True, include_plotlyjs="cdn",
-                       config={"displayModeBar": False})
+    fig.update_layout(**S.base_layout(height=460, width=980,
+                                      margin=dict(l=70, r=80, t=44, b=60), showlegend=False))
+    cap = (
+        "A low co-localization index where single species still concentrate means the mixture "
+        "<b>fractionates</b>: different solutes concentrate to different degrees set by their Soret "
+        "coefficient (low-S_T solutes such as ammonium lag the strong thermophoretic precursors). "
+        "Adsorption and degradation are kinetically minor over a single pore transit, so they are not "
+        "the primary driver. White diamonds are resolved-FEM audit cells. Strong + uniform = a "
+        "co-localized trap; strong + non-uniform = fractionating; weak = no concentration."
+    )
+    inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    return S.frame(inner, title=(title or "Does the prebiotic mixture co-localize? It fractionates"),
+                   phase="Phase 4", view="Decision", tier="mechanistic_prediction",
+                   caption_text=cap, caption_prefix="How to read", tone="neutral")
 
 
 class PoreColocalizationMap(Visualization):
