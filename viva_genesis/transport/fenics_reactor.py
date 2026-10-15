@@ -7,13 +7,15 @@ by the ``model_spatial_transport`` study param and compared head-to-head
 Both classes drive the REAL dolfinx FEM solver in ``viva-fenics``
 (``viva_fenics.fem.advection_diffusion_step`` -- backward-Euler advection-
 diffusion with the advection + thermophoretic-drift extension), via PETSc
-linear algebra. There is no mock and no NumPy reimplementation. This FEM path
-is NOT yet active in canonical runs: FiPy is the live, default spatial-transport
-solver, the dolfinx solver extension lives on a held branch, and dolfinx itself
-is conda-only. When dolfinx is not importable (the uv ``.venv``) the processes
-still *register* (so ``models.resolve`` / ``assert_face`` and the dashboard
-work), but *running* one raises a clear "run under pixi" error. Once the
-extension lands, run the FEniCS arm under viva-fenics's pixi env.
+linear algebra. There is no mock and no NumPy reimplementation. The dolfinx
+solver is MERGED (viva-fenics ``advection_diffusion_step``), but this FEM path is
+a high-fidelity STRUCTURAL CROSS-CHECK, not the canonical-run solver: FiPy is the
+live default that backs every graded gate and sweep, and dolfinx is conda-only.
+When dolfinx is not importable (the uv ``.venv``) the processes still *register*
+(so ``models.resolve`` / ``assert_face`` and the dashboard work), but *running*
+one raises a clear "run under pixi" error. Run the FEniCS arm on demand under
+viva-fenics's pixi env (``scripts/compare_spatial_transport.py``); the og-00/og-03
+FiPy↔FEniCS comparisons were produced that way.
 
 Ports mirror the FiPy classes exactly (``FipyReactiveTransportProcess`` /
 ``ThermophoreticTrapProcess``), so a composite swaps only the ``address`` and
