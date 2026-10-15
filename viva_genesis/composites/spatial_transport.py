@@ -6,12 +6,18 @@ Each generator resolves the transport class through :func:`viva_genesis.models`
 and calls ``assert_face`` at build time (``resolve_checked``), so a class that
 does not honour the face fails loudly before the Composite is constructed.
 ``"fipy"`` is the LIVE, default solver — a pure-Python FiPy FVM solve that runs
-anywhere and backs every canonical run. ``"fenics"`` names the swappable dolfinx
-FEM alternative: that class only *registers* today (so ``models.resolve`` /
-``assert_face`` and the dashboard see it), but is NOT yet active — the dolfinx
-solver extension lives on a held branch and dolfinx is conda-only, so selecting
-it raises a clear "run under pixi" error in the canonical ``.venv``. The face
-exists so the FEM solver can be swapped in and compared once it lands.
+anywhere in the canonical ``.venv`` and backs every graded gate and sweep.
+``"fenics"`` is the MERGED dolfinx FEM alternative (viva-fenics
+``advection_diffusion_step`` — backward-Euler advection-diffusion with a
+Soret-drift weak-form term + SUPG): a real high-fidelity solver used as a
+structural cross-check, not a placeholder. It runs on demand under viva-fenics's
+pixi env; dolfinx is conda-only, so it is not importable in the uv ``.venv`` —
+selecting ``'fenics'`` there raises a clear "run under pixi" error, and the
+FiPy↔FEniCS head-to-head (``scripts/compare_spatial_transport.py``, raw numbers in
+``references/spatial-transport-solver-comparison.{md,json}``) is executed that way.
+FEniCS is not wired into the live graded gates — FiPy grades, FEniCS cross-checks:
+the two agree on smooth gates (og-00 outlet T within 0.30%) and the FEM exposes
+where FiPy's reduced column over-extrapolates (og-03 above Pe ≈ 13).
 """
 
 from __future__ import annotations
@@ -35,12 +41,15 @@ _TRAP_EMIT = [
         "og-03 thermophoretic trap behind the swappable spatial_transport face. "
         "The live, default solver is a genuine 1-D FiPy finite-volume accumulation "
         "column (model_spatial_transport='fipy', runs anywhere, backs every "
-        "canonical run). The face also lets you swap in a dolfinx FEM solver with a "
-        "Soret-drift weak-form term (model_spatial_transport='fenics') — that class "
-        "only registers today and is not yet active (dolfinx is conda-only and its "
-        "solver extension is on a held branch, so it raises a 'run under pixi' "
-        "error in the canonical venv). assert_face is enforced at build. Same pore "
-        "physics, one live solver plus a swappable FEM alternative (plan 4.5)."
+        "canonical run). The face also swaps in the MERGED dolfinx FEM solver with a "
+        "Soret-drift weak-form term (model_spatial_transport='fenics') — a real "
+        "high-fidelity cross-check, run on demand under viva-fenics's pixi env "
+        "(dolfinx is conda-only, so in the uv venv 'fenics' raises a clear 'run under "
+        "pixi' error). The FiPy↔FEniCS head-to-head on this trap was run that way and "
+        "shows the two agree up to Pe_acc≈4 and diverge to ~5.6 decades by Pe_acc≈18, "
+        "so the >1e6-fold column is a reduced-model extrapolation the resolved FEM does "
+        "not confirm. assert_face is enforced at build. Same pore physics, FiPy grades "
+        "and FEniCS cross-checks (plan 4.5)."
     ),
     parameters={
         "model_spatial_transport": {"type": "string", "default": "fipy",
@@ -109,13 +118,14 @@ _VENT_EMIT = [
         "og-00 vent reactor transport behind the swappable spatial_transport "
         "face. The live, default solver is a genuine 2-D FiPy finite-volume "
         "advection-diffusion FVM (model_spatial_transport='fipy', backs every "
-        "canonical run); the face can swap in a dolfinx FEM advection-diffusion "
-        "solver (model_spatial_transport='fenics'), which only registers today and "
-        "is not yet active (solver extension on a held branch, dolfinx conda-only, "
-        "raises 'run under pixi' in the canonical venv). Prescribed serpentinization "
-        "drivers (H2/alkalinity/heat) isolate the transport solver; assert_face "
-        "enforced at build. Same world, one live solver plus a swappable FEM "
-        "alternative (plan 4.5)."
+        "canonical run); the face swaps in the MERGED dolfinx FEM advection-diffusion "
+        "solver (model_spatial_transport='fenics') — a real high-fidelity cross-check "
+        "run on demand under viva-fenics's pixi env (dolfinx conda-only, so 'fenics' "
+        "raises 'run under pixi' in the uv venv). The FiPy↔FEniCS head-to-head on this "
+        "vent agrees to within 0.30% outlet T (identical pH, flux conserved ~1e-15), so "
+        "the habitability result is solver-robust. Prescribed serpentinization drivers "
+        "(H2/alkalinity/heat) isolate the transport solver; assert_face enforced at "
+        "build. Same world, FiPy grades and FEniCS cross-checks (plan 4.5)."
     ),
     parameters={
         "model_spatial_transport": {"type": "string", "default": "fipy",

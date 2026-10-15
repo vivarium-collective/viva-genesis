@@ -23,7 +23,8 @@ lead: |
   builds that vent from real geochemistry upward (serpentinization, reactive transport, H2-driven
   carbon fixation, self-amplifying networks) and runs the classical favorable and the 2026 unfavorable
   scenarios head to head rather than assuming either. Each stage is a coupled Vivarium composite of
-  genuine simulators (PHREEQC, FiPy, eQuilibrator, libRoadRunner) under explicit conservation contracts.
+  genuine simulators (PHREEQC, FiPy, eQuilibrator, libRoadRunner — plus a merged FEniCS/dolfinx FEM
+  solver run under pixi as a high-fidelity cross-check) under explicit conservation contracts.
   All fourteen stages — the full arc from vent geochemistry through carbon fixation, protometabolism,
   individuality, compartmentation, internalized bioenergetics and heredity to ecology, escape, and the
   nitrogen/phosphorus/energy/growth bottlenecks — are built, run on real simulators, and pass their
@@ -206,11 +207,16 @@ guidelines:
   - "Model substitution is an experiment: sweep the model class as a categorical axis against the same
     gates; report parameter-robust vs structure-sensitive regions."
   - "Spatial transport (advection-diffusion-reaction + thermophoretic drift over the vent/pore domain)
-    is a solver-agnostic interface with two real classes: FiPy (pure-Python finite volume, uv .venv)
-    and FEniCS/dolfinx via viva-fenics (compiled FEM + PETSc, pixi env) — the recommended high-fidelity
-    path; og-00 and og-03 run either, and FiPy-vs-FEniCS agreement is a gate. Phase maps are sped up
-    independently of solver choice by Ray-parallel sweeps on the mini and a declared reduced surrogate
-    for Decision-map cells (full PDE for the World view)."
+    is a solver-agnostic interface with two REAL, merged classes: FiPy (pure-Python finite volume, uv
+    .venv) is the live default that backs every graded gate and sweep; FEniCS/dolfinx via viva-fenics
+    (compiled FEM + PETSc + Soret drift) is the high-fidelity STRUCTURAL cross-check, run on demand under
+    viva-fenics's pixi env (dolfinx is conda-only, so it is not available in the uv workbench — selecting
+    'fenics' there raises a clear 'run under pixi' error). The FiPy↔FEniCS head-to-head is a reported
+    solver-robustness readout, not a graded gate: it agrees on the smooth og-00 vent (outlet T within
+    0.30%, identical pH) and exposes where the og-03 trap's reduced FiPy column over-extrapolates (the
+    solvers diverge ~5.6 decades above Pe ≈ 13). Phase maps are sped up independently of solver choice by
+    Ray-parallel sweeps on the mini and a declared reduced surrogate for Decision-map cells (full PDE for
+    the World view)."
   - C-N-P chemistry, proto-energetics and free-energy accounting are cross-cutting layers (one shared
     molecule pool, a resource-budget step, a world-and-individual energy currency, a ledger), not side
     studies.
