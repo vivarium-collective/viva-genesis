@@ -397,6 +397,11 @@ _save_viz('og-00-vent-reactor-baseline', 'vent-serpentinization-engine', _render
 # vent-habitability-map
 _save_viz('og-00-vent-reactor-baseline', 'vent-habitability-map', _render_one('local:VentHabitabilityMap', {'grid_json': 'workspace/studies/og-00-vent-reactor-baseline/artifacts/vent_habitability_grid.json', 'title': 'The Lost City habitability window (Decision view)'}, RUNS_DB, STUDY_YAML))
 
+# **vent-wall-3d**
+
+# vent-wall-3d
+_save_viz('og-00-vent-reactor-baseline', 'vent-wall-3d', _render_one('local:VentChimney3D', {'title': 'The vent wall in 3-D — the across-wall thermal gradient (World view)'}, RUNS_DB, STUDY_YAML))
+
 # ### Acceptance criteria
 #
 # _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
@@ -869,10 +874,20 @@ _save_viz('og-03-dilution-to-localized-individuals', 'pore-ignition-coupling', _
 # pore-localization-map
 _save_viz('og-03-dilution-to-localized-individuals', 'pore-localization-map', _render_one('local:PoreLocalizationMap', {'grid_json': 'workspace/studies/og-03-dilution-to-localized-individuals/artifacts/pore_localization_grid.json', 'title': 'The pore-localization frontier (Decision view)'}, RUNS_DB, STUDY_YAML))
 
+# **pore-enrichment-solver-sensitivity**
+
+# pore-enrichment-solver-sensitivity
+_save_viz('og-03-dilution-to-localized-individuals', 'pore-enrichment-solver-sensitivity', _render_one('local:PoreEnrichmentSolverSensitivity', {'comparison_json': 'workspace/references/spatial-transport-solver-comparison.json', 'title': 'Enrichment is bounded: reduced column vs resolved FEM (Decision view)'}, RUNS_DB, STUDY_YAML))
+
 # **multisolute-colocalization-map**
 
 # multisolute-colocalization-map
 _save_viz('og-03-dilution-to-localized-individuals', 'multisolute-colocalization-map', _render_one('local:PoreColocalizationMap', {'grid_json': 'workspace/studies/og-03-dilution-to-localized-individuals/artifacts/colocalization_grid.json', 'title': 'Does the prebiotic mixture co-localize? (Phase 4 Decision view)'}, RUNS_DB, STUDY_YAML))
+
+# **pore-accumulation-3d**
+
+# pore-accumulation-3d
+_save_viz('og-03-dilution-to-localized-individuals', 'pore-accumulation-3d', _render_one('local:ThermophoreticTrap3D', {'title': 'Inside the pore — the accumulation column in 3-D (World view)'}, RUNS_DB, STUDY_YAML))
 
 # ### Acceptance criteria
 #
@@ -1019,6 +1034,11 @@ _save_viz('og-04-mineral-compartments-to-protocells', 'protocell-window', _rende
 
 # protocell-retention-access
 _save_viz('og-04-mineral-compartments-to-protocells', 'protocell-retention-access', _render_one('local:ProtocellPhaseMap', {'grid_json': 'workspace/studies/og-04-mineral-compartments-to-protocells/artifacts/protocell_grid.json', 'title': 'A boundary that retains without isolating (Decision view)'}, RUNS_DB, STUDY_YAML))
+
+# **protocell-vesicle-3d**
+
+# protocell-vesicle-3d
+_save_viz('og-04-mineral-compartments-to-protocells', 'protocell-vesicle-3d', _render_one('local:ProtocellVesicle3D', {'title': 'The protocell in 3-D — a boundary that retains without isolating (World view)'}, RUNS_DB, STUDY_YAML))
 
 # ### Acceptance criteria
 #
@@ -2651,7 +2671,7 @@ else:
 # **electrochemistry-mechanism-map**
 
 # electrochemistry-mechanism-map
-_save_viz('og-01-cal-electrochemistry', 'electrochemistry-mechanism-map', _render_one('local:ElectrochemistryMechanismMap', {'title': 'Phase 2 — electrochemical mechanism map (Decision view)', 'mechanism_map_json': 'workspace/studies/og-01-cal-electrochemistry/artifacts/electrochemistry_mechanism_map.json', 'report_json': 'workspace/studies/og-01-cal-electrochemistry/artifacts/electrochemistry_report.json'}, RUNS_DB, STUDY_YAML))
+_save_viz('og-01-cal-electrochemistry', 'electrochemistry-mechanism-map', _render_one('local:ElectrochemistryMechanismMap', {'title': 'The vent wall as a galvanic cell — an honest negative', 'mechanism_map_json': 'workspace/studies/og-01-cal-electrochemistry/artifacts/electrochemistry_mechanism_map.json', 'report_json': 'workspace/studies/og-01-cal-electrochemistry/artifacts/electrochemistry_report.json'}, RUNS_DB, STUDY_YAML))
 
 # **electrochemistry-polarization**
 

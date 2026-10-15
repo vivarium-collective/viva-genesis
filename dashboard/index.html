@@ -1415,7 +1415,7 @@ a.viv-bs-commit:hover { text-decoration: underline; }
     <!-- study tabs + porthole -->
     <div id="ws-study-tabs" style="display:none;border-bottom:1px solid #e5e7eb;margin:12px 0 0"></div>
     <div id="ws-study-panel" class="panel" style="display:none;margin-top:0;padding:0;overflow:hidden">
-      <iframe id="ws-study-frame" src="" title="Study detail"
+      <iframe id="ws-study-frame" src="" title="Study detail" allowfullscreen allow="fullscreen"
               style="width:100%;border:0;display:block"></iframe>
     </div>
   </div>
@@ -1589,7 +1589,7 @@ a.viv-bs-commit:hover { text-decoration: underline; }
       <!-- Explicit height = its own scroll context, so `position:sticky` on
            .study-tabs (inside the iframe) actually sticks to the iframe top
            as the user scrolls through Overview → Build → … → Decide. -->
-      <iframe id="investigation-study-embed-frame" src="" title="Study detail"
+      <iframe id="investigation-study-embed-frame" src="" title="Study detail" allowfullscreen allow="fullscreen"
               style="width:100%; height:calc(100vh - 220px - var(--viv-ai-bottom, 0px) - var(--viv-code-bottom, 0px)); min-height:600px;
                      border:0; display:block"></iframe>
     </div>
@@ -1820,7 +1820,7 @@ a.viv-bs-commit:hover { text-decoration: underline; }
         <button class="btn-mini" onclick="_closeStudyEmbedded()" title="Close">&times;</button>
       </div>
     </div>
-    <iframe id="study-detail-frame" src="" title="Study detail"
+    <iframe id="study-detail-frame" src="" title="Study detail" allowfullscreen allow="fullscreen"
             style="width:100%; height:calc(100vh - 220px - var(--viv-ai-bottom, 0px) - var(--viv-code-bottom, 0px)); min-height:560px; border:0; display:block"></iframe>
   </div>
 </section>
@@ -2523,7 +2523,7 @@ Nothing on <code id="pr-base-display-2">main</code> changes until someone presse
      DataSource global that renderers call to fetch narrative data.
      local-server mode (default) fetches from the same-origin /api/* endpoints.
      Hosted mode (sub-projects #2/#3) will set a different config here. -->
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "bbb872fd61a94c92d6e230f05b040234bbc7b693", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/bbb872fd61a94c92d6e230f05b040234bbc7b693", "branch": "main", "lockfile": "uv.lock@738d12a188ee", "generated_at": "2026-10-15 15:09 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "06c2b4fac83f75bc6ca5b3e16b3ee844c06dce84", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/06c2b4fac83f75bc6ca5b3e16b3ee844c06dce84", "branch": "main", "lockfile": "uv.lock@6fafdf030c05", "generated_at": "2026-10-15 15:50 UTC"} };</script>
 <!-- Derive the global URL prefix from the (possibly publish-injected) config.
      Many renderers prefix workspace-root-absolute links (/studies/, /api/)
      with window.__BASE_PATH__ so they resolve when the read-only bundle is
