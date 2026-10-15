@@ -272,6 +272,33 @@ Preview the published bundle locally (no server, no base-path):
 scripts/publish_dashboard.sh /tmp/dash && python -m http.server -d /tmp/dash 8080
 ```
 
+## Model Upgrade roadmap — open build items
+
+### Phase 2 (electrochemical carbon fixation) — the deferred `microkinetic` class
+
+The `carbon_fixation` face (`viva_genesis/models.py`) registers three
+classes. Two run in the uv `.venv` (`empirical`, `butler_volmer`); the third,
+`microkinetic` (`viva_genesis/electrochemistry/microkinetic.py`), is a
+CatMAP / Cantera adsorbate-microkinetics class whose backend is conda-only.
+It registers unconditionally, builds and face-checks everywhere, and raises
+`MicrokineticBackendMissing` ("run under pixi") in `update()` — it never
+returns placeholder numbers. To finish it, follow the viva-fenics pixi pattern:
+
+- [ ] add a `pixi.toml` env with `catmap` (or `cantera`) beside the uv venv
+- [ ] write `mkm/fe_ni_s_co2rr.mkm`: the Fe/Ni-sulfide CO2RR mechanism (sites
+      `*`, `H*`, `CO2*`, `COOH*`/`HCOO*`, `CO*`, passivating `S*`/`O*`), with
+      descriptor scaling anchored on the Preiner-2020 catalyst set
+- [ ] bridge the CatMAP `ReactionModel` steady state to the face ports the
+      Butler-Volmer class publishes (current, faradaic efficiency, the four
+      `loss_*` fractions, electron fluxes) so `ChargeLedgerProcess` audits it
+- [ ] re-run `workspace/studies/og-01-cal-electrochemistry/sims/compute_electrochemistry_mechanism_map.py`
+      under pixi with `classes=("empirical", "butler_volmer", "microkinetic")`
+      and re-evaluate the `failure-mode-attributed` gate with three classes
+
+Also pending for Phase 2: attach the Altair-2025 per-condition current /
+product time courses as a workspace dataset (the exchange currents are
+calibrated to the dossier's current *window*, not fitted to curves).
+
 ## When stuck
 
 1. `python3 scripts/lint-workspace.py` — most workspace-shape issues surface here.

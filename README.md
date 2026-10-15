@@ -94,4 +94,5 @@ Code lives at the repo root; research state is grouped under `workspace/`
 
 | Investigation | Research question |
 |---|---|
+| [Origins-of-life vent campaign _(running)_](https://vivarium-collective.github.io/viva-genesis/investigations/origins-of-life-vent.html) | Could the first cells have originated at alkaline hydrothermal vents? |
 <!-- END:investigations -->
