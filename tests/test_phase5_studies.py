@@ -34,7 +34,28 @@ def test_phase5_derived_scalars_registered():
     from viva_genesis import evaluators
     reg = {}
     evaluators.register_derived_scalars(reg)
-    assert {"rewrite_ok", "max_generation", "partition_residual_max"} <= set(reg)
+    # artifact-backed gate scalars (names chosen to NOT shadow emitted observables,
+    # so the peak/min reductions run instead of the raw-observable series mean)
+    assert {"boundary_forms_from_chemistry", "endogenous_rewrite_conservation_ok",
+            "peak_generation", "partition_residual_peak"} <= set(reg)
+
+
+def test_phase5_committed_artifacts_carry_headline():
+    """The committed JSON artifacts hold the headline numbers the gates read, so
+    both studies verify from the tree without the (gitignored) run.db."""
+    import json
+    from pathlib import Path
+    root = Path(__file__).resolve().parents[1] / "workspace" / "studies"
+    bnd = json.loads((root / "og-04-alt-endogenous-boundary" / "artifacts"
+                      / "endogenous_boundary_report.json").read_text())["headline"]
+    assert bnd["boundary_forms_from_chemistry"] is True
+    assert bnd["n_agents_favorable"] >= 1 and bnd["n_agents_ablated"] == 0
+    assert bnd["rewrite_conservation_ok"] == 1.0
+    gro = json.loads((root / "og-growth-alt-physical-reproduction" / "artifacts"
+                      / "physical_reproduction_report.json").read_text())["headline"]
+    assert gro["peak_generation"] >= 3            # the lineage REACHES >=3 (peak 5)
+    assert gro["partition_residual_peak"] <= 1e-9
+    assert gro["volume_conserved"] is True
 
 
 def test_phase5_composites_discoverable():

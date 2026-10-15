@@ -49,8 +49,9 @@ behavior_tests:
 - name: lineage-reaches-three-generations
   classification: primary
   description: A founder individual grows and divides, its daughters grow and divide in turn, so the lineage in the agents map reaches at least 3 generations.
-  measure: {kind: derived, path: max_generation, detail: deepest generation reached in the agents map}
-  pass_if: {op: '>=', value: 3.0, detail: a >=3-generation lineage forms}
+  measure: {kind: derived, path: peak_generation, detail: 'deepest generation the lineage REACHES (peak over the run, not the time-mean); from artifacts/physical_reproduction_report.json'}
+  artifact: workspace/studies/og-growth-alt-physical-reproduction/artifacts/physical_reproduction_report.json
+  pass_if: {op: '>=', value: 3.0, detail: 'a >=3-generation lineage forms (peak reaches generation 5)'}
   units: dimensionless
   requires_simulation: 'yes'
   gate_class: acceptance_criterion
@@ -58,8 +59,9 @@ behavior_tests:
 - name: division-conserves-volume
   classification: primary
   description: Every _divide conserves matter and volume — the daughters' volumes sum to the mother's, so the total volume is constant across the lineage and the partition residual is 0.
-  measure: {kind: derived, path: partition_residual_max, detail: max |mother - sum(daughters)| over divisions}
-  pass_if: {op: '<=', value: 1.0e-9, detail: partition residual ~ 0 (conserving split)}
+  measure: {kind: derived, path: partition_residual_peak, detail: 'worst (max) |mother - sum(daughters)| over every _divide; from artifacts/physical_reproduction_report.json'}
+  artifact: workspace/studies/og-growth-alt-physical-reproduction/artifacts/physical_reproduction_report.json
+  pass_if: {op: '<=', value: 1.0e-9, detail: partition residual ~ 0 at every division (conserving split)}
   units: dimensionless
   requires_simulation: 'yes'
   gate_class: acceptance_criterion
@@ -73,7 +75,7 @@ baseline:
   params: {growth_per_step: 0.4, founder_volume: 8.0e-12, founder_formate: 8.0, founder_acetate: 4.0}
   canonical: true
 claim: An individual physically reproduces by a _divide structural rewrite, building a >=3-generation lineage in the agents map with matter and volume conserved (partition residual 0) at every division.
-result: The founder reaches generation >=3 (a growing population of individuals) with the total volume held constant and the partition residual 0 at every division.
+result: The founder's lineage reaches generation 5 (peak; a growing population of 25 individuals, well past the >=3 bar) with the total volume held constant and the partition residual 0 at every division.
 findings:
 - id: physical-reproduction-lineage
   kind: computational
@@ -94,28 +96,28 @@ visualizations:
   address: local:PhysicalReproductionViz
   config: {title: 'A multi-generation lineage in the agents map'}
 runs:
-- name: viva_genesis.composites.physical_reproduction.physical_reproduction__1792070652__0cfb80
+- name: viva_genesis.composites.physical_reproduction.physical_reproduction__1792073784__efd05b
   status: completed
-  timestamp: 1792070652.661161
+  timestamp: 1792073784.657805
   canonical: true
   emitter:
     kind: sqlite
-    store: canonical-runs/viva_genesis.composites.physical_reproduction.physical_reproduction__1792070652__0cfb80/run.db
-  store_path: canonical-runs/viva_genesis.composites.physical_reproduction.physical_reproduction__1792070652__0cfb80/run.db
+    store: canonical-runs/viva_genesis.composites.physical_reproduction.physical_reproduction__1792073784__efd05b/run.db
+  store_path: canonical-runs/viva_genesis.composites.physical_reproduction.physical_reproduction__1792073784__efd05b/run.db
   params: '{}'
   outcomes:
     lineage-reaches-three-generations:
       result: PASS
-      measured_value: 3.16129
-      detail: 3.161 >= 3.0
+      measured_value: 5.0
+      detail: 5 >= 3.0
       operator: derived/>=
       evaluated_by: code
       axis:
         id: lineage-reaches-three-generations
         label: A founder individual grows and divides, its daughters grow and divide in turn, so the lineage in the agents map reaches at least 3 generations.
         verdict: within_tol
-        value: 3.16129
-        meter: 0.5268816666666667
+        value: 5.0
+        meter: 0.8333333333333333
         detail:
         expected:
           kind: value
@@ -125,7 +127,7 @@ runs:
           op: '>='
           tol: 0.05
           statement:
-        margin: 0.16129000000000016
+        margin: 2.0
         severity: hard
         units:
         knob:

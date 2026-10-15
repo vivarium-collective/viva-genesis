@@ -3,11 +3,13 @@
 
 Runs the FAVORABLE arm (amphiphile synthesised from acetate+formate) as the
 canonical run — the endogenous amphiphile clears cac, a viable boundary forms
-and individuals appear in the agents map by an _add structural rewrite (persists
-an isolated sqlite store, auto-grades the derived ``rewrite_ok`` conservation
-test). Then it runs the synthesis-ABLATED control (k_synth -> 0) to grade the
-CROSS-RUN ``boundary-forms-from-chemistry`` test — agents form in the favorable
-arm, none in the control.
+and individuals appear in the agents map by an _add structural rewrite — and the
+synthesis-ABLATED control (k_synth -> 0). Writes a committed JSON report
+(``artifacts/endogenous_boundary_report.json``) holding both arms' series + a
+headline block, persists an isolated sqlite store, and auto-grades the two
+derived gates — ``boundary_forms_from_chemistry`` (favorable forms, control does
+not) and ``endogenous_rewrite_conservation_ok`` — which read the committed
+artifact (not the gitignored run.db), so every number verifies from the tree.
 """
 from __future__ import annotations
 
@@ -24,11 +26,15 @@ SPEC_ID = "viva_genesis.composites.endogenous_boundary.endogenous_boundary"
 STUDY_SLUG = "og-04-alt-endogenous-boundary"
 INVESTIGATION_SLUG = "origins-of-life-vent"
 N_STEPS = 40
+ARTIFACT_REL = "artifacts/endogenous_boundary_report.json"
 
 # Process-bigraph's config merge ignores a falsy 0.0 override, so the
 # synthesis-ablated control uses a negligible (~10 orders below favorable)
 # k_synth instead of 0.0.
 _ABLATION_K_SYNTH = 1.0e-12
+_FAVORABLE_PARAMS = {"model_boundary": "mixed", "k_synth": 5.0e-2,
+                     "acetate0": 5.0e-2, "formate0": 5.0e-2, "pH": 9.0,
+                     "ionic_strength": 0.35}
 
 
 def _run(core, **params):
@@ -37,6 +43,44 @@ def _run(core, **params):
     sim = Composite({"state": endogenous_boundary(core, **params)}, core=core)
     sim.run(float(N_STEPS))
     return gather_emitter_results(sim)[("emitter",)]
+
+
+def _series(rows, key):
+    return [float(r.get(key, 0.0)) for r in rows]
+
+
+def _write_artifact(fav, abl) -> None:
+    art = STUDY_DIR / ARTIFACT_REL
+    art.parent.mkdir(parents=True, exist_ok=True)
+    fav_rewrite = _series(fav, "rewrite_ok")
+    report = {
+        "study": STUDY_SLUG,
+        "spec_id": SPEC_ID,
+        "n_steps": N_STEPS,
+        "favorable": {
+            "params": _FAVORABLE_PARAMS,
+            "series": {k: _series(fav, k) for k in ("n_agents", "amphiphile", "rewrite_ok")},
+            "final": {"n_agents": fav[-1]["n_agents"], "amphiphile": fav[-1]["amphiphile"],
+                      "rewrite_ok": fav[-1]["rewrite_ok"]},
+        },
+        "ablated": {
+            "params": {**_FAVORABLE_PARAMS, "k_synth": _ABLATION_K_SYNTH},
+            "final": {"n_agents": abl[-1]["n_agents"], "amphiphile": abl[-1]["amphiphile"]},
+        },
+        "headline": {
+            "n_agents_favorable": float(fav[-1]["n_agents"]),
+            "n_agents_ablated": float(abl[-1]["n_agents"]),
+            "amphiphile_favorable": float(fav[-1]["amphiphile"]),
+            "amphiphile_ablated": float(abl[-1]["amphiphile"]),
+            # caused by the chemistry: forms favorable, not when synthesis ablated
+            "boundary_forms_from_chemistry": bool(fav[-1]["n_agents"] >= 1
+                                                  and abl[-1]["n_agents"] == 0),
+            # 1.0 iff EVERY step's rewrite conserved matter (min over the run)
+            "rewrite_conservation_ok": float(min(fav_rewrite)) if fav_rewrite else 0.0,
+        },
+    }
+    art.write_text(json.dumps(report, indent=1))
+    return report["headline"]
 
 
 def _write_store(db_path: Path, rows, sim_id: str) -> None:
@@ -72,29 +116,6 @@ def _upsert_run_entry(study_yaml: Path, run_id: str, store_rel: str) -> None:
     tmp.replace(study_yaml)
 
 
-def _write_cross_run_outcomes(study_yaml: Path, run_id: str, verdicts: dict) -> None:
-    import ruamel.yaml
-    ry = ruamel.yaml.YAML(); ry.preserve_quotes = True; ry.width = 4096
-    doc = ry.load(open(study_yaml, encoding="utf-8"))
-    run = next((r for r in (doc.get("runs") or []) if r.get("name") == run_id), None)
-    if run is None:
-        return
-    outcomes = run.get("outcomes")
-    if not isinstance(outcomes, ruamel.yaml.CommentedMap):
-        outcomes = ry.load("{}"); run["outcomes"] = outcomes
-    for name, v in verdicts.items():
-        entry = ry.load("{}")
-        entry["result"] = v["result"]
-        entry["measured_value"] = v["measured_value"]
-        entry["evaluated_by"] = "code"
-        entry["operator"] = "cross_run"
-        entry["detail"] = v["detail"]
-        outcomes[name] = entry
-    tmp = study_yaml.with_suffix(".yaml.tmp")
-    ry.dump(doc, open(tmp, "w", encoding="utf-8"))
-    tmp.replace(study_yaml)
-
-
 def main() -> int:
     from viva_genesis.core import build_core
     from vivarium_workbench.lib.auto_evaluate import evaluate_on_run_completion
@@ -104,32 +125,21 @@ def main() -> int:
     study_yaml = STUDY_DIR / "study.yaml"
 
     core = build_core()
-    fav = _run(core)  # favorable: endogenous synthesis on
+    fav = _run(core, **_FAVORABLE_PARAMS)         # favorable: endogenous synthesis on
+    abl = _run(core, **{**_FAVORABLE_PARAMS, "k_synth": _ABLATION_K_SYNTH})  # ablated
+    headline = _write_artifact(fav, abl)
+    print("artifact headline:", json.dumps(headline))
+
     _write_store(STUDY_DIR / store_rel, fav, run_id)
     _upsert_run_entry(study_yaml, run_id, store_rel)
     summary = evaluate_on_run_completion(STUDY_DIR, run_id, ws_root=WORKSPACE_ROOT,
                                          overwrite_authored=True)
-    print("single-run grading:", summary)
+    print("gate grading:", summary)
     try:
         from viva_genesis.viz import render_declared_viz_json
         print("viz.json panels:", render_declared_viz_json(STUDY_DIR, run_id, WORKSPACE_ROOT))
     except Exception as _viz_exc:  # noqa: BLE001
         print("viz render skipped:", _viz_exc)
-
-    fav_agents = fav[-1]["n_agents"]
-    ablation = _run(core, k_synth=_ABLATION_K_SYNTH)[-1]
-    forms = (fav_agents >= 1 and ablation["n_agents"] == 0)
-    verdict = {
-        "result": "PASS" if forms else "FAIL",
-        "measured_value": int(fav_agents),
-        "detail": (f"favorable (endogenous synthesis) -> {int(fav_agents)} individuals "
-                   f"(amphiphile {fav[-1]['amphiphile']:.4f} M cleared cac); "
-                   f"synthesis-ablated -> {int(ablation['n_agents'])} individuals "
-                   f"(amphiphile {ablation['amphiphile']:.2e} M, below cac). The boundary "
-                   f"is caused by the endogenous chemistry."),
-    }
-    _write_cross_run_outcomes(study_yaml, run_id, {"boundary-forms-from-chemistry": verdict})
-    print("cross-run: boundary-forms-from-chemistry", verdict["result"])
     print(f"canonical run complete: {run_id}")
     return 0
 

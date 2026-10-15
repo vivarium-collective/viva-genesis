@@ -569,19 +569,43 @@ def _tolerance_sensitivity_max(reader, test: dict, ws_root: Any) -> float:
 
 
 # Phase 5 (og-04-alt endogenous boundary / og-growth-alt physical reproduction)
-def _rewrite_ok_final(reader, test, ws_root):
-    vals = _values(reader, "rewrite_ok")
-    return float(vals[-1]) if vals else 0.0
+# These gates read the committed JSON run artifact (headline block) rather than
+# the gitignored run.db, so every number verifies from the tree — and the
+# headline scalars are the PEAK / all-steps reductions ("reaches generation N",
+# "conserves at every rewrite"), not the series mean the raw-observable resolver
+# would apply. The derived-scalar names deliberately do NOT collide with any
+# emitted observable, so _resolve_series raises and these computers run.
+_PHASE5_BOUNDARY_REPORT = (
+    "workspace/studies/og-04-alt-endogenous-boundary/artifacts/"
+    "endogenous_boundary_report.json")
+_PHASE5_GROWTH_REPORT = (
+    "workspace/studies/og-growth-alt-physical-reproduction/artifacts/"
+    "physical_reproduction_report.json")
 
 
-def _max_generation_final(reader, test, ws_root):
-    vals = _values(reader, "max_generation")
-    return float(max(vals)) if vals else 0.0
+def _boundary_forms_from_chemistry(reader, test, ws_root):
+    """1.0 iff the favorable arm forms individuals and the synthesis-ablated
+    control forms none — boundary formation is caused by the endogenous chemistry."""
+    h = _artifact_json(test, ws_root, _PHASE5_BOUNDARY_REPORT)["headline"]
+    return 1.0 if (h["n_agents_favorable"] >= 1 and h["n_agents_ablated"] == 0) else 0.0
 
 
-def _partition_residual_max_final(reader, test, ws_root):
-    vals = _values(reader, "partition_residual_max")
-    return float(max(vals)) if vals else 0.0
+def _endogenous_rewrite_conservation_ok(reader, test, ws_root):
+    """1.0 iff every _add boundary-formation rewrite conserved matter (min over steps)."""
+    return float(_artifact_json(test, ws_root, _PHASE5_BOUNDARY_REPORT)
+                 ["headline"]["rewrite_conservation_ok"])
+
+
+def _peak_generation(reader, test, ws_root):
+    """Deepest generation the lineage reaches (PEAK over the run), not the time-mean."""
+    return float(_artifact_json(test, ws_root, _PHASE5_GROWTH_REPORT)
+                 ["headline"]["peak_generation"])
+
+
+def _partition_residual_peak(reader, test, ws_root):
+    """Worst (max) partition residual over every _divide — 0 means every split conserved."""
+    return float(_artifact_json(test, ws_root, _PHASE5_GROWTH_REPORT)
+                 ["headline"]["partition_residual_peak"])
 
 
 # --- protocell_energetics / Phase-6 energy coupling (og-energy-alt-internalization-threshold) ----
@@ -887,6 +911,9 @@ def register_derived_scalars(registry: dict) -> None:
     registry["fcc_summation_residual_max"] = _fcc_summation_residual_max
     registry["tolerance_sensitivity_max"] = _tolerance_sensitivity_max
     # Phase 5 (og-04-alt endogenous boundary / og-growth-alt physical reproduction)
-    registry["rewrite_ok"] = _rewrite_ok_final
-    registry["max_generation"] = _max_generation_final
-    registry["partition_residual_max"] = _partition_residual_max_final
+    # Artifact-backed (read the committed JSON report); names avoid emitted-observable
+    # shadowing so these computers actually run (peak/min reductions, not series mean).
+    registry["boundary_forms_from_chemistry"] = _boundary_forms_from_chemistry
+    registry["endogenous_rewrite_conservation_ok"] = _endogenous_rewrite_conservation_ok
+    registry["peak_generation"] = _peak_generation
+    registry["partition_residual_peak"] = _partition_residual_peak
