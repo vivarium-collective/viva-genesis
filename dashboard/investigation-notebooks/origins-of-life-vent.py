@@ -740,7 +740,7 @@ _save_viz('og-02-reduced-carbon-to-protometabolism', 'protometabolism-gain-phase
 #
 # | expectation | model observable | source | status |
 # | --- | --- | --- | --- |
-# | Fe2+ promotes 9/11 TCA intermediates + 5 universal precursors from pyruvate/glyoxylate | edge yields + network reachability | Muchowska 2019 | Not yet measurable — module processes not built |
+# | Fe2+ promotes 9/11 TCA intermediates + 5 universal precursors from pyruvate/glyoxylate | edge yields + network reachability | Muchowska 2019 | Represented as the lumped reductive-TCA turn (the curated rTCA class on libRoadRunner), graded; edge-by-edge 9/11 reachability is the Phase-3 reaction_universe comparison, not yet run |
 
 # ## Study: The First Individual (`og-03-dilution-to-localized-individuals`)
 #
@@ -1317,7 +1317,7 @@ _save_viz('og-06-chemistry-to-heredity', 'heredity-error-threshold', _render_one
 #
 # | expectation | model observable | source | status |
 # | --- | --- | --- | --- |
-# | Mineral/CO-driven peptide formation at 100 C, pH 7-10 | peptide formation rate/conditions | Huber & Wachtershauser 1998 | Not yet measurable — module processes not built |
+# | Mineral/CO-driven peptide formation at 100 C, pH 7-10 | peptide formation rate/conditions | Huber & Wachtershauser 1998 | Represented as the peptide heredity arm in the agent-based lineage comparison (graded fitness 0.24, below RNA-like 0.38 and the compositional/hybrid arms); a reduced coupling, not a first-principles peptide-formation-rate reproduction |
 
 # ## Study: Ecology Before LUCA (`og-07-ecology-before-luca`)
 #
@@ -2849,10 +2849,8 @@ _save_viz('og-02-alt-reaction-universe', 'reaction-universe-subnetwork', _render
 # - Rule-set scope for the Phase-3 reaction universe: keep C1-C3 feedstock / C/H/O-only chemistry (as built: products capped at C4, 413 reactions) or include N/P-bearing reactions from the start, folding the og-res-N / og-res-P resource chemistries into the universe?
 # - Publication milestone: close the first paper at the pre-genetic arc (og-00 -> og-03) or extend through the early-genetic arc (og-04 protocells -> og-06 heredity)?
 # - First limiting resource / next module: which enrichment-plan module to build first — nitrogen assimilation (N2/NO3->NH4, FeS), phosphorus availability (phosphate/polyphosphate co-concentration), proto-energetics (thioester/acyl-phosphate energy currency before pumping), or metabolism->growth/division (osmotic growth)?
-# - Enrich og-01 with explicit electrochemistry (treat the vent as an electrical circuit: fluid composition -> redox potential -> mineral conductivity -> current density -> electron-transfer -> CO2 reduction), or keep the current gradient-efficiency abstraction?
-# - Phase 2 result: accept that the limitation label (thermodynamic / electrical / catalytic / transport) is structure-sensitive — the Butler-Volmer class attributes the favorable region to the catalyst, the empirical class to its lumped pmf drive, agreement 0.47 < 0.8 — as the mechanism map, or redefine the empirical attribution (lumped electrical+catalytic label) and re-evaluate the gate? And should og-01's default class become butler_volmer (the Tutolo arm then = wall conductivity)?
 # - Actually RUN the og-03 -> og-02 localization->ignition coupling (trap enrichment feeds the rTCA network as a real swept phase map), resolving the demoted phantom finding and giving og-03 its own Decision phase map?
 # - Reframe the campaign's headline thesis from 'cells could originate at alkaline vents' to the enrichment plan's 'quantitative MAP OF THE BOTTLENECKS between geology and cells' (dependencies, failure regimes, discriminating experiments)?
 # - Adopt the Full Modeling Plan architecture (emergence-not-presupposition + structural rewrites + canonical schemas + model substitution) as the campaign's build target, in the plan's section-18 order — canonical schemas + geochemical_world first, then the electrochemical interface, then C-N-P/energetics as cross-cutting layers, then localization, boundary, growth/division rewrites, competing heredity, ecology, autonomy?
-# - Adopt the Model Upgrade plan's three-quantity standard (feasibility / robustness / discrimination) and evidence tiers as the reporting requirement for every stage — i.e. a stage's verdict may not advance until it carries a TransitionReport whose decision-discipline audit is clean — and re-label the fourteen existing studies with their tier language?
+# - Adopt the Model Upgrade plan's three-quantity standard (feasibility / robustness / discrimination) and evidence tiers as the reporting requirement for every stage — i.e. a stage's verdict may not advance until it carries a TransitionReport whose decision-discipline audit is clean — and re-label the fourteen pre-upgrade studies (every member study except the already- tier-labelled og-cal) with their tier language?
 # - Attach the MARHYS 4.0 hydrothermal-fluid compilation (PANGAEA) as a workspace dataset so the Phase-1 conditioning set becomes the ultramafic-vent population rather than Lost City alone — and which Hadean-ocean prior (DIC, pH, T) should replace the modern-seawater proxy the audit flags?
