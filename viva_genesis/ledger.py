@@ -267,6 +267,90 @@ class ChargeLedgerProcess(Process):
         }
 
 
+class RewriteLedgerProcess(Process):
+    """Conservation audit for the Phase-5 structural rewrites (``_add`` /
+    ``_divide`` / ``_remove``) on the ``agents`` map (FMP §5.3).
+
+    Tracks the total matter (summed ``internal_amounts``) in the
+    (agents + localized) system. Boundary formation moves matter localized→agent
+    and division is agent-internal, so both leave the system total invariant;
+    lysis/extinction remove an individual's matter (a reported outflow). Hence
+    ``rewrite_residual = |Δtotal + removed_matter|`` must stay ~0 across every
+    rewrite. ``partition_residual`` (the daughters' amounts summing to the
+    mother's on ``_divide``) is passed through from :class:`DivisionStep`. The
+    single ``rewrite_ok`` flag is the Phase-5 exit criterion's conservation gate."""
+
+    config_schema = {
+        "tol": {"_type": "float", "_default": 1.0e-9, "_provenance": "inferred"},
+    }
+
+    def __init__(self, config=None, core=None):
+        super().__init__(config, core)
+        self._prev_total = None
+        self._rewrite_max = 0.0
+        self._partition_max = 0.0
+
+    def inputs(self):
+        return {"agents": "map[vg_individual]", "localized": "map[vg_amount]",
+                "partition_residual": "float", "removed_matter": "float"}
+
+    def outputs(self):
+        return {
+            "rewrite_residual": "overwrite[float]",
+            "rewrite_residual_max": "overwrite[float]",
+            "partition_residual_max": "overwrite[float]",
+            "agent_matter": "overwrite[float]",
+            "n_agents": "overwrite[float]",
+            "rewrite_ok": "overwrite[float]",
+        }
+
+    @staticmethod
+    def _matter(agents):
+        return sum(sum(float(v) for v in (a.get("internal_amounts", {}) or {}).values())
+                   for a in agents.values())
+
+    def update(self, state, interval):
+        agents = state.get("agents", {}) or {}
+        localized = state.get("localized", {}) or {}
+        agent_matter = self._matter(agents)
+        total = agent_matter + sum(float(v) for v in localized.values())
+        removed = float(state.get("removed_matter", 0.0))
+        part = float(state.get("partition_residual", 0.0))
+        if self._prev_total is None:
+            rewrite_resid = 0.0
+        else:
+            rewrite_resid = abs(total - (self._prev_total - removed))
+        self._prev_total = total
+        self._rewrite_max = max(self._rewrite_max, rewrite_resid)
+        self._partition_max = max(self._partition_max, part)
+        tol = float(self.config["tol"])
+        ok = 1.0 if (self._rewrite_max <= tol and self._partition_max <= tol) else 0.0
+        return {
+            "rewrite_residual": rewrite_resid,
+            "rewrite_residual_max": self._rewrite_max,
+            "partition_residual_max": self._partition_max,
+            "agent_matter": agent_matter,
+            "n_agents": float(len(agents)),
+            "rewrite_ok": ok,
+        }
+
+
+REWRITE_LEDGER_KEYS = ("rewrite_residual", "rewrite_residual_max",
+                       "partition_residual_max", "agent_matter", "n_agents",
+                       "rewrite_ok")
+
+
+def rewrite_ledger_summary(rows) -> dict:
+    """Reduce an emitter row list to the final rewrite-ledger state (worst-case)."""
+    if not rows:
+        return {k: float("nan") for k in REWRITE_LEDGER_KEYS}
+    last = rows[-1]
+    out = {k: float(last.get(k, float("nan"))) for k in REWRITE_LEDGER_KEYS}
+    out["rewrite_residual_max"] = max(float(r.get("rewrite_residual", 0.0)) for r in rows)
+    out["partition_residual_max"] = max(float(r.get("partition_residual_max", 0.0)) for r in rows)
+    return out
+
+
 CHARGE_LEDGER_KEYS = ("charge_residual", "charge_residual_max", "faradaic_efficiency",
                       "faradaic_efficiency_max", "iv_residual_max", "charge_passed",
                       "electrons_to_carbon", "charge_ledger_ok")
@@ -395,4 +479,6 @@ NETWORK_LEDGER_KEYS = ("element_residual_max", "carbon_residual_max", "dissipati
 
 
 __all__ = ["ConservationLedgerProcess", "ChargeLedgerProcess", "NetworkLedgerProcess",
-           "LEDGER_KEYS", "CHARGE_LEDGER_KEYS", "NETWORK_LEDGER_KEYS", "ledger_summary"]
+           "RewriteLedgerProcess", "LEDGER_KEYS", "CHARGE_LEDGER_KEYS",
+           "NETWORK_LEDGER_KEYS", "REWRITE_LEDGER_KEYS",
+           "ledger_summary", "rewrite_ledger_summary"]

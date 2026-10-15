@@ -172,6 +172,13 @@ SCHEMAS: dict[str, dict] = {
         "id": "vg_id",
         "volume": "vg_volume",
         "internal": "vg_molecules",
+        # Conserved-matter accounting for the agents map (Phase 5, FMP §9.1):
+        # per-species AMOUNTS (moles), so a structural `_divide` splits matter
+        # exactly (halve amounts + halve volume -> concentration preserved,
+        # total moles conserved) and the partition residual is 0. `internal`
+        # (concentrations) is the derived/physico-chem view; `internal_amounts`
+        # is what the boundary/division rewrites + the rewrite ledger conserve.
+        "internal_amounts": "map[vg_amount]",
         "boundary": "vg_boundary",
         "energy": "vg_energy",
         "maintenance_flux": "vg_power",
@@ -321,6 +328,20 @@ PORT_TO_CANONICAL: dict[str, str] = {
     "compartment_volume": "vg_individual.volume",
     "internalization": "vg_individual.autonomy",
     "net_growth": "vg_individual.growth_rate",
+    # boundary face (Phase 5): the mixed-amphiphile vesicle readouts
+    "mix_fraction": "vg_boundary.composition",
+    "viable_compartments": "vg_boundary.integrity",
+    "retention": "vg_individual.autonomy",
+    "access": "vg_individual.autonomy",
+    "individuality_access": "vg_individual.autonomy",
+    # endogenous-boundary + division rewrites
+    "amphiphile_production": "vg_molecules.dissolved",
+    "agents": "vg_individual",
+    "boundary_formed": "vg_boundary.integrity",
+    "division_count": "vg_individual.division_state",
+    "generation": "vg_individual.persistence",
+    "rewrite_residual": "ledger.flux_residual",
+    "partition_residual": "ledger.flux_residual",
     # heredity / lineage
     "heritability": "vg_heredity.heritability",
     "information_retention": "vg_heredity.information_content",
