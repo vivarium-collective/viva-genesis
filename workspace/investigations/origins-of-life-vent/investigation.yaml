@@ -25,21 +25,27 @@ lead: |
   scenarios head to head rather than assuming either. Each stage is a coupled Vivarium composite of
   genuine simulators (PHREEQC, FiPy, eQuilibrator, libRoadRunner — plus a merged FEniCS/dolfinx FEM
   solver run under pixi as a high-fidelity cross-check) under explicit conservation contracts.
-  All twenty-two member studies are built and run on real simulators. The fourteen-stage arc — from vent
+  All twenty-three member studies are built and run on real simulators. The fourteen-stage arc — from vent
   geochemistry through carbon fixation, protometabolism, individuality, compartmentation, internalized
   bioenergetics and heredity to ecology, escape, and the nitrogen/phosphorus/energy/growth bottlenecks —
-  plus the Phase-1 environmental-calibration study (og-cal-vent-environment) pass their pre-stated
-  falsifiable gates, with an adversarial vent-ablated control rejected by every discriminating gate. Two
-  Model-Upgrade calibration studies report honest results rather than passes: the Phase-2 electrochemistry
-  mechanism map (og-01-cal-electrochemistry) fails its cross-class agreement gate because the limitation
-  attribution is structure-sensitive, and the Phase-3 open-network study (og-02-alt-reaction-universe)
-  finds that no autocatalytic motif emerges at vent conditions without a one-carbon feed.
+  passes its pre-stated falsifiable gates, with an adversarial vent-ablated control rejected by every
+  discriminating gate. Nine Model-Upgrade studies then re-ground the arc under a feasibility / robustness /
+  discrimination standard across Phases 1–9 — environmental calibration, electrochemistry, open network,
+  endogenous boundary, physical reproduction, energy coupling, information-per-cost heredity, biochemical
+  ecology and integrated autonomy — and two of them fail their gates honestly rather than passing. The
+  Phase-2 electrochemistry mechanism map (og-01-cal-electrochemistry) fails its cross-class agreement gate
+  because the limitation attribution is structure-sensitive; the Phase-9 integrated-autonomy capstone
+  (og-08-alt-robust-innovation-set) finds og-08's {pump, importer, heredity} set not jointly sufficient —
+  no subset persists into a 1 % ocean, only {pump, heredity} into a 10 % one (2 of 24 structures), the
+  importer a net cost under a leaky membrane — so it is recorded as a hypothesis generator. The Phase-3
+  open-network study (og-02-alt-reaction-universe) adds a third honest result — no autocatalytic motif
+  emerges at vent conditions without a one-carbon feed.
 executive:
   what_is_this: A staged, falsifiable Vivarium campaign testing the alkaline-vent theory for the 
     origin of cells — treating a cellular origin as coupled transitions from geochemistry to 
     bioenergetic autonomy, grounded in serpentinization-driven alkaline hydrothermal vents, with 
     explicit competing scenarios.
-  verdict: The full geochemistry-to-heredity arc runs and passes. All twenty-two member studies execute
+  verdict: The full geochemistry-to-heredity arc runs and passes. All twenty-three member studies execute
     on real simulators; the fourteen-stage arc and the Phase-1 calibration pass their pre-stated,
     falsifiable gates with conservation held
     to machine precision — a Lost City vent (og-00), H2-driven carbon fixation benchmarked against
@@ -92,8 +98,8 @@ executive:
     under a leaky membrane — so og-08's set is recorded as a hypothesis generator. Phases 1–9 are built and run; the
     forward program is complete and its open items are decisions, not unrun science.
   verdict_status: complete
-  verdict_detail: 22 member studies (the fourteen-stage arc — Campaigns 0–VIII, four resource/energy
-    bottleneck modules, an adversarial control — plus eight Model-Upgrade calibration / -alt studies
+  verdict_detail: 23 member studies (the fourteen-stage arc — Campaigns 0–VIII, four resource/energy
+    bottleneck modules, an adversarial control — plus nine Model-Upgrade calibration / -alt studies
     spanning Phases 1–9 — environmental calibration, electrochemistry, open network, endogenous boundary,
     physical reproduction, energy-coupling threshold, information-per-cost heredity, biochemical ecology,
     integrated autonomy) wired into a DAG —
