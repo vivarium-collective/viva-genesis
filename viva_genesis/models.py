@@ -148,11 +148,28 @@ PROTO_METABOLISM_FACE = {
     },
 }
 
+# The endogenous boundary (Model Upgrade plan, Phase 5). Every class turns the
+# fluid conditions (T, ionic strength, pH) + the available amphiphile into a
+# self-assembled vesicle boundary and its individuality readouts (retention vs
+# access). `single_chain`/`mixed` are the Jordan-2019 fatty-acid ± co-surfactant
+# vesicle (one ProtocellAssemblyProcess, mix_fraction 0 vs >0); the alternative
+# membrane chemistry (thioester/aminothiol) has a different viability window.
+# amphiphile is an OPTIONAL input: the endogenous arm feeds it from
+# AmphiphileSynthesisProcess, the exogenous arm takes it as a fixed pool.
+BOUNDARY_FACE = {
+    "required_inputs": {"temperature", "ionic_strength", "pH"},
+    "optional_inputs": {"mix_fraction", "amphiphile"},
+    "required_outputs": {"membrane_area", "viable_compartments"},
+    "optional_outputs": {"permeability", "compartment_volume", "retention",
+                         "access", "individuality_access", "boundary_formed"},
+}
+
 FACES = {
     "spatial_transport": SPATIAL_TRANSPORT_FACE,
     "serpentinization": SERPENTINIZATION_FACE,
     "carbon_fixation": CARBON_FIXATION_FACE,
     "proto_metabolism": PROTO_METABOLISM_FACE,
+    "boundary": BOUNDARY_FACE,
 }
 
 
@@ -215,6 +232,16 @@ INTERFACES = {
             "curated_rtca": "local:RoadRunnerNetworkProcess",        # E (og-02 curated rTCA-fragment SBML)
             "reaction_universe": "local:ReactionUniverseProcess",    # A (rule-generated C/H/O universe, eQuilibrator dG')
             "null_network": "local:NullNetworkProcess",              # A (matched degree-preserving null)
+        },
+    },
+    # The endogenous boundary (Model Upgrade plan, Phase 5). single_chain/mixed
+    # are one ProtocellAssemblyProcess selected by mix_fraction (0 vs >0).
+    "boundary": {
+        "face": "boundary",
+        "models": {
+            "single_chain": "local:ProtocellAssemblyProcess",            # E (Jordan 2019 fatty-acid vesicle, mix_fraction=0)
+            "mixed": "local:ProtocellAssemblyProcess",                   # E (+ co-surfactant, mix_fraction>0)
+            "thioester_aminothiol": "local:ThioesterAminothiolMembraneProcess",  # A (different viability window)
         },
     },
 }

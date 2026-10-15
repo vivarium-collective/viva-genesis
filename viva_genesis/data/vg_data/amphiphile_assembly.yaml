@@ -1,0 +1,123 @@
+# vg-data package: endogenous AMPHIPHILE ASSEMBLY + boundary viability
+# (Model Upgrade plan, Phase 5).
+#
+# Every parameter carries value-or-distribution, units, context, sources
+# (bibkeys in workspace/references/papers.bib) and a provenance class in
+# {measured, calibrated, inferred, extrapolated, hypothetical}. These are the
+# priors the Phase-5 endogenous-boundary study samples, and the viability window
+# the boundary face's model classes read.
+#
+# HONESTY NOTES
+# - The vesicle phase window (cac, bilayer pKa, pH window, ionic + divalent
+#   tolerance, co-surfactant promotion) is Jordan-2019-sourced: C10-C15
+#   single-chain amphiphiles + a C10 co-surfactant form vesicles from pH ~6.5 to
+#   >12 at modern-seawater salinity and elevated divalent cations — i.e. alkaline
+#   hydrothermal conditions FAVOUR protocell assembly. These values mirror the
+#   already-calibrated ProtocellAssemblyProcess config.
+# - The osmotic growth-division coupling (division threshold, the viable
+#   membrane-permeability band) is the van 't Hoff physics of
+#   OsmoticGrowthDivisionProcess (og-growth); it is a MODEL coupling, not a single
+#   measured rate, and is classed calibrated/inferred accordingly.
+# - The amphiphile SYNTHESIS rate (k_synth, acetate+formate -> fatty acid) has no
+#   direct prebiotic rate measurement; it is an inferred condensation rate and is
+#   classed hypothetical with a wide prior.
+# - The roadmap named a "Lu 2024" osmotic-growth reference; it could not be
+#   located / verified, so it is NOT cited here (no fabricated citation). If it is
+#   a specific paper, supply the bibkey and the osmotic params will be re-sourced
+#   to it; until then the coupling is classed as above.
+name: amphiphile_assembly
+version: "1"
+description: >-
+  Priors + viability window for endogenous amphiphile assembly and the protocell
+  boundary (Phase 5): vesicle phase data under alkaline / saline / divalent
+  conditions (Jordan 2019) and the osmotic growth-division coupling.
+sources: [jordan2019promotion, sutherland2017opinion]
+
+parameters:
+  - id: cac
+    quantity: Critical aggregation concentration for vesicle formation
+    units: molar
+    provenance: measured
+    value: 1.0e-3
+    distribution: {kind: loguniform, low: 3.0e-4, high: 3.0e-3}
+    context: {amphiphile: C10-C15 single-chain fatty acids, basis: Jordan 2019 vesicle assembly}
+    sources: [jordan2019promotion]
+    consumed_by: BoundaryFormationStep
+    how_to_use: amphiphile must exceed cac for a boundary to form (the endogenous gate)
+
+  - id: pka_bilayer
+    quantity: Apparent fatty-acid bilayer pKa (shifted up from solution)
+    units: dimensionless
+    provenance: measured
+    value: 8.3
+    distribution: {kind: uniform, low: 7.8, high: 8.8}
+    context: {basis: Jordan 2019 titration of mixed-amphiphile vesicles}
+    sources: [jordan2019promotion]
+    consumed_by: ProtocellAssemblyProcess
+    how_to_use: centre of the pH viability window for the single_chain/mixed boundary class
+
+  - id: ph_window
+    quantity: pH viability half-window for vesicle stability
+    units: dimensionless
+    provenance: calibrated
+    value: 0.9
+    distribution: {kind: uniform, low: 0.6, high: 1.4}
+    context: {range: vesicles observed pH ~6.5 to >12 with co-surfactant, basis: Jordan 2019}
+    sources: [jordan2019promotion]
+    consumed_by: ProtocellAssemblyProcess
+    how_to_use: Gaussian pH-window half-width about pka_bilayer
+
+  - id: i_tolerance
+    quantity: Ionic-strength tolerance for vesicle stability
+    units: molar
+    provenance: measured
+    value: 0.18
+    distribution: {kind: uniform, low: 0.12, high: 0.6}
+    context: {basis: vesicles stable at modern-seawater salinity (Jordan 2019); co-surfactant broadens}
+    sources: [jordan2019promotion]
+    consumed_by: ProtocellAssemblyProcess
+    how_to_use: ionic-strength logistic roll-off of viability
+
+  - id: divalent_tolerance
+    quantity: Divalent-cation (Mg2+/Ca2+) tolerance for vesicle stability
+    units: molar
+    provenance: measured
+    value: 0.012
+    distribution: {kind: loguniform, low: 4.0e-3, high: 4.0e-2}
+    context: {basis: co-surfactant restores assembly against divalent precipitation, Jordan 2019}
+    sources: [jordan2019promotion]
+    consumed_by: ProtocellAssemblyProcess
+    how_to_use: divalent roll-off of viability (the key early-ocean objection Jordan 2019 answers)
+
+  - id: mix_fraction
+    quantity: Co-surfactant (C10 isoprenoid / fatty alcohol) fraction
+    units: dimensionless
+    provenance: calibrated
+    value: 0.4
+    distribution: {kind: uniform, low: 0.0, high: 0.7}
+    context: {role: single_chain (0) vs mixed (>0); co-surfactant promotes assembly, Jordan 2019}
+    sources: [jordan2019promotion]
+    consumed_by: ProtocellAssemblyProcess
+    how_to_use: the boundary model-class knob (single_chain vs mixed)
+
+  - id: k_synth
+    quantity: Amphiphile condensation rate from acetate + formate
+    units: 1/(molar*second)
+    provenance: hypothetical
+    value: 5.0e-2
+    distribution: {kind: loguniform, low: 1.0e-3, high: 1.0}
+    context: {reaction: acetate + formate -> fatty-acid amphiphile, basis: no direct prebiotic rate; inferred condensation}
+    sources: []
+    consumed_by: AmphiphileSynthesisProcess
+    how_to_use: second-order synthesis rate; wide prior because unmeasured
+
+  - id: division_threshold
+    quantity: Volume/division-state at which a grown individual divides
+    units: dimensionless
+    provenance: calibrated
+    value: 1.0
+    distribution: {kind: uniform, low: 0.8, high: 1.5}
+    context: {physics: osmotic growth to a size threshold then division, basis: OsmoticGrowthDivision van 't Hoff coupling}
+    sources: [sutherland2017opinion]
+    consumed_by: DivisionStep
+    how_to_use: division_state >= this triggers a _divide structural rewrite
