@@ -62,6 +62,14 @@ Competing heredity (Model Upgrade plan, Phase 7). Six classes honour one
 ``hybrid``, ``mineral_state`` — each an exact Gillespie lineage at low copy
 number drawing from the same precursor pools and energy store, attached
 conditionally by ``HeredityAttachmentStep`` (``viva_genesis.heredity.competing``).
+
+Integrated autonomy (Model Upgrade plan, Phase 9). No new face: the
+``integrated_autonomy_world`` composite (``viva_genesis.composites.integrated_autonomy``)
+takes one class on EACH of the ``energy_coupling`` (storage model), ``heredity``
+(inheritance class), ``boundary`` (permeability assumption) and ``localization``
+(transport law) faces, plus a maintenance law, and sweeps the five together as
+the structural ensemble the ``minimum-sufficient-innovation-set`` gate is
+intersected over (``viva_genesis.uq.robust_innovation``).
 """
 
 from __future__ import annotations
@@ -194,7 +202,9 @@ BOUNDARY_FACE = {
 ENERGY_COUPLING_FACE = {
     "required_inputs": {"electric_potential", "drive_free_energy", "permeability",
                         "membrane_area", "compartment_volume"},
-    "optional_inputs": {"temperature", "pH", "pH_ocean", "catalyst_activity", "ionic_strength"},
+    "optional_inputs": {"temperature", "pH", "pH_ocean", "catalyst_activity", "ionic_strength",
+                        # Phase 9: the live substrate availability of the drive (0-1)
+                        "drive_availability"},
     "required_outputs": {"free_energy_in", "external_power", "internal_power", "maintenance_power",
                          "work", "dissipated", "energy_stored", "autonomy"},
     "optional_outputs": {"leak_power", "net_power", "energy_charge_fraction", "store_potential", "pmf"},
@@ -239,7 +249,10 @@ HEREDITY_FACE = {
 # a consequence of flux rather than of a port the class could write.
 PROTO_ECOLOGY_FACE = {
     "required_inputs": {"internal"},
-    "optional_inputs": {"temperature", "pH"},
+    # catalyst_activity (Phase 9): the catalysis available to the agent's
+    # mineral-catalysed rules — the external FeS surface or the lineage's own
+    # heredity-held machinery (1 when unwired, as in Phase 8).
+    "optional_inputs": {"temperature", "pH", "catalyst_activity"},
     "required_outputs": {"internal", "functions_produced", "rule_flux", "net_carbon_flux", "dissipation",
                          "element_residual"},
     "optional_outputs": {"h2_consumption", "co2_fixation", "carbon_degraded", "total_organic_carbon",

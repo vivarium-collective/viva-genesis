@@ -289,7 +289,10 @@ class RewriteLedgerProcess(Process):
     ``rewrite_residual = |Δtotal + removed_matter|`` must stay ~0 across every
     rewrite. ``partition_residual`` (the daughters' amounts summing to the
     mother's on ``_divide``) is passed through from :class:`DivisionStep`. The
-    single ``rewrite_ok`` flag is the Phase-5 exit criterion's conservation gate."""
+    single ``rewrite_ok`` flag is the Phase-5 exit criterion's conservation gate.
+    The optional ``external_flux`` input (Phase 9; 0 when unwired) lets a lineage
+    budget feed / drain the audited system through a declared channel without
+    breaking the audit of the rewrites themselves."""
 
     config_schema = {
         "tol": {"_type": "float", "_default": 1.0e-9, "_provenance": "inferred"},
@@ -302,8 +305,12 @@ class RewriteLedgerProcess(Process):
         self._partition_max = 0.0
 
     def inputs(self):
+        # external_flux (Phase 9, optional; 0 when unwired): matter that entered
+        # (> 0) or left (< 0) the audited system this tick OTHER than through a
+        # rewrite — the integrated world's lineage budget feeding its biomass
+        # reservoir — so `expected = prev_total - removed + external_flux`.
         return {"agents": "map[vg_individual]", "localized": "map[vg_amount]",
-                "partition_residual": "float", "removed_matter": "float"}
+                "partition_residual": "float", "removed_matter": "float", "external_flux": "float"}
 
     def outputs(self):
         return {
@@ -327,10 +334,11 @@ class RewriteLedgerProcess(Process):
         total = agent_matter + sum(float(v) for v in localized.values())
         removed = float(state.get("removed_matter", 0.0))
         part = float(state.get("partition_residual", 0.0))
+        external = float(state.get("external_flux", 0.0) or 0.0)
         if self._prev_total is None:
             rewrite_resid = 0.0
         else:
-            rewrite_resid = abs(total - (self._prev_total - removed))
+            rewrite_resid = abs(total - (self._prev_total - removed + external))
         self._prev_total = total
         self._rewrite_max = max(self._rewrite_max, rewrite_resid)
         self._partition_max = max(self._partition_max, part)

@@ -233,6 +233,89 @@ class PoreExchangeRule(ExchangeRule):
         return moles
 
 
+class ActiveUptakeRule(ExchangeRule):
+    """Phase 9 — the *importer* innovation as an exchange rule: a saturable,
+    powered transporter moves a substrate from the agent's field cell INTO the
+    agent **against its gradient**. Fires for every agent carrying importer
+    capacity (``ctx.agents[aid]["importer"] = {species: v_max}``, mol/s, already
+    scaled by the lineage's machinery) wherever the cell holds the substrate;
+    the moles moved are ``v_max * c_out / (K_m + c_out) * dt`` capped at what
+    the cell holds and regulated so the inside never exceeds ``max_ratio`` x
+    the outside (a transporter does not pump into a pool it has already
+    filled). The transfer conserves matter (the same moles leave the cell
+    and enter the agent); the free energy it costs — the thermodynamic minimum
+    ``RT ln(c_in / c_out)`` per mole when uphill, 0 when downhill, divided by the
+    transporter's coupling efficiency — is accumulated in ``ctx.import_energy``
+    (joule) for the lineage's work budget. Nothing moves a capability."""
+
+    name = "active_uptake"
+
+    def __init__(self, k_m: float = 1.0e-5, efficiency: float = 0.5, rt_j: float = 2.68e3, max_ratio: float = 100.0,
+                 targets: dict | None = None):
+        self.k_m = float(k_m)              # molar half-saturation of the transporter
+        self.efficiency = min(max(float(efficiency), 1e-6), 1.0)
+        self.rt_j = float(rt_j)            # R T in J/mol
+        self.max_ratio = float(max_ratio)  # regulation: no import once inside / outside reaches this
+        self.targets = dict(targets or {})  # regulation: no import once the inside holds the set-point (molar)
+
+    def matches(self, ctx: RuleContext):
+        for aid, a in ctx.agents.items():
+            cap = a.get("importer") or {}
+            outside = ctx.background[a["cell"]] if ctx.private else ctx.cells[a["cell"]]
+            for s, vmax in cap.items():
+                c_out = outside.get(s, 0.0)
+                c_in = a["internal"].get(s, 0.0)
+                if vmax <= 0.0 or c_out <= 0.0 or c_in >= self.max_ratio * c_out:
+                    continue
+                if s in self.targets and c_in >= float(self.targets[s]):
+                    continue
+                if getattr(ctx, "import_budget", None) is not None and ctx.import_budget <= 0.0:
+                    continue
+                yield (aid, s)
+
+    def apply(self, match, ctx: RuleContext) -> float:
+        aid, s = match
+        a = ctx.agents[aid]
+        vmax = float(a["importer"][s])
+        if ctx.private:
+            outside = ctx.background[a["cell"]]
+            c_out = outside.get(s, 0.0)
+            moles = vmax * c_out / (self.k_m + c_out) * ctx.dt
+            if moles <= 0.0:
+                return 0.0
+            for el, v in ctx.element_moles(s, moles).items():
+                ctx.inflow[el] += v
+        else:
+            cell = ctx.cells[a["cell"]]
+            c_out = cell.get(s, 0.0)
+            moles = min(vmax * c_out / (self.k_m + c_out) * ctx.dt, c_out * ctx.cell_volume)
+            if moles <= 0.0:
+                return 0.0
+            cell[s] = c_out - moles / ctx.cell_volume
+        c_in = a["internal"].get(s, 0.0)
+        # thermodynamic cost of concentrating (uphill only), per mole, over efficiency;
+        # a finite work budget (ctx.import_budget, J) caps what can be moved this tick
+        ratio = max(c_in, 1e-30) / max(c_out, 1e-30)
+        cost = (self.rt_j * math.log(ratio) if ratio > 1.0 else 0.0) / self.efficiency
+        budget = getattr(ctx, "import_budget", None)
+        if budget is not None and cost > 0.0:
+            allowed = budget / cost
+            if allowed < moles:
+                if not ctx.private:
+                    cell[s] = c_out - allowed / ctx.cell_volume + (moles - allowed) / ctx.cell_volume * 0.0
+                    cell[s] = (c_out - moles / ctx.cell_volume) + (moles - allowed) / ctx.cell_volume
+                moles = allowed
+            if moles <= 0.0:
+                return 0.0
+            ctx.import_budget = budget - moles * cost
+        a["internal"][s] = c_in + moles / a["volume"]
+        if not hasattr(ctx, "import_energy"):
+            ctx.import_energy = 0.0
+        ctx.import_energy += moles * cost
+        ctx.firings.append(Firing(self.name, aid, s, moles))
+        return moles
+
+
 class BigraphicalReactiveSystem:
     """An ordered set of exchange rules with firing counters.
 
@@ -269,4 +352,4 @@ class BigraphicalReactiveSystem:
 
 
 __all__ = ["Firing", "RuleContext", "ExchangeRule", "UptakeRule", "SecretionRule", "PoreDiffusionRule",
-           "PoreExchangeRule", "BigraphicalReactiveSystem"]
+           "PoreExchangeRule", "ActiveUptakeRule", "BigraphicalReactiveSystem"]
