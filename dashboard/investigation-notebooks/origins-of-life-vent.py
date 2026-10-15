@@ -2680,7 +2680,173 @@ _save_viz('og-01-cal-electrochemistry', 'electrochemistry-polarization', _render
 # | Altair-2025 macroscale reactor currents ~10 nA .. 10 uA sufficient for carbon reduction | settled Butler-Volmer current density on a 1e-3 m^2 interface | Altair et al. 2025 (campaign dossier ref 12; parameter-registry electrochemical_current) | Used as the calibration window of the exchange currents (vg-data electrochemical_interface.observations.cell_current_density); 79.7% of the grid inside it. |
 # | Preiner 2020 product hierarchy formate >> acetate >> pyruvate, awaruite (Ni3Fe) the most productive catalyst | electron branch fractions and the Ni gain of the CO2-reduction exchange current | Preiner et al. 2020 | Branch fractions inferred from the yield hierarchy; the Ni gain is a hypothetical shape fitted to the ordering. |
 
+# ## Study: The Open Network: Do Autocatalytic Motifs Emerge From Rule-Generated Chemistry, Beyond Chance? (`og-02-alt-reaction-universe`)
+#
+# **Question.** Model Upgrade plan, Phase 3. og-02 showed a hand-curated rTCA fragment persists and self-amplifies under flow — but its autocatalytic turn (OAA + 2 CO2 -> 2 OAA + acetate) was written into the network. If the network is instead GENERATED from a Wolos-2020-style rule set over C1-C3 feedstock with real eQuilibrator thermodynamics, catalyst limits and degradation, and fed the Phase-1 posterior vent state, do persistent autocatalytic subnetworks appear at all, are they more frequent than in matched null networks, and how does the curated rTCA class compare when all three are graded by one post-hoc detector and one element / free-energy ledger?
+#
+# **Objective.** Build the proto_metabolism face (curated_rtca | reaction_universe | null_network), the vg-data package reaction_universe (rules, eQuilibrator dG', catalyst requirements), the NetworkLedgerProcess (exact element residual, integrated carbon balance, dissipation >= 0) and a class-agnostic post-hoc motif detector; run the three classes under two feeds (Phase-1 posterior; + 10 mM formaldehyde) with 24 matched nulls per arm, an ignition map, flux-control analysis and a stiffness check.
+#
+# **Hypothesis.** Under the Phase-1 posterior feed (CO2 1.4 mM, H2 10.8 mM, pyruvate 0.1 mM) the generated universe sustains a connected multi-species network but no autocatalytic motif (the C1 -> C2 bottleneck is thermodynamic at vent concentrations); supplying the formose feedstock (formaldehyde) lets a motif emerge from the rules and that motif count is enriched relative to degree-preserving, carbon/oxygen-matched nulls; the curated class's motif is detected but imposed and its stoichiometry fails the element ledger.
+#
+# **Claim.** With real thermodynamics and conservation, autocatalysis is not free: the generated universe fed the Phase-1 vent posterior builds a persistent, element-balanced, dissipative network but no autocatalytic motif, because every C-C-forming route is uphill at vent concentrations; the one motif that does emerge — the formose cycle, recovered post hoc from the rules, absent in every matched null — needs a formaldehyde supply the vent chemistry does not make and a residence time shorter than its reductive destruction. The curated rTCA result survives as one class among three, with its motif now classed as imposed and its stoichiometry flagged as non-conserving.
+
+# ### Design — originally proposed
+#
+# _The mechanisms and methods proposed when this study was designed; the model **actually built** (and the tools it uses) is shown below. These may differ as the design was realized._
+#
+# **Proposed mechanisms**
+#
+# - E: protometabolic network formation (rule-generated, not curated)
+# - D: surface chemistry as catalyst classes with finite site pools
+#
+# **Proposed models / methods**
+#
+# - Rule-based network generation (Wolos 2020 style) over linear C/H/O skeletons
+# - eQuilibrator component-contribution dG' + group-additivity fallback; detailed-balance kinetics
+# - libRoadRunner CVODE integration; post-hoc autocatalytic-core enumeration (Blokhuis 2020)
+# - Degree-preserving (C,O)-matched null networks (Maslov-Sneppen); empirical enrichment
+# - Element + free-energy ledger; flux-control summation theorem; tolerance / stiffness check
+#
+# **Key assumptions**
+#
+# - Linear C/H/O skeletons up to C4; eleven reaction rules (H2 reductions, enol / reductive carboxylation, formose initiation, aldol, isomerisation, alpha/beta decarboxylation, Cannizzaro); every reaction reversible with k_down = k0 (rule class) and k_up = k0 exp(-|dG'0|/RT).
+# - dG' potentials at pH 9.38 / I 0.25 M / 322 K (the Phase-1 posterior example point); water activity 1; CO2 and H2 vent-buffered, organics as CSTR inflow.
+# - Catalyst classes (mineral: reductions / carboxylations; base: aldol / isomerisation / Cannizzaro) share a finite site pool f = sites / (1 + load / K_sat), updated per tick.
+# - Null = degree-preserving swaps of organic species within (C, O)-count classes; dG' recomputed from the same potentials; same exchange / degradation reactions.
+# - A persistent autocatalytic motif = a simple cycle of flux-carrying reactions (|v| > 1e-12 M/s, species > 1e-9 M) with stoichiometric gain > 1 (Blokhuis 2020 type-I core); currency species CO2 / H2 / H2O excluded as cycle members.
+
+# ### Parameters
+#
+# | simulation | composite | steps | params |
+# | --- | --- | --- | --- |
+# | `Open chemical network — reaction_universe at the Phase-1 feed` | `viva_genesis.composites.open_chemical_network.open_chemical_network` | 0 | model_proto_metabolism=reaction_universe |
+#
+# Declared parameter sets (`study.yaml` variants):
+#
+# - **formose-feed** — `feed_formaldehyde=0.01`
+# - **null-network** — `model_proto_metabolism=null_network`, `null_seed=0`
+# - **curated-rtca** — `model_proto_metabolism=curated_rtca`
+
+# ### The model & its parameters
+#
+# Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
+
+# **The model — `viva_genesis.composites.open_chemical_network.open_chemical_network`**
+#
+# og-02's continuous-feed reactor rebuilt as the Phase-3 open chemical network: the reaction network is a model CLASS on the proto_metabolism face (model_proto_metabolism: curated_rtca | reaction_universe | null_network), all three integrated by the genuine libRoadRunner engine under the same Phase-1-posterior feed (CO2, H2, pyruvate), graded by one class-agnostic post-hoc detector (flux-carrying simple cycles with stoichiometric gain > 1) and audited by a NetworkLedgerProcess (exact element residual, integrated carbon balance, dissipation >= 0). The universe class is generated from Wolos-2020-style rules over linear C/H/O skeletons with eQuilibrator dG' (vg-data package reaction_universe); the null class is its degree-preserving, carbon-matched rewiring.
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_open_chemical_network_open_chemical_network = {
+    'model_proto_metabolism': 'reaction_universe',   # Model class behind the 'proto_metabolism' face: curated_rtca | null_network | reaction_universe
+    'feed_CO2'              : 0.0014,   # Vent-buffered CO2 set-point (M) [vg-data: calibrated, Phase-1 posterior]
+    'feed_H2'               : 0.0108,   # Vent-buffered H2 set-point (M) [vg-data: calibrated, Phase-1 posterior]
+    'feed_pyruvate'         : 0.0001,   # Pyruvate CSTR inflow (M) from og-01 reduced carbon [vg-data: inferred]
+    'feed_formaldehyde'     : 0.0,   # Formaldehyde CSTR inflow (M); 0 canonical, 1e-3 in the formose arm [vg-data: hypothetical]
+    'k_wash'                : 0.05,   # CSTR washout / dilution rate (1/s) [vg-data: inferred]
+    'null_seed'             : 0,   # Null-network draw (null_network class only)
+    'max_carbons'           : 4,   # Carbon cap of the generated universe (reaction_universe / null_network) [vg-data: hypothetical]
+}
+
+# ### Typed contract (declared interface)
+#
+# _The bigraph-schema typed ports + conservation predicates this study's composite must satisfy (audited in the workbench §Contract panel). Declared design — independent of whether a run exists yet._
+#
+# **Inputs**
+#
+# | port | type | units | bounds |
+# | --- | --- | --- | --- |
+# | `feed_CO2` | float | molar | >= 0.0 |
+# | `feed_H2` | float | molar | >= 0.0 |
+# | `feed_pyruvate` | float | molar | >= 0.0 |
+# | `feed_formaldehyde` | float | molar | >= 0.0 |
+#
+# **Outputs**
+#
+# | port | type | units | bounds |
+# | --- | --- | --- | --- |
+# | `net_carbon_flux` | float | mole/second |  |
+# | `autocatalytic_gain` | float | dimensionless | >= 0.0 |
+# | `network_connected` | float | dimensionless | [0.0, 1.0] |
+#
+# **Conditions**
+#
+# - `element_balance` (invariant): `ledger.element_residual_max == 0`
+# - `carbon_balance` (invariant): `ledger.carbon_residual_max < 1e-4`
+# - `energy_directionality` (invariant): `ledger.free_energy_directionality == 1`
+# - `motifs_post_hoc` (invariant): `no rule names a cycle; motifs are detected by viva_genesis.protometabolism.motifs on every class`
+
+# ### Run
+#
+# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
+
+# === Study: og-02-alt-reaction-universe ===
+STUDY = 'og-02-alt-reaction-universe'
+STUDY_DIR = REPO / 'workspace/studies' / STUDY
+STUDY_YAML = str(STUDY_DIR / "study.yaml")
+RUNS_DB = str(STUDY_DIR / "runs.db")
+
+# This study has no *recorded* runs yet. RERUN builds its declared
+# composite(s) live and runs them; a composite whose module processes
+# are not implemented yet reports the error instead of crashing.
+STEPS_Open_chemical_network_reaction_universe_at_the_Phase_1_feed = 100
+INTERVAL_Open_chemical_network_reaction_universe_at_the_Phase_1_feed = 1.0
+
+if RERUN:
+    from process_bigraph import Composite
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_open_chemical_network_open_chemical_network if 'ov_viva_genesis_composites_open_chemical_network_open_chemical_network' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_open_chemical_network_open_chemical_network = materialize_composite('viva_genesis.composites.open_chemical_network.open_chemical_network', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_open_chemical_network_open_chemical_network['state']}, core=core)
+            _comp.run(STEPS_Open_chemical_network_reaction_universe_at_the_Phase_1_feed)
+        print('ran', 'Open chemical network — reaction_universe at the Phase-1 feed', f'(viva_genesis.composites.open_chemical_network.open_chemical_network) for', STEPS_Open_chemical_network_reaction_universe_at_the_Phase_1_feed, 'steps')
+    except Exception as _e:
+        print(f"Open chemical network — reaction_universe at the Phase-1 feed not runnable yet: {type(_e).__name__}: {_e}")
+else:
+    print("RERUN=False — not re-simulating.")
+
+# ### Visualizations
+#
+# _Results are shown by the figures below, produced by the run above._
+
+# **reaction-universe-enrichment**
+
+# reaction-universe-enrichment
+_save_viz('og-02-alt-reaction-universe', 'reaction-universe-enrichment', _render_one('local:ReactionUniverseEnrichment', {'title': 'Phase 3 — motif enrichment vs matched nulls, and where motifs ignite (Decision view)', 'report_json': 'workspace/studies/og-02-alt-reaction-universe/artifacts/motif_enrichment.json'}, RUNS_DB, STUDY_YAML))
+
+# **reaction-universe-subnetwork**
+
+# reaction-universe-subnetwork
+_save_viz('og-02-alt-reaction-universe', 'reaction-universe-subnetwork', _render_one('local:ReactionUniverseSubnetwork', {'title': 'The persistent subnetwork and its post-hoc formose cycle (Mechanism view)', 'report_json': 'workspace/studies/og-02-alt-reaction-universe/artifacts/motif_enrichment.json', 'arm': 'formose_feed'}, RUNS_DB, STUDY_YAML))
+
+# ### Acceptance criteria
+#
+# _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
+#
+# | test | measures | passes if |
+# | --- | --- | --- |
+# | network-ledger-closes _(primary)_ | kind=derived path=network_ledger_ok_final detail=ledger_ok on the final tick | op >= value 1.0 detail every ledger witness within tolerance |
+# | element-residual-exact _(diagnostic)_ | kind=derived path=max_element_residual detail=worst-case stoichiometric element residual | op <= value 1e-12 detail element balance exact by construction |
+# | free-energy-directionality _(diagnostic)_ | kind=derived path=free_energy_directionality_final detail=1 while dissipation has never been below -1e-12 W | op >= value 1.0 detail directionality witness holds through the run |
+# | persistent-network-at-phase1-feed _(primary)_ | kind=derived path=final_n_persistent_species detail=organic species above conc_floor on the final tick | op >= value 10.0 detail >= 10 persistent species |
+# | rtca-branch-emerges-from-rules _(supporting)_ | kind=derived path=settled_malate_M detail=settled malate (last quartile) | op > value 1e-09 detail malate persists above the species floor |
+# | no-motif-at-phase1-feed _(diagnostic)_ | kind=derived path=universe_motif_count detail=universe motif count, arm phase1_feed, from artifacts/motif_enrichment.json | op >= value 0.0 detail informative readout (any value passes) |
+# | motifs-emerge-not-imposed _(primary)_ | kind=derived path=motif_enrichment_p detail=empirical p of the universe motif count vs 24 nulls, arm formose_feed | op <= value 0.05 detail enrichment p <= 0.05 (with >= 1 motif see motif-present-formose-arm) None |
+# | motif-present-formose-arm _(primary)_ | kind=derived path=universe_motif_count detail=universe motif count, arm formose_feed | op >= value 1.0 detail >= 1 persistent motif |
+# | curated-rtca-fails-element-ledger _(diagnostic)_ | kind=derived path=curated_element_residual detail=max|E S| over the curated SBML (post hoc) | op > value 0.0 detail residual > 0 documents the violation (expected 8) |
+# | flux-control-summation-theorem _(diagnostic)_ | kind=derived path=fcc_summation_residual_max detail=from artifacts/reaction_universe_verification.json | op <= value 0.01 detail summation residual <= 1e-2 on dominant fluxes |
+# | integrator-tolerance-insensitive _(diagnostic)_ | kind=derived path=tolerance_sensitivity_max detail=worst relative species deviation across tolerance settings | op <= value 0.01 detail <= 1% relative deviation |
+
+# ### Literature anchors
+#
+# | expectation | model observable | source | status |
+# | --- | --- | --- | --- |
+# | The formose reaction is autocatalytic in glycolaldehyde via aldol / isomerisation / retro-aldol of the tetrose, with a slow umpolung initiation from formaldehyde alone | the detected motif's species and reactions | Breslow 1959 | Recovered post hoc from the rule set (glycolaldehyde -> glyceraldehyde -> DHA -> erythrulose -> erythrose -> 2 glycolaldehyde, gain 2) without being named by any rule. |
+# | Rule-generated prebiotic networks contain self-regenerating cycles that appear only after several synthetic generations | motif count vs matched nulls | Wolos 2020 | One cycle at C <= 4 in C/H/O; enrichment p = 0.04 over 24 nulls. |
+
 # ## Open decisions
+# - Rule-set scope for the Phase-3 reaction universe: keep C1-C3 feedstock / C/H/O-only chemistry (as built: products capped at C4, 413 reactions) or include N/P-bearing reactions from the start, folding the og-res-N / og-res-P resource chemistries into the universe?
 # - Publication milestone: close the first paper at the pre-genetic arc (og-00 -> og-03) or extend through the early-genetic arc (og-04 protocells -> og-06 heredity)?
 # - First limiting resource / next module: which enrichment-plan module to build first — nitrogen assimilation (N2/NO3->NH4, FeS), phosphorus availability (phosphate/polyphosphate co-concentration), proto-energetics (thioester/acyl-phosphate energy currency before pumping), or metabolism->growth/division (osmotic growth)?
 # - Enrich og-01 with explicit electrochemistry (treat the vent as an electrical circuit: fluid composition -> redox potential -> mineral conductivity -> current density -> electron-transfer -> CO2 reduction), or keep the current gradient-efficiency abstraction?
