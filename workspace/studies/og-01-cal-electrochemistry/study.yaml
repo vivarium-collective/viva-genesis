@@ -379,7 +379,7 @@ visualizations:
 - name: electrochemistry-mechanism-map
   address: local:ElectrochemistryMechanismMap
   config:
-    title: Phase 2 — electrochemical mechanism map (Decision view)
+    title: The vent wall as a galvanic cell — an honest negative
     mechanism_map_json: workspace/studies/og-01-cal-electrochemistry/artifacts/electrochemistry_mechanism_map.json
     report_json: workspace/studies/og-01-cal-electrochemistry/artifacts/electrochemistry_report.json
 - name: electrochemistry-polarization

@@ -24,8 +24,8 @@ import numpy as np
 from process_bigraph.visualization import Visualization
 
 from .viz_uq import _resolve
-
-_INK, _TEAL, _AMBER, _SLATE, _RUST, _VIOLET = "#1e293b", "#0d9488", "#d97706", "#64748b", "#b91c1c", "#7c3aed"
+from . import viz_style as S
+from .viz_style import INK as _INK, TEAL as _TEAL, AMBER as _AMBER, SLATE as _SLATE, RUST as _RUST, VIOLET as _VIOLET
 _CLASS_COLORS = {"passive_gradient": _SLATE, "h_na_gradient_leaky_membrane": _AMBER,
                  "thioester_acyl_phosphate": _TEAL, "polyphosphate": _VIOLET, "fe_redox": _RUST}
 _SHORT = {"passive_gradient": "passive", "h_na_gradient_leaky_membrane": "H+/Na+ gradient",
@@ -109,16 +109,22 @@ def threshold_map_figure(mmap: dict, report: dict, *, title: str = "") -> str:
            + "; ".join(f"{_SHORT[c]} a* = " + (f"{att['per_class'][c]['nominal']['threshold_activity']:.2f}"
                                                if att['per_class'][c]['nominal']['threshold_activity'] is not None else "none")
                        for c in active))
-    fig.update_layout(title=(title or "Phase 6 — where internalization pays") + f"<br><sup>{sub}</sup>",
-                      height=780, margin=dict(l=60, r=80, t=110, b=60), legend=dict(orientation="h", y=-0.1),
-                      plot_bgcolor="white", paper_bgcolor="white",
-                      font=dict(family="Inter, Helvetica, Arial, sans-serif", color=_INK, size=12))
+    fig.update_layout(**S.base_layout(height=780, margin=dict(l=60, r=80, t=52, b=60),
+                                      legend=dict(y=-0.1)))
     head = report.get("report", {}).get("headline", "")
     disc = report.get("decision_discipline") or []
-    note = f"<p style='font: 12px Inter, sans-serif; color:{_SLATE}; margin:6px 0'>{head}</p>"
+    # The gate passes (>=1 class pays) but WHICH class pays is structure-sensitive
+    # (cross-class agreement ~0.46) — a caution, not a failure.
+    cap = head or ("Internalization pays: at the nominal membrane and the Phase-1 gradient at least one "
+                   "coupling class clears the passive baseline, with the free-energy ledger exact. But which "
+                   "class pays is structure-sensitive (low cross-class agreement) — the benefit is real, its "
+                   "attribution to a specific coupling is not yet resolved.")
     if disc:
-        note += f"<p style='font: 12px Inter, sans-serif; color:{_RUST}; margin:6px 0'>decision discipline: {'; '.join(disc)}</p>"
-    return fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False}) + note
+        cap += f"<br><span style='color:{_RUST}'><b>Decision discipline:</b> {'; '.join(disc)}</span>"
+    inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    return S.frame(inner, title=(title or "Where internalization pays"), subtitle=sub,
+                   phase="Phase 6", view="Decision", tier="conceptual_demonstration",
+                   caption_text=cap, caption_prefix="Result", tone="caution")
 
 
 def energy_budget_figure(report: dict, *, activity: str = "1", title: str = "", load_kj: float = 30.0) -> str:
@@ -155,15 +161,17 @@ def energy_budget_figure(report: dict, *, activity: str = "1", title: str = "", 
         fig.update_xaxes(title_text="time (s)", row=2, col=j)
         fig.update_yaxes(title_text="W" if j == 1 else None, row=1, col=j)
         fig.update_yaxes(title_text="kJ/mol" if j == 1 else None, row=2, col=j)
-    fig.update_layout(title=(title or "Phase 6 — one individual's power budget per coupling class"),
-                      height=620, margin=dict(l=60, r=20, t=90, b=60), legend=dict(orientation="h", y=-0.12),
-                      plot_bgcolor="white", paper_bgcolor="white",
-                      font=dict(family="Inter, Helvetica, Arial, sans-serif", color=_INK, size=11))
+    fig.update_layout(**S.base_layout(height=620, margin=dict(l=60, r=20, t=52, b=60),
+                                      legend=dict(y=-0.12), font=S.FONT(11)))
     fixed = traj.get("fixed") or {}
-    note = (f"<p style='font: 12px Inter, sans-serif; color:{_SLATE}; margin:6px 0'>Nominal membrane "
-            f"({', '.join(f'{k} {v}' for k, v in fixed.items()) or 'vg-data energy_currencies defaults'}); "
-            "work is drawn only once the store potential clears the load (dotted); the free-energy ledger closes on every tick.</p>")
-    return fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False}) + note
+    cap = (f"Nominal membrane ({', '.join(f'{k} {v}' for k, v in fixed.items()) or 'vg-data energy_currencies defaults'}). "
+           "Top row: each class's power flows (external tap + internal store in; maintenance + leak out; net in black). "
+           "Bottom: the store potential &mu;(q) vs the load (dotted) — work is drawn only once the store clears it; "
+           "the free-energy ledger closes on every tick.")
+    inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    return S.frame(inner, title=(title or "One individual's power budget per coupling class"),
+                   phase="Phase 6", view="Mechanism", tier="conceptual_demonstration",
+                   caption_text=cap, caption_prefix="How to read", tone="neutral")
 
 
 class _Phase6Viz(Visualization):

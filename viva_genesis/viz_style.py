@@ -173,6 +173,10 @@ def header_band(
     # that older config titles carry (the badge now conveys it).
     if view and title:
         title = re.sub(r"\s*\([^)]*\bview\)\s*$", "", title).strip()
+    # When a phase badge is shown, drop a redundant leading "Phase N —" / "Campaign X —"
+    # prefix a config title may carry (the badge conveys it).
+    if phase and title:
+        title = re.sub(r"^\s*(phase\s+[\w-]+|campaign\s+[\w-]+)\s*[—:-]\s*", "", title, flags=re.I).strip()
     chips = []
     if phase:
         chips.append(phase_tag(phase))
