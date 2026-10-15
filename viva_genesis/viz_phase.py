@@ -14,7 +14,8 @@ import json
 import numpy as np
 from process_bigraph.visualization import Visualization
 
-_INK, _TEAL, _AMBER, _SLATE, _RUST = "#1e293b", "#0d9488", "#d97706", "#64748b", "#b91c1c"
+from . import viz_style as S
+from .viz_style import INK as _INK, TEAL as _TEAL, AMBER as _AMBER, SLATE as _SLATE, RUST as _RUST
 
 
 def sweep_to_json(res) -> str:
@@ -1937,6 +1938,99 @@ class PoreLocalizationMap(Visualization):
             res = pore_localization_map(porosity=(0.05, 0.95, n), pore_length=(5.0e-4, 8.0e-3, n),
                                         n_steps=int(self.config["n_steps"]), n_jobs=1)
         return {"html": localization_figure(res, title=self.config["title"])}
+
+
+# ----------------------------------------------------------------------------
+# og-03 — the HONEST enrichment readout: FiPy reduced column vs resolved FEM.
+# Replaces the retired ">1e6-fold" convection-enhanced headline. The robust claim
+# is that localization occurs and is BOUNDED; the extreme fold is a reduced-model
+# exp(Pe) extrapolation the resolved FEM does not confirm past the resolvable Peclet.
+# ----------------------------------------------------------------------------
+def pore_enrichment_solver_figure(data: dict, *, title: str = "") -> str:
+    """og-03 Decision view (honest uncertainty): single-tracer trap enrichment vs
+    accumulation Peclet, FiPy's reduced ``exp(Pe)`` column against the resolved
+    dolfinx Soret field. Shades the Peclet region where the two solvers agree
+    (localization is a resolved result) against the solver-sensitive region where
+    FiPy keeps climbing but the resolved field saturates — so the >10^8 Baaske-
+    favorable number is a reduced-model extrapolation, not a resolved enrichment."""
+    import plotly.graph_objects as go
+
+    trap = data["trap"]
+    rows = sorted(trap["rows"], key=lambda r: r["accumulation_peclet"])
+    pe = [r["accumulation_peclet"] for r in rows]
+    fipy = [r["fipy_enrichment"] for r in rows]
+    fem = [r["fenics_enrichment"] for r in rows]
+    agree = [bool(r.get("agree_1dex")) for r in rows]
+    # Boundary between the agreement and solver-sensitive regions (last Pe that agrees).
+    pe_agree = [p for p, a in zip(pe, agree) if a]
+    pe_split = (max(pe_agree) + min([p for p, a in zip(pe, agree) if not a] or [max(pe_agree)])) / 2 \
+        if pe_agree and not all(agree) else (max(pe) if all(agree) else min(pe))
+    fem_sat = fem[-1]
+
+    fig = go.Figure()
+    # honest-uncertainty zones
+    S.add_zone(fig, min(pe), pe_split, "agree", label="solvers agree (resolved)")
+    S.add_zone(fig, pe_split, max(pe) * 1.02, "sensitive", label="solver-sensitive (reduced-model extrapolation)")
+    fig.add_trace(go.Scatter(x=pe, y=fipy, mode="lines+markers", name="FiPy  reduced exp(Pe) column",
+                             line=dict(color=_AMBER, width=2.6), marker=dict(size=8)))
+    fig.add_trace(go.Scatter(x=pe, y=fem, mode="lines+markers", name="dolfinx  resolved Soret field",
+                             line=dict(color=_TEAL, width=2.6), marker=dict(size=8)))
+    fig.add_hline(y=fem_sat, line=dict(color=_TEAL, width=1, dash="dot"))
+    fig.add_annotation(x=max(pe), y=fem_sat, text=f"resolved field saturates &asymp; {fem_sat:.0f}&times;",
+                       showarrow=False, yshift=-14, xanchor="right",
+                       font=dict(size=10, color=_TEAL, family=S.FONT_STACK))
+    # the default Baaske-favorable pore (the strongest-Pe point) — the retired headline
+    fig.add_annotation(x=pe[-1], y=fipy[-1], text=f"Baaske-favorable pore<br>reduced column &asymp; {fipy[-1]:.0e}&times;",
+                       showarrow=True, arrowhead=2, arrowcolor=_AMBER, ax=-70, ay=-24,
+                       font=dict(size=10, color=_AMBER, family=S.FONT_STACK))
+    fig.update_yaxes(type="log", title_text="single-tracer enrichment (fold, log)")
+    fig.update_xaxes(title_text="accumulation Péclet")
+    S.style_axes(fig)
+    fig.update_layout(**S.base_layout(height=460, legend=dict(y=-0.2)))
+
+    n_agree, n_total = trap.get("n_agree"), trap.get("n_total")
+    cap = (
+        "Localization is real and <b>bounded</b>: where the pore is resolvable (low Péclet) FiPy's "
+        "reduced <i>exp(Pe)</i> column and the resolved dolfinx Soret field agree to within a decade "
+        f"({n_agree} of {n_total} swept pores). Past the resolvable Péclet they diverge &mdash; FiPy keeps "
+        "climbing toward the classical &gt;10&#8310;&ndash;10&#8312;-fold trap, while the resolved field "
+        f"saturates near {fem_sat:.0f}&times; because a P1 mesh cannot resolve the sub-micron accumulation "
+        "layer. The default Baaske-favorable pore sits <i>inside</i> that solver-sensitive region, so the "
+        "extreme fold is a <b>reduced-model extrapolation, not a resolved result</b>. Flow-through enrichment "
+        "weakens further with Péclet; the classical headline belongs to a closed / recirculating cell."
+    )
+    inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    return S.frame(inner, title=(title or "Does the trap concentrate an individual? Localization is bounded"),
+                   subtitle="single-tracer enrichment — reduced column vs. resolved FEM (solver-structural uncertainty)",
+                   phase="Campaign III", view="Decision", tier="mechanistic_prediction",
+                   caption_text=cap, caption_prefix="How to read", tone="caution")
+
+
+class PoreEnrichmentSolverSensitivity(Visualization):
+    """og-03 Decision view: the honest single-tracer enrichment readout (FiPy reduced
+    column vs. resolved dolfinx field across the pore-length / Peclet sweep). Renders
+    from the committed ``spatial-transport-solver-comparison.json`` cross-check."""
+
+    config_schema = {
+        "title": {"_type": "string", "_default": ""},
+        "comparison_json": {"_type": "string",
+                            "_default": "workspace/references/spatial-transport-solver-comparison.json"},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        path = _resolve_grid_path(str(self.config.get("comparison_json", "") or ""))
+        if not path:
+            return {"html": "<p>solver-comparison artifact not found — run "
+                            "scripts/compare_spatial_transport.py first.</p>"}
+        with open(path) as f:
+            data = json.load(f)
+        return {"html": pore_enrichment_solver_figure(data, title=self.config["title"])}
 
 
 # ----------------------------------------------------------------------------

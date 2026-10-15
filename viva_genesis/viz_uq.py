@@ -24,7 +24,9 @@ import os
 import numpy as np
 from process_bigraph.visualization import Visualization
 
-_INK, _TEAL, _AMBER, _SLATE, _RUST = "#1e293b", "#0d9488", "#d97706", "#64748b", "#b91c1c"
+from . import viz_style as S
+from .viz_style import INK as _INK, TEAL as _TEAL, AMBER as _AMBER, SLATE as _SLATE, RUST as _RUST
+
 _FATE_COLORS = {"failed": _SLATE, "inconsistent": "#cbd5e1", "consistent": _AMBER, "viable": _TEAL}
 
 
@@ -114,15 +116,31 @@ def vent_environment_posterior_figure(ensemble: dict, report: dict, *, title: st
     else:
         fig.add_annotation(xref="x3 domain", yref="y3 domain", x=0.5, y=0.5, showarrow=False,
                            text="no Morris screening in the artifact", font=dict(color=_SLATE))
-    fig.update_layout(
-        title=title or "Phase 1 — Lost-City-conditioned vent ensemble (real PHREEQC + FiPy)",
-        barmode="group", height=470, margin=dict(l=60, r=20, t=90, b=60),
-        legend=dict(orientation="h", y=-0.2), plot_bgcolor="white", paper_bgcolor="white",
-        font=dict(family="Inter, Helvetica, Arial, sans-serif", color=_INK, size=12),
-    )
-    head_md = rep.get("headline", "")
-    return (fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
-            + f"<p style='font: 12px Inter, sans-serif; color:{_SLATE}; margin:6px 0'>{head_md}</p>")
+    fig.update_layout(**S.base_layout(barmode="group", height=470,
+                                      margin=dict(l=60, r=20, t=50, b=60),
+                                      legend=dict(y=-0.2)))
+
+    # Headline built live from the committed report so the figure can never
+    # overclaim relative to the artifact (Phase-1 is a calibration, not an origin claim).
+    feas, robu = rep.get("feasibility", {}), rep.get("robustness", {})
+    n_adm = feas.get("n_admissible")
+    n_draws = len(draws) or feas.get("n_total") or 0
+    frac_post = robu.get("fraction")
+    if n_adm and n_draws and frac_post is not None:
+        ttl = (f"A Lost-City-conditioned posterior: {100 * n_adm / n_draws:.1f}% of the prior "
+               f"reproduces the vent, {100 * frac_post:.0f}% of that posterior feeds carbon fixation")
+    else:
+        ttl = title or "Phase 1 — Lost-City-conditioned vent posterior"
+    by_class = robu.get("by_class") or {}
+    indep = len(by_class) > 1 and len(set(round(v, 3) for v in by_class.values())) == 1
+    cap = ("Dissolved H&#8322; is the single binding observation (pH is mineral-buffered near 9.4 across "
+           "draws); the mass / charge / free-energy ledger closes exactly on every run"
+           + ("; the posterior is transport-class-independent (convecting vs. uniform-upflow agree)." if indep else ".")
+           + " This is geochemical calibration of the vent world &mdash; not an origin-of-life claim.")
+    inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    return S.frame(inner, title=ttl, phase="Phase 1", view="Decision",
+                   tier=rep.get("tier", "mechanistic_prediction"),
+                   caption_text=cap, caption_prefix="How to read", tone="neutral")
 
 
 # --------------------------------------------------------------------------- #
@@ -224,18 +242,30 @@ def electrochemistry_mechanism_map_figure(mmap: dict, report: dict, *, title: st
     sub = (f"label agreement: {agree_all:.2f} over all {cross.get('n_both_ok', 0)} points, "
            f"{(agree_fav if agree_fav is not None else float('nan')):.2f} over the {cross.get('n_favorable_both', 0)} points both classes call favorable (★)"
            + (f"; deferred: {deferred}" if deferred else ""))
-    fig.update_layout(
-        title=(title or "Phase 2 — electrochemical mechanism map") + f"<br><sup>{sub}</sup>",
-        height=760, margin=dict(l=60, r=20, t=110, b=60), legend=dict(orientation="h", y=-0.12),
-        plot_bgcolor="white", paper_bgcolor="white",
-        font=dict(family="Inter, Helvetica, Arial, sans-serif", color=_INK, size=12),
-    )
-    head = report.get("report", {}).get("headline", "")
+    fig.update_layout(**S.base_layout(height=760, margin=dict(l=60, r=20, t=64, b=60),
+                                      legend=dict(y=-0.12)))
+
+    # Honest-negative treatment: the failure-mode-attribution gate does NOT pass, and
+    # the figure must read as that, not as a tick. The accent + tone carry the verdict.
+    gate = report.get("report", {}).get("gate", "failure-mode-attributed")
+    agr = agree_fav if agree_fav is not None else agree_all
     disc = report.get("decision_discipline") or []
-    note = f"<p style='font: 12px Inter, sans-serif; color:{_SLATE}; margin:6px 0'>{head}</p>"
+    agr_txt = f"{agr:.2f}" if agr is not None else "below threshold"
+    cap = (
+        f"Explicit Butler&ndash;Volmer electrochemistry, built and ledger-exact &mdash; 7 of 8 "
+        f"pre-registered gates pass over the swept runs. But the <b>{gate}</b> gate does "
+        f"<b>not</b> pass: the favorable-region label agreement is {agr_txt} &lt; 0.80, because the "
+        f"limitation label is <i>structure-sensitive</i> &mdash; the Butler&ndash;Volmer class calls the "
+        f"favorable region <i>catalytic</i> where the empirical class calls it <i>electrical / transport</i>. "
+        f"The class disagreement <b>is</b> the result; three framing decisions are pending."
+    )
     if disc:
-        note += f"<p style='font: 12px Inter, sans-serif; color:{_RUST}; margin:6px 0'>decision discipline: {'; '.join(disc)}</p>"
-    return fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False}) + note
+        cap += f"<br><span style='color:{_RUST}'><b>Decision discipline:</b> {'; '.join(disc)}</span>"
+    inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    return S.frame(inner, title=(title or "The vent wall as a galvanic cell — an honest negative"),
+                   subtitle=sub, phase="Phase 2", view="Decision",
+                   tier="mechanistic_prediction", caption_text=cap,
+                   caption_prefix="How to read", tone="negative")
 
 
 def electrochemistry_polarization_figure(curve: dict, *, title: str = "") -> str:
@@ -271,11 +301,17 @@ def electrochemistry_polarization_figure(curve: dict, *, title: str = "") -> str
     losses = op["losses"]
     sub = (f"j = {op['j']:.2e} A/m², emf {emf:.3f} V, FE {op['faradaic_efficiency']:.2f}; losses: "
            + ", ".join(f"{k} {v:.2f}" for k, v in losses.items()) + f"; circuit residual {op['iv_residual']:.1e}")
-    fig.update_layout(title=(title or "Vent wall as a galvanic cell") + f"<br><sup>{sub}</sup>", height=430,
-                      margin=dict(l=60, r=20, t=90, b=60), legend=dict(orientation="h", y=-0.25),
-                      plot_bgcolor="white", paper_bgcolor="white",
-                      font=dict(family="Inter, Helvetica, Arial, sans-serif", color=_INK, size=12))
-    return fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    fig.update_layout(**S.base_layout(height=430, margin=dict(l=60, r=20, t=44, b=60),
+                                      legend=dict(y=-0.25)))
+    cap = ("The galvanic cell's Nernst emf (dotted) minus the anode and cathode activation "
+           "overpotentials and the ohmic (mineral + ionic) drop leaves the voltage actually "
+           "delivered to CO&#8322; reduction; the marked operating point is "
+           f"{op['limitation']}-limited. Right: faradaic efficiency to carbon vs. current density.")
+    inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    return S.frame(inner, title=(title or "The vent wall as a galvanic cell — polarization at the nominal point"),
+                   subtitle=sub, phase="Phase 2", view="Mechanism",
+                   tier="mechanistic_prediction", caption_text=cap,
+                   caption_prefix="How to read", tone="neutral")
 
 
 class ElectrochemistryMechanismMap(Visualization):
