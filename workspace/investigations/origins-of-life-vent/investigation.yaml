@@ -25,7 +25,7 @@ lead: |
   scenarios head to head rather than assuming either. Each stage is a coupled Vivarium composite of
   genuine simulators (PHREEQC, FiPy, eQuilibrator, libRoadRunner — plus a merged FEniCS/dolfinx FEM
   solver run under pixi as a high-fidelity cross-check) under explicit conservation contracts.
-  All seventeen member studies are built and run on real simulators. The fourteen-stage arc — from vent
+  All twenty-one member studies are built and run on real simulators. The fourteen-stage arc — from vent
   geochemistry through carbon fixation, protometabolism, individuality, compartmentation, internalized
   bioenergetics and heredity to ecology, escape, and the nitrogen/phosphorus/energy/growth bottlenecks —
   plus the Phase-1 environmental-calibration study (og-cal-vent-environment) pass their pre-stated
@@ -39,7 +39,7 @@ executive:
     origin of cells — treating a cellular origin as coupled transitions from geochemistry to 
     bioenergetic autonomy, grounded in serpentinization-driven alkaline hydrothermal vents, with 
     explicit competing scenarios.
-  verdict: The full geochemistry-to-heredity arc runs and passes. All seventeen member studies execute
+  verdict: The full geochemistry-to-heredity arc runs and passes. All twenty-one member studies execute
     on real simulators; the fourteen-stage arc and the Phase-1 calibration pass their pre-stated,
     falsifiable gates with conservation held
     to machine precision — a Lost City vent (og-00), H2-driven carbon fixation benchmarked against
@@ -76,13 +76,23 @@ executive:
     pending), Phase 3 (open chemical network) has run (no autocatalytic motif at vent conditions without
     a one-carbon feed), and Phase 4 (3-D multisolute localization) has run its co-localization map —
     finding that the prebiotic mixture fractionates rather than co-localizes in a single thermophoretic
-    pore, a candidate incompatibility — with Phases 5–9 the planned path — not unrun science in the staged
+    pore, a candidate incompatibility. Phase 5 (endogenous boundary + growth/division) has run — a
+    protocell boundary forms from the vent's own reduced-carbon amphiphile (31 individuals vs 0 with
+    synthesis ablated) and an individual divides into a five-generation lineage (past the ≥3 bar) with volume conserved
+    (partition residual 0); Phase 6 (proto-energetics) has run its internalization-threshold map —
+    internalization pays for the thioester store from coupling activity 0.10 and Fe-redox from 0.80, never
+    for polyphosphate, and the 'pays' verdict is structure-sensitive (cross-class agreement 0.46); and
+    Phase 7 (competing heredity) has run its information-per-cost frontier — quantifying that heredity need
+    not presume RNA, the best non-RNA class carrying 0.36× the RNA template's bits per offspring but 26×
+    the bits per joule, with the Eigen threshold reappearing at q ≈ 0.967. Phase 8 (biochemical ecology)
+    is building and Phase 9 (integrated autonomy) is the remaining path — not unrun science in the staged
     arc itself.
   verdict_status: complete
-  verdict_detail: 17 member studies (Campaigns 0–VIII, four resource/energy bottleneck modules, an
-    adversarial control, a Phase-1 environmental-calibration study, a Phase-2 electrochemistry mechanism
-    map, and a Phase-3 open-network study) wired into a DAG — all run; all gate-passing except the Phase-2
-    map, whose agreement gate fails honestly (below). The Phase-3 study (og-02-alt-reaction-universe)
+  verdict_detail: 21 member studies (the fourteen-stage arc — Campaigns 0–VIII, four resource/energy
+    bottleneck modules, an adversarial control — plus seven Model-Upgrade calibration / -alt studies
+    spanning Phases 1–7 — environmental calibration, electrochemistry, open network, endogenous boundary,
+    physical reproduction, energy-coupling threshold, information-per-cost heredity) wired into a DAG —
+    all run; all gate-passing except the Phase-2 map, whose agreement gate fails honestly (below). The Phase-3 study (og-02-alt-reaction-universe)
     passes its motifs-emerge-not-imposed gate as an honest result — 0 autocatalytic motifs on the Phase-1
     feed, the formose cycle only on a formaldehyde feed (enriched over matched nulls, p ≈ 0.04). Each runs a coupled Vivarium composite of real tools (PHREEQC + FiPy;
     eQuilibrator + FiPy; libRoadRunner; a FiPy thermal trap; amphiphile self-assembly; bioenergetic
@@ -390,11 +400,13 @@ guidelines:
     remaining: a loaded pore_physics vg-data package; an og-03-alt-colocalization study YAML wrapping the map
   - phase: 5
     name: Endogenous boundary + growth/division
-    status: planned
+    status: built-and-run
     studies: [og-04-mineral-compartments-to-protocells, og-growth-division, og-04-alt-endogenous-boundary, og-growth-alt-physical-reproduction]
     component: AmphiphileSynthesisProcess; BoundaryFormation / Division / Lysis / Extinction structural rewrites on agents map[vg_individual]
     data_package: amphiphile_assembly (Jordan 2019; Lu 2024)
     exit_criterion: first continuous transition from chemistry to a growing, dividing individual with rewrite_residual == 0
+    result: "og-04-alt — a protocell boundary forms from the vent's own reduced-carbon amphiphile (acetate+formate-derived) by a matter-conserving _add rewrite: 31 individuals favorable vs 0 with synthesis ablated (gate boundary-forms-from-chemistry PASS; rewrite-conserves-matter 1.0). og-growth-alt — an individual physically reproduces by a _divide rewrite into a lineage that reaches generation 5 (past the >=3-generation gate bar), volume conserved, partition_residual 0 (both gates PASS). Both Phase-5 studies read committed run artifacts."
+    next: couple og-growth-alt's trigger to og-growth-division's full osmotic growth; commit the run artifacts for og-04-alt / og-growth-alt
   - phase: 6
     name: Proto-energetics
     status: built-and-run
