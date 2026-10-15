@@ -380,7 +380,7 @@ def _save_viz(study, slug, html):
 
 
 # vent-cross-section
-_save_viz('og-00-vent-reactor-baseline', 'vent-cross-section', _render_one('local:VentCrossSection', {'composite': 'viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor', 'n_steps': 60, 'title': 'Real 2-D vent cross-section (FiPy)'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor if 'ov_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor' in dir() else None)))
+_save_viz('og-00-vent-reactor-baseline', 'vent-cross-section', _render_one('local:VentCrossSection', {'composite': 'viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor', 'n_steps': 60, 'title': 'Real 2-D vent cross-section (FiPy)', 'max_frames': 20}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor if 'ov_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor' in dir() else None)))
 
 # **vent-reactor-timeseries**
 
