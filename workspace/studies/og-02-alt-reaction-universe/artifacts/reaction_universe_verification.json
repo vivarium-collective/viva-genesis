@@ -1,0 +1,1568 @@
+{
+ "meta": {
+  "n_steps": 200,
+  "feed": {
+   "feed_CO2": 0.0014,
+   "feed_H2": 0.0108,
+   "feed_pyruvate": 0.0001,
+   "feed_formaldehyde": 0.0,
+   "feed_formate": 0.0,
+   "feed_acetate": 0.0
+  },
+  "formose_feed": {
+   "feed_CO2": 0.0014,
+   "feed_H2": 0.0108,
+   "feed_pyruvate": 0.0001,
+   "feed_formaldehyde": 0.01,
+   "feed_formate": 0.0,
+   "feed_acetate": 0.0
+  },
+  "default_tolerances": {
+   "rtol": 1e-06,
+   "atol": 1e-12
+  },
+  "wall_time_s": 11.17233681678772
+ },
+ "reaction_universe": {
+  "ledger": {
+   "element_residual": 0.0,
+   "carbon_residual_max": 2.7844140575070695e-06,
+   "dissipation_min_W": 0.8843919614783016,
+   "dissipation_final_W": 0.8843919614783016,
+   "element_detail": {
+    "max_abs": 0.0,
+    "per_element": {
+     "C": 0.0,
+     "H": 0.0,
+     "O": 0.0
+    },
+    "n_unbalanced": 0,
+    "offenders": []
+   }
+  },
+  "flux_control": {
+   "ok": true,
+   "n_fluxes": 663,
+   "n_carrying": 41,
+   "flux_floor": 5.139746039848937e-10,
+   "n_dominant": 6,
+   "steady_state_residual": 4.254762988993187e-05,
+   "max_summation_residual": 5.8682091910088605,
+   "dominant_summation_residual": 0.003261977835723684,
+   "median_summation_residual": 0.0678387140760286,
+   "table": [
+    {
+     "flux": "J_H2",
+     "rate": 0.0005139746039848937,
+     "summation_residual": 0.003261977835723684,
+     "top_controllers": [
+      {
+       "reaction": "W_H2",
+       "C": 0.8606080424258628
+      },
+      {
+       "reaction": "J_H2",
+       "C": 0.09470245866343874
+      },
+      {
+       "reaction": "r5",
+       "C": 0.036373181855185024
+      },
+      {
+       "reaction": "J_CO2",
+       "C": 0.004487811956333026
+      },
+      {
+       "reaction": "J_X_AKM",
+       "C": 0.0038725255904593987
+      }
+     ]
+    },
+    {
+     "flux": "W_H2",
+     "rate": 0.0004886025396015107,
+     "summation_residual": 0.0003431365231472139,
+     "top_controllers": [
+      {
+       "reaction": "W_H2",
+       "C": 0.9094702458623262
+      },
+      {
+       "reaction": "J_H2",
+       "C": 0.09523076685133305
+      },
+      {
+       "reaction": "r5",
+       "C": -0.0038261961871434193
+      }
+     ]
+    },
+    {
+     "flux": "J_CO2",
+     "rate": 8.36526989380263e-05,
+     "summation_residual": 0.0025314740440676164,
+     "top_controllers": [
+      {
+       "reaction": "W_CO2",
+       "C": 0.6478676658313947
+      },
+      {
+       "reaction": "r5",
+       "C": 0.24113624094919878
+      },
+      {
+       "reaction": "J_CO2",
+       "C": 0.12069252663075924
+      },
+      {
+       "reaction": "J_H2",
+       "C": 0.02349696345596541
+      },
+      {
+       "reaction": "W_H2",
+       "C": -0.022337049201454358
+      }
+     ]
+    },
+    {
+     "flux": "W_CO2",
+     "rate": 6.163473010619737e-05,
+     "summation_residual": 0.00034358004928125574,
+     "top_controllers": [
+      {
+       "reaction": "W_CO2",
+       "C": 0.9120692526650094
+      },
+      {
+       "reaction": "J_CO2",
+       "C": 0.11934252525379387
+      },
+      {
+       "reaction": "r5",
+       "C": -0.032727810005772844
+      },
+      {
+       "reaction": "J_H2",
+       "C": -0.0031890857743835906
+      },
+      {
+       "reaction": "W_H2",
+       "C": 0.0030316583665613754
+      }
+     ]
+    },
+    {
+     "flux": "r5",
+     "rate": 2.2845251237406055e-05,
+     "summation_residual": 4.2607141881312316e-07,
+     "top_controllers": [
+      {
+       "reaction": "r5",
+       "C": 0.9634311759651227
+      },
+      {
+       "reaction": "J_CO2",
+       "C": 0.11887044150413113
+      },
+      {
+       "reaction": "J_H2",
+       "C": 0.09204168234284127
+      },
+      {
+       "reaction": "W_CO2",
+       "C": -0.08758291929277119
+      },
+      {
+       "reaction": "W_H2",
+       "C": -0.08749809697451422
+      }
+     ]
+    },
+    {
+     "flux": "W_X_A",
+     "rate": 2.2396792427231225e-05,
+     "summation_residual": 0.0011773039119623574,
+     "top_controllers": [
+      {
+       "reaction": "r5",
+       "C": 0.9625177833555995
+      },
+      {
+       "reaction": "J_CO2",
+       "C": 0.11875771442836419
+      },
+      {
+       "reaction": "J_H2",
+       "C": 0.09195616222419338
+      },
+      {
+       "reaction": "W_CO2",
+       "C": -0.08749986276287125
+      },
+      {
+       "reaction": "W_H2",
+       "C": -0.08741679850794715
+      }
+     ]
+    },
+    {
+     "flux": "J_X_AKM",
+     "rate": 5e-06,
+     "summation_residual": 0.0,
+     "top_controllers": [
+      {
+       "reaction": "J_X_AKM",
+       "C": 1.0
+      }
+     ]
+    },
+    {
+     "flux": "r56",
+     "rate": 2.670590932222314e-06,
+     "summation_residual": 0.004450300375982819,
+     "top_controllers": [
+      {
+       "reaction": "J_X_AKM",
+       "C": 0.9989262665758968
+      },
+      {
+       "reaction": "r56",
+       "C": 0.4657869720497574
+      },
+      {
+       "reaction": "W_X_AKM",
+       "C": -0.287888236262845
+      },
+      {
+       "reaction": "r17",
+       "C": -0.1092433714658007
+      },
+      {
+       "reaction": "r59",
+       "C": -0.06071647282863538
+      }
+     ]
+    },
+    {
+     "flux": "W_X_AOM",
+     "rate": 2.4001219694151474e-06,
+     "summation_residual": 0.009843756463020492,
+     "top_controllers": [
+      {
+       "reaction": "J_X_AKM",
+       "C": 0.9979511499577649
+      },
+      {
+       "reaction": "r56",
+       "C": 0.465864300484624
+      },
+      {
+       "reaction": "W_X_AKM",
+       "C": -0.2876072099121145
+      },
+      {
+       "reaction": "r17",
+       "C": -0.10925359973820216
+      },
+      {
+       "reaction": "W_X_AOM",
+       "C": 0.10210973072146834
+      }
+     ]
+    },
+    {
+     "flux": "W_X_AKM",
+     "rate": 1.440988418743175e-06,
+     "summation_residual": 0.004793436971834764,
+     "top_controllers": [
+      {
+       "reaction": "J_X_AKM",
+       "C": 0.9993336283036633
+      },
+      {
+       "reaction": "W_X_AKM",
+       "C": 0.7119943630307649
+      },
+      {
+       "reaction": "r56",
+       "C": -0.5339270276381544
+      },
+      {
+       "reaction": "r17",
+       "C": -0.10939273245959905
+      },
+      {
+       "reaction": "r59",
+       "C": -0.06071544385526414
+      }
+     ]
+    },
+    {
+     "flux": "W_X_AM",
+     "rate": 5.528822112385915e-07,
+     "summation_residual": 0.06783871407623154,
+     "top_controllers": [
+      {
+       "reaction": "J_X_AKM",
+       "C": 0.9873062983130513
+      },
+      {
+       "reaction": "r17",
+       "C": 0.8598651205300496
+      },
+      {
+       "reaction": "r56",
+       "C": -0.533436137644451
+      },
+      {
+       "reaction": "W_X_AKM",
+       "C": -0.28453938832426023
+      },
+      {
+       "reaction": "J_H2",
+       "C": -0.0576107855609141
+      }
+     ]
+    },
+    {
+     "flux": "r17",
+     "rate": -5.465773817397715e-07,
+     "summation_residual": 0.004793436972077347,
+     "top_controllers": [
+      {
+       "reaction": "J_X_AKM",
+       "C": 0.9993336283541729
+      },
+      {
+       "reaction": "r17",
+       "C": 0.8906072675348718
+      },
+      {
+       "reaction": "r56",
+       "C": -0.5339270276651409
+      },
+      {
+       "reaction": "W_X_AKM",
+       "C": -0.2880056369837919
+      },
+      {
+       "reaction": "r59",
+       "C": -0.060715443858332906
+      }
+     ]
+    }
+   ]
+  },
+  "stiffness": {
+   "reference": "rtol=1e-09,atol=1e-15",
+   "deviations": {
+    "rtol=1e-06,atol=1e-12": {
+     "max_rel_dev": 7.031541085757507e-06,
+     "worst_species": "X_MM"
+    },
+    "rtol=0.001,atol=1e-09": {
+     "max_rel_dev": 0.0028007671974413046,
+     "worst_species": "X_MM"
+    }
+   },
+   "jacobian": {
+    "n": 128,
+    "max_abs_re": 47.74496084891192,
+    "min_abs_re": 0.05099999999984263,
+    "stiffness_ratio": 936.1757029227304,
+    "max_re": 0.0
+   }
+  },
+  "n_species": 121,
+  "n_reactions": 413,
+  "final": {
+   "net_carbon_flux": 2.201796604407014e-05,
+   "autocatalytic_gain": 0.0,
+   "network_connected": 0.0,
+   "total_organic_carbon": 0.0007255102403066836,
+   "n_persistent_species": 14.0,
+   "n_autocatalytic_motifs": 0.0,
+   "autocatalytic_core_size": 0.0,
+   "dissipation": 0.8843919614783016,
+   "element_residual": 0.0,
+   "carbon_residual": 1.632249946057745e-07,
+   "catalyst_saturation": 0.0517318275107751,
+   "formate": 0.0004479358485446245,
+   "formaldehyde": 6.4981052875915704e-12,
+   "acetate": 1.1057644224771828e-05,
+   "glycolaldehyde": 3.8266012418944456e-19,
+   "pyruvate": 2.8819768374863498e-05,
+   "OAA": 5.3030260877536347e-08,
+   "malate": 8.832758245514356e-08,
+   "succinate": 8.021476277156849e-09
+  }
+ },
+ "reaction_universe_formose": {
+  "ledger": {
+   "element_residual": 0.0,
+   "carbon_residual_max": 9.576206660929172e-08,
+   "dissipation_min_W": 4.3873474798507655,
+   "dissipation_final_W": 16.29343855705365,
+   "element_detail": {
+    "max_abs": 0.0,
+    "per_element": {
+     "C": 0.0,
+     "H": 0.0,
+     "O": 0.0
+    },
+    "n_unbalanced": 0,
+    "offenders": []
+   }
+  },
+  "flux_control": {
+   "ok": true,
+   "n_fluxes": 663,
+   "n_carrying": 116,
+   "flux_floor": 7.022483387258372e-10,
+   "n_dominant": 13,
+   "steady_state_residual": 0.00018150891813750495,
+   "max_summation_residual": 585.4369035660997,
+   "dominant_summation_residual": 0.05970736113074948,
+   "median_summation_residual": 48.81169389632919,
+   "table": [
+    {
+     "flux": "J_H2",
+     "rate": 0.0007022483387258372,
+     "summation_residual": 0.05970736113074948,
+     "top_controllers": [
+      {
+       "reaction": "W_H2",
+       "C": 0.5886976885482198
+      },
+      {
+       "reaction": "J_X_D",
+       "C": 0.20156711716599884
+      },
+      {
+       "reaction": "r3",
+       "C": 0.19277123687026246
+      },
+      {
+       "reaction": "J_H2",
+       "C": 0.11997908019982761
+      },
+      {
+       "reaction": "W_X_D",
+       "C": -0.07684941761130441
+      }
+     ]
+    },
+    {
+     "flux": "J_X_D",
+     "rate": 0.0005,
+     "summation_residual": 0.0,
+     "top_controllers": [
+      {
+       "reaction": "J_X_D",
+       "C": 1.0
+      }
+     ]
+    },
+    {
+     "flux": "W_H2",
+     "rate": 0.0004697751661274163,
+     "summation_residual": 0.008925417558765192,
+     "top_controllers": [
+      {
+       "reaction": "W_H2",
+       "C": 0.9119979080189673
+      },
+      {
+       "reaction": "J_H2",
+       "C": 0.13155085103267644
+      },
+      {
+       "reaction": "J_X_D",
+       "C": -0.030131472112516888
+      },
+      {
+       "reaction": "r3",
+       "C": -0.02881661071268968
+      },
+      {
+       "reaction": "W_X_D",
+       "C": 0.011487915867304894
+      }
+     ]
+    },
+    {
+     "flux": "W_X_H",
+     "rate": 0.00024554015559714816,
+     "summation_residual": 0.027361013503466314,
+     "top_controllers": [
+      {
+       "reaction": "J_X_D",
+       "C": 1.0118886791181096
+      },
+      {
+       "reaction": "r3",
+       "C": 0.45640032349751825
+      },
+      {
+       "reaction": "W_X_D",
+       "C": -0.3857923691673267
+      },
+      {
+       "reaction": "J_H2",
+       "C": 0.06201134059873204
+      },
+      {
+       "reaction": "r0",
+       "C": -0.048885423404876144
+      }
+     ]
+    },
+    {
+     "flux": "r3",
+     "rate": 0.00023995235315178414,
+     "summation_residual": 0.028583157617728894,
+     "top_controllers": [
+      {
+       "reaction": "J_X_D",
+       "C": 0.9702644078361938
+      },
+      {
+       "reaction": "r3",
+       "C": 0.5157871092259656
+      },
+      {
+       "reaction": "W_X_D",
+       "C": -0.3699227121940822
+      },
+      {
+       "reaction": "J_H2",
+       "C": 0.07005073787712539
+      },
+      {
+       "reaction": "W_H2",
+       "C": -0.046861053574413974
+      }
+     ]
+    },
+    {
+     "flux": "W_X_D",
+     "rate": 0.00019062984749644392,
+     "summation_residual": 0.019657740056508777,
+     "top_controllers": [
+      {
+       "reaction": "J_X_D",
+       "C": 1.0003958798991568
+      },
+      {
+       "reaction": "W_X_D",
+       "C": 0.6185893719575059
+      },
+      {
+       "reaction": "r3",
+       "C": -0.455396279226952
+      },
+      {
+       "reaction": "J_H2",
+       "C": -0.06150011315377386
+      },
+      {
+       "reaction": "r0",
+       "C": -0.05294283951913598
+      }
+     ]
+    },
+    {
+     "flux": "J_CO2",
+     "rate": 7.734908361647149e-05,
+     "summation_residual": 0.03680218031807492,
+     "top_controllers": [
+      {
+       "reaction": "W_CO2",
+       "C": 0.7153466318655956
+      },
+      {
+       "reaction": "r5",
+       "C": 0.18001926544455238
+      },
+      {
+       "reaction": "J_CO2",
+       "C": 0.11135750406811862
+      },
+      {
+       "reaction": "J_X_D",
+       "C": 0.030320944257400256
+      },
+      {
+       "reaction": "G_X_D",
+       "C": 0.026793121046141465
+      }
+     ]
+    },
+    {
+     "flux": "W_CO2",
+     "rate": 6.226509163835286e-05,
+     "summation_residual": 0.004571767016804729,
+     "top_controllers": [
+      {
+       "reaction": "W_CO2",
+       "C": 0.9111357504126145
+      },
+      {
+       "reaction": "J_CO2",
+       "C": 0.11039200442798072
+      },
+      {
+       "reaction": "r5",
+       "C": -0.022362972330326414
+      },
+      {
+       "reaction": "J_X_D",
+       "C": -0.0037666326200317835
+      },
+      {
+       "reaction": "G_X_D",
+       "C": -0.003328387231879351
+      }
+     ]
+    },
+    {
+     "flux": "W_X_A",
+     "rate": 5.0718155486218096e-05,
+     "summation_residual": 0.0019977821870131862,
+     "top_controllers": [
+      {
+       "reaction": "J_X_D",
+       "C": 0.8737224872972419
+      },
+      {
+       "reaction": "r0",
+       "C": 0.448506704285809
+      },
+      {
+       "reaction": "r3",
+       "C": -0.4135442619775648
+      },
+      {
+       "reaction": "W_X_D",
+       "C": -0.33311516901537375
+      },
+      {
+       "reaction": "r5",
+       "C": 0.2965772773275144
+      }
+     ]
+    },
+    {
+     "flux": "r0",
+     "rate": -2.5539061621414352e-05,
+     "summation_residual": 0.01965774060496006,
+     "top_controllers": [
+      {
+       "reaction": "J_X_D",
+       "C": 1.0003958897759149
+      },
+      {
+       "reaction": "r0",
+       "C": 0.9470571286379171
+      },
+      {
+       "reaction": "r3",
+       "C": -0.45539628006572863
+      },
+      {
+       "reaction": "W_X_D",
+       "C": -0.3814106318081039
+      },
+      {
+       "reaction": "J_H2",
+       "C": -0.061500124268367935
+      }
+     ]
+    },
+    {
+     "flux": "G_X_D",
+     "rate": 1.9062984749644392e-05,
+     "summation_residual": 0.019657740055810002,
+     "top_controllers": [
+      {
+       "reaction": "J_X_D",
+       "C": 1.0003958798635961
+      },
+      {
+       "reaction": "G_X_D",
+       "C": 0.9767867346271663
+      },
+      {
+       "reaction": "r3",
+       "C": -0.45539627921076414
+      },
+      {
+       "reaction": "W_X_D",
+       "C": -0.3814106280289363
+      },
+      {
+       "reaction": "J_H2",
+       "C": -0.061500113151587724
+      }
+     ]
+    },
+    {
+     "flux": "r5",
+     "rate": 1.5674500966952776e-05,
+     "summation_residual": 0.004353732008025357,
+     "top_controllers": [
+      {
+       "reaction": "r5",
+       "C": 0.974862157443267
+      },
+      {
+       "reaction": "J_H2",
+       "C": 0.1287199416523377
+      },
+      {
+       "reaction": "J_CO2",
+       "C": 0.11008269900991875
+      },
+      {
+       "reaction": "W_CO2",
+       "C": -0.0886152624074551
+      },
+      {
+       "reaction": "W_H2",
+       "C": -0.08610833039969064
+      }
+     ]
+    }
+   ]
+  },
+  "stiffness": {
+   "reference": "rtol=1e-09,atol=1e-15",
+   "deviations": {
+    "rtol=1e-06,atol=1e-12": {
+     "max_rel_dev": 1.729948748316335e-05,
+     "worst_species": "X_HOKM"
+    },
+    "rtol=0.001,atol=1e-09": {
+     "max_rel_dev": 0.006515253117825502,
+     "worst_species": "X_HCOM"
+    }
+   },
+   "jacobian": {
+    "n": 128,
+    "max_abs_re": 33.73949503378666,
+    "min_abs_re": 0.05099999999999922,
+    "stiffness_ratio": 661.5587261526897,
+    "max_re": 0.0
+   }
+  },
+  "n_species": 121,
+  "n_reactions": 413,
+  "final": {
+   "net_carbon_flux": 1.508398588679509e-05,
+   "autocatalytic_gain": 3.130039067820619,
+   "network_connected": 1.0,
+   "total_organic_carbon": 0.010093871049127906,
+   "n_persistent_species": 49.0,
+   "n_autocatalytic_motifs": 1.0,
+   "autocatalytic_core_size": 5.0,
+   "dissipation": 16.29343855705365,
+   "element_residual": 0.0,
+   "carbon_residual": 5.0192077462487055e-09,
+   "catalyst_saturation": 0.3301399660810439,
+   "formate": 0.0010143631097243619,
+   "formaldehyde": 0.0038125969499288783,
+   "acetate": 3.2845828632320346e-06,
+   "glycolaldehyde": 3.104460331940973e-07,
+   "pyruvate": 1.2140784366099488e-05,
+   "OAA": 2.2549901027633396e-08,
+   "malate": 2.6212530094955974e-08,
+   "succinate": 1.6175047523928026e-09
+  }
+ },
+ "null_network_seed0": {
+  "ledger": {
+   "element_residual": 8.0,
+   "carbon_residual_max": 1.0256989387978164e-07,
+   "dissipation_min_W": 0.7896946847046193,
+   "dissipation_final_W": 0.7896946847046193,
+   "element_detail": {
+    "max_abs": 8.0,
+    "per_element": {
+     "C": 0.0,
+     "H": 8.0,
+     "O": 0.0
+    },
+    "n_unbalanced": 285,
+    "offenders": [
+     "r252",
+     "r325",
+     "r272",
+     "r276",
+     "r286"
+    ]
+   }
+  },
+  "flux_control": {
+   "ok": true,
+   "n_fluxes": 655,
+   "n_carrying": 44,
+   "flux_floor": 5.126308097985278e-10,
+   "n_dominant": 6,
+   "steady_state_residual": 5.129453481356795e-05,
+   "max_summation_residual": 15.432025113515666,
+   "dominant_summation_residual": 0.001761326052436063,
+   "median_summation_residual": 0.16001219947350637,
+   "table": [
+    {
+     "flux": "J_H2",
+     "rate": 0.0005126308097985277,
+     "summation_residual": 0.001761326052436063,
+     "top_controllers": [
+      {
+       "reaction": "W_H2",
+       "C": 0.8629761714949433
+      },
+      {
+       "reaction": "J_H2",
+       "C": 0.09483373075802093
+      },
+      {
+       "reaction": "r5",
+       "C": 0.04021605257498741
+      },
+      {
+       "reaction": "J_CO2",
+       "C": 0.004923743235059471
+      },
+      {
+       "reaction": "W_CO2",
+       "C": -0.0036569448790493065
+      }
+     ]
+    },
+    {
+     "flux": "W_H2",
+     "rate": 0.0004887369190201472,
+     "summation_residual": 0.0001847435635495831,
+     "top_controllers": [
+      {
+       "reaction": "W_H2",
+       "C": 0.9094833730758021
+      },
+      {
+       "reaction": "J_H2",
+       "C": 0.09494190014008329
+      },
+      {
+       "reaction": "r5",
+       "C": -0.004218217776497893
+      }
+     ]
+    },
+    {
+     "flux": "J_CO2",
+     "rate": 8.3064717277454e-05,
+     "summation_residual": 0.0016090659388761086,
+     "top_controllers": [
+      {
+       "reaction": "W_CO2",
+       "C": 0.6530911710904668
+      },
+      {
+       "reaction": "r5",
+       "C": 0.242241161103646
+      },
+      {
+       "reaction": "J_CO2",
+       "C": 0.12067221632016356
+      },
+      {
+       "reaction": "J_H2",
+       "C": 0.023193193039234127
+      },
+      {
+       "reaction": "W_H2",
+       "C": -0.02211215067757983
+      }
+     ]
+    },
+    {
+     "flux": "W_CO2",
+     "rate": 6.16935282722546e-05,
+     "summation_residual": 0.0002166460746155785,
+     "top_controllers": [
+      {
+       "reaction": "W_CO2",
+       "C": 0.9120672216320164
+      },
+      {
+       "reaction": "J_CO2",
+       "C": 0.11839347787541694
+      },
+      {
+       "reaction": "r5",
+       "C": -0.03261556620856432
+      },
+      {
+       "reaction": "J_H2",
+       "C": -0.003122752218131471
+      },
+      {
+       "reaction": "W_H2",
+       "C": 0.002977199709382917
+      }
+     ]
+    },
+    {
+     "flux": "r5",
+     "rate": 2.2878061923709772e-05,
+     "summation_residual": 0.00040137881766544314,
+     "top_controllers": [
+      {
+       "reaction": "r5",
+       "C": 0.9631513950862809
+      },
+      {
+       "reaction": "J_CO2",
+       "C": 0.11787703269234096
+      },
+      {
+       "reaction": "J_H2",
+       "C": 0.09181914857533235
+      },
+      {
+       "reaction": "W_CO2",
+       "C": -0.08754920605777228
+      },
+      {
+       "reaction": "W_H2",
+       "C": -0.08753942783774124
+      }
+     ]
+    },
+    {
+     "flux": "W_X_A",
+     "rate": 2.241905952244943e-05,
+     "summation_residual": 0.0011311195076915137,
+     "top_controllers": [
+      {
+       "reaction": "r5",
+       "C": 0.9626818620777211
+      },
+      {
+       "reaction": "J_CO2",
+       "C": 0.11781947848389794
+      },
+      {
+       "reaction": "J_H2",
+       "C": 0.09177512518573816
+      },
+      {
+       "reaction": "W_CO2",
+       "C": -0.08750645960293386
+      },
+      {
+       "reaction": "W_H2",
+       "C": -0.08749745639282644
+      }
+     ]
+    },
+    {
+     "flux": "J_X_AKM",
+     "rate": 5e-06,
+     "summation_residual": 0.0,
+     "top_controllers": [
+      {
+       "reaction": "J_X_AKM",
+       "C": 1.0
+      }
+     ]
+    },
+    {
+     "flux": "W_X_AKM",
+     "rate": 1.713500669319822e-06,
+     "summation_residual": 0.0066512444904321955,
+     "top_controllers": [
+      {
+       "reaction": "J_X_AKM",
+       "C": 0.997890027660722
+      },
+      {
+       "reaction": "W_X_AKM",
+       "C": 0.6580229539391554
+      },
+      {
+       "reaction": "r103",
+       "C": -0.3382847164288777
+      },
+      {
+       "reaction": "r98",
+       "C": -0.23001571195695591
+      },
+      {
+       "reaction": "r112",
+       "C": -0.03173377966998776
+      }
+     ]
+    },
+    {
+     "flux": "r103",
+     "rate": -1.6936650665209434e-06,
+     "summation_residual": 0.006234862766412608,
+     "top_controllers": [
+      {
+       "reaction": "J_X_AKM",
+       "C": 0.9980886141198502
+      },
+      {
+       "reaction": "r103",
+       "C": 0.6582535303126121
+      },
+      {
+       "reaction": "W_X_AKM",
+       "C": -0.34204510166697133
+      },
+      {
+       "reaction": "r98",
+       "C": -0.2300472801572905
+      },
+      {
+       "reaction": "r112",
+       "C": -0.03173813902755694
+      }
+     ]
+    },
+    {
+     "flux": "r26",
+     "rate": -1.5082769589691917e-06,
+     "summation_residual": 0.04908043976115517,
+     "top_controllers": [
+      {
+       "reaction": "J_X_AKM",
+       "C": 0.986892257761841
+      },
+      {
+       "reaction": "r103",
+       "C": 0.6550535656897294
+      },
+      {
+       "reaction": "W_X_AKM",
+       "C": -0.3382081088442929
+      },
+      {
+       "reaction": "r98",
+       "C": -0.22892713741719828
+      },
+      {
+       "reaction": "W_X_ACD",
+       "C": -0.09828220260374146
+      }
+     ]
+    },
+    {
+     "flux": "r98",
+     "rate": 1.3989545158702717e-06,
+     "summation_residual": 0.0033707558776167046,
+     "top_controllers": [
+      {
+       "reaction": "J_X_AKM",
+       "C": 0.9989034291810247
+      },
+      {
+       "reaction": "r98",
+       "C": 0.5929047274551713
+      },
+      {
+       "reaction": "W_X_AKM",
+       "C": -0.34232433889751024
+      },
+      {
+       "reaction": "r103",
+       "C": -0.3379133729864285
+      },
+      {
+       "reaction": "r100",
+       "C": 0.0796564425633578
+      }
+     ]
+    },
+    {
+     "flux": "W_X_DM",
+     "rate": 1.3073642958078235e-06,
+     "summation_residual": 0.19656546785000972,
+     "top_controllers": [
+      {
+       "reaction": "J_X_AKM",
+       "C": 0.8960121562004555
+      },
+      {
+       "reaction": "r103",
+       "C": 0.6095520733222983
+      },
+      {
+       "reaction": "W_X_AKM",
+       "C": -0.3070634858736354
+      },
+      {
+       "reaction": "W_X_DM",
+       "C": 0.24883117837531232
+      },
+      {
+       "reaction": "r98",
+       "C": -0.2130185067732685
+      }
+     ]
+    }
+   ]
+  },
+  "stiffness": {
+   "reference": "rtol=1e-09,atol=1e-15",
+   "deviations": {
+    "rtol=1e-06,atol=1e-12": {
+     "max_rel_dev": 1.0831352374857548e-05,
+     "worst_species": "X_ACCM"
+    },
+    "rtol=0.001,atol=1e-09": {
+     "max_rel_dev": 0.0051240886031324335,
+     "worst_species": "X_MCOM"
+    }
+   },
+   "jacobian": {
+    "n": 128,
+    "max_abs_re": 246.5365999051631,
+    "min_abs_re": 0.05099999999982949,
+    "stiffness_ratio": 4834.050978548772,
+    "max_re": 0.0
+   }
+  },
+  "n_species": 121,
+  "n_reactions": 405,
+  "final": {
+   "net_carbon_flux": 2.1371186536504795e-05,
+   "autocatalytic_gain": 0.0,
+   "network_connected": 1.0,
+   "total_organic_carbon": 0.0007082481761520768,
+   "n_persistent_species": 20.0,
+   "n_autocatalytic_motifs": 0.0,
+   "autocatalytic_core_size": 0.0,
+   "dissipation": 0.7896946847046193,
+   "element_residual": 8.0,
+   "carbon_residual": 6.163843532831431e-09,
+   "catalyst_saturation": 0.051535831020024014,
+   "formate": 0.00044838119044898853,
+   "formaldehyde": 1.0579400772391622e-09,
+   "acetate": 9.603394612056435e-11,
+   "glycolaldehyde": 3.9331487624651326e-17,
+   "pyruvate": 3.427001338639644e-05,
+   "OAA": 7.133397007148869e-09,
+   "malate": 6.923854960961333e-09,
+   "succinate": 4.4373840628067026e-18
+  }
+ },
+ "curated_rtca": {
+  "ledger": {
+   "element_residual": 8.0,
+   "element_detail": {
+    "max_abs": 8.0,
+    "per_element": {
+     "C": 4.0,
+     "H": 8.0,
+     "O": 3.0
+    },
+    "n_internal": 4,
+    "n_unbalanced": 3,
+    "offenders": [
+     {
+      "reaction": "R_rtca",
+      "residual": {
+       "C": 4.0,
+       "H": 8.0,
+       "O": 3.0
+      }
+     },
+     {
+      "reaction": "R_mal",
+      "residual": {
+       "C": 0.0,
+       "H": 2.0,
+       "O": 0.0
+      }
+     },
+     {
+      "reaction": "R_suc",
+      "residual": {
+       "C": 0.0,
+       "H": 0.0,
+       "O": -1.0
+      }
+     }
+    ]
+   },
+   "note": "no dissipation witness: the curated kinetics are irreversible and carry no dG'"
+  },
+  "flux_control": {
+   "ok": true,
+   "n_fluxes": 12,
+   "n_carrying": 12,
+   "flux_floor": 6.065120257187404e-10,
+   "n_dominant": 9,
+   "steady_state_residual": 3.4797793597495622e-06,
+   "max_summation_residual": 0.0001285917986539875,
+   "dominant_summation_residual": 0.0001285917986539875,
+   "median_summation_residual": 5.948574965941589e-12,
+   "table": [
+    {
+     "flux": "Jf_co2",
+     "rate": 0.0006065120257187404,
+     "summation_residual": 8.599787548746463e-13,
+     "top_controllers": [
+      {
+       "reaction": "Jf_co2",
+       "C": 0.999563241617923
+      },
+      {
+       "reaction": "R_rtca",
+       "C": 0.15364345418671452
+      },
+      {
+       "reaction": "R_mal",
+       "C": -0.10242896946191521
+      },
+      {
+       "reaction": "Wo",
+       "C": -0.05121448473095759
+      }
+     ]
+    },
+    {
+     "flux": "R_rtca",
+     "rate": 0.0002981637712237903,
+     "summation_residual": 7.371880883511039e-13,
+     "top_controllers": [
+      {
+       "reaction": "Jf_co2",
+       "C": 1.0165861294115914
+      },
+      {
+       "reaction": "R_rtca",
+       "C": 0.17326775143630602
+      },
+      {
+       "reaction": "R_mal",
+       "C": -0.11551183429550031
+      },
+      {
+       "reaction": "Wo",
+       "C": -0.057755917147750226
+      },
+      {
+       "reaction": "Wc",
+       "C": -0.01566969390400655
+      }
+     ]
+    },
+    {
+     "flux": "Wa",
+     "rate": 0.00029814662070046607,
+     "summation_residual": 5.752378981727091e-05,
+     "top_controllers": [
+      {
+       "reaction": "Jf_co2",
+       "C": 1.0166446072976818
+      },
+      {
+       "reaction": "R_rtca",
+       "C": 0.17327771845389386
+      },
+      {
+       "reaction": "R_mal",
+       "C": -0.11551847897389259
+      },
+      {
+       "reaction": "Wo",
+       "C": -0.05775923948694629
+      },
+      {
+       "reaction": "Wc",
+       "C": -0.01567059528417363
+      }
+     ]
+    },
+    {
+     "flux": "R_mal",
+     "rate": 0.00019933297137685955,
+     "summation_residual": 6.317169010117141e-12,
+     "top_controllers": [
+      {
+       "reaction": "Jf_co2",
+       "C": 1.0137526182906604
+      },
+      {
+       "reaction": "Wo",
+       "C": -0.39001470348186346
+      },
+      {
+       "reaction": "R_mal",
+       "C": 0.21997059303627298
+      },
+      {
+       "reaction": "R_rtca",
+       "C": 0.17004411043877454
+      },
+      {
+       "reaction": "Wc",
+       "C": -0.015626018065182844
+      }
+     ]
+    },
+    {
+     "flux": "R_suc",
+     "rate": 0.00013288864757830481,
+     "summation_residual": 5.348610443434154e-11,
+     "top_controllers": [
+      {
+       "reaction": "Jf_co2",
+       "C": 1.0137526183384769
+      },
+      {
+       "reaction": "Wo",
+       "C": -0.39001470350025963
+      },
+      {
+       "reaction": "Wm",
+       "C": -0.33333333333333326
+      },
+      {
+       "reaction": "R_suc",
+       "C": 0.33333333333333304
+      },
+      {
+       "reaction": "R_mal",
+       "C": 0.2199705930466493
+      }
+     ]
+    },
+    {
+     "flux": "Ws",
+     "rate": 0.0001328715613923431,
+     "summation_residual": 0.0001285917986539875,
+     "top_controllers": [
+      {
+       "reaction": "Jf_co2",
+       "C": 1.0138829785568297
+      },
+      {
+       "reaction": "Wo",
+       "C": -0.390064856171621
+      },
+      {
+       "reaction": "R_suc",
+       "C": 0.33337619724838713
+      },
+      {
+       "reaction": "Wm",
+       "C": -0.3333761972483866
+      },
+      {
+       "reaction": "R_mal",
+       "C": 0.21999887944909272
+      }
+     ]
+    },
+    {
+     "flux": "Wo",
+     "rate": 9.966648568842977e-05,
+     "summation_residual": 6.317391054722066e-12,
+     "top_controllers": [
+      {
+       "reaction": "Jf_co2",
+       "C": 1.0137526182906604
+      },
+      {
+       "reaction": "R_mal",
+       "C": -0.780029406963727
+      },
+      {
+       "reaction": "Wo",
+       "C": 0.6099852965181365
+      },
+      {
+       "reaction": "R_rtca",
+       "C": 0.17004411043877454
+      },
+      {
+       "reaction": "Wc",
+       "C": -0.015626018065182844
+      }
+     ]
+    },
+    {
+     "flux": "Wm",
+     "rate": 6.644432378915241e-05,
+     "summation_residual": 5.348610443434154e-11,
+     "top_controllers": [
+      {
+       "reaction": "Jf_co2",
+       "C": 1.0137526183384769
+      },
+      {
+       "reaction": "R_suc",
+       "C": -0.666666666666667
+      },
+      {
+       "reaction": "Wm",
+       "C": 0.6666666666666667
+      },
+      {
+       "reaction": "Wo",
+       "C": -0.39001470350025963
+      },
+      {
+       "reaction": "R_mal",
+       "C": 0.2199705930466493
+      }
+     ]
+    },
+    {
+     "flux": "Wc",
+     "rate": 9.348797428125957e-06,
+     "summation_residual": 5.579980921766037e-12,
+     "top_controllers": [
+      {
+       "reaction": "Wc",
+       "C": 0.9999563241618058
+      },
+      {
+       "reaction": "R_rtca",
+       "C": -0.996776358937349
+      },
+      {
+       "reaction": "R_mal",
+       "C": 0.6645175726515342
+      },
+      {
+       "reaction": "Wo",
+       "C": 0.33225878632576694
+      },
+      {
+       "reaction": "Jf_co2",
+       "C": 0.0028335110800946396
+      }
+     ]
+    },
+    {
+     "flux": "Jf_pyr",
+     "rate": 5.305168948340016e-06,
+     "summation_residual": 1.0301759445496828e-12,
+     "top_controllers": [
+      {
+       "reaction": "Wp",
+       "C": 0.7531225069765287
+      },
+      {
+       "reaction": "R_carb",
+       "C": 0.14042296056872763
+      },
+      {
+       "reaction": "R_rtca",
+       "C": -0.14035531099148538
+      },
+      {
+       "reaction": "Jf_pyr",
+       "C": 0.10606169789750797
+      },
+      {
+       "reaction": "R_mal",
+       "C": 0.09357020733139938
+      }
+     ]
+    },
+    {
+     "flux": "Wp",
+     "rate": 4.469483105165999e-06,
+     "summation_residual": 1.2234657731369225e-13,
+     "top_controllers": [
+      {
+       "reaction": "Wp",
+       "C": 0.9106061697846684
+      },
+      {
+       "reaction": "Jf_pyr",
+       "C": 0.10610832641550906
+      },
+      {
+       "reaction": "R_carb",
+       "C": -0.01666786768305447
+      },
+      {
+       "reaction": "R_rtca",
+       "C": 0.016659837840942313
+      },
+      {
+       "reaction": "R_mal",
+       "C": -0.01110655856107243
+      }
+     ]
+    },
+    {
+     "flux": "R_carb",
+     "rate": 8.35685843172566e-07,
+     "summation_residual": 5.457523322149882e-12,
+     "top_controllers": [
+      {
+       "reaction": "R_carb",
+       "C": 0.9805889255473785
+      },
+      {
+       "reaction": "R_rtca",
+       "C": -0.980116521134403
+      },
+      {
+       "reaction": "R_mal",
+       "C": 0.6534110141157926
+      },
+      {
+       "reaction": "Wo",
+       "C": 0.32670550705789736
+      },
+      {
+       "reaction": "Jf_pyr",
+       "C": 0.10581231545915488
+      }
+     ]
+    }
+   ]
+  },
+  "stiffness": {
+   "reference": "rtol=1e-09,atol=1e-15",
+   "deviations": {
+    "rtol=1e-06,atol=1e-12": {
+     "max_rel_dev": 2.525950778178119e-06,
+     "worst_species": "succinate"
+    },
+    "rtol=0.001,atol=1e-09": {
+     "max_rel_dev": 0.00018401007217781296,
+     "worst_species": "succinate"
+    }
+   },
+   "jacobian": {
+    "n": 6,
+    "max_abs_re": 3.611322184910698,
+    "min_abs_re": 0.04999999999909088,
+    "stiffness_ratio": 72.2264436995272,
+    "max_re": -0.04999999999909088
+   }
+  },
+  "n_species": 6,
+  "n_reactions": 4,
+  "final": {
+   "OAA": 0.0019933297137685953,
+   "malate": 0.001328886475783048,
+   "succinate": 0.002657431227846862,
+   "acetate": 0.0059629324140093205,
+   "net_carbon_flux": 0.0005971632282907531,
+   "autocatalytic_gain": 2.9916151770003054,
+   "network_connected": 1.0
+  }
+ }
+}

@@ -216,15 +216,15 @@ the N / P hydrothermal datasets already proposed in `proposed_inputs`).
 | Structural model ensembles | `ensemble.py`: `pass_fraction`, `structure_agreement`, `decision_envelope`, `paired_class_difference` on a `SweepResult` with a class axis or on `{class: mask}` | built |
 | Uncertainty propagation | `sampling.py`: `lhs_unit`, `sample_package` (LHS over the package's free parameters), `draws_to_configs` | built |
 | Numerical verification | `viva_genesis/ledger.py` (`ConservationLedgerProcess`), `spatial-transport-solver-comparison.md` (cross-solver), `compare_spatial_transport.py` (manufactured solution, convergence orders) | ledger + cross-solver built; mesh/time-step convergence gate per stage planned (§7, Phase 4) |
-| Null and adversarial models | og-adv (environment ablation) exists; `reaction_universe` null networks planned (Phase 3) | partial |
+| Null and adversarial models | og-adv (environment ablation); `null_network` class on the `proto_metabolism` face (degree-preserving, (C,O)-matched rewiring of the generated universe, 24 draws per arm in og-02-alt-reaction-universe) | built |
 | Out-of-sample prediction | `calibration.py` conditions on named observations, so holding one out is `package_observations(...)` minus one | mechanism built; first held-out test planned in Phase 1 follow-up (hold out H2, predict it) |
 | Pre-registered gates | `study.yaml.preregistered` + §1.4 rule | practice |
 
 **What is thin and says so.** The Bayesian interface stops at ABC/importance;
 Sobol is implemented but has not been run on the real world (Morris has —
-§6); null networks are not yet generated; the ledger covers the vent world's
-H2 / alkalinity / heat / charge / flux balance, not yet C/N/P element totals or
-rewrite residuals (FMP §5.3).
+§6); the ledger covers the vent world's H2 / alkalinity / heat / charge / flux
+balance and (Phase 3) the network's exact element residual, integrated carbon
+balance and dissipation, not yet N/P totals or rewrite residuals (FMP §5.3).
 
 ## 5. Numerical verification: the ledger
 
@@ -383,6 +383,52 @@ Decisions recorded in `investigation.yaml`.
    the exchange currents become a fit rather than a window calibration.
 3. Decide whether og-01's default class becomes `butler_volmer` (then the
    Tutolo arm is `conductivity`, not `gradient_efficiency`).
+## 6c. Phase 3 — the open chemical network, worked concretely
+
+Built (PR "feat(phase3)"): `viva_genesis/protometabolism/universe.py` (linear
+C/H/O skeletons up to C4, eleven Wołos-style rules → 413 reversible reactions,
+exact element balance, eQuilibrator component-contribution potentials for the
+50 formula-verified KEGG skeletons and a group-additivity fit — LOO RMSE
+7.2 kJ/mol — for the other 71, catalyst classes with a saturating site pool,
+degradation, washout, Antimony emission with carbon-ledger integrators, and
+the (C,O)-matched degree-preserving null); `motifs.py` (SBML network
+extraction, exact element residual, bounded-DFS enumeration of flux-carrying
+simple cycles with stoichiometric gain > 1 — Blokhuis 2020 type-I cores —
+og-02-compatible dynamic gain, empirical enrichment, finite-difference
+elasticities → flux-control coefficients + summation theorem, CVODE
+tolerance sweep + Jacobian stiffness); `universe_process.py`
+(`ReactionUniverseProcess`, `NullNetworkProcess`); `ledger.NetworkLedgerProcess`;
+`composites/open_chemical_network.py` (`model_proto_metabolism` axis; feed =
+the Phase-1 posterior example point from `vg-data/reaction_universe.yaml`); the
+`proto_metabolism` face in `models.py` with `curated_rtca` =
+`RoadRunnerNetworkProcess`. Kinetic convention: the exergonic direction of
+every reaction runs at its rule's k0, the uphill one at k0·exp(−|ΔG′°|/RT), so
+detailed balance is exact, no rate exceeds a catalyst turnover, and the
+dissipation −Σ v ΔG is a real second-law witness.
+
+Results (`og-02-alt-reaction-universe`, 200 ticks, 24 nulls per arm):
+
+| Arm | Universe | Nulls (24) | Curated rTCA |
+|---|---|---|---|
+| Phase-1 feed (CO2 1.4 mM, H2 10.8 mM, pyruvate 0.1 mM) | 14 persistent species, 0 motifs; the reductive branch OAA/malate/succinate at 5e-8 / 9e-8 / 8e-9 M (equilibrium-limited carboxylation) | 0 motifs (p = 1.0) | 1 motif (self-loop, dynamic gain 2.99 = declared k_rtca[CO2]/k_wash); element residual C 4 / H 8 / O 3 per turn |
+| + 10 mM formaldehyde | 49 species, **1 motif** = the formose cycle (gain 2, dynamic 3.1), recovered post hoc | 0 motifs, **p = 0.040** | same |
+| Ignition map (CH2O × washout) | motif only at CH2O ≥ 9.6 mM & washout ≥ 0.024/s (30 mM: ≥ 0.008/s) | 0 everywhere | — |
+
+Verification: universe element residual 0 (exact), carbon balance 2.8e-6,
+dissipation ≥ 0 every tick, summation theorem 3.3e-3 on the dominant fluxes
+(1.3e-4 on the curated model), stiffness ratio 9.4e2, tolerance sensitivity
+7e-6 (tightened) / 2.8e-3 (loosened). The nulls match compound / reaction /
+arity / catalyst density / C,O balance but not the energetic span (714 vs
+166 kJ/mol) because their ΔG′ stay potential-consistent — recorded as a
+limitation. Provenance audit of the package: 0 measured, 2 calibrated, 4
+inferred, 7 extrapolated, 8 hypothetical.
+
+Reading: with real thermodynamics and conservation the curated motif is
+*imposed* (and its stoichiometry creates carbon); the generated universe makes
+no autocatalysis at vent activities because every C–C route is uphill, and the
+one cycle the C ≤ 4 chemistry can close (formose) needs a C1 supply and a
+residence time the reducing vent does not provide — which hands Phase 4
+(co-localization) its question.
 
 ## 7. Roadmap — Phases 2–9 mapped onto the existing studies
 
@@ -396,7 +442,7 @@ recorded in `investigation.yaml.guidelines.roadmap_phases`.
 | Phase | Builds on | PBG component (face: classes) | vg-data package | Verification | Discriminating study (proposed id) | Exit criterion (plan) | Decision needed |
 |---|---|---|---|---|---|---|---|
 | **2 Electrochemical carbon fixation** — **built and run (§6b)**; gate result: agreement 0.47 < 0.8, attribution structure-sensitive | og-01 (`PhGradientNernstPlanckProcess`, `ProtonBudgetProcess`, `CarbonFixationProcess`), open decision "explicit electrochemistry vs gradient-efficiency scalar" | `carbon_fixation`: `empirical` (E), `butler_volmer` (A: fluid redox → electrode potential → overpotential → current density → surface rate, calibrated to Altair 2025 current/product yields), `microkinetic` (A: CatMAP/Cantera-style adsorbates, site coverage, passivation); `MineralConductivityProcess` derives `gradient_efficiency` from circuit physics | `electrochemical_interface` (Altair 2025, Panico 2026, Ni/Fe ratio, thickness, conductivity) | charge + electron-count ledger (`ledger.charge_residual` per tick, faradaic efficiency ≤ 1), current–voltage residual | `og-01-cal-electrochemistry`: (pH × H2 × conductivity × Ni/Fe) with the three classes; gate `failure-mode-attributed` — each point labelled thermodynamic / electrical / catalytic / transport-limited and the classes agree on the label in the favorable region | mechanism map | Adopt Butler–Volmer as the fast class first; CatMAP/Cantera is a conda/compiled dependency (pixi, like FEniCS) |
-| **3 Open chemical network** | og-02 (`RoadRunnerNetworkProcess`, curated rTCA SBML) | `proto_metabolism`: `curated_rtca` (E), `reaction_universe` (A: generated SBML from a Wołos-2020-style rule set with reversible kinetics, side reactions, degradation, catalyst limits), `null_network` (A: randomized networks matched for compounds / reactions / energetic span / catalyst density) | `reaction_universe` (rules, ΔG′ via eQuilibrator, catalyst requirements) | flux-control analysis, element + free-energy ledger over the network, stiffness check vs libRoadRunner tolerances | `og-02-alt-reaction-universe`: gate `motifs-emerge-not-imposed` — persistent autocatalytic subnetworks detected post hoc; motif enrichment vs the matched nulls; the curated rTCA result becomes one class among three | distribution of persistent / autocatalytic subnetworks; enrichment vs null | Rule-set scope (C1–C3 only, or N/P-bearing from the start, folding og-res-N/P into the universe) |
+| **3 Open chemical network** (built — §6c) | og-02 (`RoadRunnerNetworkProcess`, curated rTCA SBML) | `proto_metabolism`: `curated_rtca` (E), `reaction_universe` (A: generated SBML from a Wołos-2020-style rule set with reversible kinetics, side reactions, degradation, catalyst limits), `null_network` (A: randomized networks matched for compounds / reactions / energetic span / catalyst density) | `reaction_universe` (rules, ΔG′ via eQuilibrator, catalyst requirements) | flux-control analysis, element + free-energy ledger over the network, stiffness check vs libRoadRunner tolerances | `og-02-alt-reaction-universe`: gate `motifs-emerge-not-imposed` — persistent autocatalytic subnetworks detected post hoc; motif enrichment vs the matched nulls; the curated rTCA result becomes one class among three | distribution of persistent / autocatalytic subnetworks; enrichment vs null | Rule-set scope (C1–C3 only, or N/P-bearing from the start, folding og-res-N/P into the universe) |
 | **4 3-D multisolute localization** | og-03 (`ThermophoreticTrapProcess`), the FEniCS cross-check (Pe ≳ 13 solver-sensitive), og-res-P's species-agnostic multiplier | `localization`: `fipy` (E), `fenics` (E, now with species Soret term), `pore_network` (A: reduced pore-network surrogate for ensembles, OpenPNM-style) | `pore_physics` (Baaske / Mast geometry, per-species D and S_T for phosphate, NH4, formate, acetate, pyruvate, amino acids, amphiphiles, nucleotide precursors) | mesh- and time-step convergence gate; head-to-head inside a declared trustworthy Péclet range; analytic bound `exp(Pe)` | `og-03-alt-colocalization`: gate `mixture-colocalizes` — co-localization / fractionation phase map for the simultaneous mixture, **no acceptance gate outside demonstrated convergence** (removes the >10⁸ headline from any gate) | co-localization envelope with convergence envelope | Whether og-03's current enrichment gate is re-stated at the resolvable Péclet (recommended) |
 | **5 Endogenous boundary + growth/division** | og-04 (`ProtocellAssemblyProcess`), og-growth (`OsmoticGrowthDivisionProcess`), FMP §2.3–2.4 rewrites | `boundary`: `single_chain` (E), `mixed` (E), `thioester_aminothiol` (A); `AmphiphileSynthesisProcess` (A, from `molecules.dissolved.{acetate,formate}`); `BoundaryFormationStep` / `DivisionStep` / `LysisStep` / `ExtinctionStep` as `_add` / `_divide` / `_remove` rewrites on `agents: map[vg_individual]` | `amphiphile_assembly` (Jordan 2019 phase data under alkaline / saline / divalent conditions; Lu 2024 osmotic growth) | `ledger.rewrite_residual == 0` across every structural rewrite; partition residual on `_divide` | `og-04-alt-endogenous-boundary`: gate `boundary-forms-from-chemistry` (agents 0 → ≥1 with endogenous amphiphile; not with synthesis ablated); `og-growth-alt-physical-reproduction`: a ≥3-generation lineage in the agents map with daughter volumes summing to the mother's | first continuous chemistry → growing, dividing individual | Partition semantics for concentration maps (store `internal` as amounts + volume; FMP §9.1) |
 | **6 Proto-energetics** | og-energy (`GeochemicalDriveProcess`, `ProtoEnergyCurrencyProcess`), og-05 (`BioenergeticSelectionProcess`) | `energy_coupling`: `passive_gradient` (A), `h_na_gradient_leaky_membrane` (A), `thioester_acyl_phosphate` (E as carrier), `polyphosphate` (E), `fe_redox` (A) — all inside each protocell composite, autonomy = internal / (internal + external) power per individual | `energy_currencies` (Fe disproportionation drive already proposed; H+/Na+ permeabilities) | free-energy ledger: `free_energy_in ≥ work + dissipated` as an invariant | `og-energy-alt-internalization-threshold`: gate `internalization-pays` — passive vs increasingly active coupling, the point where energetic benefit exceeds leakage + maintenance, per class | energy-capture efficiency and internalization threshold | Replace og-05's population-mean `internalization` with per-individual autonomy (reads the same field) |
@@ -446,5 +492,10 @@ standard is met so far for Phase 1 only (§6).
    hypothetical and unsourced by design; the audit flags it until the expert
    supplies a prior.
 5. **Study narrative counts.** `investigation.yaml` executive text says
-   "fourteen" studies; adding `og-cal-vent-environment` makes fifteen. Left for
-   the narrative owner (another session edits that text).
+   "fourteen" studies; adding `og-cal-vent-environment` and
+   `og-02-alt-reaction-universe` makes sixteen. Left for the narrative owner
+   (another session edits that text).
+6. **Rule-set scope (Phase 3).** The universe is C/H/O only, linear skeletons,
+   C ≤ 4 (so rTCA cannot close; formose can). Whether N/P-bearing rules
+   (folding og-res-N / og-res-P in) and branched C5/C6 skeletons come next is
+   the expert's call (`og-02-alt-reaction-universe.decisions_needed`).

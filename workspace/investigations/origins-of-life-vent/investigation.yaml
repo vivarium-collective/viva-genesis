@@ -74,6 +74,13 @@ executive:
     ~0.88, seed-robust 5/5 graded seeds) where a long low-fidelity template suffers the Eigen length catastrophe —
     so heredity need NOT presume a long high-fidelity RNA template."
   decisions_needed:
+  - question: 'Rule-set scope for the Phase-3 reaction universe: keep C1-C3 feedstock / C/H/O-only chemistry
+      (as built: products capped at C4, 413 reactions) or include N/P-bearing reactions from the start, folding
+      the og-res-N / og-res-P resource chemistries into the universe?'
+    context: 'og-02-alt-reaction-universe defaulted to C/H/O so the first enrichment result rests on the
+      eQuilibrator-covered thermodynamics and a (C,O)-balanced null. N/P rules would let amino-acid /
+      nucleotide-precursor motifs compete with formose but need N/P potentials, a redesigned null and N/P
+      ledgers. Also open: whether branched skeletons (citrate) should be added so rTCA-type cycles can close.'
   - question: 'Publication milestone: close the first paper at the pre-genetic arc (og-00 -> og-03) or
       extend through the early-genetic arc (og-04 protocells -> og-06 heredity)?'
     context: 'og-00 -> og-08 plus the bottleneck modules have now all run and passed, so every scope is
@@ -263,7 +270,7 @@ guidelines:
     vg-data: viva_genesis/provenance.py + viva_genesis/data/vg_data/*.yaml (built; first package vent_environment)
     vg-geochemical-world: viva_genesis/composites/geochemical_world.py + viva_genesis/ledger.py (built; Reaktoro/PFLOTRAN classes + mineral feedback planned)
     vg-electrochemistry: viva_genesis/electrochemistry/{butler_volmer,empirical,microkinetic,mineral_conductivity}.py + composites/electrochemical_interface.py + ledger.ChargeLedgerProcess (built; carbon_fixation face with empirical | butler_volmer | microkinetic classes; microkinetic runs under pixi)
-    vg-reaction-universe: Phase 3 (planned; rule-based generator + matched null networks)
+    vg-reaction-universe: viva_genesis/protometabolism/{universe,motifs,universe_process}.py + composites/open_chemical_network.py + data/vg_data/reaction_universe.yaml (built; rule-based generator, eQuilibrator potentials, (C,O)-matched nulls, post-hoc detector, NetworkLedgerProcess)
     vg-pore: Phase 4 (planned; FEniCS multisolute Soret + pore-network surrogate)
     vg-protoindividual: Phase 5 (planned; endogenous amphiphiles + boundary/division rewrites)
     vg-energy: Phase 6 (planned; energy ledger + competing coupling classes)
@@ -289,11 +296,13 @@ guidelines:
     next: bridge CatMAP/Cantera for the microkinetic class under pixi and re-run the map with three classes; attach the Altair-2025 per-condition current / product time courses to turn the calibration window into a likelihood; decide whether og-01's default class becomes butler_volmer
   - phase: 3
     name: Open chemical network
-    status: planned
+    status: built-and-run
     studies: [og-02-reduced-carbon-to-protometabolism, og-02-alt-reaction-universe]
-    component: proto_metabolism face with curated_rtca | reaction_universe | null_network classes
-    data_package: reaction_universe (rule set, eQuilibrator dG', catalyst constraints)
+    component: proto_metabolism face with curated_rtca | reaction_universe | null_network classes (all on libRoadRunner), NetworkLedgerProcess, post-hoc motif detector
+    data_package: reaction_universe (11 rules over 121 linear C1-C4 C/H/O skeletons -> 413 reversible reactions; eQuilibrator dG' for 50 formula-verified KEGG compounds + group additivity for 71; catalyst classes with a saturating site pool)
     exit_criterion: distribution of persistent/autocatalytic subnetworks; motif enrichment vs matched nulls
+    result: "Phase-1 feed: 14 persistent species, 0 motifs (every C-C route uphill at vent activities; nulls 0/24). Formose feed (10 mM CH2O): the formose cycle emerges post hoc (gain 2, dynamic 3.1), 0/24 nulls, p = 0.04; ignites only at >= ~10 mM CH2O and washout >= ~0.02/s. Curated rTCA: motif imposed (detector gain 2.99 = declared), lumped turn creates 4 C per cycle (element residual 8). Universe ledger exact; summation theorem 3.3e-3 on dominant fluxes; tolerance sensitivity 7e-6."
+    next: propagate the rate-constant priors (LHS) through both arms; branched C5/C6 skeletons; rule-set-scope decision (N/P); feed the Phase-4 co-localized concentrations (flagship chain)
   - phase: 4
     name: 3-D multisolute localization
     status: planned
@@ -488,6 +497,10 @@ at_a_glance:
   role: 'Phase 2 mechanism map: the vent wall as a galvanic cell — which limitation (thermodynamic,
     electrical, catalytic, transport) stops carbon fixation where, and whether the empirical and
     Butler-Volmer classes agree on it; charge + electron ledger'
+- study: og-02-alt-reaction-universe
+  role: 'Phase 3 open network: a rule-generated C/H/O universe with real dG'' fed the Phase-1 posterior grows no
+    autocatalytic motif; fed formaldehyde it grows the formose cycle, enriched over matched nulls (p = 0.04); the
+    curated rTCA motif is reclassed as imposed and non-conserving'
 studies:
 - og-00-vent-reactor-baseline
 - og-01-geology-to-reduced-carbon
@@ -505,6 +518,7 @@ studies:
 - og-growth-division
 - og-cal-vent-environment
 - og-01-cal-electrochemistry
+- og-02-alt-reaction-universe
 acceptance_criteria:
 - study: og-00-vent-reactor-baseline
   behavior: vent-pH-in-lostcity-range
@@ -538,6 +552,8 @@ acceptance_criteria:
   behavior: posterior-viable-vent-fraction
 - study: og-01-cal-electrochemistry
   behavior: failure-mode-attributed
+- study: og-02-alt-reaction-universe
+  behavior: motifs-emerge-not-imposed
 expert_docs:
 - Origins-of-Life Simulation Campaign
 - Origins-of-Life Computational Methods Atlas

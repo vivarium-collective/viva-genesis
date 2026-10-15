@@ -1,0 +1,5170 @@
+{
+ "meta": {
+  "n_null": 24,
+  "n_steps": 200,
+  "map_n": 6,
+  "map_nulls": 3,
+  "package_version": "1",
+  "kinetics": {
+   "k_co2_reduction": 2.0,
+   "k_reduce": 10.0,
+   "k_reduce_carboxyl": 0.01,
+   "k_deoxygenate": 0.5,
+   "k_carboxylate": 50.0,
+   "k_carboxylate_reductive": 0.02,
+   "k_aldol": 100.0,
+   "k_formose_init": 0.01,
+   "k_isomerize": 0.05,
+   "k_decarboxylate": 0.02,
+   "k_cannizzaro": 1.0,
+   "sites_mineral": 1.0,
+   "sites_base": 1.0,
+   "K_sat": 0.01,
+   "k_deg": 0.001,
+   "aldehyde_degradation_factor": 5.0,
+   "k_wash": 0.05,
+   "k_feed": 0.5
+  },
+  "thermo_conditions": {
+   "p_h": 9.38,
+   "ionic_strength_M": 0.25,
+   "temperature_K": 322.35
+  },
+  "wall_time_s": 421.5682077407837,
+  "detector": "flux-carrying simple cycles with stoichiometric gain > 1 (max length 6), species > 1e-9 M, |flux| > 1e-12 M/s; currency species CO2/H2/H2O excluded"
+ },
+ "arms": {
+  "phase1_feed": {
+   "feed": {
+    "feed_CO2": 0.0014,
+    "feed_H2": 0.0108,
+    "feed_pyruvate": 0.0001,
+    "feed_formaldehyde": 0.0,
+    "feed_formate": 0.0,
+    "feed_acetate": 0.0
+   },
+   "universe": {
+    "final": {
+     "net_carbon_flux": 2.201796604407014e-05,
+     "autocatalytic_gain": 0.0,
+     "network_connected": 0.0,
+     "total_organic_carbon": 0.0007255102403066836,
+     "n_persistent_species": 14.0,
+     "n_autocatalytic_motifs": 0.0,
+     "autocatalytic_core_size": 0.0,
+     "dissipation": 0.8843919614783016,
+     "element_residual": 0.0,
+     "carbon_residual": 1.632249946057745e-07,
+     "catalyst_saturation": 0.0517318275107751,
+     "formate": 0.0004479358485446245,
+     "formaldehyde": 6.4981052875915704e-12,
+     "acetate": 1.1057644224771828e-05,
+     "glycolaldehyde": 3.8266012418944456e-19,
+     "pyruvate": 2.8819768374863498e-05,
+     "OAA": 5.3030260877536347e-08,
+     "malate": 8.832758245514356e-08,
+     "succinate": 8.021476277156849e-09
+    },
+    "motifs": {
+     "n_motifs": 0,
+     "truncated": false,
+     "core_species": [],
+     "core_size": 0,
+     "max_dynamic_gain": 0.0,
+     "n_self_amplifying": 0,
+     "motifs": []
+    },
+    "universe": {
+     "label": "reaction_universe",
+     "n_species": 121,
+     "n_reactions": 413,
+     "max_carbons": 4,
+     "rule_counts": {
+      "reduce_carboxyl": 53,
+      "carboxylate_reductive": 17,
+      "formose_initiation": 1,
+      "reduce_carbonyl": 111,
+      "cannizzaro": 53,
+      "co2_reduction": 1,
+      "decarboxylate_alpha": 17,
+      "deoxygenate": 110,
+      "carboxylate_alpha": 10,
+      "isomerize": 22,
+      "aldol": 18
+     },
+     "catalyst_density": {
+      "mineral": 302,
+      "base": 94,
+      "none": 17
+     },
+     "energetic_span_kj_mol": {
+      "min": -120.38115514162632,
+      "max": 45.776338887266746,
+      "span": 166.15749402889307,
+      "mean": -51.6580586101662,
+      "sd": 47.42905761003263
+     },
+     "element_residual": {
+      "max_abs": 0.0,
+      "per_element": {
+       "C": 0.0,
+       "H": 0.0,
+       "O": 0.0
+      },
+      "n_unbalanced": 0,
+      "offenders": []
+     },
+     "null_seed": null
+    },
+    "snapshot": {
+     "conc": {
+      "CO2": 0.0012326946021239474,
+      "H2": 0.009772050792030213,
+      "X_A": 0.0004479358485446245,
+      "X_D": 6.4981052875915704e-12,
+      "X_H": 1.1801933270347642e-11,
+      "X_AA": 6.026880786373465e-12,
+      "X_AD": 3.2419196667322645e-11,
+      "X_AH": 5.39850631344805e-11,
+      "X_AM": 1.1057644224771828e-05,
+      "X_DM": 1.8337772891947073e-06,
+      "X_HM": 3.0543377568228805e-06,
+      "X_MM": 2.7731662689984195e-07,
+      "X_ACA": 3.870550477310726e-08,
+      "X_ACD": 1.0212423816376532e-07,
+      "X_ACH": 1.7009447999331017e-07,
+      "X_ACM": 4.374802064731862e-06,
+      "X_AKM": 2.8819768374863498e-05,
+      "X_AOM": 4.800243938830295e-05,
+      "X_DKM": 7.046724706330404e-11,
+      "X_DOM": 3.195100092223012e-11,
+      "X_HCM": 1.2436854886440766e-11,
+      "X_HKM": 5.268550197302948e-11,
+      "X_HOM": 1.3013356924587027e-10,
+      "X_MCM": 2.371166257285585e-12,
+      "X_MKM": 1.7325427795127062e-12,
+      "X_MOM": 1.3719807996905001e-11,
+      "X_ACCA": 8.021476277156849e-09,
+      "X_ACCM": 9.780837423302634e-12,
+      "X_ACKA": 5.3030260877536347e-08,
+      "X_ACKH": 1.0478865620680277e-12,
+      "X_ACOA": 8.832758245514356e-08,
+      "X_ACOH": 1.6462379716557263e-12,
+      "X_ACOM": 7.944369269888088e-11,
+      "X_DCCM": 1.3709615778524197e-11,
+      "X_DCOM": 4.6499513636824993e-10,
+      "X_HCCM": 8.23456208932825e-11,
+      "X_HCOM": 7.149364073245304e-10,
+      "X_MCCM": 1.2852100365065003e-11,
+      "X_MCOM": 5.951320771662965e-11
+     },
+     "reactions": [
+      {
+       "id": "r1",
+       "rule": "carboxylate_reductive",
+       "rate": 5.093668523402403e-12,
+       "dg0": 7.73571204119159,
+       "reactants": {
+        "X_A": 1,
+        "CO2": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_AD": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r5",
+       "rule": "co2_reduction",
+       "rate": 2.2845251237406055e-05,
+       "dg0": -39.49141519620318,
+       "reactants": {
+        "CO2": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_A": 1
+       }
+      },
+      {
+       "id": "r8",
+       "rule": "reduce_carbonyl",
+       "rate": 3.0041328815804537e-12,
+       "dg0": -79.74617470195355,
+       "reactants": {
+        "X_AD": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_AH": 1
+       }
+      },
+      {
+       "id": "r16",
+       "rule": "reduce_carboxyl",
+       "rate": -1.7389120384705827e-08,
+       "dg0": 32.2895826042905,
+       "reactants": {
+        "X_AM": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_DM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r17",
+       "rule": "carboxylate_reductive",
+       "rate": -5.465773817397715e-07,
+       "dg0": 30.569299148540324,
+       "reactants": {
+        "X_AM": 1,
+        "CO2": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_AKM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r24",
+       "rule": "reduce_carbonyl",
+       "rate": 1.6992740740683027e-07,
+       "dg0": -56.68823473949652,
+       "reactants": {
+        "X_DM": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_HM": 1
+       }
+      },
+      {
+       "id": "r25",
+       "rule": "cannizzaro",
+       "rate": 3.3524283027519765e-12,
+       "dg0": -88.97781734378702,
+       "reactants": {
+        "X_DM": 2,
+        "H2O": 1
+       },
+       "products": {
+        "X_AM": 1,
+        "X_HM": 1
+       }
+      },
+      {
+       "id": "r26",
+       "rule": "carboxylate_alpha",
+       "rate": 1.498815303988777e-08,
+       "dg0": -10.61681577310361,
+       "reactants": {
+        "X_DM": 1,
+        "CO2": 1
+       },
+       "products": {
+        "X_ACD": 1
+       }
+      },
+      {
+       "id": "r28",
+       "rule": "deoxygenate",
+       "rate": 1.415154820316706e-08,
+       "dg0": -105.37613287927047,
+       "reactants": {
+        "X_HM": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_MM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r29",
+       "rule": "reduce_carboxyl",
+       "rate": -9.683832474027061e-10,
+       "dg0": 12.968266228263587,
+       "reactants": {
+        "X_ACA": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_ACD": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r30",
+       "rule": "carboxylate_reductive",
+       "rate": -1.00573816757674e-09,
+       "dg0": 20.775672641461085,
+       "reactants": {
+        "X_ACA": 1,
+        "CO2": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_ACKA": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r31",
+       "rule": "reduce_carbonyl",
+       "rate": 9.463367362853147e-09,
+       "dg0": -59.033929029294654,
+       "reactants": {
+        "X_ACD": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_ACH": 1
+       }
+      },
+      {
+       "id": "r36",
+       "rule": "deoxygenate",
+       "rate": 7.880923540103261e-10,
+       "dg0": -98.11210236864383,
+       "reactants": {
+        "X_ACH": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_ACM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r56",
+       "rule": "reduce_carbonyl",
+       "rate": 2.670590932222314e-06,
+       "dg0": -62.343196028731086,
+       "reactants": {
+        "X_AKM": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_AOM": 1
+       }
+      },
+      {
+       "id": "r57",
+       "rule": "reduce_carboxyl",
+       "rate": 1.693391208621649e-11,
+       "dg0": 13.45989291029207,
+       "reactants": {
+        "X_AKM": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_DKM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r59",
+       "rule": "decarboxylate_alpha",
+       "rate": 3.033198862850325e-07,
+       "dg0": 1.7202834557501774,
+       "reactants": {
+        "X_AKM": 1
+       },
+       "products": {
+        "X_DM": 1,
+        "CO2": 1
+       }
+      },
+      {
+       "id": "r60",
+       "rule": "carboxylate_alpha",
+       "rate": 9.684826722243489e-09,
+       "dg0": -1.0891259041559351,
+       "reactants": {
+        "X_AKM": 1,
+        "CO2": 1
+       },
+       "products": {
+        "X_ACKA": 1
+       }
+      },
+      {
+       "id": "r75",
+       "rule": "deoxygenate",
+       "rate": 2.2240789623076614e-07,
+       "dg0": -103.69936768656083,
+       "reactants": {
+        "X_AOM": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_ACM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r92",
+       "rule": "reduce_carbonyl",
+       "rate": 6.529864178516066e-12,
+       "dg0": -54.60570125300961,
+       "reactants": {
+        "X_DKM": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_HKM": 1
+       }
+      },
+      {
+       "id": "r93",
+       "rule": "reduce_carbonyl",
+       "rate": 6.5298570168228436e-12,
+       "dg0": -46.81207811358871,
+       "reactants": {
+        "X_DKM": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_DOM": 1
+       }
+      },
+      {
+       "id": "r105",
+       "rule": "reduce_carbonyl",
+       "rate": 2.9607473944966313e-12,
+       "dg0": -67.83578440670749,
+       "reactants": {
+        "X_DOM": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_HOM": 1
+       }
+      },
+      {
+       "id": "r107",
+       "rule": "isomerize",
+       "rate": 1.4492849876523637e-12,
+       "dg0": -7.793623139420902,
+       "reactants": {
+        "X_DOM": 1
+       },
+       "products": {
+        "X_HKM": 1
+       }
+      },
+      {
+       "id": "r114",
+       "rule": "reduce_carbonyl",
+       "rate": 4.882114847712483e-12,
+       "dg0": -60.04216126728659,
+       "reactants": {
+        "X_HKM": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_HOM": 1
+       }
+      },
+      {
+       "id": "r132",
+       "rule": "reduce_carbonyl",
+       "rate": 4.914062223725722e-09,
+       "dg0": -65.13366209063048,
+       "reactants": {
+        "X_ACKA": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_ACOA": 1
+       }
+      },
+      {
+       "id": "r135",
+       "rule": "decarboxylate_alpha",
+       "rate": 1.0604684756690624e-09,
+       "dg0": -7.807406413197498,
+       "reactants": {
+        "X_ACKA": 1
+       },
+       "products": {
+        "X_ACD": 1,
+        "CO2": 1
+       }
+      },
+      {
+       "id": "r146",
+       "rule": "deoxygenate",
+       "rate": 4.092448642888102e-10,
+       "dg0": -93.3376376487297,
+       "reactants": {
+        "X_ACOA": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_ACCA": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r156",
+       "rule": "reduce_carboxyl",
+       "rate": -4.409400681599313e-12,
+       "dg0": 28.175154254832478,
+       "reactants": {
+        "X_ACOM": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_DCOM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r253",
+       "rule": "reduce_carbonyl",
+       "rate": 1.2704047400134473e-12,
+       "dg0": -59.21002630767782,
+       "reactants": {
+        "X_DCCM": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_HCCM": 1
+       }
+      },
+      {
+       "id": "r277",
+       "rule": "reduce_carbonyl",
+       "rate": 4.3088886840151554e-11,
+       "dg0": -58.173836165553894,
+       "reactants": {
+        "X_DCOM": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_HCOM": 1
+       }
+      },
+      {
+       "id": "r278",
+       "rule": "deoxygenate",
+       "rate": 2.154444468970069e-12,
+       "dg0": -91.79422674288833,
+       "reactants": {
+        "X_DCOM": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_DCCM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r362",
+       "rule": "deoxygenate",
+       "rate": 3.3124879551554046e-12,
+       "dg0": -102.56463967142213,
+       "reactants": {
+        "X_HCOM": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_MCOM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r363",
+       "rule": "deoxygenate",
+       "rate": 3.3124879551553702e-12,
+       "dg0": -92.83041688501226,
+       "reactants": {
+        "X_HCOM": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_HCCM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r412",
+       "rule": "aldol",
+       "rate": 7.522763375891111e-11,
+       "dg0": -13.892340610879387,
+       "reactants": {
+        "X_DM": 2
+       },
+       "products": {
+        "X_DCOM": 1
+       }
+      }
+     ],
+     "names": {
+      "CO2": "CO2",
+      "H2": "H2",
+      "X_A": "formate",
+      "X_D": "formaldehyde",
+      "X_H": "methanol",
+      "X_AA": "oxalate",
+      "X_AD": "glyoxylate",
+      "X_AH": "glycolate",
+      "X_AM": "acetate",
+      "X_DM": "acetaldehyde",
+      "X_HM": "ethanol",
+      "X_MM": "s_MM",
+      "X_ACA": "malonate",
+      "X_ACD": "malonate_semialdehyde",
+      "X_ACH": "3_hydroxypropionate",
+      "X_ACM": "propionate",
+      "X_AKM": "pyruvate",
+      "X_AOM": "lactate",
+      "X_DKM": "methylglyoxal",
+      "X_DOM": "lactaldehyde",
+      "X_HCM": "propan_1_ol",
+      "X_HKM": "hydroxyacetone",
+      "X_HOM": "propane_1_2_diol",
+      "X_MCM": "s_MCM",
+      "X_MKM": "acetone",
+      "X_MOM": "s_MOM",
+      "X_ACCA": "succinate",
+      "X_ACCM": "butyrate",
+      "X_ACKA": "oxaloacetate",
+      "X_ACKH": "s_ACKH",
+      "X_ACOA": "malate",
+      "X_ACOH": "s_ACOH",
+      "X_ACOM": "3_hydroxybutyrate",
+      "X_DCCM": "butanal",
+      "X_DCOM": "s_DCOM",
+      "X_HCCM": "butan_1_ol",
+      "X_HCOM": "s_HCOM",
+      "X_MCCM": "s_MCCM",
+      "X_MCOM": "s_MCOM"
+     }
+    },
+    "n_motifs": 0,
+    "core_size": 0,
+    "max_dynamic_gain": 0.0,
+    "n_persistent_species": 14.0,
+    "element_residual": 0.0,
+    "carbon_residual": 1.632249946057745e-07,
+    "dissipation": 0.8843919614783016
+   },
+   "nulls": [
+    {
+     "motifs": {
+      "n_motifs": 0,
+      "truncated": false,
+      "core_species": [],
+      "core_size": 0,
+      "max_dynamic_gain": 0.0,
+      "n_self_amplifying": 0,
+      "motifs": []
+     },
+     "n_motifs": 0,
+     "core_size": 0,
+     "max_dynamic_gain": 0.0,
+     "n_persistent_species": 20.0,
+     "element_residual": 8.0,
+     "carbon_residual": 6.163843532831431e-09,
+     "dissipation": 0.7896946847046193,
+     "energetic_span_kj_mol": {
+      "min": -291.35784912615446,
+      "max": 361.08199541088743,
+      "span": 652.4398445370418,
+      "mean": -24.034104084362003,
+      "sd": 119.09611736779712
+     },
+     "catalyst_density": {
+      "mineral": 294,
+      "base": 94,
+      "none": 17
+     },
+     "n_reactions": 405,
+     "seed": 0
+    },
+    {
+     "motifs": {
+      "n_motifs": 0,
+      "truncated": false,
+      "core_species": [],
+      "core_size": 0,
+      "max_dynamic_gain": 0.0,
+      "n_self_amplifying": 0,
+      "motifs": []
+     },
+     "n_motifs": 0,
+     "core_size": 0,
+     "max_dynamic_gain": 0.0,
+     "n_persistent_species": 11.0,
+     "element_residual": 10.0,
+     "carbon_residual": 3.515761772104792e-08,
+     "dissipation": 1.679665642569117,
+     "energetic_span_kj_mol": {
+      "min": -282.8609257483694,
+      "max": 350.3740762767501,
+      "span": 633.2350020251195,
+      "mean": -32.114902315192246,
+      "sd": 115.49314829263271
+     },
+     "catalyst_density": {
+      "mineral": 287,
+      "base": 94,
+      "none": 17
+     },
+     "n_reactions": 398,
+     "seed": 1
+    },
+    {
+     "motifs": {
+      "n_motifs": 0,
+      "truncated": false,
+      "core_species": [],
+      "core_size": 0,
+      "max_dynamic_gain": 0.0,
+      "n_self_amplifying": 0,
+      "motifs": []
+     },
+     "n_motifs": 0,
+     "core_size": 0,
+     "max_dynamic_gain": 0.0,
+     "n_persistent_species": 15.0,
+     "element_residual": 10.0,
+     "carbon_residual": 1.3324512394776319e-07,
+     "dissipation": 1.7462912128736379,
+     "energetic_span_kj_mol": {
+      "min": -406.4957649395961,
+      "max": 400.05098906451894,
+      "span": 806.546754004115,
+      "mean": -23.543476713354227,
+      "sd": 118.28776881622927
+     },
+     "catalyst_density": {
+      "mineral": 293,
+      "base": 93,
+      "none": 17
+     },
+     "n_reactions": 403,
+     "seed": 2
+    },
+    {
+     "motifs": {
+      "n_motifs": 0,
+      "truncated": false,
+      "core_species": [],
+      "core_size": 0,
+      "max_dynamic_gain": 0.0,
+      "n_self_amplifying": 0,
+      "motifs": []
+     },
+     "n_motifs": 0,
+     "core_size": 0,
+     "max_dynamic_gain": 0.0,
+     "n_persistent_species": 13.0,
+     "element_residual": 10.0,
+     "carbon_residual": 4.8705380896488087e-11,
+     "dissipation": 0.8525962725243352,
+     "energetic_span_kj_mol": {
+      "min": -291.35784912615446,
+      "max": 347.5507507507544,
+      "span": 638.9085998769089,
+      "mean": -29.605619013912772,
+      "sd": 114.8028897575795
+     },
+     "catalyst_density": {
+      "mineral": 294,
+      "base": 93,
+      "none": 17
+     },
+     "n_reactions": 404,
+     "seed": 3
+    },
+    {
+     "motifs": {
+      "n_motifs": 0,
+      "truncated": false,
+      "core_species": [],
+      "core_size": 0,
+      "max_dynamic_gain": 0.0,
+      "n_self_amplifying": 0,
+      "motifs": []
+     },
+     "n_motifs": 0,
+     "core_size": 0,
+     "max_dynamic_gain": 0.0,
+     "n_persistent_species": 8.0,
+     "element_residual": 10.0,
+     "carbon_residual": 1.0201825582163131e-10,
+     "dissipation": 0.7541865938797606,
+     "energetic_span_kj_mol": {
+      "min": -354.1883831462739,
+      "max": 367.12965554925967,
+      "span": 721.3180386955336,
+      "mean": -25.09789293346621,
+      "sd": 123.19014239543745
+     },
+     "catalyst_density": {
+      "mineral": 284,
+      "base": 93,
+      "none": 17
+     },
+     "n_reactions": 394,
+     "seed": 4
+    },
+    {
+     "motifs": {
+      "n_motifs": 0,
+      "truncated": false,
+      "core_species": [],
+      "core_size": 0,
+      "max_dynamic_gain": 0.0,
+      "n_self_amplifying": 0,
+      "motifs": []
+     },
+     "n_motifs": 0,
+     "core_size": 0,
+     "max_dynamic_gain": 0.0,
+     "n_persistent_species": 8.0,
+     "element_residual": 12.0,
+     "carbon_residual": 1.3685737656959814e-07,
+     "dissipation": 1.654428547510987,
+     "energetic_span_kj_mol": {
+      "min": -371.8492772216122,
+      "max": 396.2490686442694,
+      "span": 768.0983458658816,
+      "mean": -28.450141133410767,
+      "sd": 119.45960632558504
+     },
+     "catalyst_density": {
+      "mineral": 291,
+      "base": 93,
+      "none": 17
+     },
+     "n_reactions": 401,
+     "seed": 5
+    },
+    {
+     "motifs": {
+      "n_motifs": 0,
+      "truncated": false,
+      "core_species": [],
+      "core_size": 0,
+      "max_dynamic_gain": 0.0,
+      "n_self_amplifying": 0,
+      "motifs": []
+     },
+     "n_motifs": 0,
+     "core_size": 0,
+     "max_dynamic_gain": 0.0,
+     "n_persistent_species": 17.0,
+     "element_residual": 10.0,
+     "carbon_residual": 2.6190138171917764e-10,
+     "dissipation": 0.7432327814016523,
+     "energetic_span_kj_mol": {
+      "min": -354.1883831462739,
+      "max": 359.11912328803345,
+      "span": 713.3075064343074,
+      "mean": -26.44864276502421,
+      "sd": 117.84131064153553
+     },
+     "catalyst_density": {
+      "mineral": 288,
+      "base": 93,
+      "none": 17
+     },
+     "n_reactions": 398,
+     "seed": 6
+    },
+    {
+     "motifs": {
+      "n_motifs": 0,
+      "truncated": false,
+      "core_species": [],
+      "core_size": 0,
+      "max_dynamic_gain": 0.0,
+      "n_self_amplifying": 0,
+      "motifs": []
+     },
+     "n_motifs": 0,
+     "core_size": 0,
+     "max_dynamic_gain": 0.0,
+     "n_persistent_species": 10.0,
+     "element_residual": 8.0,
+     "carbon_residual": 1.3685565328028937e-07,
+     "dissipation": 1.7237106747961395,
+     "energetic_span_kj_mol": {
+      "min": -275.4615596727302,
+      "max": 361.77652301850765,
+      "span": 637.2380826912379,
+      "mean": -30.60184125097054,
+      "sd": 115.4857505859669
+     },
+     "catalyst_density": {
+      "mineral": 291,
+      "base": 91,
+      "none": 17
+     },
+     "n_reactions": 399,
+     "seed": 7
+    },
+    {
+     "motifs": {
+      "n_motifs": 0,
+      "truncated": false,
+      "core_species": [],
+      "core_size": 0,
+      "max_dynamic_gain": 0.0,
+      "n_self_amplifying": 0,
+      "motifs": []
+     },
+     "n_motifs": 0,
+     "core_size": 0,
+     "max_dynamic_gain": 0.0,
+     "n_persistent_species": 6.0,
+     "element_residual": 10.0,
+     "carbon_residual": 2.631319909044469e-07,
+     "dissipation": 1.0101340437258408,
+     "energetic_span_kj_mol": {
+      "min": -348.6243033592085,
+      "max": 357.05775565431776,
+      "span": 705.6820590135262,
+      "mean": -25.90886921172268,
+      "sd": 113.88919092895213
+     },
+     "catalyst_density": {
+      "mineral": 288,
+      "base": 91,
+      "none": 17
+     },
+     "n_reactions": 396,
+     "seed": 8
+    },
+    {
+     "motifs": {
+      "n_motifs": 0,
+      "truncated": false,
+      "core_species": [],
+      "core_size": 0,
+      "max_dynamic_gain": 0.0,
+      "n_self_amplifying": 0,
+      "motifs": []
+     },
+     "n_motifs": 0,
+     "core_size": 0,
+     "max_dynamic_gain": 0.0,
+     "n_persistent_species": 11.0,
+     "element_residual": 10.0,
+     "carbon_residual": 2.1695794694494852e-10,
+     "dissipation": 0.7840141403281204,
+     "energetic_span_kj_mol": {
+      "min": -288.60654558399636,
+      "max": 473.40390812064334,
+      "span": 762.0104537046398,
+      "mean": -19.384371616489176,
+      "sd": 119.19653694434413
+     },
+     "catalyst_density": {
+      "mineral": 290,
+      "base": 94,
+      "none": 17
+     },
+     "n_reactions": 401,
+     "seed": 9
+    },
+    {
+     "motifs": {
+      "n_motifs": 0,
+      "truncated": false,
+      "core_species": [],
+      "core_size": 0,
+      "max_dynamic_gain": 0.0,
+      "n_self_amplifying": 0,
+      "motifs": []
+     },
+     "n_motifs": 0,
+     "core_size": 0,
+     "max_dynamic_gain": 0.0,
+     "n_persistent_species": 7.0,
+     "element_residual": 12.0,
+     "carbon_residual": 1.3685260337463847e-07,
+     "dissipation": 1.6364874803185094,
+     "energetic_span_kj_mol": {
+      "min": -291.3578491261544,
+      "max": 410.72899549538977,
+      "span": 702.0868446215442,
+      "mean": -26.656049638964962,
+      "sd": 119.02215551878811
+     },
+     "catalyst_density": {
+      "mineral": 287,
+      "base": 92,
+      "none": 17
+     },
+     "n_reactions": 396,
+     "seed": 10
+    },
+    {
+     "motifs": {
+      "n_motifs": 0,
+      "truncated": false,
+      "core_species": [],
+      "core_size": 0,
+      "max_dynamic_gain": 0.0,
+      "n_self_amplifying": 0,
+      "motifs": []
+     },
+     "n_motifs": 0,
+     "core_size": 0,
+     "max_dynamic_gain": 0.0,
+     "n_persistent_species": 16.0,
+     "element_residual": 8.0,
+     "carbon_residual": 9.525693401162052e-11,
+     "dissipation": 0.7475494814923498,
+     "energetic_span_kj_mol": {
+      "min": -340.0332312893068,
+      "max": 354.03276175140803,
+      "span": 694.0659930407148,
+      "mean": -23.20400151423357,
+      "sd": 115.72658793539149
+     },
+     "catalyst_density": {
+      "mineral": 286,
+      "base": 91,
+      "none": 17
+     },
+     "n_reactions": 394,
+     "seed": 11
+    },
+    {
+     "motifs": {
+      "n_motifs": 0,
+      "truncated": false,
+      "core_species": [],
+      "core_size": 0,
+      "max_dynamic_gain": 0.0,
+      "n_self_amplifying": 0,
+      "motifs": []
+     },
+     "n_motifs": 0,
+     "core_size": 0,
+     "max_dynamic_gain": 0.0,
+     "n_persistent_species": 10.0,
+     "element_residual": 8.0,
+     "carbon_residual": 1.0677711287202753e-07,
+     "dissipation": 0.9374633520147371,
+     "energetic_span_kj_mol": {
+      "min": -325.4901555855495,
+      "max": 407.78232268713595,
+      "span": 733.2724782726855,
+      "mean": -27.314088267401843,
+      "sd": 113.90120879268379
+     },
+     "catalyst_density": {
+      "mineral": 290,
+      "base": 93,
+      "none": 17
+     },
+     "n_reactions": 400,
+     "seed": 12
+    },
+    {
+     "motifs": {
+      "n_motifs": 0,
+      "truncated": false,
+      "core_species": [],
+      "core_size": 0,
+      "max_dynamic_gain": 0.0,
+      "n_self_amplifying": 0,
+      "motifs": []
+     },
+     "n_motifs": 0,
+     "core_size": 0,
+     "max_dynamic_gain": 0.0,
+     "n_persistent_species": 11.0,
+     "element_residual": 10.0,
+     "carbon_residual": 9.835651846447014e-11,
+     "dissipation": 0.7352142953210408,
+     "energetic_span_kj_mol": {
+      "min": -352.67557996691204,
+      "max": 363.7092375576624,
+      "span": 716.3848175245744,
+      "mean": -29.250338691715168,
+      "sd": 120.34129826822074
+     },
+     "catalyst_density": {
+      "mineral": 285,
+      "base": 93,
+      "none": 17
+     },
+     "n_reactions": 395,
+     "seed": 13
+    },
+    {
+     "motifs": {
+      "n_motifs": 0,
+      "truncated": false,
+      "core_species": [],
+      "core_size": 0,
+      "max_dynamic_gain": 0.0,
+      "n_self_amplifying": 0,
+      "motifs": []
+     },
+     "n_motifs": 0,
+     "core_size": 0,
+     "max_dynamic_gain": 0.0,
+     "n_persistent_species": 8.0,
+     "element_residual": 8.0,
+     "carbon_residual": 3.537480301334113e-08,
+     "dissipation": 1.0107752629236346,
+     "energetic_span_kj_mol": {
+      "min": -418.4389575777512,
+      "max": 507.42730905099404,
+      "span": 925.8662666287453,
+      "mean": -30.205942145465677,
+      "sd": 116.13647433330571
+     },
+     "catalyst_density": {
+      "mineral": 293,
+      "base": 92,
+      "none": 17
+     },
+     "n_reactions": 402,
+     "seed": 14
+    },
+    {
+     "motifs": {
+      "n_motifs": 0,
+      "truncated": false,
+      "core_species": [],
+      "core_size": 0,
+      "max_dynamic_gain": 0.0,
+      "n_self_amplifying": 0,
+      "motifs": []
+     },
+     "n_motifs": 0,
+     "core_size": 0,
+     "max_dynamic_gain": 0.0,
+     "n_persistent_species": 5.0,
+     "element_residual": 10.0,
+     "carbon_residual": 1.3890740528944977e-07,
+     "dissipation": 1.9202162940666547,
+     "energetic_span_kj_mol": {
+      "min": -291.3578491261544,
+      "max": 419.04396492508465,
+      "span": 710.4018140512391,
+      "mean": -30.893165785991222,
+      "sd": 118.52134898279111
+     },
+     "catalyst_density": {
+      "mineral": 290,
+      "base": 93,
+      "none": 17
+     },
+     "n_reactions": 400,
+     "seed": 15
+    },
+    {
+     "motifs": {
+      "n_motifs": 0,
+      "truncated": false,
+      "core_species": [],
+      "core_size": 0,
+      "max_dynamic_gain": 0.0,
+      "n_self_amplifying": 0,
+      "motifs": []
+     },
+     "n_motifs": 0,
+     "core_size": 0,
+     "max_dynamic_gain": 0.0,
+     "n_persistent_species": 9.0,
+     "element_residual": 8.0,
+     "carbon_residual": 1.3682003715546719e-07,
+     "dissipation": 1.672562758550486,
+     "energetic_span_kj_mol": {
+      "min": -354.1883831462739,
+      "max": 347.8587136040404,
+      "span": 702.0470967503143,
+      "mean": -27.322629617467786,
+      "sd": 117.62284877461721
+     },
+     "catalyst_density": {
+      "mineral": 290,
+      "base": 94,
+      "none": 17
+     },
+     "n_reactions": 401,
+     "seed": 16
+    },
+    {
+     "motifs": {
+      "n_motifs": 0,
+      "truncated": false,
+      "core_species": [],
+      "core_size": 0,
+      "max_dynamic_gain": 0.0,
+      "n_self_amplifying": 0,
+      "motifs": []
+     },
+     "n_motifs": 0,
+     "core_size": 0,
+     "max_dynamic_gain": 0.0,
+     "n_persistent_species": 7.0,
+     "element_residual": 8.0,
+     "carbon_residual": 8.977734666600299e-11,
+     "dissipation": 0.8358928506523026,
+     "energetic_span_kj_mol": {
+      "min": -371.8492772216122,
+      "max": 347.622772734592,
+      "span": 719.4720499562043,
+      "mean": -31.545287632280587,
+      "sd": 116.50117640903055
+     },
+     "catalyst_density": {
+      "mineral": 294,
+      "base": 93,
+      "none": 17
+     },
+     "n_reactions": 404,
+     "seed": 17
+    },
+    {
+     "motifs": {
+      "n_motifs": 0,
+      "truncated": false,
+      "core_species": [],
+      "core_size": 0,
+      "max_dynamic_gain": 0.0,
+      "n_self_amplifying": 0,
+      "motifs": []
+     },
+     "n_motifs": 0,
+     "core_size": 0,
+     "max_dynamic_gain": 0.0,
+     "n_persistent_species": 8.0,
+     "element_residual": 8.0,
+     "carbon_residual": 9.264067690168242e-08,
+     "dissipation": 0.7556574293312139,
+     "energetic_span_kj_mol": {
+      "min": -347.8587136040405,
+      "max": 415.68765403559314,
+      "span": 763.5463676396337,
+      "mean": -21.850956166529528,
+      "sd": 118.63712734173818
+     },
+     "catalyst_density": {
+      "mineral": 293,
+      "base": 93,
+      "none": 17
+     },
+     "n_reactions": 403,
+     "seed": 18
+    },
+    {
+     "motifs": {
+      "n_motifs": 0,
+      "truncated": false,
+      "core_species": [],
+      "core_size": 0,
+      "max_dynamic_gain": 0.0,
+      "n_self_amplifying": 0,
+      "motifs": []
+     },
+     "n_motifs": 0,
+     "core_size": 0,
+     "max_dynamic_gain": 0.0,
+     "n_persistent_species": 3.0,
+     "element_residual": 12.0,
+     "carbon_residual": 9.616396802543046e-11,
+     "dissipation": 0.6802976830396843,
+     "energetic_span_kj_mol": {
+      "min": -282.86092574836937,
+      "max": 294.98533298017696,
+      "span": 577.8462587285463,
+      "mean": -28.91966146695281,
+      "sd": 112.26059041508039
+     },
+     "catalyst_density": {
+      "mineral": 293,
+      "base": 92,
+      "none": 17
+     },
+     "n_reactions": 402,
+     "seed": 19
+    },
+    {
+     "motifs": {
+      "n_motifs": 0,
+      "truncated": false,
+      "core_species": [],
+      "core_size": 0,
+      "max_dynamic_gain": 0.0,
+      "n_self_amplifying": 0,
+      "motifs": []
+     },
+     "n_motifs": 0,
+     "core_size": 0,
+     "max_dynamic_gain": 0.0,
+     "n_persistent_species": 11.0,
+     "element_residual": 10.0,
+     "carbon_residual": 2.399324978372993e-07,
+     "dissipation": 2.000218094068943,
+     "energetic_span_kj_mol": {
+      "min": -348.6243033592085,
+      "max": 345.87299981705047,
+      "span": 694.497303176259,
+      "mean": -25.161388701607283,
+      "sd": 118.56796067816222
+     },
+     "catalyst_density": {
+      "mineral": 290,
+      "base": 93,
+      "none": 17
+     },
+     "n_reactions": 400,
+     "seed": 20
+    },
+    {
+     "motifs": {
+      "n_motifs": 0,
+      "truncated": false,
+      "core_species": [],
+      "core_size": 0,
+      "max_dynamic_gain": 0.0,
+      "n_self_amplifying": 0,
+      "motifs": []
+     },
+     "n_motifs": 0,
+     "core_size": 0,
+     "max_dynamic_gain": 0.0,
+     "n_persistent_species": 10.0,
+     "element_residual": 10.0,
+     "carbon_residual": 4.870845363572399e-10,
+     "dissipation": 0.9614726487741261,
+     "energetic_span_kj_mol": {
+      "min": -361.1725033446971,
+      "max": 361.08199541088743,
+      "span": 722.2544987555846,
+      "mean": -29.86311970280134,
+      "sd": 117.70135964366668
+     },
+     "catalyst_density": {
+      "mineral": 288,
+      "base": 94,
+      "none": 17
+     },
+     "n_reactions": 399,
+     "seed": 21
+    },
+    {
+     "motifs": {
+      "n_motifs": 0,
+      "truncated": false,
+      "core_species": [],
+      "core_size": 0,
+      "max_dynamic_gain": 0.0,
+      "n_self_amplifying": 0,
+      "motifs": []
+     },
+     "n_motifs": 0,
+     "core_size": 0,
+     "max_dynamic_gain": 0.0,
+     "n_persistent_species": 13.0,
+     "element_residual": 10.0,
+     "carbon_residual": 5.172835549234659e-08,
+     "dissipation": 1.8500530961780914,
+     "energetic_span_kj_mol": {
+      "min": -340.21822370894245,
+      "max": 356.6782975387506,
+      "span": 696.896521247693,
+      "mean": -19.358254661409443,
+      "sd": 117.52268062701002
+     },
+     "catalyst_density": {
+      "mineral": 295,
+      "base": 93,
+      "none": 17
+     },
+     "n_reactions": 405,
+     "seed": 22
+    },
+    {
+     "motifs": {
+      "n_motifs": 0,
+      "truncated": false,
+      "core_species": [],
+      "core_size": 0,
+      "max_dynamic_gain": 0.0,
+      "n_self_amplifying": 0,
+      "motifs": []
+     },
+     "n_motifs": 0,
+     "core_size": 0,
+     "max_dynamic_gain": 0.0,
+     "n_persistent_species": 5.0,
+     "element_residual": 10.0,
+     "carbon_residual": 3.389646419837239e-08,
+     "dissipation": 1.9672874098898936,
+     "energetic_span_kj_mol": {
+      "min": -345.87299981705047,
+      "max": 400.3268252116735,
+      "span": 746.199825028724,
+      "mean": -22.557344201813482,
+      "sd": 116.1593673294301
+     },
+     "catalyst_density": {
+      "mineral": 296,
+      "base": 91,
+      "none": 17
+     },
+     "n_reactions": 404,
+     "seed": 23
+    }
+   ],
+   "curated_rtca": {
+    "final": {
+     "OAA": 0.0019933297137685953,
+     "malate": 0.001328886475783048,
+     "succinate": 0.002657431227846862,
+     "acetate": 0.0059629324140093205,
+     "net_carbon_flux": 0.0005971632282907531,
+     "autocatalytic_gain": 2.9916151770003054,
+     "network_connected": 1.0
+    },
+    "motifs": {
+     "n_motifs": 1,
+     "truncated": false,
+     "core_species": [
+      "OAA"
+     ],
+     "core_size": 1,
+     "max_dynamic_gain": 2.991615177000306,
+     "n_self_amplifying": 1,
+     "motifs": [
+      {
+       "species": [
+        "OAA"
+       ],
+       "reactions": [
+        "R_rtca"
+       ],
+       "gain": 2.0,
+       "min_flux": 0.0002981637712237903,
+       "seed": "OAA",
+       "dynamic_gain": 2.991615177000306,
+       "length": 1
+      }
+     ]
+    },
+    "n_motifs": 1,
+    "core_size": 1,
+    "max_dynamic_gain": 2.991615177000306,
+    "declared_autocatalytic_gain": 2.9916151770003054,
+    "n_persistent_species": 5.0,
+    "element_residual": 8.0,
+    "element_residual_detail": {
+     "max_abs": 8.0,
+     "per_element": {
+      "C": 4.0,
+      "H": 8.0,
+      "O": 3.0
+     },
+     "n_internal": 4,
+     "n_unbalanced": 3,
+     "offenders": [
+      {
+       "reaction": "R_rtca",
+       "residual": {
+        "C": 4.0,
+        "H": 8.0,
+        "O": 3.0
+       }
+      },
+      {
+       "reaction": "R_mal",
+       "residual": {
+        "C": 0.0,
+        "H": 2.0,
+        "O": 0.0
+       }
+      },
+      {
+       "reaction": "R_suc",
+       "residual": {
+        "C": 0.0,
+        "H": 0.0,
+        "O": -1.0
+       }
+      }
+     ]
+    },
+    "conc": {
+     "CO2": 0.00018697594856251912,
+     "pyruvate": 8.938966210331997e-05,
+     "OAA": 0.0019933297137685953,
+     "malate": 0.001328886475783048,
+     "succinate": 0.002657431227846862,
+     "acetate": 0.0059629324140093205
+    }
+   },
+   "enrichment": {
+    "n_motifs": {
+     "observed": 0.0,
+     "n_null": 24,
+     "p_empirical": 1.0,
+     "z": 0.0,
+     "null_mean": 0.0,
+     "null_sd": 0.0,
+     "null_max": 0.0,
+     "null_values": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "core_size": {
+     "observed": 0.0,
+     "n_null": 24,
+     "p_empirical": 1.0,
+     "z": 0.0,
+     "null_mean": 0.0,
+     "null_sd": 0.0,
+     "null_max": 0.0,
+     "null_values": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "n_persistent_species": {
+     "observed": 14.0,
+     "n_null": 24,
+     "p_empirical": 0.2,
+     "z": 0.9612660640022693,
+     "null_mean": 10.083333333333334,
+     "null_sd": 4.074487608934689,
+     "null_max": 20.0,
+     "null_values": [
+      20.0,
+      11.0,
+      15.0,
+      13.0,
+      8.0,
+      8.0,
+      17.0,
+      10.0,
+      6.0,
+      11.0,
+      7.0,
+      16.0,
+      10.0,
+      11.0,
+      8.0,
+      5.0,
+      9.0,
+      7.0,
+      8.0,
+      3.0,
+      11.0,
+      10.0,
+      13.0,
+      5.0
+     ]
+    }
+   },
+   "matching": {
+    "universe_energetic_span": {
+     "min": -120.38115514162632,
+     "max": 45.776338887266746,
+     "span": 166.15749402889307,
+     "mean": -51.6580586101662,
+     "sd": 47.42905761003263
+    },
+    "null_energetic_span_mean": 714.3176175946155,
+    "null_n_reactions_mean": 400.1666666666667,
+    "universe_n_reactions": 413,
+    "null_element_residual_mean": 9.583333333333334
+   }
+  },
+  "formose_feed": {
+   "feed": {
+    "feed_CO2": 0.0014,
+    "feed_H2": 0.0108,
+    "feed_pyruvate": 0.0001,
+    "feed_formaldehyde": 0.01,
+    "feed_formate": 0.0,
+    "feed_acetate": 0.0
+   },
+   "universe": {
+    "final": {
+     "net_carbon_flux": 1.508398588679509e-05,
+     "autocatalytic_gain": 3.130039067820619,
+     "network_connected": 1.0,
+     "total_organic_carbon": 0.010093871049127906,
+     "n_persistent_species": 49.0,
+     "n_autocatalytic_motifs": 1.0,
+     "autocatalytic_core_size": 5.0,
+     "dissipation": 16.29343855705365,
+     "element_residual": 0.0,
+     "carbon_residual": 5.0192077462487055e-09,
+     "catalyst_saturation": 0.3301399660810439,
+     "formate": 0.0010143631097243619,
+     "formaldehyde": 0.0038125969499288783,
+     "acetate": 3.2845828632320346e-06,
+     "glycolaldehyde": 3.104460331940973e-07,
+     "pyruvate": 1.2140784366099488e-05,
+     "OAA": 2.2549901027633396e-08,
+     "malate": 2.6212530094955974e-08,
+     "succinate": 1.6175047523928026e-09
+    },
+    "motifs": {
+     "n_motifs": 1,
+     "truncated": false,
+     "core_species": [
+      "X_DH",
+      "X_DOH",
+      "X_DOOH",
+      "X_HKH",
+      "X_HKOH"
+     ],
+     "core_size": 5,
+     "max_dynamic_gain": 3.130039067820619,
+     "n_self_amplifying": 1,
+     "motifs": [
+      {
+       "species": [
+        "X_DOOH",
+        "X_DH",
+        "X_DOH",
+        "X_HKH",
+        "X_HKOH"
+       ],
+       "reactions": [
+        "r409",
+        "r395",
+        "r103",
+        "r401",
+        "r345"
+       ],
+       "gain": 2.0,
+       "min_flux": 5.218051648537023e-10,
+       "seed": "X_DOOH",
+       "dynamic_gain": 3.130039067820619,
+       "length": 5
+      }
+     ]
+    },
+    "universe": {
+     "label": "reaction_universe",
+     "n_species": 121,
+     "n_reactions": 413,
+     "max_carbons": 4,
+     "rule_counts": {
+      "reduce_carboxyl": 53,
+      "carboxylate_reductive": 17,
+      "formose_initiation": 1,
+      "reduce_carbonyl": 111,
+      "cannizzaro": 53,
+      "co2_reduction": 1,
+      "decarboxylate_alpha": 17,
+      "deoxygenate": 110,
+      "carboxylate_alpha": 10,
+      "isomerize": 22,
+      "aldol": 18
+     },
+     "catalyst_density": {
+      "mineral": 302,
+      "base": 94,
+      "none": 17
+     },
+     "energetic_span_kj_mol": {
+      "min": -120.38115514162632,
+      "max": 45.776338887266746,
+      "span": 166.15749402889307,
+      "mean": -51.6580586101662,
+      "sd": 47.42905761003263
+     },
+     "element_residual": {
+      "max_abs": 0.0,
+      "per_element": {
+       "C": 0.0,
+       "H": 0.0,
+       "O": 0.0
+      },
+      "n_unbalanced": 0,
+      "offenders": []
+     },
+     "null_seed": null
+    },
+    "snapshot": {
+     "conc": {
+      "CO2": 0.001245301832767057,
+      "H2": 0.009395503322548326,
+      "X_A": 0.0010143631097243619,
+      "X_D": 0.0038125969499288783,
+      "X_H": 0.004910803111942963,
+      "X_AA": 9.036488396860875e-08,
+      "X_AD": 6.87813240071225e-07,
+      "X_AH": 8.37805690223176e-07,
+      "X_AM": 3.2845828632320346e-06,
+      "X_DH": 3.104460331940973e-07,
+      "X_DM": 3.3168910513949866e-07,
+      "X_HH": 3.608153169084256e-07,
+      "X_HM": 4.065065534291618e-07,
+      "X_MM": 2.508094194935958e-08,
+      "X_ACA": 8.396847204366327e-09,
+      "X_ACD": 1.8740594315017865e-08,
+      "X_ACH": 6.3672727822152986e-06,
+      "X_ACM": 1.4298872994155781e-06,
+      "X_AKA": 1.301034212113711e-10,
+      "X_AKH": 1.963730543345178e-11,
+      "X_AKM": 1.2140784366099488e-05,
+      "X_AOA": 1.8702806948682776e-10,
+      "X_AOD": 2.875779670050296e-10,
+      "X_AOH": 4.686380995497233e-08,
+      "X_AOM": 1.411571890933194e-05,
+      "X_DCH": 1.0334305805284834e-06,
+      "X_DCM": 2.8422441080613065e-08,
+      "X_DKM": 1.3781181047815196e-11,
+      "X_DOH": 3.9777450465982154e-07,
+      "X_DOM": 7.646562486721233e-09,
+      "X_HCH": 1.2288245432102247e-06,
+      "X_HCM": 1.0644356552244191e-07,
+      "X_HKH": 3.6799203697210725e-08,
+      "X_HKM": 5.94457499791073e-10,
+      "X_HOH": 4.773236555375468e-07,
+      "X_HOM": 3.525046568982461e-08,
+      "X_MCM": 6.684432458179345e-09,
+      "X_MKM": 1.4231356096129253e-10,
+      "X_MOM": 2.2083952941070016e-09,
+      "X_ACCA": 1.6175047523928026e-09,
+      "X_ACCH": 1.6029950390364866e-06,
+      "X_ACCM": 2.416691427849502e-07,
+      "X_ACKA": 2.2549901027633396e-08,
+      "X_ACKH": 1.1924355494224061e-11,
+      "X_ACOA": 2.6212530094955974e-08,
+      "X_ACOH": 4.4946787374274163e-11,
+      "X_ACOM": 7.087982068335168e-12,
+      "X_AKCH": 2.5120126626307116e-05,
+      "X_AKCM": 6.18706400930391e-07,
+      "X_AKOA": 1.0581941983456092e-12,
+      "X_AKOH": 9.87261024822466e-11,
+      "X_AKOM": 3.484297774424823e-12,
+      "X_AOCD": 9.572034504241403e-12,
+      "X_AOCH": 2.7593191045975648e-05,
+      "X_AOCM": 2.32206278896225e-06,
+      "X_AOKH": 4.02706517696584e-11,
+      "X_AOKM": 2.062831327153316e-12,
+      "X_AOOA": 1.4187047703479323e-12,
+      "X_AOOD": 1.5266645993373713e-12,
+      "X_AOOH": 5.085063840780409e-10,
+      "X_AOOM": 3.490177031774795e-11,
+      "X_DCCH": 3.234300515579701e-12,
+      "X_DCOH": 3.248773126020497e-11,
+      "X_DCOM": 1.515358933264123e-11,
+      "X_DKCH": 1.3403403205886145e-11,
+      "X_DOCH": 9.679298704238395e-11,
+      "X_DOCM": 3.5620926068118417e-12,
+      "X_DOOH": 3.2688006759560325e-09,
+      "X_DOOM": 7.8136175662394e-12,
+      "X_HCCH": 4.6220769794449324e-10,
+      "X_HCCM": 1.5216588168198454e-10,
+      "X_HCKH": 3.248125603933672e-09,
+      "X_HCKM": 4.592030295697038e-11,
+      "X_HCOH": 7.918625207634294e-09,
+      "X_HCOM": 1.0378975173545972e-09,
+      "X_HKCM": 1.448303125548712e-10,
+      "X_HKOH": 7.381602909867223e-08,
+      "X_HKOM": 2.1650310562993437e-09,
+      "X_HOCM": 1.1337323538751475e-09,
+      "X_HOKM": 3.02308581628267e-09,
+      "X_HOOH": 8.465581812464311e-08,
+      "X_HOOM": 9.8116262809348e-09,
+      "X_MCCM": 1.9804924291858696e-11,
+      "X_MCKM": 9.118744456715247e-12,
+      "X_MCOM": 1.7757369897811935e-10,
+      "X_MKOM": 1.3943460134183155e-10,
+      "X_MOOM": 7.301324299432856e-10
+     },
+     "reactions": [
+      {
+       "id": "r0",
+       "rule": "reduce_carboxyl",
+       "rate": -2.5539061621414352e-05,
+       "dg0": 28.39311257281304,
+       "reactants": {
+        "X_A": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_D": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r1",
+       "rule": "carboxylate_reductive",
+       "rate": -9.205902350390215e-09,
+       "dg0": 7.73571204119159,
+       "reactants": {
+        "X_A": 1,
+        "CO2": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_AD": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r2",
+       "rule": "formose_initiation",
+       "rate": 1.0512235785473817e-07,
+       "dg0": -45.82187471589776,
+       "reactants": {
+        "X_D": 2
+       },
+       "products": {
+        "X_DH": 1
+       }
+      },
+      {
+       "id": "r3",
+       "rule": "reduce_carbonyl",
+       "rate": 0.00023995235315178414,
+       "dg0": -69.14978495257247,
+       "reactants": {
+        "X_D": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_H": 1
+       }
+      },
+      {
+       "id": "r4",
+       "rule": "cannizzaro",
+       "rate": 1.0512235793912199e-05,
+       "dg0": -97.54289752538551,
+       "reactants": {
+        "X_D": 2,
+        "H2O": 1
+       },
+       "products": {
+        "X_A": 1,
+        "X_H": 1
+       }
+      },
+      {
+       "id": "r5",
+       "rule": "co2_reduction",
+       "rate": 1.5674500966952776e-05,
+       "dg0": -39.49141519620318,
+       "reactants": {
+        "CO2": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_A": 1
+       }
+      },
+      {
+       "id": "r6",
+       "rule": "reduce_carboxyl",
+       "rate": -4.607210615134507e-09,
+       "dg0": 9.324258947618915,
+       "reactants": {
+        "X_AA": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_AD": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r7",
+       "rule": "carboxylate_reductive",
+       "rate": -1.7410133904271818e-12,
+       "dg0": 5.235680686475213,
+       "reactants": {
+        "X_AA": 1,
+        "CO2": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_AKA": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r8",
+       "rule": "reduce_carbonyl",
+       "rate": 4.328871050103424e-08,
+       "dg0": -79.74617470195355,
+       "reactants": {
+        "X_AD": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_AH": 1
+       }
+      },
+      {
+       "id": "r11",
+       "rule": "decarboxylate_alpha",
+       "rate": -9.495049675107404e-08,
+       "dg0": 20.657400531621448,
+       "reactants": {
+        "X_AD": 1
+       },
+       "products": {
+        "X_D": 1,
+        "CO2": 1
+       }
+      },
+      {
+       "id": "r13",
+       "rule": "reduce_carboxyl",
+       "rate": -2.0795538985116787e-09,
+       "dg0": 43.483397894287094,
+       "reactants": {
+        "X_AH": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_DH": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r14",
+       "rule": "deoxygenate",
+       "rate": 2.636437180023826e-09,
+       "dg0": -91.3102210093713,
+       "reactants": {
+        "X_AH": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_AM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r16",
+       "rule": "reduce_carboxyl",
+       "rate": -2.2218515410991902e-09,
+       "dg0": 32.2895826042905,
+       "reactants": {
+        "X_AM": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_DM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r17",
+       "rule": "carboxylate_reductive",
+       "rate": -1.626525245398316e-07,
+       "dg0": 30.569299148540324,
+       "reactants": {
+        "X_AM": 1,
+        "CO2": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_AKM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r20",
+       "rule": "reduce_carbonyl",
+       "rate": 1.9538455006077493e-08,
+       "dg0": -59.27009821544908,
+       "reactants": {
+        "X_DH": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_HH": 1
+       }
+      },
+      {
+       "id": "r21",
+       "rule": "deoxygenate",
+       "rate": 9.769227803720782e-10,
+       "dg0": -102.5040362993679,
+       "reactants": {
+        "X_DH": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_DM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r23",
+       "rule": "carboxylate_alpha",
+       "rate": 4.1960016059990614e-11,
+       "dg0": 0.7813948781392526,
+       "reactants": {
+        "X_DH": 1,
+        "CO2": 1
+       },
+       "products": {
+        "X_AOD": 1
+       }
+      },
+      {
+       "id": "r24",
+       "rule": "reduce_carbonyl",
+       "rate": 2.087542314008573e-08,
+       "dg0": -56.68823473949652,
+       "reactants": {
+        "X_DM": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_HM": 1
+       }
+      },
+      {
+       "id": "r26",
+       "rule": "carboxylate_alpha",
+       "rate": 1.8838406665179864e-09,
+       "dg0": -10.61681577310361,
+       "reactants": {
+        "X_DM": 1,
+        "CO2": 1
+       },
+       "products": {
+        "X_ACD": 1
+       }
+      },
+      {
+       "id": "r27",
+       "rule": "deoxygenate",
+       "rate": 1.1354266600489193e-09,
+       "dg0": -99.92217282341534,
+       "reactants": {
+        "X_HH": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_HM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r28",
+       "rule": "deoxygenate",
+       "rate": 1.279209491999524e-09,
+       "dg0": -105.37613287927047,
+       "reactants": {
+        "X_HM": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_MM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r29",
+       "rule": "reduce_carboxyl",
+       "rate": -1.2553156695556744e-10,
+       "dg0": 12.968266228263587,
+       "reactants": {
+        "X_ACA": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_ACD": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r30",
+       "rule": "carboxylate_reductive",
+       "rate": -3.0210554877877017e-10,
+       "dg0": 20.775672641461085,
+       "reactants": {
+        "X_ACA": 1,
+        "CO2": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_ACKA": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r31",
+       "rule": "reduce_carbonyl",
+       "rate": 1.1794599799362993e-09,
+       "dg0": -59.033929029294654,
+       "reactants": {
+        "X_ACD": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_ACH": 1
+       }
+      },
+      {
+       "id": "r35",
+       "rule": "reduce_carboxyl",
+       "rate": -6.922536786202948e-09,
+       "dg0": 33.233112804472825,
+       "reactants": {
+        "X_ACH": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_DCH": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r36",
+       "rule": "deoxygenate",
+       "rate": 2.00367637678918e-08,
+       "dg0": -98.11210236864383,
+       "reactants": {
+        "X_ACH": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_ACM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r37",
+       "rule": "carboxylate_reductive",
+       "rate": -3.365393774332998e-07,
+       "dg0": 26.782872714563837,
+       "reactants": {
+        "X_ACH": 1,
+        "CO2": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_AKCH": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r38",
+       "rule": "reduce_carboxyl",
+       "rate": -1.9038990182476224e-10,
+       "dg0": 31.640754294863314,
+       "reactants": {
+        "X_ACM": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_DCM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r39",
+       "rule": "carboxylate_reductive",
+       "rate": -8.288933736756486e-09,
+       "dg0": 21.360006407804462,
+       "reactants": {
+        "X_ACM": 1,
+        "CO2": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_AKCM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r40",
+       "rule": "reduce_carbonyl",
+       "rate": 8.188282738373607e-12,
+       "dg0": -62.90677198918207,
+       "reactants": {
+        "X_AKA": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_AOA": 1
+       }
+      },
+      {
+       "id": "r43",
+       "rule": "decarboxylate_alpha",
+       "rate": -1.6564716458545515e-11,
+       "dg0": 4.088578261143702,
+       "reactants": {
+        "X_AKA": 1
+       },
+       "products": {
+        "X_AD": 1,
+        "CO2": 1
+       }
+      },
+      {
+       "id": "r50",
+       "rule": "reduce_carbonyl",
+       "rate": 1.2359029514555407e-12,
+       "dg0": -66.81624806336771,
+       "reactants": {
+        "X_AKH": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_AOH": 1
+       }
+      },
+      {
+       "id": "r54",
+       "rule": "decarboxylate_alpha",
+       "rate": -2.893820159459505e-12,
+       "dg0": -2.292940992979652,
+       "reactants": {
+        "X_AKH": 1
+       },
+       "products": {
+        "X_DH": 1,
+        "CO2": 1
+       }
+      },
+      {
+       "id": "r56",
+       "rule": "reduce_carbonyl",
+       "rate": 7.641011599197094e-07,
+       "dg0": -62.343196028731086,
+       "reactants": {
+        "X_AKM": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_AOM": 1
+       }
+      },
+      {
+       "id": "r57",
+       "rule": "reduce_carboxyl",
+       "rate": 4.943952131628391e-12,
+       "dg0": 13.45989291029207,
+       "reactants": {
+        "X_AKM": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_DKM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r59",
+       "rule": "decarboxylate_alpha",
+       "rate": 1.2778909550422122e-07,
+       "dg0": 1.7202834557501774,
+       "reactants": {
+        "X_AKM": 1
+       },
+       "products": {
+        "X_DM": 1,
+        "CO2": 1
+       }
+      },
+      {
+       "id": "r60",
+       "rule": "carboxylate_alpha",
+       "rate": 3.3223367673258415e-09,
+       "dg0": -1.0891259041559351,
+       "reactants": {
+        "X_AKM": 1,
+        "CO2": 1
+       },
+       "products": {
+        "X_ACKA": 1
+       }
+      },
+      {
+       "id": "r61",
+       "rule": "reduce_carboxyl",
+       "rate": -1.9263697752179704e-12,
+       "dg0": 31.51396832079857,
+       "reactants": {
+        "X_AOA": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_AOD": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r64",
+       "rule": "reduce_carbonyl",
+       "rate": 1.809920626944893e-11,
+       "dg0": -65.30470194852731,
+       "reactants": {
+        "X_AOD": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_AOH": 1
+       }
+      },
+      {
+       "id": "r68",
+       "rule": "isomerize",
+       "rate": 5.206191690741417e-12,
+       "dg0": 1.5115461148403995,
+       "reactants": {
+        "X_AOD": 1
+       },
+       "products": {
+        "X_AKH": 1
+       }
+      },
+      {
+       "id": "r70",
+       "rule": "reduce_carboxyl",
+       "rate": -2.6645324220634646e-09,
+       "dg0": 33.817362912517126,
+       "reactants": {
+        "X_AOH": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_DOH": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r71",
+       "rule": "deoxygenate",
+       "rate": 1.4747272834829206e-10,
+       "dg0": -107.6314740313781,
+       "reactants": {
+        "X_AOH": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_ACH": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r72",
+       "rule": "deoxygenate",
+       "rate": 1.4747272834816193e-10,
+       "dg0": -102.0442087134611,
+       "reactants": {
+        "X_AOH": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_AOM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r73",
+       "rule": "carboxylate_reductive",
+       "rate": -1.3226471984704348e-12,
+       "dg0": 18.964734812449734,
+       "reactants": {
+        "X_AOH": 1,
+        "CO2": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_AKOH": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r74",
+       "rule": "reduce_carboxyl",
+       "rate": -5.1203446326670846e-11,
+       "dg0": 28.991010825434444,
+       "reactants": {
+        "X_AOM": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_DOM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r75",
+       "rule": "deoxygenate",
+       "rate": 4.4419853660148196e-08,
+       "dg0": -103.69936768656083,
+       "reactants": {
+        "X_AOM": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_ACM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r79",
+       "rule": "reduce_carbonyl",
+       "rate": 6.504072668774129e-08,
+       "dg0": -56.30140362329391,
+       "reactants": {
+        "X_DCH": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_HCH": 1
+       }
+      },
+      {
+       "id": "r80",
+       "rule": "deoxygenate",
+       "rate": 3.2520366443858144e-09,
+       "dg0": -99.70446087825334,
+       "reactants": {
+        "X_DCH": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_DCM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r82",
+       "rule": "reduce_carbonyl",
+       "rate": 1.7888151489928784e-09,
+       "dg0": -60.39582874155974,
+       "reactants": {
+        "X_DCM": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_HCM": 1
+       }
+      },
+      {
+       "id": "r100",
+       "rule": "reduce_carbonyl",
+       "rate": 2.5034623313833378e-08,
+       "dg0": -74.70194304302737,
+       "reactants": {
+        "X_DOH": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_HOH": 1
+       }
+      },
+      {
+       "id": "r101",
+       "rule": "deoxygenate",
+       "rate": 1.2517311658172874e-09,
+       "dg0": -108.2157241394224,
+       "reactants": {
+        "X_DOH": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_DCH": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r102",
+       "rule": "deoxygenate",
+       "rate": 1.2517311658172887e-09,
+       "dg0": -106.87056080054379,
+       "reactants": {
+        "X_DOH": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_DOM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r103",
+       "rule": "isomerize",
+       "rate": 1.4378763661407859e-08,
+       "dg0": -15.19356217021658,
+       "reactants": {
+        "X_DOH": 1
+       },
+       "products": {
+        "X_HKH": 1
+       }
+      },
+      {
+       "id": "r105",
+       "rule": "reduce_carbonyl",
+       "rate": 4.812495731148237e-10,
+       "dg0": -67.83578440670749,
+       "reactants": {
+        "X_DOM": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_HOM": 1
+       }
+      },
+      {
+       "id": "r106",
+       "rule": "deoxygenate",
+       "rate": 2.4062478775968036e-11,
+       "dg0": -101.04962421713196,
+       "reactants": {
+        "X_DOM": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_DCM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r107",
+       "rule": "isomerize",
+       "rate": 2.7532299186061273e-10,
+       "dg0": -7.793623139420902,
+       "reactants": {
+        "X_DOM": 1
+       },
+       "products": {
+        "X_HKM": 1
+       }
+      },
+      {
+       "id": "r109",
+       "rule": "deoxygenate",
+       "rate": 3.866909417366683e-09,
+       "dg0": -103.79888599651918,
+       "reactants": {
+        "X_HCH": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_HCM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r110",
+       "rule": "deoxygenate",
+       "rate": 3.3496045323241983e-10,
+       "dg0": -103.20282588858504,
+       "reactants": {
+        "X_HCM": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_MCM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r111",
+       "rule": "reduce_carbonyl",
+       "rate": 2.3160205155950096e-09,
+       "dg0": -59.50838087281079,
+       "reactants": {
+        "X_HKH": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_HOH": 1
+       }
+      },
+      {
+       "id": "r112",
+       "rule": "deoxygenate",
+       "rate": 1.158010621732795e-10,
+       "dg0": -99.4706217697481,
+       "reactants": {
+        "X_HKH": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_HKM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r113",
+       "rule": "carboxylate_alpha",
+       "rate": 2.7339293655508124e-12,
+       "dg0": 0.34093407014918853,
+       "reactants": {
+        "X_HKH": 1,
+        "CO2": 1
+       },
+       "products": {
+        "X_AOKH": 1
+       }
+      },
+      {
+       "id": "r114",
+       "rule": "reduce_carbonyl",
+       "rate": 3.741316220597039e-11,
+       "dg0": -60.04216126728659,
+       "reactants": {
+        "X_HKM": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_HOM": 1
+       }
+      },
+      {
+       "id": "r115",
+       "rule": "deoxygenate",
+       "rate": 1.8706603126278004e-12,
+       "dg0": -120.29812692099381,
+       "reactants": {
+        "X_HKM": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_MKM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r117",
+       "rule": "carboxylate_alpha",
+       "rate": 1.2821108186234328e-12,
+       "dg0": -7.591321734651984,
+       "reactants": {
+        "X_HKM": 1,
+        "CO2": 1
+       },
+       "products": {
+        "X_ACKH": 1
+       }
+      },
+      {
+       "id": "r118",
+       "rule": "deoxygenate",
+       "rate": 1.502059304502563e-09,
+       "dg0": -100.0044021642239,
+       "reactants": {
+        "X_HOH": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_HOM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r119",
+       "rule": "deoxygenate",
+       "rate": 1.5020593045014134e-09,
+       "dg0": -89.81518471968894,
+       "reactants": {
+        "X_HOH": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_HCH": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r120",
+       "rule": "deoxygenate",
+       "rate": 1.1092743752207453e-10,
+       "dg0": -104.58869975659047,
+       "reactants": {
+        "X_HOM": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_MOM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r121",
+       "rule": "deoxygenate",
+       "rate": 1.1092743752205033e-10,
+       "dg0": -93.60966855198421,
+       "reactants": {
+        "X_HOM": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_HCM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r122",
+       "rule": "reduce_carbonyl",
+       "rate": 8.955779858711841e-12,
+       "dg0": -44.33273410288325,
+       "reactants": {
+        "X_MKM": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_MOM": 1
+       }
+      },
+      {
+       "id": "r124",
+       "rule": "deoxygenate",
+       "rate": 6.949458006216395e-12,
+       "dg0": -92.22379468397878,
+       "reactants": {
+        "X_MOM": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_MCM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r130",
+       "rule": "deoxygenate",
+       "rate": 5.044362636384788e-09,
+       "dg0": -102.74963209105772,
+       "reactants": {
+        "X_ACCH": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_ACCM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r132",
+       "rule": "reduce_carbonyl",
+       "rate": 1.4192168414142683e-09,
+       "dg0": -65.13366209063048,
+       "reactants": {
+        "X_ACKA": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_ACOA": 1
+       }
+      },
+      {
+       "id": "r135",
+       "rule": "decarboxylate_alpha",
+       "rate": 4.509726707131383e-10,
+       "dg0": -7.807406413197498,
+       "reactants": {
+        "X_ACKA": 1
+       },
+       "products": {
+        "X_ACD": 1,
+        "CO2": 1
+       }
+      },
+      {
+       "id": "r146",
+       "rule": "deoxygenate",
+       "rate": 8.248653563867796e-11,
+       "dg0": -93.3376376487297,
+       "reactants": {
+        "X_ACOA": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_ACCA": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r163",
+       "rule": "reduce_carbonyl",
+       "rate": 1.5809783225121455e-06,
+       "dg0": -57.26645423305405,
+       "reactants": {
+        "X_AKCH": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_AOCH": 1
+       }
+      },
+      {
+       "id": "r165",
+       "rule": "deoxygenate",
+       "rate": 7.904892098179107e-08,
+       "dg0": -103.5349686754032,
+       "reactants": {
+        "X_AKCH": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_AKCM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r166",
+       "rule": "decarboxylate_alpha",
+       "rate": 4.524883747298275e-08,
+       "dg0": 6.450240089908988,
+       "reactants": {
+        "X_AKCH": 1
+       },
+       "products": {
+        "X_DCH": 1,
+        "CO2": 1
+       }
+      },
+      {
+       "id": "r167",
+       "rule": "reduce_carbonyl",
+       "rate": 3.893932735206551e-08,
+       "dg0": -54.243977726365074,
+       "reactants": {
+        "X_AKCM": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_AOCM": 1
+       }
+      },
+      {
+       "id": "r169",
+       "rule": "decarboxylate_alpha",
+       "rate": 2.6635982057930335e-10,
+       "dg0": 10.280747887058851,
+       "reactants": {
+        "X_AKCM": 1
+       },
+       "products": {
+        "X_DCM": 1,
+        "CO2": 1
+       }
+      },
+      {
+       "id": "r201",
+       "rule": "reduce_carbonyl",
+       "rate": 6.213495450861403e-12,
+       "dg0": -57.26645423305408,
+       "reactants": {
+        "X_AKOH": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_AOOH": 1
+       }
+      },
+      {
+       "id": "r205",
+       "rule": "isomerize",
+       "rate": 2.113724198209636e-12,
+       "dg0": 0.0,
+       "reactants": {
+        "X_AKOH": 1
+       },
+       "products": {
+        "X_AOKH": 1
+       }
+      },
+      {
+       "id": "r206",
+       "rule": "decarboxylate_alpha",
+       "rate": -9.899246394218192e-12,
+       "dg0": 14.852628100067392,
+       "reactants": {
+        "X_AKOH": 1
+       },
+       "products": {
+        "X_DOH": 1,
+        "CO2": 1
+       }
+      },
+      {
+       "id": "r217",
+       "rule": "deoxygenate",
+       "rate": 8.683124934348513e-08,
+       "dg0": -99.81333612926409,
+       "reactants": {
+        "X_AOCH": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_ACCH": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r218",
+       "rule": "deoxygenate",
+       "rate": 8.683124934348513e-08,
+       "dg0": -100.51249216871423,
+       "reactants": {
+        "X_AOCH": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_AOCM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r220",
+       "rule": "deoxygenate",
+       "rate": 7.307150980966958e-09,
+       "dg0": -102.05047605160757,
+       "reactants": {
+        "X_AOCM": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_ACCM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r226",
+       "rule": "reduce_carbonyl",
+       "rate": 2.534501014985288e-12,
+       "dg0": -57.26645423305408,
+       "reactants": {
+        "X_AOKH": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_AOOH": 1
+       }
+      },
+      {
+       "id": "r241",
+       "rule": "reduce_carboxyl",
+       "rate": -2.189635654374017e-11,
+       "dg0": 18.450279795339668,
+       "reactants": {
+        "X_AOOH": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_DOOH": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r242",
+       "rule": "deoxygenate",
+       "rate": 1.6001862399700275e-12,
+       "dg0": -107.40287757454928,
+       "reactants": {
+        "X_AOOH": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_ACOH": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r243",
+       "rule": "deoxygenate",
+       "rate": 1.6001862393505936e-12,
+       "dg0": -99.81333612926397,
+       "reactants": {
+        "X_AOOH": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_AOCH": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r244",
+       "rule": "deoxygenate",
+       "rate": 1.6001862399700273e-12,
+       "dg0": -102.56463967142213,
+       "reactants": {
+        "X_AOOH": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_AOOM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r273",
+       "rule": "reduce_carbonyl",
+       "rate": 2.044651435007982e-12,
+       "dg0": -58.173836165553865,
+       "reactants": {
+        "X_DCOH": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_HCOH": 1
+       }
+      },
+      {
+       "id": "r317",
+       "rule": "reduce_carbonyl",
+       "rate": 6.0918321217967345e-12,
+       "dg0": -65.76337761083914,
+       "reactants": {
+        "X_DOCH": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_HCOH": 1
+       }
+      },
+      {
+       "id": "r320",
+       "rule": "isomerize",
+       "rate": -1.431903478612313e-12,
+       "dg0": -8.496923377785066,
+       "reactants": {
+        "X_DOCH": 1
+       },
+       "products": {
+        "X_HCKH": 1
+       }
+      },
+      {
+       "id": "r341",
+       "rule": "reduce_carbonyl",
+       "rate": 2.0572717022800182e-10,
+       "dg0": -56.29374645695469,
+       "reactants": {
+        "X_DOOH": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_HOOH": 1
+       }
+      },
+      {
+       "id": "r342",
+       "rule": "deoxygenate",
+       "rate": 1.0286379928844334e-11,
+       "dg0": -99.97950680521839,
+       "reactants": {
+        "X_DOOH": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_DCOH": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r343",
+       "rule": "deoxygenate",
+       "rate": 1.02863799288443e-11,
+       "dg0": -92.38996535993311,
+       "reactants": {
+        "X_DOOH": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_DOCH": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r344",
+       "rule": "deoxygenate",
+       "rate": 1.0286379928844334e-11,
+       "dg0": -95.14126890209116,
+       "reactants": {
+        "X_DOOH": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_DOOM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r345",
+       "rule": "isomerize",
+       "rate": -9.60073137540448e-10,
+       "dg0": -2.4293114670038563,
+       "reactants": {
+        "X_DOOH": 1
+       },
+       "products": {
+        "X_HKOH": 1
+       }
+      },
+      {
+       "id": "r350",
+       "rule": "isomerize",
+       "rate": -3.0048079086460177e-12,
+       "dg0": -8.496923377785095,
+       "reactants": {
+        "X_DOOM": 1
+       },
+       "products": {
+        "X_HKOM": 1
+       }
+      },
+      {
+       "id": "r352",
+       "rule": "deoxygenate",
+       "rate": 1.4544918636567019e-12,
+       "dg0": -103.1712618724556,
+       "reactants": {
+        "X_HCCH": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_HCCM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r354",
+       "rule": "reduce_carbonyl",
+       "rate": 2.0442634944968267e-10,
+       "dg0": -57.26645423305408,
+       "reactants": {
+        "X_HCKH": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_HCOH": 1
+       }
+      },
+      {
+       "id": "r355",
+       "rule": "deoxygenate",
+       "rate": 1.0221318866099654e-11,
+       "dg0": -102.5646396714221,
+       "reactants": {
+        "X_HCKH": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_HKCM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r356",
+       "rule": "deoxygenate",
+       "rate": 1.0221318866099655e-11,
+       "dg0": -102.5646396714221,
+       "reactants": {
+        "X_HCKH": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_HCKM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r357",
+       "rule": "reduce_carbonyl",
+       "rate": 2.890069676334524e-12,
+       "dg0": -57.266454233054105,
+       "reactants": {
+        "X_HCKM": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_HCOM": 1
+       }
+      },
+      {
+       "id": "r359",
+       "rule": "deoxygenate",
+       "rate": 2.491861556410966e-11,
+       "dg0": -102.56463967142213,
+       "reactants": {
+        "X_HCOH": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_HOCM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r360",
+       "rule": "deoxygenate",
+       "rate": 2.491861556410949e-11,
+       "dg0": -92.22379468397878,
+       "reactants": {
+        "X_HCOH": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_HCCH": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r361",
+       "rule": "deoxygenate",
+       "rate": 2.491861556410966e-11,
+       "dg0": -102.56463967142213,
+       "reactants": {
+        "X_HCOH": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_HCOM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r362",
+       "rule": "deoxygenate",
+       "rate": 3.26609336238931e-12,
+       "dg0": -102.56463967142213,
+       "reactants": {
+        "X_HCOM": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_MCOM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r363",
+       "rule": "deoxygenate",
+       "rate": 3.2660933623892654e-12,
+       "dg0": -92.83041688501226,
+       "reactants": {
+        "X_HCOM": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_HCCM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r364",
+       "rule": "reduce_carbonyl",
+       "rate": 9.115141090699157e-12,
+       "dg0": -57.266454233054105,
+       "reactants": {
+        "X_HKCM": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_HOCM": 1
+       }
+      },
+      {
+       "id": "r371",
+       "rule": "reduce_carbonyl",
+       "rate": 4.645737823241005e-09,
+       "dg0": -53.86443498995084,
+       "reactants": {
+        "X_HKOH": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_HOOH": 1
+       }
+      },
+      {
+       "id": "r372",
+       "rule": "deoxygenate",
+       "rate": 2.3228694417884547e-10,
+       "dg0": -101.2088808128724,
+       "reactants": {
+        "X_HKOH": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_HOKM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r373",
+       "rule": "deoxygenate",
+       "rate": 2.322869441788454e-10,
+       "dg0": -98.45757727071432,
+       "reactants": {
+        "X_HKOH": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_HCKH": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r374",
+       "rule": "deoxygenate",
+       "rate": 2.3228694417884547e-10,
+       "dg0": -101.2088808128724,
+       "reactants": {
+        "X_HKOH": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_HKOM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r375",
+       "rule": "reduce_carbonyl",
+       "rate": 1.3625992262049358e-10,
+       "dg0": -57.26645423305405,
+       "reactants": {
+        "X_HKOM": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_HOOM": 1
+       }
+      },
+      {
+       "id": "r376",
+       "rule": "deoxygenate",
+       "rate": 6.812997857793443e-12,
+       "dg0": -99.38072621004085,
+       "reactants": {
+        "X_HKOM": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_MKOM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r377",
+       "rule": "deoxygenate",
+       "rate": 6.812997857793443e-12,
+       "dg0": -99.81333612926403,
+       "reactants": {
+        "X_HKOM": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_HKCM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r378",
+       "rule": "isomerize",
+       "rate": -3.102689462584444e-11,
+       "dg0": 0.0,
+       "reactants": {
+        "X_HKOM": 1
+       },
+       "products": {
+        "X_HOKM": 1
+       }
+      },
+      {
+       "id": "r379",
+       "rule": "deoxygenate",
+       "rate": 3.567669884359635e-12,
+       "dg0": -102.56463967142213,
+       "reactants": {
+        "X_HOCM": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_MCOM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r380",
+       "rule": "deoxygenate",
+       "rate": 3.5676698843595904e-12,
+       "dg0": -92.83041688501226,
+       "reactants": {
+        "X_HOCM": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_HCCM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r381",
+       "rule": "reduce_carbonyl",
+       "rate": 1.902630762900601e-10,
+       "dg0": -57.26645423305405,
+       "reactants": {
+        "X_HOKM": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_HOOM": 1
+       }
+      },
+      {
+       "id": "r382",
+       "rule": "deoxygenate",
+       "rate": 9.513155541271768e-12,
+       "dg0": -99.38072621004085,
+       "reactants": {
+        "X_HOKM": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_MKOM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r383",
+       "rule": "deoxygenate",
+       "rate": 9.513155541271772e-12,
+       "dg0": -99.81333612926403,
+       "reactants": {
+        "X_HOKM": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_HCKM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r384",
+       "rule": "deoxygenate",
+       "rate": 2.663979834630143e-10,
+       "dg0": -104.6109000559756,
+       "reactants": {
+        "X_HOOH": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_HOOM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r385",
+       "rule": "deoxygenate",
+       "rate": 2.6639798346301426e-10,
+       "dg0": -101.85959651381756,
+       "reactants": {
+        "X_HOOH": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_HCOH": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r386",
+       "rule": "deoxygenate",
+       "rate": 3.087557965461157e-11,
+       "dg0": -92.997548970119,
+       "reactants": {
+        "X_HOOM": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_MOOM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r387",
+       "rule": "deoxygenate",
+       "rate": 3.087557965461175e-11,
+       "dg0": -99.81333612926409,
+       "reactants": {
+        "X_HOOM": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_HCOM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r388",
+       "rule": "deoxygenate",
+       "rate": 3.087557965461175e-11,
+       "dg0": -99.81333612926409,
+       "reactants": {
+        "X_HOOM": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_HOCM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r392",
+       "rule": "reduce_carbonyl",
+       "rate": 8.775528892552814e-12,
+       "dg0": -50.8832769931322,
+       "reactants": {
+        "X_MKOM": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_MOOM": 1
+       }
+      },
+      {
+       "id": "r394",
+       "rule": "deoxygenate",
+       "rate": 2.297607078954231e-12,
+       "dg0": -109.38042683056722,
+       "reactants": {
+        "X_MOOM": 1,
+        "H2": 1
+       },
+       "products": {
+        "X_MCOM": 1,
+        "H2O": 1
+       }
+      },
+      {
+       "id": "r395",
+       "rule": "aldol",
+       "rate": 6.646948695414917e-08,
+       "dg0": -19.60764153448079,
+       "reactants": {
+        "X_D": 1,
+        "X_DH": 1
+       },
+       "products": {
+        "X_DOH": 1
+       }
+      },
+      {
+       "id": "r396",
+       "rule": "aldol",
+       "rate": 8.555543210510376e-08,
+       "dg0": -25.3193293745353,
+       "reactants": {
+        "X_D": 1,
+        "X_DM": 1
+       },
+       "products": {
+        "X_DCH": 1
+       }
+      },
+      {
+       "id": "r397",
+       "rule": "aldol",
+       "rate": 5.406561473493123e-12,
+       "dg0": -36.753210627527835,
+       "reactants": {
+        "X_D": 1,
+        "X_AKH": 1
+       },
+       "products": {
+        "X_AKOH": 1
+       }
+      },
+      {
+       "id": "r398",
+       "rule": "aldol",
+       "rate": 3.3229507838155513e-06,
+       "dg0": -30.04928600869411,
+       "reactants": {
+        "X_D": 1,
+        "X_AKM": 1
+       },
+       "products": {
+        "X_AKCH": 1
+       }
+      },
+      {
+       "id": "r400",
+       "rule": "aldol",
+       "rate": 2.454539997182507e-12,
+       "dg0": -17.635528354315625,
+       "reactants": {
+        "X_D": 1,
+        "X_DKM": 1
+       },
+       "products": {
+        "X_DKCH": 1
+       }
+      },
+      {
+       "id": "r401",
+       "rule": "aldol",
+       "rate": 1.006742041774683e-08,
+       "dg0": -29.806249211178937,
+       "reactants": {
+        "X_D": 1,
+        "X_HKH": 1
+       },
+       "products": {
+        "X_HKOH": 1
+       }
+      },
+      {
+       "id": "r402",
+       "rule": "aldol",
+       "rate": 1.6221472610275096e-10,
+       "dg0": -31.544508254303224,
+       "reactants": {
+        "X_D": 1,
+        "X_HKM": 1
+       },
+       "products": {
+        "X_HOKM": 1
+       }
+      },
+      {
+       "id": "r403",
+       "rule": "aldol",
+       "rate": 1.588334324644832e-10,
+       "dg0": -28.793204712145155,
+       "reactants": {
+        "X_D": 1,
+        "X_HKM": 1
+       },
+       "products": {
+        "X_HCKH": 1
+       }
+      },
+      {
+       "id": "r404",
+       "rule": "aldol",
+       "rate": -1.43577756603645e-11,
+       "dg0": -11.059717462573417,
+       "reactants": {
+        "X_D": 1,
+        "X_MKM": 1
+       },
+       "products": {
+        "X_HCKM": 1
+       }
+      },
+      {
+       "id": "r406",
+       "rule": "aldol",
+       "rate": 1.1289310043140331e-12,
+       "dg0": -10.204787000323051,
+       "reactants": {
+        "X_AD": 1,
+        "X_DM": 1
+       },
+       "products": {
+        "X_AOCD": 1
+       }
+      },
+      {
+       "id": "r409",
+       "rule": "aldol",
+       "rate": -5.218051648537023e-10,
+       "dg0": -16.35626673297469,
+       "reactants": {
+        "X_DH": 2
+       },
+       "products": {
+        "X_DOOH": 1
+       }
+      },
+      {
+       "id": "r410",
+       "rule": "aldol",
+       "rate": -6.032779580843288e-12,
+       "dg0": -13.831737238825184,
+       "reactants": {
+        "X_DH": 1,
+        "X_DM": 1
+       },
+       "products": {
+        "X_DCOH": 1
+       }
+      },
+      {
+       "id": "r411",
+       "rule": "aldol",
+       "rate": -1.2268243472318418e-11,
+       "dg0": -8.993499335697948,
+       "reactants": {
+        "X_DM": 1,
+        "X_DH": 1
+       },
+       "products": {
+        "X_DOOM": 1
+       }
+      },
+      {
+       "id": "r412",
+       "rule": "aldol",
+       "rate": 1.8095307725857047e-12,
+       "dg0": -13.892340610879387,
+       "reactants": {
+        "X_DM": 2
+       },
+       "products": {
+        "X_DCOM": 1
+       }
+      }
+     ],
+     "names": {
+      "CO2": "CO2",
+      "H2": "H2",
+      "X_A": "formate",
+      "X_D": "formaldehyde",
+      "X_H": "methanol",
+      "X_AA": "oxalate",
+      "X_AD": "glyoxylate",
+      "X_AH": "glycolate",
+      "X_AM": "acetate",
+      "X_DH": "glycolaldehyde",
+      "X_DM": "acetaldehyde",
+      "X_HH": "ethylene_glycol",
+      "X_HM": "ethanol",
+      "X_MM": "s_MM",
+      "X_ACA": "malonate",
+      "X_ACD": "malonate_semialdehyde",
+      "X_ACH": "3_hydroxypropionate",
+      "X_ACM": "propionate",
+      "X_AKA": "s_AKA",
+      "X_AKH": "hydroxypyruvate",
+      "X_AKM": "pyruvate",
+      "X_AOA": "tartronate",
+      "X_AOD": "s_AOD",
+      "X_AOH": "glycerate",
+      "X_AOM": "lactate",
+      "X_DCH": "s_DCH",
+      "X_DCM": "propanal",
+      "X_DKM": "methylglyoxal",
+      "X_DOH": "glyceraldehyde",
+      "X_DOM": "lactaldehyde",
+      "X_HCH": "propane_1_3_diol",
+      "X_HCM": "propan_1_ol",
+      "X_HKH": "dihydroxyacetone",
+      "X_HKM": "hydroxyacetone",
+      "X_HOH": "glycerol",
+      "X_HOM": "propane_1_2_diol",
+      "X_MCM": "s_MCM",
+      "X_MKM": "acetone",
+      "X_MOM": "s_MOM",
+      "X_ACCA": "succinate",
+      "X_ACCH": "s_ACCH",
+      "X_ACCM": "butyrate",
+      "X_ACKA": "oxaloacetate",
+      "X_ACKH": "s_ACKH",
+      "X_ACOA": "malate",
+      "X_ACOH": "s_ACOH",
+      "X_ACOM": "3_hydroxybutyrate",
+      "X_AKCH": "s_AKCH",
+      "X_AKCM": "2_oxobutanoate",
+      "X_AKOA": "2_hydroxy_3_oxosuccinate",
+      "X_AKOH": "s_AKOH",
+      "X_AKOM": "s_AKOM",
+      "X_AOCD": "s_AOCD",
+      "X_AOCH": "s_AOCH",
+      "X_AOCM": "2_hydroxybutyrate",
+      "X_AOKH": "s_AOKH",
+      "X_AOKM": "s_AOKM",
+      "X_AOOA": "tartrate",
+      "X_AOOD": "s_AOOD",
+      "X_AOOH": "s_AOOH",
+      "X_AOOM": "s_AOOM",
+      "X_DCCH": "s_DCCH",
+      "X_DCOH": "s_DCOH",
+      "X_DCOM": "s_DCOM",
+      "X_DKCH": "s_DKCH",
+      "X_DOCH": "s_DOCH",
+      "X_DOCM": "s_DOCM",
+      "X_DOOH": "erythrose",
+      "X_DOOM": "s_DOOM",
+      "X_HCCH": "s_HCCH",
+      "X_HCCM": "butan_1_ol",
+      "X_HCKH": "s_HCKH",
+      "X_HCKM": "s_HCKM",
+      "X_HCOH": "s_HCOH",
+      "X_HCOM": "s_HCOM",
+      "X_HKCM": "s_HKCM",
+      "X_HKOH": "erythrulose",
+      "X_HKOM": "s_HKOM",
+      "X_HOCM": "s_HOCM",
+      "X_HOKM": "s_HOKM",
+      "X_HOOH": "erythritol",
+      "X_HOOM": "s_HOOM",
+      "X_MCCM": "s_MCCM",
+      "X_MCKM": "s_MCKM",
+      "X_MCOM": "s_MCOM",
+      "X_MKOM": "acetoin",
+      "X_MOOM": "butane_2_3_diol"
+     }
+    },
+    "n_motifs": 1,
+    "core_size": 5,
+    "max_dynamic_gain": 3.130039067820619,
+    "n_persistent_species": 49.0,
+    "element_residual": 0.0,
+    "carbon_residual": 5.0192077462487055e-09,
+    "dissipation": 16.29343855705365
+   },
+   "nulls": [
+    {
+     "motifs": {
+      "n_motifs": 0,
+      "truncated": false,
+      "core_species": [],
+      "core_size": 0,
+      "max_dynamic_gain": 0.0,
+      "n_self_amplifying": 0,
+      "motifs": []
+     },
+     "n_motifs": 0,
+     "core_size": 0,
+     "max_dynamic_gain": 0.0,
+     "n_persistent_species": 23.0,
+     "element_residual": 8.0,
+     "carbon_residual": 2.2361210755131484e-07,
+     "dissipation": 32.354559694539944,
+     "energetic_span_kj_mol": {
+      "min": -291.35784912615446,
+      "max": 361.08199541088743,
+      "span": 652.4398445370418,
+      "mean": -24.034104084362003,
+      "sd": 119.09611736779712
+     },
+     "catalyst_density": {
+      "mineral": 294,
+      "base": 94,
+      "none": 17
+     },
+     "n_reactions": 405,
+     "seed": 0
+    },
+    {
+     "motifs": {
+      "n_motifs": 0,
+      "truncated": false,
+      "core_species": [],
+      "core_size": 0,
+      "max_dynamic_gain": 0.0,
+      "n_self_amplifying": 0,
+      "motifs": []
+     },
+     "n_motifs": 0,
+     "core_size": 0,
+     "max_dynamic_gain": 0.0,
+     "n_persistent_species": 19.0,
+     "element_residual": 10.0,
+     "carbon_residual": 3.278072430000834e-09,
+     "dissipation": 1.9815216097665986,
+     "energetic_span_kj_mol": {
+      "min": -282.8609257483694,
+      "max": 350.3740762767501,
+      "span": 633.2350020251195,
+      "mean": -32.114902315192246,
+      "sd": 115.49314829263271
+     },
+     "catalyst_density": {
+      "mineral": 287,
+      "base": 94,
+      "none": 17
+     },
+     "n_reactions": 398,
+     "seed": 1
+    },
+    {
+     "motifs": {
+      "n_motifs": 0,
+      "truncated": false,
+      "core_species": [],
+      "core_size": 0,
+      "max_dynamic_gain": 0.0,
+      "n_self_amplifying": 0,
+      "motifs": []
+     },
+     "n_motifs": 0,
+     "core_size": 0,
+     "max_dynamic_gain": 0.0,
+     "n_persistent_species": 18.0,
+     "element_residual": 10.0,
+     "carbon_residual": 1.4742167715536857e-09,
+     "dissipation": 1.8029265794861402,
+     "energetic_span_kj_mol": {
+      "min": -406.4957649395961,
+      "max": 400.05098906451894,
+      "span": 806.546754004115,
+      "mean": -23.543476713354227,
+      "sd": 118.28776881622927
+     },
+     "catalyst_density": {
+      "mineral": 293,
+      "base": 93,
+      "none": 17
+     },
+     "n_reactions": 403,
+     "seed": 2
+    },
+    {
+     "motifs": {
+      "n_motifs": 0,
+      "truncated": false,
+      "core_species": [],
+      "core_size": 0,
+      "max_dynamic_gain": 0.0,
+      "n_self_amplifying": 0,
+      "motifs": []
+     },
+     "n_motifs": 0,
+     "core_size": 0,
+     "max_dynamic_gain": 0.0,
+     "n_persistent_species": 16.0,
+     "element_residual": 10.0,
+     "carbon_residual": 2.741919090252182e-10,
+     "dissipation": 10.171430586484691,
+     "energetic_span_kj_mol": {
+      "min": -291.35784912615446,
+      "max": 347.5507507507544,
+      "span": 638.9085998769089,
+      "mean": -29.605619013912772,
+      "sd": 114.8028897575795
+     },
+     "catalyst_density": {
+      "mineral": 294,
+      "base": 93,
+      "none": 17
+     },
+     "n_reactions": 404,
+     "seed": 3
+    },
+    {
+     "motifs": {
+      "n_motifs": 0,
+      "truncated": false,
+      "core_species": [],
+      "core_size": 0,
+      "max_dynamic_gain": 0.0,
+      "n_self_amplifying": 0,
+      "motifs": []
+     },
+     "n_motifs": 0,
+     "core_size": 0,
+     "max_dynamic_gain": 0.0,
+     "n_persistent_species": 16.0,
+     "element_residual": 10.0,
+     "carbon_residual": 5.1683983304672683e-11,
+     "dissipation": 6.183571132228199,
+     "energetic_span_kj_mol": {
+      "min": -354.1883831462739,
+      "max": 367.12965554925967,
+      "span": 721.3180386955336,
+      "mean": -25.09789293346621,
+      "sd": 123.19014239543745
+     },
+     "catalyst_density": {
+      "mineral": 284,
+      "base": 93,
+      "none": 17
+     },
+     "n_reactions": 394,
+     "seed": 4
+    },
+    {
+     "motifs": {
+      "n_motifs": 0,
+      "truncated": false,
+      "core_species": [],
+      "core_size": 0,
+      "max_dynamic_gain": 0.0,
+      "n_self_amplifying": 0,
+      "motifs": []
+     },
+     "n_motifs": 0,
+     "core_size": 0,
+     "max_dynamic_gain": 0.0,
+     "n_persistent_species": 15.0,
+     "element_residual": 12.0,
+     "carbon_residual": 5.703191807266936e-10,
+     "dissipation": 17.576539036189832,
+     "energetic_span_kj_mol": {
+      "min": -371.8492772216122,
+      "max": 396.2490686442694,
+      "span": 768.0983458658816,
+      "mean": -28.450141133410767,
+      "sd": 119.45960632558504
+     },
+     "catalyst_density": {
+      "mineral": 291,
+      "base": 93,
+      "none": 17
+     },
+     "n_reactions": 401,
+     "seed": 5
+    },
+    {
+     "motifs": {
+      "n_motifs": 0,
+      "truncated": false,
+      "core_species": [],
+      "core_size": 0,
+      "max_dynamic_gain": 0.0,
+      "n_self_amplifying": 0,
+      "motifs": []
+     },
+     "n_motifs": 0,
+     "core_size": 0,
+     "max_dynamic_gain": 0.0,
+     "n_persistent_species": 25.0,
+     "element_residual": 10.0,
+     "carbon_residual": 1.804438076392422e-10,
+     "dissipation": 10.008608458018248,
+     "energetic_span_kj_mol": {
+      "min": -354.1883831462739,
+      "max": 359.11912328803345,
+      "span": 713.3075064343074,
+      "mean": -26.44864276502421,
+      "sd": 117.84131064153553
+     },
+     "catalyst_density": {
+      "mineral": 288,
+      "base": 93,
+      "none": 17
+     },
+     "n_reactions": 398,
+     "seed": 6
+    },
+    {
+     "motifs": {
+      "n_motifs": 0,
+      "truncated": false,
+      "core_species": [],
+      "core_size": 0,
+      "max_dynamic_gain": 0.0,
+      "n_self_amplifying": 0,
+      "motifs": []
+     },
+     "n_motifs": 0,
+     "core_size": 0,
+     "max_dynamic_gain": 0.0,
+     "n_persistent_species": 23.0,
+     "element_residual": 8.0,
+     "carbon_residual": 1.4197230496794111e-09,
+     "dissipation": 7.842454456483553,
+     "energetic_span_kj_mol": {
+      "min": -275.4615596727302,
+      "max": 361.77652301850765,
+      "span": 637.2380826912379,
+      "mean": -30.60184125097054,
+      "sd": 115.4857505859669
+     },
+     "catalyst_density": {
+      "mineral": 291,
+      "base": 91,
+      "none": 17
+     },
+     "n_reactions": 399,
+     "seed": 7
+    },
+    {
+     "motifs": {
+      "n_motifs": 0,
+      "truncated": false,
+      "core_species": [],
+      "core_size": 0,
+      "max_dynamic_gain": 0.0,
+      "n_self_amplifying": 0,
+      "motifs": []
+     },
+     "n_motifs": 0,
+     "core_size": 0,
+     "max_dynamic_gain": 0.0,
+     "n_persistent_species": 7.0,
+     "element_residual": 10.0,
+     "carbon_residual": 2.192120098515315e-08,
+     "dissipation": 10.31398241388613,
+     "energetic_span_kj_mol": {
+      "min": -348.6243033592085,
+      "max": 357.05775565431776,
+      "span": 705.6820590135262,
+      "mean": -25.90886921172268,
+      "sd": 113.88919092895213
+     },
+     "catalyst_density": {
+      "mineral": 288,
+      "base": 91,
+      "none": 17
+     },
+     "n_reactions": 396,
+     "seed": 8
+    },
+    {
+     "motifs": {
+      "n_motifs": 0,
+      "truncated": false,
+      "core_species": [],
+      "core_size": 0,
+      "max_dynamic_gain": 0.0,
+      "n_self_amplifying": 0,
+      "motifs": []
+     },
+     "n_motifs": 0,
+     "core_size": 0,
+     "max_dynamic_gain": 0.0,
+     "n_persistent_species": 14.0,
+     "element_residual": 10.0,
+     "carbon_residual": 2.227032319315553e-07,
+     "dissipation": 32.3428290249529,
+     "energetic_span_kj_mol": {
+      "min": -288.60654558399636,
+      "max": 473.40390812064334,
+      "span": 762.0104537046398,
+      "mean": -19.384371616489176,
+      "sd": 119.19653694434413
+     },
+     "catalyst_density": {
+      "mineral": 290,
+      "base": 94,
+      "none": 17
+     },
+     "n_reactions": 401,
+     "seed": 9
+    },
+    {
+     "motifs": {
+      "n_motifs": 0,
+      "truncated": false,
+      "core_species": [],
+      "core_size": 0,
+      "max_dynamic_gain": 0.0,
+      "n_self_amplifying": 0,
+      "motifs": []
+     },
+     "n_motifs": 0,
+     "core_size": 0,
+     "max_dynamic_gain": 0.0,
+     "n_persistent_species": 20.0,
+     "element_residual": 12.0,
+     "carbon_residual": 1.4207966898373972e-09,
+     "dissipation": 7.746693387488357,
+     "energetic_span_kj_mol": {
+      "min": -291.3578491261544,
+      "max": 410.72899549538977,
+      "span": 702.0868446215442,
+      "mean": -26.656049638964962,
+      "sd": 119.02215551878811
+     },
+     "catalyst_density": {
+      "mineral": 287,
+      "base": 92,
+      "none": 17
+     },
+     "n_reactions": 396,
+     "seed": 10
+    },
+    {
+     "motifs": {
+      "n_motifs": 0,
+      "truncated": false,
+      "core_species": [],
+      "core_size": 0,
+      "max_dynamic_gain": 0.0,
+      "n_self_amplifying": 0,
+      "motifs": []
+     },
+     "n_motifs": 0,
+     "core_size": 0,
+     "max_dynamic_gain": 0.0,
+     "n_persistent_species": 21.0,
+     "element_residual": 8.0,
+     "carbon_residual": 2.2271109857125514e-07,
+     "dissipation": 32.31694577197461,
+     "energetic_span_kj_mol": {
+      "min": -340.0332312893068,
+      "max": 354.03276175140803,
+      "span": 694.0659930407148,
+      "mean": -23.20400151423357,
+      "sd": 115.72658793539149
+     },
+     "catalyst_density": {
+      "mineral": 286,
+      "base": 91,
+      "none": 17
+     },
+     "n_reactions": 394,
+     "seed": 11
+    },
+    {
+     "motifs": {
+      "n_motifs": 0,
+      "truncated": false,
+      "core_species": [],
+      "core_size": 0,
+      "max_dynamic_gain": 0.0,
+      "n_self_amplifying": 0,
+      "motifs": []
+     },
+     "n_motifs": 0,
+     "core_size": 0,
+     "max_dynamic_gain": 0.0,
+     "n_persistent_species": 17.0,
+     "element_residual": 8.0,
+     "carbon_residual": 2.236310838978184e-08,
+     "dissipation": 30.818546254679898,
+     "energetic_span_kj_mol": {
+      "min": -325.4901555855495,
+      "max": 407.78232268713595,
+      "span": 733.2724782726855,
+      "mean": -27.314088267401843,
+      "sd": 113.90120879268379
+     },
+     "catalyst_density": {
+      "mineral": 290,
+      "base": 93,
+      "none": 17
+     },
+     "n_reactions": 400,
+     "seed": 12
+    },
+    {
+     "motifs": {
+      "n_motifs": 0,
+      "truncated": false,
+      "core_species": [],
+      "core_size": 0,
+      "max_dynamic_gain": 0.0,
+      "n_self_amplifying": 0,
+      "motifs": []
+     },
+     "n_motifs": 0,
+     "core_size": 0,
+     "max_dynamic_gain": 0.0,
+     "n_persistent_species": 14.0,
+     "element_residual": 10.0,
+     "carbon_residual": 1.958538387390628e-10,
+     "dissipation": 10.027338668956943,
+     "energetic_span_kj_mol": {
+      "min": -352.67557996691204,
+      "max": 363.7092375576624,
+      "span": 716.3848175245744,
+      "mean": -29.250338691715168,
+      "sd": 120.34129826822074
+     },
+     "catalyst_density": {
+      "mineral": 285,
+      "base": 93,
+      "none": 17
+     },
+     "n_reactions": 395,
+     "seed": 13
+    },
+    {
+     "motifs": {
+      "n_motifs": 0,
+      "truncated": false,
+      "core_species": [],
+      "core_size": 0,
+      "max_dynamic_gain": 0.0,
+      "n_self_amplifying": 0,
+      "motifs": []
+     },
+     "n_motifs": 0,
+     "core_size": 0,
+     "max_dynamic_gain": 0.0,
+     "n_persistent_species": 9.0,
+     "element_residual": 8.0,
+     "carbon_residual": 2.111803738942834e-08,
+     "dissipation": 10.322346186370378,
+     "energetic_span_kj_mol": {
+      "min": -418.4389575777512,
+      "max": 507.42730905099404,
+      "span": 925.8662666287453,
+      "mean": -30.205942145465677,
+      "sd": 116.13647433330571
+     },
+     "catalyst_density": {
+      "mineral": 293,
+      "base": 92,
+      "none": 17
+     },
+     "n_reactions": 402,
+     "seed": 14
+    },
+    {
+     "motifs": {
+      "n_motifs": 0,
+      "truncated": false,
+      "core_species": [],
+      "core_size": 0,
+      "max_dynamic_gain": 0.0,
+      "n_self_amplifying": 0,
+      "motifs": []
+     },
+     "n_motifs": 0,
+     "core_size": 0,
+     "max_dynamic_gain": 0.0,
+     "n_persistent_species": 27.0,
+     "element_residual": 10.0,
+     "carbon_residual": 4.408912372180073e-10,
+     "dissipation": 8.012399615694424,
+     "energetic_span_kj_mol": {
+      "min": -291.3578491261544,
+      "max": 419.04396492508465,
+      "span": 710.4018140512391,
+      "mean": -30.893165785991222,
+      "sd": 118.52134898279111
+     },
+     "catalyst_density": {
+      "mineral": 290,
+      "base": 93,
+      "none": 17
+     },
+     "n_reactions": 400,
+     "seed": 15
+    },
+    {
+     "motifs": {
+      "n_motifs": 0,
+      "truncated": false,
+      "core_species": [],
+      "core_size": 0,
+      "max_dynamic_gain": 0.0,
+      "n_self_amplifying": 0,
+      "motifs": []
+     },
+     "n_motifs": 0,
+     "core_size": 0,
+     "max_dynamic_gain": 0.0,
+     "n_persistent_species": 11.0,
+     "element_residual": 8.0,
+     "carbon_residual": 1.4163734275256064e-09,
+     "dissipation": 7.743995455185894,
+     "energetic_span_kj_mol": {
+      "min": -354.1883831462739,
+      "max": 347.8587136040404,
+      "span": 702.0470967503143,
+      "mean": -27.322629617467786,
+      "sd": 117.62284877461721
+     },
+     "catalyst_density": {
+      "mineral": 290,
+      "base": 94,
+      "none": 17
+     },
+     "n_reactions": 401,
+     "seed": 16
+    },
+    {
+     "motifs": {
+      "n_motifs": 0,
+      "truncated": false,
+      "core_species": [],
+      "core_size": 0,
+      "max_dynamic_gain": 0.0,
+      "n_self_amplifying": 0,
+      "motifs": []
+     },
+     "n_motifs": 0,
+     "core_size": 0,
+     "max_dynamic_gain": 0.0,
+     "n_persistent_species": 17.0,
+     "element_residual": 8.0,
+     "carbon_residual": 1.6090671369096526e-10,
+     "dissipation": 16.29737375234656,
+     "energetic_span_kj_mol": {
+      "min": -371.8492772216122,
+      "max": 347.622772734592,
+      "span": 719.4720499562043,
+      "mean": -31.545287632280587,
+      "sd": 116.50117640903055
+     },
+     "catalyst_density": {
+      "mineral": 294,
+      "base": 93,
+      "none": 17
+     },
+     "n_reactions": 404,
+     "seed": 17
+    },
+    {
+     "motifs": {
+      "n_motifs": 0,
+      "truncated": false,
+      "core_species": [],
+      "core_size": 0,
+      "max_dynamic_gain": 0.0,
+      "n_self_amplifying": 0,
+      "motifs": []
+     },
+     "n_motifs": 0,
+     "core_size": 0,
+     "max_dynamic_gain": 0.0,
+     "n_persistent_species": 17.0,
+     "element_residual": 8.0,
+     "carbon_residual": 1.4100716272545596e-08,
+     "dissipation": 10.034668426504322,
+     "energetic_span_kj_mol": {
+      "min": -347.8587136040405,
+      "max": 415.68765403559314,
+      "span": 763.5463676396337,
+      "mean": -21.850956166529528,
+      "sd": 118.63712734173818
+     },
+     "catalyst_density": {
+      "mineral": 293,
+      "base": 93,
+      "none": 17
+     },
+     "n_reactions": 403,
+     "seed": 18
+    },
+    {
+     "motifs": {
+      "n_motifs": 0,
+      "truncated": false,
+      "core_species": [],
+      "core_size": 0,
+      "max_dynamic_gain": 0.0,
+      "n_self_amplifying": 0,
+      "motifs": []
+     },
+     "n_motifs": 0,
+     "core_size": 0,
+     "max_dynamic_gain": 0.0,
+     "n_persistent_species": 6.0,
+     "element_residual": 12.0,
+     "carbon_residual": 1.9627569571914537e-10,
+     "dissipation": 9.98650364453518,
+     "energetic_span_kj_mol": {
+      "min": -282.86092574836937,
+      "max": 294.98533298017696,
+      "span": 577.8462587285463,
+      "mean": -28.91966146695281,
+      "sd": 112.26059041508039
+     },
+     "catalyst_density": {
+      "mineral": 293,
+      "base": 92,
+      "none": 17
+     },
+     "n_reactions": 402,
+     "seed": 19
+    },
+    {
+     "motifs": {
+      "n_motifs": 0,
+      "truncated": false,
+      "core_species": [],
+      "core_size": 0,
+      "max_dynamic_gain": 0.0,
+      "n_self_amplifying": 0,
+      "motifs": []
+     },
+     "n_motifs": 0,
+     "core_size": 0,
+     "max_dynamic_gain": 0.0,
+     "n_persistent_species": 22.0,
+     "element_residual": 10.0,
+     "carbon_residual": 2.3157508279512727e-09,
+     "dissipation": 8.152329561968196,
+     "energetic_span_kj_mol": {
+      "min": -348.6243033592085,
+      "max": 345.87299981705047,
+      "span": 694.497303176259,
+      "mean": -25.161388701607283,
+      "sd": 118.56796067816222
+     },
+     "catalyst_density": {
+      "mineral": 290,
+      "base": 93,
+      "none": 17
+     },
+     "n_reactions": 400,
+     "seed": 20
+    },
+    {
+     "motifs": {
+      "n_motifs": 0,
+      "truncated": false,
+      "core_species": [],
+      "core_size": 0,
+      "max_dynamic_gain": 0.0,
+      "n_self_amplifying": 0,
+      "motifs": []
+     },
+     "n_motifs": 0,
+     "core_size": 0,
+     "max_dynamic_gain": 0.0,
+     "n_persistent_species": 17.0,
+     "element_residual": 10.0,
+     "carbon_residual": 1.3436793198895649e-10,
+     "dissipation": 4.664535810529103,
+     "energetic_span_kj_mol": {
+      "min": -361.1725033446971,
+      "max": 361.08199541088743,
+      "span": 722.2544987555846,
+      "mean": -29.86311970280134,
+      "sd": 117.70135964366668
+     },
+     "catalyst_density": {
+      "mineral": 288,
+      "base": 94,
+      "none": 17
+     },
+     "n_reactions": 399,
+     "seed": 21
+    },
+    {
+     "motifs": {
+      "n_motifs": 0,
+      "truncated": false,
+      "core_species": [],
+      "core_size": 0,
+      "max_dynamic_gain": 0.0,
+      "n_self_amplifying": 0,
+      "motifs": []
+     },
+     "n_motifs": 0,
+     "core_size": 0,
+     "max_dynamic_gain": 0.0,
+     "n_persistent_species": 13.0,
+     "element_residual": 10.0,
+     "carbon_residual": 1.8445675193487521e-09,
+     "dissipation": 7.9311950080238285,
+     "energetic_span_kj_mol": {
+      "min": -340.21822370894245,
+      "max": 356.6782975387506,
+      "span": 696.896521247693,
+      "mean": -19.358254661409443,
+      "sd": 117.52268062701002
+     },
+     "catalyst_density": {
+      "mineral": 295,
+      "base": 93,
+      "none": 17
+     },
+     "n_reactions": 405,
+     "seed": 22
+    },
+    {
+     "motifs": {
+      "n_motifs": 0,
+      "truncated": false,
+      "core_species": [],
+      "core_size": 0,
+      "max_dynamic_gain": 0.0,
+      "n_self_amplifying": 0,
+      "motifs": []
+     },
+     "n_motifs": 0,
+     "core_size": 0,
+     "max_dynamic_gain": 0.0,
+     "n_persistent_species": 14.0,
+     "element_residual": 10.0,
+     "carbon_residual": 1.9402810475511304e-08,
+     "dissipation": 17.880678184007678,
+     "energetic_span_kj_mol": {
+      "min": -345.87299981705047,
+      "max": 400.3268252116735,
+      "span": 746.199825028724,
+      "mean": -22.557344201813482,
+      "sd": 116.1593673294301
+     },
+     "catalyst_density": {
+      "mineral": 296,
+      "base": 91,
+      "none": 17
+     },
+     "n_reactions": 404,
+     "seed": 23
+    }
+   ],
+   "curated_rtca": {
+    "final": {
+     "OAA": 0.0019933297137685953,
+     "malate": 0.001328886475783048,
+     "succinate": 0.002657431227846862,
+     "acetate": 0.0059629324140093205,
+     "net_carbon_flux": 0.0005971632282907531,
+     "autocatalytic_gain": 2.9916151770003054,
+     "network_connected": 1.0
+    },
+    "motifs": {
+     "n_motifs": 1,
+     "truncated": false,
+     "core_species": [
+      "OAA"
+     ],
+     "core_size": 1,
+     "max_dynamic_gain": 2.991615177000306,
+     "n_self_amplifying": 1,
+     "motifs": [
+      {
+       "species": [
+        "OAA"
+       ],
+       "reactions": [
+        "R_rtca"
+       ],
+       "gain": 2.0,
+       "min_flux": 0.0002981637712237903,
+       "seed": "OAA",
+       "dynamic_gain": 2.991615177000306,
+       "length": 1
+      }
+     ]
+    },
+    "n_motifs": 1,
+    "core_size": 1,
+    "max_dynamic_gain": 2.991615177000306,
+    "declared_autocatalytic_gain": 2.9916151770003054,
+    "n_persistent_species": 5.0,
+    "element_residual": 8.0,
+    "element_residual_detail": {
+     "max_abs": 8.0,
+     "per_element": {
+      "C": 4.0,
+      "H": 8.0,
+      "O": 3.0
+     },
+     "n_internal": 4,
+     "n_unbalanced": 3,
+     "offenders": [
+      {
+       "reaction": "R_rtca",
+       "residual": {
+        "C": 4.0,
+        "H": 8.0,
+        "O": 3.0
+       }
+      },
+      {
+       "reaction": "R_mal",
+       "residual": {
+        "C": 0.0,
+        "H": 2.0,
+        "O": 0.0
+       }
+      },
+      {
+       "reaction": "R_suc",
+       "residual": {
+        "C": 0.0,
+        "H": 0.0,
+        "O": -1.0
+       }
+      }
+     ]
+    },
+    "conc": {
+     "CO2": 0.00018697594856251912,
+     "pyruvate": 8.938966210331997e-05,
+     "OAA": 0.0019933297137685953,
+     "malate": 0.001328886475783048,
+     "succinate": 0.002657431227846862,
+     "acetate": 0.0059629324140093205
+    }
+   },
+   "enrichment": {
+    "n_motifs": {
+     "observed": 1.0,
+     "n_null": 24,
+     "p_empirical": 0.04,
+     "z": Infinity,
+     "null_mean": 0.0,
+     "null_sd": 0.0,
+     "null_max": 0.0,
+     "null_values": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "core_size": {
+     "observed": 5.0,
+     "n_null": 24,
+     "p_empirical": 0.04,
+     "z": Infinity,
+     "null_mean": 0.0,
+     "null_sd": 0.0,
+     "null_max": 0.0,
+     "null_values": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "n_persistent_species": {
+     "observed": 49.0,
+     "n_null": 24,
+     "p_empirical": 0.04,
+     "z": 6.032889927805757,
+     "null_mean": 16.708333333333332,
+     "null_sd": 5.352603321640842,
+     "null_max": 27.0,
+     "null_values": [
+      23.0,
+      19.0,
+      18.0,
+      16.0,
+      16.0,
+      15.0,
+      25.0,
+      23.0,
+      7.0,
+      14.0,
+      20.0,
+      21.0,
+      17.0,
+      14.0,
+      9.0,
+      27.0,
+      11.0,
+      17.0,
+      17.0,
+      6.0,
+      22.0,
+      17.0,
+      13.0,
+      14.0
+     ]
+    }
+   },
+   "matching": {
+    "universe_energetic_span": {
+     "min": -120.38115514162632,
+     "max": 45.776338887266746,
+     "span": 166.15749402889307,
+     "mean": -51.6580586101662,
+     "sd": 47.42905761003263
+    },
+    "null_energetic_span_mean": 714.3176175946155,
+    "null_n_reactions_mean": 400.1666666666667,
+    "universe_n_reactions": 413,
+    "null_element_residual_mean": 9.583333333333334
+   }
+  }
+ },
+ "ignition_map": {
+  "feed_formaldehyde": [
+   0.0001,
+   0.0003129134644531899,
+   0.0009791483623609774,
+   0.0030638870628004046,
+   0.009587315155141827,
+   0.029999999999999995
+  ],
+  "k_wash": [
+   0.001,
+   0.002885399811814427,
+   0.008325532074018732,
+   0.024022488679628626,
+   0.06931448431551465,
+   0.20000000000000004
+  ],
+  "universe_n_motifs": [
+   [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   [
+    0.0,
+    0.0,
+    0.0,
+    1.0,
+    1.0,
+    1.0
+   ],
+   [
+    0.0,
+    0.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ]
+  ],
+  "universe_max_gain": [
+   [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   [
+    0.0,
+    0.0,
+    0.0,
+    7.370838354960554,
+    2.1481052515682273,
+    0.5877548933864164
+   ],
+   [
+    0.0,
+    0.0,
+    18.468367410584808,
+    4.8465124732177065,
+    1.1197968085936754,
+    0.21161760997181078
+   ]
+  ],
+  "universe_n_persistent_species": [
+   [
+    21.0,
+    25.0,
+    29.0,
+    29.0,
+    28.0,
+    24.0
+   ],
+   [
+    25.0,
+    28.0,
+    29.0,
+    30.0,
+    29.0,
+    28.0
+   ],
+   [
+    27.0,
+    29.0,
+    31.0,
+    32.0,
+    33.0,
+    31.0
+   ],
+   [
+    29.0,
+    30.0,
+    33.0,
+    38.0,
+    39.0,
+    35.0
+   ],
+   [
+    31.0,
+    34.0,
+    42.0,
+    49.0,
+    45.0,
+    38.0
+   ],
+   [
+    35.0,
+    45.0,
+    56.0,
+    60.0,
+    50.0,
+    40.0
+   ]
+  ],
+  "null_n_motifs_mean": [
+   [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ]
+  ]
+ },
+ "matching": {
+  "universe": {
+   "label": "reaction_universe",
+   "n_species": 121,
+   "n_reactions": 413,
+   "max_carbons": 4,
+   "rule_counts": {
+    "reduce_carboxyl": 53,
+    "carboxylate_reductive": 17,
+    "formose_initiation": 1,
+    "reduce_carbonyl": 111,
+    "cannizzaro": 53,
+    "co2_reduction": 1,
+    "decarboxylate_alpha": 17,
+    "deoxygenate": 110,
+    "carboxylate_alpha": 10,
+    "isomerize": 22,
+    "aldol": 18
+   },
+   "catalyst_density": {
+    "mineral": 302,
+    "base": 94,
+    "none": 17
+   },
+   "energetic_span_kj_mol": {
+    "min": -120.38115514162632,
+    "max": 45.776338887266746,
+    "span": 166.15749402889307,
+    "mean": -51.6580586101662,
+    "sd": 47.42905761003263
+   },
+   "element_residual": {
+    "max_abs": 0.0,
+    "per_element": {
+     "C": 0.0,
+     "H": 0.0,
+     "O": 0.0
+    },
+    "n_unbalanced": 0,
+    "offenders": []
+   },
+   "null_seed": null
+  },
+  "null_seed0": {
+   "label": "null_network",
+   "n_species": 121,
+   "n_reactions": 405,
+   "max_carbons": 4,
+   "rule_counts": {
+    "reduce_carboxyl": 53,
+    "carboxylate_reductive": 17,
+    "formose_initiation": 1,
+    "reduce_carbonyl": 103,
+    "cannizzaro": 53,
+    "co2_reduction": 1,
+    "decarboxylate_alpha": 17,
+    "deoxygenate": 110,
+    "carboxylate_alpha": 10,
+    "isomerize": 22,
+    "aldol": 18
+   },
+   "catalyst_density": {
+    "mineral": 294,
+    "base": 94,
+    "none": 17
+   },
+   "energetic_span_kj_mol": {
+    "min": -291.35784912615446,
+    "max": 361.08199541088743,
+    "span": 652.4398445370418,
+    "mean": -24.034104084362003,
+    "sd": 119.09611736779712
+   },
+   "element_residual": {
+    "max_abs": 8.0,
+    "per_element": {
+     "C": 0.0,
+     "H": 8.0,
+     "O": 0.0
+    },
+    "n_unbalanced": 285,
+    "offenders": [
+     "r252",
+     "r325",
+     "r272",
+     "r276",
+     "r286"
+    ]
+   },
+   "null_seed": 0,
+   "n_swaps": 9500,
+   "n_dropped_degenerate": 8
+  }
+ },
+ "headline": "Phase-1 feed: universe 0 persistent autocatalytic motifs (14 persistent species, malate 8.8e-08 M); nulls max 0. Formose feed (10 mM CH2O): universe 1 motif(s), core 5 species, dynamic gain 3.1; nulls mean 0.00, max 0; empirical p = 0.040. Curated rTCA: detector finds 1 motif (the declared turn), element residual 8 atoms (not balanced)."
+}
