@@ -75,7 +75,7 @@ report:
   caveat: The rTCA turn is a lumped autocatalytic reaction; the full multi-step cycle + acetyl-CoA arm are deferred.
   key_metrics:
   - {label: Net throughput, value: 9e-4 mol/s, status: pass}
-  - {label: Autocatalytic gain, value: '~3 steady', status: pass}
+  - {label: Autocatalytic gain, value: 'peak ~29.5, ~3 steady as CO2 limits', status: pass}
   - {label: Network, value: connected, status: pass}
 conclusion: >-
   A real SBML rTCA-fragment network sustains throughput and an autocatalytic motif
@@ -187,7 +187,7 @@ literature_anchors:
 - expectation: Fe2+ promotes 9/11 TCA intermediates + 5 universal precursors from pyruvate/glyoxylate
   model_observable: edge yields + network reachability
   source: Muchowska 2019
-  status_in_workspace: Not yet measurable — module processes not built
+  status_in_workspace: Represented as the lumped reductive-TCA turn (the curated rTCA class on libRoadRunner), graded; edge-by-edge 9/11 reachability is the Phase-3 reaction_universe comparison, not yet run
   cites:
   - muchowska2019synthesis
 implemented_methods:

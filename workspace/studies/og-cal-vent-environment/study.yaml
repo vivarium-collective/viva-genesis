@@ -117,7 +117,8 @@ findings:
   explanation: >-
     Same 48 draws run through model_spatial_transport = fipy and fipy_uniform_upflow (buoyancy 0); the
     serpentinization source is identical, and the outlet pH/H2 are set by speciation, not by the wall's
-    flow pattern. The FEniCS class (pixi env) is the third class to add to this axis.
+    flow pattern. The FEniCS class (a merged dolfinx alternative, run under viva-fenics's pixi env) is a
+    third available class on this axis, held out of this uv-.venv ensemble — not a forthcoming addition.
   expected:
     cites: [kelley2001offaxis]
 - id: ogcal-morris-screening
@@ -166,7 +167,8 @@ report:
   caveat: >-
     Conditioning set is Lost City only (MARHYS 4.0 pending); 48 draws x 2 classes at 30 ticks / nx = 20 (the
     og-00 Decision-map resolution; outlet T settles ~45-49 C here vs 50.6 C at 120 ticks / nx = 40); the
-    reduced serpentinization class and the FEniCS transport class are not in this ensemble; the H2 threshold
+    reduced serpentinization class and the merged FEniCS transport class are available alternatives held
+    out of this ensemble; the H2 threshold
     is an equilibrium-speciation (llnl.dat) result and the Hadean DIC / ocean-pH / ocean-T priors are
     extrapolated-and-unsourced by design (vg-data audit: 0 measured, 2 calibrated, 1 inferred, 3
     extrapolated, 2 hypothetical).

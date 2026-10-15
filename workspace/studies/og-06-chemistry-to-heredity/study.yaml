@@ -115,7 +115,7 @@ literature_anchors:
 - expectation: Mineral/CO-driven peptide formation at 100 C, pH 7-10
   model_observable: peptide formation rate/conditions
   source: Huber & Wachtershauser 1998
-  status_in_workspace: Not yet measurable — module processes not built
+  status_in_workspace: Represented as the peptide heredity arm in the agent-based lineage comparison (graded fitness 0.24, below RNA-like 0.38 and the compositional/hybrid arms); a reduced coupling, not a first-principles peptide-formation-rate reproduction
   cites:
   - huber1998peptides
 baseline:

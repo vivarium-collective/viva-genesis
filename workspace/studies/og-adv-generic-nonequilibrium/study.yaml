@@ -17,7 +17,7 @@ findings:
 - id: ogadv-gates-reject-generic
   kind: methodological
   status: confirms
-  statement: Every vent-specific gate rejects the generic control. Running the real og-01/02/03 composites with no sustained H2, no Fe/Ni/S catalyst and no pore concentration, all five discriminating gates fall below threshold — net C-flux 4e-13 vs 1e-6 mol/s; formate ~0 vs 50 mM; protometabolic throughput 3e-13 vs 1e-6 mol/s; accumulation Péclet 0.26 vs 18; enrichment 1.3 vs 1e6 fold — the tightest by 1.8 decades. The vent passes all five.
+  statement: Every vent-specific gate rejects the generic control. Running the real og-01/02/03 composites with no sustained H2, no Fe/Ni/S catalyst and no pore concentration, all five discriminating gates fall below threshold — net C-flux 4e-13 vs 1e-6 mol/s; formate ~0 vs 50 mM; protometabolic throughput 3e-13 vs 1e-6 mol/s; accumulation Péclet 0.26 vs 18; enrichment 1.3 (generic) vs the vent clearing the ≥10⁶-fold gate (a reduced-model magnitude, solver-sensitive above Pe ≈ 13; see og-03) — the tightest by 1.8 decades. The vent passes all five.
   evidence:
     from_test: gates-reject-generic
     observed: 'min rejection margin 1.84 decades (tightest gate: og-03 accumulation Péclet, generic 0.26 < 18); all 5 gates reject generic, vent passes all 5'
