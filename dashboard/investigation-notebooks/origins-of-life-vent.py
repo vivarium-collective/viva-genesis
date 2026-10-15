@@ -869,6 +869,11 @@ _save_viz('og-03-dilution-to-localized-individuals', 'pore-ignition-coupling', _
 # pore-localization-map
 _save_viz('og-03-dilution-to-localized-individuals', 'pore-localization-map', _render_one('local:PoreLocalizationMap', {'grid_json': 'workspace/studies/og-03-dilution-to-localized-individuals/artifacts/pore_localization_grid.json', 'title': 'The pore-localization frontier (Decision view)'}, RUNS_DB, STUDY_YAML))
 
+# **multisolute-colocalization-map**
+
+# multisolute-colocalization-map
+_save_viz('og-03-dilution-to-localized-individuals', 'multisolute-colocalization-map', _render_one('local:PoreColocalizationMap', {'grid_json': 'workspace/studies/og-03-dilution-to-localized-individuals/artifacts/colocalization_grid.json', 'title': 'Does the prebiotic mixture co-localize? (Phase 4 Decision view)'}, RUNS_DB, STUDY_YAML))
+
 # ### Acceptance criteria
 #
 # _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
