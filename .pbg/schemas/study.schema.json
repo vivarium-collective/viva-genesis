@@ -7,6 +7,16 @@
   "required": ["name", "baseline"],
   "additionalProperties": true,
   "properties": {
+    "verdict": {
+      "type": "string",
+      "enum": ["supported", "qualified", "honest-negative", "refuted", "mixed"],
+      "description": "What the study concluded (separate from the computed gate_status)."
+    },
+    "evidence_tier": {
+      "type": "string",
+      "enum": ["conceptual_demonstration", "mechanistic_prediction", "calibrated"],
+      "description": "Evidence strength: proof-of-concept / mechanistic prediction / calibrated against data."
+    },
     "$schema": {
       "type": "string"
     },
