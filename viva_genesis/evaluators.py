@@ -389,6 +389,40 @@ def _settled_dissolved_h2_mM(reader, test: dict, ws_root: Any) -> float:
     return 1.0e3 * _settled_mean(reader, "H2_flux") / (flow * area)
 
 
+def _artifact_json(test: dict, ws_root: Any, default: str) -> dict:
+    """Load the persisted ensemble/report artifact a cross-run gate reads
+    (``test.artifact`` path relative to the workspace root; the ensemble is
+    minutes of real PHREEQC + FiPy compute, so gates read the committed JSON)."""
+    import json
+    from pathlib import Path
+    rel = str(test.get("artifact") or default)
+    path = Path(ws_root) / rel if ws_root else Path(rel)
+    if not path.exists():
+        raise FileNotFoundError(f"ensemble artifact not found: {path}")
+    return json.loads(path.read_text())
+
+
+_OGCAL_REPORT = "workspace/studies/og-cal-vent-environment/artifacts/vent_environment_report.json"
+
+
+def _posterior_viable_fraction(reader, test: dict, ws_root: Any) -> float:
+    """Fraction of vent states consistent with observation that also satisfy the
+    downstream chemical requirements (headline class) — the Phase-1 Robustness."""
+    return float(_artifact_json(test, ws_root, _OGCAL_REPORT)["report"]["robustness"]["fraction"])
+
+
+def _posterior_consistent_fraction(reader, test: dict, ws_root: Any) -> float:
+    """Fraction of prior draws consistent with every observation window (headline class)."""
+    rep = _artifact_json(test, ws_root, _OGCAL_REPORT)
+    head = rep["report"]["meta"]["headline_class"]
+    return float(rep["conditioning"]["per_class"][head]["p_consistent"])
+
+
+def _structure_agreement_viable(reader, test: dict, ws_root: Any) -> float:
+    """Fraction of prior draws on which every model class agrees about viability."""
+    return float(_artifact_json(test, ws_root, _OGCAL_REPORT)["conditioning"]["cross_class"]["viable"]["agreement"])
+
+
 def register_derived_scalars(registry: dict) -> None:
     """Hook called by study_evaluator.load_workspace_derived_scalars."""
     # og-00
@@ -453,3 +487,6 @@ def register_derived_scalars(registry: dict) -> None:
     registry["max_ledger_energy_residual"] = _max_ledger_energy_residual
     registry["energy_directionality_final"] = _energy_directionality_final
     registry["settled_dissolved_h2_mM"] = _settled_dissolved_h2_mM
+    registry["posterior_viable_fraction"] = _posterior_viable_fraction
+    registry["posterior_consistent_fraction"] = _posterior_consistent_fraction
+    registry["structure_agreement_viable"] = _structure_agreement_viable
