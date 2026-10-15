@@ -65,6 +65,7 @@ class BioenergeticSelectionProcess(Process):
             "internalization": "mean active-pump fraction of the surviving population (dimensionless, 0-1)",
             "mean_permeability": "population mean membrane permeability (meter/second)",
             "survivors": "fraction of strategy mass above the survival threshold (dimensionless)",
+            "autonomy": "population mean of the PER-INDIVIDUAL autonomy internal / (internal + external) power (dimensionless, 0-1; Phase 6)",
         },
         "assumptions": [
             "Coarse-grained deterministic replicator dynamics (reproducible); the proposed primary method.",
@@ -75,6 +76,7 @@ class BioenergeticSelectionProcess(Process):
             "flux(P,pump) = k_ext*Vext*P + k_int*pump*eff*(1-P) - c_pump*pump - c_base",
             "f_s(t+1) ∝ f_s(t) * max(flux_s, 0)   (replicator, + mild mutation)",
             "internalization = sum_s f_s * pump_s",
+            "autonomy = sum_s f_s * internal_s / (internal_s + external_s)   (per-individual, Phase 6)",
         ],
         "symbols": {
             "P": "membrane permeability (leakiness)", "pump": "active-pump rate",
@@ -123,6 +125,7 @@ class BioenergeticSelectionProcess(Process):
             "external_power": {"_type": "overwrite[float]", "_units": "watt"},
             "internal_power": {"_type": "overwrite[float]", "_units": "watt"},
             "maintenance_power": {"_type": "overwrite[float]", "_units": "watt"},
+            "autonomy": {"_type": "overwrite[float]", "_units": "dimensionless"},
         }
 
     def initial_state(self):
@@ -179,6 +182,14 @@ class BioenergeticSelectionProcess(Process):
         external_power = float((self._freq * external).sum()) * scale
         internal_power = float((self._freq * internal).sum()) * scale
         maintenance_power = float((self._freq * cost).sum()) * scale
+        # Per-individual autonomy (Phase 6): each strategy's internal / (internal +
+        # external) power, averaged over the population — the readout the Phase-6
+        # energy_coupling face defines, published beside the population-mean pump
+        # fraction `internalization` (the switch-over is a recorded decision).
+        tot = external + internal
+        with np.errstate(divide="ignore", invalid="ignore"):
+            per_individual = np.where(tot > 0.0, internal / np.where(tot > 0.0, tot, 1.0), 0.0)
+        autonomy = float((self._freq * per_individual).sum()) if mass > 0 else 0.0
 
         return {
             "lineage_fitness": mean_flux,
@@ -189,6 +200,7 @@ class BioenergeticSelectionProcess(Process):
             "external_power": external_power,
             "internal_power": internal_power,
             "maintenance_power": maintenance_power,
+            "autonomy": autonomy,
         }
 
 

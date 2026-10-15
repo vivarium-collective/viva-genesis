@@ -584,8 +584,100 @@ def _partition_residual_max_final(reader, test, ws_root):
     return float(max(vals)) if vals else 0.0
 
 
+# --- protocell_energetics / Phase-6 energy coupling (og-energy-alt-internalization-threshold) ----
+
+_OGENERGYALT_REPORT = "workspace/studies/og-energy-alt-internalization-threshold/artifacts/internalization_threshold_report.json"
+
+
+def _free_energy_ledger_ok_final(reader, test: dict, ws_root: Any) -> float:
+    """Final FreeEnergyLedgerProcess verdict (residual, second-law margin, dissipation >= 0, efficiency <= 1)."""
+    return _values(reader, "free_energy_ledger_ok")[-1]
+
+
+def _free_energy_residual_max(reader, test: dict, ws_root: Any) -> float:
+    """Worst-case |in_cum + E0 - work_cum - diss_cum - E(t)| / in_cum over the run (rounding by construction)."""
+    return _values(reader, "free_energy_residual_max")[-1]
+
+
+def _second_law_margin_min(reader, test: dict, ws_root: Any) -> float:
+    """Minimum of in_cum + E0 - work_cum - diss_cum (J) over the run — free_energy_in >= work + dissipated."""
+    return _values(reader, "second_law_margin_min")[-1]
+
+
+def _final_autonomy(reader, test: dict, ws_root: Any) -> float:
+    """Per-individual autonomy internal / (internal + external) power at the end of the run."""
+    return _values(reader, "autonomy")[-1]
+
+
+def _settled_net_power(reader, test: dict, ws_root: Any) -> float:
+    """Settled net power (W) = work - maintenance of the individual (last quintile)."""
+    return _settled_mean(reader, "net_power", frac=0.2)
+
+
+def _settled_internal_power(reader, test: dict, ws_root: Any) -> float:
+    return _settled_mean(reader, "internal_power", frac=0.2)
+
+
+def _threshold_class(test: dict) -> str:
+    return str((test.get("params") or {}).get("class", "thioester_acyl_phosphate"))
+
+
+def _internalization_threshold_activity(reader, test: dict, ws_root: Any) -> float:
+    """Threshold coupling activity a* at the nominal membrane + gradient for ``test.params.class``
+    (raises when the class never pays on the grid, so the gate falls to the honest bucket)."""
+    att = _artifact_json(test, ws_root, _OGENERGYALT_REPORT)["attribution"]
+    v = att["per_class"][_threshold_class(test)]["nominal"]["threshold_activity"]
+    if v is None:
+        raise ValueError(f"{_threshold_class(test)} never pays at the nominal membrane; no threshold")
+    return float(v)
+
+
+def _autonomy_at_threshold(reader, test: dict, ws_root: Any) -> float:
+    att = _artifact_json(test, ws_root, _OGENERGYALT_REPORT)["attribution"]
+    v = att["per_class"][_threshold_class(test)]["nominal"]["autonomy_at_threshold"]
+    if v is None:
+        raise ValueError(f"{_threshold_class(test)} never pays at the nominal membrane; no autonomy at threshold")
+    return float(v)
+
+
+def _internalization_pays_fraction(reader, test: dict, ws_root: Any) -> float:
+    """Fraction of the swept (activity x permeability x pmf) grid where ``test.params.class`` beats the passive baseline."""
+    att = _artifact_json(test, ws_root, _OGENERGYALT_REPORT)["attribution"]
+    return float(att["per_class"][_threshold_class(test)]["pays_fraction"])
+
+
+def _n_classes_paying_at_nominal(reader, test: dict, ws_root: Any) -> float:
+    """How many active classes have a finite threshold at the nominal membrane + gradient."""
+    return float(_artifact_json(test, ws_root, _OGENERGYALT_REPORT)["attribution"]["cross_class"]["n_classes_paying_at_nominal"])
+
+
+def _internalization_structure_agreement(reader, test: dict, ws_root: Any) -> float:
+    """Fraction of the grid on which every active class gives the same pays / does-not-pay answer."""
+    sa = _artifact_json(test, ws_root, _OGENERGYALT_REPORT)["attribution"]["cross_class"]["structure_agreement_pays"]
+    return float(sa["agreement"])
+
+
+def _threshold_map_ledger_all_ok(reader, test: dict, ws_root: Any) -> float:
+    """1.0 when the free-energy ledger closed on every threshold-map point of every class."""
+    att = _artifact_json(test, ws_root, _OGENERGYALT_REPORT)["attribution"]
+    return 1.0 if all(pc["ledger"]["all_ok"] for pc in att["per_class"].values()) else 0.0
+
+
 def register_derived_scalars(registry: dict) -> None:
     """Hook called by study_evaluator.load_workspace_derived_scalars."""
+    # protocell_energetics / Phase-6 energy coupling (og-energy-alt-internalization-threshold)
+    registry["free_energy_ledger_ok_final"] = _free_energy_ledger_ok_final
+    registry["free_energy_residual_max"] = _free_energy_residual_max
+    registry["second_law_margin_min"] = _second_law_margin_min
+    registry["final_autonomy"] = _final_autonomy
+    registry["settled_net_power"] = _settled_net_power
+    registry["settled_internal_power"] = _settled_internal_power
+    registry["internalization_threshold_activity"] = _internalization_threshold_activity
+    registry["autonomy_at_threshold"] = _autonomy_at_threshold
+    registry["internalization_pays_fraction"] = _internalization_pays_fraction
+    registry["n_classes_paying_at_nominal"] = _n_classes_paying_at_nominal
+    registry["internalization_structure_agreement"] = _internalization_structure_agreement
+    registry["threshold_map_ledger_all_ok"] = _threshold_map_ledger_all_ok
     # electrochemical interface / Phase-2 (og-01-cal-electrochemistry)
     registry["charge_ledger_residual_max"] = _charge_ledger_residual_max
     registry["faradaic_efficiency_max"] = _faradaic_efficiency_max

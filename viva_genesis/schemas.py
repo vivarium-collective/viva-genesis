@@ -147,6 +147,17 @@ SCHEMAS: dict[str, dict] = {
         "faradaic_efficiency": "vg_fraction",
         "delivered_fraction": "vg_fraction",
         "charge_passed": "vg_charge",
+        # proto-energetics (Phase 6, energy_coupling face): the per-individual
+        # power budget — gross free energy drawn from the environment, the useful
+        # work delivered by the passive external tap and by the internal store,
+        # the leak / maintenance drains and the net surplus (all watt).
+        "free_energy_in": "vg_power",
+        "external_power": "vg_power",
+        "internal_power": "vg_power",
+        "work": "vg_power",
+        "leak_power": "vg_power",
+        "net_power": "vg_power",
+        "store_potential": "vg_free_energy",
     },
     # ---- layer 2: boundary ---------------------------------------------
     "vg_boundary": {
@@ -368,6 +379,21 @@ PORT_TO_CANONICAL: dict[str, str] = {
     "autocatalytic_core_size": "diagnostics.autocatalytic_core_size",
     "element_residual": "ledger.element_residual",
     "carbon_residual": "ledger.carbon_residual",
+    # proto-energetics (Phase 6, energy_coupling face): the per-individual power
+    # budget of a protocell and the free-energy ledger witnesses
+    "free_energy_in": "vg_energy.free_energy_in",
+    "external_power": "vg_energy.external_power",
+    "internal_power": "vg_energy.internal_power",
+    "work": "vg_energy.work",
+    "leak_power": "vg_energy.leak_power",
+    "net_power": "vg_energy.net_power",
+    "maintenance_power": "vg_individual.maintenance_flux",
+    "dissipated": "vg_energy.dissipated",
+    "store_potential": "vg_energy.store_potential",
+    "autonomy": "vg_individual.autonomy",
+    "catalyst_efficiency": "vg_minerals.catalytic_sites",
+    "free_energy_residual": "ledger.free_energy_residual",
+    "second_law_margin": "ledger.second_law_margin",
 }
 
 

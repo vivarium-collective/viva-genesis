@@ -46,6 +46,17 @@ half-cell potentials + Butler-Volmer electrode kinetics + the ohmic mineral
 circuit, solved as a galvanic cell each tick) and ``microkinetic``
 (CatMAP/Cantera adsorbate microkinetics; the backend is conda-only, so the
 class registers here and raises a clear "run under pixi" error in ``update``).
+
+Energy coupling (Model Upgrade plan, Phase 6). Five classes honour one
+``energy_coupling`` face inside a protocell: ``passive_gradient`` (the external
+ion gradient tapped through the leak, no store), ``h_na_gradient_leaky_membrane``
+(a pumped Na+/H+ gradient store that leaks with the membrane — the Sojo-2014
+tradeoff), ``thioester_acyl_phosphate`` and ``polyphosphate`` (og-energy's
+chemical carriers as the internal store, leaking by hydrolysis and carrier
+permeation) and ``fe_redox`` (a reduced-metal store charged by the
+Fe(II)-disproportionation drive). All publish the same per-individual power
+budget, so autonomy = internal / (internal + external) power is one readout
+across classes (``viva_genesis.bioenergetics.energy_coupling``).
 """
 
 from __future__ import annotations
@@ -164,12 +175,33 @@ BOUNDARY_FACE = {
                          "access", "individuality_access", "boundary_formed"},
 }
 
+# Energy coupling inside a protocell (Model Upgrade plan, Phase 6). Every class
+# reads the environment's two free-energy sources — the external ion gradient
+# (electric_potential, tapped only through the membrane's leak) and the chemical
+# drive (drive_free_energy, delivered by substrate turnover independent of the
+# leak) — plus the individual's boundary (permeability, area, volume), and
+# publishes the per-individual POWER BUDGET: gross free energy drawn, the useful
+# work from the passive external tap and from the internal store, the leak and
+# maintenance drains, the net surplus, the store level and the autonomy
+# internal / (internal + external). The free-energy ledger witnesses
+# (free_energy_in >= work + dissipated with the store) are required so a
+# FreeEnergyLedgerProcess can audit every class the same way.
+ENERGY_COUPLING_FACE = {
+    "required_inputs": {"electric_potential", "drive_free_energy", "permeability",
+                        "membrane_area", "compartment_volume"},
+    "optional_inputs": {"temperature", "pH", "pH_ocean", "catalyst_activity", "ionic_strength"},
+    "required_outputs": {"free_energy_in", "external_power", "internal_power", "maintenance_power",
+                         "work", "dissipated", "energy_stored", "autonomy"},
+    "optional_outputs": {"leak_power", "net_power", "energy_charge_fraction", "store_potential", "pmf"},
+}
+
 FACES = {
     "spatial_transport": SPATIAL_TRANSPORT_FACE,
     "serpentinization": SERPENTINIZATION_FACE,
     "carbon_fixation": CARBON_FIXATION_FACE,
     "proto_metabolism": PROTO_METABOLISM_FACE,
     "boundary": BOUNDARY_FACE,
+    "energy_coupling": ENERGY_COUPLING_FACE,
 }
 
 
@@ -242,6 +274,17 @@ INTERFACES = {
             "single_chain": "local:ProtocellAssemblyProcess",            # E (Jordan 2019 fatty-acid vesicle, mix_fraction=0)
             "mixed": "local:ProtocellAssemblyProcess",                   # E (+ co-surfactant, mix_fraction>0)
             "thioester_aminothiol": "local:ThioesterAminothiolMembraneProcess",  # A (different viability window)
+        },
+    },
+    # Energy coupling inside a protocell (Model Upgrade plan, Phase 6).
+    "energy_coupling": {
+        "face": "energy_coupling",
+        "models": {
+            "passive_gradient": "local:PassiveGradientCouplingProcess",            # A (external tap only; no store)
+            "h_na_gradient_leaky_membrane": "local:IonGradientCouplingProcess",    # A (pumped Na+/H+ gradient store, Sojo leak)
+            "thioester_acyl_phosphate": "local:ThioesterCouplingProcess",         # E as carrier (og-energy currency inside the cell)
+            "polyphosphate": "local:PolyphosphateCouplingProcess",                # E as carrier (low-bond, kinetically stable)
+            "fe_redox": "local:FeRedoxCouplingProcess",                            # A (Fe(II)-disproportionation drive, reduced-metal store)
         },
     },
 }
