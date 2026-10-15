@@ -2845,6 +2845,262 @@ _save_viz('og-02-alt-reaction-universe', 'reaction-universe-subnetwork', _render
 # | The formose reaction is autocatalytic in glycolaldehyde via aldol / isomerisation / retro-aldol of the tetrose, with a slow umpolung initiation from formaldehyde alone | the detected motif's species and reactions | Breslow 1959 | Recovered post hoc from the rule set (glycolaldehyde -> glyceraldehyde -> DHA -> erythrulose -> erythrose -> 2 glycolaldehyde, gain 2) without being named by any rule. |
 # | Rule-generated prebiotic networks contain self-regenerating cycles that appear only after several synthetic generations | motif count vs matched nulls | Wolos 2020 | One cycle at C <= 4 in C/H/O; enrichment p = 0.04 over 24 nulls. |
 
+# ## Study: The Endogenous Boundary (`og-04-alt-endogenous-boundary`)
+#
+# **Question.** Can a protocell boundary form from the campaign's OWN chemistry — amphiphile synthesised from reduced carbon (acetate + formate) assembling into a vesicle that encloses an individual — rather than from an injected amphiphile pool?
+#
+# **Objective.** Drive AmphiphileSynthesisProcess from a dissolved acetate+formate pool into the boundary face (single_chain | mixed | thioester_aminothiol); gate that a BoundaryFormationStep _add produces agents 0 -> >=1 in the favorable arm and 0 in the synthesis-ablated control, with the RewriteLedger confirming the rewrite conserves matter.
+#
+# **Hypothesis.** When acetate + formate condense to an amphiphile that clears the critical aggregation concentration under vesicle-favourable (alkaline, saline) conditions, a viable boundary forms and a new individual appears in the agents map by an _add structural rewrite; with amphiphile synthesis ablated no individual forms, so boundary formation is caused by the endogenous chemistry.
+#
+# **Claim.** A protocell boundary forms from the campaign's own reduced-carbon chemistry (endogenous amphiphile), producing an individual by a matter-conserving _add structural rewrite; ablating synthesis removes the individual.
+
+# ### Design — originally proposed
+#
+# _The mechanisms and methods proposed when this study was designed; the model **actually built** (and the tools it uses) is shown below. These may differ as the design was realized._
+#
+# **Proposed mechanisms**
+#
+# - H+: the boundary is built from the campaign's own carbon chemistry, not an added amphiphile
+# - structural-rewrite individuation (_add on the agents map) rather than a continuous field
+#
+# **Proposed models / methods**
+#
+# - AmphiphileSynthesisProcess (acetate + formate -> fatty-acid amphiphile)
+# - boundary face (Jordan-2019 mixed-amphiphile vesicle; thioester/aminothiol alternative)
+# - BoundaryFormationStep (_add structural rewrite) + RewriteLedgerProcess (conservation)
+
+# ### Parameters
+#
+# | simulation | composite | steps | params |
+# | --- | --- | --- | --- |
+# | `Favorable — endogenous amphiphile synthesis forms the boundary` | `viva_genesis.composites.endogenous_boundary.endogenous_boundary` | 0 | model_boundary=mixed, k_synth=0.05, acetate0=0.05, formate0=0.05, pH=9.0, ionic_strength=0.35 |
+
+# ### The model & its parameters
+#
+# Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
+
+# **The model — `viva_genesis.composites.endogenous_boundary.endogenous_boundary`**
+#
+# og-04-alt: a protocell boundary formed from the campaign's OWN chemistry. Acetate + formate condense to an amphiphile (AmphiphileSynthesisProcess); when it clears the critical aggregation concentration and the boundary face class (model_boundary: single_chain | mixed | thioester_aminothiol) reports a viable vesicle, a BoundaryFormationStep does an _add structural rewrite and a new individual appears in the agents map, matter seeded from the localized pool. Synthesis-ablated (k_synth=0) is the control: no amphiphile, no individual. A RewriteLedgerProcess audits that the _add conserves matter (rewrite_ok).
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_endogenous_boundary_endogenous_boundary = {
+    'model_boundary'   : 'mixed',   # Model class behind the 'boundary' face: mixed | single_chain | thioester_aminothiol
+    'k_synth'          : 0.05,   # Amphiphile condensation rate (0 = synthesis-ablated control) [vg-data: hypothetical]
+    'acetate0'         : 0.05,   # Initial dissolved acetate (M)
+    'formate0'         : 0.05,   # Initial dissolved formate (M)
+    'pH'               : 9.0,   # Vent-fluid pH (alkaline, vesicle-favourable)
+    'ionic_strength'   : 0.35,   # Ionic strength (M, seawater)
+    'temperature'      : 333.15,   # Temperature (K)
+    'cac'              : 0.001,   # Critical aggregation concentration (M) [vg-data: measured]
+    'localized_formate': 4.0,   # Localized formate parcel seeding the individual (mol)
+    'localized_acetate': 2.0,   # Localized acetate parcel (mol)
+}
+
+# ### Typed contract (declared interface)
+#
+# _The bigraph-schema typed ports + conservation predicates this study's composite must satisfy (audited in the workbench §Contract panel). Declared design — independent of whether a run exists yet._
+#
+# **Inputs**
+#
+# | port | type | units | bounds |
+# | --- | --- | --- | --- |
+# | `k_synth` | float | 1/(molar*second) | >= 0.0 |
+# | `acetate0` | float | molar | >= 0.0 |
+# | `formate0` | float | molar | >= 0.0 |
+#
+# **Outputs**
+#
+# | port | type | units | bounds |
+# | --- | --- | --- | --- |
+# | `n_agents` | float | dimensionless | >= 0.0 |
+# | `boundary_formed` | float | dimensionless |  |
+# | `rewrite_ok` | float | dimensionless |  |
+#
+# **Conditions**
+#
+# - `rewrite_mass_balance`: `rewrite_residual_max == 0 (the _add moves matter localized -> individual, conserved)`
+
+# ### Run
+#
+# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
+
+# === Study: og-04-alt-endogenous-boundary ===
+STUDY = 'og-04-alt-endogenous-boundary'
+STUDY_DIR = REPO / 'workspace/studies' / STUDY
+STUDY_YAML = str(STUDY_DIR / "study.yaml")
+RUNS_DB = str(STUDY_DIR / "runs.db")
+
+# This study has no *recorded* runs yet. RERUN builds its declared
+# composite(s) live and runs them; a composite whose module processes
+# are not implemented yet reports the error instead of crashing.
+STEPS_Favorable_endogenous_amphiphile_synthesis_forms_the_boundary = 100
+INTERVAL_Favorable_endogenous_amphiphile_synthesis_forms_the_boundary = 1.0
+
+if RERUN:
+    from process_bigraph import Composite
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_endogenous_boundary_endogenous_boundary if 'ov_viva_genesis_composites_endogenous_boundary_endogenous_boundary' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_endogenous_boundary_endogenous_boundary = materialize_composite('viva_genesis.composites.endogenous_boundary.endogenous_boundary', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_endogenous_boundary_endogenous_boundary['state']}, core=core)
+            _comp.run(STEPS_Favorable_endogenous_amphiphile_synthesis_forms_the_boundary)
+        print('ran', 'Favorable — endogenous amphiphile synthesis forms the boundary', f'(viva_genesis.composites.endogenous_boundary.endogenous_boundary) for', STEPS_Favorable_endogenous_amphiphile_synthesis_forms_the_boundary, 'steps')
+    except Exception as _e:
+        print(f"Favorable — endogenous amphiphile synthesis forms the boundary not runnable yet: {type(_e).__name__}: {_e}")
+else:
+    print("RERUN=False — not re-simulating.")
+
+# ### Visualizations
+#
+# _Results are shown by the figures below, produced by the run above._
+
+# **endogenous-boundary-formation**
+
+# endogenous-boundary-formation
+_save_viz('og-04-alt-endogenous-boundary', 'endogenous-boundary-formation', _render_one('local:EndogenousBoundaryViz', {'title': 'Boundary forms from chemistry (favorable vs synthesis-ablated)'}, RUNS_DB, STUDY_YAML))
+
+# ### Acceptance criteria
+#
+# _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
+#
+# | test | measures | passes if |
+# | --- | --- | --- |
+# | boundary-forms-from-chemistry _(primary)_ | kind=cross_run detail=favorable n_agents vs synthesis-ablated control | op controls_absent detail agents form in the favorable arm, none in the synthesis-ablated control |
+# | rewrite-conserves-matter _(primary)_ | kind=derived path=rewrite_ok detail=RewriteLedger conservation flag | op >= value 1.0 detail rewrite_residual_max == 0 across every structural rewrite |
+
+# ### Literature anchors
+#
+# | expectation | model observable | source | status |
+# | --- | --- | --- | --- |
+# |  |  |  |  |
+
+# ## Study: Physical Reproduction (`og-growth-alt-physical-reproduction`)
+#
+# **Question.** Can an individual physically reproduce — grow to a division threshold and divide into daughters that grow and divide in turn — building a multi-generation lineage in the agents map, with matter and volume conserved at every division?
+#
+# **Objective.** Drive AgentGrowthProcess -> DivisionStep over the agents map from a single founder; gate that the lineage reaches >=3 generations and that every _divide conserves matter and volume (daughter volumes sum to the mother's — partition residual 0, total volume constant).
+#
+# **Hypothesis.** A founder individual whose division_state grows to threshold divides by a _divide structural rewrite that halves its matter and volume; the daughters inherit half each (their amounts and volumes sum to the mother's) and grow and divide in turn, so a >=3-generation lineage forms in the agents map with the partition residual 0 at every division.
+#
+# **Claim.** An individual physically reproduces by a _divide structural rewrite, building a >=3-generation lineage in the agents map with matter and volume conserved (partition residual 0) at every division.
+
+# ### Design — originally proposed
+#
+# _The mechanisms and methods proposed when this study was designed; the model **actually built** (and the tools it uses) is shown below. These may differ as the design was realized._
+#
+# **Proposed mechanisms**
+#
+# - H+: reproduction is a structural rewrite (_divide) on the agents map, not a counter
+# - conserving partition (FMP §9.1) — daughters'' amounts + volumes sum to the mother''s
+#
+# **Proposed models / methods**
+#
+# - AgentGrowthProcess (division_state -> threshold) + DivisionStep (_divide, matter + volume halved)
+# - LineageStatsProcess (deepest generation, total volume) + RewriteLedgerProcess (partition residual)
+
+# ### Parameters
+#
+# | simulation | composite | steps | params |
+# | --- | --- | --- | --- |
+# | `Founder lineage — growth to a >=3-generation lineage` | `viva_genesis.composites.physical_reproduction.physical_reproduction` | 0 | growth_per_step=0.4, founder_volume=8e-12, founder_formate=8.0, founder_acetate=4.0 |
+
+# ### The model & its parameters
+#
+# Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
+
+# **The model — `viva_genesis.composites.physical_reproduction.physical_reproduction`**
+#
+# og-growth-alt: a founder individual grows to a division threshold and divides by a _divide structural rewrite (matter + volume halved); the daughters grow and divide in turn, building a >=3-generation lineage in the agents map. A RewriteLedgerProcess audits that every division conserves matter (partition residual 0) and LineageStatsProcess reports the deepest generation + the total volume, which stays constant across divisions (the daughters' volumes sum to the mother's).
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_physical_reproduction_physical_reproduction = {
+    'growth_per_step': 0.34,   # division_state added per step (growth to the division threshold) [vg-data: division_threshold]
+    'founder_volume' : 8e-12,   # Founder individual volume (liter)
+    'founder_formate': 8.0,   # Founder internal formate (mol)
+    'founder_acetate': 4.0,   # Founder internal acetate (mol)
+}
+
+# ### Typed contract (declared interface)
+#
+# _The bigraph-schema typed ports + conservation predicates this study's composite must satisfy (audited in the workbench §Contract panel). Declared design — independent of whether a run exists yet._
+#
+# **Inputs**
+#
+# | port | type | units | bounds |
+# | --- | --- | --- | --- |
+# | `growth_per_step` | float | dimensionless | >= 0.0 |
+# | `founder_volume` | float | liter | >= 0.0 |
+#
+# **Outputs**
+#
+# | port | type | units | bounds |
+# | --- | --- | --- | --- |
+# | `max_generation` | float | dimensionless | >= 0.0 |
+# | `total_volume` | float | liter | >= 0.0 |
+# | `partition_residual_max` | float | dimensionless |  |
+#
+# **Conditions**
+#
+# - `partition_conservation`: `partition_residual_max == 0 (daughter amounts + volumes sum to the mother)`
+
+# ### Run
+#
+# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
+
+# === Study: og-growth-alt-physical-reproduction ===
+STUDY = 'og-growth-alt-physical-reproduction'
+STUDY_DIR = REPO / 'workspace/studies' / STUDY
+STUDY_YAML = str(STUDY_DIR / "study.yaml")
+RUNS_DB = str(STUDY_DIR / "runs.db")
+
+# This study has no *recorded* runs yet. RERUN builds its declared
+# composite(s) live and runs them; a composite whose module processes
+# are not implemented yet reports the error instead of crashing.
+STEPS_Founder_lineage_growth_to_a_3_generation_lineage = 100
+INTERVAL_Founder_lineage_growth_to_a_3_generation_lineage = 1.0
+
+if RERUN:
+    from process_bigraph import Composite
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_physical_reproduction_physical_reproduction if 'ov_viva_genesis_composites_physical_reproduction_physical_reproduction' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_physical_reproduction_physical_reproduction = materialize_composite('viva_genesis.composites.physical_reproduction.physical_reproduction', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_physical_reproduction_physical_reproduction['state']}, core=core)
+            _comp.run(STEPS_Founder_lineage_growth_to_a_3_generation_lineage)
+        print('ran', 'Founder lineage — growth to a >=3-generation lineage', f'(viva_genesis.composites.physical_reproduction.physical_reproduction) for', STEPS_Founder_lineage_growth_to_a_3_generation_lineage, 'steps')
+    except Exception as _e:
+        print(f"Founder lineage — growth to a >=3-generation lineage not runnable yet: {type(_e).__name__}: {_e}")
+else:
+    print("RERUN=False — not re-simulating.")
+
+# ### Visualizations
+#
+# _Results are shown by the figures below, produced by the run above._
+
+# **physical-reproduction-lineage**
+
+# physical-reproduction-lineage
+_save_viz('og-growth-alt-physical-reproduction', 'physical-reproduction-lineage', _render_one('local:PhysicalReproductionViz', {'title': 'A multi-generation lineage in the agents map'}, RUNS_DB, STUDY_YAML))
+
+# ### Acceptance criteria
+#
+# _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
+#
+# | test | measures | passes if |
+# | --- | --- | --- |
+# | lineage-reaches-three-generations _(primary)_ | kind=derived path=max_generation detail=deepest generation reached in the agents map | op >= value 3.0 detail a >=3-generation lineage forms |
+# | division-conserves-volume _(primary)_ | kind=derived path=partition_residual_max detail=max |mother - sum(daughters)| over divisions | op <= value 1e-09 detail partition residual ~ 0 (conserving split) |
+
+# ### Literature anchors
+#
+# | expectation | model observable | source | status |
+# | --- | --- | --- | --- |
+# |  |  |  |  |
+
 # ## Open decisions
 # - Rule-set scope for the Phase-3 reaction universe: keep C1-C3 feedstock / C/H/O-only chemistry (as built: products capped at C4, 413 reactions) or include N/P-bearing reactions from the start, folding the og-res-N / og-res-P resource chemistries into the universe?
 # - Publication milestone: close the first paper at the pre-genetic arc (og-00 -> og-03) or extend through the early-genetic arc (og-04 protocells -> og-06 heredity)?
