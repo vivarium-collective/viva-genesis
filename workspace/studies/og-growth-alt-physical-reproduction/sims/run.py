@@ -3,10 +3,14 @@
 
 Runs the founder lineage as the canonical run: a founder individual grows to the
 division threshold and divides by a _divide structural rewrite (matter + volume
-halved); the daughters grow and divide in turn, building a >=3-generation lineage
-in the agents map. Persists an isolated sqlite store and auto-grades the derived
-``max_generation`` (>=3) and ``partition_residual_max`` (== 0) behavior tests via
-the workspace evaluator.
+halved); the daughters grow and divide in turn, building a multi-generation
+lineage in the agents map. Writes a committed JSON report
+(``artifacts/physical_reproduction_report.json``) holding the run series + a
+headline block, persists an isolated sqlite store, and auto-grades the two
+derived gates — ``peak_generation`` (the deepest generation REACHED, not the
+time-mean) and ``partition_residual_peak`` (worst split residual) — which read
+the committed artifact (not the gitignored run.db), so every number verifies
+from the tree.
 """
 from __future__ import annotations
 
@@ -23,6 +27,9 @@ SPEC_ID = "viva_genesis.composites.physical_reproduction.physical_reproduction"
 STUDY_SLUG = "og-growth-alt-physical-reproduction"
 INVESTIGATION_SLUG = "origins-of-life-vent"
 N_STEPS = 30
+ARTIFACT_REL = "artifacts/physical_reproduction_report.json"
+_PARAMS = {"growth_per_step": 0.4, "founder_volume": 8.0e-12,
+           "founder_formate": 8.0, "founder_acetate": 4.0}
 
 
 def _run(core, **params):
@@ -31,6 +38,41 @@ def _run(core, **params):
     sim = Composite({"state": physical_reproduction(core, **params)}, core=core)
     sim.run(float(N_STEPS))
     return gather_emitter_results(sim)[("emitter",)]
+
+
+def _series(rows, key):
+    return [float(r.get(key, 0.0)) for r in rows]
+
+
+def _write_artifact(rows) -> dict:
+    art = STUDY_DIR / ARTIFACT_REL
+    art.parent.mkdir(parents=True, exist_ok=True)
+    gen = _series(rows, "max_generation")
+    vol = _series(rows, "total_volume")
+    presid = _series(rows, "partition_residual_max")
+    rewrite = _series(rows, "rewrite_ok")
+    founder_v = float(_PARAMS["founder_volume"])
+    report = {
+        "study": STUDY_SLUG,
+        "spec_id": SPEC_ID,
+        "n_steps": N_STEPS,
+        "params": _PARAMS,
+        "series": {k: _series(rows, k) for k in
+                   ("n_agents", "max_generation", "total_volume", "partition_residual_max")},
+        "headline": {
+            # the deepest generation the lineage REACHES (peak), not the time-mean
+            "peak_generation": float(max(gen)) if gen else 0.0,
+            "final_n_agents": float(rows[-1]["n_agents"]),
+            "founder_volume": founder_v,
+            "final_total_volume": float(vol[-1]) if vol else 0.0,
+            "volume_conserved": bool(vol and abs(vol[-1] - founder_v) <= 1e-15),
+            # worst split residual over the whole lineage (0 => every _divide conserved)
+            "partition_residual_peak": float(max(presid)) if presid else 0.0,
+            "rewrite_conservation_ok": float(min(rewrite)) if rewrite else 0.0,
+        },
+    }
+    art.write_text(json.dumps(report, indent=1))
+    return report["headline"]
 
 
 def _write_store(db_path: Path, rows, sim_id: str) -> None:
@@ -75,16 +117,15 @@ def main() -> int:
     study_yaml = STUDY_DIR / "study.yaml"
 
     core = build_core()
-    rows = _run(core)
+    rows = _run(core, **_PARAMS)
+    headline = _write_artifact(rows)
+    print("artifact headline:", json.dumps(headline))
+
     _write_store(STUDY_DIR / store_rel, rows, run_id)
     _upsert_run_entry(study_yaml, run_id, store_rel)
     summary = evaluate_on_run_completion(STUDY_DIR, run_id, ws_root=WORKSPACE_ROOT,
                                          overwrite_authored=True)
-    print("single-run grading:", summary)
-    print(f"lineage: n_agents={rows[-1]['n_agents']:.0f} "
-          f"max_generation={rows[-1]['max_generation']:.0f} "
-          f"total_volume={rows[-1]['total_volume']:.3e} "
-          f"partition_residual_max={rows[-1]['partition_residual_max']:.1e}")
+    print("gate grading:", summary)
     try:
         from viva_genesis.viz import render_declared_viz_json
         print("viz.json panels:", render_declared_viz_json(STUDY_DIR, run_id, WORKSPACE_ROOT))
