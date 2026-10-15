@@ -25,6 +25,7 @@ Pure-Python, no heavy imports at module load; Plotly is only touched by callers.
 """
 from __future__ import annotations
 
+import re
 from html import escape
 
 # --------------------------------------------------------------------------- #
@@ -168,6 +169,10 @@ def header_band(
     (phase · view · tier).  ``tone`` sets the left accent / wash."""
     accent = _TONE_ACCENT.get(tone, INK)
     bg = _TONE_BG.get(tone, PANEL)
+    # When a view badge is shown, drop a redundant trailing "(… view)" parenthetical
+    # that older config titles carry (the badge now conveys it).
+    if view and title:
+        title = re.sub(r"\s*\([^)]*\bview\)\s*$", "", title).strip()
     chips = []
     if phase:
         chips.append(phase_tag(phase))
