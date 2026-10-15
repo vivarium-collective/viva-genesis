@@ -47,56 +47,74 @@ COLOCALIZATION_SPECIES = (
     "amino_precursor", "amphiphile", "nucleotide_precursor",
 )
 
-# Literature-bracketed default transport parameters (bracket midpoints) from
-# workspace/references/multisolute-pore-physics.md. D in 1e-9 m^2/s (25 C,
-# Stokes-Einstein-corrected to the pore T in the solver); soret in 1e-3 /K;
-# k_ads/k_des/k_deg in 1/s (reference condition pH~9, ~90 C). These are
-# bracketed estimates, NOT measured per-species values -- the structure sweep
-# spans the ranges in the reference.
+# Default per-species transport parameters, in the FEM-reference convention.
+#
+# ``diffusivity`` D is in 1e-9 m^2/s (25 C; only RATIOS matter here -- they set
+# each species' advective Peclet relative to the mixture mean). ``soret`` is the
+# NONDIMENSIONAL effective Soret drift coefficient the pore solve uses (the same
+# knob fem_multisolute's weak form takes), NOT the physical S_T in 1/K.
+#
+# Convention bridge: the physical Soret coefficients in
+# workspace/references/multisolute-pore-physics.md (#24) are ~1e-3-1e-2 /K; the
+# pore nondimensionalisation maps them onto this O(0.01-0.1) drift coefficient,
+# and the values below preserve the reference's RELATIVE ordering (amphiphile >
+# nucleotide > amino ~ pyruvate > phosphate ~ formate ~ acetate > ammonium).
+# The co-localization verdict depends on this ordering, not on the absolute
+# scale, and the structure-uncertainty sweep spans the bracket. k_ads/k_des/k_deg
+# are per-step rates (reference condition pH~9, ~90 C).
 _DEFAULT_TRANSPORT = {
-    #                       D(1e-9) soret(1e-3) k_ads   k_des   k_deg
-    "phosphate":           (0.80,   6.5,        5e-3,   5e-4,   0.0),
-    "ammonium":            (1.96,   2.5,        5e-4,   5e-4,   0.0),
-    "formate":             (1.45,   4.5,        2e-4,   2e-3,   2e-6),
-    "acetate":             (1.09,   4.5,        2e-4,   2e-3,   2e-7),
-    "pyruvate":            (1.00,   5.0,        5e-4,   2e-3,   2e-5),
-    "amino_precursor":     (1.06,   5.5,        1e-3,   1e-3,   5e-6),
-    "amphiphile":          (0.60,   12.0,       5e-3,   2e-4,   1e-7),
-    "nucleotide_precursor":(0.50,   10.0,       2e-3,   1e-3,   2e-5),
+    #                       D(1e-9) soret(nd) k_ads   k_des   k_deg
+    "phosphate":           (0.80,   0.065,    5e-3,   5e-4,   0.0),
+    "ammonium":            (1.96,   0.030,    5e-4,   5e-4,   0.0),
+    "formate":             (1.45,   0.050,    2e-4,   2e-3,   2e-6),
+    "acetate":             (1.09,   0.050,    2e-4,   2e-3,   2e-7),
+    "pyruvate":            (1.00,   0.055,    5e-4,   2e-3,   2e-5),
+    "amino_precursor":     (1.06,   0.060,    1e-3,   1e-3,   5e-6),
+    "amphiphile":          (0.60,   0.130,    5e-3,   2e-4,   1e-7),
+    "nucleotide_precursor":(0.50,   0.110,    2e-3,   1e-3,   2e-5),
 }
 
 
 def _default_species_params():
     return {
-        name: {"diffusivity": D * 1e-9, "soret": sT * 1e-3,
+        name: {"diffusivity": D * 1e-9, "soret": sT,
                "k_ads": ka, "k_des": kd, "k_deg": kg}
         for name, (D, sT, ka, kd, kg) in _DEFAULT_TRANSPORT.items()
     }
 
 
-# Calibrated surrogate constants (fit to the viva-fenics FEM reference; see
-# scripts/calibrate_pore_surrogate.py). ``geom`` scales the accumulation
-# exponent; ``pe0`` sets the convective-enhancement saturation (the resolved
-# field saturates past the trustworthy Peclet, so the surrogate saturates too).
-_SURROGATE = {"geom": 1.0, "pe0": 10.0, "coloc_k": 1.0}
+# Surrogate constants calibrated to the viva-fenics FEM reference over a
+# (Peclet x Soret) grid (scripts/calibrate_pore_surrogate.py): max 6.8% / mean
+# 1.7% relative error on single-species enrichment. ``geom`` is the pore-geometry
+# accumulation factor; ``pe0`` sets the advective-washout scale (in a FLOW-THROUGH
+# pore, enrichment is strongest at low Peclet and washes out as advection
+# dominates -- the convective factor is 1/(1 + Pe/pe0), NOT increasing with Pe).
+_SURROGATE = {"geom": 0.1623, "pe0": 8.8439, "coloc_k": 1.0}
 
 
 class MultisolutePoreSurrogateProcess(Process):
     """Reduced multisolute pore-network surrogate (uv ``.venv``, no dolfinx).
 
     Per species, the steady dissolved-pool enrichment is
-    ``exp(beta * L) * mobile_fraction * degradation_factor`` where
-    ``beta = geom * S_T * dT * saturating(Pe) * (1 - porosity)`` (the
-    single-tracer reduced model, per species), ``mobile_fraction =
-    k_des/(k_ads+k_des)`` (adsorption removes a species from the dissolved pool),
-    and ``degradation_factor = 1/(1 + k_deg * residence_time)`` (degradation
-    competes with accumulation). Honours the ``spatial_transport`` face."""
+    ``exp(beta) * mobile_fraction * degradation_factor`` where
+    ``beta = geom * (S_T * dT) * washout(Pe) * (1 - porosity)`` (the single-tracer
+    reduced model, per species, calibrated to the FEM reference),
+    ``washout(Pe) = 1/(1 + Pe/pe0)`` (a FLOW-THROUGH pore de-concentrates as
+    advection dominates -- enrichment is strongest at low Peclet), ``Pe`` is the
+    species' advective Peclet = ``peclet * D_mean/D`` (the control ``peclet`` is
+    set at the mixture-mean diffusivity), ``mobile_fraction = k_des/(k_ads+k_des)``
+    (adsorption removes a species from the dissolved pool), and
+    ``degradation_factor = 1/(1 + k_deg * residence)``. Honours the
+    ``spatial_transport`` face."""
 
     config_schema = {
+        # peclet is the control advective Peclet (at the mixture-mean D); the FEM
+        # reference + calibration are parameterised by it. flow_velocity is kept
+        # as a face input port but peclet is the sweep knob.
+        "peclet": {"_type": "float", "_default": 8.0},
         "flow_velocity": {"_type": "float", "_default": 1.0e-4},
         "porosity": {"_type": "float", "_default": 0.3},
         "temperature": {"_type": "float", "_default": 333.15},
-        "pore_length": {"_type": "float", "_default": 5.0e-3},
         "delta_T": {"_type": "float", "_default": 30.0},
         "species_params": {"_type": "tree", "_default": None},
     }
@@ -121,26 +139,28 @@ class MultisolutePoreSurrogateProcess(Process):
 
     def update(self, state, interval):
         cfg = self.config
-        w = max(float(cfg["flow_velocity"]), 1e-12)
         porosity = float(cfg["porosity"])
         dT = float(cfg["delta_T"])
-        L = float(cfg["pore_length"])
+        peclet = max(float(cfg["peclet"]), 1e-9)
         geom = _SURROGATE["geom"]
         pe0 = _SURROGATE["pe0"]
+        species = self._species()
+        D_mean = float(np.mean([float(p["diffusivity"]) for p in species.values()])) or 1e-18
+        residence = 1.0 / peclet                    # nondim residence ~ 1/Pe
         enr = {}
-        for name, p in self._species().items():
+        for name, p in species.items():
             D = float(p["diffusivity"])
             sT = float(p["soret"])
             k_ads = float(p.get("k_ads", 0.0))
             k_des = float(p.get("k_des", 0.0))
             k_deg = float(p.get("k_deg", 0.0))
-            pe = w * L / max(D, 1e-18)
-            sat = 1.0 - np.exp(-pe / pe0)           # convective enhancement, saturating
-            beta = geom * sT * dT * sat * (1.0 - porosity)
+            pe_i = peclet * (D_mean / max(D, 1e-18))   # species' advective Peclet
+            washout = 1.0 / (1.0 + pe_i / pe0)         # flow-through de-concentration
+            ns = sT * dT                               # nondimensional Soret number
+            beta = geom * ns * washout * (1.0 - porosity)
             mobile = (k_des / (k_ads + k_des)) if (k_ads + k_des) > 0 else 1.0
-            residence = L / w
             deg = 1.0 / (1.0 + k_deg * residence)
-            enr[name] = float(np.exp(min(beta * L, 45.0)) * mobile * deg)
+            enr[name] = float(np.exp(min(beta, 45.0)) * mobile * deg)
         return {"flux_divergence_residual": 0.0, "enrichment": enr}
 
 
@@ -219,7 +239,9 @@ class FenicsMultisolutePoreProcess(Process):
         w = float(cfg["peclet"]) * D_mean / 1.0
         specs = [{
             "name": name, "dissolved": np.zeros(n), "adsorbed": np.zeros(n),
-            "D": float(p["diffusivity"]), "soret": float(p["soret"]) * 1e3,  # /K -> /nondim-K scale
+            # species_params.soret is already the nondimensional Soret drift
+            # coefficient the fem_multisolute weak form takes (same convention).
+            "D": float(p["diffusivity"]), "soret": float(p["soret"]),
             "inlet": 1.0, "k_ads": float(p.get("k_ads", 0.0)),
             "k_des": float(p.get("k_des", 0.0)), "k_deg": float(p.get("k_deg", 0.0)),
         } for name, p in sp.items()]
