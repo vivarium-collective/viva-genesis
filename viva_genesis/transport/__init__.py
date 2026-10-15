@@ -30,7 +30,10 @@ first-order relaxation) as a runs-anywhere fallback. Both are re-exported here s
 ``build_core()``'s non-recursive package walk registers them.
 """
 
-from .fipy_reactor import FipyReactiveTransportProcess  # noqa: E402,F401
+from .fipy_reactor import (  # noqa: E402,F401
+    FipyReactiveTransportProcess,
+    FipyUniformUpflowTransportProcess,
+)
 from .thermophoretic_trap import ThermophoreticTrapProcess  # noqa: E402,F401
 from .vent_reactor import VentReactorReproductionProcess  # noqa: E402,F401
 # FEniCS/dolfinx spatial-transport models (full modeling plan section 4.5): the
@@ -46,6 +49,7 @@ from .fenics_reactor import (  # noqa: E402,F401
 
 __all__ = [
     "FipyReactiveTransportProcess",
+    "FipyUniformUpflowTransportProcess",
     "ThermophoreticTrapProcess",
     "VentReactorReproductionProcess",
     "FenicsReactiveTransportProcess",

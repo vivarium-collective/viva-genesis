@@ -375,3 +375,30 @@ def spatial_profile(proc: "FipyReactiveTransportProcess") -> dict:
     T = np.asarray(f["temperature"]); S = np.asarray(f["solute"])
     x = (np.arange(f["nx"]) + 0.5) * (f["extent"][1] / f["nx"])
     return {"x": x.tolist(), "temperature": T[-1].tolist(), "solute": S[-1].tolist()}
+
+
+class FipyUniformUpflowTransportProcess(FipyReactiveTransportProcess):
+    """The same real FiPy FVM solve with the Darcy-Boussinesq convection term
+    switched OFF (``buoyancy = 0``): a prescribed uniform upflow instead of the
+    buoyant recirculation cell.
+
+    This is a *model-class* alternative on the ``spatial_transport`` face, not a
+    parameter: whether the vent wall convects is a structural assumption about
+    the physics (Darcy-Boussinesq porous convection vs a prescribed Darcy
+    upflow), so the Model Upgrade plan treats it as a categorical axis
+    (``model_spatial_transport = "fipy_uniform_upflow"``) and reports where the
+    og-00 conclusions depend on it (structure-vs-parameter uncertainty).
+    """
+
+    config_schema = {**FipyReactiveTransportProcess.config_schema,
+                     "buoyancy": {"_type": "float", "_default": 0.0, "_units": "1/(kelvin*second)"}}
+
+    contract = {
+        **FipyReactiveTransportProcess.contract,
+        "summary": "Real 2-D FiPy advection-diffusion vent-ocean cross-section under a PRESCRIBED uniform upflow (no buoyant convection) — the structural alternative to the convecting class.",
+        "assumptions": [
+            "2-D porous-wall cross-section with prescribed boundary fluxes (ocean left, source base, vent exit top).",
+            "A prescribed uniform Darcy upflow carries the source up the chimney; NO buoyancy-driven recirculation (buoyancy = 0).",
+            "pH and porosity fields are derived from the real transported solute field (ocean<->vent mixing).",
+        ],
+    }
