@@ -288,12 +288,20 @@ def autonomy_summary(structures: list[dict], results: dict, lattice: dict) -> di
         if lattice["per_structure"][s["id"]]["full_set_persists"]:
             rows_p.append({k: p["settled"][k] for k in keys})
 
+    # every persisting run of ANY subset at this floor (the autonomy of whatever survives)
+    rows_any, any_sets = [], {}
+    for (sid, lab), p in results.items():
+        if lab != "generic" and persists(p):
+            rows_any.append({k: p["settled"][k] for k in keys})
+            any_sets[lab] = any_sets.get(lab, 0) + 1
+
     def _stats(rows):
         if not rows:
             return {k: {"mean": float("nan"), "min": float("nan"), "max": float("nan"), "n": 0} for k in keys}
         return {k: {"mean": float(np.mean([r[k] for r in rows])), "min": float(np.min([r[k] for r in rows])),
                     "max": float(np.max([r[k] for r in rows])), "n": len(rows)} for k in keys}
     return {"persisting_full_set": _stats(rows_p), "all_full_set": _stats(rows_all), "in_vent_full_set": _stats(in_vent),
+            "persisting_any": _stats(rows_any), "persisting_any_sets": any_sets,
             "definition": {"autonomy_work": "internal store work / (internal + external tap)",
                            "autonomy_material": "(active import + own fixation) / (passive uptake + active + fixation) of organic carbon",
                            "autonomy_information": "heredity-held machinery / (machinery + mineral catalysis)",

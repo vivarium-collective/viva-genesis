@@ -25,7 +25,7 @@ lead: |
   scenarios head to head rather than assuming either. Each stage is a coupled Vivarium composite of
   genuine simulators (PHREEQC, FiPy, eQuilibrator, libRoadRunner — plus a merged FEniCS/dolfinx FEM
   solver run under pixi as a high-fidelity cross-check) under explicit conservation contracts.
-  All twenty-one member studies are built and run on real simulators. The fourteen-stage arc — from vent
+  All twenty-two member studies are built and run on real simulators. The fourteen-stage arc — from vent
   geochemistry through carbon fixation, protometabolism, individuality, compartmentation, internalized
   bioenergetics and heredity to ecology, escape, and the nitrogen/phosphorus/energy/growth bottlenecks —
   plus the Phase-1 environmental-calibration study (og-cal-vent-environment) pass their pre-stated
@@ -39,7 +39,7 @@ executive:
     origin of cells — treating a cellular origin as coupled transitions from geochemistry to 
     bioenergetic autonomy, grounded in serpentinization-driven alkaline hydrothermal vents, with 
     explicit competing scenarios.
-  verdict: The full geochemistry-to-heredity arc runs and passes. All twenty-one member studies execute
+  verdict: The full geochemistry-to-heredity arc runs and passes. All twenty-two member studies execute
     on real simulators; the fourteen-stage arc and the Phase-1 calibration pass their pre-stated,
     falsifiable gates with conservation held
     to machine precision — a Lost City vent (og-00), H2-driven carbon fixation benchmarked against
@@ -84,15 +84,20 @@ executive:
     for polyphosphate, and the 'pays' verdict is structure-sensitive (cross-class agreement 0.46); and
     Phase 7 (competing heredity) has run its information-per-cost frontier — quantifying that heredity need
     not presume RNA, the best non-RNA class carrying 0.36× the RNA template's bits per offspring but 26×
-    the bits per joule, with the Eigen threshold reappearing at q ≈ 0.967. Phase 8 (biochemical ecology)
-    is building and Phase 9 (integrated autonomy) is the remaining path — not unrun science in the staged
-    arc itself.
+    the bits per joule, with the Eigen threshold reappearing at q ≈ 0.967. Phase 8 (biochemical ecology) has run — a
+    community of two incomplete lineages holds the reductive C4 branch that neither performs alone, carried by real
+    metabolite flux — and Phase 9 (integrated autonomy) has run as the capstone — og-08's {pump, importer, heredity}
+    re-asked inside one persistent world under seven ledgers across 24 sampled model structures is an honest
+    negative — no subset persists into a 1 % ocean, only {pump, heredity} into a 10 % one, the importer a net cost
+    under a leaky membrane — so og-08's set is recorded as a hypothesis generator. Phases 1–9 are built and run; the
+    forward program is complete and its open items are decisions, not unrun science.
   verdict_status: complete
-  verdict_detail: 21 member studies (the fourteen-stage arc — Campaigns 0–VIII, four resource/energy
-    bottleneck modules, an adversarial control — plus seven Model-Upgrade calibration / -alt studies
-    spanning Phases 1–7 — environmental calibration, electrochemistry, open network, endogenous boundary,
-    physical reproduction, energy-coupling threshold, information-per-cost heredity) wired into a DAG —
-    all run; all gate-passing except the Phase-2 map, whose agreement gate fails honestly (below). The Phase-3 study (og-02-alt-reaction-universe)
+  verdict_detail: 22 member studies (the fourteen-stage arc — Campaigns 0–VIII, four resource/energy
+    bottleneck modules, an adversarial control — plus eight Model-Upgrade calibration / -alt studies
+    spanning Phases 1–9 — environmental calibration, electrochemistry, open network, endogenous boundary,
+    physical reproduction, energy-coupling threshold, information-per-cost heredity, biochemical ecology,
+    integrated autonomy) wired into a DAG —
+    all run; all gate-passing except the Phase-2 map and the Phase-9 capstone, whose gates fail honestly (below). The Phase-3 study (og-02-alt-reaction-universe)
     passes its motifs-emerge-not-imposed gate as an honest result — 0 autocatalytic motifs on the Phase-1
     feed, the formose cycle only on a formaldehyde feed (enriched over matched nulls, p ≈ 0.04). Each runs a coupled Vivarium composite of real tools (PHREEQC + FiPy;
     eQuilibrator + FiPy; libRoadRunner; a FiPy thermal trap; amphiphile self-assembly; bioenergetic
@@ -147,6 +152,16 @@ executive:
     FEM does not confirm above Pe ~ 13, so localization is gated on the Peclet, not the fold-magnitude.
     The gate change itself is implemented in a separate og-03 PR; recorded here as the decision-state.'
   decisions_needed:
+  - question: 'Phase 9 — read og-08''s {pump, importer, heredity} as a HYPOTHESIS GENERATOR (plan section 10), not a
+      result: the integrated world (og-08-alt-robust-innovation-set) finds the required set structure-dependent and
+      the off-gradient verdict decided by the ocean floor, the membrane leakiness and the inheritance class''s
+      budget sensitivity. Adopt this framing for the campaign''s endpoint statement, and supply the ocean''s H2 /
+      organic background (the floor) as an expert prior?'
+    context: 'og-08-alt-robust-innovation-set (references/model-upgrade-integration.md section 6g): the Phase-9 world finds no
+      subset sufficient at the nominal ocean floor and only {pump, heredity} at a rich one, with the importer a net cost under
+      the fatty-acid-vesicle leak; the gate fails honestly (like Phase 2). The floor (vg-data integrated_autonomy, hypothetical,
+      swept 1e-3 .. 1e-1) and the Phase-6 upkeep are the numbers the verdict turns on; an expert prior on the Hadean ocean''s
+      dissolved H2 and organics would turn the floor map into a prediction.'
   - question: 'Phase-8 agent motion model: DEFERRED. The proto_ecology component points agents at fixed cells
       of the Phase-4 field (interleaved or segregated along the pore); no motility, chemotaxis or advective
       drift of agents is modelled. Which motion model (none / advected with the pore flow / Brownian between
@@ -338,7 +353,8 @@ guidelines:
         og-res-phosphorus-availability, og-energy-proto-energetics, og-growth-division, og-cal-vent-environment (posterior prediction),
         og-01-cal-electrochemistry (mechanism map; the Altair current-window check is at reproduction tier)]
       conceptual_demonstration: [og-05-environmental-to-internal-bioenergetics, og-06-chemistry-to-heredity,
-        og-07-ecology-before-luca, og-08-escape-from-the-vent, og-07-alt-real-metabolite-exchange]
+        og-07-ecology-before-luca, og-08-escape-from-the-vent, og-07-alt-real-metabolite-exchange,
+        og-08-alt-robust-innovation-set]
       null_control: [og-adv-generic-nonequilibrium]
     decision_discipline:
     - Do not move a headline conclusion forward if it depends on a numerically unvalidated regime.
@@ -364,6 +380,7 @@ guidelines:
     vg-energy: viva_genesis/bioenergetics/energy_coupling.py + composites/protocell_energetics.py + ledger.FreeEnergyLedgerProcess + data/vg_data/energy_currencies.yaml + uq/energetics_threshold.py (built; energy_coupling face with passive_gradient | h_na_gradient_leaky_membrane | thioester_acyl_phosphate | polyphosphate | fe_redox, per-individual autonomy, free-energy ledger in >= work + dissipated with the store)
     vg-heredity: viva_genesis/heredity/{competing,information}.py + composites/competing_heredity.py + ledger.InformationLedgerProcess + data/vg_data/inheritance_budgets.yaml (built; six Gillespie heredity classes behind the heredity face, HeredityAttachmentStep, MI estimator with convergence check, information-per-cost ledger)
     vg-ecology: viva_genesis/ecology/{proto_ecology,reactive_system}.py + composites/metabolite_exchange_community.py + ledger.EcologyElementLedgerProcess + data/vg_data/cnp_resources.yaml + viz_ecology.py (built; proto_ecology face with reaction_universe | null_network classes — the Phase-3 universe inside every agent masked to a lineage rule repertoire — SpatialCouplingStep onto the Phase-4 enrichment field firing the uptake / secretion / diffusion / pore-exchange rules of a BigraphicalReactiveSystem, EcologyReducerStep keeping og-07's gate names, C/N/P ledger across agents + field)
+    vg-autonomy: viva_genesis/autonomy/integrated.py + composites/integrated_autonomy.py + uq/robust_innovation.py + uq/phase1_posterior.py + data/vg_data/integrated_autonomy.yaml + viz_autonomy.py (built; the integrated world over every face with an AblationStep, the importer as an exchange rule, the autonomy decomposition, seven ledgers, a structural-event log, the innovation lattice across sampled structures at the Phase-1 posterior)
     campaign-uq-layer: viva_genesis/uq/ (built; ABC/importance calibration, Morris+Sobol, structural ensembles, propagation, report triple)
   roadmap_phases:
   - phase: 1
@@ -454,11 +471,13 @@ guidelines:
     next: exact low-copy-number stochastics per agent (4e-3 molecules per femtolitre cell, 4 per picolitre compartment); permeabilities from the Phase-5 boundary classes and the measured charged-solute anchor (proposed_inputs); a motion model (decisions_needed); growth / division of agents on the field; N/P-bearing rules so the C:N:P demand becomes a gate; a second lineage partition
   - phase: 9
     name: Integrated autonomy
-    status: planned
+    status: built-and-run
     studies: [og-08-escape-from-the-vent, og-adv-generic-nonequilibrium, og-08-alt-robust-innovation-set]
-    component: one persistent world with an AblationStep; the {pump, importer, heredity} result re-run under an ensemble of maintenance / transport / storage / permeability / inheritance structures
-    data_package: all packages, posterior-propagated from Phase 1
+    component: integrated_autonomy_world — one persistent world assembled from the merged faces around a single lineage (the reduced serpentinization class under the conservation ledger, the Butler-Volmer interface under the charge ledger, a localization class as the transport law, the Phase-3 universe inside the cell under the network + C/N/P ledgers, an energy_coupling class as the storage model under the free-energy ledger, a boundary class x permeability anchor as the permeability assumption, a heredity class as the lineage's machinery under the information ledger, a maintenance law, a population dividing / starving by the Phase-5 rewrites under the rewrite ledger); AblationStep withdrawing the gradient, the mineral access and the feed to their ocean floors; ActiveUptakeRule (the importer as a regulated, budgeted, costed exchange rule); AutonomyBudgetStep (the co-limited budget + the autonomy decomposition); StructuralEventLogStep; uq.robust_innovation (the structural ensemble, the persistence rule, the innovation lattice, the TransitionReport)
+    data_package: integrated_autonomy (the Phase-1 posterior carried as distributions over its six viable draws + every Phase-9 hypothetical; 32 parameters, 5 calibrated, 20 hypothetical) over all earlier packages
     exit_criterion: the intersection of innovations required across model structures, with the continuous autonomy fraction decomposed by function
+    result: "see og-08-alt-robust-innovation-set: an honest negative. Across 24 sampled structures at the Phase-1 posterior, no subset of {pump, importer, heredity} persists into a 1 % ocean; into a 10 % ocean only {pump, heredity} persists (2/24: thioester store, templated / hybrid heredity) and the full set never does — the importer costs more than it returns under a fatty-acid-vesicle leak while ocean H2 already saturates the drive. Required intersection over viable structures {pump, heredity}; the storage model reproduces Phase 6 (only thioester / Fe-redox run the lineage) and the inheritance class Phase 7 (peptide / network hold no machinery, the templated classes starve as the carbon falls); autonomy of the persisting lineages 0.99 (work 1, material 0.99, information 0.89); seven ledgers closed on all 485 runs; generic control rejected 0/24; gate minimum-sufficient-innovation-set FAILED (full set 0 < 0.5)."
+    next: several Gillespie seeds per structure; the full factorial over the decisive axes (inheritance class x ocean floor); the thermal withdrawal (fatty-acid vesicles in the cold ocean); an expert prior on the ocean's H2 / organic background (decisions_needed); the Phase-5 boundary classes supplying permeabilities directly
   architecture_principles:
   - Build the world, not the cell — environmental stores and processes first; no individual-level
     state exists until a structural rewrite creates it.
@@ -636,6 +655,8 @@ at_a_glance:
     carboxylating and a hydrogenating lineage holds the reductive C4 branch (malate) that neither performs alone,
     vanishing without sharing, sustained by oxaloacetate crossing between them, before any cell is complete; it
     needs a dicarboxylate permeability above ~3e-9 m/s; C/N/P ledger over agents + field closed on every run'
+- study: og-08-alt-robust-innovation-set
+  role: 'Phase 9 integrated autonomy (capstone): og-08''s {pump, importer, heredity} re-run as real processes inside one persistent world under seven ledgers across 24 sampled model structures at the Phase-1 posterior — an honest negative: no subset persists into a 1 % ocean, only {pump, heredity} into a 10 % one (2/24); the importer is a net cost under a leaky membrane; autonomy near 1 but insufficient; og-08 recorded as a hypothesis generator'
 studies:
 - og-00-vent-reactor-baseline
 - og-01-geology-to-reduced-carbon
@@ -659,6 +680,7 @@ studies:
 - og-energy-alt-internalization-threshold
 - og-06-alt-information-per-cost
 - og-07-alt-real-metabolite-exchange
+- og-08-alt-robust-innovation-set
 acceptance_criteria:
 - study: og-00-vent-reactor-baseline
   behavior: vent-pH-in-lostcity-range
@@ -704,6 +726,8 @@ acceptance_criteria:
   behavior: ancestry-predicts-phenotype
 - study: og-07-alt-real-metabolite-exchange
   behavior: community-function-precedes-cell-completeness
+- study: og-08-alt-robust-innovation-set
+  behavior: minimum-sufficient-innovation-set
 expert_docs:
 - Origins-of-Life Simulation Campaign
 - Origins-of-Life Computational Methods Atlas

@@ -48,7 +48,8 @@ not a direct consequence of how the model was encoded.
 | Phase 6 — proto-energetics | `bioenergetics/energy_coupling.py` (five classes on the `energy_coupling` face), `ledger.FreeEnergyLedgerProcess`, `composites/protocell_energetics.py`, `uq/energetics_threshold.py`, vg-data `energy_currencies`, study `og-energy-alt-internalization-threshold` | **built and run** (§6d) |
 | Phase 7 — competing heredity | `heredity/{competing,information}.py`, `ledger.InformationLedgerProcess`, `composites/competing_heredity.py`, vg-data `inheritance_budgets`, study `og-06-alt-information-per-cost` | **built and run** (§6e) |
 | Phase 8 — biochemical ecology | `ecology/{proto_ecology,reactive_system}.py`, `ledger.EcologyElementLedgerProcess`, `composites/metabolite_exchange_community.py`, vg-data `cnp_resources`, study `og-07-alt-real-metabolite-exchange` | **built and run** (§6f) |
-| Phases 4, 5, 9 | §7 roadmap, `investigation.yaml.guidelines.roadmap_phases` + `decisions_needed` | **planned** (4 and 5 have their classes and studies; 9 planned) |
+| Phase 9 — integrated autonomy | `autonomy/integrated.py` (`AblationStep` + the world's steps), `ecology/reactive_system.ActiveUptakeRule`, `composites/integrated_autonomy.py`, `uq/robust_innovation.py`, `uq/phase1_posterior.py`, vg-data `integrated_autonomy`, study `og-08-alt-robust-innovation-set` | **built and run** (§6g) |
+| Phases 4, 5 | §7 roadmap, `investigation.yaml.guidelines.roadmap_phases` + `decisions_needed` | **built and run** (their classes and studies; see §7) |
 
 ## 1. The scientific standard, as code
 
@@ -716,6 +717,136 @@ from the Phase-5 boundary classes; growth, division or motion of agents
 (motion deferred — `decisions_needed`); N/P-bearing rules so the C:N:P demand
 becomes a gate; a second lineage partition.
 
+## 6g. Phase 9 — integrated autonomy, worked concretely
+
+Built (PR "feat(phase9)"): **one persistent world**,
+`viva_genesis/composites/integrated_autonomy.py::integrated_autonomy_world`,
+assembled from the merged phases around a single lineage, in which every one
+of og-08's innovations is a real process of an earlier phase and the budget is
+what those processes deliver. The **geology** layer is the reduced
+`serpentinization` class at one Phase-1 posterior draw's (T, flow, olivine
+extent) under the Phase-1 `ConservationLedgerProcess`; the **interface** is the
+Butler–Volmer `carbon_fixation` class under the `ChargeLedgerProcess`, making
+the organic feed from the draw's H2 and pH contrast on the mineral catalyst
+(its net carbon flux relative to its in-vent steady state scales what the pore
+delivers); the **pore** is a `localization` class — the *transport law*:
+`multisolute_surrogate` (flow-through, species-resolved) | `surrogate` |
+`fipy` (og-03's closed-cell column at the resolvable Péclet, species-agnostic,
+through an `EnrichmentAdapterStep`) — and the Phase-8 `SpatialCouplingStep`
+firing the exchange rules under the `EcologyElementLedgerProcess`, with the
+Phase-3 `NetworkLedgerProcess` over the cell; the **cell** is one 0.52-pL
+protocell (the Phase-6 individual) running the Phase-3 universe
+(`proto_ecology` face, generalist repertoire), its mineral-catalysed rules
+driven by the FeS surface while it sits on it and by the lineage's own
+heredity-held machinery once it has left (a new optional `catalyst_activity`
+port on the face); the **storage model** is an `energy_coupling` class
+(`h_na_gradient_leaky_membrane` | `thioester_acyl_phosphate` | `polyphosphate`
+| `fe_redox`) under the `FreeEnergyLedgerProcess`, its external tap through
+the membrane leak and its internal store charged by the drive the cell's LIVE
+substrate pool sustains (a new optional `drive_availability` port: H2 / (H2 +
+K) or organics / (organics + K), coupled by the machinery held); the
+**permeability assumption** is a `boundary` class (`single_chain` | `mixed` |
+`thioester_aminothiol`, relative leakiness 1 / 1.6 / 100) times a permeability
+anchor (the Phase-8 extrapolated charged-solute classes, or the measured
+fatty-acid-vesicle anchor three decades tighter — the og-07-alt decision) that
+scales the H+ leak and the exchange permeabilities; the **inheritance class**
+is a `heredity` class (all six) as the lineage's machinery — the function its
+individuals hold over a reference *is* the catalytic capacity behind the pump
+and the importer — attached by the `HeredityAttachmentStep` under the
+`InformationLedgerProcess`, fed precursors from the cell's own organic carbon
+and energy from a share of its work (`LineageSupplyProcess`); the
+**maintenance function** is `MaintenanceDemandProcess` (`constant`: the
+Phase-6 activity law | `leak_repair`: scaled by the leakiness, Sojo 2014 |
+`turnover`: scaled by the machinery held, Lane & Martin 2012); the
+**population** is a map of individuals fed by the lineage's co-limited gain
+(`min(material, work / ΔG_C)`) through a declared `external_flux` channel of
+the `RewriteLedgerProcess`, dividing by the Phase-5 `_divide` and starving out
+by `_remove`. The three innovations: **pump** = `coupling_activity` 1 | 0 on
+the storage class; **importer** = `ActiveImportProcess` firing the new
+`ActiveUptakeRule` of the reactive system (a saturable transporter regulated to
+a set-point and a ratio cap, spending at most a share of the work supply, at
+the thermodynamic cost RT ln(c_in / c_out) per mole over a coupling
+efficiency — conserving and counted) | not; **heredity** = attachment allowed |
+forced off (og-06's non-heritable control). `AblationStep` withdraws the
+gradient, the mineral access and the feed linearly toward their ocean floors
+(the feed and mineral floors a fraction of the vent level — the hypothetical
+Decision axis; the gradient to 0), `environment = "generic"` being the og-adv
+reject control (every driver at its floor from t = 0, no pore concentration);
+`StructuralEventLogStep` records every structural event; `AutonomyBudgetStep`
+publishes the co-limited budget (work: tap + store vs maintenance + import +
+heredity; material: passive uptake + active import + own fixation vs
+degradation to tar) and the **continuous autonomy value** — work = store /
+(store + tap), material = (import + own fixation) / supply, information =
+heredity-held machinery / (machinery + mineral), and their work-weighted
+total. The world tick is 60 s (the storage class and its ledger, the cell's
+chemistry and the importer at the Phase-6 10-s step inside it; a transporter
+pulse against one 60-s integration drove CVODE negative and the carbon ledger
+to 1e-2 — the finer step closes it to 1e-12); the heredity class runs one
+lineage-time unit per tick (a declared ratio: its rates are hypothetical).
+`uq/phase1_posterior.py` re-applies og-cal's conditioning rule to the committed
+ensemble and carries the six viable draws as the vent endmembers; vg-data
+`integrated_autonomy` records them as distributions beside every Phase-9
+hypothetical (32 parameters: 5 calibrated, 4 inferred, 3 extrapolated, 20
+hypothetical). `uq/robust_innovation.py` samples the structures (a categorical
+Latin design over the six axes, 24 structures over the 1296 cells), runs every
+innovation subset, applies the pre-registered persistence rule (over the final
+15 % of the run with every driver at its floor: settled work AND material
+budgets non-negative, at least half the founders alive) and builds the
+lattice: per structure the sufficient subsets, their minimal elements and the
+*required* set (the intersection of the sufficient subsets); across structures
+the node statistics, the intersection and union of the required sets and the
+per-level breakdown. Seven ledgers run beside the world; `viz_autonomy.py` the
+two figures.
+
+Results (`og-08-alt-robust-innovation-set`: 485 integrated-world runs — 24
+structures × 8 subsets × 2 floors, the generic control, the full set over three
+more floors, five canonical traces; 300 ticks of 60 s each; ~77 min on
+6 workers):
+
+| Floor | Full set persists | Any subset persists | Required intersection (viable structures) | Importer required |
+|---|---|---|---|---|
+| nominal (1 % of the vent feed) | 0 / 24 | 0 runs of 192 | — (no viable structure) | — |
+| rich (10 %) | 0 / 24 | {pump, heredity} in 2 / 24 | {pump, heredity} | 0 |
+
+**Gate `minimum-sufficient-innovation-set`: FAILED** (an honest negative,
+as Phase 2's). Where anything persists (s16 (thioester acyl phosphate store, hybrid heredity, mixed boundary at the measured anchor, constant upkeep; net 9.5e-19 W, machinery 0.93, autonomy 1); s19 (thioester acyl phosphate store, rna like heredity, single chain boundary at the extrapolated anchor, constant upkeep; net 1.2e-18 W, machinery 0.97, autonomy 0.99)) the full set does not,
+because the importer costs more than it returns (s16: net -4.9e-19 W with the importer on, its cost 1.7e-18 W; s19: net -1.1e-18 W with the importer on, its cost 1.9e-18 W): a
+transporter holding organics at 30 % of the vent level against a
+fatty-acid-vesicle leak, while ocean H2 (K 10 µM) already saturates the
+drive, is a pure cost. The storage model reproduces Phase 6 inside the
+world — the H+/Na+ gradient store never charges at the leak, polyphosphate
+never clears its load, the four stores deliver at most 0 (polyphosphate), 0 (H+/Na+ gradient), 6.6e-18 (thioester) and 5e-18 W (Fe-redox)
+against the Phase-6 upkeep of 5.1e-18 W at full coupling — and the
+inheritance class reproduces Phase 7's budget sensitivity (settled machinery
+off-gradient at the rich floor: hybrid 0.77, mineral state 0.74, rna like 0.41, compositional 0.27, network 0, peptide 0). The og-adv generic control persists
+under 0/24 structures; the full set persists at none of the five
+floors (1e-03: 0, 3e-03: 0, 1e-02: 0, 3e-02: 0, 1e-01: 0). The persisting lineages are autonomous by the continuous
+measure (work 1, material 0.99,
+information 0.89, total 0.99) and so
+are most of the full-set lineages that fail (mean total autonomy
+0.93 off-gradient vs 0.71 in the vent, where
+the tap supplies the work): autonomy is reached, sufficiency is not.
+
+Verification: all seven ledgers close on every run — carbon 1.7e-10, N
+1.4e-14, P 1.5e-14, free energy 4.4e-14, information store
+1.1e-14, rewrite 4.9e-32, charge 4.7e-14, element 0;
+40441 structural events (22365 divisions, 724 extinctions).
+Tier: `conceptual_demonstration`; the vg-data audit is 5
+calibrated / 4 inferred / 3
+extrapolated / 20 hypothetical, none unsourced; the
+decision-discipline audit is clean.
+
+Reading: composed as mechanisms, og-08's innovations are not jointly
+sufficient — a pump held by heredity is what persists, the importer is a cost
+under a leaky membrane, and the verdict turns on the ocean floor, the membrane
+leak and the inheritance class's budget sensitivity, with margins (1e-19 to
+1e-18 W at the rich floor) inside the reach of the Phase-6 upkeep and the
+transporter numbers. The recorded decision: og-08's set is a **hypothesis
+generator** (plan §10), and Phase 9 maps where its hypothesis holds. What
+Phase 9 does *not* yet do: several Gillespie seeds per structure; the full
+factorial over the decisive axes; the thermal withdrawal; an expert prior on
+the ocean's H2 / organic background (the single number the verdict turns on).
+
 ## 7. Roadmap — Phases 2–9 mapped onto the existing studies
 
 Each phase leaves behind, per the plan: a reusable PBG component (a class on a
@@ -736,7 +867,7 @@ recorded in `investigation.yaml.guidelines.roadmap_phases`.
 | **6 Proto-energetics** | og-energy (`GeochemicalDriveProcess`, `ProtoEnergyCurrencyProcess`), og-05 (`BioenergeticSelectionProcess`) | `energy_coupling`: `passive_gradient` (A), `h_na_gradient_leaky_membrane` (A), `thioester_acyl_phosphate` (E as carrier), `polyphosphate` (E), `fe_redox` (A) — all inside each protocell composite, autonomy = internal / (internal + external) power per individual | `energy_currencies` (Fe disproportionation drive already proposed; H+/Na+ permeabilities) | free-energy ledger: `free_energy_in ≥ work + dissipated` as an invariant | `og-energy-alt-internalization-threshold`: gate `internalization-pays` — passive vs increasingly active coupling, the point where energetic benefit exceeds leakage + maintenance, per class | energy-capture efficiency and internalization threshold | Replace og-05's population-mean `internalization` with per-individual autonomy (reads the same field) |
 | **7 Competing heredity** (built — §6e) | og-06 (`LineageReplicatorProcess` modes), FMP §2.5 | `heredity`: `compositional`, `network`, `peptide`, `rna_like`, `hybrid`, `mineral_state` (carved out of the one class), attached conditionally by `HeredityAttachmentStep` under matched resource + energy budgets, Gillespie at low copy number | `inheritance_budgets` (precursor availability, error rates, template costs) | information ledger: heritable bits per unit energy; mutual information estimator convergence | `og-06-alt-information-per-cost`: gates `ancestry-predicts-phenotype` (parent–offspring mutual information per class) and the information-per-cost frontier; og-06's "need not presume RNA" becomes a class-substitution result | information-per-cost frontier; transition to templated heredity | Defensible attachment thresholds (expert input; `hypothetical` and swept until then) |
 | **8 Biochemical ecology** (built — §6f; malate held by the community of a carboxylating and a hydrogenating lineage and by neither alone, vanishing without sharing, sustained by oxaloacetate crossing between them, no cell complete; emerges above P_diacid 3e-9 m/s) | og-07 (`CrossFeedingMetacommunityProcess` capability vectors) | `proto_ecology`: real reaction networks per protocell (Phase-3 classes inside each agent), `SpatialCouplingStep` onto the Phase-4 fields, `BigraphicalReactiveSystem` exchange rules; `EcologyReducerStep` keeps og-07's gate names | `cnp_resources` + the Phase-3 universe | element ledger across agents + fields; exchange-rule firing counts | `og-07-alt-real-metabolite-exchange`: gate `community-function-precedes-cell-completeness` — a function present in the community union but in no lineage, sustained by real metabolite flux, not symbolic capability transfer | emergent cross-feeding / division of labor / robustness | Agent motion model (defer; point agents on fields first) |
-| **9 Integrated autonomy** | og-08 (`OffGradientPersistenceProcess`, {pump, importer, heredity}), og-adv | one persistent world (FMP §2.2 skeleton) with an `AblationStep` scheduling geology withdrawal; the {pump, importer, heredity} result re-run under an **ensemble** of maintenance functions, transport laws, storage models, permeability assumptions and inheritance classes | all packages, posterior-propagated from Phase 1 | every ledger; structural-event log | `og-08-alt-robust-innovation-set`: gate `minimum-sufficient-innovation-set` across model structures — the *intersection* of required innovations, reported as a lattice with the continuous autonomy value (fraction of essential work and material supplied internally, decomposed by function) | functions robustly required across model structures | Treat the current {pump, importer, heredity} as a hypothesis generator (plan §10), not a result |
+| **9 Integrated autonomy** (built — §6g; honest negative: no subset sufficient into a 1 % ocean, only {pump, heredity} into a 10 % one (2/24); the importer a net cost under a leaky membrane; seven ledgers closed on 485 runs) | og-08 (`OffGradientPersistenceProcess`, {pump, importer, heredity}), og-adv | one persistent world (FMP §2.2 skeleton) with an `AblationStep` scheduling geology withdrawal; the {pump, importer, heredity} result re-run under an **ensemble** of maintenance functions, transport laws, storage models, permeability assumptions and inheritance classes | all packages, posterior-propagated from Phase 1 | every ledger; structural-event log | `og-08-alt-robust-innovation-set`: gate `minimum-sufficient-innovation-set` across model structures — the *intersection* of required innovations, reported as a lattice with the continuous autonomy value (fraction of essential work and material supplied internally, decomposed by function) | functions robustly required across model structures | Treat the current {pump, importer, heredity} as a hypothesis generator (plan §10), not a result |
 
 **Cross-cutting, every phase:** the adversarial `GenericNonequilibriumEnvironment`
 becomes a class on an `environment` interface so og-adv's rejection re-runs
@@ -763,7 +894,9 @@ features that break the path* — requires every stage to carry a
 be read with the tiers of §1.2: the arc *runs and passes its gates*
 (reproduction at og-00/og-01, mechanistic predictions through og-04 and the
 bottleneck modules, conceptual demonstrations beyond), and the three-quantity
-standard is met so far for Phase 1 only (§6).
+standard is met so far for Phase 1 only (§6), and the Phase-9 capstone (§6g) records that og-08's
+innovation set is a hypothesis generator: composed as mechanisms it is not jointly sufficient, and the
+vent-to-ocean transition turns on what the ocean offers.
 
 ## 9. Open questions / blocked items
 

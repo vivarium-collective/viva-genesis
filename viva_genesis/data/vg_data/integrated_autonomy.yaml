@@ -66,6 +66,7 @@ parameters:
   provenance: extrapolated
   value: 2.1e-3
   context: {source: "og-cal posterior draws' inflowing DIC (the Hadean-ocean proxy prior, unsourced by design in vent_environment)"}
+  sources: [kelley2005serpentinite]
   distribution: {kind: uniform, low: 1.2e-3, high: 2.9e-3}
   consumed_by: integrated_autonomy_world.dic
   how_to_use: The ocean's CO2 — never withdrawn; the cell's own fixation runs on it wherever H2 and catalysis remain.
@@ -83,6 +84,7 @@ parameters:
   provenance: calibrated
   value: 0.21
   context: {source: "og-cal posterior (hypothetical prior, conditioned)"}
+  sources: [kelley2005serpentinite]
   distribution: {kind: uniform, low: 0.089, high: 0.38}
   consumed_by: integrated_autonomy_world.olivine_rate
   how_to_use: The geology layer's serpentinization extent.
@@ -91,6 +93,7 @@ parameters:
   provenance: extrapolated
   value: 6.0
   context: {source: "the Phase-1 Hadean-ocean prior (decisions_needed: the expert's prior)"}
+  sources: [martin2007origin]
   consumed_by: integrated_autonomy_world.ph_ocean
   how_to_use: The ocean-side pH the vent-side pH relaxes to as the gradient is withdrawn.
 # ---- the withdrawal: the ocean floors and the schedule --------------------------------------
@@ -114,6 +117,7 @@ parameters:
   provenance: inferred
   value: 0.0
   context: {regime: "the pH contrast of the wall vanishes away from it"}
+  sources: [martin2007origin, sojo2014bioenergetic]
   consumed_by: integrated_autonomy_world.gradient_floor
   how_to_use: The external pmf goes to zero at full withdrawal.
 - id: ablation_start
@@ -132,6 +136,8 @@ parameters:
   units: second
   provenance: inferred
   value: 60.0
+  context: {note: "the Phase-6 store step (10 s) runs inside it for the storage class, its ledger, the cell's chemistry and the importer"}
+  sources: [sojo2014bioenergetic]
   consumed_by: integrated_autonomy_world.tick_seconds
   how_to_use: Every process runs at this interval (the chemistry integrated by CVODE within it; the exchange rules' exact relaxation over it).
 # ---- the cell -------------------------------------------------------------------------------
@@ -268,6 +274,7 @@ parameters:
   provenance: inferred
   value: 5.2e-19
   context: {note: "the cell's organic carbon at 1 mM C in 0.52 pL"}
+  sources: [jordan2019promotion, weiss2016physiology]
   consumed_by: PopulationBudgetProcess.division_mass
   how_to_use: An individual divides (_divide) at this matter and is removed (_remove) below a tenth of it.
 - id: n_initial

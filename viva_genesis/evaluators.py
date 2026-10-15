@@ -965,6 +965,9 @@ def register_derived_scalars(registry: dict) -> None:
                 "generic_persistence_fraction", "generic_rejected", "all_ledgers_ok", "ledger_ok_runs", "events_total",
                 "autonomy_persisting_full_set", "autonomy_work_persisting_full_set", "autonomy_material_persisting_full_set",
                 "autonomy_information_persisting_full_set", "autonomy_persisting_full_set_rich",
+                "autonomy_persisting_any", "autonomy_persisting_any_rich", "autonomy_work_persisting_any_rich",
+                "autonomy_material_persisting_any_rich", "autonomy_information_persisting_any_rich",
+                "n_persisting_any_rich", "n_persisting_any", "autonomy_all_full_set_rich",
                 "lowest_floor_majority_persists", "lowest_floor_any_persists"):
         registry[f"lattice_{key}"] = _set_gate(key)
     # protocell_energetics / Phase-6 energy coupling (og-energy-alt-internalization-threshold)

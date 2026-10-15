@@ -213,15 +213,19 @@ def test_world_runs_with_every_ledger_closed_and_events_logged():
 
 def test_population_rewrites_divide_and_remove_under_the_rewrite_ledger():
     core = build_core()
-    pb = IA.PopulationBudgetProcess(config={"division_mass": 1.0, "uptake_cap": 0.6, "min_matter": 0.1, "n_initial": 2}, core=core)
-    pop = {"founder-0": {"internal_amounts": {"carbon": 0.5}, "division_state": 0.5},
-           "founder-1": {"internal_amounts": {"carbon": 0.12}, "division_state": 0.12}}
-    out = pb.update({"population": pop, "localized": {"carbon": 0.0}, "net_power": 1e-17, "material_net": 1.0e-2}, 60.0)
-    gain = min(1.0e-2, 1e-17 / 4e4) * 60.0
+    pb = IA.PopulationBudgetProcess(config={"division_mass": 1.0e-18, "uptake_cap": 6.0e-19, "min_matter": 1.0e-19,
+                                            "n_initial": 2}, core=core)
+    pop = {"founder-0": {"internal_amounts": {"carbon": 5.0e-19}, "division_state": 0.5},
+           "founder-1": {"internal_amounts": {"carbon": 1.2e-19}, "division_state": 0.12}}
+    out = pb.update({"population": pop, "localized": {"carbon": 0.0}, "net_power": 1e-17, "material_net": 1.0e-21}, 60.0)
+    gain = min(1.0e-21, 1e-17 / 4e4) * 60.0
     assert out["external_flux"] == pytest.approx(gain) and out["n_alive"] == 2 and "_remove" not in out.get("population", {})
-    starving = pb.update({"population": pop, "localized": {"carbon": 0.0}, "net_power": -1e-15, "material_net": 0.0}, 60.0)
-    assert "_remove" in starving["population"] and starving["population"]["_remove"] == ["founder-1"]
-    assert starving["removed_matter"] == pytest.approx(0.12) and starving["extinct"] == 1.0 and starving["n_alive"] == 1
+    assert sum(d["internal_amounts"]["carbon"] for d in out["population"].values()) == pytest.approx(gain)   # reservoir -> individuals
+    starving = pb.update({"population": pop, "localized": {"carbon": 0.0}, "net_power": -1e-16, "material_net": 0.0}, 60.0)
+    assert starving["population"]["_remove"] == ["founder-1"]                      # starved below the floor: _remove
+    assert starving["removed_matter"] == pytest.approx(1.2e-19) and starving["extinct"] == 1.0 and starving["n_alive"] == 1
+    assert starving["external_flux"] == pytest.approx(-7.5e-20)                   # only the survivor's loss leaves the system
+    assert starving["population"]["founder-0"]["internal_amounts"]["carbon"] == pytest.approx(-7.5e-20)
 
 
 # --------------------------------------------------------------------------- #
@@ -308,7 +312,7 @@ def test_committed_artifact_is_consistent_with_the_study():
     assert set(lat["required_intersection"]) <= set(lat["required_union"])
     assert g["all_ledgers_ok"] == 1.0 and rep["ledger"]["n_ok"] == rep["ledger"]["n_runs"]
     assert g["generic_persistence_fraction"] <= 0.25
-    assert 0.0 <= (g["autonomy_persisting_full_set_rich"] or 0.0) <= 1.0
+    assert 0.0 <= g["autonomy_persisting_any_rich"] <= 1.0 and g["n_persisting_any_rich"] >= 1
     assert rep["report"]["tier"] == "conceptual_demonstration" and rep["decision_discipline"] == []
     spec = importlib.util.spec_from_file_location("og08alt_set", SIMS / "compute_robust_innovation_set.py")
     mod = importlib.util.module_from_spec(spec)

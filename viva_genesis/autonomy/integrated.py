@@ -707,10 +707,14 @@ class AutonomyBudgetStep(Step):
         rates = state.get("rates", {}) or {}
         fixation = sum(max(float((r or {}).get("co2_fixation", 0.0)), 0.0) for r in rates.values())
         deg_cum = sum(float((r or {}).get("carbon_degraded", 0.0)) for r in rates.values())
+        t = float(state.get("global_time", 0.0))
         if self._deg_prev is None:
-            self._deg_prev = deg_cum
-        degradation = max(deg_cum - self._deg_prev, 0.0) / dt
-        self._deg_prev = deg_cum
+            self._deg_prev, self._t_prev, self._deg_rate = deg_cum, t, 0.0
+        elif t > self._t_prev:
+            # the cell's chemistry may run at a finer step than the world tick: a rate per elapsed time
+            self._deg_rate = max(deg_cum - self._deg_prev, 0.0) / (t - self._t_prev)
+            self._deg_prev, self._t_prev = deg_cum, t
+        degradation = self._deg_rate
         material_supply = passive + active + fixation
         material_net = material_supply - degradation
         # a pool at steady state (a tight cell whose production all turns to tar) has
@@ -854,7 +858,7 @@ class StructuralEventLogStep(Step):
     loss of machinery and the lineage's extinction. The ablation step logs its
     own phases into the same tree."""
 
-    config_schema = {"store_threshold": _p(0.5), "machinery_floor": _p(0.05)}
+    config_schema = {"store_threshold": _p(0.5), "machinery_floor": _p(0.05), "period": _p(60.0, "second", "inferred")}
 
     def __init__(self, config=None, core=None):
         super().__init__(config=config, core=core)
@@ -871,8 +875,10 @@ class StructuralEventLogStep(Step):
         return {"events": "tree", "event_count": _OW}
 
     def perform_update(self, state) -> bool:
-        t = state.get("global_time")
-        if t == self._last_time:
+        # once per world tick (finer-stepped processes advance the clock between ticks;
+        # the rewrites' counters hold their value until the next tick, so they are read once)
+        t = float(state.get("global_time", 0.0))
+        if self._last_time is not None and t < self._last_time + float(self.config["period"]) - 1e-9:
             return False
         self._last_time = t
         return True

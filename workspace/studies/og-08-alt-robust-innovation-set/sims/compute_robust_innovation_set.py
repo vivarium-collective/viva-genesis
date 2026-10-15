@@ -210,18 +210,30 @@ def main() -> int:
         "autonomy_work_persisting_full_set_rich": autonomy_rich["persisting_full_set"]["autonomy_work"]["mean"],
         "autonomy_material_persisting_full_set_rich": autonomy_rich["persisting_full_set"]["autonomy_material"]["mean"],
         "autonomy_information_persisting_full_set_rich": autonomy_rich["persisting_full_set"]["autonomy_information"]["mean"],
+        "autonomy_persisting_any": autonomy["persisting_any"]["autonomy"]["mean"],
+        "autonomy_persisting_any_rich": autonomy_rich["persisting_any"]["autonomy"]["mean"],
+        "autonomy_work_persisting_any_rich": autonomy_rich["persisting_any"]["autonomy_work"]["mean"],
+        "autonomy_material_persisting_any_rich": autonomy_rich["persisting_any"]["autonomy_material"]["mean"],
+        "autonomy_information_persisting_any_rich": autonomy_rich["persisting_any"]["autonomy_information"]["mean"],
+        "n_persisting_any_rich": autonomy_rich["persisting_any"]["autonomy"]["n"],
+        "n_persisting_any": autonomy["persisting_any"]["autonomy"]["n"],
+        "autonomy_all_full_set_rich": autonomy_rich["all_full_set"]["autonomy"]["mean"],
         "lowest_floor_majority_persists": floor_map["lowest_floor_majority_persists"],
         "lowest_floor_any_persists": floor_map["lowest_floor_any_persists"],
         "n_posterior_draws": len(draws),
     }
-    series = {lab: results[("canonical", "nominal", lab)]["series"] for lab in ("full", "-pump", "-importer", "-heredity", "generic")}
+    # the canonical traces at the world tick (the emitter runs at the finer store step) and the
+    # per-run reductions without their event lists (the counts stay; the canonical events are kept)
+    step = max(int(round(60.0 / 10.0)), 1)
+    series = {lab: {k: v[::step] for k, v in results[("canonical", "nominal", lab)]["series"].items()}
+              for lab in ("full", "-pump", "-importer", "-heredity", "generic")}
     events = {lab: results[("canonical", "nominal", lab)]["events"] for lab in series}
-    runs = {f"{sid}/{f}/{lab}": {k: v for k, v in r.items() if k not in ("series",)} | {"persists": RI.persists(r)}
+    runs = {f"{sid}/{f}/{lab}": {k: v for k, v in r.items() if k not in ("series", "events")} | {"persists": RI.persists(r)}
             for (sid, f, lab), r in results.items()}
     artifact = {
         "meta": {"study": "og-08-alt-robust-innovation-set", "generated": time.strftime("%Y-%m-%d"), "n_structures": n_struct,
                  "n_ticks": n_ticks, "tick_seconds": 60.0, "ablation_start": 3600.0, "ablation_duration": 6000.0,
-                 "nominal_floor": NOMINAL_FLOOR, "rich_floor": RICH_FLOOR, "floor_axis": list(floor_axis), "seed": seed,
+                 "nominal_floor": NOMINAL_FLOOR, "rich_floor": RICH_FLOOR, "floor_axis": list(floor_axis), "seed": seed, "series_step_s": 60.0,
                  "wall_s": time.time() - t0, "quick": quick, "n_runs": len(results), "axes": RI.STRUCTURE_AXES,
                  "canonical_structure": CANONICAL, "posterior": posterior_summary(draws),
                  "pass_rule": "a subset persists under a structure when, over the final 15 % of the run with every driver at its "
@@ -237,7 +249,7 @@ def main() -> int:
     }
     ARTIFACTS.mkdir(parents=True, exist_ok=True)
     out = ARTIFACTS / "robust_innovation_set.json"
-    out.write_text(json.dumps(artifact, indent=1, default=_json_default))
+    out.write_text(json.dumps(artifact, separators=(",", ":"), default=_json_default))
     VIZ.mkdir(parents=True, exist_ok=True)
     (VIZ / "robust-innovation-lattice.html").write_text(lattice_figure(artifact, title="Phase 9 — the innovation lattice across model structures (Decision view)"))
     (VIZ / "autonomy-ablation-trace.html").write_text(ablation_trace_figure(artifact, title="Phase 9 — the integrated world through the withdrawal (Mechanism / World view)"))

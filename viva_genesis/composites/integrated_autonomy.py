@@ -295,7 +295,9 @@ def integrated_autonomy_world(core=None, *, model_energy_coupling="thioester_acy
                                "boundary": {"area": area, "integrity": 1.0}, "division_state": 0.5, "persistence": 0.0}
                   for i in range(int(n_initial))}
 
-    energy_cfg = {"drive_turnover": 1.0e-21, "maintenance_active": 5.0e-18, "seconds_per_tick": 1.0}
+    # the class rests its store at q_rest(config T): give it the world's T so the initial
+    # store free energy is exactly 0 and the free-energy ledger's E0 closes from tick one
+    energy_cfg = {"drive_turnover": 1.0e-21, "maintenance_active": 5.0e-18, "seconds_per_tick": 1.0, "temperature": T}
     if pump_on:
         energy_cfg["coupling_activity"] = float(coupling_activity)   # 0.0 is the class default (the knockout)
 
@@ -535,7 +537,7 @@ def integrated_autonomy_world(core=None, *, model_energy_coupling="thioester_acy
                         "total_volume": ["stats", "total_volume"]},
         },
         "event_log": {
-            "_type": "step", "address": "local:StructuralEventLogStep", "config": {},
+            "_type": "step", "address": "local:StructuralEventLogStep", "config": {"period": dt},
             "inputs": {"global_time": ["global_time"], "attached": ["heredity", "attached"],
                        "energy_charge_fraction": ["budget", "energy_charge_fraction"], "energy_ok": ["autonomy", "energy_ok"],
                        "material_ok": ["autonomy", "material_ok"], "division_count": ["diag", "division_count"],
