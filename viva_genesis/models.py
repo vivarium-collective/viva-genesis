@@ -2,16 +2,28 @@
 
 Full modeling plan sections 4.1/4.2 (the model registry + the typed "face"
 concept) and 4.5-4.6 (the spatial-transport interface: FiPy and FEniCS/dolfinx
-behind one face). This is the minimal registry the plan describes: an
-``INTERFACES`` map of {interface -> {face, models}}, ``resolve()`` turning a
-``(interface, model_name)`` into a ``local:`` process address, and
-``assert_face()`` which fails loudly at composite-build time if the chosen
-class does not honour the interface's canonical face.
+behind one face), generalised per the Model Upgrade plan's Process Bigraph
+principle: *every upgraded mechanism implements a canonical biological
+interface, and a model class becomes a categorical experimental factor.*
 
-The point (plan 4.1): two different model classes expose the **same face**, so
-a composite swaps the ``address`` selected by a study param
-(``model_spatial_transport ∈ {"fipy", "fenics", ...}``) and nothing else
-changes. ``assert_face`` is what makes that swap a *safe* operation.
+Three things live here:
+
+1. **Faces** (``FACES``): per interface, the REQUIRED and OPTIONAL input/output
+   port names a model class must honour. Every face port must also map onto a
+   canonical ``vg_*`` schema field (``viva_genesis.schemas.PORT_TO_CANONICAL``)
+   or a declared diagnostic — ``canonical_coverage`` audits that, so a face is
+   expressible in the shared biological vocabulary, not just a port list.
+2. **Interfaces** (``INTERFACES``): ``{interface -> {face, models}}`` where
+   ``models`` maps a model-class NAME to a ``local:`` process address.
+   ``resolve()`` turns ``(interface, name)`` into the address and
+   ``assert_face()`` fails loudly at composite-build time if the class does not
+   honour the face.
+3. **Model class as a sweep axis**: a composite generator takes one keyword
+   ``model_<interface>`` per interface it exposes (``model_parameters()``
+   declares them uniformly); ``viva_genesis.sweep.sweep_grid`` accepts the
+   string-valued axis ``{"model_<interface>": axis(interface)}`` and the UQ
+   layer (``viva_genesis.uq.ensemble``) reduces the result to per-class
+   ``pass_fraction`` and cross-class ``structure_agreement``.
 
 Spatial transport (plan 4.5). Both solvers implement one ``spatial_transport``
 face over the ``world`` block: FiPy (pure-Python finite volume, runs in the uv
@@ -20,13 +32,23 @@ runs under pixi). The FEniCS classes register unconditionally (their dolfinx
 import is lazy, inside ``update()``), so ``resolve`` / ``assert_face`` work in
 the ``.venv`` too; only *running* a FEniCS model without dolfinx raises a clear
 "run under pixi" error (see ``viva_genesis.transport.fenics_reactor``).
+
+Serpentinization (Model Upgrade plan, priority upgrade A). The real PHREEQC
+class and the reduced Gaussian-source reproduction honour one
+``serpentinization`` face, so the og-00 world can sweep the geochemistry
+engine as a class axis; the planned Reaktoro / PFLOTRAN classes register on
+the same face when they land.
 """
 
 from __future__ import annotations
 
+from .schemas import PORT_TO_CANONICAL
+
+MODEL_PARAM_PREFIX = "model_"
+
 
 # --------------------------------------------------------------------------- #
-# The spatial_transport face (plan 4.5)
+# Faces
 # --------------------------------------------------------------------------- #
 # One face spans both the vent reactor (og-00: advection-diffusion-reaction,
 # outlet T/pH/porosity deltas) and the pore trap (og-03: thermophoretic drift,
@@ -55,8 +77,19 @@ SPATIAL_TRANSPORT_FACE = {
     },
 }
 
+# The serpentinization source: (T, flow[, DIC]) -> H2 / alkalinity / heat
+# source deltas + instantaneous flux sensors. The real PHREEQC class adds the
+# speciation sensors (pe, pH_eq, charge_imbalance) as optional outputs.
+SERPENTINIZATION_FACE = {
+    "required_inputs": {"temperature", "flow_velocity"},
+    "optional_inputs": {"DIC", "pressure"},
+    "required_outputs": {"H2", "alkalinity", "heat", "H2_flux"},
+    "optional_outputs": {"alkalinity_flux", "heat_flux", "pe", "pH_eq", "charge_imbalance"},
+}
+
 FACES = {
     "spatial_transport": SPATIAL_TRANSPORT_FACE,
+    "serpentinization": SERPENTINIZATION_FACE,
 }
 
 
@@ -72,7 +105,8 @@ INTERFACES = {
     "spatial_transport": {
         "face": "spatial_transport",
         "models": {
-            "fipy": "local:FipyReactiveTransportProcess",            # E
+            "fipy": "local:FipyReactiveTransportProcess",            # E (Darcy-Boussinesq convection)
+            "fipy_uniform_upflow": "local:FipyUniformUpflowTransportProcess",  # A (prescribed upflow, no convection)
             "fenics": "local:FenicsReactiveTransportProcess",        # A (dolfinx FEM)
             # NOTE (plan 4.6): the reduced vent reactor
             # (VentReactorReproductionProcess) is the natural og-00 Decision-map
@@ -92,11 +126,93 @@ INTERFACES = {
             "surrogate": "local:SurrogateThermophoreticTrapProcess",  # A (exp(beta*L), plan 4.6)
         },
     },
+    # The serpentinization source (Model Upgrade plan, priority upgrade A).
+    "serpentinization": {
+        "face": "serpentinization",
+        "models": {
+            "phreeqc": "local:PhreeqcSerpentinizationProcess",       # E (real IPhreeqc speciation)
+            "reduced": "local:SerpentinizationReproductionProcess",  # E (tuned Gaussian source)
+            # planned (same face): "reaktoro", "pflotran" — see the model-upgrade
+            # integration doc, Phase 1.
+        },
+    },
 }
 
 
 class FaceError(AssertionError):
     """Raised when a model class does not honour an interface's face."""
+
+
+# --------------------------------------------------------------------------- #
+# Registry queries
+# --------------------------------------------------------------------------- #
+def interfaces() -> list[str]:
+    return sorted(INTERFACES)
+
+
+def model_names(interface: str) -> list[str]:
+    """The registered model-class names on ``interface`` (sorted)."""
+    if interface not in INTERFACES:
+        raise KeyError(f"unknown interface {interface!r}; have {sorted(INTERFACES)}")
+    return sorted(INTERFACES[interface]["models"])
+
+
+def axis(interface: str, names=None) -> dict[str, list[str]]:
+    """A categorical sweep axis for ``interface``: ``{"model_<interface>": [names]}``.
+
+    Pass straight into ``sweep_grid(axes={**axis("spatial_transport"), ...})``.
+    """
+    names = list(names) if names is not None else model_names(interface)
+    for n in names:
+        resolve(interface, n)  # validate
+    return {MODEL_PARAM_PREFIX + interface: names}
+
+
+def model_parameters(*interfaces_, defaults=None) -> dict:
+    """``@composite_generator(parameters=...)`` entries for the model knobs.
+
+    One string parameter ``model_<interface>`` per interface, listing the
+    registered classes in its description, so every generator declares the
+    model axis the same way and the workbench renders it as a string param.
+    """
+    defaults = dict(defaults or {})
+    out = {}
+    for iface in interfaces_:
+        names = model_names(iface)
+        default = defaults.get(iface, names[0])
+        out[MODEL_PARAM_PREFIX + iface] = {
+            "type": "string", "default": default,
+            "description": f"Model class behind the {iface!r} face: " + " | ".join(names),
+        }
+    return out
+
+
+def split_model_kwargs(kwargs: dict) -> tuple[dict[str, str], dict]:
+    """Split generator kwargs into ``({interface: model_name}, other_kwargs)``."""
+    models, rest = {}, {}
+    for k, v in kwargs.items():
+        if k.startswith(MODEL_PARAM_PREFIX) and k[len(MODEL_PARAM_PREFIX):] in INTERFACES:
+            models[k[len(MODEL_PARAM_PREFIX):]] = str(v)
+        else:
+            rest[k] = v
+    return models, rest
+
+
+def register_model(interface: str, name: str, address: str, *, face: str | None = None,
+                   face_spec: dict | None = None) -> None:
+    """Register a model class on an interface (creating the interface if needed).
+
+    New interfaces need either an existing ``face`` name or a ``face_spec``
+    dict in the ``FACES`` shape.
+    """
+    if interface not in INTERFACES:
+        if face_spec is not None:
+            FACES[interface if face is None else face] = face_spec
+            face = interface if face is None else face
+        if face is None or face not in FACES:
+            raise KeyError(f"new interface {interface!r} needs a face; have {sorted(FACES)}")
+        INTERFACES[interface] = {"face": face, "models": {}}
+    INTERFACES[interface]["models"][name] = address
 
 
 def resolve(interface: str, name: str) -> str:
@@ -140,6 +256,28 @@ def model_ports(core, address: str) -> tuple[set, set]:
     cls = _class_for_address(core, address)
     inst = cls(config={}, core=core)
     return set(inst.inputs().keys()), set(inst.outputs().keys())
+
+
+def face_ports(face_name: str) -> set[str]:
+    face = FACES[face_name]
+    return (face["required_inputs"] | face["optional_inputs"]
+            | face["required_outputs"] | face["optional_outputs"])
+
+
+def canonical_coverage(face_name: str) -> dict:
+    """Which ports of a face map onto canonical ``vg_*`` fields / declared diagnostics.
+
+    Returns ``{"covered": {port: field}, "uncovered": [ports]}``. The Model
+    Upgrade principle requires ``uncovered`` to be empty for every face.
+    """
+    covered, uncovered = {}, []
+    for port in sorted(face_ports(face_name)):
+        field = PORT_TO_CANONICAL.get(port)
+        if field is None:
+            uncovered.append(port)
+        else:
+            covered[port] = field
+    return {"covered": covered, "uncovered": uncovered}
 
 
 def assert_face(core, interface: str, address: str) -> None:

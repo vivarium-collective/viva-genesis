@@ -13,6 +13,15 @@ draw the pass/fail boundary. Serial by default; ``n_jobs > 1`` fans the points o
 over a process pool (each worker builds its own ``core``), and the same point
 function is what a Ray driver calls for heavy sweeps on the mini.
 
+**Model class as a categorical axis** (Model Upgrade plan, Process Bigraph
+principle). An axis whose values are strings — e.g.
+``{"model_spatial_transport": ["fipy", "fenics"]}`` — is swept exactly like a
+numeric one: the generator receives the string, resolves the class through
+``viva_genesis.models``, and the resulting surface has one slice per model
+class. ``viva_genesis.uq.ensemble`` then reduces such a result to
+``pass_fraction`` per class and ``structure_agreement`` across classes, which is
+how parameter uncertainty is separated from model-structure uncertainty.
+
 Design constraints that keep the parallel path honest:
   * The generator must be a **module-level** callable (``generator(core, **kwargs)``
     returning a composite doc) so it pickles by reference.
@@ -35,9 +44,10 @@ class SweepResult:
     """An N-D decision surface over a parameter grid.
 
     ``axis_order`` fixes the axis sequence; ``axes[name]`` holds each axis's
-    coordinate values; ``surfaces[name]`` is an N-D array (shape = the axis
-    lengths in order) of one reduced scalar. ``meta`` carries provenance
-    (generator, fixed params, n_steps).
+    coordinate values (a float array for a numeric axis, an object array of
+    strings for a categorical / model-class axis); ``surfaces[name]`` is an N-D
+    array (shape = the axis lengths in order) of one reduced scalar. ``meta``
+    carries provenance (generator, fixed params, n_steps, categorical axes).
     """
 
     axis_order: list[str]
@@ -52,6 +62,32 @@ class SweepResult:
     def primary(self) -> np.ndarray:
         """The first declared surface — the headline decision metric."""
         return self.surfaces[next(iter(self.surfaces))]
+
+    def categorical_axes(self) -> list[str]:
+        """Axes swept over model classes / labels rather than numbers."""
+        return [a for a in self.axis_order if self.axes[a].dtype.kind in ("U", "O", "S")]
+
+    def slice_along(self, axis: str, value) -> "SweepResult":
+        """The sub-result at ``axis == value`` (drops that axis)."""
+        i = self.axis_order.index(axis)
+        vals = list(self.axes[axis])
+        j = vals.index(value)
+        taker = [slice(None)] * len(self.axis_order)
+        taker[i] = j
+        return SweepResult(
+            axis_order=[a for a in self.axis_order if a != axis],
+            axes={a: v for a, v in self.axes.items() if a != axis},
+            surfaces={k: s[tuple(taker)] for k, s in self.surfaces.items()},
+            meta={**self.meta, "sliced": {**self.meta.get("sliced", {}), axis: value}},
+        )
+
+
+def _is_numeric_axis(values) -> bool:
+    try:
+        np.asarray(list(values), dtype=float)
+        return not any(isinstance(v, str) for v in values)
+    except (TypeError, ValueError):
+        return False
 
 
 def _run_point(generator, kwargs, n_steps, reducers, tolerant=False):
@@ -86,7 +122,7 @@ def _run_point(generator, kwargs, n_steps, reducers, tolerant=False):
 
 def sweep_grid(
     generator: Callable,
-    axes: Mapping[str, Sequence[float]],
+    axes: Mapping[str, Sequence],
     *,
     reduce: Mapping[str, Callable],
     fixed: Mapping[str, object] | None = None,
@@ -99,6 +135,9 @@ def sweep_grid(
     Args:
         generator: module-level ``generator(core, **kwargs) -> doc``.
         axes: ordered ``{param_name: values}``; the grid is their Cartesian product.
+            Numeric values form a float axis; string values form a **categorical**
+            axis (a model class, e.g. ``model_spatial_transport``) and are passed to
+            the generator verbatim.
         reduce: ``{surface_name: reducer(rows) -> float}`` (module-level functions).
         fixed: param overrides held constant across the grid.
         n_steps: steps to run each point.
@@ -119,7 +158,15 @@ def sweep_grid(
     """
     fixed = dict(fixed or {})
     axis_order = list(axes.keys())
-    axis_vals = {a: np.asarray(list(axes[a]), dtype=float) for a in axis_order}
+    axis_vals: dict[str, np.ndarray] = {}
+    categorical: list[str] = []
+    for a in axis_order:
+        vals = list(axes[a])
+        if _is_numeric_axis(vals):
+            axis_vals[a] = np.asarray(vals, dtype=float)
+        else:
+            axis_vals[a] = np.asarray([str(v) for v in vals], dtype=object)
+            categorical.append(a)
     shape = tuple(len(axis_vals[a]) for a in axis_order)
 
     # Every index tuple + its parameter kwargs, in row-major order.
@@ -128,7 +175,8 @@ def sweep_grid(
     for idx in index_tuples:
         kw = dict(fixed)
         for a, i in zip(axis_order, idx):
-            kw[a] = float(axis_vals[a][i])
+            v = axis_vals[a][i]
+            kw[a] = str(v) if a in categorical else float(v)
         point_kwargs.append(kw)
 
     surfaces = {name: np.full(shape, np.nan) for name in reduce}
@@ -174,6 +222,7 @@ def sweep_grid(
             "fixed": fixed,
             "n_steps": int(n_steps),
             "n_points": len(point_kwargs),
+            "categorical_axes": categorical,
         },
     )
 

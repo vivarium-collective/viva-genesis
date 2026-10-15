@@ -90,8 +90,16 @@ def build_core(core=None):
     This is the canonical core for the workspace: composites that address
     ``local:<ProcessName>`` (and the test suite) must build their ``Composite``
     against a core returned from here, not a bare ``allocate_core()``.
+
+    Also registers the canonical biological schemas (``viva_genesis.schemas``,
+    the units-typed ``vg_*`` types) so every composite, face check and test
+    sees them under stable names — the Model Upgrade plan's "every mechanism
+    implements a canonical interface" principle made available at the one
+    place a core is built.
     """
     if core is None:
         core = allocate_core()
     register_workspace_processes(core)
+    from .schemas import register_canonical_types
+    register_canonical_types(core)
     return core

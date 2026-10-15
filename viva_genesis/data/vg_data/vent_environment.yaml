@@ -1,0 +1,202 @@
+# vg-data package: the serpentinizing-vent ENVIRONMENT (Model Upgrade plan, Phase 1).
+#
+# Every parameter carries value-or-distribution, units, environmental context,
+# sources (bibkeys in workspace/references/papers.bib) and a provenance class in
+# {measured, calibrated, inferred, extrapolated, hypothetical}. The free
+# (distribution-carrying) parameters are the prior the Phase-1 environmental
+# calibration samples; `observations` is the conditioning set (what a vent state
+# must reproduce to count as "consistent with observed systems"); and
+# `downstream_requirements` is what og-01 (carbon fixation) needs from the vent
+# — the posterior-predictive question is "what fraction of vent states
+# consistent with observation also satisfy these".
+#
+# HONESTY NOTES
+# - The MARHYS 4.0 compilation is NOT yet attached (see observations.marhys_conditioning):
+#   until it is, the conditioning set is the Lost City field window the campaign
+#   already cites. Widening it to the MARHYS ultramafic-vent population is the
+#   first Phase-1 follow-up.
+# - olivine_rate / pyroxene_fraction / heat_to_fluid_fraction are MODEL knobs of
+#   the partial-equilibrium PHREEQC driver (reaction extent per flow-saturated
+#   step, assemblage mix, enthalpy partition), not field quantities; their prior
+#   ranges are the ranges the og-00 Decision map already swept or the tuning band
+#   the og-00 study documents. They are classed accordingly.
+name: vent_environment
+version: "1"
+description: >-
+  Priors, conditioning observations and downstream requirements for the
+  serpentinizing alkaline-vent environment (og-00 geochemical world). Lost
+  City-conditioned; MARHYS 4.0 conditioning pending.
+sources: [kelley2001offaxis, kelley2005serpentinite, ludwig2006formation,
+          proskurowski2008abiogenic, fruhgreen2003thirtythousand,
+          schwander2023serpentinization, tutolo2026rethinking]
+
+parameters:
+  - id: flow_velocity
+    quantity: Boundary water flux (Darcy velocity) through the reaction zone
+    units: meter/second
+    provenance: inferred
+    distribution: {kind: loguniform, low: 3.0e-4, high: 1.0e-2}
+    value: 1.0e-3
+    context: {regime: "percolating serpentinite wall, cm-scale cross-section", site: Lost City analog}
+    sources: [kelley2005serpentinite, ludwig2006formation]
+    consumed_by: geochemical_world.flow_velocity
+    how_to_use: >-
+      Order-of-magnitude Darcy flux consistent with the diffuse-flow Lost City chimneys;
+      the og-00 Decision map swept 2e-4..3e-2 m/s and found the cold-washout band at the
+      fast end. Prior spans the interior of that map.
+
+  - id: olivine_rate
+    quantity: Olivine reaction extent per flow-saturated reaction step (partial-equilibrium driver)
+    units: dimensionless
+    provenance: hypothetical
+    distribution: {kind: loguniform, low: 0.02, high: 0.4}
+    value: 0.15
+    context: {model: PhreeqcSerpentinizationProcess, note: "kinetic driver on top of full PHREEQC equilibrium"}
+    sources: [schwander2023serpentinization]
+    consumed_by: PhreeqcSerpentinizationProcess.olivine_rate
+    how_to_use: >-
+      Not a measured rate constant: it sets how much peridotite reacts per step. The og-00
+      habitability map swept 0.005..0.4; the prior covers the band where PHREEQC's 0-100 C
+      aqueous-model validity mostly holds. Treat the posterior over this knob as a
+      calibration output, never as a geological rate.
+
+  - id: pyroxene_fraction
+    quantity: Diopside (pyroxene) dissolved per mole of olivine - the peridotite vs dunite assemblage
+    units: dimensionless
+    provenance: calibrated
+    distribution: {kind: uniform, low: 0.3, high: 0.7}
+    value: 0.5
+    context: {model: PhreeqcSerpentinizationProcess, calibrated_to: "Lost City pH 9-10.8 endmember"}
+    sources: [kelley2005serpentinite, ludwig2006formation]
+    consumed_by: PhreeqcSerpentinizationProcess.pyroxene_fraction
+    how_to_use: >-
+      og-00 found the Ca-OH high-pH endmember requires reacting PERIDOTITE (olivine + pyroxene);
+      0.5 reproduces field pH. The prior spans the harzburgite-to-lherzolite modal range so the
+      posterior reports how tightly the pH observation constrains the assemblage.
+
+  - id: fe_fraction
+    quantity: Fayalite (Fe-olivine) fraction of the dissolving olivine
+    units: dimensionless
+    provenance: extrapolated
+    distribution: {kind: uniform, low: 0.1, high: 0.3}
+    value: 0.25
+    context: {note: "mantle olivine is ~Fo90 (fayalite ~0.1); the model default is higher to represent Fe from pyroxene + spinel oxidized to magnetite"}
+    sources: [schwander2023serpentinization]
+    consumed_by: PhreeqcSerpentinizationProcess.fe_fraction
+    how_to_use: >-
+      Controls the Fe(II) -> magnetite oxidation that reduces water to H2. The lower bound is the
+      Fo90 olivine value; the upper bound lumps Fe hosted in other phases into the olivine term.
+      Classed extrapolated because the lumping carries Fe outside its mineral host.
+
+  - id: heat_to_fluid_fraction
+    quantity: Fraction of serpentinization reaction enthalpy retained in the fluid parcel
+    units: dimensionless
+    provenance: calibrated
+    distribution: {kind: loguniform, low: 3.0e-4, high: 2.0e-3}
+    value: 8.0e-4
+    context: {calibrated_to: "Lost City outlet T 40-91 C", model: PhreeqcSerpentinizationProcess}
+    sources: [kelley2001offaxis, ludwig2006formation]
+    consumed_by: PhreeqcSerpentinizationProcess.heat_to_fluid_fraction
+    how_to_use: >-
+      The ONE field-calibrated knob of og-00 (its study.yaml says so): tuned so the outlet settles
+      in the field temperature window. The prior is the band around that value; the posterior
+      width is the honest statement of how well the T observation pins it.
+
+  - id: fluid_dic
+    quantity: Dissolved inorganic carbon of the inflowing (Hadean ocean proxy) fluid
+    units: molar
+    provenance: extrapolated
+    distribution: {kind: loguniform, low: 1.0e-3, high: 2.0e-2}
+    value: 2.0e-3
+    context: {note: "modern-seawater-order DIC used as the ancient-ocean proxy; Hadean CO2 was likely higher"}
+    sources: []
+    consumed_by: PhreeqcSerpentinizationProcess.fluid_dic
+    how_to_use: >-
+      Kept separate from modern seawater on purpose (og-00 key assumption). Classed extrapolated
+      and left unsourced so the audit flags it: the Hadean DIC prior is a decision for the expert.
+
+  - id: seawater_temp
+    quantity: Cold-ocean boundary temperature
+    units: kelvin
+    provenance: extrapolated
+    value: 275.0
+    context: {note: "modern deep-ocean ~2 C applied to the Hadean ocean"}
+    sources: [kelley2001offaxis]
+    consumed_by: FipyReactiveTransportProcess.seawater_temp
+    how_to_use: Fixed boundary condition; vary only in a dedicated Hadean-ocean sensitivity study.
+
+  - id: flux_area
+    quantity: Geometric factor mapping specific flux (mol/kgw x m/s) to an absolute source rate
+    units: meter**2
+    provenance: hypothetical
+    value: 60.0
+    context: {model: PhreeqcSerpentinizationProcess}
+    sources: []
+    consumed_by: PhreeqcSerpentinizationProcess.flux_area
+    how_to_use: >-
+      Reactor cross-section / porosity scale. Fixed here; it cancels in the dissolved-H2 readout
+      (H2_flux / (flow x area)) that the conditioning uses, so the calibration is insensitive to it.
+
+observations:
+  outlet_temperature_C:
+    quantity: Lost City vent-fluid temperature
+    low: 40.0
+    high: 91.0
+    units: celsius
+    provenance: measured
+    sources: [kelley2001offaxis, kelley2005serpentinite, ludwig2006formation]
+    readout: settled_temperature_C
+  outlet_pH:
+    quantity: Lost City vent-fluid pH
+    low: 9.0
+    high: 10.8
+    units: dimensionless
+    provenance: measured
+    sources: [kelley2001offaxis, ludwig2006formation]
+    readout: settled_pH
+    note: >-
+      Measured at 25 C on recovered fluids; the 2026 in-situ-pH critique (tutolo2026rethinking)
+      argues the in-situ value is lower. The campaign runs that as a competing arm, not a prior.
+  dissolved_H2_mmol_kg:
+    quantity: Lost City end-member dissolved H2
+    low: 1.0
+    high: 15.0
+    units: millimole/kilogram
+    provenance: measured
+    sources: [kelley2005serpentinite, proskurowski2008abiogenic]
+    readout: dissolved_H2_mmol_kg
+  marhys_conditioning:
+    quantity: MARHYS 4.0 ultramafic-hosted vent population (T, pH, H2, major ions)
+    status: pending
+    provenance: measured
+    sources: []
+    note: >-
+      Not yet attached. When the MARHYS 4.0 export is added as a workspace dataset, replace the
+      three Lost City windows above with the population distribution and re-run the calibration.
+
+downstream_requirements:
+  # What og-01 (H2-driven carbon fixation) needs from the vent state. These are
+  # the chemical requirements the posterior-predictive fraction is evaluated on.
+  h2_for_fixation_mM:
+    quantity: Dissolved H2 at the interface sufficient for the og-01 favorable fixation regime
+    low: 1.0
+    units: millimolar
+    provenance: inferred
+    sources: [preiner2020hydrogen]
+    readout: dissolved_H2_mmol_kg
+    note: og-01's (pH x H2) map is productive across 1e-3..2e-2 M H2; below ~1 mM it thins out.
+  ph_gradient_units:
+    quantity: Vent-minus-ocean pH gradient that supplies the proton-motive force
+    low: 3.0
+    units: dimensionless
+    provenance: inferred
+    sources: [hudson2020co2, sojo2016origin]
+    readout: delta_pH
+    note: og-01 runs pH_ocean 6.0 against pH_vent ~9.5 (3.5 units); 3 units is the floor used here.
+  below_phreeqc_validity_C:
+    quantity: Outlet temperature inside the LLNL aqueous-model validity (and below boiling at depth)
+    high: 100.0
+    units: celsius
+    provenance: inferred
+    sources: []
+    readout: settled_temperature_C
