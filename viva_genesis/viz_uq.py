@@ -71,9 +71,9 @@ def vent_environment_posterior_figure(ensemble: dict, report: dict, *, title: st
 
     fig = make_subplots(
         rows=1, cols=3, horizontal_spacing=0.09, column_widths=[0.42, 0.28, 0.30],
-        subplot_titles=(f"Prior draws and their fate under conditioning ({head.split('+')[-1]})",
-                        "Feasibility and robustness per model class",
-                        "Morris screening of the prior (mu*)"))
+        subplot_titles=(f"Prior draws &amp; their fate ({head.split('+')[-1]})",
+                        "Feasibility &amp; robustness per class",
+                        "Morris screening (&#956;*)"))
     # --- left: prior scatter coloured by fate ---
     fv = np.array([d["flow_velocity"] for d in draws]); ol = np.array([d["olivine_rate"] for d in draws])
     h2 = np.array([float(r.get("dissolved_H2_mmol_kg") or np.nan) for r in rows])
@@ -99,7 +99,7 @@ def vent_environment_posterior_figure(ensemble: dict, report: dict, *, title: st
     fig.add_trace(go.Bar(x=short, y=[pcs[l]["p_viable_given_consistent"] for l in labels],
                          name="P(viable | consistent)", marker_color=_TEAL), row=1, col=2)
     agree = cond["cross_class"]["viable"]["agreement"]
-    fig.add_annotation(xref="x2 domain", yref="y2 domain", x=0.5, y=1.02, showarrow=False,
+    fig.add_annotation(xref="x2 domain", yref="y2 domain", x=0.5, y=1.14, showarrow=False,
                        text=f"cross-class agreement on viability: {agree:.2f}", font=dict(size=11, color=_INK))
     fig.update_yaxes(range=[0, 1.05], title_text="fraction", row=1, col=2)
     # --- right: Morris mu* per readout ---
@@ -116,8 +116,8 @@ def vent_environment_posterior_figure(ensemble: dict, report: dict, *, title: st
     else:
         fig.add_annotation(xref="x3 domain", yref="y3 domain", x=0.5, y=0.5, showarrow=False,
                            text="no Morris screening in the artifact", font=dict(color=_SLATE))
-    fig.update_layout(**S.base_layout(barmode="group", height=470,
-                                      margin=dict(l=60, r=20, t=50, b=60),
+    fig.update_layout(**S.base_layout(barmode="group", height=480,
+                                      margin=dict(l=60, r=20, t=72, b=60),
                                       legend=dict(y=-0.2)))
 
     # Headline built live from the committed report so the figure can never
