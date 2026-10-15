@@ -33,6 +33,8 @@ dissipated``) — see the model-upgrade integration doc.
 
 from __future__ import annotations
 
+import math
+
 from process_bigraph import Process
 
 _MOLAR = {"_type": "float", "_units": "molar"}
@@ -287,5 +289,110 @@ def ledger_summary(rows) -> dict:
     return out
 
 
-__all__ = ["ConservationLedgerProcess", "ChargeLedgerProcess", "LEDGER_KEYS", "CHARGE_LEDGER_KEYS",
-           "ledger_summary"]
+class NetworkLedgerProcess(Process):
+    """Element + free-energy ledger over an open chemical network (Phase 3).
+
+    Sits beside a ``proto_metabolism`` class and audits, every tick, the three
+    witnesses the class publishes:
+
+    * ``element_residual`` — ``max |E S|`` over the network's internal
+      reactions (exact algebra, independent of the integrator): a generated
+      universe is balanced by construction; a lumped reaction such as og-02's
+      ``OAA + 2 CO2 -> 2 OAA + acetate`` or a rewired null is not, and the
+      ledger says so.
+    * ``carbon_residual`` — the integrated carbon balance
+      ``|TOC - TOC0 - (fed + fixed - washed - degraded)| / TOC``, which must stay
+      at the integrator's tolerance.
+    * ``dissipation`` — ``-Σ v_r ΔG_r`` over internal reactions; the second
+      law requires it to be non-negative every tick (free-energy
+      directionality). ``free_energy_in >= work + dissipated`` of the roadmap
+      reduces, for a reactor with no work output, to this inequality.
+
+    Publishes the worst-case residuals so far, the directionality witness and
+    one ``ledger_ok`` flag, mirroring :class:`ConservationLedgerProcess`.
+    """
+
+    contract = {
+        "summary": "Element + free-energy ledger over an open reaction network: stoichiometric element residual, integrated carbon balance, dissipation >= 0.",
+        "description": (
+            "Audits the witnesses a proto_metabolism class publishes each tick: the exact "
+            "stoichiometric element residual max|E S| (0 for a rule-generated universe; non-zero "
+            "exposes lumped or rewired reactions that create or destroy atoms), the integrated "
+            "carbon-balance residual (must sit at integrator tolerance) and the free-energy "
+            "dissipation -sum v dG (second law: never negative). ledger_ok = 1 while every "
+            "witness is within tolerance."
+        ),
+        "inputs": {
+            "element_residual": "max |E S| over internal reactions (atoms)",
+            "carbon_residual": "relative integrated carbon-balance residual",
+            "dissipation": "-sum_r v_r dG_r (watt)",
+            "total_organic_carbon": "organic carbon pool (molar C)",
+        },
+        "outputs": {
+            "element_residual_max": "worst-case element residual so far",
+            "carbon_residual_max": "worst-case carbon-balance residual so far",
+            "dissipation_min": "minimum dissipation seen (negative = second-law violation)",
+            "dissipated_energy": "time-integral of the dissipation (joule)",
+            "free_energy_directionality": "1 if dissipation has never been below -tolerance",
+            "ledger_ok": "1 if every witness is within tolerance",
+        },
+        "assumptions": ["The network class computes the witnesses from its own stoichiometry and live rates; "
+                        "the ledger only accumulates and grades them."],
+    }
+
+    config_schema = {
+        "element_tolerance": {"_type": "float", "_default": 1.0e-9, "_units": "dimensionless",
+                              "_provenance": "inferred"},
+        "carbon_tolerance": {"_type": "float", "_default": 1.0e-4, "_units": "dimensionless",
+                             "_provenance": "inferred"},
+        "dissipation_tolerance": {"_type": "float", "_default": 1.0e-12, "_units": "watt",
+                                  "_provenance": "inferred"},
+    }
+
+    def __init__(self, config=None, core=None):
+        super().__init__(config=config, core=core)
+        self._el_max = 0.0
+        self._c_max = 0.0
+        self._diss_min = float("inf")
+        self._diss_int = 0.0
+        self._directional = True
+
+    def inputs(self):
+        return {"element_residual": _DIMLESS, "carbon_residual": _DIMLESS, "dissipation": _W,
+                "total_organic_carbon": _MOLAR}
+
+    def outputs(self):
+        return {"element_residual_max": _OVW, "carbon_residual_max": _OVW,
+                "dissipation_min": {"_type": "overwrite[float]", "_units": "watt"},
+                "dissipated_energy": {"_type": "overwrite[float]", "_units": "joule"},
+                "free_energy_directionality": _OVW, "ledger_ok": _OVW}
+
+    def initial_state(self):
+        return {"element_residual": 0.0, "carbon_residual": 0.0, "dissipation": 0.0,
+                "total_organic_carbon": 0.0}
+
+    def update(self, state, interval):
+        el = abs(float(state.get("element_residual", 0.0)))
+        cr = abs(float(state.get("carbon_residual", 0.0)))
+        d = float(state.get("dissipation", 0.0))
+        self._el_max = max(self._el_max, el)
+        self._c_max = max(self._c_max, cr)
+        self._diss_min = min(self._diss_min, d)
+        self._diss_int += d * float(interval)
+        if d < -float(self.config["dissipation_tolerance"]):
+            self._directional = False
+        ok = (self._el_max <= float(self.config["element_tolerance"])
+              and self._c_max <= float(self.config["carbon_tolerance"]) and self._directional)
+        return {"element_residual_max": self._el_max, "carbon_residual_max": self._c_max,
+                "dissipation_min": self._diss_min if math.isfinite(self._diss_min) else 0.0,
+                "dissipated_energy": self._diss_int,
+                "free_energy_directionality": 1.0 if self._directional else 0.0,
+                "ledger_ok": 1.0 if ok else 0.0}
+
+
+NETWORK_LEDGER_KEYS = ("element_residual_max", "carbon_residual_max", "dissipation_min",
+                       "dissipated_energy", "free_energy_directionality", "ledger_ok")
+
+
+__all__ = ["ConservationLedgerProcess", "ChargeLedgerProcess", "NetworkLedgerProcess",
+           "LEDGER_KEYS", "CHARGE_LEDGER_KEYS", "NETWORK_LEDGER_KEYS", "ledger_summary"]

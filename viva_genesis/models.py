@@ -126,10 +126,33 @@ CARBON_FIXATION_FACE = {
     },
 }
 
+# The open chemical network (Model Upgrade plan, Phase 3): a reaction network
+# fed reduced carbon under flow. Every class must publish og-02's three
+# emergent observables; the species pools, the post-hoc motif statistics and
+# the numerical-verification witnesses (element / carbon / free-energy
+# ledger) are optional so the curated SBML class and the generated classes
+# share one face.
+PROTO_METABOLISM_FACE = {
+    "required_inputs": {"feed_CO2"},
+    "optional_inputs": {"feed_pyruvate", "feed_H2", "feed_formaldehyde", "feed_formate", "feed_acetate",
+                        "temperature", "pH"},
+    "required_outputs": {"net_carbon_flux", "autocatalytic_gain", "network_connected"},
+    "optional_outputs": {
+        # species pools (canonical dissolved names)
+        "OAA", "malate", "succinate", "acetate", "formate", "pyruvate", "formaldehyde", "glycolaldehyde",
+        "total_organic_carbon",
+        # post-hoc network statistics
+        "n_persistent_species", "n_autocatalytic_motifs", "autocatalytic_core_size", "catalyst_saturation",
+        # ledger witnesses
+        "dissipation", "element_residual", "carbon_residual",
+    },
+}
+
 FACES = {
     "spatial_transport": SPATIAL_TRANSPORT_FACE,
     "serpentinization": SERPENTINIZATION_FACE,
     "carbon_fixation": CARBON_FIXATION_FACE,
+    "proto_metabolism": PROTO_METABOLISM_FACE,
 }
 
 
@@ -183,6 +206,15 @@ INTERFACES = {
             "empirical": "local:EmpiricalCarbonFixationProcess",          # E (og-01 lab-calibrated kinetics)
             "butler_volmer": "local:ButlerVolmerCarbonFixationProcess",  # A (Nernst + Butler-Volmer circuit)
             "microkinetic": "local:MicrokineticCarbonFixationProcess",   # A (CatMAP/Cantera; runs under pixi)
+        },
+    },
+    # The open chemical network (Model Upgrade plan, Phase 3).
+    "proto_metabolism": {
+        "face": "proto_metabolism",
+        "models": {
+            "curated_rtca": "local:RoadRunnerNetworkProcess",        # E (og-02 curated rTCA-fragment SBML)
+            "reaction_universe": "local:ReactionUniverseProcess",    # A (rule-generated C/H/O universe, eQuilibrator dG')
+            "null_network": "local:NullNetworkProcess",              # A (matched degree-preserving null)
         },
     },
 }

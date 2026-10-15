@@ -255,6 +255,23 @@ PORT_TO_CANONICAL: dict[str, str] = {
     "amphiphile": "vg_molecules.dissolved.amphiphile",
     "nucleotide_precursor": "vg_molecules.dissolved.nucleotide_precursor",
     "sources": "vg_molecules.dissolved",
+    # the open chemical network (proto_metabolism face, Phase 3): feeds are the
+    # dissolved pools of the upstream world; network species are dissolved pools
+    "feed_CO2": "vg_molecules.dissolved.CO2",
+    "feed_H2": "vg_molecules.dissolved.H2",
+    "feed_pyruvate": "vg_molecules.dissolved.pyruvate",
+    "feed_formate": "vg_molecules.dissolved.formate",
+    "feed_acetate": "vg_molecules.dissolved.acetate",
+    "feed_formaldehyde": "vg_molecules.dissolved.formaldehyde",
+    "formaldehyde": "vg_molecules.dissolved.formaldehyde",
+    "glycolaldehyde": "vg_molecules.dissolved.glycolaldehyde",
+    "OAA": "vg_molecules.dissolved.OAA",
+    "malate": "vg_molecules.dissolved.malate",
+    "succinate": "vg_molecules.dissolved.succinate",
+    "total_organic_carbon": "vg_molecules.dissolved",
+    "net_carbon_flux": "vg_molecules.dissolved.CO2",
+    "catalyst_saturation": "vg_minerals.catalytic_sites",
+    "dissipation": "vg_energy.dissipated",
     # per-species transport physics bundle (NOT the concentration pool)
     "species_params": "vg_molecules.transport_params",
     "fields": "vg_molecules.dissolved",
@@ -322,6 +339,14 @@ PORT_TO_CANONICAL: dict[str, str] = {
     "loss_transport": "diagnostics.loss_transport",
     "limitation_code": "diagnostics.limitation",
     "shunt_fraction": "diagnostics.shunt_fraction",
+    # proto_metabolism post-hoc network statistics + Phase-3 ledger witnesses
+    "autocatalytic_gain": "diagnostics.autocatalytic_gain",
+    "network_connected": "diagnostics.network_connected",
+    "n_persistent_species": "diagnostics.n_persistent_species",
+    "n_autocatalytic_motifs": "diagnostics.n_autocatalytic_motifs",
+    "autocatalytic_core_size": "diagnostics.autocatalytic_core_size",
+    "element_residual": "ledger.element_residual",
+    "carbon_residual": "ledger.carbon_residual",
 }
 
 
