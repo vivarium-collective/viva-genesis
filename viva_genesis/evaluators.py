@@ -888,8 +888,88 @@ def _connected_minus_isolated_robustness(reader, test: dict, ws_root: Any) -> fl
     return float(_artifact_json(test, ws_root, _OG07ALT_MAP)["gates"]["connected_minus_isolated_robustness"])
 
 
+# --- Phase 9 (og-08-alt-robust-innovation-set): run-level + artifact gates ------------------
+_OG08ALT_SET = "workspace/studies/og-08-alt-robust-innovation-set/artifacts/robust_innovation_set.json"
+_PHASE9_LEDGER_FLAGS = ("geology_ledger_ok", "charge_ledger_ok", "network_ledger_ok", "element_ledger_ok",
+                        "free_energy_ledger_ok", "rewrite_ok")
+
+
+def _every_ledger_ok_final(reader, test: dict, ws_root: Any) -> float:
+    """1 when every ledger of the integrated world reports ok on the final tick (the information
+    ledger by its exact energy-store residual, since its ok flag also needs MI convergence)."""
+    flags = [_values(reader, k)[-1] >= 0.5 for k in _PHASE9_LEDGER_FLAGS]
+    info = _values(reader, "energy_residual")[-1] <= 1.0e-9
+    return 1.0 if all(flags) and info else 0.0
+
+
+def _ablation_complete_final(reader, test: dict, ws_root: Any) -> float:
+    return 1.0 if _values(reader, "ablation_phase")[-1] >= 2.0 else 0.0
+
+
+def _structural_events_logged(reader, test: dict, ws_root: Any) -> float:
+    return _values(reader, "event_count")[-1]
+
+
+def _settled_autonomy(reader, test: dict, ws_root: Any) -> float:
+    """The work-weighted autonomy over the final 15 % of the run (every driver at its floor)."""
+    return _settled_mean(reader, "autonomy", frac=0.15)
+
+
+def _settled_autonomy_work(reader, test: dict, ws_root: Any) -> float:
+    return _settled_mean(reader, "autonomy_work", frac=0.15)
+
+
+def _settled_autonomy_material(reader, test: dict, ws_root: Any) -> float:
+    return _settled_mean(reader, "autonomy_material", frac=0.15)
+
+
+def _settled_net_power_offgradient(reader, test: dict, ws_root: Any) -> float:
+    return _settled_mean(reader, "net_power", frac=0.15)
+
+
+def _settled_machinery_offgradient(reader, test: dict, ws_root: Any) -> float:
+    return _settled_mean(reader, "machinery", frac=0.15)
+
+
+def _final_survivors_integrated(reader, test: dict, ws_root: Any) -> float:
+    return _values(reader, "survivors")[-1]
+
+
+def _set_gate(key: str):
+    def fn(reader, test: dict, ws_root: Any) -> float:
+        v = _artifact_json(test, ws_root, _OG08ALT_SET)["gates"][key]
+        if v is None:
+            raise ValueError(f"{key}: no value in the artifact (undefined for this ensemble)")
+        return float(v)
+    fn.__doc__ = f"artifact gate {key} of robust_innovation_set.json"
+    return fn
+
+
 def register_derived_scalars(registry: dict) -> None:
     """Hook called by study_evaluator.load_workspace_derived_scalars."""
+    # Phase 9 (og-08-alt-robust-innovation-set): the seven ledgers over the integrated world,
+    # the ablation, the structural-event log, the autonomy decomposition and the lattice gates
+    registry["every_ledger_ok_final"] = _every_ledger_ok_final
+    registry["ablation_complete_final"] = _ablation_complete_final
+    registry["structural_events_logged"] = _structural_events_logged
+    registry["settled_autonomy"] = _settled_autonomy
+    registry["settled_autonomy_work"] = _settled_autonomy_work
+    registry["settled_autonomy_material"] = _settled_autonomy_material
+    registry["settled_net_power_offgradient"] = _settled_net_power_offgradient
+    registry["settled_machinery_offgradient"] = _settled_machinery_offgradient
+    registry["final_survivors_integrated"] = _final_survivors_integrated
+    for key in ("full_set_persistence_fraction", "full_set_persistence_fraction_rich", "viable_fraction", "viable_fraction_rich",
+                "robust_required_count", "robust_required_count_rich", "required_union_count", "required_union_count_rich",
+                "required_set_agreement", "required_set_agreement_rich", "og08_intersection_matches",
+                "og08_intersection_matches_rich", "minimum_sufficient_set_resolved", "minimum_sufficient_set_resolved_rich",
+                "generic_persistence_fraction", "generic_rejected", "all_ledgers_ok", "ledger_ok_runs", "events_total",
+                "autonomy_persisting_full_set", "autonomy_work_persisting_full_set", "autonomy_material_persisting_full_set",
+                "autonomy_information_persisting_full_set", "autonomy_persisting_full_set_rich",
+                "autonomy_persisting_any", "autonomy_persisting_any_rich", "autonomy_work_persisting_any_rich",
+                "autonomy_material_persisting_any_rich", "autonomy_information_persisting_any_rich",
+                "n_persisting_any_rich", "n_persisting_any", "autonomy_all_full_set_rich",
+                "lowest_floor_majority_persists", "lowest_floor_any_persists"):
+        registry[f"lattice_{key}"] = _set_gate(key)
     # protocell_energetics / Phase-6 energy coupling (og-energy-alt-internalization-threshold)
     registry["free_energy_ledger_ok_final"] = _free_energy_ledger_ok_final
     registry["free_energy_residual_max"] = _free_energy_residual_max

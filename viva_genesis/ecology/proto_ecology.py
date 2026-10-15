@@ -58,6 +58,7 @@ from ..protometabolism import universe as U
 from ..protometabolism.universe_process import _kin_schema
 
 _MOLAR = {"_type": "float", "_units": "molar"}
+_DIMLESS_IN = {"_type": "float", "_units": "dimensionless"}
 _OW_MOLAR = {"_type": "overwrite[float]", "_units": "molar"}
 _OW_DIMLESS = {"_type": "overwrite[float]", "_units": "dimensionless"}
 _OW_MOLS = {"_type": "overwrite[float]", "_units": "mole/second"}
@@ -339,13 +340,19 @@ class ProtocellNetworkProcess(Process):
         self._b = None
         self._kin = {k: float(self.config[k]) for k in U.DEFAULT_KINETICS}
         self._f = {"mineral": 1.0, "base": 1.0}
+        self._cat = 1.0
         self._cdeg_prev = 0.0
         self._conc: dict[str, float] = {}
         self._rates: dict[str, float] = {}
 
     # -- face ---------------------------------------------------------------
     def inputs(self):
-        return {"internal": "map[vg_concentration]"}
+        # catalyst_activity (Phase 9, optional; 1 when unwired as in Phase 8): the
+        # catalysis available to the MINERAL-catalysed rules of the repertoire —
+        # the external FeS surface while the agent sits on it, the lineage's own
+        # heredity-held machinery once it has left. Applied as a 0-1 multiplier
+        # on those rules' mask parameters each tick.
+        return {"internal": "map[vg_concentration]", "catalyst_activity": _DIMLESS_IN}
 
     def outputs(self):
         return {
@@ -427,6 +434,8 @@ class ProtocellNetworkProcess(Process):
             if rule not in mask:
                 continue
             pre = self._kin[kp] * (self._f[cat] if cat in self._f else 1.0)
+            if rule in MINERAL_RULES:
+                pre *= self._cat
             fwd = pre * f_fac
             for sp, n in react:
                 fwd *= conc.get(sp, 0.0) ** n
@@ -452,6 +461,13 @@ class ProtocellNetworkProcess(Process):
         self._f = U.catalyst_factors(b["subs"], conc_in, self._kin)
         rr.f_mineral = self._f["mineral"]
         rr.f_base = self._f["base"]
+        cat_in = state.get("catalyst_activity", 1.0)
+        cat = 1.0 if cat_in is None else min(max(float(cat_in), 0.0), 1.0)
+        if cat != self._cat:
+            mask = self.repertoire()
+            for rule in MINERAL_RULES:
+                rr[f"m_{rule}"] = cat if rule in mask else 0.0
+            self._cat = cat
         dt = max(float(interval), 1e-6)
         cdeg0 = float(rr["Cdeg"])
         # the model has no explicit time dependence: integrate [0, dt] each tick
@@ -584,8 +600,12 @@ class SpatialCouplingStep(Step):
         self._last_time = None
 
     def inputs(self):
+        # feed (Phase 9, optional): a LIVE pore feed (universe species -> molar)
+        # that overrides the configured one when wired, so a withdrawing world can
+        # relax the background the cells see; unwired (Phase 8) the config feed holds.
         return {"agents": "map[vg_individual]", "lineages": "map[vg_lineage]",
-                "field": "map[map[vg_concentration]]", "enrichment": "tree", "global_time": "float"}
+                "field": "map[map[vg_concentration]]", "enrichment": "tree", "global_time": "float",
+                "feed": "tree"}
 
     def outputs(self):
         return {"agents": "map[vg_individual]", "field": "map[map[vg_concentration]]",
@@ -609,9 +629,9 @@ class SpatialCouplingStep(Step):
             out[s] = float(self.config[permeability_class(s)]) * av
         return out
 
-    def background(self, enrichment: dict, n_cells: int) -> dict:
+    def background(self, enrichment: dict, n_cells: int, feed: dict | None = None) -> dict:
         """Per cell: feed x enrichment^(x) with x the cell's fractional position."""
-        feed = dict(self.config.get("feed") or {})
+        feed = dict(feed) if feed else dict(self.config.get("feed") or {})
         enr = {}
         for canon, sid in CANONICAL_TO_UNIVERSE.items():
             if canon in (enrichment or {}):
@@ -631,7 +651,9 @@ class SpatialCouplingStep(Step):
         k = self.permeability_rates()
         private = str(self.config.get("coupling", "shared")) == "private"
         cells = {f"c{i}": dict(field_in.get(f"c{i}", {}) or {}) for i in range(n_cells)}
-        bg = self.background(state.get("enrichment", {}) or {}, n_cells)
+        live_feed = state.get("feed") or None
+        bg = self.background(state.get("enrichment", {}) or {}, n_cells,
+                             feed=(dict(live_feed) if isinstance(live_feed, dict) and live_feed else None))
         agents = {}
         for aid, a in agents_in.items():
             lin = lineages.get(aid, {}) or {}

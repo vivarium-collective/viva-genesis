@@ -332,6 +332,18 @@ PORT_TO_CANONICAL: dict[str, str] = {
     "energy_stored": "vg_energy.stored_work",
     "energy_dissipated": "vg_energy.dissipated",
     "energy_charge_fraction": "vg_energy.energy_charge",
+    # integrated autonomy (Phase 9): the live substrate availability of the drive,
+    # the active-import rule's readouts and the autonomy decomposition
+    "drive_availability": "diagnostics.drive_availability",
+    "active_uptake": "vg_lineage.uptake",
+    "import_power": "vg_individual.maintenance_flux",
+    "machinery": "vg_individual.growth_rate",
+    "autonomy_work": "vg_individual.autonomy",
+    "autonomy_material": "vg_individual.autonomy",
+    "autonomy_information": "vg_individual.autonomy",
+    "gradient_support": "vg_energy.pmf",
+    "mineral_access": "vg_minerals.catalytic_sites",
+    "feed_support": "vg_molecules.dissolved",
     # electrochemical interface (Phase 2, carbon_fixation face)
     "emf": "vg_energy.emf",
     "overpotential": "vg_energy.overpotential",

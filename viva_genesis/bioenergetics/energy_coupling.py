@@ -131,9 +131,12 @@ class _EnergyCouplingBase(Process):
 
     # ---- ports ------------------------------------------------------------
     def inputs(self):
+        # drive_availability (Phase 9, optional): the fraction of the configured
+        # drive turnover the individual's LIVE substrate pool can sustain (0-1).
+        # Unwired (the Phase-6 composite) it reads 1 — the fixed-turnover drive.
         return {"electric_potential": _V, "drive_free_energy": _KJMOL, "permeability": _MPS,
                 "membrane_area": _M2, "compartment_volume": _LITER,
-                "temperature": _K, "catalyst_activity": _DIMLESS}
+                "temperature": _K, "catalyst_activity": _DIMLESS, "drive_availability": _DIMLESS}
 
     def outputs(self):
         out = {"free_energy_in": _OW, "external_power": _OW, "internal_power": _OW,
@@ -195,6 +198,8 @@ class _EnergyCouplingBase(Process):
         V = V_l * 1.0e-3                                   # m^3
         T = float(state.get("temperature", c["temperature"]) or c["temperature"])
         cat = max(float(state.get("catalyst_activity", 1.0)), 0.0)
+        avail = state.get("drive_availability", 1.0)
+        avail = 1.0 if avail is None else min(max(float(avail), 0.0), 1.0)
         a = min(max(float(c["coupling_activity"]), 0.0), 1.0)
         if self.STORE == "none":
             a = 0.0
@@ -211,7 +216,7 @@ class _EnergyCouplingBase(Process):
         in_chem = work_int = diss_charge = diss_draw = diss_leak = 0.0
         q = self._q
         if self.STORE != "none" and N > 0.0:
-            D = float(c["drive_turnover"]) * a * cat
+            D = float(c["drive_turnover"]) * a * cat * avail
             slip = min(max(float(c["slip_fraction"]), 0.0), 1.0)
             gw = float(c["gate_width"])
             # 2. charging, gated by the drive clearing the store potential
@@ -354,6 +359,7 @@ def _contract(summary, description, extra_assumptions=(), refs=_REFS):
             "compartment_volume": "individual's internal volume (liter)",
             "temperature": "temperature (kelvin)",
             "catalyst_activity": "catalyst availability scaling both the external capture and the drive turnover (0-1)",
+            "drive_availability": "optional (Phase 9): fraction of the drive turnover the live substrate pool sustains (0-1; 1 when unwired)",
         },
         "outputs": {
             "free_energy_in": "gross free energy drawn from the environment this tick (watt)",
