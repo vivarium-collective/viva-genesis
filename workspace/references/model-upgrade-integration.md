@@ -210,7 +210,10 @@ H+ permeability `extrapolated` from vesicle literature with the Na+/H+ ratio's
 Thauer, the Fe(II)-disproportionation drive `hypothetical` pending the
 reference's acceptance, and every per-cell number — turnover, maintenance,
 pool, load — `hypothetical`; 24 parameters, `unsourced = []`);
-`inheritance_budgets` (Phase 7); `cnp_resources` (cross-cutting: the N / P
+`inheritance_budgets` (Phase 7, built — §6e: per-copy template costs,
+precursor feeds, copy error rates, the energy quantum, the low-copy scale and
+the attachment thresholds; 39 parameters, the ribozyme fidelity the one
+measured entry, `unsourced = []`); `cnp_resources` (cross-cutting: the N / P
 hydrothermal datasets already proposed in `proposed_inputs`).
 
 ## 4. The campaign UQ layer
@@ -500,6 +503,103 @@ polyphosphate never against a 30 kJ/mol step. What Phase 6 does *not* yet do:
 propagate the `energy_currencies` priors; put the classes inside each og-05
 strategy and re-run selection on per-individual autonomy; take P_H from the
 og-04 membrane process; transcribe the Fe(II)-disproportionation numbers.
+## 6e. Phase 7 — competing heredity, worked concretely
+
+Built (PR "feat(phase7)"): `viva_genesis/heredity/competing.py` — the six
+heredity classes carved out of og-06's one `LineageReplicatorProcess`
+(`module=` string) into separate Process classes on one `heredity` face
+(`models.py`): `rna_like` (L-site template, template-directed copy at per-site
+fidelity q with back-mutation, L nucleotides + L quanta per copy), `peptide`
+(8-site peptide, weak sequence-templated ligation at q_p over a 20-letter
+alphabet), `compositional` (GARD composition over K = 8 amphiphile types with a
+lognormal mutual-catalysis matrix carrying two composomes, inherited by random
+fission; 1 amphiphile, 0 quanta per incorporation), `network` (M = 4
+autocatalytic cores growing in their own niches, lost by dilution at fission,
+re-seeded only by rare spontaneous formation; capacity M bits), `hybrid` (an
+8-site template whose function focuses the composition) and `mineral_state`
+(a 16-bit crystal-face defect pattern copied into every new layer at per-bit
+error p_m; cleavage hands both daughters the face). Every class is simulated
+by **one exact Gillespie direct-method lineage at low copy number**
+(`CompetingLineage`): 32 protocell-scale individuals (1 fL) carrying ~10–40
+heritable molecules each, a bulk mass growing at `k_grow (1 + σ φ)` (φ = the
+function the heritable state confers through a common sigmoid landscape, σ =
+Eigen's superiority, which also multiplies each template's own copy rate),
+division at 2 m₀ with random partition of the heritable state, uniform dilution
+at capacity; every copy draws **integer** precursor molecules from one shared
+pool and integer energy quanta (30 kJ/mol each) from one shared store — the
+budgets are matched across classes by construction and the ledgers are exact.
+
+`HeredityAttachmentStep` (FMP §2.5) attaches heredity only when the class's
+precursor budget (`attach_min_copies × cost per copy × n` molecules), energy
+budget (`attach_energy_margin ×` the same in quanta) and expected copy fidelity
+(**Eigen's threshold Q ≥ 1/σ**) all hold; before attachment daughters re-form
+their heritable material de novo *from the same pool at the same price* —
+og-06's non-heritable control is the unattached state of every class, not a
+seventh module. The budget thresholds are `hypothetical` (expert decision
+recorded in `investigation.yaml`) and swept.
+
+Verification: `viva_genesis/heredity/information.py` — a plug-in
+parent→offspring mutual-information estimator on equal-frequency bins with a
+phenotype-resolution floor (differences in function below 5 % are one
+phenotype), Miller–Madow bias correction and a **permutation null** (realised
+heritable bits = MI − null), plus the **convergence check** the roadmap asks
+for: a time-ordered prefix ladder (n/4, n/2, 3n/4, n) and a bootstrap standard
+error, converged only when the last two rungs agree within 0.05 bit (or 15 %)
+and SE ≤ 0.05 bit. `ledger.InformationLedgerProcess` integrates the energy a
+class spends (quanta + precursor free-energy equivalents) and its births,
+audits the shared store exactly (`stored_work = W₀ + ∫flux − ∫spent`,
+residual ≤ 3e-14 on every run) and prices the converged bits per joule and
+per precursor; it certifies nothing while the estimator is unconverged.
+vg-data `inheritance_budgets`: 39 parameters — 1 measured (the R18 ribozyme's
+96.7 % per-site fidelity, Johnston 2001), 6 inferred, 8 extrapolated, 24
+hypothetical; `unsourced = []`; the defect-copy error of the mineral class is
+the declared weakest number.
+
+Results (`og-06-alt-information-per-cost`, 6 seeds × 100 ticks per class and
+arm, 3 seeds per map point; 252 composite runs, 75 s on 6 workers):
+
+| Class | Heritable bits (attached / control) | MI converged on all 6 seeds | Energy per offspring | Bits / J | Precursors per offspring | Capacity | Attaches (step) from |
+|---|---|---|---|---|---|---|---|
+| mineral_state | 2.24 ± 0.14 / 0.00 | no (function decays through layer-copy errors at the nominal budget; the lineage is non-stationary) | 4.1e-20 J | 5.4e19 | 8 | 16 bits | 3 % of the nominal budget; p_m ≤ 0.005 |
+| rna_like | 1.46 ± 0.10 / 0.00 | yes | 3.0e-17 J | 4.9e16 | 150 | 60 bits | the full budget only; q ≥ 0.967 |
+| network | 0.53 ± 0.06 / 0.00 | yes | 4.2e-19 J | 1.3e18 | 4 | 4 bits | 3 % |
+| hybrid | 0.49 ± 0.03 / 0.00 | yes | 1.9e-17 J | 2.5e16 | 103 | 34 bits | 30 %; q ≥ 0.90 |
+| compositional | 0.47 ± 0.03 / 0.00 | yes | 1.1e-18 J | 4.3e17 | 11 | 18 bits | 3 % |
+| peptide | 0.14 ± 0.22 / 0.00 | no | 1.5e-17 J | 9.0e15 | 154 | 35 bits | never at q_p = 0.7; q_p ≥ 0.90 |
+
+Every control (heredity unattached, daughters re-formed de novo from the same
+budget) transmits 0.00 bit with heritability ≈ 0; every attached class
+transmits bits with heritability 0.45–1.0; the energy-store residual is
+≤ 3e-14 on all 252 runs.
+
+Gates (declared after the exploratory scans were visible; the committed
+artifact is the deterministic 6-seed run): `ancestry-predicts-phenotype` —
+**4/6** classes pass the strict rule (MI converged on every seed, ≥ 0.1 bit,
+≥ 0.05 bit above the class's own control); peptide fails on fidelity (refused
+by the step at q_p = 0.7) and mineral_state on convergence. The
+information-per-cost frontier spans **3.8 decades** in bits/J; the certified
+Pareto front is {network, rna_like}; mineral_state would dominate both axes
+(cheapest and richest) if its estimate were certified — on a defect-copy
+error nobody has measured. Class substitution splits by currency: among
+certified classes the best non-RNA class (network) carries **0.36×** the
+RNA-like bits per offspring but **26×** its bits per joule — og-06's "need not
+presume RNA" survives as an efficiency statement, not as a capacity one.
+The attachment map's span low→high budget is 1.0 over attachable classes
+(compositional / network / mineral attach from 3 % of the nominal budget,
+hybrid from 30 %, rna_like only at the full budget); the transition to
+templated heredity against the organic attractor classes happens the moment
+the Eigen floor admits the template (rna_like at q ≥ 0.967 carries 3× the
+bits of compositional / network), not against the mineral class within the
+swept range. Reading: at low copy number the expensive, high-capacity template
+transmits the most certified phenotype bits but needs 30× the budget of the
+attractor classes and ribozyme-level fidelity to be attached at all, while
+the cheap classes win per joule by one to three decades.
+
+What Phase 7 does not yet do: attach the classes to Phase-5 agents as a
+bigraph rewrite (the step publishes a lineage-level flag, the class holds its
+individuals); sequence-level information (the MI is on phenotype, bounded by
+the resolution bins, so capacity and realised bits are reported side by side);
+propagate the package priors (nominal + two swept axes only).
 
 ## 7. Roadmap — Phases 2–9 mapped onto the existing studies
 
@@ -518,6 +618,8 @@ recorded in `investigation.yaml.guidelines.roadmap_phases`.
 | **5 Endogenous boundary + growth/division** | og-04 (`ProtocellAssemblyProcess`), og-growth (`OsmoticGrowthDivisionProcess`), FMP §2.3–2.4 rewrites | `boundary`: `single_chain` (E), `mixed` (E), `thioester_aminothiol` (A); `AmphiphileSynthesisProcess` (A, from `molecules.dissolved.{acetate,formate}`); `BoundaryFormationStep` / `DivisionStep` / `LysisStep` / `ExtinctionStep` as `_add` / `_divide` / `_remove` rewrites on `agents: map[vg_individual]` | `amphiphile_assembly` (Jordan 2019 phase data under alkaline / saline / divalent conditions; Lu 2024 osmotic growth) | `ledger.rewrite_residual == 0` across every structural rewrite; partition residual on `_divide` | `og-04-alt-endogenous-boundary`: gate `boundary-forms-from-chemistry` (agents 0 → ≥1 with endogenous amphiphile; not with synthesis ablated); `og-growth-alt-physical-reproduction`: a ≥3-generation lineage in the agents map with daughter volumes summing to the mother's | first continuous chemistry → growing, dividing individual | Partition semantics for concentration maps (store `internal` as amounts + volume; FMP §9.1) |
 | **6 Proto-energetics** (built — §6d; thioester pays from activity 0.10, Fe-redox from 0.80, the ion gradient only below P_H 1e-8 m/s, polyphosphate never; agreement 0.46) | og-energy (`GeochemicalDriveProcess`, `ProtoEnergyCurrencyProcess`), og-05 (`BioenergeticSelectionProcess`) | `energy_coupling`: `passive_gradient` (A), `h_na_gradient_leaky_membrane` (A), `thioester_acyl_phosphate` (E as carrier), `polyphosphate` (E), `fe_redox` (A) — all inside each protocell composite, autonomy = internal / (internal + external) power per individual | `energy_currencies` (Fe disproportionation drive already proposed; H+/Na+ permeabilities) | free-energy ledger: `free_energy_in ≥ work + dissipated` as an invariant | `og-energy-alt-internalization-threshold`: gate `internalization-pays` — passive vs increasingly active coupling, the point where energetic benefit exceeds leakage + maintenance, per class | energy-capture efficiency and internalization threshold | Replace og-05's population-mean `internalization` with per-individual autonomy (reads the same field) |
 | **7 Competing heredity** | og-06 (`LineageReplicatorProcess` modes), FMP §2.5 | `heredity`: `compositional`, `network`, `peptide`, `rna_like`, `hybrid`, `mineral_state` (carved out of the one class), attached conditionally by `HeredityAttachmentStep` under matched resource + energy budgets, Gillespie at low copy number | `inheritance_budgets` (precursor availability, error rates, template costs) | information ledger: heritable bits per unit energy; mutual information estimator convergence | `og-06-alt-information-per-cost`: gates `ancestry-predicts-phenotype` (parent–offspring mutual information per class) and the information-per-cost frontier; og-06's "need not presume RNA" becomes a class-substitution result | information-per-cost frontier; transition to templated heredity | Defensible attachment thresholds (expert input; `hypothetical` and swept until then) |
+| **6 Proto-energetics** | og-energy (`GeochemicalDriveProcess`, `ProtoEnergyCurrencyProcess`), og-05 (`BioenergeticSelectionProcess`) | `energy_coupling`: `passive_gradient` (A), `h_na_gradient_leaky_membrane` (A), `thioester_acyl_phosphate` (E as carrier), `polyphosphate` (E), `fe_redox` (A) — all inside each protocell composite, autonomy = internal / (internal + external) power per individual | `energy_currencies` (Fe disproportionation drive already proposed; H+/Na+ permeabilities) | free-energy ledger: `free_energy_in ≥ work + dissipated` as an invariant | `og-energy-alt-internalization-threshold`: gate `internalization-pays` — passive vs increasingly active coupling, the point where energetic benefit exceeds leakage + maintenance, per class | energy-capture efficiency and internalization threshold | Replace og-05's population-mean `internalization` with per-individual autonomy (reads the same field) |
+| **7 Competing heredity** (built — §6e) | og-06 (`LineageReplicatorProcess` modes), FMP §2.5 | `heredity`: `compositional`, `network`, `peptide`, `rna_like`, `hybrid`, `mineral_state` (carved out of the one class), attached conditionally by `HeredityAttachmentStep` under matched resource + energy budgets, Gillespie at low copy number | `inheritance_budgets` (precursor availability, error rates, template costs) | information ledger: heritable bits per unit energy; mutual information estimator convergence | `og-06-alt-information-per-cost`: gates `ancestry-predicts-phenotype` (parent–offspring mutual information per class) and the information-per-cost frontier; og-06's "need not presume RNA" becomes a class-substitution result | information-per-cost frontier; transition to templated heredity | Defensible attachment thresholds (expert input; `hypothetical` and swept until then) |
 | **8 Biochemical ecology** | og-07 (`CrossFeedingMetacommunityProcess` capability vectors) | `proto_ecology`: real reaction networks per protocell (Phase-3 classes inside each agent), `SpatialCouplingStep` onto the Phase-4 fields, `BigraphicalReactiveSystem` exchange rules; `EcologyReducerStep` keeps og-07's gate names | `cnp_resources` + the Phase-3 universe | element ledger across agents + fields; exchange-rule firing counts | `og-07-alt-real-metabolite-exchange`: gate `community-function-precedes-cell-completeness` — a function present in the community union but in no lineage, sustained by real metabolite flux, not symbolic capability transfer | emergent cross-feeding / division of labor / robustness | Agent motion model (defer; point agents on fields first) |
 | **9 Integrated autonomy** | og-08 (`OffGradientPersistenceProcess`, {pump, importer, heredity}), og-adv | one persistent world (FMP §2.2 skeleton) with an `AblationStep` scheduling geology withdrawal; the {pump, importer, heredity} result re-run under an **ensemble** of maintenance functions, transport laws, storage models, permeability assumptions and inheritance classes | all packages, posterior-propagated from Phase 1 | every ledger; structural-event log | `og-08-alt-robust-innovation-set`: gate `minimum-sufficient-innovation-set` across model structures — the *intersection* of required innovations, reported as a lattice with the continuous autonomy value (fraction of essential work and material supplied internally, decomposed by function) | functions robustly required across model structures | Treat the current {pump, importer, heredity} as a hypothesis generator (plan §10), not a result |
 

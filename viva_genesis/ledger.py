@@ -32,6 +32,11 @@ work, dissipation and store must satisfy ``free_energy_in >= work + dissipated``
 cumulatively with the store (exact residual, non-negative margin, dissipation
 rate never negative, capture efficiency <= 1).
 
+:class:`InformationLedgerProcess` (Phase 7) prices heredity: heritable bits
+(parent-offspring mutual information, certified only when the estimator has
+converged) per joule and per precursor molecule, with an exact audit of the
+shared energy store.
+
 Later phases extend the same pattern (``ledger.{C,N,P}_residual``,
 ``rewrite_residual`` across structural rewrites) — see the model-upgrade
 integration doc.
@@ -609,7 +614,137 @@ FREE_ENERGY_LEDGER_KEYS = ("free_energy_in_total", "work_total", "dissipated_tot
                            "dissipation_min", "capture_efficiency", "free_energy_ledger_ok")
 
 
-__all__ = ["ConservationLedgerProcess", "ChargeLedgerProcess", "NetworkLedgerProcess",
+_BIT = {"_type": "float", "_units": "bit"}
+_J = {"_type": "float", "_units": "joule"}
+_OVW_BIT = {"_type": "overwrite[float]", "_units": "bit"}
+_OVW_J = {"_type": "overwrite[float]", "_units": "joule"}
+
+
+class InformationLedgerProcess(Process):
+    """Information ledger — heritable bits per unit energy (Phase 7).
+
+    Sits beside a ``heredity`` class and, every tick, (i) integrates the energy
+    the class spent on heredity (``replication_energy``: quanta × ΔG_quantum,
+    plus ``precursor_energy``: the precursors' free-energy equivalents) and
+    the offspring it produced, (ii) audits the shared energy store exactly —
+    ``stored_work == W0 + ∫ work_flux − ∫ replication_energy`` (every process
+    writes additive deltas to the same store, so the residual is at float
+    round-off) — and (iii) prices the realised heritable information the
+    class publishes (``information_content``: parent→offspring mutual
+    information net of its permutation null, in bits) per joule and per
+    precursor molecule spent per offspring. The MI estimator's convergence flag
+    (``mi_converged``, the prefix-ladder + bootstrap check of
+    ``viva_genesis.heredity.information``) gates ``information_ledger_ok``:
+    an unconverged estimate is reported but never certified.
+    """
+
+    contract = {
+        "summary": "Information ledger: heritable bits per joule and per precursor, exact energy-store audit, MI convergence gate.",
+        "description": (
+            "Integrates the energy a heredity class spends (quanta x dG_quantum + precursor free-energy "
+            "equivalents) and the offspring it produces, audits the shared energy store against "
+            "W0 + integrated inflow - integrated spend (exact when every process writes additive deltas), "
+            "and prices the class's realised heritable bits (parent-offspring MI net of the permutation null) "
+            "per joule and per precursor molecule per offspring. information_ledger_ok = 1 only while the "
+            "energy residual is within tolerance AND the MI estimator has converged."
+        ),
+        "inputs": {
+            "information_content": "realised heritable bits (MI net of null) the class publishes",
+            "mi_converged": "1 when the MI prefix ladder + bootstrap SE converged",
+            "replication_energy": "energy quanta spent on heredity this tick (joule)",
+            "precursor_energy": "free-energy equivalent of precursors consumed this tick (joule)",
+            "precursors_consumed": "precursor molecules consumed this tick",
+            "births": "offspring produced this tick",
+            "stored_work": "the shared energy store (joule)",
+            "work_flux": "energy added to the store this tick (joule)",
+        },
+        "outputs": {
+            "heritable_bits": "the certified heritable bits (information_content when converged, else 0)",
+            "energy_per_offspring": "integrated heredity energy / integrated births (joule)",
+            "precursors_per_offspring": "integrated precursors / integrated births",
+            "bits_per_joule": "heritable_bits / energy_per_offspring",
+            "bits_per_precursor": "heritable_bits / precursors_per_offspring",
+            "energy_in": "integrated work_flux (joule)", "energy_used": "integrated heredity energy (joule)",
+            "energy_residual": "|stored_work - (W0 + energy_in - energy_used)| / max(energy_in, eps)",
+            "information_ledger_ok": "1 while energy_residual <= tolerance and mi_converged",
+        },
+        "assumptions": ["Only the heredity class draws on the audited store; the feed is the only inflow.",
+                        "The ledger runs at the same interval as the class and the feed, reading each published value once."],
+        "math": ["bits_per_joule = I(parent; offspring) / (E_heredity / births)",
+                 "energy_residual = |W - (W0 + sum flux - sum used)| / sum flux"],
+        "references": ["miller1955note", "kraskov2004estimating"],
+    }
+
+    config_schema = {
+        "tolerance": {"_type": "float", "_default": 1.0e-9, "_units": "dimensionless", "_provenance": "inferred"},
+    }
+
+    def __init__(self, config=None, core=None):
+        super().__init__(config=config, core=core)
+        self._w0 = None
+        self._in = 0.0
+        self._used = 0.0
+        self._prec = 0.0
+        self._births = 0.0
+        self._res_max = 0.0
+
+    def inputs(self):
+        return {"information_content": _BIT, "mi_converged": _DIMLESS, "replication_energy": _J,
+                "precursor_energy": _J, "precursors_consumed": _DIMLESS, "births": _DIMLESS,
+                "stored_work": _J, "work_flux": _J}
+
+    def outputs(self):
+        return {"heritable_bits": _OVW_BIT, "energy_per_offspring": _OVW_J, "precursors_per_offspring": _OVW,
+                "bits_per_joule": {"_type": "overwrite[float]", "_units": "bit/joule"},
+                "bits_per_precursor": _OVW_BIT, "energy_in": _OVW_J, "energy_used": _OVW_J,
+                "energy_residual": _OVW, "information_ledger_ok": _OVW}
+
+    def initial_state(self):
+        return {"information_content": 0.0, "mi_converged": 0.0, "replication_energy": 0.0,
+                "precursor_energy": 0.0, "precursors_consumed": 0.0, "births": 0.0,
+                "stored_work": 0.0, "work_flux": 0.0}
+
+    def update(self, state, interval):
+        flux = float(state.get("work_flux", 0.0))
+        used = float(state.get("replication_energy", 0.0))
+        w = float(state.get("stored_work", 0.0))
+        if self._w0 is None:
+            # the values read now were applied to the store in the previous tick,
+            # so W0 = the store before any of them (exact: same floats, same order)
+            self._w0 = w - flux + used
+        self._in += flux
+        self._used += used
+        self._prec += float(state.get("precursors_consumed", 0.0))
+        self._births += float(state.get("births", 0.0))
+        e_total = self._used + 0.0  # direct quanta; precursor equivalents are priced separately below
+        expected = self._w0 + self._in - self._used
+        residual = abs(w - expected) / max(abs(self._in), 1e-30)
+        self._res_max = max(self._res_max, residual)
+        converged = float(state.get("mi_converged", 0.0)) >= 0.5
+        bits = float(state.get("information_content", 0.0)) if converged else 0.0
+        births = max(self._births, 1.0)
+        e_prec_total = self._prec_energy_total(state)
+        e_per = (e_total + e_prec_total) / births
+        p_per = self._prec / births
+        ok = converged and self._res_max <= float(self.config["tolerance"])
+        return {"heritable_bits": bits, "energy_per_offspring": e_per, "precursors_per_offspring": p_per,
+                "bits_per_joule": (bits / e_per) if e_per > 0 else 0.0,
+                "bits_per_precursor": (bits / p_per) if p_per > 0 else 0.0,
+                "energy_in": self._in, "energy_used": self._used, "energy_residual": residual,
+                "information_ledger_ok": 1.0 if ok else 0.0}
+
+    def _prec_energy_total(self, state) -> float:
+        if not hasattr(self, "_prec_e"):
+            self._prec_e = 0.0
+        self._prec_e += float(state.get("precursor_energy", 0.0))
+        return self._prec_e
+
+
+INFORMATION_LEDGER_KEYS = ("heritable_bits", "energy_per_offspring", "precursors_per_offspring", "bits_per_joule",
+                           "bits_per_precursor", "energy_in", "energy_used", "energy_residual",
+                           "information_ledger_ok")
+
+__all__ = ["ConservationLedgerProcess", "ChargeLedgerProcess", "NetworkLedgerProcess", "InformationLedgerProcess",
            "RewriteLedgerProcess", "FreeEnergyLedgerProcess",
-           "LEDGER_KEYS", "CHARGE_LEDGER_KEYS", "NETWORK_LEDGER_KEYS", "REWRITE_LEDGER_KEYS",
+           "LEDGER_KEYS", "CHARGE_LEDGER_KEYS", "NETWORK_LEDGER_KEYS", "INFORMATION_LEDGER_KEYS", "REWRITE_LEDGER_KEYS",
            "FREE_ENERGY_LEDGER_KEYS", "ledger_summary", "rewrite_ledger_summary"]

@@ -25,6 +25,7 @@ from . import open_chemical_network  # noqa: F401
 from . import endogenous_boundary  # noqa: F401
 from . import physical_reproduction  # noqa: F401
 from . import protocell_energetics  # noqa: F401
+from . import competing_heredity  # noqa: F401
 
 from .vent_reactor import serpentinizing_vent_reactor, serpentinizing_vent_reactor_reduced
 from .carbon_fixation import hydrothermal_carbon_fixation
@@ -47,6 +48,7 @@ from .open_chemical_network import open_chemical_network
 from .endogenous_boundary import endogenous_boundary
 from .physical_reproduction import physical_reproduction
 from .protocell_energetics import protocell_energetics
+from .competing_heredity import competing_heredity
 
 __all__ = [
     "serpentinizing_vent_reactor", "serpentinizing_vent_reactor_reduced",
@@ -71,4 +73,5 @@ __all__ = [
     "endogenous_boundary",
     "physical_reproduction",
     "protocell_energetics",
+    "competing_heredity",
 ]

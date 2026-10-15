@@ -57,6 +57,11 @@ permeation) and ``fe_redox`` (a reduced-metal store charged by the
 Fe(II)-disproportionation drive). All publish the same per-individual power
 budget, so autonomy = internal / (internal + external) power is one readout
 across classes (``viva_genesis.bioenergetics.energy_coupling``).
+Competing heredity (Model Upgrade plan, Phase 7). Six classes honour one
+``heredity`` face — ``compositional``, ``network``, ``peptide``, ``rna_like``,
+``hybrid``, ``mineral_state`` — each an exact Gillespie lineage at low copy
+number drawing from the same precursor pools and energy store, attached
+conditionally by ``HeredityAttachmentStep`` (``viva_genesis.heredity.competing``).
 """
 
 from __future__ import annotations
@@ -195,6 +200,34 @@ ENERGY_COUPLING_FACE = {
     "optional_outputs": {"leak_power", "net_power", "energy_charge_fraction", "store_potential", "pmf"},
 }
 
+# Competing heredity (Model Upgrade plan, Phase 7; FMP §2.5). Every class reads
+# the attachment flag the HeredityAttachmentStep publishes, the shared energy
+# store and the ONE dissolved pool's precursor species (matched budgets), and
+# must publish the lineage's realised heritability, its realised heritable
+# information (parent-offspring mutual information, with the estimator's
+# convergence flag), its copy fidelity, the population / lineage depth and the
+# energy it spent on heredity this tick (the information ledger's input). The
+# pool / store consumption deltas, the function sensors, the capacity and the
+# per-tick cost counters are optional so a class that costs nothing on one
+# budget (e.g. compositional: no quanta) shares the face.
+HEREDITY_FACE = {
+    "required_inputs": {"attached", "stored_work", "nucleotide_precursor", "amino_precursor",
+                        "amphiphile", "mineral_precursor"},
+    "optional_inputs": {"temperature"},
+    "required_outputs": {"heritability", "information_content", "fidelity", "population", "lineage_depth",
+                         "replication_energy", "mi_converged"},
+    "optional_outputs": {
+        # consumption written back to the shared pools / store (additive deltas)
+        "nucleotide_precursor", "amino_precursor", "amphiphile", "mineral_precursor", "stored_work",
+        # lineage / function sensors
+        "mean_function", "functional_fraction", "mutation_rate", "mean_molecules", "n_attached",
+        # information
+        "information_capacity", "mi_standard_error",
+        # per-tick costs the ledger integrates
+        "quanta_used", "precursors_consumed", "precursor_energy", "copies", "births",
+    },
+}
+
 FACES = {
     "spatial_transport": SPATIAL_TRANSPORT_FACE,
     "serpentinization": SERPENTINIZATION_FACE,
@@ -202,6 +235,7 @@ FACES = {
     "proto_metabolism": PROTO_METABOLISM_FACE,
     "boundary": BOUNDARY_FACE,
     "energy_coupling": ENERGY_COUPLING_FACE,
+    "heredity": HEREDITY_FACE,
 }
 
 
@@ -285,6 +319,21 @@ INTERFACES = {
             "thioester_acyl_phosphate": "local:ThioesterCouplingProcess",         # E as carrier (og-energy currency inside the cell)
             "polyphosphate": "local:PolyphosphateCouplingProcess",                # E as carrier (low-bond, kinetically stable)
             "fe_redox": "local:FeRedoxCouplingProcess",                            # A (Fe(II)-disproportionation drive, reduced-metal store)
+        },
+    },
+    # Competing heredity (Model Upgrade plan, Phase 7): the six classes carved
+    # out of og-06's one LineageReplicatorProcess, each an exact Gillespie
+    # lineage at low copy number under matched budgets. og-06's process itself
+    # predates the face (no budgets, no attachment) and does NOT satisfy it.
+    "heredity": {
+        "face": "heredity",
+        "models": {
+            "compositional": "local:CompositionalHeredityProcess",   # A (GARD composition, Segre 2000)
+            "network": "local:NetworkHeredityProcess",               # A (autocatalytic-core attractors, Vasas 2010)
+            "peptide": "local:PeptideHeredityProcess",               # A (weakly templated peptide ligation)
+            "rna_like": "local:RnaLikeHeredityProcess",              # A (template copy, Eigen ratchet)
+            "hybrid": "local:HybridHeredityProcess",                 # A (short template focusing a composition)
+            "mineral_state": "local:MineralStateHeredityProcess",    # A (crystal-face defect pattern, Cairns-Smith)
         },
     },
 }

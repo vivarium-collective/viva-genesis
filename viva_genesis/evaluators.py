@@ -661,6 +661,106 @@ def _threshold_map_ledger_all_ok(reader, test: dict, ws_root: Any) -> float:
     """1.0 when the free-energy ledger closed on every threshold-map point of every class."""
     att = _artifact_json(test, ws_root, _OGENERGYALT_REPORT)["attribution"]
     return 1.0 if all(pc["ledger"]["all_ok"] for pc in att["per_class"].values()) else 0.0
+# --- competing_heredity / Phase-7 (og-06-alt-information-per-cost) --------------
+
+_OG06ALT_FRONTIER = "workspace/studies/og-06-alt-information-per-cost/artifacts/information_frontier.json"
+
+
+def _heritable_bits_final(reader, test: dict, ws_root: Any) -> float:
+    """Realised heritable bits on the final tick: parent-offspring MI net of its permutation null."""
+    return _values(reader, "information_content")[-1]
+
+
+def _mi_converged_final(reader, test: dict, ws_root: Any) -> float:
+    """1 when the MI estimator's prefix ladder + bootstrap SE converged on the final tick."""
+    return _values(reader, "mi_converged")[-1]
+
+
+def _information_ledger_ok_final(reader, test: dict, ws_root: Any) -> float:
+    """Final InformationLedgerProcess verdict (energy store audited + MI converged)."""
+    return _values(reader, "information_ledger_ok")[-1]
+
+
+def _energy_store_residual_max(reader, test: dict, ws_root: Any) -> float:
+    """Worst-case |stored_work - (W0 + in - used)| / in over the run."""
+    return max(abs(v) for v in _values(reader, "energy_residual"))
+
+
+def _bits_per_joule_final(reader, test: dict, ws_root: Any) -> float:
+    return _values(reader, "bits_per_joule")[-1]
+
+
+def _heredity_settled_function(reader, test: dict, ws_root: Any) -> float:
+    """Settled population mean function (last quartile) of the lineage."""
+    return _settled_mean(reader, "mean_function")
+
+
+def _heredity_attached_final(reader, test: dict, ws_root: Any) -> float:
+    return _values(reader, "attached")[-1]
+
+
+def _n_classes_ancestry_predicts(reader, test: dict, ws_root: Any) -> float:
+    """Number of heredity classes whose converged heritable bits pass the pre-registered
+    per-class rule (>= 0.1 bit and >= 0.05 bit above the class's own unattached control)."""
+    return float(_artifact_json(test, ws_root, _OG06ALT_FRONTIER)["gates"]["n_classes_ancestry_predicts"])
+
+
+def _frontier_pareto_size(reader, test: dict, ws_root: Any) -> float:
+    """Number of classes on the (bits up, energy down) Pareto front of converged classes."""
+    return float(_artifact_json(test, ws_root, _OG06ALT_FRONTIER)["gates"]["frontier_pareto_size"])
+
+
+def _frontier_span_decades(reader, test: dict, ws_root: Any) -> float:
+    """log10 range of bits-per-joule across classes."""
+    v = _artifact_json(test, ws_root, _OG06ALT_FRONTIER)["gates"]["frontier_span_decades"]
+    if v is None:
+        raise ValueError("bits-per-joule span undefined (fewer than two finite classes)")
+    return float(v)
+
+
+def _nonrna_bits_fraction(reader, test: dict, ws_root: Any) -> float:
+    """Best non-RNA class's heritable bits / the rna_like class's (class substitution)."""
+    v = _artifact_json(test, ws_root, _OG06ALT_FRONTIER)["gates"]["nonrna_bits_fraction"]
+    if v is None:
+        raise ValueError("no converged non-RNA class, or rna_like transmits 0 bits")
+    return float(v)
+
+
+def _nonrna_bits_per_joule_fraction(reader, test: dict, ws_root: Any) -> float:
+    """Best non-RNA class's bits per joule / the rna_like class's (certified classes only)."""
+    v = _artifact_json(test, ws_root, _OG06ALT_FRONTIER)["gates"]["nonrna_bits_per_joule_fraction"]
+    if v is None:
+        raise ValueError("no certified non-RNA class, or rna_like uncertified / 0 bits per joule")
+    return float(v)
+
+
+def _attachment_budget_span(reader, test: dict, ws_root: Any) -> float:
+    """Mean (attached fraction at the highest budget - at the lowest) over classes the Eigen floor admits."""
+    return float(_artifact_json(test, ws_root, _OG06ALT_FRONTIER)["gates"]["attachment_budget_span"])
+
+
+def _class_heritable_bits(reader, test: dict, ws_root: Any) -> float:
+    """Converged heritable bits of one class (test.params.heredity_class), attached arm."""
+    cls = str((test.get("params") or {}).get("heredity_class", "rna_like"))
+    return float(_artifact_json(test, ws_root, _OG06ALT_FRONTIER)["classes"][cls]["attached"]["heritable_bits"])
+
+
+def _frontier_ledger_residual_max(reader, test: dict, ws_root: Any) -> float:
+    return float(_artifact_json(test, ws_root, _OG06ALT_FRONTIER)["ledger"]["energy_residual_max"])
+
+
+def _templated_takeover_fidelity(reader, test: dict, ws_root: Any) -> float:
+    """Lowest per-site fidelity at which rna_like attaches AND out-transmits the organic
+    non-templated classes (compositional / network) — the transition to templated heredity."""
+    v = _artifact_json(test, ws_root, _OG06ALT_FRONTIER)["gates"]["templated_takeover_fidelity"]
+    if v is None:
+        raise ValueError("rna_like never overtakes the organic non-templated classes in the swept fidelity range")
+    return float(v)
+
+
+def _frontier_energy_within_tolerance(reader, test: dict, ws_root: Any) -> float:
+    """1.0 when the energy-store residual stayed within tolerance on every frontier / map run."""
+    return 1.0 if _artifact_json(test, ws_root, _OG06ALT_FRONTIER)["ledger"]["all_energy_within_tolerance"] else 0.0
 
 
 def register_derived_scalars(registry: dict) -> None:
@@ -678,6 +778,24 @@ def register_derived_scalars(registry: dict) -> None:
     registry["n_classes_paying_at_nominal"] = _n_classes_paying_at_nominal
     registry["internalization_structure_agreement"] = _internalization_structure_agreement
     registry["threshold_map_ledger_all_ok"] = _threshold_map_ledger_all_ok
+    # competing heredity / Phase-7 (og-06-alt-information-per-cost)
+    registry["heritable_bits_final"] = _heritable_bits_final
+    registry["mi_converged_final"] = _mi_converged_final
+    registry["information_ledger_ok_final"] = _information_ledger_ok_final
+    registry["energy_store_residual_max"] = _energy_store_residual_max
+    registry["bits_per_joule_final"] = _bits_per_joule_final
+    registry["heredity_settled_function"] = _heredity_settled_function
+    registry["heredity_attached_final"] = _heredity_attached_final
+    registry["n_classes_ancestry_predicts"] = _n_classes_ancestry_predicts
+    registry["frontier_pareto_size"] = _frontier_pareto_size
+    registry["frontier_span_decades"] = _frontier_span_decades
+    registry["nonrna_bits_fraction"] = _nonrna_bits_fraction
+    registry["nonrna_bits_per_joule_fraction"] = _nonrna_bits_per_joule_fraction
+    registry["attachment_budget_span"] = _attachment_budget_span
+    registry["class_heritable_bits"] = _class_heritable_bits
+    registry["frontier_ledger_residual_max"] = _frontier_ledger_residual_max
+    registry["templated_takeover_fidelity"] = _templated_takeover_fidelity
+    registry["frontier_energy_within_tolerance"] = _frontier_energy_within_tolerance
     # electrochemical interface / Phase-2 (og-01-cal-electrochemistry)
     registry["charge_ledger_residual_max"] = _charge_ledger_residual_max
     registry["faradaic_efficiency_max"] = _faradaic_efficiency_max
