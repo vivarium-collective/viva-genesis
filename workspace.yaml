@@ -79,6 +79,20 @@ expert_docs:
       experiment, experimental-design rules and the section-18 implementation
       order. Source for workspace/references/full-modeling-plan-integration.md.
 
+  - name: Model Upgrade and Implementation Plan
+    path: workspace/references/expert/viva-genesis-model-upgrade-and-implementation-plan.pdf
+    sha256: 455d8c84880f299b5621524a5e3dd3252c6e7b21ab3d3f75920f93a1c7c9b786
+    contributor: agmon.eran@gmail.com
+    description: >-
+      Roadmap (14 Oct 2026) for replacing assumption-driven stages with calibrated
+      mechanistic model families: the three-quantity standard (feasibility /
+      robustness / discrimination) + evidence tiers, serious model upgrades per
+      stage (priority upgrades A-H), cross-cutting UQ methods, the Process
+      Bigraph principle (canonical interfaces; model class as a categorical
+      factor; one persistent world with structural rewrites), the vg-data
+      provenance layer, the nine-phase implementation roadmap and the vg-*
+      deliverables. Source for workspace/references/model-upgrade-integration.md.
+
 # Baseline run length used by the dashboard's "Run" flow (study_runs falls back
 # to 5 ticks otherwise — too few for the Campaign-0 reactor to settle into the
 # Lost City window). 120 ticks settles T/pH comfortably within the field window.
