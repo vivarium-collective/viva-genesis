@@ -2717,3 +2717,103 @@ class VentSpecificityThreeView(Visualization):
                         "generic": _traj(GENERIC_PARAMS["carbon"])}
         return {"html": vent_specificity_threeview_figure(res, trajectories, gate_rows=gate_rows,
                                                           title=self.config["title"])}
+
+
+# ----------------------------------------------------------------------------
+# og-03 — multisolute co-localization phase map (Phase 4 / §4.5)
+# ----------------------------------------------------------------------------
+def colocalization_figure(res, *, title=None) -> str:
+    """The multisolute co-localization Decision surface over (Soret strength ×
+    advective Peclet): does the prebiotic MIXTURE concentrate together, or
+    fractionate? **Left:** the co-localization index (min/max of the per-species
+    enrichment) — 1 = every solute concentrates together, → 0 = one solute is
+    pulled out while others concentrate. **Right:** the strongest single-species
+    enrichment, so the two read together as strong+uniform (co-localized trap),
+    strong+non-uniform (fractionating), or weak (no concentration)."""
+    import numpy as np
+    import plotly.graph_objects as go
+    from plotly.subplots import make_subplots
+
+    _, axes, surfaces, meta = (res.axis_order, res.axes, res.surfaces, res.meta)
+    pe = np.asarray(axes.get("peclet"))
+    ss = np.asarray(axes.get("soret_scale"))
+    coloc = np.asarray(surfaces.get("coloc_index"))
+    maxe = np.asarray(surfaces.get("max_enrichment"))
+
+    fig = make_subplots(rows=1, cols=2, horizontal_spacing=0.16,
+                        subplot_titles=("Co-localization index (min/max enrichment)",
+                                        "Strongest single-species enrichment"))
+    # low index = fractionating (rust) -> high = co-localized (teal)
+    fig.add_trace(go.Heatmap(
+        z=coloc, x=ss, y=pe, colorscale=[[0.0, _RUST], [0.5, _AMBER], [1.0, _TEAL]],
+        zmin=0.0, zmax=1.0, colorbar=dict(title="coloc", x=0.44, len=0.9),
+        hovertemplate="soret×%{x}, Pe=%{y}<br>coloc=%{z:.3f}<extra></extra>"),
+        row=1, col=1)
+    fig.add_trace(go.Heatmap(
+        z=maxe, x=ss, y=pe, colorscale="Viridis",
+        colorbar=dict(title="max E", x=1.01, len=0.9),
+        hovertemplate="soret×%{x}, Pe=%{y}<br>max E=%{z:.2f}×<extra></extra>"),
+        row=1, col=2)
+    # dolfinx FEM reference audit cells (structure-agreement overlay): the real
+    # 3-D solve at a few cells, confirming the surrogate's co-localize/fractionate
+    # verdict (partial agreement on the exact index).
+    audit = meta.get("fem_audit") if isinstance(meta, dict) else None
+    if audit:
+        fig.add_trace(go.Scatter(
+            x=[a["soret_scale"] for a in audit], y=[a["peclet"] for a in audit],
+            mode="markers+text",
+            text=[f"FEM {a['fem_coloc_index']:.2f}" for a in audit],
+            textposition="top center", textfont=dict(size=9, color=_INK),
+            marker=dict(symbol="diamond", size=11, color="white",
+                        line=dict(color=_INK, width=1.5)),
+            hovertemplate="FEM audit soret×%{x}, Pe=%{y}<extra></extra>",
+            showlegend=False), row=1, col=1)
+    for c in (1, 2):
+        fig.update_xaxes(title_text="Soret strength (× nominal)", type="log", row=1, col=c)
+        fig.update_yaxes(title_text="advective Péclet", type="log", row=1, col=c)
+    fig.update_layout(
+        title=title or "Multisolute co-localization frontier",
+        template="plotly_white", height=460, width=980,
+        margin=dict(l=70, r=80, t=70, b=60),
+        annotations=list(fig.layout.annotations) + [dict(
+            x=0.5, y=-0.22, xref="paper", yref="paper", showarrow=False,
+            font=dict(size=11, color=_SLATE),
+            text=("Low index where single species concentrate = the mixture "
+                  "<b>fractionates</b> (strongly-adsorbed phosphate + labile "
+                  "pyruvate/nucleotides lag the thermophoretic solutes)."))])
+    return fig.to_html(full_html=True, include_plotlyjs="cdn",
+                       config={"displayModeBar": False})
+
+
+class PoreColocalizationMap(Visualization):
+    """og-03 Phase-4 Decision view: the multisolute co-localization phase map over
+    (Soret strength × advective Peclet). Renders from a persisted grid
+    (``grid_json``) or computes a modest grid live via ``colocalization_map``."""
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "Multisolute co-localization frontier"},
+        "grid_json": {"_type": "string", "_default": ""},
+        "n_pe": {"_type": "integer", "_default": 6},
+        "n_soret": {"_type": "integer", "_default": 6},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        from .colocalization_map import colocalization_map
+        resolved = _resolve_grid_path(str(self.config.get("grid_json", "") or ""))
+        if resolved:
+            with open(resolved) as f:
+                res = _ResultView(*_grid_from_json(json.load(f)))
+        else:
+            import numpy as np
+            n_pe = int(self.config["n_pe"])
+            n_s = int(self.config["n_soret"])
+            res = colocalization_map(
+                peclets=tuple(np.geomspace(1.0, 32.0, n_pe)),
+                soret_scales=tuple(np.geomspace(0.5, 8.0, n_s)))
+        return {"html": colocalization_figure(res, title=self.config["title"])}
