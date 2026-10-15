@@ -261,6 +261,20 @@ def base_layout(**over) -> dict:
     return layout
 
 
+def scene_3d(**over) -> dict:
+    """Shared Plotly 3D ``scene`` styling — clean light panes, hairline grids, muted
+    axis labels, and a default three-quarter camera — so 3D World views match the 2D
+    figures. Pass overrides (e.g. ``aspectmode``, ``camera``) through ``**over``."""
+    axis = {"backgroundcolor": PAPER, "gridcolor": GRID, "zerolinecolor": HAIR,
+            "showbackground": True, "title_font": {"size": 11, "family": FONT_STACK, "color": INK_SOFT},
+            "tickfont": {"size": 9, "family": FONT_STACK, "color": SLATE}}
+    scene = {"xaxis": dict(axis), "yaxis": dict(axis), "zaxis": dict(axis),
+             "camera": {"eye": {"x": 1.55, "y": 1.55, "z": 0.85}},
+             "aspectmode": "data"}
+    scene.update(over)
+    return scene
+
+
 def style_axes(fig, **over) -> None:
     """Apply the shared axis styling (hairline grid, ink zeroline off) to a figure."""
     kw = {"showgrid": True, "gridcolor": GRID, "zeroline": False,

@@ -1006,6 +1006,249 @@ class ThermophoreticTrapViz(Visualization):
                        phase="Campaign III", view="World", tier="mechanistic_prediction",
                        caption_text=cap, caption_prefix="How to read", tone="caution", max_width=960)
 
+
+class ThermophoreticTrap3D(Visualization):
+    """og-03 World view in 3-D: the real thermophoretic trap's accumulation column
+    rendered as a pore. The pore is drawn as a cylinder coloured by the steady
+    log-concentration up its length — dense (trapped) at the hot base, dilute at the
+    cold feed end — from one run of the real ``ThermophoreticTrapProcess``. Honest:
+    this is the reduced-model column; the resolved FEM bounds the fold (see the
+    FiPy↔FEM solver-sensitivity Decision view)."""
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "Inside the pore — the accumulation column in 3-D"},
+        "flow_velocity": {"_type": "float", "_default": 1.0e-4},
+        "pore_length": {"_type": "float", "_default": 5.0e-3},
+        "delta_T": {"_type": "float", "_default": 30.0},
+        "porosity": {"_type": "float", "_default": 0.15},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        import math
+
+        import numpy as np
+        import plotly.graph_objects as go
+
+        from .core import build_core
+        from .transport.thermophoretic_trap import ThermophoreticTrapProcess, trap_profile
+        core = build_core()
+        p = ThermophoreticTrapProcess(
+            config={"pore_length": float(self.config["pore_length"]), "delta_T": float(self.config["delta_T"])},
+            core=core)
+        for _ in range(4):
+            p.update({"temperature": 333.15, "flow_velocity": float(self.config["flow_velocity"]),
+                      "porosity": float(self.config["porosity"])}, 1.0)
+        prof = trap_profile(p)
+        z = np.asarray(prof["z_mm"], dtype=float)                       # base..top (mm)
+        conc = np.asarray(prof["conc"], dtype=float)
+        enr = float(prof.get("enrichment", conc.max() / max(conc.min(), 1e-30)))
+        logc = np.log10(np.clip(conc, 1.0, None))                      # fold (log10)
+
+        # The pore as a cylinder, coloured up its length by the log-concentration.
+        theta = np.linspace(0, 2 * np.pi, 48)
+        R = 0.12 * (z.max() - z.min() + 1e-9)                          # a slender pore
+        TH, ZZ = np.meshgrid(theta, z)
+        X, Y = R * np.cos(TH), R * np.sin(TH)
+        C = np.repeat(logc[:, None], theta.size, axis=1)
+        resolved_log = math.log10(253.0)                              # resolved-FEM ceiling
+        fig = go.Figure(go.Surface(
+            x=X, y=Y, z=ZZ, surfacecolor=C, colorscale="YlOrRd", cmin=0.0, cmax=float(logc.max()),
+            colorbar=dict(title="log₁₀<br>fold", thickness=12, len=0.7, x=0.9,
+                          title_font=dict(size=11), tickfont=dict(size=9)),
+            contours={"z": {"show": True, "color": "rgba(255,255,255,0.25)", "width": 1,
+                            "start": 0, "end": float(logc.max()), "size": max(float(logc.max()) / 8, 0.3)}},
+            hovertemplate="height %{z:.2f} mm<br>fold 10^%{surfacecolor:.1f}×<extra></extra>", showscale=True))
+        # hot base / cold feed labels — offset outside the cylinder so they read clearly
+        fig.add_trace(go.Scatter3d(x=[R * 2.1, R * 2.1], y=[0, 0], z=[z.min(), z.max()], mode="markers+text",
+                                   text=["hot base — trapped", "cold feed — dilute"], textposition="middle right",
+                                   textfont=dict(size=11, color=S.INK), marker=dict(size=5, color=[S.RUST, S.SLATE]),
+                                   showlegend=False, hoverinfo="skip"))
+        fig.update_layout(**S.base_layout(height=560, margin=dict(l=0, r=0, t=10, b=0),
+                                          showlegend=False, scene=S.scene_3d(
+                                              zaxis=dict(title="height up the pore (mm)"),
+                                              xaxis=dict(visible=False), yaxis=dict(visible=False),
+                                              aspectratio=dict(x=1, y=1, z=2.0))))
+        cap = (
+            f"One run of the real FiPy thermophoretic trap: the pore concentrates the dilute feed "
+            f"exponentially toward its hot base (reduced-model peak &asymp; {enr:.0e}&times;). This is the "
+            f"reduced accumulation column &mdash; the <b>resolved FEM bounds the fold</b> near a few-hundred-fold "
+            f"(10<sup>{resolved_log:.1f}</sup>&times;) past the resolvable P&eacute;clet, so localization is real "
+            f"but <b>bounded</b>. See the FiPy&harr;FEM solver-sensitivity Decision view for the resolved statement."
+        )
+        inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+        html = S.frame(inner, title=(self.config.get("title") or "Inside the pore — the accumulation column in 3-D"),
+                       phase="Campaign III", view="World", tier="mechanistic_prediction",
+                       caption_text=cap, caption_prefix="How to read", tone="caution", max_width=820)
+        return {"html": html}
+
+
+class VentChimney3D(Visualization):
+    """og-00 World view in 3-D: the alkaline vent chimney as a tapered column coloured
+    by the real settled temperature up its height — the hot serpentinizing conduit at
+    the base cooling into cold ocean — from one run of the real PHREEQC + FiPy
+    ``serpentinizing_vent_reactor``. The Lost City habitability window (40–91 °C) is
+    marked on the chimney. The geometry is schematic; the temperature up the conduit
+    is the real settled field."""
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "The vent wall in 3-D — the across-wall thermal gradient"},
+        "n_steps": {"_type": "integer", "_default": 60},
+        "flow_velocity": {"_type": "float", "_default": 1.0e-3},
+        "olivine_rate": {"_type": "float", "_default": 0.15},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        import numpy as np
+        import plotly.graph_objects as go
+
+        from .core import build_core
+        from .composites.vent_reactor import serpentinizing_vent_reactor
+        from .transport.fipy_reactor import spatial_field
+        core = build_core()
+        doc = serpentinizing_vent_reactor(core, flow_velocity=float(self.config["flow_velocity"]),
+                                          olivine_rate=float(self.config["olivine_rate"]))
+        sim = Composite({"state": doc}, core=core)
+        reactor = VentCrossSection._find_reactor(sim.state)
+        sim.run(int(self.config["n_steps"]))
+        rows = gather_emitter_results(sim)[("emitter",)]
+        last = rows[-1] if rows else {}
+        f = spatial_field(reactor, {"pH": float(last.get("pH", 9.4)),
+                                    "pH_eq": float(last.get("pH_eq", 0.0) or 0.0),
+                                    "porosity": float(last.get("porosity", 0.35))})
+        if not f.get("nx"):
+            return {"html": "<p>vent reactor produced no field.</p>"}
+        t_c = np.asarray([[v - 273.15 for v in row] for row in f["temperature"]], dtype=float)  # [up, across]
+        ny, nx = t_c.shape
+        ext = f.get("extent", [0, 1, 0, 1])
+        xs = np.array([(i + 0.5) * (ext[1] / nx) for i in range(nx)]) * 100.0   # cm across the wall
+        ys = np.array([(j + 0.5) * (ext[3] / ny) for j in range(ny)]) * 100.0   # cm up the chimney
+
+        # The vent wall as a thermal landscape: elevation + colour = the real settled
+        # temperature over (across × up) — the hot serpentinizing conduit rises as a
+        # ridge and cools toward the cold ocean; every cell a FiPy solve.
+        lo, hi = float(t_c.min()), float(t_c.max())
+        fig = go.Figure(go.Surface(
+            x=xs, y=ys, z=t_c, surfacecolor=t_c, colorscale="Inferno", cmin=lo, cmax=hi,
+            colorbar=dict(title="°C", thickness=12, len=0.7, x=0.92, title_font=dict(size=11), tickfont=dict(size=9)),
+            contours={"z": {"show": 40.0 <= hi and lo <= 91.0, "start": 40.0, "end": 91.0, "size": 51.0,
+                            "color": S.TEAL, "width": 3}},
+            hovertemplate="across %{x:.1f} cm · up %{y:.1f} cm<br>%{z:.0f} °C<extra></extra>", showscale=True))
+        fig.update_layout(**S.base_layout(height=580, margin=dict(l=0, r=0, t=10, b=0), showlegend=False,
+                                          scene=S.scene_3d(
+                                              xaxis=dict(title="across the wall (cm)"),
+                                              yaxis=dict(title="up the chimney (cm)"),
+                                              zaxis=dict(title="temperature (°C)"),
+                                              camera=dict(eye=dict(x=1.6, y=1.5, z=1.25)),
+                                              aspectmode="cube")))
+        cap = (
+            "One run of the real PHREEQC + FiPy serpentinizing vent reactor, as a thermal landscape over the "
+            "wall: the hot serpentinizing conduit rises as a ridge and cools toward the cold ocean (every cell "
+            "a FiPy solve). The teal contours bracket the <b>Lost City habitability window</b> (40–91 °C). This "
+            "across-wall cold-ocean → hot-conduit gradient is the defining vent structure a cell would form in."
+        )
+        inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+        return {"html": S.frame(inner, title=(self.config.get("title") or "The vent wall in 3-D — the across-wall thermal gradient"),
+                                phase="Campaign 0", view="World", tier="reproduction",
+                                caption_text=cap, caption_prefix="How to read", tone="neutral", max_width=820)}
+
+
+class ProtocellVesicle3D(Visualization):
+    """og-04 World view in 3-D: the protocell as a vesicle — a semi-transparent
+    amphiphile membrane around a lumen coloured by the measured RETENTION, with inward
+    import arrows sized by the measured ACCESS, from one run of the real
+    ``mixed_amphiphile_protocell``. The geometry is schematic; retention / access /
+    individuality are measured."""
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "The protocell in 3-D — a boundary that retains without isolating"},
+        "mix_fraction": {"_type": "float", "_default": 0.4},
+        "pH": {"_type": "float", "_default": 9.0},
+        "ionic_strength": {"_type": "float", "_default": 0.35},
+        "temperature": {"_type": "float", "_default": 318.15},
+        "n_steps": {"_type": "integer", "_default": 20},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        import numpy as np
+        import plotly.graph_objects as go
+
+        from .composites.mixed_amphiphile_protocell import mixed_amphiphile_protocell
+        from .core import build_core
+        core = build_core()
+        doc = mixed_amphiphile_protocell(core, mix_fraction=float(self.config["mix_fraction"]),
+                                         pH=float(self.config["pH"]),
+                                         ionic_strength=float(self.config["ionic_strength"]),
+                                         temperature=float(self.config["temperature"]))
+        sim = Composite({"state": doc}, core=core)
+        sim.run(int(self.config["n_steps"]))
+        rows = gather_emitter_results(sim)[("emitter",)]
+        r = rows[-1] if rows else {}
+        retention = float(r.get("retention", 0.0))
+        access = float(r.get("access", 0.0))
+        individ = float(r.get("individuality_access", retention * access))
+        viable = float(r.get("viable_compartments", 0.0))
+
+        u = np.linspace(0, 2 * np.pi, 48)
+        v = np.linspace(0, np.pi, 24)
+        U, V = np.meshgrid(u, v)
+        sx, sy, sz = np.cos(U) * np.sin(V), np.sin(U) * np.sin(V), np.cos(V)
+        fig = go.Figure()
+        # membrane shell — semi-transparent; tighter (thicker look) as retention rises
+        fig.add_trace(go.Surface(x=sx, y=sy, z=sz, surfacecolor=np.zeros_like(sx), showscale=False,
+                                 colorscale=[[0, "rgba(30,41,59,0.18)"], [1, "rgba(30,41,59,0.18)"]],
+                                 opacity=0.18, hoverinfo="skip"))
+        # lumen — retained internal chemistry, colour intensity ∝ retention
+        rl = 0.82
+        fig.add_trace(go.Surface(x=rl * sx, y=rl * sy, z=rl * sz, surfacecolor=np.full_like(sx, retention),
+                                 colorscale=[[0, "#e2e8f0"], [1, S.TEAL]], cmin=0, cmax=1,
+                                 colorbar=dict(title="retention", thickness=12, len=0.6, x=0.92,
+                                               title_font=dict(size=10), tickfont=dict(size=9)),
+                                 opacity=0.95, hovertemplate="retained internal product<br>retention %{surfacecolor:.2f}<extra></extra>"))
+        # inward import arrows — count / length ∝ access (the permeable boundary lets the gradient in)
+        n_arr = max(3, int(round(4 + 10 * access)))
+        au = np.linspace(0, 2 * np.pi, n_arr, endpoint=False)
+        av = np.full(n_arr, np.pi / 2) + 0.5 * np.sin(2 * au)
+        ax_, ay_, az_ = np.cos(au) * np.sin(av), np.sin(au) * np.sin(av), np.cos(av)
+        start = 1.55
+        fig.add_trace(go.Cone(x=start * ax_, y=start * ay_, z=start * az_,
+                              u=-ax_, v=-ay_, w=-az_, anchor="tail", showscale=False,
+                              colorscale=[[0, S.AMBER], [1, S.AMBER]], sizemode="scaled",
+                              sizeref=0.6 + 0.8 * access, hoverinfo="skip", opacity=0.9))
+        fig.update_layout(**S.base_layout(height=560, margin=dict(l=0, r=0, t=10, b=0), showlegend=False,
+                                          scene=S.scene_3d(xaxis=dict(visible=False), yaxis=dict(visible=False),
+                                                           zaxis=dict(visible=False),
+                                                           aspectmode="cube")))
+        cap = (
+            f"The real mixed-amphiphile protocell at the operating point ({viable:.0f} viable vesicles). The "
+            f"semi-transparent amphiphile membrane encloses a lumen whose colour is the measured <b>retention</b> "
+            f"({retention:.2f}) of internal product, while amber arrows (import, scaled by <b>access</b> {access:.2f}) "
+            f"show the external gradient still crossing in. Individuality = retention × access = <b>{individ:.2f}</b> — "
+            "a boundary that retains WITHOUT isolating. Geometry schematic; retention / access measured."
+        )
+        inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+        return {"html": S.frame(inner, title=(self.config.get("title") or "The protocell in 3-D"),
+                                phase="Campaign IV", view="World", tier="mechanistic_prediction",
+                                caption_text=cap, caption_prefix="How to read", tone="neutral", max_width=820)}
+
+
 class ProtocellWindowViz(Visualization):
     """Campaign-IV protocell stability window — the Jordan-2019 broadening and the
     individuality-vs-access tradeoff. Sweeps ``ProtocellAssemblyProcess`` over a
