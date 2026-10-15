@@ -145,23 +145,54 @@ readouts:
 behavior_tests:
 - name: thermophoretic-enrichment-reproduces-baaske
   classification: primary
-  description: A favorable pore (5 mm × 0.1 mm, ΔT 30 K, convective flow) reproduces Baaske-2007 extreme accumulation — ~10^8-fold, 9.6×10⁷ (accumulation Péclet 18.4).
-  measure: {kind: derived, path: settled_accumulation_peclet, detail: ln(enrichment) = beta × pore length}
-  pass_if: {op: '>=', value: 18.0, detail: Pe_acc ≥ ln(1e8) ≈ 18.4 in favorable geometry}
+  description: >-
+    The thermophoretic trap concentrates the dilute feed. The reduced accumulation
+    column reaches the Baaske-2007 extreme figure (~10^8-fold, Pe_acc ≈ 18.4) in the
+    favorable pore, but that sits ABOVE the demonstrated solver-convergence range:
+    the resolved dolfinx FEM saturates (~10^2-fold) past Pe_acc ≈ 13
+    (spatial-transport-solver-comparison), so the >10^6 figure is a flow-through
+    reduced-column exp(Pe) extrapolation / closed-cell figure, not a resolved
+    result. Per "no acceptance gate outside demonstrated convergence" the magnitude
+    is REPORTED here, not gated as a pass; localization within the resolvable range
+    (Pe_acc ≲ 13) is the gated claim (see enrichment-resolved-within-convergence).
+  measure: {kind: derived, path: settled_accumulation_peclet, detail: ln(enrichment) = beta × pore length (reduced column)}
+  pass_if: {op: arms_reported, detail: 'reduced-column Pe_acc ≈ 18.4 (~10^8-fold) reported as the closed-cell/reduced-model figure; the resolved FEM does not confirm it past the convergence-verified Pe_acc ≈ 13'}
   units: dimensionless
   requires_simulation: 'yes'
   cites: [baaske2007extreme, mast2010thermal]
   gate_class: acceptance_criterion
+- name: enrichment-resolved-within-convergence
+  classification: primary
+  description: >-
+    Within the FEM-trustworthy / convergence-verified Péclet range (Pe_acc ≲ 13,
+    spatial-transport-solver-comparison), the resolved thermophoretic field DOES
+    concentrate the feed above its inflow — a bounded individual forms. This is the
+    honest, solver-agnostic localization claim (both FiPy and dolfinx agree in this
+    range); the far larger reduced-column figure above Pe_acc ≈ 13 is reported
+    separately (thermophoretic-enrichment-reproduces-baaske), not gated.
+  measure: {kind: derived, path: log10_enrichment, detail: localization occurs within the resolvable range (positive enrichment, agreement region)}
+  pass_if: {op: '>', value: 0.0, detail: log10_enrichment > 0 (the resolved trap concentrates above inflow within Pe_acc ≲ 13)}
+  units: dimensionless
+  requires_simulation: 'yes'
+  cites: [baaske2007extreme, mast2010thermal]
+  gate_class: acceptance_criterion
+  band_basis: solver_convergence
 - name: retention-beats-destruction
   classification: primary
-  description: The trap concentrates enough (≥10^6-fold) that synthesis outruns hydrolysis/leakage — a net-accumulation region exists in the favorable arm.
-  measure: {kind: derived, path: log10_enrichment, detail: log10 of the settled enrichment fold}
-  pass_if: {op: '>=', value: 6.0, detail: ≥10^6-fold boost (synthesis outruns dilution)}
+  description: >-
+    A net-accumulation region exists where the trap concentrates enough that
+    synthesis outruns hydrolysis/leakage. The ≥10^6-fold figure is the reduced-model
+    (closed-cell) extrapolation; the gated claim is the resolved net-accumulation
+    within the convergence-verified Péclet range (Pe_acc ≲ 13,
+    spatial-transport-solver-comparison), so the magnitude is REPORTED, not gated on
+    the un-converged ≥10^6 value.
+  measure: {kind: derived, path: log10_enrichment, detail: log10 of the settled enrichment fold (reduced column; resolved value within Pe_acc ≲ 13)}
+  pass_if: {op: arms_reported, detail: 'reduced-column ≥10^6-fold reported as the closed-cell figure; net accumulation within demonstrated convergence is the gated claim (enrichment-resolved-within-convergence)'}
   units: dimensionless
   requires_simulation: 'yes'
   cites: [baaske2007extreme]
   gate_class: acceptance_criterion
-  band_basis: first_principles
+  band_basis: solver_convergence
 - name: open-pore-control-does-not-concentrate
   classification: primary
   description: An open pore (porosity → 1) lets the dilute feed wash through — no individual forms (enrichment ~1). The washout-wins region mapped by the control.

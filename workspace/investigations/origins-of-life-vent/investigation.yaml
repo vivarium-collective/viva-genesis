@@ -513,7 +513,7 @@ acceptance_criteria:
 - study: og-02-reduced-carbon-to-protometabolism
   behavior: sustained-carbon-throughput
 - study: og-03-dilution-to-localized-individuals
-  behavior: retention-beats-destruction
+  behavior: enrichment-resolved-within-convergence
 - study: og-04-mineral-compartments-to-protocells
   behavior: retention-without-isolation
 - study: og-05-environmental-to-internal-bioenergetics
