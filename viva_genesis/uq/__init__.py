@@ -17,6 +17,9 @@ Cross-cutting computational methods behind every stage's three-quantity report:
   reports.
 * :mod:`.environment_calibration` — Phase 1 worked concretely: the Lost-City-
   conditioned vent ensemble on the real PHREEQC + FiPy geochemical world.
+* :mod:`.electrochemistry_calibration` — Phase 2 worked concretely: the
+  (pH × H2 × conductivity × Ni/Fe) mechanism map over the ``carbon_fixation``
+  classes, the failure-mode attribution and the cross-class agreement gate.
 """
 
 from .report import (  # noqa: F401

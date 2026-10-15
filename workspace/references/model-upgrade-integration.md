@@ -43,7 +43,8 @@ not a direct consequence of how the model was encoded.
 | vg-data provenance layer | `viva_genesis/provenance.py` + `viva_genesis/data/vg_data/*.yaml` | **built** (first package: `vent_environment`) |
 | Campaign UQ layer (calibration, Morris→Sobol, structural ensembles, propagation, verification, nulls, out-of-sample, pre-registered gates) | `viva_genesis/uq/` + `viva_genesis/ledger.py` | **built** as a working core (see §4 for what is thin) |
 | Phase 1 — environmental calibration | `composites/geochemical_world.py`, `uq/environment_calibration.py`, study `og-cal-vent-environment` | **built and run** (§6) |
-| Phases 2–9 | §7 roadmap, `investigation.yaml.guidelines.roadmap_phases` + `decisions_needed` | **planned** |
+| Phase 2 — electrochemical carbon fixation | `electrochemistry/{butler_volmer,empirical,microkinetic,mineral_conductivity}.py`, `ledger.ChargeLedgerProcess`, `composites/electrochemical_interface.py`, `uq/electrochemistry_calibration.py`, vg-data `electrochemical_interface`, study `og-01-cal-electrochemistry` | **built and run** (§6b; the `microkinetic` class is registered but its CatMAP/Cantera backend is pixi-only) |
+| Phases 3–9 | §7 roadmap, `investigation.yaml.guidelines.roadmap_phases` + `decisions_needed` | **planned** |
 
 ## 1. The scientific standard, as code
 
@@ -145,6 +146,7 @@ at build time. Interfaces with real alternative classes today:
 | `serpentinization` | `phreeqc` (real IPhreeqc peridotite speciation), `reduced` (tuned Gaussian source; no speciation — its endmember pH is a declared hypothetical) | geochemistry engine; Reaktoro / PFLOTRAN register here when added (Phase 1 follow-up) |
 | `spatial_transport` | `fipy` (Darcy–Boussinesq convecting wall), `fipy_uniform_upflow` (same FVM solve, buoyancy = 0: prescribed upflow), `fenics` (dolfinx FEM, pixi) | whether the vent wall convects is a *structural* assumption, so it is a class, not a parameter |
 | `localization` | `fipy`, `fenics`, `surrogate` | FMP §4.5–4.6 |
+| `carbon_fixation` (Phase 2) | `empirical` (og-01's lab-calibrated gated kinetics, adapted to publish its failure-mode attribution), `butler_volmer` (Nernst half-cell potentials + Butler-Volmer kinetics + the ohmic mineral/ionic circuit, solved as a galvanic cell each tick), `microkinetic` (CatMAP/Cantera adsorbate microkinetics; registers and face-checks here, runs under pixi — raises a clear error in the uv venv, never a mock) | whether carbon fixation is *driven* by a lumped proton-motive term or by explicit electrode kinetics is a structural assumption; the limitation label (thermodynamic / electrical / catalytic / transport) is the readout the classes are compared on |
 
 `models.axis("spatial_transport")` returns `{"model_spatial_transport":
 [...]}`; `sweep_grid` accepts string-valued axes and `SweepResult.slice_along`
@@ -190,8 +192,13 @@ experiment.
   as a package without re-typing its provenance.
 
 **Packages (built / planned):** `vent_environment` (built, §6);
-`electrochemical_interface` (Phase 2: Altair 2025 / Panico 2026 currents,
-Ni/Fe ratios, mineral conductivity); `reaction_universe` (Phase 3: Wołos 2020
+`electrochemical_interface` (built, §6b: the Altair-2025 current window as the
+calibration observation, exchange currents `calibrated` to it, Preiner-2020
+electron branching `inferred`, the Ni gain and the ocean-side H2
+`hypothetical` — the latter unsourced on purpose so the audit flags it; the
+roadmap's "Panico 2026" is cited through the workspace's existing bibkey for
+the Communications Chemistry 2026 current-producing-interfaces paper);
+`reaction_universe` (Phase 3: Wołos 2020
 rule set, eQuilibrator ΔG′, catalyst constraints); `pore_physics` (Phase 4:
 Baaske / Mast geometry, species Soret coefficients); `amphiphile_assembly`
 (Phase 5: Jordan 2019 phase data, Lu 2024 osmotic growth); `energy_currencies`
@@ -294,6 +301,89 @@ Wall time 368 s for the ensemble + ~160 s for Morris, serial, on the laptop.
    enough (Ray on the mini is not an option for PHREEQC; use a serial overnight
    run or a per-draw subprocess pool).
 
+## 6b. Phase 2 — electrochemical carbon fixation, worked concretely
+
+### 6b.1 What was built
+
+- `viva_genesis/models.py` — the `carbon_fixation` face (required: H2, CO2,
+  temperature, catalyst_activity, the three product pools → the three product
+  deltas + net_carbon_flux; optional: the og-01 pmf / feasibility drive *or*
+  the electrochemical drive pH_vent, pH_ocean, ni_fraction, conductivity,
+  layer_thickness, porosity, ionic_strength; optional outputs: the circuit
+  readouts, the electron-balance witnesses and the four `loss_*` fractions +
+  `limitation_code`). Every port maps to a canonical `vg_*` field (new atoms
+  `vg_areal_resistance`, `vg_charge`; new fields on `vg_minerals` /
+  `vg_energy`). Three registered classes, all face-checked; og-01's original
+  `CarbonFixationProcess` also satisfies the face.
+- `electrochemistry/butler_volmer.py` — `ButlerVolmerCarbonFixationProcess`
+  (tier A, the primary class): Nernst half-cell potentials from the fluid
+  redox state (Henry-corrected H2 / CO2 activities, formic-acid speciation,
+  the CO2/HCOOH couple at E0 = −0.199 V, a competing H2-evolution branch);
+  Butler-Volmer kinetics with exchange currents scaled by catalyst activity,
+  Ni fraction (Preiner hierarchy) and an Arrhenius factor; Koutecký-Levich
+  transport limits in both directions; the ohmic mineral (L/σ) + Bruggeman
+  ionic path; the cell current as the Brent root of
+  `E_c(j) − E_a(j) − j R = 0`; the faradaic split over formate (2 e−),
+  acetate (8 e−), pyruvate (10 e−). The fresh-fluid emf is partitioned each
+  tick into thermodynamic / electrical / catalytic / transport loss fractions
+  (sum to 1 while current flows). Pure functions `solve_cell` /
+  `polarization_curve` back the tests and the viz.
+- `electrochemistry/empirical.py` — `EmpiricalCarbonFixationProcess` (tier
+  E): og-01's rate law unchanged (`update` delegates), Ni-scaled catalyst,
+  the headroom of each gate published as the four losses, faradaic
+  efficiency 1 by construction (stated).
+- `electrochemistry/microkinetic.py` — `MicrokineticCarbonFixationProcess`
+  (tier A, deferred): CatMAP/Cantera adsorbate microkinetics; registers and
+  face-checks everywhere, raises `MicrokineticBackendMissing` ("run under
+  pixi") in `update`. Never a mock. Build items in `NEXT_STEPS.md`.
+- `electrochemistry/mineral_conductivity.py` — `MineralConductivityProcess`:
+  `gradient_efficiency = R_ct / (R_ct + L/σ_e + L/(σ_f φ^1.5)) · (1 − shunt)`
+  with `R_ct = (RT/F)(1/j0_a + 1/j0_c)`. The Phase-2 composite runs og-01's
+  Nernst-Planck gradient at *this* efficiency instead of the knob.
+- `ledger.ChargeLedgerProcess` — per tick: Kirchhoff residual
+  `|e_anode − (e_carbon + e_her)| / e_anode`, faradaic efficiency recomputed
+  and bounded by 1, worst-case current-voltage residual, integrated charge
+  and electrons-to-carbon, `charge_ledger_ok`. During the build it caught a
+  real gap (on insulating walls the trace ocean-side H2 oxidising at the
+  cathode co-supplies electrons), now counted explicitly.
+- vg-data `electrochemical_interface` (13 parameters: 1 measured, 3
+  calibrated, 6 inferred, 1 extrapolated, 2 hypothetical; `unsourced = []`
+  — the ocean-side H2 is hypothetical and flagged by design).
+- `composites/electrochemical_interface.py` — the layer generator with
+  `model_carbon_fixation` as a categorical axis; `uq/electrochemistry_calibration.py`
+  — the sweep, attribution, agreement and report; `viz_uq.ElectrochemistryMechanismMap`
+  / `ElectrochemistryPolarization`; study `og-01-cal-electrochemistry`.
+
+### 6b.2 Results (5 × 5 × 5 × 3 = 375 points × 2 runnable classes, 40 ticks, nx = 20, open flow)
+
+| Quantity | Value | Reading |
+|---|---|---|
+| Coverage | 375/375 points labelled in both classes; 0/750 failed | every point carries a limitation label |
+| **Gate `failure-mode-attributed`** | label agreement **0.47** on the 78 points both classes call favorable (0.45 overall) — **FAIL** vs the pre-registered ≥ 0.8 | the limitation label is structure-sensitive; `decision_discipline` flags it |
+| Butler-Volmer map | catalytic 226, electrical 149, transport 0, thermodynamic 0; favorable region 93/93 catalytic | at Altair-level exchange currents the conducting wall is activation-limited; electrical only below ~1e-6 S/m; thermodynamics never binds in open flow |
+| Empirical map | transport 147, catalytic 117, electrical 108, thermodynamic 3 | the pmf-Michaelis drive lumps electrical + catalytic; Km(H2) = 1e-4 M invents a transport limit |
+| Where they agree | 0.81 at 1e-9 S/m (both electrical); 0.67–0.68 at H2 ≥ 1.4e-4 M; 0.01 at 1 µM H2 | agreement only where the physics is unambiguous |
+| Calibration | nominal j = 1.06e-3 A/m², FE 0.92, emf 0.49 V; 79.7 % of the grid inside the Altair window (1e-5..1e-2 A/m²); FE 0.76–1.00 | reproduction-tier check against the window, not a per-condition fit |
+| Derived gradient efficiency | 0.01 / 0.42 / 0.98 / 1.00 at 1e-9 / 1e-7 / 1e-5 / ≥ 1e-3 S/m | the Tutolo collapse is a conductivity regime, not a knob |
+| Verification | charge residual ≤ 1.7e-13; FE max 1 + 1e-13; circuit residual ≤ 8.5e-9; all 750 ledgers OK | clean |
+| Discrimination | d(log10 throughput) = 11 (scale), d(loss_transport) = 1.77, d(loss_thermodynamic) = 0.68; loss_electrical / loss_catalytic / gradient_efficiency \|d\| < 0.5 | the classes separate on the transport attribution |
+| Tier | `mechanistic_prediction` ("predicts under stated assumptions"); the current-window check is `reproduction` | language the study may use |
+
+Wall time 117 s for the sweep on 6 workers. The honest reading: Phase 2
+delivers its component, package, ledger and mechanism map, and the gate
+fails because *attributing* a limitation is a property of the model class —
+the empirical rate law cannot separate electrical from catalytic limitation.
+Decisions recorded in `investigation.yaml`.
+
+### 6b.3 What Phase 2 does *not* yet do
+
+1. Run the **microkinetic** class (CatMAP / Cantera under pixi) — the third
+   class the roadmap row names; `NEXT_STEPS.md` lists the build items.
+2. Attach the **Altair-2025 per-condition** current / product time courses so
+   the exchange currents become a fit rather than a window calibration.
+3. Decide whether og-01's default class becomes `butler_volmer` (then the
+   Tutolo arm is `conductivity`, not `gradient_efficiency`).
+
 ## 7. Roadmap — Phases 2–9 mapped onto the existing studies
 
 Each phase leaves behind, per the plan: a reusable PBG component (a class on a
@@ -305,7 +395,7 @@ recorded in `investigation.yaml.guidelines.roadmap_phases`.
 
 | Phase | Builds on | PBG component (face: classes) | vg-data package | Verification | Discriminating study (proposed id) | Exit criterion (plan) | Decision needed |
 |---|---|---|---|---|---|---|---|
-| **2 Electrochemical carbon fixation** | og-01 (`PhGradientNernstPlanckProcess`, `ProtonBudgetProcess`, `CarbonFixationProcess`), open decision "explicit electrochemistry vs gradient-efficiency scalar" | `carbon_fixation`: `empirical` (E), `butler_volmer` (A: fluid redox → electrode potential → overpotential → current density → surface rate, calibrated to Altair 2025 current/product yields), `microkinetic` (A: CatMAP/Cantera-style adsorbates, site coverage, passivation); `MineralConductivityProcess` derives `gradient_efficiency` from circuit physics | `electrochemical_interface` (Altair 2025, Panico 2026, Ni/Fe ratio, thickness, conductivity) | charge + electron-count ledger (`ledger.charge_residual` per tick, faradaic efficiency ≤ 1), current–voltage residual | `og-01-cal-electrochemistry`: (pH × H2 × conductivity × Ni/Fe) with the three classes; gate `failure-mode-attributed` — each point labelled thermodynamic / electrical / catalytic / transport-limited and the classes agree on the label in the favorable region | mechanism map | Adopt Butler–Volmer as the fast class first; CatMAP/Cantera is a conda/compiled dependency (pixi, like FEniCS) |
+| **2 Electrochemical carbon fixation** — **built and run (§6b)**; gate result: agreement 0.47 < 0.8, attribution structure-sensitive | og-01 (`PhGradientNernstPlanckProcess`, `ProtonBudgetProcess`, `CarbonFixationProcess`), open decision "explicit electrochemistry vs gradient-efficiency scalar" | `carbon_fixation`: `empirical` (E), `butler_volmer` (A: fluid redox → electrode potential → overpotential → current density → surface rate, calibrated to Altair 2025 current/product yields), `microkinetic` (A: CatMAP/Cantera-style adsorbates, site coverage, passivation); `MineralConductivityProcess` derives `gradient_efficiency` from circuit physics | `electrochemical_interface` (Altair 2025, Panico 2026, Ni/Fe ratio, thickness, conductivity) | charge + electron-count ledger (`ledger.charge_residual` per tick, faradaic efficiency ≤ 1), current–voltage residual | `og-01-cal-electrochemistry`: (pH × H2 × conductivity × Ni/Fe) with the three classes; gate `failure-mode-attributed` — each point labelled thermodynamic / electrical / catalytic / transport-limited and the classes agree on the label in the favorable region | mechanism map | Adopt Butler–Volmer as the fast class first; CatMAP/Cantera is a conda/compiled dependency (pixi, like FEniCS) |
 | **3 Open chemical network** | og-02 (`RoadRunnerNetworkProcess`, curated rTCA SBML) | `proto_metabolism`: `curated_rtca` (E), `reaction_universe` (A: generated SBML from a Wołos-2020-style rule set with reversible kinetics, side reactions, degradation, catalyst limits), `null_network` (A: randomized networks matched for compounds / reactions / energetic span / catalyst density) | `reaction_universe` (rules, ΔG′ via eQuilibrator, catalyst requirements) | flux-control analysis, element + free-energy ledger over the network, stiffness check vs libRoadRunner tolerances | `og-02-alt-reaction-universe`: gate `motifs-emerge-not-imposed` — persistent autocatalytic subnetworks detected post hoc; motif enrichment vs the matched nulls; the curated rTCA result becomes one class among three | distribution of persistent / autocatalytic subnetworks; enrichment vs null | Rule-set scope (C1–C3 only, or N/P-bearing from the start, folding og-res-N/P into the universe) |
 | **4 3-D multisolute localization** | og-03 (`ThermophoreticTrapProcess`), the FEniCS cross-check (Pe ≳ 13 solver-sensitive), og-res-P's species-agnostic multiplier | `localization`: `fipy` (E), `fenics` (E, now with species Soret term), `pore_network` (A: reduced pore-network surrogate for ensembles, OpenPNM-style) | `pore_physics` (Baaske / Mast geometry, per-species D and S_T for phosphate, NH4, formate, acetate, pyruvate, amino acids, amphiphiles, nucleotide precursors) | mesh- and time-step convergence gate; head-to-head inside a declared trustworthy Péclet range; analytic bound `exp(Pe)` | `og-03-alt-colocalization`: gate `mixture-colocalizes` — co-localization / fractionation phase map for the simultaneous mixture, **no acceptance gate outside demonstrated convergence** (removes the >10⁸ headline from any gate) | co-localization envelope with convergence envelope | Whether og-03's current enrichment gate is re-stated at the resolvable Péclet (recommended) |
 | **5 Endogenous boundary + growth/division** | og-04 (`ProtocellAssemblyProcess`), og-growth (`OsmoticGrowthDivisionProcess`), FMP §2.3–2.4 rewrites | `boundary`: `single_chain` (E), `mixed` (E), `thioester_aminothiol` (A); `AmphiphileSynthesisProcess` (A, from `molecules.dissolved.{acetate,formate}`); `BoundaryFormationStep` / `DivisionStep` / `LysisStep` / `ExtinctionStep` as `_add` / `_divide` / `_remove` rewrites on `agents: map[vg_individual]` | `amphiphile_assembly` (Jordan 2019 phase data under alkaline / saline / divalent conditions; Lu 2024 osmotic growth) | `ledger.rewrite_residual == 0` across every structural rewrite; partition residual on `_divide` | `og-04-alt-endogenous-boundary`: gate `boundary-forms-from-chemistry` (agents 0 → ≥1 with endogenous amphiphile; not with synthesis ablated); `og-growth-alt-physical-reproduction`: a ≥3-generation lineage in the agents map with daughter volumes summing to the mother's | first continuous chemistry → growing, dividing individual | Partition semantics for concentration maps (store `internal` as amounts + volume; FMP §9.1) |

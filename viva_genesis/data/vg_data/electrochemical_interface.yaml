@@ -1,0 +1,220 @@
+# vg-data package: the ELECTROCHEMICAL INTERFACE (Model Upgrade plan, Phase 2).
+#
+# Every parameter carries value-or-distribution, units, context, sources
+# (bibkeys in workspace/references/papers.bib) and a provenance class in
+# {measured, calibrated, inferred, extrapolated, hypothetical}. The free
+# (distribution-carrying) parameters are the ones the Phase-2 mechanism map
+# sweeps or that a later ensemble would sample; `observations` is the
+# conditioning window the Butler-Volmer class is calibrated against;
+# `downstream_requirements` is what og-02 (protometabolism) needs from the
+# interface.
+#
+# HONESTY NOTES
+# - The Altair-2025 current window is the campaign dossier's summary of the
+#   macroscale reactor ("~10 nA to 10 uA sufficient", parameter-registry
+#   entry electrochemical_current, provenance LAB-DIRECT). The per-condition
+#   current / product time courses of the paper (and its SI) are NOT attached
+#   as a workspace dataset; until they are, the exchange currents are
+#   calibrated to that window on a cm^2-scale interface, not fitted to curves.
+# - "Panico 2026" of the roadmap row is cited here through the bibkey the
+#   workspace already carries for the Communications Chemistry 2026 paper on
+#   spontaneously current-producing hydrothermal mineral interfaces
+#   (commchem2026currentproducing); the first-author key is not in papers.bib.
+# - Ni/Fe ratio effects: Preiner 2020 orders the catalysts (awaruite Ni3Fe >
+#   magnetite > greigite) by yield; the linear Ni gain is a hypothetical shape
+#   fitted to that ordering, not a measured activity curve.
+# - Mineral conductivity spans silicate/brucite insulators to semiconducting
+#   sulfides; the prior is deliberately wide (extrapolated from mineral-physics
+#   compilations, no in-situ chimney-wall measurement is attached).
+name: electrochemical_interface
+version: "1"
+description: >-
+  Priors, calibration window and downstream requirements for the Fe/Ni-sulfide
+  electrochemical interface (Phase 2): exchange currents calibrated to the
+  Altair-2025 current window, Preiner-2020 product branching, Ni/Fe gain,
+  catalyst-layer thickness and mineral conductivity.
+sources: [altair2025carbon, altair2025electrochemical, commchem2026currentproducing,
+          commchem2026energeticconstraints, preiner2020hydrogen, hudson2020co2,
+          tutolo2026rethinking]
+
+parameters:
+  - id: j0_co2
+    quantity: Exchange current density of CO2 reduction to formate on the Fe/Ni phase (Ni3Fe, 100 C, full activity)
+    units: ampere/meter**2
+    provenance: calibrated
+    distribution: {kind: loguniform, low: 1.0e-6, high: 1.0e-4}
+    value: 1.0e-5
+    context: {calibrated_to: "Altair-2025 current window 1e-5..1e-2 A/m^2 (10 nA..10 uA on ~1e-3 m^2)", T_C: 100, catalyst: Ni3Fe}
+    sources: [altair2025carbon, altair2025electrochemical]
+    consumed_by: ButlerVolmerCarbonFixationProcess.j0_co2_ref
+    how_to_use: >-
+      Sets the cathode activation overpotential; with j0_h2 and the circuit it puts the nominal
+      operating point (pH 9.5 | 6.0, 5 mM H2, 2 mM CO2) at ~1e-3 A/m^2, inside the measured window.
+      The prior spans the window one decade each way; re-fit when the per-condition currents are attached.
+
+  - id: j0_h2
+    quantity: Exchange current density of H2 oxidation on the vent-side Fe/Ni-sulfide surface
+    units: ampere/meter**2
+    provenance: calibrated
+    distribution: {kind: loguniform, low: 5.0e-6, high: 5.0e-4}
+    value: 5.0e-5
+    context: {calibrated_to: "same window; anode taken 5x more active than the CO2 cathode (sulfide HOR vs CO2RR)", T_C: 100}
+    sources: [altair2025carbon, commchem2026currentproducing]
+    consumed_by: ButlerVolmerCarbonFixationProcess.j0_h2_ref
+    how_to_use: Anode activation; the 5x ratio is a modelling choice, swept by the prior.
+
+  - id: j0_her
+    quantity: Exchange current density of the competing hydrogen evolution on the ocean-side surface
+    units: ampere/meter**2
+    provenance: calibrated
+    distribution: {kind: loguniform, low: 2.5e-7, high: 2.5e-5}
+    value: 2.5e-6
+    context: {calibrated_to: "faradaic efficiency to carbon > 0.5 at the nominal point (products, not H2, dominate in the lab reactors)"}
+    sources: [altair2025carbon, preiner2020hydrogen]
+    consumed_by: ButlerVolmerCarbonFixationProcess.j0_her_ref
+    how_to_use: Sets the selectivity (faradaic efficiency); the charge ledger checks FE <= 1 regardless.
+
+  - id: ni_gain
+    quantity: Linear gain of the CO2-reduction exchange current with the Ni mole fraction of the Fe/Ni phase
+    units: dimensionless
+    provenance: hypothetical
+    distribution: {kind: uniform, low: 1.0, high: 10.0}
+    value: 3.0
+    context: {ordering: "awaruite Ni3Fe > magnetite Fe3O4 > greigite Fe3S4 (Preiner 2020 yields)", reference_composition: 0.75}
+    sources: [preiner2020hydrogen]
+    consumed_by: ButlerVolmerCarbonFixationProcess.ni_gain
+    how_to_use: >-
+      j0 scales as (1 + gain x) / (1 + gain x_ref). Only the ORDERING is measured; the shape and
+      magnitude are hypothetical and swept. The same gain scales the empirical class's catalyst activity.
+
+  - id: ni_fraction
+    quantity: Ni mole fraction of the Fe/Ni catalytic phase
+    units: dimensionless
+    provenance: measured
+    distribution: {kind: uniform, low: 0.0, high: 0.75}
+    value: 0.75
+    context: {phases: "greigite / magnetite (0) .. awaruite Ni3Fe (0.75)"}
+    sources: [preiner2020hydrogen]
+    consumed_by: electrochemical_carbon_fixation.ni_fraction
+    how_to_use: The Ni/Fe axis of the Phase-2 mechanism map; the endpoints are real catalyst compositions.
+
+  - id: layer_thickness
+    quantity: Thickness of the conducting mineral layer between the two fluids
+    units: meter
+    provenance: inferred
+    distribution: {kind: loguniform, low: 1.0e-4, high: 1.0e-2}
+    value: 1.0e-3
+    context: {regime: "pore wall to thin chimney wall", note: "og-01 Nernst-Planck barrier used 1e-4 m"}
+    sources: [altair2025carbon, commchem2026currentproducing]
+    consumed_by: electrochemical_carbon_fixation.layer_thickness
+    how_to_use: Enters the ohmic drop as L / sigma (electronic) and L / sigma_ion (ionic return path).
+
+  - id: conductivity
+    quantity: Electronic conductivity of the mineral layer
+    units: siemens/meter
+    provenance: extrapolated
+    distribution: {kind: loguniform, low: 1.0e-9, high: 1.0e-1}
+    value: 1.0e-3
+    context: {low_end: "silicate / brucite wall", high_end: "sulfide-bearing (greigite, mackinawite) wall", note: "no in-situ chimney-wall measurement attached"}
+    sources: [commchem2026currentproducing, tutolo2026rethinking]
+    consumed_by: electrochemical_carbon_fixation.conductivity
+    how_to_use: >-
+      The electrical axis of the mechanism map. MineralConductivityProcess turns it into the usable
+      gradient fraction (voltage divider against the charge-transfer resistance); the Butler-Volmer
+      class carries it inside the circuit solve. Classed extrapolated: mineral-physics ranges carried
+      to a porous, wet, mixed-phase wall.
+
+  - id: boundary_layer
+    quantity: Diffusion boundary-layer thickness at each electrode (mass-transport limit)
+    units: meter
+    provenance: inferred
+    distribution: {kind: loguniform, low: 1.0e-4, high: 3.0e-3}
+    value: 1.0e-3
+    context: {note: "stagnant pore fluid; j_lim = n F D c / delta"}
+    sources: [commchem2026energeticconstraints]
+    consumed_by: ButlerVolmerCarbonFixationProcess.boundary_layer
+    how_to_use: Sets the limiting currents; the transport-limited corner of the map moves with it.
+
+  - id: acetate_branch
+    quantity: Electron fraction of the CO2-reduction current forming acetate (at Ni3Fe)
+    units: dimensionless
+    provenance: inferred
+    value: 2.0e-3
+    context: {from: "Preiner 2020 yield hierarchy formate 200 mM : acetate 0.1 mM : pyruvate 0.01 mM, electron-weighted (2 : 8 : 10)"}
+    sources: [preiner2020hydrogen]
+    consumed_by: ButlerVolmerCarbonFixationProcess.acetate_branch_ref
+    how_to_use: Scales linearly with Ni fraction / 0.75 (Ni3Fe makes the C2/C3 products).
+
+  - id: pyruvate_branch
+    quantity: Electron fraction of the CO2-reduction current forming pyruvate (at Ni3Fe)
+    units: dimensionless
+    provenance: inferred
+    value: 2.5e-4
+    context: {from: "same hierarchy"}
+    sources: [preiner2020hydrogen]
+    consumed_by: ButlerVolmerCarbonFixationProcess.pyruvate_branch_ref
+    how_to_use: As acetate_branch.
+
+  - id: interface_area
+    quantity: Geometric electrode / mineral interface area
+    units: meter**2
+    provenance: inferred
+    value: 1.0e-3
+    context: {regime: "cm^2-scale membrane of the macroscale reactor"}
+    sources: [altair2025carbon]
+    consumed_by: ButlerVolmerCarbonFixationProcess.interface_area
+    how_to_use: Converts current density to current / product rates; cancels in the limitation labels.
+
+  - id: reactor_volume
+    quantity: Fluid volume the products dilute into
+    units: liter
+    provenance: inferred
+    value: 0.1
+    context: {regime: "macroscale reactor compartment"}
+    sources: [altair2025carbon]
+    consumed_by: ButlerVolmerCarbonFixationProcess.reactor_volume
+    how_to_use: Product concentration scale only.
+
+  - id: h2_ocean
+    quantity: Dissolved H2 on the acidic (ocean) side — sets the hydrogen-evolution equilibrium potential
+    units: molar
+    provenance: hypothetical
+    value: 1.0e-7
+    context: {note: "Hadean ocean proxy; no constraint attached"}
+    sources: []
+    consumed_by: ButlerVolmerCarbonFixationProcess.h2_ocean
+    how_to_use: Left unsourced on purpose so the audit flags it; a decision for the expert.
+
+observations:
+  cell_current_density:
+    quantity: Altair-2025 macroscale-reactor current, per cm^2-scale interface
+    low: 1.0e-5
+    high: 1.0e-2
+    units: ampere/meter**2
+    provenance: measured
+    sources: [altair2025carbon]
+    readout: settled_current_density
+    note: >-
+      Dossier summary "~10 nA to 10 uA sufficient" on a ~1e-3 m^2 interface. The per-condition
+      time courses are not attached; attach them to turn this window into a likelihood.
+  faradaic_efficiency_to_carbon:
+    quantity: Fraction of the current reducing CO2 (products dominate over H2 evolution in the lab reactors)
+    low: 0.5
+    high: 1.0
+    units: dimensionless
+    provenance: inferred
+    sources: [altair2025carbon, preiner2020hydrogen]
+    readout: settled_faradaic_efficiency
+
+downstream_requirements:
+  sustained_carbon_flux:
+    quantity: Sustained organic-carbon throughput og-02's network needs from the interface
+    low: 1.0e-13
+    units: mole/second
+    provenance: inferred
+    sources: [hudson2020co2, preiner2020hydrogen]
+    readout: sustained_throughput
+    note: >-
+      Electron-stoichiometric floor of the Altair window (10 nA / 2F ~ 5e-14 mol formate/s) doubled;
+      the empirical class's abstract-tick throughput is orders of magnitude larger by construction,
+      so this requirement is evaluated per class relative to its own scale in the mechanism map.

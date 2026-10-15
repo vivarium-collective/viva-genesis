@@ -61,6 +61,10 @@ ATOMS: dict[str, dict | str] = {
     "vg_soret": {"_type": "float", "_units": "1/kelvin"},
     "vg_tension": {"_type": "float", "_units": "newton/meter", "_min": 0.0},
     "vg_information": {"_type": "float", "_units": "bit", "_min": 0.0},
+    # electrochemical interface (Phase 2): areal (per-unit-area) resistance of a
+    # mineral layer / charge-transfer step, and the charge passed through it.
+    "vg_areal_resistance": {"_type": "float", "_units": "ohm*meter**2", "_min": 0.0},
+    "vg_charge": {"_type": "float", "_units": "coulomb"},
     "vg_count": {"_type": "integer", "_min": 0},
     "vg_id": "string",
 }
@@ -91,6 +95,12 @@ SCHEMAS: dict[str, dict] = {
         "conductivity": "vg_conductivity",
         "passivation": "vg_fraction",
         "porosity_feedback": "vg_fraction",
+        # electrochemical interface (Phase 2): the catalytic phase's elemental
+        # composition (e.g. Ni mole fraction of the Fe/Ni alloy or sulfide), the
+        # thickness of the conducting mineral layer and its areal resistance.
+        "composition": "map[vg_fraction]",
+        "layer_thickness": "vg_length",
+        "areal_resistance": "vg_areal_resistance",
     },
     # Per-species transport-parameter bundle behind the spatial_transport
     # `species_params` port — the physics a multisolute pore model needs per
@@ -126,6 +136,17 @@ SCHEMAS: dict[str, dict] = {
         "dissipated": "vg_energy_amount",
         "energy_charge": "vg_fraction",
         "drive_free_energy": "vg_free_energy",
+        # electrochemical interface (Phase 2): the galvanic cell the vent wall
+        # forms — open-circuit emf, the overpotential the load develops, the
+        # electron flux through the mineral, the faradaic efficiency (fraction
+        # of electrons reaching carbon products), the fraction of the emf that
+        # is delivered across the catalytic interfaces, and the charge passed.
+        "emf": "vg_potential",
+        "overpotential": "vg_potential",
+        "electron_flux": "vg_rate",
+        "faradaic_efficiency": "vg_fraction",
+        "delivered_fraction": "vg_fraction",
+        "charge_passed": "vg_charge",
     },
     # ---- layer 2: boundary ---------------------------------------------
     "vg_boundary": {
@@ -243,9 +264,19 @@ PORT_TO_CANONICAL: dict[str, str] = {
     "H2_flux": "vg_molecules.dissolved.H2",
     "alkalinity_flux": "vg_molecules.dissolved.alkalinity",
     "heat_flux": "vg_environment.heat",
+    "net_carbon_flux": "vg_molecules.dissolved",
+    # thermodynamic feasibility multipliers (eQuilibrator dG' realised as a 0-1 drive)
+    "feasible_formate": "vg_energy.drive_free_energy",
+    "feasible_acetate": "vg_energy.drive_free_energy",
+    "feasible_pyruvate": "vg_energy.drive_free_energy",
     # minerals
     "catalyst_activity": "vg_minerals.catalytic_sites",
     "fes_activity": "vg_minerals.fes_activity",
+    "conductivity": "vg_minerals.conductivity",
+    "ni_fraction": "vg_minerals.composition.Ni",
+    "layer_thickness": "vg_minerals.layer_thickness",
+    "areal_resistance": "vg_minerals.areal_resistance",
+    "charge_transfer_resistance": "vg_minerals.areal_resistance",
     # energy
     "pe": "vg_energy.redox_potential",
     "electric_potential": "vg_energy.electric_potential",
@@ -256,6 +287,15 @@ PORT_TO_CANONICAL: dict[str, str] = {
     "energy_stored": "vg_energy.stored_work",
     "energy_dissipated": "vg_energy.dissipated",
     "energy_charge_fraction": "vg_energy.energy_charge",
+    # electrochemical interface (Phase 2, carbon_fixation face)
+    "emf": "vg_energy.emf",
+    "overpotential": "vg_energy.overpotential",
+    "faradaic_efficiency": "vg_energy.faradaic_efficiency",
+    "electron_flux": "vg_energy.electron_flux",
+    "carbon_electron_flux": "vg_energy.electron_flux",
+    "her_electron_flux": "vg_energy.electron_flux",
+    "gradient_efficiency": "vg_energy.delivered_fraction",
+    "charge_passed": "vg_energy.charge_passed",
     # boundary / individual
     "membrane_area": "vg_boundary.area",
     "permeability": "vg_boundary.permeability",
@@ -270,8 +310,18 @@ PORT_TO_CANONICAL: dict[str, str] = {
     "lineage_depth": "vg_lineage.generation",
     # diagnostics / numerical-verification witnesses (not biology; declared)
     "charge_imbalance": "ledger.charge_residual",
+    "charge_residual": "ledger.charge_residual",
+    "iv_residual": "ledger.iv_residual",
     "flux_divergence_residual": "ledger.flux_residual",
     "accumulation_peclet": "diagnostics.accumulation_peclet",
+    # Phase-2 failure-mode attribution: the fraction of the ideal driving force
+    # lost to each limitation, and the dominant one as an integer code.
+    "loss_thermodynamic": "diagnostics.loss_thermodynamic",
+    "loss_electrical": "diagnostics.loss_electrical",
+    "loss_catalytic": "diagnostics.loss_catalytic",
+    "loss_transport": "diagnostics.loss_transport",
+    "limitation_code": "diagnostics.limitation",
+    "shunt_fraction": "diagnostics.shunt_fraction",
 }
 
 

@@ -19,6 +19,13 @@ flag summarises every conservation invariant the og-00 contract declares
 (``mass_balance``, ``charge_neutrality``, ``spatial_flux_conservation``,
 ``energy_directionality``).
 
+:class:`ChargeLedgerProcess` (Phase 2) is the charge + electron-count ledger
+of the electrochemical interface: the anode-side electron rate a
+``carbon_fixation`` class publishes must equal the sum of its cathode branches
+(carbon products + hydrogen evolution) every tick (``charge_residual``), the
+faradaic efficiency recomputed from those rates must never exceed 1, and the
+circuit's current-voltage residual is tracked worst-case.
+
 Later phases extend the same pattern (``ledger.{C,N,P}_residual``,
 ``rewrite_residual`` across structural rewrites, ``free_energy_in >= work +
 dissipated``) — see the model-upgrade integration doc.
@@ -159,6 +166,109 @@ class ConservationLedgerProcess(Process):
         }
 
 
+class ChargeLedgerProcess(Process):
+    """Charge + electron-count ledger for the electrochemical interface (Phase 2).
+
+    Sits beside a ``carbon_fixation`` class and audits, every tick, the three
+    electron rates it publishes: the anode-side rate (``electron_flux``, the
+    current through the mineral) against the two cathode branches
+    (``carbon_electron_flux`` into formate / acetate / pyruvate and
+    ``her_electron_flux`` into hydrogen evolution). Kirchhoff's node law makes
+    ``charge_residual = |anode - (carbon + her)| / anode`` zero for a correctly
+    wired class; the faradaic efficiency is recomputed as ``carbon / anode`` and
+    must never exceed 1; the circuit's current-voltage residual (published by
+    the Butler-Volmer class at its solved operating point) is tracked worst-case.
+    Integrates the charge passed (coulomb) and the electrons delivered to carbon
+    (mole) for the report, and publishes ``charge_ledger_ok``.
+    """
+
+    contract = {
+        "summary": "Charge + electron ledger: Kirchhoff residual per tick, faradaic efficiency <= 1, current-voltage residual.",
+        "description": (
+            "Every tick compares the anode-side electron rate a carbon-fixation class publishes "
+            "with the sum of its cathode branches (carbon products + hydrogen evolution): "
+            "charge_residual = |anode - (carbon + her)| / anode. Recomputes the faradaic "
+            "efficiency as carbon / anode and tracks that it never exceeds 1, tracks the "
+            "worst-case circuit (current-voltage) residual, integrates the charge passed and the "
+            "electrons delivered to carbon, and publishes charge_ledger_ok = 1 while every "
+            "residual is inside tolerance."
+        ),
+        "inputs": {
+            "electron_flux": "anode-side electron rate = current / F (mole/second)",
+            "carbon_electron_flux": "electrons into carbon products (mole/second)",
+            "her_electron_flux": "electrons into hydrogen evolution (mole/second)",
+            "iv_residual": "circuit residual at the solved current (dimensionless)",
+        },
+        "outputs": {
+            "charge_residual": "|anode - (carbon + her)| / max(anode, eps) this tick",
+            "charge_residual_max": "worst-case charge residual so far",
+            "faradaic_efficiency": "carbon / anode this tick (0 when no current)",
+            "faradaic_efficiency_max": "worst-case faradaic efficiency so far (must be <= 1)",
+            "iv_residual_max": "worst-case current-voltage residual so far",
+            "charge_passed": "integrated anode charge (coulomb)",
+            "electrons_to_carbon": "integrated electrons into carbon products (mole)",
+            "charge_ledger_ok": "1 while every residual is within tolerance and FE <= 1",
+        },
+        "assumptions": ["The class publishes the three electron rates from the same solved operating point."],
+        "math": ["charge_residual = |e_anode - (e_carbon + e_her)| / e_anode", "FE = e_carbon / e_anode <= 1"],
+    }
+
+    config_schema = {
+        "tolerance": {"_type": "float", "_default": 1.0e-9, "_units": "dimensionless", "_provenance": "inferred"},
+        "iv_tolerance": {"_type": "float", "_default": 1.0e-6, "_units": "dimensionless", "_provenance": "inferred"},
+    }
+
+    def __init__(self, config=None, core=None):
+        super().__init__(config=config, core=core)
+        self._charge = 0.0
+        self._carbon = 0.0
+        self._res_max = 0.0
+        self._fe_max = 0.0
+        self._iv_max = 0.0
+
+    def inputs(self):
+        return {"electron_flux": _MOLS, "carbon_electron_flux": _MOLS, "her_electron_flux": _MOLS,
+                "iv_residual": _DIMLESS}
+
+    def outputs(self):
+        return {
+            "charge_residual": _OVW, "charge_residual_max": _OVW,
+            "faradaic_efficiency": _OVW, "faradaic_efficiency_max": _OVW, "iv_residual_max": _OVW,
+            "charge_passed": {"_type": "overwrite[float]", "_units": "coulomb"},
+            "electrons_to_carbon": {"_type": "overwrite[float]", "_units": "mole"},
+            "charge_ledger_ok": _OVW,
+        }
+
+    def initial_state(self):
+        return {"electron_flux": 0.0, "carbon_electron_flux": 0.0, "her_electron_flux": 0.0, "iv_residual": 0.0}
+
+    def update(self, state, interval):
+        e_anode = float(state.get("electron_flux", 0.0))
+        e_carbon = float(state.get("carbon_electron_flux", 0.0))
+        e_her = float(state.get("her_electron_flux", 0.0))
+        iv = abs(float(state.get("iv_residual", 0.0)))
+        residual = abs(e_anode - (e_carbon + e_her)) / max(abs(e_anode), 1e-30) if e_anode != 0.0 else abs(e_carbon + e_her)
+        fe = (e_carbon / e_anode) if e_anode > 0.0 else 0.0
+        self._charge += 96485.33212 * e_anode * interval
+        self._carbon += e_carbon * interval
+        self._res_max = max(self._res_max, residual)
+        self._fe_max = max(self._fe_max, fe)
+        self._iv_max = max(self._iv_max, iv)
+        ok = (self._res_max <= float(self.config["tolerance"])
+              and self._fe_max <= 1.0 + 1e-12
+              and self._iv_max <= float(self.config["iv_tolerance"]))
+        return {
+            "charge_residual": residual, "charge_residual_max": self._res_max,
+            "faradaic_efficiency": fe, "faradaic_efficiency_max": self._fe_max,
+            "iv_residual_max": self._iv_max, "charge_passed": self._charge,
+            "electrons_to_carbon": self._carbon, "charge_ledger_ok": 1.0 if ok else 0.0,
+        }
+
+
+CHARGE_LEDGER_KEYS = ("charge_residual", "charge_residual_max", "faradaic_efficiency",
+                      "faradaic_efficiency_max", "iv_residual_max", "charge_passed",
+                      "electrons_to_carbon", "charge_ledger_ok")
+
 LEDGER_KEYS = ("H2_in", "H2_residual", "alkalinity_in", "alkalinity_residual",
                "energy_in", "energy_residual", "charge_residual_max",
                "flux_residual_max", "energy_directionality", "ledger_ok")
@@ -177,4 +287,5 @@ def ledger_summary(rows) -> dict:
     return out
 
 
-__all__ = ["ConservationLedgerProcess", "LEDGER_KEYS", "ledger_summary"]
+__all__ = ["ConservationLedgerProcess", "ChargeLedgerProcess", "LEDGER_KEYS", "CHARGE_LEDGER_KEYS",
+           "ledger_summary"]
