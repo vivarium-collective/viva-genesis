@@ -17,7 +17,9 @@ def test_vent_environment_posterior_figure_renders():
     ens = json.loads((_ART / "vent_environment_ensemble.json").read_text())
     rep = json.loads((_ART / "vent_environment_report.json").read_text())
     html = vent_environment_posterior_figure(ens, rep, title="t")
-    assert "plotly" in html and "feasible=" in html
+    assert "plotly" in html, "figure should embed a Plotly chart"
+    assert "posterior" in html, "headline frames the Lost-City-conditioned posterior"
+    assert "not an origin-of-life claim" in html, "caption keeps the no-origin-claim honesty"
 
 
 def test_visualization_class_registered():
