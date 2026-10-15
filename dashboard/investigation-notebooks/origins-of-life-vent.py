@@ -2509,10 +2509,181 @@ _save_viz('og-cal-vent-environment', 'vent-reactor-timeseries', _render_one('loc
 # | --- | --- | --- | --- |
 # | Lost City end-member fluids 40-91 C, pH 9-10.8, dissolved H2 1-15 mmol/kg | settled outlet T, pH; dissolved H2 backed out of the H2 flux | Kelley 2001 / Kelley 2005 / Ludwig 2006 / Proskurowski 2008 | Used as the ABC conditioning windows (vg-data vent_environment.observations); 6/48 prior draws reproduce all three. |
 
+# ## Study: The Vent Wall as a Galvanic Cell: Which Limitation Stops Carbon Fixation, and Do the Model Classes Agree? (`og-01-cal-electrochemistry`)
+#
+# **Question.** Model Upgrade plan, Phase 2 (electrochemical carbon fixation). og-01 drives CO2 reduction with a scalar gradient_efficiency and a Michaelis drive in the proton-motive force, so it can say WHETHER fixation runs but not WHY it stops. Treating the vent wall as an electrical circuit instead — fluid redox state -> Nernst electrode potentials -> Butler-Volmer overpotentials -> current density -> surface rates — which limitation (thermodynamic, electrical, catalytic, transport) binds where over (vent pH x dissolved H2 x mineral conductivity x Ni/Fe), and do the empirical and the electrochemical model classes on the new carbon_fixation face agree on that label in the region both call favorable?
+#
+# **Objective.** Build the carbon_fixation face with three classes (empirical = og-01's kinetics; butler_volmer = Nernst + Butler-Volmer galvanic cell, the primary new class; microkinetic = CatMAP/Cantera, pixi-only), the MineralConductivityProcess that derives gradient_efficiency from circuit physics, the ChargeLedgerProcess (Kirchhoff residual per tick, faradaic efficiency <= 1, current-voltage residual) and the vg-data package electrochemical_interface; sweep (pH x H2 x conductivity x Ni) x classes in open flow; attribute the limitation at every point; measure cross-class agreement; report Feasibility / Robustness / Discrimination.
+#
+# **Hypothesis.** Explicit electrochemistry reproduces the Altair-2025 current window at the nominal operating point with the Preiner product hierarchy, derives og-01's gradient efficiency from the wall's conductivity (an insulating wall collapses it, the Tutolo-2026 arm, as a consequence rather than a knob), closes a charge + electron ledger exactly, and labels every swept point with its dominant limitation. Pre-registered gate: the classes agree on the label on >= 80% of the region both call favorable.
+#
+# **Claim.** Explicit electrochemistry is feasible, calibrated and ledger-exact, and it changes the answer to "why does fixation stop": under the Butler-Volmer class the alkaline-vent cell is activation-limited everywhere the wall conducts — the catalyst, not the gradient, binds — and the Tutolo-style collapse is an electrical regime below ~1e-6 S/m that both classes recover. The empirical class cannot make that attribution because its one Michaelis drive term lumps electrical and catalytic limitation and its substrate Michaelis constant invents a transport limit the cell physics does not have. The failure-mode label is therefore structure-sensitive (agreement 0.47 < 0.8): a negative result on the gate and the Phase-2 mechanism map the plan asked for, recorded as a decision for the expert rather than hidden.
+
+# ### Design — originally proposed
+#
+# _The mechanisms and methods proposed when this study was designed; the model **actually built** (and the tools it uses) is shown below. These may differ as the design was realized._
+#
+# **Proposed mechanisms**
+#
+# - A: empirical gated kinetics (og-01) with the gradient efficiency derived from the wall circuit
+# - B: the wall as a galvanic cell — Nernst potentials, Butler-Volmer kinetics, ohmic mineral + ionic path, faradaic split
+# - C: adsorbate microkinetics with site coverage and passivation (deferred; pixi)
+#
+# **Proposed models / methods**
+#
+# - carbon_fixation face with the model class as a categorical sweep axis
+# - Nernst + Butler-Volmer galvanic-cell solve (Brent) per tick; Koutecky-Levich transport limits; Bruggeman ionic path
+# - Loss-fraction partition of the fresh-fluid emf -> limitation label per point; cross-class agreement + confusion
+# - Charge + electron ledger (Kirchhoff residual, faradaic efficiency <= 1, current-voltage residual)
+#
+# **Key assumptions**
+#
+# - Steady galvanic cell each tick: the CO2/HCOOH couple sets the cathode emf (acetate and pyruvate are side branches of the same current); H2 and CO2 are boundary feeds; standard potentials at 25 C.
+# - Exchange currents calibrated to the Altair current window, not to per-condition curves; faradaic efficiency set by the competing H2-evolution branch and proton transport at pH 6.
+# - The empirical class is og-01's rate law unchanged, with the catalyst scaled by the same Ni gain and the gradient efficiency derived from the circuit.
+# - Favorable region = throughput >= 10% of each class's own maximum; label = largest loss fraction (FE < 0.5 -> catalytic).
+
+# ### Parameters
+#
+# | simulation | composite | steps | params |
+# | --- | --- | --- | --- |
+# | `Electrochemical interface — Butler-Volmer, open flow` | `viva_genesis.composites.electrochemical_interface.electrochemical_carbon_fixation` | 0 | model_carbon_fixation=butler_volmer, dilution_rate=2.0 |
+#
+# Declared parameter sets (`study.yaml` variants):
+#
+# - **empirical-class** — `model_carbon_fixation=empirical`, `dilution_rate=2.0`
+# - **microkinetic-class-pixi-only** — `model_carbon_fixation=microkinetic`, `dilution_rate=2.0`
+# - **insulating-wall** — `model_carbon_fixation=butler_volmer`, `dilution_rate=2.0`, `conductivity=1e-09`
+# - **iron-only-catalyst** — `model_carbon_fixation=butler_volmer`, `dilution_rate=2.0`, `ni_fraction=0.0`
+# - **control-no-catalyst** — `model_carbon_fixation=butler_volmer`, `dilution_rate=2.0`, `catalyst_active=0.0`
+
+# ### The model & its parameters
+#
+# Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
+
+# **The model — `viva_genesis.composites.electrochemical_interface.electrochemical_carbon_fixation`**
+#
+# og-01's H2/pH-driven carbon fixation rebuilt as the Phase-2 electrochemical interface: the carbon-fixation mechanism is a model CLASS on the carbon_fixation face (model_carbon_fixation: empirical | butler_volmer | microkinetic). The empirical class is og-01's lab-calibrated gated kinetics driven by the real FiPy Nernst-Planck proton gradient + proton budget, with gradient_efficiency DERIVED from the wall's circuit (MineralConductivityProcess: conductivity, thickness, porosity vs the electrodes' charge-transfer resistance) instead of a knob. The butler_volmer class solves the vent wall as a galvanic cell each tick (Nernst half-cell potentials from the fluid redox state, Butler-Volmer kinetics scaled by catalyst activity / Ni fraction / T, Koutecky-Levich transport limits, the ohmic mineral + ionic path, the faradaic split over formate / acetate / pyruvate calibrated to the Altair-2025 current window and the Preiner-2020 yield hierarchy). The microkinetic class (CatMAP/Cantera) builds here and runs under pixi. Every class publishes the thermodynamic / electrical / catalytic / transport loss fractions and a limitation code, and a ChargeLedgerProcess audits its electron balance (Kirchhoff residual, faradaic efficiency <= 1, current-voltage residual -> ledger/charge_ledger_ok). Free parameters are the vg-data package 'electrochemical_interface'.
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_electrochemical_interface_electrochemical_carbon_fixation = {
+    'model_carbon_fixation': 'butler_volmer',   # Model class behind the 'carbon_fixation' face: butler_volmer | empirical | microkinetic
+    'ph_vent'              : 9.5,   # Alkaline vent-side pH (from og-00)
+    'ph_ocean'             : 6.0,   # Acidic early-ocean-side pH
+    'h2'                   : 0.005,   # Dissolved H2 feed, vent side (M)
+    'co2'                  : 0.002,   # Dissolved CO2 feed, ocean side (M)
+    'temperature'          : 373.15,   # Interface temperature (K)
+    'conductivity'         : 0.001,   # Electronic conductivity of the mineral layer (S/m) [vg-data: extrapolated]
+    'layer_thickness'      : 0.001,   # Mineral layer thickness (m) [vg-data: inferred]
+    'ni_fraction'          : 0.75,   # Ni mole fraction of the Fe/Ni catalytic phase (0 greigite .. 0.75 awaruite) [vg-data: measured]
+    'porosity'             : 0.35,   # Wall porosity (ionic return path)
+    'catalyst_active'      : 1.0,   # Active Fe/Ni/S mineral catalyst fraction (0 = no-catalyst control)
+    'j0_co2'               : 1e-05,   # CO2-reduction exchange current density at Ni3Fe, 100 C (A/m^2) [vg-data: calibrated]
+    'boundary_layer'       : 0.001,   # Diffusion boundary layer at the electrodes (m) [vg-data: inferred]
+    'dilution_rate'        : 0.0,   # Open-flow washout (1/s); 0 = closed batch, >0 = sustained-throughput regime
+    'nx'                   : 20,   # FiPy cells across the Nernst-Planck barrier
+}
+
+# ### Typed contract (declared interface)
+#
+# _The bigraph-schema typed ports + conservation predicates this study's composite must satisfy (audited in the workbench §Contract panel). Declared design — independent of whether a run exists yet._
+#
+# **Inputs**
+#
+# | port | type | units | bounds |
+# | --- | --- | --- | --- |
+# | `ph_vent` | float | dimensionless | [0.0, 14.0] |
+# | `h2` | float | molar | >= 0.0 |
+# | `conductivity` | float | siemens/meter | >= 0.0 |
+# | `ni_fraction` | float | dimensionless | [0.0, 1.0] |
+#
+# **Outputs**
+#
+# | port | type | units | bounds |
+# | --- | --- | --- | --- |
+# | `net_carbon_flux` | float | mole/second | >= 0.0 |
+# | `current_density` | float | ampere/meter**2 | >= 0.0 |
+# | `faradaic_efficiency` | float | dimensionless | [0.0, 1.0] |
+#
+# **Conditions**
+#
+# - `charge_conservation` (invariant): `ledger.charge_residual <= 1e-9 every tick`
+# - `faradaic_bound` (invariant): `ledger.faradaic_efficiency <= 1`
+# - `current_voltage_consistency` (invariant): `ledger.iv_residual_max <= 1e-6`
+# - `loss_partition` (invariant): `loss_thermodynamic + loss_electrical + loss_catalytic + loss_transport == 1 while current flows (butler_volmer)`
+
+# ### Run
+#
+# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
+
+# === Study: og-01-cal-electrochemistry ===
+STUDY = 'og-01-cal-electrochemistry'
+STUDY_DIR = REPO / 'workspace/studies' / STUDY
+STUDY_YAML = str(STUDY_DIR / "study.yaml")
+RUNS_DB = str(STUDY_DIR / "runs.db")
+
+# This study has no *recorded* runs yet. RERUN builds its declared
+# composite(s) live and runs them; a composite whose module processes
+# are not implemented yet reports the error instead of crashing.
+STEPS_Electrochemical_interface_Butler_Volmer_open_flow = 100
+INTERVAL_Electrochemical_interface_Butler_Volmer_open_flow = 1.0
+
+if RERUN:
+    from process_bigraph import Composite
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_electrochemical_interface_electrochemical_carbon_fixation if 'ov_viva_genesis_composites_electrochemical_interface_electrochemical_carbon_fixation' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_electrochemical_interface_electrochemical_carbon_fixation = materialize_composite('viva_genesis.composites.electrochemical_interface.electrochemical_carbon_fixation', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_electrochemical_interface_electrochemical_carbon_fixation['state']}, core=core)
+            _comp.run(STEPS_Electrochemical_interface_Butler_Volmer_open_flow)
+        print('ran', 'Electrochemical interface — Butler-Volmer, open flow', f'(viva_genesis.composites.electrochemical_interface.electrochemical_carbon_fixation) for', STEPS_Electrochemical_interface_Butler_Volmer_open_flow, 'steps')
+    except Exception as _e:
+        print(f"Electrochemical interface — Butler-Volmer, open flow not runnable yet: {type(_e).__name__}: {_e}")
+else:
+    print("RERUN=False — not re-simulating.")
+
+# ### Visualizations
+#
+# _Results are shown by the figures below, produced by the run above._
+
+# **electrochemistry-mechanism-map**
+
+# electrochemistry-mechanism-map
+_save_viz('og-01-cal-electrochemistry', 'electrochemistry-mechanism-map', _render_one('local:ElectrochemistryMechanismMap', {'title': 'Phase 2 — electrochemical mechanism map (Decision view)', 'mechanism_map_json': 'workspace/studies/og-01-cal-electrochemistry/artifacts/electrochemistry_mechanism_map.json', 'report_json': 'workspace/studies/og-01-cal-electrochemistry/artifacts/electrochemistry_report.json'}, RUNS_DB, STUDY_YAML))
+
+# **electrochemistry-polarization**
+
+# electrochemistry-polarization
+_save_viz('og-01-cal-electrochemistry', 'electrochemistry-polarization', _render_one('local:ElectrochemistryPolarization', {'title': 'Vent wall as a galvanic cell at the nominal point (Mechanism view)'}, RUNS_DB, STUDY_YAML))
+
+# ### Acceptance criteria
+#
+# _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
+#
+# | test | measures | passes if |
+# | --- | --- | --- |
+# | failure-mode-labelled _(primary)_ | kind=derived path=failure_mode_label_coverage detail=min over classes of the fraction of points with a finite label | op >= value 1.0 detail label coverage 1.0 in every class |
+# | failure-mode-attributed _(primary)_ | kind=derived path=failure_mode_agreement_favorable detail=fraction of favorable-both points with identical labels | op >= value 0.8 detail cross-class label agreement >= 0.8 in the favorable region |
+# | mechanism-map-ledger-closes _(primary)_ | kind=derived path=mechanism_map_ledger_all_ok detail=1 when charge_ledger_ok on every point | op >= value 1.0 detail ledger ok on all points |
+# | charge-ledger-closes _(primary)_ | kind=derived path=charge_ledger_residual_max detail=worst-case charge residual | op <= value 1e-09 detail charge residual within tolerance |
+# | faradaic-efficiency-bounded _(primary)_ | kind=derived path=faradaic_efficiency_max detail=worst-case faradaic efficiency over the run | op <= value 1.000001 detail FE <= 1 (1e-6 rounding allowance) |
+# | current-voltage-residual _(diagnostic)_ | kind=derived path=iv_residual_max detail=worst-case |residual| / emf_fresh | op <= value 1e-06 detail circuit residual below 1e-6 |
+# | current-in-altair-window _(primary)_ | kind=derived path=settled_current_density detail=settled cell current density | op range low 1e-05 high 0.01 detail j in [1e-5, 1e-2] A/m^2 |
+# | selectivity-to-carbon _(diagnostic)_ | kind=derived path=settled_faradaic_efficiency detail=settled fraction of the current reducing CO2 | op >= value 0.5 detail faradaic efficiency to carbon >= 0.5 |
+
+# ### Literature anchors
+#
+# | expectation | model observable | source | status |
+# | --- | --- | --- | --- |
+# | Altair-2025 macroscale reactor currents ~10 nA .. 10 uA sufficient for carbon reduction | settled Butler-Volmer current density on a 1e-3 m^2 interface | Altair et al. 2025 (campaign dossier ref 12; parameter-registry electrochemical_current) | Used as the calibration window of the exchange currents (vg-data electrochemical_interface.observations.cell_current_density); 79.7% of the grid inside it. |
+# | Preiner 2020 product hierarchy formate >> acetate >> pyruvate, awaruite (Ni3Fe) the most productive catalyst | electron branch fractions and the Ni gain of the CO2-reduction exchange current | Preiner et al. 2020 | Branch fractions inferred from the yield hierarchy; the Ni gain is a hypothetical shape fitted to the ordering. |
+
 # ## Open decisions
 # - Publication milestone: close the first paper at the pre-genetic arc (og-00 -> og-03) or extend through the early-genetic arc (og-04 protocells -> og-06 heredity)?
 # - First limiting resource / next module: which enrichment-plan module to build first — nitrogen assimilation (N2/NO3->NH4, FeS), phosphorus availability (phosphate/polyphosphate co-concentration), proto-energetics (thioester/acyl-phosphate energy currency before pumping), or metabolism->growth/division (osmotic growth)?
 # - Enrich og-01 with explicit electrochemistry (treat the vent as an electrical circuit: fluid composition -> redox potential -> mineral conductivity -> current density -> electron-transfer -> CO2 reduction), or keep the current gradient-efficiency abstraction?
+# - Phase 2 result: accept that the limitation label (thermodynamic / electrical / catalytic / transport) is structure-sensitive — the Butler-Volmer class attributes the favorable region to the catalyst, the empirical class to its lumped pmf drive, agreement 0.47 < 0.8 — as the mechanism map, or redefine the empirical attribution (lumped electrical+catalytic label) and re-evaluate the gate? And should og-01's default class become butler_volmer (the Tutolo arm then = wall conductivity)?
 # - Actually RUN the og-03 -> og-02 localization->ignition coupling (trap enrichment feeds the rTCA network as a real swept phase map), resolving the demoted phantom finding and giving og-03 its own Decision phase map?
 # - Reframe the campaign's headline thesis from 'cells could originate at alkaline vents' to the enrichment plan's 'quantitative MAP OF THE BOTTLENECKS between geology and cells' (dependencies, failure regimes, discriminating experiments)?
 # - Adopt the Full Modeling Plan architecture (emergence-not-presupposition + structural rewrites + canonical schemas + model substitution) as the campaign's build target, in the plan's section-18 order — canonical schemas + geochemical_world first, then the electrochemical interface, then C-N-P/energetics as cross-cutting layers, then localization, boundary, growth/division rewrites, competing heredity, ecology, autonomy?
