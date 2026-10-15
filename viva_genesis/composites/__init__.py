@@ -20,6 +20,7 @@ from . import proto_energetics  # noqa: F401
 from . import osmotic_growth_division  # noqa: F401
 from . import spatial_transport  # noqa: F401
 from . import geochemical_world  # noqa: F401
+from . import electrochemical_interface  # noqa: F401
 
 from .vent_reactor import serpentinizing_vent_reactor, serpentinizing_vent_reactor_reduced
 from .carbon_fixation import hydrothermal_carbon_fixation
@@ -37,6 +38,7 @@ from .proto_energetics import proto_energetics
 from .osmotic_growth_division import osmotic_growth_division
 from .spatial_transport import spatial_transport_trap, spatial_transport_vent
 from .geochemical_world import geochemical_world
+from .electrochemical_interface import electrochemical_carbon_fixation
 
 __all__ = [
     "serpentinizing_vent_reactor", "serpentinizing_vent_reactor_reduced",
@@ -56,4 +58,5 @@ __all__ = [
     "spatial_transport_trap",
     "spatial_transport_vent",
     "geochemical_world",
+    "electrochemical_carbon_fixation",
 ]

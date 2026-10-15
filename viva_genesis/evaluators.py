@@ -423,8 +423,83 @@ def _structure_agreement_viable(reader, test: dict, ws_root: Any) -> float:
     return float(_artifact_json(test, ws_root, _OGCAL_REPORT)["conditioning"]["cross_class"]["viable"]["agreement"])
 
 
+# --- electrochemical interface / Phase-2 (og-01-cal-electrochemistry) --------
+
+_OGCAL_ELECTRO_REPORT = "workspace/studies/og-01-cal-electrochemistry/artifacts/electrochemistry_report.json"
+
+
+def _charge_ledger_residual_max(reader, test: dict, ws_root: Any) -> float:
+    """Worst-case Kirchhoff residual |anode - (carbon + her)| / anode over the run
+    (ChargeLedgerProcess) — the charge + electron-count ledger witness."""
+    return max(abs(v) for v in _values(reader, "charge_residual_max"))
+
+
+def _faradaic_efficiency_max(reader, test: dict, ws_root: Any) -> float:
+    """Worst-case faradaic efficiency (electrons to carbon / electrons supplied)
+    over the run — must never exceed 1."""
+    return max(_values(reader, "faradaic_efficiency_max"))
+
+
+def _iv_residual_max(reader, test: dict, ws_root: Any) -> float:
+    """Worst-case current-voltage (circuit-equation) residual of the galvanic-cell solve."""
+    return max(abs(v) for v in _values(reader, "iv_residual_max"))
+
+
+def _charge_ledger_ok_final(reader, test: dict, ws_root: Any) -> float:
+    """Final ChargeLedgerProcess verdict (1 = every residual within tolerance, FE <= 1)."""
+    return _values(reader, "charge_ledger_ok")[-1]
+
+
+def _settled_current_density(reader, test: dict, ws_root: Any) -> float:
+    """Settled cell current density (A/m^2) — compared with the Altair-2025 window."""
+    return _settled_mean(reader, "current_density", frac=0.1)
+
+
+def _settled_faradaic_efficiency(reader, test: dict, ws_root: Any) -> float:
+    """Settled fraction of the electrons reaching the cathode that reduce CO2."""
+    return _settled_mean(reader, "faradaic_efficiency", frac=0.1)
+
+
+def _failure_mode_label_coverage(reader, test: dict, ws_root: Any) -> float:
+    """Fraction of mechanism-map points that carry a limitation label, worst class
+    (every point must be attributed: thermodynamic / electrical / catalytic / transport)."""
+    att = _artifact_json(test, ws_root, _OGCAL_ELECTRO_REPORT)["attribution"]
+    return min(float(pc["label_coverage"]) for pc in att["per_class"].values())
+
+
+def _failure_mode_agreement_favorable(reader, test: dict, ws_root: Any) -> float:
+    """Fraction of the region BOTH runnable classes call favorable on which they agree
+    about the limitation label — the failure-mode-attributed gate metric."""
+    v = _artifact_json(test, ws_root, _OGCAL_ELECTRO_REPORT)["attribution"]["cross_class"]["label_agreement_favorable"]
+    if v is None:
+        raise ValueError("no point is favorable under every class; agreement undefined")
+    return float(v)
+
+
+def _failure_mode_agreement_all(reader, test: dict, ws_root: Any) -> float:
+    """Label agreement over every point both classes ran."""
+    return float(_artifact_json(test, ws_root, _OGCAL_ELECTRO_REPORT)["attribution"]["cross_class"]["label_agreement_all"])
+
+
+def _mechanism_map_ledger_all_ok(reader, test: dict, ws_root: Any) -> float:
+    """1.0 when the charge ledger closed on every mechanism-map point of every class."""
+    att = _artifact_json(test, ws_root, _OGCAL_ELECTRO_REPORT)["attribution"]
+    return 1.0 if all(pc["ledger"]["all_ok"] for pc in att["per_class"].values()) else 0.0
+
+
 def register_derived_scalars(registry: dict) -> None:
     """Hook called by study_evaluator.load_workspace_derived_scalars."""
+    # electrochemical interface / Phase-2 (og-01-cal-electrochemistry)
+    registry["charge_ledger_residual_max"] = _charge_ledger_residual_max
+    registry["faradaic_efficiency_max"] = _faradaic_efficiency_max
+    registry["iv_residual_max"] = _iv_residual_max
+    registry["charge_ledger_ok_final"] = _charge_ledger_ok_final
+    registry["settled_current_density"] = _settled_current_density
+    registry["settled_faradaic_efficiency"] = _settled_faradaic_efficiency
+    registry["failure_mode_label_coverage"] = _failure_mode_label_coverage
+    registry["failure_mode_agreement_favorable"] = _failure_mode_agreement_favorable
+    registry["failure_mode_agreement_all"] = _failure_mode_agreement_all
+    registry["mechanism_map_ledger_all_ok"] = _mechanism_map_ledger_all_ok
     # og-00
     registry["settled_temperature_c"] = _settled_temperature_c
     registry["settled_pH"] = _settled_ph

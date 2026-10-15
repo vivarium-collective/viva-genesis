@@ -119,14 +119,20 @@ class CarbonFixationProcess(Process):
                 "feasible_formate": 1.0, "feasible_acetate": 1.0, "feasible_pyruvate": 1.0,
                 "formate": 0.0, "acetate": 0.0, "pyruvate": 0.0}
 
-    def update(self, state, interval):
+    def gating_factors(self, state) -> dict:
+        """The shared multiplicative gates of the rate law for ``state``.
+
+        Returns ``{avail, drive, t_window, cat, vol, dilution}``: substrate
+        availability (Michaelis in H2 and CO2), the proton-motive drive
+        (Michaelis in pmf), the temperature window, the catalyst activity, the
+        volume scale and the washout rate. Exposed so the Phase-2 ``empirical``
+        adapter can attribute the limitation without re-deriving the rate law.
+        """
         h2 = max(float(state.get("H2", 0.0)), 0.0)
         co2 = max(float(state.get("CO2", 0.0)), 0.0)
         temp_k = float(state.get("temperature", 373.15))
         pmf = max(float(state.get("pmf", 0.0)), 0.0)
         cat = max(float(state.get("catalyst_activity", 0.0)), 0.0)
-
-        # Shared gating factors.
         km_h2, km_co2 = self.config["km_h2"], self.config["km_co2"]
         avail = (h2 / (h2 + km_h2)) * (co2 / (co2 + km_co2))
         drive = pmf / (pmf + self.config["pmf_half"])          # Michaelis in pmf
@@ -134,6 +140,13 @@ class CarbonFixationProcess(Process):
         t_window = math.exp(-((temp_k - t_opt) ** 2) / (2.0 * t_w ** 2))
         vol = max(self.config["reactor_volume_scale"], 1e-12)
         dilution = max(float(self.config.get("dilution_rate", 0.0)), 0.0)  # 1/s washout
+        return {"avail": avail, "drive": drive, "t_window": t_window, "cat": cat,
+                "vol": vol, "dilution": dilution}
+
+    def update(self, state, interval):
+        g = self.gating_factors(state)
+        avail, drive, t_window, cat = g["avail"], g["drive"], g["t_window"], g["cat"]
+        vol, dilution = g["vol"], g["dilution"]
 
         deltas = {}
         carbon_rate = 0.0

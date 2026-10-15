@@ -21,10 +21,27 @@ Planned process contract (not yet implemented):
 **Key discriminating variable:** encode ``pH(T, P, ionic_strength)``, never
 laboratory pH as a constant environmental state.
 
-Placeholder package: no Process/Step classes yet.
+Implemented:
+
+- og-01 (Module C): ``PhGradientNernstPlanckProcess`` (real FiPy Nernst-Planck
+  proton electrodiffusion) and ``ProtonBudgetProcess`` (conserved proton
+  economy with chemiosmotic back-pressure).
+- Phase 2 (Model Upgrade plan, *electrochemical carbon fixation*): the three
+  classes on the ``carbon_fixation`` face — ``EmpiricalCarbonFixationProcess``
+  (og-01's kinetics adapted to the face), ``ButlerVolmerCarbonFixationProcess``
+  (Nernst + Butler-Volmer galvanic cell, the primary new class) and
+  ``MicrokineticCarbonFixationProcess`` (CatMAP/Cantera, pixi-only backend) —
+  plus ``MineralConductivityProcess``, which derives og-01's
+  ``gradient_efficiency`` from the wall's circuit.
 """
 
 from .ph_gradient import PhGradientNernstPlanckProcess  # noqa: E402,F401
 from .proton_budget import ProtonBudgetProcess  # noqa: E402,F401
+from .butler_volmer import ButlerVolmerCarbonFixationProcess  # noqa: E402,F401
+from .empirical import EmpiricalCarbonFixationProcess  # noqa: E402,F401
+from .microkinetic import MicrokineticCarbonFixationProcess  # noqa: E402,F401
+from .mineral_conductivity import MineralConductivityProcess  # noqa: E402,F401
 
-__all__ = ["PhGradientNernstPlanckProcess", "ProtonBudgetProcess"]
+__all__ = ["PhGradientNernstPlanckProcess", "ProtonBudgetProcess",
+           "ButlerVolmerCarbonFixationProcess", "EmpiricalCarbonFixationProcess",
+           "MicrokineticCarbonFixationProcess", "MineralConductivityProcess"]

@@ -38,6 +38,14 @@ class and the reduced Gaussian-source reproduction honour one
 ``serpentinization`` face, so the og-00 world can sweep the geochemistry
 engine as a class axis; the planned Reaktoro / PFLOTRAN classes register on
 the same face when they land.
+
+Carbon fixation (Model Upgrade plan, Phase 2). Three classes honour one
+``carbon_fixation`` face: ``empirical`` (og-01's lab-calibrated gated kinetics,
+adapted to publish its failure-mode attribution), ``butler_volmer`` (Nernst
+half-cell potentials + Butler-Volmer electrode kinetics + the ohmic mineral
+circuit, solved as a galvanic cell each tick) and ``microkinetic``
+(CatMAP/Cantera adsorbate microkinetics; the backend is conda-only, so the
+class registers here and raises a clear "run under pixi" error in ``update``).
 """
 
 from __future__ import annotations
@@ -87,9 +95,41 @@ SERPENTINIZATION_FACE = {
     "optional_outputs": {"alkalinity_flux", "heat_flux", "pe", "pH_eq", "charge_imbalance"},
 }
 
+# Carbon fixation at the Fe/Ni-sulfide interface (Model Upgrade plan, Phase 2).
+# Every class turns the fluid state (H2, CO2, T, the catalyst) into product
+# increments on the ONE dissolved pool plus the net organic-carbon flux. The
+# empirical class reads the proton-motive drive the og-01 gradient + budget
+# supply; the electrochemical classes read the two pH's and the mineral layer
+# (conductivity, thickness, Ni fraction) and derive the drive themselves, so
+# both sets are OPTIONAL inputs. The optional outputs are the circuit readouts
+# (emf, overpotential, current, faradaic efficiency, electron fluxes) and the
+# failure-mode attribution every class must be able to publish.
+CARBON_FIXATION_FACE = {
+    "required_inputs": {"H2", "CO2", "temperature", "catalyst_activity",
+                        "formate", "acetate", "pyruvate"},
+    "optional_inputs": {
+        # og-01 empirical drive (proton-motive force + eQuilibrator gate)
+        "pmf", "feasible_formate", "feasible_acetate", "feasible_pyruvate",
+        # electrochemical drive (fluid redox + the mineral circuit)
+        "pH_vent", "pH_ocean", "ni_fraction", "conductivity", "layer_thickness",
+        "porosity", "ionic_strength",
+    },
+    "required_outputs": {"formate", "acetate", "pyruvate", "net_carbon_flux"},
+    "optional_outputs": {
+        # circuit readouts
+        "current_density", "emf", "overpotential", "electric_potential",
+        "faradaic_efficiency", "electron_flux", "carbon_electron_flux",
+        "her_electron_flux", "iv_residual", "gradient_efficiency",
+        # failure-mode attribution
+        "loss_thermodynamic", "loss_electrical", "loss_catalytic", "loss_transport",
+        "limitation_code",
+    },
+}
+
 FACES = {
     "spatial_transport": SPATIAL_TRANSPORT_FACE,
     "serpentinization": SERPENTINIZATION_FACE,
+    "carbon_fixation": CARBON_FIXATION_FACE,
 }
 
 
@@ -134,6 +174,15 @@ INTERFACES = {
             "reduced": "local:SerpentinizationReproductionProcess",  # E (tuned Gaussian source)
             # planned (same face): "reaktoro", "pflotran" — see the model-upgrade
             # integration doc, Phase 1.
+        },
+    },
+    # Carbon fixation at the mineral interface (Model Upgrade plan, Phase 2).
+    "carbon_fixation": {
+        "face": "carbon_fixation",
+        "models": {
+            "empirical": "local:EmpiricalCarbonFixationProcess",          # E (og-01 lab-calibrated kinetics)
+            "butler_volmer": "local:ButlerVolmerCarbonFixationProcess",  # A (Nernst + Butler-Volmer circuit)
+            "microkinetic": "local:MicrokineticCarbonFixationProcess",   # A (CatMAP/Cantera; runs under pixi)
         },
     },
 }
