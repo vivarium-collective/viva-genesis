@@ -27,9 +27,12 @@ from process_bigraph.visualization import Visualization
 
 from .viz_uq import _resolve
 
-_INK, _TEAL, _AMBER, _SLATE, _RUST, _MUTED, _VIOLET, _GREEN = (
-    "#1e293b", "#0d9488", "#d97706", "#64748b", "#b91c1c", "#94a3b8", "#7c3aed", "#15803d")
-_FONT = dict(family="Inter, Helvetica, Arial, sans-serif", color=_INK, size=12)
+from . import viz_style as S
+from .viz_style import (INK as _INK, TEAL as _TEAL, AMBER as _AMBER, SLATE as _SLATE,
+                        RUST as _RUST, MUTED as _MUTED, VIOLET as _VIOLET)
+
+_GREEN = "#15803d"  # 6th categorical (not in the core palette)
+_FONT = S.FONT()
 _LATTICE_POS = {"none": (0.5, 0.0), "pump": (0.15, 1.0), "importer": (0.5, 1.0), "heredity": (0.85, 1.0),
                 "pump+importer": (0.15, 2.0), "pump+heredity": (0.5, 2.0), "importer+heredity": (0.85, 2.0),
                 "pump+importer+heredity": (0.5, 3.0)}
@@ -63,7 +66,7 @@ def lattice_figure(rep: dict, *, title: str = "") -> str:
     fig = make_subplots(rows=2, cols=max(len(axes), 1), specs=[[{"colspan": max(len(axes), 1)}] + [None] * (max(len(axes), 1) - 1),
                                                                [{} for _ in range(max(len(axes), 1))]],
                         row_heights=[0.58, 0.42], vertical_spacing=0.14, horizontal_spacing=0.04,
-                        subplot_titles=["The innovation lattice: fraction of model structures under which each subset persists off-gradient"]
+                        subplot_titles=["The innovation lattice — persistence across model structures"]
                         + [_AXIS_LABELS.get(a, a) for a in axes])
     for a, b in _EDGES:
         xa, ya = _LATTICE_POS[a]
@@ -108,10 +111,21 @@ def lattice_figure(rep: dict, *, title: str = "") -> str:
            + (f" | autonomy of the persisting full set {_fmt(au.get('autonomy', {}).get('mean'))} (work {_fmt(au.get('autonomy_work', {}).get('mean'))}, "
               f"material {_fmt(au.get('autonomy_material', {}).get('mean'))}, information {_fmt(au.get('autonomy_information', {}).get('mean'))})"
               if au else ""))
-    fig.update_layout(title=dict(text=f"{title}<br><span style='font-size:11px;color:{_SLATE}'>{sub}</span>", x=0.01),
-                      template="plotly_white", font=_FONT, height=720, barmode="group",
-                      legend=dict(orientation="h", y=-0.16, x=0.0, font=dict(size=10)), margin=dict(t=100, b=90))
-    return fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    fig.update_layout(**S.base_layout(height=720, barmode="group", margin=dict(t=44, b=90),
+                                      legend=dict(orientation="h", y=-0.16, x=0.0, font=dict(size=10))))
+    cap = (
+        "An HONEST NEGATIVE: og-08's escape set {pump, importer, heredity} is <b>not sufficient</b> in the "
+        "integrated world. Each lattice node is a subset, coloured by the fraction of sampled model structures "
+        "under which it persists off-gradient; the pre-registered gate FAILS (the full set persists under 0 of "
+        "the structures at the nominal floor, against the 0.5 required). Over the viable structures the required "
+        f"intersection is {{pump, heredity}} and the importer is required in none — it costs more than it returns. "
+        f"<b>{sub}</b>. Autonomy is reached; sufficiency is not — the transition turns on one number the campaign "
+        "cannot yet constrain: what the ocean offers."
+    )
+    inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    return S.frame(inner, title=(title or "Is og-08's escape set sufficient? An honest negative"),
+                   phase="Phase 9", view="Decision", tier="conceptual_demonstration",
+                   caption_text=cap, caption_prefix="How to read", tone="negative")
 
 
 def ablation_trace_figure(rep: dict, *, title: str = "") -> str:
@@ -125,12 +139,12 @@ def ablation_trace_figure(rep: dict, *, title: str = "") -> str:
     fmap = rep.get("floor_map") or {}
     fig = make_subplots(rows=2, cols=3, column_widths=[0.36, 0.32, 0.32], row_heights=[0.5, 0.5],
                         horizontal_spacing=0.07, vertical_spacing=0.16,
-                        subplot_titles=["The drivers withdrawn and the power budget (W per individual)",
-                                        "Machinery, heredity and the population",
+                        subplot_titles=["Drivers withdrawn + power budget (W)",
+                                        "Machinery, heredity, population",
                                         "Autonomy decomposed by function",
-                                        "Knockouts: net work budget through the withdrawal",
+                                        "Knockouts: net work budget",
                                         "Knockouts: machinery held",
-                                        "Ocean-floor map: which structures persist at which residual support"])
+                                        "Ocean-floor map: who persists"])
     if full:
         t = [x / 3600.0 for x in full["t"]]
         start = float(meta.get("ablation_start", 3600.0)) / 3600.0
@@ -201,10 +215,18 @@ def ablation_trace_figure(rep: dict, *, title: str = "") -> str:
            f"(divisions {led.get('divisions_total', 0)}, extinctions {led.get('extinctions_total', 0)})"
            + (f" | floors where the full set persists: {_fmt(fmap.get('persistence_fraction_by_floor', {}).get(str(floors[0]) if fmap.get('floors') else '', float('nan')))}"
               if False else ""))
-    fig.update_layout(title=dict(text=f"{title}<br><span style='font-size:11px;color:{_SLATE}'>{sub}</span>", x=0.01),
-                      template="plotly_white", font=_FONT, height=760,
-                      legend=dict(orientation="h", y=-0.12, x=0.0, font=dict(size=9)), margin=dict(t=100, b=110))
-    return fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    fig.update_layout(**S.base_layout(height=760, margin=dict(t=44, b=110),
+                                      legend=dict(orientation="h", y=-0.12, x=0.0, font=dict(size=9))))
+    cap = (
+        "The integrated world through the ablation: every driver is withdrawn to its ocean floor (grey band) and "
+        "the per-individual power budget, machinery/heredity/population, and the work-weighted autonomy are traced; "
+        "the knockouts and the ocean-floor map show which structures persist at which residual support. The seven "
+        f"ledgers (geology, interface, network/ecology, free energy, information, rewrite) close on every run. <b>{sub}</b>."
+    )
+    inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    return S.frame(inner, title=(title or "The integrated world through the ablation"),
+                   phase="Phase 9", view="Mechanism", tier="conceptual_demonstration",
+                   caption_text=cap, caption_prefix="How to read", tone="neutral", max_width=1100)
 
 
 class _ArtifactViz(Visualization):

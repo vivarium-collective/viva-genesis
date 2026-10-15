@@ -417,12 +417,12 @@ visualizations:
 - name: robust-innovation-lattice
   address: local:RobustInnovationLattice
   config:
-    title: Phase 9 — the innovation lattice across model structures (Decision view)
+    title: 'Is og-08''s escape set sufficient? An honest negative (Decision view)'
     report_json: workspace/studies/og-08-alt-robust-innovation-set/artifacts/robust_innovation_set.json
 - name: autonomy-ablation-trace
   address: local:AutonomyAblationTrace
   config:
-    title: Phase 9 — the integrated world through the withdrawal (Mechanism / World view)
+    title: The integrated world through the ablation (Mechanism view)
     report_json: workspace/studies/og-08-alt-robust-innovation-set/artifacts/robust_innovation_set.json
 pipeline_gate:
   gate_evaluator:
