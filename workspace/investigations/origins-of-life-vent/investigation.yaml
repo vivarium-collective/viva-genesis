@@ -210,21 +210,6 @@ executive:
       under full redox equilibrium in llnl.dat, DIC is reduced before free H2 appears — so the H2 posterior
       depends directly on the DIC prior and on the equilibrium-vs-kinetic carbon-redox choice. The expert''s
       prior here changes the posterior more than any swept knob does.'
-  architecture_thesis: >-
-    Do not start with a cell. The campaign builds a geological world (environment, minerals,
-    molecules, energy) in which increasingly biological organization must EMERGE, and the Process
-    Bigraph itself changes shape as it does: localization creates persistent chemical regions;
-    boundary formation creates a protocell composite around localized chemistry; growth and division
-    rewrite one individual into two daughters with stochastic partitioning; sustained negative energy
-    balance dissolves an individual back into the environment; an inheritance process is attached to
-    an individual only when precursor availability, copying chemistry and fidelity support it. The
-    same environmental world persists across all stages — new processes and bounded agents are added
-    by structural transition, never by replacing the earlier model. Shared canonical biological schemas
-    (environment, minerals, molecules, energy, boundary, individual, heredity, lineage/ecology) make
-    every model class substitutable behind one interface, so swapping a model while holding the world
-    constant becomes an experiment that separates parameter uncertainty from model-structure
-    uncertainty. Endpoint: cells arise when processes previously distributed across the environment
-    become composed inside a persistent, reproducing, heritable boundary.
 scientific_argument:
   main_claim: Cells could have originated at alkaline hydrothermal vents. In simulation on real
     geochemical and chemical engines, a serpentinization-fed vent–ocean interface supplies — in order
@@ -276,24 +261,6 @@ scientific_argument:
     counter rather than one persistent world whose bigraph restructures; until the Full Modeling
     Plan architecture lands (references/full-modeling-plan-integration.md), "a boundary forms" and
     "an individual divides" are scalar readouts, not changes in the composition itself.
-  emergence_criterion: >-
-    A passing stage must show organization that was NOT inserted by assumption: no cell object exists
-    at the start of a run; individuals appear only when localized chemistry crosses assembly criteria
-    (a structural rewrite that adds a protocell composite); they reproduce only by a division rewrite
-    with conserved partitioning; they disappear by an extinction rewrite that returns their matter to
-    the environment; and heredity is attached only when the chemistry supports it. Matter, charge and
-    free energy are accounted across every such rewrite.
-  model_structure_vs_parameters: >-
-    Every interface (environment, carbon_fixation, proto_metabolism, localization, boundary,
-    heredity) admits alternative model classes behind one canonical face. A stage's gates are run
-    against each class on identical parameter axes; the region where all classes agree is the
-    parameter-robust claim, the region where they disagree is model-structure uncertainty, reported
-    separately. Competing origin scenarios (deep alkaline vent, shallow vent, terrestrial geothermal,
-    generic nonequilibrium control) enter as substitutions on the environment interface, so the
-    adversarial control generalizes to every stage.
-  endpoint: Cells arise when processes previously distributed across the environment become composed
-    inside a persistent, reproducing, heritable boundary — a biological transition that is also a
-    change in the Process Bigraph itself.
 guidelines:
   architecture_reference: references/full-modeling-plan-integration.md
   # The Model Upgrade and Implementation Plan (2026-10-14) supersedes the above as the
