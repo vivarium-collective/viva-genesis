@@ -1,5 +1,19 @@
 # viva-genesis — Full Modeling Plan: deep integration architecture
 
+> **Superseded as the build target (2026-10-14)** by
+> [`model-upgrade-integration.md`](model-upgrade-integration.md), which encodes the
+> expert's *Model Upgrade and Implementation Plan* (three-quantity standard,
+> evidence tiers, canonical interfaces + model class as an experimental factor,
+> the vg-data provenance layer, the campaign UQ layer, the nine-phase roadmap).
+> This document remains the detailed design for the structural-rewrite
+> architecture (§2), the layer composites (§3), model substitution (§4) and the
+> spatial-transport face (§4.5–4.6); the newer document references it as "FMP §n".
+> Items here that have since been built: `viva_genesis/schemas.py` (§1),
+> `viva_genesis/models.py` registry + `assert_face` (§4.2), the FiPy/FEniCS face
+> (§4.5), Ray-ready sweeps (§4.6), a first conservation ledger (§5.3) and the
+> provenance tier as data (§5.4).
+
+
 Working architecture for integrating the expert's *Full Modeling Plan* (source:
 `workspace/references/expert/viva-genesis-full-modeling-plan.pdf`, registered in
 `workspace.yaml.expert_docs`) into the existing viva-genesis campaign. This is the
