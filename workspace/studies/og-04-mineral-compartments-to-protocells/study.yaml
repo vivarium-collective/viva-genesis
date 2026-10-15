@@ -409,3 +409,8 @@ conclusion: 'The coarse-grained Jordan-calibrated model shows a non-empty organi
   Hands og-05 a bounded, gradient-coupled protocell.'
 verdict: supported
 evidence_tier: mechanistic_prediction
+
+loom:
+  layout: hierarchy
+  figure: true
+  detail: contract

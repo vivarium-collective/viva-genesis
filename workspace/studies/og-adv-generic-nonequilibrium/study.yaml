@@ -279,3 +279,8 @@ conclusion: The adversarial control closes the falsifiability loop for the inves
   therefore certifies the vent mechanism rather than generic nonequilibrium chemistry.
 verdict: refuted
 evidence_tier: mechanistic_prediction
+
+loom:
+  layout: hierarchy
+  figure: true
+  detail: contract

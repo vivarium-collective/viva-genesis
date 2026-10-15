@@ -33,6 +33,45 @@ class SerpentinizationReproductionProcess(Process):
     scales with water flux (serpentinization is water–rock-reaction limited).
     """
 
+    contract = {
+        "summary": "Reduced serpentinization source (clean-room stand-in, NOT PHREEQC): (T, flow) -> H2, alkalinity, heat source rates.",
+        "description": (
+            "Deliberately reduced parameterized reproduction of the serpentinizing source for "
+            "Campaign 0 - the real model is PhreeqcSerpentinizationProcess. Each tick it adds the "
+            "integrated H2 + alkalinity + heat produced over the interval to the vent stores "
+            "(additive float deltas) and publishes the instantaneous source rates as overwrite "
+            "sensors. Production peaks in a Gaussian temperature window and saturates with water "
+            "flux (serpentinization is water-rock-reaction limited) - right order of magnitude and "
+            "sign, so the vent composite runs end to end and settles into a Lost City-like window."
+        ),
+        "inputs": {
+            "temperature": "vent fluid temperature (K)",
+            "flow_velocity": "boundary water flow speed (meter/second)",
+        },
+        "outputs": {
+            "H2": "integrated H2 source delta (molar)", "alkalinity": "integrated alkalinity source delta (molar)",
+            "heat": "integrated serpentinization heat delta (W)",
+            "H2_flux": "instantaneous H2 source rate (mol/s)",
+            "alkalinity_flux": "instantaneous alkalinity source rate (mol/s)",
+            "heat_flux": "instantaneous heat source rate (W)",
+        },
+        "assumptions": [
+            "Reduced reproduction, not a geochemical solver: a smooth parameterized source, right magnitude/sign only.",
+            "activity = Gaussian temperature window * saturating flow dependence; rate = rate_max * activity.",
+        ],
+        "math": [
+            "activity(T, flow) = exp(-(T - t_opt)^2 / (2 t_width^2)) * flow / (flow + flow_ref)",
+            "rate_i = rate_max_i * activity;   pool_i += rate_i * dt",
+        ],
+        "symbols": {
+            "t_opt": "optimal temperature (K)", "t_width": "temperature-window width (K)",
+            "flow_ref": "flow half-saturation (m/s)",
+            "h2_rate_max": "peak H2 source rate (mol/s)", "alk_rate_max": "peak alkalinity source rate (mol/s)",
+            "heat_rate_max": "peak heat source rate (W)",
+        },
+        "references": ["kelley2005serpentinite", "schwander2023serpentinization"],
+    }
+
     config_schema = {
         # Peak source rates at the reference flow, inside the optimal T window.
         "h2_rate_max": {"_type": "float", "_default": 1.0e-3},    # mol/s

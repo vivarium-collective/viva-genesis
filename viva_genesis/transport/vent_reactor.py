@@ -29,6 +29,45 @@ class VentReactorReproductionProcess(Process):
     additively and a sibling process could also contribute).
     """
 
+    contract = {
+        "summary": "Reduced vent-ocean mixing reactor (clean-room stand-in, NOT FiPy): relaxes T / pH / porosity toward Lost City-like field targets.",
+        "description": (
+            "Deliberately reduced well-mixed reactor reproduction for Campaign 0 - the real model is "
+            "FipyReactiveTransportProcess. Read-modify-write: reads the current temperature / pH / "
+            "porosity and the serpentinization drivers and emits first-order relaxation deltas toward "
+            "field-constrained targets (additive float ports), so a short run settles into the Lost "
+            "City window (~45-90 C, pH ~9-10.8) with a sustained reducing supply. Temperature is "
+            "nudged by accumulated serpentinization heat; pH tracks an alkalinity-driven target; "
+            "porosity evolves toward a precipitation-set value (clamped to [0, 1])."
+        ),
+        "inputs": {
+            "temperature": "interface temperature (K)", "pH": "interface pH (dimensionless)",
+            "porosity": "pore fraction (dimensionless)", "H2": "H2 source (molar)",
+            "alkalinity": "alkalinity source (molar)", "heat": "heat source (W)",
+        },
+        "outputs": {
+            "temperature": "temperature relaxation delta (K)", "pH": "pH relaxation delta (dimensionless)",
+            "porosity": "porosity relaxation delta (dimensionless)",
+        },
+        "assumptions": [
+            "Reduced reproduction, not a reactive-transport solver: well-mixed first-order relaxation to field targets.",
+            "Targets field-constrained to the Lost City window; porosity clamped to [0, 1].",
+        ],
+        "math": [
+            "dT = k_temperature * (t_target + heat_gain*tanh(heat/50)*20 - T) * dt",
+            "dpH = k_ph * (ph_base + (ph_max - ph_base) * alk/(alk + alk_scale) - pH) * dt",
+            "d(porosity) = k_porosity * (porosity_target - porosity) * dt,  clamped to [0, 1]",
+        ],
+        "symbols": {
+            "t_target": "mixing temperature target (K)", "k_temperature": "temperature relaxation rate",
+            "heat_gain": "heat-to-temperature coupling (K per W, saturating)",
+            "ph_base": "low-alkalinity pH target", "ph_max": "high-alkalinity pH target",
+            "k_ph": "pH relaxation rate", "alk_scale": "alkalinity half-saturation (molar)",
+            "porosity_target": "precipitation-set porosity", "k_porosity": "porosity relaxation rate",
+        },
+        "references": ["kelley2001offaxis", "ludwig2006formation"],
+    }
+
     config_schema = {
         "t_target": {"_type": "float", "_default": 340.0},    # K (~67 C), Lost City mid-window
         "k_temperature": {"_type": "float", "_default": 0.05},

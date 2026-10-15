@@ -1122,3 +1122,8 @@ runs:
       auto_evaluated: true
 verdict: supported
 evidence_tier: conceptual_demonstration
+
+loom:
+  layout: hierarchy
+  figure: true
+  detail: contract

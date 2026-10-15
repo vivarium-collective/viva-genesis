@@ -423,3 +423,8 @@ study_card:
   status: PASS — metabolism-like behavior emerges under flow
 verdict: supported
 evidence_tier: mechanistic_prediction
+
+loom:
+  layout: hierarchy
+  figure: true
+  detail: contract

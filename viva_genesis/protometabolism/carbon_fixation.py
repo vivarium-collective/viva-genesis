@@ -74,6 +74,17 @@ class CarbonFixationProcess(Process):
             "Yields capped at Preiner/Hudson lab values (formate 0.2 M, acetate 1e-4, pyruvate 1e-5).",
             "rate = k * catalyst * feasible * drive(pmf) * avail(H2,CO2) * T-window * headroom.",
         ],
+        "math": [
+            "rate = k_cat * catalyst * feasible * drive(pmf) * avail(H2, CO2) * window(T) * headroom",
+            "drive(pmf) = pmf / (pmf + pmf_half);   avail(x) = x / (x + km_x)",
+            "window(T) = exp(-((T - t_opt) / t_width)^2);   headroom = 1 - product / product_cap",
+        ],
+        "symbols": {
+            "pmf_half": "half-max proton-motive drive (volt)",
+            "km_h2": "H2 half-saturation constant (molar)", "km_co2": "CO2 half-saturation constant (molar)",
+            "t_opt": "optimal temperature (K)", "t_width": "temperature-window width (K)",
+            "product_cap": "Preiner/Hudson lab yield ceiling per product",
+        },
         "references": ["preiner2020hydrogen", "hudson2020co2", "varma2018native"],
     }
 

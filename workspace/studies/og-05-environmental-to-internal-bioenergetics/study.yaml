@@ -448,3 +448,8 @@ conclusion: 'The evolutionary control loop maps the final pre-LUCA transition as
   Closes the pre-genetic milestone of the campaign.'
 verdict: supported
 evidence_tier: mechanistic_prediction
+
+loom:
+  layout: hierarchy
+  figure: true
+  detail: contract

@@ -399,3 +399,8 @@ conclusion: A coarse-grained, deterministic cross-feeding metacommunity shows th
   the vent).
 verdict: supported
 evidence_tier: mechanistic_prediction
+
+loom:
+  layout: hierarchy
+  figure: true
+  detail: contract

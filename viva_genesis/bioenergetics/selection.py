@@ -216,6 +216,14 @@ class EnvironmentalDeclineProcess(Process):
         "inputs": {},
         "outputs": {"electric_potential": "external geochemical gradient this tick (volt)"},
         "assumptions": ["Monotone linear decline (a controlled environmental sweep, not a scripted upgrade of the cells)."],
+        "math": [
+            "electric_potential(t) = max(v_floor, v_start - decline_rate * t)",
+        ],
+        "symbols": {
+            "v_start": "initial external gradient (volt)",
+            "v_floor": "floor the gradient decays toward (volt)",
+            "decline_rate": "linear decline rate (volt/second)",
+        },
         "references": ["sojo2014bioenergetic"],
     }
 
