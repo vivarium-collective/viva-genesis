@@ -224,7 +224,7 @@ def pore_ignition_figure(gain_grid, traj, enrichment, dilute, enriched, k_wash, 
                        xref="x", yref="y", axref="x", ayref="y", showarrow=True, arrowhead=2,
                        arrowwidth=2, arrowcolor=_AMBER, row=1, col=1)
     fig.add_trace(go.Scatter(x=[k_wash], y=[dilute], mode="markers+text", text=["well-mixed<br>(dilute)"],
-                             textposition="bottom center", textfont=dict(size=9, color=_INK),
+                             textposition="middle right", textfont=dict(size=9, color=_INK),
                              marker=dict(size=12, color=_SLATE, line=dict(width=1, color=_INK)),
                              showlegend=False), row=1, col=1)
     fig.add_trace(go.Scatter(x=[k_wash], y=[enriched], mode="markers+text",
@@ -337,7 +337,7 @@ def protocell_decision_figure(arc, feas, *, title=None) -> str:
     ind = arc.surfaces["individuality"]
     ipk = int(np.argmax(ind))
 
-    fig = make_subplots(rows=1, cols=2, horizontal_spacing=0.13,
+    fig = make_subplots(rows=1, cols=2, horizontal_spacing=0.18,
                         subplot_titles=("Retention vs access (permeability rising with T)",
                                         "Viable salt ceiling rises with mixed amphiphiles"))
     # --- left: retention-access plane with 3 regimes ---
@@ -350,7 +350,9 @@ def protocell_decision_figure(arc, feas, *, title=None) -> str:
     fig.add_trace(go.Scatter(x=acc, y=ret, mode="lines+markers",
                              marker=dict(size=7, color=ind, colorscale="Viridis", cmin=0,
                                          cmax=float(np.nanmax(ind)) or 1.0,
-                                         colorbar=dict(title="individ.<br>ret×acc", len=0.9, x=0.44),
+                                         colorbar=dict(title="individ.<br>ret×acc", len=0.9, x=0.44,
+                                                       thickness=9, title_font=dict(size=10),
+                                                       tickfont=dict(size=9)),
                                          line=dict(width=0.5, color="#334155")),
                              line=dict(color="#cbd5e1", width=1), showlegend=False,
                              hovertext=[f"T={t:.0f}K" for t in arc.axes["temperature"]], hoverinfo="text"), row=1, col=1)
@@ -383,8 +385,8 @@ def protocell_decision_figure(arc, feas, *, title=None) -> str:
                        showarrow=False, xanchor="left", yshift=6,
                        font=dict(size=9, color=_TEAL), row=1, col=2)
     fig.add_vline(x=0.35, line=dict(color="#f8fafc", width=1.5, dash="dot"), row=1, col=2)
-    fig.add_annotation(x=0.35, y=float(mix.max()), text="seawater", showarrow=False, yshift=8,
-                       font=dict(size=9, color=_SLATE), row=1, col=2)
+    fig.add_annotation(x=0.35, y=float(mix.min()), text="seawater", showarrow=False, yshift=10,
+                       yanchor="bottom", font=dict(size=9, color=_SLATE), row=1, col=2)
     fig.update_xaxes(title_text="ionic strength (M)", row=1, col=2)
     fig.update_yaxes(title_text="co-surfactant fraction", row=1, col=2)
 
@@ -455,7 +457,7 @@ def bioenergetic_provenance_figure(fav, weak, *, title=None) -> str:
     frac_int = [1.0 - f if (e + n) > 1e-30 else 0.0 for f, e, n in zip(frac_ext, ext, intl)]
     vext = col(fav, "electric_potential")
 
-    fig = make_subplots(rows=1, cols=2, horizontal_spacing=0.12,
+    fig = make_subplots(rows=1, cols=2, horizontal_spacing=0.2,
                         specs=[[{"secondary_y": True}, {"secondary_y": False}]],
                         subplot_titles=("Energy provenance: external → internal",
                                         "Gradient dependence (the Sojo constraint)"))
@@ -892,14 +894,15 @@ def off_gradient_phase_figure(phase, trajectories, *, title=None) -> str:
     set_idx = list(range(len(labels)))
 
     fig = make_subplots(
-        rows=1, cols=2, horizontal_spacing=0.13, column_widths=[0.48, 0.52],
+        rows=1, cols=2, horizontal_spacing=0.17, column_widths=[0.48, 0.52],
         subplot_titles=("Survival frontier (persistence vs support × innovation set)",
                         "Escape: persistence as geological support is withdrawn"))
 
     # --- left: the phase map + the survival frontier -----------------------------
     fig.add_trace(go.Heatmap(
         x=set_idx, y=support, z=Z, colorscale="Viridis", zmin=0, zmax=1,
-        colorbar=dict(title="persist.", len=0.9, x=0.44),
+        colorbar=dict(title="persist.", len=0.9, x=0.42, thickness=9,
+                      title_font=dict(size=10), tickfont=dict(size=9)),
         hovertemplate="%{customdata}<br>support=%{y:.2f}<br>persistence=%{z:.2f}<extra></extra>",
         customdata=np.array([[labels[j] for j in set_idx] for _ in support])), row=1, col=1)
     # the frontier line: minimum support at which each set persists (None → off the top)
@@ -1014,15 +1017,20 @@ def vent_specificity_figure(res, gate_rows=None, *, title=None) -> str:
     have_bars = bool(gate_rows)
     fig = make_subplots(
         rows=1, cols=2 if have_bars else 1,
-        column_widths=[0.56, 0.44] if have_bars else [1.0],
-        horizontal_spacing=0.14,
+        column_widths=[0.5, 0.5] if have_bars else [1.0],
+        horizontal_spacing=0.22,
         subplot_titles=(["Carbon-fixation gate over (H₂ × catalyst)",
                          "Every vent-specific gate rejects the control"]
                         if have_bars else ["Carbon-fixation gate over (H₂ × catalyst)"]))
 
     fig.add_trace(go.Contour(
         x=h2, y=cat, z=z, colorscale="Viridis", ncontours=16,
-        colorbar=dict(title="log₁₀ peak<br>net C-flux", len=0.9, x=0.49 if have_bars else 1.02),
+        colorbar=dict(title=dict(text="log₁₀ peak net C-flux", side="right",
+                                 font=dict(size=10)),
+                      len=0.9,
+                      x=0.42 if have_bars else 1.02,
+                      thickness=9 if have_bars else 14,
+                      tickfont=dict(size=9)),
         contours=dict(showlabels=True, labelfont=dict(size=9, color="white")),
         line=dict(width=0.4, color="rgba(255,255,255,0.3)")), row=1, col=1)
     # the gate threshold as a bold boundary: pass region is above/right of it.
@@ -1157,7 +1165,7 @@ def nitrogen_assimilation_phase_figure(res, *, title=None) -> str:
                              hoverinfo="skip"), row=1, col=2)
     for c in (1, 2):
         fig.add_trace(go.Scatter(x=[op_fes], y=[op_supply], mode="markers+text",
-                                 text=["favourable<br>operating point"], textposition="bottom center",
+                                 text=["operating point"], textposition="middle left",
                                  textfont=dict(size=9, color=_INK),
                                  marker=dict(symbol="star", size=14, color=_AMBER,
                                              line=dict(width=1.1, color=_INK)), showlegend=False), row=1, col=c)
@@ -1345,8 +1353,8 @@ def energy_phase_figure(res, *, title=None) -> str:
                              hoverinfo="skip"), row=1, col=1)
     # the thermodynamic gate: below the carrier bond the drive cannot charge it
     fig.add_hline(y=bond, line=dict(color=_RUST, width=1.6, dash="dot"), row=1, col=1)
-    fig.add_annotation(x=eta.min(), y=bond, xanchor="left", yanchor="bottom",
-                       text=f"{carrier} bond ({bond:.0f} kJ/mol) — drive must clear it",
+    fig.add_annotation(x=eta.min(), y=bond, xanchor="left", yanchor="top",
+                       text=f"{carrier} bond ({bond:.0f} kJ/mol)",
                        showarrow=False, font=dict(size=9, color=_RUST), row=1, col=1)
     # --- right: the stored-work (capture efficiency) landscape ---
     fig.add_trace(go.Contour(x=eta, y=drive, z=stored, colorscale="Tealgrn", ncontours=14,
@@ -1962,11 +1970,11 @@ def pore_enrichment_solver_figure(data: dict, *, title: str = "") -> str:
     fig.add_trace(go.Scatter(x=pe, y=fem, mode="lines+markers", name="dolfinx  resolved Soret field",
                              line=dict(color=_TEAL, width=2.6), marker=dict(size=8)))
     fig.add_hline(y=fem_sat, line=dict(color=_TEAL, width=1, dash="dot"))
-    fig.add_annotation(x=max(pe), y=fem_sat, text=f"resolved field saturates &asymp; {fem_sat:.0f}&times;",
+    fig.add_annotation(x=max(pe), y=fem_sat, text=f"resolved field saturates ≈ {fem_sat:.0f}×",
                        showarrow=False, yshift=-14, xanchor="right",
                        font=dict(size=10, color=_TEAL, family=S.FONT_STACK))
     # the default Baaske-favorable pore (the strongest-Pe point) — the retired headline
-    fig.add_annotation(x=pe[-1], y=fipy[-1], text=f"Baaske-favorable pore<br>reduced column &asymp; {fipy[-1]:.0e}&times;",
+    fig.add_annotation(x=pe[-1], y=fipy[-1], text=f"Baaske-favorable pore<br>reduced column ≈ {fipy[-1]:.0e}×",
                        showarrow=True, arrowhead=2, arrowcolor=_AMBER, ax=-70, ay=-24,
                        font=dict(size=10, color=_AMBER, family=S.FONT_STACK))
     fig.update_yaxes(type="log", title_text="single-tracer enrichment (fold, log)")
@@ -2280,12 +2288,12 @@ def ecology_metacommunity_figure(world, mech, phase, *, title=None) -> str:
     from plotly.subplots import make_subplots
 
     fig = make_subplots(
-        rows=2, cols=2, column_widths=[0.52, 0.48], row_heights=[0.5, 0.5],
-        horizontal_spacing=0.1, vertical_spacing=0.15,
+        rows=2, cols=2, column_widths=[0.5, 0.5], row_heights=[0.5, 0.5],
+        horizontal_spacing=0.16, vertical_spacing=0.17,
         specs=[[{"rowspan": 2}, {}], [None, {}]],
-        subplot_titles=("World — the connected metacommunity (nodes = pore compartments)",
+        subplot_titles=("World — connected metacommunity",
                         "Mechanism — connectivity builds redundancy",
-                        "Decision — where cross-feeding robustness emerges"))
+                        "Decision — where robustness emerges"))
 
     # --- World: the cross-feeding / HGT ring network ---------------------------
     pos = world["pos"]
@@ -2304,7 +2312,8 @@ def ecology_metacommunity_figure(world, mech, phase, *, title=None) -> str:
         x=xs, y=ys, mode="markers", showlegend=False,
         marker=dict(size=[16 + 5 * b for b in breadth], color=breadth, colorscale="Viridis",
                     cmin=0, cmax=max(world["max_breadth"], 1),
-                    colorbar=dict(title="functional<br>breadth", len=0.45, y=0.78, x=0.46, thickness=10),
+                    colorbar=dict(title="functional<br>breadth", len=0.42, y=0.79, x=0.37, thickness=9,
+                                  title_font=dict(size=10), tickfont=dict(size=9)),
                     line=dict(width=1.2, color="#ffffff")),
         customdata=np.stack([np.array(roles), np.array(breadth)], axis=-1),
         hovertemplate="compartment %{pointNumber}<br>role: %{customdata[0]}"
@@ -2335,17 +2344,17 @@ def ecology_metacommunity_figure(world, mech, phase, *, title=None) -> str:
                              line=dict(color=_TEAL, width=3),
                              marker=dict(size=6, color=_TEAL)), row=1, col=2)
     fig.add_hline(y=iso, line=dict(color=_SLATE, width=2, dash="dash"), row=1, col=2)
-    fig.add_annotation(x=exx.max(), y=iso, xref="x2", yref="y2", xanchor="right", yanchor="bottom",
-                       text=f"isolated counterfactual ({iso:.2f})", showarrow=False,
+    fig.add_annotation(x=exx.max(), y=iso, xref="x2", yref="y2", xanchor="right", yanchor="top",
+                       text=f"isolated floor ({iso:.2f})", showarrow=False,
                        font=dict(size=9, color=_SLATE))
     fig.add_hline(y=thr, line=dict(color=_INK, width=1, dash="dot"), row=1, col=2)
-    fig.add_annotation(x=exx.min(), y=thr + 0.02, xref="x2", yref="y2", xanchor="left", yanchor="bottom",
-                       text=f"emergence threshold ({thr:.1f})", showarrow=False,
-                       font=dict(size=8.5, color=_INK))
+    fig.add_annotation(x=exx.min(), y=thr, xref="x2", yref="y2", xanchor="left", yanchor="bottom",
+                       text=f"emergence ({thr:.1f})", showarrow=False,
+                       font=dict(size=9, color=_INK))
     fig.add_hline(y=luca, line=dict(color=_AMBER, width=2, dash="dot"), row=1, col=2)
-    fig.add_annotation(x=exx.max(), y=luca, xref="x2", yref="y2", xanchor="right", yanchor="top",
-                       text=f"LUCA-core overlap boundary ({luca:.2f}) — reported, not a target",
-                       showarrow=False, font=dict(size=8.5, color=_AMBER))
+    fig.add_annotation(x=exx.max(), y=luca, xref="x2", yref="y2", xanchor="right", yanchor="bottom",
+                       text=f"LUCA overlap ({luca:.2f}, reported)",
+                       showarrow=False, font=dict(size=9, color=_AMBER))
     fig.update_xaxes(title_text="cross-feeding exchange rate (connectivity)", row=1, col=2)
     fig.update_yaxes(title_text="metacommunity robustness", range=[0, 1.02], row=1, col=2)
 
@@ -2355,7 +2364,8 @@ def ecology_metacommunity_figure(world, mech, phase, *, title=None) -> str:
     Z = np.asarray(phase.surfaces["robustness"], float)        # [exchange, parasite]
     fig.add_trace(go.Contour(
         x=p_axis, y=e_axis, z=Z, colorscale="Viridis", zmin=0.0, zmax=1.0, ncontours=14,
-        colorbar=dict(title="robustness<br>(redundancy)", len=0.45, y=0.22, x=1.0, thickness=10),
+        colorbar=dict(title="robustness<br>(redundancy)", len=0.42, y=0.22, x=1.0, thickness=9,
+                      title_font=dict(size=10), tickfont=dict(size=9)),
         contours=dict(showlabels=True, labelfont=dict(size=8, color="white")),
         line=dict(width=0.4, color="rgba(255,255,255,0.3)"),
         hovertemplate="parasite load=%{x:.2f}, exchange=%{y:.2f}<br>robustness=%{z:.2f}<extra></extra>"), row=2, col=2)
@@ -2571,8 +2581,8 @@ def escape_offgradient_figure(phase, trajectories, knockouts, *, title=None) -> 
     fig.update_yaxes(title_text="environmental support (1 = vent, 0 = off-gradient)", row=1, col=2)
 
     fig.update_layout(**S.base_layout(
-        height=640, margin=dict(l=70, r=40, t=50, b=60),
-        legend=dict(orientation="h", y=1.03, x=0.0, xanchor="left", font=dict(size=9))))
+        height=680, margin=dict(l=70, r=40, t=50, b=110),
+        legend=dict(orientation="h", y=-0.12, x=0.5, xanchor="center", font=dict(size=9))))
     cap = ("All three views at once. Escaping the vent is not one innovation but an irreducible set. "
            "<b>World</b>: lineage persistence as support is withdrawn. <b>Mechanism</b>: knockouts &mdash; "
            "removing any one of {pump, importer, heredity} collapses off-gradient persistence. "
@@ -2680,7 +2690,7 @@ def vent_specificity_threeview_figure(res, trajectories, gate_rows=None, *, titl
 
     # --- World (top-left): formate trajectories --------------------------------
     advcontrol_trajectory_panel(fig, trajectories, row=1, col=1, gate_mM=50.0)
-    fig.add_annotation(x=0.02, y=0.96, xref="x domain", yref="y domain", xanchor="left",
+    fig.add_annotation(x=0.5, y=0.96, xref="x domain", yref="y domain", xanchor="center",
                        text="og-01 formate gate (50 mM)", showarrow=False,
                        font=dict(size=8.5, color=_INK))
     fig.update_xaxes(title_text="time (s)", row=1, col=1)
@@ -2723,8 +2733,8 @@ def vent_specificity_threeview_figure(res, trajectories, gate_rows=None, *, titl
     fig.update_yaxes(title_text="Fe/Ni/S catalyst activity", row=1, col=2)
 
     fig.update_layout(**S.base_layout(
-        height=640, margin=dict(l=70, r=40, t=50, b=60), barmode="group",
-        legend=dict(orientation="h", y=1.03, x=0.0, xanchor="left", font=dict(size=9))))
+        height=680, margin=dict(l=70, r=40, t=50, b=110), barmode="group",
+        legend=dict(orientation="h", y=-0.12, x=0.5, xanchor="center", font=dict(size=9))))
     cap = ("All three views at once. The SAME real composites with no sustained H₂, no Fe/Ni/S catalyst "
            "and no pore concentration are REJECTED by every discriminating gate, where the vent passes all "
            "five. <b>World</b>: vent is productive, the generic control is not. <b>Mechanism</b>: every "

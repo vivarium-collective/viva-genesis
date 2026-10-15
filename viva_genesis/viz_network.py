@@ -52,16 +52,20 @@ def enrichment_figure(rep: dict, *, title: str = "") -> str:
         fig.add_trace(go.Bar(x=xs, y=counts, name="matched nulls", marker_color=_SLATE, opacity=0.85,
                              showlegend=(c == 1), hovertemplate="%{x} motifs: %{y} nulls<extra>null_network</extra>"),
                       row=1, col=c)
-        for label, val, color in (("reaction_universe", uni, _TEAL), ("curated_rtca", cur, _AMBER)):
-            fig.add_trace(go.Scatter(x=[val], y=[max(counts) * 1.08 if counts else 1], mode="markers+text",
+        # Stack the two markers at different heights with short labels so "universe" and
+        # "curated" don't overprint each other (they often sit at the same motif count).
+        ytop = max(counts) * 1.0 if counts else 1
+        for label, val, color, yfac, short in (("reaction_universe", uni, _TEAL, 1.30, "universe"),
+                                               ("curated_rtca", cur, _AMBER, 1.08, "curated")):
+            fig.add_trace(go.Scatter(x=[val], y=[ytop * yfac], mode="markers+text",
                                      marker=dict(size=14, color=color, symbol="triangle-down",
                                                  line=dict(width=1, color=_INK)),
-                                     text=[label.replace("_", " ")], textposition="top center",
+                                     text=[short], textposition="top center",
                                      textfont=dict(size=10, color=_INK), name=label.replace("_", " "),
                                      showlegend=(c == 1),
                                      hovertemplate=f"{label}: {val:.0f} motif(s)<extra></extra>"), row=1, col=c)
         fig.add_annotation(xref=f"x{c} domain" if c > 1 else "x domain", yref=f"y{c} domain" if c > 1 else "y domain",
-                           x=0.98, y=0.98, xanchor="right", showarrow=False,
+                           x=0.98, y=0.72, xanchor="right", showarrow=False,
                            text=f"p = {p:.3f}, z = {a['enrichment']['n_motifs']['z']:.1f}" if math.isfinite(a['enrichment']['n_motifs']['z']) else f"p = {p:.3f}",
                            font=dict(size=11, color=_INK))
         fig.update_xaxes(title_text="persistent autocatalytic motifs", dtick=1, row=1, col=c)

@@ -59,10 +59,13 @@ def threshold_map_figure(mmap: dict, report: dict, *, title: str = "") -> str:
         arr = np.moveaxis(arr, (ia, ip, iv), (0, 1, 2))                 # -> (a, P, pmf)
         return arr
 
-    titles = [f"{_SHORT[c]} — advantage over passive (W)" for c in active] + \
-             ["net power vs activity (nominal membrane)", "autonomy vs activity (nominal membrane)"]
-    fig = make_subplots(rows=2, cols=3, subplot_titles=titles, horizontal_spacing=0.09, vertical_spacing=0.18,
+    # Short per-facet titles — the "advantage over passive (W)" meaning lives in the
+    # colorbar title ("W") and the caption; keeps the faceted titles from colliding/clipping.
+    titles = [_SHORT[c] for c in active] + \
+             ["net power vs activity", "autonomy vs activity"]
+    fig = make_subplots(rows=2, cols=3, subplot_titles=titles, horizontal_spacing=0.12, vertical_spacing=0.18,
                         specs=[[{}, {}, {}], [{}, {}, {}]])
+    fig.update_annotations(font_size=13)
     vmax = 0.0
     advs = {}
     for c in active:
@@ -82,7 +85,8 @@ def threshold_map_figure(mmap: dict, report: dict, *, title: str = "") -> str:
         fig.add_trace(go.Heatmap(x=[f"{a:.2f}" for a in acts], y=[f"{p:.0e}" for p in perms], z=adv.T, text=text,
                                  hovertemplate="%{text}<extra>" + _SHORT[c] + "</extra>", zmin=-vmax, zmax=vmax,
                                  colorscale=[[0, _RUST], [0.5, "#f8fafc"], [1, _TEAL]], showscale=(c == active[0]),
-                                 colorbar=dict(title="W", x=1.02, y=0.78, len=0.4)), row=r, col=col)
+                                 colorbar=dict(title="W", x=1.03, y=0.78, len=0.4, thickness=9,
+                                               title_font=dict(size=10), tickfont=dict(size=9))), row=r, col=col)
         xs = [f"{thr[j]:.2f}" for j in range(len(perms)) if np.isfinite(thr[j])]
         ys = [f"{perms[j]:.0e}" for j in range(len(perms)) if np.isfinite(thr[j])]
         if xs:
@@ -109,7 +113,7 @@ def threshold_map_figure(mmap: dict, report: dict, *, title: str = "") -> str:
            + "; ".join(f"{_SHORT[c]} a* = " + (f"{att['per_class'][c]['nominal']['threshold_activity']:.2f}"
                                                if att['per_class'][c]['nominal']['threshold_activity'] is not None else "none")
                        for c in active))
-    fig.update_layout(**S.base_layout(height=780, margin=dict(l=60, r=80, t=52, b=60),
+    fig.update_layout(**S.base_layout(height=780, margin=dict(l=60, r=95, t=52, b=60),
                                       legend=dict(y=-0.1)))
     head = report.get("report", {}).get("headline", "")
     disc = report.get("decision_discipline") or []
@@ -138,9 +142,11 @@ def energy_budget_figure(report: dict, *, activity: str = "1", title: str = "", 
         return "<p>no trajectories in the report artifact — run sims/compute_internalization_threshold.py first.</p>"
     acts = [f"{a:g}" for a in traj.get("activities", [])]
     key = activity if activity in acts else (acts[-1] if acts else activity)
-    fig = make_subplots(rows=2, cols=len(classes), horizontal_spacing=0.05, vertical_spacing=0.16,
-                        subplot_titles=[f"{_SHORT[c]} — power budget (activity {key})" for c in classes]
-                        + [f"{_SHORT[c]} — store potential vs load" for c in classes])
+    # Short per-facet titles (just the class name); the row meaning lives in the left
+    # y-axis titles ("power (W)" top / "store µ(q) kJ/mol" bottom) + the caption.
+    fig = make_subplots(rows=2, cols=len(classes), horizontal_spacing=0.08, vertical_spacing=0.16,
+                        subplot_titles=[_SHORT[c] for c in classes] + [_SHORT[c] for c in classes])
+    fig.update_annotations(font_size=12)
     for j, c in enumerate(classes, start=1):
         s = series[c].get(key) or next(iter(series[c].values()))
         t = np.asarray(s["global_time"], dtype=float)
@@ -159,8 +165,8 @@ def energy_budget_figure(report: dict, *, activity: str = "1", title: str = "", 
         fig.add_trace(go.Scatter(x=t, y=[a for a in s["autonomy"]], mode="lines", name="autonomy", yaxis="y2",
                                  line=dict(color=_SLATE, dash="dash"), showlegend=(j == 1), visible="legendonly"), row=2, col=j)
         fig.update_xaxes(title_text="time (s)", row=2, col=j)
-        fig.update_yaxes(title_text="W" if j == 1 else None, row=1, col=j)
-        fig.update_yaxes(title_text="kJ/mol" if j == 1 else None, row=2, col=j)
+        fig.update_yaxes(title_text="power (W)" if j == 1 else None, row=1, col=j)
+        fig.update_yaxes(title_text="store µ(q) kJ/mol" if j == 1 else None, row=2, col=j)
     fig.update_layout(**S.base_layout(height=620, margin=dict(l=60, r=20, t=52, b=60),
                                       legend=dict(y=-0.12), font=S.FONT(11)))
     fixed = traj.get("fixed") or {}

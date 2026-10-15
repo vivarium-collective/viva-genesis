@@ -446,7 +446,7 @@ class VentCrossSection(Visualization):
             stat.add_annotation(x=xL, y=y0, ax=xL, ay=y1, xref="x", yref="y", axref="x", ayref="y",
                                 showarrow=True, arrowhead=2, arrowwidth=1.5, arrowcolor="#bae6fd", text="")
             stat.add_annotation(x=xR, y=ys[-1], xref="x", yref="y", text="rises", showarrow=False,
-                                yshift=8, font=dict(size=9, color="#fde68a"))
+                                yshift=-12, yanchor="top", font=dict(size=9, color="#fde68a"))
             stat.add_annotation(x=xL, y=ys[0], xref="x", yref="y", text="sinks", showarrow=False,
                                 yshift=-8, font=dict(size=9, color="#bae6fd"))
         stat.update_xaxes(showgrid=False, zeroline=False,
@@ -764,7 +764,7 @@ class ProtometabolicNetwork(Visualization):
                 marker=dict(size=sizes, color=conc, colorscale="Viridis", cmin=0, cmax=gmax,
                             line=dict(color="#334155", width=1.2),
                             colorbar=dict(title="M", thickness=12, len=0.8)),
-                text=sp, textposition="middle center", textfont=dict(size=9, color="#f8fafc"),
+                text=sp, textposition="bottom center", textfont=dict(size=8, color="#1e293b"),
                 hovertext=txt, hoverinfo="text")
 
         # edge lines weighted by the LIVE libRoadRunner reaction flux — the living
@@ -795,7 +795,7 @@ class ProtometabolicNetwork(Visualization):
         net_fig.add_annotation(x=pos["OAA"][0], y=pos["OAA"][1] + 0.22,
                                text="⟳ autocatalytic<br>OAA + 2CO₂ → 2 OAA + acetate",
                                showarrow=False, font=dict(size=9, color=rust))
-        net_fig.update_xaxes(visible=False, range=[-0.4, 2.7])
+        net_fig.update_xaxes(visible=False, range=[-0.9, 3.05])
         net_fig.update_yaxes(visible=False, range=[-0.3, 1.15])
         net_fig.update_layout(template="plotly_white", height=360, width=560, showlegend=False,
             title=dict(text="Settled network (node size = concentration, edge width = live flux)", x=0.5, xanchor="center",
@@ -827,7 +827,7 @@ class ProtometabolicNetwork(Visualization):
             data=edge_traces + [node_trace(snaps[keep[0]])],
             frames=[go.Frame(data=edge_traces + [node_trace(snaps[k])], name=str(j))
                     for j, k in enumerate(keep)])
-        anim.update_xaxes(visible=False, range=[-0.4, 2.7])
+        anim.update_xaxes(visible=False, range=[-0.9, 3.05])
         anim.update_yaxes(visible=False, range=[-0.3, 1.15])
         anim.update_layout(template="plotly_white", height=380, width=620, showlegend=False,
             title=dict(text="the network igniting (real libRoadRunner)", x=0.5, xanchor="center",
@@ -927,7 +927,7 @@ class ThermophoreticTrapViz(Visualization):
 
         stat = make_subplots(rows=1, cols=2, horizontal_spacing=0.13,
             subplot_titles=("Accumulation column in the favorable pore",
-                            "Enrichment vs porosity — localization threshold (bounded)"))
+                            "Enrichment vs porosity (bounded)"))
         stat.add_scatter(x=cprof, y=z, mode="lines", line=dict(color=teal, width=3),
                          name="log10 c(z)", row=1, col=1, showlegend=False)
         stat.add_annotation(x=cprof[0], y=z[0], text="base (trapped) ▲", showarrow=False,
@@ -1204,7 +1204,7 @@ class BioenergeticInternalizationViz(Visualization):
         stat.update_layout(**S.base_layout(
             height=430, width=940, showlegend=True,
             legend=dict(orientation="h", y=-0.2, x=0.25, font=dict(size=10)),
-            yaxis2=dict(overlaying="y", side="right", showgrid=False, title="gradient (V)"),
+            yaxis2=dict(overlaying="y", side="right", anchor="x", showgrid=False, title="gradient (V)"),
             margin=dict(l=55, r=55, t=56, b=70)))
 
         # motion: the strategy mass migrating leaky-external -> tight-pump.
@@ -1318,9 +1318,15 @@ class HeredityErrorThresholdViz(Visualization):
                             "Module head-to-head: lineage fitness"))
         stat.add_trace(go.Heatmap(z=land, x=fids, y=lens, colorscale="Tealgrn", zmin=0, zmax=1,
                        colorbar=dict(title="retention", thickness=12, len=0.8)), row=1, col=1)
+        # rna-like and non-heritable sit at the SAME grid point (fidelity 0.99, len 30)
+        # near the right edge; offset their labels to opposite corners on the left so
+        # they neither overprint each other nor run off the panel edge.
+        TPOS = {"rna-like": "top left", "non-heritable": "bottom left",
+                "peptide": "top center", "low-fidelity": "top center"}
         for m, (f, L) in module_pts.items():
             stat.add_trace(go.Scatter(x=[f], y=[L], mode="markers+text", text=[m],
-                           textposition="top center", marker=dict(size=11, color=COL[m], symbol="star",
+                           textposition=TPOS.get(m, "top center"),
+                           marker=dict(size=11, color=COL[m], symbol="star",
                            line=dict(color="#fff", width=1)), showlegend=False,
                            textfont=dict(size=9, color=COL[m])), row=1, col=1)
         names = ["rna-like", "peptide", "low-fidelity", "non-heritable"]
@@ -1955,7 +1961,7 @@ class OsmoticCouplingMechanism(Visualization):
         pi_lyse_bar = 1.5e5 / 1e3   # kPa
 
         fig = make_subplots(
-            rows=1, cols=2, horizontal_spacing=0.13, column_widths=[0.52, 0.48],
+            rows=1, cols=2, horizontal_spacing=0.17, column_widths=[0.52, 0.48],
             specs=[[{"secondary_y": True}, {}]],
             subplot_titles=("The coupling chain (matched regime)",
                             "The three fates on the pressure–volume plane"))
