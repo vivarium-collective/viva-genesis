@@ -2968,8 +2968,8 @@ _save_viz('og-04-alt-endogenous-boundary', 'endogenous-boundary-formation', _ren
 #
 # | test | measures | passes if |
 # | --- | --- | --- |
-# | boundary-forms-from-chemistry _(primary)_ | kind=cross_run detail=favorable n_agents vs synthesis-ablated control | op controls_absent detail agents form in the favorable arm, none in the synthesis-ablated control |
-# | rewrite-conserves-matter _(primary)_ | kind=derived path=rewrite_ok detail=RewriteLedger conservation flag | op >= value 1.0 detail rewrite_residual_max == 0 across every structural rewrite |
+# | boundary-forms-from-chemistry _(primary)_ | kind=derived path=boundary_forms_from_chemistry detail=favorable forms individuals (n_agents>=1) AND synthesis-ablated forms none; from artifacts/endogenous_boundary_report.json | op >= value 1.0 detail boundary caused by the endogenous chemistry — forms in the favorable arm, not in the synthesis-ablated control |
+# | rewrite-conserves-matter _(primary)_ | kind=derived path=endogenous_rewrite_conservation_ok detail=min over steps of the RewriteLedger conservation flag; from artifacts/endogenous_boundary_report.json | op >= value 1.0 detail rewrite_residual_max == 0 at every structural rewrite |
 
 # ### Literature anchors
 #
@@ -3092,8 +3092,8 @@ _save_viz('og-growth-alt-physical-reproduction', 'physical-reproduction-lineage'
 #
 # | test | measures | passes if |
 # | --- | --- | --- |
-# | lineage-reaches-three-generations _(primary)_ | kind=derived path=max_generation detail=deepest generation reached in the agents map | op >= value 3.0 detail a >=3-generation lineage forms |
-# | division-conserves-volume _(primary)_ | kind=derived path=partition_residual_max detail=max |mother - sum(daughters)| over divisions | op <= value 1e-09 detail partition residual ~ 0 (conserving split) |
+# | lineage-reaches-three-generations _(primary)_ | kind=derived path=peak_generation detail=deepest generation the lineage REACHES (peak over the run, not the time-mean); from artifacts/physical_reproduction_report.json | op >= value 3.0 detail a >=3-generation lineage forms (peak reaches generation 5) |
+# | division-conserves-volume _(primary)_ | kind=derived path=partition_residual_peak detail=worst (max) |mother - sum(daughters)| over every _divide; from artifacts/physical_reproduction_report.json | op <= value 1e-09 detail partition residual ~ 0 at every division (conserving split) |
 
 # ### Literature anchors
 #

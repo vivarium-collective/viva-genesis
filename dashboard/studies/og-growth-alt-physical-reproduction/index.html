@@ -690,7 +690,7 @@
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Result</h2>
-      <p class="ctr-text">The founder reaches generation &gt;=3 (a growing population of individuals) with the total volume held constant and the partition residual 0 at every division.</p>
+      <p class="ctr-text">The founder&#39;s lineage reaches generation 5 (peak; a growing population of 25 individuals, well past the &gt;=3 bar) with the total volume held constant and the partition residual 0 at every division.</p>
       
       
       <div id="overview-key-figure" class="ov-keyfig" data-study="og-growth-alt-physical-reproduction"></div>
@@ -1062,15 +1062,15 @@
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
-          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 3.16129</code>
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 5.0</code>
         
-          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 3.161 &gt;= 3.0</code>
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 5 &gt;= 3.0</code>
         
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&gt;=</code>
         
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
         
-          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;lineage-reaches-three-generations&#39;, &#39;label&#39;: &#39;A founder individual grows and divides, its daughters grow and divide in turn, so the lineage in the agents map reaches at least 3 generations.&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 3.16129, &#39;meter&#39;: 0.5268816666666667, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 3.0, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 0.16129000000000016, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: None}</code>
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;lineage-reaches-three-generations&#39;, &#39;label&#39;: &#39;A founder individual grows and divides, its daughters grow and divide in turn, so the lineage in the agents map reaches at least 3 generations.&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 5.0, &#39;meter&#39;: 0.8333333333333333, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 3.0, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 2.0, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: None}</code>
         
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
         
@@ -1080,8 +1080,8 @@
       <details style="margin-top: 6px; font-size: 0.82em;">
         <summary class="muted" style="cursor: pointer;">Assertion</summary>
         
-        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "deepest generation reached in the agents map", "kind": "derived", "path": "max_generation"}
-pass_if: {"detail": "a \u003e=3-generation lineage forms", "op": "\u003e=", "value": 3.0}</pre>
+        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "deepest generation the lineage REACHES (peak over the run, not the time-mean); from artifacts/physical_reproduction_report.json", "kind": "derived", "path": "peak_generation"}
+pass_if: {"detail": "a \u003e=3-generation lineage forms (peak reaches generation 5)", "op": "\u003e=", "value": 3.0}</pre>
       </details>
       
       
@@ -1136,8 +1136,8 @@ pass_if: {"detail": "a \u003e=3-generation lineage forms", "op": "\u003e=", "val
       <details style="margin-top: 6px; font-size: 0.82em;">
         <summary class="muted" style="cursor: pointer;">Assertion</summary>
         
-        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "max |mother - sum(daughters)| over divisions", "kind": "derived", "path": "partition_residual_max"}
-pass_if: {"detail": "partition residual ~ 0 (conserving split)", "op": "\u003c=", "value": 1e-09}</pre>
+        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "worst (max) |mother - sum(daughters)| over every _divide; from artifacts/physical_reproduction_report.json", "kind": "derived", "path": "partition_residual_peak"}
+pass_if: {"detail": "partition residual ~ 0 at every division (conserving split)", "op": "\u003c=", "value": 1e-09}</pre>
       </details>
       
       
@@ -1305,7 +1305,7 @@ pass_if: {"detail": "partition residual ~ 0 (conserving split)", "op": "\u003c="
         baseline · seed ? ·
         ?s simulated ·
         ? history rows ·
-        started 1792070652.661161
+        started 1792073784.657805
       </div>
       
       
@@ -1346,7 +1346,7 @@ pass_if: {"detail": "partition residual ~ 0 (conserving split)", "op": "\u003c="
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "8b9eb295c8b736f274cc149fb358b8cbf91d3bb7", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/8b9eb295c8b736f274cc149fb358b8cbf91d3bb7", "branch": "main", "lockfile": "uv.lock@aa7042441e57", "generated_at": "2026-10-15 14:00 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "5b8b7abacf8114b3bcd084fd76de34dd7ed60231", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/5b8b7abacf8114b3bcd084fd76de34dd7ed60231", "branch": "main", "lockfile": "uv.lock@aa7042441e57", "generated_at": "2026-10-15 14:24 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>

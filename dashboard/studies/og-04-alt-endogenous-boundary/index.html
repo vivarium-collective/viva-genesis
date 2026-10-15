@@ -1077,13 +1077,17 @@
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
-          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 31</code>
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 1.0</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 1 &gt;= 1.0</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&gt;=</code>
         
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
         
-          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: cross_run</code>
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;boundary-forms-from-chemistry&#39;, &#39;label&#39;: &#39;A new individual appears in the agents map (0 -&gt; &gt;=1) when amphiphile is synthesised from acetate+formate and clears cac; with synthesis ablated (k_synth -&gt; 0) the amphiphile stays below cac and NO individual forms.&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 1.0, &#39;meter&#39;: 0.5, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 1.0, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 0.0, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: &#39;jordan2019promotion&#39;}</code>
         
-          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: favorable (endogenous synthesis) -&gt; 31 individuals (amphiphile 0.0046 M cleared cac); synthesis-ablated -&gt; 0 individuals (amphiphile 1.00e-13 M, below cac). The boundary is caused by the endogenous chemistry.</code>
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
         
       </div>
       
@@ -1091,8 +1095,8 @@
       <details style="margin-top: 6px; font-size: 0.82em;">
         <summary class="muted" style="cursor: pointer;">Assertion</summary>
         
-        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "favorable n_agents vs synthesis-ablated control", "kind": "cross_run"}
-pass_if: {"detail": "agents form in the favorable arm, none in the synthesis-ablated control", "op": "controls_absent"}
+        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "favorable forms individuals (n_agents\u003e=1) AND synthesis-ablated forms none; from artifacts/endogenous_boundary_report.json", "kind": "derived", "path": "boundary_forms_from_chemistry"}
+pass_if: {"detail": "boundary caused by the endogenous chemistry \u2014 forms in the favorable arm, not in the synthesis-ablated control", "op": "\u003e=", "value": 1.0}
 cites:   ["jordan2019promotion"]</pre>
       </details>
       
@@ -1148,8 +1152,8 @@ cites:   ["jordan2019promotion"]</pre>
       <details style="margin-top: 6px; font-size: 0.82em;">
         <summary class="muted" style="cursor: pointer;">Assertion</summary>
         
-        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "RewriteLedger conservation flag", "kind": "derived", "path": "rewrite_ok"}
-pass_if: {"detail": "rewrite_residual_max == 0 across every structural rewrite", "op": "\u003e=", "value": 1.0}</pre>
+        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "min over steps of the RewriteLedger conservation flag; from artifacts/endogenous_boundary_report.json", "kind": "derived", "path": "endogenous_rewrite_conservation_ok"}
+pass_if: {"detail": "rewrite_residual_max == 0 at every structural rewrite", "op": "\u003e=", "value": 1.0}</pre>
       </details>
       
       
@@ -1317,7 +1321,7 @@ pass_if: {"detail": "rewrite_residual_max == 0 across every structural rewrite",
         baseline · seed ? ·
         ?s simulated ·
         ? history rows ·
-        started 1792070636.727057
+        started 1792073783.350712
       </div>
       
       
@@ -1358,7 +1362,7 @@ pass_if: {"detail": "rewrite_residual_max == 0 across every structural rewrite",
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "8b9eb295c8b736f274cc149fb358b8cbf91d3bb7", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/8b9eb295c8b736f274cc149fb358b8cbf91d3bb7", "branch": "main", "lockfile": "uv.lock@aa7042441e57", "generated_at": "2026-10-15 14:00 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "5b8b7abacf8114b3bcd084fd76de34dd7ed60231", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/5b8b7abacf8114b3bcd084fd76de34dd7ed60231", "branch": "main", "lockfile": "uv.lock@aa7042441e57", "generated_at": "2026-10-15 14:24 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>
