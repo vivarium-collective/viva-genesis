@@ -717,24 +717,24 @@
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Result</h2>
-      <p class="ctr-text">All three tests pass — sustained net carbon throughput (9e-4 mol/s) under continuous feed+washout, an autocatalytic motif (OAA self-amplifies; autocatalytic gain peaks at 29.5, settling lower as CO2 limits), and a single connected reaction network.</p>
+      <p class="ctr-text">The rTCA-fragment network sustains a nonzero net carbon throughput (~9e-4 mol/s) under continuous feed + washout, with no imposed product accumulation.</p>
       
       
       <div class="ov-metrics">
         
         <div class="ov-metric ov-metric-pass">
-          <div class="ov-metric-v">9e-4 mol/s</div>
-          <div class="ov-metric-k">Net throughput</div>
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">sustained-carbon-throughput</div>
         </div>
         
         <div class="ov-metric ov-metric-pass">
-          <div class="ov-metric-v">peak ~29.5, ~3 steady as CO2 limits</div>
-          <div class="ov-metric-k">Autocatalytic gain</div>
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">autocatalytic-gain-present</div>
         </div>
         
         <div class="ov-metric ov-metric-pass">
-          <div class="ov-metric-v">connected</div>
-          <div class="ov-metric-k">Network</div>
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">network-closure-vs-oneoff</div>
         </div>
         
       </div>
@@ -1710,7 +1710,7 @@ pass_if: {"detail": "connected network (not one-offs)", "op": "\u003e=", "value"
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "7b697c77a7a977000fda9b842195830a2d33bbf8", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/7b697c77a7a977000fda9b842195830a2d33bbf8", "branch": "main", "lockfile": "uv.lock@9cd156508a92", "generated_at": "2026-10-15 18:55 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "dbfd84311039869ebc7cdc186758e399481318f4", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/dbfd84311039869ebc7cdc186758e399481318f4", "branch": "main", "lockfile": "uv.lock@9cd156508a92", "generated_at": "2026-10-15 19:16 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>

@@ -749,54 +749,79 @@
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Result</h2>
-      <p class="ctr-text">At the nominal ocean floor (1 % of the vent feed: ~59 uM H2, 1 uM pyruvate) no subset of {pump, importer, heredity} persists under any of the 24 sampled model structures (0 persisting runs of 192); at the rich floor (10 %) the full set persists under 0 of 24 and the only subset that persists at all is {pump, heredity}, under 2 structures (s16 (thioester acyl phosphate store, hybrid heredity, mixed boundary at the measured anchor, constant upkeep; net 9.5e-19 W, machinery 0.93, autonomy 1); s19 (thioester acyl phosphate store, rna like heredity, single chain boundary at the extrapolated anchor, constant upkeep; net 1.2e-18 W, machinery 0.97, autonomy 0.99)) — so over the viable structures the required intersection is {pump, heredity}, the union {pump, heredity}, and the importer is required in 0 of them. In the same two structures the full set runs a deficit because the importer costs more than it returns (s16: net -4.9e-19 W with the importer on, its cost 1.7e-18 W; s19: net -1.1e-18 W with the importer on, its cost 1.9e-18 W): with the drive already saturated by ocean H2 (half-saturation 10 uM), active import of organics against a fatty-acid-vesicle leak is a pure cost. The storage model decides who can run at all — the H+/Na+ gradient store never charges at this leak and polyphosphate never clears its load (as in Phase 6), the four stores deliver at most 0 (polyphosphate), 0 (H+/Na+ gradient), 6.6e-18 (thioester) and 5e-18 W (Fe-redox) against the Phase-6 upkeep of 5.1e-18 W — and the inheritance class decides whether the machinery survives the withdrawal (settled machinery off-gradient at the rich floor: hybrid 0.77, mineral state 0.74, rna like 0.41, compositional 0.27, network 0, peptide 0): peptide and network hold none, the templated classes starve as the cell&#39;s organic carbon falls to the floor and their precursor pools with it. The og-adv generic control persists under 0/24 structures; the full set persists at none of the five ocean floors swept (1e-03: 0, 3e-03: 0, 1e-02: 0, 3e-02: 0, 1e-01: 0). The lineages that do persist are autonomous by the continuous measure — work 1, material 0.99, information 0.89, total 0.99 — and so are most of the full-set lineages that fail (mean total autonomy 0.93 off-gradient vs 0.71 in the vent, where the tap supplies the work): autonomy is reached, sufficiency is not. All seven ledgers close on every one of the 485 runs (worst residuals: carbon 1.7e-10, free energy 4.4e-14, information store 1.1e-14, rewrite 4.9e-32, charge 4.7e-14); 40441 structural events were logged (22365 divisions, 724 extinctions). The pre-registered gate (FAILED): the full set persists under 0 of the structures at the nominal floor against the 0.5 required.</p>
+      <p class="ctr-text">With every driver withdrawn to 1 % of the vent level, none of the eight subsets of {pump, importer, heredity} persists under any of the 24 sampled structures (0 persisting runs of 192); the best full-set lineages end s02 -3.8e-20 W, s21 -1e-19 W, s14 -1e-19 W short, their machinery lost as the cell&#39;s organic carbon falls to the floor and the heredity class&#39;s precursor pools with it.</p>
       
       
       <div class="ov-metrics">
         
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">every-ledger-closes-over-the-integrated-world</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">ablation-withdraws-every-driver</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">structural-events-logged</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">autonomy-decomposed-off-gradient</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">net-work-budget-off-gradient</div>
+        </div>
+        
         <div class="ov-metric ov-metric-fail">
-          <div class="ov-metric-v">0 / 24 structures</div>
-          <div class="ov-metric-k">Full set persists off-gradient (nominal floor)</div>
+          <div class="ov-metric-v">FAIL</div>
+          <div class="ov-metric-k">minimum-sufficient-innovation-set</div>
         </div>
         
         <div class="ov-metric ov-metric-fail">
-          <div class="ov-metric-v">0 / 24 structures</div>
-          <div class="ov-metric-k">Full set persists off-gradient (rich floor)</div>
-        </div>
-        
-        <div class="ov-metric ov-metric-info">
-          <div class="ov-metric-v">pump+heredity (2)</div>
-          <div class="ov-metric-k">Subsets persisting at the rich floor</div>
-        </div>
-        
-        <div class="ov-metric ov-metric-info">
-          <div class="ov-metric-v">{pump, heredity}</div>
-          <div class="ov-metric-k">Required intersection over viable structures (rich floor)</div>
-        </div>
-        
-        <div class="ov-metric ov-metric-info">
-          <div class="ov-metric-v">0</div>
-          <div class="ov-metric-k">Importer required (fraction of viable structures)</div>
-        </div>
-        
-        <div class="ov-metric ov-metric-info">
-          <div class="ov-metric-v">1 / 0.99 / 0.89 / 0.99</div>
-          <div class="ov-metric-k">Autonomy of the persisting lineages (work / material / information / total)</div>
+          <div class="ov-metric-v">FAIL</div>
+          <div class="ov-metric-k">minimum-sufficient-innovation-set-rich-ocean</div>
         </div>
         
         <div class="ov-metric ov-metric-pass">
-          <div class="ov-metric-v">0 / 24</div>
-          <div class="ov-metric-k">Generic control persists</div>
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">full-set-persistence-across-structures</div>
         </div>
         
         <div class="ov-metric ov-metric-pass">
-          <div class="ov-metric-v">485 / 485 runs</div>
-          <div class="ov-metric-k">Seven ledgers ok</div>
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">robust-required-intersection</div>
         </div>
         
         <div class="ov-metric ov-metric-pass">
-          <div class="ov-metric-v">40441</div>
-          <div class="ov-metric-k">Structural events logged</div>
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">og08-hypothesis-reproduced</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">generic-environment-rejected</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">ensemble-ledgers-close</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">autonomy-of-the-persisting-lineages</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-warn">
+          <div class="ov-metric-v">SKIP</div>
+          <div class="ov-metric-k">ocean-floor-for-majority-persistence</div>
         </div>
         
       </div>
@@ -2482,7 +2507,7 @@ pass_if: {"detail": "inside the swept range", "op": "\u003c=", "value": 1.0}</pr
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "7b697c77a7a977000fda9b842195830a2d33bbf8", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/7b697c77a7a977000fda9b842195830a2d33bbf8", "branch": "main", "lockfile": "uv.lock@9cd156508a92", "generated_at": "2026-10-15 18:55 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "dbfd84311039869ebc7cdc186758e399481318f4", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/dbfd84311039869ebc7cdc186758e399481318f4", "branch": "main", "lockfile": "uv.lock@9cd156508a92", "generated_at": "2026-10-15 19:16 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>

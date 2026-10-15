@@ -724,39 +724,39 @@
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Result</h2>
-      <p class="ctr-text">All six tests pass — the favourable arm sustains ~1.0 mM ammonium and a C:N supply ratio of ~5.0 (reduced N keeps pace with carbon), nitrogen mass is conserved to machine precision (residual ~1e-20 M), ammonium collapses to &lt;1 µM in both the no-FeS and no-H2 controls, and a scarce nitrate feed drives C:N from ~5 to ~47 (nitrogen becomes limiting first).</p>
+      <p class="ctr-text">FeS-mediated reduction of nitrate through nitrite sustains a standing ammonium pool (~1.0 mM) with an H2 reductant at ~80 C, the first reduced nitrogen the chemistry needs.</p>
       
       
       <div class="ov-metrics">
         
         <div class="ov-metric ov-metric-pass">
-          <div class="ov-metric-v">~1.0 mM</div>
-          <div class="ov-metric-k">Ammonium (settled)</div>
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">ammonium-production-sustained</div>
         </div>
         
         <div class="ov-metric ov-metric-pass">
-          <div class="ov-metric-v">~5.0</div>
-          <div class="ov-metric-k">C:N supply ratio (favourable)</div>
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">reduced-nitrogen-source-exists</div>
         </div>
         
         <div class="ov-metric ov-metric-pass">
-          <div class="ov-metric-v">4.2e-5 mol/s</div>
-          <div class="ov-metric-k">NH4+ production (peak)</div>
-        </div>
-        
-        <div class="ov-metric ov-metric-warn">
-          <div class="ov-metric-v">~47</div>
-          <div class="ov-metric-k">C:N (scarce nitrate)</div>
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">nitrogen-keeps-pace-with-carbon</div>
         </div>
         
         <div class="ov-metric ov-metric-pass">
-          <div class="ov-metric-v">~1e-20 M</div>
-          <div class="ov-metric-k">N-mass residual</div>
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">nitrogen-mass-conserved</div>
         </div>
         
         <div class="ov-metric ov-metric-pass">
-          <div class="ov-metric-v">&lt;1 µM</div>
-          <div class="ov-metric-k">No-FeS / no-H2 ammonium</div>
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">feature-ablation-no-ammonium</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">nitrogen-supply-sets-cn</div>
         </div>
         
       </div>
@@ -2007,7 +2007,7 @@ cites:   ["dorr2003prebiotic"]</pre>
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "7b697c77a7a977000fda9b842195830a2d33bbf8", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/7b697c77a7a977000fda9b842195830a2d33bbf8", "branch": "main", "lockfile": "uv.lock@9cd156508a92", "generated_at": "2026-10-15 18:55 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "dbfd84311039869ebc7cdc186758e399481318f4", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/dbfd84311039869ebc7cdc186758e399481318f4", "branch": "main", "lockfile": "uv.lock@9cd156508a92", "generated_at": "2026-10-15 19:16 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>

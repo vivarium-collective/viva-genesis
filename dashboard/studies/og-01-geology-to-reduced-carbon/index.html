@@ -766,39 +766,54 @@
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Result</h2>
-      <p class="ctr-text">All nine tests pass — Preiner yields reproduced (formate 200 mM, acetate 100 µM, pyruvate 10 µM), formate collapses in every control, and the Tutolo-2026 arm&#39;s proton-motive gradient collapses 427 → 43 mV.</p>
+      <p class="ctr-text">The favorable arm reproduces the Preiner-2020 yield hierarchy (formate 200 mM &gt;&gt; acetate 100 µM &gt;&gt; pyruvate 10 µM) at 100 °C.</p>
       
       
       <div class="ov-metrics">
         
         <div class="ov-metric ov-metric-pass">
-          <div class="ov-metric-v">200 mM</div>
-          <div class="ov-metric-k">Formate</div>
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">formate-yield-reproduces-preiner</div>
         </div>
         
         <div class="ov-metric ov-metric-pass">
-          <div class="ov-metric-v">427 mV</div>
-          <div class="ov-metric-k">Favorable pmf</div>
-        </div>
-        
-        <div class="ov-metric ov-metric-warn">
-          <div class="ov-metric-v">43 mV</div>
-          <div class="ov-metric-k">Tutolo pmf</div>
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">acetate-yield-reproduces-preiner</div>
         </div>
         
         <div class="ov-metric ov-metric-pass">
-          <div class="ov-metric-v">0.039</div>
-          <div class="ov-metric-k">Net C flux (peak)</div>
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">pyruvate-yield-reproduces-preiner</div>
         </div>
         
         <div class="ov-metric ov-metric-pass">
-          <div class="ov-metric-v">~40%</div>
-          <div class="ov-metric-k">pmf back-pressure sag</div>
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">net-carbon-flux-nonzero-region</div>
         </div>
         
         <div class="ov-metric ov-metric-pass">
-          <div class="ov-metric-v">6-24e-3 mol-C/s</div>
-          <div class="ov-metric-k">Sustained throughput (favorable)</div>
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">free-energy-directionality-logged</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">chemiosmotic-backpressure-loads-gradient</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">nernst-planck-flux-conserved</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">ph-gradient-drives-formate</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">in-situ-ph-correction</div>
         </div>
         
       </div>
@@ -2270,7 +2285,7 @@ cites:   ["tutolo2026rethinking", "jackson2016natural"]</pre>
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "7b697c77a7a977000fda9b842195830a2d33bbf8", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/7b697c77a7a977000fda9b842195830a2d33bbf8", "branch": "main", "lockfile": "uv.lock@9cd156508a92", "generated_at": "2026-10-15 18:55 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "dbfd84311039869ebc7cdc186758e399481318f4", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/dbfd84311039869ebc7cdc186758e399481318f4", "branch": "main", "lockfile": "uv.lock@9cd156508a92", "generated_at": "2026-10-15 19:16 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>

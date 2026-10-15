@@ -742,39 +742,49 @@
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Result</h2>
-      <p class="ctr-text">375 grid points x 2 runnable classes (750 real runs, 40 ticks, 117 s on 6 workers; the microkinetic class is registered but its backend is pixi-only, so it is recorded as deferred). Every point is labelled (coverage 1.00 in both classes) and the charge ledger closes on all 750 runs (Kirchhoff residual &lt;= 1.7e-13, faradaic efficiency &lt;= 1, circuit residual &lt;= 8.5e-9). The Butler-Volmer cell sits inside the Altair-2025 current window on 79.7% of the grid (1.4e-7 .. 3.0e-3 A/m^2; nominal 1.06e-3 A/m^2, FE 0.92, emf 0.49 V) and derives og-01&#39;s gradient efficiency as 0.01 / 0.42 / 0.98 / 1.00 at 1e-9 / 1e-7 / 1e-5 / &gt;= 1e-3 S/m. The mechanism map disagrees between classes: the Butler-Volmer class labels its whole favorable region (93/93 points) CATALYTIC (activation overpotential ~ 0.99 of the fresh-fluid emf at Altair-level exchange currents), electrical only below ~1e-6 S/m (149 points), never transport or thermodynamic; the empirical class labels the same region electrical (pmf-drive headroom, 47) / catalytic (117) / transport (28, Michaelis in H2 below ~1e-4 M). Label agreement is 0.47 on the 78 points both classes call favorable (0.45 overall; 0.81 where the wall is insulating, 0.01 at 1 uM H2), so the pre-registered gate (&gt;= 0.8) FAILS and the decision-discipline audit flags the attribution as structure-sensitive.</p>
+      <p class="ctr-text">Every one of the 375 grid points carries a limitation label in both runnable classes (coverage 1.00; 0 failed runs). Butler-Volmer: catalytic 226, electrical 149, transport 0, thermodynamic 0. Empirical: transport 147, catalytic 117, electrical 108, thermodynamic 3.</p>
       
       
       <div class="ov-metrics">
         
         <div class="ov-metric ov-metric-pass">
-          <div class="ov-metric-v">375/375 (coverage 1.00)</div>
-          <div class="ov-metric-k">Points labelled (both classes)</div>
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">failure-mode-labelled</div>
         </div>
         
         <div class="ov-metric ov-metric-fail">
-          <div class="ov-metric-v">0.47 (37/78)</div>
-          <div class="ov-metric-k">Label agreement in the favorable-both region (gate &gt;= 0.8)</div>
-        </div>
-        
-        <div class="ov-metric ov-metric-info">
-          <div class="ov-metric-v">0.45 / 0.81 / 0.01</div>
-          <div class="ov-metric-k">Label agreement overall / insulating wall / 1 uM H2</div>
-        </div>
-        
-        <div class="ov-metric ov-metric-info">
-          <div class="ov-metric-v">catalytic 93/93</div>
-          <div class="ov-metric-k">Butler-Volmer favorable region label</div>
+          <div class="ov-metric-v">FAIL</div>
+          <div class="ov-metric-k">failure-mode-attributed</div>
         </div>
         
         <div class="ov-metric ov-metric-pass">
-          <div class="ov-metric-v">1.06e-3 A/m^2 in [1e-5, 1e-2]</div>
-          <div class="ov-metric-k">Canonical current density vs Altair window</div>
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">mechanism-map-ledger-closes</div>
         </div>
         
         <div class="ov-metric ov-metric-pass">
-          <div class="ov-metric-v">1.7e-13 / 1.0 / 8.5e-9</div>
-          <div class="ov-metric-k">Charge ledger (Kirchhoff / FE &lt;= 1 / circuit residual)</div>
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">charge-ledger-closes</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">faradaic-efficiency-bounded</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">current-voltage-residual</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">current-in-altair-window</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">selectivity-to-carbon</div>
         </div>
         
       </div>
@@ -2114,7 +2124,7 @@ cites:   ["altair2025carbon", "preiner2020hydrogen"]</pre>
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "7b697c77a7a977000fda9b842195830a2d33bbf8", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/7b697c77a7a977000fda9b842195830a2d33bbf8", "branch": "main", "lockfile": "uv.lock@9cd156508a92", "generated_at": "2026-10-15 18:55 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "dbfd84311039869ebc7cdc186758e399481318f4", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/dbfd84311039869ebc7cdc186758e399481318f4", "branch": "main", "lockfile": "uv.lock@9cd156508a92", "generated_at": "2026-10-15 19:16 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>

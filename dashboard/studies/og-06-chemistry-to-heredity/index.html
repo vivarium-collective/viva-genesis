@@ -729,44 +729,39 @@
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Result</h2>
-      <p class="ctr-text">RNA-like fitness 0.38 (retention 0.62) &gt; peptide 0.24 &gt; non-heritable ~0; the low-fidelity module collapses (retention 0, fitness −0.10).</p>
+      <p class="ctr-text">A high-fidelity heredity module (RNA-like, 30-mer, per-site fidelity 0.99 → whole-sequence Q=0.74) retains functional information (C/(C+E)=0.62) and achieves net-positive lineage fitness (0.38) after its replication cost, outscoring the non-heritable control whose function degrades away.</p>
       
       
       <div class="ov-metrics">
         
         <div class="ov-metric ov-metric-pass">
-          <div class="ov-metric-v">0.38</div>
-          <div class="ov-metric-k">RNA-like fitness</div>
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">inheritance-beats-noninheritance</div>
         </div>
         
         <div class="ov-metric ov-metric-pass">
-          <div class="ov-metric-v">0.62</div>
-          <div class="ov-metric-k">RNA-like retention</div>
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">information-retained-above-error-threshold</div>
         </div>
         
         <div class="ov-metric ov-metric-pass">
-          <div class="ov-metric-v">0.24</div>
-          <div class="ov-metric-k">Peptide fitness</div>
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">heredity-modules-compared</div>
         </div>
         
         <div class="ov-metric ov-metric-pass">
-          <div class="ov-metric-v">0 / −0.10</div>
-          <div class="ov-metric-k">Low-fidelity (catastrophe)</div>
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">error-catastrophe-below-threshold</div>
         </div>
         
         <div class="ov-metric ov-metric-pass">
-          <div class="ov-metric-v">0.88</div>
-          <div class="ov-metric-k">Compositional persistence (seed-robust)</div>
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">replication-feasible-budget</div>
         </div>
         
         <div class="ov-metric ov-metric-pass">
-          <div class="ov-metric-v">0.92</div>
-          <div class="ov-metric-k">Compositional heritability</div>
-        </div>
-        
-        <div class="ov-metric ov-metric-pass">
-          <div class="ov-metric-v">~0.05 (graded)</div>
-          <div class="ov-metric-k">Non-heritable control heritability</div>
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">heredity-lineage-compositional-persists</div>
         </div>
         
       </div>
@@ -1688,6 +1683,12 @@ cites:   ["sutherland2017opinion"]</pre>
 
     
     
+    <div class="decide-section" style="margin-top:18px">
+      <h3 class="overview-label">Conclusion</h3>
+      <div class="conclusion-md" style="background:#f8fafc;padding:12px;border-left:3px solid #94a3b8;border-radius:3px;font-size:0.9em;line-height:1.5"><p>Two real engines agree. A libRoadRunner quasispecies ODE shows inheritance is favored above the Eigen error threshold and ranks modules head-to-head; an agent-based lineage (individuals dividing into a phenotype tree) reproduces that threshold AND shows that compositional/hybrid heredity escapes the length catastrophe — so the heredity transition does not require a long high-fidelity RNA template. Opens the genetic era of the campaign (og-07 ecology, og-08 escape).</p>
+</div>
+    </div>
+    
     
 
   </div>
@@ -1844,7 +1845,7 @@ cites:   ["sutherland2017opinion"]</pre>
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "7b697c77a7a977000fda9b842195830a2d33bbf8", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/7b697c77a7a977000fda9b842195830a2d33bbf8", "branch": "main", "lockfile": "uv.lock@9cd156508a92", "generated_at": "2026-10-15 18:55 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "dbfd84311039869ebc7cdc186758e399481318f4", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/dbfd84311039869ebc7cdc186758e399481318f4", "branch": "main", "lockfile": "uv.lock@9cd156508a92", "generated_at": "2026-10-15 19:16 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>

@@ -724,29 +724,29 @@
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Result</h2>
-      <p class="ctr-text">All three gates pass — a favorable enriched pore produces reactive P faster than phosphate precipitates (net availability ~+1.8e-6 mol/s, only ~6% precipitated), the real og-03 thermophoretic pore co-concentrates P alongside carbon, and the open-pore / no-gradient ablation collapses reactive-P availability (net &lt; 0, ~96% precipitated). P mass is conserved to ~5e-7.</p>
+      <p class="ctr-text">In the favorable thermal-gradient pore, reactive-P formation outpaces the precipitation/adsorption loss — net reactive-P availability settles positive (~+1.8e-6 mol/s) and reactive P accumulates to ~94% of the supplied phosphorus while only ~6% precipitates. A bounded local window exists where reactive P is produced faster than it is lost.</p>
       
       
       <div class="ov-metrics">
         
         <div class="ov-metric ov-metric-pass">
-          <div class="ov-metric-v">~+1.8e-6 mol/s</div>
-          <div class="ov-metric-k">Net reactive-P availability (favorable)</div>
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">reactive-p-available</div>
         </div>
         
         <div class="ov-metric ov-metric-pass">
-          <div class="ov-metric-v">~94% of supply</div>
-          <div class="ov-metric-k">Reactive-P pool (favorable)</div>
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">p-coconcentrates-with-carbon</div>
         </div>
         
         <div class="ov-metric ov-metric-pass">
-          <div class="ov-metric-v">6% / 96%</div>
-          <div class="ov-metric-k">Precipitated fraction (favorable / open-pore)</div>
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">open-pore-no-enrichment-control</div>
         </div>
         
         <div class="ov-metric ov-metric-pass">
-          <div class="ov-metric-v">~5e-7</div>
-          <div class="ov-metric-k">P-mass residual</div>
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">p-mass-conserved</div>
         </div>
         
       </div>
@@ -1787,7 +1787,7 @@ pass_if: {"detail": "P-mass residual small (P-atom-conserving network)", "op": "
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "7b697c77a7a977000fda9b842195830a2d33bbf8", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/7b697c77a7a977000fda9b842195830a2d33bbf8", "branch": "main", "lockfile": "uv.lock@9cd156508a92", "generated_at": "2026-10-15 18:55 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "dbfd84311039869ebc7cdc186758e399481318f4", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/dbfd84311039869ebc7cdc186758e399481318f4", "branch": "main", "lockfile": "uv.lock@9cd156508a92", "generated_at": "2026-10-15 19:16 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>

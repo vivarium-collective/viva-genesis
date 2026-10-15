@@ -712,39 +712,29 @@
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Result</h2>
-      <p class="ctr-text">The matched (favorable) compartment divides 8 times over the run (net growth to division, outcome = divide), with the mass-balance residual ~4e-32 mol (conserved across every division). The viable growth→division band is ~25% of the (throughput × permeability) grid, bounded by starvation (too permeable → no division, net growth ~1.00) and lysis (too impermeable → membrane bursts at ~1.5e5 Pa). Zero-throughput ablation gives no division and essentially no growth.</p>
+      <p class="ctr-text">In the matched regime the internal autocatalytic source accumulates product, the osmotic pressure it generates draws solvent in, and the compartment grows to the division threshold and divides repeatedly (8 divisions over the run) — the chemistry changes the compartment&#39;s physical fate, a physical selection mechanism without an abstract fitness score.</p>
       
       
       <div class="ov-metrics">
         
         <div class="ov-metric ov-metric-pass">
-          <div class="ov-metric-v">8</div>
-          <div class="ov-metric-k">Divisions (matched)</div>
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">net-growth-to-division</div>
         </div>
         
         <div class="ov-metric ov-metric-pass">
-          <div class="ov-metric-v">~25% of grid</div>
-          <div class="ov-metric-k">Viable growth→division band</div>
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">mass-conserved-across-division</div>
         </div>
         
         <div class="ov-metric ov-metric-pass">
-          <div class="ov-metric-v">0 divisions (starve)</div>
-          <div class="ov-metric-k">Too-permeable arm</div>
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">division-not-lysis-or-starvation</div>
         </div>
         
         <div class="ov-metric ov-metric-pass">
-          <div class="ov-metric-v">lysed (burst)</div>
-          <div class="ov-metric-k">Too-impermeable arm</div>
-        </div>
-        
-        <div class="ov-metric ov-metric-pass">
-          <div class="ov-metric-v">~4e-32 mol</div>
-          <div class="ov-metric-k">Mass-balance residual</div>
-        </div>
-        
-        <div class="ov-metric ov-metric-pass">
-          <div class="ov-metric-v">0 divisions</div>
-          <div class="ov-metric-k">Zero-throughput ablation</div>
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">ablation-no-throughput-no-growth</div>
         </div>
         
       </div>
@@ -1555,6 +1545,12 @@ pass_if: {"detail": "favorable divides; zero-throughput ablation shows no divisi
 
     
     
+    <div class="decide-section" style="margin-top:18px">
+      <h3 class="overview-label">Conclusion</h3>
+      <div class="conclusion-md" style="background:#f8fafc;padding:12px;border-left:3px solid #94a3b8;border-radius:3px;font-size:0.9em;line-height:1.5"><p>A coarse-grained, units-typed, mass-conserving osmotic-coupling model shows that an internal autocatalytic source, by accumulating an osmolyte, can drive a compartment to grow and divide under osmotic pressure alone. The fate is set by the membrane permeability against the network throughput: a bounded viable band sustains net growth leading to repeated division, flanked by starvation (the product leaks before the pressure can build) and lysis (the pressure bursts the membrane). Mass is conserved to machine precision across growth and division. Hands the campaign a chemically-selected, dividing protocell — individuality that reproduces, not merely persists.</p>
+</div>
+    </div>
+    
     
 
   </div>
@@ -1713,7 +1709,7 @@ pass_if: {"detail": "favorable divides; zero-throughput ablation shows no divisi
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "7b697c77a7a977000fda9b842195830a2d33bbf8", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/7b697c77a7a977000fda9b842195830a2d33bbf8", "branch": "main", "lockfile": "uv.lock@9cd156508a92", "generated_at": "2026-10-15 18:55 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "dbfd84311039869ebc7cdc186758e399481318f4", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/dbfd84311039869ebc7cdc186758e399481318f4", "branch": "main", "lockfile": "uv.lock@9cd156508a92", "generated_at": "2026-10-15 19:16 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>

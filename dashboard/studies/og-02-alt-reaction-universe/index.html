@@ -777,34 +777,64 @@
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Result</h2>
-      <p class="ctr-text">Phase-1 feed: the universe sustains 14 persistent species (formate 0.45 mM, pyruvate 29 uM, acetate 11 uM, plus the rTCA reductive branch OAA 5e-8 / malate 9e-8 / succinate 8e-9 M emerging from the rules, 1000x below og-02&#39;s curated levels) with ZERO autocatalytic motifs; 24/24 nulls also show zero (p = 1.0). Formose feed (10 mM CH2O): ONE persistent motif emerges — the formose cycle glycolaldehyde -&gt; glyceraldehyde -&gt; DHA -&gt; erythrulose -&gt; erythrose -&gt; 2 glycolaldehyde (stoichiometric gain 2, dynamic gain 3.1, 49 persistent species) — against 0/24 nulls (empirical p = 0.040); it ignites only at &gt;= ~10 mM formaldehyde AND washout &gt;= ~0.02/s (shorter residence than the H2 reduction of formaldehyde). The curated rTCA class is detected with the same tool (gain 2.99 = its declared k_rtca[CO2]/k_wash) but its lumped turn creates 4 C / 8 H / 3 O per turn (element residual 8). Ledger exact on the universe (element 0, carbon 2.8e-6, dissipation &gt;= 0 every tick); summation theorem on dominant fluxes 3.3e-3; default CVODE tolerances reproduce the tight run to 7e-6.</p>
+      <p class="ctr-text">At the Phase-1 posterior feed the rule-generated universe (121 species, 413 reversible reactions, C &lt;= 4) sustains 14 persistent species and a net CO2 fixation of 2.2e-5 mol/s but contains NO persistent autocatalytic motif (0 flux-carrying simple cycles with gain &gt; 1); all 24 matched nulls also contain 0. The rTCA reductive branch pyruvate -&gt; OAA -&gt; malate -&gt; succinate appears from the rules at 5e-8 / 9e-8 / 8e-9 M — three orders below og-02&#39;s curated 2 mM OAA — because pyruvate carboxylation at 1.4 mM CO2 sits at its equilibrium (dG&#39;0 = -1.1 kJ/mol -&gt; [OAA]/[pyruvate] = K [CO2] = 2e-3) rather than being driven irreversibly.</p>
       
       
       <div class="ov-metrics">
         
-        <div class="ov-metric ov-metric-info">
-          <div class="ov-metric-v">0 / 0</div>
-          <div class="ov-metric-k">Motifs at the Phase-1 feed (universe / nulls max)</div>
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">network-ledger-closes</div>
         </div>
         
         <div class="ov-metric ov-metric-pass">
-          <div class="ov-metric-v">1 / 0</div>
-          <div class="ov-metric-k">Motifs with formaldehyde feed (universe / nulls max)</div>
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">element-residual-exact</div>
         </div>
         
         <div class="ov-metric ov-metric-pass">
-          <div class="ov-metric-v">0.040</div>
-          <div class="ov-metric-k">Enrichment p (24 nulls)</div>
-        </div>
-        
-        <div class="ov-metric ov-metric-fail">
-          <div class="ov-metric-v">4 / 8 / 3 atoms</div>
-          <div class="ov-metric-k">Curated rTCA element residual (C / H / O)</div>
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">free-energy-directionality</div>
         </div>
         
         <div class="ov-metric ov-metric-pass">
-          <div class="ov-metric-v">0 / 2.8e-6 / &gt;= 0</div>
-          <div class="ov-metric-k">Universe ledger (element / carbon / dissipation)</div>
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">persistent-network-at-phase1-feed</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">rtca-branch-emerges-from-rules</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">no-motif-at-phase1-feed</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">motifs-emerge-not-imposed</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">motif-present-formose-arm</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">curated-rtca-fails-element-ledger</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">flux-control-summation-theorem</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">integrator-tolerance-insensitive</div>
         </div>
         
       </div>
@@ -2326,7 +2356,7 @@ cites:   ["somogyi2015libroadrunner"]</pre>
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "7b697c77a7a977000fda9b842195830a2d33bbf8", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/7b697c77a7a977000fda9b842195830a2d33bbf8", "branch": "main", "lockfile": "uv.lock@9cd156508a92", "generated_at": "2026-10-15 18:55 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "dbfd84311039869ebc7cdc186758e399481318f4", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/dbfd84311039869ebc7cdc186758e399481318f4", "branch": "main", "lockfile": "uv.lock@9cd156508a92", "generated_at": "2026-10-15 19:16 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>

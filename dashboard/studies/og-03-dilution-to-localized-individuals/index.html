@@ -708,34 +708,34 @@
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Result</h2>
-      <p class="ctr-text">The native pore-localization Decision map (porosity 0.05–0.95 × pore length 5e-4–8e-3 m) localizes at 25/144 points (~17%), enrichment rising with pore length; the favourable trap clears the localization frontier at accumulation Péclet 18.4 (reduced-model fold-estimate ~1e6–1e7, magnitude solver-sensitive above Pe ≈ 13), while open-pore / 10×-shorter-pore controls collapse to ~1-6×.</p>
+      <p class="ctr-text">A favorable serpentinite pore (5 mm × 0.1 mm, ΔT 30 K, convective flow) clears the Baaske-2007 extreme-accumulation regime at accumulation Péclet 18.4 from the real thermophoretic + convective transport, with FVM flux conserved to machine epsilon. The corresponding fold-enrichment (reduced-model exp(Pe) ≈ 1e6–1e7, nominally ~9.6×10⁷) is an extrapolation whose magnitude is solver-sensitive above Pe ≈ 13 — the graded quantity is the Péclet, not the precise fold.</p>
       
       
       <div class="ov-metrics">
         
         <div class="ov-metric ov-metric-pass">
-          <div class="ov-metric-v">25/144 (~17%)</div>
-          <div class="ov-metric-k">Localized grid fraction</div>
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">thermophoretic-enrichment-reproduces-baaske</div>
         </div>
         
         <div class="ov-metric ov-metric-pass">
-          <div class="ov-metric-v">18.4</div>
-          <div class="ov-metric-k">Accumulation Péclet</div>
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">retention-beats-destruction</div>
         </div>
         
         <div class="ov-metric ov-metric-pass">
-          <div class="ov-metric-v">~1e6–1e7 (reduced-model; solver-sensitive &gt;Pe≈13)</div>
-          <div class="ov-metric-k">Favourable enrichment</div>
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">open-pore-control-does-not-concentrate</div>
         </div>
         
         <div class="ov-metric ov-metric-pass">
-          <div class="ov-metric-v">no concentration (~1×)</div>
-          <div class="ov-metric-k">Open-pore control</div>
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">enrichment-exponential-in-pore-length</div>
         </div>
         
         <div class="ov-metric ov-metric-pass">
-          <div class="ov-metric-v">~2e-14</div>
-          <div class="ov-metric-k">FVM residual</div>
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">spatial-flux-conserved</div>
         </div>
         
       </div>
@@ -1589,6 +1589,12 @@ pass_if: {"detail": "FVM residual small (direct LU solve)", "op": "\u003c=", "va
 
     
     
+    <div class="decide-section" style="margin-top:18px">
+      <h3 class="overview-label">Conclusion</h3>
+      <div class="conclusion-md" style="background:#f8fafc;padding:12px;border-left:3px solid #94a3b8;border-radius:3px;font-size:0.9em;line-height:1.5"><p>The real FiPy thermal trap localizes a dilute feed into a bounded region of pore geometry and, in its own native (porosity × pore length) Decision map, draws the geometry threshold separating concentrated individuals from washed-out bulk. Feeds og-04 (mineral compartments) a concentrated starting pocket. Localization holds; the precise enrichment magnitude is caveated as a reduced-model extrapolation.</p>
+</div>
+    </div>
+    
     
 
   </div>
@@ -1745,7 +1751,7 @@ pass_if: {"detail": "FVM residual small (direct LU solve)", "op": "\u003c=", "va
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "7b697c77a7a977000fda9b842195830a2d33bbf8", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/7b697c77a7a977000fda9b842195830a2d33bbf8", "branch": "main", "lockfile": "uv.lock@9cd156508a92", "generated_at": "2026-10-15 18:55 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "dbfd84311039869ebc7cdc186758e399481318f4", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/dbfd84311039869ebc7cdc186758e399481318f4", "branch": "main", "lockfile": "uv.lock@9cd156508a92", "generated_at": "2026-10-15 19:16 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>

@@ -742,34 +742,44 @@
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Result</h2>
-      <p class="ctr-text">Of 48 LHS prior draws, 6 (12.5%) are consistent with all three Lost City windows, and the dissolved-H2 window is the binding observation (48/48 pass pH, 47/48 pass T, 6/48 pass H2); every consistent state also meets the downstream requirements (posterior-viable fraction 1.00). The convecting and prescribed-upflow transport classes agree on viability for 48/48 draws (structure agreement 1.00) and differ only in outlet temperature (paired d = 0.89, ~2 C), never in pH or H2. The posterior pins the inflowing DIC to 1.2-2.9 mM (prior 1.2-17 mM) and the reaction extent high (olivine_rate 0.09-0.38): under full redox equilibrium in llnl.dat the Fe(II) budget reduces DIC before free H2 appears. Morris: dissolved H2 is controlled by olivine_rate, DIC and flow; outlet T by the heat-partition fraction and flow; pH is mineral-buffered at 9.38-9.91 for every draw. Ledger exact on all 96 runs; no point rejected.</p>
+      <p class="ctr-text">Feasibility and robustness, in the plan&#39;s sense: 6/48 prior draws (12.5%) settle inside every Lost City window, and 6/6 of those (posterior-viable fraction 1.00) also satisfy og-01&#39;s requirements — dissolved H2 &gt;= 1 mM at the interface, pH gradient &gt;= 3 units against pH 6.0, T &lt;= 100 C. One supporting parameterization: flow 3.2e-4 m/s, olivine_rate 0.38, pyroxene 0.54, fe 0.26, heat partition 6.2e-4, DIC 1.4 mM -&gt; 49.2 C, pH 9.38, H2 10.8 mmol/kg, delta pH 3.38.</p>
       
       
       <div class="ov-metrics">
         
         <div class="ov-metric ov-metric-pass">
-          <div class="ov-metric-v">6/48 (12.5%)</div>
-          <div class="ov-metric-k">Prior draws consistent with Lost City</div>
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">ledger-closes</div>
         </div>
         
         <div class="ov-metric ov-metric-pass">
-          <div class="ov-metric-v">1.00</div>
-          <div class="ov-metric-k">Posterior-viable fraction (downstream requirements)</div>
-        </div>
-        
-        <div class="ov-metric ov-metric-info">
-          <div class="ov-metric-v">dissolved H2 (6/48 pass vs pH 48/48</div>
-          <div class="ov-metric-k">Binding observation</div>
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">energy-ledger-closes</div>
         </div>
         
         <div class="ov-metric ov-metric-pass">
-          <div class="ov-metric-v">1.00</div>
-          <div class="ov-metric-k">Structure agreement (convecting vs uniform upflow)</div>
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">heat-released-not-absorbed</div>
         </div>
         
         <div class="ov-metric ov-metric-pass">
-          <div class="ov-metric-v">0.0 / 0.0 / 0</div>
-          <div class="ov-metric-k">Ledger residual (mass / energy / charge)</div>
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">charge-conserved</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">dissolved-h2-in-lost-city-range</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">posterior-viable-vent-fraction</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">structure-agreement-across-transport-classes</div>
         </div>
         
       </div>
@@ -2082,7 +2092,7 @@ pass_if: {"detail": "cross-class agreement \u003e= 0.8", "op": "\u003e=", "value
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "7b697c77a7a977000fda9b842195830a2d33bbf8", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/7b697c77a7a977000fda9b842195830a2d33bbf8", "branch": "main", "lockfile": "uv.lock@9cd156508a92", "generated_at": "2026-10-15 18:55 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "dbfd84311039869ebc7cdc186758e399481318f4", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/dbfd84311039869ebc7cdc186758e399481318f4", "branch": "main", "lockfile": "uv.lock@9cd156508a92", "generated_at": "2026-10-15 19:16 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>

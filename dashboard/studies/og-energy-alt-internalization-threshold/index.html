@@ -738,39 +738,69 @@
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Result</h2>
-      <p class="ctr-text">990 runs (5 classes x 11 activities x 9 permeabilities x 2 gradient states, 300 ticks of 10 s), free-energy ledger closed on every one (worst residual 1.3e-14, margin &gt;= 0, dissipation &gt;= 0, capture efficiency &lt;= 0.30). At the nominal membrane (P_H 1e-6 m/s) and the Phase-1 gradient (0.216 V) the passive baseline nets 1.95e-17 W. The thioester / acyl-phosphate store PAYS from activity 0.10 (store potential 29.6 -&gt; 34.3 kJ/mol against the 30 kJ/mol load; autonomy 0.03 at the threshold, 0.26 at full activity; best advantage +2.1e-18 W at activity 0.8, 54 % of the grid) and keeps paying up to P_H 3.2e-6 m/s (above that the carrier permeation drains it). The Fe-redox store pays only from activity 0.80 (potential pinned at 29.3-29.9 kJ/mol, just at the load; autonomy 0.17; +1.8e-19 W; 18 % of the grid, ceiling P_H 1e-6). The H+/Na+ gradient store never pays at the nominal membrane (potential 6.5 kJ/mol at full activity — the Na+ leak at 1e-3 x P_H drains it) and pays only at P_H 1e-8 m/s, from activity 0.5, where its autonomy reaches 0.97 (4 % of the grid). Polyphosphate never pays anywhere (potential 22 kJ/mol at q = 0.69; it would need q &gt; 0.98). With the gradient collapsed to 0.02 V the passive baseline falls to 1.7e-18 W while the thioester (3.7e-18 W, autonomy 0.79) and Fe-redox (1.9e-18 W, autonomy 0.74) individuals keep a positive budget. Cross-class agreement on &#39;pays&#39; is 0.46 (the threshold is structure-sensitive by construction); the most discriminating readouts are the store potential (d = 1.9) and the internal power (d = 1.0). Canonical run (thioester, activity 0.5): net 2.15e-17 W, autonomy 0.185, potential 32.5 kJ/mol, ledger exact.</p>
+      <p class="ctr-text">At the nominal membrane and gradient the thioester / acyl-phosphate store beats the passive baseline from coupling activity 0.10: its potential bond + RT ln(q/(1-q)) crosses the 30 kJ/mol load at q = 0.12 (29.6 kJ/mol) and work begins to flow; net power rises from the passive 1.95e-17 W to a maximum 2.17e-17 W at activity 0.8 (+2.1e-18 W, autonomy 0.24) and falls again at 1.0 as the machinery cost outgrows the pool-limited store. The class pays on 54 % of the whole grid and up to P_H 3.2e-6 m/s.</p>
       
       
       <div class="ov-metrics">
         
         <div class="ov-metric ov-metric-pass">
-          <div class="ov-metric-v">0.10 (0.03)</div>
-          <div class="ov-metric-k">Thioester threshold activity (autonomy at a*)</div>
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">free-energy-ledger-closes</div>
         </div>
         
         <div class="ov-metric ov-metric-pass">
-          <div class="ov-metric-v">0.80 (0.17)</div>
-          <div class="ov-metric-k">Fe-redox threshold activity (autonomy at a*)</div>
-        </div>
-        
-        <div class="ov-metric ov-metric-info">
-          <div class="ov-metric-v">none / 0.5</div>
-          <div class="ov-metric-k">H+/Na+ gradient threshold at nominal / at P_H 1e-8</div>
-        </div>
-        
-        <div class="ov-metric ov-metric-info">
-          <div class="ov-metric-v">0.00</div>
-          <div class="ov-metric-k">Polyphosphate pays fraction</div>
-        </div>
-        
-        <div class="ov-metric ov-metric-info">
-          <div class="ov-metric-v">0.46</div>
-          <div class="ov-metric-k">Cross-class agreement on pays</div>
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">free-energy-residual-exact</div>
         </div>
         
         <div class="ov-metric ov-metric-pass">
-          <div class="ov-metric-v">1.3e-14 / &gt;= 0 / 0</div>
-          <div class="ov-metric-k">Ledger residual max / margin min / dissipation min</div>
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">second-law-margin-nonnegative</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">individual-is-partly-autonomous</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">internalization-pays</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">thioester-threshold-activity</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">autonomy-at-threshold</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">ion-gradient-pays-fraction</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">polyphosphate-pays-fraction</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">fe-redox-pays-fraction</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">classes-agree-on-pays</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">threshold-map-ledger-all-ok</div>
         </div>
         
       </div>
@@ -2409,7 +2439,7 @@ pass_if: {"detail": "no point with an open ledger", "op": "\u003e=", "value": 1.
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "7b697c77a7a977000fda9b842195830a2d33bbf8", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/7b697c77a7a977000fda9b842195830a2d33bbf8", "branch": "main", "lockfile": "uv.lock@9cd156508a92", "generated_at": "2026-10-15 18:55 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "dbfd84311039869ebc7cdc186758e399481318f4", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/dbfd84311039869ebc7cdc186758e399481318f4", "branch": "main", "lockfile": "uv.lock@9cd156508a92", "generated_at": "2026-10-15 19:16 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>
