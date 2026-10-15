@@ -92,6 +92,15 @@ def test_surrogate_degradation_lowers_enrichment():
     assert enr["labile"] < enr["stable"]
 
 
+def test_surrogate_enrichment_washes_out_at_high_peclet():
+    """Flow-through pore: enrichment is strongest at low Peclet and weakens as
+    advection dominates (the calibrated washout form, matching the FEM)."""
+    sp = {"x": {"diffusivity": 1e-9, "soret": 0.12, "k_ads": 0, "k_des": 0, "k_deg": 0}}
+    e_lo = _run_surrogate(sp, peclet=2.0)["enrichment"]["x"]
+    e_hi = _run_surrogate(sp, peclet=30.0)["enrichment"]["x"]
+    assert e_lo > e_hi > 1.0
+
+
 def test_default_species_params_are_the_eight_solutes():
     sp = _default_species_params()
     assert set(sp) == set(COLOCALIZATION_SPECIES)
@@ -108,3 +117,42 @@ def test_fenics_reference_raises_run_under_pixi_without_backend():
     proc = FenicsMultisolutePoreProcess(config={}, core=core)
     with pytest.raises(RuntimeError, match="pixi"):
         proc.update({}, 1.0)
+
+
+# --- co-localization phase map ---------------------------------------------
+
+def test_colocalization_map_runs_and_shapes():
+    from viva_genesis.colocalization_map import colocalization_map
+    res = colocalization_map(peclets=(1.0, 4.0), soret_scales=(1.0, 4.0))
+    assert res.axis_order == ["peclet", "soret_scale"]
+    for s in ("coloc_index", "mean_enrichment", "max_enrichment", "frac_concentrated"):
+        assert res.surfaces[s].shape == (2, 2)
+        assert np.all(np.isfinite(res.surfaces[s]))
+
+
+def test_colocalization_verdict_logic():
+    from viva_genesis.colocalization_map import colocalization_verdict
+    assert colocalization_verdict(0.9, 2.0) == "co-localized"   # strong + uniform
+    assert colocalization_verdict(0.1, 2.0) == "fractionating"  # strong + non-uniform
+    assert colocalization_verdict(0.9, 1.0) == "weak"           # no concentration
+
+
+def test_uniform_mixture_co_localizes_divergent_fractionates():
+    """Directly exercise the co-localization index: an identical-parameter
+    mixture co-localizes (index ~1); a mixture split into strongly-adsorbed vs
+    free solutes fractionates (index << 1)."""
+    from viva_genesis.colocalization_map import coloc_index
+    core = build_core()
+    uniform = {f"s{i}": {"diffusivity": 1e-9, "soret": 0.1, "k_ads": 0,
+                         "k_des": 1e-3, "k_deg": 0} for i in range(4)}
+    out_u = MultisolutePoreSurrogateProcess(
+        config={"peclet": 2.0, "species_params": uniform}, core=core).update({}, 1.0)
+    assert coloc_index([out_u]) > 0.95
+
+    divergent = {
+        "free": {"diffusivity": 1e-9, "soret": 0.12, "k_ads": 0.0, "k_des": 1e-3, "k_deg": 0},
+        "stuck": {"diffusivity": 1e-9, "soret": 0.12, "k_ads": 9e-3, "k_des": 1e-4, "k_deg": 0},
+    }
+    out_d = MultisolutePoreSurrogateProcess(
+        config={"peclet": 2.0, "species_params": divergent}, core=core).update({}, 1.0)
+    assert coloc_index([out_d]) < 0.5
