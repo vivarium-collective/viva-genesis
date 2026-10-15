@@ -57,6 +57,8 @@ ATOMS: dict[str, dict | str] = {
     "vg_permeability": {"_type": "float", "_units": "meter/second", "_min": 0.0},
     "vg_time": {"_type": "float", "_units": "second", "_min": 0.0},
     "vg_per_second": {"_type": "float", "_units": "1/second"},
+    "vg_diffusivity": {"_type": "float", "_units": "meter**2/second", "_min": 0.0},
+    "vg_soret": {"_type": "float", "_units": "1/kelvin"},
     "vg_tension": {"_type": "float", "_units": "newton/meter", "_min": 0.0},
     "vg_information": {"_type": "float", "_units": "bit", "_min": 0.0},
     "vg_count": {"_type": "integer", "_min": 0},
@@ -90,11 +92,28 @@ SCHEMAS: dict[str, dict] = {
         "passivation": "vg_fraction",
         "porosity_feedback": "vg_fraction",
     },
+    # Per-species transport-parameter bundle behind the spatial_transport
+    # `species_params` port — the physics a multisolute pore model needs per
+    # solute (NOT a concentration): molecular diffusivity, Soret/thermophoretic
+    # coefficient, adsorption/desorption and first-order degradation rates.
+    # Defined before vg_molecules so its `map[vg_species_transport]` field
+    # resolves in the single register_types pass.
+    "vg_species_transport": {
+        "diffusivity": "vg_diffusivity",
+        "soret": "vg_soret",
+        "k_ads": "vg_per_second",
+        "k_des": "vg_per_second",
+        "k_deg": "vg_per_second",
+    },
     "vg_molecules": {
         "dissolved": "map[vg_concentration]",
         "adsorbed": "map[vg_concentration]",
         "polymers": "map[vg_concentration]",
         "catalysts": "map[vg_fraction]",
+        # per-species transport physics (multisolute localization, plan §4.5/§6):
+        # each solute carries its own diffusion + Soret + adsorption/degradation
+        # parameters, keyed by the same species names as `dissolved`.
+        "transport_params": "map[vg_species_transport]",
     },
     "vg_energy": {
         "redox_potential": "vg_potential",
@@ -155,6 +174,15 @@ SCHEMAS: dict[str, dict] = {
 
 CANONICAL_TYPES: dict[str, dict | str] = {**ATOMS, **SCHEMAS}
 
+# The canonical dissolved-species names keying ``vg_molecules.dissolved`` /
+# ``.transport_params``. The first block are the vent/network solutes already in
+# use; the second is the chemically-necessary mixture a multisolute pore model
+# must co-localize (plan §6 — phosphate/ammonium/amino/amphiphile/nucleotide).
+CANONICAL_DISSOLVED_SPECIES: tuple[str, ...] = (
+    "H2", "CO2", "DIC", "alkalinity", "formate", "acetate", "pyruvate",
+    "phosphate", "ammonium", "amino_precursor", "amphiphile", "nucleotide_precursor",
+)
+
 # The plan's eight canonical interfaces -> the schema(s) a model class on that
 # interface reads/produces. A model class "implements" an interface when every
 # port it declares maps (via PORT_TO_CANONICAL) onto a field of these schemas.
@@ -199,8 +227,15 @@ PORT_TO_CANONICAL: dict[str, str] = {
     "formate": "vg_molecules.dissolved.formate",
     "acetate": "vg_molecules.dissolved.acetate",
     "pyruvate": "vg_molecules.dissolved.pyruvate",
+    # the chemically-necessary mixture for multisolute co-localization (plan §6)
+    "phosphate": "vg_molecules.dissolved.phosphate",
+    "ammonium": "vg_molecules.dissolved.ammonium",
+    "amino_precursor": "vg_molecules.dissolved.amino_precursor",
+    "amphiphile": "vg_molecules.dissolved.amphiphile",
+    "nucleotide_precursor": "vg_molecules.dissolved.nucleotide_precursor",
     "sources": "vg_molecules.dissolved",
-    "species_params": "vg_molecules.dissolved",
+    # per-species transport physics bundle (NOT the concentration pool)
+    "species_params": "vg_molecules.transport_params",
     "fields": "vg_molecules.dissolved",
     "enrichment": "vg_molecules.dissolved",
     "enrichment_factor": "vg_molecules.dissolved",
@@ -295,6 +330,7 @@ def register_canonical_types(core):
 
 __all__ = [
     "ATOMS", "SCHEMAS", "CANONICAL_TYPES", "CANONICAL_INTERFACES",
+    "CANONICAL_DISSOLVED_SPECIES",
     "PORT_TO_CANONICAL", "canonical_field", "schema_fields", "bounds",
     "is_registered", "register_canonical_types",
 ]

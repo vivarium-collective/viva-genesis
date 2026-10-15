@@ -72,3 +72,22 @@ def test_existing_process_units_are_atom_units():
                     assert port["_units"] in atom_units, (cls.__name__, port)
                     checked += 1
     assert checked > 10
+
+
+def test_species_transport_bundle_and_multisolute_species():
+    """The multisolute localization refinement (plan §4.5/§6): species_params is a
+    per-species transport-param bundle, not the concentration pool; the chemically
+    -necessary mixture species are blessed as canonical."""
+    from viva_genesis import schemas
+    core = build_core()
+    # the new param-bundle type registers and carries the five transport fields
+    assert schemas.is_registered(core, "vg_species_transport")
+    fields = schemas.schema_fields("vg_species_transport")
+    assert set(fields) == {"diffusivity", "soret", "k_ads", "k_des", "k_deg"}
+    # species_params now points at the param bundle map, NOT dissolved concentrations
+    assert schemas.canonical_field("species_params") == "vg_molecules.transport_params"
+    # the eight multisolute co-localization solutes are canonical dissolved species
+    for sp in ("phosphate", "ammonium", "amino_precursor", "amphiphile",
+               "nucleotide_precursor", "formate", "acetate", "pyruvate"):
+        assert sp in schemas.CANONICAL_DISSOLVED_SPECIES
+        assert schemas.canonical_field(sp) == f"vg_molecules.dissolved.{sp}"
