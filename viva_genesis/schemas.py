@@ -439,6 +439,34 @@ PORT_TO_CANONICAL: dict[str, str] = {
     "bits_per_precursor": "ledger.bits_per_precursor",
     "energy_residual": "ledger.energy_residual",
     "information_ledger_ok": "ledger.information_ledger_ok",
+    # biochemical ecology (proto_ecology face, Phase 8): the agent's dissolved
+    # pool, the per-agent production / flux witnesses, the exchange rules'
+    # readouts on the lineage and the cross-system element-ledger witnesses.
+    "internal": "vg_individual.internal",
+    "functions_produced": "diagnostics.functions_produced",
+    "functions_present": "diagnostics.functions_present",
+    "rule_flux": "diagnostics.rule_flux",
+    "h2_consumption": "vg_molecules.dissolved.H2",
+    "co2_fixation": "vg_molecules.dissolved.CO2",
+    "carbon_degraded": "ledger.carbon_degraded",
+    "uptake": "vg_lineage.uptake",
+    "secretion": "vg_lineage.secretion",
+    "interaction": "vg_lineage.interaction",
+    "position": "vg_lineage.position",
+    "lineage_id": "vg_lineage.lineage_id",
+    "field": "vg_molecules.dissolved",
+    "exchange_firings": "diagnostics.exchange_firings",
+    "cross_lineage_flux": "vg_lineage.secretion",
+    "metacommunity_robustness": "diagnostics.metacommunity_robustness",
+    "isolated_robustness": "diagnostics.isolated_robustness",
+    "robustness_gain": "diagnostics.robustness_gain",
+    "capability_diversity": "diagnostics.capability_diversity",
+    "luca_capability_overlap": "diagnostics.luca_capability_overlap",
+    "mean_capability": "diagnostics.mean_capability",
+    "C_residual": "ledger.element_residual",
+    "N_residual": "ledger.element_residual",
+    "P_residual": "ledger.element_residual",
+    "element_ledger_ok": "ledger.element_ledger_ok",
 }
 
 

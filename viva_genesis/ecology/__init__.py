@@ -26,8 +26,19 @@ Outputs: autonomous lineages, metabolic diversity, cross-feeding and robustness.
 
 Implemented (og-07): ``CrossFeedingMetacommunityProcess`` — a coarse-grained,
 deterministic cross-feeding metacommunity over N connected compartments.
+
+Implemented (Phase 8, og-07-alt-real-metabolite-exchange): ``proto_ecology`` —
+real reaction networks per protocell (``ProtocellNetworkProcess`` /
+``ProtocellNullNetworkProcess`` on the ``proto_ecology`` face), the
+``SpatialCouplingStep`` onto the Phase-4 fields with the exchange rules of a
+``BigraphicalReactiveSystem`` (``reactive_system``), and the
+``EcologyReducerStep`` that keeps og-07's gate names.
 """
 
 from .metacommunity import CrossFeedingMetacommunityProcess  # noqa: E402,F401
+from .proto_ecology import (EcologyReducerStep, ProtocellNetworkProcess,  # noqa: E402,F401
+                            ProtocellNullNetworkProcess, SpatialCouplingStep)
+from .reactive_system import BigraphicalReactiveSystem  # noqa: E402,F401
 
-__all__ = ["CrossFeedingMetacommunityProcess"]
+__all__ = ["CrossFeedingMetacommunityProcess", "ProtocellNetworkProcess", "ProtocellNullNetworkProcess",
+           "SpatialCouplingStep", "EcologyReducerStep", "BigraphicalReactiveSystem"]

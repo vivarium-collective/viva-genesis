@@ -228,6 +228,24 @@ HEREDITY_FACE = {
     },
 }
 
+# Biochemical ecology (Model Upgrade plan, Phase 8). Every class is a REAL
+# reaction network inside one protocell of the agents map: it reads the
+# agent's dissolved pool, advances its chemistry over the tick and writes the
+# pool deltas back; it must publish which product classes it PRODUCED itself
+# (so the reducer can separate intrinsic from acquired function), the per-rule
+# flux, and the Phase-3 witnesses the cross-system element ledger audits.
+# Exchange is not a port of the class — it is the SpatialCouplingStep's
+# reactive system — which is what keeps "a function the lineage cannot make"
+# a consequence of flux rather than of a port the class could write.
+PROTO_ECOLOGY_FACE = {
+    "required_inputs": {"internal"},
+    "optional_inputs": {"temperature", "pH"},
+    "required_outputs": {"internal", "functions_produced", "rule_flux", "net_carbon_flux", "dissipation",
+                         "element_residual"},
+    "optional_outputs": {"h2_consumption", "co2_fixation", "carbon_degraded", "total_organic_carbon",
+                         "n_persistent_species", "catalyst_saturation"},
+}
+
 FACES = {
     "spatial_transport": SPATIAL_TRANSPORT_FACE,
     "serpentinization": SERPENTINIZATION_FACE,
@@ -236,6 +254,7 @@ FACES = {
     "boundary": BOUNDARY_FACE,
     "energy_coupling": ENERGY_COUPLING_FACE,
     "heredity": HEREDITY_FACE,
+    "proto_ecology": PROTO_ECOLOGY_FACE,
 }
 
 
@@ -334,6 +353,18 @@ INTERFACES = {
             "rna_like": "local:RnaLikeHeredityProcess",              # A (template copy, Eigen ratchet)
             "hybrid": "local:HybridHeredityProcess",                 # A (short template focusing a composition)
             "mineral_state": "local:MineralStateHeredityProcess",    # A (crystal-face defect pattern, Cairns-Smith)
+        },
+    },
+    # Biochemical ecology (Model Upgrade plan, Phase 8): the Phase-3 network
+    # classes INSIDE each agent, masked to a lineage repertoire. og-07's
+    # CrossFeedingMetacommunityProcess (capability vectors, no pools) predates
+    # the face and does NOT satisfy it — it is the symbolic class the gate
+    # discriminates against, not a class on this face.
+    "proto_ecology": {
+        "face": "proto_ecology",
+        "models": {
+            "reaction_universe": "local:ProtocellNetworkProcess",       # A (Phase-3 universe inside the agent)
+            "null_network": "local:ProtocellNullNetworkProcess",        # A (Phase-3 matched null inside the agent)
         },
     },
 }

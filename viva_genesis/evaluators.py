@@ -787,6 +787,107 @@ def _frontier_energy_within_tolerance(reader, test: dict, ws_root: Any) -> float
     return 1.0 if _artifact_json(test, ws_root, _OG06ALT_FRONTIER)["ledger"]["all_energy_within_tolerance"] else 0.0
 
 
+# --- Phase 8 (og-07-alt-real-metabolite-exchange): run-level + artifact gates ----------------
+_OG07ALT_MAP = "workspace/studies/og-07-alt-real-metabolite-exchange/artifacts/community_function_map.json"
+
+
+def _element_ledger_ok_final(reader, test: dict, ws_root: Any) -> float:
+    """Final EcologyElementLedgerProcess verdict (C / N / P residuals over agents + field within tolerance)."""
+    return _values(reader, "element_ledger_ok")[-1]
+
+
+def _element_residual_max_all(reader, test: dict, ws_root: Any) -> float:
+    """Worst-case C / N / P residual of the cross-system element ledger on the run."""
+    return max(_values(reader, "C_residual_max")[-1], _values(reader, "N_residual_max")[-1],
+               _values(reader, "P_residual_max")[-1])
+
+
+def _carbon_residual_max_final(reader, test: dict, ws_root: Any) -> float:
+    return _values(reader, "C_residual_max")[-1]
+
+
+def _exchange_firings_final(reader, test: dict, ws_root: Any) -> float:
+    """Cumulative exchange-rule firings (uptake + secretion + diffusion + pore exchange) on the run."""
+    return _values(reader, "exchange_firings_total")[-1]
+
+
+def _cross_lineage_flux_total_final(reader, test: dict, ws_root: Any) -> float:
+    """Cumulative moles secreted by one lineage and taken up by another (the real-flux witness)."""
+    return _values(reader, "cross_lineage_flux_total")[-1]
+
+
+def _max_cell_completeness_final(reader, test: dict, ws_root: Any) -> float:
+    """Max over agents of |functions held| / |community union| on the final tick (< 1: no cell is complete)."""
+    return _values(reader, "max_cell_completeness")[-1]
+
+
+def _n_functions_union_final(reader, test: dict, ws_root: Any) -> float:
+    return _values(reader, "n_functions_union")[-1]
+
+
+def _settled_robustness_gain(reader, test: dict, ws_root: Any) -> float:
+    """Settled held-minus-produced robustness: what real metabolite flux delivered."""
+    return _settled_mean(reader, "robustness_gain", frac=0.2)
+
+
+def _n_community_only_functions(reader, test: dict, ws_root: Any) -> float:
+    """Product classes held in the community but held / produced by no lineage in monoculture (nominal point)."""
+    return float(_artifact_json(test, ws_root, _OG07ALT_MAP)["gates"]["n_community_only_functions"])
+
+
+def _n_vanish_without_exchange(reader, test: dict, ws_root: Any) -> float:
+    return float(_artifact_json(test, ws_root, _OG07ALT_MAP)["gates"]["n_vanish_without_exchange"])
+
+
+def _community_flux_sustained(reader, test: dict, ws_root: Any) -> float:
+    """1 when every community-only function vanishes in the private arm and a cross-lineage flux of its precursor exists."""
+    return float(_artifact_json(test, ws_root, _OG07ALT_MAP)["gates"]["flux_sustained"])
+
+
+def _community_cross_lineage_flux(reader, test: dict, ws_root: Any) -> float:
+    return float(_artifact_json(test, ws_root, _OG07ALT_MAP)["gates"]["community_cross_lineage_flux_total"])
+
+
+def _community_max_cell_completeness(reader, test: dict, ws_root: Any) -> float:
+    return float(_artifact_json(test, ws_root, _OG07ALT_MAP)["gates"]["community_max_cell_completeness"])
+
+
+def _community_over_generalist(reader, test: dict, ws_root: Any) -> float:
+    v = _artifact_json(test, ws_root, _OG07ALT_MAP)["gates"]["community_over_generalist"]
+    if v is None:
+        raise ValueError("no community-only function to compare with the generalist")
+    return float(v)
+
+
+def _null_community_only_max(reader, test: dict, ws_root: Any) -> float:
+    return float(_artifact_json(test, ws_root, _OG07ALT_MAP)["gates"]["null_community_only_max"])
+
+
+def _segregated_n_community_only(reader, test: dict, ws_root: Any) -> float:
+    return float(_artifact_json(test, ws_root, _OG07ALT_MAP)["gates"]["segregated_n_community_only"])
+
+
+def _emergence_p_diacid_nominal(reader, test: dict, ws_root: Any) -> float:
+    """Lowest diacid permeability (m/s) at the nominal residence at which the community-only function emerges."""
+    v = _artifact_json(test, ws_root, _OG07ALT_MAP)["gates"]["emergence_p_diacid_at_nominal_residence"]
+    if v is None:
+        raise ValueError("no emergence inside the swept permeability range")
+    return float(v)
+
+
+def _map_ledgers_all_ok(reader, test: dict, ws_root: Any) -> float:
+    return 1.0 if _artifact_json(test, ws_root, _OG07ALT_MAP)["gates"]["all_ledgers_ok"] else 0.0
+
+
+def _map_carbon_residual_max(reader, test: dict, ws_root: Any) -> float:
+    return float(_artifact_json(test, ws_root, _OG07ALT_MAP)["ledger"]["C_residual_max"])
+
+
+def _connected_minus_isolated_robustness(reader, test: dict, ws_root: Any) -> float:
+    """og-07's connected-beats-isolated, on the real community: robustness(shared) - robustness(private)."""
+    return float(_artifact_json(test, ws_root, _OG07ALT_MAP)["gates"]["connected_minus_isolated_robustness"])
+
+
 def register_derived_scalars(registry: dict) -> None:
     """Hook called by study_evaluator.load_workspace_derived_scalars."""
     # protocell_energetics / Phase-6 energy coupling (og-energy-alt-internalization-threshold)
@@ -917,3 +1018,26 @@ def register_derived_scalars(registry: dict) -> None:
     registry["endogenous_rewrite_conservation_ok"] = _endogenous_rewrite_conservation_ok
     registry["peak_generation"] = _peak_generation
     registry["partition_residual_peak"] = _partition_residual_peak
+    # Phase 8 (og-07-alt-real-metabolite-exchange): the cross-system element ledger,
+    # the exchange-rule firings / cross-lineage flux, cell completeness and the
+    # community-function artifact gates
+    registry["element_ledger_ok_final"] = _element_ledger_ok_final
+    registry["element_residual_max_all"] = _element_residual_max_all
+    registry["carbon_residual_max_final"] = _carbon_residual_max_final
+    registry["exchange_firings_final"] = _exchange_firings_final
+    registry["cross_lineage_flux_total_final"] = _cross_lineage_flux_total_final
+    registry["max_cell_completeness_final"] = _max_cell_completeness_final
+    registry["n_functions_union_final"] = _n_functions_union_final
+    registry["settled_robustness_gain"] = _settled_robustness_gain
+    registry["n_community_only_functions"] = _n_community_only_functions
+    registry["n_vanish_without_exchange"] = _n_vanish_without_exchange
+    registry["community_flux_sustained"] = _community_flux_sustained
+    registry["community_cross_lineage_flux"] = _community_cross_lineage_flux
+    registry["community_max_cell_completeness"] = _community_max_cell_completeness
+    registry["community_over_generalist"] = _community_over_generalist
+    registry["null_community_only_max"] = _null_community_only_max
+    registry["segregated_n_community_only"] = _segregated_n_community_only
+    registry["emergence_p_diacid_nominal"] = _emergence_p_diacid_nominal
+    registry["map_ledgers_all_ok"] = _map_ledgers_all_ok
+    registry["map_carbon_residual_max"] = _map_carbon_residual_max
+    registry["connected_minus_isolated_robustness"] = _connected_minus_isolated_robustness

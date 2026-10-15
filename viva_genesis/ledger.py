@@ -744,7 +744,139 @@ INFORMATION_LEDGER_KEYS = ("heritable_bits", "energy_per_offspring", "precursors
                            "bits_per_precursor", "energy_in", "energy_used", "energy_residual",
                            "information_ledger_ok")
 
+
+_OVW_MOL = {"_type": "overwrite[float]", "_units": "mole"}
+
+
+class EcologyElementLedgerProcess(Process):
+    """Element ledger ACROSS agents and fields (Phase 8).
+
+    Sits beside the ``proto_ecology`` agents and the ``SpatialCouplingStep``
+    and, every tick, sums the carbon, nitrogen and phosphorus held by **every
+    agent's interior and every field cell** (``moles = concentration x
+    volume``, element counts from the universe's exact formulas plus the
+    inorganic N / P solutes) and compares the total with the only sources and
+    sinks of the metacommunity: the pore's feed inflow and washout outflow
+    (integrated per element by the coupling step's pore-exchange rule) and the
+    carbon the agents' networks degraded to tar (each agent's roadrunner
+    integrator). Membrane uptake / secretion and pore diffusion move matter
+    between places of the bigraph and must leave the total untouched — the
+    same float leaves one place and enters the other — so
+
+        total_X(t) = total_X(0) + in_X - out_X - degraded_X        (X = C, N, P)
+
+    holds at integrator tolerance for carbon (the network's CVODE run) and at
+    round-off for N and P (no chemistry transforms them in the C/H/O
+    universe — the ledger is in place for the N/P-bearing rule set). Also
+    integrates the exchange-rule firing counts and publishes one
+    ``element_ledger_ok``.
+    """
+
+    contract = {
+        "summary": "Cross-system element ledger: C / N / P summed over every agent and field cell must equal the initial total plus pore inflow minus washout minus tar, every tick; exchange-rule firings integrated.",
+        "description": (
+            "Sums C, N and P over the agents' interiors and the field cells (concentration x volume x element "
+            "count), reads the coupling step's cumulative per-element pore inflow / outflow and the agents' "
+            "cumulative carbon degraded to tar, and publishes the relative residual of the balance per element, "
+            "the worst case so far, the cumulative exchange-rule firings and element_ledger_ok = 1 while every "
+            "residual is within tolerance. Membrane exchange and pore diffusion are internal transfers and must "
+            "not appear in the balance."
+        ),
+        "inputs": {"agents": "agents map (volume, internal.dissolved)", "field": "pore cells (dissolved pools)",
+                   "inflow": "cumulative moles of C / N / P fed by the pore", "outflow": "cumulative moles washed out",
+                   "rates": "per-agent cumulative carbon degraded to tar (mole)",
+                   "firings": "cumulative exchange-rule firings per rule"},
+        "outputs": {"C_total": "carbon in agents + field (mole)", "N_total": "nitrogen (mole)", "P_total": "phosphorus (mole)",
+                    "C_residual": "|C_total - C0 - (in - out - degraded)| / max(C0 + in, eps)",
+                    "N_residual": "same for N", "P_residual": "same for P",
+                    "C_residual_max": "worst case so far", "N_residual_max": "worst case so far", "P_residual_max": "worst case so far",
+                    "carbon_degraded": "cumulative carbon to tar over all agents (mole)",
+                    "exchange_firings_total": "cumulative firings of every exchange rule",
+                    "element_ledger_ok": "1 while every residual is within tolerance"},
+        "assumptions": ["The coupling step integrates the pore boundary flows exactly (analytic relaxation); the agents' tar "
+                        "integrators carry CVODE tolerance, so the carbon tolerance is the integrator's, not round-off."],
+        "math": ["total_X(t) = total_X(0) + in_X - out_X - degraded_X"],
+    }
+
+    config_schema = {
+        "carbon_tolerance": {"_type": "float", "_default": 1.0e-4, "_units": "dimensionless", "_provenance": "inferred"},
+        "np_tolerance": {"_type": "float", "_default": 1.0e-9, "_units": "dimensionless", "_provenance": "inferred"},
+        "cell_volume": {"_type": "float", "_default": 2.0e-17, "_units": "liter", "_provenance": "hypothetical"},
+        "max_carbons": {"_type": "integer", "_default": 4, "_units": "dimensionless", "_provenance": "hypothetical"},
+    }
+
+    def __init__(self, config=None, core=None):
+        super().__init__(config=config, core=core)
+        from .ecology.proto_ecology import species_elements
+        self._el = species_elements(int(self.config["max_carbons"]))
+        self._base = None
+        self._max = {"C": 0.0, "N": 0.0, "P": 0.0}
+
+    def inputs(self):
+        return {"agents": "map[vg_individual]", "field": "map[map[vg_concentration]]", "inflow": "tree",
+                "outflow": "tree", "rates": "map[map[float]]", "firings": "tree"}
+
+    def outputs(self):
+        return {"C_total": _OVW_MOL, "N_total": _OVW_MOL, "P_total": _OVW_MOL,
+                "C_residual": _OVW, "N_residual": _OVW, "P_residual": _OVW,
+                "C_residual_max": _OVW, "N_residual_max": _OVW, "P_residual_max": _OVW,
+                "carbon_degraded": _OVW_MOL, "exchange_firings_total": _OVW, "element_ledger_ok": _OVW}
+
+    def initial_state(self):
+        return {"inflow": {}, "outflow": {}, "rates": {}, "firings": {}}
+
+    def _totals(self, agents, field) -> dict:
+        tot = {"C": 0.0, "N": 0.0, "P": 0.0}
+        for a in agents.values():
+            v = float(a.get("volume", 0.0))
+            for s, c in ((a.get("internal") or {}).get("dissolved") or {}).items():
+                e = self._el.get(s)
+                if e:
+                    for k in tot:
+                        tot[k] += float(c) * v * e[k]
+        vc = float(self.config["cell_volume"])
+        for cell in field.values():
+            for s, c in (cell or {}).items():
+                e = self._el.get(s)
+                if e:
+                    for k in tot:
+                        tot[k] += float(c) * vc * e[k]
+        return tot
+
+    def update(self, state, interval):
+        agents = state.get("agents", {}) or {}
+        field = state.get("field", {}) or {}
+        inflow = state.get("inflow", {}) or {}
+        outflow = state.get("outflow", {}) or {}
+        rates = state.get("rates", {}) or {}
+        tot = self._totals(agents, field)
+        deg = sum(float((m or {}).get("carbon_degraded", 0.0)) for m in rates.values())
+        flows = {k: float(inflow.get(k, 0.0)) - float(outflow.get(k, 0.0)) - (deg if k == "C" else 0.0) for k in tot}
+        if self._base is None:
+            # the state read now already carries the flows applied so far
+            self._base = {k: tot[k] - flows[k] for k in tot}
+        res = {}
+        for k in tot:
+            expected = self._base[k] + flows[k]
+            scale = max(abs(self._base[k]) + abs(float(inflow.get(k, 0.0))), 1e-30)
+            res[k] = abs(tot[k] - expected) / scale
+            self._max[k] = max(self._max[k], res[k])
+        ok = (self._max["C"] <= float(self.config["carbon_tolerance"])
+              and self._max["N"] <= float(self.config["np_tolerance"])
+              and self._max["P"] <= float(self.config["np_tolerance"]))
+        firings = sum(float(v) for v in (state.get("firings", {}) or {}).values())
+        return {"C_total": tot["C"], "N_total": tot["N"], "P_total": tot["P"],
+                "C_residual": res["C"], "N_residual": res["N"], "P_residual": res["P"],
+                "C_residual_max": self._max["C"], "N_residual_max": self._max["N"], "P_residual_max": self._max["P"],
+                "carbon_degraded": deg, "exchange_firings_total": firings,
+                "element_ledger_ok": 1.0 if ok else 0.0}
+
+
+ECOLOGY_LEDGER_KEYS = ("C_total", "N_total", "P_total", "C_residual", "N_residual", "P_residual",
+                       "C_residual_max", "N_residual_max", "P_residual_max", "carbon_degraded",
+                       "exchange_firings_total", "element_ledger_ok")
+
 __all__ = ["ConservationLedgerProcess", "ChargeLedgerProcess", "NetworkLedgerProcess", "InformationLedgerProcess",
-           "RewriteLedgerProcess", "FreeEnergyLedgerProcess",
+           "RewriteLedgerProcess", "FreeEnergyLedgerProcess", "EcologyElementLedgerProcess",
            "LEDGER_KEYS", "CHARGE_LEDGER_KEYS", "NETWORK_LEDGER_KEYS", "INFORMATION_LEDGER_KEYS", "REWRITE_LEDGER_KEYS",
-           "FREE_ENERGY_LEDGER_KEYS", "ledger_summary", "rewrite_ledger_summary"]
+           "FREE_ENERGY_LEDGER_KEYS", "ECOLOGY_LEDGER_KEYS", "ledger_summary", "rewrite_ledger_summary"]

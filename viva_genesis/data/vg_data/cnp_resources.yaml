@@ -1,0 +1,245 @@
+# vg-data package: C / N / P RESOURCE BUDGETS of the pore metacommunity (Model Upgrade plan,
+# Phase 8 — biochemical ecology; the cross-cutting N / P datasets of the enrichment plan).
+#
+# Everything the Phase-8 community needs that the Phase-3 reaction_universe package does not
+# already carry: the feed the pore delivers (carbon from the Phase-1 posterior point, the
+# reduced-nitrogen and reactive-phosphorus pools og-res-N / og-res-P established), the pore's
+# residence time and cell structure, the protocell's size, the membrane permeability of each
+# solute class (the exchange rules' rate constants), the stoichiometric C:N:P demand a growing
+# individual would impose, and the function / flux floors the reducer grades on. The audit is
+# the honesty indicator: the carbon feed is CALIBRATED (Phase 1), the N / P pools EXTRAPOLATED
+# from the og-res stages' sources, every membrane permeability EXTRAPOLATED from fatty-acid
+# vesicle measurements or HYPOTHETICAL (the diacid value — the swept Decision axis — has no
+# measurement), and the residence time is the og-02 convention swept over the Phase-4 window.
+# Agent-proposed references (Mansy 2008 vesicle permeabilities, Redfield 1934 stoichiometry) are
+# recorded in the investigation's proposed_inputs as PENDING and are not cited here.
+name: cnp_resources
+version: '1'
+description: >-
+  Phase-8 biochemical ecology: the carbon / nitrogen / phosphorus feed of the pore
+  metacommunity, the pore residence time and cells, the protocell size, the per-class
+  membrane permeabilities that set the exchange rules' rate constants, the C:N:P demand,
+  and the function / flux floors behind the proto_ecology face and the og-07 reducer.
+sources:
+- kelley2005serpentinite
+- proskurowski2008abiogenic
+- muchowska2019synthesis
+- dorr2003prebiotic
+- huber1997activated
+- pasek2017schreibersite
+- jordan2019promotion
+- sojo2014bioenergetic
+- mast2010thermal
+- baaske2007extreme
+- weiss2016physiology
+- wolos2020synthetic
+parameters:
+# ---- the carbon feed (from the Phase-1 posterior through the Phase-3 package) --------------
+- id: feed_CO2
+  units: molar
+  provenance: calibrated
+  value: 1.4e-3
+  context: {source: "og-cal-vent-environment posterior example point (DIC), carried by reaction_universe.feed_CO2"}
+  sources: [kelley2005serpentinite]
+  distribution: {kind: loguniform, low: 1.2e-3, high: 2.9e-3}
+  consumed_by: metabolite_exchange_community.feed_CO2
+  how_to_use: Inlet CO2 of the pore background; the Phase-4 enrichment profile scales it along the pore.
+- id: feed_H2
+  units: molar
+  provenance: calibrated
+  value: 1.08e-2
+  context: {source: "og-cal-vent-environment posterior example point (dissolved H2 10.8 mmol/kg)"}
+  sources: [kelley2005serpentinite, proskurowski2008abiogenic]
+  distribution: {kind: loguniform, low: 1.0e-3, high: 1.5e-2}
+  consumed_by: metabolite_exchange_community.feed_H2
+  how_to_use: Inlet H2; the hydrogenating lineage's electron source.
+- id: feed_pyruvate
+  units: molar
+  provenance: inferred
+  value: 1.0e-4
+  context: {source: "og-01 reduced-carbon products (og-02 convention)"}
+  sources: [muchowska2019synthesis]
+  distribution: {kind: loguniform, low: 1.0e-6, high: 1.0e-3}
+  consumed_by: metabolite_exchange_community.feed_pyruvate
+  how_to_use: Inlet pyruvate, the organic feed both lineages draw on (carboxylation substrate for the fixer, hydrogenation substrate for the reducer).
+- id: feed_formate
+  units: molar
+  provenance: hypothetical
+  value: 0.0
+  context: {arm: "optional C1 feed"}
+  consumed_by: metabolite_exchange_community.feed_formate
+  how_to_use: 0 in the canonical arm; the fixer lineage makes formate from CO2 + H2 itself.
+# ---- the nitrogen and phosphorus pools (og-res-N / og-res-P) -------------------------------
+- id: feed_ammonium
+  units: molar
+  provenance: extrapolated
+  value: 5.0e-5
+  context: {source: "og-res-nitrogen-assimilation settled NH4+ range under FeS-mediated nitrate reduction", note: "the C/H/O universe carries no N rules yet, so ammonium is taken up and conserved but not transformed"}
+  sources: [dorr2003prebiotic, huber1997activated]
+  distribution: {kind: loguniform, low: 1.0e-6, high: 1.0e-3}
+  consumed_by: metabolite_exchange_community.feed_ammonium
+  how_to_use: Inlet reduced nitrogen of the pore background; the N budget the cross-system ledger conserves (N_residual) and the C:N supply the community sees.
+- id: feed_phosphate
+  units: molar
+  provenance: extrapolated
+  value: 1.0e-5
+  context: {source: "og-res-phosphorus-availability reactive-P window (schreibersite-derived phosphate before apatite precipitation)"}
+  sources: [pasek2017schreibersite]
+  distribution: {kind: loguniform, low: 1.0e-7, high: 1.0e-4}
+  consumed_by: metabolite_exchange_community.feed_phosphate
+  how_to_use: Inlet reactive phosphorus; the P budget the ledger conserves (P_residual).
+- id: cn_demand
+  units: dimensionless
+  provenance: hypothetical
+  value: 5.0
+  context: {meaning: "C:N a growing protocell would impose; og-res-N's cn_target"}
+  consumed_by: cnp_resources.cn_demand
+  how_to_use: Reference stoichiometric demand for reading the community's C:N supply ratio; not a gate this phase (a Redfield-type anchor is proposed in proposed_inputs, pending).
+- id: cp_demand
+  units: dimensionless
+  provenance: hypothetical
+  value: 100.0
+  context: {meaning: "C:P a growing protocell would impose"}
+  consumed_by: cnp_resources.cp_demand
+  how_to_use: Reference C:P demand (Redfield-type anchor pending expert acceptance).
+# ---- the pore: residence, cells, volume ----------------------------------------------------
+- id: k_wash
+  units: 1/second
+  provenance: inferred
+  value: 0.01
+  context: {meaning: "pore feed / washout rate = 1 / residence time", note: "og-02's CSTR convention (0.05/s) extended to the Phase-4 trap window (long tight pores retain)"}
+  sources: [mast2010thermal, baaske2007extreme]
+  distribution: {kind: loguniform, low: 1.0e-3, high: 1.0e-1}
+  consumed_by: SpatialCouplingStep.k_wash
+  how_to_use: The residence axis of the Decision map; the canonical point (0.01/s, 100 s) sits inside the Phase-4 retention window.
+- id: k_diffusion
+  units: 1/second
+  provenance: hypothetical
+  value: 0.1
+  context: {meaning: "exchange rate between neighbouring pore cells (D / dx^2 on the cell scale)"}
+  consumed_by: SpatialCouplingStep.k_diffusion
+  how_to_use: Mixes the cells so cross-feeding is not confined to one cell; not swept.
+- id: n_cells
+  units: dimensionless
+  provenance: hypothetical
+  value: 4
+  consumed_by: SpatialCouplingStep.n_cells
+  how_to_use: Field cells along the flow axis; agents are pointed at fixed cells (no motion this phase).
+- id: pool_volume_multiplier
+  units: dimensionless
+  provenance: hypothetical
+  value: 10.0
+  context: {meaning: "pore volume shared by the population, in units of the population's own volume (Phase-7 convention)"}
+  consumed_by: metabolite_exchange_community.pool_volume_multiplier
+  how_to_use: Sets the field cell volume = multiplier x n_agents x agent_volume / n_cells.
+# ---- the protocell ---------------------------------------------------------------------------
+- id: agent_volume
+  units: liter
+  provenance: inferred
+  value: 1.0e-18
+  context: {scale: "a ~1.2 um fatty-acid vesicle (og-04 / Phase 5 / Phase 7), 1 fL"}
+  sources: [jordan2019promotion]
+  consumed_by: ProtocellNetworkProcess.volume
+  how_to_use: Converts the agent's concentrations to moles for the element ledger and the cross-lineage flux.
+- id: area_per_volume
+  units: 1/meter
+  provenance: inferred
+  value: 4.84e6
+  context: {meaning: "3 / r for r = 0.62 um"}
+  sources: [jordan2019promotion]
+  consumed_by: SpatialCouplingStep.area_per_volume
+  how_to_use: Membrane rate constant k = P x A / V per species.
+# ---- membrane permeability classes (the exchange rules' rate constants) -------------------
+- id: p_gas
+  units: meter/second
+  provenance: extrapolated
+  value: 1.0e-5
+  context: {class: "CO2 and H2", note: "small uncharged gases cross lipid bilayers orders faster than any solute"}
+  sources: [sojo2014bioenergetic]
+  consumed_by: SpatialCouplingStep.p_gas
+  how_to_use: Keeps the inorganic feed in equilibrium across the membrane within a tick.
+- id: p_small_neutral
+  units: meter/second
+  provenance: extrapolated
+  value: 1.0e-7
+  context: {class: "uncharged C1-C2 species (aldehydes, alcohols)", note: "fatty-acid vesicles are 10-100x leakier than phospholipid bilayers"}
+  sources: [jordan2019promotion]
+  distribution: {kind: loguniform, low: 1.0e-8, high: 1.0e-6}
+  consumed_by: SpatialCouplingStep.p_small_neutral
+  how_to_use: Rate constant class for small neutral organics.
+- id: p_large_neutral
+  units: meter/second
+  provenance: extrapolated
+  value: 3.0e-8
+  context: {class: "uncharged C3-C4 species"}
+  sources: [jordan2019promotion]
+  distribution: {kind: loguniform, low: 3.0e-9, high: 3.0e-7}
+  consumed_by: SpatialCouplingStep.p_large_neutral
+  how_to_use: Rate constant class for larger neutral organics.
+- id: p_monoacid
+  units: meter/second
+  provenance: extrapolated
+  value: 1.0e-7
+  context: {class: "singly charged carboxylates (formate, acetate, pyruvate, lactate)", note: "the canonical point sets it 10x the diacid value; the measured range for charged solutes through fatty-acid vesicles lies 1-2 decades lower (proposed_inputs, pending)"}
+  sources: [jordan2019promotion, sojo2014bioenergetic]
+  distribution: {kind: loguniform, low: 1.0e-10, high: 1.0e-6}
+  consumed_by: SpatialCouplingStep.p_monoacid
+  how_to_use: Swept together with p_diacid (10x) as the acid-permeability axis of the Decision map.
+- id: p_diacid
+  units: meter/second
+  provenance: hypothetical
+  value: 1.0e-8
+  context: {class: "dicarboxylates (oxaloacetate, malate, succinate) — the exchanged intermediates of the community function", note: "NO measurement exists for dicarboxylate permeation of fatty-acid vesicles; the canonical value is an operating point inside the emergence region and the measured charged-solute range sits below the boundary"}
+  distribution: {kind: loguniform, low: 1.0e-10, high: 1.0e-7}
+  consumed_by: SpatialCouplingStep.p_diacid
+  how_to_use: "THE Decision axis of og-07-alt: below ~3e-9 m/s at 100 s residence the reductive C4 branch does not cross from the fixer to the reducer lineage. The weakest number in the package."
+- id: p_ion
+  units: meter/second
+  provenance: extrapolated
+  value: 1.0e-10
+  context: {class: "inorganic ions (ammonium, phosphate)"}
+  sources: [sojo2014bioenergetic]
+  consumed_by: SpatialCouplingStep.p_ion
+  how_to_use: Rate constant class for the N / P solutes (taken up, conserved, not transformed).
+# ---- grading floors (og-07 reducer) -----------------------------------------------------------
+- id: function_floor
+  units: molar
+  provenance: inferred
+  value: 1.0e-9
+  context: {meaning: "concentration above which an agent HOLDS a product class; the Phase-3 conc_floor"}
+  sources: [wolos2020synthetic]
+  consumed_by: EcologyReducerStep.function_floor
+  how_to_use: Presence floor for the function vocabulary (1 nM = ~1 molecule per fL).
+- id: flux_floor
+  units: molar/second
+  provenance: inferred
+  value: 1.0e-12
+  context: {meaning: "net internal production above which an agent PRODUCES a product class; the Phase-3 flux_floor"}
+  sources: [wolos2020synthetic]
+  consumed_by: ProtocellNetworkProcess.flux_floor
+  how_to_use: Production floor; separates intrinsic (produced) from acquired (held by uptake) function.
+- id: redundancy_target
+  units: dimensionless
+  provenance: inferred
+  value: 2
+  context: {meaning: "og-07's R — a function is robust when >= R agents hold it"}
+  sources: [weiss2016physiology]
+  consumed_by: EcologyReducerStep.redundancy_target
+  how_to_use: Keeps og-07's metacommunity_robustness definition.
+observations:
+  lost_city_dissolved_h2:
+    quantity: dissolved H2 in Lost City end-member fluids
+    low: 1.0e-3
+    high: 1.5e-2
+    units: molar
+    sources: [kelley2005serpentinite, proskurowski2008abiogenic]
+    note: the Phase-1 conditioning window carried through to the pore feed.
+repertoires:
+  _note: lineage repertoires are rule SETS of the Phase-3 universe (viva_genesis.ecology.proto_ecology.REPERTOIRES), not numbers; recorded here for the audit trail.
+  fixer: [co2_reduction, carboxylate_alpha, carboxylate_reductive, decarboxylate_alpha, decarboxylate_beta]
+  reducer: [reduce_carbonyl, reduce_carboxyl, deoxygenate, decarboxylate_alpha, decarboxylate_beta]
+  condenser: [aldol, formose_initiation, isomerize, cannizzaro, decarboxylate_alpha, decarboxylate_beta]
+  generalist: all twelve rules
+  note: the thermal decarboxylations are uncatalysed and belong to every lineage; the partition is by catalyst chemistry (FeS-type reduction vs carboxylation vs alkaline condensation).
+downstream_requirements:
+  phase_9_autonomy: the community's cross-lineage flux and each agent's completeness (community.mean_capability) under ablation of the pore feed; N / P rules in the universe before the C:N:P demand becomes a gate
