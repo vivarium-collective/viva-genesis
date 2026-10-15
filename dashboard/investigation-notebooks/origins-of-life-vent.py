@@ -3101,6 +3101,184 @@ _save_viz('og-growth-alt-physical-reproduction', 'physical-reproduction-lineage'
 # | --- | --- | --- | --- |
 # |  |  |  |  |
 
+# ## Study: The Internalization Threshold: When Does Owning an Energy Store Pay, Per Coupling Class? (`og-energy-alt-internalization-threshold`)
+#
+# **Question.** Model Upgrade plan, Phase 6. og-energy showed a pre-ATP carrier can capture geochemical free energy into a transferable store, and og-05 showed selection can shift a POPULATION toward pumped (internal) bioenergetics as the external gradient declines — but both left the energy budget outside the individual. If the coupling mechanism is put INSIDE a protocell as a model class on one energy_coupling face — the passive external tap, a pumped H+/Na+ gradient store that leaks with the membrane, the thioester / acyl-phosphate and polyphosphate carriers, a reduced-metal store charged by Fe(II) disproportionation — and each individual's power budget is audited by a free-energy ledger, at what coupling activity does the internal store's benefit exceed its leak plus the machinery's maintenance, per class, and how does that threshold move with the membrane's leak and the external gradient?
+#
+# **Objective.** Build the energy_coupling face (passive_gradient | h_na_gradient_leaky_membrane | thioester_acyl_phosphate | polyphosphate | fe_redox) with the per-individual autonomy readout internal / (internal + external) power, the vg-data package energy_currencies (drives, H+/Na+ permeabilities, carrier bonds and decay, per-cell turnover and maintenance), the FreeEnergyLedgerProcess (free_energy_in >= work + dissipated with the store, exact every tick) and the protocell_energetics composite; sweep passive -> active coupling across the classes, the membrane leak and the gradient state, and find where internalization pays.
+#
+# **Hypothesis.** Internalization pays only where the store can be charged above the load's free energy faster than it leaks: the thioester-class carrier (bond 35 kJ/mol, leaking by hydrolysis) pays from a low activity at the nominal membrane; the ion-gradient store drains through the Na+ leak at fatty-acid permeabilities and pays only in tight membranes; the polyphosphate store (bond 20 kJ/mol) cannot clear a 30 kJ/mol load unless nearly fully charged; the Fe-redox store sits near the load potential and is marginal. The threshold is thermodynamic (the store potential must clear the load), not a fitted rate, so the classes separate on their leak law and bond energy — a structure-sensitive answer the sweep reports as such.
+#
+# **Claim.** Owning an energy store pays only where the store can be charged above the load's free energy faster than it leaks, and WHICH chemistry can do that at a given membrane is the structural answer: a thioester-class carrier internalizes from a tenth of the drive at fatty-acid-like leak, a Fe-redox store only at near-full activity, a pumped H+/Na+ gradient only once the membrane is a hundred times tighter (the Sojo constraint, per individual), and a polyphosphate store not at all against a 30 kJ/mol step. The free-energy ledger (free_energy_in >= work + dissipated with the store) closes to rounding on every one of the 990 runs, so none of these thresholds is a bookkeeping artefact — they are the leak law and the bond energy against the load, in a coarse-grained model.
+
+# ### Design — originally proposed
+#
+# _The mechanisms and methods proposed when this study was designed; the model **actually built** (and the tools it uses) is shown below. These may differ as the design was realized._
+#
+# **Proposed mechanisms**
+#
+# - H: bioenergetic internalization — inside the individual, as competing coupling classes
+# - energetics: pre-ATP currencies (thioester / acyl phosphate / polyphosphate / reduced metal) and the Sojo leaky-membrane ion gradient
+#
+# **Proposed models / methods**
+#
+# - energy_coupling face with five structurally different store laws (none / ionic capacitor / chemical ideal-mixing) behind one per-individual power budget
+# - thermodynamic store gates (drive must clear the store potential to charge; the store potential must clear the load to deliver work)
+# - free-energy ledger (free_energy_in >= work + dissipated with the store) as a contract invariant
+# - sweep over class x coupling activity x membrane permeability x gradient state; pays = net power above the passive baseline
+#
+# **Key assumptions**
+#
+# - One individual (radius 0.5 um) between the external ion gradient (tapped through its H+ leak, F P_H A dc pmf, captured at 0.3) and a chemical drive delivered by substrate turnover (1e-21 mol/s at full activity) that needs no leak.
+# - Store potentials: chemical carriers mu(q) = bond + RT ln(q/(1-q)) (ideal mixing, relative to the resting charge); ion gradient mu(q) = n F pmf_max q (capacitor, n = 3 ions per transfer, pmf_max 0.2 V).
+# - Charging needs the drive to clear mu(q) (capped exactly); work needs mu(q) to clear the 30 kJ/mol load; leaks relax toward the resting charge at hydrolysis / oxidation rates plus carrier permeation (ratio x P_H x A/V).
+# - Maintenance = 1e-19 W base + 5e-18 W x activity; the passive baseline pays only the base.
+# - pays = settled net power above the passive baseline at the same membrane and gradient by > 1e-21 W.
+
+# ### Parameters
+#
+# | simulation | composite | steps | params |
+# | --- | --- | --- | --- |
+# | `Protocell energetics — thioester class at half activity, nominal membrane` | `viva_genesis.composites.protocell_energetics.protocell_energetics` | 0 | model_energy_coupling=thioester_acyl_phosphate, coupling_activity=0.5 |
+#
+# Declared parameter sets (`study.yaml` variants):
+#
+# - **passive** — `model_energy_coupling=passive_gradient`
+# - **ion-gradient** — `model_energy_coupling=h_na_gradient_leaky_membrane`, `coupling_activity=1.0`
+# - **polyphosphate** — `model_energy_coupling=polyphosphate`, `coupling_activity=1.0`
+# - **fe-redox** — `model_energy_coupling=fe_redox`, `coupling_activity=1.0`
+# - **tight-membrane** — `permeability=1e-08`
+# - **collapsed-gradient** — `electric_potential=0.02`
+
+# ### The model & its parameters
+#
+# Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
+
+# **The model — `viva_genesis.composites.protocell_energetics.protocell_energetics`**
+#
+# A protocell's energy budget with the energy-coupling mechanism as a model CLASS on the energy_coupling face (model_energy_coupling: passive_gradient | h_na_gradient_leaky_membrane | thioester_acyl_phosphate | polyphosphate | fe_redox). The individual (radius, membrane permeability) sits between the external ion gradient (tapped only through its leak) and the chemical drive (H2/CO2 redox, or Fe(II) disproportionation for fe_redox; vg-data energy_currencies); coupling_activity moves it from passive to active. Publishes the per-individual power budget (external / internal / maintenance / leak / net power, the store, autonomy = internal / (internal + external)) audited by a FreeEnergyLedgerProcess. Coarse-grained deterministic kinetics (reproducible), not a wrapped engine.
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_protocell_energetics_protocell_energetics = {
+    'model_energy_coupling': 'thioester_acyl_phosphate',   # Model class behind the 'energy_coupling' face: fe_redox | h_na_gradient_leaky_membrane | passive_gradient | polyphosphate | thioester_acyl_phosphate
+    'coupling_activity'    : 0.5,   # Passive -> active axis: fraction of the drive turnover coupled into the internal store (0 = external tap only) [vg-data: hypothetical]
+    'permeability'         : 1e-06,   # Membrane H+ permeability (m/s): the leak that feeds the external tap and drains the store [vg-data: extrapolated]
+    'electric_potential'   : 0.216,   # External ion gradient (V) at t = 0 [vg-data: calibrated to the Phase-1 posterior dpH]
+    'decline_rate'         : 0.0,   # External-gradient decline (V/s); 0 = steady (og-05's collapse scenario when > 0)
+    'gradient_floor'       : 0.02,   # Floor the declining gradient decays to (V)
+    'drive_free_energy'    : 50.0,   # Chemical drive free energy per turnover (kJ/mol) [vg-data: inferred]
+    'fe_drive_free_energy' : 40.0,   # Fe(II)-disproportionation drive (kJ/mol), used by the fe_redox class [vg-data: hypothetical]
+    'protocell_radius'     : 5e-07,   # Protocell radius (m) [vg-data: inferred]
+    'drive_turnover'       : 1e-21,   # Drive turnover per cell at full activity (mol/s) [vg-data: hypothetical]
+    'maintenance_active'   : 5e-18,   # Machinery upkeep at full activity (W) [vg-data: hypothetical]
+    'tick_seconds'         : 10.0,   # Physical seconds per composite tick (store timescales are ~1e3 s); processes run at interval 1
+}
+
+# ### Typed contract (declared interface)
+#
+# _The bigraph-schema typed ports + conservation predicates this study's composite must satisfy (audited in the workbench §Contract panel). Declared design — independent of whether a run exists yet._
+#
+# **Inputs**
+#
+# | port | type | units | bounds |
+# | --- | --- | --- | --- |
+# | `electric_potential` | float | volt | >= 0.0 |
+# | `drive_free_energy` | float | kilojoule/mole | >= 0.0 |
+# | `permeability` | float | meter/second | >= 0.0 |
+# | `membrane_area` | float | meter**2 | >= 0.0 |
+# | `compartment_volume` | float | liter | >= 0.0 |
+#
+# **Outputs**
+#
+# | port | type | units | bounds |
+# | --- | --- | --- | --- |
+# | `free_energy_in` | float | watt | >= 0.0 |
+# | `external_power` | float | watt | >= 0.0 |
+# | `internal_power` | float | watt | >= 0.0 |
+# | `maintenance_power` | float | watt | >= 0.0 |
+# | `work` | float | watt | >= 0.0 |
+# | `dissipated` | float | watt | >= 0.0 |
+# | `energy_stored` | float | joule | >= 0.0 |
+# | `autonomy` | float | dimensionless | [0.0, 1.0] |
+#
+# **Conditions**
+#
+# - `free_energy_ledger` (invariant): `in_cum + E0 - work_cum - diss_cum == E(t) to rounding; E(t) >= 0 (free_energy_in >= work + dissipated)`
+# - `dissipation_nonnegative` (invariant): `dissipated >= 0 every tick`
+# - `capture_bound` (invariant): `work_cum / in_cum <= 1`
+# - `load_gate` (invariant): `internal work flows only once mu(q) >= load_free_energy`
+
+# ### Run
+#
+# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
+
+# === Study: og-energy-alt-internalization-threshold ===
+STUDY = 'og-energy-alt-internalization-threshold'
+STUDY_DIR = REPO / 'workspace/studies' / STUDY
+STUDY_YAML = str(STUDY_DIR / "study.yaml")
+RUNS_DB = str(STUDY_DIR / "runs.db")
+
+# This study has no *recorded* runs yet. RERUN builds its declared
+# composite(s) live and runs them; a composite whose module processes
+# are not implemented yet reports the error instead of crashing.
+STEPS_Protocell_energetics_thioester_class_at_half_activity_nominal_membrane = 100
+INTERVAL_Protocell_energetics_thioester_class_at_half_activity_nominal_membrane = 1.0
+
+if RERUN:
+    from process_bigraph import Composite
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_protocell_energetics_protocell_energetics if 'ov_viva_genesis_composites_protocell_energetics_protocell_energetics' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_protocell_energetics_protocell_energetics = materialize_composite('viva_genesis.composites.protocell_energetics.protocell_energetics', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_protocell_energetics_protocell_energetics['state']}, core=core)
+            _comp.run(STEPS_Protocell_energetics_thioester_class_at_half_activity_nominal_membrane)
+        print('ran', 'Protocell energetics — thioester class at half activity, nominal membrane', f'(viva_genesis.composites.protocell_energetics.protocell_energetics) for', STEPS_Protocell_energetics_thioester_class_at_half_activity_nominal_membrane, 'steps')
+    except Exception as _e:
+        print(f"Protocell energetics — thioester class at half activity, nominal membrane not runnable yet: {type(_e).__name__}: {_e}")
+else:
+    print("RERUN=False — not re-simulating.")
+
+# ### Visualizations
+#
+# _Results are shown by the figures below, produced by the run above._
+
+# **internalization-threshold-map**
+
+# internalization-threshold-map
+_save_viz('og-energy-alt-internalization-threshold', 'internalization-threshold-map', _render_one('local:InternalizationThresholdMap', {'title': 'Phase 6 — where internalization pays, per energy-coupling class (Decision view)', 'threshold_map_json': 'workspace/studies/og-energy-alt-internalization-threshold/artifacts/internalization_threshold_map.json', 'report_json': 'workspace/studies/og-energy-alt-internalization-threshold/artifacts/internalization_threshold_report.json'}, RUNS_DB, STUDY_YAML))
+
+# **protocell-energy-budget**
+
+# protocell-energy-budget
+_save_viz('og-energy-alt-internalization-threshold', 'protocell-energy-budget', _render_one('local:ProtocellEnergyBudget', {'title': "Phase 6 — one individual's power budget per coupling class (Mechanism view)", 'report_json': 'workspace/studies/og-energy-alt-internalization-threshold/artifacts/internalization_threshold_report.json', 'activity': '1'}, RUNS_DB, STUDY_YAML))
+
+# ### Acceptance criteria
+#
+# _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
+#
+# | test | measures | passes if |
+# | --- | --- | --- |
+# | free-energy-ledger-closes _(primary)_ | kind=derived path=free_energy_ledger_ok_final detail=free_energy_ledger_ok on the final tick | op >= value 1.0 detail every ledger witness within tolerance |
+# | free-energy-residual-exact _(diagnostic)_ | kind=derived path=free_energy_residual_max detail=worst-case relative ledger residual | op <= value 1e-09 detail free-energy accounting exact by construction |
+# | second-law-margin-nonnegative _(diagnostic)_ | kind=derived path=second_law_margin_min detail=minimum margin over the run (joule) | op >= value -1e-24 detail non-negative to rounding (per-cell energies are ~1e-16 J) |
+# | individual-is-partly-autonomous _(primary)_ | kind=derived path=final_autonomy detail=autonomy on the final tick | op > value 0.05 detail the internal store contributes > 5 % of the useful power |
+# | internalization-pays _(primary)_ | kind=derived path=n_classes_paying_at_nominal detail=classes with a finite threshold at the nominal membrane + gradient, from artifacts/internalization_threshold_report.json | op >= value 1.0 detail >= 1 class pays at the nominal point |
+# | thioester-threshold-activity _(primary)_ | kind=derived path=internalization_threshold_activity detail=smallest activity that pays, class thioester_acyl_phosphate | op <= value 1.0 detail a finite threshold inside 0..1 |
+# | autonomy-at-threshold _(supporting)_ | kind=derived path=autonomy_at_threshold detail=internal / (internal + external) at a*, class thioester_acyl_phosphate | op > value 0.0 detail the store contributes at the threshold |
+# | ion-gradient-pays-fraction _(diagnostic)_ | kind=derived path=internalization_pays_fraction detail=class h_na_gradient_leaky_membrane | op >= value 0.0 detail informative readout (any value passes) |
+# | polyphosphate-pays-fraction _(diagnostic)_ | kind=derived path=internalization_pays_fraction detail=class polyphosphate | op >= value 0.0 detail informative readout (any value passes) |
+# | fe-redox-pays-fraction _(diagnostic)_ | kind=derived path=internalization_pays_fraction detail=class fe_redox | op >= value 0.0 detail informative readout (any value passes) |
+# | classes-agree-on-pays _(diagnostic)_ | kind=derived path=internalization_structure_agreement detail=structure agreement on the pays masks | op >= value 0.0 detail informative readout (any value passes) |
+# | threshold-map-ledger-all-ok _(supporting)_ | kind=derived path=threshold_map_ledger_all_ok detail=all classes' ledger all_ok | op >= value 1.0 detail no point with an open ledger |
+
+# ### Literature anchors
+#
+# | expectation | model observable | source | status |
+# | --- | --- | --- | --- |
+# | Early membranes were far more permeable to H+ than Na+, so a Na+ gradient is the better internal store and tapping the natural gradient needs leak while owning one needs a tight membrane | the ion-gradient class's store potential and pays region against permeability | Sojo, Pomiankowski & Lane 2014 | Reproduced structurally — the ion store pays only below a permeability ceiling; the chemical carriers do not share the ceiling. |
+# | A transferable currency does work only when its phosphorylation-like potential (bond + RT ln q/(1-q)) clears the endergonic step; low-bond carriers must be held near full charge | store potential vs load per class; polyphosphate's charge fraction at the gate | Buckel & Thauer 2013 | Implemented as the draw gate; polyphosphate's 20 kJ/mol bond needs q > 0.98 for a 30 kJ/mol load. |
+
 # ## Open decisions
 # - Rule-set scope for the Phase-3 reaction universe: keep C1-C3 feedstock / C/H/O-only chemistry (as built: products capped at C4, 413 reactions) or include N/P-bearing reactions from the start, folding the og-res-N / og-res-P resource chemistries into the universe?
 # - Publication milestone: close the first paper at the pre-genetic arc (og-00 -> og-03) or extend through the early-genetic arc (og-04 protocells -> og-06 heredity)?
@@ -3109,4 +3287,5 @@ _save_viz('og-growth-alt-physical-reproduction', 'physical-reproduction-lineage'
 # - Reframe the campaign's headline thesis from 'cells could originate at alkaline vents' to the enrichment plan's 'quantitative MAP OF THE BOTTLENECKS between geology and cells' (dependencies, failure regimes, discriminating experiments)?
 # - Adopt the Full Modeling Plan architecture (emergence-not-presupposition + structural rewrites + canonical schemas + model substitution) as the campaign's build target, in the plan's section-18 order — canonical schemas + geochemical_world first, then the electrochemical interface, then C-N-P/energetics as cross-cutting layers, then localization, boundary, growth/division rewrites, competing heredity, ecology, autonomy?
 # - Adopt the Model Upgrade plan's three-quantity standard (feasibility / robustness / discrimination) and evidence tiers as the reporting requirement for every stage — i.e. a stage's verdict may not advance until it carries a TransitionReport whose decision-discipline audit is clean — and re-label the fourteen pre-upgrade studies (every member study except the already- tier-labelled og-cal) with their tier language?
+# - Phase 6: replace og-05's population-mean internalization readout (mean active-pump fraction of the surviving population) with the per-individual autonomy internal / (internal + external) power that the energy_coupling face defines — i.e. re-point og-05's gates (reduced-gradient-dependence, final_internalization) at autonomy?
 # - Attach the MARHYS 4.0 hydrothermal-fluid compilation (PANGAEA) as a workspace dataset so the Phase-1 conditioning set becomes the ultramafic-vent population rather than Lost City alone — and which Hadean-ocean prior (DIC, pH, T) should replace the modern-seawater proxy the audit flags?
