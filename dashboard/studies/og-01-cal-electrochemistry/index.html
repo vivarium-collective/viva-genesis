@@ -744,6 +744,7 @@
       <h2 class="overview-label ctr-h">Result</h2>
       <p class="ctr-text">375 grid points x 2 runnable classes (750 real runs, 40 ticks, 117 s on 6 workers; the microkinetic class is registered but its backend is pixi-only, so it is recorded as deferred). Every point is labelled (coverage 1.00 in both classes) and the charge ledger closes on all 750 runs (Kirchhoff residual &lt;= 1.7e-13, faradaic efficiency &lt;= 1, circuit residual &lt;= 8.5e-9). The Butler-Volmer cell sits inside the Altair-2025 current window on 79.7% of the grid (1.4e-7 .. 3.0e-3 A/m^2; nominal 1.06e-3 A/m^2, FE 0.92, emf 0.49 V) and derives og-01&#39;s gradient efficiency as 0.01 / 0.42 / 0.98 / 1.00 at 1e-9 / 1e-7 / 1e-5 / &gt;= 1e-3 S/m. The mechanism map disagrees between classes: the Butler-Volmer class labels its whole favorable region (93/93 points) CATALYTIC (activation overpotential ~ 0.99 of the fresh-fluid emf at Altair-level exchange currents), electrical only below ~1e-6 S/m (149 points), never transport or thermodynamic; the empirical class labels the same region electrical (pmf-drive headroom, 47) / catalytic (117) / transport (28, Michaelis in H2 below ~1e-4 M). Label agreement is 0.47 on the 78 points both classes call favorable (0.45 overall; 0.81 where the wall is insulating, 0.01 at 1 uM H2), so the pre-registered gate (&gt;= 0.8) FAILS and the decision-discipline audit flags the attribution as structure-sensitive.</p>
       
+      
       <div class="ov-metrics">
         
         <div class="ov-metric ov-metric-pass">
@@ -2113,7 +2114,7 @@ cites:   ["altair2025carbon", "preiner2020hydrogen"]</pre>
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "17e51c838fff76afec9177a1075a611fd0f2fb09", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/17e51c838fff76afec9177a1075a611fd0f2fb09", "branch": "main", "lockfile": "uv.lock@aa7042441e57", "generated_at": "2026-10-15 14:31 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "bbb872fd61a94c92d6e230f05b040234bbc7b693", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/bbb872fd61a94c92d6e230f05b040234bbc7b693", "branch": "main", "lockfile": "uv.lock@738d12a188ee", "generated_at": "2026-10-15 15:09 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>

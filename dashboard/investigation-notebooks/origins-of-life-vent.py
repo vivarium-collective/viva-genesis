@@ -3461,7 +3461,201 @@ _save_viz('og-06-alt-information-per-cost', 'heredity-attachment-map', _render_o
 # | Compositional (GARD) assemblies transmit information by growth and fission without a template, but with limited capacity and heritability | classes.compositional (heritable bits, heritability, capacity) | Segre 2000; Vasas 2010 | 0.47 bit per offspring at heritability 0.70, capacity 18 bits, 0 quanta — cheap, attaches at 3 % of the budget. |
 # | An RNA polymerase ribozyme copies at ~97 % per-site fidelity | the rna_like class's nominal per_site_fidelity | Johnston 2001 | The package's one measured entry (0.967); it sits just above the Eigen floor at L = 30. |
 
+# ## Study: Biochemical Ecology: A Community Function That No Lineage Can Perform, Carried by Real Metabolite Flux (`og-07-alt-real-metabolite-exchange`)
+#
+# **Question.** Model Upgrade plan, Phase 8. og-07 showed that connected compartments develop capability redundancy, but its compartments were capability VECTORS and its cross-feeding a symbolic transfer. If every protocell instead carries the Phase-3 rule-generated reaction universe (libRoadRunner, eQuilibrator dG') masked to its own catalyst repertoire — a carboxylating lineage that can fix CO2 but not hydrogenate, a hydrogenating lineage that cannot carboxylate — and the only coupling between them is matter crossing their membranes into a shared pore field shaped by the Phase-4 enrichment, does the community realise a metabolic function that no lineage performs alone, is that function sustained by the flux of a real intermediate rather than by a capability being copied, and does it appear before any cell is complete?
+#
+# **Objective.** Build the proto_ecology face (ProtocellNetworkProcess and the matched-null class — the Phase-3 universe inside each agent, masked to a lineage repertoire), the SpatialCouplingStep onto the Phase-4 field with the exchange rules of a BigraphicalReactiveSystem (uptake, secretion, pore diffusion, feed / washout; every firing counted), the EcologyReducerStep that recomputes og-07's gate readouts from the agents, the EcologyElementLedgerProcess (C / N / P over agents + field) and the vg-data package cnp_resources; run the community, its two monocultures, the private (no-sharing) counterfactual, the complete-cell (generalist) arm, the segregated placement and the rewired-null arms at the canonical point, and the four arms over (diacid permeability x pore residence); grade the pre-registered gates.
+#
+# **Hypothesis.** The reductive C4 branch (oxaloacetate -> malate -> succinate) is split across the two incomplete lineages: the fixer carboxylates pyruvate to oxaloacetate but cannot reduce it, the reducer can reduce it but never makes it; in a shared pore the dicarboxylate crosses from one to the other and malate appears in the reducer lineage although neither monoculture ever holds it; cutting the sharing (each agent exchanging only with its own copy of the background) removes it; the function depends on the membrane permeability of the exchanged diacid and on the pore residence time, and it emerges while every cell is still incomplete.
+#
+# **Claim.** With real chemistry inside every protocell, a community of two incomplete lineages performs a metabolic function — the reductive C4 branch from oxaloacetate to malate — that neither lineage performs alone and that a complete cell performs at 20x the level, sustained by a dicarboxylate crossing between the lineages through a shared pore and not by any capability changing hands; the function precedes cell completeness — as a mean-field expectation at copy numbers (4e-3 molecules per femtolitre cell) that make a stochastic treatment the next step. It exists only above a diacid permeability of ~3e-9 m/s, one to two decades above the measured passage of charged solutes through fatty-acid vesicles, so the leakiness of the boundary — not the chemistry — is what decides whether ecology before LUCA could run on exchanged intermediates.
+
+# ### Design — originally proposed
+#
+# _The mechanisms and methods proposed when this study was designed; the model **actually built** (and the tools it uses) is shown below. These may differ as the design was realized._
+#
+# **Proposed mechanisms**
+#
+# - L: ecology as real metabolite exchange between incomplete protocells
+# - division of labour across catalyst repertoires (carboxylation vs hydrogenation)
+#
+# **Proposed models / methods**
+#
+# - The Phase-3 reaction universe (libRoadRunner) inside every agent, masked to a lineage rule repertoire
+# - A bigraphical reactive system of matter-exchange rules with firing counts
+# - og-07's gate readouts recomputed from the agents map
+# - A C / N / P element ledger across agents and field
+#
+# **Key assumptions**
+#
+# - Eight 1-fL protocells (4 fixers, 4 reducers) at fixed positions on a 4-cell pore of 10x their volume; feed CO2 1.4 mM, H2 10.8 mM, pyruvate 0.1 mM (the Phase-1 posterior point), ammonium 50 uM, phosphate 10 uM; the Phase-4 surrogate enrichment profile along the pore.
+# - A lineage is a subset of the twelve reaction rules; the thermal decarboxylations belong to all; fixer = CO2 reduction + carboxylations, reducer = hydrogenations; the universe (C <= 4, 413 reactions, eQuilibrator dG', detailed balance) is otherwise identical in every agent.
+# - Exchange is linear permeation by size / charge class (gas 1e-5, small neutral 1e-7, large neutral 3e-8, monoacid 1e-7, diacid 1e-8, ion 1e-10 m/s at the canonical point), applied as the exact two-compartment relaxation per tick; pore diffusion 0.1/s between cells; residence 100 s.
+# - Functions are product classes (chain length x carboxylation x oxidation state); held above 1 nM, produced above 1e-12 M/s gross internal production.
+
+# ### Parameters
+#
+# | simulation | composite | steps | params |
+# | --- | --- | --- | --- |
+# | `Metabolite-exchange community — fixer + reducer lineages at the canonical point` | `viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community` | 0 | lineages=fixer:4,reducer:4, p_diacid=1e-08, p_monoacid=1e-07, k_wash=0.01 |
+#
+# Declared parameter sets (`study.yaml` variants):
+#
+# - **mono-fixer** — `lineages=fixer:8`
+# - **mono-reducer** — `lineages=reducer:8`
+# - **private-no-sharing** — `coupling=private`
+# - **generalist-complete-cells** — `lineages=generalist:8`
+# - **segregated-placement** — `placement=segregated`
+# - **rewired-null** — `model_proto_ecology=null_network`
+
+# ### The model & its parameters
+#
+# Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
+
+# **The model — `viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community`**
+#
+# og-07's metacommunity rebuilt on real chemistry (Phase 8): N protocells in the agents map, each running the Phase-3 rule-generated reaction universe (libRoadRunner, eQuilibrator dG') masked to its lineage's catalyst repertoire (fixer: CO2 reduction + carboxylations; reducer: hydrogenations; condenser: aldol / formose; generalist: all), pointed at fixed cells of a pore whose background the Phase-4 localization class shapes species by species. A SpatialCouplingStep fires the exchange rules of a bigraphical reactive system every tick (uptake / secretion through size- and charge-dependent permeabilities, pore diffusion, feed / washout) and counts the firings; an EcologyReducerStep recomputes og-07's gate readouts from the agents (present vs produced functions); an EcologyElementLedgerProcess audits C / N / P over agents + field. coupling=private is the isolated counterfactual; model_proto_ecology=null_network the rewired control.
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_metabolite_exchange_community_metabolite_exchange_community = {
+    'model_proto_ecology'   : 'reaction_universe',   # Model class behind the 'proto_ecology' face: null_network | reaction_universe
+    'model_localization'    : 'multisolute_surrogate',   # Model class behind the 'localization' face: fenics | fenics_multisolute_3d | fipy | multisolute_surrogate | surrogate
+    'lineages'              : 'fixer:4,reducer:4',   # Agents per lineage repertoire, e.g. fixer:4,reducer:4 | fixer:8 | generalist:8
+    'placement'             : 'mixed',   # mixed | segregated | random positions along the pore (fixed; no motion)
+    'coupling'              : 'shared',   # shared = agents exchange with a common pore field; private = each agent sees only the background (isolated counterfactual)
+    'n_cells'               : 4,   # Pore field cells along the flow axis [vg-data: hypothetical]
+    'pool_volume_multiplier': 10.0,   # Pore volume per agent volume [vg-data: hypothetical]
+    'k_wash'                : 0.05,   # Pore feed / washout rate (1/s); 1/residence time [vg-data: inferred, swept]
+    'k_diffusion'           : 0.1,   # Exchange rate between neighbouring cells (1/s) [vg-data: hypothetical]
+    'p_gas'                 : 1e-05,   # Membrane permeability class p_gas (m/s) [vg-data: extrapolated]
+    'p_small_neutral'       : 1e-07,   # Membrane permeability class p_small_neutral (m/s) [vg-data: extrapolated]
+    'p_large_neutral'       : 3e-08,   # Membrane permeability class p_large_neutral (m/s) [vg-data: extrapolated]
+    'p_monoacid'            : 1e-09,   # Membrane permeability class p_monoacid (m/s) [vg-data: extrapolated]
+    'p_diacid'              : 1e-10,   # Membrane permeability class p_diacid (m/s) [vg-data: hypothetical, swept]
+    'p_ion'                 : 1e-10,   # Membrane permeability class p_ion (m/s) [vg-data: extrapolated]
+    'feed_CO2'              : 0.0014,   # Inlet CO2 (M) [vg-data: calibrated, Phase-1 posterior]
+    'feed_H2'               : 0.0108,   # Inlet H2 (M) [vg-data: calibrated, Phase-1 posterior]
+    'feed_pyruvate'         : 0.0001,   # Inlet pyruvate (M) [vg-data: inferred]
+    'feed_formate'          : 0.0,   # Inlet formate (M) [vg-data: hypothetical]
+    'feed_ammonium'         : 5e-05,   # Inlet ammonium (M) [vg-data: extrapolated]
+    'feed_phosphate'        : 1e-05,   # Inlet phosphate (M) [vg-data: extrapolated]
+    'peclet'                : 8.0,   # Pore advective Peclet for the localization class
+    'soret_scale'           : 1.0,   # Scale on the per-species Soret coefficients
+    'null_seed'             : 0,   # Rewiring seed for the null_network class
+    'function_floor'        : 1e-09,   # Concentration floor for holding a function (M) [vg-data: inferred]
+    'seed'                  : 1,   # Placement seed (random placement only)
+}
+
+# ### Typed contract (declared interface)
+#
+# _The bigraph-schema typed ports + conservation predicates this study's composite must satisfy (audited in the workbench §Contract panel). Declared design — independent of whether a run exists yet._
+#
+# **Inputs**
+#
+# | port | type | units | bounds |
+# | --- | --- | --- | --- |
+# | `internal` | map[vg_concentration] | molar |  |
+#
+# **Outputs**
+#
+# | port | type | units | bounds |
+# | --- | --- | --- | --- |
+# | `internal` | map[vg_concentration] | molar |  |
+# | `functions_produced` | tree |  |  |
+# | `rule_flux` | tree |  |  |
+# | `net_carbon_flux` | float | mole/second |  |
+# | `dissipation` | float | watt | >= 0.0 |
+# | `element_residual` | float | dimensionless | >= 0.0 |
+#
+# **Conditions**
+#
+# - `cross_system_element_balance` (invariant): `total_X(t) = total_X(0) + in_X - out_X - degraded_X for X in C, N, P (C at integrator tolerance 1e-4; N, P at 1e-9)`
+# - `exchange_conserves` (invariant): `every exchange-rule firing moves the same moles out of one place and into the other`
+# - `element_balance_exact` (invariant): `max |E S| == 0 over every agent's reactions`
+# - `energy_directionality` (invariant): `dissipation >= 0 in every agent every tick`
+# - `no_capability_transfer` (invariant): `no rule writes a repertoire; functions_produced follows from each agent's own mask`
+
+# ### Run
+#
+# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
+
+# === Study: og-07-alt-real-metabolite-exchange ===
+STUDY = 'og-07-alt-real-metabolite-exchange'
+STUDY_DIR = REPO / 'workspace/studies' / STUDY
+STUDY_YAML = str(STUDY_DIR / "study.yaml")
+RUNS_DB = str(STUDY_DIR / "runs.db")
+
+# This study has no *recorded* runs yet. RERUN builds its declared
+# composite(s) live and runs them; a composite whose module processes
+# are not implemented yet reports the error instead of crashing.
+STEPS_Metabolite_exchange_community_fixer_reducer_lineages_at_the_canonical_point = 100
+INTERVAL_Metabolite_exchange_community_fixer_reducer_lineages_at_the_canonical_point = 1.0
+
+if RERUN:
+    from process_bigraph import Composite
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_metabolite_exchange_community_metabolite_exchange_community if 'ov_viva_genesis_composites_metabolite_exchange_community_metabolite_exchange_community' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_metabolite_exchange_community_metabolite_exchange_community = materialize_composite('viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_metabolite_exchange_community_metabolite_exchange_community['state']}, core=core)
+            _comp.run(STEPS_Metabolite_exchange_community_fixer_reducer_lineages_at_the_canonical_point)
+        print('ran', 'Metabolite-exchange community — fixer + reducer lineages at the canonical point', f'(viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community) for', STEPS_Metabolite_exchange_community_fixer_reducer_lineages_at_the_canonical_point, 'steps')
+    except Exception as _e:
+        print(f"Metabolite-exchange community — fixer + reducer lineages at the canonical point not runnable yet: {type(_e).__name__}: {_e}")
+else:
+    print("RERUN=False — not re-simulating.")
+
+# ### Visualizations
+#
+# _Results are shown by the figures below, produced by the run above._
+
+# **community-function-map**
+
+# community-function-map
+_save_viz('og-07-alt-real-metabolite-exchange', 'community-function-map', _render_one('local:CommunityFunctionMap', {'title': 'Phase 8 — where a function no lineage can perform emerges (Decision view)', 'report_json': 'workspace/studies/og-07-alt-real-metabolite-exchange/artifacts/community_function_map.json'}, RUNS_DB, STUDY_YAML))
+
+# **metabolite-exchange-map**
+
+# metabolite-exchange-map
+_save_viz('og-07-alt-real-metabolite-exchange', 'metabolite-exchange-map', _render_one('local:MetaboliteExchangeMap', {'title': "Agents on the pore, the intermediate that crosses, and og-07's readouts from real agents (Mechanism / World view)", 'report_json': 'workspace/studies/og-07-alt-real-metabolite-exchange/artifacts/community_function_map.json'}, RUNS_DB, STUDY_YAML))
+
+# ### Acceptance criteria
+#
+# _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
+#
+# | test | measures | passes if |
+# | --- | --- | --- |
+# | cross-system-element-ledger-closes _(primary)_ | kind=derived path=element_ledger_ok_final detail=ledger.element_ledger_ok on the final tick | op >= value 1.0 detail every residual within tolerance |
+# | carbon-residual-at-integrator-tolerance _(diagnostic)_ | kind=derived path=carbon_residual_max_final detail=ledger.C_residual_max on the final tick | op <= value 0.0001 detail integrator tolerance |
+# | exchange-rules-fire _(supporting)_ | kind=derived path=exchange_firings_final detail=cumulative firings of every exchange rule | op > value 1000.0 detail rules fired |
+# | metabolites-cross-between-lineages _(supporting)_ | kind=derived path=cross_lineage_flux_total_final detail=cumulative cross-lineage moles | op > value 0.0 detail non-zero cross-lineage flux |
+# | no-cell-complete _(supporting)_ | kind=derived path=max_cell_completeness_final detail=max over agents of held / union | op < value 1.0 detail no complete cell |
+# | cross-feeding-robustness _(diagnostic)_ | kind=derived path=metacommunity_robustness detail=settled community.metacommunity_robustness | op > value 0.3 detail a third of the vocabulary redundantly held |
+# | luca-capability-overlap _(diagnostic)_ | kind=derived path=luca_capability_overlap detail=settled community.luca_capability_overlap | op >= value 0.0 detail informative readout |
+# | community-function-precedes-cell-completeness _(primary)_ | kind=derived path=n_community_only_functions detail=community-only product classes at the canonical point | op >= value 1.0 detail >= 1 community-only class |
+# | community-function-vanishes-without-exchange _(primary)_ | kind=derived path=n_vanish_without_exchange detail=community-only classes absent in the private arm | op >= value 1.0 detail vanishes without sharing |
+# | community-function-flux-sustained _(primary)_ | kind=derived path=community_flux_sustained detail=1 when sustained by a crossing precursor | op >= value 1.0 detail flux-sustained |
+# | community-max-cell-completeness _(supporting)_ | kind=derived path=community_max_cell_completeness detail=max over agents of held / union | op < value 1.0 detail no complete cell |
+# | community-vs-complete-cell _(diagnostic)_ | kind=derived path=community_over_generalist detail=community / generalist settled level | op >= value 0.0 detail informative readout |
+# | emergence-boundary-resolved _(diagnostic)_ | kind=derived path=emergence_p_diacid_nominal detail=from decision_map.emergence_p_diacid_by_k_wash | op <= value 1e-07 detail inside the swept range |
+# | null-community-only-count _(diagnostic)_ | kind=derived path=null_community_only_max detail=max over null seeds | op >= value 0.0 detail informative readout |
+# | segregated-placement-keeps-function _(supporting)_ | kind=derived path=segregated_n_community_only detail=community-only classes in the segregated arm | op >= value 1.0 detail function kept |
+# | connected-beats-isolated _(supporting)_ | kind=derived path=connected_minus_isolated_robustness detail=robustness(shared) - robustness(private) | op > value 0.0 detail shared more robust than private |
+# | map-ledgers-close _(diagnostic)_ | kind=derived path=map_ledgers_all_ok detail=1 when all runs within tolerance | op >= value 1.0 detail all runs within tolerance |
+
+# ### Literature anchors
+#
+# | expectation | model observable | source | status |
+# | --- | --- | --- | --- |
+# | LUCA: anaerobic, H2-dependent, CO2-fixing, FeS-rich — embedded in an ecosystem | community.luca_capability_overlap | Weiss 2016 / Moody 2024 | 0.8 for every arm with a carboxylating lineage (ceiling 0.8 — ion pumping is not in a C/H/O network); reported as a boundary. |
+# | Fatty-acid vesicles pass small uncharged solutes readily and charged solutes slowly | cnp_resources permeability classes (p_small_neutral, p_monoacid, p_diacid) | Jordan 2019 (vesicle system); measured charged-solute passage proposed (Mansy 2008, pending) | The emergence boundary (3e-9 m/s) sits 1-2 decades above the measured charged-solute range; the diacid value is hypothetical and swept. |
+# | Long tight pores retain solutes (residence set by the thermophoretic trap) | SpatialCouplingStep.k_wash (the residence axis) | Baaske 2007 / Mast 2010 | The function needs 20-100 s residence at 3e-9 m/s; at 500 s the feed depletes and it needs 1e-7 m/s. |
+
 # ## Open decisions
+# - Phase-8 agent motion model: DEFERRED. The proto_ecology component points agents at fixed cells of the Phase-4 field (interleaved or segregated along the pore); no motility, chemotaxis or advective drift of agents is modelled. Which motion model (none / advected with the pore flow / Brownian between cells / thermophoretic like the solutes) should Phase 8b adopt?
+# - Phase-8 membrane permeability of dicarboxylates: the community function (the reductive C4 branch crossing from the carboxylating to the hydrogenating lineage) emerges only above a diacid permeability of ~3e-9 m/s at 100 s residence, while the measured passage of charged solutes through fatty-acid vesicles (Mansy 2008, proposed_inputs, pending) is ~1e-11-1e-10 m/s. Is a leakier boundary (mixed / shorter-chain amphiphiles, Phase-5 thioester_aminothiol class) or a longer pore residence the defensible route, or should the exchanged intermediate be a neutral species?
 # - Phase-7 heredity attachment thresholds: what precursor budget (copies per individual the pool must cover, attach_min_copies), energy margin (attach_energy_margin) and fidelity floor are defensible for attaching heredity to a lineage? The build uses hypothetical values (10 copies, margin 1.0) and Eigen's error threshold Q >= 1/sigma as the fidelity floor, and SWEEPS the budget x fidelity space instead of asserting a point.
 # - Rule-set scope for the Phase-3 reaction universe: keep C1-C3 feedstock / C/H/O-only chemistry (as built: products capped at C4, 413 reactions) or include N/P-bearing reactions from the start, folding the og-res-N / og-res-P resource chemistries into the universe?
 # - Publication milestone: close the first paper at the pre-genetic arc (og-00 -> og-03) or extend through the early-genetic arc (og-04 protocells -> og-06 heredity)?
