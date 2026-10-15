@@ -137,22 +137,37 @@ def test_colocalization_verdict_logic():
     assert colocalization_verdict(0.9, 1.0) == "weak"           # no concentration
 
 
-def test_uniform_mixture_co_localizes_divergent_fractionates():
+def test_uniform_mixture_co_localizes_divergent_soret_fractionates():
     """Directly exercise the co-localization index: an identical-parameter
-    mixture co-localizes (index ~1); a mixture split into strongly-adsorbed vs
-    free solutes fractionates (index << 1)."""
+    mixture co-localizes (index ~1); a mixture split by SORET strength (the
+    physically-dominant fractionation driver, confirmed by the FEM — adsorption
+    at prebiotic rates is kinetically negligible within a pore transit)
+    fractionates (index << 1)."""
     from viva_genesis.colocalization_map import coloc_index
     core = build_core()
-    uniform = {f"s{i}": {"diffusivity": 1e-9, "soret": 0.1, "k_ads": 0,
+    uniform = {f"s{i}": {"diffusivity": 1e-9, "soret": 0.3, "k_ads": 0,
                          "k_des": 1e-3, "k_deg": 0} for i in range(4)}
     out_u = MultisolutePoreSurrogateProcess(
         config={"peclet": 2.0, "species_params": uniform}, core=core).update({}, 1.0)
     assert coloc_index([out_u]) > 0.95
 
     divergent = {
-        "free": {"diffusivity": 1e-9, "soret": 0.12, "k_ads": 0.0, "k_des": 1e-3, "k_deg": 0},
-        "stuck": {"diffusivity": 1e-9, "soret": 0.12, "k_ads": 9e-3, "k_des": 1e-4, "k_deg": 0},
+        "weak_soret": {"diffusivity": 1e-9, "soret": 0.05, "k_ads": 0, "k_des": 1e-3, "k_deg": 0},
+        "strong_soret": {"diffusivity": 1e-9, "soret": 0.7, "k_ads": 0, "k_des": 1e-3, "k_deg": 0},
     }
     out_d = MultisolutePoreSurrogateProcess(
         config={"peclet": 2.0, "species_params": divergent}, core=core).update({}, 1.0)
     assert coloc_index([out_d]) < 0.5
+
+
+def test_adsorption_at_prebiotic_rates_is_kinetically_negligible():
+    """A strongly-adsorbing species at prebiotic rates is NOT crushed out of the
+    dissolved pool (kinetic adsorption over the pore transit, matching the FEM)
+    — only a very fast rate noticeably lowers the mobile fraction."""
+    from viva_genesis.colocalization_map import _last_enrichment
+    core = build_core()
+    sp = {"slow_ads": {"diffusivity": 1e-9, "soret": 0.3, "k_ads": 5e-3, "k_des": 5e-4, "k_deg": 0},
+          "no_ads": {"diffusivity": 1e-9, "soret": 0.3, "k_ads": 0.0, "k_des": 5e-4, "k_deg": 0}}
+    e = _last_enrichment([MultisolutePoreSurrogateProcess(
+        config={"peclet": 4.0, "species_params": sp}, core=core).update({}, 1.0)])
+    assert e["slow_ads"] / e["no_ads"] > 0.95   # barely adsorbed, as the FEM shows
