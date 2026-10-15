@@ -568,6 +568,22 @@ def _tolerance_sensitivity_max(reader, test: dict, ws_root: Any) -> float:
     return max(float(v["max_rel_dev"]) for v in devs.values())
 
 
+# Phase 5 (og-04-alt endogenous boundary / og-growth-alt physical reproduction)
+def _rewrite_ok_final(reader, test, ws_root):
+    vals = _values(reader, "rewrite_ok")
+    return float(vals[-1]) if vals else 0.0
+
+
+def _max_generation_final(reader, test, ws_root):
+    vals = _values(reader, "max_generation")
+    return float(max(vals)) if vals else 0.0
+
+
+def _partition_residual_max_final(reader, test, ws_root):
+    vals = _values(reader, "partition_residual_max")
+    return float(max(vals)) if vals else 0.0
+
+
 def register_derived_scalars(registry: dict) -> None:
     """Hook called by study_evaluator.load_workspace_derived_scalars."""
     # electrochemical interface / Phase-2 (og-01-cal-electrochemistry)
@@ -660,3 +676,7 @@ def register_derived_scalars(registry: dict) -> None:
     registry["curated_element_residual"] = _curated_element_residual
     registry["fcc_summation_residual_max"] = _fcc_summation_residual_max
     registry["tolerance_sensitivity_max"] = _tolerance_sensitivity_max
+    # Phase 5 (og-04-alt endogenous boundary / og-growth-alt physical reproduction)
+    registry["rewrite_ok"] = _rewrite_ok_final
+    registry["max_generation"] = _max_generation_final
+    registry["partition_residual_max"] = _partition_residual_max_final

@@ -579,6 +579,10 @@ at_a_glance:
 - study: og-growth-division
   role: Growth and division — metabolism changes the compartment's physical fate (grow->divide vs lyse
     vs starve)
+- study: og-04-alt-endogenous-boundary
+  role: The endogenous boundary — a protocell boundary built from the campaign's own carbon chemistry (Phase 5)
+- study: og-growth-alt-physical-reproduction
+  role: Physical reproduction — a growing, dividing individual builds a multi-generation lineage in the agents map (Phase 5)
 - study: og-cal-vent-environment
   role: 'Phase 1 calibration: what fraction of vent states consistent with observation also supply what
     downstream chemistry needs — posterior, cross-class agreement, discriminating readouts, exact ledger'
@@ -608,6 +612,8 @@ studies:
 - og-cal-vent-environment
 - og-01-cal-electrochemistry
 - og-02-alt-reaction-universe
+- og-04-alt-endogenous-boundary
+- og-growth-alt-physical-reproduction
 acceptance_criteria:
 - study: og-00-vent-reactor-baseline
   behavior: vent-pH-in-lostcity-range
@@ -637,6 +643,10 @@ acceptance_criteria:
   behavior: currency-maintained
 - study: og-growth-division
   behavior: net-growth-to-division
+- study: og-04-alt-endogenous-boundary
+  behavior: boundary-forms-from-chemistry
+- study: og-growth-alt-physical-reproduction
+  behavior: lineage-reaches-three-generations
 - study: og-cal-vent-environment
   behavior: posterior-viable-vent-fraction
 - study: og-01-cal-electrochemistry

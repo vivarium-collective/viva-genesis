@@ -22,6 +22,8 @@ from . import spatial_transport  # noqa: F401
 from . import geochemical_world  # noqa: F401
 from . import electrochemical_interface  # noqa: F401
 from . import open_chemical_network  # noqa: F401
+from . import endogenous_boundary  # noqa: F401
+from . import physical_reproduction  # noqa: F401
 
 from .vent_reactor import serpentinizing_vent_reactor, serpentinizing_vent_reactor_reduced
 from .carbon_fixation import hydrothermal_carbon_fixation
@@ -41,6 +43,8 @@ from .spatial_transport import spatial_transport_trap, spatial_transport_vent
 from .geochemical_world import geochemical_world
 from .electrochemical_interface import electrochemical_carbon_fixation
 from .open_chemical_network import open_chemical_network
+from .endogenous_boundary import endogenous_boundary
+from .physical_reproduction import physical_reproduction
 
 __all__ = [
     "serpentinizing_vent_reactor", "serpentinizing_vent_reactor_reduced",
@@ -62,4 +66,6 @@ __all__ = [
     "geochemical_world",
     "electrochemical_carbon_fixation",
     "open_chemical_network",
+    "endogenous_boundary",
+    "physical_reproduction",
 ]
