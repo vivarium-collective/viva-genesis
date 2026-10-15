@@ -26,9 +26,15 @@ of the electrochemical interface: the anode-side electron rate a
 faradaic efficiency recomputed from those rates must never exceed 1, and the
 circuit's current-voltage residual is tracked worst-case.
 
+:class:`FreeEnergyLedgerProcess` (Phase 6) is the free-energy ledger of an
+individual's power budget: the ``energy_coupling`` class's gross intake, useful
+work, dissipation and store must satisfy ``free_energy_in >= work + dissipated``
+cumulatively with the store (exact residual, non-negative margin, dissipation
+rate never negative, capture efficiency <= 1).
+
 Later phases extend the same pattern (``ledger.{C,N,P}_residual``,
-``rewrite_residual`` across structural rewrites, ``free_energy_in >= work +
-dissipated``) — see the model-upgrade integration doc.
+``rewrite_residual`` across structural rewrites) — see the model-upgrade
+integration doc.
 """
 
 from __future__ import annotations
@@ -478,7 +484,132 @@ NETWORK_LEDGER_KEYS = ("element_residual_max", "carbon_residual_max", "dissipati
                        "dissipated_energy", "free_energy_directionality", "ledger_ok")
 
 
+class FreeEnergyLedgerProcess(Process):
+    """Free-energy ledger of an individual's power budget (Phase 6).
+
+    Sits beside an ``energy_coupling`` class and audits, every tick, the four
+    witnesses it publishes — ``free_energy_in`` (W, gross free energy drawn
+    from the environment), ``work`` (W, useful work delivered), ``dissipated``
+    (W) and ``energy_stored`` (J, the internal store) — against the roadmap's
+    invariant
+
+        free_energy_in  >=  work + dissipated
+
+    taken cumulatively WITH the store: integrating the rates, ``in_cum + E(0)
+    - work_cum - diss_cum = E(t)`` must hold exactly (``free_energy_residual``
+    at rounding) and ``E(t) >= 0`` makes the inequality (``second_law_margin``
+    = ``in_cum + E0 - work_cum - diss_cum`` never negative). Per tick the
+    dissipation rate must never be negative (the directionality witness, as
+    :class:`NetworkLedgerProcess`) and the capture efficiency ``work_cum /
+    in_cum`` must never exceed 1. Publishes the worst cases so far and one
+    ``free_energy_ledger_ok`` flag.
+    """
+
+    contract = {
+        "summary": "Free-energy ledger of a protocell's power budget: free_energy_in >= work + dissipated (with the store), exact residual, dissipation >= 0, efficiency <= 1.",
+        "description": (
+            "Integrates the gross free-energy intake, the useful work and the dissipation an energy_coupling "
+            "class publishes and compares them with the store it reports: in_cum + E0 - work_cum - diss_cum "
+            "must equal E(t) to rounding (free_energy_residual) and never go negative (second_law_margin); "
+            "the per-tick dissipation rate must be >= -tolerance and work_cum / in_cum <= 1. "
+            "free_energy_ledger_ok = 1 while every witness holds."
+        ),
+        "inputs": {
+            "free_energy_in": "gross free energy drawn from the environment (watt)",
+            "work": "useful work delivered (watt)",
+            "dissipated": "free energy dissipated (watt)",
+            "energy_stored": "free energy held in the internal store (joule)",
+        },
+        "outputs": {
+            "free_energy_in_total": "integrated intake (joule)",
+            "work_total": "integrated useful work (joule)",
+            "dissipated_total": "integrated dissipation (joule)",
+            "free_energy_residual": "|in_cum + E0 - work_cum - diss_cum - E(t)| / max(in_cum, eps) this tick",
+            "free_energy_residual_max": "worst-case residual so far",
+            "second_law_margin": "in_cum + E0 - work_cum - diss_cum (joule; must stay >= 0)",
+            "second_law_margin_min": "minimum margin so far",
+            "dissipation_min": "minimum per-tick dissipation rate seen (negative = violation)",
+            "capture_efficiency": "work_cum / in_cum (must be <= 1)",
+            "free_energy_ledger_ok": "1 while every witness is within tolerance",
+        },
+        "assumptions": ["The class publishes the four witnesses from the same tick; the ledger only integrates and grades."],
+        "math": ["in_cum + E0 - work_cum - diss_cum = E(t)", "free_energy_in >= work + dissipated  <=>  E(t) >= 0"],
+    }
+
+    config_schema = {
+        "tolerance": {"_type": "float", "_default": 1.0e-9, "_units": "dimensionless", "_provenance": "inferred"},
+        "dissipation_tolerance": {"_type": "float", "_default": 1.0e-30, "_units": "watt", "_provenance": "inferred"},
+        "seconds_per_tick": {"_type": "float", "_default": 1.0, "_units": "second", "_provenance": "inferred"},
+    }
+
+    def __init__(self, config=None, core=None):
+        super().__init__(config=config, core=core)
+        self._in = 0.0
+        self._work = 0.0
+        self._diss = 0.0
+        self._e0 = None
+        self._res_max = 0.0
+        self._margin_min = float("inf")
+        self._diss_min = float("inf")
+        self._eff_max = 0.0
+
+    def inputs(self):
+        return {"free_energy_in": _W, "work": _W, "dissipated": _W,
+                "energy_stored": {"_type": "float", "_units": "joule"}}
+
+    def outputs(self):
+        return {"free_energy_in_total": {"_type": "overwrite[float]", "_units": "joule"},
+                "work_total": {"_type": "overwrite[float]", "_units": "joule"},
+                "dissipated_total": {"_type": "overwrite[float]", "_units": "joule"},
+                "free_energy_residual": _OVW, "free_energy_residual_max": _OVW,
+                "second_law_margin": {"_type": "overwrite[float]", "_units": "joule"},
+                "second_law_margin_min": {"_type": "overwrite[float]", "_units": "joule"},
+                "dissipation_min": {"_type": "overwrite[float]", "_units": "watt"},
+                "capture_efficiency": _OVW, "free_energy_ledger_ok": _OVW}
+
+    def initial_state(self):
+        return {"free_energy_in": 0.0, "work": 0.0, "dissipated": 0.0, "energy_stored": 0.0}
+
+    def update(self, state, interval):
+        dt = float(interval) * float(self.config["seconds_per_tick"])
+        fin = float(state.get("free_energy_in", 0.0))
+        w = float(state.get("work", 0.0))
+        d = float(state.get("dissipated", 0.0))
+        e = float(state.get("energy_stored", 0.0))
+        if self._e0 is None:
+            # The witnesses read this tick were produced from the store level BEFORE
+            # this tick's update; the first read fixes E0 as that level minus the
+            # first net gain, so the identity holds from tick one.
+            self._e0 = e - (fin - w - d) * dt
+        self._in += fin * dt
+        self._work += w * dt
+        self._diss += d * dt
+        margin = self._in + self._e0 - self._work - self._diss
+        residual = abs(margin - e) / max(abs(self._in), 1e-30)
+        eff = (self._work / self._in) if self._in > 0.0 else 0.0
+        self._res_max = max(self._res_max, residual)
+        self._margin_min = min(self._margin_min, margin)
+        self._diss_min = min(self._diss_min, d)
+        self._eff_max = max(self._eff_max, eff)
+        tol = float(self.config["tolerance"])
+        ok = (self._res_max <= tol
+              and self._margin_min >= -tol * max(abs(self._in), 1e-30)
+              and self._diss_min >= -float(self.config["dissipation_tolerance"])
+              and self._eff_max <= 1.0 + 1e-12)
+        return {"free_energy_in_total": self._in, "work_total": self._work, "dissipated_total": self._diss,
+                "free_energy_residual": residual, "free_energy_residual_max": self._res_max,
+                "second_law_margin": margin,
+                "second_law_margin_min": self._margin_min if math.isfinite(self._margin_min) else 0.0,
+                "dissipation_min": self._diss_min if math.isfinite(self._diss_min) else 0.0,
+                "capture_efficiency": eff, "free_energy_ledger_ok": 1.0 if ok else 0.0}
+
+
+FREE_ENERGY_LEDGER_KEYS = ("free_energy_in_total", "work_total", "dissipated_total", "free_energy_residual",
+                           "free_energy_residual_max", "second_law_margin", "second_law_margin_min",
+                           "dissipation_min", "capture_efficiency", "free_energy_ledger_ok")
+
+
 __all__ = ["ConservationLedgerProcess", "ChargeLedgerProcess", "NetworkLedgerProcess",
-           "RewriteLedgerProcess", "LEDGER_KEYS", "CHARGE_LEDGER_KEYS",
-           "NETWORK_LEDGER_KEYS", "REWRITE_LEDGER_KEYS",
-           "ledger_summary", "rewrite_ledger_summary"]
+           "RewriteLedgerProcess", "FreeEnergyLedgerProcess",
+           "LEDGER_KEYS", "CHARGE_LEDGER_KEYS", "NETWORK_LEDGER_KEYS", "REWRITE_LEDGER_KEYS",
+           "FREE_ENERGY_LEDGER_KEYS", "ledger_summary", "rewrite_ledger_summary"]

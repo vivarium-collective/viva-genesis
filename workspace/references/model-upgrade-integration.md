@@ -44,7 +44,9 @@ not a direct consequence of how the model was encoded.
 | Campaign UQ layer (calibration, Morris→Sobol, structural ensembles, propagation, verification, nulls, out-of-sample, pre-registered gates) | `viva_genesis/uq/` + `viva_genesis/ledger.py` | **built** as a working core (see §4 for what is thin) |
 | Phase 1 — environmental calibration | `composites/geochemical_world.py`, `uq/environment_calibration.py`, study `og-cal-vent-environment` | **built and run** (§6) |
 | Phase 2 — electrochemical carbon fixation | `electrochemistry/{butler_volmer,empirical,microkinetic,mineral_conductivity}.py`, `ledger.ChargeLedgerProcess`, `composites/electrochemical_interface.py`, `uq/electrochemistry_calibration.py`, vg-data `electrochemical_interface`, study `og-01-cal-electrochemistry` | **built and run** (§6b; the `microkinetic` class is registered but its CatMAP/Cantera backend is pixi-only) |
-| Phases 3–9 | §7 roadmap, `investigation.yaml.guidelines.roadmap_phases` + `decisions_needed` | **planned** |
+| Phase 3 — open chemical network | `protometabolism/{universe,motifs,universe_process}.py`, `ledger.NetworkLedgerProcess`, `composites/open_chemical_network.py`, vg-data `reaction_universe`, study `og-02-alt-reaction-universe` | **built and run** (§6c) |
+| Phase 6 — proto-energetics | `bioenergetics/energy_coupling.py` (five classes on the `energy_coupling` face), `ledger.FreeEnergyLedgerProcess`, `composites/protocell_energetics.py`, `uq/energetics_threshold.py`, vg-data `energy_currencies`, study `og-energy-alt-internalization-threshold` | **built and run** (§6d) |
+| Phases 4, 5, 7–9 | §7 roadmap, `investigation.yaml.guidelines.roadmap_phases` + `decisions_needed` | **planned** |
 
 ## 1. The scientific standard, as code
 
@@ -202,8 +204,14 @@ the Communications Chemistry 2026 current-producing-interfaces paper);
 rule set, eQuilibrator ΔG′, catalyst constraints); `pore_physics` (Phase 4:
 Baaske / Mast geometry, species Soret coefficients); `amphiphile_assembly`
 (Phase 5: Jordan 2019 phase data, Lu 2024 osmotic growth); `energy_currencies`
-(Phase 6); `inheritance_budgets` (Phase 7); `cnp_resources` (cross-cutting:
-the N / P hydrothermal datasets already proposed in `proposed_inputs`).
+(built, §6d: the external pmf `calibrated` to the Phase-1 posterior ΔpH, the
+H+ permeability `extrapolated` from vesicle literature with the Na+/H+ ratio's
+*order* `inferred` from Sojo 2014, carrier bonds `inferred` from Buckel &
+Thauer, the Fe(II)-disproportionation drive `hypothetical` pending the
+reference's acceptance, and every per-cell number — turnover, maintenance,
+pool, load — `hypothetical`; 24 parameters, `unsourced = []`);
+`inheritance_budgets` (Phase 7); `cnp_resources` (cross-cutting: the N / P
+hydrothermal datasets already proposed in `proposed_inputs`).
 
 ## 4. The campaign UQ layer
 
@@ -430,6 +438,69 @@ one cycle the C ≤ 4 chemistry can close (formose) needs a C1 supply and a
 residence time the reducing vent does not provide — which hands Phase 4
 (co-localization) its question.
 
+## 6d. Phase 6 — proto-energetics inside the individual, worked concretely
+
+Built (PR "feat(phase6)"): `viva_genesis/bioenergetics/energy_coupling.py` —
+one per-individual power-budget engine (SI watt per cell) behind the
+`energy_coupling` face in `models.py`, with five structurally different
+classes: `passive_gradient` (the external pmf tapped through the membrane
+leak, `G_flux = F P_H A Δc pmf`, no store), `h_na_gradient_leaky_membrane`
+(a pumped Na+/H+ gradient store with capacitor potential `n F pmf_max q`
+leaking *through the membrane* at `ratio × P_H` — the Sojo tradeoff),
+`thioester_acyl_phosphate` and `polyphosphate` (og-energy's carriers as the
+store, ideal-mixing potential `bond + RT ln(q/(1−q))` relative to the resting
+charge, leaking by hydrolysis plus carrier permeation) and `fe_redox` (a
+reduced-metal store charged by the Fe(II)-disproportionation drive). Charging
+is gated by the drive clearing the store potential (capped exactly), work by
+the store potential clearing the load (30 kJ/mol), leaks relax toward the
+resting charge; every flow is an exact difference of the store's free-energy
+function, so `ledger.FreeEnergyLedgerProcess` closes
+`in_cum + E0 − work_cum − diss_cum = E(t)` to rounding and witnesses the
+roadmap's `free_energy_in ≥ work + dissipated` as a non-negative margin, a
+non-negative dissipation rate and a capture efficiency ≤ 1. Autonomy =
+internal / (internal + external) power is one readout across classes and is
+now also published per individual by og-05's `BioenergeticSelectionProcess`
+beside its population-mean `internalization` (the switch-over is a recorded
+decision). `composites/protocell_energetics.py` carries the
+`model_energy_coupling` axis, the og-energy drive processes for both drives
+and og-05's decline process for the collapsing-gradient scenario;
+`uq/energetics_threshold.py` is the sweep / attribution / report;
+`viz_energetics.py` the two figures; `schemas.py` gains the power-budget
+fields on `vg_energy`.
+
+Results (`og-energy-alt-internalization-threshold`: 5 classes × 11
+activities × 9 permeabilities × 2 gradient states = 990 runs, 300 ticks of
+10 s, 7 s on 6 workers):
+
+| Class | Threshold activity a* at P_H 1e-6 m/s, 0.216 V | Autonomy at a* / at a = 1 | Pays on the grid | Permeability ceiling | Collapsed gradient (0.02 V), a = 1 |
+|---|---|---|---|---|---|
+| passive_gradient (baseline, net 1.95e-17 W) | — | 0 / 0 | 0 % | — | 1.7e-18 W |
+| thioester_acyl_phosphate | **0.10** (potential 29.6 → 34.3 kJ/mol; best +2.1e-18 W at 0.8) | 0.03 / 0.26 | 54 % | 3.2e-6 m/s | +3.7e-18 W, autonomy 0.79 |
+| fe_redox | **0.80** (potential pinned 29.3–29.9 at the load) | 0.17 / 0.21 | 18 % | 1e-6 m/s | +1.9e-18 W, 0.74 |
+| h_na_gradient_leaky_membrane | none (potential 6.5 kJ/mol; Na+ leak 6e-3/s) — pays at P_H 1e-8 from 0.5 | 0 / 0 (0.97 at 1e-8) | 4 % | 1e-8 m/s | −3.3e-18 W |
+| polyphosphate | none (potential 22.1 kJ/mol at q 0.69; needs q > 0.98) | 0 / 0 | 0 % | — | −3.3e-18 W |
+
+Verification: ledger residual ≤ 1.3e-14 on every run, second-law margin ≥
+−1e-26 J (rounding against ~1e-13 J of intake), dissipation ≥ 0,
+capture efficiency ≤ 0.30 (0.26–0.28 at the thresholds); `decision_discipline`
+= []. Cross-class agreement on "pays" 0.46 (pairwise 0.46–0.96); most
+discriminating readouts store potential (d = 1.9), internal power (1.0),
+capture efficiency (0.9), autonomy (0.8). Provenance audit 0 measured / 1
+calibrated / 8 inferred / 3 extrapolated / 12 hypothetical. Tier:
+`conceptual_demonstration` ("demonstrates in a coarse-grained model") — every
+per-cell number is hypothetical and the priors were not propagated.
+
+Reading: inside one individual the internalization threshold is
+thermodynamic — a store pays only once its potential clears the load faster
+than it leaks — so the leak law and the bond energy, i.e. the model *class*,
+decide: a thioester-class carrier internalizes from a tenth of the drive at
+fatty-acid-like leak, Fe-redox only near full activity, a pumped ion gradient
+only in a membrane ~100× tighter to Na+ (Sojo's constraint, per individual),
+polyphosphate never against a 30 kJ/mol step. What Phase 6 does *not* yet do:
+propagate the `energy_currencies` priors; put the classes inside each og-05
+strategy and re-run selection on per-individual autonomy; take P_H from the
+og-04 membrane process; transcribe the Fe(II)-disproportionation numbers.
+
 ## 7. Roadmap — Phases 2–9 mapped onto the existing studies
 
 Each phase leaves behind, per the plan: a reusable PBG component (a class on a
@@ -445,7 +516,7 @@ recorded in `investigation.yaml.guidelines.roadmap_phases`.
 | **3 Open chemical network** (built — §6c) | og-02 (`RoadRunnerNetworkProcess`, curated rTCA SBML) | `proto_metabolism`: `curated_rtca` (E), `reaction_universe` (A: generated SBML from a Wołos-2020-style rule set with reversible kinetics, side reactions, degradation, catalyst limits), `null_network` (A: randomized networks matched for compounds / reactions / energetic span / catalyst density) | `reaction_universe` (rules, ΔG′ via eQuilibrator, catalyst requirements) | flux-control analysis, element + free-energy ledger over the network, stiffness check vs libRoadRunner tolerances | `og-02-alt-reaction-universe`: gate `motifs-emerge-not-imposed` — persistent autocatalytic subnetworks detected post hoc; motif enrichment vs the matched nulls; the curated rTCA result becomes one class among three | distribution of persistent / autocatalytic subnetworks; enrichment vs null | Rule-set scope (C1–C3 only, or N/P-bearing from the start, folding og-res-N/P into the universe) |
 | **4 3-D multisolute localization** | og-03 (`ThermophoreticTrapProcess`), the FEniCS cross-check (Pe ≳ 13 solver-sensitive), og-res-P's species-agnostic multiplier | `localization`: `fipy` (E), `fenics` (E, now with species Soret term), `pore_network` (A: reduced pore-network surrogate for ensembles, OpenPNM-style) | `pore_physics` (Baaske / Mast geometry, per-species D and S_T for phosphate, NH4, formate, acetate, pyruvate, amino acids, amphiphiles, nucleotide precursors) | mesh- and time-step convergence gate; head-to-head inside a declared trustworthy Péclet range; analytic bound `exp(Pe)` | `og-03-alt-colocalization`: gate `mixture-colocalizes` — co-localization / fractionation phase map for the simultaneous mixture, **no acceptance gate outside demonstrated convergence** (removes the >10⁸ headline from any gate) | co-localization envelope with convergence envelope | Whether og-03's current enrichment gate is re-stated at the resolvable Péclet (recommended) |
 | **5 Endogenous boundary + growth/division** | og-04 (`ProtocellAssemblyProcess`), og-growth (`OsmoticGrowthDivisionProcess`), FMP §2.3–2.4 rewrites | `boundary`: `single_chain` (E), `mixed` (E), `thioester_aminothiol` (A); `AmphiphileSynthesisProcess` (A, from `molecules.dissolved.{acetate,formate}`); `BoundaryFormationStep` / `DivisionStep` / `LysisStep` / `ExtinctionStep` as `_add` / `_divide` / `_remove` rewrites on `agents: map[vg_individual]` | `amphiphile_assembly` (Jordan 2019 phase data under alkaline / saline / divalent conditions; Lu 2024 osmotic growth) | `ledger.rewrite_residual == 0` across every structural rewrite; partition residual on `_divide` | `og-04-alt-endogenous-boundary`: gate `boundary-forms-from-chemistry` (agents 0 → ≥1 with endogenous amphiphile; not with synthesis ablated); `og-growth-alt-physical-reproduction`: a ≥3-generation lineage in the agents map with daughter volumes summing to the mother's | first continuous chemistry → growing, dividing individual | Partition semantics for concentration maps (store `internal` as amounts + volume; FMP §9.1) |
-| **6 Proto-energetics** | og-energy (`GeochemicalDriveProcess`, `ProtoEnergyCurrencyProcess`), og-05 (`BioenergeticSelectionProcess`) | `energy_coupling`: `passive_gradient` (A), `h_na_gradient_leaky_membrane` (A), `thioester_acyl_phosphate` (E as carrier), `polyphosphate` (E), `fe_redox` (A) — all inside each protocell composite, autonomy = internal / (internal + external) power per individual | `energy_currencies` (Fe disproportionation drive already proposed; H+/Na+ permeabilities) | free-energy ledger: `free_energy_in ≥ work + dissipated` as an invariant | `og-energy-alt-internalization-threshold`: gate `internalization-pays` — passive vs increasingly active coupling, the point where energetic benefit exceeds leakage + maintenance, per class | energy-capture efficiency and internalization threshold | Replace og-05's population-mean `internalization` with per-individual autonomy (reads the same field) |
+| **6 Proto-energetics** (built — §6d; thioester pays from activity 0.10, Fe-redox from 0.80, the ion gradient only below P_H 1e-8 m/s, polyphosphate never; agreement 0.46) | og-energy (`GeochemicalDriveProcess`, `ProtoEnergyCurrencyProcess`), og-05 (`BioenergeticSelectionProcess`) | `energy_coupling`: `passive_gradient` (A), `h_na_gradient_leaky_membrane` (A), `thioester_acyl_phosphate` (E as carrier), `polyphosphate` (E), `fe_redox` (A) — all inside each protocell composite, autonomy = internal / (internal + external) power per individual | `energy_currencies` (Fe disproportionation drive already proposed; H+/Na+ permeabilities) | free-energy ledger: `free_energy_in ≥ work + dissipated` as an invariant | `og-energy-alt-internalization-threshold`: gate `internalization-pays` — passive vs increasingly active coupling, the point where energetic benefit exceeds leakage + maintenance, per class | energy-capture efficiency and internalization threshold | Replace og-05's population-mean `internalization` with per-individual autonomy (reads the same field) |
 | **7 Competing heredity** | og-06 (`LineageReplicatorProcess` modes), FMP §2.5 | `heredity`: `compositional`, `network`, `peptide`, `rna_like`, `hybrid`, `mineral_state` (carved out of the one class), attached conditionally by `HeredityAttachmentStep` under matched resource + energy budgets, Gillespie at low copy number | `inheritance_budgets` (precursor availability, error rates, template costs) | information ledger: heritable bits per unit energy; mutual information estimator convergence | `og-06-alt-information-per-cost`: gates `ancestry-predicts-phenotype` (parent–offspring mutual information per class) and the information-per-cost frontier; og-06's "need not presume RNA" becomes a class-substitution result | information-per-cost frontier; transition to templated heredity | Defensible attachment thresholds (expert input; `hypothetical` and swept until then) |
 | **8 Biochemical ecology** | og-07 (`CrossFeedingMetacommunityProcess` capability vectors) | `proto_ecology`: real reaction networks per protocell (Phase-3 classes inside each agent), `SpatialCouplingStep` onto the Phase-4 fields, `BigraphicalReactiveSystem` exchange rules; `EcologyReducerStep` keeps og-07's gate names | `cnp_resources` + the Phase-3 universe | element ledger across agents + fields; exchange-rule firing counts | `og-07-alt-real-metabolite-exchange`: gate `community-function-precedes-cell-completeness` — a function present in the community union but in no lineage, sustained by real metabolite flux, not symbolic capability transfer | emergent cross-feeding / division of labor / robustness | Agent motion model (defer; point agents on fields first) |
 | **9 Integrated autonomy** | og-08 (`OffGradientPersistenceProcess`, {pump, importer, heredity}), og-adv | one persistent world (FMP §2.2 skeleton) with an `AblationStep` scheduling geology withdrawal; the {pump, importer, heredity} result re-run under an **ensemble** of maintenance functions, transport laws, storage models, permeability assumptions and inheritance classes | all packages, posterior-propagated from Phase 1 | every ledger; structural-event log | `og-08-alt-robust-innovation-set`: gate `minimum-sufficient-innovation-set` across model structures — the *intersection* of required innovations, reported as a lattice with the continuous autonomy value (fraction of essential work and material supplied internally, decomposed by function) | functions robustly required across model structures | Treat the current {pump, importer, heredity} as a hypothesis generator (plan §10), not a result |

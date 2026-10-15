@@ -1,0 +1,318 @@
+# vg-data package: ENERGY CURRENCIES (Model Upgrade plan, Phase 6 — proto-energetics).
+#
+# Every parameter carries value-or-distribution, units, context, sources
+# (bibkeys in workspace/references/papers.bib) and a provenance class in
+# {measured, calibrated, inferred, extrapolated, hypothetical}. The free
+# (distribution-carrying) parameters are the ones og-energy-alt-internalization-
+# threshold sweeps or a later ensemble samples; `observations` is the
+# conditioning window the external gradient is calibrated against;
+# `downstream_requirements` is what og-05 / og-08 need from the individual's
+# energy budget.
+#
+# HONESTY NOTES
+# - The external pmf is CALIBRATED to the Phase-1 posterior example point
+#   (dpH 3.38 at 49 C -> 0.216 V, og-cal-vent-environment), not measured across
+#   a protocell membrane.
+# - Membrane H+ permeability is carried from fatty-acid / phospholipid vesicle
+#   literature (orders 1e-8..1e-4 m/s) to a mixed-amphiphile vent protocell:
+#   EXTRAPOLATED, wide prior. The Na+/H+ permeability ratio is the Sojo-2014
+#   mechanism ("membranes far more permeable to H+ than Na+"): the ORDER is
+#   inferred, the magnitude is swept.
+# - The Fe(II)-disproportionation drive is cited to the 2025 Nature
+#   Communications paper the investigation lists as a PENDING proposed input
+#   (natcomm2025fedisproportionation); its quantitative value here is a
+#   HYPOTHETICAL window (20-80 kJ/mol per transfer) until the paper's numbers
+#   are transcribed. The expert accepts or declines the reference.
+# - Everything per-cell (turnover, maintenance, pool) is hypothetical: there is
+#   no measurement of a protocell's maintenance power. maintenance_base is left
+#   UNSOURCED on purpose so the audit flags it (as h2_ocean in Phase 2).
+# - Carrier bond free energies are textbook |dG'| anchors (Buckel & Thauer
+#   2013): inferred, not measured at vent conditions.
+name: energy_currencies
+version: "1"
+description: >-
+  Priors, calibration window and downstream requirements for the Phase-6
+  energy-coupling classes inside a protocell: the external ion gradient and
+  the chemical / Fe(II)-disproportionation drives, membrane H+ and Na+
+  permeabilities (the Sojo leak), carrier bond energies and decay rates,
+  per-cell turnover and maintenance, and the load the store must clear.
+sources: [sojo2014bioenergetic, lane2010chemiosmotic, buckel2013energy, natcomm2025fedisproportionation,
+          natcomm2025phosphateactivation, pasek2017schreibersite, jordan2019promotion, kelley2005serpentinite]
+
+parameters:
+  - id: external_pmf
+    quantity: External ion gradient (natural pmf) across the protocell membrane in the vent wall
+    units: volt
+    provenance: calibrated
+    distribution: {kind: uniform, low: 0.05, high: 0.26}
+    value: 0.216
+    context: {calibrated_to: "Phase-1 posterior example point: vent pH 9.38 vs ocean pH 6.0 (dpH 3.38) at 49 C -> 3.38 x 64 mV", study: og-cal-vent-environment}
+    sources: [lane2010chemiosmotic, kelley2005serpentinite]
+    consumed_by: protocell_energetics.electric_potential
+    how_to_use: >-
+      The external free-energy source every class taps through its leak. The prior spans a 1-4 pH-unit
+      gradient; the declining-gradient scenario (og-05) ramps it to gradient_floor.
+
+  - id: proton_gradient_conc
+    quantity: Proton concentration difference across the membrane driving the leak flux
+    units: molar
+    provenance: inferred
+    value: 1.0e-6
+    context: {from: "ocean side pH 6 (1e-6 M H+) against the alkaline interior"}
+    sources: [lane2010chemiosmotic]
+    consumed_by: PassiveGradientCouplingProcess.proton_gradient_conc
+    how_to_use: Enters the leak flux J = P_H A dc; with F pmf it sets the gross external free-energy flux.
+
+  - id: h2_co2_drive
+    quantity: Chemical drive free energy per transfer (H2 / CO2 redox disequilibrium at the vent)
+    units: kilojoule/mole
+    provenance: inferred
+    distribution: {kind: uniform, low: 20.0, high: 80.0}
+    value: 50.0
+    context: {T_C: 49, note: "og-energy's drive anchor; the acetogenic 4 H2 + 2 CO2 -> acetate is ~ -95 kJ/mol over 4 electron pairs"}
+    sources: [lane2010chemiosmotic, buckel2013energy]
+    consumed_by: protocell_energetics.drive_free_energy
+    how_to_use: The chemical drive four classes couple into their store; it must clear the store potential to charge it.
+
+  - id: fe_disproportionation_drive
+    quantity: Fe(II)-disproportionation (mineral-mediated) free energy per transfer
+    units: kilojoule/mole
+    provenance: hypothetical
+    distribution: {kind: uniform, low: 20.0, high: 80.0}
+    value: 40.0
+    context: {note: "quantitative window is a placeholder until the paper's numbers are transcribed; reference pending expert acceptance (investigation proposed_inputs)"}
+    sources: [natcomm2025fedisproportionation]
+    consumed_by: protocell_energetics.fe_drive_free_energy
+    how_to_use: The drive the fe_redox class couples into its reduced-metal store.
+
+  - id: h_permeability
+    quantity: Membrane H+ permeability of a mixed-amphiphile protocell
+    units: meter/second
+    provenance: extrapolated
+    distribution: {kind: loguniform, low: 1.0e-8, high: 1.0e-4}
+    value: 1.0e-6
+    context: {low_end: "phospholipid bilayer", high_end: "single-chain fatty-acid vesicle", note: "carried to a vent protocell at 49 C"}
+    sources: [sojo2014bioenergetic, jordan2019promotion]
+    consumed_by: protocell_energetics.permeability
+    how_to_use: 'The leak axis of the internalization-threshold map: feeds the external tap and drains the ion store.'
+
+  - id: na_h_permeability_ratio
+    quantity: Na+ / H+ permeability ratio of the membrane (the Sojo selectivity)
+    units: dimensionless
+    provenance: inferred
+    distribution: {kind: loguniform, low: 1.0e-6, high: 1.0e-1}
+    value: 1.0e-3
+    context: {mechanism: "Sojo 2014: early membranes far less permeable to Na+ than H+, so a Na+ gradient is the better store"}
+    sources: [sojo2014bioenergetic]
+    consumed_by: IonGradientCouplingProcess.carrier_permeability_ratio
+    how_to_use: Leak law of the h_na_gradient_leaky_membrane store, lambda = ratio x P_H x A / V; the ORDER is the inference, the magnitude is swept.
+
+  - id: n_ions_per_transfer
+    quantity: Ions translocated per load transfer by the ion-gradient coupling
+    units: dimensionless
+    provenance: inferred
+    value: 3.0
+    context: {analogue: "ATP synthase c-ring stoichiometry ~3-4 H+/ATP"}
+    sources: [lane2010chemiosmotic]
+    consumed_by: IonGradientCouplingProcess.n_ions_per_transfer
+    how_to_use: Sets the ion store's potential at full charge, n F pmf_max.
+
+  - id: pump_efficiency
+    quantity: Fraction of the drive free energy a primitive pump converts into the ion gradient
+    units: dimensionless
+    provenance: inferred
+    distribution: {kind: uniform, low: 0.3, high: 0.9}
+    value: 0.6
+    sources: [sojo2014bioenergetic, lane2010chemiosmotic]
+    consumed_by: IonGradientCouplingProcess.pump_efficiency
+    how_to_use: Drive turnovers per ion moved = 1 / pump_efficiency.
+
+  - id: thioester_bond
+    quantity: Thioester / acyl-phosphate class high-energy bond free energy (|dG'| of hydrolysis)
+    units: kilojoule/mole
+    provenance: inferred
+    value: 35.0
+    context: {range: "acetyl-CoA-like thioester 31-43 kJ/mol; acyl phosphate ~43"}
+    sources: [buckel2013energy]
+    consumed_by: ThioesterCouplingProcess.bond_free_energy
+    how_to_use: Store potential bond + RT ln(q/(1-q)); the load must be cleared by it.
+
+  - id: polyphosphate_bond
+    quantity: Polyphosphate phosphoanhydride bond free energy per bond
+    units: kilojoule/mole
+    provenance: inferred
+    value: 20.0
+    sources: [buckel2013energy, natcomm2025phosphateactivation]
+    consumed_by: PolyphosphateCouplingProcess.bond_free_energy
+    how_to_use: 'Lower than the load: the store must be charged near full to clear 30 kJ/mol.'
+
+  - id: reduced_metal_bond
+    quantity: Effective transfer free energy of a reduced Fe/Ni centre
+    units: kilojoule/mole
+    provenance: hypothetical
+    value: 28.0
+    sources: [natcomm2025fedisproportionation]
+    consumed_by: FeRedoxCouplingProcess.bond_free_energy
+    how_to_use: As thioester_bond for the fe_redox class.
+
+  - id: thioester_hydrolysis_rate
+    quantity: First-order hydrolysis rate of the thioester / acyl-phosphate store at pH ~9, 49 C
+    units: 1/second
+    provenance: extrapolated
+    distribution: {kind: loguniform, low: 1.0e-6, high: 1.0e-3}
+    value: 1.0e-4
+    context: {note: "half-life of hours; carried from aqueous thioester / acyl-phosphate kinetics to the vent interior"}
+    sources: [buckel2013energy]
+    consumed_by: ThioesterCouplingProcess.hydrolysis_rate
+    how_to_use: Chemical-store leak that does NOT depend on the membrane.
+
+  - id: polyphosphate_hydrolysis_rate
+    quantity: First-order hydrolysis rate of polyphosphate (kinetically stable)
+    units: 1/second
+    provenance: extrapolated
+    distribution: {kind: loguniform, low: 1.0e-8, high: 1.0e-5}
+    value: 1.0e-6
+    sources: [natcomm2025phosphateactivation, pasek2017schreibersite]
+    consumed_by: PolyphosphateCouplingProcess.hydrolysis_rate
+    how_to_use: 100x slower than the thioester store; the polyphosphate class's only advantage.
+
+  - id: reduced_metal_oxidation_rate
+    quantity: Spontaneous re-oxidation rate of the reduced-metal store
+    units: 1/second
+    provenance: hypothetical
+    distribution: {kind: loguniform, low: 1.0e-6, high: 1.0e-3}
+    value: 1.0e-4
+    sources: [natcomm2025fedisproportionation]
+    consumed_by: FeRedoxCouplingProcess.hydrolysis_rate
+    how_to_use: As thioester_hydrolysis_rate for the fe_redox class.
+
+  - id: carrier_permeability_ratio
+    quantity: Permeability of a charged carrier (thioester / polyphosphate) relative to H+
+    units: dimensionless
+    provenance: hypothetical
+    distribution: {kind: loguniform, low: 1.0e-6, high: 1.0e-2}
+    value: 1.0e-4
+    sources: []
+    consumed_by: ThioesterCouplingProcess.carrier_permeability_ratio
+    how_to_use: Membrane leak of the chemical store (charged molecules cross fatty-acid membranes far more slowly than H+).
+
+  - id: fe_permeability_ratio
+    quantity: Permeability of Fe2+ relative to H+
+    units: dimensionless
+    provenance: hypothetical
+    value: 1.0e-5
+    sources: []
+    consumed_by: FeRedoxCouplingProcess.carrier_permeability_ratio
+    how_to_use: Divalent cation, tighter than Na+.
+
+  - id: protocell_radius
+    quantity: Protocell radius
+    units: meter
+    provenance: inferred
+    distribution: {kind: loguniform, low: 1.0e-7, high: 2.0e-6}
+    value: 5.0e-7
+    context: {from: "mixed-amphiphile vesicle sizes 0.1-2 um"}
+    sources: [jordan2019promotion]
+    consumed_by: protocell_energetics.protocell_radius
+    how_to_use: Sets area and volume; A/V = 3/r enters every leak law.
+
+  - id: pool_conc
+    quantity: Internal store capacity per volume (carrier pool, or pumpable ion inventory)
+    units: molar
+    provenance: hypothetical
+    distribution: {kind: loguniform, low: 1.0e-4, high: 1.0e-2}
+    value: 1.0e-3
+    sources: [buckel2013energy]
+    consumed_by: ThioesterCouplingProcess.pool_conc
+    how_to_use: N = pool_conc x V moles of store; sets the store's energy capacity.
+
+  - id: drive_turnover
+    quantity: Drive turnover per cell at full coupling activity
+    units: mole/second
+    provenance: hypothetical
+    distribution: {kind: loguniform, low: 1.0e-23, high: 1.0e-19}
+    value: 1.0e-21
+    context: {note: "1e-21 mol/s x 50 kJ/mol = 5e-17 W, the same order as the external tap at P_H = 1e-6 m/s"}
+    sources: []
+    consumed_by: protocell_energetics.drive_turnover
+    how_to_use: The chemical supply ceiling; coupling_activity x drive_turnover is what the store can charge from.
+
+  - id: load_free_energy
+    quantity: Free energy of the endergonic step the store must clear (synthesis / phosphorylation)
+    units: kilojoule/mole
+    provenance: hypothetical
+    distribution: {kind: uniform, low: 20.0, high: 50.0}
+    value: 30.0
+    sources: [buckel2013energy]
+    consumed_by: ThioesterCouplingProcess.load_free_energy
+    how_to_use: 'The thermodynamic threshold: work flows only once mu(q) >= load_free_energy.'
+
+  - id: draw_rate
+    quantity: Demand for work as a store turnover rate
+    units: 1/second
+    provenance: hypothetical
+    distribution: {kind: loguniform, low: 1.0e-4, high: 1.0e-2}
+    value: 1.0e-3
+    sources: []
+    consumed_by: ThioesterCouplingProcess.draw_rate
+    how_to_use: internal power = draw_rate x q x N x min(mu, load) while the gate is open.
+
+  - id: maintenance_base
+    quantity: Base maintenance power of a protocell with no coupling machinery
+    units: watt
+    provenance: hypothetical
+    distribution: {kind: loguniform, low: 1.0e-20, high: 1.0e-18}
+    value: 1.0e-19
+    context: {note: "no measurement exists; left unsourced so the audit flags it"}
+    sources: []
+    consumed_by: PassiveGradientCouplingProcess.maintenance_base
+    how_to_use: Paid by every class; the passive baseline's only cost.
+
+  - id: maintenance_active
+    quantity: Upkeep of the coupling machinery at full activity
+    units: watt
+    provenance: hypothetical
+    distribution: {kind: loguniform, low: 1.0e-18, high: 2.0e-17}
+    value: 5.0e-18
+    context: {note: "10% of the gross chemical drive power at nominal turnover"}
+    sources: [sojo2014bioenergetic]
+    consumed_by: protocell_energetics.maintenance_active
+    how_to_use: "The cost side of 'internalization pays': maintenance_active x coupling_activity."
+
+  - id: external_capture_efficiency
+    quantity: Fraction of the leak flux free energy the passive tap converts to work
+    units: dimensionless
+    provenance: hypothetical
+    distribution: {kind: uniform, low: 0.1, high: 0.6}
+    value: 0.3
+    sources: [lane2010chemiosmotic]
+    consumed_by: PassiveGradientCouplingProcess.external_capture_efficiency
+    how_to_use: The passive baseline's conversion efficiency (natural-gradient-driven chemistry, og-01).
+
+observations:
+  vent_ocean_ph_gradient:
+    quantity: Lost City vent-fluid pH against the ocean (dpH 3-4.8 units)
+    low: 3.0
+    high: 4.8
+    units: dimensionless
+    provenance: measured
+    sources: [kelley2005serpentinite]
+    readout: external_pmf_pH_units
+    note: The external_pmf prior spans this window at 64 mV per unit (49 C).
+
+downstream_requirements:
+  net_power_positive:
+    quantity: An individual's settled net power must be positive for og-05 / og-08 selection to act on it
+    low: 0.0
+    units: watt
+    provenance: inferred
+    sources: [sojo2014bioenergetic]
+    readout: net_power
+  autonomy_for_escape:
+    quantity: Autonomy og-08's off-gradient persistence needs from the individual
+    low: 0.5
+    units: dimensionless
+    provenance: hypothetical
+    sources: []
+    readout: autonomy
+    note: internal / (internal + external) power >= 0.5 once the gradient collapses.

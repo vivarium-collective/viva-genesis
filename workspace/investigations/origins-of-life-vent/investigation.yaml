@@ -201,6 +201,15 @@ executive:
       mechanistic predictions or conceptual demonstrations (guidelines.scientific_standard.
       tier_reading_of_current_studies). Editorial + sequencing call: apply the tier language now, and run
       Phases 2-9 in the recorded order (electrochemistry first) or re-order around the publication scope.'
+  - question: 'Phase 6: replace og-05''s population-mean internalization readout (mean active-pump fraction of
+      the surviving population) with the per-individual autonomy internal / (internal + external) power that
+      the energy_coupling face defines — i.e. re-point og-05''s gates (reduced-gradient-dependence,
+      final_internalization) at autonomy?'
+    context: 'BioenergeticSelectionProcess now publishes both from the same per-strategy power terms
+      (internalization 0.95 vs autonomy 0.99 at og-05''s collapsed gradient), and og-energy-alt-internalization-
+      threshold grades autonomy per individual for five coupling classes. Autonomy is the quantity og-08''s
+      off-gradient persistence and the Phase-9 autonomy lattice share; switching og-05''s gates re-grades a
+      passing study on a monotone-related but different observable. Default taken: added beside, not switched.'
   - question: 'Attach the MARHYS 4.0 hydrothermal-fluid compilation (PANGAEA) as a workspace dataset so the
       Phase-1 conditioning set becomes the ultramafic-vent population rather than Lost City alone — and
       which Hadean-ocean prior (DIC, pH, T) should replace the modern-seawater proxy the audit flags?'
@@ -311,7 +320,7 @@ guidelines:
       (Péclet × Soret) as a co-localization/fractionation Decision surface. Remaining — a loaded
       pore_physics vg-data provenance package.
     vg-protoindividual: Phase 5 (planned; endogenous amphiphiles + boundary/division rewrites)
-    vg-energy: Phase 6 (planned; energy ledger + competing coupling classes)
+    vg-energy: viva_genesis/bioenergetics/energy_coupling.py + composites/protocell_energetics.py + ledger.FreeEnergyLedgerProcess + data/vg_data/energy_currencies.yaml + uq/energetics_threshold.py (built; energy_coupling face with passive_gradient | h_na_gradient_leaky_membrane | thioester_acyl_phosphate | polyphosphate | fe_redox, per-individual autonomy, free-energy ledger in >= work + dissipated with the store)
     vg-heredity: Phase 7 (planned; six heredity classes behind one face + information metrics)
     vg-ecology: Phase 8 (planned; real networks per protocell on shared fields)
     campaign-uq-layer: viva_genesis/uq/ (built; ABC/importance calibration, Morris+Sobol, structural ensembles, propagation, report triple)
@@ -375,11 +384,13 @@ guidelines:
     exit_criterion: first continuous transition from chemistry to a growing, dividing individual with rewrite_residual == 0
   - phase: 6
     name: Proto-energetics
-    status: planned
+    status: built-and-run
     studies: [og-energy-proto-energetics, og-05-environmental-to-internal-bioenergetics, og-energy-alt-internalization-threshold]
-    component: energy_coupling face (passive_gradient | h_na_leaky_membrane | thioester_acyl_phosphate | polyphosphate | fe_redox) inside each protocell; per-individual autonomy
-    data_package: energy_currencies
+    component: energy_coupling face (passive_gradient | h_na_gradient_leaky_membrane | thioester_acyl_phosphate | polyphosphate | fe_redox) inside one protocell (protocell_energetics); per-individual autonomy = internal / (internal + external) power (also published by og-05's selection loop beside its population-mean internalization); FreeEnergyLedgerProcess (in + E0 - work - dissipated = E(t) exact, margin >= 0, dissipation >= 0, efficiency <= 1)
+    data_package: energy_currencies (external pmf calibrated to the Phase-1 posterior, H+ permeability + Na+/H+ ratio, H2/CO2 and Fe(II)-disproportionation drives, carrier bonds and decay, per-cell turnover / maintenance / load; 24 parameters, 12 hypothetical, none unsourced)
     exit_criterion: energy-capture efficiency and the threshold at which internalization beats leakage + maintenance
+    result: "990 runs, ledger exact on all. At P_H 1e-6 m/s and 0.216 V: thioester pays from activity 0.10 (autonomy 0.03 at a*, 0.26 at full; ceiling P_H 3.2e-6), fe_redox from 0.80 (autonomy 0.17; ceiling 1e-6), the H+/Na+ gradient store only at P_H 1e-8 (from 0.5, autonomy 0.97), polyphosphate never (potential 22 < 30 kJ/mol load). Collapsed gradient: thioester / fe_redox keep a positive budget (autonomy 0.79 / 0.74), ion and polyP go negative. Cross-class agreement on 'pays' 0.46 (structure-sensitive); capture efficiency 0.26-0.28 at the thresholds."
+    next: propagate the energy_currencies priors (LHS / Sobol over 18 free parameters); put the classes inside each og-05 strategy and re-run selection on per-individual autonomy; feed the og-04 membrane's permeability directly; transcribe the Fe(II)-disproportionation numbers once the reference is accepted
   - phase: 7
     name: Competing heredity
     status: planned
@@ -561,6 +572,10 @@ at_a_glance:
   role: 'Phase 3 open network: a rule-generated C/H/O universe with real dG'' fed the Phase-1 posterior grows no
     autocatalytic motif; fed formaldehyde it grows the formose cycle, enriched over matched nulls (p = 0.04); the
     curated rTCA motif is reclassed as imposed and non-conserving'
+- study: og-energy-alt-internalization-threshold
+  role: 'Phase 6 internalization threshold: five energy-coupling classes inside one protocell under a free-energy
+    ledger — the thioester store pays from a tenth of the drive, Fe-redox only near full activity, the H+/Na+
+    gradient only in a 100x tighter membrane, polyphosphate never; per-individual autonomy'
 studies:
 - og-00-vent-reactor-baseline
 - og-01-geology-to-reduced-carbon
@@ -581,6 +596,7 @@ studies:
 - og-02-alt-reaction-universe
 - og-04-alt-endogenous-boundary
 - og-growth-alt-physical-reproduction
+- og-energy-alt-internalization-threshold
 acceptance_criteria:
 - study: og-00-vent-reactor-baseline
   behavior: vent-pH-in-lostcity-range
@@ -620,6 +636,8 @@ acceptance_criteria:
   behavior: failure-mode-attributed
 - study: og-02-alt-reaction-universe
   behavior: motifs-emerge-not-imposed
+- study: og-energy-alt-internalization-threshold
+  behavior: internalization-pays
 expert_docs:
 - Origins-of-Life Simulation Campaign
 - Origins-of-Life Computational Methods Atlas

@@ -14,10 +14,22 @@ from .proto_energetics import (  # noqa: E402,F401
     GeochemicalDriveProcess,
     ProtoEnergyCurrencyProcess,
 )
+from .energy_coupling import (  # noqa: E402,F401
+    PassiveGradientCouplingProcess,
+    IonGradientCouplingProcess,
+    ThioesterCouplingProcess,
+    PolyphosphateCouplingProcess,
+    FeRedoxCouplingProcess,
+)
 
 __all__ = [
     "BioenergeticSelectionProcess",
     "EnvironmentalDeclineProcess",
     "GeochemicalDriveProcess",
     "ProtoEnergyCurrencyProcess",
+    "PassiveGradientCouplingProcess",
+    "IonGradientCouplingProcess",
+    "ThioesterCouplingProcess",
+    "PolyphosphateCouplingProcess",
+    "FeRedoxCouplingProcess",
 ]
