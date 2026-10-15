@@ -23,11 +23,16 @@ Planned process contracts (not yet implemented):
 Outputs: carbon conversion, yields, network persistence, energy dissipation,
 selectivity. Do NOT substitute steady-state FBA for origins-stage chemistry.
 
-Placeholder package: no Process/Step classes yet.
+Phase 3 adds the proto_metabolism face classes: ``universe`` (rule-generated
+network + eQuilibrator potentials + matched nulls), ``motifs`` (post-hoc
+autocatalysis detection, enrichment, flux control, stiffness) and
+``universe_process`` (``ReactionUniverseProcess`` / ``NullNetworkProcess``).
 """
 
 from .thermo import EquilibratorThermoStep  # noqa: E402,F401
 from .carbon_fixation import CarbonFixationProcess  # noqa: E402,F401
 from .network import RoadRunnerNetworkProcess  # noqa: E402,F401
+from .universe_process import ReactionUniverseProcess, NullNetworkProcess  # noqa: E402,F401
 
-__all__ = ["EquilibratorThermoStep", "CarbonFixationProcess", "RoadRunnerNetworkProcess"]
+__all__ = ["EquilibratorThermoStep", "CarbonFixationProcess", "RoadRunnerNetworkProcess",
+           "ReactionUniverseProcess", "NullNetworkProcess"]

@@ -485,6 +485,87 @@ def _mechanism_map_ledger_all_ok(reader, test: dict, ws_root: Any) -> float:
     """1.0 when the charge ledger closed on every mechanism-map point of every class."""
     att = _artifact_json(test, ws_root, _OGCAL_ELECTRO_REPORT)["attribution"]
     return 1.0 if all(pc["ledger"]["all_ok"] for pc in att["per_class"].values()) else 0.0
+# --- open_chemical_network / Phase-3 reaction universe (og-02-alt-reaction-universe) ----
+
+_OG02ALT_ENRICHMENT = "workspace/studies/og-02-alt-reaction-universe/artifacts/motif_enrichment.json"
+_OG02ALT_VERIFICATION = "workspace/studies/og-02-alt-reaction-universe/artifacts/reaction_universe_verification.json"
+
+
+def _network_ledger_ok_final(reader, test: dict, ws_root: Any) -> float:
+    """Final NetworkLedgerProcess verdict (element, carbon and free-energy witnesses within tolerance)."""
+    return _values(reader, "ledger_ok")[-1]
+
+
+def _max_element_residual(reader, test: dict, ws_root: Any) -> float:
+    """Worst-case stoichiometric element residual max|E S| (exact; 0 for a generated universe)."""
+    return _values(reader, "element_residual_max")[-1]
+
+
+def _max_carbon_residual(reader, test: dict, ws_root: Any) -> float:
+    """Worst-case integrated carbon-balance residual (integrator tolerance)."""
+    return _values(reader, "carbon_residual_max")[-1]
+
+
+def _free_energy_directionality_final(reader, test: dict, ws_root: Any) -> float:
+    """1 if the dissipation -sum v dG never went below -tolerance (second law)."""
+    return _values(reader, "free_energy_directionality")[-1]
+
+
+def _final_n_persistent_species(reader, test: dict, ws_root: Any) -> float:
+    return _values(reader, "n_persistent_species")[-1]
+
+
+def _final_n_autocatalytic_motifs(reader, test: dict, ws_root: Any) -> float:
+    return _values(reader, "n_autocatalytic_motifs")[-1]
+
+
+def _settled_malate_M(reader, test: dict, ws_root: Any) -> float:
+    """Settled malate pool (M): the rTCA reductive branch emerging from the rules."""
+    return _settled_mean(reader, "malate")
+
+
+def _motif_enrichment_p(reader, test: dict, ws_root: Any) -> float:
+    """Empirical one-sided p of the universe's persistent-motif count against the
+    matched nulls, in the arm named by ``test.params.arm`` (default formose_feed)."""
+    arm = str((test.get("params") or {}).get("arm", "formose_feed"))
+    rep = _artifact_json(test, ws_root, _OG02ALT_ENRICHMENT)
+    return float(rep["arms"][arm]["enrichment"]["n_motifs"]["p_empirical"])
+
+
+def _universe_motif_count(reader, test: dict, ws_root: Any) -> float:
+    """Persistent autocatalytic motifs detected post hoc in the universe (arm from test.params.arm)."""
+    arm = str((test.get("params") or {}).get("arm", "formose_feed"))
+    rep = _artifact_json(test, ws_root, _OG02ALT_ENRICHMENT)
+    return float(rep["arms"][arm]["universe"]["n_motifs"])
+
+
+def _null_max_motif_count(reader, test: dict, ws_root: Any) -> float:
+    arm = str((test.get("params") or {}).get("arm", "formose_feed"))
+    rep = _artifact_json(test, ws_root, _OG02ALT_ENRICHMENT)
+    return float(rep["arms"][arm]["enrichment"]["n_motifs"]["null_max"])
+
+
+def _curated_element_residual(reader, test: dict, ws_root: Any) -> float:
+    """max|E S| of og-02's curated rTCA SBML, computed post hoc from its stoichiometry."""
+    rep = _artifact_json(test, ws_root, _OG02ALT_ENRICHMENT)
+    return float(rep["arms"]["phase1_feed"]["curated_rtca"]["element_residual"])
+
+
+def _fcc_summation_residual_max(reader, test: dict, ws_root: Any) -> float:
+    """Worst |sum_j C^J_ij - 1| over the DOMINANT fluxes (>= 1% of the largest) of the
+    settled universe (MCA summation theorem; exact only at steady state)."""
+    rep = _artifact_json(test, ws_root, _OG02ALT_VERIFICATION)
+    fc = rep["reaction_universe"]["flux_control"]
+    if not fc.get("ok"):
+        raise ValueError(f"flux-control analysis failed: {fc.get('error')}")
+    return float(fc["dominant_summation_residual"])
+
+
+def _tolerance_sensitivity_max(reader, test: dict, ws_root: Any) -> float:
+    """Worst relative species deviation when CVODE tolerances are loosened/tightened around the defaults."""
+    rep = _artifact_json(test, ws_root, _OG02ALT_VERIFICATION)
+    devs = rep["reaction_universe"]["stiffness"]["deviations"]
+    return max(float(v["max_rel_dev"]) for v in devs.values())
 
 
 def register_derived_scalars(registry: dict) -> None:
@@ -565,3 +646,17 @@ def register_derived_scalars(registry: dict) -> None:
     registry["posterior_viable_fraction"] = _posterior_viable_fraction
     registry["posterior_consistent_fraction"] = _posterior_consistent_fraction
     registry["structure_agreement_viable"] = _structure_agreement_viable
+    # open_chemical_network / Phase-3 reaction universe (og-02-alt-reaction-universe)
+    registry["network_ledger_ok_final"] = _network_ledger_ok_final
+    registry["max_element_residual"] = _max_element_residual
+    registry["max_carbon_residual"] = _max_carbon_residual
+    registry["free_energy_directionality_final"] = _free_energy_directionality_final
+    registry["final_n_persistent_species"] = _final_n_persistent_species
+    registry["final_n_autocatalytic_motifs"] = _final_n_autocatalytic_motifs
+    registry["settled_malate_M"] = _settled_malate_M
+    registry["motif_enrichment_p"] = _motif_enrichment_p
+    registry["universe_motif_count"] = _universe_motif_count
+    registry["null_max_motif_count"] = _null_max_motif_count
+    registry["curated_element_residual"] = _curated_element_residual
+    registry["fcc_summation_residual_max"] = _fcc_summation_residual_max
+    registry["tolerance_sensitivity_max"] = _tolerance_sensitivity_max
