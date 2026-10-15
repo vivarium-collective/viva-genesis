@@ -9,181 +9,263 @@ simulation_status: ran
 evaluation_status: evaluated
 confidence: Accepted
 gate_status: passed
-title: 'The Phosphorus Bottleneck'
-question: >-
-  Phosphorus may be a harder bottleneck than carbon. Can the same thermal-gradient vent pore that
-  concentrates C and N also co-concentrate P — tracking dissolved phosphate, mineral-bound P,
-  polyphosphate and reactive P with explicit precipitation/adsorption loss — or does phosphate
-  precipitate/adsorb before it is chemically useful? Are there local windows where reactive P is
-  produced faster than it is lost?
-hypothesis: >-
-  In a thermal-gradient pore (coupled from og-03), enrichment drives phosphate condensation and
-  activation steeply enough that reactive-P formation outruns the first-order precipitation/adsorption
-  sink in a bounded (source × enrichment) region — and that same enrichment co-concentrates P
-  alongside carbon; without the gradient (open pore), precipitation wins and no reactive P accumulates.
-objective: >-
-  Build a real P-speciation process (phosphate <-> polyphosphate <-> reactive-P with a
-  precipitation/adsorption mineral sink), couple it to the og-03 thermal pore, and map where reactive-P
-  availability beats loss and co-concentrates with carbon.
-claim: >-
-  A real libRoadRunner P-speciation network coupled to the og-03 thermal pore shows reactive phosphorus
-  becomes available only in a bounded (phosphate source × pore enrichment) window where condensation +
-  activation outrun the precipitation/adsorption sink; the same pore enrichment that concentrates carbon
-  co-concentrates P, and without the gradient phosphate precipitates before it is useful — phosphorus is
-  a localization-gated bottleneck, not a free resource.
+title: The Phosphorus Bottleneck
+question: Phosphorus may be a harder bottleneck than carbon. Can the same thermal-gradient
+  vent pore that concentrates C and N also co-concentrate P — tracking dissolved phosphate,
+  mineral-bound P, polyphosphate and reactive P with explicit precipitation/adsorption
+  loss — or does phosphate precipitate/adsorb before it is chemically useful? Are
+  there local windows where reactive P is produced faster than it is lost?
+hypothesis: In a thermal-gradient pore (coupled from og-03), enrichment drives phosphate
+  condensation and activation steeply enough that reactive-P formation outruns the
+  first-order precipitation/adsorption sink in a bounded (source × enrichment) region
+  — and that same enrichment co-concentrates P alongside carbon; without the gradient
+  (open pore), precipitation wins and no reactive P accumulates.
+objective: Build a real P-speciation process (phosphate <-> polyphosphate <-> reactive-P
+  with a precipitation/adsorption mineral sink), couple it to the og-03 thermal pore,
+  and map where reactive-P availability beats loss and co-concentrates with carbon.
+claim: A real libRoadRunner P-speciation network coupled to the og-03 thermal pore
+  shows reactive phosphorus becomes available only in a bounded (phosphate source
+  × pore enrichment) window where condensation + activation outrun the precipitation/adsorption
+  sink; the same pore enrichment that concentrates carbon co-concentrates P, and without
+  the gradient phosphate precipitates before it is useful — phosphorus is a localization-gated
+  bottleneck, not a free resource.
 findings:
 - id: ogres-reactive-p-available
   kind: computational
   status: confirms
-  statement: >-
-    In the favorable thermal-gradient pore, reactive-P formation outpaces the precipitation/adsorption
-    loss — net reactive-P availability settles positive (~+1.8e-6 mol/s) and reactive P accumulates to
-    ~94% of the supplied phosphorus while only ~6% precipitates. A bounded local window exists where
-    reactive P is produced faster than it is lost.
+  statement: In the favorable thermal-gradient pore, reactive-P formation outpaces
+    the precipitation/adsorption loss — net reactive-P availability settles positive
+    (~+1.8e-6 mol/s) and reactive P accumulates to ~94% of the supplied phosphorus
+    while only ~6% precipitates. A bounded local window exists where reactive P is
+    produced faster than it is lost.
   evidence:
     from_test: reactive-p-available
     observed: ~+1.8e-6 mol/s net availability; reactive P ~94% of supply; ~6% precipitated
     units: mole/second
-  explanation: >-
-    Real libRoadRunner ODE P-speciation network: enrichment enters condensation as enr^2 and activation
-    as enr, while precipitation is first-order in phosphate, so a concentrated pore tips phosphate's fate
-    toward the reactive route.
+  explanation: 'Real libRoadRunner ODE P-speciation network: enrichment enters condensation
+    as enr^2 and activation as enr, while precipitation is first-order in phosphate,
+    so a concentrated pore tips phosphate''s fate toward the reactive route.'
   expected:
-    cites: [pasek2017schreibersite]
+    cites:
+    - pasek2017schreibersite
 - id: ogres-p-coconcentrates-with-carbon
   kind: computational
   status: novel
-  statement: >-
-    The SAME real og-03 thermophoretic pore that lifts a dilute carbon feed across the ignition threshold
-    (species-agnostic Soret + convection trap) co-concentrates phosphate: at the pore's enrichment the
-    P reactive-availability is positive and the enrichment exceeds the carbon co-concentration floor (~10×).
-    C and P co-concentrate in one pore regime — reported as an overlap boundary, not a fitted target.
+  statement: 'The SAME real og-03 thermophoretic pore that lifts a dilute carbon feed
+    across the ignition threshold (species-agnostic Soret + convection trap) co-concentrates
+    phosphate: at the pore''s enrichment the P reactive-availability is positive and
+    the enrichment exceeds the carbon co-concentration floor (~10×). C and P co-concentrate
+    in one pore regime — reported as an overlap boundary, not a fitted target.'
   evidence:
     from_test: p-coconcentrates-with-carbon
-    observed: og-03 pore enrichment >> 10× carbon co-concentration floor; P reactive-availability positive at that enrichment
+    observed: og-03 pore enrichment >> 10× carbon co-concentration floor; P reactive-availability
+      positive at that enrichment
     units: dimensionless
-  explanation: >-
-    The thermophoretic trap enrichment depends on the Soret coefficient and pore geometry, not on the
-    solute identity, so the pore that concentrates carbon concentrates phosphate; coupling it to the
-    P-speciation network shows reactive P becomes available in the same regime.
+  explanation: The thermophoretic trap enrichment depends on the Soret coefficient
+    and pore geometry, not on the solute identity, so the pore that concentrates carbon
+    concentrates phosphate; coupling it to the P-speciation network shows reactive
+    P becomes available in the same regime.
   expected:
-    cites: [baaske2007extreme, mast2010thermal]
+    cites:
+    - baaske2007extreme
+    - mast2010thermal
 - id: ogres-precipitation-ablation
   kind: computational
   status: novel
-  statement: >-
-    The feature ablation is decisive — an open pore / no thermal gradient (enrichment = 1) collapses
-    reactive-P availability: net availability goes negative and ~96% of phosphorus precipitates to the
-    mineral sink. Phosphate precipitates/adsorbs before it is chemically useful unless the pore
-    concentrates it first.
+  statement: 'The feature ablation is decisive — an open pore / no thermal gradient
+    (enrichment = 1) collapses reactive-P availability: net availability goes negative
+    and ~96% of phosphorus precipitates to the mineral sink. Phosphate precipitates/adsorbs
+    before it is chemically useful unless the pore concentrates it first.'
   evidence:
     from_test: open-pore-no-enrichment-control
-    observed: 'favorable net ~+1.8e-6 (6% precipitated) vs open-pore net < 0 (~96% precipitated)'
+    observed: favorable net ~+1.8e-6 (6% precipitated) vs open-pore net < 0 (~96%
+      precipitated)
     units: mole/second
-  explanation: >-
-    Without enrichment the condensation/activation fluxes (enr-gated) fall below the first-order
-    precipitation loss, so phosphate drains into mineral-bound P — the phosphorus bottleneck made explicit.
+  explanation: Without enrichment the condensation/activation fluxes (enr-gated) fall
+    below the first-order precipitation loss, so phosphate drains into mineral-bound
+    P — the phosphorus bottleneck made explicit.
   expected:
-    cites: [pasek2017schreibersite]
+    cites:
+    - pasek2017schreibersite
 - id: ogres-availability-landscape
   kind: computational
   status: novel
-  statement: >-
-    A 16×16 sweep over (phosphate source × pore/thermal enrichment) maps where reactive P is available,
-    not just that it is at one point. Reactive-P availability is bounded by the net-availability threshold
-    (production = loss) on the enrichment axis; the PASS region is where that threshold is crossed AND the
-    enrichment co-concentrates carbon (right of the ~10× carbon floor). Below the threshold phosphate
-    precipitates before it is useful.
+  statement: A 16×16 sweep over (phosphate source × pore/thermal enrichment) maps
+    where reactive P is available, not just that it is at one point. Reactive-P availability
+    is bounded by the net-availability threshold (production = loss) on the enrichment
+    axis; the PASS region is where that threshold is crossed AND the enrichment co-concentrates
+    carbon (right of the ~10× carbon floor). Below the threshold phosphate precipitates
+    before it is useful.
   evidence:
-    observed: reactive-P pool ranges ~0 to ~1 mM across the (source × enrichment) plane (~94% of supply, ~94 µM, at the favorable 1e-4 M point); availability bounded by net=0 and the carbon co-concentration floor
+    observed: reactive-P pool ranges ~0 to ~1 mM across the (source × enrichment)
+      plane (~94% of supply, ~94 µM, at the favorable 1e-4 M point); availability
+      bounded by net=0 and the carbon co-concentration floor
     units: molar
-  explanation: >-
-    16×16 sweep of the real libRoadRunner composite reduced to the settled reactive-P pool, net
-    availability and precipitated fraction; rendered as the reactive-P availability phase map (Decision
-    view). Runner sims/compute_phosphorus_availability_grid.py.
+  explanation: 16×16 sweep of the real libRoadRunner composite reduced to the settled
+    reactive-P pool, net availability and precipitated fraction; rendered as the reactive-P
+    availability phase map (Decision view). Runner sims/compute_phosphorus_availability_grid.py.
   expected:
-    cites: [baaske2007extreme, pasek2017schreibersite]
-conclusion: >-
-  Reactive phosphorus becomes available only in a bounded enriched-pore window where condensation and
-  activation outrun the precipitation/adsorption sink; the same og-03 pore co-concentrates P with carbon,
-  and the open-pore ablation precipitates ~96% of P — phosphorus is a localization-gated bottleneck.
+    cites:
+    - baaske2007extreme
+    - pasek2017schreibersite
+conclusion: Reactive phosphorus becomes available only in a bounded enriched-pore
+  window where condensation and activation outrun the precipitation/adsorption sink;
+  the same og-03 pore co-concentrates P with carbon, and the open-pore ablation precipitates
+  ~96% of P — phosphorus is a localization-gated bottleneck.
 conclusion_verdicts:
   biological_validation:
     result: PASS
-    basis: Reactive-P availability beats loss in the favorable pore and co-concentrates with carbon, with the open-pore ablation collapsing it.
+    basis: Reactive-P availability beats loss in the favorable pore and co-concentrates
+      with carbon, with the open-pore ablation collapsing it.
   explanatory_gain:
     result: POSITIVE
-    basis: The real speciation network shows WHY P is a harder bottleneck — precipitation is first-order while the useful routes are enrichment-gated, so P needs localization that C needs less.
+    basis: The real speciation network shows WHY P is a harder bottleneck — precipitation
+      is first-order while the useful routes are enrichment-gated, so P needs localization
+      that C needs less.
 limitations:
-- The P-speciation network is a lumped reduced model (single reactive-P pool, reversible mineral sink); rate constants are calibrated to the precipitation-vs-reactive competition, not fit to a mineral assemblage.
-- The co-concentration argument uses the og-03 trap enrichment as a species-agnostic multiplier into the P network; a fully coupled spatial C+P pore solve is deferred.
-- natcomm2023phosphorus / natcomm2025phosphateactivation (plan refs) are not yet on main's papers.bib — recorded as pending proposed_inputs, not cited here.
+- The P-speciation network is a lumped reduced model (single reactive-P pool, reversible
+  mineral sink); rate constants are calibrated to the precipitation-vs-reactive competition,
+  not fit to a mineral assemblage.
+- The co-concentration argument uses the og-03 trap enrichment as a species-agnostic
+  multiplier into the P network; a fully coupled spatial C+P pore solve is deferred.
+- natcomm2023phosphorus / natcomm2025phosphateactivation (plan refs) are not yet on
+  main's papers.bib — recorded as pending proposed_inputs, not cited here.
 discovery_implications:
   resolved_uncertainties:
-  - A bounded (source × enrichment) window exists where reactive P is produced faster than it precipitates.
+  - A bounded (source × enrichment) window exists where reactive P is produced faster
+    than it precipitates.
   - The same thermal pore that concentrates carbon co-concentrates phosphorus.
   remaining_uncertainties:
-  - Whether a fully coupled spatial C+N+P pore solve preserves the co-concentration overlap under shared transport.
+  - Whether a fully coupled spatial C+N+P pore solve preserves the co-concentration
+    overlap under shared transport.
   followup_study_proposals:
-  - {study: og-res-phosphorus-b, rationale: Couple C, N and P in one spatial pore solve and test simultaneous co-enrichment under shared flow.: null}
+  - study: og-res-phosphorus-b
+    rationale: Couple C
+    N and P in one spatial pore solve and test simultaneous co-enrichment under shared flow.: null
 readouts:
-- {name: reactive_P, store_path: P.reactive_P, units: molar, description: Reactive (activated) phosphorus pool, status: available}
-- {name: phosphate, store_path: P.phosphate, units: molar, description: Dissolved orthophosphate, status: available}
-- {name: polyphosphate, store_path: P.polyphosphate, units: molar, description: Condensed polyphosphate (P-atom units), status: available}
-- {name: mineral_P, store_path: P.mineral_P, units: molar, description: Mineral-bound (precipitated/adsorbed) P sink, status: available}
-- {name: net_reactive_P, store_path: flux.net_reactive_P, units: mole/second, description: Reactive-P production minus precipitation loss, status: available}
-- {name: precipitated_fraction, store_path: flux.precipitated_fraction, units: dimensionless, description: Mineral-bound fraction of total P, status: available}
-- {name: p_mass_residual, store_path: flux.p_mass_residual, units: dimensionless, description: P-mass conservation residual, status: available}
+- name: reactive_P
+  store_path: P.reactive_P
+  units: molar
+  description: Reactive (activated) phosphorus pool
+  status: available
+- name: phosphate
+  store_path: P.phosphate
+  units: molar
+  description: Dissolved orthophosphate
+  status: available
+- name: polyphosphate
+  store_path: P.polyphosphate
+  units: molar
+  description: Condensed polyphosphate (P-atom units)
+  status: available
+- name: mineral_P
+  store_path: P.mineral_P
+  units: molar
+  description: Mineral-bound (precipitated/adsorbed) P sink
+  status: available
+- name: net_reactive_P
+  store_path: flux.net_reactive_P
+  units: mole/second
+  description: Reactive-P production minus precipitation loss
+  status: available
+- name: precipitated_fraction
+  store_path: flux.precipitated_fraction
+  units: dimensionless
+  description: Mineral-bound fraction of total P
+  status: available
+- name: p_mass_residual
+  store_path: flux.p_mass_residual
+  units: dimensionless
+  description: P-mass conservation residual
+  status: available
 behavior_tests:
-# Machine-gradeable derived + cross-run readouts (viva_genesis/evaluators.py) over the
-# real libRoadRunner P-speciation run — emergent observables, not assumptions.
 - name: reactive-p-available
   classification: primary
-  description: Reactive-P production outpaces precipitation/adsorption loss — net reactive-P availability settles positive in the favorable (enriched) pore (a window where reactive P is produced faster than it is lost).
-  measure: {kind: derived, path: phosphorus_net_reactive_availability, detail: settled net reactive-P availability = production - precipitation loss}
-  pass_if: {op: '>', value: 0.0, detail: net availability > 0 (reactive P produced faster than lost)}
+  description: Reactive-P production outpaces precipitation/adsorption loss — net
+    reactive-P availability settles positive in the favorable (enriched) pore (a window
+    where reactive P is produced faster than it is lost).
+  measure:
+    kind: derived
+    path: phosphorus_net_reactive_availability
+    detail: settled net reactive-P availability = production - precipitation loss
+  pass_if:
+    op: '>'
+    value: 0.0
+    detail: net availability > 0 (reactive P produced faster than lost)
   units: mole/second
   requires_simulation: 'yes'
-  cites: [pasek2017schreibersite]
+  cites:
+  - pasek2017schreibersite
   gate_class: acceptance_criterion
   band_basis: first_principles
 - name: p-coconcentrates-with-carbon
   classification: primary
-  description: The real og-03 thermophoretic pore enriches phosphate alongside carbon (species-agnostic Soret+convection trap) — overlap reported as a boundary, not a fitted target.
-  measure: {kind: cross_run, detail: og-03 pore enrichment vs the carbon co-concentration floor; P reactive-availability at that enrichment}
-  pass_if: {op: arms_reported, detail: the same pore regime co-concentrates P with C (enrichment >= carbon floor AND P reactive-availability positive)}
+  description: The real og-03 thermophoretic pore enriches phosphate alongside carbon
+    (species-agnostic Soret+convection trap) — overlap reported as a boundary, not
+    a fitted target.
+  measure:
+    kind: cross_run
+    detail: og-03 pore enrichment vs the carbon co-concentration floor; P reactive-availability
+      at that enrichment
+  pass_if:
+    op: arms_reported
+    detail: the same pore regime co-concentrates P with C (enrichment >= carbon floor
+      AND P reactive-availability positive)
   units: dimensionless
   requires_simulation: 'yes'
-  cites: [baaske2007extreme, mast2010thermal]
+  cites:
+  - baaske2007extreme
+  - mast2010thermal
   gate_class: acceptance_criterion
 - name: open-pore-no-enrichment-control
   classification: primary
-  description: An open pore / no thermal gradient (enrichment = 1) lets precipitation win — reactive-P availability collapses (net < 0, phosphate precipitates before it is useful). The feature ablation.
-  measure: {kind: cross_run, detail: favorable enriched pore vs open-pore / no-gradient control}
-  pass_if: {op: controls_absent, detail: reactive-P availability collapses (net <= 0, ~fully precipitated) without enrichment: null}
+  description: An open pore / no thermal gradient (enrichment = 1) lets precipitation
+    win — reactive-P availability collapses (net < 0, phosphate precipitates before
+    it is useful). The feature ablation.
+  measure:
+    kind: cross_run
+    detail: favorable enriched pore vs open-pore / no-gradient control
+  pass_if:
+    op: controls_absent
+    detail: reactive-P availability collapses (net <= 0
+    ~fully precipitated) without enrichment: null
   units: mole/second
   requires_simulation: 'yes'
-  cites: [pasek2017schreibersite]
+  cites:
+  - pasek2017schreibersite
   gate_class: acceptance_criterion
 - name: p-mass-conserved
   classification: diagnostic
-  description: The closed P-speciation network conserves total phosphorus (|total P - supplied| / supplied ~ machine epsilon).
-  measure: {kind: derived, path: phosphorus_p_mass_residual, detail: max |total P - supplied| / supplied}
-  pass_if: {op: '<=', value: 1.0e-6, detail: P-mass residual small (P-atom-conserving network)}
+  description: The closed P-speciation network conserves total phosphorus (|total
+    P - supplied| / supplied ~ machine epsilon).
+  measure:
+    kind: derived
+    path: phosphorus_p_mass_residual
+    detail: max |total P - supplied| / supplied
+  pass_if:
+    op: <=
+    value: 1.0e-06
+    detail: P-mass residual small (P-atom-conserving network)
   units: dimensionless
   requires_simulation: 'yes'
   band_basis: machine_precision
 literature_anchors:
-- expectation: Reactive reduced-P (schreibersite-derived) and condensed/activated phosphates form under basic conditions; dissolved phosphate is prone to precipitation/adsorption.
+- expectation: Reactive reduced-P (schreibersite-derived) and condensed/activated
+    phosphates form under basic conditions; dissolved phosphate is prone to precipitation/adsorption.
   model_observable: reactive-P availability vs precipitated fraction
   source: Pasek 2017
-  status_in_workspace: measured — reactive-P availability + precipitated fraction graded from the real run
+  status_in_workspace: measured — reactive-P availability + precipitated fraction
+    graded from the real run
   cites:
   - pasek2017schreibersite
 baseline:
 - name: 'Phosphorus availability: the phosphorus bottleneck'
   composite: viva_genesis.composites.phosphorus_availability.phosphorus_availability
-  params: {phosphate_supply: 1.0e-4, pore_enrichment: 30.0, temperature: 333.15, loss_rate: 0.08}
+  params:
+    phosphate_supply: 0.0001
+    pore_enrichment: 30.0
+    temperature: 333.15
+    loss_rate: 0.08
   canonical: true
 parent_studies:
 - study: og-03-dilution-to-localized-individuals
@@ -192,7 +274,8 @@ parent_relations:
 - study: og-03-dilution-to-localized-individuals
   relation: leads-to
 key_assumptions:
-- Reactive-P availability arises from the balance of condensation, activation, hydrolysis and precipitation/adsorption — not assumed; the precipitation sink is explicit.
+- Reactive-P availability arises from the balance of condensation, activation, hydrolysis
+  and precipitation/adsorption — not assumed; the precipitation sink is explicit.
 proposed_mechanisms:
 - 'I: limiting-resource phosphorus speciation'
 - 'F: transport/concentration/retention (og-03 pore coupling)'
@@ -206,7 +289,8 @@ runtime:
 canonical_runs:
 - name: phosphorus-availability
   script: workspace/studies/og-res-phosphorus-availability/sims/run.py
-  description: Real libRoadRunner P-speciation run -> auto-graded reactive-P availability / co-concentration / ablation.
+  description: Real libRoadRunner P-speciation run -> auto-graded reactive-P availability
+    / co-concentration / ablation.
 visualizations:
 - name: phosphorus-speciation
   address: local:PhosphorusSpeciationViz
@@ -223,7 +307,8 @@ visualizations:
 - name: phosphorus-availability-map
   address: local:PhosphorusAvailabilityMap
   config:
-    title: The phosphorus bottleneck — reactive-P availability landscape (Decision view)
+    title: The phosphorus bottleneck — reactive-P availability landscape (Decision
+      view)
     grid_json: workspace/studies/og-res-phosphorus-availability/artifacts/phosphorus_availability_grid.json
 contract:
   face:
@@ -260,11 +345,14 @@ contract:
     expr: abs(total_P - supplied_P) / supplied_P < tol
   - kind: invariant
     name: nonnegative_pools
-    expr: phosphate >= 0 and polyphosphate >= 0 and reactive_P >= 0 and mineral_P >= 0
+    expr: phosphate >= 0 and polyphosphate >= 0 and reactive_P >= 0 and mineral_P
+      >= 0
   - kind: invariant
     name: reproducibility
     expr: solver and db and seed and scenario recorded
-  note: bigraph-schema typed ports (_type/_units/bounds) + conservation predicates; PhosphorusSpeciationProcess declares a filled ProcessContract matching this face (audited via the workbench §Contract panel).
+  note: bigraph-schema typed ports (_type/_units/bounds) + conservation predicates;
+    PhosphorusSpeciationProcess declares a filled ProcessContract matching this face
+    (audited via the workbench §Contract panel).
 key_figures: []
 kind: baseline
 study_type: exploratory
@@ -281,7 +369,11 @@ pipeline_gate:
 conditions:
   baseline:
     composite: viva_genesis.composites.phosphorus_availability.phosphorus_availability
-    params: {phosphate_supply: 1.0e-4, pore_enrichment: 30.0, temperature: 333.15, loss_rate: 0.08}
+    params:
+      phosphate_supply: 0.0001
+      pore_enrichment: 30.0
+      temperature: 333.15
+      loss_rate: 0.08
 variants:
 - name: control-open-pore
   params:
@@ -295,13 +387,15 @@ simulation_set:
 units_and_time:
   tick: 1 s per step (forward-Euler / ODE step)
   concentration_unit: molar
-  note: Steps are abstract reaction ticks, not wall-clock; concentrations in mol/L, temperature in K, fluxes in mol/s.
+  note: Steps are abstract reaction ticks, not wall-clock; concentrations in mol/L,
+    temperature in K, fluxes in mol/s.
 study_card:
-  headline: >-
-    All three gates pass — a favorable enriched pore produces reactive P faster than phosphate
-    precipitates (~6% precipitated), the og-03 pore co-concentrates P with carbon, and the open-pore
-    ablation collapses availability (~96% precipitated). P mass conserved to ~5e-7.
-  status: PASS — reactive-P availability + co-concentration in a bounded enriched-pore window
+  headline: All three gates pass — a favorable enriched pore produces reactive P faster
+    than phosphate precipitates (~6% precipitated), the og-03 pore co-concentrates
+    P with carbon, and the open-pore ablation collapses availability (~96% precipitated).
+    P mass conserved to ~5e-7.
+  status: PASS — reactive-P availability + co-concentration in a bounded enriched-pore
+    window
 runs:
 - name: viva_genesis.composites.phosphorus_availability.phosphorus_availability__1791926628__6912fc
   status: completed
@@ -321,23 +415,25 @@ runs:
       evaluated_by: code
       axis:
         id: reactive-p-available
-        label: Reactive-P production outpaces precipitation/adsorption loss — net reactive-P availability settles positive in the favorable (enriched) pore (a window where reactive P is produced faster than it is lost).
+        label: Reactive-P production outpaces precipitation/adsorption loss — net
+          reactive-P availability settles positive in the favorable (enriched) pore
+          (a window where reactive P is produced faster than it is lost).
         verdict: within_tol
         value: 2e-06
         meter: 0.500001
-        detail:
+        detail: null
         expected:
           kind: value
           value: 0.0
-          low:
-          high:
+          low: null
+          high: null
           op: '>'
           tol: 0.05
-          statement:
+          statement: null
         margin: 2e-06
         severity: hard
-        units:
-        knob:
+        units: null
+        knob: null
         citation: pasek2017schreibersite
       auto_evaluated: true
     p-coconcentrates-with-carbon:
@@ -345,13 +441,18 @@ runs:
       measured_value: 23.336
       evaluated_by: code
       operator: cross_run
-      detail: 'the real og-03 thermophoretic pore enriches ~23× (>= carbon co-concentration floor 10×): the SAME pore regime concentrates carbon (og-03) AND phosphate; P reactive-availability at that enrichment is positive — P and C co-concentrate [arms_reported, overlap=yes]'
+      detail: 'the real og-03 thermophoretic pore enriches ~23× (>= carbon co-concentration
+        floor 10×): the SAME pore regime concentrates carbon (og-03) AND phosphate;
+        P reactive-availability at that enrichment is positive — P and C co-concentrate
+        [arms_reported, overlap=yes]'
     open-pore-no-enrichment-control:
       result: PASS
       measured_value: -1.99416e-07
       evaluated_by: code
       operator: cross_run
-      detail: favorable net availability=1.80e-06 mol/s (precipitated 6%) vs open-pore/no-gradient control net=-1.99e-07 mol/s (precipitated 96%) — without enrichment precipitation wins, reactive-P availability collapses
+      detail: favorable net availability=1.80e-06 mol/s (precipitated 6%) vs open-pore/no-gradient
+        control net=-1.99e-07 mol/s (precipitated 96%) — without enrichment precipitation
+        wins, reactive-P availability collapses
     p-mass-conserved:
       result: PASS
       measured_value: 1e-06
@@ -360,22 +461,25 @@ runs:
       evaluated_by: code
       axis:
         id: p-mass-conserved
-        label: The closed P-speciation network conserves total phosphorus (|total P - supplied| / supplied ~ machine epsilon).
+        label: The closed P-speciation network conserves total phosphorus (|total
+          P - supplied| / supplied ~ machine epsilon).
         verdict: within_tol
         value: 1e-06
         meter: 0.5
-        detail:
+        detail: null
         expected:
           kind: value
           value: 1e-06
-          low:
-          high:
+          low: null
+          high: null
           op: <=
           tol: 0.05
-          statement:
+          statement: null
         margin: 0.0
         severity: hard
-        units:
-        knob:
-        citation:
+        units: null
+        knob: null
+        citation: null
       auto_evaluated: true
+verdict: supported
+evidence_tier: mechanistic_prediction

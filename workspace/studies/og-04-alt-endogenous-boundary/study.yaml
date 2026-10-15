@@ -10,12 +10,24 @@ evaluation_status: evaluated
 confidence: Accepted
 gate_status: passed
 title: The Endogenous Boundary
-question: Can a protocell boundary form from the campaign's OWN chemistry — amphiphile synthesised from reduced carbon (acetate + formate) assembling into a vesicle that encloses an individual — rather than from an injected amphiphile pool?
-hypothesis: When acetate + formate condense to an amphiphile that clears the critical aggregation concentration under vesicle-favourable (alkaline, saline) conditions, a viable boundary forms and a new individual appears in the agents map by an _add structural rewrite; with amphiphile synthesis ablated no individual forms, so boundary formation is caused by the endogenous chemistry.
-objective: Drive AmphiphileSynthesisProcess from a dissolved acetate+formate pool into the boundary face (single_chain | mixed | thioester_aminothiol); gate that a BoundaryFormationStep _add produces agents 0 -> >=1 in the favorable arm and 0 in the synthesis-ablated control, with the RewriteLedger confirming the rewrite conserves matter.
+question: Can a protocell boundary form from the campaign's OWN chemistry — amphiphile
+  synthesised from reduced carbon (acetate + formate) assembling into a vesicle that
+  encloses an individual — rather than from an injected amphiphile pool?
+hypothesis: When acetate + formate condense to an amphiphile that clears the critical
+  aggregation concentration under vesicle-favourable (alkaline, saline) conditions,
+  a viable boundary forms and a new individual appears in the agents map by an _add
+  structural rewrite; with amphiphile synthesis ablated no individual forms, so boundary
+  formation is caused by the endogenous chemistry.
+objective: Drive AmphiphileSynthesisProcess from a dissolved acetate+formate pool
+  into the boundary face (single_chain | mixed | thioester_aminothiol); gate that
+  a BoundaryFormationStep _add produces agents 0 -> >=1 in the favorable arm and 0
+  in the synthesis-ablated control, with the RewriteLedger confirming the rewrite
+  conserves matter.
 proposed_mechanisms:
-- 'H+: the boundary is built from the campaign''s own carbon chemistry, not an added amphiphile'
-- structural-rewrite individuation (_add on the agents map) rather than a continuous field
+- 'H+: the boundary is built from the campaign''s own carbon chemistry, not an added
+  amphiphile'
+- structural-rewrite individuation (_add on the agents map) rather than a continuous
+  field
 proposed_models_methods:
 - AmphiphileSynthesisProcess (acetate + formate -> fatty-acid amphiphile)
 - boundary face (Jordan-2019 mixed-amphiphile vesicle; thioester/aminothiol alternative)
@@ -48,56 +60,92 @@ contract:
         _units: dimensionless
   conditions:
   - name: rewrite_mass_balance
-    expr: rewrite_residual_max == 0 (the _add moves matter localized -> individual, conserved)
+    expr: rewrite_residual_max == 0 (the _add moves matter localized -> individual,
+      conserved)
 behavior_tests:
 - name: boundary-forms-from-chemistry
   classification: primary
-  description: A new individual appears in the agents map (0 -> >=1) when amphiphile is synthesised from acetate+formate and clears cac; with synthesis ablated (k_synth -> 0) the amphiphile stays below cac and NO individual forms.
-  measure: {kind: derived, path: boundary_forms_from_chemistry, detail: 'favorable forms individuals (n_agents>=1) AND synthesis-ablated forms none; from artifacts/endogenous_boundary_report.json'}
+  description: A new individual appears in the agents map (0 -> >=1) when amphiphile
+    is synthesised from acetate+formate and clears cac; with synthesis ablated (k_synth
+    -> 0) the amphiphile stays below cac and NO individual forms.
+  measure:
+    kind: derived
+    path: boundary_forms_from_chemistry
+    detail: favorable forms individuals (n_agents>=1) AND synthesis-ablated forms
+      none; from artifacts/endogenous_boundary_report.json
   artifact: workspace/studies/og-04-alt-endogenous-boundary/artifacts/endogenous_boundary_report.json
-  pass_if: {op: '>=', value: 1.0, detail: 'boundary caused by the endogenous chemistry — forms in the favorable arm, not in the synthesis-ablated control'}
+  pass_if:
+    op: '>='
+    value: 1.0
+    detail: boundary caused by the endogenous chemistry — forms in the favorable arm,
+      not in the synthesis-ablated control
   units: dimensionless
   requires_simulation: 'yes'
-  cites: [jordan2019promotion]
+  cites:
+  - jordan2019promotion
   gate_class: acceptance_criterion
   band_basis: first_principles
 - name: rewrite-conserves-matter
   classification: primary
-  description: Every _add boundary-formation rewrite conserves matter — the parcel withdrawn from the localized pool exactly equals the new individual's internal amounts (rewrite_ok).
-  measure: {kind: derived, path: endogenous_rewrite_conservation_ok, detail: 'min over steps of the RewriteLedger conservation flag; from artifacts/endogenous_boundary_report.json'}
+  description: Every _add boundary-formation rewrite conserves matter — the parcel
+    withdrawn from the localized pool exactly equals the new individual's internal
+    amounts (rewrite_ok).
+  measure:
+    kind: derived
+    path: endogenous_rewrite_conservation_ok
+    detail: min over steps of the RewriteLedger conservation flag; from artifacts/endogenous_boundary_report.json
   artifact: workspace/studies/og-04-alt-endogenous-boundary/artifacts/endogenous_boundary_report.json
-  pass_if: {op: '>=', value: 1.0, detail: rewrite_residual_max == 0 at every structural rewrite}
+  pass_if:
+    op: '>='
+    value: 1.0
+    detail: rewrite_residual_max == 0 at every structural rewrite
   units: dimensionless
   requires_simulation: 'yes'
   gate_class: acceptance_criterion
   band_basis: machine_precision
 literature_anchors:
 - key: jordan2019promotion
-  relevance: C10-C15 single-chain amphiphiles + co-surfactant form vesicles pH ~6.5 to >12 at seawater salinity — alkaline hydrothermal conditions favour protocell assembly.
+  relevance: C10-C15 single-chain amphiphiles + co-surfactant form vesicles pH ~6.5
+    to >12 at seawater salinity — alkaline hydrothermal conditions favour protocell
+    assembly.
 baseline:
 - name: Favorable — endogenous amphiphile synthesis forms the boundary
   composite: viva_genesis.composites.endogenous_boundary.endogenous_boundary
-  params: {model_boundary: mixed, k_synth: 5.0e-2, acetate0: 5.0e-2, formate0: 5.0e-2, pH: 9.0, ionic_strength: 0.35}
+  params:
+    model_boundary: mixed
+    k_synth: 0.05
+    acetate0: 0.05
+    formate0: 0.05
+    pH: 9.0
+    ionic_strength: 0.35
   canonical: true
-claim: A protocell boundary forms from the campaign's own reduced-carbon chemistry (endogenous amphiphile), producing an individual by a matter-conserving _add structural rewrite; ablating synthesis removes the individual.
+claim: A protocell boundary forms from the campaign's own reduced-carbon chemistry
+  (endogenous amphiphile), producing an individual by a matter-conserving _add structural
+  rewrite; ablating synthesis removes the individual.
 findings:
 - id: endogenous-boundary-forms
   kind: computational
   status: confirms
-  statement: The boundary forms from acetate+formate-derived amphiphile; with synthesis ablated it does not — boundary formation is caused by the endogenous chemistry.
+  statement: The boundary forms from acetate+formate-derived amphiphile; with synthesis
+    ablated it does not — boundary formation is caused by the endogenous chemistry.
   from_test: boundary-forms-from-chemistry
-  cites: [jordan2019promotion]
+  cites:
+  - jordan2019promotion
 conclusion_verdicts:
   boundary-forms-from-chemistry: supported
 limitations:
-- 'The amphiphile synthesis rate (k_synth) is an inferred condensation rate with no direct prebiotic measurement (vg-data provenance hypothetical, wide prior).'
+- The amphiphile synthesis rate (k_synth) is an inferred condensation rate with no
+  direct prebiotic measurement (vg-data provenance hypothetical, wide prior).
 parent_studies:
-- {study: og-04-mineral-compartments-to-protocells, condition: tests-passed}
-- {study: og-01-geology-to-reduced-carbon, condition: tests-passed}
+- study: og-04-mineral-compartments-to-protocells
+  condition: tests-passed
+- study: og-01-geology-to-reduced-carbon
+  condition: tests-passed
 visualizations:
 - name: endogenous-boundary-formation
   address: local:EndogenousBoundaryViz
-  config: {title: 'Boundary forms from chemistry (favorable vs synthesis-ablated)'}
+  config:
+    title: Boundary forms from chemistry (favorable vs synthesis-ablated)
 runs:
 - name: viva_genesis.composites.endogenous_boundary.endogenous_boundary__1792073782__997a9b
   status: completed
@@ -117,23 +165,25 @@ runs:
       evaluated_by: code
       axis:
         id: boundary-forms-from-chemistry
-        label: A new individual appears in the agents map (0 -> >=1) when amphiphile is synthesised from acetate+formate and clears cac; with synthesis ablated (k_synth -> 0) the amphiphile stays below cac and NO individual forms.
+        label: A new individual appears in the agents map (0 -> >=1) when amphiphile
+          is synthesised from acetate+formate and clears cac; with synthesis ablated
+          (k_synth -> 0) the amphiphile stays below cac and NO individual forms.
         verdict: within_tol
         value: 1.0
         meter: 0.5
-        detail:
+        detail: null
         expected:
           kind: value
           value: 1.0
-          low:
-          high:
+          low: null
+          high: null
           op: '>='
           tol: 0.05
-          statement:
+          statement: null
         margin: 0.0
         severity: hard
-        units:
-        knob:
+        units: null
+        knob: null
         citation: jordan2019promotion
       auto_evaluated: true
     rewrite-conserves-matter:
@@ -144,23 +194,28 @@ runs:
       evaluated_by: code
       axis:
         id: rewrite-conserves-matter
-        label: Every _add boundary-formation rewrite conserves matter — the parcel withdrawn from the localized pool exactly equals the new individual's internal amounts (rewrite_ok).
+        label: Every _add boundary-formation rewrite conserves matter — the parcel
+          withdrawn from the localized pool exactly equals the new individual's internal
+          amounts (rewrite_ok).
         verdict: within_tol
         value: 1.0
         meter: 0.5
-        detail:
+        detail: null
         expected:
           kind: value
           value: 1.0
-          low:
-          high:
+          low: null
+          high: null
           op: '>='
           tol: 0.05
-          statement:
+          statement: null
         margin: 0.0
         severity: hard
-        units:
-        knob:
-        citation:
+        units: null
+        knob: null
+        citation: null
       auto_evaluated: true
-pipeline_gate: {state: passed}
+pipeline_gate:
+  state: passed
+verdict: supported
+evidence_tier: mechanistic_prediction

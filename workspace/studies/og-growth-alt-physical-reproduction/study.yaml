@@ -10,15 +10,26 @@ evaluation_status: evaluated
 confidence: Accepted
 gate_status: passed
 title: Physical Reproduction
-question: Can an individual physically reproduce — grow to a division threshold and divide into daughters that grow and divide in turn — building a multi-generation lineage in the agents map, with matter and volume conserved at every division?
-hypothesis: A founder individual whose division_state grows to threshold divides by a _divide structural rewrite that halves its matter and volume; the daughters inherit half each (their amounts and volumes sum to the mother's) and grow and divide in turn, so a >=3-generation lineage forms in the agents map with the partition residual 0 at every division.
-objective: Drive AgentGrowthProcess -> DivisionStep over the agents map from a single founder; gate that the lineage reaches >=3 generations and that every _divide conserves matter and volume (daughter volumes sum to the mother's — partition residual 0, total volume constant).
+question: Can an individual physically reproduce — grow to a division threshold and
+  divide into daughters that grow and divide in turn — building a multi-generation
+  lineage in the agents map, with matter and volume conserved at every division?
+hypothesis: A founder individual whose division_state grows to threshold divides by
+  a _divide structural rewrite that halves its matter and volume; the daughters inherit
+  half each (their amounts and volumes sum to the mother's) and grow and divide in
+  turn, so a >=3-generation lineage forms in the agents map with the partition residual
+  0 at every division.
+objective: Drive AgentGrowthProcess -> DivisionStep over the agents map from a single
+  founder; gate that the lineage reaches >=3 generations and that every _divide conserves
+  matter and volume (daughter volumes sum to the mother's — partition residual 0,
+  total volume constant).
 proposed_mechanisms:
 - 'H+: reproduction is a structural rewrite (_divide) on the agents map, not a counter'
 - conserving partition (FMP §9.1) — daughters'' amounts + volumes sum to the mother''s
 proposed_models_methods:
-- AgentGrowthProcess (division_state -> threshold) + DivisionStep (_divide, matter + volume halved)
-- LineageStatsProcess (deepest generation, total volume) + RewriteLedgerProcess (partition residual)
+- AgentGrowthProcess (division_state -> threshold) + DivisionStep (_divide, matter
+  + volume halved)
+- LineageStatsProcess (deepest generation, total volume) + RewriteLedgerProcess (partition
+  residual)
 contract:
   face:
     inputs:
@@ -48,50 +59,78 @@ contract:
 behavior_tests:
 - name: lineage-reaches-three-generations
   classification: primary
-  description: A founder individual grows and divides, its daughters grow and divide in turn, so the lineage in the agents map reaches at least 3 generations.
-  measure: {kind: derived, path: peak_generation, detail: 'deepest generation the lineage REACHES (peak over the run, not the time-mean); from artifacts/physical_reproduction_report.json'}
+  description: A founder individual grows and divides, its daughters grow and divide
+    in turn, so the lineage in the agents map reaches at least 3 generations.
+  measure:
+    kind: derived
+    path: peak_generation
+    detail: deepest generation the lineage REACHES (peak over the run, not the time-mean);
+      from artifacts/physical_reproduction_report.json
   artifact: workspace/studies/og-growth-alt-physical-reproduction/artifacts/physical_reproduction_report.json
-  pass_if: {op: '>=', value: 3.0, detail: 'a >=3-generation lineage forms (peak reaches generation 5)'}
+  pass_if:
+    op: '>='
+    value: 3.0
+    detail: a >=3-generation lineage forms (peak reaches generation 5)
   units: dimensionless
   requires_simulation: 'yes'
   gate_class: acceptance_criterion
   band_basis: first_principles
 - name: division-conserves-volume
   classification: primary
-  description: Every _divide conserves matter and volume — the daughters' volumes sum to the mother's, so the total volume is constant across the lineage and the partition residual is 0.
-  measure: {kind: derived, path: partition_residual_peak, detail: 'worst (max) |mother - sum(daughters)| over every _divide; from artifacts/physical_reproduction_report.json'}
+  description: Every _divide conserves matter and volume — the daughters' volumes
+    sum to the mother's, so the total volume is constant across the lineage and the
+    partition residual is 0.
+  measure:
+    kind: derived
+    path: partition_residual_peak
+    detail: worst (max) |mother - sum(daughters)| over every _divide; from artifacts/physical_reproduction_report.json
   artifact: workspace/studies/og-growth-alt-physical-reproduction/artifacts/physical_reproduction_report.json
-  pass_if: {op: '<=', value: 1.0e-9, detail: partition residual ~ 0 at every division (conserving split)}
+  pass_if:
+    op: <=
+    value: 1.0e-09
+    detail: partition residual ~ 0 at every division (conserving split)
   units: dimensionless
   requires_simulation: 'yes'
   gate_class: acceptance_criterion
   band_basis: machine_precision
 literature_anchors:
 - key: sutherland2017opinion
-  relevance: the origin of a self-reproducing individual as the pre-genetic endpoint of the chemistry.
+  relevance: the origin of a self-reproducing individual as the pre-genetic endpoint
+    of the chemistry.
 baseline:
 - name: Founder lineage — growth to a >=3-generation lineage
   composite: viva_genesis.composites.physical_reproduction.physical_reproduction
-  params: {growth_per_step: 0.4, founder_volume: 8.0e-12, founder_formate: 8.0, founder_acetate: 4.0}
+  params:
+    growth_per_step: 0.4
+    founder_volume: 8.0e-12
+    founder_formate: 8.0
+    founder_acetate: 4.0
   canonical: true
-claim: An individual physically reproduces by a _divide structural rewrite, building a >=3-generation lineage in the agents map with matter and volume conserved (partition residual 0) at every division.
+claim: An individual physically reproduces by a _divide structural rewrite, building
+  a >=3-generation lineage in the agents map with matter and volume conserved (partition
+  residual 0) at every division.
 findings:
 - id: physical-reproduction-lineage
   kind: computational
   status: confirms
-  statement: A founder grows, divides, and its daughters do the same — a >=3-generation lineage forms in the agents map, matter and volume conserved at every division.
+  statement: A founder grows, divides, and its daughters do the same — a >=3-generation
+    lineage forms in the agents map, matter and volume conserved at every division.
   from_test: lineage-reaches-three-generations
 conclusion_verdicts:
   lineage-reaches-three-generations: supported
 limitations:
-- 'Growth is abstracted to the division trigger (division_state), not the full osmotic van der Waals growth of og-growth-division; coupling the two is the natural follow-up.'
+- Growth is abstracted to the division trigger (division_state), not the full osmotic
+  van der Waals growth of og-growth-division; coupling the two is the natural follow-up.
 parent_studies:
-- {study: og-growth-division, condition: tests-passed}
-- {study: og-04-alt-endogenous-boundary, condition: tests-passed}
+- study: og-growth-division
+  condition: tests-passed
+- study: og-04-alt-endogenous-boundary
+  condition: tests-passed
 visualizations:
 - name: physical-reproduction-lineage
   address: local:PhysicalReproductionViz
-  config: {title: 'A multi-generation lineage in the agents map'}
+  config:
+    title: A multi-generation lineage in the agents map
 runs:
 - name: viva_genesis.composites.physical_reproduction.physical_reproduction__1792073784__efd05b
   status: completed
@@ -111,24 +150,25 @@ runs:
       evaluated_by: code
       axis:
         id: lineage-reaches-three-generations
-        label: A founder individual grows and divides, its daughters grow and divide in turn, so the lineage in the agents map reaches at least 3 generations.
+        label: A founder individual grows and divides, its daughters grow and divide
+          in turn, so the lineage in the agents map reaches at least 3 generations.
         verdict: within_tol
         value: 5.0
         meter: 0.8333333333333333
-        detail:
+        detail: null
         expected:
           kind: value
           value: 3.0
-          low:
-          high:
+          low: null
+          high: null
           op: '>='
           tol: 0.05
-          statement:
+          statement: null
         margin: 2.0
         severity: hard
-        units:
-        knob:
-        citation:
+        units: null
+        knob: null
+        citation: null
       auto_evaluated: true
     division-conserves-volume:
       result: PASS
@@ -138,23 +178,28 @@ runs:
       evaluated_by: code
       axis:
         id: division-conserves-volume
-        label: Every _divide conserves matter and volume — the daughters' volumes sum to the mother's, so the total volume is constant across the lineage and the partition residual is 0.
+        label: Every _divide conserves matter and volume — the daughters' volumes
+          sum to the mother's, so the total volume is constant across the lineage
+          and the partition residual is 0.
         verdict: within_tol
         value: 0.0
         meter: 1.0
-        detail:
+        detail: null
         expected:
           kind: value
           value: 1e-09
-          low:
-          high:
+          low: null
+          high: null
           op: <=
           tol: 0.05
-          statement:
+          statement: null
         margin: 1e-09
         severity: hard
-        units:
-        knob:
-        citation:
+        units: null
+        knob: null
+        citation: null
       auto_evaluated: true
-pipeline_gate: {state: passed}
+pipeline_gate:
+  state: passed
+verdict: supported
+evidence_tier: mechanistic_prediction

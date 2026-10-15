@@ -10,9 +10,13 @@ evaluation_status: evaluated
 confidence: Accepted
 gate_status: passed
 title: The First Boundary
-question: Do mixed-amphiphile organic boundaries enhance persistence without cutting the system off from geochemical energy?
-hypothesis: Over a salt/pH/divalent-cation/T window, vesicles form and selectively retain while remaining permeable enough to exploit the external gradient — a non-empty individuality-vs-access region exists.
-objective: Introduce mixed amphiphiles + membrane assembly; measure whether organic boundaries enhance persistence without isolating the system.
+question: Do mixed-amphiphile organic boundaries enhance persistence without cutting
+  the system off from geochemical energy?
+hypothesis: Over a salt/pH/divalent-cation/T window, vesicles form and selectively
+  retain while remaining permeable enough to exploit the external gradient — a non-empty
+  individuality-vs-access region exists.
+objective: Introduce mixed amphiphiles + membrane assembly; measure whether organic
+  boundaries enhance persistence without isolating the system.
 proposed_mechanisms:
 - 'G: amphiphiles, mineral pores and protocells'
 proposed_models_methods:
@@ -63,141 +67,228 @@ contract:
   - kind: invariant
     name: energy_directionality
     expr: free_energy_flux_logged == true
-  note: bigraph-schema typed ports (_type/_units/bounds) + conservation predicates; the composite built for this study must declare a ProcessContract matching this face (audited via the workbench §Contract panel).
+  note: bigraph-schema typed ports (_type/_units/bounds) + conservation predicates;
+    the composite built for this study must declare a ProcessContract matching this
+    face (audited via the workbench §Contract panel).
 behavior_tests:
 - name: vesicles-form-in-window
   classification: primary
-  description: Mixed single-chain amphiphiles form viable vesicles in the alkaline / seawater-salt window (the broadened Jordan-2019 stability map).
-  measure: {kind: derived, path: settled_viable_compartments, detail: viable vesicle count in the favorable arm}
-  pass_if: {op: '>', value: 0.0, detail: vesicles form (>0) in the mixed-amphiphile window}
+  description: Mixed single-chain amphiphiles form viable vesicles in the alkaline
+    / seawater-salt window (the broadened Jordan-2019 stability map).
+  measure:
+    kind: derived
+    path: settled_viable_compartments
+    detail: viable vesicle count in the favorable arm
+  pass_if:
+    op: '>'
+    value: 0.0
+    detail: vesicles form (>0) in the mixed-amphiphile window
   units: dimensionless
   requires_simulation: 'yes'
-  cites: [jordan2019promotion]
+  cites:
+  - jordan2019promotion
   gate_class: acceptance_criterion
 - name: retention-without-isolation
   classification: primary
-  description: Compartments retain internal chemistry AND keep external-gradient access — individuality without isolation (retention × access > 0).
-  measure: {kind: derived, path: settled_individuality_access, detail: retention × access}
-  pass_if: {op: '>=', value: 0.3, detail: both retention and access nonzero (a non-empty individuality-vs-access region)}
+  description: Compartments retain internal chemistry AND keep external-gradient access
+    — individuality without isolation (retention × access > 0).
+  measure:
+    kind: derived
+    path: settled_individuality_access
+    detail: retention × access
+  pass_if:
+    op: '>='
+    value: 0.3
+    detail: both retention and access nonzero (a non-empty individuality-vs-access
+      region)
   units: dimensionless
   requires_simulation: 'yes'
-  cites: [jordan2019promotion, sutherland2017opinion]
+  cites:
+  - jordan2019promotion
+  - sutherland2017opinion
   gate_class: acceptance_criterion
   band_basis: first_principles
 - name: mixed-amphiphile-advantage-over-single
   classification: primary
-  description: 'Discriminating (Jordan 2019): at seawater salt the mixed amphiphiles form vesicles where a single fatty acid fails — the mixed-amphiphile tolerance advantage.'
-  measure: {kind: cross_run, detail: favorable (mixed) viable vs single-fatty-acid control}
-  pass_if: {op: controls_absent, detail: mixed forms vesicles; single fatty acid does not at the same salt}
+  description: 'Discriminating (Jordan 2019): at seawater salt the mixed amphiphiles
+    form vesicles where a single fatty acid fails — the mixed-amphiphile tolerance
+    advantage.'
+  measure:
+    kind: cross_run
+    detail: favorable (mixed) viable vs single-fatty-acid control
+  pass_if:
+    op: controls_absent
+    detail: mixed forms vesicles; single fatty acid does not at the same salt
   units: dimensionless
   requires_simulation: 'yes'
-  cites: [jordan2019promotion]
+  cites:
+  - jordan2019promotion
   gate_class: acceptance_criterion
 - name: membrane-transition-robust
   classification: diagnostic
-  description: 'Discriminating: extreme salt / acidic pH destroy the membranes — a bounded survival region exists, not an always-on membrane.'
-  measure: {kind: cross_run, detail: favorable vs extreme-salt and acidic controls}
-  pass_if: {op: arms_reported, detail: extreme-salt and acidic controls abolish vesicles (survival region is bounded)}
+  description: 'Discriminating: extreme salt / acidic pH destroy the membranes — a
+    bounded survival region exists, not an always-on membrane.'
+  measure:
+    kind: cross_run
+    detail: favorable vs extreme-salt and acidic controls
+  pass_if:
+    op: arms_reported
+    detail: extreme-salt and acidic controls abolish vesicles (survival region is
+      bounded)
   units: dimensionless
   requires_simulation: 'yes'
-  cites: [jordan2019promotion]
+  cites:
+  - jordan2019promotion
 literature_anchors:
-- expectation: Mixed single-chain amphiphiles form vesicles across broader alkaline pH/salinity/divalent/T than single-fatty-acid models
+- expectation: Mixed single-chain amphiphiles form vesicles across broader alkaline
+    pH/salinity/divalent/T than single-fatty-acid models
   model_observable: vesicle stability map
   source: Jordan 2019
-  status_in_workspace: >-
-    Met by the coarse-grained Jordan-calibrated protocell — mixed amphiphiles form ~8000 viable
-    vesicles at alkaline vent pH and seawater salt where a single fatty acid forms none, and the
-    (co-surfactant × ionic strength) feasibility map marks a viable region (individuality > 0.1) at
-    63/256 points.
+  status_in_workspace: Met by the coarse-grained Jordan-calibrated protocell — mixed
+    amphiphiles form ~8000 viable vesicles at alkaline vent pH and seawater salt where
+    a single fatty acid forms none, and the (co-surfactant × ionic strength) feasibility
+    map marks a viable region (individuality > 0.1) at 63/256 points.
   cites:
   - jordan2019promotion
 baseline:
 - name: Mineral compartments to protocells
   composite: viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell
-  params: {mix_fraction: 0.4, pH: 9.0, ionic_strength: 0.35, temperature: 318.15}
-claim: Mixed single-chain amphiphiles form viable vesicles across the alkaline / seawater-salt window where single fatty acids fail (Jordan 2019), and those compartments retain internal chemistry while staying permeable to the gradient — a non-empty individuality-without-isolation region.
+  params:
+    mix_fraction: 0.4
+    pH: 9.0
+    ionic_strength: 0.35
+    temperature: 318.15
+claim: Mixed single-chain amphiphiles form viable vesicles across the alkaline / seawater-salt
+  window where single fatty acids fail (Jordan 2019), and those compartments retain
+  internal chemistry while staying permeable to the gradient — a non-empty individuality-without-isolation
+  region.
 findings:
 - id: og04-mixed-amphiphile-window
   kind: computational
   status: confirms
-  statement: Mixed single-chain amphiphiles form viable vesicles at alkaline vent pH and seawater ionic strength, where a single fatty acid does not — reproducing the Jordan-2019 broadening of the pH / salt / divalent stability window.
+  statement: Mixed single-chain amphiphiles form viable vesicles at alkaline vent
+    pH and seawater ionic strength, where a single fatty acid does not — reproducing
+    the Jordan-2019 broadening of the pH / salt / divalent stability window.
   evidence:
     from_test: vesicles-form-in-window
-    observed: 'mixed viable ~8000; single-fatty-acid viable 0 at 0.35 M salt'
+    observed: mixed viable ~8000; single-fatty-acid viable 0 at 0.35 M salt
     units: dimensionless
   expected:
-    cites: [jordan2019promotion]
-  explanation: ProtocellAssemblyProcess broadens the pH window + salt/divalent tolerance with the co-surfactant fraction (coarse-grained, Jordan-calibrated).
+    cites:
+    - jordan2019promotion
+  explanation: ProtocellAssemblyProcess broadens the pH window + salt/divalent tolerance
+    with the co-surfactant fraction (coarse-grained, Jordan-calibrated).
 - id: og04-individuality-without-isolation
   kind: computational
   status: novel
-  statement: The viable compartments retain internal chemistry (retention 0.91) while staying permeable to the external gradient (access 1.0) — a non-empty individuality-without-isolation region (product ≈ 0.90), the key requirement for a protocell that does not cut itself off from geochemical energy.
+  statement: The viable compartments retain internal chemistry (retention 0.91) while
+    staying permeable to the external gradient (access 1.0) — a non-empty individuality-without-isolation
+    region (product ≈ 0.90), the key requirement for a protocell that does not cut
+    itself off from geochemical energy.
   evidence:
     from_test: retention-without-isolation
-    observed: 'retention 0.91 × access 1.0 ≈ 0.90'
+    observed: retention 0.91 × access 1.0 ≈ 0.90
   expected:
-    cites: [jordan2019promotion, sutherland2017opinion]
-  explanation: Selective permeability — low effective permeability to large/charged internal metabolites, higher to small external resources.
+    cites:
+    - jordan2019promotion
+    - sutherland2017opinion
+  explanation: Selective permeability — low effective permeability to large/charged
+    internal metabolites, higher to small external resources.
 - id: og04-retention-access-plane
   kind: computational
   status: novel
-  statement: >-
-    Sweeping permeability (via temperature) traces the compartment through THREE
-    regimes on the retention-access plane — too closed (retains but starves; low T),
-    a viable window (individuality + access, peak ret×acc ≈ 0.92 at ~310 K), and too
-    open (leaks; high T) before the membrane destabilizes entirely. Orthogonally, the
-    viable SALT ceiling rises with co-surfactant fraction: the feasibility map marks a
-    viable region (individuality > 0.1) at 63/256 points (~25%) — vesicles survive at
-    seawater salt (0.35 M) and beyond only with enough co-surfactant — the Jordan
-    mixed-amphiphile advantage as a bounded 2-D region, not a single point.
+  statement: 'Sweeping permeability (via temperature) traces the compartment through
+    THREE regimes on the retention-access plane — too closed (retains but starves;
+    low T), a viable window (individuality + access, peak ret×acc ≈ 0.92 at ~310 K),
+    and too open (leaks; high T) before the membrane destabilizes entirely. Orthogonally,
+    the viable SALT ceiling rises with co-surfactant fraction: the feasibility map
+    marks a viable region (individuality > 0.1) at 63/256 points (~25%) — vesicles
+    survive at seawater salt (0.35 M) and beyond only with enough co-surfactant —
+    the Jordan mixed-amphiphile advantage as a bounded 2-D region, not a single point.'
   evidence:
-    observed: 'retention 0.97→0 and access rising to 1.00 then falling to 0 across 285–360 K; feasibility viable (individ>0.1) at 63/256 points, viable salt ceiling rising with mix_fraction'
+    observed: retention 0.97→0 and access rising to 1.00 then falling to 0 across
+      285–360 K; feasibility viable (individ>0.1) at 63/256 points, viable salt ceiling
+      rising with mix_fraction
     units: dimensionless
   expected:
-    cites: [jordan2019promotion, sutherland2017opinion]
-  explanation: >-
-    Temperature sweep → retention-access arc; (mix × ionic strength) sweep →
-    salt-tolerance feasibility map; rendered as the retention-access Decision view.
+    cites:
+    - jordan2019promotion
+    - sutherland2017opinion
+  explanation: Temperature sweep → retention-access arc; (mix × ionic strength) sweep
+    → salt-tolerance feasibility map; rendered as the retention-access Decision view.
 - id: og04-mix-fraction-gotcha
   kind: methodological
   status: novel
-  statement: >-
-    The parameter sweep exposed that an exact mix_fraction=0.0 is swallowed by
-    process-bigraph's is_empty(Float, 0.0) and refilled with the default (0.4), which
-    would silently turn the single-fatty-acid control into a mixed-amphiphile run. The
-    composite now clamps 0.0 to a negligible 1e-6 and reads mix_fraction via a state
-    input, so the control is honored. (The study runner had already dodged it with 0.001.)
-  explanation: A sweep axis starting at exactly 0.0 revealed the gotcha; the fix hardens the composite for any caller passing 0.0.
+  statement: The parameter sweep exposed that an exact mix_fraction=0.0 is swallowed
+    by process-bigraph's is_empty(Float, 0.0) and refilled with the default (0.4),
+    which would silently turn the single-fatty-acid control into a mixed-amphiphile
+    run. The composite now clamps 0.0 to a negligible 1e-6 and reads mix_fraction
+    via a state input, so the control is honored. (The study runner had already dodged
+    it with 0.001.)
+  explanation: A sweep axis starting at exactly 0.0 revealed the gotcha; the fix hardens
+    the composite for any caller passing 0.0.
 conclusion_verdicts:
   biological_validation:
     result: PASS
-    basis: Reproduces the Jordan-2019 mixed-amphiphile window broadening (mixed forms vesicles at salt where single fatty acids fail).
+    basis: Reproduces the Jordan-2019 mixed-amphiphile window broadening (mixed forms
+      vesicles at salt where single fatty acids fail).
   explanatory_gain:
     result: POSITIVE
-    basis: Physical chemistry (window + selective permeability) explains both vesicle formation and the retention-without-isolation tradeoff.
+    basis: Physical chemistry (window + selective permeability) explains both vesicle
+      formation and the retention-without-isolation tradeoff.
 limitations:
-- Coarse-grained reproduction calibrated to Jordan 2019; not wrapped membrane MD (OpenMM/LAMMPS out of environment).
-- In-vesicle network persistence (coupling og-02) is declared as the next increment, not yet run.
+- Coarse-grained reproduction calibrated to Jordan 2019; not wrapped membrane MD (OpenMM/LAMMPS
+  out of environment).
+- In-vesicle network persistence (coupling og-02) is declared as the next increment,
+  not yet run.
 discovery_implications:
   resolved_uncertainties:
-  - A non-empty individuality-without-isolation region exists — mixed amphiphiles form selectively-permeable vesicles at vent conditions.
+  - A non-empty individuality-without-isolation region exists — mixed amphiphiles
+    form selectively-permeable vesicles at vent conditions.
   remaining_uncertainties:
-  - Whether enclosing the og-02 network in the vesicle actually improves its persistence over the open pore.
+  - Whether enclosing the og-02 network in the vesicle actually improves its persistence
+    over the open pore.
   followup_study_proposals:
-  - {study: og-04b, rationale: Enclose the og-02 rTCA network in the vesicle; compare in-compartment vs well-mixed persistence.}
+  - study: og-04b
+    rationale: Enclose the og-02 rTCA network in the vesicle; compare in-compartment
+      vs well-mixed persistence.
 readouts:
-- {name: viable_compartments, store_path: protocell.viable_compartments, units: dimensionless, description: Number of viable vesicles in the stability window, status: available}
-- {name: individuality_access, store_path: protocell.individuality_access, units: dimensionless, description: Retention × access — individuality without isolation, status: available}
-- {name: retention, store_path: protocell.retention, units: dimensionless, description: Fraction of internal chemistry retained, status: available}
-- {name: access, store_path: protocell.access, units: dimensionless, description: External-gradient access / resource import, status: available}
-- {name: permeability, store_path: protocell.permeability, units: meter/second, description: Membrane solute permeability coefficient, status: available}
-- {name: membrane_area, store_path: protocell.membrane_area, units: meter**2, description: Total vesicle membrane area, status: available}
+- name: viable_compartments
+  store_path: protocell.viable_compartments
+  units: dimensionless
+  description: Number of viable vesicles in the stability window
+  status: available
+- name: individuality_access
+  store_path: protocell.individuality_access
+  units: dimensionless
+  description: Retention × access — individuality without isolation
+  status: available
+- name: retention
+  store_path: protocell.retention
+  units: dimensionless
+  description: Fraction of internal chemistry retained
+  status: available
+- name: access
+  store_path: protocell.access
+  units: dimensionless
+  description: External-gradient access / resource import
+  status: available
+- name: permeability
+  store_path: protocell.permeability
+  units: meter/second
+  description: Membrane solute permeability coefficient
+  status: available
+- name: membrane_area
+  store_path: protocell.membrane_area
+  units: meter**2
+  description: Total vesicle membrane area
+  status: available
 parent_studies:
 - study: og-03-dilution-to-localized-individuals
   condition: tests-passed
 key_assumptions:
-- Mineral pores provide initial individuality; organic boundaries are a later, condition-dependent transition.
+- Mineral pores provide initial individuality; organic boundaries are a later, condition-dependent
+  transition.
 parent_relations:
 - study: og-03-dilution-to-localized-individuals
   relation: leads-to
@@ -224,7 +315,8 @@ visualizations:
 - name: protocell-vesicle-3d
   address: local:ProtocellVesicle3D
   config:
-    title: The protocell in 3-D — a boundary that retains without isolating (World view)
+    title: The protocell in 3-D — a boundary that retains without isolating (World
+      view)
 runs:
 - name: viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791944482__977ceb
   status: completed
@@ -244,23 +336,24 @@ runs:
       evaluated_by: code
       axis:
         id: vesicles-form-in-window
-        label: Mixed single-chain amphiphiles form viable vesicles in the alkaline / seawater-salt window (the broadened Jordan-2019 stability map).
+        label: Mixed single-chain amphiphiles form viable vesicles in the alkaline
+          / seawater-salt window (the broadened Jordan-2019 stability map).
         verdict: within_tol
         value: 8000.0
         meter: 1.0
-        detail:
+        detail: null
         expected:
           kind: value
           value: 0.0
-          low:
-          high:
+          low: null
+          high: null
           op: '>'
           tol: 0.05
-          statement:
+          statement: null
         margin: 8000.0
         severity: hard
-        units:
-        knob:
+        units: null
+        knob: null
         citation: jordan2019promotion
       auto_evaluated: true
     retention-without-isolation:
@@ -271,23 +364,24 @@ runs:
       evaluated_by: code
       axis:
         id: retention-without-isolation
-        label: Compartments retain internal chemistry AND keep external-gradient access — individuality without isolation (retention × access > 0).
+        label: Compartments retain internal chemistry AND keep external-gradient access
+          — individuality without isolation (retention × access > 0).
         verdict: within_tol
         value: 0.902992
         meter: 1.0
-        detail:
+        detail: null
         expected:
           kind: value
           value: 0.3
-          low:
-          high:
+          low: null
+          high: null
           op: '>='
           tol: 0.05
-          statement:
+          statement: null
         margin: 0.602992
         severity: hard
-        units:
-        knob:
+        units: null
+        knob: null
         citation: jordan2019promotion; sutherland2017opinion
       auto_evaluated: true
     mixed-amphiphile-advantage-over-single:
@@ -295,20 +389,23 @@ runs:
       measured_value: 0
       evaluated_by: code
       operator: cross_run
-      detail: mixed amphiphiles viable=8000 vs single fatty acid viable=0 at seawater salt (mixed forms vesicles where single fails => Jordan advantage)
+      detail: mixed amphiphiles viable=8000 vs single fatty acid viable=0 at seawater
+        salt (mixed forms vesicles where single fails => Jordan advantage)
     membrane-transition-robust:
       result: PASS
       measured_value: 0
       evaluated_by: code
       operator: cross_run
-      detail: favorable viable=8000; extreme-salt viable=0, acidic viable=0 (controls abolish vesicles => bounded survival region)
+      detail: favorable viable=8000; extreme-salt viable=0, acidic viable=0 (controls
+        abolish vesicles => bounded survival region)
 pipeline_gate:
   gate_evaluator:
     result: passed
     blocked_by: []
     evaluated_by: code
     diverges_from_authored: false
-conclusion: >-
-  The coarse-grained Jordan-calibrated model shows a non-empty organic-boundary
-  region: mixed amphiphiles form viable, selectively-permeable vesicles at vent
-  conditions. Hands og-05 a bounded, gradient-coupled protocell.
+conclusion: 'The coarse-grained Jordan-calibrated model shows a non-empty organic-boundary
+  region: mixed amphiphiles form viable, selectively-permeable vesicles at vent conditions.
+  Hands og-05 a bounded, gradient-coupled protocell.'
+verdict: supported
+evidence_tier: mechanistic_prediction

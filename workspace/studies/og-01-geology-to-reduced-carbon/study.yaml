@@ -10,61 +10,86 @@ gate_status: passed
 simulation_status: ran
 implementation_status: complete
 title: The First Carbon
-question: Which combinations of T, pH, pressure, H2, CO2 and mineralogy generate sustained net organic-carbon flux across the interface — reproducing Hudson/Preiner/Altair regimes before any extrapolation?
-hypothesis: Over Fe/Ni/S surfaces and across the pH gradient, H2-driven CO2 reduction yields formate/acetate/pyruvate at lab-calibrated rates within a bounded (T,pH,H2,pressure) region; the Tutolo-2026 in-situ arm roughly halves the flux, and the feature-ablation controls (no gradient / no H2 / no catalyst) zero it.
-objective: Add H2-driven CO2 reduction, reproduce the three benchmark experiments, and map the parameter region of sustained net organic-carbon flux.
+question: Which combinations of T, pH, pressure, H2, CO2 and mineralogy generate sustained
+  net organic-carbon flux across the interface — reproducing Hudson/Preiner/Altair
+  regimes before any extrapolation?
+hypothesis: Over Fe/Ni/S surfaces and across the pH gradient, H2-driven CO2 reduction
+  yields formate/acetate/pyruvate at lab-calibrated rates within a bounded (T,pH,H2,pressure)
+  region; the Tutolo-2026 in-situ arm roughly halves the flux, and the feature-ablation
+  controls (no gradient / no H2 / no catalyst) zero it.
+objective: Add H2-driven CO2 reduction, reproduce the three benchmark experiments,
+  and map the parameter region of sustained net organic-carbon flux.
 findings:
 - id: og01-preiner-yields
   kind: computational
   status: confirms
-  statement: The favorable arm reproduces the Preiner-2020 yield hierarchy (formate 200 mM >> acetate 100 µM >> pyruvate 10 µM) at 100 °C.
+  statement: The favorable arm reproduces the Preiner-2020 yield hierarchy (formate
+    200 mM >> acetate 100 µM >> pyruvate 10 µM) at 100 °C.
   evidence:
     from_test: formate-yield-reproduces-preiner
-    observed: 'formate=200 mM, acetate=100 µM, pyruvate=10 µM'
+    observed: formate=200 mM, acetate=100 µM, pyruvate=10 µM
   expected:
-    cites: [preiner2020hydrogen]
-  explanation: Real eQuilibrator ΔG'-gated, lab-calibrated mineral kinetics over the pH gradient.
+    cites:
+    - preiner2020hydrogen
+  explanation: Real eQuilibrator ΔG'-gated, lab-calibrated mineral kinetics over the
+    pH gradient.
 - id: og01-gradient-drives-formate
   kind: computational
   status: confirms
-  statement: Formate is present with the pH-gradient proton-motive force and collapses to <1 mM in every control (no gradient / no H2 / no catalyst).
+  statement: Formate is present with the pH-gradient proton-motive force and collapses
+    to <1 mM in every control (no gradient / no H2 / no catalyst).
   evidence:
     from_test: ph-gradient-drives-formate
-    observed: 'favorable 200 mM; all controls <1 mM'
+    observed: favorable 200 mM; all controls <1 mM
   expected:
-    cites: [hudson2020co2]
+    cites:
+    - hudson2020co2
 - id: og01-tutolo-collapse
   kind: computational
   status: novel
-  statement: The Tutolo-2026 in-situ arm collapses the usable proton-motive gradient (pmf 427 → 43 mV), the discriminating test the campaign must survive.
+  statement: The Tutolo-2026 in-situ arm collapses the usable proton-motive gradient
+    (pmf 427 → 43 mV), the discriminating test the campaign must survive.
   evidence:
     from_test: in-situ-ph-correction
-    observed: 'favorable pmf 427 mV vs Tutolo 43 mV'
+    observed: favorable pmf 427 mV vs Tutolo 43 mV
   expected:
-    cites: [tutolo2026rethinking]
-  explanation: Real FiPy Nernst-Planck electrodiffusion with a gradient_efficiency knob (1.0 favorable, 0.1 Tutolo).
+    cites:
+    - tutolo2026rethinking
+  explanation: Real FiPy Nernst-Planck electrodiffusion with a gradient_efficiency
+    knob (1.0 favorable, 0.1 Tutolo).
 - id: og01-energy-directionality
   kind: methodological
   status: confirms
-  statement: Real eQuilibrator ΔG' is logged every step and makes feasibility explicit (fixation stops where ΔG' ≥ 0 — genuine product inhibition).
+  statement: Real eQuilibrator ΔG' is logged every step and makes feasibility explicit
+    (fixation stops where ΔG' ≥ 0 — genuine product inhibition).
   evidence:
     from_test: free-energy-directionality-logged
 - id: og01-chemiosmotic-backpressure
   kind: computational
   status: novel
-  statement: Carbon fixation SPENDS the proton gradient — a conserved proton budget (≈2 H⁺ per carbon) draws the loaded pmf down ~40% below the open-circuit 427 mV under load, then relaxes as products saturate. The gradient does work and is consumed, not merely correlated with reduction.
+  statement: Carbon fixation SPENDS the proton gradient — a conserved proton budget
+    (≈2 H⁺ per carbon) draws the loaded pmf down ~40% below the open-circuit 427 mV
+    under load, then relaxes as products saturate. The gradient does work and is consumed,
+    not merely correlated with reduction.
   evidence:
     from_test: chemiosmotic-backpressure-loads-gradient
-    observed: 'pmf open-circuit 427 mV sags to ~250 mV (charge 0.60) at peak fixation, recovers to 427 mV'
+    observed: pmf open-circuit 427 mV sags to ~250 mV (charge 0.60) at peak fixation,
+      recovers to 427 mV
     units: dimensionless
   expected:
-    cites: [lane2010chemiosmotic, lane2012origin, sojo2014bioenergetic, herschy2014originreactor, buckel2013energy]
-  explanation: A ProtonBudgetProcess integrates reservoir = supply − protons_per_carbon·carbon_flux − leak·reservoir; fixation reads the loaded pmf = pmf_open·(reservoir/capacity), closing the respiratory-control feedback.
+    cites:
+    - lane2010chemiosmotic
+    - lane2012origin
+    - sojo2014bioenergetic
+    - herschy2014originreactor
+    - buckel2013energy
+  explanation: A ProtonBudgetProcess integrates reservoir = supply − protons_per_carbon·carbon_flux
+    − leak·reservoir; fixation reads the loaded pmf = pmf_open·(reservoir/capacity),
+    closing the respiratory-control feedback.
 - id: og01-fixation-landscape
   kind: computational
   status: novel
-  statement: >-
-    A parameter sweep over the (vent pH × dissolved H₂) plane maps the carbon-fixation
+  statement: A parameter sweep over the (vent pH × dissolved H₂) plane maps the carbon-fixation
     landscape, not a single run. In the open-flow reactor, sustained reduced-carbon
     throughput scales with both the pH gradient and H₂ (6.4 → 24 ×10⁻³ mol-C/s; steady
     pool 7–28 mM); the Tutolo-2026 gradient collapse roughly halves it on the same
@@ -72,47 +97,99 @@ findings:
     region is broadly productive — the sharp dependence is on a SUSTAINED gradient,
     not on sitting at one pH/H₂ point.
   evidence:
-    observed: 'favorable 6.4–24 ×10⁻³ mol-C/s vs Tutolo 2.2–15; controls 0'
+    observed: favorable 6.4–24 ×10⁻³ mol-C/s vs Tutolo 2.2–15; controls 0
     units: mole/second
   expected:
-    cites: [preiner2020hydrogen, tutolo2026rethinking]
-  explanation: >-
-    14×14 sweep of the real open-flow composite (pH 7–11 × H₂ 0.1–20 mM, exponential
-    washout) reduced to sustained throughput per point; rendered as the
+    cites:
+    - preiner2020hydrogen
+    - tutolo2026rethinking
+  explanation: 14×14 sweep of the real open-flow composite (pH 7–11 × H₂ 0.1–20 mM,
+    exponential washout) reduced to sustained throughput per point; rendered as the
     carbon-fixation phase map (Decision view). Runner sims/compute_phase_grid.py.
-conclusion: >-
-  Reduced-carbon synthesis reproduces the lab benchmarks and maps a viable
-  favorable regime, while the Tutolo-2026 arm identifies the in-situ gradient
-  collapse that og-03+ must address. Feeds og-02 with pyruvate.
+conclusion: Reduced-carbon synthesis reproduces the lab benchmarks and maps a viable
+  favorable regime, while the Tutolo-2026 arm identifies the in-situ gradient collapse
+  that og-03+ must address. Feeds og-02 with pyruvate.
 conclusion_verdicts:
   biological_validation:
     result: PASS
-    basis: Reproduces the Preiner/Hudson organic-carbon benchmarks with the controls behaving correctly.
+    basis: Reproduces the Preiner/Hudson organic-carbon benchmarks with the controls
+      behaving correctly.
   explanatory_gain:
     result: POSITIVE
-    basis: Real thermodynamics (eQuilibrator) + electrochemistry (FiPy NPP) explain both the favorable regime and the Tutolo collapse.
+    basis: Real thermodynamics (eQuilibrator) + electrochemistry (FiPy NPP) explain
+      both the favorable regime and the Tutolo collapse.
 limitations:
-- Heterogeneous CO2-reduction kinetics are lab-calibrated (Preiner), not first-principles surface kinetics.
-- The phase map sweeps the (vent pH × H2) plane in the open-flow regime; T and pressure are still held fixed (facets, not yet swept), and the Tutolo axis is two efficiency levels rather than a continuous gradient_efficiency sweep.
+- Heterogeneous CO2-reduction kinetics are lab-calibrated (Preiner), not first-principles
+  surface kinetics.
+- The phase map sweeps the (vent pH × H2) plane in the open-flow regime; T and pressure
+  are still held fixed (facets, not yet swept), and the Tutolo axis is two efficiency
+  levels rather than a continuous gradient_efficiency sweep.
 discovery_implications:
   resolved_uncertainties:
-  - A viable favorable regime exists; formate strictly requires the pH gradient + H2 + catalyst.
-  - The (vent pH × H2) fixation landscape is now mapped (14×14 sweep, open-flow sustained throughput), not inferred from a single run — the favorable region is broadly productive and scales with both the gradient and H2.
+  - A viable favorable regime exists; formate strictly requires the pH gradient +
+    H2 + catalyst.
+  - The (vent pH × H2) fixation landscape is now mapped (14×14 sweep, open-flow sustained
+    throughput), not inferred from a single run — the favorable region is broadly
+    productive and scales with both the gradient and H2.
   remaining_uncertainties:
-  - The continuous gradient_efficiency threshold between the favorable and Tutolo-collapse regimes (the phase map shows two levels; a third axis would resolve the boundary).
+  - The continuous gradient_efficiency threshold between the favorable and Tutolo-collapse
+    regimes (the phase map shows two levels; a third axis would resolve the boundary).
   followup_study_proposals:
-  - {study: og-01b, rationale: Extend the phase map with T and pressure facets and a continuous gradient_efficiency axis to locate the viable-fixation boundary.}
+  - study: og-01b
+    rationale: Extend the phase map with T and pressure facets and a continuous gradient_efficiency
+      axis to locate the viable-fixation boundary.
 readouts:
-- {name: formate, store_path: products.formate, units: molar, description: Formate product concentration, status: available}
-- {name: acetate, store_path: products.acetate, units: molar, description: Acetate product concentration, status: available}
-- {name: pyruvate, store_path: products.pyruvate, units: molar, description: Pyruvate product concentration, status: available}
-- {name: net_carbon_flux, store_path: flux.net_carbon_flux, units: mole/second, description: Net organic-carbon fixation rate, status: available}
-- {name: pmf, store_path: electro.pmf, units: volt, description: Loaded (back-pressured) proton-motive force fixation actually sees, status: available}
-- {name: pmf_open, store_path: electro.pmf_open, units: volt, description: Open-circuit proton-motive force the geochemical gradient could supply, status: available}
-- {name: charge_state, store_path: electro.charge_state, units: dimensionless, description: Proton-reservoir state of charge (1 = open-circuit, lower = drawn down by fixation): null, status: available}
-- {name: proton_draw, store_path: electro.proton_draw, units: mole/second, description: Protons spent fixing carbon (protons_per_carbon × net_carbon_flux), status: available}
-- {name: proton_supply, store_path: electro.proton_supply, units: mole/second, description: Geochemical proton supply replenishing the gradient, status: available}
-- {name: dg_formate, store_path: gibbs.dg_formate, units: kilojoule/mole, description: Real eQuilibrator ΔG' for CO2+H2->formate, status: available}
+- name: formate
+  store_path: products.formate
+  units: molar
+  description: Formate product concentration
+  status: available
+- name: acetate
+  store_path: products.acetate
+  units: molar
+  description: Acetate product concentration
+  status: available
+- name: pyruvate
+  store_path: products.pyruvate
+  units: molar
+  description: Pyruvate product concentration
+  status: available
+- name: net_carbon_flux
+  store_path: flux.net_carbon_flux
+  units: mole/second
+  description: Net organic-carbon fixation rate
+  status: available
+- name: pmf
+  store_path: electro.pmf
+  units: volt
+  description: Loaded (back-pressured) proton-motive force fixation actually sees
+  status: available
+- name: pmf_open
+  store_path: electro.pmf_open
+  units: volt
+  description: Open-circuit proton-motive force the geochemical gradient could supply
+  status: available
+- name: charge_state
+  store_path: electro.charge_state
+  units: dimensionless
+  description: Proton-reservoir state of charge (1 = open-circuit
+  lower = drawn down by fixation): null
+  status: available
+- name: proton_draw
+  store_path: electro.proton_draw
+  units: mole/second
+  description: Protons spent fixing carbon (protons_per_carbon × net_carbon_flux)
+  status: available
+- name: proton_supply
+  store_path: electro.proton_supply
+  units: mole/second
+  description: Geochemical proton supply replenishing the gradient
+  status: available
+- name: dg_formate
+  store_path: gibbs.dg_formate
+  units: kilojoule/mole
+  description: Real eQuilibrator ΔG' for CO2+H2->formate
+  status: available
 proposed_mechanisms:
 - 'C: pH-gradient electrochemistry'
 - 'D: mineral-catalyzed carbon fixation'
@@ -183,44 +260,76 @@ contract:
   - kind: invariant
     name: mass_balance
     expr: abs(residual_C)+abs(residual_H)+abs(residual_O) < tol
-  note: bigraph-schema typed ports (_type/_units/bounds) + conservation predicates; the composite built for this study must declare a ProcessContract matching this face (audited via the workbench §Contract panel).
+  note: bigraph-schema typed ports (_type/_units/bounds) + conservation predicates;
+    the composite built for this study must declare a ProcessContract matching this
+    face (audited via the workbench §Contract panel).
 behavior_tests:
-# Seven single-run tests auto-grade (derived readouts in viva_genesis/evaluators.py)
-# against the FAVORABLE canonical run; the two cross-run tests (controls, in-situ
-# collapse) are graded by the canonical runner (sims/run.py) which runs the
-# control + Tutolo arms and writes their verdicts.
 - name: formate-yield-reproduces-preiner
   classification: primary
   description: Batch formate yield reaches the Preiner-2020 range over Fe/Ni/S catalysis.
-  measure: {kind: derived, path: settled_formate_mM, detail: batch formate yield, mM: null}
-  pass_if: {op: range, low: 50.0, high: 220.0, detail: formate in Preiner range (~200 mM ceiling)}
+  measure:
+    kind: derived
+    path: settled_formate_mM
+    detail: batch formate yield
+    mM: null
+  pass_if:
+    op: range
+    low: 50.0
+    high: 220.0
+    detail: formate in Preiner range (~200 mM ceiling)
   units: mM
   requires_simulation: 'yes'
-  cites: [preiner2020hydrogen]
+  cites:
+  - preiner2020hydrogen
   gate_class: acceptance_criterion
 - name: acetate-yield-reproduces-preiner
   classification: primary
   description: Batch acetate yield in the Preiner-2020 range (~100 uM), below formate.
-  measure: {kind: derived, path: settled_acetate_uM, detail: batch acetate yield, uM: null}
-  pass_if: {op: range, low: 20.0, high: 150.0, detail: acetate in Preiner range}
+  measure:
+    kind: derived
+    path: settled_acetate_uM
+    detail: batch acetate yield
+    uM: null
+  pass_if:
+    op: range
+    low: 20.0
+    high: 150.0
+    detail: acetate in Preiner range
   units: uM
   requires_simulation: 'yes'
-  cites: [preiner2020hydrogen]
+  cites:
+  - preiner2020hydrogen
   gate_class: acceptance_criterion
 - name: pyruvate-yield-reproduces-preiner
   classification: primary
-  description: Batch pyruvate yield in the Preiner-2020 range (~10 uM), the smallest product.
-  measure: {kind: derived, path: settled_pyruvate_uM, detail: batch pyruvate yield, uM: null}
-  pass_if: {op: range, low: 2.0, high: 15.0, detail: pyruvate in Preiner range}
+  description: Batch pyruvate yield in the Preiner-2020 range (~10 uM), the smallest
+    product.
+  measure:
+    kind: derived
+    path: settled_pyruvate_uM
+    detail: batch pyruvate yield
+    uM: null
+  pass_if:
+    op: range
+    low: 2.0
+    high: 15.0
+    detail: pyruvate in Preiner range
   units: uM
   requires_simulation: 'yes'
-  cites: [preiner2020hydrogen]
+  cites:
+  - preiner2020hydrogen
   gate_class: acceptance_criterion
 - name: net-carbon-flux-nonzero-region
   classification: primary
   description: A sustained net organic-carbon flux region exists (favorable arm).
-  measure: {kind: derived, path: peak_net_carbon_flux, detail: peak organic-C fixation rate}
-  pass_if: {op: '>', value: 1.0e-6, detail: peak net carbon flux > 0 (viable region)}
+  measure:
+    kind: derived
+    path: peak_net_carbon_flux
+    detail: peak organic-C fixation rate
+  pass_if:
+    op: '>'
+    value: 1.0e-06
+    detail: peak net carbon flux > 0 (viable region)
   units: mole/second
   requires_simulation: 'yes'
   gate_class: acceptance_criterion
@@ -228,77 +337,117 @@ behavior_tests:
 - name: free-energy-directionality-logged
   classification: primary
   description: Real eQuilibrator ΔG' is logged every step (energy_directionality invariant).
-  measure: {kind: derived, path: free_energy_logged_fraction, detail: fraction of steps with logged ΔG'}
-  pass_if: {op: '>=', value: 1.0, detail: ΔG' logged every step}
+  measure:
+    kind: derived
+    path: free_energy_logged_fraction
+    detail: fraction of steps with logged ΔG'
+  pass_if:
+    op: '>='
+    value: 1.0
+    detail: ΔG' logged every step
   units: dimensionless
   requires_simulation: 'yes'
   gate_class: acceptance_criterion
   band_basis: first_principles
 - name: chemiosmotic-backpressure-loads-gradient
   classification: primary
-  description: Carbon fixation spends the proton gradient — the loaded pmf sags below open-circuit under load (conserved chemiosmotic coupling, not mere correlation).
-  measure: {kind: derived, path: pmf_backpressure_sag_frac, detail: peak fractional pmf sag while fixation draws the proton reservoir down}
-  pass_if: {op: range, low: 0.05, high: 0.95, detail: a meaningful back-pressure sag (gradient is spent) without total collapse}
+  description: Carbon fixation spends the proton gradient — the loaded pmf sags below
+    open-circuit under load (conserved chemiosmotic coupling, not mere correlation).
+  measure:
+    kind: derived
+    path: pmf_backpressure_sag_frac
+    detail: peak fractional pmf sag while fixation draws the proton reservoir down
+  pass_if:
+    op: range
+    low: 0.05
+    high: 0.95
+    detail: a meaningful back-pressure sag (gradient is spent) without total collapse
   units: dimensionless
   requires_simulation: 'yes'
-  cites: [lane2010chemiosmotic, sojo2014bioenergetic, herschy2014originreactor]
+  cites:
+  - lane2010chemiosmotic
+  - sojo2014bioenergetic
+  - herschy2014originreactor
   gate_class: acceptance_criterion
   band_basis: first_principles
 - name: nernst-planck-flux-conserved
   classification: diagnostic
   description: The FiPy Nernst-Planck electrodiffusion solve conserves flux.
-  measure: {kind: derived, path: max_abs_electro_flux_residual, detail: max |FVM residual|}
-  pass_if: {op: <=, value: 1.0e-2, detail: max |flux divergence residual| small}
+  measure:
+    kind: derived
+    path: max_abs_electro_flux_residual
+    detail: max |FVM residual|
+  pass_if:
+    op: <=
+    value: 0.01
+    detail: max |flux divergence residual| small
   units: dimensionless
   requires_simulation: 'yes'
   gate_class: acceptance_criterion
   band_basis: first_principles
 - name: ph-gradient-drives-formate
   classification: primary
-  description: >-
-    Formate is present with the pH gradient and ABSENT in each control (no
-    gradient / no H2 / no catalyst). Cross-run — graded by sims/run.py, which
+  description: Formate is present with the pH gradient and ABSENT in each control
+    (no gradient / no H2 / no catalyst). Cross-run — graded by sims/run.py, which
     runs the three controls and checks formate collapses in each (Hudson 2020).
-  measure: {kind: cross_run, detail: favorable formate vs no-gradient / no-H2 / no-catalyst}
-  pass_if: {op: controls_absent, detail: formate present with gradient, <1 mM in every control: null}
+  measure:
+    kind: cross_run
+    detail: favorable formate vs no-gradient / no-H2 / no-catalyst
+  pass_if:
+    op: controls_absent
+    detail: formate present with gradient
+    <1 mM in every control: null
   units: mM
   requires_simulation: 'yes'
-  cites: [hudson2020co2]
+  cites:
+  - hudson2020co2
   gate_class: acceptance_criterion
 - name: in-situ-ph-correction
   classification: diagnostic
-  description: >-
-    DISCRIMINATING (Tutolo-2026): does the usable proton-motive gradient persist
-    at in-situ T/P or collapse? Cross-run — sims/run.py compares the favorable and
-    Tutolo arms and flags the pmf collapse.
-  measure: {kind: cross_run, detail: favorable pmf vs Tutolo-2026 pmf}
-  pass_if: {op: arms_reported, detail: report both arms; flag if the Tutolo pmf collapses}
+  description: 'DISCRIMINATING (Tutolo-2026): does the usable proton-motive gradient
+    persist at in-situ T/P or collapse? Cross-run — sims/run.py compares the favorable
+    and Tutolo arms and flags the pmf collapse.'
+  measure:
+    kind: cross_run
+    detail: favorable pmf vs Tutolo-2026 pmf
+  pass_if:
+    op: arms_reported
+    detail: report both arms; flag if the Tutolo pmf collapses
   units: mV
   requires_simulation: 'yes'
-  cites: [tutolo2026rethinking, jackson2016natural]
+  cites:
+  - tutolo2026rethinking
+  - jackson2016natural
   gate_class: acceptance_criterion
 literature_anchors:
 - expectation: Formate up to ~200 mM, acetate ~100 uM, pyruvate ~10 uM at 100 C
   model_observable: product concentrations by mineral/T/P
   source: Preiner 2020
-  status_in_workspace: >-
-    Met by the favorable arm — batch formate ~200 mM, acetate ~100 uM,
-    pyruvate ~10 uM (Preiner hierarchy), via real eQuilibrator-gated,
-    lab-calibrated mineral kinetics.
+  status_in_workspace: Met by the favorable arm — batch formate ~200 mM, acetate ~100
+    uM, pyruvate ~10 uM (Preiner hierarchy), via real eQuilibrator-gated, lab-calibrated
+    mineral kinetics.
   cites:
   - preiner2020hydrogen
 - expectation: CO2+H2->formate across pH gradient at room T, ~1.5 bar
   model_observable: formate yield vs delta-pH + controls
   source: Hudson 2020
-  status_in_workspace: >-
-    Met — formate is present with the pH-gradient proton-motive force and
-    collapses to <1 mM in every control (no gradient / no H2 / no catalyst).
+  status_in_workspace: Met — formate is present with the pH-gradient proton-motive
+    force and collapses to <1 mM in every control (no gradient / no H2 / no catalyst).
   cites:
   - hudson2020co2
 implemented_methods:
-- 'Module C — REAL FiPy Nernst-Planck: genuine finite-volume proton electrodiffusion across the Fe(Ni)S barrier (ocean->vent pH gradient) giving the proton-motive force, current density and diffusion potential. gradient_efficiency is the favorable (1.0) vs Tutolo-2026 in-situ-collapse (<<1) arm knob.'
-- 'Module D (thermo) — REAL eQuilibrator: genuine component-contribution ΔG'' (offline) for CO2+H2->formate/acetate/pyruvate, with the reaction-quotient term from live concentrations; a logistic feasibility gate makes energy_directionality explicit (fixation stops where ΔG'' >= 0 — real product inhibition).'
-- 'Module D (kinetics) — lab-calibrated heterogeneous CO2 reduction: rate = k · catalyst · feasible(ΔG'') · drive(pmf) · avail(H2,CO2) · T-window · headroom, hitting the Preiner-2020 yield ceilings. Controls (no gradient / H2 / catalyst) zero it out; the Tutolo arm collapses the pmf drive.'
+- 'Module C — REAL FiPy Nernst-Planck: genuine finite-volume proton electrodiffusion
+  across the Fe(Ni)S barrier (ocean->vent pH gradient) giving the proton-motive force,
+  current density and diffusion potential. gradient_efficiency is the favorable (1.0)
+  vs Tutolo-2026 in-situ-collapse (<<1) arm knob.'
+- 'Module D (thermo) — REAL eQuilibrator: genuine component-contribution ΔG'' (offline)
+  for CO2+H2->formate/acetate/pyruvate, with the reaction-quotient term from live
+  concentrations; a logistic feasibility gate makes energy_directionality explicit
+  (fixation stops where ΔG'' >= 0 — real product inhibition).'
+- 'Module D (kinetics) — lab-calibrated heterogeneous CO2 reduction: rate = k · catalyst
+  · feasible(ΔG'') · drive(pmf) · avail(H2,CO2) · T-window · headroom, hitting the
+  Preiner-2020 yield ceilings. Controls (no gradient / H2 / catalyst) zero it out;
+  the Tutolo arm collapses the pmf drive.'
 baseline:
 - name: Geology to reduced carbon — favorable
   composite: viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation
@@ -306,16 +455,16 @@ baseline:
   canonical: true
 - name: Tutolo-2026 in-situ (unfavorable arm)
   composite: viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation
-  params: {gradient_efficiency: 0.1}
-# Study runs persist an isolated per-run ParquetEmitter store so the evaluator
-# resolves a reader and auto-grades the single-run tests.
+  params:
+    gradient_efficiency: 0.1
 runtime:
   default_emitter: sqlite
   default_n_steps: 120
 canonical_runs:
 - name: geology-to-reduced-carbon
   script: workspace/studies/og-01-geology-to-reduced-carbon/sims/run.py
-  description: Real eQuilibrator+FiPy favorable run (auto-graded) + Tutolo arm + 3 controls (cross-run verdicts).
+  description: Real eQuilibrator+FiPy favorable run (auto-graded) + Tutolo arm + 3
+    controls (cross-run verdicts).
 visualizations:
 - name: proton-gradient-profile
   address: local:ProtonGradientProfile
@@ -337,15 +486,18 @@ visualizations:
 key_assumptions:
 - Encode pH(T,P,ionic_strength), never laboratory pH as a constant environmental state.
 expert_questions:
-- 'RESOLVED: run BOTH arms — favorable (gradient_efficiency=1.0, canonical) and Tutolo-2026 (gradient_efficiency=0.1); the in-situ-ph-correction diagnostic compares them and flags the pmf collapse (427 -> 43 mV).'
-- 'RESOLVED: thermodynamics via real eQuilibrator (offline component-contribution ΔG''), electrochemistry via real FiPy Nernst-Planck. (PHREEQC/Reaktoro speciation can be layered in later for the carbonate system; not required for the benchmarks.)'
+- 'RESOLVED: run BOTH arms — favorable (gradient_efficiency=1.0, canonical) and Tutolo-2026
+  (gradient_efficiency=0.1); the in-situ-ph-correction diagnostic compares them and
+  flags the pmf collapse (427 -> 43 mV).'
+- 'RESOLVED: thermodynamics via real eQuilibrator (offline component-contribution
+  ΔG''), electrochemistry via real FiPy Nernst-Planck. (PHREEQC/Reaktoro speciation
+  can be layered in later for the carbonate system; not required for the benchmarks.)'
 kind: baseline
-claim: >-
-  H2-driven CO2 reduction over Fe/Ni/S reproduces the Preiner/Hudson lab yields
-  and net organic-carbon flux in a bounded favorable regime; the Tutolo-2026 arm
-  shows the usable proton-motive gradient collapses at in-situ T/P (427 -> 43 mV),
-  roughly halving the sustained flux; only the no-gradient / no-H2 / no-catalyst
-  controls zero it.
+claim: H2-driven CO2 reduction over Fe/Ni/S reproduces the Preiner/Hudson lab yields
+  and net organic-carbon flux in a bounded favorable regime; the Tutolo-2026 arm shows
+  the usable proton-motive gradient collapses at in-situ T/P (427 -> 43 mV), roughly
+  halving the sustained flux; only the no-gradient / no-H2 / no-catalyst controls
+  zero it.
 pipeline_gate:
   gate_evaluator:
     result: passed
@@ -378,19 +530,19 @@ runs:
         verdict: within_tol
         value: 200.0
         meter: 0.5454545454545454
-        detail:
+        detail: null
         expected:
           kind: band
-          value:
+          value: null
           low: 50.0
           high: 220.0
           op: ~=
           tol: 0.05
-          statement:
+          statement: null
         margin: 20.0
         severity: hard
-        units:
-        knob:
+        units: null
+        knob: null
         citation: preiner2020hydrogen
       auto_evaluated: true
     acetate-yield-reproduces-preiner:
@@ -405,19 +557,19 @@ runs:
         verdict: within_tol
         value: 100.0
         meter: 0.6666666666666666
-        detail:
+        detail: null
         expected:
           kind: band
-          value:
+          value: null
           low: 20.0
           high: 150.0
           op: ~=
           tol: 0.05
-          statement:
+          statement: null
         margin: 50.0
         severity: hard
-        units:
-        knob:
+        units: null
+        knob: null
         citation: preiner2020hydrogen
       auto_evaluated: true
     pyruvate-yield-reproduces-preiner:
@@ -428,23 +580,24 @@ runs:
       evaluated_by: code
       axis:
         id: pyruvate-yield-reproduces-preiner
-        label: Batch pyruvate yield in the Preiner-2020 range (~10 uM), the smallest product.
+        label: Batch pyruvate yield in the Preiner-2020 range (~10 uM), the smallest
+          product.
         verdict: within_tol
         value: 10.0
         meter: 0.6666666666666666
-        detail:
+        detail: null
         expected:
           kind: band
-          value:
+          value: null
           low: 2.0
           high: 15.0
           op: ~=
           tol: 0.05
-          statement:
+          statement: null
         margin: 5.0
         severity: hard
-        units:
-        knob:
+        units: null
+        knob: null
         citation: preiner2020hydrogen
       auto_evaluated: true
     net-carbon-flux-nonzero-region:
@@ -459,20 +612,20 @@ runs:
         verdict: within_tol
         value: 0.039358
         meter: 1.0
-        detail:
+        detail: null
         expected:
           kind: value
           value: 1e-06
-          low:
-          high:
+          low: null
+          high: null
           op: '>'
           tol: 0.05
-          statement:
+          statement: null
         margin: 0.039356999999999996
         severity: hard
-        units:
-        knob:
-        citation:
+        units: null
+        knob: null
+        citation: null
       auto_evaluated: true
     free-energy-directionality-logged:
       result: PASS
@@ -486,20 +639,20 @@ runs:
         verdict: within_tol
         value: 1.0
         meter: 0.5
-        detail:
+        detail: null
         expected:
           kind: value
           value: 1.0
-          low:
-          high:
+          low: null
+          high: null
           op: '>='
           tol: 0.05
-          statement:
+          statement: null
         margin: 0.0
         severity: hard
-        units:
-        knob:
-        citation:
+        units: null
+        knob: null
+        citation: null
       auto_evaluated: true
     chemiosmotic-backpressure-loads-gradient:
       result: PASS
@@ -509,23 +662,24 @@ runs:
       evaluated_by: code
       axis:
         id: chemiosmotic-backpressure-loads-gradient
-        label: Carbon fixation spends the proton gradient — the loaded pmf sags below open-circuit under load (conserved chemiosmotic coupling, not mere correlation).
+        label: Carbon fixation spends the proton gradient — the loaded pmf sags below
+          open-circuit under load (conserved chemiosmotic coupling, not mere correlation).
         verdict: within_tol
         value: 0.401702
         meter: 0.6851063157894737
-        detail:
+        detail: null
         expected:
           kind: band
-          value:
+          value: null
           low: 0.05
           high: 0.95
           op: ~=
           tol: 0.05
-          statement:
+          statement: null
         margin: 0.351702
         severity: hard
-        units:
-        knob:
+        units: null
+        knob: null
         citation: lane2010chemiosmotic; sojo2014bioenergetic; herschy2014originreactor
       auto_evaluated: true
     nernst-planck-flux-conserved:
@@ -540,33 +694,35 @@ runs:
         verdict: within_tol
         value: 0.005599
         meter: 0.7200500000000001
-        detail:
+        detail: null
         expected:
           kind: value
           value: 0.01
-          low:
-          high:
+          low: null
+          high: null
           op: <=
           tol: 0.05
-          statement:
+          statement: null
         margin: 0.004401
         severity: hard
-        units:
-        knob:
-        citation:
+        units: null
+        knob: null
+        citation: null
       auto_evaluated: true
     ph-gradient-drives-formate:
       result: PASS
       measured_value: 200.0
       evaluated_by: code
       operator: cross_run
-      detail: favorable formate=200.0 mM; controls no-gradient=0.029, no-H2=0.000, no-catalyst=0.005 mM (all <1 => gradient drives formate)
+      detail: favorable formate=200.0 mM; controls no-gradient=0.029, no-H2=0.000,
+        no-catalyst=0.005 mM (all <1 => gradient drives formate)
     in-situ-ph-correction:
       result: PASS
       measured_value: 42.7
       evaluated_by: code
       operator: cross_run
-      detail: favorable pmf=427 mV vs Tutolo-2026 pmf=43 mV => usable gradient COLLAPSES at in-situ T/P
+      detail: favorable pmf=427 mV vs Tutolo-2026 pmf=43 mV => usable gradient COLLAPSES
+        at in-situ T/P
 study_type: confirmatory
 conditions:
   baseline:
@@ -594,13 +750,16 @@ simulation_set:
 units_and_time:
   tick: 1 s per step (forward-Euler / CSTR step)
   concentration_unit: molar
-  note: Steps are abstract reaction/transport ticks, not wall-clock; concentrations in mol/L, temperature in K.
+  note: Steps are abstract reaction/transport ticks, not wall-clock; concentrations
+    in mol/L, temperature in K.
 study_card:
-  headline: >-
-    All nine tests pass — Preiner yields reproduced (formate 200 mM, acetate 100 µM,
-    pyruvate 10 µM), formate collapses in every control, and the Tutolo-2026 arm's
-    proton-motive gradient collapses 427 → 43 mV.
+  headline: All nine tests pass — Preiner yields reproduced (formate 200 mM, acetate
+    100 µM, pyruvate 10 µM), formate collapses in every control, and the Tutolo-2026
+    arm's proton-motive gradient collapses 427 → 43 mV.
   status: PASS — reproduces the benchmarks; Tutolo arm flags the in-situ risk
 preregistered:
   registered_at: '2026-10-11T12:00:00Z'
-  note: Acceptance criteria + behavior-test pass_if bands were declared at design time, before the canonical run.
+  note: Acceptance criteria + behavior-test pass_if bands were declared at design
+    time, before the canonical run.
+verdict: supported
+evidence_tier: mechanistic_prediction
