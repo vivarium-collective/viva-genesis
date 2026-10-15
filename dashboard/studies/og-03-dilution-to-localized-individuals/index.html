@@ -674,7 +674,7 @@
       <div class="ctr-meta">
         <div class="ctr-meta-row"><span class="ctr-meta-k">Model</span> <code>Dilution to localized individuals</code><a class="ov-tablink" href="#" onclick="_setStudyTab('compose');return false;">model →</a></div>
         
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Measures</span> <span class="ctr-meta-item">5 behavior tests</span><a class="ov-tablink" href="#" onclick="_setStudyTab('tests');return false;">see Tests →</a></div>
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Measures</span> <span class="ctr-meta-item">6 behavior tests</span><a class="ov-tablink" href="#" onclick="_setStudyTab('tests');return false;">see Tests →</a></div>
         
       </div>
     </div>
@@ -781,7 +781,7 @@
             
             
             
-            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: ≥ 18.0</code></div>
+            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: op: arms_reported · detail: reduced-column Pe_acc ≈ 18.4 (~10^8-fold) reported as the closed-cell/reduced-model figure; the resolved FEM does not confirm it past the convergence-verified Pe_acc ≈ 13</code></div>
             
             
             
@@ -1186,7 +1186,7 @@
         <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
         
       </div>
-      <div style="margin-top: 6px; font-size: 0.95em;">A favorable pore (5 mm × 0.1 mm, ΔT 30 K, convective flow) reproduces Baaske-2007 extreme accumulation — ~10^8-fold, 9.6×10⁷ (accumulation Péclet 18.4).</div>
+      <div style="margin-top: 6px; font-size: 0.95em;">The thermophoretic trap concentrates the dilute feed. The reduced accumulation column reaches the Baaske-2007 extreme figure (~10^8-fold, Pe_acc ≈ 18.4) in the favorable pore, but that sits ABOVE the demonstrated solver-convergence range: the resolved dolfinx FEM saturates (~10^2-fold) past Pe_acc ≈ 13 (spatial-transport-solver-comparison), so the &gt;10^6 figure is a flow-through reduced-column exp(Pe) extrapolation / closed-cell figure, not a resolved result. Per &#34;no acceptance gate outside demonstrated convergence&#34; the magnitude is REPORTED here, not gated as a pass; localization within the resolvable range (Pe_acc ≲ 13) is the gated claim (see enrichment-resolved-within-convergence).</div>
       
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
@@ -1209,8 +1209,48 @@
       <details style="margin-top: 6px; font-size: 0.82em;">
         <summary class="muted" style="cursor: pointer;">Assertion</summary>
         
-        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "ln(enrichment) = beta \u00d7 pore length", "kind": "derived", "path": "settled_accumulation_peclet"}
-pass_if: {"detail": "Pe_acc \u2265 ln(1e8) \u2248 18.4 in favorable geometry", "op": "\u003e=", "value": 18.0}
+        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "ln(enrichment) = beta \u00d7 pore length (reduced column)", "kind": "derived", "path": "settled_accumulation_peclet"}
+pass_if: {"detail": "reduced-column Pe_acc \u2248 18.4 (~10^8-fold) reported as the closed-cell/reduced-model figure; the resolved FEM does not confirm it past the convergence-verified Pe_acc \u2248 13", "op": "arms_reported"}
+cites:   ["baaske2007extreme", "mast2010thermal"]</pre>
+      </details>
+      
+      
+      
+      
+    </li>
+    
+    
+    
+    
+    
+    
+    
+    
+    <li class="expected-behavior-item" id="bt-enrichment-resolved-within-convergence"
+        data-test-kind="behavioral"
+        
+        data-pytest-node="enrichment-resolved-within-convergence"
+        data-classification="primary"
+        data-result="pending"
+        style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #10b981; background: #f8fafc; border-radius: 4px;">
+      
+        
+      <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
+        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #f1f5f9; color: #475569">⏳ pending</span>
+        <span class="classification-pill classification-primary">primary</span>
+        <strong style="font-size: 0.9em;">enrichment-resolved-within-convergence</strong>
+        
+        <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
+        
+      </div>
+      <div style="margin-top: 6px; font-size: 0.95em;">Within the FEM-trustworthy / convergence-verified Péclet range (Pe_acc ≲ 13, spatial-transport-solver-comparison), the resolved thermophoretic field DOES concentrate the feed above its inflow — a bounded individual forms. This is the honest, solver-agnostic localization claim (both FiPy and dolfinx agree in this range); the far larger reduced-column figure above Pe_acc ≈ 13 is reported separately (thermophoretic-enrichment-reproduces-baaske), not gated.</div>
+      
+      
+      <details style="margin-top: 6px; font-size: 0.82em;">
+        <summary class="muted" style="cursor: pointer;">Assertion</summary>
+        
+        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"agreement region)": null, "detail": "localization occurs within the resolvable range (positive enrichment", "kind": "derived", "path": "log10_enrichment"}
+pass_if: {"detail": "log10_enrichment \u003e 0 (the resolved trap concentrates above inflow within Pe_acc \u2272 13)", "op": "\u003e", "value": 0.0}
 cites:   ["baaske2007extreme", "mast2010thermal"]</pre>
       </details>
       
@@ -1243,7 +1283,7 @@ cites:   ["baaske2007extreme", "mast2010thermal"]</pre>
         <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
         
       </div>
-      <div style="margin-top: 6px; font-size: 0.95em;">The trap concentrates enough (≥10^6-fold) that synthesis outruns hydrolysis/leakage — a net-accumulation region exists in the favorable arm.</div>
+      <div style="margin-top: 6px; font-size: 0.95em;">A net-accumulation region exists where the trap concentrates enough that synthesis outruns hydrolysis/leakage. The ≥10^6-fold figure is the reduced-model (closed-cell) extrapolation; the gated claim is the resolved net-accumulation within the convergence-verified Péclet range (Pe_acc ≲ 13, spatial-transport-solver-comparison), so the magnitude is REPORTED, not gated on the un-converged ≥10^6 value.</div>
       
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
@@ -1266,8 +1306,8 @@ cites:   ["baaske2007extreme", "mast2010thermal"]</pre>
       <details style="margin-top: 6px; font-size: 0.82em;">
         <summary class="muted" style="cursor: pointer;">Assertion</summary>
         
-        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "log10 of the settled enrichment fold", "kind": "derived", "path": "log10_enrichment"}
-pass_if: {"detail": "\u226510^6-fold boost (synthesis outruns dilution)", "op": "\u003e=", "value": 6.0}
+        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "log10 of the settled enrichment fold (reduced column; resolved value within Pe_acc \u2272 13)", "kind": "derived", "path": "log10_enrichment"}
+pass_if: {"detail": "reduced-column \u226510^6-fold reported as the closed-cell figure; net accumulation within demonstrated convergence is the gated claim (enrichment-resolved-within-convergence)", "op": "arms_reported"}
 cites:   ["baaske2007extreme"]</pre>
       </details>
       
@@ -1704,7 +1744,7 @@ pass_if: {"detail": "FVM residual small (direct LU solve)", "op": "\u003c=", "va
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "8fb40654009719323aad55bb41833c488d5dcd12", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/8fb40654009719323aad55bb41833c488d5dcd12", "branch": "main", "lockfile": "uv.lock@38d6726fb4a9", "generated_at": "2026-10-15 12:46 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "7f032e506760a372a58126283a978900ef1b493b", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/7f032e506760a372a58126283a978900ef1b493b", "branch": "main", "lockfile": "uv.lock@38d6726fb4a9", "generated_at": "2026-10-15 13:06 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>
