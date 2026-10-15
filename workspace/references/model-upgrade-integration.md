@@ -46,7 +46,9 @@ not a direct consequence of how the model was encoded.
 | Phase 2 — electrochemical carbon fixation | `electrochemistry/{butler_volmer,empirical,microkinetic,mineral_conductivity}.py`, `ledger.ChargeLedgerProcess`, `composites/electrochemical_interface.py`, `uq/electrochemistry_calibration.py`, vg-data `electrochemical_interface`, study `og-01-cal-electrochemistry` | **built and run** (§6b; the `microkinetic` class is registered but its CatMAP/Cantera backend is pixi-only) |
 | Phase 3 — open chemical network | `protometabolism/{universe,motifs,universe_process}.py`, `ledger.NetworkLedgerProcess`, `composites/open_chemical_network.py`, vg-data `reaction_universe`, study `og-02-alt-reaction-universe` | **built and run** (§6c) |
 | Phase 6 — proto-energetics | `bioenergetics/energy_coupling.py` (five classes on the `energy_coupling` face), `ledger.FreeEnergyLedgerProcess`, `composites/protocell_energetics.py`, `uq/energetics_threshold.py`, vg-data `energy_currencies`, study `og-energy-alt-internalization-threshold` | **built and run** (§6d) |
-| Phases 4, 5, 7–9 | §7 roadmap, `investigation.yaml.guidelines.roadmap_phases` + `decisions_needed` | **planned** |
+| Phase 7 — competing heredity | `heredity/{competing,information}.py`, `ledger.InformationLedgerProcess`, `composites/competing_heredity.py`, vg-data `inheritance_budgets`, study `og-06-alt-information-per-cost` | **built and run** (§6e) |
+| Phase 8 — biochemical ecology | `ecology/{proto_ecology,reactive_system}.py`, `ledger.EcologyElementLedgerProcess`, `composites/metabolite_exchange_community.py`, vg-data `cnp_resources`, study `og-07-alt-real-metabolite-exchange` | **built and run** (§6f) |
+| Phases 4, 5, 9 | §7 roadmap, `investigation.yaml.guidelines.roadmap_phases` + `decisions_needed` | **planned** (4 and 5 have their classes and studies; 9 planned) |
 
 ## 1. The scientific standard, as code
 
@@ -213,8 +215,14 @@ pool, load — `hypothetical`; 24 parameters, `unsourced = []`);
 `inheritance_budgets` (Phase 7, built — §6e: per-copy template costs,
 precursor feeds, copy error rates, the energy quantum, the low-copy scale and
 the attachment thresholds; 39 parameters, the ribozyme fidelity the one
-measured entry, `unsourced = []`); `cnp_resources` (cross-cutting: the N / P
-hydrothermal datasets already proposed in `proposed_inputs`).
+measured entry, `unsourced = []`); `cnp_resources` (Phase 8, built — §6f: the
+Phase-1 carbon feed `calibrated`, the og-res N / P pools `extrapolated`, the
+membrane permeability classes `extrapolated` from fatty-acid vesicle work with
+the dicarboxylate value `hypothetical` — the swept Decision axis and the
+weakest number — the pore residence `inferred` from the og-02 convention over
+the Phase-4 window, the C:N:P demand `hypothetical`; 23 parameters, `unsourced
+= []`; the measured charged-solute permeability and a Redfield-type anchor are
+in `proposed_inputs`, pending).
 
 ## 4. The campaign UQ layer
 
@@ -600,6 +608,113 @@ bigraph rewrite (the step publishes a lineage-level flag, the class holds its
 individuals); sequence-level information (the MI is on phenotype, bounded by
 the resolution bins, so capacity and realised bits are reported side by side);
 propagate the package priors (nominal + two swept axes only).
+## 6f. Phase 8 — biochemical ecology, worked concretely
+
+Built (PR "feat(phase8)"): `viva_genesis/ecology/proto_ecology.py` — the
+`proto_ecology` face in `models.py` with two real classes,
+`reaction_universe` = `ProtocellNetworkProcess` and `null_network` =
+`ProtocellNullNetworkProcess`: **the Phase-3 rule-generated universe inside
+every agent** (413 reversible reactions, eQuilibrator ΔG′, catalyst-site
+saturation, degradation to tar, integrated by the agent's own libRoadRunner
+instance from one JIT-cached SBML), **masked to the agent's lineage
+repertoire** — the subset of the twelve reaction rules its catalysts carry,
+applied as 0/1 rate multipliers (`REPERTOIRES`: `fixer` = CO2 reduction +
+the two carboxylations, `reducer` = the three hydrogenations, `condenser` =
+aldol / formose / isomerisation / Cannizzaro, `generalist` = all; the
+uncatalysed decarboxylations belong to every lineage). The class reads the
+agent's dissolved pool from the agents map, advances the chemistry over the
+tick with **no exchange term**, writes the pool deltas back and publishes the
+product classes it **produced itself** (gross internal production above the
+flux floor — at steady state an intermediate's net production is zero
+although the agent makes it continuously), the per-rule flux, the H2 / CO2
+rates and the Phase-3 witnesses (exact element residual, dissipation ≥ 0,
+carbon degraded). og-07's `CrossFeedingMetacommunityProcess` is the face's
+declared non-conformer (no pool; its outputs are capability symbols).
+
+`viva_genesis/ecology/reactive_system.py` — `BigraphicalReactiveSystem`: an
+ordered set of **matter-conserving exchange rules** matched against the
+bigraph each tick and counted when they fire — `UptakeRule` / `SecretionRule`
+(membrane permeation between an agent and its field cell as the exact
+two-compartment relaxation of each species, `k = P A / V` from six
+size-and-charge permeability classes), `PoreDiffusionRule` (neighbouring
+cells), `PoreExchangeRule` (every cell relaxes toward its Phase-4 background
+at the pore residence rate; the element moles crossing the pore boundary are
+integrated). No rule moves a capability. `SpatialCouplingStep` points each
+agent at a fixed cell (positions in the `lineages` map — **no motion this
+phase**, the recorded decision), shapes the cells' background from the feed
+and the `localization` class's per-species `enrichment` raised to the cell's
+fractional position (the Soret profile), fires the system and publishes the
+firing counts and the **cross-lineage flux** of every species (moles secreted
+by one lineage and taken up by another in the same tick). `EcologyReducerStep`
+keeps og-07's gate names and recomputes them from the agents: capabilities
+are product classes (chain length × carboxylation × oxidation state, derived
+from the skeletons), *held* above a 1 nM floor or produced, *intrinsic* when
+produced; it also publishes the community union and each agent's completeness
+relative to it. `ledger.EcologyElementLedgerProcess` sums C, N and P over
+every agent's interior and every field cell and closes them against the pore
+inflow, washout and tar. `composites/metabolite_exchange_community.py`
+carries `model_proto_ecology` and `model_localization` as class axes;
+`viz_ecology.py` the two figures; vg-data `cnp_resources` the feed, pore,
+protocell, permeability and floor parameters (23; 0 measured, 2 calibrated, 7
+inferred, 7 extrapolated, 7 hypothetical, `unsourced = []`).
+
+Results (`og-07-alt-real-metabolite-exchange`: 98 composite runs — the arms
+at the canonical point plus four arms over 7 diacid permeabilities × 3
+residences, 250 ticks, 8 agents each; ~110 s on 6 workers):
+
+| Arm (canonical point: P_diacid 1e-8 m/s, residence 100 s) | Classes held | Malate (c4_diacid_hydroxy) | Robustness | Max completeness |
+|---|---|---|---|---|
+| **community** fixer:4 + reducer:4, interleaved | 15 | **6.4e-9 M** in the reducer lineage (3.9e-3 molecules per 1-fL agent; 3.9 per 1-pL compartment) | 0.54 | **0.93** (14/15) |
+| mono fixer:8 | 7 | 0 (never produced) | 0.25 | 1.0 |
+| mono reducer:8 | 9 | 0 (never produced) | 0.32 | 1.0 |
+| private (same assignment, no sharing) | 13 | 0 | 0.46 | 0.69 |
+| generalist:8 (complete cells) | 19 | 1.36e-7 M (0.08 molecules per fL) | 0.68 | 1.0 |
+| segregated placement | 15 | present (1 community-only class) | 0.54 | 0.93 |
+| rewired null (seeds 0 / 1) | 7 / 11 | — (0 / 1 community-only classes: methanol in seed 1) | — | — |
+
+**Gate `community-function-precedes-cell-completeness`: PASS.** One product
+class — the reductive C4 branch, malate — is held by the community and by
+neither lineage in monoculture, vanishes in the private arm, and its
+precursor oxaloacetate (made only by the fixer, gross carboxylation 5e-6 M/s;
+the reducer cannot make it) crosses between the lineages at 1.8e-27 mol per
+tick (1.1e-3 molecules per tick over the eight agents; formate 1.7e-24 and
+lactate 3.6e-25 mol/tick carry the largest cross-lineage fluxes). The
+community reaches 4.7 % of a complete cell's level while its best agent holds
+14 of the 15 classes. Decision map: the function emerges from **P_diacid =
+3e-9 m/s** at 20 s and 100 s residence and only at 1e-7 m/s at 500 s (the
+shared feed depletes); below the boundary oxaloacetate decarboxylates back to
+pyruvate (0.02/s) inside the fixer before it can cross. The measured passage
+of charged solutes through fatty-acid vesicles (~1e-11–1e-10 m/s; Mansy
+2008, proposed, pending) sits one to two decades below the boundary — the
+study's main constraint and a recorded decision. og-07's readouts from real
+agents: shared robustness 0.54 vs private 0.46 (connected-beats-isolated
+0.07); the within-run isolated counterfactual equals the held robustness,
+because what an agent acquires by flux is a precursor and the function it
+then performs is its own — og-07's "acquired capability" has no counterpart
+in real chemistry. LUCA-core overlap 0.8 wherever a fixer is present (ceiling
+0.8: ion pumping is unreachable in a C/H/O network).
+
+Verification: C residual ≤ 6.5e-9 (CVODE tolerance), N ≤ 1.1e-15, P ≤ 1.4e-15
+over agents + field on all 98 runs; 468,331 exchange-rule firings on the
+canonical run (secretion 135,316, uptake 115,466, pore diffusion 93,009,
+feed / washout 124,540); element residual 0 and dissipation ≥ 0 in every
+agent. Tier: `conceptual_demonstration` ("demonstrates in a coarse-grained
+model") — the chemistry and thermodynamics are real, every permeability is
+extrapolated or hypothetical, and the function lives at copy numbers (four
+thousandths of a molecule per femtolitre agent — four per picolitre pore
+compartment — a thousandth of a precursor per tick) where the ODE description
+is a mean-field expectation of occupancy, not a count.
+
+Reading: with real chemistry, division of labour is a property of the
+membrane as much as of the network — two incomplete protocells run a
+carbon-fixation branch together only where the intermediate crosses faster
+than it decarboxylates and washes out, and the rewired null shows a rule
+partition can split *some* pathway in rewired chemistry too (what the real
+universe fixes is *which*). What Phase 8 does *not* yet do: exact
+low-copy-number stochastics per agent (the Phase-7 machinery); permeabilities
+from the Phase-5 boundary classes; growth, division or motion of agents
+(motion deferred — `decisions_needed`); N/P-bearing rules so the C:N:P demand
+becomes a gate; a second lineage partition.
 
 ## 7. Roadmap — Phases 2–9 mapped onto the existing studies
 
@@ -620,7 +735,7 @@ recorded in `investigation.yaml.guidelines.roadmap_phases`.
 | **7 Competing heredity** | og-06 (`LineageReplicatorProcess` modes), FMP §2.5 | `heredity`: `compositional`, `network`, `peptide`, `rna_like`, `hybrid`, `mineral_state` (carved out of the one class), attached conditionally by `HeredityAttachmentStep` under matched resource + energy budgets, Gillespie at low copy number | `inheritance_budgets` (precursor availability, error rates, template costs) | information ledger: heritable bits per unit energy; mutual information estimator convergence | `og-06-alt-information-per-cost`: gates `ancestry-predicts-phenotype` (parent–offspring mutual information per class) and the information-per-cost frontier; og-06's "need not presume RNA" becomes a class-substitution result | information-per-cost frontier; transition to templated heredity | Defensible attachment thresholds (expert input; `hypothetical` and swept until then) |
 | **6 Proto-energetics** | og-energy (`GeochemicalDriveProcess`, `ProtoEnergyCurrencyProcess`), og-05 (`BioenergeticSelectionProcess`) | `energy_coupling`: `passive_gradient` (A), `h_na_gradient_leaky_membrane` (A), `thioester_acyl_phosphate` (E as carrier), `polyphosphate` (E), `fe_redox` (A) — all inside each protocell composite, autonomy = internal / (internal + external) power per individual | `energy_currencies` (Fe disproportionation drive already proposed; H+/Na+ permeabilities) | free-energy ledger: `free_energy_in ≥ work + dissipated` as an invariant | `og-energy-alt-internalization-threshold`: gate `internalization-pays` — passive vs increasingly active coupling, the point where energetic benefit exceeds leakage + maintenance, per class | energy-capture efficiency and internalization threshold | Replace og-05's population-mean `internalization` with per-individual autonomy (reads the same field) |
 | **7 Competing heredity** (built — §6e) | og-06 (`LineageReplicatorProcess` modes), FMP §2.5 | `heredity`: `compositional`, `network`, `peptide`, `rna_like`, `hybrid`, `mineral_state` (carved out of the one class), attached conditionally by `HeredityAttachmentStep` under matched resource + energy budgets, Gillespie at low copy number | `inheritance_budgets` (precursor availability, error rates, template costs) | information ledger: heritable bits per unit energy; mutual information estimator convergence | `og-06-alt-information-per-cost`: gates `ancestry-predicts-phenotype` (parent–offspring mutual information per class) and the information-per-cost frontier; og-06's "need not presume RNA" becomes a class-substitution result | information-per-cost frontier; transition to templated heredity | Defensible attachment thresholds (expert input; `hypothetical` and swept until then) |
-| **8 Biochemical ecology** | og-07 (`CrossFeedingMetacommunityProcess` capability vectors) | `proto_ecology`: real reaction networks per protocell (Phase-3 classes inside each agent), `SpatialCouplingStep` onto the Phase-4 fields, `BigraphicalReactiveSystem` exchange rules; `EcologyReducerStep` keeps og-07's gate names | `cnp_resources` + the Phase-3 universe | element ledger across agents + fields; exchange-rule firing counts | `og-07-alt-real-metabolite-exchange`: gate `community-function-precedes-cell-completeness` — a function present in the community union but in no lineage, sustained by real metabolite flux, not symbolic capability transfer | emergent cross-feeding / division of labor / robustness | Agent motion model (defer; point agents on fields first) |
+| **8 Biochemical ecology** (built — §6f; malate held by the community of a carboxylating and a hydrogenating lineage and by neither alone, vanishing without sharing, sustained by oxaloacetate crossing between them, no cell complete; emerges above P_diacid 3e-9 m/s) | og-07 (`CrossFeedingMetacommunityProcess` capability vectors) | `proto_ecology`: real reaction networks per protocell (Phase-3 classes inside each agent), `SpatialCouplingStep` onto the Phase-4 fields, `BigraphicalReactiveSystem` exchange rules; `EcologyReducerStep` keeps og-07's gate names | `cnp_resources` + the Phase-3 universe | element ledger across agents + fields; exchange-rule firing counts | `og-07-alt-real-metabolite-exchange`: gate `community-function-precedes-cell-completeness` — a function present in the community union but in no lineage, sustained by real metabolite flux, not symbolic capability transfer | emergent cross-feeding / division of labor / robustness | Agent motion model (defer; point agents on fields first) |
 | **9 Integrated autonomy** | og-08 (`OffGradientPersistenceProcess`, {pump, importer, heredity}), og-adv | one persistent world (FMP §2.2 skeleton) with an `AblationStep` scheduling geology withdrawal; the {pump, importer, heredity} result re-run under an **ensemble** of maintenance functions, transport laws, storage models, permeability assumptions and inheritance classes | all packages, posterior-propagated from Phase 1 | every ledger; structural-event log | `og-08-alt-robust-innovation-set`: gate `minimum-sufficient-innovation-set` across model structures — the *intersection* of required innovations, reported as a lattice with the continuous autonomy value (fraction of essential work and material supplied internally, decomposed by function) | functions robustly required across model structures | Treat the current {pump, importer, heredity} as a hypothesis generator (plan §10), not a result |
 
 **Cross-cutting, every phase:** the adversarial `GenericNonequilibriumEnvironment`

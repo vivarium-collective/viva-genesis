@@ -147,6 +147,24 @@ executive:
     FEM does not confirm above Pe ~ 13, so localization is gated on the Peclet, not the fold-magnitude.
     The gate change itself is implemented in a separate og-03 PR; recorded here as the decision-state.'
   decisions_needed:
+  - question: 'Phase-8 agent motion model: DEFERRED. The proto_ecology component points agents at fixed cells
+      of the Phase-4 field (interleaved or segregated along the pore); no motility, chemotaxis or advective
+      drift of agents is modelled. Which motion model (none / advected with the pore flow / Brownian between
+      cells / thermophoretic like the solutes) should Phase 8b adopt?'
+    context: 'og-07-alt-real-metabolite-exchange (references/model-upgrade-integration.md section 6f): the
+      roadmap row defers motion ("point agents on fields first"). With fixed positions the mixed and
+      segregated placements give the same community-only function because pore diffusion between cells
+      (k_diffusion 0.1/s, hypothetical) mixes the exchanged intermediate; a motion model would make that
+      mixing a property of the agents rather than of the field.'
+  - question: 'Phase-8 membrane permeability of dicarboxylates: the community function (the reductive C4
+      branch crossing from the carboxylating to the hydrogenating lineage) emerges only above a diacid
+      permeability of ~3e-9 m/s at 100 s residence, while the measured passage of charged solutes through
+      fatty-acid vesicles (Mansy 2008, proposed_inputs, pending) is ~1e-11-1e-10 m/s. Is a leakier boundary
+      (mixed / shorter-chain amphiphiles, Phase-5 thioester_aminothiol class) or a longer pore residence the
+      defensible route, or should the exchanged intermediate be a neutral species?'
+    context: 'The canonical point (p_diacid 1e-8 m/s, hypothetical) is an operating point inside the
+      emergence region; the Decision map places the measured range below the boundary. The number is the
+      weakest in vg-data cnp_resources and is swept, not asserted.'
   - question: 'Phase-7 heredity attachment thresholds: what precursor budget (copies per individual the pool
       must cover, attach_min_copies), energy margin (attach_energy_margin) and fidelity floor are defensible
       for attaching heredity to a lineage? The build uses hypothetical values (10 copies, margin 1.0) and
@@ -320,7 +338,7 @@ guidelines:
         og-res-phosphorus-availability, og-energy-proto-energetics, og-growth-division, og-cal-vent-environment (posterior prediction),
         og-01-cal-electrochemistry (mechanism map; the Altair current-window check is at reproduction tier)]
       conceptual_demonstration: [og-05-environmental-to-internal-bioenergetics, og-06-chemistry-to-heredity,
-        og-07-ecology-before-luca, og-08-escape-from-the-vent]
+        og-07-ecology-before-luca, og-08-escape-from-the-vent, og-07-alt-real-metabolite-exchange]
       null_control: [og-adv-generic-nonequilibrium]
     decision_discipline:
     - Do not move a headline conclusion forward if it depends on a numerically unvalidated regime.
@@ -345,7 +363,7 @@ guidelines:
     vg-protoindividual: Phase 5 (planned; endogenous amphiphiles + boundary/division rewrites)
     vg-energy: viva_genesis/bioenergetics/energy_coupling.py + composites/protocell_energetics.py + ledger.FreeEnergyLedgerProcess + data/vg_data/energy_currencies.yaml + uq/energetics_threshold.py (built; energy_coupling face with passive_gradient | h_na_gradient_leaky_membrane | thioester_acyl_phosphate | polyphosphate | fe_redox, per-individual autonomy, free-energy ledger in >= work + dissipated with the store)
     vg-heredity: viva_genesis/heredity/{competing,information}.py + composites/competing_heredity.py + ledger.InformationLedgerProcess + data/vg_data/inheritance_budgets.yaml (built; six Gillespie heredity classes behind the heredity face, HeredityAttachmentStep, MI estimator with convergence check, information-per-cost ledger)
-    vg-ecology: Phase 8 (planned; real networks per protocell on shared fields)
+    vg-ecology: viva_genesis/ecology/{proto_ecology,reactive_system}.py + composites/metabolite_exchange_community.py + ledger.EcologyElementLedgerProcess + data/vg_data/cnp_resources.yaml + viz_ecology.py (built; proto_ecology face with reaction_universe | null_network classes — the Phase-3 universe inside every agent masked to a lineage rule repertoire — SpatialCouplingStep onto the Phase-4 enrichment field firing the uptake / secretion / diffusion / pore-exchange rules of a BigraphicalReactiveSystem, EcologyReducerStep keeping og-07's gate names, C/N/P ledger across agents + field)
     campaign-uq-layer: viva_genesis/uq/ (built; ABC/importance calibration, Morris+Sobol, structural ensembles, propagation, report triple)
   roadmap_phases:
   - phase: 1
@@ -427,11 +445,13 @@ guidelines:
     next: expert-defensible attachment thresholds (decisions_needed); a measured defect-replication fidelity for the mineral class (the weakest number); propagate the package priors (LHS over the 11 free parameters); sequence-level (not phenotype-level) information for the template classes; attach the classes to Phase-5 agents as a bigraph rewrite
   - phase: 8
     name: Biochemical ecology
-    status: planned
+    status: built-and-run
     studies: [og-07-ecology-before-luca, og-07-alt-real-metabolite-exchange]
-    component: proto_ecology with real networks per protocell on shared spatial fields; exchange rules; EcologyReducerStep keeps og-07 gate names
-    data_package: cnp_resources + reaction_universe
+    component: proto_ecology face with reaction_universe | null_network classes (the Phase-3 universe inside every agent, masked to a lineage rule repertoire — fixer / reducer / condenser / generalist — integrated by the agent's own libRoadRunner instance); SpatialCouplingStep pointing agents at fixed cells of the Phase-4 enrichment field and firing the uptake / secretion / pore-diffusion / feed-washout rules of a BigraphicalReactiveSystem (every firing counted, cross-lineage flux published); EcologyReducerStep recomputing og-07's gate names from the agents (held vs produced product classes, cell completeness); EcologyElementLedgerProcess (C / N / P over agents + field)
+    data_package: cnp_resources (23 parameters; 0 measured, 2 calibrated — the Phase-1 carbon feed — 7 inferred, 7 extrapolated, 7 hypothetical; the dicarboxylate permeability is the swept, hypothetical Decision axis) + reaction_universe
     exit_criterion: emergent cross-feeding, division of labor and robustness from flux and permeability, not symbolic capability transfer
+    result: "see og-07-alt-real-metabolite-exchange: at the canonical point (P_diacid 1e-8 m/s, residence 100 s) the community of 4 fixers + 4 reducers holds malate (the reductive C4 branch) at 6.4e-9 M in its reducer agents — a mean-field occupancy of 3.9e-3 molecules per 1-fL cell (3.9 per 1-pL pore compartment), 4.7 % of a complete generalist cell — while neither monoculture holds or produces it and the private (no-sharing) arm holds 0; its precursor oxaloacetate, made only by the fixer, crosses between the lineages at 1.1e-3 molecules per tick; the best agent holds 14/15 of the union (no cell complete). The function emerges from P_diacid 3e-9 m/s at 20-100 s residence (1e-7 at 500 s), 1-2 decades above the measured charged-solute passage through fatty-acid vesicles. Segregated placement keeps it; the rewired null yields 0 / 1 community-only classes over two seeds. og-07's robustness from real agents 0.54 shared vs 0.46 private; LUCA overlap 0.8 (ceiling). C / N / P ledger closed on all 98 runs (C <= 6.5e-9, N / P <= 1.4e-15); 468,331 exchange-rule firings on the canonical run."
+    next: exact low-copy-number stochastics per agent (4e-3 molecules per femtolitre cell, 4 per picolitre compartment); permeabilities from the Phase-5 boundary classes and the measured charged-solute anchor (proposed_inputs); a motion model (decisions_needed); growth / division of agents on the field; N/P-bearing rules so the C:N:P demand becomes a gate; a second lineage partition
   - phase: 9
     name: Integrated autonomy
     status: planned
@@ -610,6 +630,12 @@ at_a_glance:
     mineral-state heredity cheapest and richest under hypothetical costs, templated heredity attaching only
     at the full budget and ribozyme-level fidelity; og-06''s "need not presume RNA" becomes a
     class-substitution result that splits by currency (fewer bits per offspring, 26x the bits per joule)'
+- study: og-07-alt-real-metabolite-exchange
+  role: 'Phase 8 biochemical ecology: the Phase-3 reaction universe inside every protocell, masked to a lineage
+    repertoire, coupled only by matter crossing membranes into a Phase-4-shaped pore — a community of a
+    carboxylating and a hydrogenating lineage holds the reductive C4 branch (malate) that neither performs alone,
+    vanishing without sharing, sustained by oxaloacetate crossing between them, before any cell is complete; it
+    needs a dicarboxylate permeability above ~3e-9 m/s; C/N/P ledger over agents + field closed on every run'
 studies:
 - og-00-vent-reactor-baseline
 - og-01-geology-to-reduced-carbon
@@ -632,6 +658,7 @@ studies:
 - og-growth-alt-physical-reproduction
 - og-energy-alt-internalization-threshold
 - og-06-alt-information-per-cost
+- og-07-alt-real-metabolite-exchange
 acceptance_criteria:
 - study: og-00-vent-reactor-baseline
   behavior: vent-pH-in-lostcity-range
@@ -675,6 +702,8 @@ acceptance_criteria:
   behavior: internalization-pays
 - study: og-06-alt-information-per-cost
   behavior: ancestry-predicts-phenotype
+- study: og-07-alt-real-metabolite-exchange
+  behavior: community-function-precedes-cell-completeness
 expert_docs:
 - Origins-of-Life Simulation Campaign
 - Origins-of-Life Computational Methods Atlas
@@ -858,4 +887,30 @@ proposed_inputs:
       poison or seal itself?' question (MineralEvolutionProcess, reactor-stays-open gate)."
     provenance: "Model Upgrade and Implementation Plan (sections 3 and 12). Compiled dependency; would run under
       a pixi env like FEniCS."
+    status: pending
+  - id: mansy2008template
+    kind: reference
+    citation: "Mansy S. S., Schrum J. P., Krishnamurthy M., Tobé S., Treco D. A. & Szostak J. W. (2008).
+      Template-directed synthesis of a genetic polymer in a model protocell. Nature 454:122-125."
+    proposed_by: agent
+    proposed_at: '2026-10-15'
+    related_study: og-07-alt-real-metabolite-exchange
+    rationale: "Phase-8 membrane permeabilities: the measured passage of charged solutes (activated
+      nucleotides, ~1e-11-1e-10 m/s) through fatty-acid vesicles is the only anchor for the
+      cnp_resources permeability classes (p_monoacid, p_diacid); the community-function emergence boundary
+      sits 1-2 decades above it, which is the study's main constraint."
+    provenance: "Not in the expert dossier or references/papers.bib; introduced while building the Phase-8
+      exchange rules. Recorded here (not cited in the package) pending expert review."
+    status: pending
+  - id: redfield1934proportions
+    kind: reference
+    citation: "Redfield A. C. (1934). On the proportions of organic derivatives in sea water and their relation
+      to the composition of plankton. James Johnstone Memorial Volume, 176-192."
+    proposed_by: agent
+    proposed_at: '2026-10-15'
+    related_study: og-07-alt-real-metabolite-exchange
+    rationale: "The C:N:P demand ratios (cn_demand, cp_demand) in cnp_resources are hypothetical placeholders;
+      a Redfield-type stoichiometric anchor would turn the community's C:N:P supply readout into a gate once
+      N/P-bearing rules enter the reaction universe."
+    provenance: "Not in references/papers.bib; recorded here pending expert review."
     status: pending
