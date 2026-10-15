@@ -339,3 +339,8 @@ visualizations:
   config:
     grid_json: workspace/studies/og-03-dilution-to-localized-individuals/artifacts/pore_localization_grid.json
     title: The pore-localization frontier (Decision view)
+- name: multisolute-colocalization-map
+  address: local:PoreColocalizationMap
+  config:
+    grid_json: workspace/studies/og-03-dilution-to-localized-individuals/artifacts/colocalization_grid.json
+    title: 'Does the prebiotic mixture co-localize? (Phase 4 Decision view)'

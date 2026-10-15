@@ -235,13 +235,23 @@ class FenicsMultisolutePoreProcess(Process):
         z = V.tabulate_dof_coordinates()[:, 2]
         T = 330.0 - float(cfg["delta_T"]) * z
         sp = self._species()
-        D_mean = float(np.mean([float(p["diffusivity"]) for p in sp.values()]))
-        w = float(cfg["peclet"]) * D_mean / 1.0
+        # Nondimensionalise: the pore solver works on a unit-length mesh (L=1)
+        # with an O(0.05) diffusivity scale, so the physical per-species D (~1e-9
+        # m^2/s) must be mapped onto that scale, PRESERVING the D RATIOS (which
+        # set each species' advective Peclet). Passing physical D straight in
+        # makes the solute barely move on the unit mesh and collapses every
+        # species to the same inlet artifact. w is then peclet * D_SOLVER so the
+        # mean-D Peclet equals the configured `peclet` (matching the surrogate +
+        # the viva-fenics calibration, which both use D_SOLVER).
+        D_SOLVER = 0.05
+        D_mean = float(np.mean([float(p["diffusivity"]) for p in sp.values()])) or 1e-18
+        w = float(cfg["peclet"]) * D_SOLVER / 1.0
         specs = [{
             "name": name, "dissolved": np.zeros(n), "adsorbed": np.zeros(n),
-            # species_params.soret is already the nondimensional Soret drift
-            # coefficient the fem_multisolute weak form takes (same convention).
-            "D": float(p["diffusivity"]), "soret": float(p["soret"]),
+            # D nondimensionalised (ratio-preserving); soret is already the
+            # nondimensional Soret drift coefficient the weak form takes.
+            "D": D_SOLVER * (float(p["diffusivity"]) / D_mean),
+            "soret": float(p["soret"]),
             "inlet": 1.0, "k_ads": float(p.get("k_ads", 0.0)),
             "k_des": float(p.get("k_des", 0.0)), "k_deg": float(p.get("k_deg", 0.0)),
         } for name, p in sp.items()]
