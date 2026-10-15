@@ -11,5 +11,13 @@ from .off_gradient import (  # noqa: E402,F401
     EnvironmentalRelaxationProcess,
     OffGradientPersistenceProcess,
 )
+from .integrated import (  # noqa: E402,F401
+    AblationStep, ActiveImportProcess, AutonomyBudgetStep, EnrichmentAdapterStep,
+    GeologicalDriverStep, LineageStateProcess, LineageSupplyProcess, MaintenanceDemandProcess,
+    PopulationBudgetProcess, StructuralEventLogStep,
+)
 
-__all__ = ["OffGradientPersistenceProcess", "EnvironmentalRelaxationProcess"]
+__all__ = ["OffGradientPersistenceProcess", "EnvironmentalRelaxationProcess", "AblationStep", "ActiveImportProcess",
+           "AutonomyBudgetStep", "EnrichmentAdapterStep", "GeologicalDriverStep",
+           "LineageStateProcess", "LineageSupplyProcess", "MaintenanceDemandProcess", "PopulationBudgetProcess",
+           "StructuralEventLogStep"]
