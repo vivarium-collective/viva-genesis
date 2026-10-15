@@ -3845,12 +3845,12 @@ else:
 # **robust-innovation-lattice**
 
 # robust-innovation-lattice
-_save_viz('og-08-alt-robust-innovation-set', 'robust-innovation-lattice', _render_one('local:RobustInnovationLattice', {'title': 'Phase 9 — the innovation lattice across model structures (Decision view)', 'report_json': 'workspace/studies/og-08-alt-robust-innovation-set/artifacts/robust_innovation_set.json'}, RUNS_DB, STUDY_YAML))
+_save_viz('og-08-alt-robust-innovation-set', 'robust-innovation-lattice', _render_one('local:RobustInnovationLattice', {'title': "Is og-08's escape set sufficient? An honest negative (Decision view)", 'report_json': 'workspace/studies/og-08-alt-robust-innovation-set/artifacts/robust_innovation_set.json'}, RUNS_DB, STUDY_YAML))
 
 # **autonomy-ablation-trace**
 
 # autonomy-ablation-trace
-_save_viz('og-08-alt-robust-innovation-set', 'autonomy-ablation-trace', _render_one('local:AutonomyAblationTrace', {'title': 'Phase 9 — the integrated world through the withdrawal (Mechanism / World view)', 'report_json': 'workspace/studies/og-08-alt-robust-innovation-set/artifacts/robust_innovation_set.json'}, RUNS_DB, STUDY_YAML))
+_save_viz('og-08-alt-robust-innovation-set', 'autonomy-ablation-trace', _render_one('local:AutonomyAblationTrace', {'title': 'The integrated world through the ablation (Mechanism view)', 'report_json': 'workspace/studies/og-08-alt-robust-innovation-set/artifacts/robust_innovation_set.json'}, RUNS_DB, STUDY_YAML))
 
 # ### Acceptance criteria
 #
