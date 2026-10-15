@@ -354,6 +354,41 @@ def _osmotic_balance_residual_max(reader, test: dict, ws_root: Any) -> float:
     return max(abs(v) for v in _values(reader, "osmolyte_balance_residual"))
 
 
+# --- geochemical_world / Phase-1 ledger (og-cal-vent-environment) ------------
+
+def _ledger_ok_final(reader, test: dict, ws_root: Any) -> float:
+    """Final ConservationLedgerProcess verdict (1 = every residual within tolerance)."""
+    return _values(reader, "ledger_ok")[-1]
+
+
+def _max_ledger_mass_residual(reader, test: dict, ws_root: Any) -> float:
+    """Worst-case |pool - integrated source| / integral over H2 and alkalinity."""
+    h2 = _values(reader, "H2_residual")
+    alk = _values(reader, "alkalinity_residual")
+    return max(max(abs(v) for v in h2), max(abs(v) for v in alk))
+
+
+def _max_ledger_energy_residual(reader, test: dict, ws_root: Any) -> float:
+    """Worst-case |heat pool - integrated heat source| / integral."""
+    return max(abs(v) for v in _values(reader, "energy_residual"))
+
+
+def _energy_directionality_final(reader, test: dict, ws_root: Any) -> float:
+    """1 if the serpentinization heat source never went negative (released, not absorbed)."""
+    return _values(reader, "energy_directionality")[-1]
+
+
+def _settled_dissolved_h2_mM(reader, test: dict, ws_root: Any) -> float:
+    """Reacted-fluid dissolved H2 (mmol/kg) backed out of the settled H2 flux.
+
+    ``H2_flux = H2_conc * flow * area`` (PhreeqcSerpentinizationProcess), so with the
+    run's ``flow_velocity`` and the process ``flux_area`` (test.params or 1e-3 / 60)."""
+    params = test.get("params") or {}
+    flow = float(params.get("flow_velocity", 1.0e-3))
+    area = float(params.get("flux_area", 60.0))
+    return 1.0e3 * _settled_mean(reader, "H2_flux") / (flow * area)
+
+
 def register_derived_scalars(registry: dict) -> None:
     """Hook called by study_evaluator.load_workspace_derived_scalars."""
     # og-00
@@ -412,3 +447,9 @@ def register_derived_scalars(registry: dict) -> None:
     registry["growth_net_growth"] = _growth_net_growth
     registry["osmotic_peak_pressure"] = _osmotic_peak_pressure
     registry["osmotic_balance_residual_max"] = _osmotic_balance_residual_max
+    # geochemical_world / Phase-1 environmental calibration (og-cal-vent-environment)
+    registry["ledger_ok_final"] = _ledger_ok_final
+    registry["max_ledger_mass_residual"] = _max_ledger_mass_residual
+    registry["max_ledger_energy_residual"] = _max_ledger_energy_residual
+    registry["energy_directionality_final"] = _energy_directionality_final
+    registry["settled_dissolved_h2_mM"] = _settled_dissolved_h2_mM
