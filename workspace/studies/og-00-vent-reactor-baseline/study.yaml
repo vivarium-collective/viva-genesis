@@ -8,124 +8,178 @@ design_status: approved
 confidence: Accepted
 gate_status: passed
 title: The Serpentinizing Vent
-question: Can a Lost City–like, serpentinization-fed vent–ocean interface reproduce observed fluid mixing, heat transport, mineral precipitation and H2/alkalinity delivery under field-constrained conditions — with no origin-of-life claim?
-hypothesis: A 1D/2D porous-wall reactor with prescribed boundary fluxes reproduces published Lost City ranges (T, pH, H2, DIC) and qualitative precipitation trends while conserving mass and charge.
-objective: Build a reduced vent–ocean reactor and validate it against Lost City field ranges to establish a geochemical/spatial testbed.
-claim: >-
-  Habitability is a bounded REGION of the operating space, not a single tuned run: across the
-  (olivine reaction rate × flow velocity) grid the real PHREEQC + FiPy serpentinizing vent settles
-  inside the Lost City window — T 40–91 °C AND pH 9.0–10.8 AND a positive H2 flux — over ~80% of the
-  swept grid, and the baseline operating point sits safely inside it (T 50.6 °C, pH 9.37) with
-  sustained H2, exact charge balance (|charge|=0) and FiPy flux divergence within the contract
-  tolerance (4.9e-5 vs the 1e-3 bound).
+question: Can a Lost City–like, serpentinization-fed vent–ocean interface reproduce
+  observed fluid mixing, heat transport, mineral precipitation and H2/alkalinity delivery
+  under field-constrained conditions — with no origin-of-life claim?
+hypothesis: A 1D/2D porous-wall reactor with prescribed boundary fluxes reproduces
+  published Lost City ranges (T, pH, H2, DIC) and qualitative precipitation trends
+  while conserving mass and charge.
+objective: Build a reduced vent–ocean reactor and validate it against Lost City field
+  ranges to establish a geochemical/spatial testbed.
+claim: 'Habitability is a bounded REGION of the operating space, not a single tuned
+  run: across the (olivine reaction rate × flow velocity) grid the real PHREEQC +
+  FiPy serpentinizing vent settles inside the Lost City window — T 40–91 °C AND pH
+  9.0–10.8 AND a positive H2 flux — over ~80% of the swept grid, and the baseline
+  operating point sits safely inside it (T 50.6 °C, pH 9.37) with sustained H2, exact
+  charge balance (|charge|=0) and FiPy flux divergence within the contract tolerance
+  (4.9e-5 vs the 1e-3 bound).'
 findings:
 - id: og00-temperature-ph-in-window
   kind: computational
   status: confirms
-  statement: Outlet settles at 50.6 °C and pH 9.37 — both inside the Lost City field window (40–91 °C, 9.0–10.8).
+  statement: Outlet settles at 50.6 °C and pH 9.37 — both inside the Lost City field
+    window (40–91 °C, 9.0–10.8).
   evidence:
     from_test: vent-temperature-in-lostcity-range
-    observed: 'T=50.6 °C, pH=9.37'
+    observed: T=50.6 °C, pH=9.37
     units: °C / pH
   expected:
-    cites: [kelley2001offaxis, ludwig2006formation]
-  explanation: Real PHREEQC peridotite serpentinization (Ca-OH endmember) + FiPy transport; pH is a genuine speciation result, not tuned.
+    cites:
+    - kelley2001offaxis
+    - ludwig2006formation
+  explanation: Real PHREEQC peridotite serpentinization (Ca-OH endmember) + FiPy transport;
+    pH is a genuine speciation result, not tuned.
 - id: og00-h2-sustained
   kind: computational
   status: confirms
-  statement: Serpentinization delivers a sustained H2 reducing-power flux (min 2.75e-4 mol/s over the back half of the run).
+  statement: Serpentinization delivers a sustained H2 reducing-power flux (min 2.75e-4
+    mol/s over the back half of the run).
   evidence:
     from_test: h2-flux-sustained
     observed: 2.75e-4 mol/s
     units: mole/second
   expected:
-    cites: [schwander2023serpentinization]
+    cites:
+    - schwander2023serpentinization
 - id: og00-conservation
   kind: computational
   status: confirms
-  statement: PHREEQC charge balance is conserved exactly (|charge|=0) and the FiPy FVM spatial-flux divergence is held to 4.9e-5 — within the 1e-3 contract tolerance (not machine epsilon).
+  statement: PHREEQC charge balance is conserved exactly (|charge|=0) and the FiPy
+    FVM spatial-flux divergence is held to 4.9e-5 — within the 1e-3 contract tolerance
+    (not machine epsilon).
   evidence:
     from_test: charge-conserved
     observed: '|charge|=0, |flux residual|=4.9e-5 (within 1e-3 tol)'
 - id: og00-peridotite-endmember
   kind: methodological
   status: novel
-  statement: The Lost City pH endmember required reacting PERIDOTITE (olivine+pyroxene), not dunite — Ca released once Mg is consumed buffers the fluid to pH ~9.5.
-  explanation: Olivine-only buffers at ~7.8 (brucite); adding diopside gives the Ca-OH endmember that reproduces field pH.
+  statement: The Lost City pH endmember required reacting PERIDOTITE (olivine+pyroxene),
+    not dunite — Ca released once Mg is consumed buffers the fluid to pH ~9.5.
+  explanation: Olivine-only buffers at ~7.8 (brucite); adding diopside gives the Ca-OH
+    endmember that reproduces field pH.
   expected:
-    cites: [kelley2005serpentinite, ludwig2006formation]
+    cites:
+    - kelley2005serpentinite
+    - ludwig2006formation
 - id: og00-buoyant-convection
   kind: computational
   status: novel
-  statement: >-
-    The vent wall convects. Solving Darcy–Boussinesq porous flow (a stream-function
+  statement: The vent wall convects. Solving Darcy–Boussinesq porous flow (a stream-function
     Poisson ∇²ψ = −buoyancy·∂T/∂x on the real FiPy mesh) gives a buoyant recirculation
     cell — the hot alkaline conduit rises, the cold ocean sinks, convective velocities
     ~5× the background upflow (Peclet ~8) — rather than a prescribed uniform upflow.
-    The recirculation mixes cold ocean inward, settling the outlet ~8 °C cooler
-    (59 → 51 °C) while staying inside the Lost City window; flux conservation is
-    preserved within the solver tolerance (flux residual ~5e-5, within the 1e-3 bound).
+    The recirculation mixes cold ocean inward, settling the outlet ~8 °C cooler (59
+    → 51 °C) while staying inside the Lost City window; flux conservation is preserved
+    within the solver tolerance (flux residual ~5e-5, within the 1e-3 bound).
   evidence:
-    observed: 'recirculation cell (cold-left sinks, hot-right rises); vmax ~5× background; outlet 50.6 °C'
+    observed: recirculation cell (cold-left sinks, hot-right rises); vmax ~5× background;
+      outlet 50.6 °C
     units: dimensionless
   expected:
-    cites: [kelley2001offaxis, ludwig2006formation]
-  explanation: >-
-    FipyReactiveTransportProcess now solves the stream function each step and advects
-    T + solute with the divergence-free Darcy velocity (u=∂ψ/∂y, v=−∂ψ/∂x + upflow);
-    ψ contours are the streamlines the cross-section viz overlays. buoyancy=0 recovers
-    the old constant upflow.
+    cites:
+    - kelley2001offaxis
+    - ludwig2006formation
+  explanation: FipyReactiveTransportProcess now solves the stream function each step
+    and advects T + solute with the divergence-free Darcy velocity (u=∂ψ/∂y, v=−∂ψ/∂x
+    + upflow); ψ contours are the streamlines the cross-section viz overlays. buoyancy=0
+    recovers the old constant upflow.
 - id: og00-habitability-window
   kind: computational
   status: novel
-  statement: >-
-    Habitability is a bounded REGION of the (olivine reaction rate × flow velocity) operating space,
-    not one tuned run — the real PHREEQC + FiPy vent settles inside the Lost City window (T 40–91 °C
-    AND pH 9.0–10.8 AND H2>0) over ~80% of the swept grid (115/144 points). The FAIL regions are a
-    cold-washout band at the fastest flow (17 cold points) and 12 points at the flow extreme that fall
-    outside PHREEQC's 0–100 °C validity (recorded NaN → FAIL); the baseline operating point sits
-    safely inside the window.
+  statement: Habitability is a bounded REGION of the (olivine reaction rate × flow
+    velocity) operating space, not one tuned run — the real PHREEQC + FiPy vent settles
+    inside the Lost City window (T 40–91 °C AND pH 9.0–10.8 AND H2>0) over ~80% of
+    the swept grid (115/144 points). The FAIL regions are a cold-washout band at the
+    fastest flow (17 cold points) and 12 points at the flow extreme that fall outside
+    PHREEQC's 0–100 °C validity (recorded NaN → FAIL); the baseline operating point
+    sits safely inside the window.
   evidence:
-    observed: '115/144 (80%) habitable over (olivine_rate 0.005–0.4 × flow_velocity 2e-4–3e-2); 17 cold-washout FAILs, 12 out-of-range NaN; baseline (★) in-window at 50.6 °C / pH 9.37'
+    observed: 115/144 (80%) habitable over (olivine_rate 0.005–0.4 × flow_velocity
+      2e-4–3e-2); 17 cold-washout FAILs, 12 out-of-range NaN; baseline (★) in-window
+      at 50.6 °C / pH 9.37
     units: dimensionless
   expected:
-    cites: [kelley2001offaxis, ludwig2006formation]
-  explanation: >-
-    The vent_habitability_phase_map sweeps the real serpentinizing reactor and reduces each point to
-    the habitability PASS flag (settled outlet in-window with a positive H2 flux); rendered as the
-    Lost City habitability map (Decision view). Enough serpentinization to drive H2 + alkalinity and
-    slow enough flow to hold 40–91 °C / pH 9.0–10.8 bounds the habitable band.
-  next_action: Sweep pyroxene_fraction (ol/px ratio) and seawater-mixing dilution to bound the pH endmember (og-00b).
-conclusion: >-
-  The real PHREEQC + FiPy vent reactor reproduces the Lost City field window across a bounded ~80%
-  habitability region of (olivine rate × flow velocity) and conserves mass/charge/flux at the baseline
-  operating point, establishing the geochemical testbed og-01 builds on.
+    cites:
+    - kelley2001offaxis
+    - ludwig2006formation
+  explanation: The vent_habitability_phase_map sweeps the real serpentinizing reactor
+    and reduces each point to the habitability PASS flag (settled outlet in-window
+    with a positive H2 flux); rendered as the Lost City habitability map (Decision
+    view). Enough serpentinization to drive H2 + alkalinity and slow enough flow to
+    hold 40–91 °C / pH 9.0–10.8 bounds the habitable band.
+  next_action: Sweep pyroxene_fraction (ol/px ratio) and seawater-mixing dilution
+    to bound the pH endmember (og-00b).
+conclusion: The real PHREEQC + FiPy vent reactor reproduces the Lost City field window
+  across a bounded ~80% habitability region of (olivine rate × flow velocity) and
+  conserves mass/charge/flux at the baseline operating point, establishing the geochemical
+  testbed og-01 builds on.
 conclusion_verdicts:
   biological_validation:
     result: PENDING
-    basis: No origin-of-life claim at this stage — this is a geochemical/spatial testbed only.
+    basis: No origin-of-life claim at this stage — this is a geochemical/spatial testbed
+      only.
   explanatory_gain:
     result: POSITIVE
-    basis: Real speciation reproduces the field T/pH window AND reveals the peridotite Ca-OH endmember requirement — a mechanistic gain over the tuned box.
+    basis: Real speciation reproduces the field T/pH window AND reveals the peridotite
+      Ca-OH endmember requirement — a mechanistic gain over the tuned box.
 limitations:
-- Heat-partition fraction calibrated to the observed vent temperature (chemistry otherwise emergent).
+- Heat-partition fraction calibrated to the observed vent temperature (chemistry otherwise
+  emergent).
 - Single well-mixed interface; full 2-D chimney geometry deferred.
 discovery_implications:
   resolved_uncertainties:
-  - The Lost City high-pH endmember is the peridotite Ca-OH buffer (not the olivine brucite buffer).
-  - Habitability is a bounded region (~80% of the olivine-rate × flow-velocity grid), not a single tuned point — the baseline sits inside it.
-  - The habitability result is solver-robust — a FiPy↔FEniCS (dolfinx) head-to-head cross-check of the same spatial-transport face agrees on the vent (outlet T within 0.30%, identical pH, flux conserved ~1e-15), so the finding does not depend on the FiPy solver.
+  - The Lost City high-pH endmember is the peridotite Ca-OH buffer (not the olivine
+    brucite buffer).
+  - Habitability is a bounded region (~80% of the olivine-rate × flow-velocity grid),
+    not a single tuned point — the baseline sits inside it.
+  - The habitability result is solver-robust — a FiPy↔FEniCS (dolfinx) head-to-head
+    cross-check of the same spatial-transport face agrees on the vent (outlet T within
+    0.30%, identical pH, flux conserved ~1e-15), so the finding does not depend on
+    the FiPy solver.
   remaining_uncertainties:
-  - Sensitivity to the olivine/pyroxene ratio and to seawater-mixing dilution of the endmember.
-  - The physical fate of the 12 flow-extreme points that exceed PHREEQC's 0–100 °C validity (currently FAIL by convention).
+  - Sensitivity to the olivine/pyroxene ratio and to seawater-mixing dilution of the
+    endmember.
+  - The physical fate of the 12 flow-extreme points that exceed PHREEQC's 0–100 °C
+    validity (currently FAIL by convention).
   followup_study_proposals:
-  - {study: og-00b, rationale: Sweep pyroxene_fraction and mixing dilution to bound the pH endmember.}
+  - study: og-00b
+    rationale: Sweep pyroxene_fraction and mixing dilution to bound the pH endmember.
 readouts:
-- {name: temperature, store_path: vent.temperature, units: kelvin, description: Outlet interface temperature, status: available}
-- {name: pH, store_path: vent.pH, units: dimensionless, description: Outlet pH, status: available}
-- {name: H2_flux, store_path: rates.H2_flux, units: mole/second, description: Serpentinization H2 source flux, status: available}
-- {name: charge_imbalance, store_path: diagnostics.charge_imbalance, units: eq/kgw, description: PHREEQC charge imbalance, status: available}
-- {name: flux_divergence_residual, store_path: diagnostics.flux_divergence_residual, units: dimensionless, description: FiPy FVM conservation residual, status: available}
+- name: temperature
+  store_path: vent.temperature
+  units: kelvin
+  description: Outlet interface temperature
+  status: available
+- name: pH
+  store_path: vent.pH
+  units: dimensionless
+  description: Outlet pH
+  status: available
+- name: H2_flux
+  store_path: rates.H2_flux
+  units: mole/second
+  description: Serpentinization H2 source flux
+  status: available
+- name: charge_imbalance
+  store_path: diagnostics.charge_imbalance
+  units: eq/kgw
+  description: PHREEQC charge imbalance
+  status: available
+- name: flux_divergence_residual
+  store_path: diagnostics.flux_divergence_residual
+  units: dimensionless
+  description: FiPy FVM conservation residual
+  status: available
 proposed_mechanisms:
 - 'A: serpentinization as boundary flux'
 - 'B: flow/mixing/precipitation, evolving porosity'
@@ -134,10 +188,24 @@ proposed_models_methods:
 - FiPy finite-volume advection–diffusion–reaction
 - prescribed vent source term
 implemented_methods:
-- 'Module A — REAL PHREEQC: genuine USGS IPhreeqc (via phreeqpython + vendored llnl.dat) reacting PERIDOTITE — olivine (forsterite+fayalite) + diopside pyroxene — with the serpentinite assemblage (chrysotile + brucite + magnetite + tremolite + diopside) each step. Dissolved H2, pH, pe, alkalinity and charge balance are emergent speciation outputs. The pyroxene-sourced Ca, once Mg is consumed into serpentine/brucite, gives the real Lost City Ca-OH-rich high-pH (~9.2-9.5) endmember — not a tuned value.'
-- 'Module B — REAL FiPy: genuine finite-volume 1-D advection–diffusion–reaction column (TransientTerm == DiffusionTerm − PowerLawConvectionTerm, scipy direct-LU solve, zero-gradient advective outflow BC) transporting the serpentinization source across the vent–ocean interface.'
-- 'Partial-equilibrium coupling: a flow/temperature kinetic driver sets the olivine reaction extent feeding the equilibrium speciation (standard reactive-transport practice). The only field-calibrated knob is the heat-partition fraction (tuned to the observed 40–91 C vent temperature); all chemistry is emergent.'
-- 'Conservation: PHREEQC conserves elements + charge by construction; FiPy''s FVM conserves flux to the linear-solver tolerance (residual ~5e-5, within the 1e-3 bound) — directly satisfying the mass_balance / charge_neutrality / spatial_flux_conservation contract invariants.'
+- 'Module A — REAL PHREEQC: genuine USGS IPhreeqc (via phreeqpython + vendored llnl.dat)
+  reacting PERIDOTITE — olivine (forsterite+fayalite) + diopside pyroxene — with the
+  serpentinite assemblage (chrysotile + brucite + magnetite + tremolite + diopside)
+  each step. Dissolved H2, pH, pe, alkalinity and charge balance are emergent speciation
+  outputs. The pyroxene-sourced Ca, once Mg is consumed into serpentine/brucite, gives
+  the real Lost City Ca-OH-rich high-pH (~9.2-9.5) endmember — not a tuned value.'
+- 'Module B — REAL FiPy: genuine finite-volume 1-D advection–diffusion–reaction column
+  (TransientTerm == DiffusionTerm − PowerLawConvectionTerm, scipy direct-LU solve,
+  zero-gradient advective outflow BC) transporting the serpentinization source across
+  the vent–ocean interface.'
+- 'Partial-equilibrium coupling: a flow/temperature kinetic driver sets the olivine
+  reaction extent feeding the equilibrium speciation (standard reactive-transport
+  practice). The only field-calibrated knob is the heat-partition fraction (tuned
+  to the observed 40–91 C vent temperature); all chemistry is emergent.'
+- 'Conservation: PHREEQC conserves elements + charge by construction; FiPy''s FVM
+  conserves flux to the linear-solver tolerance (residual ~5e-5, within the 1e-3 bound)
+  — directly satisfying the mass_balance / charge_neutrality / spatial_flux_conservation
+  contract invariants.'
 contract:
   face:
     inputs:
@@ -192,12 +260,10 @@ contract:
   - kind: invariant
     name: energy_directionality
     expr: free_energy_flux_logged == true
-  note: bigraph-schema typed ports (_type/_units/bounds) + conservation predicates; the composite built for this study must declare a ProcessContract matching this face (audited via the workbench §Contract panel).
+  note: bigraph-schema typed ports (_type/_units/bounds) + conservation predicates;
+    the composite built for this study must declare a ProcessContract matching this
+    face (audited via the workbench §Contract panel).
 behavior_tests:
-# Machine-gradeable readouts: measure.kind=derived + measure.path names a
-# workspace derived-scalar (viva_genesis/evaluators.py) computed from the run's
-# persisted parquet store; pass_if is a closed op the study_evaluator grades to
-# PASS/FAIL automatically on run completion (Tests tab goes green, no agent).
 - name: vent-temperature-in-lostcity-range
   classification: primary
   description: Settled outlet temperature sits in the Lost City envelope (40-91 C).
@@ -218,14 +284,15 @@ behavior_tests:
   gate_class: acceptance_criterion
 - name: h2-flux-sustained
   classification: primary
-  description: Real PHREEQC serpentinization delivers a sustained, non-collapsing H2 source.
+  description: Real PHREEQC serpentinization delivers a sustained, non-collapsing
+    H2 source.
   measure:
     kind: derived
     path: min_sustained_H2_flux
     detail: minimum H2 source flux over the back half of the run
   pass_if:
     op: '>'
-    value: 1.0e-9
+    value: 1.0e-09
     detail: min sustained H2 flux > 0
   units: mole/second
   requires_simulation: 'yes'
@@ -241,7 +308,7 @@ behavior_tests:
     detail: worst-case |charge imbalance| over the run (eq/kgw)
   pass_if:
     op: <=
-    value: 1.0e-6
+    value: 1.0e-06
     detail: '|charge imbalance| < 1e-6 throughout'
   units: eq/kgw
   requires_simulation: 'yes'
@@ -249,14 +316,15 @@ behavior_tests:
   band_basis: first_principles
 - name: spatial-flux-conserved
   classification: primary
-  description: FiPy finite-volume transport conserves flux (spatial_flux_conservation invariant).
+  description: FiPy finite-volume transport conserves flux (spatial_flux_conservation
+    invariant).
   measure:
     kind: derived
     path: max_flux_divergence_residual
     detail: worst-case normalized FVM flux-divergence residual over the run
   pass_if:
     op: <=
-    value: 1.0e-3
+    value: 0.001
     detail: max |flux divergence residual| < 1e-3 (direct LU solve ~ machine eps)
   units: dimensionless
   requires_simulation: 'yes'
@@ -264,12 +332,11 @@ behavior_tests:
   band_basis: first_principles
 - name: vent-pH-in-lostcity-range
   classification: primary
-  description: >-
-    Settled outlet pH sits in the Lost City envelope (9.0-10.8). Met by reacting
-    PERIDOTITE (olivine + diopside pyroxene), not dunite: once Mg is consumed into
-    serpentine/brucite, the Ca released from pyroxene gives the real Ca-OH-rich,
+  description: 'Settled outlet pH sits in the Lost City envelope (9.0-10.8). Met by
+    reacting PERIDOTITE (olivine + diopside pyroxene), not dunite: once Mg is consumed
+    into serpentine/brucite, the Ca released from pyroxene gives the real Ca-OH-rich,
     high-pH endmember (tremolite/diopside-buffered), reproducing field pH ~9.2-9.5
-    at vent temperature — a genuine PHREEQC speciation result, not a tuned value.
+    at vent temperature — a genuine PHREEQC speciation result, not a tuned value.'
   measure:
     kind: derived
     path: settled_pH
@@ -289,11 +356,10 @@ literature_anchors:
 - expectation: Lost City ~40-91 C, pH ~9-10.8, >=30 ky activity
   model_observable: outlet T,pH; run duration
   source: Kelley 2001 / Fruh-Green 2003 / Ludwig 2006
-  status_in_workspace: >-
-    Met by the real coupled model: settled T ~51 C and pH ~9.4 are both in the
-    Lost City window, H2 reducing power is sustained, and mass/charge/flux
-    conservation hold. pH was closed by reacting peridotite (olivine + pyroxene)
-    so the Ca-OH endmember buffers the fluid to field pH — a real PHREEQC result.
+  status_in_workspace: 'Met by the real coupled model: settled T ~51 C and pH ~9.4
+    are both in the Lost City window, H2 reducing power is sustained, and mass/charge/flux
+    conservation hold. pH was closed by reacting peridotite (olivine + pyroxene) so
+    the Ca-OH endmember buffers the fluid to field pH — a real PHREEQC result.'
   cites:
   - kelley2001offaxis
   - fruhgreen2003thirtythousand
@@ -303,18 +369,24 @@ baseline:
   composite: viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor
   params: {}
 key_assumptions:
-- Hadean ocean chemistry parameterized separately — never reuse modern seawater as the ancient prior.
-- 'Partial equilibrium: a prescribed olivine dissolution rate (flow/T-driven) feeds PHREEQC equilibrium speciation each step — fast aqueous/mineral equilibrium vs a rate-limited rock reaction, standard for reactive-transport.'
-- 'The heat-partition fraction (fraction of serpentinization enthalpy retained in the fluid parcel) is CALIBRATED to the observed 40-91 C vent temperature; the chemistry (H2, pH, pe, charge) is emergent from PHREEQC, not tuned.'
+- Hadean ocean chemistry parameterized separately — never reuse modern seawater as
+  the ancient prior.
+- 'Partial equilibrium: a prescribed olivine dissolution rate (flow/T-driven) feeds
+  PHREEQC equilibrium speciation each step — fast aqueous/mineral equilibrium vs a
+  rate-limited rock reaction, standard for reactive-transport.'
+- The heat-partition fraction (fraction of serpentinization enthalpy retained in the
+  fluid parcel) is CALIBRATED to the observed 40-91 C vent temperature; the chemistry
+  (H2, pH, pe, charge) is emergent from PHREEQC, not tuned.
 expert_questions:
-- Reproduce Lost City (modern analog) and parameterize Hadean ocean separately, or attempt a Hadean-only baseline first?
-- 'pH endmember (RESOLVED): reacting peridotite (olivine + diopside pyroxene) with the serpentinite+tremolite assemblage drives the Mg-depleted Ca-OH fluid to field pH ~9.2-9.5 at vent T. Open follow-up: sensitivity to pyroxene_fraction (ol/px ratio) and to seawater-mixing dilution of the endmember.'
+- Reproduce Lost City (modern analog) and parameterize Hadean ocean separately, or
+  attempt a Hadean-only baseline first?
+- 'pH endmember (RESOLVED): reacting peridotite (olivine + diopside pyroxene) with
+  the serpentinite+tremolite assemblage drives the Mg-depleted Ca-OH fluid to field
+  pH ~9.2-9.5 at vent T. Open follow-up: sensitivity to pyroxene_fraction (ol/px ratio)
+  and to seawater-mixing dilution of the endmember.'
 kind: baseline
 simulation_status: ran
 implementation_status: complete
-# Study runs persist an isolated per-run ParquetEmitter store (the generator
-# declares it) so the behavior-test evaluator resolves a RunReader and auto-grades
-# — default sqlite runs.db concatenates runs and records no store path.
 runtime:
   default_emitter: sqlite
   default_n_steps: 120
@@ -347,16 +419,10 @@ visualizations:
   address: local:VentChimney3D
   config:
     title: The vent wall in 3-D — the across-wall thermal gradient (World view)
-# Canonical runner: builds the real coupled model, writes an isolated per-run
-# sqlite store the evaluator can open, and auto-grades the behavior tests into
-# runs[].outcomes (the dashboard's shared runs.db records no resolvable store).
 canonical_runs:
 - name: vent-reactor-baseline
   script: workspace/studies/og-00-vent-reactor-baseline/sims/run.py
   description: Real PHREEQC + FiPy run → clean sqlite store → auto-graded Tests tab.
-# Canonical graded run of the real PHREEQC+FiPy model (replaces the earlier
-# reduced-reproduction runs, which shared this id). Auto-graded by the
-# behavior-test derived readouts.
 runs:
 - name: viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor__1791891560__19bbe2
   status: completed
@@ -429,19 +495,19 @@ runs:
         verdict: within_tol
         value: 50.645634
         meter: 0.5584924945054945
-        detail:
+        detail: null
         expected:
           kind: band
-          value:
+          value: null
           low: 40.0
           high: 91.0
           op: ~=
           tol: 0.05
-          statement:
+          statement: null
         margin: 10.645634000000001
         severity: hard
-        units:
-        knob:
+        units: null
+        knob: null
         citation: kelley2001offaxis; ludwig2006formation
       auto_evaluated: true
     h2-flux-sustained:
@@ -452,23 +518,24 @@ runs:
       evaluated_by: code
       axis:
         id: h2-flux-sustained
-        label: Real PHREEQC serpentinization delivers a sustained, non-collapsing H2 source.
+        label: Real PHREEQC serpentinization delivers a sustained, non-collapsing
+          H2 source.
         verdict: within_tol
         value: 0.000275
         meter: 1.0
-        detail:
+        detail: null
         expected:
           kind: value
           value: 1e-09
-          low:
-          high:
+          low: null
+          high: null
           op: '>'
           tol: 0.05
-          statement:
+          statement: null
         margin: 0.000274999
         severity: hard
-        units:
-        knob:
+        units: null
+        knob: null
         citation: schwander2023serpentinization
       auto_evaluated: true
     charge-conserved:
@@ -483,20 +550,20 @@ runs:
         verdict: within_tol
         value: 0.0
         meter: 1.0
-        detail:
+        detail: null
         expected:
           kind: value
           value: 1e-06
-          low:
-          high:
+          low: null
+          high: null
           op: <=
           tol: 0.05
-          statement:
+          statement: null
         margin: 1e-06
         severity: hard
-        units:
-        knob:
-        citation:
+        units: null
+        knob: null
+        citation: null
       auto_evaluated: true
     spatial-flux-conserved:
       result: PASS
@@ -506,24 +573,25 @@ runs:
       evaluated_by: code
       axis:
         id: spatial-flux-conserved
-        label: FiPy finite-volume transport conserves flux (spatial_flux_conservation invariant).
+        label: FiPy finite-volume transport conserves flux (spatial_flux_conservation
+          invariant).
         verdict: within_tol
         value: 4.9e-05
         meter: 0.9755
-        detail:
+        detail: null
         expected:
           kind: value
           value: 0.001
-          low:
-          high:
+          low: null
+          high: null
           op: <=
           tol: 0.05
-          statement:
+          statement: null
         margin: 0.000951
         severity: hard
-        units:
-        knob:
-        citation:
+        units: null
+        knob: null
+        citation: null
       auto_evaluated: true
     vent-pH-in-lostcity-range:
       result: PASS
@@ -533,23 +601,28 @@ runs:
       evaluated_by: code
       axis:
         id: vent-pH-in-lostcity-range
-        label: 'Settled outlet pH sits in the Lost City envelope (9.0-10.8). Met by reacting PERIDOTITE (olivine + diopside pyroxene), not dunite: once Mg is consumed into serpentine/brucite, the Ca released from pyroxene gives the real Ca-OH-rich, high-pH endmember (tremolite/diopside-buffered), reproducing field pH ~9.2-9.5 at vent temperature — a genuine PHREEQC speciation result, not a tuned value.'
+        label: 'Settled outlet pH sits in the Lost City envelope (9.0-10.8). Met by
+          reacting PERIDOTITE (olivine + diopside pyroxene), not dunite: once Mg is
+          consumed into serpentine/brucite, the Ca released from pyroxene gives the
+          real Ca-OH-rich, high-pH endmember (tremolite/diopside-buffered), reproducing
+          field pH ~9.2-9.5 at vent temperature — a genuine PHREEQC speciation result,
+          not a tuned value.'
         verdict: within_tol
         value: 9.374645
         meter: 0.5173446759259259
-        detail:
+        detail: null
         expected:
           kind: band
-          value:
+          value: null
           low: 9.0
           high: 10.8
           op: ~=
           tol: 0.05
-          statement:
+          statement: null
         margin: 0.37464499999999923
         severity: hard
-        units:
-        knob:
+        units: null
+        knob: null
         citation: kelley2001offaxis; ludwig2006formation
       auto_evaluated: true
 simulation_set:
@@ -593,14 +666,18 @@ variants:
 units_and_time:
   tick: 1 s per step (forward-Euler / CSTR step)
   concentration_unit: molar
-  note: Steps are abstract reaction/transport ticks, not wall-clock; concentrations in mol/L, temperature in K.
+  note: Steps are abstract reaction/transport ticks, not wall-clock; concentrations
+    in mol/L, temperature in K.
 study_card:
-  headline: >-
-    Habitability is a bounded region: 115/144 (~80%) of the (olivine_rate × flow_velocity) grid settles
-    in the Lost City window. At the baseline operating point all five acceptance criteria pass — outlet
-    T 50.6 °C and pH 9.37 (both in-window), sustained H2 flux 2.75e-4 mol/s; charge balance exact
-    (|charge|=0) and spatial-flux divergence 4.9e-5 (within the 1e-3 contract tolerance).
+  headline: 'Habitability is a bounded region: 115/144 (~80%) of the (olivine_rate
+    × flow_velocity) grid settles in the Lost City window. At the baseline operating
+    point all five acceptance criteria pass — outlet T 50.6 °C and pH 9.37 (both in-window),
+    sustained H2 flux 2.75e-4 mol/s; charge balance exact (|charge|=0) and spatial-flux
+    divergence 4.9e-5 (within the 1e-3 contract tolerance).'
   status: PASS — a bounded Lost City habitability region reproduced with real geochemistry
 preregistered:
   registered_at: '2026-10-11T12:00:00Z'
-  note: Acceptance criteria + behavior-test pass_if bands were declared at design time, before the canonical run.
+  note: Acceptance criteria + behavior-test pass_if bands were declared at design
+    time, before the canonical run.
+verdict: supported
+evidence_tier: mechanistic_prediction

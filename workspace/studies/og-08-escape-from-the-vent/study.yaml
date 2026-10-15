@@ -10,9 +10,13 @@ evaluation_status: evaluated
 confidence: Accepted
 gate_status: passed
 title: Escape From the Vent
-question: What is the minimum set of innovations required for autonomous persistence away from the geological reactor, as environmental support is relaxed?
-hypothesis: A bounded innovation set (internal energy conversion + resource import + heredity) allows persistence as gradient strength/mineral access/feed are reduced; below it, systems stay obligately vent-tied.
-objective: Relax environmental support via ablation sweeps and identify the minimum innovation set for autonomy.
+question: What is the minimum set of innovations required for autonomous persistence
+  away from the geological reactor, as environmental support is relaxed?
+hypothesis: A bounded innovation set (internal energy conversion + resource import
+  + heredity) allows persistence as gradient strength/mineral access/feed are reduced;
+  below it, systems stay obligately vent-tied.
+objective: Relax environmental support via ablation sweeps and identify the minimum
+  innovation set for autonomy.
 proposed_mechanisms:
 - all modules integrated
 - autonomy readout
@@ -57,106 +61,200 @@ contract:
   - kind: invariant
     name: reproducibility
     expr: solver and db and seed and scenario recorded
-  note: bigraph-schema typed ports (_type/_units/bounds) + conservation predicates; the off-gradient lineage is deterministic (no RNG) so the budget is reproducible. The composite built for this study declares a ProcessContract matching this face (audited via the workbench §Contract panel).
+  note: bigraph-schema typed ports (_type/_units/bounds) + conservation predicates;
+    the off-gradient lineage is deterministic (no RNG) so the budget is reproducible.
+    The composite built for this study declares a ProcessContract matching this face
+    (audited via the workbench §Contract panel).
 behavior_tests:
 - name: survival-off-gradient
   classification: primary
-  description: At least one lineage persists as the external geological support (gradient, mineral access, feed) is withdrawn toward zero — the full innovation set stays above the survival floor off-gradient.
-  measure: {kind: derived, path: offgradient_survival, detail: surviving fraction at the end of the run, as support -> 0: null}
-  pass_if: {op: '>=', value: 0.5, detail: a lineage persists off-gradient (surviving fraction >= 0.5)}
+  description: At least one lineage persists as the external geological support (gradient,
+    mineral access, feed) is withdrawn toward zero — the full innovation set stays
+    above the survival floor off-gradient.
+  measure:
+    kind: derived
+    path: offgradient_survival
+    detail: surviving fraction at the end of the run
+    as support -> 0: null
+  pass_if:
+    op: '>='
+    value: 0.5
+    detail: a lineage persists off-gradient (surviving fraction >= 0.5)
   units: dimensionless
   requires_simulation: 'yes'
-  cites: [sojo2014bioenergetic, lane2012origin]
+  cites:
+  - sojo2014bioenergetic
+  - lane2012origin
   gate_class: acceptance_criterion
   band_basis: first_principles
 - name: minimum-innovation-set
   classification: primary
-  description: 'A knockout sweep identifies the minimum robust innovation set: the full set persists off-gradient while removing any single innovation (internal pump, resource importer, or heredity) collapses persistence — so the set is irreducible, {pump, importer, heredity}.'
-  measure: {kind: cross_run, detail: full set vs each single knockout, surviving fraction off-gradient: null}
-  pass_if: {op: arms_reported, detail: full set persists off-gradient and every single knockout collapses (each innovation is necessary)}
+  description: 'A knockout sweep identifies the minimum robust innovation set: the
+    full set persists off-gradient while removing any single innovation (internal
+    pump, resource importer, or heredity) collapses persistence — so the set is irreducible,
+    {pump, importer, heredity}.'
+  measure:
+    kind: cross_run
+    detail: full set vs each single knockout
+    surviving fraction off-gradient: null
+  pass_if:
+    op: arms_reported
+    detail: full set persists off-gradient and every single knockout collapses (each
+      innovation is necessary)
   units: dimensionless
   requires_simulation: 'yes'
-  cites: [martin2007origin]
+  cites:
+  - martin2007origin
   gate_class: acceptance_criterion
 literature_anchors:
-- expectation: Alkaline-vent origin — the first cells are vent-tied, dependent on the geochemical proton gradient and FeS mineral catalysis; escaping to free-living requires internalising energy generation.
+- expectation: Alkaline-vent origin — the first cells are vent-tied, dependent on
+    the geochemical proton gradient and FeS mineral catalysis; escaping to free-living
+    requires internalising energy generation.
   model_observable: off-gradient persistence vs innovation set
   source: Martin & Russell 2007; Lane & Martin 2012; Sojo et al. 2014
-  status_in_workspace: Reproduced as a coarse-grained co-limited budget — the full innovation set persists off-gradient; each single knockout collapses.
-  cites: [martin2007origin, lane2012origin, sojo2014bioenergetic]
+  status_in_workspace: Reproduced as a coarse-grained co-limited budget — the full
+    innovation set persists off-gradient; each single knockout collapses.
+  cites:
+  - martin2007origin
+  - lane2012origin
+  - sojo2014bioenergetic
 baseline:
 - name: Escape from the vent
   composite: viva_genesis.composites.off_gradient_persistence.off_gradient_persistence
   params: {}
   canonical: true
-claim: Autonomy away from the geological reactor requires an irreducible innovation set — internal energy conversion (a pump), active resource import, and heredity to hold them. Because the lineage's budget is co-limited (it needs BOTH usable free energy AND usable resources, Liebig's minimum), a single innovation is a cost without a co-benefit; only the full set keeps the net budget above the survival floor as the external gradient, mineral access and feed are all withdrawn. A knockout sweep shows the full set persists off-gradient (surviving fraction 1.0) while removing any one innovation collapses persistence to 0 — so the minimum robust set for escaping the vent is {pump, importer, heredity}.
+claim: Autonomy away from the geological reactor requires an irreducible innovation
+  set — internal energy conversion (a pump), active resource import, and heredity
+  to hold them. Because the lineage's budget is co-limited (it needs BOTH usable free
+  energy AND usable resources, Liebig's minimum), a single innovation is a cost without
+  a co-benefit; only the full set keeps the net budget above the survival floor as
+  the external gradient, mineral access and feed are all withdrawn. A knockout sweep
+  shows the full set persists off-gradient (surviving fraction 1.0) while removing
+  any one innovation collapses persistence to 0 — so the minimum robust set for escaping
+  the vent is {pump, importer, heredity}.
 findings:
 - id: og08-minimum-innovation-set
   kind: computational
   status: confirms
-  statement: Under withdrawing geological support (external gradient, mineral access and feed all relaxed to zero), the full innovation set persists off-gradient (surviving fraction 1.0, net budget +0.36) while removing any single innovation collapses persistence to 0 — so the minimum robust set for autonomy is irreducible, {internal pump, resource importer, heredity}.
+  statement: Under withdrawing geological support (external gradient, mineral access
+    and feed all relaxed to zero), the full innovation set persists off-gradient (surviving
+    fraction 1.0, net budget +0.36) while removing any single innovation collapses
+    persistence to 0 — so the minimum robust set for autonomy is irreducible, {internal
+    pump, resource importer, heredity}.
   evidence:
     from_test: minimum-innovation-set
-    observed: 'full set survivors 1.0; -pump 0.0, -importer 0.0, -heredity 0.0'
+    observed: full set survivors 1.0; -pump 0.0, -importer 0.0, -heredity 0.0
     units: dimensionless
   expected:
-    cites: [martin2007origin, lane2012origin, sojo2014bioenergetic]
-  explanation: Deterministic co-limited (Liebig-minimum) free-energy + resource budget; as support -> 0 the external tap and ambient substrate both vanish, so persistence needs an internal pump (energy) AND an importer (resource) at once, held by heredity (information maintenance).
+    cites:
+    - martin2007origin
+    - lane2012origin
+    - sojo2014bioenergetic
+  explanation: Deterministic co-limited (Liebig-minimum) free-energy + resource budget;
+    as support -> 0 the external tap and ambient substrate both vanish, so persistence
+    needs an internal pump (energy) AND an importer (resource) at once, held by heredity
+    (information maintenance).
 - id: og08-co-limitation-makes-set-irreducible
   kind: computational
   status: novel
-  statement: The innovation set is irreducible precisely because the budget is co-limited — gross = min(energy, resource). A lone pump raises energy but the resource term still limits growth (and vice versa), so a half-equipped lineage pays an innovation's upkeep without a co-benefit; the survival frontier shows single knockouts needing MORE environmental support than even the bare control over part of the range.
+  statement: The innovation set is irreducible precisely because the budget is co-limited
+    — gross = min(energy, resource). A lone pump raises energy but the resource term
+    still limits growth (and vice versa), so a half-equipped lineage pays an innovation's
+    upkeep without a co-benefit; the survival frontier shows single knockouts needing
+    MORE environmental support than even the bare control over part of the range.
   evidence:
     from_test: minimum-innovation-set
-    observed: 'frontier: full persists to support 0; -pump 0.33, -heredity 0.44, none 0.48, -importer 0.59'
+    observed: 'frontier: full persists to support 0; -pump 0.33, -heredity 0.44, none
+      0.48, -importer 0.59'
     units: dimensionless
   expected:
-    cites: [sojo2014bioenergetic, martin2007origin]
-  explanation: Liebig's law of the minimum — co-limitation means energy and resource cannot substitute for one another, so autonomy requires acquiring both independently of the vent (pump + importer) and holding that machinery (heredity).
+    cites:
+    - sojo2014bioenergetic
+    - martin2007origin
+  explanation: Liebig's law of the minimum — co-limitation means energy and resource
+    cannot substitute for one another, so autonomy requires acquiring both independently
+    of the vent (pump + importer) and holding that machinery (heredity).
 - id: og08-heredity-holds-the-innovations
   kind: computational
   status: novel
-  statement: Heredity is necessary not as an energy or resource term but as information maintenance — without it the adaptive machinery degrades over the run (machinery integrity 1.0 -> 0.007, an error-catastrophe decay), so the pump and importer cannot be held and the lineage collapses even though it carries them.
+  statement: Heredity is necessary not as an energy or resource term but as information
+    maintenance — without it the adaptive machinery degrades over the run (machinery
+    integrity 1.0 -> 0.007, an error-catastrophe decay), so the pump and importer
+    cannot be held and the lineage collapses even though it carries them.
   evidence:
     from_test: minimum-innovation-set
     observed: '-heredity: machinery integrity 0.007 at run end, survivors 0.0'
     units: dimensionless
   expected:
-    cites: [lane2012origin]
-  explanation: The heredity flag gates the per-step machinery decay; without it the innovation terms (pump, importer) scale toward zero as machinery is lost, so the budget falls below the survival floor.
+    cites:
+    - lane2012origin
+  explanation: The heredity flag gates the per-step machinery decay; without it the
+    innovation terms (pump, importer) scale toward zero as machinery is lost, so the
+    budget falls below the survival floor.
 conclusion_verdicts:
   biological_validation:
     result: PASS
-    basis: Reproduces the alkaline-vent origin expectation — the first cells are vent-tied and escaping to free-living requires internalising energy generation (a pump), acquiring resources (an importer) and maintaining the machinery (heredity); each is shown necessary by knockout.
+    basis: Reproduces the alkaline-vent origin expectation — the first cells are vent-tied
+      and escaping to free-living requires internalising energy generation (a pump),
+      acquiring resources (an importer) and maintaining the machinery (heredity);
+      each is shown necessary by knockout.
   explanatory_gain:
     result: POSITIVE
-    basis: Explains WHY autonomy requires a set rather than a single step — co-limitation (Liebig's minimum) makes energy and resource acquisition non-substitutable, so the minimum innovation set is irreducible.
+    basis: Explains WHY autonomy requires a set rather than a single step — co-limitation
+      (Liebig's minimum) makes energy and resource acquisition non-substitutable,
+      so the minimum innovation set is irreducible.
 limitations:
-- The budget couplings and the machinery-decay rate are reduced coarse-grained parameters; the model is a deterministic budget, not a wrapped genome-scale / ALife engine.
-- Autonomy is modelled as persistence under equal relaxation of all three support channels; differentiated relaxation (e.g. mineral access withdrawn first) is a follow-up.
+- The budget couplings and the machinery-decay rate are reduced coarse-grained parameters;
+  the model is a deterministic budget, not a wrapped genome-scale / ALife engine.
+- Autonomy is modelled as persistence under equal relaxation of all three support
+  channels; differentiated relaxation (e.g. mineral access withdrawn first) is a follow-up.
 discovery_implications:
   resolved_uncertainties:
-  - Autonomy away from the vent requires an irreducible innovation set {pump, importer, heredity}, not a single innovation — each is necessary under withdrawing support.
+  - Autonomy away from the vent requires an irreducible innovation set {pump, importer,
+    heredity}, not a single innovation — each is necessary under withdrawing support.
   - Co-limitation (energy AND resources) is the structural reason the set is irreducible.
   remaining_uncertainties:
-  - Whether a staged acquisition order (which innovation is acquired first) matters when support channels are withdrawn at different rates.
+  - Whether a staged acquisition order (which innovation is acquired first) matters
+    when support channels are withdrawn at different rates.
   followup_study_proposals:
-  - {study: og-08b, rationale: Withdraw the gradient, mineral access and feed on different schedules; test whether the acquisition ORDER of the innovation set is constrained.: null}
+  - study: og-08b
+    rationale: Withdraw the gradient
+    mineral access and feed on different schedules; test whether the acquisition ORDER of the innovation set is constrained.: null
 readouts:
-- {name: survivors, store_path: pop.survivors, units: dimensionless, description: Surviving population fraction as support is withdrawn, status: available}
-- {name: lineage_fitness, store_path: pop.lineage_fitness, units: dimensionless, description: Net co-limited budget (min(energy, resource) - maintenance): null, status: available}
-- {name: machinery_integrity, store_path: pop.machinery_integrity, units: dimensionless, description: Integrity of the adaptive machinery, gated by heredity: null, status: available}
-- {name: free_energy_flux, store_path: pop.free_energy_flux, units: watt, description: Net budget as power, status: available}
+- name: survivors
+  store_path: pop.survivors
+  units: dimensionless
+  description: Surviving population fraction as support is withdrawn
+  status: available
+- name: lineage_fitness
+  store_path: pop.lineage_fitness
+  units: dimensionless
+  description: Net co-limited budget (min(energy
+  resource) - maintenance): null
+  status: available
+- name: machinery_integrity
+  store_path: pop.machinery_integrity
+  units: dimensionless
+  description: Integrity of the adaptive machinery
+  gated by heredity: null
+  status: available
+- name: free_energy_flux
+  store_path: pop.free_energy_flux
+  units: watt
+  description: Net budget as power
+  status: available
 parent_studies:
 - study: og-07-ecology-before-luca
   condition: tests-passed
 key_assumptions:
-- Autonomy is reduced dependence on the exact vent interface, measured by ablation — not a binary.
+- Autonomy is reduced dependence on the exact vent interface, measured by ablation
+  — not a binary.
 parent_relations:
 - study: og-07-ecology-before-luca
   relation: leads-to
 expert_questions:
-- Define 'autonomy' as survival off-gradient, or as a quantitative reduced-dependence threshold?
+- Define 'autonomy' as survival off-gradient, or as a quantitative reduced-dependence
+  threshold?
 visualizations:
 - name: escape-three-view
   address: local:EscapeOffGradientThreeView
@@ -176,7 +274,9 @@ runtime:
 canonical_runs:
 - name: Escape from the vent (full innovation set)
   script: workspace/studies/og-08-escape-from-the-vent/sims/run.py
-  description: Runs the full innovation set under withdrawing geological support (canonical, auto-graded), then the three single-knockout controls to grade the minimum-innovation-set cross-run test.
+  description: Runs the full innovation set under withdrawing geological support (canonical,
+    auto-graded), then the three single-knockout controls to grade the minimum-innovation-set
+    cross-run test.
 pipeline_gate:
   gate_evaluator:
     result: passed
@@ -205,23 +305,25 @@ runs:
       evaluated_by: code
       axis:
         id: survival-off-gradient
-        label: At least one lineage persists as the external geological support (gradient, mineral access, feed) is withdrawn toward zero — the full innovation set stays above the survival floor off-gradient.
+        label: At least one lineage persists as the external geological support (gradient,
+          mineral access, feed) is withdrawn toward zero — the full innovation set
+          stays above the survival floor off-gradient.
         verdict: within_tol
         value: 1.0
         meter: 1.0
-        detail:
+        detail: null
         expected:
           kind: value
           value: 0.5
-          low:
-          high:
+          low: null
+          high: null
           op: '>='
           tol: 0.05
-          statement:
+          statement: null
         margin: 0.5
         severity: hard
-        units:
-        knob:
+        units: null
+        knob: null
         citation: sojo2014bioenergetic; lane2012origin
       auto_evaluated: true
     minimum-innovation-set:
@@ -229,12 +331,16 @@ runs:
       measured_value: 0.0
       evaluated_by: code
       operator: cross_run
-      detail: full set survivors=1.00 off-gradient; knockouts -pump=0.00 -importer=0.00 -heredity=0.00 (each necessary => minimum robust set = {heredity, importer, pump})
-conclusion: >-
-  A deterministic co-limited free-energy + resource budget shows that persistence away from the
-  geological reactor requires three innovations at once — a pump to make free energy without the external
-  gradient, an importer to acquire resources without ambient abundance, and heredity to hold that
-  machinery against decay. The full set persists to support 0 (autonomous); each single knockout is lifted
-  off the gradient and collapses. Co-limitation is what makes the set irreducible — a half-equipped
-  lineage pays upkeep without a co-benefit. Closes the campaign's arc from vent chemistry (og-00) to a
-  free-living lineage.
+      detail: full set survivors=1.00 off-gradient; knockouts -pump=0.00 -importer=0.00
+        -heredity=0.00 (each necessary => minimum robust set = {heredity, importer,
+        pump})
+conclusion: A deterministic co-limited free-energy + resource budget shows that persistence
+  away from the geological reactor requires three innovations at once — a pump to
+  make free energy without the external gradient, an importer to acquire resources
+  without ambient abundance, and heredity to hold that machinery against decay. The
+  full set persists to support 0 (autonomous); each single knockout is lifted off
+  the gradient and collapses. Co-limitation is what makes the set irreducible — a
+  half-equipped lineage pays upkeep without a co-benefit. Closes the campaign's arc
+  from vent chemistry (og-00) to a free-living lineage.
+verdict: supported
+evidence_tier: mechanistic_prediction
