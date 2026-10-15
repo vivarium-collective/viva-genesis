@@ -35,23 +35,6 @@ objective: >-
   turnover and maintenance), the FreeEnergyLedgerProcess (free_energy_in >= work + dissipated with the store,
   exact every tick) and the protocell_energetics composite; sweep passive -> active coupling across the classes,
   the membrane leak and the gradient state, and find where internalization pays.
-result: >-
-  990 runs (5 classes x 11 activities x 9 permeabilities x 2 gradient states, 300 ticks of 10 s), free-energy
-  ledger closed on every one (worst residual 1.3e-14, margin >= 0, dissipation >= 0, capture efficiency <= 0.30).
-  At the nominal membrane (P_H 1e-6 m/s) and the Phase-1 gradient (0.216 V) the passive baseline nets 1.95e-17
-  W. The thioester / acyl-phosphate store PAYS from activity 0.10 (store potential 29.6 -> 34.3 kJ/mol against
-  the 30 kJ/mol load; autonomy 0.03 at the threshold, 0.26 at full activity; best advantage +2.1e-18 W at
-  activity 0.8, 54 % of the grid) and keeps paying up to P_H 3.2e-6 m/s (above that the carrier permeation
-  drains it). The Fe-redox store pays only from activity 0.80 (potential pinned at 29.3-29.9 kJ/mol, just at the
-  load; autonomy 0.17; +1.8e-19 W; 18 % of the grid, ceiling P_H 1e-6). The H+/Na+ gradient store never pays at
-  the nominal membrane (potential 6.5 kJ/mol at full activity — the Na+ leak at 1e-3 x P_H drains it) and pays
-  only at P_H 1e-8 m/s, from activity 0.5, where its autonomy reaches 0.97 (4 % of the grid). Polyphosphate
-  never pays anywhere (potential 22 kJ/mol at q = 0.69; it would need q > 0.98). With the gradient collapsed to
-  0.02 V the passive baseline falls to 1.7e-18 W while the thioester (3.7e-18 W, autonomy 0.79) and Fe-redox
-  (1.9e-18 W, autonomy 0.74) individuals keep a positive budget. Cross-class agreement on 'pays' is 0.46 (the
-  threshold is structure-sensitive by construction); the most discriminating readouts are the store potential
-  (d = 1.9) and the internal power (d = 1.0). Canonical run (thioester, activity 0.5): net 2.15e-17 W, autonomy
-  0.185, potential 32.5 kJ/mol, ledger exact.
 claim: >-
   Owning an energy store pays only where the store can be charged above the load's free energy faster than it
   leaks, and WHICH chemistry can do that at a given membrane is the structural answer: a thioester-class
@@ -163,34 +146,6 @@ findings:
   explanation: The store's free energy is an exact function of its charge (ideal mixing relative to the resting charge; capacitor for the ion gradient), so every tick's flows are differences of that function and the ledger closes by construction — the inequality is then a real check on the sign of each flow.
   expected:
     cites: [buckel2013energy]
-report:
-  title: 'Phase 6 — the internalization threshold, per energy-coupling class'
-  verdict: PASS — internalization pays for the thioester class from activity 0.10 and for Fe-redox from 0.80 at the nominal membrane; the H+/Na+ gradient store pays only in a 100x tighter membrane and polyphosphate never; ledger exact on 990 runs
-  confidence: medium
-  main_insight: >-
-    Inside one individual the internalization threshold is thermodynamic: a store pays only once its potential
-    clears the load faster than it leaks, so the answer is the leak law times the bond energy — the thioester
-    carrier (hydrolysis-limited, 35 kJ/mol) internalizes early, the ion gradient (membrane-limited) only in a
-    tight membrane, polyphosphate (20 kJ/mol) never against a 30 kJ/mol step — and the model class, not the
-    activity, is what decides.
-  conclusion: >-
-    Phase 6 exits with the five-class face, the package, the free-energy ledger and the discriminating result:
-    the energy-capture efficiency (0.26-0.28 at the thresholds) and the per-class threshold are now per-individual
-    quantities og-05 and og-08 can read, and the cross-class agreement of 0.46 says the campaign may not call
-    any one coupling chemistry necessary — which chemistry internalizes first is the experiment to run.
-  caveat: >-
-    Coarse-grained deterministic per-individual kinetics with a thermodynamic store (ideal mixing / capacitor
-    potentials) — every per-cell number (turnover, maintenance, pool, load) is hypothetical with a logged prior
-    that was NOT propagated here (nominal point + the activity x permeability x gradient grid only); the
-    Fe(II)-disproportionation drive is a placeholder window pending the expert's acceptance of the reference;
-    the passive tap's work is not gated by the load while the internal store's is (stated asymmetry).
-  key_metrics:
-  - {label: Thioester threshold activity (autonomy at a*), value: '0.10 (0.03)', status: pass}
-  - {label: Fe-redox threshold activity (autonomy at a*), value: '0.80 (0.17)', status: pass}
-  - {label: H+/Na+ gradient threshold at nominal / at P_H 1e-8, value: 'none / 0.5', status: info}
-  - {label: Polyphosphate pays fraction, value: '0.00', status: info}
-  - {label: Cross-class agreement on pays, value: '0.46', status: info}
-  - {label: Ledger residual max / margin min / dissipation min, value: '1.3e-14 / >= 0 / 0', status: pass}
 conclusion: >-
   Internalization pays for the thioester store from activity 0.10 and for the Fe-redox store from 0.80 at the
   nominal membrane; the pumped H+/Na+ gradient pays only below P_H 1e-8 m/s and polyphosphate never against a

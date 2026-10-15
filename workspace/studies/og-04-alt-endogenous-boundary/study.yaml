@@ -80,7 +80,6 @@ baseline:
   params: {model_boundary: mixed, k_synth: 5.0e-2, acetate0: 5.0e-2, formate0: 5.0e-2, pH: 9.0, ionic_strength: 0.35}
   canonical: true
 claim: A protocell boundary forms from the campaign's own reduced-carbon chemistry (endogenous amphiphile), producing an individual by a matter-conserving _add structural rewrite; ablating synthesis removes the individual.
-result: In the favorable arm the endogenous amphiphile clears cac and agents form (0 -> >=1) with rewrite_ok; in the synthesis-ablated control no amphiphile accumulates and no individual forms.
 findings:
 - id: endogenous-boundary-forms
   kind: computational
@@ -88,8 +87,6 @@ findings:
   statement: The boundary forms from acetate+formate-derived amphiphile; with synthesis ablated it does not — boundary formation is caused by the endogenous chemistry.
   from_test: boundary-forms-from-chemistry
   cites: [jordan2019promotion]
-report:
-  verdict: supported
 conclusion_verdicts:
   boundary-forms-from-chemistry: supported
 limitations:

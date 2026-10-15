@@ -123,7 +123,6 @@ baseline:
   composite: viva_genesis.composites.heredity_module_comparison.heredity_module_comparison
   params: {module: rna-like, temperature: 353.15}
 claim: An inherited chemical state improves lineage fitness above its replication cost when it clears the Eigen error threshold — but heredity need NOT presume a long high-fidelity RNA template. An agent-based lineage shows template heredity suffers the length catastrophe (Q=fidelity^length collapses with length) while compositional (GARD) and template-focused hybrid heredity persist length-independently (functional persistence ~0.88, seed-robust across the 5 graded seeds — 0.878±0.005, and 8/8 in a wider sweep) above the non-heritable control, which loses the parent↔offspring correlation and collapses. (A mean-field quasispecies arm still ranks a long high-fidelity template above a cheaper peptide module above non-inheritance when all clear the threshold.)
-result: RNA-like fitness 0.38 (retention 0.62) > peptide 0.24 > non-heritable ~0; the low-fidelity module collapses (retention 0, fitness −0.10).
 findings:
 - id: og06-inheritance-pays
   kind: computational
@@ -157,27 +156,6 @@ findings:
   expected:
     cites: [eigen1971selforganization, segre2000compositional, sutherland2017opinion]
   explanation: Coarse-grained agent-based reproduction with explicit fidelity/cost/competition. Template inheritance ratchets (Eigen 1971, no back-mutation) so a long low-fidelity template loses information; compositional inheritance drifts by multinomial fission of an autocatalytic composition (GARD, Segré 2000) — length-independent, so it escapes the length catastrophe. The realized heritability (offspring↔parent φ slope) separates true inheritance from the non-heritable control.
-report:
-  title: Chemistry to heredity
-  verdict: PASS — inheritance pays above the Eigen error threshold, and heredity need not presume RNA — compositional/hybrid heredity persists length-independently
-  confidence: high
-  main_insight: Heredity need not presume a long high-fidelity RNA template. An agent-based lineage reproduces the Eigen error threshold (imposed Q=fidelity^length) at the individual level — a long low-fidelity template suffers the length catastrophe — while compositional (GARD) and template-focused hybrid heredity persist length-independently (functional persistence ~0.88, seed-robust) above the non-heritable control. A mean-field quasispecies arm separately ranks a long high-fidelity (RNA-like) template above a cheaper peptide module above non-inheritance once all clear the threshold.
-  conclusion: >-
-    Two real engines agree. A libRoadRunner quasispecies ODE shows inheritance is
-    favored above the Eigen error threshold and ranks modules head-to-head; an
-    agent-based lineage (individuals dividing into a phenotype tree) reproduces that
-    threshold AND shows that compositional/hybrid heredity escapes the length
-    catastrophe — so the heredity transition does not require a long high-fidelity RNA
-    template. Opens the genetic era of the campaign (og-07 ecology, og-08 escape).
-  caveat: The functional "benefit" and replication "cost" are reduced couplings; both engines are real — the quasispecies is the Eigen ODE (libRoadRunner) and the lineage is an explicit agent-based reproduction with per-module fidelity/cost/competition.
-  key_metrics:
-  - {label: RNA-like fitness, value: 0.38, status: pass}
-  - {label: RNA-like retention, value: 0.62, status: pass}
-  - {label: Peptide fitness, value: 0.24, status: pass}
-  - {label: Low-fidelity (catastrophe), value: 0 / −0.10, status: pass}
-  - {label: Compositional persistence (seed-robust), value: 0.88, status: pass}
-  - {label: Compositional heritability, value: 0.92, status: pass}
-  - {label: Non-heritable control heritability, value: ~0.05 (graded), status: pass}
 conclusion_verdicts:
   biological_validation:
     result: PASS
@@ -339,3 +317,10 @@ pipeline_gate:
     blocked_by: []
     evaluated_by: code
     diverges_from_authored: false
+conclusion: >-
+  Two real engines agree. A libRoadRunner quasispecies ODE shows inheritance is
+  favored above the Eigen error threshold and ranks modules head-to-head; an
+  agent-based lineage (individuals dividing into a phenotype tree) reproduces that
+  threshold AND shows that compositional/hybrid heredity escapes the length
+  catastrophe — so the heredity transition does not require a long high-fidelity RNA
+  template. Opens the genetic era of the campaign (og-07 ecology, og-08 escape).

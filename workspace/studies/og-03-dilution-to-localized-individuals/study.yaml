@@ -63,11 +63,6 @@ claim: >-
   (reduced-model estimate ~1e6–1e7-fold at accumulation Péclet ≈ 18) is a solver-sensitive
   extrapolation above Pe ≈ 13, not a precise resolved result — the defensible claim is that
   localization occurs, not the exact fold-magnitude (Baaske 2007).
-result: >-
-  The native pore-localization Decision map (porosity 0.05–0.95 × pore length 5e-4–8e-3 m) localizes at
-  25/144 points (~17%), enrichment rising with pore length; the favourable trap clears the
-  localization frontier at accumulation Péclet 18.4 (reduced-model fold-estimate ~1e6–1e7, magnitude
-  solver-sensitive above Pe ≈ 13), while open-pore / 10×-shorter-pore controls collapse to ~1-6×.
 confidence_level: high
 findings:
 - id: og03-baaske-enrichment
@@ -99,24 +94,6 @@ findings:
   expected:
     cites: [baaske2007extreme]
   explanation: Enrichment rises with pore length and vanishes with confinement/openness — the dilution/localization boundary the campaign sought, read from the real FiPy accumulation solve and rendered as the pore-localization map (Decision view). The frontier LOCATION is robust; the fold-values deep in the high-Péclet interior are a reduced-model extrapolation.
-report:
-  title: Dilution to localized individuals
-  verdict: PASS — localization is real and bounded; controls map the washout boundary (enrichment magnitude solver-sensitive)
-  confidence: high
-  main_insight: Localization is a bounded region of pore geometry — the native (porosity × pore length) phase map localizes at ~17% of the grid (Péclet ≈ 18), enrichment rising with pore length, and collapses to no-concentration when the pore is open or short. A persistent local "individual" emerges at a geometric threshold the map draws explicitly; the EXTREME fold-magnitude (reduced-model ~1e6–1e7) in the deep interior is solver-sensitive above Pe ≈ 13 and is not asserted as a precise result.
-  conclusion: >-
-    The real FiPy thermal trap localizes a dilute feed into a bounded region of pore geometry and, in
-    its own native (porosity × pore length) Decision map, draws the geometry threshold separating
-    concentrated individuals from washed-out bulk. Feeds og-04 (mineral compartments) a concentrated
-    starting pocket. Localization holds; the precise enrichment magnitude is caveated as a
-    reduced-model extrapolation.
-  caveat: Enrichment is the accumulation-column result exp(Pe_acc) with a single geometry calibration to the Baaske magnitude; the FiPy solve provides the profile + conservation witness, but a FiPy↔FEniCS head-to-head cross-check finds the two solvers diverge by up to ~5.6 decades at Pe ≳ 13 — so the extreme fold-enrichment at the trap's Péclet ≈ 18 is a reduced-model extrapolation, not a resolved finite-element result. The robust, defensible finding is that localization occurs (a persistent individual forms vs washes through), not the exact fold-magnitude. The Mechanism view shows a reduced, enrichment-capped live coupling in which the concentrated pore feed crosses og-02's ignition threshold while the well-mixed ocean stays dead — an illustration of why localization matters, not a graded acceptance criterion; quantitative in-pore network persistence is left to the downstream enclosed-network studies (og-04/og-05).
-  key_metrics:
-  - {label: Localized grid fraction, value: 25/144 (~17%), status: pass}
-  - {label: Accumulation Péclet, value: 18.4, status: pass}
-  - {label: Favourable enrichment, value: ~1e6–1e7 (reduced-model; solver-sensitive >Pe≈13), status: pass}
-  - {label: Open-pore control, value: no concentration (~1×), status: pass}
-  - {label: FVM residual, value: ~2e-14, status: pass}
 conclusion_verdicts:
   biological_validation:
     result: PASS
@@ -172,7 +149,7 @@ behavior_tests:
     honest, solver-agnostic localization claim (both FiPy and dolfinx agree in this
     range); the far larger reduced-column figure above Pe_acc ≈ 13 is reported
     separately (thermophoretic-enrichment-reproduces-baaske), not gated.
-  measure: {kind: derived, path: log10_enrichment, detail: localization occurs within the resolvable range (positive enrichment, agreement region)}
+  measure: {kind: derived, path: log10_enrichment, detail: localization occurs within the resolvable range (positive enrichment, agreement region): null}
   pass_if: {op: '>', value: 0.0, detail: log10_enrichment > 0 (the resolved trap concentrates above inflow within Pe_acc ≲ 13)}
   units: dimensionless
   requires_simulation: 'yes'
@@ -386,3 +363,9 @@ visualizations:
   address: local:ThermophoreticTrap3D
   config:
     title: Inside the pore — the accumulation column in 3-D (World view)
+conclusion: >-
+  The real FiPy thermal trap localizes a dilute feed into a bounded region of pore geometry and, in
+  its own native (porosity × pore length) Decision map, draws the geometry threshold separating
+  concentrated individuals from washed-out bulk. Feeds og-04 (mineral compartments) a concentrated
+  starting pocket. Localization holds; the precise enrichment magnitude is caveated as a
+  reduced-model extrapolation.

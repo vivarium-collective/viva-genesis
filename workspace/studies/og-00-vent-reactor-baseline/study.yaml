@@ -18,13 +18,6 @@ claim: >-
   swept grid, and the baseline operating point sits safely inside it (T 50.6 °C, pH 9.37) with
   sustained H2, exact charge balance (|charge|=0) and FiPy flux divergence within the contract
   tolerance (4.9e-5 vs the 1e-3 bound).
-result: >-
-  The Decision-view habitability map (olivine_rate 0.005–0.4 × flow_velocity 2e-4–3e-2) is habitable
-  at 115/144 points (~80%); it fails cold at the fastest flow (washout band) and 12/144 points at the
-  flow extreme fall outside PHREEQC's 0–100 °C validity (recorded NaN → FAIL). At the baseline
-  operating point (★) all five acceptance criteria pass — outlet T 50.6 °C and pH 9.37 (both
-  in-window), sustained H2 flux 2.75e-4 mol/s; charge balance exact (|charge|=0) and spatial-flux
-  divergence 4.9e-5 (within the 1e-3 contract tolerance).
 findings:
 - id: og00-temperature-ph-in-window
   kind: computational
@@ -103,23 +96,6 @@ findings:
     Lost City habitability map (Decision view). Enough serpentinization to drive H2 + alkalinity and
     slow enough flow to hold 40–91 °C / pH 9.0–10.8 bounds the habitable band.
   next_action: Sweep pyroxene_fraction (ol/px ratio) and seawater-mixing dilution to bound the pH endmember (og-00b).
-report:
-  title: Vent reactor baseline
-  verdict: PASS — a bounded Lost City habitability region reproduced with real geochemistry
-  confidence: high
-  main_insight: Real PHREEQC speciation + FiPy Darcy–Boussinesq convection make habitability a bounded REGION of (olivine rate × flow velocity) — ~80% of the grid settles in the field T/pH window — reveal that the high pH requires a peridotite (Ca-OH) endmember, and show the wall as a buoyantly convecting recirculation cell rather than a uniform upflow.
-  conclusion: >-
-    The coupled real model maps a bounded habitability region (the Decision view) and, at the baseline
-    operating point inside it, satisfies every acceptance criterion and contract invariant; it is a
-    validated geochemical/spatial testbed for the downstream carbon-fixation campaigns. No
-    origin-of-life claim is made at this stage.
-  caveat: The heat-partition fraction is calibrated to the observed vent temperature; all chemistry is emergent. The 12 flow-extreme grid points fall outside PHREEQC's 0–100 °C validity and are recorded as FAIL rather than physically resolved.
-  key_metrics:
-  - {label: Habitable grid fraction, value: 115/144 (~80%), status: pass}
-  - {label: Baseline outlet T, value: 50.6 °C, status: pass}
-  - {label: Baseline outlet pH, value: '9.37', status: pass}
-  - {label: H2 flux, value: 2.75e-4 mol/s, status: pass}
-  - {label: Charge imbalance, value: '0', status: pass}
 conclusion: >-
   The real PHREEQC + FiPy vent reactor reproduces the Lost City field window across a bounded ~80%
   habitability region of (olivine rate × flow velocity) and conserves mass/charge/flux at the baseline

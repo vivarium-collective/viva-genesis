@@ -75,15 +75,12 @@ baseline:
   params: {growth_per_step: 0.4, founder_volume: 8.0e-12, founder_formate: 8.0, founder_acetate: 4.0}
   canonical: true
 claim: An individual physically reproduces by a _divide structural rewrite, building a >=3-generation lineage in the agents map with matter and volume conserved (partition residual 0) at every division.
-result: The founder's lineage reaches generation 5 (peak; a growing population of 25 individuals, well past the >=3 bar) with the total volume held constant and the partition residual 0 at every division.
 findings:
 - id: physical-reproduction-lineage
   kind: computational
   status: confirms
   statement: A founder grows, divides, and its daughters do the same — a >=3-generation lineage forms in the agents map, matter and volume conserved at every division.
   from_test: lineage-reaches-three-generations
-report:
-  verdict: supported
 conclusion_verdicts:
   lineage-reaches-three-generations: supported
 limitations:

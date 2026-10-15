@@ -117,7 +117,6 @@ baseline:
   composite: viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell
   params: {mix_fraction: 0.4, pH: 9.0, ionic_strength: 0.35, temperature: 318.15}
 claim: Mixed single-chain amphiphiles form viable vesicles across the alkaline / seawater-salt window where single fatty acids fail (Jordan 2019), and those compartments retain internal chemistry while staying permeable to the gradient — a non-empty individuality-without-isolation region.
-result: Favorable (mixed) forms ~8000 viable vesicles with retention×access ≈ 0.90; single fatty acid and extreme salt/pH controls form none.
 findings:
 - id: og04-mixed-amphiphile-window
   kind: computational
@@ -170,22 +169,6 @@ findings:
     composite now clamps 0.0 to a negligible 1e-6 and reads mix_fraction via a state
     input, so the control is honored. (The study runner had already dodged it with 0.001.)
   explanation: A sweep axis starting at exactly 0.0 revealed the gotcha; the fix hardens the composite for any caller passing 0.0.
-report:
-  title: Mineral compartments to protocells
-  verdict: PASS — mixed amphiphiles form vesicles that retain without isolating; controls bound the survival region
-  confidence: high
-  main_insight: Mixed single-chain amphiphiles broaden the vesicle stability window to the alkaline / salty vent regime (where single fatty acids fail) and form compartments that retain chemistry while staying permeable to the gradient — individuality without isolation.
-  conclusion: >-
-    The coarse-grained Jordan-calibrated model shows a non-empty organic-boundary
-    region: mixed amphiphiles form viable, selectively-permeable vesicles at vent
-    conditions. Hands og-05 a bounded, gradient-coupled protocell.
-  caveat: Coarse-grained physico-chemical reproduction calibrated to Jordan 2019 (the study's proposed primary method), not wrapped membrane MD. In-vesicle network persistence (og-02 coupling) is the next increment.
-  key_metrics:
-  - {label: Viable vesicles (mixed), value: ~8000, status: pass}
-  - {label: Individuality × access, value: ~0.90, status: pass}
-  - {label: Single fatty acid at salt, value: 0 viable, status: pass}
-  - {label: Retention / access, value: 0.91 / 1.0, status: pass}
-  - {label: Viable region (feasibility map), value: 63/256 (individ>0.1), status: pass}
 conclusion_verdicts:
   biological_validation:
     result: PASS
@@ -325,3 +308,7 @@ pipeline_gate:
     blocked_by: []
     evaluated_by: code
     diverges_from_authored: false
+conclusion: >-
+  The coarse-grained Jordan-calibrated model shows a non-empty organic-boundary
+  region: mixed amphiphiles form viable, selectively-permeable vesicles at vent
+  conditions. Hands og-05 a bounded, gradient-coupled protocell.

@@ -132,7 +132,6 @@ baseline:
   composite: viva_genesis.composites.proto_energetics.proto_energetics
   params: {drive_free_energy: 50.0, coupling_efficiency: 0.6, carrier_pool: 0.001, loss_rate: 0.05, load: 0.2, carrier: thioester}
 claim: A pre-ATP thioester-class carrier coupled to an exergonic geochemical drive maintains a transferable energy currency under endergonic load (charged fraction ~0.39) and captures ~47% of the tapped geochemical free energy as stored usable work; removing the coupling or starving the drive below the carrier bond collapses the currency — capturing free energy into a transferable store is an explicit, bounded, falsifiable transition, not a favourable reaction direction.
-result: Favourable arm maintains the currency (final charged fraction 0.39 >= 0.25) and captures 0.47 of the input free energy as transferable work (>= 0.30); the no-coupling and no-drive ablations collapse to ~0; the free-energy ledger residual stays at machine precision (~1e-16 kJ/L).
 findings:
 - id: ogenergy-currency-maintained
   kind: computational
@@ -178,25 +177,6 @@ findings:
   expected:
     cites: [buckel2013energy, lane2010chemiosmotic]
   explanation: A carrier can only be charged when the drive ΔG exceeds the bond energy (a weak drive cannot charge a high-energy carrier) and the coupling actually transfers it; below either threshold no store builds, so the viable region is bounded on both axes.
-report:
-  title: Proto-energetics — an energy currency before modern pumping
-  verdict: PASS — a transferable currency is captured and maintained in a bounded region; ~47% of geochemical free energy becomes stored usable work
-  confidence: high
-  main_insight: A pre-ATP carrier coupled to an exergonic geochemical drive captures environmental free energy into a transferable, spendable currency — maintained under load only where the drive clears the carrier bond and the coupling is efficient enough, with a measured (not assumed) stored-work fraction of ~47%.
-  conclusion: >-
-    The energy-currency bookkeeping shows the missing pre-modern transition: an
-    exergonic geochemical drive is captured into a transferable store (thioester /
-    acyl-phosphate class) that does endergonic work, before any modern-style ion
-    pumping. It sits BEFORE og-05's internalized gradient generation in the campaign
-    logic — owning a spendable energy currency is the prerequisite the later pumping
-    stage internalizes.
-  caveat: Coarse-grained deterministic reduced kinetics (a free-energy ledger with textbook carrier-bond anchors), not a wrapped quantum-chemistry / MD engine. The carrier-bond energies are order-of-magnitude literature anchors.
-  key_metrics:
-  - {label: Final charged fraction, value: 0.39, status: pass}
-  - {label: Stored-work fraction, value: 0.47, status: pass}
-  - {label: No-coupling charged fraction, value: 0.00, status: pass}
-  - {label: No-drive charged fraction, value: 0.00, status: pass}
-  - {label: Ledger residual (kJ/L), value: ~1e-16, status: pass}
 conclusion_verdicts:
   biological_validation:
     result: PASS
@@ -360,3 +340,10 @@ runs:
         knob:
         citation: buckel2013energy
       auto_evaluated: true
+conclusion: >-
+  The energy-currency bookkeeping shows the missing pre-modern transition: an
+  exergonic geochemical drive is captured into a transferable store (thioester /
+  acyl-phosphate class) that does endergonic work, before any modern-style ion
+  pumping. It sits BEFORE og-05's internalized gradient generation in the campaign
+  logic — owning a spendable energy currency is the prerequisite the later pumping
+  stage internalizes.

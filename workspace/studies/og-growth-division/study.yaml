@@ -114,7 +114,6 @@ baseline:
   params: {network_throughput: 1.0e-19, membrane_permeability: 1.0e-9, autocatalytic_rate: 0.5, division_threshold: 6.4e-17, leak_rate: 1.0}
   canonical: true
 claim: A protocell's chemistry can change its physical fate. An internal autocatalytic/metabolic source makes an osmolyte; its accumulation raises the internal osmotic pressure (van 't Hoff), that pressure draws solvent across the semi-permeable membrane, the compartment expands, and at a size threshold it divides — a physical selection mechanism with no abstract fitness score. Whether this produces division rather than lysis or starvation is set by the membrane permeability against the network throughput — there is a bounded viable band in which net growth leads to repeated division, flanked by starvation (too permeable — the product leaks before the osmotic pressure can build) and lysis (too impermeable — the pressure bursts the membrane). Mass is conserved to machine precision across growth and division.
-result: The matched (favorable) compartment divides 8 times over the run (net growth to division, outcome = divide), with the mass-balance residual ~4e-32 mol (conserved across every division). The viable growth→division band is ~25% of the (throughput × permeability) grid, bounded by starvation (too permeable → no division, net growth ~1.00) and lysis (too impermeable → membrane bursts at ~1.5e5 Pa). Zero-throughput ablation gives no division and essentially no growth.
 findings:
 - id: oggd-metabolism-changes-physical-fate
   kind: computational
@@ -149,27 +148,6 @@ findings:
   expected:
     cites: [muchowska2019synthesis]
   explanation: With no source the only osmolyte is the small seed; the osmotic pressure stays far below the drive needed to reach the division threshold, and division halving conserves mass exactly.
-report:
-  title: Metabolism → osmotic growth and division
-  verdict: PASS — the matched compartment grows and divides; the viable band is bounded by starvation and lysis; growth is chemistry-driven and mass-conserving
-  confidence: high
-  main_insight: A protocell's chemistry changes its physical fate. Internal product accumulation generates osmotic pressure that grows the compartment to division — a physical selection mechanism with no fitness score — but only in a bounded membrane-permeability band between starvation (too permeable) and lysis (too impermeable).
-  conclusion: >-
-    A coarse-grained, units-typed, mass-conserving osmotic-coupling model shows that an internal
-    autocatalytic source, by accumulating an osmolyte, can drive a compartment to grow and divide
-    under osmotic pressure alone. The fate is set by the membrane permeability against the network
-    throughput: a bounded viable band sustains net growth leading to repeated division, flanked by
-    starvation (the product leaks before the pressure can build) and lysis (the pressure bursts the
-    membrane). Mass is conserved to machine precision across growth and division. Hands the campaign a
-    chemically-selected, dividing protocell — individuality that reproduces, not merely persists.
-  caveat: Coarse-grained physico-chemical reproduction (van 't Hoff osmotic pressure + solubility-diffusion permeability + finite solvent conductivity), the stage's proposed primary method — not wrapped membrane MD. The band location depends on the reduced constants (solvent conductivity, burst pressure, division threshold); the claim is structural (a bounded viable band exists between starvation and lysis), robust to the exact coefficients, not a quantitative prediction of a specific permeability threshold.
-  key_metrics:
-  - {label: Divisions (matched), value: 8, status: pass}
-  - {label: Viable growth→division band, value: ~25% of grid, status: pass}
-  - {label: Too-permeable arm, value: 0 divisions (starve), status: pass}
-  - {label: Too-impermeable arm, value: lysed (burst), status: pass}
-  - {label: Mass-balance residual, value: ~4e-32 mol, status: pass}
-  - {label: Zero-throughput ablation, value: 0 divisions, status: pass}
 conclusion_verdicts:
   biological_validation:
     result: PASS
@@ -322,3 +300,11 @@ runs:
       evaluated_by: code
       operator: cross_run
       detail: favorable → 8 divisions; zero-throughput ablation → 0 divisions, net growth 1.040 (no autocatalytic source ⇒ no osmotic growth)
+conclusion: >-
+  A coarse-grained, units-typed, mass-conserving osmotic-coupling model shows that an internal
+  autocatalytic source, by accumulating an osmolyte, can drive a compartment to grow and divide
+  under osmotic pressure alone. The fate is set by the membrane permeability against the network
+  throughput: a bounded viable band sustains net growth leading to repeated division, flanked by
+  starvation (the product leaks before the pressure can build) and lysis (the pressure bursts the
+  membrane). Mass is conserved to machine precision across growth and division. Hands the campaign a
+  chemically-selected, dividing protocell — individuality that reproduces, not merely persists.

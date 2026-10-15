@@ -11,10 +11,6 @@ title: The First Metabolism
 question: Under continuous feed and washout, do reaction subnetworks become self-reinforcing — persistent cycles, flux amplification, product reuse, autocatalytic motifs — without imposed product accumulation?
 hypothesis: A curated graph (formate/acetate/pyruvate/glyoxylate + rTCA fragments) seeded with Muchowska/Moran edges sustains nonzero throughput and at least one autocatalytic motif within a feasible resource budget.
 objective: Insert an experimentally-motivated reaction graph and test whether metabolism-like subnetworks emerge under flow.
-result: >-
-  All three tests pass — sustained net carbon throughput (9e-4 mol/s) under
-  continuous feed+washout, an autocatalytic motif (OAA self-amplifies; autocatalytic gain peaks at 29.5,
-  settling lower as CO2 limits), and a single connected reaction network.
 findings:
 - id: og02-sustained-throughput
   kind: computational
@@ -64,19 +60,6 @@ findings:
     net throughput and gain; rendered as the ignition phase map (Decision view).
     Runner sims/compute_gain_grid.py. Per-reaction fluxes are now read live from the
     engine (getReactionRates) so the network view is flux-weighted.
-report:
-  title: Reduced carbon to protometabolism
-  verdict: PASS — metabolism-like behavior emerges under flow
-  confidence: high
-  main_insight: A curated rTCA-fragment network under feed+washout sustains carbon throughput AND an emergent autocatalytic motif — metabolism-like behavior without imposed product accumulation.
-  conclusion: >-
-    Reaction subnetworks become self-reinforcing under flow, meeting the Campaign-II
-    bar; the autocatalytic rTCA turn is the reinforcing motif.
-  caveat: The rTCA turn is a lumped autocatalytic reaction; the full multi-step cycle + acetyl-CoA arm are deferred.
-  key_metrics:
-  - {label: Net throughput, value: 9e-4 mol/s, status: pass}
-  - {label: Autocatalytic gain, value: 'peak ~29.5, ~3 steady as CO2 limits', status: pass}
-  - {label: Network, value: connected, status: pass}
 conclusion: >-
   A real SBML rTCA-fragment network sustains throughput and an autocatalytic motif
   under flow — reaction subnetworks become self-reinforcing, the metabolism-like

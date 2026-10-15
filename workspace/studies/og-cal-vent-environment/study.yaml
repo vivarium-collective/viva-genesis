@@ -27,16 +27,6 @@ objective: >-
   vg-data package vent_environment -> ensemble per spatial-transport model class -> ABC conditioning on
   the field windows -> posterior-predictive fraction meeting the downstream requirements -> Morris
   screening -> the Feasibility / Robustness / Discrimination report with the ledger verified.
-result: >-
-  Of 48 LHS prior draws, 6 (12.5%) are consistent with all three Lost City windows, and the dissolved-H2
-  window is the binding observation (48/48 pass pH, 47/48 pass T, 6/48 pass H2); every consistent state
-  also meets the downstream requirements (posterior-viable fraction 1.00). The convecting and
-  prescribed-upflow transport classes agree on viability for 48/48 draws (structure agreement 1.00) and
-  differ only in outlet temperature (paired d = 0.89, ~2 C), never in pH or H2. The posterior pins the
-  inflowing DIC to 1.2-2.9 mM (prior 1.2-17 mM) and the reaction extent high (olivine_rate 0.09-0.38):
-  under full redox equilibrium in llnl.dat the Fe(II) budget reduces DIC before free H2 appears. Morris:
-  dissolved H2 is controlled by olivine_rate, DIC and flow; outlet T by the heat-partition fraction and
-  flow; pH is mineral-buffered at 9.38-9.91 for every draw. Ledger exact on all 96 runs; no point rejected.
 claim: >-
   Conditioning the real vent on field observations turns og-00's "80% of a swept grid is habitable" into a
   posterior statement: 12.5% of the empirically motivated prior reproduces Lost City, the dissolved-H2
@@ -149,35 +139,6 @@ findings:
     observed: 'mass residual 0.0; energy residual 0.0; charge 0; flux <= 1.1e-14; 0/96 failed'
     units: dimensionless
   explanation: The og-00 contract's four invariants (mass_balance, charge_neutrality, spatial_flux_conservation, energy_directionality) are now all machine-witnessed; energy_directionality was previously declared but not computed.
-report:
-  title: 'Phase 1 — environmental calibration of the serpentinizing vent'
-  verdict: PASS — a Lost-City-consistent posterior exists (12.5% of the prior), all of it feeds downstream chemistry, and the verdict is transport-class-independent
-  confidence: medium
-  main_insight: >-
-    Conditioning on observation replaces "80% of a grid" with "12.5% of the prior, pinned entirely by the
-    dissolved-H2 window": pH is mineral-buffered and uninformative, T is loose, and H2 behaves as a threshold
-    because the equilibrium Fe(II) budget reduces DIC before free H2 appears. Every consistent vent state
-    supplies the H2 and pH gradient carbon fixation needs; the wall's flow structure changes T by ~2 C and
-    nothing else.
-  conclusion: >-
-    Phase 1 exits on both plan criteria — a posterior probability of viable vent states (0.125 of the prior,
-    1.00 of the posterior) and a validated mass/charge/energy ledger — and hands Phase 2 a posterior package
-    rather than a nominal operating point. What moves the number is the DIC prior and the equilibrium-vs-
-    kinetic carbon-redox assumption, both recorded as decisions for the expert.
-  caveat: >-
-    Conditioning set is Lost City only (MARHYS 4.0 pending); 48 draws x 2 classes at 30 ticks / nx = 20 (the
-    og-00 Decision-map resolution; outlet T settles ~45-49 C here vs 50.6 C at 120 ticks / nx = 40); the
-    reduced serpentinization class and the merged FEniCS transport class are available alternatives held
-    out of this ensemble; the H2 threshold
-    is an equilibrium-speciation (llnl.dat) result and the Hadean DIC / ocean-pH / ocean-T priors are
-    extrapolated-and-unsourced by design (vg-data audit: 0 measured, 2 calibrated, 1 inferred, 3
-    extrapolated, 2 hypothetical).
-  key_metrics:
-  - {label: Prior draws consistent with Lost City, value: 6/48 (12.5%), status: pass}
-  - {label: Posterior-viable fraction (downstream requirements), value: '1.00', status: pass}
-  - {label: Binding observation, value: dissolved H2 (6/48 pass vs pH 48/48, T 47/48): null, status: info}
-  - {label: Structure agreement (convecting vs uniform upflow), value: '1.00', status: pass}
-  - {label: Ledger residual (mass / energy / charge), value: 0.0 / 0.0 / 0, status: pass}
 conclusion: >-
   12.5% of the empirically motivated prior reproduces the Lost City observations, the dissolved-H2 window is
   the only informative one, 100% of the posterior supplies what carbon fixation needs, the transport class

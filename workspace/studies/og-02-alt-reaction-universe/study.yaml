@@ -30,18 +30,6 @@ objective: >-
   element residual, integrated carbon balance, dissipation >= 0) and a class-agnostic post-hoc motif
   detector; run the three classes under two feeds (Phase-1 posterior; + 10 mM formaldehyde) with 24 matched
   nulls per arm, an ignition map, flux-control analysis and a stiffness check.
-result: >-
-  Phase-1 feed: the universe sustains 14 persistent species (formate 0.45 mM, pyruvate 29 uM, acetate 11 uM,
-  plus the rTCA reductive branch OAA 5e-8 / malate 9e-8 / succinate 8e-9 M emerging from the rules, 1000x
-  below og-02's curated levels) with ZERO autocatalytic motifs; 24/24 nulls also show zero (p = 1.0). Formose
-  feed (10 mM CH2O): ONE persistent motif emerges — the formose cycle glycolaldehyde -> glyceraldehyde -> DHA
-  -> erythrulose -> erythrose -> 2 glycolaldehyde (stoichiometric gain 2, dynamic gain 3.1, 49 persistent
-  species) — against 0/24 nulls (empirical p = 0.040); it ignites only at >= ~10 mM formaldehyde AND
-  washout >= ~0.02/s (shorter residence than the H2 reduction of formaldehyde). The curated rTCA class is
-  detected with the same tool (gain 2.99 = its declared k_rtca[CO2]/k_wash) but its lumped turn creates 4 C
-  / 8 H / 3 O per turn (element residual 8). Ledger exact on the universe (element 0, carbon 2.8e-6,
-  dissipation >= 0 every tick); summation theorem on dominant fluxes 3.3e-3; default CVODE tolerances
-  reproduce the tight run to 7e-6.
 claim: >-
   With real thermodynamics and conservation, autocatalysis is not free: the generated universe fed the
   Phase-1 vent posterior builds a persistent, element-balanced, dissipative network but no autocatalytic
@@ -156,35 +144,6 @@ findings:
   explanation: The package is the honesty indicator the Model Upgrade plan asks for; its weakest entries are the rule rate constants, which is why the result is reported as an ignition region rather than a point.
   expected:
     cites: [beber2022equilibrator, noor2013consistent]
-report:
-  title: 'Phase 3 — the open chemical network: motifs emerge, not imposed'
-  verdict: PASS — a formose autocatalytic motif emerges from the rule-generated universe and is enriched over 24 matched nulls (p = 0.04); none emerges at the Phase-1 vent feed; the curated rTCA motif is imposed and non-conserving
-  confidence: medium
-  main_insight: >-
-    Once thermodynamics and conservation are real, autocatalysis has to be paid for: the vent posterior
-    feed supports a persistent dissipative network but every carbon-carbon route is uphill at mM / 10 mM
-    activities, so no motif appears; the only cycle the C <= 4 chemistry can close — formose, via the
-    erythrose retro-aldol — appears post hoc, beats every matched null, and needs a formaldehyde supply and
-    a short residence time the reducing vent does not provide.
-  conclusion: >-
-    Phase 3 exits with the three-class face, the package, the ledger and the discriminating result: the
-    curated rTCA motif is reclassed as imposed (and its stoichiometry as non-conserving), the generated
-    universe's motif is emergent and enriched, and the Phase-1 -> Phase-3 chain says the bottleneck between
-    geochemistry and metabolism-like organisation at this stage is concentration / C1 supply, which is
-    exactly what Phase 4 (co-localization) is for.
-  caveat: >-
-    Linear C/H/O skeletons only (no citrate, no alkenes) so the full rTCA cannot close here; C <= 4 and
-    N/P-free pending the rule-set-scope decision; every rate constant is hypothetical or extrapolated on the
-    og-02 tick scale and only the nominal point plus the (formaldehyde x washout) map were run — the
-    priors have not been propagated; 24 nulls give a p floor of 0.04; the formose arm had not fully
-    settled at 200 ticks (steady-state residual 1.8e-4) so its flux-control coefficients are reported, not
-    graded; the universe's summation theorem is graded on the dominant fluxes only.
-  key_metrics:
-  - {label: Motifs at the Phase-1 feed (universe / nulls max), value: 0 / 0, status: info}
-  - {label: Motifs with formaldehyde feed (universe / nulls max), value: 1 / 0, status: pass}
-  - {label: Enrichment p (24 nulls), value: '0.040', status: pass}
-  - {label: Curated rTCA element residual (C / H / O), value: 4 / 8 / 3 atoms, status: fail}
-  - {label: Universe ledger (element / carbon / dissipation), value: 0 / 2.8e-6 / >= 0, status: pass}
 conclusion: >-
   The generated universe at the vent posterior feed has no autocatalytic motif; with the formose feedstock
   one emerges post hoc and is enriched over matched nulls (p = 0.04); the curated rTCA motif is imposed and
@@ -200,7 +159,8 @@ limitations:
 - Linear carbon skeletons (no branched acids, no alkenes), C <= 4, C/H/O only: the rTCA proper cannot close in this representation.
 - Rate constants are tick-scale hypothetical/extrapolated with loguniform priors that were not propagated (nominal + one 6x6 map only).
 - 24 nulls per arm (p floor 0.04); nulls are (C,O)-matched so they violate H balance by construction (mean residual 9.6 atoms).
-- The nulls match compound count, reaction count (400 vs 413), arity, catalyst density and C/O balance but NOT the energetic span: their dG' are recomputed from the same compound potentials to keep them thermodynamically consistent, which widens the span to 714 kJ/mol (universe 166). A span-matched null would have to break detailed balance.
+- ? The nulls match compound count, reaction count (400 vs 413), arity, catalyst density and C/O balance but NOT the energetic span
+  : their dG' are recomputed from the same compound potentials to keep them thermodynamically consistent, which widens the span to 714 kJ/mol (universe 166). A span-matched null would have to break detailed balance.
 - Catalyst crowding updated once per tick (operator splitting); dG' potentials fixed at the Phase-1 example condition (pH 9.38, I 0.25 M, 322 K).
 - The curated class publishes no ledger witnesses in the composite; its element residual is computed post hoc from its SBML.
 discovery_implications:

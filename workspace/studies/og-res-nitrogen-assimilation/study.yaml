@@ -26,12 +26,6 @@ objective: >-
   Add nitrogen as its own module (FeS-mediated NO3-/NO2- -> NH4+ with minor N2 fixation
   and carbon-demanded reductive amination), track the C:N supply ratio, and map the
   region where reduced-N production keeps pace with the carbon-fixation demand.
-result: >-
-  All six tests pass — the favourable arm sustains ~1.0 mM ammonium and a C:N supply
-  ratio of ~5.0 (reduced N keeps pace with carbon), nitrogen mass is conserved to
-  machine precision (residual ~1e-20 M), ammonium collapses to <1 µM in both the no-FeS
-  and no-H2 controls, and a scarce nitrate feed drives C:N from ~5 to ~47 (nitrogen
-  becomes limiting first).
 findings:
 - id: ogn-ammonium-produced
   kind: computational
@@ -90,23 +84,6 @@ findings:
     from_test: nitrogen-mass-conserved
     observed: 'max |n_mass_residual| ~1e-20 M over the run'
     units: molar
-report:
-  title: (Module I) — nitrogen as a limiting resource
-  verdict: PASS — reduced N keeps pace in a bounded region; nitrogen limits first outside it
-  confidence: high
-  main_insight: FeS-mediated nitrate reduction supplies ammonium fast enough to keep pace with carbon (C:N ~5) only where the nitrate feed is sufficient AND the mineral is active; outside that region nitrogen is the first limiting resource.
-  conclusion: >-
-    Reduced nitrogen is a viable co-requirement with reduced carbon inside a bounded
-    (nitrate supply x FeS activity) region; the campaign must carry nitrogen supply, not
-    only carbon, as a gating resource.
-  caveat: Reduction kinetics are lab-motivated (Doerr FeS N2-fixation yields are low; nitrate-reduction rates are calibrated so the favourable arm approaches a standing mM pool), and the C:N keeps-pace band is a Redfield-like first-principles target, not a Hadean measurement.
-  key_metrics:
-  - {label: Ammonium (settled), value: ~1.0 mM, status: pass}
-  - {label: C:N supply ratio (favourable), value: ~5.0, status: pass}
-  - {label: NH4+ production (peak), value: 4.2e-5 mol/s, status: pass}
-  - {label: C:N (scarce nitrate), value: ~47, status: warn}
-  - {label: N-mass residual, value: ~1e-20 M, status: pass}
-  - {label: No-FeS / no-H2 ammonium, value: <1 µM, status: pass}
 conclusion: >-
   Reduced-nitrogen production reproduces an FeS-mediated ammonium source and maps the
   region where it keeps pace with carbon fixation; nitrogen becomes limiting first where
