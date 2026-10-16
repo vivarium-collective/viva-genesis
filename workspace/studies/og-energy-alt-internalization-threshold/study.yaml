@@ -249,12 +249,12 @@ discovery_implications:
 decisions_needed:
 - question: Replace og-05's population-mean internalization readout (mean active-pump
     fraction) with the per-individual autonomy internal / (internal + external) power
-    that the Phase-6 face defines — i.e. re-point og-05's gates (reduced-gradient-dependence,
+    that the energy-coupling face defines — i.e. re-point og-05's gates (reduced-gradient-dependence,
     final_internalization) at autonomy?
   context: 'Both readouts are now published by BioenergeticSelectionProcess from the
     same per-strategy power terms (internalization 0.95 vs autonomy 0.99 at og-05''s
     collapsed gradient). The per-individual autonomy is the quantity the energy_coupling
-    face, og-08''s off-gradient persistence and the Phase-9 autonomy lattice share;
+    face, og-08''s off-gradient persistence and the integrated-autonomy lattice share;
     switching og-05''s gates to it re-grades a passing study on a different (though
     monotone-related) observable. Default here: added, not switched. Expert decision.'
 readouts:
@@ -494,8 +494,8 @@ behavior_tests:
   band_basis: first_principles
 - name: internalization-pays
   classification: primary
-  description: 'Phase-6 exit gate: at the nominal membrane (P_H 1e-6 m/s) and the
-    Phase-1-calibrated gradient (0.216 V) at least one energy-coupling class has a
+  description: 'Energy-coupling exit gate: at the nominal membrane (P_H 1e-6 m/s) and the
+    vent-calibrated gradient (0.216 V) at least one energy-coupling class has a
     finite threshold activity at which its settled net power exceeds the passive baseline''s
     — the energetic benefit of the internal store exceeds its leak plus the machinery''s
     maintenance — with the free-energy ledger closed on every point. Declared before
@@ -722,14 +722,14 @@ visualizations:
 - name: internalization-threshold-map
   address: local:InternalizationThresholdMap
   config:
-    title: Phase 6 — where internalization pays, per energy-coupling class (Decision
+    title: Where internalization pays, per energy-coupling class (Decision
       view)
     threshold_map_json: workspace/studies/og-energy-alt-internalization-threshold/artifacts/internalization_threshold_map.json
     report_json: workspace/studies/og-energy-alt-internalization-threshold/artifacts/internalization_threshold_report.json
 - name: protocell-energy-budget
   address: local:ProtocellEnergyBudget
   config:
-    title: Phase 6 — one individual's power budget per coupling class (Mechanism view)
+    title: One individual's power budget per coupling class (Mechanism view)
     report_json: workspace/studies/og-energy-alt-internalization-threshold/artifacts/internalization_threshold_report.json
     activity: '1'
 pipeline_gate:
@@ -914,8 +914,8 @@ runs:
       evaluated_by: code
       axis:
         id: internalization-pays
-        label: 'Phase-6 exit gate: at the nominal membrane (P_H 1e-6 m/s) and the
-          Phase-1-calibrated gradient (0.216 V) at least one energy-coupling class
+        label: 'Energy-coupling exit gate: at the nominal membrane (P_H 1e-6 m/s) and the
+          vent-calibrated gradient (0.216 V) at least one energy-coupling class
           has a finite threshold activity at which its settled net power exceeds the
           passive baseline''s — the energetic benefit of the internal store exceeds
           its leak plus the machinery''s maintenance — with the free-energy ledger

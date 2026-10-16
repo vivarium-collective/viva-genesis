@@ -357,7 +357,7 @@ behavior_tests:
   band_basis: first_principles
 - name: failure-mode-attributed
   classification: primary
-  description: 'Phase-2 exit criterion: the model classes agree on the limitation
+  description: 'Electrochemistry exit criterion: the model classes agree on the limitation
     label on at least 80% of the region they both call favorable (throughput >= 10%
     of each class''s own maximum). Below that the attribution is structure-sensitive.'
   measure:
@@ -517,7 +517,7 @@ key_assumptions:
 - Favorable region = throughput >= 10% of each class's own maximum; label = largest
   loss fraction (FE < 0.5 -> catalytic).
 expert_questions:
-- Accept the structure-sensitive attribution as the Phase-2 result, or redefine the
+- Accept the structure-sensitive attribution as the electrochemistry result, or redefine the
   empirical class's attribution (e.g. map its pmf-drive headroom to a lumped electrical+catalytic
   label)?
 - Should og-01's default class become butler_volmer, so the Tutolo arm is a conductivity,
@@ -618,7 +618,7 @@ preregistered:
     region; charge residual <= 1e-9; faradaic efficiency <= 1; circuit residual <=
     1e-6; current in [1e-5, 1e-2] A/m^2; FE to carbon >= 0.5), the favorable-region
     rule (>= 10% of each class's own maximum) and the calibration window (vg-data
-    electrochemical_interface v1) were fixed from the roadmap row and Phase 1's agreement
+    electrochemical_interface v1) were fixed from the vent-calibration agreement
     convention before the 750-run sweep was read; the result text was written after.
 runs:
 - name: viva_genesis.composites.electrochemical_interface.electrochemical_carbon_fixation__1792066785__b9f82a
@@ -668,7 +668,7 @@ runs:
       evaluated_by: code
       axis:
         id: failure-mode-attributed
-        label: 'Phase-2 exit criterion: the model classes agree on the limitation
+        label: 'Electrochemistry exit criterion: the model classes agree on the limitation
           label on at least 80% of the region they both call favorable (throughput
           >= 10% of each class''s own maximum). Below that the attribution is structure-sensitive.'
         verdict: mismatch

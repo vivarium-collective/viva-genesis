@@ -20,7 +20,7 @@ hypothesis: A Lost-City-consistent posterior exists inside the empirically motiv
   prior of the og-00 world, most of it also satisfies the downstream requirements,
   the result is the same under the convecting and the prescribed-upflow transport
   classes, and the conservation ledger closes exactly on every draw.
-objective: 'Run the Phase-1 environmental-calibration pipeline on the real geochemical
+objective: 'Run the environmental-calibration pipeline on the real geochemical
   world: LHS prior from the vg-data package vent_environment -> ensemble per spatial-transport
   model class -> ABC conditioning on the field windows -> posterior-predictive fraction
   meeting the downstream requirements -> Morris screening -> the Feasibility / Robustness
@@ -418,7 +418,7 @@ behavior_tests:
   gate_class: acceptance_criterion
 - name: posterior-viable-vent-fraction
   classification: primary
-  description: 'Phase-1 exit criterion (Feasibility + Robustness): the fraction of
+  description: 'Vent-calibration exit criterion (Feasibility + Robustness): the fraction of
     prior draws consistent with every observation window that also satisfy the downstream
     requirements must be positive (at least one physically admissible, observation-consistent
     vent state feeds carbon fixation); the value itself is the deliverable.'
@@ -469,7 +469,7 @@ literature_anchors:
   - ludwig2006formation
   - proskurowski2008abiogenic
 baseline:
-- name: Geochemical world (Phase 1 operating point)
+- name: Geochemical world (vent-calibration operating point)
   composite: viva_genesis.composites.geochemical_world.geochemical_world
   params: {}
   canonical: true
@@ -508,7 +508,7 @@ visualizations:
 - name: vent-environment-posterior
   address: local:VentEnvironmentPosterior
   config:
-    title: Phase 1 — Lost-City-conditioned vent posterior (Decision view)
+    title: Lost-City-conditioned vent posterior (Decision view)
     ensemble_json: workspace/studies/og-cal-vent-environment/artifacts/vent_environment_ensemble.json
     report_json: workspace/studies/og-cal-vent-environment/artifacts/vent_environment_report.json
 - name: vent-reactor-timeseries
@@ -538,7 +538,7 @@ variants:
   params:
     model_serpentinization: reduced
 simulation_set:
-- name: Geochemical world (Phase 1 operating point)
+- name: Geochemical world (vent-calibration operating point)
   kind: single
   base_model: viva_genesis.composites.geochemical_world.geochemical_world
   is_baseline: true
@@ -723,7 +723,7 @@ runs:
       evaluated_by: code
       axis:
         id: posterior-viable-vent-fraction
-        label: 'Phase-1 exit criterion (Feasibility + Robustness): the fraction of
+        label: 'Vent-calibration exit criterion (Feasibility + Robustness): the fraction of
           prior draws consistent with every observation window that also satisfy the
           downstream requirements must be positive (at least one physically admissible,
           observation-consistent vent state feeds carbon fixation); the value itself

@@ -16,7 +16,7 @@ question: >-
   with real eQuilibrator thermodynamics and fed the calibrated vent state, do persistent
   autocatalytic motifs appear at all, and are they more frequent than in matched null
   networks?
-hypothesis: Under the Phase-1 posterior feed (CO2 1.4 mM, H2 10.8 mM, pyruvate 0.1
+hypothesis: Under the vent posterior feed (CO2 1.4 mM, H2 10.8 mM, pyruvate 0.1
   mM) the generated universe sustains a connected multi-species network but no autocatalytic
   motif (the C1 -> C2 bottleneck is thermodynamic at vent concentrations); supplying
   the formose feedstock (formaldehyde) lets a motif emerge from the rules and that
@@ -27,7 +27,7 @@ objective: Build the proto_metabolism face (curated_rtca | reaction_universe | n
   the vg-data package reaction_universe (rules, eQuilibrator dG', catalyst requirements),
   the NetworkLedgerProcess (exact element residual, integrated carbon balance, dissipation
   >= 0) and a class-agnostic post-hoc motif detector; run the three classes under
-  two feeds (Phase-1 posterior; + 10 mM formaldehyde) with 24 matched nulls per arm,
+  two feeds (vent posterior; + 10 mM formaldehyde) with 24 matched nulls per arm,
   an ignition map, flux-control analysis and a stiffness check.
 claim: >-
   Fed the calibrated vent posterior, the rule-generated universe (121 species, 413 reactions)
@@ -46,7 +46,7 @@ findings:
     - viva_genesis.composites.open_chemical_network.open_chemical_network__1792068379__c38055
   kind: computational
   status: novel
-  statement: At the Phase-1 posterior feed the rule-generated universe (121 species,
+  statement: At the vent posterior feed the rule-generated universe (121 species,
     413 reversible reactions, C <= 4) sustains 14 persistent species and a net CO2
     fixation of 2.2e-5 mol/s but contains NO persistent autocatalytic motif (0 flux-carrying
     simple cycles with gain > 1); all 24 matched nulls also contain 0. The rTCA reductive
@@ -138,7 +138,7 @@ findings:
   statement: 'Numerical verification: the universe is element-balanced by construction
     (max|E S| = 0 over 413 reactions, exact), the integrated carbon balance closes
     to 2.8e-6 (CVODE rtol 1e-6), dissipation -sum v dG is non-negative on every tick
-    (0.88 W/L at the Phase-1 feed, 16 W/L in the formose arm), the MCA summation theorem
+    (0.88 W/L at the vent feed, 16 W/L in the formose arm), the MCA summation theorem
     holds to 3.3e-3 on the six dominant fluxes (1.3e-4 on the curated model), the
     Jacobian stiffness ratio is 9.4e2 (universe) / 4.8e3 (null), and tightening the
     tolerances to rtol 1e-9 changes no species by more than 7e-6 relative (loosening
@@ -166,7 +166,7 @@ findings:
   kind: computational
   status: novel
   statement: 'The vg-data package reaction_universe carries 0 measured, 2 calibrated
-    (the Phase-1 posterior feeds), 4 inferred, 7 extrapolated and 8 hypothetical parameters:
+    (the vent posterior feeds), 4 inferred, 7 extrapolated and 8 hypothetical parameters:
     every rate constant is an order-of-magnitude tick-scale number with a loguniform
     prior, swept rather than fitted. 50 of 121 skeletons resolve to a formula-verified
     KEGG compound and carry the live eQuilibrator component-contribution dG'' (reaction
@@ -177,7 +177,7 @@ findings:
     observed: audit counts measured 0 / calibrated 2 / inferred 4 / extrapolated 7
       / hypothetical 8; 50 resolved, 71 estimated
     units: dimensionless
-  explanation: The package is the honesty indicator the Model Upgrade plan asks for;
+  explanation: The package is the honesty indicator the investigation asks for;
     its weakest entries are the rule rate constants, which is why the result is reported
     as an ignition region rather than a point.
   expected:
@@ -192,7 +192,7 @@ conclusion_verdicts:
   biological_validation:
     result: PARTIAL
     basis: Recovers the formose cycle (Breslow 1959) from rules alone and finds it
-      enriched over nulls; no claim that the vent makes formaldehyde — the Phase-1
+      enriched over nulls; no claim that the vent makes formaldehyde — the vent
       feed arm is a negative result.
   explanatory_gain:
     result: POSITIVE
@@ -212,7 +212,7 @@ limitations:
     consistent, which widens the span to 714 kJ/mol (universe 166). A span-matched
     null would have to break detailed balance.
 - Catalyst crowding updated once per tick (operator splitting); dG' potentials fixed
-  at the Phase-1 example condition (pH 9.38, I 0.25 M, 322 K).
+  at the vent example condition (pH 9.38, I 0.25 M, 322 K).
 - The curated class publishes no ledger witnesses in the composite; its element residual
   is computed post hoc from its SBML.
 discovery_implications:
@@ -222,7 +222,7 @@ discovery_implications:
   - The C <= 4 C/H/O rule set contains exactly one closable autocatalytic cycle (formose),
     and it is enriched over matched nulls when fed formaldehyde.
   remaining_uncertainties:
-  - Whether co-localization (Phase 4) raises formate / glycolaldehyde activities enough
+  - Whether co-localization raises formate / glycolaldehyde activities enough
     to make the reductive-carboxylation routes downhill.
   - Whether N/P-bearing rules (og-res-N / og-res-P folded in) or branched skeletons
     (citrate) open rTCA-type cycles.
@@ -233,7 +233,7 @@ discovery_implications:
       through both arms and report the posterior ignition fraction per class; add
       branched C5/C6 skeletons.
   - study: og-03-alt-colocalization
-    rationale: Feed the Phase-4 co-localized concentrations into the universe and
+    rationale: Feed the enrichment-field co-localized concentrations into the universe and
       ask whether the C1 -> C2 bottleneck opens (the flagship chain).
 decisions_needed:
 - question: 'Rule-set scope for the reaction universe: keep C1-C3 feedstock / C/H/O
@@ -432,7 +432,7 @@ behavior_tests:
   band_basis: first_principles
 - name: persistent-network-at-phase1-feed
   classification: primary
-  description: The universe fed the Phase-1 posterior sustains a multi-species network
+  description: The universe fed the vent posterior sustains a multi-species network
     (not a one-off product) — at least 10 organic species above 1e-9 M.
   measure:
     kind: derived
@@ -469,7 +469,7 @@ behavior_tests:
   gate_class: regression_pin
   classification: diagnostic
   description: 'Recorded, not required: the number of persistent autocatalytic motifs
-    in the universe at the Phase-1 feed (0 = the C1 bottleneck is thermodynamic at
+    in the universe at the vent feed (0 = the C1 bottleneck is thermodynamic at
     vent activities).'
   measure:
     kind: derived
@@ -486,7 +486,7 @@ behavior_tests:
   requires_simulation: 'yes'
 - name: motifs-emerge-not-imposed
   classification: primary
-  description: 'Phase-3 exit gate: in the formose-feed arm the rule-generated universe
+  description: 'Reaction-network exit gate: in the formose-feed arm the rule-generated universe
     must contain at least one persistent autocatalytic motif detected post hoc, and
     the count must be enriched over the 24 matched nulls (empirical one-sided p <=
     0.05). Declared after the exploratory (formaldehyde x washout) scan located the
@@ -601,7 +601,7 @@ literature_anchors:
   cites:
   - wolos2020synthetic
 baseline:
-- name: Open chemical network — reaction_universe at the Phase-1 feed
+- name: Open chemical network — reaction_universe at the vent feed
   composite: viva_genesis.composites.open_chemical_network.open_chemical_network
   params:
     model_proto_metabolism: reaction_universe
@@ -616,7 +616,7 @@ key_assumptions:
   carboxylation, formose initiation, aldol, isomerisation, alpha/beta decarboxylation,
   Cannizzaro); every reaction reversible with k_down = k0 (rule class) and k_up =
   k0 exp(-|dG'0|/RT).
-- dG' potentials at pH 9.38 / I 0.25 M / 322 K (the Phase-1 posterior example point);
+- dG' potentials at pH 9.38 / I 0.25 M / 322 K (the vent posterior example point);
   water activity 1; CO2 and H2 vent-buffered, organics as CSTR inflow.
 - 'Catalyst classes (mineral: reductions / carboxylations; base: aldol / isomerisation
   / Cannizzaro) share a finite site pool f = sites / (1 + load / K_sat), updated per
@@ -633,7 +633,7 @@ expert_questions:
   or should the rule k0 be read as a Brønsted-Evans-Polanyi pre-factor with a transfer
   coefficient?
 - Is the formose arm (10 mM formaldehyde) a legitimate vent feedstock question, or
-  should Phase 4 co-localization be the only route to raising C1 activities?
+  should co-localization be the only route to raising C1 activities?
 kind: alternative
 study_type: exploratory
 implementation_status: complete
@@ -643,7 +643,7 @@ runtime:
 canonical_runs:
 - name: open-chemical-network-phase3
   script: workspace/studies/og-02-alt-reaction-universe/sims/run.py
-  description: reaction_universe class at the Phase-1 feed (200 ticks) with the NetworkLedgerProcess
+  description: reaction_universe class at the vent feed (200 ticks) with the NetworkLedgerProcess
     -> isolated sqlite store -> auto-graded ledger / persistence / branch gates.
 - name: motif-enrichment
   script: workspace/studies/og-02-alt-reaction-universe/sims/compute_motif_enrichment.py
@@ -658,7 +658,7 @@ visualizations:
 - name: reaction-universe-enrichment
   address: local:ReactionUniverseEnrichment
   config:
-    title: Phase 3 — motif enrichment vs matched nulls, and where motifs ignite (Decision
+    title: Motif enrichment vs matched nulls, and where motifs ignite (Decision
       view)
     report_json: workspace/studies/og-02-alt-reaction-universe/artifacts/motif_enrichment.json
 - name: reaction-universe-subnetwork
@@ -695,7 +695,7 @@ variants:
   params:
     model_proto_metabolism: curated_rtca
 simulation_set:
-- name: Open chemical network — reaction_universe at the Phase-1 feed
+- name: Open chemical network — reaction_universe at the vent feed
   kind: single
   base_model: viva_genesis.composites.open_chemical_network.open_chemical_network
   is_baseline: true
@@ -706,7 +706,7 @@ units_and_time:
   note: Steps are abstract reaction ticks on the og-02 scale (washout 0.05/s); all
     three classes share the feed, the tick and the detector.
 study_card:
-  headline: Fed the Phase-1 vent posterior, the rule-generated universe sustains 14
+  headline: Fed the vent posterior, the rule-generated universe sustains 14
     species but no autocatalytic motif (every C-C route is uphill at vent activities);
     fed formaldehyde it grows the formose cycle, recovered post hoc and absent in
     24/24 matched nulls (p = 0.04); the curated rTCA motif is imposed and its turn
@@ -825,7 +825,7 @@ runs:
       evaluated_by: code
       axis:
         id: persistent-network-at-phase1-feed
-        label: The universe fed the Phase-1 posterior sustains a multi-species network
+        label: The universe fed the vent posterior sustains a multi-species network
           (not a one-off product) — at least 10 organic species above 1e-9 M.
         verdict: within_tol
         value: 14.0
@@ -883,7 +883,7 @@ runs:
       axis:
         id: no-motif-at-phase1-feed
         label: 'Recorded, not required: the number of persistent autocatalytic motifs
-          in the universe at the Phase-1 feed (0 = the C1 bottleneck is thermodynamic
+          in the universe at the vent feed (0 = the C1 bottleneck is thermodynamic
           at vent activities).'
         verdict: within_tol
         value: 0.0
@@ -911,7 +911,7 @@ runs:
       evaluated_by: code
       axis:
         id: motifs-emerge-not-imposed
-        label: 'Phase-3 exit gate: in the formose-feed arm the rule-generated universe
+        label: 'Reaction-network exit gate: in the formose-feed arm the rule-generated universe
           must contain at least one persistent autocatalytic motif detected post hoc,
           and the count must be enriched over the 24 matched nulls (empirical one-sided
           p <= 0.05). Declared after the exploratory (formaldehyde x washout) scan

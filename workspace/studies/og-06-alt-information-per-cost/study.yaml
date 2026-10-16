@@ -258,8 +258,8 @@ discovery_implications:
     fidelity exists for mineral patterns.
   - How the frontier moves under the package priors (LHS over the 11 free parameters)
     and with sequence-level information.
-  - Whether the classes, attached as a bigraph rewrite to Phase-5 agents, keep the
-    same ordering under Phase-6 energy coupling.
+  - Whether the classes, attached as a bigraph rewrite to the boundary-stage agents,
+    keep the same ordering under the energy-coupling stage.
   followup_study_proposals:
   - study: og-06-alt-information-per-cost-b
     rationale: Propagate the inheritance_budgets priors and add a sequence-level (template
@@ -267,7 +267,7 @@ discovery_implications:
       with per-seed convergence as a reported fraction rather than a strict all-seeds
       rule.
   - study: og-08-alt-robust-innovation-set
-    rationale: Carry the attached heredity class into the Phase-9 autonomy ensemble
+    rationale: Carry the attached heredity class into the integrated-autonomy ensemble
       as one of the inheritance structures the minimum innovation set is intersected
       over.
 decisions_needed:
@@ -538,7 +538,7 @@ behavior_tests:
   requires_simulation: 'yes'
 - name: ancestry-predicts-phenotype
   classification: primary
-  description: 'Phase-7 exit gate: at least four of the six heredity classes transmit
+  description: 'Heredity exit gate: at least four of the six heredity classes transmit
     parent-offspring mutual information their unattached controls do not — per class,
     MI converged on every seed, >= 0.1 bit, and >= 0.05 bit above the class''s own
     control (6 seeds x 100 ticks). Declared after the exploratory scans were visible
@@ -765,7 +765,7 @@ visualizations:
 - name: heredity-information-frontier
   address: local:HeredityInformationFrontier
   config:
-    title: Phase 7 — heritable bits vs energy per offspring, per heredity class, with
+    title: Heritable bits vs energy per offspring, per heredity class, with
       controls and the Pareto front (Decision view)
     report_json: workspace/studies/og-06-alt-information-per-cost/artifacts/information_frontier.json
 - name: heredity-attachment-map
@@ -1022,7 +1022,7 @@ runs:
       evaluated_by: code
       axis:
         id: ancestry-predicts-phenotype
-        label: 'Phase-7 exit gate: at least four of the six heredity classes transmit
+        label: 'Heredity exit gate: at least four of the six heredity classes transmit
           parent-offspring mutual information their unattached controls do not — per
           class, MI converged on every seed, >= 0.1 bit, and >= 0.05 bit above the
           class''s own control (6 seeds x 100 ticks). Declared after the exploratory
