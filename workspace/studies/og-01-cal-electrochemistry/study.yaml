@@ -503,11 +503,6 @@ baseline:
     model_carbon_fixation: butler_volmer
     dilution_rate: 2.0
   canonical: true
-parent_studies:
-- study: og-01-geology-to-reduced-carbon
-  condition: tests-passed
-- study: og-cal-vent-environment
-  condition: tests-passed
 parent_relations:
 - study: og-01-geology-to-reduced-carbon
   relation: leads-to

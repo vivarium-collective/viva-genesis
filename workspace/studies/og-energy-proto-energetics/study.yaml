@@ -355,9 +355,6 @@ readouts:
   units: kilojoule/mole
   description: Exergonic geochemical drive ΔG
   status: available
-parent_studies:
-- study: og-04-mineral-compartments-to-protocells
-  condition: tests-passed
 key_assumptions:
 - Capturing environmental free energy into a transferable store is the transition
   — not merely a favourable reaction direction.
@@ -391,6 +388,9 @@ visualizations:
     title: Proto-energetics — capturing free energy into a transferable currency (Decision
       view)
 pipeline_gate:
+  prerequisites:
+  - study: og-04-mineral-compartments-to-protocells
+    condition: tests-passed
   gate_evaluator:
     result: passed
     blocked_by: []

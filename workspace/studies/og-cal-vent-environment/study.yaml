@@ -471,9 +471,6 @@ baseline:
   composite: viva_genesis.composites.geochemical_world.geochemical_world
   params: {}
   canonical: true
-parent_studies:
-- study: og-00-vent-reactor-baseline
-  condition: tests-passed
 parent_relations:
 - study: og-00-vent-reactor-baseline
   relation: leads-to

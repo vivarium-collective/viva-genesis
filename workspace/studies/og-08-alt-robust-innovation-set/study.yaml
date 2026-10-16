@@ -671,17 +671,6 @@ baseline:
     heredity: 'on'
     feed_floor: 0.01
   canonical: true
-parent_studies:
-- study: og-08-escape-from-the-vent
-  condition: tests-passed
-- study: og-adv-generic-nonequilibrium
-  condition: tests-passed
-- study: og-energy-alt-internalization-threshold
-  condition: tests-passed
-- study: og-06-alt-information-per-cost
-  condition: tests-passed
-- study: og-07-alt-real-metabolite-exchange
-  condition: tests-passed
 parent_relations:
 - study: og-08-escape-from-the-vent
   relation: alternative-to

@@ -606,11 +606,6 @@ baseline:
   params:
     model_proto_metabolism: reaction_universe
   canonical: true
-parent_studies:
-- study: og-02-reduced-carbon-to-protometabolism
-  condition: tests-passed
-- study: og-cal-vent-environment
-  condition: tests-passed
 parent_relations:
 - study: og-02-reduced-carbon-to-protometabolism
   relation: alternative-to

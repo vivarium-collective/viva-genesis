@@ -124,11 +124,6 @@ conclusion_verdicts:
 limitations:
 - Growth is abstracted to the division trigger (division_state), not the full osmotic
   van der Waals growth of og-growth-division; coupling the two is the natural follow-up.
-parent_studies:
-- study: og-growth-division
-  condition: tests-passed
-- study: og-04-alt-endogenous-boundary
-  condition: tests-passed
 visualizations:
 - name: physical-reproduction-lineage
   address: local:PhysicalReproductionViz
@@ -203,6 +198,11 @@ runs:
         citation: null
       auto_evaluated: true
 pipeline_gate:
+  prerequisites:
+  - study: og-growth-division
+    condition: tests-passed
+  - study: og-04-alt-endogenous-boundary
+    condition: tests-passed
   state: passed
 verdict: supported
 evidence_tier: mechanistic_prediction

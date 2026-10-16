@@ -679,11 +679,6 @@ baseline:
     model_energy_coupling: thioester_acyl_phosphate
     coupling_activity: 0.5
   canonical: true
-parent_studies:
-- study: og-energy-proto-energetics
-  condition: tests-passed
-- study: og-05-environmental-to-internal-bioenergetics
-  condition: tests-passed
 parent_relations:
 - study: og-energy-proto-energetics
   relation: alternative-to

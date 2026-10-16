@@ -322,9 +322,6 @@ readouts:
   units: dimensionless
   description: Heredity-module polymer length
   status: available
-parent_studies:
-- study: og-05-environmental-to-internal-bioenergetics
-  condition: tests-passed
 key_assumptions:
 - Treat informational chemistry as a branch point; do not presume a viable RNA replication
   mechanism.
@@ -465,6 +462,9 @@ runs:
         heredity persists length-independently and seed-robustly; the non-heritable
         control collapses every seed
 pipeline_gate:
+  prerequisites:
+  - study: og-05-environmental-to-internal-bioenergetics
+    condition: tests-passed
   gate_evaluator:
     result: passed
     blocked_by: []

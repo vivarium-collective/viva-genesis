@@ -755,11 +755,6 @@ baseline:
     p_monoacid: 1.0e-07
     k_wash: 0.01
   canonical: true
-parent_studies:
-- study: og-07-ecology-before-luca
-  condition: tests-passed
-- study: og-02-alt-reaction-universe
-  condition: tests-passed
 parent_relations:
 - study: og-07-ecology-before-luca
   relation: alternative-to

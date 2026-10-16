@@ -355,9 +355,6 @@ baseline:
     porosity: 0.3
     pore_length: 0.005
     delta_T: 30.0
-parent_studies:
-- study: og-02-reduced-carbon-to-protometabolism
-  condition: tests-passed
 key_assumptions:
 - Concentration arises from the balance of advection, diffusion, thermodiffusion,
   adsorption, precipitation and degradation — not assumed.
@@ -478,6 +475,9 @@ runs:
         citation: null
       auto_evaluated: true
 pipeline_gate:
+  prerequisites:
+  - study: og-02-reduced-carbon-to-protometabolism
+    condition: tests-passed
   gate_evaluator:
     result: passed
     blocked_by: []

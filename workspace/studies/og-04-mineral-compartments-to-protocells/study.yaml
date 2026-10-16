@@ -296,9 +296,6 @@ readouts:
   units: meter**2
   description: Total vesicle membrane area
   status: available
-parent_studies:
-- study: og-03-dilution-to-localized-individuals
-  condition: tests-passed
 key_assumptions:
 - Mineral pores provide initial individuality; organic boundaries are a later, condition-dependent
   transition.
@@ -412,6 +409,9 @@ runs:
       detail: favorable viable=8000; extreme-salt viable=0, acidic viable=0 (controls
         abolish vesicles => bounded survival region)
 pipeline_gate:
+  prerequisites:
+  - study: og-03-dilution-to-localized-individuals
+    condition: tests-passed
   gate_evaluator:
     result: passed
     blocked_by: []

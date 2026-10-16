@@ -717,11 +717,6 @@ baseline:
     model_heredity: rna_like
     attachment: step
   canonical: true
-parent_studies:
-- study: og-06-chemistry-to-heredity
-  condition: tests-passed
-- study: og-energy-proto-energetics
-  condition: tests-passed
 parent_relations:
 - study: og-06-chemistry-to-heredity
   relation: alternative-to

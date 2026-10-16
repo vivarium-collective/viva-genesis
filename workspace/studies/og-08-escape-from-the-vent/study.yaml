@@ -252,9 +252,6 @@ readouts:
   units: watt
   description: Net budget as power
   status: available
-parent_studies:
-- study: og-07-ecology-before-luca
-  condition: tests-passed
 key_assumptions:
 - Autonomy is reduced dependence on the exact vent interface, measured by ablation
   — not a binary.

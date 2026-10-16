@@ -280,9 +280,6 @@ baseline:
     temperature: 333.15
     loss_rate: 0.08
   canonical: true
-parent_studies:
-- study: og-03-dilution-to-localized-individuals
-  condition: tests-passed
 parent_relations:
 - study: og-03-dilution-to-localized-individuals
   relation: leads-to

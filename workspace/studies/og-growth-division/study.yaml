@@ -335,11 +335,6 @@ readouts:
   units: dimensionless
   description: 'Physical fate: 0 starve, 1 grow-no-division, 2 divide, 3 lysis'
   status: available
-parent_studies:
-- study: og-04-mineral-compartments-to-protocells
-  condition: tests-passed
-- study: og-02-reduced-carbon-to-protometabolism
-  condition: tests-passed
 key_assumptions:
 - The compartment (og-04 protocell) and the autocatalytic network (og-02 rTCA source)
   are given; this stage couples them to osmotic physics to test whether chemistry

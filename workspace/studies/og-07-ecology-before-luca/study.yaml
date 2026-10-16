@@ -306,9 +306,6 @@ readouts:
   description: Overlap of the collective repertoire with the anaerobic LUCA core (reported
     boundary)
   status: available
-parent_studies:
-- study: og-06-chemistry-to-heredity
-  condition: tests-passed
 key_assumptions:
 - Use LUCA as a constraint on capabilities eventually acquired, not evidence the first
   replicators were LUCA-like.
@@ -335,6 +332,9 @@ visualizations:
     grid_json: workspace/studies/og-07-ecology-before-luca/artifacts/metacommunity_robustness_grid.json
     title: Where cross-feeding robustness emerges
 pipeline_gate:
+  prerequisites:
+  - study: og-06-chemistry-to-heredity
+    condition: tests-passed
   gate_evaluator:
     result: passed
     blocked_by: []

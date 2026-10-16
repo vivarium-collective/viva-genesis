@@ -232,9 +232,6 @@ key_assumptions:
   are not vent-specific.
 - The control is a parameterization of the real og-01/02/03 composites, so it tests
   the same models, not a mock.
-parent_studies:
-- study: og-02-reduced-carbon-to-protometabolism
-  condition: tests-passed
 parent_relations:
 - study: og-02-reduced-carbon-to-protometabolism
   relation: refutes
@@ -242,6 +239,9 @@ kind: adversarial
 simulation_status: ran
 implementation_status: complete
 pipeline_gate:
+  prerequisites:
+  - study: og-02-reduced-carbon-to-protometabolism
+    condition: tests-passed
   gate_evaluator:
     result: passed
     evaluated_by: code
