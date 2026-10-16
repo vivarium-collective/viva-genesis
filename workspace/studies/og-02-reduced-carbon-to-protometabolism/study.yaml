@@ -242,8 +242,8 @@ literature_anchors:
   model_observable: edge yields + network reachability
   source: Muchowska 2019
   status_in_workspace: Represented as the lumped reductive-TCA turn (the curated rTCA
-    class on libRoadRunner), graded; edge-by-edge 9/11 reachability is the Phase-3
-    reaction_universe comparison, not yet run
+    class on libRoadRunner), graded; edge-by-edge 9/11 reachability is the reaction_universe
+    comparison, not yet run
   cites:
   - muchowska2019synthesis
 implemented_methods:

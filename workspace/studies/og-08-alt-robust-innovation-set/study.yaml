@@ -29,7 +29,7 @@ objective: Build the integrated world (AblationStep, GeologicalDriverStep, Linea
   AutonomyBudgetStep, PopulationBudgetProcess, StructuralEventLogStep; the integrated_autonomy_world
   composite over the energy_coupling / heredity / boundary / localization faces with
   a permeability anchor and a maintenance law; the vg-data package integrated_autonomy
-  carrying the Phase-1 posterior), run every subset of {pump, importer, heredity}
+  carrying the vent posterior), run every subset of {pump, importer, heredity}
   under a sampled structural ensemble at the nominal and a rich ocean floor with the
   og-adv generic control and the full set over the floor axis, grade the pre-registered
   gates and report the intersection of the required innovations as a lattice with
@@ -64,7 +64,7 @@ findings:
     units: dimensionless
   explanation: 'The persistence rule reads the settled work and material budgets with
     every driver at its floor. Off-gradient the external tap is gone, the store runs
-    on the drive the cell''s own H2 / organic pool sustains, and the upkeep (the Phase-6
+    on the drive the cell''s own H2 / organic pool sustains, and the upkeep (the energy-coupling
     maintenance at full coupling, 5.1e-18 W) takes most of what the best store delivers;
     a lineage whose heredity class cannot hold its machinery on a tenth of the carbon
     loses the pump with it. Artifact: artifacts/robust_innovation_set.json (lattice,
@@ -98,7 +98,7 @@ findings:
     against the membrane''s leak at the thermodynamic cost RT ln(c_in/c_out) per mole
     over a 0.5 efficiency, spending up to 30 % of the work supply; with the drive
     already saturated by ocean H2 (K 10 uM) the imported organics add nothing to the
-    budget, so the importer is a pure cost under the Phase-8 extrapolated leak. Artifact:
+    budget, so the importer is a pure cost under the ecology-stage extrapolated leak. Artifact:
     artifacts/robust_innovation_set.json (lattice_rich, discrimination_rich).'
   expected:
     cites:
@@ -167,7 +167,7 @@ findings:
     4.9e-32, charge 4.7e-14, element 0); 40441 structural events were logged (22365
     divisions, 724 extinctions); the og-adv generic control (every driver at its floor
     from t = 0, no pore concentration) persists under 0/24 structures. The vg-data
-    package carries 32 parameters: 5 calibrated (the Phase-1 posterior), 4 inferred,
+    package carries 32 parameters: 5 calibrated (the vent posterior), 4 inferred,
     3 extrapolated, 20 hypothetical, none unsourced.'
   evidence:
     from_test: ensemble-ledgers-close
@@ -188,8 +188,8 @@ conclusion: 'The integrated world does not reproduce og-08: no subset persists a
 conclusion_verdicts:
   biological_validation:
     result: PARTIAL
-    basis: Every innovation is a real process of an earlier phase under its own ledger
-      and every vent endmember is a Phase-1 posterior draw, but the off-gradient verdict
+    basis: Every innovation is a real process of an earlier stage under its own ledger
+      and every vent endmember is a vent posterior draw, but the off-gradient verdict
       turns on hypothetical numbers — the ocean substrate floor, the transporter,
       the drive affinities, the machinery normalisation, the heredity supply — that
       no measurement constrains yet.
@@ -202,7 +202,7 @@ conclusion_verdicts:
 limitations:
 - Every number that makes the off-gradient verdict is hypothetical and swept or declared
   (vg-data integrated_autonomy audit); the vent endmembers alone are calibrated (the
-  Phase-1 posterior, six draws).
+  vent posterior, six draws).
 - One Gillespie seed per heredity class and structure; verdicts at the margin of the
   persistence rule can flip with the seed.
 - The thermal withdrawal (the cold ocean, where fatty-acid vesicles crystallise) is
@@ -238,10 +238,10 @@ decisions_needed:
     (plan section 10), not a result: the integrated world reproduces it only where
     its own hypotheticals allow, and the set it finds required is structure-dependent.
     Record this framing for the campaign''s endpoint statement?'
-  context: Phase-9 roadmap row, decision column. In the integrated world the innovations
+  context: The integrated-autonomy decision. In the integrated world the innovations
     are processes of Phases 6, 7 and 8 with real costs; which of them are required
     depends on the inheritance class, the ocean floor and the membrane leakiness.
-    The honest statement is that og-08 generated the hypothesis and Phase 9 maps where
+    The honest statement is that og-08 generated the hypothesis and the integrated-autonomy study maps where
     it holds.
 - question: 'The ocean floor: what residual substrate background (dissolved H2, organics)
     does a lineage leaving the vent meet? The world withdraws every driver to a fraction
@@ -325,7 +325,7 @@ implemented_methods:
   / model_boundary / model_localization, permeability_anchor, maintenance_law, pump
   / importer / heredity, environment); viva_genesis.uq.robust_innovation; viva_genesis.uq.phase1_posterior;
   viz_autonomy (lattice + ablation trace).
-- 'vg-data integrated_autonomy (32 parameters: 5 calibrated from the Phase-1 posterior,
+- 'vg-data integrated_autonomy (32 parameters: 5 calibrated from the vent posterior,
   4 inferred, 3 extrapolated, 20 hypothetical); sims/compute_robust_innovation_set.py
   (485 integrated-world runs -> artifacts/robust_innovation_set.json).'
 contract:
@@ -473,7 +473,7 @@ behavior_tests:
   requires_simulation: 'yes'
 - name: minimum-sufficient-innovation-set
   classification: primary
-  description: 'Phase-9 exit gate (pre-registered): at the nominal ocean floor (1e-2)
+  description: 'Integrated-autonomy exit gate (pre-registered): at the nominal ocean floor (1e-2)
     the lattice resolves — the full set persists off-gradient under at least half
     the sampled model structures AND the intersection of the required innovations
     over the structures where some subset persists is non-empty.'
@@ -641,7 +641,7 @@ literature_anchors:
   model_observable: the permeability-assumption axis (boundary class x anchor) in
     lattice.by_axis
   source: Sojo 2014; Jordan 2019 (vesicle system)
-  status_in_workspace: Under the Phase-8 extrapolated leak the importer's cost (up
+  status_in_workspace: Under the ecology-stage extrapolated leak the importer's cost (up
     to 1.9e-18 W, its full budget) exceeds its benefit; under the measured charged-solute
     anchor it costs ~1e-21 W but the best full-set lineage still sits 1e-19 W short
     — the leak sets the cost, the upkeep the margin.
@@ -675,8 +675,8 @@ parent_relations:
 - study: og-07-alt-real-metabolite-exchange
   relation: leads-to
 key_assumptions:
-- One 0.52-pL protocell (the Phase-6 individual) carries the Phase-3 universe (generalist
-  repertoire) and the Phase-8 exchange rules; its vent is one Phase-1 posterior draw
+- One 0.52-pL protocell (the energy-coupling individual) carries the reaction universe (generalist
+  repertoire) and the metacommunity exchange rules; its vent is one vent posterior draw
   (H2 2.3-10.8 mM, dpH 3.4, 322 K); the withdrawal is linear over 100 minutes after
   one hour in the vent, every driver relaxing to the ocean floor (the gradient to
   0).
@@ -957,7 +957,7 @@ runs:
       evaluated_by: code
       axis:
         id: minimum-sufficient-innovation-set
-        label: 'Phase-9 exit gate (pre-registered): at the nominal ocean floor (1e-2)
+        label: 'Integrated-autonomy exit gate (pre-registered): at the nominal ocean floor (1e-2)
           the lattice resolves — the full set persists off-gradient under at least
           half the sampled model structures AND the intersection of the required innovations
           over the structures where some subset persists is non-empty.'

@@ -154,7 +154,7 @@ limitations:
 - The Mechanism-view trap→network coupling is a reduced, enrichment-capped (60×) illustration,
   not a graded result; the quantitative in-pore network persistence is carried by
   the downstream enclosed-network studies.
-- og-03 concentrates a SINGLE tracer. The Phase-4 co-localization map (viva_genesis/colocalization_map.py)
+- og-03 concentrates a SINGLE tracer. The enrichment-field co-localization map (viva_genesis/colocalization_map.py)
   sweeps the eight-solute MIXTURE over (Péclet × Soret) with the FEM-calibrated surrogate
   and finds the mixture FRACTIONATES rather than co-localizing in one thermophoretic
   pore — the fractionation is SORET-DRIVEN — low-S_T solutes (e.g. ammonium) lag the
@@ -185,7 +185,7 @@ discovery_implications:
     the pocket than in the well-mixed bulk — pursued downstream (og-04/og-05 enclose
     the network).
   - Whether any pore regime co-localizes the FULL prebiotic mixture rather than one
-    tracer — the Phase-4 map finds the mixture fractionates in the strong-Soret regime
+    tracer — the enrichment-field map finds the mixture fractionates in the strong-Soret regime
     (co-localization index ~0.18; surrogate 0.176 vs FEM 0.171, agreeing within ~2–19%)
     because low-S_T species like ammonium lag the strong thermophoretic ones, so the
     species a protocell needs together may not concentrate in the same place; a candidate
@@ -509,7 +509,7 @@ visualizations:
   address: local:PoreColocalizationMap
   config:
     grid_json: workspace/studies/og-03-dilution-to-localized-individuals/artifacts/colocalization_grid.json
-    title: Does the prebiotic mixture co-localize? (Phase 4 Decision view)
+    title: Does the prebiotic mixture co-localize? (Decision view)
 - name: pore-accumulation-3d
   address: local:ThermophoreticTrap3D
   config:
