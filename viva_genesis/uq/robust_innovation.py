@@ -125,7 +125,7 @@ SETTLED_KEYS = ("external_power", "internal_power", "maintenance_power", "import
 
 def run_point(spec: dict) -> dict:
     """Build -> run -> reduce one integrated world (picklable for a process pool)."""
-    import roadrunner
+    import roadrunner  # transitive via viva_tellurium; here only to quiet its logger for the sweep (not a model wrap)
     roadrunner.Logger.setLevel(roadrunner.Logger.LOG_ERROR)
     from process_bigraph import Composite, gather_emitter_results
     from ..core import build_core

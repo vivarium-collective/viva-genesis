@@ -8,8 +8,8 @@ mutational errors (E) do not and propagate. Above the threshold (Q high enough) 
 functional information is retained; below it, errors win and information is lost
 (the error catastrophe) — so inheritance only pays where fidelity beats the length.
 
-``HeredityReplicatorProcess`` **drives the genuine libRoadRunner integrator** (via
-tellurium ``te.loada``) on a logistic quasispecies ODE:
+``HeredityReplicatorProcess`` **drives the genuine libRoadRunner integrator**
+(via the imported ``viva_tellurium`` loader) on a logistic quasispecies ODE:
 
     C -> 2C   at krep·Q·C·(1 − (C+E)/K)      (correct replication)
     C -> E    at krep·(1 − Q)·C·(1 − (C+E)/K) (mutation to error)
@@ -119,8 +119,8 @@ class HeredityReplicatorProcess(Process):
         return {"temperature": 353.15}
 
     def _build(self, krep_eff):
-        import tellurium as te
-        rr = te.loada(_MODEL)
+        from viva_tellurium.processes import _load_roadrunner  # genuine engine via the imported wrapper
+        rr = _load_roadrunner(_MODEL, model_format="antimony")
         L = max(int(self.config["polymer_length"]), 1)
         rr.Q = float(self.config["per_site_fidelity"]) ** L          # whole-sequence fidelity
         rr.qe = float(self.config["error_fidelity"])
