@@ -489,6 +489,7 @@ runs:
 - name: viva_genesis.composites.nitrogen_assimilation.reduced_nitrogen_reactor__1791926319__eec3bc
   status: completed
   timestamp: 1791926319.8709178
+  started_at: '2026-10-13T21:18:39Z'
   canonical: true
   emitter:
     kind: sqlite

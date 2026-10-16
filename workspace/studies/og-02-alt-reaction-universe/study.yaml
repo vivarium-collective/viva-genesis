@@ -618,7 +618,7 @@ expert_questions:
 - Is the formose arm (10 mM formaldehyde) a legitimate vent feedstock question, or
   should Phase 4 co-localization be the only route to raising C1 activities?
 kind: alternative
-study_type: confirmatory
+study_type: exploratory
 implementation_status: complete
 runtime:
   default_emitter: sqlite

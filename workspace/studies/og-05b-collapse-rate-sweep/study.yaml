@@ -1,0 +1,29 @@
+schema_version: 4
+name: og-05b-collapse-rate-sweep
+title: How the survival region deforms with the speed of gradient loss
+status: planned
+design_status: drafted
+simulation_status: not_run
+study_type: exploratory
+proposed: true
+seeded_from:
+  study: og-05-environmental-to-internal-bioenergetics
+  finding: og05-survival-phase-map
+question: >-
+  og-05 maps a survival region for a fixed gradient-decline scenario. How does that region deform when
+  the decline_rate is swept and alternative collapse scenarios (step loss, oscillatory decline) are
+  substituted — is survival governed by the speed of gradient loss, the total dose, or the terminal
+  level?
+objective: >-
+  Sweep decline_rate and substitute alternative collapse trajectories on the bioenergetic-internalization
+  composite; measure where the survival region contracts or holds; report which feature of the collapse
+  (rate, dose, or endpoint) controls the boundary.
+baseline:
+- name: Bioenergetic internalization (og-05 canonical)
+  composite: viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization
+  params: {}
+proposed_acceptance_criteria:
+- The survival boundary is reported across the decline_rate sweep and at least two alternative collapse
+  scenarios, with the deformation characterised rather than asserted.
+- The controlling feature (rate vs dose vs endpoint) is identified from the sweep, or the result is
+  reported as indeterminate with the evidence that makes it so.

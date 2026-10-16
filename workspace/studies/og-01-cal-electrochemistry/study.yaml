@@ -615,6 +615,7 @@ runs:
 - name: viva_genesis.composites.electrochemical_interface.electrochemical_carbon_fixation__1792066785__b9f82a
   status: completed
   timestamp: 1792066787.239653
+  started_at: '2026-10-15T12:19:47Z'
   canonical: true
   emitter:
     kind: sqlite
@@ -853,3 +854,8 @@ loom:
   layout: hierarchy
   figure: true
   detail: contract
+conclusion_logic:
+  if_primary_tests_fail:
+    diagnose:
+    - issue: Empirical vs Butler-Volmer classes disagree on the dominant limitation label (agreement 0.47 < 0.80).
+      seeded_study: og-01-cal-dx-label-disagreement
