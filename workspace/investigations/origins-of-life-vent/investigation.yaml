@@ -656,6 +656,10 @@ studies:
 - og-06-alt-information-per-cost
 - og-07-alt-real-metabolite-exchange
 - og-08-alt-robust-innovation-set
+- og-00b-ph-endmember-sweep
+- og-01-cal-dx-label-disagreement
+- og-05b-collapse-rate-sweep
+- og-08-alt-dx-importer-cost
 acceptance_criteria:
 - study: og-00-vent-reactor-baseline
   behavior: vent-pH-in-lostcity-range
