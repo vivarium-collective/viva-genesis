@@ -10,10 +10,10 @@ evaluation_status: evaluated
 confidence: Accepted
 gate_status: passed
 title: Growth and Division
-question: Does an internal autocatalytic/metabolic chemistry change a compartment's
-  PHYSICAL fate — accumulating product, generating osmotic pressure, drawing in solvent,
-  expanding, and forcing division — and under what permeability regime does it divide
-  rather than lyse or starve?
+question: >-
+  Can an internal autocatalytic metabolism change a compartment's physical fate - driving
+  growth and division through osmotic pressure alone - without assigning any abstract fitness
+  score?
 hypothesis: Product accumulation from an internal autocatalytic source generates osmotic
   pressure that drives solvent influx and volume growth to a division threshold; there
   is a bounded membrane-permeability band in which the compartment sustains net growth
@@ -182,16 +182,16 @@ baseline:
     division_threshold: 6.4e-17
     leak_rate: 1.0
   canonical: true
-claim: A protocell's chemistry can change its physical fate. An internal autocatalytic/metabolic
-  source makes an osmolyte; its accumulation raises the internal osmotic pressure
-  (van 't Hoff), that pressure draws solvent across the semi-permeable membrane, the
-  compartment expands, and at a size threshold it divides — a physical selection mechanism
-  with no abstract fitness score. Whether this produces division rather than lysis
-  or starvation is set by the membrane permeability against the network throughput
-  — there is a bounded viable band in which net growth leads to repeated division,
-  flanked by starvation (too permeable — the product leaks before the osmotic pressure
-  can build) and lysis (too impermeable — the pressure bursts the membrane). Mass
-  is conserved to machine precision across growth and division.
+claim: >-
+  An internal autocatalytic source accumulates an osmolyte whose osmotic pressure draws
+  solvent across the membrane and grows the compartment to a division threshold; in the
+  matched regime it divides eight times over the run, with an osmolyte mass-balance residual
+  of about 4e-32 mol. Only about 25% of the throughput by permeability grid forms a viable
+  growth-to-division band, flanked by starvation when the membrane is too permeable and the
+  product leaks before pressure can build, and lysis when it is too impermeable and the
+  pressure bursts the membrane, while zero throughput produces essentially no growth. The
+  model therefore delivers a chemically selected, dividing protocell through mass-conserving
+  osmotic coupling, with no abstract fitness function assigned.
 findings:
 - id: oggd-metabolism-changes-physical-fate
   provenance:

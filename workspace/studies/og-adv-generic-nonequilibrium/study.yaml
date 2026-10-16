@@ -8,19 +8,22 @@ design_status: approved
 confidence: Accepted
 gate_status: passed
 title: The Adversarial Control
-question: Does a generic nonequilibrium chemical system with no vent-specific features
-  (no sustained H2, no Fe/Ni/S catalytic interface, no pore concentration) pass the
-  vent-specific gates? It SHOULD NOT.
+question: >-
+  Are the campaign's positive gates genuinely dependent on vent-specific mechanisms, or would
+  any generic driven nonequilibrium chemistry pass them? It should not.
 hypothesis: The og-01/og-02/og-03 gates REJECT this control; if they pass it, the
   gates measure generic nonequilibrium chemistry, not the vent mechanism.
 objective: Run the og-01..03 behavior tests on a vent-feature-ablated control; the
   campaign's gates must reject it, and the vent must pass the same tests.
-claim: The og-01/02/03 gates are vent-specific and falsifiable. A generic nonequilibrium
-  control — the SAME real composites with no sustained H2, no Fe/Ni/S catalytic interface
-  and no pore concentration — is rejected by every discriminating gate (carbon flux,
-  formate yield, protometabolic throughput, thermophoretic Péclet, enrichment), while
-  the vent passes all five. So a PASS elsewhere in the campaign certifies the vent
-  MECHANISM, not merely "some nonequilibrium chemistry".
+claim: >-
+  Run with the vent's characteristic features ablated - no sustained H2, no Fe/Ni/S catalytic
+  interface and no pore concentration - the same real composites fail all five discriminating
+  gates (carbon flux, formate yield, protometabolic throughput, thermophoretic Peclet and
+  enrichment), while the vent configuration passes all five, with the tightest rejection
+  margin about 1.8 decades. This is a falsification control: a pass elsewhere in the campaign
+  certifies the vent mechanism rather than simply any nonequilibrium chemistry producing
+  activity. The extreme enrichment magnitude itself is a reduced-model, solver-sensitive
+  figure and is used only as a pass/fail discriminator here.
 findings:
 - id: ogadv-gates-reject-generic
   kind: methodological

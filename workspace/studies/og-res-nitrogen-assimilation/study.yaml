@@ -10,10 +10,10 @@ gate_status: passed
 simulation_status: ran
 implementation_status: complete
 title: The Nitrogen Bottleneck
-question: Carbon fixation is not the only requirement for a protocell. Can an FeS-mediated
-  vent reduce the early ocean's oxidised / inert nitrogen (NO3-/NO2-/N2) to ammonium
-  fast enough to keep pace with carbon fixation, and which conditions (FeS activity,
-  nitrate supply, temperature) decide whether nitrogen becomes limiting first?
+question: >-
+  Can an FeS-mediated vent reduce the early ocean's oxidised and inert nitrogen (nitrate,
+  nitrite, N2) to ammonium fast enough to keep pace with carbon fixation, or does nitrogen
+  become the first limiting resource?
 hypothesis: On an Fe/Ni/S catalyst with an H2 reductant, nitrate is reduced through
   nitrite to ammonium and drawn into amino-acid precursors by reductive amination;
   reduced N keeps pace with reduced carbon (C:N supply ratio near Redfield) only inside
@@ -435,10 +435,14 @@ expert_questions:
 - 'OPEN: couple c_demand to the live og-01/og-02 carbon flux for a joint C+N co-limitation
   study (followup og-res-b).'
 kind: baseline
-claim: FeS-mediated reduction of oxidised/inert nitrogen supplies ammonium and amino-acid
-  precursors fast enough to keep pace with carbon fixation (C:N supply ratio near
-  Redfield) only inside a bounded region of (nitrate supply x FeS activity); outside
-  it nitrogen — not carbon or energy — becomes the first limiting resource.
+claim: >-
+  In the favourable regime FeS-mediated reduction of nitrate through nitrite sustains a
+  standing ammonium pool of about 1.0 mM and holds the C:N supply ratio near 5, inside the
+  viable near-Redfield band, with nitrogen conserved to machine precision. Strip out the FeS
+  catalyst or the H2 reductant and ammonium falls below a micromolar, while scarce nitrate
+  pushes the C:N ratio to about 47. Nitrogen therefore keeps pace only within a bounded
+  nitrate-supply by FeS-activity region, and outside it nitrogen - not carbon or energy -
+  becomes the first limiting resource.
 pipeline_gate:
   gate_evaluator:
     result: passed

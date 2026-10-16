@@ -10,9 +10,10 @@ evaluation_status: evaluated
 confidence: Accepted
 gate_status: passed
 title: Ecology Before LUCA
-question: In connected pore networks with cross-feeding, parasitism, cooperation and
-  horizontal exchange, what emergent capabilities arise — compared to ancestral reconstructions,
-  without assuming LUCA is primitive?
+question: >-
+  Can a connected population of heterogeneous protocells develop capabilities - functional
+  redundancy and robustness - that no single already-complete ancestral compartment holds on
+  its own?
 hypothesis: Heterogeneous populations develop metabolic diversity, cross-feeding and
   robustness single compartments do not; the emergent capability set overlaps the
   anaerobic H2/CO2/FeS LUCA reconstruction as a boundary.
@@ -134,21 +135,16 @@ baseline:
     hgt_rate: 0.1
     seed: 1
   canonical: true
-claim: A connected metacommunity of heterogeneous pore compartments develops functional
-  redundancy (robustness) that an isolated compartment cannot — cross-feeding and
-  horizontal transfer spread coarse-grained protometabolic capabilities into >= 2-fold
-  coverage, so most functions survive a single-compartment loss. Robustness EMERGES
-  only in a bounded corner of the swept phase maps — it needs enough inter-compartment
-  diversity to give cross-feeding something to share AND enough exchange to spread
-  it, and it collapses as parasite load rises — too little diversity leaves nothing
-  to share, too little exchange leaves a broad repertoire fragile, and parasites draining
-  their neighbours erase the redundancy. The three-view Decision map over (exchange_rate
-  x parasite_load) at the canonical diversity shows cross-feeding robustness emerging
-  only in the well-connected, low-parasite corner (PASS boundary at robustness 0.5).
-  The collective repertoire's overlap with the anaerobic H2/CO2/FeS LUCA reconstruction
-  is REPORTED as a far-end boundary the emergent set approaches (~0.6-0.7), not a
-  target — LUCA constrains which capabilities are eventually acquired, not evidence
-  the first compartments were LUCA-like.
+claim: >-
+  A connected metacommunity of eight heterogeneous pore compartments develops functional
+  redundancy that an isolated compartment cannot, reaching robustness about 0.71 against the
+  isolated counterfactual's 0.42 and beating it on every one of eight seeds, so most functions
+  get at least two-fold coverage and survive loss of a compartment. This emerges only in a
+  bounded corner of the phase map: enough inter-compartment diversity to give cross-feeding
+  something to share, enough exchange to spread it, and low enough parasite load not to erase
+  it. The collective repertoire's roughly 0.6-0.7 overlap with an anaerobic H2/CO2/FeS LUCA
+  reconstruction is reported as a far-end boundary the emergent set approaches, not as
+  evidence that the earliest compartments were already LUCA-like.
 findings:
 - id: og07-connectivity-builds-robustness
   provenance:

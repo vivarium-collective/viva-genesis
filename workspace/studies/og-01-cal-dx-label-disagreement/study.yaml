@@ -9,11 +9,10 @@ proposed: true
 seeded_from:
   study: og-01-cal-electrochemistry
 question: >-
-  og-01-cal's gate failed because the empirical and Butler-Volmer classes agree on the dominant
-  limitation label on only 47% of the region both call favorable. Is that disagreement a real
-  structural difference (the empirical single Michaelis drive genuinely lumps electrical and catalytic
-  limitation, and its substrate Michaelis constant introduces a transport limit the cell physics does
-  not have), or an avoidable artifact of binning / threshold placement in the label assignment?
+  Is the empirical-vs-Butler-Volmer disagreement on the dominant limitation label (they agree
+  on only 47% of the region both call favorable) a real structural difference in how each
+  class represents electrical, catalytic, and transport limits, or an avoidable artifact of
+  binning and threshold placement?
 objective: >-
   Isolate the source of the cross-class disagreement: decompose the empirical Michaelis drive against
   the Butler-Volmer overpotential terms point by point; test whether re-binning or a shared label

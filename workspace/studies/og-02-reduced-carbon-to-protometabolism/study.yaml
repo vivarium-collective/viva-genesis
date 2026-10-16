@@ -8,9 +8,9 @@ design_status: approved
 confidence: Accepted
 gate_status: passed
 title: The First Metabolism
-question: Under continuous feed and washout, do reaction subnetworks become self-reinforcing
-  — persistent cycles, flux amplification, product reuse, autocatalytic motifs — without
-  imposed product accumulation?
+question: >-
+  Under continuous feed and washout, does a curated prebiotic reaction network persist and
+  self-amplify as a connected system, rather than merely producing isolated organic molecules?
 hypothesis: A curated graph (formate/acetate/pyruvate/glyoxylate + rTCA fragments)
   seeded with Muchowska/Moran edges sustains nonzero throughput and at least one autocatalytic
   motif within a feasible resource budget.
@@ -285,10 +285,13 @@ visualizations:
 key_assumptions:
 - Rate laws/mineral dependencies carry provenance; autocatalysis is an emergent observable,
   not an assumption.
-claim: A curated rTCA-fragment network under continuous feed + washout sustains nonzero
-  carbon throughput, exhibits an autocatalytic motif (OAA self-amplification, autocatalytic
-  gain peaking ~29.5), and forms a single connected reaction network — metabolism-like
-  behavior emerging without imposed product accumulation.
+claim: >-
+  Under continuous feed and washout the curated rTCA-fragment network sustains nonzero carbon
+  throughput and an autocatalytic motif (OAA self-amplification, gain peaking near 29.5)
+  inside a bounded ignition region, where enough feed and slow enough washout let the loop
+  outpace dilution and past the gain = 1 boundary the hub washes out. It shows a specified
+  protometabolic network persists under flow, while leaving open whether such motifs emerge
+  from a broader, unconstrained reaction universe.
 kind: baseline
 simulation_status: ran
 implementation_status: complete

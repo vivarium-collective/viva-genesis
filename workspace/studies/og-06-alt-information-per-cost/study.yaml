@@ -11,16 +11,10 @@ confidence: Accepted
 gate_status: passed
 title: 'Competing Heredity: Which Inheritance Mechanism Transmits the Most Bits Per
   Joule, and When Is It Attached?'
-question: Model Upgrade plan, Phase 7. og-06 compared inheritance mechanisms as modes
-  of one mean-field process and concluded that heredity need not presume a long high-fidelity
-  RNA template. If the six candidate mechanisms (compositional assemblies, autocatalytic-network
-  attractors, templated peptides, RNA-like templates, a template-focused hybrid and
-  mineral-surface defect patterns) are instead separate model classes on one heredity
-  face, each simulated EXACTLY at low copy number (tens of molecules per protocell)
-  under the same precursor pools and the same energy store, and attached to a lineage
-  only when those budgets and the Eigen error threshold allow it — how many bits does
-  each class actually transmit from parent to offspring, at what cost in joules and
-  precursor molecules, and where does templated heredity take over?
+question: >-
+  When six inheritance mechanisms are each simulated exactly at low copy number under matched
+  precursor and energy budgets, which transmits the most heritable information per joule, and
+  where does templated (RNA-like) heredity take over?
 hypothesis: Every attached class transmits parent-offspring information its unattached
   control (daughters re-formed de novo from the same budget) does not; the template
   classes carry the most bits per offspring but pay the most per bit and are attached
@@ -38,14 +32,17 @@ objective: Build the heredity face (six classes carved out of og-06's LineageRep
   (six classes x attached / control x 6 seeds), the attachment map (six classes x
   six matched budget scales) and the fidelity transition (four template-type classes
   x six fidelities) and grade the pre-registered gates.
-claim: 'Priced under matched budgets at low copy number, heredity splits by currency:
-  the RNA-like template transmits the most certified bits per offspring but needs
-  30x the precursor and energy budget of the attractor classes and ribozyme-level
-  fidelity (q >= 0.967) to be attached at all, while the cheap classes transmit a
-  third of its bits at 10-1000x the bits per joule. og-06''s "heredity need not presume
-  RNA" is therefore a class-substitution result about efficiency, not capacity; the
-  only class that would dominate both axes — mineral-surface patterns — does so on
-  a defect-copy error nobody has measured.'
+claim: >-
+  Priced under matched budgets, heredity splits by currency: the RNA-like template transmits
+  the most certified information per offspring (1.46 bit) but needs about 30x the precursor
+  and energy budget of the attractor classes and ribozyme-level fidelity (q >= 0.967) to
+  attach at all, while the cheap classes (network, compositional) carry roughly a third of its
+  bits at 10-1000x the bits per joule - a frontier spanning 3.8 decades. og-06's "heredity
+  need not presume RNA" survives as a statement about efficiency, not capacity: the template
+  is the richest organic carrier, the attractors the cheapest. The one class that would
+  dominate both axes, mineral-surface patterns, does so only on a defect-copy error that has
+  never been measured, so the frontier's ordering is reported under declared costs rather than
+  as a ranking.
 findings:
 - id: og06alt-ancestry-predicts-phenotype-per-class
   provenance:

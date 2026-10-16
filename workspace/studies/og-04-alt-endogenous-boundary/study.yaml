@@ -10,9 +10,11 @@ evaluation_status: evaluated
 confidence: Accepted
 gate_status: passed
 title: The Endogenous Boundary
-question: Can a protocell boundary form from the campaign's OWN chemistry — amphiphile
-  synthesised from reduced carbon (acetate + formate) assembling into a vesicle that
-  encloses an individual — rather than from an injected amphiphile pool?
+question: >-
+  Can a protocell boundary form from the campaign's own reduced-carbon chemistry - an
+  amphiphile synthesized from acetate + formate that clears the critical aggregation
+  concentration - rather than from an injected amphiphile pool, and is its formation caused by
+  that synthesis?
 hypothesis: When acetate + formate condense to an amphiphile that clears the critical
   aggregation concentration under vesicle-favourable (alkaline, saline) conditions,
   a viable boundary forms and a new individual appears in the agents map by an _add
@@ -119,9 +121,14 @@ baseline:
     pH: 9.0
     ionic_strength: 0.35
   canonical: true
-claim: A protocell boundary forms from the campaign's own reduced-carbon chemistry
-  (endogenous amphiphile), producing an individual by a matter-conserving _add structural
-  rewrite; ablating synthesis removes the individual.
+claim: >-
+  When acetate and formate condense into an amphiphile under alkaline, saline conditions it
+  clears the critical aggregation concentration, and a new individual appears in the agents
+  map through a matter-conserving structural rewrite. Ablating the synthesis leaves the
+  amphiphile below threshold and no individual forms, so boundary formation is caused by the
+  endogenous chemistry rather than an added amphiphile. What remains assumed is the
+  condensation rate itself (k_synth), an inferred value with no direct prebiotic measurement,
+  swept over a wide prior.
 findings:
 - id: endogenous-boundary-forms
   provenance:

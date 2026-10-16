@@ -10,10 +10,9 @@ seeded_from:
   study: og-05-environmental-to-internal-bioenergetics
   finding: og05-survival-phase-map
 question: >-
-  og-05 maps a survival region for a fixed gradient-decline scenario. How does that region deform when
-  the decline_rate is swept and alternative collapse scenarios (step loss, oscillatory decline) are
-  substituted — is survival governed by the speed of gradient loss, the total dose, or the terminal
-  level?
+  When the gradient-decline rate is swept and alternative collapse scenarios such as step loss
+  and oscillatory decline are substituted, is survival governed by the speed of gradient loss,
+  the total dose, or the terminal level?
 objective: >-
   Sweep decline_rate and substitute alternative collapse trajectories on the bioenergetic-internalization
   composite; measure where the survival region contracts or holds; report which feature of the collapse

@@ -10,9 +10,9 @@ gate_status: passed
 simulation_status: ran
 implementation_status: complete
 title: The First Carbon
-question: Which combinations of T, pH, pressure, H2, CO2 and mineralogy generate sustained
-  net organic-carbon flux across the interface — reproducing Hudson/Preiner/Altair
-  regimes before any extrapolation?
+question: >-
+  Can geological H2 drive CO2 reduction on vent mineral catalysts strongly enough to sustain a
+  source of reduced organic carbon?
 hypothesis: Over Fe/Ni/S surfaces and across the pH gradient, H2-driven CO2 reduction
   yields formate/acetate/pyruvate at lab-calibrated rates within a bounded (T,pH,H2,pressure)
   region; the Tutolo-2026 in-situ arm roughly halves the flux, and the feature-ablation
@@ -493,11 +493,15 @@ expert_questions:
   ΔG''), electrochemistry via real FiPy Nernst-Planck. (PHREEQC/Reaktoro speciation
   can be layered in later for the carbonate system; not required for the benchmarks.)'
 kind: baseline
-claim: H2-driven CO2 reduction over Fe/Ni/S reproduces the Preiner/Hudson lab yields
-  and net organic-carbon flux in a bounded favorable regime; the Tutolo-2026 arm shows
-  the usable proton-motive gradient collapses at in-situ T/P (427 -> 43 mV), roughly
-  halving the sustained flux; only the no-gradient / no-H2 / no-catalyst controls
-  zero it.
+claim: >-
+  Over Fe/Ni/S catalysts the model reproduces the Preiner-2020 yield hierarchy - formate about
+  200 mM, acetate about 100 uM, pyruvate about 10 uM - and sustains net organic-carbon flux
+  inside a bounded region set by the pH gradient and dissolved H2, while the no-gradient,
+  no-H2 and no-catalyst controls collapse it. A discriminating in-situ arm (Tutolo-2026) shows
+  the usable proton-motive gradient falling from 427 to 43 mV, roughly halving the sustained
+  flux. Because the CO2-reduction kinetics are lab-calibrated to Preiner rather than derived
+  from first-principles surface chemistry, this establishes a computational bridge from
+  serpentinization to an organic-carbon feedstock, not yet metabolism.
 pipeline_gate:
   gate_evaluator:
     result: passed

@@ -10,10 +10,9 @@ evaluation_status: evaluated
 confidence: Accepted
 gate_status: passed
 title: The First Individual
-question: Where in pore geometry (openness × length) does a real thermophoretic +
-  convective trap concentrate a dilute vent feed across the localization threshold
-  — the point at which a bounded, concentrated "individual" forms rather than washing
-  through?
+question: >-
+  Can vent pore physics concentrate a dilute vent feed strongly enough to form a persistent,
+  localized individual rather than washing everything into the ocean?
 hypothesis: Thermophoresis + convection + adsorption in evolving pores raise local
   concentration enough that synthesis outruns hydrolysis/leakage in a bounded geometry
   region; elsewhere washout dominates.
@@ -63,14 +62,16 @@ contract:
   note: bigraph-schema typed ports (_type/_units/bounds) + conservation predicates;
     the composite built for this study must declare a ProcessContract matching this
     face (audited via the workbench §Contract panel).
-claim: 'Localization is real and robust: a real FiPy thermophoretic + convective trap
-  concentrates a dilute vent feed into a bounded REGION of pore geometry, mapped natively
-  over (porosity × pore length) — long, tight pores localize strongly (a persistent
-  local "individual" emerges) while open / short pores wash the feed through (enrichment
-  ~1). The EXTENT of enrichment the favourable trap reaches (reduced-model estimate
-  ~1e6–1e7-fold at accumulation Péclet ≈ 18) is a solver-sensitive extrapolation above
-  Pe ≈ 13, not a precise resolved result — the defensible claim is that localization
-  occurs, not the exact fold-magnitude (Baaske 2007).'
+claim: >-
+  Localization occurs robustly in a bounded geometry regime: long, tight pores trap and
+  concentrate the feed (the favorable pore clears the Baaske-2007 extreme-accumulation regime
+  at an accumulation Peclet of 18.4, with finite-volume flux conserved to machine precision),
+  while open or short pores wash it through at enrichment near one, and the native porosity x
+  pore-length map localizes at about 17% of the grid (25/144 points). The very large fold-
+  enrichment estimates at high Peclet (reduced-model roughly 1e6-1e7) are solver-sensitive
+  above Peclet about 13, where FiPy and FEniCS diverge by up to 5.6 decades. So the defensible
+  result is the existence and location of a localization regime, not a precise extreme-
+  enrichment magnitude.
 confidence_level: high
 findings:
 - id: og03-baaske-enrichment

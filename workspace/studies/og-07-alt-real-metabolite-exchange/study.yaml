@@ -11,16 +11,11 @@ confidence: Accepted
 gate_status: passed
 title: 'Biochemical Ecology: A Community Function That No Lineage Can Perform, Carried
   by Real Metabolite Flux'
-question: Model Upgrade plan, Phase 8. og-07 showed that connected compartments develop
-  capability redundancy, but its compartments were capability VECTORS and its cross-feeding
-  a symbolic transfer. If every protocell instead carries the Phase-3 rule-generated
-  reaction universe (libRoadRunner, eQuilibrator dG') masked to its own catalyst repertoire
-  — a carboxylating lineage that can fix CO2 but not hydrogenate, a hydrogenating
-  lineage that cannot carboxylate — and the only coupling between them is matter crossing
-  their membranes into a shared pore field shaped by the Phase-4 enrichment, does
-  the community realise a metabolic function that no lineage performs alone, is that
-  function sustained by the flux of a real intermediate rather than by a capability
-  being copied, and does it appear before any cell is complete?
+question: >-
+  If every protocell carries the same real rule-generated chemistry masked to its own catalyst
+  repertoire, can a community of incomplete lineages realise a metabolic function no lineage
+  performs alone, sustained by a real intermediate crossing membranes rather than a symbolic
+  capability transfer?
 hypothesis: 'The reductive C4 branch (oxaloacetate -> malate -> succinate) is split
   across the two incomplete lineages: the fixer carboxylates pyruvate to oxaloacetate
   but cannot reduce it, the reducer can reduce it but never makes it; in a shared
@@ -39,16 +34,17 @@ objective: Build the proto_ecology face (ProtocellNetworkProcess and the matched
   (generalist) arm, the segregated placement and the rewired-null arms at the canonical
   point, and the four arms over (diacid permeability x pore residence); grade the
   pre-registered gates.
-claim: With real chemistry inside every protocell, a community of two incomplete lineages
-  performs a metabolic function — the reductive C4 branch from oxaloacetate to malate
-  — that neither lineage performs alone and that a complete cell performs at 20x the
-  level, sustained by a dicarboxylate crossing between the lineages through a shared
-  pore and not by any capability changing hands; the function precedes cell completeness
-  — as a mean-field expectation at copy numbers (4e-3 molecules per femtolitre cell)
-  that make a stochastic treatment the next step. It exists only above a diacid permeability
-  of ~3e-9 m/s, one to two decades above the measured passage of charged solutes through
-  fatty-acid vesicles, so the leakiness of the boundary — not the chemistry — is what
-  decides whether ecology before LUCA could run on exchanged intermediates.
+claim: >-
+  A community of one carboxylating and one hydrogenating lineage holds malate - the reductive
+  C4 branch from oxaloacetate - at 6.4 nM while neither monoculture ever makes it and a
+  complete cell makes it at about 20x the level. The function vanishes when nothing is shared,
+  and its oxaloacetate precursor physically crosses between the lineages, so no capability
+  changes hands; it appears while every cell is still incomplete. It exists only above a
+  dicarboxylate membrane permeability of ~3e-9 m/s, one to two decades above the measured
+  passage of charged solutes through fatty-acid vesicles, so the leakiness of the boundary
+  rather than the chemistry decides whether ecology could run on exchanged intermediates - and
+  at ~4e-3 molecules per cell the result is a mean-field expectation that still awaits a
+  stochastic treatment.
 findings:
 - id: og07alt-community-function-precedes-cell-completeness
   provenance:

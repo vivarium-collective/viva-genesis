@@ -11,17 +11,11 @@ confidence: Accepted
 gate_status: passed
 title: 'The Internalization Threshold: When Does Owning an Energy Store Pay, Per Coupling
   Class?'
-question: Model Upgrade plan, Phase 6. og-energy showed a pre-ATP carrier can capture
-  geochemical free energy into a transferable store, and og-05 showed selection can
-  shift a POPULATION toward pumped (internal) bioenergetics as the external gradient
-  declines — but both left the energy budget outside the individual. If the coupling
-  mechanism is put INSIDE a protocell as a model class on one energy_coupling face
-  — the passive external tap, a pumped H+/Na+ gradient store that leaks with the membrane,
-  the thioester / acyl-phosphate and polyphosphate carriers, a reduced-metal store
-  charged by Fe(II) disproportionation — and each individual's power budget is audited
-  by a free-energy ledger, at what coupling activity does the internal store's benefit
-  exceed its leak plus the machinery's maintenance, per class, and how does that threshold
-  move with the membrane's leak and the external gradient?
+question: >-
+  With the energy-coupling mechanism placed inside a protocell as five competing model
+  classes, at what coupling activity does owning an internal energy store pay (its benefit
+  exceeding its leak plus maintenance), and how does that threshold depend on the carrier
+  chemistry and the membrane leak?
 hypothesis: 'Internalization pays only where the store can be charged above the load''s
   free energy faster than it leaks: the thioester-class carrier (bond 35 kJ/mol, leaking
   by hydrolysis) pays from a low activity at the nominal membrane; the ion-gradient
@@ -39,16 +33,17 @@ objective: Build the energy_coupling face (passive_gradient | h_na_gradient_leak
   exact every tick) and the protocell_energetics composite; sweep passive -> active
   coupling across the classes, the membrane leak and the gradient state, and find
   where internalization pays.
-claim: 'Owning an energy store pays only where the store can be charged above the
-  load''s free energy faster than it leaks, and WHICH chemistry can do that at a given
-  membrane is the structural answer: a thioester-class carrier internalizes from a
-  tenth of the drive at fatty-acid-like leak, a Fe-redox store only at near-full activity,
-  a pumped H+/Na+ gradient only once the membrane is a hundred times tighter (the
-  Sojo constraint, per individual), and a polyphosphate store not at all against a
-  30 kJ/mol step. The free-energy ledger (free_energy_in >= work + dissipated with
-  the store) closes to rounding on every one of the 990 runs, so none of these thresholds
-  is a bookkeeping artefact — they are the leak law and the bond energy against the
-  load, in a coarse-grained model.'
+claim: >-
+  Owning an energy store pays only where it can be charged above the load's free energy faster
+  than it leaks, and which chemistry clears that bar at a given membrane is the real answer: a
+  thioester/acyl-phosphate carrier internalizes from a tenth of the drive at fatty-acid-like
+  leak, an Fe-redox store only near full activity (~0.80), a pumped H+/Na+ gradient only once
+  the membrane is ~100x tighter to Na+ (the Sojo constraint, per individual), and a
+  polyphosphate store not at all against a 30 kJ/mol load. The free-energy ledger closes to
+  rounding on all 990 runs, so these are real thermodynamic thresholds rather than bookkeeping
+  artefacts. But the answer is structure-sensitive - the classes agree on only 46% of the grid
+  - and every per-cell number (drive turnover, maintenance, bond energies) is hypothetical and
+  unswept beyond the nominal grid.
 findings:
 - id: ogenergyalt-thioester-pays-from-low-activity
   provenance:

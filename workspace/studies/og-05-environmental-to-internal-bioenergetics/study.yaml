@@ -10,8 +10,9 @@ evaluation_status: evaluated
 confidence: Accepted
 gate_status: passed
 title: Owning Its Energy
-question: Can selection move from externally imposed gradients toward internally maintained
-  electrochemical states (catalytic ion transport then pumping)?
+question: >-
+  Can an evolving compartment reduce its dependence on an externally imposed proton gradient
+  by internalizing electrochemical work, and does that pay for itself?
 hypothesis: When membrane permeability, Na+/H+ coupling and catalyst efficiency vary
   under selection, systems with increasing internal gradient generation win on throughput
   + persistence — but only if membranes stay sufficiently leaky (Sojo constraint).
@@ -161,12 +162,16 @@ baseline:
     catalyst_efficiency: 1.0
     v_start: 0.4
     decline_rate: 0.01
-claim: Survival off a collapsing gradient is a bounded REGION of (pump catalyst efficiency
-  × gradient floor), mapped by a real replicator sweep — a lineage persists either
-  by riding a floor that never falls too far OR by internalizing gradient generation,
-  but internalizing only pays above the Sojo cost line (η ≈ 0.30). At the operating
-  point an efficient pump internalizes (pump fraction 0→0.95) and survives while a
-  weak pump collapses — the Sojo-2014 leaky-membrane constraint on bioenergetic internalization.
+claim: >-
+  Under a collapsing external gradient, replicator selection drives an efficient lineage to
+  internalize gradient generation (pump fraction rising from near zero to about 0.95) and
+  persist, while a weak-pump lineage goes extinct, and the external share of useful free
+  energy falls from about 82% to about 1% as the organism comes to own its energy. Survival is
+  a bounded region of pump efficiency x gradient floor - about 94% of the swept grid - but
+  internal pumping only pays above a cost-benefit threshold near eta = 0.30, the Sojo leaky-
+  membrane line. The replicator dynamics are coarse-grained with calibrated couplings and fix
+  a single gradient-decline scenario, so the transition has a measurable cost-benefit boundary
+  rather than being automatically favorable.
 findings:
 - id: og05-internalization-under-selection
   provenance:

@@ -11,15 +11,11 @@ confidence: Accepted
 gate_status: passed
 title: 'Calibrating the Vent: What Fraction of Observed-Consistent Vent States Feed
   Downstream Chemistry'
-question: 'Model Upgrade plan, Phase 1 (priority upgrade A). og-00 showed the real
-  PHREEQC + FiPy vent settles in the Lost City window over ~80% of a swept grid —
-  but the fraction of a chosen grid that passes is not a probability of feasibility,
-  and sweep bounds can determine apparent robustness. Conditioning on observed systems
-  instead: of the vent states consistent with the Lost City field observations (outlet
-  T, pH, dissolved H2), what fraction also satisfies what og-01''s carbon fixation
-  needs (H2 >= 1 mM at the interface, a >= 3-unit pH gradient, T inside validity)?
-  Which observation binds, which parameters does it pin, and does the answer depend
-  on whether the vent wall convects?'
+question: >-
+  Of the real-vent states consistent with the Lost City field observations (outlet
+  temperature, pH, dissolved H2), what fraction also satisfies what downstream carbon fixation
+  needs (H2 >= 1 mM, a >= 3-unit pH gradient, T in range), and which observation does the
+  actual constraining?
 hypothesis: A Lost-City-consistent posterior exists inside the empirically motivated
   prior of the og-00 world, most of it also satisfies the downstream requirements,
   the result is the same under the convecting and the prescribed-upflow transport
@@ -29,13 +25,16 @@ objective: 'Run the Phase-1 environmental-calibration pipeline on the real geoch
   model class -> ABC conditioning on the field windows -> posterior-predictive fraction
   meeting the downstream requirements -> Morris screening -> the Feasibility / Robustness
   / Discrimination report with the ledger verified.'
-claim: 'Conditioning the real vent on field observations turns og-00''s "80% of a
-  swept grid is habitable" into a posterior statement: 12.5% of the empirically motivated
-  prior reproduces Lost City, the dissolved-H2 observation does all the work (pH is
-  buffered, T is loose), and 100% of that posterior supplies the H2 and pH gradient
-  downstream carbon fixation requires — a result that does not depend on whether the
-  wall convects, and that identifies the DIC prior and the equilibrium-vs-kinetic
-  carbon-redox assumption as the decisions that move it.'
+claim: >-
+  Conditioning the real PHREEQC + FiPy vent on the Lost City field windows, 12.5% of the
+  empirically motivated prior (6 of 48 draws) reproduces all three observations, and 100% of
+  that posterior supplies the H2 and pH gradient downstream carbon fixation requires. The
+  dissolved-H2 window does all the constraining: pH is buffered at 9.4-9.9 by the peridotite
+  assemblage and carries no information, temperature is loose, and the answer is the same
+  whether or not the vent wall convects. The conservation ledger closes exactly on all 96
+  runs. This is a geochemical calibration, not an origin-of-life claim, and the H2 threshold
+  rests on a full-redox-equilibrium assumption and an extrapolated DIC prior that a kinetic
+  carbon-redox class could still shift.
 findings:
 - id: ogcal-posterior-viable-fraction
   provenance:
