@@ -260,9 +260,8 @@ the workspace from git, **all processes must live in the committed
 This workspace ships with auto-publish CI. On every merge to `main`:
 
 - **`publish-dashboard.yml`** builds the static read-only dashboard SPA and pushes it to the `gh-pages` branch at `dashboard/`.
-- **`publish-reports.yml`** renders each investigation's self-contained HTML report (headless Playwright driving the SPA) and pushes them to `gh-pages` at `investigations/<slug>.html`, plus a landing index.
 
-Both derive the repo name / links from the GitHub repo automatically — nothing to edit. They are deploy jobs, not PR gates: a failure never blocks a merge.
+It derives the repo name / links from the GitHub repo automatically — nothing to edit. It is a deploy job, not a PR gate: a failure never blocks a merge.
 
 **One-time setup:** after the first publish run creates the `gh-pages` branch, go to **Settings → Pages → Source = "Deploy from a branch" → `gh-pages` / `(root)`**. The dashboard is then served at `https://<user>.github.io/genesis/dashboard/` and reports at `…/genesis/investigations/<slug>.html`.
 
