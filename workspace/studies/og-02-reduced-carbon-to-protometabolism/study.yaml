@@ -50,6 +50,9 @@ findings:
     so what is EMERGENT is that it sustains ignition under continuous feed + washout
     (a no-CO2 control collapses gain to 0), not the motif itself.
 - id: og02-network-closure
+  provenance:
+    run_ids:
+    - viva_genesis.composites.protometabolism.protometabolic_network__1791858208__cae24f
   kind: computational
   status: confirms
   statement: Products form ONE connected reaction network (networkx connectivity),
