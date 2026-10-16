@@ -1374,3 +1374,6 @@ evidence_tier: conceptual_demonstration
 # better than per-process model cards, which would shrink to an illegible speck.
 loom:
   layout: hierarchy
+conclusion_logic:
+  if_primary_tests_pass:
+    biological_validation: Two incomplete lineages hold malate at 6.4 nM that neither monoculture makes, the function vanishing when nothing is shared and its oxaloacetate precursor physically crossing between them, so ecology appears while every cell is still incomplete. It exists only above a dicarboxylate permeability of about 3e-9 m/s, one to two decades above the measured passage of charged solutes through fatty-acid vesicles, so boundary leakiness rather than chemistry decides whether exchange-run ecology is possible, and at about 4e-3 molecules per cell this is a mean-field expectation still awaiting a stochastic treatment.

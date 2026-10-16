@@ -217,3 +217,6 @@ loom:
   layout: hierarchy
   figure: true
   detail: contract
+conclusion_logic:
+  if_primary_tests_pass:
+    biological_validation: A founder grows to threshold and divides by a matter- and volume-conserving structural rewrite (partition residual exactly 0 at every division), its daughters do the same, and the lineage reaches 5 generations past the 3-generation bar. The model demonstrates the conserving division-and-lineage mechanism; growth itself is abstracted to a division trigger rather than full osmotic volume growth, which coupling the two would supply.

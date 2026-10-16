@@ -526,3 +526,6 @@ loom:
   layout: hierarchy
   figure: true
   detail: contract
+conclusion_logic:
+  if_primary_tests_pass:
+    biological_validation: 'Localization is robust within a bounded geometry regime: long, tight pores clear the Baaske-2007 accumulation regime (accumulation Peclet 18.4, flux conserved to machine precision) and the porosity x pore-length map localizes at about 17% of the grid. The defensible result is the existence and location of that regime, not the extreme enrichment magnitude, which is solver-sensitive above Peclet ~13 (FiPy and FEniCS diverge by up to 5.6 decades).'

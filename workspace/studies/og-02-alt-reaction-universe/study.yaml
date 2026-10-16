@@ -1054,3 +1054,6 @@ loom:
   layout: hierarchy
   figure: true
   detail: contract
+conclusion_logic:
+  if_primary_tests_pass:
+    biological_validation: A persistent 14-species network forms under real vent thermodynamics but contains no autocatalytic motif; only a 10 mM formaldehyde feed makes the formose cycle emerge (enrichment p=0.04, absent in all 24 matched nulls), and the generated ledger closes exactly where og-02's curated rTCA motif proves imposed and not element-balanced. This establishes that autocatalysis is not free under real dG', not that the vent produces the formaldehyde the one igniting motif needs.

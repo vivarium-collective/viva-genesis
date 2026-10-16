@@ -484,3 +484,6 @@ loom:
   layout: hierarchy
   figure: true
   detail: contract
+conclusion_logic:
+  if_primary_tests_pass:
+    biological_validation: 'Heritable state improves lineage performance once information retention exceeds its replication cost: a high-fidelity RNA-like module reaches fitness 0.38 and outranks a cheaper peptide module (0.24), both beating non-inheritance, while a sub-Eigen-threshold module collapses; compositional and hybrid inheritance stay length-independent with functional persistence about 0.88 where the non-heritable control loses parent-offspring correlation. This shows heredity need not presume a long high-fidelity RNA template, while the benefit and cost remain reduced couplings rather than first-principles chemistry.'

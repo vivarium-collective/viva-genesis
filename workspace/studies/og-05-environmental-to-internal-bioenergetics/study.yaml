@@ -475,3 +475,6 @@ loom:
   layout: hierarchy
   figure: true
   detail: contract
+conclusion_logic:
+  if_primary_tests_pass:
+    biological_validation: Under a collapsing gradient, selection drives an efficient lineage to internalize pumping (fraction about 0 to 0.95) and persist while a weak-pump lineage goes extinct, the external share of useful free energy falling from about 82% to about 1%. Survival is a bounded region of pump efficiency x gradient floor (about 94% of the grid) with a real cost-benefit boundary at eta about 0.30, the Sojo leaky-membrane line; the replicator couplings are calibrated and fix one decline scenario, so internalization is favored above a measurable threshold, not automatically.

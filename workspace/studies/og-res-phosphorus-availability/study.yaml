@@ -500,3 +500,6 @@ loom:
   layout: hierarchy
   figure: true
   detail: contract
+conclusion_logic:
+  if_primary_tests_pass:
+    biological_validation: Reactive phosphorus is net-positive only in a bounded phosphate-source x pore-enrichment window where condensation and activation outrun the precipitation and adsorption sink (about 94% of supplied P at the favourable point, versus about 96% precipitated in the open-pore ablation), and the same enrichment that concentrates carbon co-concentrates phosphorus. In the model phosphorus is therefore a localization-gated bottleneck, not a freely available input.
