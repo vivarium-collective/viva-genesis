@@ -192,10 +192,10 @@ class ReactionUniverseProcess(Process):
 
     def _engine(self, feeds: dict[str, float]):
         if self._rr is None:
-            import tellurium as te   # real libRoadRunner / Antimony bridge (lazy)
+            from viva_tellurium.processes import _load_roadrunner  # genuine engine via the imported wrapper (lazy)
             u = self.universe()
             init = {U.CO2: feeds.get("feed_CO2", 0.0), U.H2: feeds.get("feed_H2", 0.0)}
-            self._rr = te.loada(U.to_antimony(u, self._kin, feeds, initial=init))
+            self._rr = _load_roadrunner(U.to_antimony(u, self._kin, feeds, initial=init), model_format="antimony")
             self._net = M.network_from_roadrunner(self._rr)
             self._subs = U.catalyst_substrates(u)
             self._rids = list(self._rr.getReactionIds())

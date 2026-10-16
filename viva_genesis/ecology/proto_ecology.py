@@ -234,7 +234,7 @@ def _engine_bundle(max_carbons: int, kin: dict, null_seed: int | None, thermo_so
     key = (int(max_carbons), tuple(sorted((k, float(v)) for k, v in kin.items())), null_seed, thermo_source)
     if key in _ENGINE_CACHE:
         return _ENGINE_CACHE[key]
-    import tellurium as te   # real libRoadRunner / Antimony bridge (lazy)
+    from viva_tellurium.processes import _load_roadrunner  # genuine engine via the imported wrapper (lazy)
     thermo = None
     if thermo_source == "equilibrator":
         cond = U.ThermoConditions(**U.load_thermo_table()["conditions"])
@@ -242,7 +242,7 @@ def _engine_bundle(max_carbons: int, kin: dict, null_seed: int | None, thermo_so
     u = U.build_universe(max_carbons, thermo=thermo)
     if null_seed is not None:
         u = U.null_network(u, null_seed)
-    rr = te.loada(protocell_antimony(u, kin))
+    rr = _load_roadrunner(protocell_antimony(u, kin), model_format="antimony")
     floating = [s for s in u.species if s != U.H2O]
     rids = list(rr.getReactionIds())
     rid_to_r = {r.id: r for r in u.reactions}
@@ -395,9 +395,9 @@ class ProtocellNetworkProcess(Process):
 
     def _engine(self):
         if self._rr is None:
-            import roadrunner
+            from viva_tellurium.processes import _load_roadrunner  # genuine engine via the imported wrapper
             b = self.bundle()
-            rr = roadrunner.RoadRunner(b["sbml"])
+            rr = _load_roadrunner(b["sbml"], model_format="sbml")
             mask = self.repertoire()
             for rule in U.RULES:
                 rr[f"m_{rule}"] = 1.0 if rule in mask else 0.0
