@@ -125,6 +125,7 @@ behavior_tests:
   - jordan2019promotion
   gate_class: acceptance_criterion
 - name: membrane-transition-robust
+  gate_class: regression_pin
   classification: diagnostic
   description: 'Discriminating: extreme salt / acidic pH destroy the membranes — a
     bounded survival region exists, not an always-on membrane.'

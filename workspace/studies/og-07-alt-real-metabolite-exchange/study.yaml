@@ -428,6 +428,7 @@ behavior_tests:
   gate_class: acceptance_criterion
   band_basis: machine_precision
 - name: carbon-residual-at-integrator-tolerance
+  gate_class: regression_pin
   classification: diagnostic
   description: 'Recorded: worst-case carbon residual of the cross-system ledger (the
     agents'' CVODE tolerance, ~1e-9).'
@@ -443,6 +444,7 @@ behavior_tests:
   requires_simulation: 'yes'
   band_basis: machine_precision
 - name: exchange-rules-fire
+  gate_class: regression_pin
   classification: supporting
   description: The reactive system's rules (uptake, secretion, pore diffusion, feed
     / washout) fired on the canonical run — the firing count is a witness, not a diagnostic.
@@ -457,6 +459,7 @@ behavior_tests:
   units: dimensionless
   requires_simulation: 'yes'
 - name: metabolites-cross-between-lineages
+  gate_class: regression_pin
   classification: supporting
   description: Moles secreted by one lineage and taken up by the other in the same
     tick accumulate on the canonical run (real metabolite flux between lineages).
@@ -471,6 +474,7 @@ behavior_tests:
   units: mole
   requires_simulation: 'yes'
 - name: no-cell-complete
+  gate_class: regression_pin
   classification: supporting
   description: On the final tick of the canonical run no agent holds the whole community
     union (max completeness < 1).
@@ -485,6 +489,7 @@ behavior_tests:
   units: dimensionless
   requires_simulation: 'yes'
 - name: cross-feeding-robustness
+  gate_class: regression_pin
   classification: diagnostic
   description: 'og-07''s gate name, recomputed from real agents: settled fraction
     of product classes held by >= 2 agents (vocabulary of 28 classes, many unreachable
@@ -500,6 +505,7 @@ behavior_tests:
   units: dimensionless
   requires_simulation: 'yes'
 - name: luca-capability-overlap
+  gate_class: regression_pin
   classification: diagnostic
   description: og-07's LUCA-core overlap read off the chemistry (H2 oxidation, CO2
     fixation, FeS-type catalysis, acetate; ion pumping unreachable, ceiling 0.8).
@@ -573,6 +579,7 @@ behavior_tests:
   requires_simulation: 'yes'
   gate_class: acceptance_criterion
 - name: community-max-cell-completeness
+  gate_class: regression_pin
   classification: supporting
   description: In the community at the canonical point the best agent holds less than
     the whole union (the function precedes cell completeness).
@@ -588,6 +595,7 @@ behavior_tests:
   units: dimensionless
   requires_simulation: 'yes'
 - name: community-vs-complete-cell
+  gate_class: regression_pin
   classification: diagnostic
   description: 'Recorded: the community''s level of its community-only class over
     the generalist (complete-cell) arm''s level.'
@@ -603,6 +611,7 @@ behavior_tests:
   units: dimensionless
   requires_simulation: 'yes'
 - name: emergence-boundary-resolved
+  gate_class: regression_pin
   classification: diagnostic
   description: 'Recorded: the lowest diacid permeability at the nominal residence
     (100 s) at which the community-only function emerges; a boundary exists inside
@@ -622,6 +631,7 @@ behavior_tests:
   - jordan2019promotion
   - mast2010thermal
 - name: null-community-only-count
+  gate_class: regression_pin
   classification: diagnostic
   description: 'Recorded: the maximum number of community-only classes the rewired
     null universe yields over two seeds (how much of the split is the partition rather
@@ -640,6 +650,7 @@ behavior_tests:
   cites:
   - maslov2002specificity
 - name: segregated-placement-keeps-function
+  gate_class: regression_pin
   classification: supporting
   description: With the lineages in separate blocks of the pore the community-only
     function is still present (pore diffusion carries the intermediate).
@@ -655,6 +666,7 @@ behavior_tests:
   units: dimensionless
   requires_simulation: 'yes'
 - name: connected-beats-isolated
+  gate_class: regression_pin
   classification: supporting
   description: 'og-07''s gate name on the real community: metacommunity robustness
     of the shared community exceeds the private (no-sharing) arm''s.'
@@ -670,6 +682,7 @@ behavior_tests:
   units: dimensionless
   requires_simulation: 'yes'
 - name: map-ledgers-close
+  gate_class: regression_pin
   classification: diagnostic
   description: The C / N / P ledger stayed within tolerance on every one of the 98
     arm / map runs.

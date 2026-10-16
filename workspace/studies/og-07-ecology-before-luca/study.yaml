@@ -98,6 +98,7 @@ behavior_tests:
   gate_class: acceptance_criterion
   band_basis: first_principles
 - name: luca-capability-overlap
+  gate_class: regression_pin
   classification: supporting
   description: The metacommunity's collective capability repertoire overlaps the anaerobic
     H2/CO2/FeS LUCA reconstruction — reported as a far-end boundary the emergent set

@@ -118,6 +118,7 @@ behavior_tests:
   - huber1998peptides
   gate_class: acceptance_criterion
 - name: error-catastrophe-below-threshold
+  gate_class: regression_pin
   classification: diagnostic
   description: 'Discriminating (Eigen): below the error threshold (low fidelity ×
     long sequence) functional information is lost — retention collapses and inheritance
@@ -134,6 +135,7 @@ behavior_tests:
   cites:
   - huber1998peptides
 - name: replication-feasible-budget
+  gate_class: regression_pin
   classification: supporting
   description: Inheritance pays within a feasible replication budget — net-positive
     fitness after the replication cost, not idealized.

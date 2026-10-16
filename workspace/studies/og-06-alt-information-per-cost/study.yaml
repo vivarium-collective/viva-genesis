@@ -442,6 +442,7 @@ behavior_tests:
   gate_class: acceptance_criterion
   band_basis: machine_precision
 - name: mi-estimator-converged
+  gate_class: acceptance_criterion
   classification: primary
   description: The parent-offspring MI estimator converged on the canonical run (prefix
     ladder within 0.05 bit / 15 % and bootstrap SE <= 0.05 bit).
@@ -460,6 +461,7 @@ behavior_tests:
   - kraskov2004estimating
   - miller1955note
 - name: information-ledger-certifies
+  gate_class: regression_pin
   classification: diagnostic
   description: The ledger's own verdict on the final tick (energy residual within
     tolerance AND the convergence flag it read).
@@ -474,6 +476,7 @@ behavior_tests:
   units: dimensionless
   requires_simulation: 'yes'
 - name: heredity-attached-under-nominal-budget
+  gate_class: regression_pin
   classification: supporting
   description: Under the nominal matched budgets the step attaches the rna_like class
     (latched once the precursor, energy and Eigen conditions all hold).
@@ -488,6 +491,7 @@ behavior_tests:
   units: dimensionless
   requires_simulation: 'yes'
 - name: canonical-heritable-bits
+  gate_class: regression_pin
   classification: supporting
   description: The canonical rna_like lineage transmits converged parent-offspring
     information (>= 0.5 bit; the frontier's seed mean is 1.46).
@@ -502,6 +506,7 @@ behavior_tests:
   units: bit
   requires_simulation: 'yes'
 - name: function-sustained-by-heredity
+  gate_class: regression_pin
   classification: diagnostic
   description: 'Recorded: settled mean function of the canonical lineage (the unattached
     control settles at 0.00).'
@@ -554,6 +559,7 @@ behavior_tests:
   requires_simulation: 'yes'
   gate_class: acceptance_criterion
 - name: heredity-need-not-presume-rna
+  gate_class: regression_pin
   classification: supporting
   description: Class substitution — among certified classes, some non-RNA class is
     at least as information-efficient per joule as the RNA-like template (ratio >=
@@ -573,6 +579,7 @@ behavior_tests:
   - segre2000compositional
   - vasas2010lack
 - name: nonrna-bits-per-offspring-fraction
+  gate_class: regression_pin
   classification: diagnostic
   description: 'Recorded: best certified non-RNA class''s bits per offspring over
     the RNA-like class''s (the capacity half of og-06''s claim; < 1 means RNA carries
@@ -589,6 +596,7 @@ behavior_tests:
   units: dimensionless
   requires_simulation: 'yes'
 - name: attachment-is-conditional
+  gate_class: regression_pin
   classification: supporting
   description: Attachment depends on the budget — over classes the Eigen floor admits,
     the attached fraction rises by >= 0.5 from the lowest (1 %) to the highest (300
@@ -605,6 +613,7 @@ behavior_tests:
   units: dimensionless
   requires_simulation: 'yes'
 - name: templated-takeover-fidelity
+  gate_class: regression_pin
   classification: diagnostic
   description: 'Recorded: the lowest per-site fidelity at which rna_like is attached
     and carries more bits than the organic attractor classes (the transition to templated
@@ -624,6 +633,7 @@ behavior_tests:
   - johnston2001rna
   - rajamani2010effect
 - name: frontier-pareto-size
+  gate_class: regression_pin
   classification: diagnostic
   description: 'Recorded: number of certified classes on the (bits up, energy down)
     Pareto front.'
@@ -639,6 +649,7 @@ behavior_tests:
   units: dimensionless
   requires_simulation: 'yes'
 - name: frontier-energy-ledger-closes
+  gate_class: regression_pin
   classification: diagnostic
   description: The energy-store residual stayed within 1e-9 on every one of the 252
     frontier / map / transition runs.

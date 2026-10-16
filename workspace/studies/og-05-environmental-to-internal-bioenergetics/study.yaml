@@ -125,6 +125,7 @@ behavior_tests:
   - lane2012origin
   gate_class: acceptance_criterion
 - name: energy-cost-accounted
+  gate_class: regression_pin
   classification: supporting
   description: Membrane-maintenance energy is outweighed by benefit in the surviving
     population (net-positive free-energy flux).

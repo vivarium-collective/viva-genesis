@@ -410,6 +410,7 @@ behavior_tests:
   gate_class: acceptance_criterion
   band_basis: first_principles
 - name: current-voltage-residual
+  gate_class: regression_pin
   classification: diagnostic
   description: The galvanic-cell circuit equation E_c(j) - E_a(j) - j R = 0 is solved
     to tolerance every tick.
@@ -443,6 +444,7 @@ behavior_tests:
   - altair2025carbon
   gate_class: acceptance_criterion
 - name: selectivity-to-carbon
+  gate_class: regression_pin
   classification: diagnostic
   description: Most of the current reduces CO2 rather than evolving H2 at the operating
     point (products dominate in the lab reactors).

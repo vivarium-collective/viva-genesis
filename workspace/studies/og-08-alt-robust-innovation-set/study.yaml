@@ -404,6 +404,7 @@ behavior_tests:
   gate_class: acceptance_criterion
   band_basis: machine_precision
 - name: ablation-withdraws-every-driver
+  gate_class: regression_pin
   classification: supporting
   description: The AblationStep completed its schedule on the canonical run (phase
     2 — every driver at its floor).
@@ -418,6 +419,7 @@ behavior_tests:
   units: dimensionless
   requires_simulation: 'yes'
 - name: structural-events-logged
+  gate_class: regression_pin
   classification: supporting
   description: The structural-event log recorded the world's events (assembly, ablation
     phases, machinery held / lost, store charged / collapsed, budget sign changes,
@@ -433,6 +435,7 @@ behavior_tests:
   units: dimensionless
   requires_simulation: 'yes'
 - name: autonomy-decomposed-off-gradient
+  gate_class: regression_pin
   classification: diagnostic
   description: 'Recorded: the work-weighted autonomy of the canonical full-set lineage
     over the final 15 % of the run (every driver at its floor).'
@@ -447,6 +450,7 @@ behavior_tests:
   units: dimensionless
   requires_simulation: 'yes'
 - name: net-work-budget-off-gradient
+  gate_class: regression_pin
   classification: diagnostic
   description: 'Recorded: the canonical full-set lineage''s settled net work budget
     off-gradient (the persistence rule''s energy term).'
@@ -483,6 +487,7 @@ behavior_tests:
   - sojo2014bioenergetic
   - lane2012origin
 - name: minimum-sufficient-innovation-set-rich-ocean
+  gate_class: regression_pin
   classification: supporting
   description: The same lattice gate at the rich ocean floor (1e-1).
   measure:
@@ -497,6 +502,7 @@ behavior_tests:
   units: dimensionless
   requires_simulation: 'yes'
 - name: full-set-persistence-across-structures
+  gate_class: regression_pin
   classification: diagnostic
   description: 'Recorded: the fraction of sampled structures under which the full
     set persists off-gradient at the nominal floor (the robustness quantity).'
@@ -512,6 +518,7 @@ behavior_tests:
   units: dimensionless
   requires_simulation: 'yes'
 - name: robust-required-intersection
+  gate_class: regression_pin
   classification: diagnostic
   description: 'Recorded: the number of innovations required in EVERY viable structure
     at the nominal floor (the intersection of the required sets).'
@@ -527,6 +534,7 @@ behavior_tests:
   units: dimensionless
   requires_simulation: 'yes'
 - name: og08-hypothesis-reproduced
+  gate_class: regression_pin
   classification: diagnostic
   description: 'Recorded, not gated: 1 when the intersection of the required sets
     at the rich floor is exactly og-08''s {pump, importer, heredity} — the hypothesis
@@ -560,6 +568,7 @@ behavior_tests:
   requires_simulation: 'yes'
   gate_class: acceptance_criterion
 - name: ensemble-ledgers-close
+  gate_class: acceptance_criterion
   classification: primary
   description: Every one of the seven ledgers reports ok on every one of the ensemble's
     runs.
@@ -576,6 +585,7 @@ behavior_tests:
   requires_simulation: 'yes'
   band_basis: machine_precision
 - name: autonomy-of-the-persisting-lineages
+  gate_class: regression_pin
   classification: diagnostic
   description: 'Recorded: the mean work-weighted autonomy of every run (any innovation
     subset) that persists at the rich floor — the fraction of essential work and material
@@ -592,6 +602,7 @@ behavior_tests:
   units: dimensionless
   requires_simulation: 'yes'
 - name: ocean-floor-for-majority-persistence
+  gate_class: regression_pin
   classification: diagnostic
   description: 'Recorded: the lowest ocean floor at which the full set persists under
     at least half the structures (the floor map).'

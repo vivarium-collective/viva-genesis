@@ -145,6 +145,7 @@ behavior_tests:
   - jordan2019promotion
   gate_class: acceptance_criterion
 - name: ablation-no-throughput-no-growth
+  gate_class: acceptance_criterion
   classification: primary
   description: 'Feature ablation: with no autocatalytic/metabolic source (zero network
     throughput) there is no product, no osmotic pressure, and no growth or division

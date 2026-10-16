@@ -428,6 +428,7 @@ behavior_tests:
   gate_class: acceptance_criterion
   band_basis: machine_precision
 - name: free-energy-residual-exact
+  gate_class: regression_pin
   classification: diagnostic
   description: '|in_cum + E0 - work_cum - diss_cum - E(t)| / in_cum stays at rounding
     over the run.'
@@ -443,6 +444,7 @@ behavior_tests:
   requires_simulation: 'yes'
   band_basis: machine_precision
 - name: second-law-margin-nonnegative
+  gate_class: regression_pin
   classification: diagnostic
   description: 'free_energy_in >= work + dissipated (cumulatively, with the store):
     the margin in + E0 - work - dissipated never goes negative.'
@@ -503,6 +505,7 @@ behavior_tests:
   - buckel2013energy
   gate_class: acceptance_criterion
 - name: thioester-threshold-activity
+  gate_class: acceptance_criterion
   classification: primary
   description: The thioester / acyl-phosphate class's threshold activity a* at the
     nominal membrane + gradient (recorded; must exist and lie inside the swept range).
@@ -522,6 +525,7 @@ behavior_tests:
   cites:
   - buckel2013energy
 - name: autonomy-at-threshold
+  gate_class: regression_pin
   classification: supporting
   description: Per-individual autonomy of the thioester class at its threshold activity
     (the capture that first pays).
@@ -539,6 +543,7 @@ behavior_tests:
   units: dimensionless
   requires_simulation: 'yes'
 - name: ion-gradient-pays-fraction
+  gate_class: regression_pin
   classification: diagnostic
   description: 'Recorded: fraction of the (activity x permeability x gradient) grid
     where the H+/Na+ gradient store beats the passive baseline (expected small — it
@@ -559,6 +564,7 @@ behavior_tests:
   cites:
   - sojo2014bioenergetic
 - name: polyphosphate-pays-fraction
+  gate_class: regression_pin
   classification: diagnostic
   description: 'Recorded: fraction of the grid where the polyphosphate store beats
     the passive baseline (expected ~0 against a 30 kJ/mol load).'
@@ -576,6 +582,7 @@ behavior_tests:
   units: dimensionless
   requires_simulation: 'yes'
 - name: fe-redox-pays-fraction
+  gate_class: regression_pin
   classification: diagnostic
   description: 'Recorded: fraction of the grid where the Fe-redox store beats the
     passive baseline.'
@@ -593,6 +600,7 @@ behavior_tests:
   units: dimensionless
   requires_simulation: 'yes'
 - name: classes-agree-on-pays
+  gate_class: regression_pin
   classification: diagnostic
   description: 'Recorded: fraction of the grid on which every active class gives the
     same pays / does-not-pay answer (1 - this is the model-structure uncertainty of
@@ -609,6 +617,7 @@ behavior_tests:
   units: dimensionless
   requires_simulation: 'yes'
 - name: threshold-map-ledger-all-ok
+  gate_class: regression_pin
   classification: supporting
   description: The free-energy ledger closed on every point of every class in the
     threshold map.

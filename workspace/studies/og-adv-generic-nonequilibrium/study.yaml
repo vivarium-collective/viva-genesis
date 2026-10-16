@@ -170,6 +170,7 @@ contract:
     the same audited face.
 behavior_tests:
 - name: gates-reject-generic
+  gate_class: acceptance_criterion
   classification: primary
   description: Every vent-specific gate (og-01/02/03) rejects the feature-ablated
     control — it passes by being rejected.
@@ -185,6 +186,7 @@ behavior_tests:
   cites:
   - sutherland2017opinion
 - name: vent-specificity-demonstrated
+  gate_class: acceptance_criterion
   classification: primary
   description: The vent passes the same five gates the control fails — pass-where-control-fails.
   measure:

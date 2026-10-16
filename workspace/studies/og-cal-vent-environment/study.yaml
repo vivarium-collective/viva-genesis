@@ -343,6 +343,7 @@ behavior_tests:
   gate_class: acceptance_criterion
   band_basis: machine_precision
 - name: heat-released-not-absorbed
+  gate_class: regression_pin
   classification: diagnostic
   description: Serpentinization is exothermic — the heat source never goes negative
     (energy_directionality invariant, previously declared but uncomputed in og-00).
@@ -358,6 +359,7 @@ behavior_tests:
   requires_simulation: 'yes'
   band_basis: first_principles
 - name: charge-conserved
+  gate_class: regression_pin
   classification: diagnostic
   description: PHREEQC balances charge every step (charge_neutrality invariant).
   measure:

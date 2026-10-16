@@ -384,6 +384,7 @@ behavior_tests:
   gate_class: acceptance_criterion
   band_basis: machine_precision
 - name: element-residual-exact
+  gate_class: regression_pin
   classification: diagnostic
   description: max|E S| over the generated universe's 413 internal reactions is exactly
     zero.
@@ -399,6 +400,7 @@ behavior_tests:
   requires_simulation: 'yes'
   band_basis: machine_precision
 - name: free-energy-directionality
+  gate_class: regression_pin
   classification: diagnostic
   description: The dissipation -sum v dG is non-negative on every tick (second law;
     a real check because k_r / k_f = exp(dG/RT) exactly).
@@ -430,6 +432,7 @@ behavior_tests:
   gate_class: acceptance_criterion
   band_basis: first_principles
 - name: rtca-branch-emerges-from-rules
+  gate_class: regression_pin
   classification: supporting
   description: og-02's curated reductive branch (pyruvate -> OAA -> malate) appears
     from the rules alone — settled malate above 1e-9 M — at the thermodynamically
@@ -448,6 +451,7 @@ behavior_tests:
   - muchowska2019synthesis
   band_basis: first_principles
 - name: no-motif-at-phase1-feed
+  gate_class: regression_pin
   classification: diagnostic
   description: 'Recorded, not required: the number of persistent autocatalytic motifs
     in the universe at the Phase-1 feed (0 = the C1 bottleneck is thermodynamic at
@@ -509,6 +513,7 @@ behavior_tests:
   requires_simulation: 'yes'
   gate_class: acceptance_criterion
 - name: curated-rtca-fails-element-ledger
+  gate_class: regression_pin
   classification: diagnostic
   description: 'Recorded: the curated class''s lumped turn OAA + 2 CO2 -> 2 OAA +
     acetate is not element-balanced (max|E S| > 0), so og-02''s motif is imposed and
@@ -525,6 +530,7 @@ behavior_tests:
   units: atoms
   requires_simulation: 'yes'
 - name: flux-control-summation-theorem
+  gate_class: regression_pin
   classification: diagnostic
   description: MCA summation theorem |sum_j C^J_ij - 1| on the dominant fluxes (>=
     1% of the largest) of the settled universe.
@@ -543,6 +549,7 @@ behavior_tests:
   - kacser1973control
   band_basis: first_principles
 - name: integrator-tolerance-insensitive
+  gate_class: regression_pin
   classification: diagnostic
   description: Tightening / loosening the CVODE tolerances around libRoadRunner's
     defaults changes no species by more than 1% (stiffness check).

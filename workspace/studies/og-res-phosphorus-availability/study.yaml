@@ -235,6 +235,7 @@ behavior_tests:
   - pasek2017schreibersite
   gate_class: acceptance_criterion
 - name: p-mass-conserved
+  gate_class: regression_pin
   classification: diagnostic
   description: The closed P-speciation network conserves total phosphorus (|total
     P - supplied| / supplied ~ machine epsilon).

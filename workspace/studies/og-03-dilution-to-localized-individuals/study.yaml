@@ -299,6 +299,7 @@ behavior_tests:
   - baaske2007extreme
   gate_class: acceptance_criterion
 - name: enrichment-exponential-in-pore-length
+  gate_class: regression_pin
   classification: diagnostic
   description: Enrichment is exponential in pore length (Baaske's geometry threshold)
     — a 10× shorter pore drops far below the favorable accumulation.
@@ -313,6 +314,7 @@ behavior_tests:
   cites:
   - baaske2007extreme
 - name: spatial-flux-conserved
+  gate_class: regression_pin
   classification: diagnostic
   description: The FiPy accumulation column conserves flux (FVM balance residual ~
     machine epsilon).

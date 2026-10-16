@@ -157,6 +157,7 @@ behavior_tests:
   - lane2010chemiosmotic
   gate_class: acceptance_criterion
 - name: free-energy-conserved
+  gate_class: regression_pin
   classification: supporting
   description: Free-energy accounting is a contract invariant — input = useful work
     + stored + dissipated, held to machine precision every tick.
