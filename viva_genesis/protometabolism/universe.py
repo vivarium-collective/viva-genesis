@@ -419,9 +419,10 @@ def build_thermo_table(skeletons: list[tuple[str, ...]], cond: ThermoConditions,
     Requires ``equilibrator_api`` (raises ImportError otherwise — callers that
     only need the committed table use :func:`load_thermo_table`).
     """
-    from equilibrator_api import ComponentContribution, Q_   # real engine, offline cache
+    from equilibrator_api import Q_
     import equilibrator_api
-    cc = ComponentContribution()
+    from viva_equilibrator import get_component_contribution  # imported engine (shared cache)
+    cc = get_component_contribution()
     cc.p_h = Q_(float(cond.p_h))
     cc.ionic_strength = Q_(f"{float(cond.ionic_strength_M)} M")
     cc.temperature = Q_(f"{float(cond.temperature_K)} K")
