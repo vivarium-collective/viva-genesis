@@ -693,7 +693,7 @@ expert_questions:
 - Should the heredity class's budget demand off-gradient be read as a prediction (templated
   heredity starves first) or as an artefact of the hypothetical attachment thresholds?
 kind: alternative
-study_type: confirmatory
+study_type: exploratory
 implementation_status: complete
 runtime:
   default_emitter: sqlite
@@ -1185,3 +1185,8 @@ evidence_tier: conceptual_demonstration
 # better than per-process model cards, which would shrink to an illegible speck.
 loom:
   layout: hierarchy
+conclusion_logic:
+  if_primary_tests_fail:
+    diagnose:
+    - issue: The {pump, importer, heredity} set is not jointly sufficient and the importer is a net cost under a leaky membrane.
+      seeded_study: og-08-alt-dx-importer-cost

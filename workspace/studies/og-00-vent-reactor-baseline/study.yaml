@@ -94,6 +94,7 @@ findings:
     + upflow); ψ contours are the streamlines the cross-section viz overlays. buoyancy=0
     recovers the old constant upflow.
 - id: og00-habitability-window
+  seeded_study: og-00b-ph-endmember-sweep
   kind: computational
   status: novel
   statement: Habitability is a bounded REGION of the (olivine reaction rate × flow
@@ -476,6 +477,7 @@ runs:
 - name: viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor__1791945139__b33a98
   status: completed
   timestamp: 1791945159.758077
+  started_at: '2026-10-14T02:32:39Z'
   canonical: true
   emitter:
     kind: sqlite

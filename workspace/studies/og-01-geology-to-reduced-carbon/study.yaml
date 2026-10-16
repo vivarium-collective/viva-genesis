@@ -511,6 +511,7 @@ runs:
 - name: viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation__1791922499__eeba3d
   status: completed
   timestamp: 1791922501.704677
+  started_at: '2026-10-13T20:15:01Z'
   canonical: true
   emitter:
     kind: sqlite

@@ -203,6 +203,7 @@ findings:
     its cost against the lost external coupling, so no strategy clears the survival
     floor.
 - id: og05-survival-phase-map
+  seeded_study: og-05b-collapse-rate-sweep
   kind: computational
   status: novel
   statement: 'Survival off the collapsing gradient is a bounded REGION, not two representative

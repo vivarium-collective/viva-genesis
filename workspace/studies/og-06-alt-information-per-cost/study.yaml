@@ -722,7 +722,7 @@ expert_questions:
   phenotype-level, and should per-seed convergence be a reported fraction rather than
   a strict all-seeds rule?
 kind: alternative
-study_type: confirmatory
+study_type: exploratory
 implementation_status: complete
 runtime:
   default_emitter: sqlite

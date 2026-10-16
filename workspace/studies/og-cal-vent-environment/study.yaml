@@ -548,6 +548,7 @@ runs:
 - name: viva_genesis.composites.geochemical_world.geochemical_world__1792035577__f4b955
   status: completed
   timestamp: 1792035598.142837
+  started_at: '2026-10-15T03:39:58Z'
   canonical: true
   emitter:
     kind: sqlite
