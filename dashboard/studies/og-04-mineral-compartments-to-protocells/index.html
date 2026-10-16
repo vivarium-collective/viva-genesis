@@ -887,6 +887,8 @@
             <span class="finding-status-glyph">◆</span>
             <span class="finding-claim finding-statement">Sweeping permeability (via temperature) traces the compartment through THREE regimes on the retention-access plane — too closed (retains but starves; low T), a viable window (individuality + access, peak ret×acc ≈ 0.92 at ~310 K), and too open (leaks; high T) before the membrane destabilizes entirely. Orthogonally, the viable SALT ceiling rises with co-surfactant fraction: the feasibility map marks a viable region (individuality &gt; 0.1) at 63/256 points (~25%) — vesicles survive at seawater salt (0.35 M) and beyond only with enough co-surfactant — the Jordan mixed-amphiphile advantage as a bounded 2-D region, not a single point.</span>
             
+            <span class="finding-chip">via <code>mixed-amphiphile-advantage-over-single</code></span>
+            
           </summary>
           <div class="finding-drawer">
             <div class="finding-header">
@@ -899,7 +901,7 @@
             <div class="finding-evidence">
               <strong>observed:</strong> retention 0.97→0 and access rising to 1.00 then falling to 0 across 285–360 K; feasibility viable (individ&gt;0.1) at 63/256 points, viable salt ceiling rising with mix_fraction dimensionless · 
               
-              
+              via test <a href="#bt-mixed-amphiphile-advantage-over-single" onclick="_gotoStudyTab('tests','bt-mixed-amphiphile-advantage-over-single');return false;"><code>mixed-amphiphile-advantage-over-single</code></a> · 
               
               
               
@@ -913,6 +915,8 @@
             </div>
             
             
+            
+            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: op: controls_absent · detail: mixed forms vesicles; single fatty acid does not at the same salt</code></div>
             
             
             
@@ -1595,6 +1599,22 @@ cites:   ["jordan2019promotion"]</pre>
     
     
     
+    
+    <div class="decide-section" style="margin-top:18px">
+      <h3 class="overview-label">Conclusion logic — gate decision</h3>
+      
+      <div style="padding:10px 14px;background:#f0fdf4;border-left:4px solid #10b981;border-radius:4px;margin-bottom:8px">
+        <strong>✓ If primary tests pass:</strong>
+        
+        
+        <div style="margin-top:4px"><em>Empirical validation:</em> In a bounded alkaline / seawater-salt window, mixed amphiphiles form viable vesicles (about 8000) where single fatty acids form none, retaining internal chemistry (0.91) while staying permeable to the gradient (access 1.0) over a viable region at about 25% of the map. This gives a plausible mineral-to-organic-boundary transition, not proof it helps: whether enclosure improves a network&#39;s persistence over the open pore is left to downstream studies, and the membrane model is coarse-grained, calibrated to Jordan-2019 rather than membrane MD.</div>
+        
+        
+      </div>
+      
+      
+    </div>
+    
 
     
     
@@ -1762,7 +1782,7 @@ cites:   ["jordan2019promotion"]</pre>
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "41785446490ebf5fb5855280243f0af97483aca6", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/41785446490ebf5fb5855280243f0af97483aca6", "branch": "main", "lockfile": "uv.lock@ad1345056f2b", "generated_at": "2026-10-16 14:00 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "704a15f1bc489d9904f5e5d1f04a1ff36586c16b", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/704a15f1bc489d9904f5e5d1f04a1ff36586c16b", "branch": "main", "lockfile": "uv.lock@84fa37e21f14", "generated_at": "2026-10-16 14:31 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>

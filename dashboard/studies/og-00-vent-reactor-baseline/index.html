@@ -931,6 +931,12 @@
             </div>
             
             
+            <div class="finding-traceability" style="font-size:0.84em;color:#475569;padding:4px 10px;margin:4px 0">
+              
+              
+              runs: <a href="#run-viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor__1791945139__b33a98"><code>viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor__1791945139__b33a98</code></a>
+            </div>
+            
             
             
             <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: ≤ 1e-06</code></div>
@@ -995,6 +1001,8 @@
             <span class="finding-status-glyph">◆</span>
             <span class="finding-claim finding-statement">The vent wall convects. Solving Darcy–Boussinesq porous flow (a stream-function Poisson ∇²ψ = −buoyancy·∂T/∂x on the real FiPy mesh) gives a buoyant recirculation cell — the hot alkaline conduit rises, the cold ocean sinks, convective velocities ~5× the background upflow (Peclet ~8) — rather than a prescribed uniform upflow. The recirculation mixes cold ocean inward, settling the outlet ~8 °C cooler (59 → 51 °C) while staying inside the Lost City window; flux conservation is preserved within the solver tolerance (flux residual ~5e-5, within the 1e-3 bound).</span>
             
+            <span class="finding-chip">via <code>spatial-flux-conserved</code></span>
+            
           </summary>
           <div class="finding-drawer">
             <div class="finding-header">
@@ -1007,7 +1015,7 @@
             <div class="finding-evidence">
               <strong>observed:</strong> recirculation cell (cold-left sinks, hot-right rises); vmax ~5× background; outlet 50.6 °C dimensionless · 
               
-              
+              via test <a href="#bt-spatial-flux-conserved" onclick="_gotoStudyTab('tests','bt-spatial-flux-conserved');return false;"><code>spatial-flux-conserved</code></a> · 
               
               
               
@@ -1015,6 +1023,8 @@
             
             
             
+            
+            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: ≤ 0.001</code></div>
             
             
             
@@ -1046,6 +1056,8 @@
             <span class="finding-status-glyph">◆</span>
             <span class="finding-claim finding-statement">Habitability is a bounded REGION of the (olivine reaction rate × flow velocity) operating space, not one tuned run — the real PHREEQC + FiPy vent settles inside the Lost City window (T 40–91 °C AND pH 9.0–10.8 AND H2&gt;0) over ~80% of the swept grid (115/144 points). The FAIL regions are a cold-washout band at the fastest flow (17 cold points) and 12 points at the flow extreme that fall outside PHREEQC&#39;s 0–100 °C validity (recorded NaN → FAIL); the baseline operating point sits safely inside the window.</span>
             
+            <span class="finding-chip">via <code>vent-temperature-in-lostcity-range</code></span>
+            
           </summary>
           <div class="finding-drawer">
             <div class="finding-header">
@@ -1058,7 +1070,7 @@
             <div class="finding-evidence">
               <strong>observed:</strong> 115/144 (80%) habitable over (olivine_rate 0.005–0.4 × flow_velocity 2e-4–3e-2); 17 cold-washout FAILs, 12 out-of-range NaN; baseline (★) in-window at 50.6 °C / pH 9.37 dimensionless · 
               
-              
+              via test <a href="#bt-vent-temperature-in-lostcity-range" onclick="_gotoStudyTab('tests','bt-vent-temperature-in-lostcity-range');return false;"><code>vent-temperature-in-lostcity-range</code></a> · 
               
               
               
@@ -1066,6 +1078,8 @@
             
             
             
+            
+            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: op: range · low: 40.0 · high: 91.0 · detail: settled T in [40, 91] C</code></div>
             
             
             
@@ -1952,7 +1966,7 @@ cites:   ["kelley2001offaxis", "ludwig2006formation"]</pre>
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "41785446490ebf5fb5855280243f0af97483aca6", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/41785446490ebf5fb5855280243f0af97483aca6", "branch": "main", "lockfile": "uv.lock@ad1345056f2b", "generated_at": "2026-10-16 14:00 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "704a15f1bc489d9904f5e5d1f04a1ff36586c16b", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/704a15f1bc489d9904f5e5d1f04a1ff36586c16b", "branch": "main", "lockfile": "uv.lock@84fa37e21f14", "generated_at": "2026-10-16 14:31 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>

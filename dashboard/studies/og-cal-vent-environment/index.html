@@ -871,6 +871,8 @@
             <span class="finding-status-glyph">◆</span>
             <span class="finding-claim finding-statement">The dissolved-H2 window binds: 48/48 draws pass the pH window, 47/48 the temperature window, only 6/48 the H2 window (39 fall below 1 mmol/kg, 3 above 15). The posterior narrows the inflowing DIC from the prior 1.2-17 mM to 1.2-2.9 mM and pushes the reaction extent high (olivine_rate 0.09-0.38 vs prior 0.02-0.35), with fe_fraction 0.14-0.26. Mechanism: at full redox equilibrium in llnl.dat the Fe(II) budget first reduces the fluid&#39;s DIC (toward CH4 — Lost City&#39;s abiogenic methane); free dissolved H2 appears only once that carbon sink is exhausted, so H2 is a threshold in (fe_fraction x olivine_rate) / DIC, not a smooth function of the Fe budget.</span>
             
+            <span class="finding-chip">via <code>dissolved-h2-in-lost-city-range</code></span>
+            
           </summary>
           <div class="finding-drawer">
             <div class="finding-header">
@@ -883,7 +885,7 @@
             <div class="finding-evidence">
               <strong>observed:</strong> per-observation acceptance pH 48/48, T 47/48, H2 6/48; DIC posterior q05-q95 1.2-2.9 mM vs prior 1.2-17 mM dimensionless · 
               
-              
+              via test <a href="#bt-dissolved-h2-in-lost-city-range" onclick="_gotoStudyTab('tests','bt-dissolved-h2-in-lost-city-range');return false;"><code>dissolved-h2-in-lost-city-range</code></a> · 
               
               
               
@@ -897,6 +899,8 @@
             </div>
             
             
+            
+            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: op: range · low: 1.0 · high: 15.0 · detail: dissolved H2 in [1, 15] mmol/kg</code></div>
             
             
             
@@ -928,6 +932,8 @@
             <span class="finding-status-glyph">◆</span>
             <span class="finding-claim finding-statement">Outlet pH is 9.38-9.91 for every one of the 96 runs regardless of flow, reaction extent, DIC or Fe budget — the peridotite (Ca-OH / tremolite-diopside) assemblage buffers it, so the pH observation accepts the whole prior and carries no information about the parameters. Morris mu* for pH is &lt;= 0.11 on every parameter (vs 23 for H2 on olivine_rate). og-00&#39;s &#34;pH in window&#34; gate is therefore a reproduction of the buffer, not a constraint on the vent&#39;s operating point.</span>
             
+            <span class="finding-chip">via <code>posterior-viable-vent-fraction</code></span>
+            
           </summary>
           <div class="finding-drawer">
             <div class="finding-header">
@@ -940,7 +946,7 @@
             <div class="finding-evidence">
               <strong>observed:</strong> pH range 9.38-9.91 over 96 runs; mu*(pH) &lt;= 0.108; pH window accepts 48/48 dimensionless · 
               
-              
+              via test <a href="#bt-posterior-viable-vent-fraction" onclick="_gotoStudyTab('tests','bt-posterior-viable-vent-fraction');return false;"><code>posterior-viable-vent-fraction</code></a> · 
               
               
               
@@ -954,6 +960,8 @@
             </div>
             
             
+            
+            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: &gt; 0.0</code></div>
             
             
             
@@ -1046,6 +1054,8 @@
             <span class="finding-status-glyph">◆</span>
             <span class="finding-claim finding-statement">Morris screening (r = 4 trajectories, 28 world runs): dissolved H2 is controlled by olivine_rate (mu* 23.0), fluid DIC (20.8) and flow (16.9), weakly by fe_fraction (3.1), not at all by pyroxene fraction or heat partition; outlet temperature by the heat-partition fraction (2.16), flow (1.47) and olivine_rate (0.84). The two conditioning readouts that carry information (T, H2) are controlled by disjoint parameters, so the posterior factorises: T pins heat_to_fluid_fraction, H2 pins the Fe-budget-to-DIC ratio.</span>
             
+            <span class="finding-chip">via <code>posterior-viable-vent-fraction</code></span>
+            
           </summary>
           <div class="finding-drawer">
             <div class="finding-header">
@@ -1058,7 +1068,7 @@
             <div class="finding-evidence">
               <strong>observed:</strong> mu*(H2): olivine_rate 23.0, fluid_dic 20.8, flow 16.9, fe 3.1; mu*(T): heat_to_fluid 2.16, flow 1.47, olivine 0.84 dimensionless · 
               
-              
+              via test <a href="#bt-posterior-viable-vent-fraction" onclick="_gotoStudyTab('tests','bt-posterior-viable-vent-fraction');return false;"><code>posterior-viable-vent-fraction</code></a> · 
               
               
               
@@ -1072,6 +1082,8 @@
             </div>
             
             
+            
+            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: &gt; 0.0</code></div>
             
             
             
@@ -1951,6 +1963,22 @@ pass_if: {"detail": "cross-class agreement \u003e= 0.8", "op": "\u003e=", "value
     
     
     
+    
+    <div class="decide-section" style="margin-top:18px">
+      <h3 class="overview-label">Conclusion logic — gate decision</h3>
+      
+      <div style="padding:10px 14px;background:#f0fdf4;border-left:4px solid #10b981;border-radius:4px;margin-bottom:8px">
+        <strong>✓ If primary tests pass:</strong>
+        
+        
+        <div style="margin-top:4px"><em>Empirical validation:</em> Conditioned on the Lost City field windows, 12.5% of the empirically motivated prior (6 of 48 draws) reproduces all three observations, and 100% of that posterior supplies the H2 and pH gradient downstream carbon fixation requires; the dissolved-H2 window does all the constraining (pH is buffered at 9.4-9.9 and carries no information, temperature is loose), and the conservation ledger closes exactly on all 96 runs. This is a geochemical calibration, not an origin-of-life claim, and the H2 threshold rests on a full-redox-equilibrium assumption and an extrapolated DIC prior a kinetic carbon-redox class could still shift.</div>
+        
+        
+      </div>
+      
+      
+    </div>
+    
 
     
     
@@ -2135,7 +2163,7 @@ pass_if: {"detail": "cross-class agreement \u003e= 0.8", "op": "\u003e=", "value
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "41785446490ebf5fb5855280243f0af97483aca6", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/41785446490ebf5fb5855280243f0af97483aca6", "branch": "main", "lockfile": "uv.lock@ad1345056f2b", "generated_at": "2026-10-16 14:00 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "704a15f1bc489d9904f5e5d1f04a1ff36586c16b", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/704a15f1bc489d9904f5e5d1f04a1ff36586c16b", "branch": "main", "lockfile": "uv.lock@84fa37e21f14", "generated_at": "2026-10-16 14:31 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>

@@ -930,6 +930,8 @@
             <span class="finding-status-glyph">◆</span>
             <span class="finding-claim finding-statement">Under explicit electrochemistry the alkaline-vent cell is catalytically (activation) limited everywhere the wall conducts: at the nominal point (pH 9.5 | 6.0, 5 mM H2, 2 mM CO2, 100 C, 1e-3 S/m, Ni3Fe) the anode + cathode activation overpotentials take 0.996 of the 0.49 V fresh-fluid emf, the ohmic drop 0.002 and transport 0.001, at j = 1.06e-3 A/m^2 with faradaic efficiency 0.92 to carbon. Throughput rises only ~40x across the whole (pH x H2) plane (74 mV per pH unit, (RT/2F) ln10 per decade of H2) because the current scales with the exchange current, not the driving force. The electrical regime appears below ~1e-6 S/m (ohmic drop &gt; activation), where the circuit-derived gradient efficiency is 0.01-0.42.</span>
             
+            <span class="finding-chip">via <code>current-in-altair-window</code></span>
+            
           </summary>
           <div class="finding-drawer">
             <div class="finding-header">
@@ -942,7 +944,7 @@
             <div class="finding-evidence">
               <strong>observed:</strong> nominal losses: catalytic 0.996, electrical 0.002, transport 0.001, thermodynamic 0.0; j = 1.06e-3 A/m^2; FE 0.92; gradient_efficiency 0.01 / 0.42 / 0.98 / 1.00 at 1e-9 / 1e-7 / 1e-5 / 1e-3 S/m dimensionless · 
               
-              
+              via test <a href="#bt-current-in-altair-window" onclick="_gotoStudyTab('tests','bt-current-in-altair-window');return false;"><code>current-in-altair-window</code></a> · 
               
               
               
@@ -956,6 +958,8 @@
             </div>
             
             
+            
+            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: op: range · low: 1e-05 · high: 0.01 · detail: j in [1e-5, 1e-2] A/m^2</code></div>
             
             
             
@@ -2178,7 +2182,7 @@ cites:   ["altair2025carbon", "preiner2020hydrogen"]</pre>
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "41785446490ebf5fb5855280243f0af97483aca6", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/41785446490ebf5fb5855280243f0af97483aca6", "branch": "main", "lockfile": "uv.lock@ad1345056f2b", "generated_at": "2026-10-16 14:00 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "704a15f1bc489d9904f5e5d1f04a1ff36586c16b", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/704a15f1bc489d9904f5e5d1f04a1ff36586c16b", "branch": "main", "lockfile": "uv.lock@84fa37e21f14", "generated_at": "2026-10-16 14:31 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>

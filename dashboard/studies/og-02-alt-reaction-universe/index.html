@@ -1109,6 +1109,8 @@
             <span class="finding-status-glyph">◆</span>
             <span class="finding-claim finding-statement">The vg-data package reaction_universe carries 0 measured, 2 calibrated (the Phase-1 posterior feeds), 4 inferred, 7 extrapolated and 8 hypothetical parameters: every rate constant is an order-of-magnitude tick-scale number with a loguniform prior, swept rather than fitted. 50 of 121 skeletons resolve to a formula-verified KEGG compound and carry the live eQuilibrator component-contribution dG&#39; (reaction dG&#39; reproduced to 1e-6 kJ/mol); the other 71 carry a group-additivity estimate fitted to those (leave-one-out RMSE 7.2 kJ/mol).</span>
             
+            <span class="finding-chip">via <code>free-energy-directionality</code></span>
+            
           </summary>
           <div class="finding-drawer">
             <div class="finding-header">
@@ -1121,7 +1123,7 @@
             <div class="finding-evidence">
               <strong>observed:</strong> audit counts measured 0 / calibrated 2 / inferred 4 / extrapolated 7 / hypothetical 8; 50 resolved, 71 estimated dimensionless · 
               
-              
+              via test <a href="#bt-free-energy-directionality" onclick="_gotoStudyTab('tests','bt-free-energy-directionality');return false;"><code>free-energy-directionality</code></a> · 
               
               
               
@@ -1135,6 +1137,8 @@
             </div>
             
             
+            
+            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: ≥ 1.0</code></div>
             
             
             
@@ -2209,6 +2213,22 @@ cites:   ["somogyi2015libroadrunner"]</pre>
     
     
     
+    
+    <div class="decide-section" style="margin-top:18px">
+      <h3 class="overview-label">Conclusion logic — gate decision</h3>
+      
+      <div style="padding:10px 14px;background:#f0fdf4;border-left:4px solid #10b981;border-radius:4px;margin-bottom:8px">
+        <strong>✓ If primary tests pass:</strong>
+        
+        
+        <div style="margin-top:4px"><em>Empirical validation:</em> A persistent 14-species network forms under real vent thermodynamics but contains no autocatalytic motif; only a 10 mM formaldehyde feed makes the formose cycle emerge (enrichment p=0.04, absent in all 24 matched nulls), and the generated ledger closes exactly where og-02&#39;s curated rTCA motif proves imposed and not element-balanced. This establishes that autocatalysis is not free under real dG&#39;, not that the vent produces the formaldehyde the one igniting motif needs.</div>
+        
+        
+      </div>
+      
+      
+    </div>
+    
 
     
     
@@ -2393,7 +2413,7 @@ cites:   ["somogyi2015libroadrunner"]</pre>
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "41785446490ebf5fb5855280243f0af97483aca6", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/41785446490ebf5fb5855280243f0af97483aca6", "branch": "main", "lockfile": "uv.lock@ad1345056f2b", "generated_at": "2026-10-16 14:00 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "704a15f1bc489d9904f5e5d1f04a1ff36586c16b", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/704a15f1bc489d9904f5e5d1f04a1ff36586c16b", "branch": "main", "lockfile": "uv.lock@84fa37e21f14", "generated_at": "2026-10-16 14:31 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>

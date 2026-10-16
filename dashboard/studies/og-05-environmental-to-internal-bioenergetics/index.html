@@ -894,6 +894,8 @@
             <span class="finding-status-glyph">◆</span>
             <span class="finding-claim finding-statement">Survival off the collapsing gradient is a bounded REGION, not two representative runs: the native (pump catalyst efficiency × gradient floor) Decision map survives at 185/196 points (~94%), with the low-floor / low-efficiency corner going extinct. The Sojo cost line (η ≈ 0.30 — where internal pumping clears its maintenance cost plus the survival floor) marks the internalize-or-die boundary, and internalization (pump fraction &gt; 0.5) fills the efficient interior where the lineage truly OWNS its energy rather than riding the residual external gradient.</span>
             
+            <span class="finding-chip">via <code>selection-internalizes-gradient-generation</code></span>
+            
           </summary>
           <div class="finding-drawer">
             <div class="finding-header">
@@ -906,7 +908,7 @@
             <div class="finding-evidence">
               <strong>observed:</strong> 185/196 (94%) survive over (catalyst_efficiency 0.05–1.3 × gradient_floor 0.005–0.35); Sojo cost line η≈0.30; internalization 0.009–0.949 across the grid; operating point (η=1.0, floor=0.02) deep inside dimensionless · 
               
-              
+              via test <a href="#bt-selection-internalizes-gradient-generation" onclick="_gotoStudyTab('tests','bt-selection-internalizes-gradient-generation');return false;"><code>selection-internalizes-gradient-generation</code></a> · 
               
               
               
@@ -920,6 +922,8 @@
             </div>
             
             
+            
+            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: ≥ 0.6</code></div>
             
             
             
@@ -951,6 +955,8 @@
             <span class="finding-status-glyph">◆</span>
             <span class="finding-claim finding-statement">Accounting the free energy by SOURCE (not just the net flux) shows the useful disequilibrium shifting from the external geochemical gradient to internally maintained power as the environment declines — the external share of the useful free energy peaks near ~82% early in the run, then collapses to ~1% as the gradient falls while the population persists. The organism comes to &#34;own&#34; its energy: the geochemical gradient becomes a resource it taps, not the scaffold that organizes it.</span>
             
+            <span class="finding-chip">via <code>reduced-gradient-dependence</code></span>
+            
           </summary>
           <div class="finding-drawer">
             <div class="finding-header">
@@ -963,7 +969,7 @@
             <div class="finding-evidence">
               <strong>observed:</strong> external share of useful free energy peaks ~82% then falls to ~1% as external pmf 0.40 → 0.02 V; survivors 1.0, internalization → 0.95 dimensionless · 
               
-              
+              via test <a href="#bt-reduced-gradient-dependence" onclick="_gotoStudyTab('tests','bt-reduced-gradient-dependence');return false;"><code>reduced-gradient-dependence</code></a> · 
               
               
               
@@ -977,6 +983,8 @@
             </div>
             
             
+            
+            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: ≥ 0.5</code></div>
             
             
             
@@ -1633,6 +1641,22 @@ cites:   ["lane2010chemiosmotic"]</pre>
     
     
     
+    
+    <div class="decide-section" style="margin-top:18px">
+      <h3 class="overview-label">Conclusion logic — gate decision</h3>
+      
+      <div style="padding:10px 14px;background:#f0fdf4;border-left:4px solid #10b981;border-radius:4px;margin-bottom:8px">
+        <strong>✓ If primary tests pass:</strong>
+        
+        
+        <div style="margin-top:4px"><em>Empirical validation:</em> Under a collapsing gradient, selection drives an efficient lineage to internalize pumping (fraction about 0 to 0.95) and persist while a weak-pump lineage goes extinct, the external share of useful free energy falling from about 82% to about 1%. Survival is a bounded region of pump efficiency x gradient floor (about 94% of the grid) with a real cost-benefit boundary at eta about 0.30, the Sojo leaky-membrane line; the replicator couplings are calibrated and fix one decline scenario, so internalization is favored above a measurable threshold, not automatically.</div>
+        
+        
+      </div>
+      
+      
+    </div>
+    
 
     
     
@@ -1800,7 +1824,7 @@ cites:   ["lane2010chemiosmotic"]</pre>
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "41785446490ebf5fb5855280243f0af97483aca6", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/41785446490ebf5fb5855280243f0af97483aca6", "branch": "main", "lockfile": "uv.lock@ad1345056f2b", "generated_at": "2026-10-16 14:00 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "704a15f1bc489d9904f5e5d1f04a1ff36586c16b", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/704a15f1bc489d9904f5e5d1f04a1ff36586c16b", "branch": "main", "lockfile": "uv.lock@84fa37e21f14", "generated_at": "2026-10-16 14:31 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>
