@@ -61,8 +61,8 @@
             <span class="dot"></span>2&nbsp;·&nbsp;Execution<span class="step-val">ran</span>
           </span>
           
-          <span class="status-step gate-step axis-evaluation_status gate-state-passed-with-conditions set gate-current" title="Gate 3 · Evidence — current stage">
-            <span class="dot"></span>3&nbsp;·&nbsp;Evidence<span class="step-val">evaluated</span><span class="gate-current-tag">you are here</span>
+          <span class="status-step gate-step axis-evaluation_status gate-state-passed set" title="Gate 3 · Evidence">
+            <span class="dot"></span>3&nbsp;·&nbsp;Evidence<span class="step-val">evaluated</span>
           </span>
           
           <span class="status-step gate-step axis-evaluation_status gate-state-passed set" title="Gate 4 · Quality">
@@ -73,8 +73,8 @@
             <span class="dot"></span>5&nbsp;·&nbsp;Decision<span class="step-val">passed</span>
           </span>
           
-          <span class="status-step gate-step axis-expert_review_status gate-state-not-assessed" title="Gate 6 · Release">
-            <span class="dot"></span>6&nbsp;·&nbsp;Release
+          <span class="status-step gate-step axis-expert_review_status gate-state-not-assessed gate-current" title="Gate 6 · Release — current stage">
+            <span class="dot"></span>6&nbsp;·&nbsp;Release<span class="gate-current-tag">you are here</span>
           </span>
           
           
@@ -99,17 +99,13 @@
           
         </div>
         
-        <div class="status-detail-row gate-row gate-state-passed-with-conditions">
+        <div class="status-detail-row gate-row gate-state-passed">
           <span class="status-detail-axis">3 · Evidence</span>
           <span class="status-chip gate-state-passed">evaluated</span>
           
-          <span class="gate-computed-chip gate-state-passed-with-conditions" title="completed run + recorded verdicts + visualization readiness gate (V4)">◆ computed: evaluated</span>
-          
-          <span class="gate-divergence-chip gate-divergence-chip-inline" title="Code-computed state disagrees with the authored axis.">⚠ diverges from authored</span>
+          <span class="gate-computed-chip gate-state-passed" title="completed run + recorded verdicts">◆ computed: evaluated</span>
           
           
-          
-          <span class="gate-viz-gap-note" style="font-size:0.86em;color:#92400e">visualization gap: no figures</span>
           
         </div>
         
@@ -161,7 +157,7 @@
   
   <div class="act-cluster" data-act="study">
     <div class="act-header">
-      <span class="act-gate-dot" data-gate="study" data-gate-state="passed-with-conditions"></span>
+      <span class="act-gate-dot" data-gate="study" data-gate-state="passed"></span>
       <span class="act-label">The Study</span>
     </div>
     <div class="act-tabs">
@@ -182,7 +178,7 @@
   </div>
   <div class="act-cluster" data-act="evidence">
     <div class="act-header">
-      <span class="act-gate-dot" data-gate="evidence" data-gate-state="passed-with-conditions"></span>
+      <span class="act-gate-dot" data-gate="evidence" data-gate-state="passed"></span>
       <span class="act-label">Evidence</span>
     </div>
     <div class="act-tabs">
@@ -1709,7 +1705,7 @@ pass_if: {"detail": "favorable divides; zero-throughput ablation shows no divisi
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "92b78b709092c0ee0a2df07f86d930a676867804", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/92b78b709092c0ee0a2df07f86d930a676867804", "branch": "main", "lockfile": "uv.lock@dc657e9f0826", "generated_at": "2026-10-15 23:41 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "3199d5e444f50e7831c6364a6574ab28ed0fcd81", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/3199d5e444f50e7831c6364a6574ab28ed0fcd81", "branch": "main", "lockfile": "uv.lock@836101c425cb", "generated_at": "2026-10-16 00:29 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>
