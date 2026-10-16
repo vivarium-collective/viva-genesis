@@ -110,6 +110,7 @@ findings:
     carbon (right of the ~10× carbon floor). Below the threshold phosphate precipitates
     before it is useful.
   evidence:
+    from_test: reactive-p-available
     observed: reactive-P pool ranges ~0 to ~1 mM across the (source × enrichment)
       plane (~94% of supply, ~94 µM, at the favorable 1e-4 M point); availability
       bounded by net=0 and the carbon co-concentration floor

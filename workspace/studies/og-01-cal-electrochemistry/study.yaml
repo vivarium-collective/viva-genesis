@@ -111,6 +111,7 @@ findings:
     not the driving force. The electrical regime appears below ~1e-6 S/m (ohmic drop
     > activation), where the circuit-derived gradient efficiency is 0.01-0.42.'
   evidence:
+    from_test: current-in-altair-window
     observed: 'nominal losses: catalytic 0.996, electrical 0.002, transport 0.001,
       thermodynamic 0.0; j = 1.06e-3 A/m^2; FE 0.92; gradient_efficiency 0.01 / 0.42
       / 0.98 / 1.00 at 1e-9 / 1e-7 / 1e-5 / 1e-3 S/m'

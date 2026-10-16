@@ -173,6 +173,7 @@ findings:
     dG'' reproduced to 1e-6 kJ/mol); the other 71 carry a group-additivity estimate
     fitted to those (leave-one-out RMSE 7.2 kJ/mol).'
   evidence:
+    from_test: free-energy-directionality
     observed: audit counts measured 0 / calibrated 2 / inferred 4 / extrapolated 7
       / hypothetical 8; 50 resolved, 71 estimated
     units: dimensionless

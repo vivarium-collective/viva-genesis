@@ -229,6 +229,7 @@ findings:
     (pump fraction > 0.5) fills the efficient interior where the lineage truly OWNS
     its energy rather than riding the residual external gradient.'
   evidence:
+    from_test: selection-internalizes-gradient-generation
     observed: 185/196 (94%) survive over (catalyst_efficiency 0.05–1.3 × gradient_floor
       0.005–0.35); Sojo cost line η≈0.30; internalization 0.009–0.949 across the grid;
       operating point (η=1.0, floor=0.02) deep inside
@@ -259,6 +260,7 @@ findings:
     geochemical gradient becomes a resource it taps, not the scaffold that organizes
     it.'
   evidence:
+    from_test: reduced-gradient-dependence
     observed: external share of useful free energy peaks ~82% then falls to ~1% as
       external pmf 0.40 → 0.02 V; survivors 1.0, internalization → 0.95
     units: dimensionless

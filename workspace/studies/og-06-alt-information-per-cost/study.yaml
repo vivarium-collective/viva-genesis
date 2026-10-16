@@ -204,6 +204,7 @@ findings:
     the number that makes it dominate the frontier — is hypothetical with no measured
     anchor, and the attachment thresholds are hypothetical and swept.'
   evidence:
+    from_test: information-ledger-certifies
     observed: audit counts measured 1 / calibrated 0 / inferred 6 / extrapolated 8
       / hypothetical 24; unsourced []
     units: dimensionless

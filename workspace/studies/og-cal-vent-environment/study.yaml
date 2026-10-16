@@ -78,6 +78,7 @@ findings:
     H2 is a threshold in (fe_fraction x olivine_rate) / DIC, not a smooth function
     of the Fe budget.'
   evidence:
+    from_test: dissolved-h2-in-lost-city-range
     observed: per-observation acceptance pH 48/48, T 47/48, H2 6/48; DIC posterior
       q05-q95 1.2-2.9 mM vs prior 1.2-17 mM
     units: dimensionless
@@ -105,6 +106,7 @@ findings:
     (vs 23 for H2 on olivine_rate). og-00's "pH in window" gate is therefore a reproduction
     of the buffer, not a constraint on the vent's operating point.
   evidence:
+    from_test: posterior-viable-vent-fraction
     observed: pH range 9.38-9.91 over 96 runs; mu*(pH) <= 0.108; pH window accepts
       48/48
     units: dimensionless
@@ -151,6 +153,7 @@ findings:
     by disjoint parameters, so the posterior factorises: T pins heat_to_fluid_fraction,
     H2 pins the Fe-budget-to-DIC ratio.'
   evidence:
+    from_test: posterior-viable-vent-fraction
     observed: 'mu*(H2): olivine_rate 23.0, fluid_dic 20.8, flow 16.9, fe 3.1; mu*(T):
       heat_to_fluid 2.16, flow 1.47, olivine 0.84'
     units: dimensionless

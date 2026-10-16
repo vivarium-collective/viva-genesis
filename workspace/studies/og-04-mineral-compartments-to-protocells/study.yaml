@@ -223,6 +223,7 @@ findings:
     survive at seawater salt (0.35 M) and beyond only with enough co-surfactant —
     the Jordan mixed-amphiphile advantage as a bounded 2-D region, not a single point.'
   evidence:
+    from_test: mixed-amphiphile-advantage-over-single
     observed: retention 0.97→0 and access rising to 1.00 then falling to 0 across
       285–360 K; feasibility viable (individ>0.1) at 63/256 points, viable salt ceiling
       rising with mix_fraction

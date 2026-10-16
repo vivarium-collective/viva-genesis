@@ -138,7 +138,8 @@ findings:
   status: confirms
   statement: The boundary forms from acetate+formate-derived amphiphile; with synthesis
     ablated it does not — boundary formation is caused by the endogenous chemistry.
-  from_test: boundary-forms-from-chemistry
+  evidence:
+    from_test: boundary-forms-from-chemistry
   cites:
   - jordan2019promotion
 conclusion_verdicts:

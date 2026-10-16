@@ -123,7 +123,8 @@ findings:
   status: confirms
   statement: A founder grows, divides, and its daughters do the same — a >=3-generation
     lineage forms in the agents map, matter and volume conserved at every division.
-  from_test: lineage-reaches-three-generations
+  evidence:
+    from_test: lineage-reaches-three-generations
 conclusion_verdicts:
   lineage-reaches-three-generations: supported
 limitations:

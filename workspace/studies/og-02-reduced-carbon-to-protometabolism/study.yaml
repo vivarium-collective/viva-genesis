@@ -67,6 +67,7 @@ findings:
     or the reactor flushed too fast. The favorable operating point sits well inside
     the ignition region; the gain=1 contour is the autocatalytic threshold.
   evidence:
+    from_test: autocatalytic-gain-present
     observed: OAA hub 0 → 24 mM across the (feed × washout) plane; ignition bounded
       by gain=1
     units: molar
