@@ -7,7 +7,6 @@ status: ran
 design_status: approved
 simulation_status: ran
 evaluation_status: evaluated
-confidence: Accepted
 gate_status: failed
 title: 'The Vent Wall as a Galvanic Cell: Which Limitation Stops Carbon Fixation,
   and Do the Model Classes Agree?'
@@ -47,6 +46,9 @@ claim: 'Explicit electrochemistry is feasible, calibrated and ledger-exact, and 
   asked for, recorded as a decision for the expert rather than hidden.'
 findings:
 - id: og01cal-every-point-attributed
+  provenance:
+    run_ids:
+    - viva_genesis.composites.electrochemical_interface.electrochemical_carbon_fixation__1792066785__b9f82a
   kind: computational
   status: confirms
   statement: 'Every one of the 375 grid points carries a limitation label in both
@@ -66,6 +68,9 @@ findings:
     the headroom of each of its multiplicative gates (1 - feasible, 1 - drive(pmf),
     1 - catalyst x Ni gain, 1 - availability). Artifact: artifacts/electrochemistry_mechanism_map.json.'
 - id: og01cal-classes-disagree-in-the-favorable-region
+  provenance:
+    run_ids:
+    - viva_genesis.composites.electrochemical_interface.electrochemical_carbon_fixation__1792066785__b9f82a
   kind: computational
   status: novel
   statement: 'The pre-registered failure-mode-attributed gate fails: on the 78 points
@@ -94,6 +99,9 @@ findings:
     - commchem2026energeticconstraints
     - altair2025electrochemical
 - id: og01cal-butler-volmer-cell-is-activation-limited
+  provenance:
+    run_ids:
+    - viva_genesis.composites.electrochemical_interface.electrochemical_carbon_fixation__1792066785__b9f82a
   kind: computational
   status: novel
   statement: 'Under explicit electrochemistry the alkaline-vent cell is catalytically
@@ -120,6 +128,9 @@ findings:
     - altair2025carbon
     - commchem2026currentproducing
 - id: og01cal-current-window-reproduced
+  provenance:
+    run_ids:
+    - viva_genesis.composites.electrochemical_interface.electrochemical_carbon_fixation__1792066785__b9f82a
   kind: computational
   status: confirms
   statement: The Butler-Volmer class's settled current density lies inside the Altair-2025
@@ -137,6 +148,9 @@ findings:
     cites:
     - altair2025carbon
 - id: og01cal-charge-ledger-exact
+  provenance:
+    run_ids:
+    - viva_genesis.composites.electrochemical_interface.electrochemical_carbon_fixation__1792066785__b9f82a
   kind: computational
   status: confirms
   statement: 'Numerical verification: the ChargeLedgerProcess closes on all 750 mechanism-map
@@ -410,6 +424,7 @@ behavior_tests:
   gate_class: acceptance_criterion
   band_basis: first_principles
 - name: current-voltage-residual
+  gate_class: regression_pin
   classification: diagnostic
   description: The galvanic-cell circuit equation E_c(j) - E_a(j) - j R = 0 is solved
     to tolerance every tick.
@@ -443,6 +458,7 @@ behavior_tests:
   - altair2025carbon
   gate_class: acceptance_criterion
 - name: selectivity-to-carbon
+  gate_class: regression_pin
   classification: diagnostic
   description: Most of the current reduces CO2 rather than evolving H2 at the operating
     point (products dominate in the lab reactors).
@@ -486,11 +502,6 @@ baseline:
     model_carbon_fixation: butler_volmer
     dilution_rate: 2.0
   canonical: true
-parent_studies:
-- study: og-01-geology-to-reduced-carbon
-  condition: tests-passed
-- study: og-cal-vent-environment
-  condition: tests-passed
 parent_relations:
 - study: og-01-geology-to-reduced-carbon
   relation: leads-to

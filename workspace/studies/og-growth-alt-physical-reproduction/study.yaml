@@ -111,6 +111,9 @@ claim: An individual physically reproduces by a _divide structural rewrite, buil
   residual 0) at every division.
 findings:
 - id: physical-reproduction-lineage
+  provenance:
+    run_ids:
+    - viva_genesis.composites.physical_reproduction.physical_reproduction__1792073784__efd05b
   kind: computational
   status: confirms
   statement: A founder grows, divides, and its daughters do the same — a >=3-generation
@@ -121,11 +124,6 @@ conclusion_verdicts:
 limitations:
 - Growth is abstracted to the division trigger (division_state), not the full osmotic
   van der Waals growth of og-growth-division; coupling the two is the natural follow-up.
-parent_studies:
-- study: og-growth-division
-  condition: tests-passed
-- study: og-04-alt-endogenous-boundary
-  condition: tests-passed
 visualizations:
 - name: physical-reproduction-lineage
   address: local:PhysicalReproductionViz
@@ -200,6 +198,11 @@ runs:
         citation: null
       auto_evaluated: true
 pipeline_gate:
+  prerequisites:
+  - study: og-growth-division
+    condition: tests-passed
+  - study: og-04-alt-endogenous-boundary
+    condition: tests-passed
   state: passed
 verdict: supported
 evidence_tier: mechanistic_prediction

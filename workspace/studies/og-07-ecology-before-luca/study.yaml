@@ -98,6 +98,7 @@ behavior_tests:
   gate_class: acceptance_criterion
   band_basis: first_principles
 - name: luca-capability-overlap
+  gate_class: regression_pin
   classification: supporting
   description: The metacommunity's collective capability repertoire overlaps the anaerobic
     H2/CO2/FeS LUCA reconstruction — reported as a far-end boundary the emergent set
@@ -150,6 +151,9 @@ claim: A connected metacommunity of heterogeneous pore compartments develops fun
   the first compartments were LUCA-like.
 findings:
 - id: og07-connectivity-builds-robustness
+  provenance:
+    run_ids:
+    - viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity__1791924854__16b7a0
   kind: computational
   status: confirms
   statement: A connected metacommunity of 8 pore compartments, each carrying a sparse
@@ -176,6 +180,9 @@ findings:
     Acquired capability decays toward the intrinsic set, so it persists only while
     continuously supplied.
 - id: og07-robustness-emergence-boundary
+  provenance:
+    run_ids:
+    - viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity__1791924854__16b7a0
   kind: computational
   status: novel
   statement: Robustness EMERGES only in a bounded corner of (cross-feeding exchange_rate
@@ -206,6 +213,9 @@ findings:
     of 12 intrinsic per compartment) makes an isolated compartment functionally fragile,
     so redundancy must be BUILT by the metacommunity.
 - id: og07-luca-overlap-as-boundary
+  provenance:
+    run_ids:
+    - viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity__1791924854__16b7a0
   kind: computational
   status: novel
   statement: The metacommunity's collective capability repertoire overlaps the Weiss-2016
@@ -296,9 +306,6 @@ readouts:
   description: Overlap of the collective repertoire with the anaerobic LUCA core (reported
     boundary)
   status: available
-parent_studies:
-- study: og-06-chemistry-to-heredity
-  condition: tests-passed
 key_assumptions:
 - Use LUCA as a constraint on capabilities eventually acquired, not evidence the first
   replicators were LUCA-like.
@@ -325,6 +332,9 @@ visualizations:
     grid_json: workspace/studies/og-07-ecology-before-luca/artifacts/metacommunity_robustness_grid.json
     title: Where cross-feeding robustness emerges
 pipeline_gate:
+  prerequisites:
+  - study: og-06-chemistry-to-heredity
+    condition: tests-passed
   gate_evaluator:
     result: passed
     blocked_by: []

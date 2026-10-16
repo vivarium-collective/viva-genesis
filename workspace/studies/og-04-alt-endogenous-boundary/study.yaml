@@ -124,6 +124,9 @@ claim: A protocell boundary forms from the campaign's own reduced-carbon chemist
   rewrite; ablating synthesis removes the individual.
 findings:
 - id: endogenous-boundary-forms
+  provenance:
+    run_ids:
+    - viva_genesis.composites.endogenous_boundary.endogenous_boundary__1792073782__997a9b
   kind: computational
   status: confirms
   statement: The boundary forms from acetate+formate-derived amphiphile; with synthesis
@@ -136,11 +139,6 @@ conclusion_verdicts:
 limitations:
 - The amphiphile synthesis rate (k_synth) is an inferred condensation rate with no
   direct prebiotic measurement (vg-data provenance hypothetical, wide prior).
-parent_studies:
-- study: og-04-mineral-compartments-to-protocells
-  condition: tests-passed
-- study: og-01-geology-to-reduced-carbon
-  condition: tests-passed
 visualizations:
 - name: endogenous-boundary-formation
   address: local:EndogenousBoundaryViz
@@ -216,6 +214,11 @@ runs:
         citation: null
       auto_evaluated: true
 pipeline_gate:
+  prerequisites:
+  - study: og-04-mineral-compartments-to-protocells
+    condition: tests-passed
+  - study: og-01-geology-to-reduced-carbon
+    condition: tests-passed
   state: passed
 verdict: supported
 evidence_tier: mechanistic_prediction

@@ -38,6 +38,9 @@ claim: 'Conditioning the real vent on field observations turns og-00''s "80% of 
   carbon-redox assumption as the decisions that move it.'
 findings:
 - id: ogcal-posterior-viable-fraction
+  provenance:
+    run_ids:
+    - viva_genesis.composites.geochemical_world.geochemical_world__1792035577__f4b955
   kind: computational
   status: confirms
   statement: 'Feasibility and robustness, in the plan''s sense: 6/48 prior draws (12.5%)
@@ -61,6 +64,9 @@ findings:
     - ludwig2006formation
     - proskurowski2008abiogenic
 - id: ogcal-h2-is-the-binding-observation
+  provenance:
+    run_ids:
+    - viva_genesis.composites.geochemical_world.geochemical_world__1792035577__f4b955
   kind: computational
   status: novel
   statement: 'The dissolved-H2 window binds: 48/48 draws pass the pH window, 47/48
@@ -88,6 +94,9 @@ findings:
     - proskurowski2008abiogenic
     - schwander2023serpentinization
 - id: ogcal-ph-is-buffered-not-discriminating
+  provenance:
+    run_ids:
+    - viva_genesis.composites.geochemical_world.geochemical_world__1792035577__f4b955
   kind: computational
   status: novel
   statement: Outlet pH is 9.38-9.91 for every one of the 96 runs regardless of flow,
@@ -105,6 +114,9 @@ findings:
     - kelley2005serpentinite
     - ludwig2006formation
 - id: ogcal-transport-class-does-not-change-the-verdict
+  provenance:
+    run_ids:
+    - viva_genesis.composites.geochemical_world.geochemical_world__1792035577__f4b955
   kind: computational
   status: confirms
   statement: 'Discrimination, in the plan''s sense: the convecting (Darcy-Boussinesq)
@@ -127,6 +139,9 @@ findings:
     cites:
     - kelley2001offaxis
 - id: ogcal-morris-screening
+  provenance:
+    run_ids:
+    - viva_genesis.composites.geochemical_world.geochemical_world__1792035577__f4b955
   kind: computational
   status: novel
   statement: 'Morris screening (r = 4 trajectories, 28 world runs): dissolved H2 is
@@ -143,6 +158,9 @@ findings:
   explanation: Elementary effects on the log-scaled prior bounds of the vg-data package;
     artifact ensemble.morris.
 - id: ogcal-ledger-exact
+  provenance:
+    run_ids:
+    - viva_genesis.composites.geochemical_world.geochemical_world__1792035577__f4b955
   kind: computational
   status: confirms
   statement: 'Numerical verification: the ConservationLedgerProcess closes exactly
@@ -343,6 +361,7 @@ behavior_tests:
   gate_class: acceptance_criterion
   band_basis: machine_precision
 - name: heat-released-not-absorbed
+  gate_class: regression_pin
   classification: diagnostic
   description: Serpentinization is exothermic — the heat source never goes negative
     (energy_directionality invariant, previously declared but uncomputed in og-00).
@@ -358,6 +377,7 @@ behavior_tests:
   requires_simulation: 'yes'
   band_basis: first_principles
 - name: charge-conserved
+  gate_class: regression_pin
   classification: diagnostic
   description: PHREEQC balances charge every step (charge_neutrality invariant).
   measure:
@@ -451,9 +471,6 @@ baseline:
   composite: viva_genesis.composites.geochemical_world.geochemical_world
   params: {}
   canonical: true
-parent_studies:
-- study: og-00-vent-reactor-baseline
-  condition: tests-passed
 parent_relations:
 - study: og-00-vent-reactor-baseline
   relation: leads-to

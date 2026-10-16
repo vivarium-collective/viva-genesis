@@ -125,6 +125,7 @@ behavior_tests:
   - lane2012origin
   gate_class: acceptance_criterion
 - name: energy-cost-accounted
+  gate_class: regression_pin
   classification: supporting
   description: Membrane-maintenance energy is outweighed by benefit in the surviving
     population (net-positive free-energy flux).
@@ -168,6 +169,9 @@ claim: Survival off a collapsing gradient is a bounded REGION of (pump catalyst 
   weak pump collapses — the Sojo-2014 leaky-membrane constraint on bioenergetic internalization.
 findings:
 - id: og05-internalization-under-selection
+  provenance:
+    run_ids:
+    - viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization__1791944483__bef477
   kind: computational
   status: confirms
   statement: As the external geochemical gradient declines over the run, replicator
@@ -186,6 +190,9 @@ findings:
     × pump) strategy grid with a Sojo leaky-membrane fitness; the declining gradient
     flips the winning strategy from leaky-external to tight-pump.
 - id: og05-sojo-constraint
+  provenance:
+    run_ids:
+    - viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization__1791944483__bef477
   kind: computational
   status: novel
   statement: A weak pump cannot internalize — when the external gradient collapses,
@@ -203,6 +210,9 @@ findings:
     its cost against the lost external coupling, so no strategy clears the survival
     floor.
 - id: og05-survival-phase-map
+  provenance:
+    run_ids:
+    - viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization__1791944483__bef477
   seeded_study: og-05b-collapse-rate-sweep
   kind: computational
   status: novel
@@ -229,7 +239,11 @@ findings:
     landscape + internalization map (Decision view).
   next_action: Sweep decline_rate / alternative collapse scenarios to test how the
     survival region deforms with the speed of gradient loss (og-05b).
+  next_action_type: calibrate
 - id: og05-energy-provenance
+  provenance:
+    run_ids:
+    - viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization__1791944483__bef477
   kind: computational
   status: novel
   statement: 'Accounting the free energy by SOURCE (not just the net flux) shows the
@@ -310,9 +324,6 @@ readouts:
   units: volt
   description: Declining external geochemical gradient
   status: available
-parent_studies:
-- study: og-04-mineral-compartments-to-protocells
-  condition: tests-passed
 key_assumptions:
 - Internalization is an evolutionary control problem, not a scripted upgrade.
 parent_relations:
@@ -438,6 +449,9 @@ runs:
         citation: lane2010chemiosmotic
       auto_evaluated: true
 pipeline_gate:
+  prerequisites:
+  - study: og-04-mineral-compartments-to-protocells
+    condition: tests-passed
   gate_evaluator:
     result: passed
     blocked_by: []

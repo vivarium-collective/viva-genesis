@@ -7,7 +7,6 @@ status: ran
 design_status: approved
 simulation_status: ran
 evaluation_status: evaluated
-confidence: Accepted
 gate_status: failed
 title: 'Integrated Autonomy: The Minimum Sufficient Innovation Set Across Model Structures'
 question: Model Upgrade plan, Phase 9 — the capstone. og-08 found that a lineage persists
@@ -55,6 +54,9 @@ claim: 'In the integrated world og-08''s set is not sufficient: with every innov
   offers.'
 findings:
 - id: og08alt-no-subset-persists-at-the-nominal-floor
+  provenance:
+    run_ids:
+    - viva_genesis.composites.integrated_autonomy.integrated_autonomy_world__1792088317__3f4e8b
   kind: computational
   status: novel
   statement: With every driver withdrawn to 1 % of the vent level, none of the eight
@@ -79,6 +81,9 @@ findings:
     - martin2007origin
     - sojo2014bioenergetic
 - id: og08alt-pump-and-heredity-where-anything-persists
+  provenance:
+    run_ids:
+    - viva_genesis.composites.integrated_autonomy.integrated_autonomy_world__1792088317__3f4e8b
   kind: computational
   status: novel
   statement: 'At a 10 % ocean the only subset that persists is {pump, heredity}, under
@@ -107,6 +112,9 @@ findings:
     - sojo2014bioenergetic
     - lane2012origin
 - id: og08alt-storage-and-inheritance-decide
+  provenance:
+    run_ids:
+    - viva_genesis.composites.integrated_autonomy.integrated_autonomy_world__1792088317__3f4e8b
   kind: computational
   status: confirms
   statement: 'The storage model reproduces Phase 6 inside the world — the H+/Na+ gradient
@@ -132,6 +140,9 @@ findings:
     - sojo2014bioenergetic
     - eigen1971selforganization
 - id: og08alt-autonomy-reached-sufficiency-not
+  provenance:
+    run_ids:
+    - viva_genesis.composites.integrated_autonomy.integrated_autonomy_world__1792088317__3f4e8b
   kind: computational
   status: novel
   statement: Off-gradient the lineages supply essentially all of their own work, material
@@ -153,6 +164,9 @@ findings:
     cites:
     - lane2012origin
 - id: og08alt-seven-ledgers-and-the-control
+  provenance:
+    run_ids:
+    - viva_genesis.composites.integrated_autonomy.integrated_autonomy_world__1792088317__3f4e8b
   kind: computational
   status: novel
   statement: 'All seven ledgers close on every one of the 485 runs (carbon 1.7e-10,
@@ -404,6 +418,7 @@ behavior_tests:
   gate_class: acceptance_criterion
   band_basis: machine_precision
 - name: ablation-withdraws-every-driver
+  gate_class: regression_pin
   classification: supporting
   description: The AblationStep completed its schedule on the canonical run (phase
     2 — every driver at its floor).
@@ -418,6 +433,7 @@ behavior_tests:
   units: dimensionless
   requires_simulation: 'yes'
 - name: structural-events-logged
+  gate_class: regression_pin
   classification: supporting
   description: The structural-event log recorded the world's events (assembly, ablation
     phases, machinery held / lost, store charged / collapsed, budget sign changes,
@@ -433,6 +449,7 @@ behavior_tests:
   units: dimensionless
   requires_simulation: 'yes'
 - name: autonomy-decomposed-off-gradient
+  gate_class: regression_pin
   classification: diagnostic
   description: 'Recorded: the work-weighted autonomy of the canonical full-set lineage
     over the final 15 % of the run (every driver at its floor).'
@@ -447,6 +464,7 @@ behavior_tests:
   units: dimensionless
   requires_simulation: 'yes'
 - name: net-work-budget-off-gradient
+  gate_class: regression_pin
   classification: diagnostic
   description: 'Recorded: the canonical full-set lineage''s settled net work budget
     off-gradient (the persistence rule''s energy term).'
@@ -483,6 +501,7 @@ behavior_tests:
   - sojo2014bioenergetic
   - lane2012origin
 - name: minimum-sufficient-innovation-set-rich-ocean
+  gate_class: regression_pin
   classification: supporting
   description: The same lattice gate at the rich ocean floor (1e-1).
   measure:
@@ -497,6 +516,7 @@ behavior_tests:
   units: dimensionless
   requires_simulation: 'yes'
 - name: full-set-persistence-across-structures
+  gate_class: regression_pin
   classification: diagnostic
   description: 'Recorded: the fraction of sampled structures under which the full
     set persists off-gradient at the nominal floor (the robustness quantity).'
@@ -512,6 +532,7 @@ behavior_tests:
   units: dimensionless
   requires_simulation: 'yes'
 - name: robust-required-intersection
+  gate_class: regression_pin
   classification: diagnostic
   description: 'Recorded: the number of innovations required in EVERY viable structure
     at the nominal floor (the intersection of the required sets).'
@@ -527,6 +548,7 @@ behavior_tests:
   units: dimensionless
   requires_simulation: 'yes'
 - name: og08-hypothesis-reproduced
+  gate_class: regression_pin
   classification: diagnostic
   description: 'Recorded, not gated: 1 when the intersection of the required sets
     at the rich floor is exactly og-08''s {pump, importer, heredity} — the hypothesis
@@ -560,6 +582,7 @@ behavior_tests:
   requires_simulation: 'yes'
   gate_class: acceptance_criterion
 - name: ensemble-ledgers-close
+  gate_class: acceptance_criterion
   classification: primary
   description: Every one of the seven ledgers reports ok on every one of the ensemble's
     runs.
@@ -576,6 +599,7 @@ behavior_tests:
   requires_simulation: 'yes'
   band_basis: machine_precision
 - name: autonomy-of-the-persisting-lineages
+  gate_class: regression_pin
   classification: diagnostic
   description: 'Recorded: the mean work-weighted autonomy of every run (any innovation
     subset) that persists at the rich floor — the fraction of essential work and material
@@ -592,6 +616,7 @@ behavior_tests:
   units: dimensionless
   requires_simulation: 'yes'
 - name: ocean-floor-for-majority-persistence
+  gate_class: regression_pin
   classification: diagnostic
   description: 'Recorded: the lowest ocean floor at which the full set persists under
     at least half the structures (the floor map).'
@@ -645,17 +670,6 @@ baseline:
     heredity: 'on'
     feed_floor: 0.01
   canonical: true
-parent_studies:
-- study: og-08-escape-from-the-vent
-  condition: tests-passed
-- study: og-adv-generic-nonequilibrium
-  condition: tests-passed
-- study: og-energy-alt-internalization-threshold
-  condition: tests-passed
-- study: og-06-alt-information-per-cost
-  condition: tests-passed
-- study: og-07-alt-real-metabolite-exchange
-  condition: tests-passed
 parent_relations:
 - study: og-08-escape-from-the-vent
   relation: alternative-to

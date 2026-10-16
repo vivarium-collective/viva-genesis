@@ -118,6 +118,7 @@ behavior_tests:
   - huber1998peptides
   gate_class: acceptance_criterion
 - name: error-catastrophe-below-threshold
+  gate_class: regression_pin
   classification: diagnostic
   description: 'Discriminating (Eigen): below the error threshold (low fidelity ×
     long sequence) functional information is lost — retention collapses and inheritance
@@ -134,6 +135,7 @@ behavior_tests:
   cites:
   - huber1998peptides
 - name: replication-feasible-budget
+  gate_class: regression_pin
   classification: supporting
   description: Inheritance pays within a feasible replication budget — net-positive
     fitness after the replication cost, not idealized.
@@ -194,6 +196,9 @@ claim: An inherited chemical state improves lineage fitness above its replicatio
   threshold.)
 findings:
 - id: og06-inheritance-pays
+  provenance:
+    run_ids:
+    - viva_genesis.composites.heredity_module_comparison.heredity_module_comparison__1791919314__5ab0db
   kind: computational
   status: confirms
   statement: A high-fidelity heredity module (RNA-like, 30-mer, per-site fidelity
@@ -212,6 +217,9 @@ findings:
   explanation: Real libRoadRunner quasispecies ODE; above the Eigen error threshold
     correct templates outreplicate the mutational error tail (Eigen 1971).
 - id: og06-error-threshold-and-ranking
+  provenance:
+    run_ids:
+    - viva_genesis.composites.heredity_module_comparison.heredity_module_comparison__1791919314__5ab0db
   kind: computational
   status: novel
   statement: Heredity modules rank by an evidence-based head-to-head — RNA-like (0.38)
@@ -228,6 +236,9 @@ findings:
   explanation: Whole-sequence fidelity Q = per_site_fidelity^length sets the threshold;
     longer high-fidelity polymers retain more information but cost more to replicate.
 - id: og06-lineage-compositional-escapes-length-catastrophe
+  provenance:
+    run_ids:
+    - viva_genesis.composites.heredity_module_comparison.heredity_module_comparison__1791919314__5ab0db
   kind: computational
   status: novel
   statement: An agent-based LINEAGE model (individuals inherit a chemical phenotype
@@ -311,9 +322,6 @@ readouts:
   units: dimensionless
   description: Heredity-module polymer length
   status: available
-parent_studies:
-- study: og-05-environmental-to-internal-bioenergetics
-  condition: tests-passed
 key_assumptions:
 - Treat informational chemistry as a branch point; do not presume a viable RNA replication
   mechanism.
@@ -454,6 +462,9 @@ runs:
         heredity persists length-independently and seed-robustly; the non-heritable
         control collapses every seed
 pipeline_gate:
+  prerequisites:
+  - study: og-05-environmental-to-internal-bioenergetics
+    condition: tests-passed
   gate_evaluator:
     result: passed
     blocked_by: []

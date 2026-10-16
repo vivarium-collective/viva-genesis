@@ -74,6 +74,9 @@ claim: 'Localization is real and robust: a real FiPy thermophoretic + convective
 confidence_level: high
 findings:
 - id: og03-baaske-enrichment
+  provenance:
+    run_ids:
+    - viva_genesis.composites.thermophoretic_concentration.thermophoretic_concentration__1791944471__df60ba
   kind: computational
   status: confirms
   statement: A favorable serpentinite pore (5 mm × 0.1 mm, ΔT 30 K, convective flow)
@@ -97,6 +100,9 @@ findings:
     by up to ~5.6 decades at Pe ≳ 13, so the extreme fold-magnitude is not treated
     as a precise resolved result.
 - id: og03-individual-threshold
+  provenance:
+    run_ids:
+    - viva_genesis.composites.thermophoretic_concentration.thermophoretic_concentration__1791944471__df60ba
   kind: computational
   status: novel
   statement: 'The native pore-localization phase map (porosity × pore length) resolves
@@ -299,6 +305,7 @@ behavior_tests:
   - baaske2007extreme
   gate_class: acceptance_criterion
 - name: enrichment-exponential-in-pore-length
+  gate_class: regression_pin
   classification: diagnostic
   description: Enrichment is exponential in pore length (Baaske's geometry threshold)
     — a 10× shorter pore drops far below the favorable accumulation.
@@ -313,6 +320,7 @@ behavior_tests:
   cites:
   - baaske2007extreme
 - name: spatial-flux-conserved
+  gate_class: regression_pin
   classification: diagnostic
   description: The FiPy accumulation column conserves flux (FVM balance residual ~
     machine epsilon).
@@ -347,9 +355,6 @@ baseline:
     porosity: 0.3
     pore_length: 0.005
     delta_T: 30.0
-parent_studies:
-- study: og-02-reduced-carbon-to-protometabolism
-  condition: tests-passed
 key_assumptions:
 - Concentration arises from the balance of advection, diffusion, thermodiffusion,
   adsorption, precipitation and degradation — not assumed.
@@ -470,6 +475,9 @@ runs:
         citation: null
       auto_evaluated: true
 pipeline_gate:
+  prerequisites:
+  - study: og-02-reduced-carbon-to-protometabolism
+    condition: tests-passed
   gate_evaluator:
     result: passed
     blocked_by: []

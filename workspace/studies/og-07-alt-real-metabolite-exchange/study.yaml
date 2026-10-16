@@ -51,6 +51,9 @@ claim: With real chemistry inside every protocell, a community of two incomplete
   decides whether ecology before LUCA could run on exchanged intermediates.
 findings:
 - id: og07alt-community-function-precedes-cell-completeness
+  provenance:
+    run_ids:
+    - viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1792076282__f47040
   kind: computational
   status: novel
   statement: 'The community of a carboxylating and a hydrogenating lineage holds malate
@@ -77,6 +80,9 @@ findings:
     - wolos2020synthetic
     - weiss2016physiology
 - id: og07alt-sustained-by-real-flux
+  provenance:
+    run_ids:
+    - viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1792076282__f47040
   kind: computational
   status: novel
   statement: 'The community-only function vanishes when nothing is shared (private
@@ -103,6 +109,9 @@ findings:
     - jordan2019promotion
     - sojo2014bioenergetic
 - id: og07alt-emergence-needs-a-leaky-boundary
+  provenance:
+    run_ids:
+    - viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1792076282__f47040
   kind: computational
   status: novel
   statement: Over (diacid permeability x pore residence) the community-only function
@@ -128,6 +137,9 @@ findings:
     - jordan2019promotion
     - mast2010thermal
 - id: og07alt-og07-readouts-from-real-agents
+  provenance:
+    run_ids:
+    - viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1792076282__f47040
   kind: computational
   status: confirms
   statement: 'og-07''s gate readouts recomputed from the agents map (capabilities
@@ -155,6 +167,9 @@ findings:
     - weiss2016physiology
     - moody2024nature
 - id: og07alt-null-and-segregation-controls
+  provenance:
+    run_ids:
+    - viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1792076282__f47040
   kind: computational
   status: novel
   statement: 'The Phase-3 matched null (degree-preserving, (C,O)-matched rewiring)
@@ -179,6 +194,9 @@ findings:
     - maslov2002specificity
     - blokhuis2020universal
 - id: og07alt-element-ledger-and-provenance
+  provenance:
+    run_ids:
+    - viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1792076282__f47040
   kind: computational
   status: novel
   statement: 'The cross-system element ledger — C, N and P summed over every agent''s
@@ -428,6 +446,7 @@ behavior_tests:
   gate_class: acceptance_criterion
   band_basis: machine_precision
 - name: carbon-residual-at-integrator-tolerance
+  gate_class: regression_pin
   classification: diagnostic
   description: 'Recorded: worst-case carbon residual of the cross-system ledger (the
     agents'' CVODE tolerance, ~1e-9).'
@@ -443,6 +462,7 @@ behavior_tests:
   requires_simulation: 'yes'
   band_basis: machine_precision
 - name: exchange-rules-fire
+  gate_class: regression_pin
   classification: supporting
   description: The reactive system's rules (uptake, secretion, pore diffusion, feed
     / washout) fired on the canonical run — the firing count is a witness, not a diagnostic.
@@ -457,6 +477,7 @@ behavior_tests:
   units: dimensionless
   requires_simulation: 'yes'
 - name: metabolites-cross-between-lineages
+  gate_class: regression_pin
   classification: supporting
   description: Moles secreted by one lineage and taken up by the other in the same
     tick accumulate on the canonical run (real metabolite flux between lineages).
@@ -471,6 +492,7 @@ behavior_tests:
   units: mole
   requires_simulation: 'yes'
 - name: no-cell-complete
+  gate_class: regression_pin
   classification: supporting
   description: On the final tick of the canonical run no agent holds the whole community
     union (max completeness < 1).
@@ -485,6 +507,7 @@ behavior_tests:
   units: dimensionless
   requires_simulation: 'yes'
 - name: cross-feeding-robustness
+  gate_class: regression_pin
   classification: diagnostic
   description: 'og-07''s gate name, recomputed from real agents: settled fraction
     of product classes held by >= 2 agents (vocabulary of 28 classes, many unreachable
@@ -500,6 +523,7 @@ behavior_tests:
   units: dimensionless
   requires_simulation: 'yes'
 - name: luca-capability-overlap
+  gate_class: regression_pin
   classification: diagnostic
   description: og-07's LUCA-core overlap read off the chemistry (H2 oxidation, CO2
     fixation, FeS-type catalysis, acetate; ion pumping unreachable, ceiling 0.8).
@@ -573,6 +597,7 @@ behavior_tests:
   requires_simulation: 'yes'
   gate_class: acceptance_criterion
 - name: community-max-cell-completeness
+  gate_class: regression_pin
   classification: supporting
   description: In the community at the canonical point the best agent holds less than
     the whole union (the function precedes cell completeness).
@@ -588,6 +613,7 @@ behavior_tests:
   units: dimensionless
   requires_simulation: 'yes'
 - name: community-vs-complete-cell
+  gate_class: regression_pin
   classification: diagnostic
   description: 'Recorded: the community''s level of its community-only class over
     the generalist (complete-cell) arm''s level.'
@@ -603,6 +629,7 @@ behavior_tests:
   units: dimensionless
   requires_simulation: 'yes'
 - name: emergence-boundary-resolved
+  gate_class: regression_pin
   classification: diagnostic
   description: 'Recorded: the lowest diacid permeability at the nominal residence
     (100 s) at which the community-only function emerges; a boundary exists inside
@@ -622,6 +649,7 @@ behavior_tests:
   - jordan2019promotion
   - mast2010thermal
 - name: null-community-only-count
+  gate_class: regression_pin
   classification: diagnostic
   description: 'Recorded: the maximum number of community-only classes the rewired
     null universe yields over two seeds (how much of the split is the partition rather
@@ -640,6 +668,7 @@ behavior_tests:
   cites:
   - maslov2002specificity
 - name: segregated-placement-keeps-function
+  gate_class: regression_pin
   classification: supporting
   description: With the lineages in separate blocks of the pore the community-only
     function is still present (pore diffusion carries the intermediate).
@@ -655,6 +684,7 @@ behavior_tests:
   units: dimensionless
   requires_simulation: 'yes'
 - name: connected-beats-isolated
+  gate_class: regression_pin
   classification: supporting
   description: 'og-07''s gate name on the real community: metacommunity robustness
     of the shared community exceeds the private (no-sharing) arm''s.'
@@ -670,6 +700,7 @@ behavior_tests:
   units: dimensionless
   requires_simulation: 'yes'
 - name: map-ledgers-close
+  gate_class: regression_pin
   classification: diagnostic
   description: The C / N / P ledger stayed within tolerance on every one of the 98
     arm / map runs.
@@ -724,11 +755,6 @@ baseline:
     p_monoacid: 1.0e-07
     k_wash: 0.01
   canonical: true
-parent_studies:
-- study: og-07-ecology-before-luca
-  condition: tests-passed
-- study: og-02-alt-reaction-universe
-  condition: tests-passed
 parent_relations:
 - study: og-07-ecology-before-luca
   relation: alternative-to

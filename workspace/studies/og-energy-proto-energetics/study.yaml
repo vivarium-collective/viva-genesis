@@ -157,6 +157,7 @@ behavior_tests:
   - lane2010chemiosmotic
   gate_class: acceptance_criterion
 - name: free-energy-conserved
+  gate_class: regression_pin
   classification: supporting
   description: Free-energy accounting is a contract invariant — input = useful work
     + stored + dissipated, held to machine precision every tick.
@@ -204,6 +205,9 @@ claim: A pre-ATP thioester-class carrier coupled to an exergonic geochemical dri
   falsifiable transition, not a favourable reaction direction.
 findings:
 - id: ogenergy-currency-maintained
+  provenance:
+    run_ids:
+    - viva_genesis.composites.proto_energetics.proto_energetics__1791926822__702902
   kind: computational
   status: confirms
   statement: An exergonic geochemical drive coupled to a pre-ATP thioester-class carrier
@@ -224,6 +228,9 @@ findings:
     load, and bleeds it by first-order hydrolysis; the steady charge is the balance
     of charging against the two drains.
 - id: ogenergy-stored-work-fraction
+  provenance:
+    run_ids:
+    - viva_genesis.composites.proto_energetics.proto_energetics__1791926822__702902
   kind: computational
   status: novel
   statement: 'Accounting the free energy by DESTINATION (a conserved ledger: input
@@ -247,6 +254,9 @@ findings:
     further by discharge loss and hydrolysis — rendered as the energy-provenance panel
     (Mechanism) and the capture landscape (Decision).
 - id: ogenergy-coupling-and-drive-both-required
+  provenance:
+    run_ids:
+    - viva_genesis.composites.proto_energetics.proto_energetics__1791926822__702902
   kind: computational
   status: novel
   statement: The currency collapses under either ablation — no coupling (efficiency
@@ -345,9 +355,6 @@ readouts:
   units: kilojoule/mole
   description: Exergonic geochemical drive ΔG
   status: available
-parent_studies:
-- study: og-04-mineral-compartments-to-protocells
-  condition: tests-passed
 key_assumptions:
 - Capturing environmental free energy into a transferable store is the transition
   — not merely a favourable reaction direction.
@@ -381,6 +388,9 @@ visualizations:
     title: Proto-energetics — capturing free energy into a transferable currency (Decision
       view)
 pipeline_gate:
+  prerequisites:
+  - study: og-04-mineral-compartments-to-protocells
+    condition: tests-passed
   gate_evaluator:
     result: passed
     blocked_by: []

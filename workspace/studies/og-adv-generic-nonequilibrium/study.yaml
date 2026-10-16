@@ -170,6 +170,7 @@ contract:
     the same audited face.
 behavior_tests:
 - name: gates-reject-generic
+  gate_class: acceptance_criterion
   classification: primary
   description: Every vent-specific gate (og-01/02/03) rejects the feature-ablated
     control — it passes by being rejected.
@@ -185,6 +186,7 @@ behavior_tests:
   cites:
   - sutherland2017opinion
 - name: vent-specificity-demonstrated
+  gate_class: acceptance_criterion
   classification: primary
   description: The vent passes the same five gates the control fails — pass-where-control-fails.
   measure:
@@ -230,9 +232,6 @@ key_assumptions:
   are not vent-specific.
 - The control is a parameterization of the real og-01/02/03 composites, so it tests
   the same models, not a mock.
-parent_studies:
-- study: og-02-reduced-carbon-to-protometabolism
-  condition: tests-passed
 parent_relations:
 - study: og-02-reduced-carbon-to-protometabolism
   relation: refutes
@@ -240,6 +239,9 @@ kind: adversarial
 simulation_status: ran
 implementation_status: complete
 pipeline_gate:
+  prerequisites:
+  - study: og-02-reduced-carbon-to-protometabolism
+    condition: tests-passed
   gate_evaluator:
     result: passed
     evaluated_by: code

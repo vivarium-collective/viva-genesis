@@ -134,6 +134,9 @@ claim: Autonomy away from the geological reactor requires an irreducible innovat
   the vent is {pump, importer, heredity}.
 findings:
 - id: og08-minimum-innovation-set
+  provenance:
+    run_ids:
+    - viva_genesis.composites.off_gradient_persistence.off_gradient_persistence__1791923886__d5eebe
   kind: computational
   status: confirms
   statement: Under withdrawing geological support (external gradient, mineral access
@@ -155,6 +158,9 @@ findings:
     needs an internal pump (energy) AND an importer (resource) at once, held by heredity
     (information maintenance).
 - id: og08-co-limitation-makes-set-irreducible
+  provenance:
+    run_ids:
+    - viva_genesis.composites.off_gradient_persistence.off_gradient_persistence__1791923886__d5eebe
   kind: computational
   status: novel
   statement: The innovation set is irreducible precisely because the budget is co-limited
@@ -175,6 +181,9 @@ findings:
     cannot substitute for one another, so autonomy requires acquiring both independently
     of the vent (pump + importer) and holding that machinery (heredity).
 - id: og08-heredity-holds-the-innovations
+  provenance:
+    run_ids:
+    - viva_genesis.composites.off_gradient_persistence.off_gradient_persistence__1791923886__d5eebe
   kind: computational
   status: novel
   statement: Heredity is necessary not as an energy or resource term but as information
@@ -243,9 +252,6 @@ readouts:
   units: watt
   description: Net budget as power
   status: available
-parent_studies:
-- study: og-07-ecology-before-luca
-  condition: tests-passed
 key_assumptions:
 - Autonomy is reduced dependence on the exact vent interface, measured by ablation
   — not a binary.
