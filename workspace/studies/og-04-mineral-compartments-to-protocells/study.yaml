@@ -165,6 +165,9 @@ claim: Mixed single-chain amphiphiles form viable vesicles across the alkaline /
   region.
 findings:
 - id: og04-mixed-amphiphile-window
+  provenance:
+    run_ids:
+    - viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791944482__977ceb
   kind: computational
   status: confirms
   statement: Mixed single-chain amphiphiles form viable vesicles at alkaline vent
@@ -180,6 +183,9 @@ findings:
   explanation: ProtocellAssemblyProcess broadens the pH window + salt/divalent tolerance
     with the co-surfactant fraction (coarse-grained, Jordan-calibrated).
 - id: og04-individuality-without-isolation
+  provenance:
+    run_ids:
+    - viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791944482__977ceb
   kind: computational
   status: novel
   statement: The viable compartments retain internal chemistry (retention 0.91) while
@@ -196,6 +202,9 @@ findings:
   explanation: Selective permeability — low effective permeability to large/charged
     internal metabolites, higher to small external resources.
 - id: og04-retention-access-plane
+  provenance:
+    run_ids:
+    - viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791944482__977ceb
   kind: computational
   status: novel
   statement: 'Sweeping permeability (via temperature) traces the compartment through
@@ -218,6 +227,9 @@ findings:
   explanation: Temperature sweep → retention-access arc; (mix × ionic strength) sweep
     → salt-tolerance feasibility map; rendered as the retention-access Decision view.
 - id: og04-mix-fraction-gotcha
+  provenance:
+    run_ids:
+    - viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791944482__977ceb
   kind: methodological
   status: novel
   statement: The parameter sweep exposed that an exact mix_fraction=0.0 is swallowed

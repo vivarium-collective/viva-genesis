@@ -194,6 +194,9 @@ claim: A protocell's chemistry can change its physical fate. An internal autocat
   is conserved to machine precision across growth and division.
 findings:
 - id: oggd-metabolism-changes-physical-fate
+  provenance:
+    run_ids:
+    - viva_genesis.composites.osmotic_growth_division.osmotic_growth_division__1791927288__76353a
   kind: computational
   status: confirms
   statement: In the matched regime the internal autocatalytic source accumulates product,
@@ -214,6 +217,9 @@ findings:
     − leak), Pi = R·T·c_in (van 't Hoff), dV/dt = Lp·A·Pi (solvent influx), and halves
     V and N at the division threshold.
 - id: oggd-viable-band-bounded-by-starve-and-lyse
+  provenance:
+    run_ids:
+    - viva_genesis.composites.osmotic_growth_division.osmotic_growth_division__1791927288__76353a
   kind: computational
   status: novel
   statement: Sustained net growth leading to division occupies a BOUNDED band of (network
@@ -236,6 +242,9 @@ findings:
     · area); below a floor the osmotic drive cannot grow the compartment (starve),
     above a ceiling it exceeds the burst pressure before division can relieve it (lyse).
 - id: oggd-growth-is-chemistry-driven
+  provenance:
+    run_ids:
+    - viva_genesis.composites.osmotic_growth_division.osmotic_growth_division__1791927288__76353a
   kind: computational
   status: confirms
   statement: The growth is driven by the chemistry, not by the compartment physics

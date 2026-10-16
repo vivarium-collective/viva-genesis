@@ -31,6 +31,9 @@ claim: A real libRoadRunner P-speciation network coupled to the og-03 thermal po
   bottleneck, not a free resource.
 findings:
 - id: ogres-reactive-p-available
+  provenance:
+    run_ids:
+    - viva_genesis.composites.phosphorus_availability.phosphorus_availability__1791926628__6912fc
   kind: computational
   status: confirms
   statement: In the favorable thermal-gradient pore, reactive-P formation outpaces
@@ -49,6 +52,9 @@ findings:
     cites:
     - pasek2017schreibersite
 - id: ogres-p-coconcentrates-with-carbon
+  provenance:
+    run_ids:
+    - viva_genesis.composites.phosphorus_availability.phosphorus_availability__1791926628__6912fc
   kind: computational
   status: novel
   statement: 'The SAME real og-03 thermophoretic pore that lifts a dilute carbon feed
@@ -70,6 +76,9 @@ findings:
     - baaske2007extreme
     - mast2010thermal
 - id: ogres-precipitation-ablation
+  provenance:
+    run_ids:
+    - viva_genesis.composites.phosphorus_availability.phosphorus_availability__1791926628__6912fc
   kind: computational
   status: novel
   statement: 'The feature ablation is decisive — an open pore / no thermal gradient
@@ -88,6 +97,9 @@ findings:
     cites:
     - pasek2017schreibersite
 - id: ogres-availability-landscape
+  provenance:
+    run_ids:
+    - viva_genesis.composites.phosphorus_availability.phosphorus_availability__1791926628__6912fc
   kind: computational
   status: novel
   statement: A 16×16 sweep over (phosphate source × pore/thermal enrichment) maps

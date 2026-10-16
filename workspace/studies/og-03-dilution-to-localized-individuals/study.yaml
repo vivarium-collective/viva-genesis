@@ -74,6 +74,9 @@ claim: 'Localization is real and robust: a real FiPy thermophoretic + convective
 confidence_level: high
 findings:
 - id: og03-baaske-enrichment
+  provenance:
+    run_ids:
+    - viva_genesis.composites.thermophoretic_concentration.thermophoretic_concentration__1791944471__df60ba
   kind: computational
   status: confirms
   statement: A favorable serpentinite pore (5 mm × 0.1 mm, ΔT 30 K, convective flow)
@@ -97,6 +100,9 @@ findings:
     by up to ~5.6 decades at Pe ≳ 13, so the extreme fold-magnitude is not treated
     as a precise resolved result.
 - id: og03-individual-threshold
+  provenance:
+    run_ids:
+    - viva_genesis.composites.thermophoretic_concentration.thermophoretic_concentration__1791944471__df60ba
   kind: computational
   status: novel
   statement: 'The native pore-localization phase map (porosity × pore length) resolves

@@ -124,6 +124,9 @@ claim: A protocell boundary forms from the campaign's own reduced-carbon chemist
   rewrite; ablating synthesis removes the individual.
 findings:
 - id: endogenous-boundary-forms
+  provenance:
+    run_ids:
+    - viva_genesis.composites.endogenous_boundary.endogenous_boundary__1792073782__997a9b
   kind: computational
   status: confirms
   statement: The boundary forms from acetate+formate-derived amphiphile; with synthesis

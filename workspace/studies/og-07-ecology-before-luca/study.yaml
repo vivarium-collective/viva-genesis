@@ -151,6 +151,9 @@ claim: A connected metacommunity of heterogeneous pore compartments develops fun
   the first compartments were LUCA-like.
 findings:
 - id: og07-connectivity-builds-robustness
+  provenance:
+    run_ids:
+    - viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity__1791924854__16b7a0
   kind: computational
   status: confirms
   statement: A connected metacommunity of 8 pore compartments, each carrying a sparse
@@ -177,6 +180,9 @@ findings:
     Acquired capability decays toward the intrinsic set, so it persists only while
     continuously supplied.
 - id: og07-robustness-emergence-boundary
+  provenance:
+    run_ids:
+    - viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity__1791924854__16b7a0
   kind: computational
   status: novel
   statement: Robustness EMERGES only in a bounded corner of (cross-feeding exchange_rate
@@ -207,6 +213,9 @@ findings:
     of 12 intrinsic per compartment) makes an isolated compartment functionally fragile,
     so redundancy must be BUILT by the metacommunity.
 - id: og07-luca-overlap-as-boundary
+  provenance:
+    run_ids:
+    - viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity__1791924854__16b7a0
   kind: computational
   status: novel
   statement: The metacommunity's collective capability repertoire overlaps the Weiss-2016

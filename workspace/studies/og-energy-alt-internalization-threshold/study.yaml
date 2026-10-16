@@ -51,6 +51,9 @@ claim: 'Owning an energy store pays only where the store can be charged above th
   load, in a coarse-grained model.'
 findings:
 - id: ogenergyalt-thioester-pays-from-low-activity
+  provenance:
+    run_ids:
+    - viva_genesis.composites.protocell_energetics.protocell_energetics__1792071305__11504a
   kind: computational
   status: novel
   statement: 'At the nominal membrane and gradient the thioester / acyl-phosphate
@@ -74,6 +77,9 @@ findings:
     - buckel2013energy
     - lane2010chemiosmotic
 - id: ogenergyalt-ion-gradient-needs-tight-membrane
+  provenance:
+    run_ids:
+    - viva_genesis.composites.protocell_energetics.protocell_energetics__1792071305__11504a
   kind: computational
   status: confirms
   statement: 'The pumped H+/Na+ gradient store never pays at fatty-acid-like leak:
@@ -96,6 +102,9 @@ findings:
     cites:
     - sojo2014bioenergetic
 - id: ogenergyalt-polyphosphate-cannot-clear-the-load
+  provenance:
+    run_ids:
+    - viva_genesis.composites.protocell_energetics.protocell_energetics__1792071305__11504a
   kind: computational
   status: novel
   statement: 'A polyphosphate store (20 kJ/mol per bond, 100x slower hydrolysis than
@@ -115,6 +124,9 @@ findings:
     - buckel2013energy
     - natcomm2025phosphateactivation
 - id: ogenergyalt-fe-redox-marginal
+  provenance:
+    run_ids:
+    - viva_genesis.composites.protocell_energetics.protocell_energetics__1792071305__11504a
   kind: computational
   status: novel
   statement: 'The reduced-metal store charged by the Fe(II)-disproportionation drive
@@ -134,6 +146,9 @@ findings:
     cites:
     - natcomm2025fedisproportionation
 - id: ogenergyalt-collapsed-gradient-autonomy
+  provenance:
+    run_ids:
+    - viva_genesis.composites.protocell_energetics.protocell_energetics__1792071305__11504a
   kind: computational
   status: confirms
   statement: 'With the external gradient collapsed to the og-05 floor (0.02 V) the
@@ -156,6 +171,9 @@ findings:
     - sojo2014bioenergetic
     - lane2010chemiosmotic
 - id: ogenergyalt-ledger-and-provenance
+  provenance:
+    run_ids:
+    - viva_genesis.composites.protocell_energetics.protocell_energetics__1792071305__11504a
   kind: computational
   status: confirms
   statement: 'Numerical verification: on all 990 runs the cumulative identity in +

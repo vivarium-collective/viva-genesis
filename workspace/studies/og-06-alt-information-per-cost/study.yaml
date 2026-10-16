@@ -48,6 +48,9 @@ claim: 'Priced under matched budgets at low copy number, heredity splits by curr
   a defect-copy error nobody has measured.'
 findings:
 - id: og06alt-ancestry-predicts-phenotype-per-class
+  provenance:
+    run_ids:
+    - viva_genesis.composites.competing_heredity.competing_heredity__1792072056__3db0cf
   kind: computational
   status: novel
   statement: With heredity attached, parent and offspring phenotypes share information
@@ -79,6 +82,9 @@ findings:
     - miller1955note
     - kraskov2004estimating
 - id: og06alt-information-per-cost-frontier
+  provenance:
+    run_ids:
+    - viva_genesis.composites.competing_heredity.competing_heredity__1792072056__3db0cf
   kind: computational
   status: novel
   statement: 'Bits per joule span 3.8 decades across the six classes: mineral_state
@@ -105,6 +111,9 @@ findings:
     - buckel2013energy
     - szathmary2006origin
 - id: og06alt-need-not-presume-rna-splits-by-currency
+  provenance:
+    run_ids:
+    - viva_genesis.composites.competing_heredity.competing_heredity__1792072056__3db0cf
   kind: computational
   status: confirms
   statement: 'og-06''s "heredity need not presume RNA" survives as a class-substitution
@@ -130,6 +139,9 @@ findings:
     - vasas2010lack
     - johnston2001rna
 - id: og06alt-attachment-is-conditional
+  provenance:
+    run_ids:
+    - viva_genesis.composites.competing_heredity.competing_heredity__1792072056__3db0cf
   kind: computational
   status: novel
   statement: 'With the HeredityAttachmentStep deciding, compositional, network and
@@ -157,6 +169,9 @@ findings:
     - eigen1971selforganization
     - cairnssmith1982genetic
 - id: og06alt-eigen-threshold-at-the-agent-level
+  provenance:
+    run_ids:
+    - viva_genesis.composites.competing_heredity.competing_heredity__1792072056__3db0cf
   kind: computational
   status: confirms
   statement: 'The fidelity transition reproduces the error threshold at the agent
@@ -181,6 +196,9 @@ findings:
     - eigen1971selforganization
     - rajamani2010effect
 - id: og06alt-provenance-audit
+  provenance:
+    run_ids:
+    - viva_genesis.composites.competing_heredity.competing_heredity__1792072056__3db0cf
   kind: computational
   status: novel
   statement: 'The vg-data package inheritance_budgets carries 39 parameters: 1 measured

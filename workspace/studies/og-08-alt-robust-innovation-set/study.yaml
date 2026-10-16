@@ -55,6 +55,9 @@ claim: 'In the integrated world og-08''s set is not sufficient: with every innov
   offers.'
 findings:
 - id: og08alt-no-subset-persists-at-the-nominal-floor
+  provenance:
+    run_ids:
+    - viva_genesis.composites.integrated_autonomy.integrated_autonomy_world__1792088317__3f4e8b
   kind: computational
   status: novel
   statement: With every driver withdrawn to 1 % of the vent level, none of the eight
@@ -79,6 +82,9 @@ findings:
     - martin2007origin
     - sojo2014bioenergetic
 - id: og08alt-pump-and-heredity-where-anything-persists
+  provenance:
+    run_ids:
+    - viva_genesis.composites.integrated_autonomy.integrated_autonomy_world__1792088317__3f4e8b
   kind: computational
   status: novel
   statement: 'At a 10 % ocean the only subset that persists is {pump, heredity}, under
@@ -107,6 +113,9 @@ findings:
     - sojo2014bioenergetic
     - lane2012origin
 - id: og08alt-storage-and-inheritance-decide
+  provenance:
+    run_ids:
+    - viva_genesis.composites.integrated_autonomy.integrated_autonomy_world__1792088317__3f4e8b
   kind: computational
   status: confirms
   statement: 'The storage model reproduces Phase 6 inside the world — the H+/Na+ gradient
@@ -132,6 +141,9 @@ findings:
     - sojo2014bioenergetic
     - eigen1971selforganization
 - id: og08alt-autonomy-reached-sufficiency-not
+  provenance:
+    run_ids:
+    - viva_genesis.composites.integrated_autonomy.integrated_autonomy_world__1792088317__3f4e8b
   kind: computational
   status: novel
   statement: Off-gradient the lineages supply essentially all of their own work, material
@@ -153,6 +165,9 @@ findings:
     cites:
     - lane2012origin
 - id: og08alt-seven-ledgers-and-the-control
+  provenance:
+    run_ids:
+    - viva_genesis.composites.integrated_autonomy.integrated_autonomy_world__1792088317__3f4e8b
   kind: computational
   status: novel
   statement: 'All seven ledgers close on every one of the 485 runs (carbon 1.7e-10,

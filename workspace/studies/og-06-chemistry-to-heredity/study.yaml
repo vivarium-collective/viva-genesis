@@ -196,6 +196,9 @@ claim: An inherited chemical state improves lineage fitness above its replicatio
   threshold.)
 findings:
 - id: og06-inheritance-pays
+  provenance:
+    run_ids:
+    - viva_genesis.composites.heredity_module_comparison.heredity_module_comparison__1791919314__5ab0db
   kind: computational
   status: confirms
   statement: A high-fidelity heredity module (RNA-like, 30-mer, per-site fidelity
@@ -214,6 +217,9 @@ findings:
   explanation: Real libRoadRunner quasispecies ODE; above the Eigen error threshold
     correct templates outreplicate the mutational error tail (Eigen 1971).
 - id: og06-error-threshold-and-ranking
+  provenance:
+    run_ids:
+    - viva_genesis.composites.heredity_module_comparison.heredity_module_comparison__1791919314__5ab0db
   kind: computational
   status: novel
   statement: Heredity modules rank by an evidence-based head-to-head — RNA-like (0.38)
@@ -230,6 +236,9 @@ findings:
   explanation: Whole-sequence fidelity Q = per_site_fidelity^length sets the threshold;
     longer high-fidelity polymers retain more information but cost more to replicate.
 - id: og06-lineage-compositional-escapes-length-catastrophe
+  provenance:
+    run_ids:
+    - viva_genesis.composites.heredity_module_comparison.heredity_module_comparison__1791919314__5ab0db
   kind: computational
   status: novel
   statement: An agent-based LINEAGE model (individuals inherit a chemical phenotype

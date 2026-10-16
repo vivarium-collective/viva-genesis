@@ -205,6 +205,9 @@ claim: A pre-ATP thioester-class carrier coupled to an exergonic geochemical dri
   falsifiable transition, not a favourable reaction direction.
 findings:
 - id: ogenergy-currency-maintained
+  provenance:
+    run_ids:
+    - viva_genesis.composites.proto_energetics.proto_energetics__1791926822__702902
   kind: computational
   status: confirms
   statement: An exergonic geochemical drive coupled to a pre-ATP thioester-class carrier
@@ -225,6 +228,9 @@ findings:
     load, and bleeds it by first-order hydrolysis; the steady charge is the balance
     of charging against the two drains.
 - id: ogenergy-stored-work-fraction
+  provenance:
+    run_ids:
+    - viva_genesis.composites.proto_energetics.proto_energetics__1791926822__702902
   kind: computational
   status: novel
   statement: 'Accounting the free energy by DESTINATION (a conserved ledger: input
@@ -248,6 +254,9 @@ findings:
     further by discharge loss and hydrolysis — rendered as the energy-provenance panel
     (Mechanism) and the capture landscape (Decision).
 - id: ogenergy-coupling-and-drive-both-required
+  provenance:
+    run_ids:
+    - viva_genesis.composites.proto_energetics.proto_energetics__1791926822__702902
   kind: computational
   status: novel
   statement: The currency collapses under either ablation — no coupling (efficiency

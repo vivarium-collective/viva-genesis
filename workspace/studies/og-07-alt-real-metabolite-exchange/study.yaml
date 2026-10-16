@@ -51,6 +51,9 @@ claim: With real chemistry inside every protocell, a community of two incomplete
   decides whether ecology before LUCA could run on exchanged intermediates.
 findings:
 - id: og07alt-community-function-precedes-cell-completeness
+  provenance:
+    run_ids:
+    - viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1792076282__f47040
   kind: computational
   status: novel
   statement: 'The community of a carboxylating and a hydrogenating lineage holds malate
@@ -77,6 +80,9 @@ findings:
     - wolos2020synthetic
     - weiss2016physiology
 - id: og07alt-sustained-by-real-flux
+  provenance:
+    run_ids:
+    - viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1792076282__f47040
   kind: computational
   status: novel
   statement: 'The community-only function vanishes when nothing is shared (private
@@ -103,6 +109,9 @@ findings:
     - jordan2019promotion
     - sojo2014bioenergetic
 - id: og07alt-emergence-needs-a-leaky-boundary
+  provenance:
+    run_ids:
+    - viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1792076282__f47040
   kind: computational
   status: novel
   statement: Over (diacid permeability x pore residence) the community-only function
@@ -128,6 +137,9 @@ findings:
     - jordan2019promotion
     - mast2010thermal
 - id: og07alt-og07-readouts-from-real-agents
+  provenance:
+    run_ids:
+    - viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1792076282__f47040
   kind: computational
   status: confirms
   statement: 'og-07''s gate readouts recomputed from the agents map (capabilities
@@ -155,6 +167,9 @@ findings:
     - weiss2016physiology
     - moody2024nature
 - id: og07alt-null-and-segregation-controls
+  provenance:
+    run_ids:
+    - viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1792076282__f47040
   kind: computational
   status: novel
   statement: 'The Phase-3 matched null (degree-preserving, (C,O)-matched rewiring)
@@ -179,6 +194,9 @@ findings:
     - maslov2002specificity
     - blokhuis2020universal
 - id: og07alt-element-ledger-and-provenance
+  provenance:
+    run_ids:
+    - viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1792076282__f47040
   kind: computational
   status: novel
   statement: 'The cross-system element ledger — C, N and P summed over every agent''s

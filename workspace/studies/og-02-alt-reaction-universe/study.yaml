@@ -42,6 +42,9 @@ claim: 'With real thermodynamics and conservation, autocatalysis is not free: th
   motif now classed as imposed and its stoichiometry flagged as non-conserving.'
 findings:
 - id: og02alt-no-motif-at-phase1-feed
+  provenance:
+    run_ids:
+    - viva_genesis.composites.open_chemical_network.open_chemical_network__1792068379__c38055
   kind: computational
   status: novel
   statement: At the Phase-1 posterior feed the rule-generated universe (121 species,
@@ -69,6 +72,9 @@ findings:
     - preiner2020hydrogen
     - muchowska2019synthesis
 - id: og02alt-formose-motif-emerges-and-is-enriched
+  provenance:
+    run_ids:
+    - viva_genesis.composites.open_chemical_network.open_chemical_network__1792068379__c38055
   kind: computational
   status: novel
   statement: 'With 10 mM formaldehyde added to the same feed, exactly one persistent
@@ -98,6 +104,9 @@ findings:
     - blokhuis2020universal
     - wolos2020synthetic
 - id: og02alt-curated-motif-is-imposed-and-unbalanced
+  provenance:
+    run_ids:
+    - viva_genesis.composites.open_chemical_network.open_chemical_network__1792068379__c38055
   kind: computational
   status: contradicts
   statement: Graded by the same detector, og-02's curated rTCA class shows one motif
@@ -122,6 +131,9 @@ findings:
     - muchowska2019synthesis
     - muchowska2017metals
 - id: og02alt-ledger-and-verification
+  provenance:
+    run_ids:
+    - viva_genesis.composites.open_chemical_network.open_chemical_network__1792068379__c38055
   kind: computational
   status: confirms
   statement: 'Numerical verification: the universe is element-balanced by construction
@@ -149,6 +161,9 @@ findings:
     - somogyi2015libroadrunner
     - noor2013consistent
 - id: og02alt-provenance-audit
+  provenance:
+    run_ids:
+    - viva_genesis.composites.open_chemical_network.open_chemical_network__1792068379__c38055
   kind: computational
   status: novel
   statement: 'The vg-data package reaction_universe carries 0 measured, 2 calibrated
