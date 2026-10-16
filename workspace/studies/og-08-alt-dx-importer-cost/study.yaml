@@ -1,5 +1,13 @@
 schema_version: 4
 name: og-08-alt-dx-importer-cost
+investigation: origins-of-life-vent
+parent_relations:
+- study: og-08-alt-robust-innovation-set
+  relation: leads-to
+pipeline_gate:
+  prerequisites:
+  - study: og-08-alt-robust-innovation-set
+    condition: tests-passed
 title: Why is the importer a net cost, and which subset conditions permit persistence?
 status: planned
 design_status: drafted
