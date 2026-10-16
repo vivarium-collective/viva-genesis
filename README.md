@@ -2,7 +2,7 @@
 
 <!-- BEGIN dashboard -->
 > ## 📊 [**Live dashboard →**](https://vivarium-collective.github.io/viva-genesis/dashboard/)
-> Browse every investigation and study interactively. Auto-published from `main` on every merge.
+> Browse every investigation & study interactively, or read the [published investigation reports](https://vivarium-collective.github.io/viva-genesis/). Auto-published from `main` on every merge.
 <!-- END dashboard -->
 
 **An origins-of-life hydrothermal-vent simulation campaign, built on [Vivarium](https://github.com/vivarium-collective) / process-bigraph.**
