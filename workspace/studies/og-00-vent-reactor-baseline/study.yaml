@@ -8,21 +8,21 @@ design_status: approved
 confidence: Accepted
 gate_status: passed
 title: The Serpentinizing Vent
-question: Can a Lost City–like, serpentinization-fed vent–ocean interface reproduce
-  observed fluid mixing, heat transport, mineral precipitation and H2/alkalinity delivery
-  under field-constrained conditions — with no origin-of-life claim?
+question: >-
+  Can a Lost City-like, serpentinization-fed vent-ocean interface reproduce the physical and
+  chemical environment in which the later origin-of-life steps are supposed to occur?
 hypothesis: A 1D/2D porous-wall reactor with prescribed boundary fluxes reproduces
   published Lost City ranges (T, pH, H2, DIC) and qualitative precipitation trends
   while conserving mass and charge.
 objective: Build a reduced vent–ocean reactor and validate it against Lost City field
   ranges to establish a geochemical/spatial testbed.
-claim: 'Habitability is a bounded REGION of the operating space, not a single tuned
-  run: across the (olivine reaction rate × flow velocity) grid the real PHREEQC +
-  FiPy serpentinizing vent settles inside the Lost City window — T 40–91 °C AND pH
-  9.0–10.8 AND a positive H2 flux — over ~80% of the swept grid, and the baseline
-  operating point sits safely inside it (T 50.6 °C, pH 9.37) with sustained H2, exact
-  charge balance (|charge|=0) and FiPy flux divergence within the contract tolerance
-  (4.9e-5 vs the 1e-3 bound).'
+claim: >-
+  Across the swept olivine-rate x flow-velocity grid, about 80% of the operating region falls
+  inside the combined Lost City window (40-91 C, pH 9.0-10.8, positive H2 flux), and the
+  baseline settles comfortably inside it at 50.6 C / pH 9.37 with sustained H2, exact charge
+  balance, and spatial-flux divergence within tolerance. This establishes a bounded
+  geochemical habitat, a region rather than a single tuned point, and makes no origin-of-life
+  claim by itself.
 findings:
 - id: og00-temperature-ph-in-window
   kind: computational

@@ -10,11 +10,10 @@ evaluation_status: evaluated
 confidence: Accepted
 gate_status: passed
 title: The Phosphorus Bottleneck
-question: Phosphorus may be a harder bottleneck than carbon. Can the same thermal-gradient
-  vent pore that concentrates C and N also co-concentrate P — tracking dissolved phosphate,
-  mineral-bound P, polyphosphate and reactive P with explicit precipitation/adsorption
-  loss — or does phosphate precipitate/adsorb before it is chemically useful? Are
-  there local windows where reactive P is produced faster than it is lost?
+question: >-
+  Can the same thermal-gradient vent pore that concentrates carbon and nitrogen also make
+  phosphorus chemically available, or does phosphate precipitate and adsorb before it is
+  useful?
 hypothesis: In a thermal-gradient pore (coupled from og-03), enrichment drives phosphate
   condensation and activation steeply enough that reactive-P formation outruns the
   first-order precipitation/adsorption sink in a bounded (source × enrichment) region
@@ -23,12 +22,14 @@ hypothesis: In a thermal-gradient pore (coupled from og-03), enrichment drives p
 objective: Build a real P-speciation process (phosphate <-> polyphosphate <-> reactive-P
   with a precipitation/adsorption mineral sink), couple it to the og-03 thermal pore,
   and map where reactive-P availability beats loss and co-concentrates with carbon.
-claim: A real libRoadRunner P-speciation network coupled to the og-03 thermal pore
-  shows reactive phosphorus becomes available only in a bounded (phosphate source
-  × pore enrichment) window where condensation + activation outrun the precipitation/adsorption
-  sink; the same pore enrichment that concentrates carbon co-concentrates P, and without
-  the gradient phosphate precipitates before it is useful — phosphorus is a localization-gated
-  bottleneck, not a free resource.
+claim: >-
+  A P-speciation network coupled to the thermal pore makes reactive phosphorus net-positive
+  only in a bounded phosphate-source by pore-enrichment window where condensation and
+  activation outrun the precipitation and adsorption sink; at the favourable point reactive P
+  accumulates to about 94% of the supplied phosphorus with only about 6% precipitated. The
+  same enrichment that concentrates carbon co-concentrates phosphorus, whereas the open-pore
+  ablation precipitates about 96% of it before it is useful. In the model phosphorus is thus a
+  localization-gated bottleneck rather than a freely available input.
 findings:
 - id: ogres-reactive-p-available
   provenance:

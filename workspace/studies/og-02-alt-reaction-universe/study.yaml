@@ -11,14 +11,11 @@ confidence: Accepted
 gate_status: passed
 title: 'The Open Network: Do Autocatalytic Motifs Emerge From Rule-Generated Chemistry,
   Beyond Chance?'
-question: Model Upgrade plan, Phase 3. og-02 showed a hand-curated rTCA fragment persists
-  and self-amplifies under flow — but its autocatalytic turn (OAA + 2 CO2 -> 2 OAA
-  + acetate) was written into the network. If the network is instead GENERATED from
-  a Wolos-2020-style rule set over C1-C3 feedstock with real eQuilibrator thermodynamics,
-  catalyst limits and degradation, and fed the Phase-1 posterior vent state, do persistent
-  autocatalytic subnetworks appear at all, are they more frequent than in matched
-  null networks, and how does the curated rTCA class compare when all three are graded
-  by one post-hoc detector and one element / free-energy ledger?
+question: >-
+  If the prebiotic reaction network is generated from reaction rules rather than hand-curated,
+  with real eQuilibrator thermodynamics and fed the calibrated vent state, do persistent
+  autocatalytic motifs appear at all, and are they more frequent than in matched null
+  networks?
 hypothesis: Under the Phase-1 posterior feed (CO2 1.4 mM, H2 10.8 mM, pyruvate 0.1
   mM) the generated universe sustains a connected multi-species network but no autocatalytic
   motif (the C1 -> C2 bottleneck is thermodynamic at vent concentrations); supplying
@@ -32,14 +29,16 @@ objective: Build the proto_metabolism face (curated_rtca | reaction_universe | n
   >= 0) and a class-agnostic post-hoc motif detector; run the three classes under
   two feeds (Phase-1 posterior; + 10 mM formaldehyde) with 24 matched nulls per arm,
   an ignition map, flux-control analysis and a stiffness check.
-claim: 'With real thermodynamics and conservation, autocatalysis is not free: the
-  generated universe fed the Phase-1 vent posterior builds a persistent, element-balanced,
-  dissipative network but no autocatalytic motif, because every C-C-forming route
-  is uphill at vent concentrations; the one motif that does emerge — the formose cycle,
-  recovered post hoc from the rules, absent in every matched null — needs a formaldehyde
-  supply the vent chemistry does not make and a residence time shorter than its reductive
-  destruction. The curated rTCA result survives as one class among three, with its
-  motif now classed as imposed and its stoichiometry flagged as non-conserving.'
+claim: >-
+  Fed the calibrated vent posterior, the rule-generated universe (121 species, 413 reactions)
+  sustains a persistent 14-species network but contains no autocatalytic motif, because every
+  C-C-bond-forming route is uphill at vent concentrations. Supplying 10 mM formaldehyde makes
+  exactly one motif emerge - the formose cycle, recovered post hoc and absent in all 24
+  matched null networks (enrichment p = 0.04). Graded by the same detector, og-02's curated
+  rTCA motif turns out to be imposed, and its lumped turn is not element-balanced, creating 4
+  carbon atoms per cycle, while the generated universe's ledger closes exactly. The study
+  demonstrates that autocatalysis is not free under real thermodynamics, but the one motif
+  that ignites needs a formaldehyde feed the vent chemistry does not itself produce.
 findings:
 - id: og02alt-no-motif-at-phase1-feed
   provenance:

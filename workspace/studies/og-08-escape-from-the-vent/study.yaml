@@ -10,8 +10,9 @@ evaluation_status: evaluated
 confidence: Accepted
 gate_status: passed
 title: Escape From the Vent
-question: What is the minimum set of innovations required for autonomous persistence
-  away from the geological reactor, as environmental support is relaxed?
+question: >-
+  What is the minimum set of innovations a lineage needs to persist once geological support -
+  the external gradient, mineral access and resource feed - is withdrawn?
 hypothesis: A bounded innovation set (internal energy conversion + resource import
   + heredity) allows persistence as gradient strength/mineral access/feed are reduced;
   below it, systems stay obligately vent-tied.
@@ -123,15 +124,14 @@ baseline:
   composite: viva_genesis.composites.off_gradient_persistence.off_gradient_persistence
   params: {}
   canonical: true
-claim: Autonomy away from the geological reactor requires an irreducible innovation
-  set — internal energy conversion (a pump), active resource import, and heredity
-  to hold them. Because the lineage's budget is co-limited (it needs BOTH usable free
-  energy AND usable resources, Liebig's minimum), a single innovation is a cost without
-  a co-benefit; only the full set keeps the net budget above the survival floor as
-  the external gradient, mineral access and feed are all withdrawn. A knockout sweep
-  shows the full set persists off-gradient (surviving fraction 1.0) while removing
-  any one innovation collapses persistence to 0 — so the minimum robust set for escaping
-  the vent is {pump, importer, heredity}.
+claim: >-
+  The full innovation set of an internal pump, an active resource importer and heredity
+  persists off-gradient at surviving fraction 1.0 after the vent support is withdrawn, while
+  removing any one of the three collapses persistence to 0. Because the budget is co-limited
+  and needs both usable free energy and usable resources at once, a single innovation is a
+  cost with no co-benefit, which is what makes the set irreducible. In this coarse-grained
+  model autonomy therefore appears as a coordinated set of innovations acquired together
+  rather than one final invention.
 findings:
 - id: og08-minimum-innovation-set
   provenance:

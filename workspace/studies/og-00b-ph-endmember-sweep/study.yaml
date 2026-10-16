@@ -10,10 +10,9 @@ seeded_from:
   study: og-00-vent-reactor-baseline
   finding: og00-habitability-window
 question: >-
-  og-00 reports a habitability window at a single olivine-dominated vent composition. How far does
-  that window move when the host-rock pyroxene fraction (ol/px ratio) and the seawater-mixing
-  dilution are varied — i.e. where is the realistic pH endmember, and does the habitable region
-  survive at the acidic/dilute edge the 2026 reassessment emphasises?
+  How far does the og-00 habitability window move when the host-rock pyroxene fraction and the
+  seawater-mixing dilution are varied, and does the habitable region survive at the acidic,
+  dilute endmember the recent reassessment emphasises?
 objective: >-
   Sweep pyroxene_fraction (ol/px ratio) x seawater-mixing dilution on the serpentinizing vent-reactor
   composite, map the steady-state pH and the habitability indicator across the grid, and report the

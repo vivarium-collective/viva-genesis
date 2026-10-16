@@ -10,15 +10,12 @@ evaluation_status: evaluated
 gate_status: failed
 title: 'The Vent Wall as a Galvanic Cell: Which Limitation Stops Carbon Fixation,
   and Do the Model Classes Agree?'
-question: Model Upgrade plan, Phase 2 (electrochemical carbon fixation). og-01 drives
-  CO2 reduction with a scalar gradient_efficiency and a Michaelis drive in the proton-motive
-  force, so it can say WHETHER fixation runs but not WHY it stops. Treating the vent
-  wall as an electrical circuit instead — fluid redox state -> Nernst electrode potentials
-  -> Butler-Volmer overpotentials -> current density -> surface rates — which limitation
-  (thermodynamic, electrical, catalytic, transport) binds where over (vent pH x dissolved
-  H2 x mineral conductivity x Ni/Fe), and do the empirical and the electrochemical
-  model classes on the new carbon_fixation face agree on that label in the region
-  both call favorable?
+question: >-
+  Treating the vent wall as an explicit galvanic cell (Nernst potentials, Butler-Volmer
+  kinetics), do the empirical and the electrochemical model classes agree on which limitation
+  (thermodynamic, electrical, catalytic, transport) stops carbon fixation across the region
+  both call favorable - the pre-registered test being at least 80% agreement on the limitation
+  label?
 hypothesis: 'Explicit electrochemistry reproduces the Altair-2025 current window at
   the nominal operating point with the Preiner product hierarchy, derives og-01''s
   gradient efficiency from the wall''s conductivity (an insulating wall collapses
@@ -34,16 +31,16 @@ objective: Build the carbon_fixation face with three classes (empirical = og-01'
   package electrochemical_interface; sweep (pH x H2 x conductivity x Ni) x classes
   in open flow; attribute the limitation at every point; measure cross-class agreement;
   report Feasibility / Robustness / Discrimination.
-claim: 'Explicit electrochemistry is feasible, calibrated and ledger-exact, and it
-  changes the answer to "why does fixation stop": under the Butler-Volmer class the
-  alkaline-vent cell is activation-limited everywhere the wall conducts — the catalyst,
-  not the gradient, binds — and the Tutolo-style collapse is an electrical regime
-  below ~1e-6 S/m that both classes recover. The empirical class cannot make that
-  attribution because its one Michaelis drive term lumps electrical and catalytic
-  limitation and its substrate Michaelis constant invents a transport limit the cell
-  physics does not have. The failure-mode label is therefore structure-sensitive (agreement
-  0.47 < 0.8): a negative result on the gate and the Phase-2 mechanism map the plan
-  asked for, recorded as a decision for the expert rather than hidden.'
+claim: >-
+  No. The two classes agree on the dominant-limitation label on only 47% of the favorable
+  region, below the pre-registered 80% gate, so the gate fails and the attribution is
+  structure-sensitive. Under explicit electrochemistry the vent cell is activation (catalyst)
+  limited everywhere the wall conducts and electrical only below ~1e-6 S/m, but the empirical
+  rate law's single Michaelis drive term lumps electrical and catalytic limitation together
+  and invents a transport limit the cell physics never reaches. The electrochemistry itself is
+  real, calibrated to the Altair-2025 current window, and ledger-exact on all 750 runs; what
+  the study cannot yet deliver is a structure-independent answer to why fixation stops,
+  recorded as an open decision for the expert rather than dressed up as a result.
 findings:
 - id: og01cal-every-point-attributed
   provenance:

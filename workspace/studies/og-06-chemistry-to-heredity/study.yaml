@@ -10,9 +10,9 @@ evaluation_status: evaluated
 confidence: Accepted
 gate_status: passed
 title: The First Heredity
-question: Does inherited state improve persistence/throughput — comparing RNA-like,
-  peptide-assisted, compositional and hybrid heredity — rather than template replication
-  in isolation? (Do NOT presume RNA.)
+question: >-
+  Does heredity improve lineage persistence enough to pay for itself, and must that require
+  assuming a long RNA-like template?
 hypothesis: At least one heredity module raises lineage persistence + information
   retention above its non-heritable control under a feasible resource budget; the
   winner is not assumed a priori.
@@ -184,16 +184,17 @@ baseline:
   params:
     module: rna-like
     temperature: 353.15
-claim: An inherited chemical state improves lineage fitness above its replication
-  cost when it clears the Eigen error threshold — but heredity need NOT presume a
-  long high-fidelity RNA template. An agent-based lineage shows template heredity
-  suffers the length catastrophe (Q=fidelity^length collapses with length) while compositional
-  (GARD) and template-focused hybrid heredity persist length-independently (functional
-  persistence ~0.88, seed-robust across the 5 graded seeds — 0.878±0.005, and 8/8
-  in a wider sweep) above the non-heritable control, which loses the parent↔offspring
-  correlation and collapses. (A mean-field quasispecies arm still ranks a long high-fidelity
-  template above a cheaper peptide module above non-inheritance when all clear the
-  threshold.)
+claim: >-
+  Heritable state improves lineage performance when information retention exceeds its
+  replication cost: a high-fidelity RNA-like module reaches fitness 0.38 with retention 0.62
+  and outranks a cheaper peptide module (0.24), both beating non-inheritance, while a module
+  below the Eigen error threshold collapses. Long templates suffer the expected length
+  catastrophe as Q = fidelity^length declines, whereas compositional (GARD) and template-
+  focused hybrid inheritance stay approximately length-independent, with functional
+  persistence around 0.88 (0.878 +/- 0.005 across five graded seeds) while the non-heritable
+  control loses parent-offspring correlation and collapses. This shows heredity need not
+  presume a long high-fidelity RNA template, while the functional benefit and replication cost
+  remain reduced couplings rather than first-principles chemistry.
 findings:
 - id: og06-inheritance-pays
   provenance:

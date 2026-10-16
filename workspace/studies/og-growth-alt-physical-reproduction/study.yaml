@@ -10,9 +10,10 @@ evaluation_status: evaluated
 confidence: Accepted
 gate_status: passed
 title: Physical Reproduction
-question: Can an individual physically reproduce — grow to a division threshold and
-  divide into daughters that grow and divide in turn — building a multi-generation
-  lineage in the agents map, with matter and volume conserved at every division?
+question: >-
+  Can an individual physically reproduce - grow to a division threshold and divide into
+  daughters that grow and divide in turn - building a multi-generation lineage with matter and
+  volume conserved at every division?
 hypothesis: A founder individual whose division_state grows to threshold divides by
   a _divide structural rewrite that halves its matter and volume; the daughters inherit
   half each (their amounts and volumes sum to the mother's) and grow and divide in
@@ -106,9 +107,13 @@ baseline:
     founder_formate: 8.0
     founder_acetate: 4.0
   canonical: true
-claim: An individual physically reproduces by a _divide structural rewrite, building
-  a >=3-generation lineage in the agents map with matter and volume conserved (partition
-  residual 0) at every division.
+claim: >-
+  A founder individual grows to threshold and divides by a structural rewrite that halves its
+  matter and volume, its daughters do the same, and the lineage reaches 5 generations in the
+  agents map, past the 3-generation bar, with the partition residual exactly 0 at every
+  division. Matter and volume are conserved throughout. What the model demonstrates is the
+  conserving division-and-lineage mechanism; growth itself is abstracted to a division trigger
+  rather than the full osmotic volume growth, which coupling the two would supply.
 findings:
 - id: physical-reproduction-lineage
   provenance:

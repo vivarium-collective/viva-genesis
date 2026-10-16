@@ -10,8 +10,9 @@ evaluation_status: evaluated
 confidence: Accepted
 gate_status: passed
 title: The First Boundary
-question: Do mixed-amphiphile organic boundaries enhance persistence without cutting
-  the system off from geochemical energy?
+question: >-
+  Do mixed-amphiphile membranes improve retention while staying permeable enough to keep
+  access to the vent-supplied gradient and feedstocks?
 hypothesis: Over a salt/pH/divalent-cation/T window, vesicles form and selectively
   retain while remaining permeable enough to exploit the external gradient — a non-empty
   individuality-vs-access region exists.
@@ -159,10 +160,16 @@ baseline:
     pH: 9.0
     ionic_strength: 0.35
     temperature: 318.15
-claim: Mixed single-chain amphiphiles form viable vesicles across the alkaline / seawater-salt
-  window where single fatty acids fail (Jordan 2019), and those compartments retain
-  internal chemistry while staying permeable to the gradient — a non-empty individuality-without-isolation
-  region.
+claim: >-
+  In a bounded alkaline / seawater-salt window mixed single-chain amphiphiles form viable
+  vesicles (about 8000) where single fatty acids form none, and those compartments retain
+  internal chemistry (retention 0.91) while staying permeable to the external gradient (access
+  1.0), a retention-without-isolation product near 0.90, with the feasibility map marking a
+  viable region at 63/256 points (about 25%). This provides a plausible transition from
+  mineral localization to an organic boundary. The membrane model is coarse-grained and
+  calibrated to the Jordan-2019 vesicle experiments rather than membrane MD, and whether
+  enclosing a reaction network actually improves its persistence over the open pore is left to
+  downstream studies.
 findings:
 - id: og04-mixed-amphiphile-window
   provenance:
