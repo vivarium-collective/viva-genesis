@@ -683,16 +683,16 @@
       <h2 class="overview-label ctr-h">Background</h2>
       <div class="ctr-meta">
         <div class="ctr-meta-row"><span class="ctr-meta-k">Question</span> <span class="ctr-meta-item">If the prebiotic reaction network is generated from reaction rules rather than hand-curated, with real eQuilibrator thermodynamics and fed the calibrated vent state, do persistent autocatalytic motifs appear at all, and are they more frequent than in matched null networks?</span></div>
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Hypothesis</span> <span class="ctr-meta-item">Under the Phase-1 posterior feed (CO2 1.4 mM, H2 10.8 mM, pyruvate 0.1 mM) the generated universe sustains a connected multi-species network but no autocatalytic motif (the C1 -&gt; C2 bottleneck is thermodynamic at vent concentrations); supplying the formose feedstock (formaldehyde) lets a motif emerge from the rules and that motif count is enriched relative to degree-preserving, carbon/oxygen-matched nulls; the curated class&#39;s motif is detected but imposed and its stoichiometry fails the element ledger.</span></div>
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Hypothesis</span> <span class="ctr-meta-item">Under the vent posterior feed (CO2 1.4 mM, H2 10.8 mM, pyruvate 0.1 mM) the generated universe sustains a connected multi-species network but no autocatalytic motif (the C1 -&gt; C2 bottleneck is thermodynamic at vent concentrations); supplying the formose feedstock (formaldehyde) lets a motif emerge from the rules and that motif count is enriched relative to degree-preserving, carbon/oxygen-matched nulls; the curated class&#39;s motif is detected but imposed and its stoichiometry fails the element ledger.</span></div>
       </div>
     </div>
     
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Model &amp; approach</h2>
-      <p class="ctr-text">Build the proto_metabolism face (curated_rtca | reaction_universe | null_network), the vg-data package reaction_universe (rules, eQuilibrator dG&#39;, catalyst requirements), the NetworkLedgerProcess (exact element residual, integrated carbon balance, dissipation &gt;= 0) and a class-agnostic post-hoc motif detector; run the three classes under two feeds (Phase-1 posterior; + 10 mM formaldehyde) with 24 matched nulls per arm, an ignition map, flux-control analysis and a stiffness check.</p>
+      <p class="ctr-text">Build the proto_metabolism face (curated_rtca | reaction_universe | null_network), the vg-data package reaction_universe (rules, eQuilibrator dG&#39;, catalyst requirements), the NetworkLedgerProcess (exact element residual, integrated carbon balance, dissipation &gt;= 0) and a class-agnostic post-hoc motif detector; run the three classes under two feeds (vent posterior; + 10 mM formaldehyde) with 24 matched nulls per arm, an ignition map, flux-control analysis and a stiffness check.</p>
       <div class="ctr-meta">
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Model</span> <code>Open chemical network — reaction_universe at the Phase-1 feed</code><a class="ov-tablink" href="#" onclick="_setStudyTab('compose');return false;">model →</a></div>
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Model</span> <code>Open chemical network — reaction_universe at the vent feed</code><a class="ov-tablink" href="#" onclick="_setStudyTab('compose');return false;">model →</a></div>
         
         <ul class="ov-methods"><li>viva_genesis.protometabolism.universe: 121 linear C1-C4 skeletons, 11 rules -&gt; 413 reversible reactions; potentials from eQuilibrator (50 formula-verified KEGG compounds, reaction dG reproduced to 1e-6 kJ/mol) + group additivity (71, LOO RMSE 7.2 kJ/mol); Antimony emission with catalyst-pool crowding, degradation, washout, carbon-ledger integrators; (C,O)-matched null rewiring.</li><li>viva_genesis.protometabolism.universe_process: ReactionUniverseProcess / NullNetworkProcess on the real libRoadRunner engine behind the proto_metabolism face (RoadRunnerNetworkProcess = curated_rtca); viva_genesis.ledger.NetworkLedgerProcess; composites/open_chemical_network with model_proto_metabolism as a class axis.</li><li>viva_genesis.protometabolism.motifs: SBML network extraction, exact element residual, bounded-DFS autocatalytic-cycle enumeration from doubling edges, og-02-compatible dynamic gain, empirical enrichment, finite-difference elasticities -&gt; flux-control coefficients + summation theorem, CVODE tolerance sweep + Jacobian stiffness ratio.</li></ul>
         
@@ -784,7 +784,7 @@
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Result</h2>
-      <p class="ctr-text">At the Phase-1 posterior feed the rule-generated universe (121 species, 413 reversible reactions, C &lt;= 4) sustains 14 persistent species and a net CO2 fixation of 2.2e-5 mol/s but contains NO persistent autocatalytic motif (0 flux-carrying simple cycles with gain &gt; 1); all 24 matched nulls also contain 0. The rTCA reductive branch pyruvate -&gt; OAA -&gt; malate -&gt; succinate appears from the rules at 5e-8 / 9e-8 / 8e-9 M — three orders below og-02&#39;s curated 2 mM OAA — because pyruvate carboxylation at 1.4 mM CO2 sits at its equilibrium (dG&#39;0 = -1.1 kJ/mol -&gt; [OAA]/[pyruvate] = K [CO2] = 2e-3) rather than being driven irreversibly.</p>
+      <p class="ctr-text">At the vent posterior feed the rule-generated universe (121 species, 413 reversible reactions, C &lt;= 4) sustains 14 persistent species and a net CO2 fixation of 2.2e-5 mol/s but contains NO persistent autocatalytic motif (0 flux-carrying simple cycles with gain &gt; 1); all 24 matched nulls also contain 0. The rTCA reductive branch pyruvate -&gt; OAA -&gt; malate -&gt; succinate appears from the rules at 5e-8 / 9e-8 / 8e-9 M — three orders below og-02&#39;s curated 2 mM OAA — because pyruvate carboxylation at 1.4 mM CO2 sits at its equilibrium (dG&#39;0 = -1.1 kJ/mol -&gt; [OAA]/[pyruvate] = K [CO2] = 2e-3) rather than being driven irreversibly.</p>
       
       
       <div class="ov-metrics">
@@ -863,7 +863,7 @@
         <details class="finding-details">
           <summary class="finding-row">
             <span class="finding-status-glyph">◆</span>
-            <span class="finding-claim finding-statement">At the Phase-1 posterior feed the rule-generated universe (121 species, 413 reversible reactions, C &lt;= 4) sustains 14 persistent species and a net CO2 fixation of 2.2e-5 mol/s but contains NO persistent autocatalytic motif (0 flux-carrying simple cycles with gain &gt; 1); all 24 matched nulls also contain 0. The rTCA reductive branch pyruvate -&gt; OAA -&gt; malate -&gt; succinate appears from the rules at 5e-8 / 9e-8 / 8e-9 M — three orders below og-02&#39;s curated 2 mM OAA — because pyruvate carboxylation at 1.4 mM CO2 sits at its equilibrium (dG&#39;0 = -1.1 kJ/mol -&gt; [OAA]/[pyruvate] = K [CO2] = 2e-3) rather than being driven irreversibly.</span>
+            <span class="finding-claim finding-statement">At the vent posterior feed the rule-generated universe (121 species, 413 reversible reactions, C &lt;= 4) sustains 14 persistent species and a net CO2 fixation of 2.2e-5 mol/s but contains NO persistent autocatalytic motif (0 flux-carrying simple cycles with gain &gt; 1); all 24 matched nulls also contain 0. The rTCA reductive branch pyruvate -&gt; OAA -&gt; malate -&gt; succinate appears from the rules at 5e-8 / 9e-8 / 8e-9 M — three orders below og-02&#39;s curated 2 mM OAA — because pyruvate carboxylation at 1.4 mM CO2 sits at its equilibrium (dG&#39;0 = -1.1 kJ/mol -&gt; [OAA]/[pyruvate] = K [CO2] = 2e-3) rather than being driven irreversibly.</span>
             
             <span class="finding-chip">via <code>no-motif-at-phase1-feed</code></span>
             
@@ -1046,7 +1046,7 @@
         <details class="finding-details">
           <summary class="finding-row">
             <span class="finding-status-glyph">✓</span>
-            <span class="finding-claim finding-statement">Numerical verification: the universe is element-balanced by construction (max|E S| = 0 over 413 reactions, exact), the integrated carbon balance closes to 2.8e-6 (CVODE rtol 1e-6), dissipation -sum v dG is non-negative on every tick (0.88 W/L at the Phase-1 feed, 16 W/L in the formose arm), the MCA summation theorem holds to 3.3e-3 on the six dominant fluxes (1.3e-4 on the curated model), the Jacobian stiffness ratio is 9.4e2 (universe) / 4.8e3 (null), and tightening the tolerances to rtol 1e-9 changes no species by more than 7e-6 relative (loosening to 1e-3 changes the worst by 2.8e-3). The (C,O)-matched nulls fail the element ledger on hydrogen (residual 8-12) by construction.</span>
+            <span class="finding-claim finding-statement">Numerical verification: the universe is element-balanced by construction (max|E S| = 0 over 413 reactions, exact), the integrated carbon balance closes to 2.8e-6 (CVODE rtol 1e-6), dissipation -sum v dG is non-negative on every tick (0.88 W/L at the vent feed, 16 W/L in the formose arm), the MCA summation theorem holds to 3.3e-3 on the six dominant fluxes (1.3e-4 on the curated model), the Jacobian stiffness ratio is 9.4e2 (universe) / 4.8e3 (null), and tightening the tolerances to rtol 1e-9 changes no species by more than 7e-6 relative (loosening to 1e-3 changes the worst by 2.8e-3). The (C,O)-matched nulls fail the element ledger on hydrogen (residual 8-12) by construction.</span>
             
             <span class="finding-chip">via <code>network-ledger-closes</code></span>
             
@@ -1107,7 +1107,7 @@
         <details class="finding-details">
           <summary class="finding-row">
             <span class="finding-status-glyph">◆</span>
-            <span class="finding-claim finding-statement">The vg-data package reaction_universe carries 0 measured, 2 calibrated (the Phase-1 posterior feeds), 4 inferred, 7 extrapolated and 8 hypothetical parameters: every rate constant is an order-of-magnitude tick-scale number with a loguniform prior, swept rather than fitted. 50 of 121 skeletons resolve to a formula-verified KEGG compound and carry the live eQuilibrator component-contribution dG&#39; (reaction dG&#39; reproduced to 1e-6 kJ/mol); the other 71 carry a group-additivity estimate fitted to those (leave-one-out RMSE 7.2 kJ/mol).</span>
+            <span class="finding-claim finding-statement">The vg-data package reaction_universe carries 0 measured, 2 calibrated (the vent posterior feeds), 4 inferred, 7 extrapolated and 8 hypothetical parameters: every rate constant is an order-of-magnitude tick-scale number with a loguniform prior, swept rather than fitted. 50 of 121 skeletons resolve to a formula-verified KEGG compound and carry the live eQuilibrator component-contribution dG&#39; (reaction dG&#39; reproduced to 1e-6 kJ/mol); the other 71 carry a group-additivity estimate fitted to those (leave-one-out RMSE 7.2 kJ/mol).</span>
             
             <span class="finding-chip">via <code>free-energy-directionality</code></span>
             
@@ -1149,7 +1149,7 @@
             </div>
             
             
-            <div class="finding-explanation"><em>Why:</em> The package is the honesty indicator the Model Upgrade plan asks for; its weakest entries are the rule rate constants, which is why the result is reported as an ignition region rather than a point.</div>
+            <div class="finding-explanation"><em>Why:</em> The package is the honesty indicator the investigation asks for; its weakest entries are the rule rate constants, which is why the result is reported as an ignition region rather than a point.</div>
             
             
           </div>
@@ -1216,7 +1216,7 @@
     
     <div class="cond-block" data-model-composite="viva_genesis.composites.open_chemical_network.open_chemical_network" data-model-overrides='{"model_proto_metabolism": "reaction_universe"}'>
       <div class="cond-block-title" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-        <strong>Open chemical network — reaction_universe at the Phase-1 feed</strong>
+        <strong>Open chemical network — reaction_universe at the vent feed</strong>
         
         <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.open_chemical_network.open_chemical_network</code>
         <button type="button" class="action-btn" style="font-size:0.8em"
@@ -1226,16 +1226,16 @@
       
       <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
         
-        <select class="baseline-composite-input" data-baseline-name="Open chemical network — reaction_universe at the Phase-1 feed"
+        <select class="baseline-composite-input" data-baseline-name="Open chemical network — reaction_universe at the vent feed"
                 data-current="viva_genesis.composites.open_chemical_network.open_chemical_network"
                 style="flex:1;min-width:200px;font-family:monospace;font-size:0.82em;padding:3px 6px">
           <option value="viva_genesis.composites.open_chemical_network.open_chemical_network" selected>viva_genesis.composites.open_chemical_network.open_chemical_network</option>
           
         </select>
         <button type="button" class="action-btn baseline-composite-set" style="font-size:0.8em"
-                data-baseline-name="Open chemical network — reaction_universe at the Phase-1 feed">Set composite</button>
+                data-baseline-name="Open chemical network — reaction_universe at the vent feed">Set composite</button>
       </div>
-      <div class="baseline-composite-status muted" data-baseline-name="Open chemical network — reaction_universe at the Phase-1 feed" style="font-size:0.8em;margin-top:2px"></div>
+      <div class="baseline-composite-status muted" data-baseline-name="Open chemical network — reaction_universe at the vent feed" style="font-size:0.8em;margin-top:2px"></div>
       
       
       
@@ -1678,7 +1678,7 @@ pass_if: {"detail": "directionality witness holds through the run", "op": "\u003
         <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
         
       </div>
-      <div style="margin-top: 6px; font-size: 0.95em;">The universe fed the Phase-1 posterior sustains a multi-species network (not a one-off product) — at least 10 organic species above 1e-9 M.</div>
+      <div style="margin-top: 6px; font-size: 0.95em;">The universe fed the vent posterior sustains a multi-species network (not a one-off product) — at least 10 organic species above 1e-9 M.</div>
       
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
@@ -1691,7 +1691,7 @@ pass_if: {"detail": "directionality witness holds through the run", "op": "\u003
         
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
         
-          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;persistent-network-at-phase1-feed&#39;, &#39;label&#39;: &#39;The universe fed the Phase-1 posterior sustains a multi-species network (not a one-off product) — at least 10 organic species above 1e-9 M.&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 14.0, &#39;meter&#39;: 0.7, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 10.0, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 4.0, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: None}</code>
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;persistent-network-at-phase1-feed&#39;, &#39;label&#39;: &#39;The universe fed the vent posterior sustains a multi-species network (not a one-off product) — at least 10 organic species above 1e-9 M.&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 14.0, &#39;meter&#39;: 0.7, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 10.0, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 4.0, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: None}</code>
         
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
         
@@ -1791,7 +1791,7 @@ cites:   ["muchowska2019synthesis"]</pre>
         <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
         
       </div>
-      <div style="margin-top: 6px; font-size: 0.95em;">Recorded, not required: the number of persistent autocatalytic motifs in the universe at the Phase-1 feed (0 = the C1 bottleneck is thermodynamic at vent activities).</div>
+      <div style="margin-top: 6px; font-size: 0.95em;">Recorded, not required: the number of persistent autocatalytic motifs in the universe at the vent feed (0 = the C1 bottleneck is thermodynamic at vent activities).</div>
       
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
@@ -1804,7 +1804,7 @@ cites:   ["muchowska2019synthesis"]</pre>
         
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
         
-          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;no-motif-at-phase1-feed&#39;, &#39;label&#39;: &#39;Recorded, not required: the number of persistent autocatalytic motifs in the universe at the Phase-1 feed (0 = the C1 bottleneck is thermodynamic at vent activities).&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 0.0, &#39;meter&#39;: 0.5, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 0.0, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 0.0, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: None}</code>
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;no-motif-at-phase1-feed&#39;, &#39;label&#39;: &#39;Recorded, not required: the number of persistent autocatalytic motifs in the universe at the vent feed (0 = the C1 bottleneck is thermodynamic at vent activities).&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 0.0, &#39;meter&#39;: 0.5, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 0.0, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 0.0, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: None}</code>
         
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
         
@@ -1847,7 +1847,7 @@ pass_if: {"detail": "informative readout (any value passes)", "op": "\u003e=", "
         <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
         
       </div>
-      <div style="margin-top: 6px; font-size: 0.95em;">Phase-3 exit gate: in the formose-feed arm the rule-generated universe must contain at least one persistent autocatalytic motif detected post hoc, and the count must be enriched over the 24 matched nulls (empirical one-sided p &lt;= 0.05). Declared after the exploratory (formaldehyde x washout) scan located the ignition region and BEFORE the null ensemble was run.</div>
+      <div style="margin-top: 6px; font-size: 0.95em;">Reaction-network exit gate: in the formose-feed arm the rule-generated universe must contain at least one persistent autocatalytic motif detected post hoc, and the count must be enriched over the 24 matched nulls (empirical one-sided p &lt;= 0.05). Declared after the exploratory (formaldehyde x washout) scan located the ignition region and BEFORE the null ensemble was run.</div>
       
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
@@ -1860,7 +1860,7 @@ pass_if: {"detail": "informative readout (any value passes)", "op": "\u003e=", "
         
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
         
-          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;motifs-emerge-not-imposed&#39;, &#39;label&#39;: &#39;Phase-3 exit gate: in the formose-feed arm the rule-generated universe must contain at least one persistent autocatalytic motif detected post hoc, and the count must be enriched over the 24 matched nulls (empirical one-sided p &lt;= 0.05). Declared after the exploratory (formaldehyde x washout) scan located the ignition region and BEFORE the null ensemble was run.&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 0.04, &#39;meter&#39;: 0.6, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 0.05, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&lt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 0.010000000000000002, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: &#39;blokhuis2020universal; breslow1959mechanism&#39;}</code>
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;motifs-emerge-not-imposed&#39;, &#39;label&#39;: &#39;Reaction-network exit gate: in the formose-feed arm the rule-generated universe must contain at least one persistent autocatalytic motif detected post hoc, and the count must be enriched over the 24 matched nulls (empirical one-sided p &lt;= 0.05). Declared after the exploratory (formaldehyde x washout) scan located the ignition region and BEFORE the null ensemble was run.&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 0.04, &#39;meter&#39;: 0.6, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 0.05, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&lt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 0.010000000000000002, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: &#39;blokhuis2020universal; breslow1959mechanism&#39;}</code>
         
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
         
@@ -2192,7 +2192,7 @@ cites:   ["somogyi2015libroadrunner"]</pre>
           <span class="narrative-label">Empirical basis</span>
           <textarea class="narrative-input narrative-textarea" rows="2"
                     data-narrative-path="conclusion_verdicts.biological_validation.basis"
-                    placeholder="e.g. atp_fraction = 0.997, outside Boesen 2024 band [0.2, 0.5].">Recovers the formose cycle (Breslow 1959) from rules alone and finds it enriched over nulls; no claim that the vent makes formaldehyde — the Phase-1 feed arm is a negative result.</textarea>
+                    placeholder="e.g. atp_fraction = 0.997, outside Boesen 2024 band [0.2, 0.5].">Recovers the formose cycle (Breslow 1959) from rules alone and finds it enriched over nulls; no claim that the vent makes formaldehyde — the vent feed arm is a negative result.</textarea>
         </label>
         <label class="narrative-row">
           <span class="narrative-label">Explanatory gain</span>
@@ -2266,7 +2266,7 @@ cites:   ["somogyi2015libroadrunner"]</pre>
     <div class="overview-section">
       <h3 class="overview-label">Key assumptions</h3>
       <ul style="margin:0 0 0 18px;padding:0;font-size:0.93em">
-        <li style="margin:2px 0">Linear C/H/O skeletons up to C4; eleven reaction rules (H2 reductions, enol / reductive carboxylation, formose initiation, aldol, isomerisation, alpha/beta decarboxylation, Cannizzaro); every reaction reversible with k_down = k0 (rule class) and k_up = k0 exp(-|dG&#39;0|/RT).</li><li style="margin:2px 0">dG&#39; potentials at pH 9.38 / I 0.25 M / 322 K (the Phase-1 posterior example point); water activity 1; CO2 and H2 vent-buffered, organics as CSTR inflow.</li><li style="margin:2px 0">Catalyst classes (mineral: reductions / carboxylations; base: aldol / isomerisation / Cannizzaro) share a finite site pool f = sites / (1 + load / K_sat), updated per tick.</li><li style="margin:2px 0">Null = degree-preserving swaps of organic species within (C, O)-count classes; dG&#39; recomputed from the same potentials; same exchange / degradation reactions.</li><li style="margin:2px 0">A persistent autocatalytic motif = a simple cycle of flux-carrying reactions (|v| &gt; 1e-12 M/s, species &gt; 1e-9 M) with stoichiometric gain &gt; 1 (Blokhuis 2020 type-I core); currency species CO2 / H2 / H2O excluded as cycle members.</li>
+        <li style="margin:2px 0">Linear C/H/O skeletons up to C4; eleven reaction rules (H2 reductions, enol / reductive carboxylation, formose initiation, aldol, isomerisation, alpha/beta decarboxylation, Cannizzaro); every reaction reversible with k_down = k0 (rule class) and k_up = k0 exp(-|dG&#39;0|/RT).</li><li style="margin:2px 0">dG&#39; potentials at pH 9.38 / I 0.25 M / 322 K (the vent posterior example point); water activity 1; CO2 and H2 vent-buffered, organics as CSTR inflow.</li><li style="margin:2px 0">Catalyst classes (mineral: reductions / carboxylations; base: aldol / isomerisation / Cannizzaro) share a finite site pool f = sites / (1 + load / K_sat), updated per tick.</li><li style="margin:2px 0">Null = degree-preserving swaps of organic species within (C, O)-count classes; dG&#39; recomputed from the same potentials; same exchange / degradation reactions.</li><li style="margin:2px 0">A persistent autocatalytic motif = a simple cycle of flux-carrying reactions (|v| &gt; 1e-12 M/s, species &gt; 1e-9 M) with stoichiometric gain &gt; 1 (Blokhuis 2020 type-I core); currency species CO2 / H2 / H2O excluded as cycle members.</li>
       </ul>
     </div>
     
@@ -2276,7 +2276,7 @@ cites:   ["somogyi2015libroadrunner"]</pre>
       <h3 class="overview-label">Limitations</h3>
       <p class="muted" style="margin:0 0 6px 0;font-size:0.85em">What this study explicitly does NOT validate (prevents overclaim).</p>
       <ul style="margin:0 0 0 18px;padding:0;font-size:0.93em">
-        <li style="margin:2px 0">{&#39;Linear carbon skeletons (no branched acids, no alkenes), C &lt;= 4, C/H/O only&#39;: &#39;the rTCA proper cannot close in this representation.&#39;}</li><li style="margin:2px 0">Rate constants are tick-scale hypothetical/extrapolated with loguniform priors that were not propagated (nominal + one 6x6 map only).</li><li style="margin:2px 0">24 nulls per arm (p floor 0.04); nulls are (C,O)-matched so they violate H balance by construction (mean residual 9.6 atoms).</li><li style="margin:2px 0">{&#39;The nulls match compound count, reaction count (400 vs 413), arity, catalyst density and C/O balance but NOT the energetic span&#39;: &#34;their dG&#39; are recomputed from the same compound potentials to keep them thermodynamically consistent, which widens the span to 714 kJ/mol (universe 166). A span-matched null would have to break detailed balance.&#34;}</li><li style="margin:2px 0">Catalyst crowding updated once per tick (operator splitting); dG&#39; potentials fixed at the Phase-1 example condition (pH 9.38, I 0.25 M, 322 K).</li><li style="margin:2px 0">The curated class publishes no ledger witnesses in the composite; its element residual is computed post hoc from its SBML.</li>
+        <li style="margin:2px 0">{&#39;Linear carbon skeletons (no branched acids, no alkenes), C &lt;= 4, C/H/O only&#39;: &#39;the rTCA proper cannot close in this representation.&#39;}</li><li style="margin:2px 0">Rate constants are tick-scale hypothetical/extrapolated with loguniform priors that were not propagated (nominal + one 6x6 map only).</li><li style="margin:2px 0">24 nulls per arm (p floor 0.04); nulls are (C,O)-matched so they violate H balance by construction (mean residual 9.6 atoms).</li><li style="margin:2px 0">{&#39;The nulls match compound count, reaction count (400 vs 413), arity, catalyst density and C/O balance but NOT the energetic span&#39;: &#34;their dG&#39; are recomputed from the same compound potentials to keep them thermodynamically consistent, which widens the span to 714 kJ/mol (universe 166). A span-matched null would have to break detailed balance.&#34;}</li><li style="margin:2px 0">Catalyst crowding updated once per tick (operator splitting); dG&#39; potentials fixed at the vent example condition (pH 9.38, I 0.25 M, 322 K).</li><li style="margin:2px 0">The curated class publishes no ledger witnesses in the composite; its element residual is computed post hoc from its SBML.</li>
       </ul>
     </div>
     
@@ -2340,7 +2340,7 @@ cites:   ["somogyi2015libroadrunner"]</pre>
         
         <div class="di-unc di-unc-remaining">
           <h4>● Remaining uncertainties</h4>
-          <ul><li>Whether co-localization (Phase 4) raises formate / glycolaldehyde activities enough to make the reductive-carboxylation routes downhill.</li><li>Whether N/P-bearing rules (og-res-N / og-res-P folded in) or branched skeletons (citrate) open rTCA-type cycles.</li><li>How the ignition region moves under the rate-constant priors (Sobol on the package).</li></ul>
+          <ul><li>Whether co-localization raises formate / glycolaldehyde activities enough to make the reductive-carboxylation routes downhill.</li><li>Whether N/P-bearing rules (og-res-N / og-res-P folded in) or branched skeletons (citrate) open rTCA-type cycles.</li><li>How the ignition region moves under the rate-constant priors (Sobol on the package).</li></ul>
         </div>
         
       </div>
@@ -2413,7 +2413,7 @@ cites:   ["somogyi2015libroadrunner"]</pre>
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "704a15f1bc489d9904f5e5d1f04a1ff36586c16b", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/704a15f1bc489d9904f5e5d1f04a1ff36586c16b", "branch": "main", "lockfile": "uv.lock@84fa37e21f14", "generated_at": "2026-10-16 14:31 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "2901f7dae9940b1e6587f14fea025c5994f47808", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/2901f7dae9940b1e6587f14fea025c5994f47808", "branch": "main", "lockfile": "uv.lock@84fa37e21f14", "generated_at": "2026-10-16 14:50 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>

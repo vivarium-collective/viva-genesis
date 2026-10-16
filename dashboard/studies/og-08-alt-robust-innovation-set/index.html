@@ -690,11 +690,11 @@
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Model &amp; approach</h2>
-      <p class="ctr-text">Build the integrated world (AblationStep, GeologicalDriverStep, LineageStateProcess, ActiveImportProcess with the ActiveUptakeRule, MaintenanceDemandProcess, LineageSupplyProcess, AutonomyBudgetStep, PopulationBudgetProcess, StructuralEventLogStep; the integrated_autonomy_world composite over the energy_coupling / heredity / boundary / localization faces with a permeability anchor and a maintenance law; the vg-data package integrated_autonomy carrying the Phase-1 posterior), run every subset of {pump, importer, heredity} under a sampled structural ensemble at the nominal and a rich ocean floor with the og-adv generic control and the full set over the floor axis, grade the pre-registered gates and report the intersection of the required innovations as a lattice with the continuous autonomy value decomposed by function.</p>
+      <p class="ctr-text">Build the integrated world (AblationStep, GeologicalDriverStep, LineageStateProcess, ActiveImportProcess with the ActiveUptakeRule, MaintenanceDemandProcess, LineageSupplyProcess, AutonomyBudgetStep, PopulationBudgetProcess, StructuralEventLogStep; the integrated_autonomy_world composite over the energy_coupling / heredity / boundary / localization faces with a permeability anchor and a maintenance law; the vg-data package integrated_autonomy carrying the vent posterior), run every subset of {pump, importer, heredity} under a sampled structural ensemble at the nominal and a rich ocean floor with the og-adv generic control and the full set over the floor axis, grade the pre-registered gates and report the intersection of the required innovations as a lattice with the continuous autonomy value decomposed by function.</p>
       <div class="ctr-meta">
         <div class="ctr-meta-row"><span class="ctr-meta-k">Model</span> <code>Integrated autonomy world — full set at the canonical structure, nominal floor</code><a class="ov-tablink" href="#" onclick="_setStudyTab('compose');return false;">model →</a></div>
         
-        <ul class="ov-methods"><li>viva_genesis.autonomy.integrated: AblationStep, GeologicalDriverStep, EnrichmentAdapterStep, LineageStateProcess, ActiveImportProcess, MaintenanceDemandProcess, LineageSupplyProcess, AutonomyBudgetStep, PopulationBudgetProcess, StructuralEventLogStep; viva_genesis.ecology.reactive_system.ActiveUptakeRule.</li><li>viva_genesis.composites.integrated_autonomy (model_energy_coupling / model_heredity / model_boundary / model_localization, permeability_anchor, maintenance_law, pump / importer / heredity, environment); viva_genesis.uq.robust_innovation; viva_genesis.uq.phase1_posterior; viz_autonomy (lattice + ablation trace).</li><li>vg-data integrated_autonomy (32 parameters: 5 calibrated from the Phase-1 posterior, 4 inferred, 3 extrapolated, 20 hypothetical); sims/compute_robust_innovation_set.py (485 integrated-world runs -&gt; artifacts/robust_innovation_set.json).</li></ul>
+        <ul class="ov-methods"><li>viva_genesis.autonomy.integrated: AblationStep, GeologicalDriverStep, EnrichmentAdapterStep, LineageStateProcess, ActiveImportProcess, MaintenanceDemandProcess, LineageSupplyProcess, AutonomyBudgetStep, PopulationBudgetProcess, StructuralEventLogStep; viva_genesis.ecology.reactive_system.ActiveUptakeRule.</li><li>viva_genesis.composites.integrated_autonomy (model_energy_coupling / model_heredity / model_boundary / model_localization, permeability_anchor, maintenance_law, pump / importer / heredity, environment); viva_genesis.uq.robust_innovation; viva_genesis.uq.phase1_posterior; viz_autonomy (lattice + ablation trace).</li><li>vg-data integrated_autonomy (32 parameters: 5 calibrated from the vent posterior, 4 inferred, 3 extrapolated, 20 hypothetical); sims/compute_robust_innovation_set.py (485 integrated-world runs -&gt; artifacts/robust_innovation_set.json).</li></ul>
         
       </div>
     </div>
@@ -892,7 +892,7 @@
             </div>
             
             
-            <div class="finding-explanation"><em>Why:</em> The persistence rule reads the settled work and material budgets with every driver at its floor. Off-gradient the external tap is gone, the store runs on the drive the cell&#39;s own H2 / organic pool sustains, and the upkeep (the Phase-6 maintenance at full coupling, 5.1e-18 W) takes most of what the best store delivers; a lineage whose heredity class cannot hold its machinery on a tenth of the carbon loses the pump with it. Artifact: artifacts/robust_innovation_set.json (lattice, floor_map).</div>
+            <div class="finding-explanation"><em>Why:</em> The persistence rule reads the settled work and material budgets with every driver at its floor. Off-gradient the external tap is gone, the store runs on the drive the cell&#39;s own H2 / organic pool sustains, and the upkeep (the energy-coupling maintenance at full coupling, 5.1e-18 W) takes most of what the best store delivers; a lineage whose heredity class cannot hold its machinery on a tenth of the carbon loses the pump with it. Artifact: artifacts/robust_innovation_set.json (lattice, floor_map).</div>
             
             
           </div>
@@ -953,7 +953,7 @@
             </div>
             
             
-            <div class="finding-explanation"><em>Why:</em> The ActiveUptakeRule concentrates organics to 30 % of the vent level against the membrane&#39;s leak at the thermodynamic cost RT ln(c_in/c_out) per mole over a 0.5 efficiency, spending up to 30 % of the work supply; with the drive already saturated by ocean H2 (K 10 uM) the imported organics add nothing to the budget, so the importer is a pure cost under the Phase-8 extrapolated leak. Artifact: artifacts/robust_innovation_set.json (lattice_rich, discrimination_rich).</div>
+            <div class="finding-explanation"><em>Why:</em> The ActiveUptakeRule concentrates organics to 30 % of the vent level against the membrane&#39;s leak at the thermodynamic cost RT ln(c_in/c_out) per mole over a 0.5 efficiency, spending up to 30 % of the work supply; with the drive already saturated by ocean H2 (K 10 uM) the imported organics add nothing to the budget, so the importer is a pure cost under the ecology-stage extrapolated leak. Artifact: artifacts/robust_innovation_set.json (lattice_rich, discrimination_rich).</div>
             
             
           </div>
@@ -1094,7 +1094,7 @@
         <details class="finding-details">
           <summary class="finding-row">
             <span class="finding-status-glyph">◆</span>
-            <span class="finding-claim finding-statement">All seven ledgers close on every one of the 485 runs (carbon 1.7e-10, N 1.4e-14, P 1.5e-14, free energy 4.4e-14, information store 1.1e-14, rewrite 4.9e-32, charge 4.7e-14, element 0); 40441 structural events were logged (22365 divisions, 724 extinctions); the og-adv generic control (every driver at its floor from t = 0, no pore concentration) persists under 0/24 structures. The vg-data package carries 32 parameters: 5 calibrated (the Phase-1 posterior), 4 inferred, 3 extrapolated, 20 hypothetical, none unsourced.</span>
+            <span class="finding-claim finding-statement">All seven ledgers close on every one of the 485 runs (carbon 1.7e-10, N 1.4e-14, P 1.5e-14, free energy 4.4e-14, information store 1.1e-14, rewrite 4.9e-32, charge 4.7e-14, element 0); 40441 structural events were logged (22365 divisions, 724 extinctions); the og-adv generic control (every driver at its floor from t = 0, no pore concentration) persists under 0/24 structures. The vg-data package carries 32 parameters: 5 calibrated (the vent posterior), 4 inferred, 3 extrapolated, 20 hypothetical, none unsourced.</span>
             
             <span class="finding-chip">via <code>ensemble-ledgers-close</code></span>
             
@@ -1158,7 +1158,7 @@
         </div>
         
         
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Caveat</span> <span class="ctr-meta-item">Every number that makes the off-gradient verdict is hypothetical and swept or declared (vg-data integrated_autonomy audit); the vent endmembers alone are calibrated (the Phase-1 posterior, six draws).</span></div>
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Caveat</span> <span class="ctr-meta-item">Every number that makes the off-gradient verdict is hypothetical and swept or declared (vg-data integrated_autonomy audit); the vent endmembers alone are calibrated (the vent posterior, six draws).</span></div>
         
       </div>
       
@@ -1795,7 +1795,7 @@ pass_if: {"detail": "informative readout", "op": "\u003e", "value": -1.0}</pre>
         <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
         
       </div>
-      <div style="margin-top: 6px; font-size: 0.95em;">Phase-9 exit gate (pre-registered): at the nominal ocean floor (1e-2) the lattice resolves — the full set persists off-gradient under at least half the sampled model structures AND the intersection of the required innovations over the structures where some subset persists is non-empty.</div>
+      <div style="margin-top: 6px; font-size: 0.95em;">Integrated-autonomy exit gate (pre-registered): at the nominal ocean floor (1e-2) the lattice resolves — the full set persists off-gradient under at least half the sampled model structures AND the intersection of the required innovations over the structures where some subset persists is non-empty.</div>
       
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
@@ -1808,7 +1808,7 @@ pass_if: {"detail": "informative readout", "op": "\u003e", "value": -1.0}</pre>
         
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
         
-          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;minimum-sufficient-innovation-set&#39;, &#39;label&#39;: &#39;Phase-9 exit gate (pre-registered): at the nominal ocean floor (1e-2) the lattice resolves — the full set persists off-gradient under at least half the sampled model structures AND the intersection of the required innovations over the structures where some subset persists is non-empty.&#39;, &#39;verdict&#39;: &#39;mismatch&#39;, &#39;value&#39;: 0.0, &#39;meter&#39;: 0.0, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 1.0, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: -1.0, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: &#39;martin2007origin; sojo2014bioenergetic; lane2012origin&#39;}</code>
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;minimum-sufficient-innovation-set&#39;, &#39;label&#39;: &#39;Integrated-autonomy exit gate (pre-registered): at the nominal ocean floor (1e-2) the lattice resolves — the full set persists off-gradient under at least half the sampled model structures AND the intersection of the required innovations over the structures where some subset persists is non-empty.&#39;, &#39;verdict&#39;: &#39;mismatch&#39;, &#39;value&#39;: 0.0, &#39;meter&#39;: 0.0, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 1.0, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: -1.0, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: &#39;martin2007origin; sojo2014bioenergetic; lane2012origin&#39;}</code>
         
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
         
@@ -2356,7 +2356,7 @@ pass_if: {"detail": "inside the swept range", "op": "\u003c=", "value": 1.0}</pr
           <span class="narrative-label">Empirical basis</span>
           <textarea class="narrative-input narrative-textarea" rows="2"
                     data-narrative-path="conclusion_verdicts.biological_validation.basis"
-                    placeholder="e.g. atp_fraction = 0.997, outside Boesen 2024 band [0.2, 0.5].">Every innovation is a real process of an earlier phase under its own ledger and every vent endmember is a Phase-1 posterior draw, but the off-gradient verdict turns on hypothetical numbers — the ocean substrate floor, the transporter, the drive affinities, the machinery normalisation, the heredity supply — that no measurement constrains yet.</textarea>
+                    placeholder="e.g. atp_fraction = 0.997, outside Boesen 2024 band [0.2, 0.5].">Every innovation is a real process of an earlier stage under its own ledger and every vent endmember is a vent posterior draw, but the off-gradient verdict turns on hypothetical numbers — the ocean substrate floor, the transporter, the drive affinities, the machinery normalisation, the heredity supply — that no measurement constrains yet.</textarea>
         </label>
         <label class="narrative-row">
           <span class="narrative-label">Explanatory gain</span>
@@ -2431,7 +2431,7 @@ pass_if: {"detail": "inside the swept range", "op": "\u003c=", "value": 1.0}</pr
     <div class="overview-section">
       <h3 class="overview-label">Key assumptions</h3>
       <ul style="margin:0 0 0 18px;padding:0;font-size:0.93em">
-        <li style="margin:2px 0">One 0.52-pL protocell (the Phase-6 individual) carries the Phase-3 universe (generalist repertoire) and the Phase-8 exchange rules; its vent is one Phase-1 posterior draw (H2 2.3-10.8 mM, dpH 3.4, 322 K); the withdrawal is linear over 100 minutes after one hour in the vent, every driver relaxing to the ocean floor (the gradient to 0).</li><li style="margin:2px 0">Pump = coupling_activity 1 on the storage class, its drive sustained by the cell&#39;s live H2 / organic pool (half-saturation 10 uM) and coupled by the machinery the heredity class holds (mean function over 0.25); importer = the ActiveUptakeRule (1e-19 mol/s per substrate at full machinery, K_m 1 uM, set-point 30 % of the vent level, at most 30 % of the work supply per tick, at the thermodynamic cost over a 0.5 efficiency); heredity = attachment by the HeredityAttachmentStep (off: og-06&#39;s non-heritable control).</li><li style="margin:2px 0">Persistence (pre-registered): over the final 15 % of the run the settled work budget and material budget are non-negative and at least half the founders are alive.</li><li style="margin:2px 0">The heredity class runs one lineage-time unit per 60-s world tick; its precursor pools follow a tenth of the cell&#39;s organic carbon; 5 % of the lineage&#39;s work feeds its energy store.</li>
+        <li style="margin:2px 0">One 0.52-pL protocell (the energy-coupling individual) carries the reaction universe (generalist repertoire) and the metacommunity exchange rules; its vent is one vent posterior draw (H2 2.3-10.8 mM, dpH 3.4, 322 K); the withdrawal is linear over 100 minutes after one hour in the vent, every driver relaxing to the ocean floor (the gradient to 0).</li><li style="margin:2px 0">Pump = coupling_activity 1 on the storage class, its drive sustained by the cell&#39;s live H2 / organic pool (half-saturation 10 uM) and coupled by the machinery the heredity class holds (mean function over 0.25); importer = the ActiveUptakeRule (1e-19 mol/s per substrate at full machinery, K_m 1 uM, set-point 30 % of the vent level, at most 30 % of the work supply per tick, at the thermodynamic cost over a 0.5 efficiency); heredity = attachment by the HeredityAttachmentStep (off: og-06&#39;s non-heritable control).</li><li style="margin:2px 0">Persistence (pre-registered): over the final 15 % of the run the settled work budget and material budget are non-negative and at least half the founders are alive.</li><li style="margin:2px 0">The heredity class runs one lineage-time unit per 60-s world tick; its precursor pools follow a tenth of the cell&#39;s organic carbon; 5 % of the lineage&#39;s work feeds its energy store.</li>
       </ul>
     </div>
     
@@ -2441,7 +2441,7 @@ pass_if: {"detail": "inside the swept range", "op": "\u003c=", "value": 1.0}</pr
       <h3 class="overview-label">Limitations</h3>
       <p class="muted" style="margin:0 0 6px 0;font-size:0.85em">What this study explicitly does NOT validate (prevents overclaim).</p>
       <ul style="margin:0 0 0 18px;padding:0;font-size:0.93em">
-        <li style="margin:2px 0">Every number that makes the off-gradient verdict is hypothetical and swept or declared (vg-data integrated_autonomy audit); the vent endmembers alone are calibrated (the Phase-1 posterior, six draws).</li><li style="margin:2px 0">One Gillespie seed per heredity class and structure; verdicts at the margin of the persistence rule can flip with the seed.</li><li style="margin:2px 0">The thermal withdrawal (the cold ocean, where fatty-acid vesicles crystallise) is deferred; the lineage keeps the vent temperature.</li><li style="margin:2px 0">The heredity class&#39;s rate constants are hypothetical in inheritance_budgets, so the ratio of its clock to the world&#39;s (one lineage-time unit per 60-s tick) is a declared assumption.</li><li style="margin:2px 0">The population layer carries the lineage&#39;s net budget as biomass bookkeeping; the cell&#39;s own dissolved pool has no biomass sink, so division and extinction follow the budget, not the chemistry&#39;s stock.</li><li style="margin:2px 0">{&#39;24 sampled structures over 648 possible (x 2 permeability anchors)&#39;: &#39;the per-level breakdowns rest on 4-12 structures each.&#39;}</li>
+        <li style="margin:2px 0">Every number that makes the off-gradient verdict is hypothetical and swept or declared (vg-data integrated_autonomy audit); the vent endmembers alone are calibrated (the vent posterior, six draws).</li><li style="margin:2px 0">One Gillespie seed per heredity class and structure; verdicts at the margin of the persistence rule can flip with the seed.</li><li style="margin:2px 0">The thermal withdrawal (the cold ocean, where fatty-acid vesicles crystallise) is deferred; the lineage keeps the vent temperature.</li><li style="margin:2px 0">The heredity class&#39;s rate constants are hypothetical in inheritance_budgets, so the ratio of its clock to the world&#39;s (one lineage-time unit per 60-s tick) is a declared assumption.</li><li style="margin:2px 0">The population layer carries the lineage&#39;s net budget as biomass bookkeeping; the cell&#39;s own dissolved pool has no biomass sink, so division and extinction follow the budget, not the chemistry&#39;s stock.</li><li style="margin:2px 0">{&#39;24 sampled structures over 648 possible (x 2 permeability anchors)&#39;: &#39;the per-level breakdowns rest on 4-12 structures each.&#39;}</li>
       </ul>
     </div>
     
@@ -2561,7 +2561,7 @@ pass_if: {"detail": "inside the swept range", "op": "\u003c=", "value": 1.0}</pr
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "704a15f1bc489d9904f5e5d1f04a1ff36586c16b", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/704a15f1bc489d9904f5e5d1f04a1ff36586c16b", "branch": "main", "lockfile": "uv.lock@84fa37e21f14", "generated_at": "2026-10-16 14:31 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "2901f7dae9940b1e6587f14fea025c5994f47808", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/2901f7dae9940b1e6587f14fea025c5994f47808", "branch": "main", "lockfile": "uv.lock@84fa37e21f14", "generated_at": "2026-10-16 14:50 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>

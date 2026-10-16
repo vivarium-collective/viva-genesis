@@ -690,9 +690,9 @@
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Model &amp; approach</h2>
-      <p class="ctr-text">Run the Phase-1 environmental-calibration pipeline on the real geochemical world: LHS prior from the vg-data package vent_environment -&gt; ensemble per spatial-transport model class -&gt; ABC conditioning on the field windows -&gt; posterior-predictive fraction meeting the downstream requirements -&gt; Morris screening -&gt; the Feasibility / Robustness / Discrimination report with the ledger verified.</p>
+      <p class="ctr-text">Run the environmental-calibration pipeline on the real geochemical world: LHS prior from the vg-data package vent_environment -&gt; ensemble per spatial-transport model class -&gt; ABC conditioning on the field windows -&gt; posterior-predictive fraction meeting the downstream requirements -&gt; Morris screening -&gt; the Feasibility / Robustness / Discrimination report with the ledger verified.</p>
       <div class="ctr-meta">
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Model</span> <code>Geochemical world (Phase 1 operating point)</code><a class="ov-tablink" href="#" onclick="_setStudyTab('compose');return false;">model →</a></div>
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Model</span> <code>Geochemical world (vent-calibration operating point)</code><a class="ov-tablink" href="#" onclick="_setStudyTab('compose');return false;">model →</a></div>
         
         <ul class="ov-methods"><li>geochemical_world: PhreeqcSerpentinizationProcess (real IPhreeqc, llnl.dat, peridotite assemblage) behind the serpentinization face; FipyReactiveTransportProcess / FipyUniformUpflowTransportProcess (real 2-D FVM) behind the spatial_transport face; ConservationLedgerProcess auditing pools vs integrated sources, charge, flux divergence, heat directionality.</li><li>viva_genesis.uq.environment_calibration: sample_package (scipy LatinHypercube over the six free parameters), run_point per class (serial, tolerant), abc_rejection on the package observations, requirement mask, posterior_summary, structure_agreement, paired_class_difference, morris (r=4, levels=4, log-scaled bounds), TransitionReport + decision_discipline (clean).</li></ul>
         
@@ -1208,7 +1208,7 @@
     
     <div class="cond-block" data-model-composite="viva_genesis.composites.geochemical_world.geochemical_world" data-model-overrides='{}'>
       <div class="cond-block-title" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-        <strong>Geochemical world (Phase 1 operating point)</strong>
+        <strong>Geochemical world (vent-calibration operating point)</strong>
         
         <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.geochemical_world.geochemical_world</code>
         <button type="button" class="action-btn" style="font-size:0.8em"
@@ -1218,16 +1218,16 @@
       
       <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
         
-        <select class="baseline-composite-input" data-baseline-name="Geochemical world (Phase 1 operating point)"
+        <select class="baseline-composite-input" data-baseline-name="Geochemical world (vent-calibration operating point)"
                 data-current="viva_genesis.composites.geochemical_world.geochemical_world"
                 style="flex:1;min-width:200px;font-family:monospace;font-size:0.82em;padding:3px 6px">
           <option value="viva_genesis.composites.geochemical_world.geochemical_world" selected>viva_genesis.composites.geochemical_world.geochemical_world</option>
           
         </select>
         <button type="button" class="action-btn baseline-composite-set" style="font-size:0.8em"
-                data-baseline-name="Geochemical world (Phase 1 operating point)">Set composite</button>
+                data-baseline-name="Geochemical world (vent-calibration operating point)">Set composite</button>
       </div>
-      <div class="baseline-composite-status muted" data-baseline-name="Geochemical world (Phase 1 operating point)" style="font-size:0.8em;margin-top:2px"></div>
+      <div class="baseline-composite-status muted" data-baseline-name="Geochemical world (vent-calibration operating point)" style="font-size:0.8em;margin-top:2px"></div>
       
       
       
@@ -1767,7 +1767,7 @@ cites:   ["kelley2005serpentinite", "proskurowski2008abiogenic"]</pre>
         <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
         
       </div>
-      <div style="margin-top: 6px; font-size: 0.95em;">Phase-1 exit criterion (Feasibility + Robustness): the fraction of prior draws consistent with every observation window that also satisfy the downstream requirements must be positive (at least one physically admissible, observation-consistent vent state feeds carbon fixation); the value itself is the deliverable.</div>
+      <div style="margin-top: 6px; font-size: 0.95em;">Vent-calibration exit criterion (Feasibility + Robustness): the fraction of prior draws consistent with every observation window that also satisfy the downstream requirements must be positive (at least one physically admissible, observation-consistent vent state feeds carbon fixation); the value itself is the deliverable.</div>
       
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
@@ -1780,7 +1780,7 @@ cites:   ["kelley2005serpentinite", "proskurowski2008abiogenic"]</pre>
         
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
         
-          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;posterior-viable-vent-fraction&#39;, &#39;label&#39;: &#39;Phase-1 exit criterion (Feasibility + Robustness): the fraction of prior draws consistent with every observation window that also satisfy the downstream requirements must be positive (at least one physically admissible, observation-consistent vent state feeds carbon fixation); the value itself is the deliverable.&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 1.0, &#39;meter&#39;: 1.0, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 0.0, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 1.0, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: &#39;kelley2001offaxis; kelley2005serpentinite; ludwig2006formation; proskurowski2008abiogenic&#39;}</code>
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;posterior-viable-vent-fraction&#39;, &#39;label&#39;: &#39;Vent-calibration exit criterion (Feasibility + Robustness): the fraction of prior draws consistent with every observation window that also satisfy the downstream requirements must be positive (at least one physically admissible, observation-consistent vent state feeds carbon fixation); the value itself is the deliverable.&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 1.0, &#39;meter&#39;: 1.0, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 0.0, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 1.0, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: &#39;kelley2001offaxis; kelley2005serpentinite; ludwig2006formation; proskurowski2008abiogenic&#39;}</code>
         
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
         
@@ -2163,7 +2163,7 @@ pass_if: {"detail": "cross-class agreement \u003e= 0.8", "op": "\u003e=", "value
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "704a15f1bc489d9904f5e5d1f04a1ff36586c16b", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/704a15f1bc489d9904f5e5d1f04a1ff36586c16b", "branch": "main", "lockfile": "uv.lock@84fa37e21f14", "generated_at": "2026-10-16 14:31 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "2901f7dae9940b1e6587f14fea025c5994f47808", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/2901f7dae9940b1e6587f14fea025c5994f47808", "branch": "main", "lockfile": "uv.lock@84fa37e21f14", "generated_at": "2026-10-16 14:50 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>

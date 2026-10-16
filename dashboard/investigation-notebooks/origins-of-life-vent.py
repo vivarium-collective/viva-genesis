@@ -745,7 +745,7 @@ _save_viz('og-02-reduced-carbon-to-protometabolism', 'protometabolism-gain-phase
 #
 # | expectation | model observable | source | status |
 # | --- | --- | --- | --- |
-# | Fe2+ promotes 9/11 TCA intermediates + 5 universal precursors from pyruvate/glyoxylate | edge yields + network reachability | Muchowska 2019 | Represented as the lumped reductive-TCA turn (the curated rTCA class on libRoadRunner), graded; edge-by-edge 9/11 reachability is the Phase-3 reaction_universe comparison, not yet run |
+# | Fe2+ promotes 9/11 TCA intermediates + 5 universal precursors from pyruvate/glyoxylate | edge yields + network reachability | Muchowska 2019 | Represented as the lumped reductive-TCA turn (the curated rTCA class on libRoadRunner), graded; edge-by-edge 9/11 reachability is the reaction_universe comparison, not yet run |
 
 # ## Study: The First Individual (`og-03-dilution-to-localized-individuals`)
 #
@@ -882,7 +882,7 @@ _save_viz('og-03-dilution-to-localized-individuals', 'pore-enrichment-solver-sen
 # **multisolute-colocalization-map**
 
 # multisolute-colocalization-map
-_save_viz('og-03-dilution-to-localized-individuals', 'multisolute-colocalization-map', _render_one('local:PoreColocalizationMap', {'grid_json': 'workspace/studies/og-03-dilution-to-localized-individuals/artifacts/colocalization_grid.json', 'title': 'Does the prebiotic mixture co-localize? (Phase 4 Decision view)'}, RUNS_DB, STUDY_YAML))
+_save_viz('og-03-dilution-to-localized-individuals', 'multisolute-colocalization-map', _render_one('local:PoreColocalizationMap', {'grid_json': 'workspace/studies/og-03-dilution-to-localized-individuals/artifacts/colocalization_grid.json', 'title': 'Does the prebiotic mixture co-localize? (Decision view)'}, RUNS_DB, STUDY_YAML))
 
 # **pore-accumulation-3d**
 
@@ -2377,7 +2377,7 @@ _save_viz('og-growth-division', 'growth-division-map', _render_one('local:Growth
 #
 # **Question.** Of the real-vent states consistent with the Lost City field observations (outlet temperature, pH, dissolved H2), what fraction also satisfies what downstream carbon fixation needs (H2 >= 1 mM, a >= 3-unit pH gradient, T in range), and which observation does the actual constraining?
 #
-# **Objective.** Run the Phase-1 environmental-calibration pipeline on the real geochemical world: LHS prior from the vg-data package vent_environment -> ensemble per spatial-transport model class -> ABC conditioning on the field windows -> posterior-predictive fraction meeting the downstream requirements -> Morris screening -> the Feasibility / Robustness / Discrimination report with the ledger verified.
+# **Objective.** Run the environmental-calibration pipeline on the real geochemical world: LHS prior from the vg-data package vent_environment -> ensemble per spatial-transport model class -> ABC conditioning on the field windows -> posterior-predictive fraction meeting the downstream requirements -> Morris screening -> the Feasibility / Robustness / Discrimination report with the ledger verified.
 #
 # **Hypothesis.** A Lost-City-consistent posterior exists inside the empirically motivated prior of the og-00 world, most of it also satisfies the downstream requirements, the result is the same under the convecting and the prescribed-upflow transport classes, and the conservation ledger closes exactly on every draw.
 #
@@ -2410,7 +2410,7 @@ _save_viz('og-growth-division', 'growth-division-map', _render_one('local:Growth
 #
 # | simulation | composite | steps | params |
 # | --- | --- | --- | --- |
-# | `Geochemical world (Phase 1 operating point)` | `viva_genesis.composites.geochemical_world.geochemical_world` | 0 | — |
+# | `Geochemical world (vent-calibration operating point)` | `viva_genesis.composites.geochemical_world.geochemical_world` | 0 | — |
 #
 # Declared parameter sets (`study.yaml` variants):
 #
@@ -2479,8 +2479,8 @@ RUNS_DB = str(STUDY_DIR / "runs.db")
 # This study has no *recorded* runs yet. RERUN builds its declared
 # composite(s) live and runs them; a composite whose module processes
 # are not implemented yet reports the error instead of crashing.
-STEPS_Geochemical_world_Phase_1_operating_point = 100
-INTERVAL_Geochemical_world_Phase_1_operating_point = 1.0
+STEPS_Geochemical_world_vent_calibration_operating_point = 100
+INTERVAL_Geochemical_world_vent_calibration_operating_point = 1.0
 
 if RERUN:
     from process_bigraph import Composite
@@ -2489,10 +2489,10 @@ if RERUN:
             _ov = ov_viva_genesis_composites_geochemical_world_geochemical_world if 'ov_viva_genesis_composites_geochemical_world_geochemical_world' in dir() else None  # edits from the panel cell, if any
             spec_viva_genesis_composites_geochemical_world_geochemical_world = materialize_composite('viva_genesis.composites.geochemical_world.geochemical_world', _ov)
             _comp = Composite({'state': spec_viva_genesis_composites_geochemical_world_geochemical_world['state']}, core=core)
-            _comp.run(STEPS_Geochemical_world_Phase_1_operating_point)
-        print('ran', 'Geochemical world (Phase 1 operating point)', f'(viva_genesis.composites.geochemical_world.geochemical_world) for', STEPS_Geochemical_world_Phase_1_operating_point, 'steps')
+            _comp.run(STEPS_Geochemical_world_vent_calibration_operating_point)
+        print('ran', 'Geochemical world (vent-calibration operating point)', f'(viva_genesis.composites.geochemical_world.geochemical_world) for', STEPS_Geochemical_world_vent_calibration_operating_point, 'steps')
     except Exception as _e:
-        print(f"Geochemical world (Phase 1 operating point) not runnable yet: {type(_e).__name__}: {_e}")
+        print(f"Geochemical world (vent-calibration operating point) not runnable yet: {type(_e).__name__}: {_e}")
 else:
     print("RERUN=False — not re-simulating.")
 
@@ -2503,7 +2503,7 @@ else:
 # **vent-environment-posterior**
 
 # vent-environment-posterior
-_save_viz('og-cal-vent-environment', 'vent-environment-posterior', _render_one('local:VentEnvironmentPosterior', {'title': 'Phase 1 — Lost-City-conditioned vent posterior (Decision view)', 'ensemble_json': 'workspace/studies/og-cal-vent-environment/artifacts/vent_environment_ensemble.json', 'report_json': 'workspace/studies/og-cal-vent-environment/artifacts/vent_environment_report.json'}, RUNS_DB, STUDY_YAML))
+_save_viz('og-cal-vent-environment', 'vent-environment-posterior', _render_one('local:VentEnvironmentPosterior', {'title': 'Lost-City-conditioned vent posterior (Decision view)', 'ensemble_json': 'workspace/studies/og-cal-vent-environment/artifacts/vent_environment_ensemble.json', 'report_json': 'workspace/studies/og-cal-vent-environment/artifacts/vent_environment_report.json'}, RUNS_DB, STUDY_YAML))
 
 # **vent-reactor-timeseries**
 
@@ -2704,9 +2704,9 @@ _save_viz('og-01-cal-electrochemistry', 'electrochemistry-polarization', _render
 #
 # **Question.** If the prebiotic reaction network is generated from reaction rules rather than hand-curated, with real eQuilibrator thermodynamics and fed the calibrated vent state, do persistent autocatalytic motifs appear at all, and are they more frequent than in matched null networks?
 #
-# **Objective.** Build the proto_metabolism face (curated_rtca | reaction_universe | null_network), the vg-data package reaction_universe (rules, eQuilibrator dG', catalyst requirements), the NetworkLedgerProcess (exact element residual, integrated carbon balance, dissipation >= 0) and a class-agnostic post-hoc motif detector; run the three classes under two feeds (Phase-1 posterior; + 10 mM formaldehyde) with 24 matched nulls per arm, an ignition map, flux-control analysis and a stiffness check.
+# **Objective.** Build the proto_metabolism face (curated_rtca | reaction_universe | null_network), the vg-data package reaction_universe (rules, eQuilibrator dG', catalyst requirements), the NetworkLedgerProcess (exact element residual, integrated carbon balance, dissipation >= 0) and a class-agnostic post-hoc motif detector; run the three classes under two feeds (vent posterior; + 10 mM formaldehyde) with 24 matched nulls per arm, an ignition map, flux-control analysis and a stiffness check.
 #
-# **Hypothesis.** Under the Phase-1 posterior feed (CO2 1.4 mM, H2 10.8 mM, pyruvate 0.1 mM) the generated universe sustains a connected multi-species network but no autocatalytic motif (the C1 -> C2 bottleneck is thermodynamic at vent concentrations); supplying the formose feedstock (formaldehyde) lets a motif emerge from the rules and that motif count is enriched relative to degree-preserving, carbon/oxygen-matched nulls; the curated class's motif is detected but imposed and its stoichiometry fails the element ledger.
+# **Hypothesis.** Under the vent posterior feed (CO2 1.4 mM, H2 10.8 mM, pyruvate 0.1 mM) the generated universe sustains a connected multi-species network but no autocatalytic motif (the C1 -> C2 bottleneck is thermodynamic at vent concentrations); supplying the formose feedstock (formaldehyde) lets a motif emerge from the rules and that motif count is enriched relative to degree-preserving, carbon/oxygen-matched nulls; the curated class's motif is detected but imposed and its stoichiometry fails the element ledger.
 #
 # **Claim.** Fed the calibrated vent posterior, the rule-generated universe (121 species, 413 reactions) sustains a persistent 14-species network but contains no autocatalytic motif, because every C-C-bond-forming route is uphill at vent concentrations. Supplying 10 mM formaldehyde makes exactly one motif emerge - the formose cycle, recovered post hoc and absent in all 24 matched null networks (enrichment p = 0.04). Graded by the same detector, og-02's curated rTCA motif turns out to be imposed, and its lumped turn is not element-balanced, creating 4 carbon atoms per cycle, while the generated universe's ledger closes exactly. The study demonstrates that autocatalysis is not free under real thermodynamics, but the one motif that ignites needs a formaldehyde feed the vent chemistry does not itself produce.
 
@@ -2730,7 +2730,7 @@ _save_viz('og-01-cal-electrochemistry', 'electrochemistry-polarization', _render
 # **Key assumptions**
 #
 # - Linear C/H/O skeletons up to C4; eleven reaction rules (H2 reductions, enol / reductive carboxylation, formose initiation, aldol, isomerisation, alpha/beta decarboxylation, Cannizzaro); every reaction reversible with k_down = k0 (rule class) and k_up = k0 exp(-|dG'0|/RT).
-# - dG' potentials at pH 9.38 / I 0.25 M / 322 K (the Phase-1 posterior example point); water activity 1; CO2 and H2 vent-buffered, organics as CSTR inflow.
+# - dG' potentials at pH 9.38 / I 0.25 M / 322 K (the vent posterior example point); water activity 1; CO2 and H2 vent-buffered, organics as CSTR inflow.
 # - Catalyst classes (mineral: reductions / carboxylations; base: aldol / isomerisation / Cannizzaro) share a finite site pool f = sites / (1 + load / K_sat), updated per tick.
 # - Null = degree-preserving swaps of organic species within (C, O)-count classes; dG' recomputed from the same potentials; same exchange / degradation reactions.
 # - A persistent autocatalytic motif = a simple cycle of flux-carrying reactions (|v| > 1e-12 M/s, species > 1e-9 M) with stoichiometric gain > 1 (Blokhuis 2020 type-I core); currency species CO2 / H2 / H2O excluded as cycle members.
@@ -2739,7 +2739,7 @@ _save_viz('og-01-cal-electrochemistry', 'electrochemistry-polarization', _render
 #
 # | simulation | composite | steps | params |
 # | --- | --- | --- | --- |
-# | `Open chemical network — reaction_universe at the Phase-1 feed` | `viva_genesis.composites.open_chemical_network.open_chemical_network` | 0 | model_proto_metabolism=reaction_universe |
+# | `Open chemical network — reaction_universe at the vent feed` | `viva_genesis.composites.open_chemical_network.open_chemical_network` | 0 | model_proto_metabolism=reaction_universe |
 #
 # Declared parameter sets (`study.yaml` variants):
 #
@@ -2809,8 +2809,8 @@ RUNS_DB = str(STUDY_DIR / "runs.db")
 # This study has no *recorded* runs yet. RERUN builds its declared
 # composite(s) live and runs them; a composite whose module processes
 # are not implemented yet reports the error instead of crashing.
-STEPS_Open_chemical_network_reaction_universe_at_the_Phase_1_feed = 100
-INTERVAL_Open_chemical_network_reaction_universe_at_the_Phase_1_feed = 1.0
+STEPS_Open_chemical_network_reaction_universe_at_the_vent_feed = 100
+INTERVAL_Open_chemical_network_reaction_universe_at_the_vent_feed = 1.0
 
 if RERUN:
     from process_bigraph import Composite
@@ -2819,10 +2819,10 @@ if RERUN:
             _ov = ov_viva_genesis_composites_open_chemical_network_open_chemical_network if 'ov_viva_genesis_composites_open_chemical_network_open_chemical_network' in dir() else None  # edits from the panel cell, if any
             spec_viva_genesis_composites_open_chemical_network_open_chemical_network = materialize_composite('viva_genesis.composites.open_chemical_network.open_chemical_network', _ov)
             _comp = Composite({'state': spec_viva_genesis_composites_open_chemical_network_open_chemical_network['state']}, core=core)
-            _comp.run(STEPS_Open_chemical_network_reaction_universe_at_the_Phase_1_feed)
-        print('ran', 'Open chemical network — reaction_universe at the Phase-1 feed', f'(viva_genesis.composites.open_chemical_network.open_chemical_network) for', STEPS_Open_chemical_network_reaction_universe_at_the_Phase_1_feed, 'steps')
+            _comp.run(STEPS_Open_chemical_network_reaction_universe_at_the_vent_feed)
+        print('ran', 'Open chemical network — reaction_universe at the vent feed', f'(viva_genesis.composites.open_chemical_network.open_chemical_network) for', STEPS_Open_chemical_network_reaction_universe_at_the_vent_feed, 'steps')
     except Exception as _e:
-        print(f"Open chemical network — reaction_universe at the Phase-1 feed not runnable yet: {type(_e).__name__}: {_e}")
+        print(f"Open chemical network — reaction_universe at the vent feed not runnable yet: {type(_e).__name__}: {_e}")
 else:
     print("RERUN=False — not re-simulating.")
 
@@ -2833,7 +2833,7 @@ else:
 # **reaction-universe-enrichment**
 
 # reaction-universe-enrichment
-_save_viz('og-02-alt-reaction-universe', 'reaction-universe-enrichment', _render_one('local:ReactionUniverseEnrichment', {'title': 'Phase 3 — motif enrichment vs matched nulls, and where motifs ignite (Decision view)', 'report_json': 'workspace/studies/og-02-alt-reaction-universe/artifacts/motif_enrichment.json'}, RUNS_DB, STUDY_YAML))
+_save_viz('og-02-alt-reaction-universe', 'reaction-universe-enrichment', _render_one('local:ReactionUniverseEnrichment', {'title': 'Motif enrichment vs matched nulls, and where motifs ignite (Decision view)', 'report_json': 'workspace/studies/og-02-alt-reaction-universe/artifacts/motif_enrichment.json'}, RUNS_DB, STUDY_YAML))
 
 # **reaction-universe-subnetwork**
 
@@ -3266,12 +3266,12 @@ else:
 # **internalization-threshold-map**
 
 # internalization-threshold-map
-_save_viz('og-energy-alt-internalization-threshold', 'internalization-threshold-map', _render_one('local:InternalizationThresholdMap', {'title': 'Phase 6 — where internalization pays, per energy-coupling class (Decision view)', 'threshold_map_json': 'workspace/studies/og-energy-alt-internalization-threshold/artifacts/internalization_threshold_map.json', 'report_json': 'workspace/studies/og-energy-alt-internalization-threshold/artifacts/internalization_threshold_report.json'}, RUNS_DB, STUDY_YAML))
+_save_viz('og-energy-alt-internalization-threshold', 'internalization-threshold-map', _render_one('local:InternalizationThresholdMap', {'title': 'Where internalization pays, per energy-coupling class (Decision view)', 'threshold_map_json': 'workspace/studies/og-energy-alt-internalization-threshold/artifacts/internalization_threshold_map.json', 'report_json': 'workspace/studies/og-energy-alt-internalization-threshold/artifacts/internalization_threshold_report.json'}, RUNS_DB, STUDY_YAML))
 
 # **protocell-energy-budget**
 
 # protocell-energy-budget
-_save_viz('og-energy-alt-internalization-threshold', 'protocell-energy-budget', _render_one('local:ProtocellEnergyBudget', {'title': "Phase 6 — one individual's power budget per coupling class (Mechanism view)", 'report_json': 'workspace/studies/og-energy-alt-internalization-threshold/artifacts/internalization_threshold_report.json', 'activity': '1'}, RUNS_DB, STUDY_YAML))
+_save_viz('og-energy-alt-internalization-threshold', 'protocell-energy-budget', _render_one('local:ProtocellEnergyBudget', {'title': "One individual's power budget per coupling class (Mechanism view)", 'report_json': 'workspace/studies/og-energy-alt-internalization-threshold/artifacts/internalization_threshold_report.json', 'activity': '1'}, RUNS_DB, STUDY_YAML))
 
 # ### Acceptance criteria
 #
@@ -3445,7 +3445,7 @@ else:
 # **heredity-information-frontier**
 
 # heredity-information-frontier
-_save_viz('og-06-alt-information-per-cost', 'heredity-information-frontier', _render_one('local:HeredityInformationFrontier', {'title': 'Phase 7 — heritable bits vs energy per offspring, per heredity class, with controls and the Pareto front (Decision view)', 'report_json': 'workspace/studies/og-06-alt-information-per-cost/artifacts/information_frontier.json'}, RUNS_DB, STUDY_YAML))
+_save_viz('og-06-alt-information-per-cost', 'heredity-information-frontier', _render_one('local:HeredityInformationFrontier', {'title': 'Heritable bits vs energy per offspring, per heredity class, with controls and the Pareto front (Decision view)', 'report_json': 'workspace/studies/og-06-alt-information-per-cost/artifacts/information_frontier.json'}, RUNS_DB, STUDY_YAML))
 
 # **heredity-attachment-map**
 
@@ -3485,7 +3485,7 @@ _save_viz('og-06-alt-information-per-cost', 'heredity-attachment-map', _render_o
 #
 # **Question.** If every protocell carries the same real rule-generated chemistry masked to its own catalyst repertoire, can a community of incomplete lineages realise a metabolic function no lineage performs alone, sustained by a real intermediate crossing membranes rather than a symbolic capability transfer?
 #
-# **Objective.** Build the proto_ecology face (ProtocellNetworkProcess and the matched-null class — the Phase-3 universe inside each agent, masked to a lineage repertoire), the SpatialCouplingStep onto the Phase-4 field with the exchange rules of a BigraphicalReactiveSystem (uptake, secretion, pore diffusion, feed / washout; every firing counted), the EcologyReducerStep that recomputes og-07's gate readouts from the agents, the EcologyElementLedgerProcess (C / N / P over agents + field) and the vg-data package cnp_resources; run the community, its two monocultures, the private (no-sharing) counterfactual, the complete-cell (generalist) arm, the segregated placement and the rewired-null arms at the canonical point, and the four arms over (diacid permeability x pore residence); grade the pre-registered gates.
+# **Objective.** Build the proto_ecology face (ProtocellNetworkProcess and the matched-null class — the reaction universe inside each agent, masked to a lineage repertoire), the SpatialCouplingStep onto the enrichment field with the exchange rules of a BigraphicalReactiveSystem (uptake, secretion, pore diffusion, feed / washout; every firing counted), the EcologyReducerStep that recomputes og-07's gate readouts from the agents, the EcologyElementLedgerProcess (C / N / P over agents + field) and the vg-data package cnp_resources; run the community, its two monocultures, the private (no-sharing) counterfactual, the complete-cell (generalist) arm, the segregated placement and the rewired-null arms at the canonical point, and the four arms over (diacid permeability x pore residence); grade the pre-registered gates.
 #
 # **Hypothesis.** The reductive C4 branch (oxaloacetate -> malate -> succinate) is split across the two incomplete lineages: the fixer carboxylates pyruvate to oxaloacetate but cannot reduce it, the reducer can reduce it but never makes it; in a shared pore the dicarboxylate crosses from one to the other and malate appears in the reducer lineage although neither monoculture ever holds it; cutting the sharing (each agent exchanging only with its own copy of the background) removes it; the function depends on the membrane permeability of the exchanged diacid and on the pore residence time, and it emerges while every cell is still incomplete.
 #
@@ -3502,14 +3502,14 @@ _save_viz('og-06-alt-information-per-cost', 'heredity-attachment-map', _render_o
 #
 # **Proposed models / methods**
 #
-# - The Phase-3 reaction universe (libRoadRunner) inside every agent, masked to a lineage rule repertoire
+# - The reaction universe (libRoadRunner) inside every agent, masked to a lineage rule repertoire
 # - A bigraphical reactive system of matter-exchange rules with firing counts
 # - og-07's gate readouts recomputed from the agents map
 # - A C / N / P element ledger across agents and field
 #
 # **Key assumptions**
 #
-# - Eight 1-fL protocells (4 fixers, 4 reducers) at fixed positions on a 4-cell pore of 10x their volume; feed CO2 1.4 mM, H2 10.8 mM, pyruvate 0.1 mM (the Phase-1 posterior point), ammonium 50 uM, phosphate 10 uM; the Phase-4 surrogate enrichment profile along the pore.
+# - Eight 1-fL protocells (4 fixers, 4 reducers) at fixed positions on a 4-cell pore of 10x their volume; feed CO2 1.4 mM, H2 10.8 mM, pyruvate 0.1 mM (the vent posterior point), ammonium 50 uM, phosphate 10 uM; the localization-stage surrogate enrichment profile along the pore.
 # - A lineage is a subset of the twelve reaction rules; the thermal decarboxylations belong to all; fixer = CO2 reduction + carboxylations, reducer = hydrogenations; the universe (C <= 4, 413 reactions, eQuilibrator dG', detailed balance) is otherwise identical in every agent.
 # - Exchange is linear permeation by size / charge class (gas 1e-5, small neutral 1e-7, large neutral 3e-8, monoacid 1e-7, diacid 1e-8, ion 1e-10 m/s at the canonical point), applied as the exact two-compartment relaxation per tick; pore diffusion 0.1/s between cells; residence 100 s.
 # - Functions are product classes (chain length x carboxylation x oxidation state); held above 1 nM, produced above 1e-12 M/s gross internal production.
@@ -3634,7 +3634,7 @@ else:
 # **community-function-map**
 
 # community-function-map
-_save_viz('og-07-alt-real-metabolite-exchange', 'community-function-map', _render_one('local:CommunityFunctionMap', {'title': 'Phase 8 — where a function no lineage can perform emerges (Decision view)', 'report_json': 'workspace/studies/og-07-alt-real-metabolite-exchange/artifacts/community_function_map.json'}, RUNS_DB, STUDY_YAML))
+_save_viz('og-07-alt-real-metabolite-exchange', 'community-function-map', _render_one('local:CommunityFunctionMap', {'title': 'Where a function no lineage can perform emerges (Decision view)', 'report_json': 'workspace/studies/og-07-alt-real-metabolite-exchange/artifacts/community_function_map.json'}, RUNS_DB, STUDY_YAML))
 
 # **metabolite-exchange-map**
 
@@ -3677,7 +3677,7 @@ _save_viz('og-07-alt-real-metabolite-exchange', 'metabolite-exchange-map', _rend
 #
 # **Question.** In one integrated world where each of {pump, importer, heredity} is a real process carrying its own cost, is that set jointly sufficient for a lineage to persist as the vent's support is withdrawn - the pre-registered test being that the full set persists under at least half the sampled model structures?
 #
-# **Objective.** Build the integrated world (AblationStep, GeologicalDriverStep, LineageStateProcess, ActiveImportProcess with the ActiveUptakeRule, MaintenanceDemandProcess, LineageSupplyProcess, AutonomyBudgetStep, PopulationBudgetProcess, StructuralEventLogStep; the integrated_autonomy_world composite over the energy_coupling / heredity / boundary / localization faces with a permeability anchor and a maintenance law; the vg-data package integrated_autonomy carrying the Phase-1 posterior), run every subset of {pump, importer, heredity} under a sampled structural ensemble at the nominal and a rich ocean floor with the og-adv generic control and the full set over the floor axis, grade the pre-registered gates and report the intersection of the required innovations as a lattice with the continuous autonomy value decomposed by function.
+# **Objective.** Build the integrated world (AblationStep, GeologicalDriverStep, LineageStateProcess, ActiveImportProcess with the ActiveUptakeRule, MaintenanceDemandProcess, LineageSupplyProcess, AutonomyBudgetStep, PopulationBudgetProcess, StructuralEventLogStep; the integrated_autonomy_world composite over the energy_coupling / heredity / boundary / localization faces with a permeability anchor and a maintenance law; the vg-data package integrated_autonomy carrying the vent posterior), run every subset of {pump, importer, heredity} under a sampled structural ensemble at the nominal and a rich ocean floor with the og-adv generic control and the full set over the floor axis, grade the pre-registered gates and report the intersection of the required innovations as a lattice with the continuous autonomy value decomposed by function.
 #
 # **Hypothesis.** og-08's set is a hypothesis generator, not a result: in the integrated world the innovations are real processes whose benefit and cost depend on the structure around them, so the required set will not be the same under every structure. The pump (an internal store charged by the drive the cell's own substrate pool sustains) should be required wherever anything persists, because the external tap vanishes with the gradient; heredity should be required wherever the inheritance class holds more machinery attached than its de-novo control does; the importer should matter only where the membrane is tight enough for concentration to pay and the ocean background is poor enough to need it; and the ocean floor the withdrawal relaxes toward — a hypothetical — should decide whether any subset persists at all.
 #
@@ -3701,7 +3701,7 @@ _save_viz('og-07-alt-real-metabolite-exchange', 'metabolite-exchange-map', _rend
 #
 # **Key assumptions**
 #
-# - One 0.52-pL protocell (the Phase-6 individual) carries the Phase-3 universe (generalist repertoire) and the Phase-8 exchange rules; its vent is one Phase-1 posterior draw (H2 2.3-10.8 mM, dpH 3.4, 322 K); the withdrawal is linear over 100 minutes after one hour in the vent, every driver relaxing to the ocean floor (the gradient to 0).
+# - One 0.52-pL protocell (the energy-coupling individual) carries the reaction universe (generalist repertoire) and the metacommunity exchange rules; its vent is one vent posterior draw (H2 2.3-10.8 mM, dpH 3.4, 322 K); the withdrawal is linear over 100 minutes after one hour in the vent, every driver relaxing to the ocean floor (the gradient to 0).
 # - Pump = coupling_activity 1 on the storage class, its drive sustained by the cell's live H2 / organic pool (half-saturation 10 uM) and coupled by the machinery the heredity class holds (mean function over 0.25); importer = the ActiveUptakeRule (1e-19 mol/s per substrate at full machinery, K_m 1 uM, set-point 30 % of the vent level, at most 30 % of the work supply per tick, at the thermodynamic cost over a 0.5 efficiency); heredity = attachment by the HeredityAttachmentStep (off: og-06's non-heritable control).
 # - Persistence (pre-registered): over the final 15 % of the run the settled work budget and material budget are non-negative and at least half the founders are alive.
 # - The heredity class runs one lineage-time unit per 60-s world tick; its precursor pools follow a tenth of the cell's organic carbon; 5 % of the lineage's work feeds its energy store.
@@ -3878,7 +3878,7 @@ _save_viz('og-08-alt-robust-innovation-set', 'autonomy-ablation-trace', _render_
 # | expectation | model observable | source | status |
 # | --- | --- | --- | --- |
 # | Escape from the vent needs internalised energy conversion (a pump), resource acquisition and heredity to hold them | the innovation lattice (lattice.required_intersection / required_union) | Martin & Russell 2007; Lane & Martin 2012; Sojo 2014 | Pump and heredity are required in every viable structure (1 / 1); the importer in 0 — resource acquisition is subsumed by permeant gases (CO2, H2) feeding the cell's own fixation and drive. |
-# | A leaky early membrane cannot hold a gradient or a concentrated pool; tight membranes come with pumps | the permeability-assumption axis (boundary class x anchor) in lattice.by_axis | Sojo 2014; Jordan 2019 (vesicle system) | Under the Phase-8 extrapolated leak the importer's cost (up to 1.9e-18 W, its full budget) exceeds its benefit; under the measured charged-solute anchor it costs ~1e-21 W but the best full-set lineage still sits 1e-19 W short — the leak sets the cost, the upkeep the margin. |
+# | A leaky early membrane cannot hold a gradient or a concentrated pool; tight membranes come with pumps | the permeability-assumption axis (boundary class x anchor) in lattice.by_axis | Sojo 2014; Jordan 2019 (vesicle system) | Under the ecology-stage extrapolated leak the importer's cost (up to 1.9e-18 W, its full budget) exceeds its benefit; under the measured charged-solute anchor it costs ~1e-21 W but the best full-set lineage still sits 1e-19 W short — the leak sets the cost, the upkeep the margin. |
 
 # ## Study: Bounding the pH endmember — pyroxene fraction and seawater-mixing dilution (`og-00b-ph-endmember-sweep`)
 #
