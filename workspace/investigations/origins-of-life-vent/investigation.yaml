@@ -30,11 +30,11 @@ lead: >-
   individuality, compartmentation, internalized bioenergetics and heredity to ecology, escape, and
   the nitrogen/phosphorus/energy/growth bottlenecks passes its pre-stated gates, with an
   adversarial vent-ablated control rejected by every discriminating gate. The sharper findings
-  come from the forward Model-Upgrade program, which re-grounds each stage on higher-fidelity
-  model classes and returns three honest negatives: carbon fixation's limiting step is
-  structure-sensitive (Phase 2), no autocatalysis emerges at vent conditions without a one-carbon
-  feed (Phase 3), and og-08's {pump, importer, heredity} set is not jointly sufficient
-  off-gradient (Phase 9).
+  come from re-grounding each stage on higher-fidelity
+  model classes, which returns three honest negatives: carbon fixation's limiting step is
+  structure-sensitive, no autocatalysis emerges at vent conditions without a one-carbon
+  feed, and og-08's {pump, importer, heredity} set is not jointly sufficient
+  off-gradient.
 executive:
   what_is_this: A staged, falsifiable Vivarium campaign testing the alkaline-vent theory for the 
     origin of cells — treating a cellular origin as coupled transitions from geochemistry to 
@@ -50,34 +50,33 @@ executive:
     {pump, importer, heredity} escape set (og-08), plus the nitrogen, phosphorus, energy-currency
     and growth/division modules. An adversarial vent-ablated control is rejected by every
     discriminating gate, so the gates are vent-specific rather than generic. The sharpest findings
-    come from the forward Model-Upgrade program, which re-ran each stage on higher-fidelity model
-    classes under a feasibility / robustness / discrimination standard and returned three honest
-    negatives. Phase 2: carbon fixation runs, but which limitation stops it is
+    come from re-running each stage on higher-fidelity model
+    classes under a feasibility / robustness / discrimination standard, which returned three honest
+    negatives. Carbon fixation runs, but which limitation stops it is
     structure-sensitive. The Butler-Volmer and empirical classes agree on the label only 47% of
     the time against an 80% gate, so the mechanism map, not a pass, is the result (charge/electron
-    ledger exact on 750 runs). Phase 3: a rule-generated C/H/O reaction universe (413 reactions,
+    ledger exact on 750 runs). A rule-generated C/H/O reaction universe (413 reactions,
     real eQuilibrator dG') on the calibrated vent grows zero autocatalytic motifs, every C-C route
     uphill at vent activities, and grows exactly one (the formose cycle) once fed formaldehyde,
-    enriched over matched nulls (p = 0.04). No autocatalysis without a one-carbon feed. Phase 9,
-    the capstone: og-08's {pump, importer, heredity}, re-asked inside one persistent world across
+    enriched over matched nulls (p = 0.04). No autocatalysis without a one-carbon feed. The capstone: og-08's {pump, importer, heredity}, re-asked inside one persistent world across
     24 model structures under seven ledgers, is not jointly sufficient. No subset persists into a
     1% ocean, only {pump, heredity} into a 10% one (2 of 24 structures), and the importer is a net
     cost under a leaky membrane, so og-08 is recorded as a hypothesis generator. A fourth result
-    is spatial: in Phase 4 the eight-solute prebiotic mixture fractionates rather than
+    is spatial: in the localization stage the eight-solute prebiotic mixture fractionates rather than
     co-localizing in one thermophoretic pore (Soret-driven; surrogate and dolfinx FEM agree), and
-    concentrating one tracer is not concentrating the set a protocell needs together. Phase 1
+    concentrating one tracer is not concentrating the set a protocell needs together. The vent calibration
     anchors the arc: conditioning on the Lost City windows leaves a posterior in which 100% of the
     empirically supported vent states supply what carbon fixation needs, the two
     transport-structure classes agree, dissolved H2 is the single binding observation, and the
-    ledger is exact (0 of 96 points rejected). Phases 1-9 are built and run. What remains open is
+    ledger is exact (0 of 96 points rejected). Every stage is built and run. What remains open is
     editorial (publication scope, bottleneck-map framing) and a few expert priors (the Hadean
     ocean's H2 / organic floor, heredity attachment thresholds, membrane permeabilities):
     decisions, not unrun science.
   verdict_status: complete
   verdict_detail: >-
-    Twenty-three studies, the fourteen-stage arc (Campaigns 0-VIII, the nitrogen / phosphorus /
-    energy / growth bottleneck modules, an adversarial control) plus nine Model-Upgrade
-    calibration and -alt studies spanning Phases 1-9, wired into a DAG and all run. Each runs a
+    Twenty-three studies, the fourteen-stage arc (the geochemistry-to-heredity stages, the nitrogen / phosphorus /
+    energy / growth bottleneck modules, an adversarial control) plus nine
+    calibration and -alt studies spanning every stage, wired into a DAG and all run. Each runs a
     coupled Vivarium composite of real tools (PHREEQC + FiPy; eQuilibrator; libRoadRunner; a FiPy
     thermal trap; amphiphile self-assembly; bioenergetic internalization; an agent-based heredity
     lineage; a pore metacommunity; an osmotic growth/division compartment; a Butler-Volmer
@@ -106,21 +105,21 @@ executive:
     head-to-head; compositional and hybrid heredity persist length-independently (functional persistence
     ~0.88, seed-robust 5/5 graded seeds) where a long low-fidelity template suffers the Eigen length catastrophe —
     so heredity need NOT presume a long high-fidelity RNA template."
-  - 'Explicit electrochemistry for og-01 (Model Upgrade Phase 2): BUILT, not kept as the
+  - 'Explicit electrochemistry for og-01: built, but not adopted as the
     gradient-efficiency abstraction — the carbon_fixation face adds a real Butler-Volmer galvanic-cell
     class (Nernst half-cells, Koutecky-Levich transport limits, Preiner electron branching), with
     MineralConductivityProcess deriving gradient_efficiency from the wall circuit and a ChargeLedger
     auditing the Kirchhoff/faradaic residuals. The empirical gradient-efficiency class is kept as
     og-01''s graded default.'
-  - 'Phase 2 attribution + default class (resolved by Eran): ACCEPT the structure-sensitive limitation
-    attribution AS the Phase-2 result — the empirical and Butler-Volmer classes disagreeing on the
+  - 'Carbon-fixation limitation attribution + default class (resolved by Eran): ACCEPT the structure-sensitive limitation
+    attribution AS the carbon-fixation result — the empirical and Butler-Volmer classes disagreeing on the
     limitation label in the favorable region (agreement 0.47 < 0.8) IS the finding, reported as the
     og-01-cal-electrochemistry mechanism map with gate_status failed (an honest negative); the gate is
     not re-tuned to force a pass. KEEP empirical as og-01''s graded/headline default and butler_volmer as
     the registered high-fidelity electrochemistry class (the same FiPy-grades / FEniCS-cross-checks
     pattern), revisiting butler_volmer as the headline once Altair per-condition data turns its
     calibration window into a fit.'
-  - 'Phase 2 follow-up (accepted, not done): attach the Altair-2025 per-condition current / product time
+  - 'Carbon-fixation follow-up (accepted, not done): attach the Altair-2025 per-condition current / product time
     courses (turning the calibration window into a likelihood) and bridge CatMAP/Cantera to run the
     microkinetic carbon_fixation class under pixi, then re-run the mechanism map with three classes.
     Deferred because the per-condition dataset is not yet in-workspace and the microkinetic backend needs
@@ -130,40 +129,40 @@ executive:
     FEM does not confirm above Pe ~ 13, so localization is gated on the Peclet, not the fold-magnitude.
     The gate change itself is implemented in a separate og-03 PR; recorded here as the decision-state.'
   decisions_needed:
-  - question: 'Phase 9 — read og-08''s {pump, importer, heredity} as a HYPOTHESIS GENERATOR (plan section 10), not a
+  - question: 'Read og-08''s {pump, importer, heredity} as a HYPOTHESIS GENERATOR, not a
       result: the integrated world (og-08-alt-robust-innovation-set) finds the required set structure-dependent and
       the off-gradient verdict decided by the ocean floor, the membrane leakiness and the inheritance class''s
       budget sensitivity. Adopt this framing for the campaign''s endpoint statement, and supply the ocean''s H2 /
       organic background (the floor) as an expert prior?'
-    context: 'og-08-alt-robust-innovation-set (references/model-upgrade-integration.md section 6g): the Phase-9 world finds no
+    context: 'og-08-alt-robust-innovation-set: the integrated-autonomy world finds no
       subset sufficient at the nominal ocean floor and only {pump, heredity} at a rich one, with the importer a net cost under
-      the fatty-acid-vesicle leak; the gate fails honestly (like Phase 2). The floor (vg-data integrated_autonomy, hypothetical,
-      swept 1e-3 .. 1e-1) and the Phase-6 upkeep are the numbers the verdict turns on; an expert prior on the Hadean ocean''s
+      the fatty-acid-vesicle leak; the gate fails honestly (like the carbon-fixation stage). The floor (vg-data integrated_autonomy, hypothetical,
+      swept 1e-3 .. 1e-1) and the bioenergetics upkeep are the numbers the verdict turns on; an expert prior on the Hadean ocean''s
       dissolved H2 and organics would turn the floor map into a prediction.'
-  - question: 'Phase-8 agent motion model: DEFERRED. The proto_ecology component points agents at fixed cells
-      of the Phase-4 field (interleaved or segregated along the pore); no motility, chemotaxis or advective
+  - question: 'Agent motion model (ecology stage): DEFERRED. The proto_ecology component points agents at fixed cells
+      of the og-03 enrichment field (interleaved or segregated along the pore); no motility, chemotaxis or advective
       drift of agents is modelled. Which motion model (none / advected with the pore flow / Brownian between
-      cells / thermophoretic like the solutes) should Phase 8b adopt?'
-    context: 'og-07-alt-real-metabolite-exchange (references/model-upgrade-integration.md section 6f): the
-      roadmap row defers motion ("point agents on fields first"). With fixed positions the mixed and
+      cells / thermophoretic like the solutes) should the ecology follow-up adopt?'
+    context: 'og-07-alt-real-metabolite-exchange: the
+      the study defers motion ("point agents on fields first"). With fixed positions the mixed and
       segregated placements give the same community-only function because pore diffusion between cells
       (k_diffusion 0.1/s, hypothetical) mixes the exchanged intermediate; a motion model would make that
       mixing a property of the agents rather than of the field.'
-  - question: 'Phase-8 membrane permeability of dicarboxylates: the community function (the reductive C4
+  - question: 'Membrane permeability of dicarboxylates (ecology stage): the community function (the reductive C4
       branch crossing from the carboxylating to the hydrogenating lineage) emerges only above a diacid
       permeability of ~3e-9 m/s at 100 s residence, while the measured passage of charged solutes through
       fatty-acid vesicles (Mansy 2008, proposed_inputs, pending) is ~1e-11-1e-10 m/s. Is a leakier boundary
-      (mixed / shorter-chain amphiphiles, Phase-5 thioester_aminothiol class) or a longer pore residence the
+      (mixed / shorter-chain amphiphiles, the thioester_aminothiol boundary class) or a longer pore residence the
       defensible route, or should the exchanged intermediate be a neutral species?'
     context: 'The canonical point (p_diacid 1e-8 m/s, hypothetical) is an operating point inside the
       emergence region; the Decision map places the measured range below the boundary. The number is the
       weakest in vg-data cnp_resources and is swept, not asserted.'
-  - question: 'Phase-7 heredity attachment thresholds: what precursor budget (copies per individual the pool
+  - question: 'Heredity attachment thresholds: what precursor budget (copies per individual the pool
       must cover, attach_min_copies), energy margin (attach_energy_margin) and fidelity floor are defensible
       for attaching heredity to a lineage? The build uses hypothetical values (10 copies, margin 1.0) and
       Eigen''s error threshold Q >= 1/sigma as the fidelity floor, and SWEEPS the budget x fidelity space
       instead of asserting a point.'
-    context: 'og-06-alt-information-per-cost (references/model-upgrade-integration.md section 6e): the
+    context: 'og-06-alt-information-per-cost: the
       HeredityAttachmentStep attaches a class only when all three conditions hold; the attachment map shows
       compositional / network / mineral classes attaching from 3 % of the nominal budget, hybrid from 30 %,
       rna_like only at the full budget and q >= 0.967, peptide never at q_p = 0.7. The thresholds are
@@ -171,7 +170,7 @@ executive:
       swept span, not a point. Expert input decides where the step''s thresholds sit — and whether the
       mineral class''s defect-copy error (0.005 per bit per layer, hypothetical, the number that makes
       mineral_state dominate the frontier) has any measured anchor.'
-  - question: 'Rule-set scope for the Phase-3 reaction universe: keep C1-C3 feedstock / C/H/O-only chemistry
+  - question: 'Rule-set scope for the reaction universe: keep C1-C3 feedstock / C/H/O-only chemistry
       (as built: products capped at C4, 413 reactions) or include N/P-bearing reactions from the start, folding
       the og-res-N / og-res-P resource chemistries into the universe?'
     context: 'og-02-alt-reaction-universe defaulted to C/H/O so the first enrichment result rests on the
@@ -202,8 +201,8 @@ executive:
       (phase maps not trajectories, feature ablations, negative controls,
       negative-results-as-output) are already partly realized (og-adv, the phase maps).
   - question: 'Adopt the Full Modeling Plan architecture (emergence-not-presupposition + structural
-      rewrites + canonical schemas + model substitution) as the campaign''s build target, in the plan''s
-      section-18 order — canonical schemas + geochemical_world first, then the electrochemical interface,
+      rewrites + canonical schemas + model substitution) as the campaign''s build target, in the
+      order — canonical schemas + geochemical_world first, then the electrochemical interface,
       then C-N-P/energetics as cross-cutting layers, then localization, boundary, growth/division
       rewrites, competing heredity, ecology, autonomy?'
     context: "The integration design is tracked in references/full-modeling-plan-integration.md. It keeps
@@ -215,32 +214,31 @@ executive:
       the model CLASS as an axis and report structure-vs-parameter uncertainty, and a conservation
       ledger (matter, charge, free energy) that spans rewrites. Decision needed on sequencing relative
       to the publication milestone and on the hypothetical thresholds (heredity attachment, assembly)."
-  - question: 'Adopt the Model Upgrade plan''s three-quantity standard (feasibility / robustness /
+  - question: 'Adopt the three-quantity standard (feasibility / robustness /
       discrimination) and evidence tiers as the reporting requirement for every stage — i.e. a stage''s
       verdict may not advance until it carries a TransitionReport whose decision-discipline audit is
-      clean — and re-label the fourteen pre-upgrade studies (every member study except the already-
+      clean — and re-label the fourteen earlier studies (every member study except the already-
       tier-labelled og-cal) with their tier language?'
-    context: 'Phase 1 is done this way (og-cal-vent-environment; references/model-upgrade-integration.md
-      sections 1 and 6): the Lost-City-conditioned vent ensemble reports the posterior-viable fraction, the
+    context: 'This is done for the vent calibration (og-cal-vent-environment): the Lost-City-conditioned vent ensemble reports the posterior-viable fraction, the
       cross-class agreement and the discriminating readouts, with the ledger clean. The remaining studies
       currently report gate PASS/FAIL on swept grids; under the standard most of their claims are
       mechanistic predictions or conceptual demonstrations (guidelines.scientific_standard.
       tier_reading_of_current_studies). Editorial + sequencing call: apply the tier language now, and run
-      Phases 2-9 in the recorded order (electrochemistry first) or re-order around the publication scope.'
-  - question: 'Phase 6: replace og-05''s population-mean internalization readout (mean active-pump fraction of
+      the remaining stages in the recorded order (electrochemistry first) or re-order around the publication scope.'
+  - question: 'Proto-energetics: replace og-05''s population-mean internalization readout (mean active-pump fraction of
       the surviving population) with the per-individual autonomy internal / (internal + external) power that
       the energy_coupling face defines — i.e. re-point og-05''s gates (reduced-gradient-dependence,
       final_internalization) at autonomy?'
     context: 'BioenergeticSelectionProcess now publishes both from the same per-strategy power terms
       (internalization 0.95 vs autonomy 0.99 at og-05''s collapsed gradient), and og-energy-alt-internalization-
       threshold grades autonomy per individual for five coupling classes. Autonomy is the quantity og-08''s
-      off-gradient persistence and the Phase-9 autonomy lattice share; switching og-05''s gates re-grades a
+      off-gradient persistence and the integrated-autonomy lattice share; switching og-05''s gates re-grades a
       passing study on a monotone-related but different observable. Default taken: added beside, not switched.'
   - question: 'Attach the MARHYS 4.0 hydrothermal-fluid compilation (PANGAEA) as a workspace dataset so the
-      Phase-1 conditioning set becomes the ultramafic-vent population rather than Lost City alone — and
+      vent-calibration conditioning set becomes the ultramafic-vent population rather than Lost City alone — and
       which Hadean-ocean prior (DIC, pH, T) should replace the modern-seawater proxy the audit flags?'
     context: 'The vg-data package vent_environment marks marhys_conditioning as pending and leaves fluid_dic
-      / ocean pH 6.0 / 275 K classed extrapolated-and-unsourced on purpose. In the Phase-1 ensemble the
+      / ocean pH 6.0 / 275 K classed extrapolated-and-unsourced on purpose. In the vent-calibration ensemble the
       dissolved-H2 window is the binding observation (pH is mineral-buffered at ~9.4 for every draw) and,
       under full redox equilibrium in llnl.dat, DIC is reduced before free H2 appears — so the H2 posterior
       depends directly on the DIC prior and on the equilibrium-vs-kinetic carbon-redox choice. The expert''s
@@ -271,7 +269,7 @@ scientific_argument:
   - no validated vent pathway spans to open-ended heredity (Module J)
   - lab yields are not Hadean environmental concentrations
   - the chemically-necessary prebiotic mixture fractionates rather than co-localizing in a single
-    thermophoretic pore (Phase-4 co-localization map; surrogate and dolfinx FEM agree on both verdict and
+    thermophoretic pore (co-localization map; surrogate and dolfinx FEM agree on both verdict and
     degree after the reconciliation) — the fractionation is SORET-DRIVEN — low-S_T species such as
     ammonium lag the strongly-thermophoretic ones (adsorption is kinetically negligible over the transit),
     a candidate spatial incompatibility for assembling the set a protocell needs together
@@ -284,11 +282,11 @@ scientific_argument:
     og-03's enrichment fold (the reduced FiPy accumulation column reaches ~10⁸-fold, 9.6×10⁷, at
     accumulation Péclet ≈ 18, where it diverges ~5.6 decades from the resolved FEniCS/dolfinx field
     above the Pe ≈ 13 the FEM resolves); the defensible claim there is that localization occurs and is
-    bounded, not the exact fold-magnitude. The resolved 3-D flow-through FEM solve (Phase 4) shows
+    bounded, not the exact fold-magnitude. The resolved 3-D flow-through FEM solve (the localization stage) shows
     single-pore enrichment is strongest at low Péclet and washes out as flow rises (1/(1+Pe/pe0)), so
     that extreme fold belongs to the convection-enhanced closed-cell (recirculating) regime, distinct
     from the resolved flow-through result.
-  - The chemically-necessary prebiotic MIXTURE does not all concentrate in the same place — the Phase-4
+  - The chemically-necessary prebiotic MIXTURE does not all concentrate in the same place — the
     co-localization map finds the eight-solute mixture FRACTIONATES in a single thermophoretic pore,
     SORET-DRIVEN — the strongly-thermophoretic species concentrate while low-S_T species such as ammonium
     lag, holding the co-localization index low in the strong-Soret regime (~0.18, rising toward ~1 where
@@ -303,11 +301,11 @@ scientific_argument:
     "an individual divides" are scalar readouts, not changes in the composition itself.
 guidelines:
   architecture_reference: references/full-modeling-plan-integration.md
-  # The Model Upgrade and Implementation Plan (2026-10-14) supersedes the above as the
+  # The higher-fidelity re-grounding design supersedes the above as the
   # campaign's build target; the older doc stays the detailed rewrite/layer design.
   upgrade_reference: references/model-upgrade-integration.md
   scientific_standard:
-    source: Model Upgrade and Implementation Plan, section 1 (references/model-upgrade-integration.md section 1)
+    source: the transition standard (feasibility, robustness, discrimination), section 1
     three_quantities:
     - 'Feasibility: does at least one physically admissible parameterization (inside the stated
       conditioning set) support the transition?'
@@ -343,7 +341,7 @@ guidelines:
     vg-geochemical-world: viva_genesis/composites/geochemical_world.py + viva_genesis/ledger.py (built; Reaktoro/PFLOTRAN classes + mineral feedback planned)
     vg-electrochemistry: viva_genesis/electrochemistry/{butler_volmer,empirical,microkinetic,mineral_conductivity}.py + composites/electrochemical_interface.py + ledger.ChargeLedgerProcess (built; carbon_fixation face with empirical | butler_volmer | microkinetic classes; microkinetic runs under pixi)
     vg-reaction-universe: viva_genesis/protometabolism/{universe,motifs,universe_process}.py + composites/open_chemical_network.py + data/vg_data/reaction_universe.yaml (built; rule-based generator, eQuilibrator potentials, (C,O)-matched nulls, post-hoc detector, NetworkLedgerProcess)
-    vg-pore: Phase 4 built and run — the localization face carries two multisolute pore classes
+    vg-pore: built and run (localization) — the localization face carries two multisolute pore classes
       (viva_genesis/multisolute_localization.py — a numpy MultisolutePoreSurrogateProcess + a
       FenicsMultisolutePoreProcess driving viva-fenics's dolfinx 3-D solver under pixi), with
       literature-sourced per-species D/Soret/adsorption/degradation for the eight co-localization solutes
@@ -351,11 +349,11 @@ guidelines:
       (6.8% max, 1.7% mean error) and viva_genesis/colocalization_map.py sweeps the mixture over
       (Péclet × Soret) as a co-localization/fractionation Decision surface. Remaining — a loaded
       pore_physics vg-data provenance package.
-    vg-protoindividual: Phase 5 (planned; endogenous amphiphiles + boundary/division rewrites)
+    vg-protoindividual: planned (endogenous amphiphiles + boundary/division rewrites)
     vg-energy: viva_genesis/bioenergetics/energy_coupling.py + composites/protocell_energetics.py + ledger.FreeEnergyLedgerProcess + data/vg_data/energy_currencies.yaml + uq/energetics_threshold.py (built; energy_coupling face with passive_gradient | h_na_gradient_leaky_membrane | thioester_acyl_phosphate | polyphosphate | fe_redox, per-individual autonomy, free-energy ledger in >= work + dissipated with the store)
     vg-heredity: viva_genesis/heredity/{competing,information}.py + composites/competing_heredity.py + ledger.InformationLedgerProcess + data/vg_data/inheritance_budgets.yaml (built; six Gillespie heredity classes behind the heredity face, HeredityAttachmentStep, MI estimator with convergence check, information-per-cost ledger)
-    vg-ecology: viva_genesis/ecology/{proto_ecology,reactive_system}.py + composites/metabolite_exchange_community.py + ledger.EcologyElementLedgerProcess + data/vg_data/cnp_resources.yaml + viz_ecology.py (built; proto_ecology face with reaction_universe | null_network classes — the Phase-3 universe inside every agent masked to a lineage rule repertoire — SpatialCouplingStep onto the Phase-4 enrichment field firing the uptake / secretion / diffusion / pore-exchange rules of a BigraphicalReactiveSystem, EcologyReducerStep keeping og-07's gate names, C/N/P ledger across agents + field)
-    vg-autonomy: viva_genesis/autonomy/integrated.py + composites/integrated_autonomy.py + uq/robust_innovation.py + uq/phase1_posterior.py + data/vg_data/integrated_autonomy.yaml + viz_autonomy.py (built; the integrated world over every face with an AblationStep, the importer as an exchange rule, the autonomy decomposition, seven ledgers, a structural-event log, the innovation lattice across sampled structures at the Phase-1 posterior)
+    vg-ecology: viva_genesis/ecology/{proto_ecology,reactive_system}.py + composites/metabolite_exchange_community.py + ledger.EcologyElementLedgerProcess + data/vg_data/cnp_resources.yaml + viz_ecology.py (built; proto_ecology face with reaction_universe | null_network classes — the reaction universe inside every agent masked to a lineage rule repertoire — SpatialCouplingStep onto the og-03 enrichment field firing the uptake / secretion / diffusion / pore-exchange rules of a BigraphicalReactiveSystem, EcologyReducerStep keeping og-07's gate names, C/N/P ledger across agents + field)
+    vg-autonomy: viva_genesis/autonomy/integrated.py + composites/integrated_autonomy.py + uq/robust_innovation.py + uq/phase1_posterior.py + data/vg_data/integrated_autonomy.yaml + viz_autonomy.py (built; the integrated world over every face with an AblationStep, the importer as an exchange rule, the autonomy decomposition, seven ledgers, a structural-event log, the innovation lattice across sampled structures at the vent-calibration posterior)
     campaign-uq-layer: viva_genesis/uq/ (built; ABC/importance calibration, Morris+Sobol, structural ensembles, propagation, report triple)
   roadmap_phases:
   - phase: 1
@@ -381,8 +379,8 @@ guidelines:
     component: proto_metabolism face with curated_rtca | reaction_universe | null_network classes (all on libRoadRunner), NetworkLedgerProcess, post-hoc motif detector
     data_package: reaction_universe (11 rules over 121 linear C1-C4 C/H/O skeletons -> 413 reversible reactions; eQuilibrator dG' for 50 formula-verified KEGG compounds + group additivity for 71; catalyst classes with a saturating site pool)
     exit_criterion: distribution of persistent/autocatalytic subnetworks; motif enrichment vs matched nulls
-    result: "Phase-1 feed: 14 persistent species, 0 motifs (every C-C route uphill at vent activities; nulls 0/24). Formose feed (10 mM CH2O): the formose cycle emerges post hoc (gain 2, dynamic 3.1), 0/24 nulls, p = 0.04; ignites only at >= ~10 mM CH2O and washout >= ~0.02/s. Curated rTCA: motif imposed (detector gain 2.99 = declared), lumped turn creates 4 C per cycle (element residual 8). Universe ledger exact; summation theorem 3.3e-3 on dominant fluxes; tolerance sensitivity 7e-6."
-    next: propagate the rate-constant priors (LHS) through both arms; branched C5/C6 skeletons; rule-set-scope decision (N/P); feed the Phase-4 co-localized concentrations (flagship chain)
+    result: "Vent-calibration feed: 14 persistent species, 0 motifs (every C-C route uphill at vent activities; nulls 0/24). Formose feed (10 mM CH2O): the formose cycle emerges post hoc (gain 2, dynamic 3.1), 0/24 nulls, p = 0.04; ignites only at >= ~10 mM CH2O and washout >= ~0.02/s. Curated rTCA: motif imposed (detector gain 2.99 = declared), lumped turn creates 4 C per cycle (element residual 8). Universe ledger exact; summation theorem 3.3e-3 on dominant fluxes; tolerance sensitivity 7e-6."
+    next: propagate the rate-constant priors (LHS) through both arms; branched C5/C6 skeletons; rule-set-scope decision (N/P); feed the og-03 co-localized concentrations (flagship chain)
   - phase: 4
     name: 3-D multisolute localization
     status: built-and-run
@@ -415,14 +413,14 @@ guidelines:
     component: AmphiphileSynthesisProcess; BoundaryFormation / Division / Lysis / Extinction structural rewrites on agents map[vg_individual]
     data_package: amphiphile_assembly (Jordan 2019; Lu 2024)
     exit_criterion: first continuous transition from chemistry to a growing, dividing individual with rewrite_residual == 0
-    result: "og-04-alt — a protocell boundary forms from the vent's own reduced-carbon amphiphile (acetate+formate-derived) by a matter-conserving _add rewrite: 31 individuals favorable vs 0 with synthesis ablated (gate boundary-forms-from-chemistry PASS; rewrite-conserves-matter 1.0). og-growth-alt — an individual physically reproduces by a _divide rewrite into a lineage that reaches generation 5 (past the >=3-generation gate bar), volume conserved, partition_residual 0 (both gates PASS). Both Phase-5 studies read committed run artifacts."
+    result: "og-04-alt — a protocell boundary forms from the vent's own reduced-carbon amphiphile (acetate+formate-derived) by a matter-conserving _add rewrite: 31 individuals favorable vs 0 with synthesis ablated (gate boundary-forms-from-chemistry PASS; rewrite-conserves-matter 1.0). og-growth-alt — an individual physically reproduces by a _divide rewrite into a lineage that reaches generation 5 (past the >=3-generation gate bar), volume conserved, partition_residual 0 (both gates PASS). Both studies read committed run artifacts."
     next: couple og-growth-alt's trigger to og-growth-division's full osmotic growth; commit the run artifacts for og-04-alt / og-growth-alt
   - phase: 6
     name: Proto-energetics
     status: built-and-run
     studies: [og-energy-proto-energetics, og-05-environmental-to-internal-bioenergetics, og-energy-alt-internalization-threshold]
     component: energy_coupling face (passive_gradient | h_na_gradient_leaky_membrane | thioester_acyl_phosphate | polyphosphate | fe_redox) inside one protocell (protocell_energetics); per-individual autonomy = internal / (internal + external) power (also published by og-05's selection loop beside its population-mean internalization); FreeEnergyLedgerProcess (in + E0 - work - dissipated = E(t) exact, margin >= 0, dissipation >= 0, efficiency <= 1)
-    data_package: energy_currencies (external pmf calibrated to the Phase-1 posterior, H+ permeability + Na+/H+ ratio, H2/CO2 and Fe(II)-disproportionation drives, carrier bonds and decay, per-cell turnover / maintenance / load; 24 parameters, 12 hypothetical, none unsourced)
+    data_package: energy_currencies (external pmf calibrated to the vent-calibration posterior, H+ permeability + Na+/H+ ratio, H2/CO2 and Fe(II)-disproportionation drives, carrier bonds and decay, per-cell turnover / maintenance / load; 24 parameters, 12 hypothetical, none unsourced)
     exit_criterion: energy-capture efficiency and the threshold at which internalization beats leakage + maintenance
     result: "990 runs, ledger exact on all. At P_H 1e-6 m/s and 0.216 V: thioester pays from activity 0.10 (autonomy 0.03 at a*, 0.26 at full; ceiling P_H 3.2e-6), fe_redox from 0.80 (autonomy 0.17; ceiling 1e-6), the H+/Na+ gradient store only at P_H 1e-8 (from 0.5, autonomy 0.97), polyphosphate never (potential 22 < 30 kJ/mol load). Collapsed gradient: thioester / fe_redox keep a positive budget (autonomy 0.79 / 0.74), ion and polyP go negative. Cross-class agreement on 'pays' 0.46 (structure-sensitive); capture efficiency 0.26-0.28 at the thresholds."
     next: propagate the energy_currencies priors (LHS / Sobol over 18 free parameters); put the classes inside each og-05 strategy and re-run selection on per-individual autonomy; feed the og-04 membrane's permeability directly; transcribe the Fe(II)-disproportionation numbers once the reference is accepted
@@ -434,25 +432,25 @@ guidelines:
     data_package: inheritance_budgets (39 parameters; 1 measured — the R18 ribozyme fidelity 0.967 — 6 inferred, 8 extrapolated, 24 hypothetical; attachment thresholds hypothetical and swept)
     exit_criterion: information-per-cost frontier; transition to templated heredity
     result: "see og-06-alt-information-per-cost: 4/6 classes pass ancestry-predicts-phenotype under the strict rule (MI converged on every seed, >= 0.1 bit, >= 0.05 bit above the class's own unattached control); peptide at q_p = 0.7 sits below the Eigen floor and is refused by the step, mineral_state's estimate does not converge on every seed (its function decays through layer-copy errors). Bits per joule span 3.8 decades; the certified Pareto front is {network, rna_like}; mineral_state would dominate both axes (2.2 bits at 4e-20 J) on a hypothetical defect-copy error. rna_like transmits 1.46 bits at 3e-17 J per offspring and attaches only at the full budget and q >= 0.967; compositional / network / mineral attach from 3 % of it. og-06's 'need not presume RNA' splits by currency: per offspring the RNA-like template carries the most certified bits (best non-RNA = 0.36x), per joule the network class carries 26x. Energy-store residual <= 3e-14 on all 252 runs."
-    next: expert-defensible attachment thresholds (decisions_needed); a measured defect-replication fidelity for the mineral class (the weakest number); propagate the package priors (LHS over the 11 free parameters); sequence-level (not phenotype-level) information for the template classes; attach the classes to Phase-5 agents as a bigraph rewrite
+    next: expert-defensible attachment thresholds (decisions_needed); a measured defect-replication fidelity for the mineral class (the weakest number); propagate the package priors (LHS over the 11 free parameters); sequence-level (not phenotype-level) information for the template classes; attach the classes to the boundary-stage agents as a bigraph rewrite
   - phase: 8
     name: Biochemical ecology
     status: built-and-run
     studies: [og-07-ecology-before-luca, og-07-alt-real-metabolite-exchange]
-    component: proto_ecology face with reaction_universe | null_network classes (the Phase-3 universe inside every agent, masked to a lineage rule repertoire — fixer / reducer / condenser / generalist — integrated by the agent's own libRoadRunner instance); SpatialCouplingStep pointing agents at fixed cells of the Phase-4 enrichment field and firing the uptake / secretion / pore-diffusion / feed-washout rules of a BigraphicalReactiveSystem (every firing counted, cross-lineage flux published); EcologyReducerStep recomputing og-07's gate names from the agents (held vs produced product classes, cell completeness); EcologyElementLedgerProcess (C / N / P over agents + field)
-    data_package: cnp_resources (23 parameters; 0 measured, 2 calibrated — the Phase-1 carbon feed — 7 inferred, 7 extrapolated, 7 hypothetical; the dicarboxylate permeability is the swept, hypothetical Decision axis) + reaction_universe
+    component: proto_ecology face with reaction_universe | null_network classes (the reaction universe inside every agent, masked to a lineage rule repertoire — fixer / reducer / condenser / generalist — integrated by the agent's own libRoadRunner instance); SpatialCouplingStep pointing agents at fixed cells of the og-03 enrichment field and firing the uptake / secretion / pore-diffusion / feed-washout rules of a BigraphicalReactiveSystem (every firing counted, cross-lineage flux published); EcologyReducerStep recomputing og-07's gate names from the agents (held vs produced product classes, cell completeness); EcologyElementLedgerProcess (C / N / P over agents + field)
+    data_package: cnp_resources (23 parameters; 0 measured, 2 calibrated — the vent-calibration carbon feed — 7 inferred, 7 extrapolated, 7 hypothetical; the dicarboxylate permeability is the swept, hypothetical Decision axis) + reaction_universe
     exit_criterion: emergent cross-feeding, division of labor and robustness from flux and permeability, not symbolic capability transfer
     result: "see og-07-alt-real-metabolite-exchange: at the canonical point (P_diacid 1e-8 m/s, residence 100 s) the community of 4 fixers + 4 reducers holds malate (the reductive C4 branch) at 6.4e-9 M in its reducer agents — a mean-field occupancy of 3.9e-3 molecules per 1-fL cell (3.9 per 1-pL pore compartment), 4.7 % of a complete generalist cell — while neither monoculture holds or produces it and the private (no-sharing) arm holds 0; its precursor oxaloacetate, made only by the fixer, crosses between the lineages at 1.1e-3 molecules per tick; the best agent holds 14/15 of the union (no cell complete). The function emerges from P_diacid 3e-9 m/s at 20-100 s residence (1e-7 at 500 s), 1-2 decades above the measured charged-solute passage through fatty-acid vesicles. Segregated placement keeps it; the rewired null yields 0 / 1 community-only classes over two seeds. og-07's robustness from real agents 0.54 shared vs 0.46 private; LUCA overlap 0.8 (ceiling). C / N / P ledger closed on all 98 runs (C <= 6.5e-9, N / P <= 1.4e-15); 468,331 exchange-rule firings on the canonical run."
-    next: exact low-copy-number stochastics per agent (4e-3 molecules per femtolitre cell, 4 per picolitre compartment); permeabilities from the Phase-5 boundary classes and the measured charged-solute anchor (proposed_inputs); a motion model (decisions_needed); growth / division of agents on the field; N/P-bearing rules so the C:N:P demand becomes a gate; a second lineage partition
+    next: exact low-copy-number stochastics per agent (4e-3 molecules per femtolitre cell, 4 per picolitre compartment); permeabilities from the og-04 boundary classes and the measured charged-solute anchor (proposed_inputs); a motion model (decisions_needed); growth / division of agents on the field; N/P-bearing rules so the C:N:P demand becomes a gate; a second lineage partition
   - phase: 9
     name: Integrated autonomy
     status: built-and-run
     studies: [og-08-escape-from-the-vent, og-adv-generic-nonequilibrium, og-08-alt-robust-innovation-set]
-    component: integrated_autonomy_world — one persistent world assembled from the merged faces around a single lineage (the reduced serpentinization class under the conservation ledger, the Butler-Volmer interface under the charge ledger, a localization class as the transport law, the Phase-3 universe inside the cell under the network + C/N/P ledgers, an energy_coupling class as the storage model under the free-energy ledger, a boundary class x permeability anchor as the permeability assumption, a heredity class as the lineage's machinery under the information ledger, a maintenance law, a population dividing / starving by the Phase-5 rewrites under the rewrite ledger); AblationStep withdrawing the gradient, the mineral access and the feed to their ocean floors; ActiveUptakeRule (the importer as a regulated, budgeted, costed exchange rule); AutonomyBudgetStep (the co-limited budget + the autonomy decomposition); StructuralEventLogStep; uq.robust_innovation (the structural ensemble, the persistence rule, the innovation lattice, the TransitionReport)
-    data_package: integrated_autonomy (the Phase-1 posterior carried as distributions over its six viable draws + every Phase-9 hypothetical; 32 parameters, 5 calibrated, 20 hypothetical) over all earlier packages
+    component: integrated_autonomy_world — one persistent world assembled from the merged faces around a single lineage (the reduced serpentinization class under the conservation ledger, the Butler-Volmer interface under the charge ledger, a localization class as the transport law, the reaction universe inside the cell under the network + C/N/P ledgers, an energy_coupling class as the storage model under the free-energy ledger, a boundary class x permeability anchor as the permeability assumption, a heredity class as the lineage's machinery under the information ledger, a maintenance law, a population dividing / starving by the boundary/division rewrites under the rewrite ledger); AblationStep withdrawing the gradient, the mineral access and the feed to their ocean floors; ActiveUptakeRule (the importer as a regulated, budgeted, costed exchange rule); AutonomyBudgetStep (the co-limited budget + the autonomy decomposition); StructuralEventLogStep; uq.robust_innovation (the structural ensemble, the persistence rule, the innovation lattice, the TransitionReport)
+    data_package: integrated_autonomy (the vent-calibration posterior carried as distributions over its six viable draws + every integrated-autonomy hypothetical; 32 parameters, 5 calibrated, 20 hypothetical) over all earlier packages
     exit_criterion: the intersection of innovations required across model structures, with the continuous autonomy fraction decomposed by function
-    result: "see og-08-alt-robust-innovation-set: an honest negative. Across 24 sampled structures at the Phase-1 posterior, no subset of {pump, importer, heredity} persists into a 1 % ocean; into a 10 % ocean only {pump, heredity} persists (2/24: thioester store, templated / hybrid heredity) and the full set never does — the importer costs more than it returns under a fatty-acid-vesicle leak while ocean H2 already saturates the drive. Required intersection over viable structures {pump, heredity}; the storage model reproduces Phase 6 (only thioester / Fe-redox run the lineage) and the inheritance class Phase 7 (peptide / network hold no machinery, the templated classes starve as the carbon falls); autonomy of the persisting lineages 0.99 (work 1, material 0.99, information 0.89); seven ledgers closed on all 485 runs; generic control rejected 0/24; gate minimum-sufficient-innovation-set FAILED (full set 0 < 0.5)."
-    next: several Gillespie seeds per structure; the full factorial over the decisive axes (inheritance class x ocean floor); the thermal withdrawal (fatty-acid vesicles in the cold ocean); an expert prior on the ocean's H2 / organic background (decisions_needed); the Phase-5 boundary classes supplying permeabilities directly
+    result: "see og-08-alt-robust-innovation-set: an honest negative. Across 24 sampled structures at the vent-calibration posterior, no subset of {pump, importer, heredity} persists into a 1 % ocean; into a 10 % ocean only {pump, heredity} persists (2/24: thioester store, templated / hybrid heredity) and the full set never does — the importer costs more than it returns under a fatty-acid-vesicle leak while ocean H2 already saturates the drive. Required intersection over viable structures {pump, heredity}; the storage model reproduces the bioenergetics result (only thioester / Fe-redox run the lineage) and the inheritance class from the heredity stage (peptide / network hold no machinery, the templated classes starve as the carbon falls); autonomy of the persisting lineages 0.99 (work 1, material 0.99, information 0.89); seven ledgers closed on all 485 runs; generic control rejected 0/24; gate minimum-sufficient-innovation-set FAILED (full set 0 < 0.5)."
+    next: several Gillespie seeds per structure; the full factorial over the decisive axes (inheritance class x ocean floor); the thermal withdrawal (fatty-acid vesicles in the cold ocean); an expert prior on the ocean's H2 / organic background (decisions_needed); the og-04 boundary classes supplying permeabilities directly
   architecture_principles:
   - Build the world, not the cell — environmental stores and processes first; no individual-level
     state exists until a structural rewrite creates it.
@@ -599,39 +597,39 @@ at_a_glance:
   role: Growth and division — metabolism changes the compartment's physical fate (grow->divide vs lyse
     vs starve)
 - study: og-04-alt-endogenous-boundary
-  role: The endogenous boundary — a protocell boundary built from the campaign's own carbon chemistry (Phase 5)
+  role: The endogenous boundary — a protocell boundary built from the campaign's own carbon chemistry
 - study: og-growth-alt-physical-reproduction
-  role: Physical reproduction — a growing, dividing individual builds a multi-generation lineage in the agents map (Phase 5)
+  role: Physical reproduction — a growing, dividing individual builds a multi-generation lineage in the agents map
 - study: og-cal-vent-environment
-  role: 'Phase 1 calibration: what fraction of vent states consistent with observation also supply what
+  role: 'Vent calibration: what fraction of vent states consistent with observation also supply what
     downstream chemistry needs — posterior, cross-class agreement, discriminating readouts, exact ledger'
 - study: og-01-cal-electrochemistry
-  role: 'Phase 2 mechanism map: the vent wall as a galvanic cell — which limitation (thermodynamic,
+  role: 'Carbon-fixation mechanism map: the vent wall as a galvanic cell — which limitation (thermodynamic,
     electrical, catalytic, transport) stops carbon fixation where, and whether the empirical and
     Butler-Volmer classes agree on it; charge + electron ledger'
 - study: og-02-alt-reaction-universe
-  role: 'Phase 3 open network: a rule-generated C/H/O universe with real dG'' fed the Phase-1 posterior grows no
+  role: 'Open chemical network: a rule-generated C/H/O universe with real dG'' fed the vent-calibration posterior grows no
     autocatalytic motif; fed formaldehyde it grows the formose cycle, enriched over matched nulls (p = 0.04); the
     curated rTCA motif is reclassed as imposed and non-conserving'
 - study: og-energy-alt-internalization-threshold
-  role: 'Phase 6 internalization threshold: five energy-coupling classes inside one protocell under a free-energy
+  role: 'Internalization threshold: five energy-coupling classes inside one protocell under a free-energy
     ledger — the thioester store pays from a tenth of the drive, Fe-redox only near full activity, the H+/Na+
     gradient only in a 100x tighter membrane, polyphosphate never; per-individual autonomy'
 - study: og-06-alt-information-per-cost
-  role: 'Phase 7 competing heredity: six inheritance mechanisms as classes on one face, each an exact
+  role: 'Competing heredity: six inheritance mechanisms as classes on one face, each an exact
     Gillespie lineage at low copy number under matched precursor + energy budgets, attached conditionally;
     parent-offspring mutual information per class (5/6 pass, converged), bits per joule spanning > 3 decades,
     mineral-state heredity cheapest and richest under hypothetical costs, templated heredity attaching only
     at the full budget and ribozyme-level fidelity; og-06''s "need not presume RNA" becomes a
     class-substitution result that splits by currency (fewer bits per offspring, 26x the bits per joule)'
 - study: og-07-alt-real-metabolite-exchange
-  role: 'Phase 8 biochemical ecology: the Phase-3 reaction universe inside every protocell, masked to a lineage
-    repertoire, coupled only by matter crossing membranes into a Phase-4-shaped pore — a community of a
+  role: 'Biochemical ecology: the reaction universe inside every protocell, masked to a lineage
+    repertoire, coupled only by matter crossing membranes into an og-03-shaped pore — a community of a
     carboxylating and a hydrogenating lineage holds the reductive C4 branch (malate) that neither performs alone,
     vanishing without sharing, sustained by oxaloacetate crossing between them, before any cell is complete; it
     needs a dicarboxylate permeability above ~3e-9 m/s; C/N/P ledger over agents + field closed on every run'
 - study: og-08-alt-robust-innovation-set
-  role: 'Phase 9 integrated autonomy (capstone): og-08''s {pump, importer, heredity} re-run as real processes inside one persistent world under seven ledgers across 24 sampled model structures at the Phase-1 posterior — an honest negative: no subset persists into a 1 % ocean, only {pump, heredity} into a 10 % one (2/24); the importer is a net cost under a leaky membrane; autonomy near 1 but insufficient; og-08 recorded as a hypothesis generator'
+  role: 'Integrated autonomy (capstone): og-08''s {pump, importer, heredity} re-run as real processes inside one persistent world under seven ledgers across 24 sampled model structures at the vent-calibration posterior — an honest negative: no subset persists into a 1 % ocean, only {pump, heredity} into a 10 % one (2/24); the importer is a net cost under a leaky membrane; autonomy near 1 but insufficient; og-08 recorded as a hypothesis generator'
 studies:
 - og-00-vent-reactor-baseline
 - og-01-geology-to-reduced-carbon
@@ -846,10 +844,10 @@ proposed_inputs:
     proposed_by: agent
     proposed_at: '2026-10-14'
     related_study: og-cal-vent-environment
-    rationale: "The Model Upgrade plan's Phase-1 conditioning set (priority upgrade A): environmental priors over
+    rationale: "The vent-calibration conditioning set (priority upgrade A): environmental priors over
       T, pH, H2, fluid chemistry and fluid/rock ratio across ultramafic-hosted systems. The current vg-data
       package vent_environment conditions on the Lost City windows only and marks marhys_conditioning pending."
-    provenance: "Named in the Model Upgrade and Implementation Plan (section 12). Not attached as a workspace
+    provenance: "Named in the implementation plan (section 12). Not attached as a workspace
       dataset; needs the PANGAEA export + sha256 via the Inputs tab."
     status: pending
   - id: panico2026fuelcell
@@ -859,10 +857,10 @@ proposed_inputs:
     proposed_by: agent
     proposed_at: '2026-10-14'
     related_study: og-01-geology-to-reduced-carbon
-    rationale: "Phase-2 (electrochemical carbon fixation) calibration anchor: electrochemical coupling across
+    rationale: "Electrochemical carbon-fixation calibration anchor: electrochemical coupling across
       FeS chimney-like interfaces, beside altair2025electrochemical for the Ni/Fe current-density calibration
       of the planned butler_volmer class on the carbon_fixation face."
-    provenance: "Model Upgrade and Implementation Plan (section 12 / references). Not in references/papers.bib;
+    provenance: "implementation plan (section 12 / references). Not in references/papers.bib;
       recorded here pending expert review."
     status: pending
   - id: wolos2020synthetic
@@ -872,10 +870,10 @@ proposed_inputs:
     proposed_by: agent
     proposed_at: '2026-10-14'
     related_study: og-02-reduced-carbon-to-protometabolism
-    rationale: "Phase-3 (open chemical network) rule set: the reaction-transform library from which the
+    rationale: "Open chemical network rule set: the reaction-transform library from which the
       reaction_universe generator and its matched null networks are built, so metabolism-like topology can be
       tested for enrichment among networks that persist under vent chemistry rather than selected in advance."
-    provenance: "Model Upgrade and Implementation Plan (section 12 / references). Not in references/papers.bib;
+    provenance: "implementation plan (section 12 / references). Not in references/papers.bib;
       recorded here pending expert review."
     status: pending
   - id: pflotran_theory_guide
@@ -885,10 +883,10 @@ proposed_inputs:
     proposed_by: agent
     proposed_at: '2026-10-14'
     related_study: og-cal-vent-environment
-    rationale: "Phase-1 follow-up: a second geochemical backend on the serpentinization face (beside PHREEQC and
+    rationale: "Vent-calibration follow-up: a second geochemical backend on the serpentinization face (beside PHREEQC and
       the planned Reaktoro class) with dynamic porosity/permeability feedback — the plan's 'does the reactor
       poison or seal itself?' question (MineralEvolutionProcess, reactor-stays-open gate)."
-    provenance: "Model Upgrade and Implementation Plan (sections 3 and 12). Compiled dependency; would run under
+    provenance: "implementation plan (sections 3 and 12). Compiled dependency; would run under
       a pixi env like FEniCS."
     status: pending
   - id: mansy2008template
@@ -898,11 +896,11 @@ proposed_inputs:
     proposed_by: agent
     proposed_at: '2026-10-15'
     related_study: og-07-alt-real-metabolite-exchange
-    rationale: "Phase-8 membrane permeabilities: the measured passage of charged solutes (activated
+    rationale: "Ecology-stage membrane permeabilities: the measured passage of charged solutes (activated
       nucleotides, ~1e-11-1e-10 m/s) through fatty-acid vesicles is the only anchor for the
       cnp_resources permeability classes (p_monoacid, p_diacid); the community-function emergence boundary
       sits 1-2 decades above it, which is the study's main constraint."
-    provenance: "Not in the expert dossier or references/papers.bib; introduced while building the Phase-8
+    provenance: "Not in the expert dossier or references/papers.bib; introduced while building the ecology
       exchange rules. Recorded here (not cited in the package) pending expert review."
     status: pending
   - id: redfield1934proportions
