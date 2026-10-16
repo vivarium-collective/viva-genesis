@@ -120,6 +120,7 @@ findings:
     hold 40–91 °C / pH 9.0–10.8 bounds the habitable band.
   next_action: Sweep pyroxene_fraction (ol/px ratio) and seawater-mixing dilution
     to bound the pH endmember (og-00b).
+  next_action_type: calibrate
 conclusion: The real PHREEQC + FiPy vent reactor reproduces the Lost City field window
   across a bounded ~80% habitability region of (olivine rate × flow velocity) and
   conserves mass/charge/flux at the baseline operating point, establishing the geochemical

@@ -7,7 +7,6 @@ status: ran
 design_status: approved
 simulation_status: ran
 evaluation_status: evaluated
-confidence: Accepted
 gate_status: failed
 title: 'Integrated Autonomy: The Minimum Sufficient Innovation Set Across Model Structures'
 question: Model Upgrade plan, Phase 9 — the capstone. og-08 found that a lineage persists

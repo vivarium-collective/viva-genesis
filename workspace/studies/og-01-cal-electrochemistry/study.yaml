@@ -7,7 +7,6 @@ status: ran
 design_status: approved
 simulation_status: ran
 evaluation_status: evaluated
-confidence: Accepted
 gate_status: failed
 title: 'The Vent Wall as a Galvanic Cell: Which Limitation Stops Carbon Fixation,
   and Do the Model Classes Agree?'

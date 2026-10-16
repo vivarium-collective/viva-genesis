@@ -239,6 +239,7 @@ findings:
     landscape + internalization map (Decision view).
   next_action: Sweep decline_rate / alternative collapse scenarios to test how the
     survival region deforms with the speed of gradient loss (og-05b).
+  next_action_type: calibrate
 - id: og05-energy-provenance
   provenance:
     run_ids:
