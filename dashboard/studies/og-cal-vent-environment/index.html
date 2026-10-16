@@ -164,7 +164,7 @@
 
 
 
-<p id="study-question-headline" class="study-question-headline"><span class="q-glyph">Q</span> Model Upgrade plan, Phase 1 (priority upgrade A). og-00 showed the real PHREEQC + FiPy vent settles in the Lost City window over ~80% of a swept grid — but the fraction of a chosen grid that passes is not a probability of feasibility, and sweep bounds can determine apparent robustness. Conditioning on observed systems instead: of the vent states consistent with the Lost City field observations (outlet T, pH, dissolved H2), what fraction also satisfies what og-01&#39;s carbon fixation needs (H2 &gt;= 1 mM at the interface, a &gt;= 3-unit pH gradient, T inside validity)? Which observation binds, which parameters does it pin, and does the answer depend on whether the vent wall convects?</p>
+<p id="study-question-headline" class="study-question-headline"><span class="q-glyph">Q</span> Of the real-vent states consistent with the Lost City field observations (outlet temperature, pH, dissolved H2), what fraction also satisfies what downstream carbon fixation needs (H2 &gt;= 1 mM, a &gt;= 3-unit pH gradient, T in range), and which observation does the actual constraining?</p>
 
 <nav class="study-tabs" aria-label="Study sections">
   
@@ -674,7 +674,7 @@
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Claim</h2>
-      <p class="ctr-text">Conditioning the real vent on field observations turns og-00&#39;s &#34;80% of a swept grid is habitable&#34; into a posterior statement: 12.5% of the empirically motivated prior reproduces Lost City, the dissolved-H2 observation does all the work (pH is buffered, T is loose), and 100% of that posterior supplies the H2 and pH gradient downstream carbon fixation requires — a result that does not depend on whether the wall convects, and that identifies the DIC prior and the equilibrium-vs-kinetic carbon-redox assumption as the decisions that move it.</p>
+      <p class="ctr-text">Conditioning the real PHREEQC + FiPy vent on the Lost City field windows, 12.5% of the empirically motivated prior (6 of 48 draws) reproduces all three observations, and 100% of that posterior supplies the H2 and pH gradient downstream carbon fixation requires. The dissolved-H2 window does all the constraining: pH is buffered at 9.4-9.9 by the peridotite assemblage and carries no information, temperature is loose, and the answer is the same whether or not the vent wall convects. The conservation ledger closes exactly on all 96 runs. This is a geochemical calibration, not an origin-of-life claim, and the H2 threshold rests on a full-redox-equilibrium assumption and an extrapolated DIC prior that a kinetic carbon-redox class could still shift.</p>
       
     </div>
 
@@ -682,7 +682,7 @@
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Background</h2>
       <div class="ctr-meta">
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Question</span> <span class="ctr-meta-item">Model Upgrade plan, Phase 1 (priority upgrade A). og-00 showed the real PHREEQC + FiPy vent settles in the Lost City window over ~80% of a swept grid — but the fraction of a chosen grid that passes is not a probability of feasibility, and sweep bounds can determine apparent robustness. Conditioning on observed systems instead: of the vent states consistent with the Lost City field observations (outlet T, pH, dissolved H2), what fraction also satisfies what og-01&#39;s carbon fixation needs (H2 &gt;= 1 mM at the interface, a &gt;= 3-unit pH gradient, T inside validity)? Which observation binds, which parameters does it pin, and does the answer depend on whether the vent wall convects?</span></div>
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Question</span> <span class="ctr-meta-item">Of the real-vent states consistent with the Lost City field observations (outlet temperature, pH, dissolved H2), what fraction also satisfies what downstream carbon fixation needs (H2 &gt;= 1 mM, a &gt;= 3-unit pH gradient, T in range), and which observation does the actual constraining?</span></div>
         <div class="ctr-meta-row"><span class="ctr-meta-k">Hypothesis</span> <span class="ctr-meta-item">A Lost-City-consistent posterior exists inside the empirically motivated prior of the og-00 world, most of it also satisfies the downstream requirements, the result is the same under the convecting and the prescribed-upflow transport classes, and the conservation ledger closes exactly on every draw.</span></div>
       </div>
     </div>
@@ -2135,7 +2135,7 @@ pass_if: {"detail": "cross-class agreement \u003e= 0.8", "op": "\u003e=", "value
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "a19b2949e553d0271ce82670b6e9112c0485b003", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/a19b2949e553d0271ce82670b6e9112c0485b003", "branch": "main", "lockfile": "uv.lock@3cb95a7ef433", "generated_at": "2026-10-16 13:24 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "41785446490ebf5fb5855280243f0af97483aca6", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/41785446490ebf5fb5855280243f0af97483aca6", "branch": "main", "lockfile": "uv.lock@ad1345056f2b", "generated_at": "2026-10-16 14:00 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>

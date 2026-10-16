@@ -254,13 +254,13 @@ def _render_one(address, config, runs_db, study_yaml, overrides=None):
 
 # ## Study: The Serpentinizing Vent (`og-00-vent-reactor-baseline`)
 #
-# **Question.** Can a Lost City–like, serpentinization-fed vent–ocean interface reproduce observed fluid mixing, heat transport, mineral precipitation and H2/alkalinity delivery under field-constrained conditions — with no origin-of-life claim?
+# **Question.** Can a Lost City-like, serpentinization-fed vent-ocean interface reproduce the physical and chemical environment in which the later origin-of-life steps are supposed to occur?
 #
 # **Objective.** Build a reduced vent–ocean reactor and validate it against Lost City field ranges to establish a geochemical/spatial testbed.
 #
 # **Hypothesis.** A 1D/2D porous-wall reactor with prescribed boundary fluxes reproduces published Lost City ranges (T, pH, H2, DIC) and qualitative precipitation trends while conserving mass and charge.
 #
-# **Claim.** Habitability is a bounded REGION of the operating space, not a single tuned run: across the (olivine reaction rate × flow velocity) grid the real PHREEQC + FiPy serpentinizing vent settles inside the Lost City window — T 40–91 °C AND pH 9.0–10.8 AND a positive H2 flux — over ~80% of the swept grid, and the baseline operating point sits safely inside it (T 50.6 °C, pH 9.37) with sustained H2, exact charge balance (|charge|=0) and FiPy flux divergence within the contract tolerance (4.9e-5 vs the 1e-3 bound).
+# **Claim.** Across the swept olivine-rate x flow-velocity grid, about 80% of the operating region falls inside the combined Lost City window (40-91 C, pH 9.0-10.8, positive H2 flux), and the baseline settles comfortably inside it at 50.6 C / pH 9.37 with sustained H2, exact charge balance, and spatial-flux divergence within tolerance. This establishes a bounded geochemical habitat, a region rather than a single tuned point, and makes no origin-of-life claim by itself.
 
 # ### Design — originally proposed
 #
@@ -422,13 +422,13 @@ _save_viz('og-00-vent-reactor-baseline', 'vent-wall-3d', _render_one('local:Vent
 
 # ## Study: The First Carbon (`og-01-geology-to-reduced-carbon`)
 #
-# **Question.** Which combinations of T, pH, pressure, H2, CO2 and mineralogy generate sustained net organic-carbon flux across the interface — reproducing Hudson/Preiner/Altair regimes before any extrapolation?
+# **Question.** Can geological H2 drive CO2 reduction on vent mineral catalysts strongly enough to sustain a source of reduced organic carbon?
 #
 # **Objective.** Add H2-driven CO2 reduction, reproduce the three benchmark experiments, and map the parameter region of sustained net organic-carbon flux.
 #
 # **Hypothesis.** Over Fe/Ni/S surfaces and across the pH gradient, H2-driven CO2 reduction yields formate/acetate/pyruvate at lab-calibrated rates within a bounded (T,pH,H2,pressure) region; the Tutolo-2026 in-situ arm roughly halves the flux, and the feature-ablation controls (no gradient / no H2 / no catalyst) zero it.
 #
-# **Claim.** H2-driven CO2 reduction over Fe/Ni/S reproduces the Preiner/Hudson lab yields and net organic-carbon flux in a bounded favorable regime; the Tutolo-2026 arm shows the usable proton-motive gradient collapses at in-situ T/P (427 -> 43 mV), roughly halving the sustained flux; only the no-gradient / no-H2 / no-catalyst controls zero it.
+# **Claim.** Over Fe/Ni/S catalysts the model reproduces the Preiner-2020 yield hierarchy - formate about 200 mM, acetate about 100 uM, pyruvate about 10 uM - and sustains net organic-carbon flux inside a bounded region set by the pH gradient and dissolved H2, while the no-gradient, no-H2 and no-catalyst controls collapse it. A discriminating in-situ arm (Tutolo-2026) shows the usable proton-motive gradient falling from 427 to 43 mV, roughly halving the sustained flux. Because the CO2-reduction kinetics are lab-calibrated to Preiner rather than derived from first-principles surface chemistry, this establishes a computational bridge from serpentinization to an organic-carbon feedstock, not yet metabolism.
 
 # ### Design — originally proposed
 #
@@ -601,13 +601,13 @@ _save_viz('og-01-geology-to-reduced-carbon', 'carbon-fixation-phase-map', _rende
 
 # ## Study: The First Metabolism (`og-02-reduced-carbon-to-protometabolism`)
 #
-# **Question.** Under continuous feed and washout, do reaction subnetworks become self-reinforcing — persistent cycles, flux amplification, product reuse, autocatalytic motifs — without imposed product accumulation?
+# **Question.** Under continuous feed and washout, does a curated prebiotic reaction network persist and self-amplify as a connected system, rather than merely producing isolated organic molecules?
 #
 # **Objective.** Insert an experimentally-motivated reaction graph and test whether metabolism-like subnetworks emerge under flow.
 #
 # **Hypothesis.** A curated graph (formate/acetate/pyruvate/glyoxylate + rTCA fragments) seeded with Muchowska/Moran edges sustains nonzero throughput and at least one autocatalytic motif within a feasible resource budget.
 #
-# **Claim.** A curated rTCA-fragment network under continuous feed + washout sustains nonzero carbon throughput, exhibits an autocatalytic motif (OAA self-amplification, autocatalytic gain peaking ~29.5), and forms a single connected reaction network — metabolism-like behavior emerging without imposed product accumulation.
+# **Claim.** Under continuous feed and washout the curated rTCA-fragment network sustains nonzero carbon throughput and an autocatalytic motif (OAA self-amplification, gain peaking near 29.5) inside a bounded ignition region, where enough feed and slow enough washout let the loop outpace dilution and past the gain = 1 boundary the hub washes out. It shows a specified protometabolic network persists under flow, while leaving open whether such motifs emerge from a broader, unconstrained reaction universe.
 
 # ### Design — originally proposed
 #
@@ -749,13 +749,13 @@ _save_viz('og-02-reduced-carbon-to-protometabolism', 'protometabolism-gain-phase
 
 # ## Study: The First Individual (`og-03-dilution-to-localized-individuals`)
 #
-# **Question.** Where in pore geometry (openness × length) does a real thermophoretic + convective trap concentrate a dilute vent feed across the localization threshold — the point at which a bounded, concentrated "individual" forms rather than washing through?
+# **Question.** Can vent pore physics concentrate a dilute vent feed strongly enough to form a persistent, localized individual rather than washing everything into the ocean?
 #
 # **Objective.** Add pore geometry, adsorption, convection and thermophoresis; find where retention + concentration cross persistence thresholds.
 #
 # **Hypothesis.** Thermophoresis + convection + adsorption in evolving pores raise local concentration enough that synthesis outruns hydrolysis/leakage in a bounded geometry region; elsewhere washout dominates.
 #
-# **Claim.** Localization is real and robust: a real FiPy thermophoretic + convective trap concentrates a dilute vent feed into a bounded REGION of pore geometry, mapped natively over (porosity × pore length) — long, tight pores localize strongly (a persistent local "individual" emerges) while open / short pores wash the feed through (enrichment ~1). The EXTENT of enrichment the favourable trap reaches (reduced-model estimate ~1e6–1e7-fold at accumulation Péclet ≈ 18) is a solver-sensitive extrapolation above Pe ≈ 13, not a precise resolved result — the defensible claim is that localization occurs, not the exact fold-magnitude (Baaske 2007).
+# **Claim.** Localization occurs robustly in a bounded geometry regime: long, tight pores trap and concentrate the feed (the favorable pore clears the Baaske-2007 extreme-accumulation regime at an accumulation Peclet of 18.4, with finite-volume flux conserved to machine precision), while open or short pores wash it through at enrichment near one, and the native porosity x pore-length map localizes at about 17% of the grid (25/144 points). The very large fold- enrichment estimates at high Peclet (reduced-model roughly 1e6-1e7) are solver-sensitive above Peclet about 13, where FiPy and FEniCS diverge by up to 5.6 decades. So the defensible result is the existence and location of a localization regime, not a precise extreme- enrichment magnitude.
 
 # ### Design — originally proposed
 #
@@ -910,13 +910,13 @@ _save_viz('og-03-dilution-to-localized-individuals', 'pore-accumulation-3d', _re
 
 # ## Study: The First Boundary (`og-04-mineral-compartments-to-protocells`)
 #
-# **Question.** Do mixed-amphiphile organic boundaries enhance persistence without cutting the system off from geochemical energy?
+# **Question.** Do mixed-amphiphile membranes improve retention while staying permeable enough to keep access to the vent-supplied gradient and feedstocks?
 #
 # **Objective.** Introduce mixed amphiphiles + membrane assembly; measure whether organic boundaries enhance persistence without isolating the system.
 #
 # **Hypothesis.** Over a salt/pH/divalent-cation/T window, vesicles form and selectively retain while remaining permeable enough to exploit the external gradient — a non-empty individuality-vs-access region exists.
 #
-# **Claim.** Mixed single-chain amphiphiles form viable vesicles across the alkaline / seawater-salt window where single fatty acids fail (Jordan 2019), and those compartments retain internal chemistry while staying permeable to the gradient — a non-empty individuality-without-isolation region.
+# **Claim.** In a bounded alkaline / seawater-salt window mixed single-chain amphiphiles form viable vesicles (about 8000) where single fatty acids form none, and those compartments retain internal chemistry (retention 0.91) while staying permeable to the external gradient (access 1.0), a retention-without-isolation product near 0.90, with the feasibility map marking a viable region at 63/256 points (about 25%). This provides a plausible transition from mineral localization to an organic boundary. The membrane model is coarse-grained and calibrated to the Jordan-2019 vesicle experiments rather than membrane MD, and whether enclosing a reaction network actually improves its persistence over the open pore is left to downstream studies.
 
 # ### Design — originally proposed
 #
@@ -1059,13 +1059,13 @@ _save_viz('og-04-mineral-compartments-to-protocells', 'protocell-vesicle-3d', _r
 
 # ## Study: Owning Its Energy (`og-05-environmental-to-internal-bioenergetics`)
 #
-# **Question.** Can selection move from externally imposed gradients toward internally maintained electrochemical states (catalytic ion transport then pumping)?
+# **Question.** Can an evolving compartment reduce its dependence on an externally imposed proton gradient by internalizing electrochemical work, and does that pay for itself?
 #
 # **Objective.** Allow catalytic ion transport and active pumping; test whether selection favors internalized gradient generation.
 #
 # **Hypothesis.** When membrane permeability, Na+/H+ coupling and catalyst efficiency vary under selection, systems with increasing internal gradient generation win on throughput + persistence — but only if membranes stay sufficiently leaky (Sojo constraint).
 #
-# **Claim.** Survival off a collapsing gradient is a bounded REGION of (pump catalyst efficiency × gradient floor), mapped by a real replicator sweep — a lineage persists either by riding a floor that never falls too far OR by internalizing gradient generation, but internalizing only pays above the Sojo cost line (η ≈ 0.30). At the operating point an efficient pump internalizes (pump fraction 0→0.95) and survives while a weak pump collapses — the Sojo-2014 leaky-membrane constraint on bioenergetic internalization.
+# **Claim.** Under a collapsing external gradient, replicator selection drives an efficient lineage to internalize gradient generation (pump fraction rising from near zero to about 0.95) and persist, while a weak-pump lineage goes extinct, and the external share of useful free energy falls from about 82% to about 1% as the organism comes to own its energy. Survival is a bounded region of pump efficiency x gradient floor - about 94% of the swept grid - but internal pumping only pays above a cost-benefit threshold near eta = 0.30, the Sojo leaky- membrane line. The replicator dynamics are coarse-grained with calibrated couplings and fix a single gradient-decline scenario, so the transition has a measurable cost-benefit boundary rather than being automatically favorable.
 
 # ### Design — originally proposed
 #
@@ -1203,13 +1203,13 @@ _save_viz('og-05-environmental-to-internal-bioenergetics', 'bioenergetic-surviva
 
 # ## Study: The First Heredity (`og-06-chemistry-to-heredity`)
 #
-# **Question.** Does inherited state improve persistence/throughput — comparing RNA-like, peptide-assisted, compositional and hybrid heredity — rather than template replication in isolation? (Do NOT presume RNA.)
+# **Question.** Does heredity improve lineage persistence enough to pay for itself, and must that require assuming a long RNA-like template?
 #
 # **Objective.** Introduce competing heredity modules and test whether inherited state improves persistence under feasible budgets.
 #
 # **Hypothesis.** At least one heredity module raises lineage persistence + information retention above its non-heritable control under a feasible resource budget; the winner is not assumed a priori.
 #
-# **Claim.** An inherited chemical state improves lineage fitness above its replication cost when it clears the Eigen error threshold — but heredity need NOT presume a long high-fidelity RNA template. An agent-based lineage shows template heredity suffers the length catastrophe (Q=fidelity^length collapses with length) while compositional (GARD) and template-focused hybrid heredity persist length-independently (functional persistence ~0.88, seed-robust across the 5 graded seeds — 0.878±0.005, and 8/8 in a wider sweep) above the non-heritable control, which loses the parent↔offspring correlation and collapses. (A mean-field quasispecies arm still ranks a long high-fidelity template above a cheaper peptide module above non-inheritance when all clear the threshold.)
+# **Claim.** Heritable state improves lineage performance when information retention exceeds its replication cost: a high-fidelity RNA-like module reaches fitness 0.38 with retention 0.62 and outranks a cheaper peptide module (0.24), both beating non-inheritance, while a module below the Eigen error threshold collapses. Long templates suffer the expected length catastrophe as Q = fidelity^length declines, whereas compositional (GARD) and template- focused hybrid inheritance stay approximately length-independent, with functional persistence around 0.88 (0.878 +/- 0.005 across five graded seeds) while the non-heritable control loses parent-offspring correlation and collapses. This shows heredity need not presume a long high-fidelity RNA template, while the functional benefit and replication cost remain reduced couplings rather than first-principles chemistry.
 
 # ### Design — originally proposed
 #
@@ -1341,13 +1341,13 @@ _save_viz('og-06-chemistry-to-heredity', 'heredity-error-threshold', _render_one
 
 # ## Study: Ecology Before LUCA (`og-07-ecology-before-luca`)
 #
-# **Question.** In connected pore networks with cross-feeding, parasitism, cooperation and horizontal exchange, what emergent capabilities arise — compared to ancestral reconstructions, without assuming LUCA is primitive?
+# **Question.** Can a connected population of heterogeneous protocells develop capabilities - functional redundancy and robustness - that no single already-complete ancestral compartment holds on its own?
 #
 # **Objective.** Run heterogeneous populations over a connected pore network; compare emergent capability redundancy (robustness) to the isolated counterfactual, and the collective repertoire to the LUCA reconstruction as a constraint.
 #
 # **Hypothesis.** Heterogeneous populations develop metabolic diversity, cross-feeding and robustness single compartments do not; the emergent capability set overlaps the anaerobic H2/CO2/FeS LUCA reconstruction as a boundary.
 #
-# **Claim.** A connected metacommunity of heterogeneous pore compartments develops functional redundancy (robustness) that an isolated compartment cannot — cross-feeding and horizontal transfer spread coarse-grained protometabolic capabilities into >= 2-fold coverage, so most functions survive a single-compartment loss. Robustness EMERGES only in a bounded corner of the swept phase maps — it needs enough inter-compartment diversity to give cross-feeding something to share AND enough exchange to spread it, and it collapses as parasite load rises — too little diversity leaves nothing to share, too little exchange leaves a broad repertoire fragile, and parasites draining their neighbours erase the redundancy. The three-view Decision map over (exchange_rate x parasite_load) at the canonical diversity shows cross-feeding robustness emerging only in the well-connected, low-parasite corner (PASS boundary at robustness 0.5). The collective repertoire's overlap with the anaerobic H2/CO2/FeS LUCA reconstruction is REPORTED as a far-end boundary the emergent set approaches (~0.6-0.7), not a target — LUCA constrains which capabilities are eventually acquired, not evidence the first compartments were LUCA-like.
+# **Claim.** A connected metacommunity of eight heterogeneous pore compartments develops functional redundancy that an isolated compartment cannot, reaching robustness about 0.71 against the isolated counterfactual's 0.42 and beating it on every one of eight seeds, so most functions get at least two-fold coverage and survive loss of a compartment. This emerges only in a bounded corner of the phase map: enough inter-compartment diversity to give cross-feeding something to share, enough exchange to spread it, and low enough parasite load not to erase it. The collective repertoire's roughly 0.6-0.7 overlap with an anaerobic H2/CO2/FeS LUCA reconstruction is reported as a far-end boundary the emergent set approaches, not as evidence that the earliest compartments were already LUCA-like.
 
 # ### Design — originally proposed
 #
@@ -1481,13 +1481,13 @@ _save_viz('og-07-ecology-before-luca', 'metacommunity-phase-map', _render_one('l
 
 # ## Study: Escape From the Vent (`og-08-escape-from-the-vent`)
 #
-# **Question.** What is the minimum set of innovations required for autonomous persistence away from the geological reactor, as environmental support is relaxed?
+# **Question.** What is the minimum set of innovations a lineage needs to persist once geological support - the external gradient, mineral access and resource feed - is withdrawn?
 #
 # **Objective.** Relax environmental support via ablation sweeps and identify the minimum innovation set for autonomy.
 #
 # **Hypothesis.** A bounded innovation set (internal energy conversion + resource import + heredity) allows persistence as gradient strength/mineral access/feed are reduced; below it, systems stay obligately vent-tied.
 #
-# **Claim.** Autonomy away from the geological reactor requires an irreducible innovation set — internal energy conversion (a pump), active resource import, and heredity to hold them. Because the lineage's budget is co-limited (it needs BOTH usable free energy AND usable resources, Liebig's minimum), a single innovation is a cost without a co-benefit; only the full set keeps the net budget above the survival floor as the external gradient, mineral access and feed are all withdrawn. A knockout sweep shows the full set persists off-gradient (surviving fraction 1.0) while removing any one innovation collapses persistence to 0 — so the minimum robust set for escaping the vent is {pump, importer, heredity}.
+# **Claim.** The full innovation set of an internal pump, an active resource importer and heredity persists off-gradient at surviving fraction 1.0 after the vent support is withdrawn, while removing any one of the three collapses persistence to 0. Because the budget is co-limited and needs both usable free energy and usable resources at once, a single innovation is a cost with no co-benefit, which is what makes the set irreducible. In this coarse-grained model autonomy therefore appears as a coordinated set of innovations acquired together rather than one final invention.
 
 # ### Design — originally proposed
 #
@@ -1621,13 +1621,13 @@ _save_viz('og-08-escape-from-the-vent', 'off-gradient-survival-frontier', _rende
 
 # ## Study: The Adversarial Control (`og-adv-generic-nonequilibrium`)
 #
-# **Question.** Does a generic nonequilibrium chemical system with no vent-specific features (no sustained H2, no Fe/Ni/S catalytic interface, no pore concentration) pass the vent-specific gates? It SHOULD NOT.
+# **Question.** Are the campaign's positive gates genuinely dependent on vent-specific mechanisms, or would any generic driven nonequilibrium chemistry pass them? It should not.
 #
 # **Objective.** Run the og-01..03 behavior tests on a vent-feature-ablated control; the campaign's gates must reject it, and the vent must pass the same tests.
 #
 # **Hypothesis.** The og-01/og-02/og-03 gates REJECT this control; if they pass it, the gates measure generic nonequilibrium chemistry, not the vent mechanism.
 #
-# **Claim.** The og-01/02/03 gates are vent-specific and falsifiable. A generic nonequilibrium control — the SAME real composites with no sustained H2, no Fe/Ni/S catalytic interface and no pore concentration — is rejected by every discriminating gate (carbon flux, formate yield, protometabolic throughput, thermophoretic Péclet, enrichment), while the vent passes all five. So a PASS elsewhere in the campaign certifies the vent MECHANISM, not merely "some nonequilibrium chemistry".
+# **Claim.** Run with the vent's characteristic features ablated - no sustained H2, no Fe/Ni/S catalytic interface and no pore concentration - the same real composites fail all five discriminating gates (carbon flux, formate yield, protometabolic throughput, thermophoretic Peclet and enrichment), while the vent configuration passes all five, with the tightest rejection margin about 1.8 decades. This is a falsification control: a pass elsewhere in the campaign certifies the vent mechanism rather than simply any nonequilibrium chemistry producing activity. The extreme enrichment magnitude itself is a reduced-model, solver-sensitive figure and is used only as a pass/fail discriminator here.
 
 # ### Design — originally proposed
 #
@@ -1754,13 +1754,13 @@ _save_viz('og-adv-generic-nonequilibrium', 'vent-specificity-map', _render_one('
 
 # ## Study: The Nitrogen Bottleneck (`og-res-nitrogen-assimilation`)
 #
-# **Question.** Carbon fixation is not the only requirement for a protocell. Can an FeS-mediated vent reduce the early ocean's oxidised / inert nitrogen (NO3-/NO2-/N2) to ammonium fast enough to keep pace with carbon fixation, and which conditions (FeS activity, nitrate supply, temperature) decide whether nitrogen becomes limiting first?
+# **Question.** Can an FeS-mediated vent reduce the early ocean's oxidised and inert nitrogen (nitrate, nitrite, N2) to ammonium fast enough to keep pace with carbon fixation, or does nitrogen become the first limiting resource?
 #
 # **Objective.** Add nitrogen as its own module (FeS-mediated NO3-/NO2- -> NH4+ with minor N2 fixation and carbon-demanded reductive amination), track the C:N supply ratio, and map the region where reduced-N production keeps pace with the carbon-fixation demand.
 #
 # **Hypothesis.** On an Fe/Ni/S catalyst with an H2 reductant, nitrate is reduced through nitrite to ammonium and drawn into amino-acid precursors by reductive amination; reduced N keeps pace with reduced carbon (C:N supply ratio near Redfield) only inside a bounded region of (nitrate supply x FeS activity), and outside it — low feed or passivated mineral — the C:N ratio blows up and nitrogen, not carbon or energy, becomes the first limiting resource.
 #
-# **Claim.** FeS-mediated reduction of oxidised/inert nitrogen supplies ammonium and amino-acid precursors fast enough to keep pace with carbon fixation (C:N supply ratio near Redfield) only inside a bounded region of (nitrate supply x FeS activity); outside it nitrogen — not carbon or energy — becomes the first limiting resource.
+# **Claim.** In the favourable regime FeS-mediated reduction of nitrate through nitrite sustains a standing ammonium pool of about 1.0 mM and holds the C:N supply ratio near 5, inside the viable near-Redfield band, with nitrogen conserved to machine precision. Strip out the FeS catalyst or the H2 reductant and ammonium falls below a micromolar, while scarce nitrate pushes the C:N ratio to about 47. Nitrogen therefore keeps pace only within a bounded nitrate-supply by FeS-activity region, and outside it nitrogen - not carbon or energy - becomes the first limiting resource.
 
 # ### Design — originally proposed
 #
@@ -1929,13 +1929,13 @@ _save_viz('og-res-nitrogen-assimilation', 'nitrogen-assimilation-phase-map', _re
 
 # ## Study: The Phosphorus Bottleneck (`og-res-phosphorus-availability`)
 #
-# **Question.** Phosphorus may be a harder bottleneck than carbon. Can the same thermal-gradient vent pore that concentrates C and N also co-concentrate P — tracking dissolved phosphate, mineral-bound P, polyphosphate and reactive P with explicit precipitation/adsorption loss — or does phosphate precipitate/adsorb before it is chemically useful? Are there local windows where reactive P is produced faster than it is lost?
+# **Question.** Can the same thermal-gradient vent pore that concentrates carbon and nitrogen also make phosphorus chemically available, or does phosphate precipitate and adsorb before it is useful?
 #
 # **Objective.** Build a real P-speciation process (phosphate <-> polyphosphate <-> reactive-P with a precipitation/adsorption mineral sink), couple it to the og-03 thermal pore, and map where reactive-P availability beats loss and co-concentrates with carbon.
 #
 # **Hypothesis.** In a thermal-gradient pore (coupled from og-03), enrichment drives phosphate condensation and activation steeply enough that reactive-P formation outruns the first-order precipitation/adsorption sink in a bounded (source × enrichment) region — and that same enrichment co-concentrates P alongside carbon; without the gradient (open pore), precipitation wins and no reactive P accumulates.
 #
-# **Claim.** A real libRoadRunner P-speciation network coupled to the og-03 thermal pore shows reactive phosphorus becomes available only in a bounded (phosphate source × pore enrichment) window where condensation + activation outrun the precipitation/adsorption sink; the same pore enrichment that concentrates carbon co-concentrates P, and without the gradient phosphate precipitates before it is useful — phosphorus is a localization-gated bottleneck, not a free resource.
+# **Claim.** A P-speciation network coupled to the thermal pore makes reactive phosphorus net-positive only in a bounded phosphate-source by pore-enrichment window where condensation and activation outrun the precipitation and adsorption sink; at the favourable point reactive P accumulates to about 94% of the supplied phosphorus with only about 6% precipitated. The same enrichment that concentrates carbon co-concentrates phosphorus, whereas the open-pore ablation precipitates about 96% of it before it is useful. In the model phosphorus is thus a localization-gated bottleneck rather than a freely available input.
 
 # ### Design — originally proposed
 #
@@ -2077,13 +2077,13 @@ _save_viz('og-res-phosphorus-availability', 'phosphorus-availability-map', _rend
 
 # ## Study: The Energy Currency (`og-energy-proto-energetics`)
 #
-# **Question.** Can a primitive system capture environmental (geochemical) free energy into a transferable chemical currency — charged by an exergonic drive, spent on endergonic work, lost to hydrolysis — before any modern-style ion pumping, and what fraction of the geochemical free energy becomes stored usable work?
+# **Question.** Before modern pumps and ATP, can a primitive chemical system capture environmental geochemical free energy into a transferable store that can perform work?
 #
 # **Objective.** Represent the exergonic-to-endergonic coupling as explicit energetic bookkeeping (a free-energy ledger), not a favourable reaction direction; map where a transferable currency is maintained and measure the stored-work fraction.
 #
 # **Hypothesis.** A pre-ATP carrier (thioester / acyl-phosphate class) coupled to an exergonic geochemical drive maintains a transferable currency above threshold under endergonic load — but only where the drive ΔG clears the carrier's high-energy bond and the coupling is efficient enough to beat discharge + hydrolysis. A bounded fraction of the geochemical free energy is captured as stored usable work; the rest is dissipated. Remove the coupling or starve the drive below the bond and the currency collapses.
 #
-# **Claim.** A pre-ATP thioester-class carrier coupled to an exergonic geochemical drive maintains a transferable energy currency under endergonic load (charged fraction ~0.39) and captures ~47% of the tapped geochemical free energy as stored usable work; removing the coupling or starving the drive below the carrier bond collapses the currency — capturing free energy into a transferable store is an explicit, bounded, falsifiable transition, not a favourable reaction direction.
+# **Claim.** A pre-ATP thioester-class carrier coupled to an exergonic geochemical drive builds and maintains a transferable energy currency under continuous endergonic load, the charged pool filling from empty to about 39% of capacity and stored against discharge and hydrolysis, capturing roughly 47% of the tapped free energy as usable work at the favourable point. Removing the coupling chemistry or starving the drive below the carrier's high-energy bond collapses the capture. This makes energy capture into a transferable store an explicit, bounded transition rather than a favourable reaction direction, while leaving open which concrete prebiotic carrier - thioester, acyl phosphate, polyphosphate, reduced metal or another chemistry - best realizes this abstract currency.
 
 # ### Design — originally proposed
 #
@@ -2228,13 +2228,13 @@ _save_viz('og-energy-proto-energetics', 'proto-energetics-map', _render_one('loc
 
 # ## Study: Growth and Division (`og-growth-division`)
 #
-# **Question.** Does an internal autocatalytic/metabolic chemistry change a compartment's PHYSICAL fate — accumulating product, generating osmotic pressure, drawing in solvent, expanding, and forcing division — and under what permeability regime does it divide rather than lyse or starve?
+# **Question.** Can an internal autocatalytic metabolism change a compartment's physical fate - driving growth and division through osmotic pressure alone - without assigning any abstract fitness score?
 #
 # **Objective.** Couple a reduced autocatalytic osmolyte source to compartment osmotic physics (osmotic pressure → solvent influx → volume → division) with a semi-permeable membrane; map the (network throughput × membrane permeability) plane and locate the viable growth→division band between starvation and lysis, conserving mass across growth and division.
 #
 # **Hypothesis.** Product accumulation from an internal autocatalytic source generates osmotic pressure that drives solvent influx and volume growth to a division threshold; there is a bounded membrane-permeability band in which the compartment sustains net growth leading to division, flanked by starvation (too permeable, the product leaks before osmotic pressure can build) and lysis (too impermeable, the pressure bursts the membrane).
 #
-# **Claim.** A protocell's chemistry can change its physical fate. An internal autocatalytic/metabolic source makes an osmolyte; its accumulation raises the internal osmotic pressure (van 't Hoff), that pressure draws solvent across the semi-permeable membrane, the compartment expands, and at a size threshold it divides — a physical selection mechanism with no abstract fitness score. Whether this produces division rather than lysis or starvation is set by the membrane permeability against the network throughput — there is a bounded viable band in which net growth leads to repeated division, flanked by starvation (too permeable — the product leaks before the osmotic pressure can build) and lysis (too impermeable — the pressure bursts the membrane). Mass is conserved to machine precision across growth and division.
+# **Claim.** An internal autocatalytic source accumulates an osmolyte whose osmotic pressure draws solvent across the membrane and grows the compartment to a division threshold; in the matched regime it divides eight times over the run, with an osmolyte mass-balance residual of about 4e-32 mol. Only about 25% of the throughput by permeability grid forms a viable growth-to-division band, flanked by starvation when the membrane is too permeable and the product leaks before pressure can build, and lysis when it is too impermeable and the pressure bursts the membrane, while zero throughput produces essentially no growth. The model therefore delivers a chemically selected, dividing protocell through mass-conserving osmotic coupling, with no abstract fitness function assigned.
 
 # ### Design — originally proposed
 #
@@ -2375,13 +2375,13 @@ _save_viz('og-growth-division', 'growth-division-map', _render_one('local:Growth
 
 # ## Study: Calibrating the Vent: What Fraction of Observed-Consistent Vent States Feed Downstream Chemistry (`og-cal-vent-environment`)
 #
-# **Question.** Model Upgrade plan, Phase 1 (priority upgrade A). og-00 showed the real PHREEQC + FiPy vent settles in the Lost City window over ~80% of a swept grid — but the fraction of a chosen grid that passes is not a probability of feasibility, and sweep bounds can determine apparent robustness. Conditioning on observed systems instead: of the vent states consistent with the Lost City field observations (outlet T, pH, dissolved H2), what fraction also satisfies what og-01's carbon fixation needs (H2 >= 1 mM at the interface, a >= 3-unit pH gradient, T inside validity)? Which observation binds, which parameters does it pin, and does the answer depend on whether the vent wall convects?
+# **Question.** Of the real-vent states consistent with the Lost City field observations (outlet temperature, pH, dissolved H2), what fraction also satisfies what downstream carbon fixation needs (H2 >= 1 mM, a >= 3-unit pH gradient, T in range), and which observation does the actual constraining?
 #
 # **Objective.** Run the Phase-1 environmental-calibration pipeline on the real geochemical world: LHS prior from the vg-data package vent_environment -> ensemble per spatial-transport model class -> ABC conditioning on the field windows -> posterior-predictive fraction meeting the downstream requirements -> Morris screening -> the Feasibility / Robustness / Discrimination report with the ledger verified.
 #
 # **Hypothesis.** A Lost-City-consistent posterior exists inside the empirically motivated prior of the og-00 world, most of it also satisfies the downstream requirements, the result is the same under the convecting and the prescribed-upflow transport classes, and the conservation ledger closes exactly on every draw.
 #
-# **Claim.** Conditioning the real vent on field observations turns og-00's "80% of a swept grid is habitable" into a posterior statement: 12.5% of the empirically motivated prior reproduces Lost City, the dissolved-H2 observation does all the work (pH is buffered, T is loose), and 100% of that posterior supplies the H2 and pH gradient downstream carbon fixation requires — a result that does not depend on whether the wall convects, and that identifies the DIC prior and the equilibrium-vs-kinetic carbon-redox assumption as the decisions that move it.
+# **Claim.** Conditioning the real PHREEQC + FiPy vent on the Lost City field windows, 12.5% of the empirically motivated prior (6 of 48 draws) reproduces all three observations, and 100% of that posterior supplies the H2 and pH gradient downstream carbon fixation requires. The dissolved-H2 window does all the constraining: pH is buffered at 9.4-9.9 by the peridotite assemblage and carries no information, temperature is loose, and the answer is the same whether or not the vent wall convects. The conservation ledger closes exactly on all 96 runs. This is a geochemical calibration, not an origin-of-life claim, and the H2 threshold rests on a full-redox-equilibrium assumption and an extrapolated DIC prior that a kinetic carbon-redox class could still shift.
 
 # ### Design — originally proposed
 #
@@ -2532,13 +2532,13 @@ _save_viz('og-cal-vent-environment', 'vent-reactor-timeseries', _render_one('loc
 
 # ## Study: The Vent Wall as a Galvanic Cell: Which Limitation Stops Carbon Fixation, and Do the Model Classes Agree? (`og-01-cal-electrochemistry`)
 #
-# **Question.** Model Upgrade plan, Phase 2 (electrochemical carbon fixation). og-01 drives CO2 reduction with a scalar gradient_efficiency and a Michaelis drive in the proton-motive force, so it can say WHETHER fixation runs but not WHY it stops. Treating the vent wall as an electrical circuit instead — fluid redox state -> Nernst electrode potentials -> Butler-Volmer overpotentials -> current density -> surface rates — which limitation (thermodynamic, electrical, catalytic, transport) binds where over (vent pH x dissolved H2 x mineral conductivity x Ni/Fe), and do the empirical and the electrochemical model classes on the new carbon_fixation face agree on that label in the region both call favorable?
+# **Question.** Treating the vent wall as an explicit galvanic cell (Nernst potentials, Butler-Volmer kinetics), do the empirical and the electrochemical model classes agree on which limitation (thermodynamic, electrical, catalytic, transport) stops carbon fixation across the region both call favorable - the pre-registered test being at least 80% agreement on the limitation label?
 #
 # **Objective.** Build the carbon_fixation face with three classes (empirical = og-01's kinetics; butler_volmer = Nernst + Butler-Volmer galvanic cell, the primary new class; microkinetic = CatMAP/Cantera, pixi-only), the MineralConductivityProcess that derives gradient_efficiency from circuit physics, the ChargeLedgerProcess (Kirchhoff residual per tick, faradaic efficiency <= 1, current-voltage residual) and the vg-data package electrochemical_interface; sweep (pH x H2 x conductivity x Ni) x classes in open flow; attribute the limitation at every point; measure cross-class agreement; report Feasibility / Robustness / Discrimination.
 #
 # **Hypothesis.** Explicit electrochemistry reproduces the Altair-2025 current window at the nominal operating point with the Preiner product hierarchy, derives og-01's gradient efficiency from the wall's conductivity (an insulating wall collapses it, the Tutolo-2026 arm, as a consequence rather than a knob), closes a charge + electron ledger exactly, and labels every swept point with its dominant limitation. Pre-registered gate: the classes agree on the label on >= 80% of the region both call favorable.
 #
-# **Claim.** Explicit electrochemistry is feasible, calibrated and ledger-exact, and it changes the answer to "why does fixation stop": under the Butler-Volmer class the alkaline-vent cell is activation-limited everywhere the wall conducts — the catalyst, not the gradient, binds — and the Tutolo-style collapse is an electrical regime below ~1e-6 S/m that both classes recover. The empirical class cannot make that attribution because its one Michaelis drive term lumps electrical and catalytic limitation and its substrate Michaelis constant invents a transport limit the cell physics does not have. The failure-mode label is therefore structure-sensitive (agreement 0.47 < 0.8): a negative result on the gate and the Phase-2 mechanism map the plan asked for, recorded as a decision for the expert rather than hidden.
+# **Claim.** No. The two classes agree on the dominant-limitation label on only 47% of the favorable region, below the pre-registered 80% gate, so the gate fails and the attribution is structure-sensitive. Under explicit electrochemistry the vent cell is activation (catalyst) limited everywhere the wall conducts and electrical only below ~1e-6 S/m, but the empirical rate law's single Michaelis drive term lumps electrical and catalytic limitation together and invents a transport limit the cell physics never reaches. The electrochemistry itself is real, calibrated to the Altair-2025 current window, and ledger-exact on all 750 runs; what the study cannot yet deliver is a structure-independent answer to why fixation stops, recorded as an open decision for the expert rather than dressed up as a result.
 
 # ### Design — originally proposed
 #
@@ -2702,13 +2702,13 @@ _save_viz('og-01-cal-electrochemistry', 'electrochemistry-polarization', _render
 
 # ## Study: The Open Network: Do Autocatalytic Motifs Emerge From Rule-Generated Chemistry, Beyond Chance? (`og-02-alt-reaction-universe`)
 #
-# **Question.** Model Upgrade plan, Phase 3. og-02 showed a hand-curated rTCA fragment persists and self-amplifies under flow — but its autocatalytic turn (OAA + 2 CO2 -> 2 OAA + acetate) was written into the network. If the network is instead GENERATED from a Wolos-2020-style rule set over C1-C3 feedstock with real eQuilibrator thermodynamics, catalyst limits and degradation, and fed the Phase-1 posterior vent state, do persistent autocatalytic subnetworks appear at all, are they more frequent than in matched null networks, and how does the curated rTCA class compare when all three are graded by one post-hoc detector and one element / free-energy ledger?
+# **Question.** If the prebiotic reaction network is generated from reaction rules rather than hand-curated, with real eQuilibrator thermodynamics and fed the calibrated vent state, do persistent autocatalytic motifs appear at all, and are they more frequent than in matched null networks?
 #
 # **Objective.** Build the proto_metabolism face (curated_rtca | reaction_universe | null_network), the vg-data package reaction_universe (rules, eQuilibrator dG', catalyst requirements), the NetworkLedgerProcess (exact element residual, integrated carbon balance, dissipation >= 0) and a class-agnostic post-hoc motif detector; run the three classes under two feeds (Phase-1 posterior; + 10 mM formaldehyde) with 24 matched nulls per arm, an ignition map, flux-control analysis and a stiffness check.
 #
 # **Hypothesis.** Under the Phase-1 posterior feed (CO2 1.4 mM, H2 10.8 mM, pyruvate 0.1 mM) the generated universe sustains a connected multi-species network but no autocatalytic motif (the C1 -> C2 bottleneck is thermodynamic at vent concentrations); supplying the formose feedstock (formaldehyde) lets a motif emerge from the rules and that motif count is enriched relative to degree-preserving, carbon/oxygen-matched nulls; the curated class's motif is detected but imposed and its stoichiometry fails the element ledger.
 #
-# **Claim.** With real thermodynamics and conservation, autocatalysis is not free: the generated universe fed the Phase-1 vent posterior builds a persistent, element-balanced, dissipative network but no autocatalytic motif, because every C-C-forming route is uphill at vent concentrations; the one motif that does emerge — the formose cycle, recovered post hoc from the rules, absent in every matched null — needs a formaldehyde supply the vent chemistry does not make and a residence time shorter than its reductive destruction. The curated rTCA result survives as one class among three, with its motif now classed as imposed and its stoichiometry flagged as non-conserving.
+# **Claim.** Fed the calibrated vent posterior, the rule-generated universe (121 species, 413 reactions) sustains a persistent 14-species network but contains no autocatalytic motif, because every C-C-bond-forming route is uphill at vent concentrations. Supplying 10 mM formaldehyde makes exactly one motif emerge - the formose cycle, recovered post hoc and absent in all 24 matched null networks (enrichment p = 0.04). Graded by the same detector, og-02's curated rTCA motif turns out to be imposed, and its lumped turn is not element-balanced, creating 4 carbon atoms per cycle, while the generated universe's ledger closes exactly. The study demonstrates that autocatalysis is not free under real thermodynamics, but the one motif that ignites needs a formaldehyde feed the vent chemistry does not itself produce.
 
 # ### Design — originally proposed
 #
@@ -2867,13 +2867,13 @@ _save_viz('og-02-alt-reaction-universe', 'reaction-universe-subnetwork', _render
 
 # ## Study: The Endogenous Boundary (`og-04-alt-endogenous-boundary`)
 #
-# **Question.** Can a protocell boundary form from the campaign's OWN chemistry — amphiphile synthesised from reduced carbon (acetate + formate) assembling into a vesicle that encloses an individual — rather than from an injected amphiphile pool?
+# **Question.** Can a protocell boundary form from the campaign's own reduced-carbon chemistry - an amphiphile synthesized from acetate + formate that clears the critical aggregation concentration - rather than from an injected amphiphile pool, and is its formation caused by that synthesis?
 #
 # **Objective.** Drive AmphiphileSynthesisProcess from a dissolved acetate+formate pool into the boundary face (single_chain | mixed | thioester_aminothiol); gate that a BoundaryFormationStep _add produces agents 0 -> >=1 in the favorable arm and 0 in the synthesis-ablated control, with the RewriteLedger confirming the rewrite conserves matter.
 #
 # **Hypothesis.** When acetate + formate condense to an amphiphile that clears the critical aggregation concentration under vesicle-favourable (alkaline, saline) conditions, a viable boundary forms and a new individual appears in the agents map by an _add structural rewrite; with amphiphile synthesis ablated no individual forms, so boundary formation is caused by the endogenous chemistry.
 #
-# **Claim.** A protocell boundary forms from the campaign's own reduced-carbon chemistry (endogenous amphiphile), producing an individual by a matter-conserving _add structural rewrite; ablating synthesis removes the individual.
+# **Claim.** When acetate and formate condense into an amphiphile under alkaline, saline conditions it clears the critical aggregation concentration, and a new individual appears in the agents map through a matter-conserving structural rewrite. Ablating the synthesis leaves the amphiphile below threshold and no individual forms, so boundary formation is caused by the endogenous chemistry rather than an added amphiphile. What remains assumed is the condensation rate itself (k_synth), an inferred value with no direct prebiotic measurement, swept over a wide prior.
 
 # ### Design — originally proposed
 #
@@ -2999,13 +2999,13 @@ _save_viz('og-04-alt-endogenous-boundary', 'endogenous-boundary-formation', _ren
 
 # ## Study: Physical Reproduction (`og-growth-alt-physical-reproduction`)
 #
-# **Question.** Can an individual physically reproduce — grow to a division threshold and divide into daughters that grow and divide in turn — building a multi-generation lineage in the agents map, with matter and volume conserved at every division?
+# **Question.** Can an individual physically reproduce - grow to a division threshold and divide into daughters that grow and divide in turn - building a multi-generation lineage with matter and volume conserved at every division?
 #
 # **Objective.** Drive AgentGrowthProcess -> DivisionStep over the agents map from a single founder; gate that the lineage reaches >=3 generations and that every _divide conserves matter and volume (daughter volumes sum to the mother's — partition residual 0, total volume constant).
 #
 # **Hypothesis.** A founder individual whose division_state grows to threshold divides by a _divide structural rewrite that halves its matter and volume; the daughters inherit half each (their amounts and volumes sum to the mother's) and grow and divide in turn, so a >=3-generation lineage forms in the agents map with the partition residual 0 at every division.
 #
-# **Claim.** An individual physically reproduces by a _divide structural rewrite, building a >=3-generation lineage in the agents map with matter and volume conserved (partition residual 0) at every division.
+# **Claim.** A founder individual grows to threshold and divides by a structural rewrite that halves its matter and volume, its daughters do the same, and the lineage reaches 5 generations in the agents map, past the 3-generation bar, with the partition residual exactly 0 at every division. Matter and volume are conserved throughout. What the model demonstrates is the conserving division-and-lineage mechanism; growth itself is abstracted to a division trigger rather than the full osmotic volume growth, which coupling the two would supply.
 
 # ### Design — originally proposed
 #
@@ -3123,13 +3123,13 @@ _save_viz('og-growth-alt-physical-reproduction', 'physical-reproduction-lineage'
 
 # ## Study: The Internalization Threshold: When Does Owning an Energy Store Pay, Per Coupling Class? (`og-energy-alt-internalization-threshold`)
 #
-# **Question.** Model Upgrade plan, Phase 6. og-energy showed a pre-ATP carrier can capture geochemical free energy into a transferable store, and og-05 showed selection can shift a POPULATION toward pumped (internal) bioenergetics as the external gradient declines — but both left the energy budget outside the individual. If the coupling mechanism is put INSIDE a protocell as a model class on one energy_coupling face — the passive external tap, a pumped H+/Na+ gradient store that leaks with the membrane, the thioester / acyl-phosphate and polyphosphate carriers, a reduced-metal store charged by Fe(II) disproportionation — and each individual's power budget is audited by a free-energy ledger, at what coupling activity does the internal store's benefit exceed its leak plus the machinery's maintenance, per class, and how does that threshold move with the membrane's leak and the external gradient?
+# **Question.** With the energy-coupling mechanism placed inside a protocell as five competing model classes, at what coupling activity does owning an internal energy store pay (its benefit exceeding its leak plus maintenance), and how does that threshold depend on the carrier chemistry and the membrane leak?
 #
 # **Objective.** Build the energy_coupling face (passive_gradient | h_na_gradient_leaky_membrane | thioester_acyl_phosphate | polyphosphate | fe_redox) with the per-individual autonomy readout internal / (internal + external) power, the vg-data package energy_currencies (drives, H+/Na+ permeabilities, carrier bonds and decay, per-cell turnover and maintenance), the FreeEnergyLedgerProcess (free_energy_in >= work + dissipated with the store, exact every tick) and the protocell_energetics composite; sweep passive -> active coupling across the classes, the membrane leak and the gradient state, and find where internalization pays.
 #
 # **Hypothesis.** Internalization pays only where the store can be charged above the load's free energy faster than it leaks: the thioester-class carrier (bond 35 kJ/mol, leaking by hydrolysis) pays from a low activity at the nominal membrane; the ion-gradient store drains through the Na+ leak at fatty-acid permeabilities and pays only in tight membranes; the polyphosphate store (bond 20 kJ/mol) cannot clear a 30 kJ/mol load unless nearly fully charged; the Fe-redox store sits near the load potential and is marginal. The threshold is thermodynamic (the store potential must clear the load), not a fitted rate, so the classes separate on their leak law and bond energy — a structure-sensitive answer the sweep reports as such.
 #
-# **Claim.** Owning an energy store pays only where the store can be charged above the load's free energy faster than it leaks, and WHICH chemistry can do that at a given membrane is the structural answer: a thioester-class carrier internalizes from a tenth of the drive at fatty-acid-like leak, a Fe-redox store only at near-full activity, a pumped H+/Na+ gradient only once the membrane is a hundred times tighter (the Sojo constraint, per individual), and a polyphosphate store not at all against a 30 kJ/mol step. The free-energy ledger (free_energy_in >= work + dissipated with the store) closes to rounding on every one of the 990 runs, so none of these thresholds is a bookkeeping artefact — they are the leak law and the bond energy against the load, in a coarse-grained model.
+# **Claim.** Owning an energy store pays only where it can be charged above the load's free energy faster than it leaks, and which chemistry clears that bar at a given membrane is the real answer: a thioester/acyl-phosphate carrier internalizes from a tenth of the drive at fatty-acid-like leak, an Fe-redox store only near full activity (~0.80), a pumped H+/Na+ gradient only once the membrane is ~100x tighter to Na+ (the Sojo constraint, per individual), and a polyphosphate store not at all against a 30 kJ/mol load. The free-energy ledger closes to rounding on all 990 runs, so these are real thermodynamic thresholds rather than bookkeeping artefacts. But the answer is structure-sensitive - the classes agree on only 46% of the grid - and every per-cell number (drive turnover, maintenance, bond energies) is hypothetical and unswept beyond the nominal grid.
 
 # ### Design — originally proposed
 #
@@ -3301,13 +3301,13 @@ _save_viz('og-energy-alt-internalization-threshold', 'protocell-energy-budget', 
 
 # ## Study: Competing Heredity: Which Inheritance Mechanism Transmits the Most Bits Per Joule, and When Is It Attached? (`og-06-alt-information-per-cost`)
 #
-# **Question.** Model Upgrade plan, Phase 7. og-06 compared inheritance mechanisms as modes of one mean-field process and concluded that heredity need not presume a long high-fidelity RNA template. If the six candidate mechanisms (compositional assemblies, autocatalytic-network attractors, templated peptides, RNA-like templates, a template-focused hybrid and mineral-surface defect patterns) are instead separate model classes on one heredity face, each simulated EXACTLY at low copy number (tens of molecules per protocell) under the same precursor pools and the same energy store, and attached to a lineage only when those budgets and the Eigen error threshold allow it — how many bits does each class actually transmit from parent to offspring, at what cost in joules and precursor molecules, and where does templated heredity take over?
+# **Question.** When six inheritance mechanisms are each simulated exactly at low copy number under matched precursor and energy budgets, which transmits the most heritable information per joule, and where does templated (RNA-like) heredity take over?
 #
 # **Objective.** Build the heredity face (six classes carved out of og-06's LineageReplicatorProcess, each an exact Gillespie lineage drawing integer precursors and quanta from matched budgets), the HeredityAttachmentStep (precursor budget, energy budget, Eigen floor Q >= 1/sigma), the InformationLedgerProcess (heritable bits per joule and per precursor from a parent-offspring mutual-information estimator with a convergence check; exact energy-store audit) and the vg-data package inheritance_budgets; run the frontier (six classes x attached / control x 6 seeds), the attachment map (six classes x six matched budget scales) and the fidelity transition (four template-type classes x six fidelities) and grade the pre-registered gates.
 #
 # **Hypothesis.** Every attached class transmits parent-offspring information its unattached control (daughters re-formed de novo from the same budget) does not; the template classes carry the most bits per offspring but pay the most per bit and are attached only at the highest budgets and fidelities; the attractor classes (compositional, network) are cheap, attach at low budgets and carry few bits; a cheap, high-fidelity mineral pattern would dominate both axes if its copy error were as low as hypothesised; the transition to templated heredity is the point at which the Eigen floor admits the template.
 #
-# **Claim.** Priced under matched budgets at low copy number, heredity splits by currency: the RNA-like template transmits the most certified bits per offspring but needs 30x the precursor and energy budget of the attractor classes and ribozyme-level fidelity (q >= 0.967) to be attached at all, while the cheap classes transmit a third of its bits at 10-1000x the bits per joule. og-06's "heredity need not presume RNA" is therefore a class-substitution result about efficiency, not capacity; the only class that would dominate both axes — mineral-surface patterns — does so on a defect-copy error nobody has measured.
+# **Claim.** Priced under matched budgets, heredity splits by currency: the RNA-like template transmits the most certified information per offspring (1.46 bit) but needs about 30x the precursor and energy budget of the attractor classes and ribozyme-level fidelity (q >= 0.967) to attach at all, while the cheap classes (network, compositional) carry roughly a third of its bits at 10-1000x the bits per joule - a frontier spanning 3.8 decades. og-06's "heredity need not presume RNA" survives as a statement about efficiency, not capacity: the template is the richest organic carrier, the attractors the cheapest. The one class that would dominate both axes, mineral-surface patterns, does so only on a defect-copy error that has never been measured, so the frontier's ordering is reported under declared costs rather than as a ranking.
 
 # ### Design — originally proposed
 #
@@ -3483,13 +3483,13 @@ _save_viz('og-06-alt-information-per-cost', 'heredity-attachment-map', _render_o
 
 # ## Study: Biochemical Ecology: A Community Function That No Lineage Can Perform, Carried by Real Metabolite Flux (`og-07-alt-real-metabolite-exchange`)
 #
-# **Question.** Model Upgrade plan, Phase 8. og-07 showed that connected compartments develop capability redundancy, but its compartments were capability VECTORS and its cross-feeding a symbolic transfer. If every protocell instead carries the Phase-3 rule-generated reaction universe (libRoadRunner, eQuilibrator dG') masked to its own catalyst repertoire — a carboxylating lineage that can fix CO2 but not hydrogenate, a hydrogenating lineage that cannot carboxylate — and the only coupling between them is matter crossing their membranes into a shared pore field shaped by the Phase-4 enrichment, does the community realise a metabolic function that no lineage performs alone, is that function sustained by the flux of a real intermediate rather than by a capability being copied, and does it appear before any cell is complete?
+# **Question.** If every protocell carries the same real rule-generated chemistry masked to its own catalyst repertoire, can a community of incomplete lineages realise a metabolic function no lineage performs alone, sustained by a real intermediate crossing membranes rather than a symbolic capability transfer?
 #
 # **Objective.** Build the proto_ecology face (ProtocellNetworkProcess and the matched-null class — the Phase-3 universe inside each agent, masked to a lineage repertoire), the SpatialCouplingStep onto the Phase-4 field with the exchange rules of a BigraphicalReactiveSystem (uptake, secretion, pore diffusion, feed / washout; every firing counted), the EcologyReducerStep that recomputes og-07's gate readouts from the agents, the EcologyElementLedgerProcess (C / N / P over agents + field) and the vg-data package cnp_resources; run the community, its two monocultures, the private (no-sharing) counterfactual, the complete-cell (generalist) arm, the segregated placement and the rewired-null arms at the canonical point, and the four arms over (diacid permeability x pore residence); grade the pre-registered gates.
 #
 # **Hypothesis.** The reductive C4 branch (oxaloacetate -> malate -> succinate) is split across the two incomplete lineages: the fixer carboxylates pyruvate to oxaloacetate but cannot reduce it, the reducer can reduce it but never makes it; in a shared pore the dicarboxylate crosses from one to the other and malate appears in the reducer lineage although neither monoculture ever holds it; cutting the sharing (each agent exchanging only with its own copy of the background) removes it; the function depends on the membrane permeability of the exchanged diacid and on the pore residence time, and it emerges while every cell is still incomplete.
 #
-# **Claim.** With real chemistry inside every protocell, a community of two incomplete lineages performs a metabolic function — the reductive C4 branch from oxaloacetate to malate — that neither lineage performs alone and that a complete cell performs at 20x the level, sustained by a dicarboxylate crossing between the lineages through a shared pore and not by any capability changing hands; the function precedes cell completeness — as a mean-field expectation at copy numbers (4e-3 molecules per femtolitre cell) that make a stochastic treatment the next step. It exists only above a diacid permeability of ~3e-9 m/s, one to two decades above the measured passage of charged solutes through fatty-acid vesicles, so the leakiness of the boundary — not the chemistry — is what decides whether ecology before LUCA could run on exchanged intermediates.
+# **Claim.** A community of one carboxylating and one hydrogenating lineage holds malate - the reductive C4 branch from oxaloacetate - at 6.4 nM while neither monoculture ever makes it and a complete cell makes it at about 20x the level. The function vanishes when nothing is shared, and its oxaloacetate precursor physically crosses between the lineages, so no capability changes hands; it appears while every cell is still incomplete. It exists only above a dicarboxylate membrane permeability of ~3e-9 m/s, one to two decades above the measured passage of charged solutes through fatty-acid vesicles, so the leakiness of the boundary rather than the chemistry decides whether ecology could run on exchanged intermediates - and at ~4e-3 molecules per cell the result is a mean-field expectation that still awaits a stochastic treatment.
 
 # ### Design — originally proposed
 #
@@ -3675,13 +3675,13 @@ _save_viz('og-07-alt-real-metabolite-exchange', 'metabolite-exchange-map', _rend
 
 # ## Study: Integrated Autonomy: The Minimum Sufficient Innovation Set Across Model Structures (`og-08-alt-robust-innovation-set`)
 #
-# **Question.** Model Upgrade plan, Phase 9 — the capstone. og-08 found that a lineage persists as the vent's support is withdrawn only with the irreducible set {pump, importer, heredity}, but each innovation there was a term of a hand-written co-limited budget. If the same withdrawal is run inside ONE persistent world assembled from the merged phases — the Phase-1 posterior as the vent, the Butler-Volmer interface making the feed, a localization class shaping it, the Phase-3 universe inside the cell, an energy_coupling class as its power budget, a boundary class as its leakiness, a heredity class as the machinery it holds, a maintenance law pricing its upkeep, a population dividing and dying by structural rewrites, seven ledgers beside it — which of the three innovations are required for off-gradient persistence, in how many of the sampled model structures, and what fraction of the lineage's essential work and material does it then supply itself?
+# **Question.** In one integrated world where each of {pump, importer, heredity} is a real process carrying its own cost, is that set jointly sufficient for a lineage to persist as the vent's support is withdrawn - the pre-registered test being that the full set persists under at least half the sampled model structures?
 #
 # **Objective.** Build the integrated world (AblationStep, GeologicalDriverStep, LineageStateProcess, ActiveImportProcess with the ActiveUptakeRule, MaintenanceDemandProcess, LineageSupplyProcess, AutonomyBudgetStep, PopulationBudgetProcess, StructuralEventLogStep; the integrated_autonomy_world composite over the energy_coupling / heredity / boundary / localization faces with a permeability anchor and a maintenance law; the vg-data package integrated_autonomy carrying the Phase-1 posterior), run every subset of {pump, importer, heredity} under a sampled structural ensemble at the nominal and a rich ocean floor with the og-adv generic control and the full set over the floor axis, grade the pre-registered gates and report the intersection of the required innovations as a lattice with the continuous autonomy value decomposed by function.
 #
 # **Hypothesis.** og-08's set is a hypothesis generator, not a result: in the integrated world the innovations are real processes whose benefit and cost depend on the structure around them, so the required set will not be the same under every structure. The pump (an internal store charged by the drive the cell's own substrate pool sustains) should be required wherever anything persists, because the external tap vanishes with the gradient; heredity should be required wherever the inheritance class holds more machinery attached than its de-novo control does; the importer should matter only where the membrane is tight enough for concentration to pay and the ocean background is poor enough to need it; and the ocean floor the withdrawal relaxes toward — a hypothetical — should decide whether any subset persists at all.
 #
-# **Claim.** In the integrated world og-08's set is not sufficient: with every innovation a real process of an earlier phase, a lineage leaving the vent into a 1 % ocean persists under no sampled structure, and into a 10 % ocean only with {pump, heredity} — the importer, a transporter concentrating organics against a fatty-acid-vesicle leak while the drive is already fed by ocean H2, costs more than it returns. What decides persistence is the storage model (thioester or Fe-redox), the inheritance class (whether its machinery outlives the cell's falling organic carbon) and the ocean's substrate background — the hypothesis og-08 generated survives as 'a pump held by heredity', and the campaign's honest endpoint is that the vent-to-ocean transition turns on one hypothetical number it cannot yet constrain: what the ocean offers.
+# **Claim.** No - the set is not jointly sufficient, and the gate fails. Withdrawn into a nominal (1%) ocean, no subset of {pump, importer, heredity} persists under any of the 24 sampled structures (0 of 192 runs); into a 10x richer ocean only {pump, heredity} persists, under 2 of 24 structures, and the importer is a pure net cost because it concentrates organics against a leaky fatty-acid membrane while the energy drive is already fed by ocean H2. og-08's three-innovation set therefore reduces to "a pump held by heredity," and the full set never persists. The machinery is real - all seven ledgers close on 485 runs and the generic non-vent control is rejected - but the off-gradient verdict turns on one number no measurement yet constrains, the ocean's residual substrate background, so the campaign's honest endpoint is a mapped dependency rather than a sufficiency result.
 
 # ### Design — originally proposed
 #
@@ -3879,6 +3879,292 @@ _save_viz('og-08-alt-robust-innovation-set', 'autonomy-ablation-trace', _render_
 # | --- | --- | --- | --- |
 # | Escape from the vent needs internalised energy conversion (a pump), resource acquisition and heredity to hold them | the innovation lattice (lattice.required_intersection / required_union) | Martin & Russell 2007; Lane & Martin 2012; Sojo 2014 | Pump and heredity are required in every viable structure (1 / 1); the importer in 0 — resource acquisition is subsumed by permeant gases (CO2, H2) feeding the cell's own fixation and drive. |
 # | A leaky early membrane cannot hold a gradient or a concentrated pool; tight membranes come with pumps | the permeability-assumption axis (boundary class x anchor) in lattice.by_axis | Sojo 2014; Jordan 2019 (vesicle system) | Under the Phase-8 extrapolated leak the importer's cost (up to 1.9e-18 W, its full budget) exceeds its benefit; under the measured charged-solute anchor it costs ~1e-21 W but the best full-set lineage still sits 1e-19 W short — the leak sets the cost, the upkeep the margin. |
+
+# ## Study: Bounding the pH endmember — pyroxene fraction and seawater-mixing dilution (`og-00b-ph-endmember-sweep`)
+#
+# **Question.** How far does the og-00 habitability window move when the host-rock pyroxene fraction and the seawater-mixing dilution are varied, and does the habitable region survive at the acidic, dilute endmember the recent reassessment emphasises?
+#
+# **Objective.** Sweep pyroxene_fraction (ol/px ratio) x seawater-mixing dilution on the serpentinizing vent-reactor composite, map the steady-state pH and the habitability indicator across the grid, and report the pH endmember bounds and how the habitable region deforms toward the acidic/dilute corner.
+
+# ### Parameters
+#
+# | simulation | composite | steps | params |
+# | --- | --- | --- | --- |
+# | `Vent reactor at the olivine endmember (og-00 canonical)` | `viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor` | 0 | — |
+
+# ### The model & its parameters
+#
+# Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
+
+# **The model — `viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor`**
+#
+# A reusable alkaline-vent reactor module. Module A = genuine PHREEQC serpentinization (phreeqpython + vendored llnl.dat): olivine dissolution + serpentine/brucite/magnetite equilibrium gives dissolved H2 (reducing power), alkalinity, heat, pe, and a charge-balanced fluid. Module B = genuine FiPy finite-volume advection-diffusion-reaction column transporting those sources across the vent-ocean interface and setting outlet T/pH/porosity. PHREEQC conserves mass+charge and FiPy's FVM conserves flux, satisfying the og-00 contract invariants; the coupled model is driven by a real IPhreeqc speciation (needs phreeqpython) and a real FiPy FVM solve (needs fipy).
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor = {
+    'flow_velocity': 0.001,   # Boundary water flux through the reaction zone (m/s)
+    'olivine_rate' : 0.15,   # Olivine dissolution rate (mol per flow-saturated reaction step)
+    'nx'           : 40,   # FiPy finite-volume cells across the interface column
+}
+
+# ### Run
+#
+# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
+
+# === Study: og-00b-ph-endmember-sweep ===
+STUDY = 'og-00b-ph-endmember-sweep'
+STUDY_DIR = REPO / 'workspace/studies' / STUDY
+STUDY_YAML = str(STUDY_DIR / "study.yaml")
+RUNS_DB = str(STUDY_DIR / "runs.db")
+
+# This study has no *recorded* runs yet. RERUN builds its declared
+# composite(s) live and runs them; a composite whose module processes
+# are not implemented yet reports the error instead of crashing.
+STEPS_Vent_reactor_at_the_olivine_endmember_og_00_canonical = 100
+INTERVAL_Vent_reactor_at_the_olivine_endmember_og_00_canonical = 1.0
+
+if RERUN:
+    from process_bigraph import Composite
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor if 'ov_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor = materialize_composite('viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor['state']}, core=core)
+            _comp.run(STEPS_Vent_reactor_at_the_olivine_endmember_og_00_canonical)
+        print('ran', 'Vent reactor at the olivine endmember (og-00 canonical)', f'(viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor) for', STEPS_Vent_reactor_at_the_olivine_endmember_og_00_canonical, 'steps')
+    except Exception as _e:
+        print(f"Vent reactor at the olivine endmember (og-00 canonical) not runnable yet: {type(_e).__name__}: {_e}")
+else:
+    print("RERUN=False — not re-simulating.")
+
+# ## Study: Why do the empirical and Butler-Volmer classes disagree on the limitation label? (`og-01-cal-dx-label-disagreement`)
+#
+# **Question.** Is the empirical-vs-Butler-Volmer disagreement on the dominant limitation label (they agree on only 47% of the region both call favorable) a real structural difference in how each class represents electrical, catalytic, and transport limits, or an avoidable artifact of binning and threshold placement?
+#
+# **Objective.** Isolate the source of the cross-class disagreement: decompose the empirical Michaelis drive against the Butler-Volmer overpotential terms point by point; test whether re-binning or a shared label threshold changes agreement; attribute the residual disagreement to a named model-structure cause.
+
+# ### Parameters
+#
+# | simulation | composite | steps | params |
+# | --- | --- | --- | --- |
+# | `Electrochemical interface — both classes, og-01-cal canonical grid` | `viva_genesis.composites.electrochemical_interface.electrochemical_carbon_fixation` | 0 | — |
+
+# ### The model & its parameters
+#
+# Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
+
+# **The model — `viva_genesis.composites.electrochemical_interface.electrochemical_carbon_fixation`**
+#
+# og-01's H2/pH-driven carbon fixation rebuilt as the Phase-2 electrochemical interface: the carbon-fixation mechanism is a model CLASS on the carbon_fixation face (model_carbon_fixation: empirical | butler_volmer | microkinetic). The empirical class is og-01's lab-calibrated gated kinetics driven by the real FiPy Nernst-Planck proton gradient + proton budget, with gradient_efficiency DERIVED from the wall's circuit (MineralConductivityProcess: conductivity, thickness, porosity vs the electrodes' charge-transfer resistance) instead of a knob. The butler_volmer class solves the vent wall as a galvanic cell each tick (Nernst half-cell potentials from the fluid redox state, Butler-Volmer kinetics scaled by catalyst activity / Ni fraction / T, Koutecky-Levich transport limits, the ohmic mineral + ionic path, the faradaic split over formate / acetate / pyruvate calibrated to the Altair-2025 current window and the Preiner-2020 yield hierarchy). The microkinetic class (CatMAP/Cantera) builds here and runs under pixi. Every class publishes the thermodynamic / electrical / catalytic / transport loss fractions and a limitation code, and a ChargeLedgerProcess audits its electron balance (Kirchhoff residual, faradaic efficiency <= 1, current-voltage residual -> ledger/charge_ledger_ok). Free parameters are the vg-data package 'electrochemical_interface'.
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_electrochemical_interface_electrochemical_carbon_fixation = {
+    'model_carbon_fixation': 'butler_volmer',   # Model class behind the 'carbon_fixation' face: butler_volmer | empirical | microkinetic
+    'ph_vent'              : 9.5,   # Alkaline vent-side pH (from og-00)
+    'ph_ocean'             : 6.0,   # Acidic early-ocean-side pH
+    'h2'                   : 0.005,   # Dissolved H2 feed, vent side (M)
+    'co2'                  : 0.002,   # Dissolved CO2 feed, ocean side (M)
+    'temperature'          : 373.15,   # Interface temperature (K)
+    'conductivity'         : 0.001,   # Electronic conductivity of the mineral layer (S/m) [vg-data: extrapolated]
+    'layer_thickness'      : 0.001,   # Mineral layer thickness (m) [vg-data: inferred]
+    'ni_fraction'          : 0.75,   # Ni mole fraction of the Fe/Ni catalytic phase (0 greigite .. 0.75 awaruite) [vg-data: measured]
+    'porosity'             : 0.35,   # Wall porosity (ionic return path)
+    'catalyst_active'      : 1.0,   # Active Fe/Ni/S mineral catalyst fraction (0 = no-catalyst control)
+    'j0_co2'               : 1e-05,   # CO2-reduction exchange current density at Ni3Fe, 100 C (A/m^2) [vg-data: calibrated]
+    'boundary_layer'       : 0.001,   # Diffusion boundary layer at the electrodes (m) [vg-data: inferred]
+    'dilution_rate'        : 0.0,   # Open-flow washout (1/s); 0 = closed batch, >0 = sustained-throughput regime
+    'nx'                   : 20,   # FiPy cells across the Nernst-Planck barrier
+}
+
+# ### Run
+#
+# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
+
+# === Study: og-01-cal-dx-label-disagreement ===
+STUDY = 'og-01-cal-dx-label-disagreement'
+STUDY_DIR = REPO / 'workspace/studies' / STUDY
+STUDY_YAML = str(STUDY_DIR / "study.yaml")
+RUNS_DB = str(STUDY_DIR / "runs.db")
+
+# This study has no *recorded* runs yet. RERUN builds its declared
+# composite(s) live and runs them; a composite whose module processes
+# are not implemented yet reports the error instead of crashing.
+STEPS_Electrochemical_interface_both_classes_og_01_cal_canonical_grid = 100
+INTERVAL_Electrochemical_interface_both_classes_og_01_cal_canonical_grid = 1.0
+
+if RERUN:
+    from process_bigraph import Composite
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_electrochemical_interface_electrochemical_carbon_fixation if 'ov_viva_genesis_composites_electrochemical_interface_electrochemical_carbon_fixation' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_electrochemical_interface_electrochemical_carbon_fixation = materialize_composite('viva_genesis.composites.electrochemical_interface.electrochemical_carbon_fixation', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_electrochemical_interface_electrochemical_carbon_fixation['state']}, core=core)
+            _comp.run(STEPS_Electrochemical_interface_both_classes_og_01_cal_canonical_grid)
+        print('ran', 'Electrochemical interface — both classes, og-01-cal canonical grid', f'(viva_genesis.composites.electrochemical_interface.electrochemical_carbon_fixation) for', STEPS_Electrochemical_interface_both_classes_og_01_cal_canonical_grid, 'steps')
+    except Exception as _e:
+        print(f"Electrochemical interface — both classes, og-01-cal canonical grid not runnable yet: {type(_e).__name__}: {_e}")
+else:
+    print("RERUN=False — not re-simulating.")
+
+# ## Study: How the survival region deforms with the speed of gradient loss (`og-05b-collapse-rate-sweep`)
+#
+# **Question.** When the gradient-decline rate is swept and alternative collapse scenarios such as step loss and oscillatory decline are substituted, is survival governed by the speed of gradient loss, the total dose, or the terminal level?
+#
+# **Objective.** Sweep decline_rate and substitute alternative collapse trajectories on the bioenergetic-internalization composite; measure where the survival region contracts or holds; report which feature of the collapse (rate, dose, or endpoint) controls the boundary.
+
+# ### Parameters
+#
+# | simulation | composite | steps | params |
+# | --- | --- | --- | --- |
+# | `Bioenergetic internalization (og-05 canonical)` | `viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization` | 0 | — |
+
+# ### The model & its parameters
+#
+# Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
+
+# **The model — `viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization`**
+#
+# A reusable bioenergetic-internalization module (Module H). An evolutionary control loop (replicator dynamics, Sojo-2014 leaky-membrane fitness) under a declining external gradient: as the geochemical pmf collapses, an efficient-pump population internalizes gradient generation and persists, while a weak-pump control collapses (the Sojo constraint). catalyst_efficiency sets the arm. Coarse-grained, deterministic reproduction (not wrapped ALife).
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_bioenergetic_internalization_bioenergetic_internalization = {
+    'catalyst_efficiency': 1.0,   # Active-pump (Na+/H+) efficiency (1.0 efficient; ~0.3 weak-pump control)
+    'v_start'            : 0.4,   # Initial external gradient (V)
+    'decline_rate'       : 0.01,   # External-gradient decline per step (V/s)
+    'gradient_floor'     : 0.02,   # Floor the external gradient decays to (V); low floor forces internalization-or-die
+}
+
+# ### Run
+#
+# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
+
+# === Study: og-05b-collapse-rate-sweep ===
+STUDY = 'og-05b-collapse-rate-sweep'
+STUDY_DIR = REPO / 'workspace/studies' / STUDY
+STUDY_YAML = str(STUDY_DIR / "study.yaml")
+RUNS_DB = str(STUDY_DIR / "runs.db")
+
+# This study has no *recorded* runs yet. RERUN builds its declared
+# composite(s) live and runs them; a composite whose module processes
+# are not implemented yet reports the error instead of crashing.
+STEPS_Bioenergetic_internalization_og_05_canonical = 100
+INTERVAL_Bioenergetic_internalization_og_05_canonical = 1.0
+
+if RERUN:
+    from process_bigraph import Composite
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_bioenergetic_internalization_bioenergetic_internalization if 'ov_viva_genesis_composites_bioenergetic_internalization_bioenergetic_internalization' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_bioenergetic_internalization_bioenergetic_internalization = materialize_composite('viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_bioenergetic_internalization_bioenergetic_internalization['state']}, core=core)
+            _comp.run(STEPS_Bioenergetic_internalization_og_05_canonical)
+        print('ran', 'Bioenergetic internalization (og-05 canonical)', f'(viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization) for', STEPS_Bioenergetic_internalization_og_05_canonical, 'steps')
+    except Exception as _e:
+        print(f"Bioenergetic internalization (og-05 canonical) not runnable yet: {type(_e).__name__}: {_e}")
+else:
+    print("RERUN=False — not re-simulating.")
+
+# ## Study: Why is the importer a net cost, and which subset conditions permit persistence? (`og-08-alt-dx-importer-cost`)
+#
+# **Question.** Why is the active importer a net cost under a leaky membrane, which membrane-tightness or structure conditions would flip it to a net benefit, and what distinguishes the few structures that persist under {pump, heredity} from the many that fail?
+#
+# **Objective.** Decompose the importer's per-structure energy/mass ledger (uptake vs leak) across the innovation lattice; sweep membrane permeability to locate any tightness at which the importer becomes net beneficial; characterise what the 2 persisting {pump, heredity} structures share that the other 22 lack.
+
+# ### Parameters
+#
+# | simulation | composite | steps | params |
+# | --- | --- | --- | --- |
+# | `Integrated autonomy world (og-08-alt canonical structure)` | `viva_genesis.composites.integrated_autonomy.integrated_autonomy_world` | 0 | — |
+
+# ### The model & its parameters
+#
+# Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
+
+# **The model — `viva_genesis.composites.integrated_autonomy.integrated_autonomy_world`**
+#
+# og-08's off-gradient test inside ONE persistent world assembled from the merged phases: the lineage lives on what real processes deliver — the external pmf tapped through its membrane leak and an internal store charged by the drive its live substrate pool sustains (an energy_coupling class, the STORAGE MODEL), organic carbon reaching it through a localization class (the TRANSPORT LAW) and the Phase-8 exchange rules at a boundary class's leakiness (the PERMEABILITY ASSUMPTION), the Phase-3 universe inside it catalysed by the mineral surface or by the machinery its heredity class holds (the INHERITANCE CLASS), upkeep priced by a MAINTENANCE LAW, and a population of individuals that divide and go extinct by structural rewrites. An AblationStep withdraws the gradient, the mineral access and the feed; pump (coupling_activity), importer (the ActiveUptakeRule) and heredity (attachment) are the three innovations; environment=generic is the og-adv reject control. Seven ledgers run beside the world and a structural-event log records every event. The vent endmembers are one Phase-1 posterior draw (vg-data integrated_autonomy).
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_integrated_autonomy_integrated_autonomy_world = {
+    'model_energy_coupling' : 'thioester_acyl_phosphate',   # Model class behind the 'energy_coupling' face: fe_redox | h_na_gradient_leaky_membrane | passive_gradient | polyphosphate | thioester_acyl_phosphate
+    'model_heredity'        : 'rna_like',   # Model class behind the 'heredity' face: compositional | hybrid | mineral_state | network | peptide | rna_like
+    'model_boundary'        : 'single_chain',   # Model class behind the 'boundary' face: mixed | single_chain | thioester_aminothiol
+    'model_localization'    : 'multisolute_surrogate',   # Model class behind the 'localization' face: fenics | fenics_multisolute_3d | fipy | multisolute_surrogate | surrogate
+    'maintenance_law'       : 'constant',   # Maintenance function: constant (Phase 6) | leak_repair (scales with leakiness) | turnover (scales with machinery held)
+    'pump'                  : 'on',   # Internal energy conversion: on | off (coupling_activity 1 | 0 on the storage class)
+    'importer'              : 'on',   # Active resource import: on | off (the ActiveUptakeRule fires | not)
+    'heredity'              : 'on',   # Information maintenance: on (HeredityAttachmentStep decides) | off (non-heritable control)
+    'environment'           : 'vent',   # vent | generic (og-adv reject control: every driver at its floor from t = 0, no pore concentration)
+    'h2_vent'               : 0.0108,   # Dissolved H2 of the vent fluid (M) [vg-data: calibrated, Phase-1 posterior draw]
+    'delta_ph'              : 3.5,   # Vent - ocean pH contrast [vg-data: calibrated, Phase-1 posterior draw]
+    'temperature'           : 322.15,   # Vent fluid temperature (K) [vg-data: calibrated, Phase-1 posterior draw]
+    'dic'                   : 0.002,   # Ocean DIC / CO2 (M), never withdrawn [vg-data: extrapolated]
+    'flow_velocity'         : 0.003,   # Vent flow through the reaction zone (m/s) [vg-data: Phase-1 posterior draw]
+    'olivine_rate'          : 0.2,   # Serpentinization extent of the geology layer [vg-data: Phase-1 posterior draw]
+    'ph_ocean'              : 6.0,   # Ocean-side pH [vg-data: extrapolated]
+    'ablation_start'        : 3600.0,   # World time at which withdrawal begins (s)
+    'ablation_duration'     : 6000.0,   # Duration of the linear withdrawal (s)
+    'feed_floor'            : 0.01,   # Ocean floor of the feed fraction (H2, organics, N, P) [vg-data: hypothetical, swept]
+    'gradient_floor'        : 0.0,   # Ocean floor of the gradient fraction
+    'mineral_floor'         : -1.0,   # Ocean floor of the mineral access (residual catalytic mineral; < 0 = same as feed_floor) [vg-data: hypothetical]
+    'tick_seconds'          : 60.0,   # World seconds per tick (every process runs at this interval)
+    'store_seconds'         : 10.0,   # Interval of the storage class + its ledger, the cell's chemistry and the importer (s; the Phase-6 step)
+    'heredity_clock_ratio'  : 0.016666666666666666,   # Lineage-time units of the heredity class per world second (one per tick) [vg-data: hypothetical]
+    'coupling_activity'     : 1.0,   # Storage-class coupling activity when the pump is on [vg-data: hypothetical]
+    'permeability_reference': 1e-06,   # H+ permeability of the fatty-acid reference membrane (m/s) [vg-data: extrapolated]
+    'max_relative_leak'     : 100.0,   # Cap on a boundary class's leakiness relative to the fatty-acid vesicle [vg-data: hypothetical]
+    'v_max_import'          : 1e-19,   # Importer capacity per substrate at full machinery (mol/s; ~6e4 molecules/s) [vg-data: hypothetical]
+    'k_m_import'            : 1e-06,   # Importer half-saturation (M) [vg-data: hypothetical]
+    'import_ratio_cap'      : 100.0,   # Inside / outside ratio at which the importer stops [vg-data: hypothetical]
+    'import_setpoint'       : 0.3,   # The importer holds each substrate at this fraction of its in-vent level [vg-data: hypothetical]
+    'import_budget_fraction': 0.3,   # Share of the lineage's work the importer may spend per tick [vg-data: hypothetical]
+    'permeability_anchor'   : 'extrapolated',   # Charged-solute exchange permeabilities: extrapolated (Phase-8 classes) | measured (1000x tighter: the fatty-acid-vesicle charged-solute anchor, og-07-alt decision)
+    'k_org'                 : 1e-05,   # Drive half-saturation on the cell's organic substrate (M) [vg-data: hypothetical]
+    'k_h2'                  : 1e-05,   # Drive half-saturation on the cell's H2 (M; hydrogenase-like affinity) [vg-data: hypothetical]
+    'function_reference'    : 0.25,   # Heredity-class mean function at which the lineage holds its full machinery [vg-data: hypothetical]
+    'heredity_allocation'   : 0.05,   # Share of the lineage's work allocated to heredity [vg-data: hypothetical]
+    'k_wash'                : 0.01,   # Pore feed / washout rate (1/s) [vg-data: inferred, Phase-8 canonical]
+    'peclet'                : 8.0,   # Control Peclet of the multisolute transport class [Phase-8 operating point]
+    'pore_flow_velocity'    : 1e-05,   # Flow of the single-tracer transport classes (m/s): accumulation Peclet ~1.8, inside og-03's resolvable range
+    'feed_pyruvate'         : 0.0001,   # Organic feed the vent delivers at full support (M) [vg-data: inferred]
+    'n_initial'             : 8,   # Founding individuals of the population
+    'protocell_radius'      : 5e-07,   # Protocell radius (m): the cell's volume, membrane area and A/V [vg-data: inferred, Phase 6]
+    'seed'                  : 1,   # Heredity-class RNG seed
+}
+
+# ### Run
+#
+# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
+
+# === Study: og-08-alt-dx-importer-cost ===
+STUDY = 'og-08-alt-dx-importer-cost'
+STUDY_DIR = REPO / 'workspace/studies' / STUDY
+STUDY_YAML = str(STUDY_DIR / "study.yaml")
+RUNS_DB = str(STUDY_DIR / "runs.db")
+
+# This study has no *recorded* runs yet. RERUN builds its declared
+# composite(s) live and runs them; a composite whose module processes
+# are not implemented yet reports the error instead of crashing.
+STEPS_Integrated_autonomy_world_og_08_alt_canonical_structure = 100
+INTERVAL_Integrated_autonomy_world_og_08_alt_canonical_structure = 1.0
+
+if RERUN:
+    from process_bigraph import Composite
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_integrated_autonomy_integrated_autonomy_world if 'ov_viva_genesis_composites_integrated_autonomy_integrated_autonomy_world' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_integrated_autonomy_integrated_autonomy_world = materialize_composite('viva_genesis.composites.integrated_autonomy.integrated_autonomy_world', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_integrated_autonomy_integrated_autonomy_world['state']}, core=core)
+            _comp.run(STEPS_Integrated_autonomy_world_og_08_alt_canonical_structure)
+        print('ran', 'Integrated autonomy world (og-08-alt canonical structure)', f'(viva_genesis.composites.integrated_autonomy.integrated_autonomy_world) for', STEPS_Integrated_autonomy_world_og_08_alt_canonical_structure, 'steps')
+    except Exception as _e:
+        print(f"Integrated autonomy world (og-08-alt canonical structure) not runnable yet: {type(_e).__name__}: {_e}")
+else:
+    print("RERUN=False — not re-simulating.")
 
 # ## Open decisions
 # - Phase 9 — read og-08's {pump, importer, heredity} as a HYPOTHESIS GENERATOR (plan section 10), not a result: the integrated world (og-08-alt-robust-innovation-set) finds the required set structure-dependent and the off-gradient verdict decided by the ocean floor, the membrane leakiness and the inheritance class's budget sensitivity. Adopt this framing for the campaign's endpoint statement, and supply the ocean's H2 / organic background (the floor) as an expert prior?

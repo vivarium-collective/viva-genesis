@@ -25,7 +25,7 @@
   <span class="study-header-actions" style="display:inline-flex; gap:6px; flex-shrink:0; align-items:center;">
     
     <button type="button" id="study-dl-figures" class="btn-mini study-dl-btn" onclick="window._vivStudyFiguresFromCard(event, 'og-00b-ph-endmember-sweep')" title="Download this study's figures (figure panels + its composite) as a zip">↓ figures</button>
-    <button type="button" id="study-dl-notebook" class="btn-mini study-dl-btn" onclick="window._vivStudyNotebookFromCard(event, 'og-00b-ph-endmember-sweep', '')" title="Download a runnable Jupyter notebook for THIS study — its composite + editable parameters + figures">↓ notebook</button>
+    <button type="button" id="study-dl-notebook" class="btn-mini study-dl-btn" onclick="window._vivStudyNotebookFromCard(event, 'og-00b-ph-endmember-sweep', 'origins-of-life-vent')" title="Download a runnable Jupyter notebook for THIS study — its composite + editable parameters + figures">↓ notebook</button>
     <span aria-hidden="true" style="width:1px; align-self:stretch; margin:2px 4px; background:#e2e8f0;"></span>
     
     <button type="button" id="study-reproduce" class="btn-mini" title="Replay this study's most recent run's RECORDED manifest verbatim (POST /api/study-reproduce) — ignores any study.yaml edits made since">↻ Reproduce</button>
@@ -33,7 +33,7 @@
     
     <button type="button" id="study-run-composite" class="btn-mini" title="Dispatch a specific process-bigraph composite_id to the remote compute backend (pbg-native multi_node/mbp, or the Nextflow campaign path) — advanced, independent of this study's own pinned baseline">⚙ Dispatch composite</button>
     
-    <button type="button" id="study-next" class="btn-mini" style="display:none" data-investigation="" title="Go to the next study in this investigation's narrative (leads-to)">Next study →</button>
+    <button type="button" id="study-next" class="btn-mini" style="display:none" data-investigation="origins-of-life-vent" title="Go to the next study in this investigation's narrative (leads-to)">Next study →</button>
   </span>
   </div>
   <div class="study-status-row" style="display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-top:6px;">
@@ -157,7 +157,7 @@
 
 
 
-<p id="study-question-headline" class="study-question-headline"><span class="q-glyph">Q</span> og-00 reports a habitability window at a single olivine-dominated vent composition. How far does that window move when the host-rock pyroxene fraction (ol/px ratio) and the seawater-mixing dilution are varied — i.e. where is the realistic pH endmember, and does the habitable region survive at the acidic/dilute edge the 2026 reassessment emphasises?</p>
+<p id="study-question-headline" class="study-question-headline"><span class="q-glyph">Q</span> How far does the og-00 habitability window move when the host-rock pyroxene fraction and the seawater-mixing dilution are varied, and does the habitable region survive at the acidic, dilute endmember the recent reassessment emphasises?</p>
 
 <nav class="study-tabs" aria-label="Study sections">
   
@@ -213,7 +213,7 @@
     </div>
     <div class="act-tabs">
       
-      <button class="study-pillar" data-kind="conclusions" onclick="_setStudyTab('conclusions')">Conclusions</button>
+      <button class="study-pillar" data-kind="conclusions" onclick="_setStudyTab('conclusions')">Decide</button>
     </div>
   </div>
 </nav>
@@ -667,7 +667,7 @@
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Claim</h2>
-      <p class="ctr-text">og-00 reports a habitability window at a single olivine-dominated vent composition. How far does that window move when the host-rock pyroxene fraction (ol/px ratio) and the seawater-mixing dilution are varied — i.e. where is the realistic pH endmember, and does the habitable region survive at the acidic/dilute edge the 2026 reassessment emphasises?</p>
+      <p class="ctr-text">How far does the og-00 habitability window move when the host-rock pyroxene fraction and the seawater-mixing dilution are varied, and does the habitable region survive at the acidic, dilute endmember the recent reassessment emphasises?</p>
       
     </div>
 
@@ -675,7 +675,7 @@
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Background</h2>
       <div class="ctr-meta">
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Question</span> <span class="ctr-meta-item">og-00 reports a habitability window at a single olivine-dominated vent composition. How far does that window move when the host-rock pyroxene fraction (ol/px ratio) and the seawater-mixing dilution are varied — i.e. where is the realistic pH endmember, and does the habitable region survive at the acidic/dilute edge the 2026 reassessment emphasises?</span></div>
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Question</span> <span class="ctr-meta-item">How far does the og-00 habitability window move when the host-rock pyroxene fraction and the seawater-mixing dilution are varied, and does the habitable region survive at the acidic, dilute endmember the recent reassessment emphasises?</span></div>
         
       </div>
     </div>
@@ -719,7 +719,7 @@
   <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:8px;">
     <h2 class="overview-label" style="margin:0">Model composition</h2>
     
-    <button type="button" class="btn-mini" onclick="window._vivStudyNotebookFromCard(event, 'og-00b-ph-endmember-sweep', '')" title="Download a runnable Jupyter notebook for THIS study — its composite + editable parameters + figures">↓ notebook</button>
+    <button type="button" class="btn-mini" onclick="window._vivStudyNotebookFromCard(event, 'og-00b-ph-endmember-sweep', 'origins-of-life-vent')" title="Download a runnable Jupyter notebook for THIS study — its composite + editable parameters + figures">↓ notebook</button>
   </div>
 
   
@@ -1068,10 +1068,40 @@
     </div>
 
     
+    
+    
+
+    
+    
+    
 
   </div>
 
   
+  
+  <div class="overview-section"><h2 class="overview-label">Plan &amp; assumptions</h2>
+
+    
+    <div class="overview-section">
+      <h3 class="overview-label">Pipeline gate</h3>
+      <p class="muted" style="margin: 0 0 8px 0;font-size:0.88em">
+        Each study is a model-building gate: it answers <em>"Can we safely build the next layer?"</em>
+      </p>
+      
+      <div style="margin-bottom:6px"><strong>Prerequisites:</strong>
+        <code>{&#39;study&#39;: &#39;og-00-vent-reactor-baseline&#39;, &#39;condition&#39;: &#39;tests-passed&#39;}</code>
+      </div>
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+
+  </div>
   
 
   
@@ -1079,22 +1109,8 @@
 
     
     
-    <p class="muted" style="margin:0 0 10px 0;font-size:0.85em">
-      Synthesised read-only from canonical fields — edit <code>findings</code>,
-      <code>limitations</code>, and <code>discovery_implications</code> to change
-      this (and the generated report) together.
-    </p>
-    <div class="conclusions-grid conclusions-synthesis">
-      <div class="conclusion-field">
-        <h3>Claims <span class="muted small">(from findings)</span></h3>
-        <p class="muted">No findings recorded yet.</p>
-      </div>
-      <div class="conclusion-field">
-        <h3>Evidence <span class="muted small">(from findings)</span></h3>
-        
-        <p class="muted">No evidence recorded on findings yet.</p>
-      </div>
-    </div>
+    
+    
     
 
   </div>
@@ -1109,30 +1125,19 @@
     
 
     
+    
+    
+    
 
   </div>
 
   
   
-  <details class="overview-section"><summary class="overview-label">Limitations &amp; provenance</summary>
-
-    
-    
-    
-    <div class="conclusions-grid conclusions-synthesis">
-      <div class="conclusion-field">
-        <h3>Next steps <span class="muted small">(from discovery implications)</span></h3>
-        <p class="muted">No follow-up proposals recorded yet.</p>
-      </div>
-    </div>
-
-  </details>
-  
 
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "a19b2949e553d0271ce82670b6e9112c0485b003", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/a19b2949e553d0271ce82670b6e9112c0485b003", "branch": "main", "lockfile": "uv.lock@3cb95a7ef433", "generated_at": "2026-10-16 13:24 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "41785446490ebf5fb5855280243f0af97483aca6", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/41785446490ebf5fb5855280243f0af97483aca6", "branch": "main", "lockfile": "uv.lock@ad1345056f2b", "generated_at": "2026-10-16 14:00 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>
