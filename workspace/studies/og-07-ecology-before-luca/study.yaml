@@ -410,3 +410,6 @@ loom:
   layout: hierarchy
   figure: true
   detail: contract
+conclusion_logic:
+  if_primary_tests_pass:
+    biological_validation: 'A connected metacommunity of eight pore compartments develops redundancy an isolated one cannot (robustness about 0.71 against 0.42, winning on every one of eight seeds), but only in a bounded corner of the phase map: enough inter-compartment diversity, enough exchange, and low enough parasite load. Its roughly 0.6-0.7 overlap with an anaerobic H2/CO2/FeS LUCA reconstruction is a far-end boundary the emergent set approaches, not evidence the earliest compartments were already LUCA-like.'

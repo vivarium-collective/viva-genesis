@@ -48,6 +48,9 @@ findings:
     H2 → no CO2 reduction; no Fe/Ni/S interface → no abiotic carbon fixation; an open
     pore → no thermophoretic concentration.
 - id: ogadv-vent-specificity
+  provenance:
+    run_ids:
+    - viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation__1791923061__6216cd
   kind: methodological
   status: novel
   statement: The gates are vent-specific detectors, not generic nonequilibrium detectors
@@ -62,6 +65,9 @@ findings:
   explanation: Falsification exposure for the whole investigation — the headline claims
     would be hollow if a feature-ablated control cleared the same bars. It does not.
 - id: ogadv-catalyst-control-integrity
+  provenance:
+    run_ids:
+    - viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation__1791923061__6216cd
   kind: methodological
   status: novel
   statement: Building the control exposed a latent control-integrity bug — catalyst_active=0

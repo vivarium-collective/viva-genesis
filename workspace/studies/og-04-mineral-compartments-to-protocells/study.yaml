@@ -223,6 +223,7 @@ findings:
     survive at seawater salt (0.35 M) and beyond only with enough co-surfactant —
     the Jordan mixed-amphiphile advantage as a bounded 2-D region, not a single point.'
   evidence:
+    from_test: mixed-amphiphile-advantage-over-single
     observed: retention 0.97→0 and access rising to 1.00 then falling to 0 across
       285–360 K; feasibility viable (individ>0.1) at 63/256 points, viable salt ceiling
       rising with mix_fraction
@@ -434,3 +435,6 @@ loom:
   layout: hierarchy
   figure: true
   detail: contract
+conclusion_logic:
+  if_primary_tests_pass:
+    biological_validation: 'In a bounded alkaline / seawater-salt window, mixed amphiphiles form viable vesicles (about 8000) where single fatty acids form none, retaining internal chemistry (0.91) while staying permeable to the gradient (access 1.0) over a viable region at about 25% of the map. This gives a plausible mineral-to-organic-boundary transition, not proof it helps: whether enclosure improves a network''s persistence over the open pore is left to downstream studies, and the membrane model is coarse-grained, calibrated to Jordan-2019 rather than membrane MD.'

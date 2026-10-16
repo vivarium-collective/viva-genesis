@@ -123,7 +123,8 @@ findings:
   status: confirms
   statement: A founder grows, divides, and its daughters do the same — a >=3-generation
     lineage forms in the agents map, matter and volume conserved at every division.
-  from_test: lineage-reaches-three-generations
+  evidence:
+    from_test: lineage-reaches-three-generations
 conclusion_verdicts:
   lineage-reaches-three-generations: supported
 limitations:
@@ -216,3 +217,6 @@ loom:
   layout: hierarchy
   figure: true
   detail: contract
+conclusion_logic:
+  if_primary_tests_pass:
+    biological_validation: A founder grows to threshold and divides by a matter- and volume-conserving structural rewrite (partition residual exactly 0 at every division), its daughters do the same, and the lineage reaches 5 generations past the 3-generation bar. The model demonstrates the conserving division-and-lineage mechanism; growth itself is abstracted to a division trigger rather than full osmotic volume growth, which coupling the two would supply.

@@ -514,3 +514,6 @@ loom:
   layout: hierarchy
   figure: true
   detail: contract
+conclusion_logic:
+  if_primary_tests_pass:
+    biological_validation: A pre-ATP thioester-class carrier coupled to an exergonic geochemical drive builds and maintains a transferable energy currency under continuous load, the pool filling from empty to about 39% of capacity and capturing roughly 47% of the tapped free energy as usable work at the favourable point, and removing the coupling or starving the drive collapses the capture. This makes energy capture into a transferable store an explicit, bounded transition rather than a favourable reaction direction, while leaving open which concrete carrier (thioester, acyl phosphate, polyphosphate, reduced metal) best realizes the abstract currency.

@@ -50,6 +50,9 @@ findings:
     so what is EMERGENT is that it sustains ignition under continuous feed + washout
     (a no-CO2 control collapses gain to 0), not the motif itself.
 - id: og02-network-closure
+  provenance:
+    run_ids:
+    - viva_genesis.composites.protometabolism.protometabolic_network__1791858208__cae24f
   kind: computational
   status: confirms
   statement: Products form ONE connected reaction network (networkx connectivity),
@@ -67,6 +70,7 @@ findings:
     or the reactor flushed too fast. The favorable operating point sits well inside
     the ignition region; the gain=1 contour is the autocatalytic threshold.
   evidence:
+    from_test: autocatalytic-gain-present
     observed: OAA hub 0 → 24 mM across the (feed × washout) plane; ignition bounded
       by gain=1
     units: molar

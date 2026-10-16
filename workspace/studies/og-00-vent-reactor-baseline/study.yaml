@@ -52,6 +52,9 @@ findings:
     cites:
     - schwander2023serpentinization
 - id: og00-conservation
+  provenance:
+    run_ids:
+    - viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor__1791945139__b33a98
   kind: computational
   status: confirms
   statement: PHREEQC charge balance is conserved exactly (|charge|=0) and the FiPy
@@ -82,6 +85,7 @@ findings:
     → 51 °C) while staying inside the Lost City window; flux conservation is preserved
     within the solver tolerance (flux residual ~5e-5, within the 1e-3 bound).
   evidence:
+    from_test: spatial-flux-conserved
     observed: recirculation cell (cold-left sinks, hot-right rises); vmax ~5× background;
       outlet 50.6 °C
     units: dimensionless
@@ -105,6 +109,7 @@ findings:
     PHREEQC's 0–100 °C validity (recorded NaN → FAIL); the baseline operating point
     sits safely inside the window.
   evidence:
+    from_test: vent-temperature-in-lostcity-range
     observed: 115/144 (80%) habitable over (olivine_rate 0.005–0.4 × flow_velocity
       2e-4–3e-2); 17 cold-washout FAILs, 12 out-of-range NaN; baseline (★) in-window
       at 50.6 °C / pH 9.37

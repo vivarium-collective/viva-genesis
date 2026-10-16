@@ -138,7 +138,8 @@ findings:
   status: confirms
   statement: The boundary forms from acetate+formate-derived amphiphile; with synthesis
     ablated it does not — boundary formation is caused by the endogenous chemistry.
-  from_test: boundary-forms-from-chemistry
+  evidence:
+    from_test: boundary-forms-from-chemistry
   cites:
   - jordan2019promotion
 conclusion_verdicts:
@@ -234,3 +235,6 @@ loom:
   layout: hierarchy
   figure: true
   detail: contract
+conclusion_logic:
+  if_primary_tests_pass:
+    biological_validation: The boundary forms from endogenous acetate+formate-derived amphiphile once it clears the critical aggregation concentration; ablating synthesis leaves it below threshold and no individual forms, so the boundary is caused by the chemistry rather than an added amphiphile. The condensation rate k_synth stays an assumed, inferred value swept over a wide prior.

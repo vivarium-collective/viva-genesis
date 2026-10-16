@@ -1144,3 +1144,6 @@ loom:
   layout: hierarchy
   figure: true
   detail: contract
+conclusion_logic:
+  if_primary_tests_pass:
+    biological_validation: 'Owning an energy store pays only where it can be charged above the load faster than it leaks, and which chemistry clears that bar is structure-specific: a thioester/acyl-phosphate carrier internalizes from a tenth of the drive at fatty-acid-like leak, an Fe-redox store only near full activity, a pumped H+/Na+ gradient only once the membrane is about 100x tighter to Na+, and polyphosphate not at all against a 30 kJ/mol load (the free-energy ledger closes to rounding on all 990 runs). These are real thermodynamic thresholds, but the classes agree on only 46% of the grid and every per-cell number is hypothetical and unswept beyond the nominal grid.'

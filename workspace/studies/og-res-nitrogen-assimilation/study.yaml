@@ -89,6 +89,9 @@ findings:
     ratio + a keeps-pace mask, rendered as the nitrogen phase map (Decision view).
     Runner sims/compute_nitrogen_grid.py.
 - id: ogn-mass-accounting
+  provenance:
+    run_ids:
+    - viva_genesis.composites.nitrogen_assimilation.reduced_nitrogen_reactor__1791926319__eec3bc
   kind: methodological
   status: confirms
   statement: Nitrogen mass is conserved by construction — every internal reaction

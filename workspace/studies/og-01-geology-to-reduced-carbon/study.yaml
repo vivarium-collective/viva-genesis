@@ -97,6 +97,7 @@ findings:
     region is broadly productive — the sharp dependence is on a SUSTAINED gradient,
     not on sitting at one pH/H₂ point.
   evidence:
+    from_test: net-carbon-flux-nonzero-region
     observed: favorable 6.4–24 ×10⁻³ mol-C/s vs Tutolo 2.2–15; controls 0
     units: mole/second
   expected:

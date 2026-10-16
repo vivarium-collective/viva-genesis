@@ -487,3 +487,6 @@ loom:
   layout: hierarchy
   figure: true
   detail: contract
+conclusion_logic:
+  if_primary_tests_pass:
+    biological_validation: An internal autocatalytic source accumulates an osmolyte whose osmotic pressure draws solvent across the membrane and grows the compartment to a division threshold, dividing eight times over the run with an osmolyte mass-balance residual of about 4e-32 mol; only about 25% of the permeability x throughput grid forms a viable growth-to-division band, flanked by starvation when the membrane is too permeable and lysis when it is too impermeable. The model delivers a chemically selected, dividing protocell through mass-conserving osmotic coupling, with no abstract fitness function assigned.

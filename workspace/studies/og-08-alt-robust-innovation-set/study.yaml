@@ -110,11 +110,11 @@ findings:
     - viva_genesis.composites.integrated_autonomy.integrated_autonomy_world__1792088317__3f4e8b
   kind: computational
   status: confirms
-  statement: 'The storage model reproduces Phase 6 inside the world — the H+/Na+ gradient
+  statement: 'The storage model reproduces the energy-store result inside the world — the H+/Na+ gradient
     store never charges at the fatty-acid leak and polyphosphate never clears its
     30 kJ/mol load, while the four stores deliver at most 0 (polyphosphate), 0 (H+/Na+
     gradient), 6.6e-18 (thioester) and 5e-18 W (Fe-redox) — and the inheritance class
-    reproduces Phase 7''s budget sensitivity: settled machinery off-gradient at the
+    reproduces the heredity stage''s budget sensitivity: settled machinery off-gradient at the
     rich floor is hybrid 0.77, mineral state 0.74, rna like 0.41, compositional 0.27,
     network 0, peptide 0; peptide and network hold none, the templated classes decay
     as the carbon falls, the mineral and compositional classes hold on a fraction
@@ -124,10 +124,10 @@ findings:
     observed: internal power by storage class and machinery by inheritance class over
       the full-set runs at the rich floor
     units: dimensionless
-  explanation: 'The structural axes do what the earlier phases found when their classes
+  explanation: 'The structural axes do what the earlier studies found when their classes
     are composed: the autonomy question factors into "can the store run the lineage"
-    (Phase 6) and "can the inheritance class hold the machinery on what the cell makes
-    off-gradient" (Phase 7). Artifact: artifacts/robust_innovation_set.json (lattice_rich.by_axis).'
+    (the energy-store question) and "can the inheritance class hold the machinery on what the cell makes
+    off-gradient" (the heredity question). Artifact: artifacts/robust_innovation_set.json (lattice_rich.by_axis).'
   expected:
     cites:
     - sojo2014bioenergetic
