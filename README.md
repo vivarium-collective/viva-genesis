@@ -2,52 +2,64 @@
 
 <!-- BEGIN dashboard -->
 > ## 📊 [**Live dashboard →**](https://vivarium-collective.github.io/viva-genesis/dashboard/)
-> Browse every investigation & study interactively, or read the [published investigation reports](https://vivarium-collective.github.io/viva-genesis/). Auto-published from `main` on every merge.
+> Browse every investigation and study interactively. Auto-published from `main` on every merge.
 <!-- END dashboard -->
 
-**An origins-of-life hydrothermal-vent simulation campaign in Vivarium.**
+**An origins-of-life hydrothermal-vent simulation campaign, built on [Vivarium](https://github.com/vivarium-collective) / process-bigraph.**
 
-Treats the origin of life as a chain of coupled, independently falsifiable
-transitions — geochemical disequilibrium → carbon fixation → concentration &
-compartmentalization → protometabolism → protocells → heredity → autonomy —
-grounded in deep-sea serpentinization-driven alkaline vents, with competing
-scenarios (shallow-vent, terrestrial-geothermal, cyanosulfidic) kept as explicit
-alternatives rather than assumptions.
+It treats the origin of cells not as one event but as a chain of coupled,
+independently falsifiable transitions — geochemical disequilibrium → carbon
+fixation → concentration and compartmentalization → protometabolism → protocells
+→ heredity → autonomy — grounded in deep-sea serpentinization-driven alkaline
+vents, with competing scenarios (shallow-vent, terrestrial-geothermal,
+cyanosulfidic) kept as explicit alternatives rather than assumptions.
 
-> **Status: design + resource foundation, not a running simulation.** The
-> scientific framing, module/process architecture, provenance schema, parameter
-> registry, experiment/falsification plan, and the annotated reference library
-> are in place. Composites get built module by module — these dossiers are a
-> *design*, not a claim that existing software already simulates abiogenesis.
+Every stage is a composite of **real simulators** wrapped as process-bigraph
+processes — PHREEQC geochemistry, FiPy and FEniCS/dolfinx transport, eQuilibrator
+thermodynamics, libRoadRunner reaction networks — run against pre-registered,
+falsifiable acceptance gates with mass, charge, and free-energy ledgers held to
+machine precision.
 
-## The campaign
+## What it shows
 
-| Where | What |
+The full geochemistry-to-heredity arc runs end to end and passes its pre-stated
+gates. The campaign is deliberately honest about what that means: it maps
+*where* the proposed alkaline-vent trajectory is internally compatible, where it
+has bounded operating regions, and where resources or innovations become
+bottlenecks — including the honest negatives (e.g. the limitation on carbon
+fixation is structure-sensitive, and the integrated {pump, importer, heredity}
+set is not jointly sufficient off-gradient).
+
+It does **not** claim that life historically originated at alkaline vents.
+Several stages begin from specified reaction networks or coarse-grained models;
+the value is that those assumptions are explicit, executable, sweepable, and
+increasingly vulnerable to ablation, adversarial controls, and replacement by
+higher-fidelity models.
+
+The genuine simulators are **imported** from dedicated wrapper repositories
+rather than reimplemented here:
+[viva-equilibrator](https://github.com/vivarium-collective/viva-equilibrator) ·
+[viva-tellurium](https://github.com/vivarium-collective/viva-tellurium) ·
+[viva-fenics](https://github.com/vivarium-collective/viva-fenics).
+
+## Design and framing
+
+| Document | What |
 |---|---|
-| [`campaign-overview.md`](workspace/notes/campaign-overview.md) | Core idea, primary question, Campaigns 0–VIII, first milestone, implementation order. |
-| [`hypothesis-graph.md`](workspace/notes/hypothesis-graph.md) | Stages 0–7, mechanistic links A–I (with evidence status), provenance crosswalk. |
-| [`modules.md`](workspace/notes/modules.md) | Mechanistic modules A–J + LUCA boundary → Vivarium process signatures. |
+| [`campaign-overview.md`](workspace/notes/campaign-overview.md) | Core idea, primary question, stage order, milestones. |
+| [`hypothesis-graph.md`](workspace/notes/hypothesis-graph.md) | Stages and mechanistic links with evidence status and a provenance crosswalk. |
+| [`modules.md`](workspace/notes/modules.md) | Mechanistic modules → Vivarium process signatures. |
 | [`architecture.md`](workspace/notes/architecture.md) | Process-bigraph design: process table, shared stores, coupling, conservation contracts. |
-| [`provenance-schema.md`](workspace/notes/provenance-schema.md) | FIELD / LAB-DIRECT / LAB-ANALOG / MODEL / RECONSTRUCTION / HYPOTHESIS classes; model-card + run-export requirements. |
+| [`provenance-schema.md`](workspace/notes/provenance-schema.md) | Evidence classes (FIELD / LAB / MODEL / RECONSTRUCTION / HYPOTHESIS) and model-card requirements. |
 | [`experiments-and-falsification.md`](workspace/notes/experiments-and-falsification.md) | Discriminating tests, acceptance gates, reproduction targets, competing environments. |
-| [`risk-register.md`](workspace/notes/risk-register.md) | Evidence gaps and model risks with mitigations. |
-| [`data-acquisition.md`](workspace/notes/data-acquisition.md) | Field + laboratory datasets to acquire/digitize. |
+| [`risk-register.md`](workspace/notes/risk-register.md) · [`data-acquisition.md`](workspace/notes/data-acquisition.md) | Evidence gaps and model risks; datasets to acquire. |
 
-**Resources:** [`computational-resources.md`](workspace/references/computational-resources.md)
-(engines, databases, standards, stage→engine map) ·
-[`papers.bib`](workspace/references/papers.bib) (36 annotated references) ·
+**Resources:**
+[`computational-resources.md`](workspace/references/computational-resources.md)
+(engines, databases, standards) ·
+[`papers.bib`](workspace/references/papers.bib) (annotated references) ·
 [`parameter-registry.yaml`](workspace/datasets/parameter-registry.yaml)
-(provenance-classed quantitative parameters).
-
-Processes are organized by module family under
-[`viva_genesis/`](viva_genesis/): `geochemistry`, `transport`,
-`electrochemistry`, `protometabolism`, `compartments`, `polymers`, `ecology`
-(documented placeholders today).
-
-**First target** — a dynamically precipitating, spatially resolved alkaline
-vent–ocean interface that generates and *retains* a persistent protometabolic
-carbon flux; reproduce Preiner 2020, Hudson 2020 and Baaske 2007 before
-extrapolating. See [`workspace/composites/`](workspace/composites/README.md).
+(provenance-classed parameters).
 
 ## Getting started
 
@@ -58,25 +70,23 @@ pytest -q                               # package + registration guards
 bash scripts/serve.sh                   # open the interactive workbench locally
 ```
 
-Building processes/composites: wrap a simulator with `/viva-expert`, run it with
-`/viva-run`, drive studies with `/viva-study`, group them with
-`/viva-investigation`. See [`AGENTS.md`](AGENTS.md) for the PR flow and
-[`docs/first-run-agent-guide.md`](docs/first-run-agent-guide.md) for an
-agent-driven walkthrough.
+Build processes and composites by wrapping a simulator with `/viva-expert`, run
+them with `/viva-run`, drive studies with `/viva-study`, and group them with
+`/viva-investigation`. See [`AGENTS.md`](AGENTS.md) for the PR conventions.
 
 ## Layout
 
 Code lives at the repo root; research state is grouped under `workspace/`
-(locations come from the `layout:` map in `workspace.yaml`).
+(paths come from the `layout:` map in `workspace.yaml`).
 
-- `viva_genesis/` — Python package; `core.py` exposes `build_core()`, module families in subpackages.
-- `workspace/notes/` — campaign design docs (survive cleanup sweeps).
-- `workspace/references/` — `papers.bib` + computational-resources catalog.
-- `workspace/datasets/` — provenance-classed parameter registry.
-- `workspace/composites/`, `workspace/experiments/` — build + falsification targets.
-- `.pbg/schemas/` — JSON schemas the lint + workbench validate against.
+- `viva_genesis/` — the Python package; `core.py` exposes `build_core()`, with module families (`geochemistry`, `transport`, `electrochemistry`, `protometabolism`, `bioenergetics`, `heredity`, `ecology`, `membranes`, …) in subpackages.
+- `workspace/investigations/`, `workspace/studies/` — the investigation and its per-study design, runs, and visualizations.
+- `workspace/notes/` — campaign design documents.
+- `workspace/references/` — `papers.bib` and the computational-resources catalog.
+- `workspace/datasets/` — the provenance-classed parameter registry.
+- `.pbg/schemas/` — the JSON schemas the lint and workbench validate against.
 
-<!-- the two tables below are generated by `vivarium-workbench gen-readme` and kept fresh by CI; they fill in as composites and investigations are added. -->
+<!-- the two tables below are generated by `vivarium-workbench gen-readme` and kept fresh by CI. -->
 
 ### Composites
 
