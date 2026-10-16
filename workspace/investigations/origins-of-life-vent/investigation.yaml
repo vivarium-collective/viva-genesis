@@ -13,114 +13,86 @@ hypothesis: >-
   thresholds for sustained carbon fixation, network persistence, concentration/individuality,
   compartmentation, internalized energy, and heritable organization — with identifiable parameter regions
   where each step fails.
-lead: |
+lead: >-
   The origin of cells, treated not as a single spark but as a staged sequence of nonequilibrium
-  transitions at an alkaline hydrothermal vent — each one a falsifiable step a simulation can pass or
-  fail. The guiding hypothesis is the alkaline-vent theory for the origin of life: that the vent–ocean
-  interface hands a nascent cell its first free-energy source (a natural proton gradient across thin
-  mineral walls), its first reduced carbon (H2-driven CO2 reduction), and a place to concentrate and
-  enclose that chemistry — before the cell evolves its own membranes, pumps and genes. The campaign
-  builds that vent from real geochemistry upward (serpentinization, reactive transport, H2-driven
-  carbon fixation, self-amplifying networks) and runs the classical favorable and the 2026 unfavorable
-  scenarios head to head rather than assuming either. Each stage is a coupled Vivarium composite of
-  genuine simulators (PHREEQC, FiPy, eQuilibrator, libRoadRunner — plus a merged FEniCS/dolfinx FEM
-  solver run under pixi as a high-fidelity cross-check) under explicit conservation contracts.
-  All twenty-three member studies are built and run on real simulators. The fourteen-stage arc — from vent
-  geochemistry through carbon fixation, protometabolism, individuality, compartmentation, internalized
-  bioenergetics and heredity to ecology, escape, and the nitrogen/phosphorus/energy/growth bottlenecks —
-  passes its pre-stated falsifiable gates, with an adversarial vent-ablated control rejected by every
-  discriminating gate. Nine Model-Upgrade studies then re-ground the arc under a feasibility / robustness /
-  discrimination standard across Phases 1–9 — environmental calibration, electrochemistry, open network,
-  endogenous boundary, physical reproduction, energy coupling, information-per-cost heredity, biochemical
-  ecology and integrated autonomy — and two of them fail their gates honestly rather than passing. The
-  Phase-2 electrochemistry mechanism map (og-01-cal-electrochemistry) fails its cross-class agreement gate
-  because the limitation attribution is structure-sensitive; the Phase-9 integrated-autonomy capstone
-  (og-08-alt-robust-innovation-set) finds og-08's {pump, importer, heredity} set not jointly sufficient —
-  no subset persists into a 1 % ocean, only {pump, heredity} into a 10 % one (2 of 24 structures), the
-  importer a net cost under a leaky membrane — so it is recorded as a hypothesis generator. The Phase-3
-  open-network study (og-02-alt-reaction-universe) adds a third honest result — no autocatalytic motif
-  emerges at vent conditions without a one-carbon feed.
+  transitions at an alkaline hydrothermal vent, each one a falsifiable step a simulation can pass
+  or fail. The guiding hypothesis is the alkaline-vent theory for the origin of life: the
+  vent-ocean interface hands a nascent cell its first free energy (a natural proton gradient
+  across thin mineral walls), its first reduced carbon (H2-driven CO2 reduction), and a place to
+  concentrate and enclose that chemistry, before the cell evolves its own membranes, pumps and
+  genes. The campaign builds that vent from real geochemistry upward (serpentinization, reactive
+  transport, H2-driven carbon fixation, self-amplifying networks) and runs the classical favorable
+  scenario and the 2026 unfavorable reassessment head to head rather than assuming either. Every
+  stage is a coupled Vivarium composite of genuine simulators (PHREEQC, FiPy, eQuilibrator,
+  libRoadRunner, with a FEniCS/dolfinx FEM solver under pixi as a high-fidelity cross-check) under
+  explicit conservation contracts. Twenty-three studies build and run on real simulators. A
+  fourteen-stage arc from vent geochemistry through carbon fixation, protometabolism,
+  individuality, compartmentation, internalized bioenergetics and heredity to ecology, escape, and
+  the nitrogen/phosphorus/energy/growth bottlenecks passes its pre-stated gates, with an
+  adversarial vent-ablated control rejected by every discriminating gate. The sharper findings
+  come from the forward Model-Upgrade program, which re-grounds each stage on higher-fidelity
+  model classes and returns three honest negatives: carbon fixation's limiting step is
+  structure-sensitive (Phase 2), no autocatalysis emerges at vent conditions without a one-carbon
+  feed (Phase 3), and og-08's {pump, importer, heredity} set is not jointly sufficient
+  off-gradient (Phase 9).
 executive:
   what_is_this: A staged, falsifiable Vivarium campaign testing the alkaline-vent theory for the 
     origin of cells — treating a cellular origin as coupled transitions from geochemistry to 
     bioenergetic autonomy, grounded in serpentinization-driven alkaline hydrothermal vents, with 
     explicit competing scenarios.
-  verdict: The full geochemistry-to-heredity arc runs and passes. All twenty-three member studies execute
-    on real simulators; the fourteen-stage arc and the Phase-1 calibration pass their pre-stated,
-    falsifiable gates with conservation held
-    to machine precision — a Lost City vent (og-00), H2-driven carbon fixation benchmarked against
-    Preiner/Hudson with the Tutolo-2026 risk mapped (og-01), a self-amplifying rTCA network (og-02),
-    thermophoretic individuality (og-03), amphiphile compartments (og-04), internalized bioenergetics
-    bounded by the Sojo cost (og-05), heredity that need not presume RNA (og-06), metacommunity
-    robustness (og-07), an irreducible escape set {pump, importer, heredity} (og-08), plus the
-    nitrogen, phosphorus, energy-currency and growth/division bottleneck modules. A Phase-1
-    environmental-calibration study (og-cal) then re-runs og-00's vent under the campaign's new
-    three-quantity standard — conditioning an LHS prior on the Lost City windows leaves a posterior in
-    which 100% of the empirically supported distribution supplies what carbon fixation needs (6 of 48
-    prior draws reproduce all three Lost City windows, and all six meet og-01's requirements), the two
-    transport-structure classes agree on viability, dissolved H2 is the single binding observation, and
-    the conservation ledger is exact (0 of 96 points rejected). The Phase-2 electrochemistry mechanism
-    map (og-01-cal-electrochemistry) is an honest NEGATIVE — the carbon_fixation face is built with real
-    Butler–Volmer, empirical and (pixi-only) microkinetic classes and its charge/electron ledger closes
-    on all 750 runs, but the pre-registered failure-mode-attribution gate FAILS (label agreement 0.47 <
-    0.8) because the limitation label is structure-sensitive (Butler–Volmer attributes the favorable
-    region to the catalyst, the empirical class to its lumped gradient drive), with three decisions
-    pending. The Phase-3 open chemical network (og-02-alt-reaction-universe) is likewise an honest
-    result — a rule-generated C/H/O reaction universe (413 reactions, real eQuilibrator ΔG′) fed the
-    Phase-1 posterior grows 0 autocatalytic motifs (every C–C route uphill at vent activities), while a
-    formaldehyde feed grows exactly one, the formose cycle, enriched over matched nulls (p ≈ 0.04); the
-    curated rTCA motif is reclassed as imposed and non-conserving. No autocatalysis emerges at vent
-    conditions without a one-carbon feed — which sets Phase 4's question. Every step also has a mapped
-    failure region, and the adversarial generic-nonequilibrium control passes by rejection — every
-    discriminating gate rejects a vent-feature-ablated control while the vent passes — so the gates are
-    falsifiable and vent-specific. What remains open is editorial (publication scope), architectural
-    (folding the stages into one persistent world), and the forward Model-Upgrade program that
-    re-grounds each stage under the feasibility/robustness/discrimination standard — its foundation being
-    canonical vg_* schemas, model-class-as-a-sweep-axis, a vg-data provenance layer, a UQ layer and a
-    conservation ledger — is built, Phase 1 (environmental calibration) is done, Phase 2 (electrochemical
-    carbon fixation) is built and run as an honest negative (structure-sensitive attribution, decisions
-    pending), Phase 3 (open chemical network) has run (no autocatalytic motif at vent conditions without
-    a one-carbon feed), and Phase 4 (3-D multisolute localization) has run its co-localization map —
-    finding that the prebiotic mixture fractionates rather than co-localizes in a single thermophoretic
-    pore, a candidate incompatibility. Phase 5 (endogenous boundary + growth/division) has run — a
-    protocell boundary forms from the vent's own reduced-carbon amphiphile (31 individuals vs 0 with
-    synthesis ablated) and an individual divides into a five-generation lineage (past the ≥3 bar) with volume conserved
-    (partition residual 0); Phase 6 (proto-energetics) has run its internalization-threshold map —
-    internalization pays for the thioester store from coupling activity 0.10 and Fe-redox from 0.80, never
-    for polyphosphate, and the 'pays' verdict is structure-sensitive (cross-class agreement 0.46); and
-    Phase 7 (competing heredity) has run its information-per-cost frontier — quantifying that heredity need
-    not presume RNA, the best non-RNA class carrying 0.36× the RNA template's bits per offspring but 26×
-    the bits per joule, with the Eigen threshold reappearing at q ≈ 0.967. Phase 8 (biochemical ecology) has run — a
-    community of two incomplete lineages holds the reductive C4 branch that neither performs alone, carried by real
-    metabolite flux — and Phase 9 (integrated autonomy) has run as the capstone — og-08's {pump, importer, heredity}
-    re-asked inside one persistent world under seven ledgers across 24 sampled model structures is an honest
-    negative — no subset persists into a 1 % ocean, only {pump, heredity} into a 10 % one, the importer a net cost
-    under a leaky membrane — so og-08's set is recorded as a hypothesis generator. Phases 1–9 are built and run; the
-    forward program is complete and its open items are decisions, not unrun science.
+  verdict: >-
+    The full geochemistry-to-heredity arc runs on real simulators and passes its pre-stated,
+    falsifiable gates, with conservation held to machine precision. Twenty-three studies execute
+    end to end: a Lost City vent (og-00), H2-driven carbon fixation benchmarked against Preiner
+    and Hudson (og-01), a self-amplifying rTCA network (og-02), thermophoretic individuality
+    (og-03), amphiphile compartments (og-04), internalized bioenergetics bounded by the Sojo cost
+    (og-05), heredity that need not presume RNA (og-06), metacommunity robustness (og-07), the
+    {pump, importer, heredity} escape set (og-08), plus the nitrogen, phosphorus, energy-currency
+    and growth/division modules. An adversarial vent-ablated control is rejected by every
+    discriminating gate, so the gates are vent-specific rather than generic. The sharpest findings
+    come from the forward Model-Upgrade program, which re-ran each stage on higher-fidelity model
+    classes under a feasibility / robustness / discrimination standard and returned three honest
+    negatives. Phase 2: carbon fixation runs, but which limitation stops it is
+    structure-sensitive. The Butler-Volmer and empirical classes agree on the label only 47% of
+    the time against an 80% gate, so the mechanism map, not a pass, is the result (charge/electron
+    ledger exact on 750 runs). Phase 3: a rule-generated C/H/O reaction universe (413 reactions,
+    real eQuilibrator dG') on the calibrated vent grows zero autocatalytic motifs, every C-C route
+    uphill at vent activities, and grows exactly one (the formose cycle) once fed formaldehyde,
+    enriched over matched nulls (p = 0.04). No autocatalysis without a one-carbon feed. Phase 9,
+    the capstone: og-08's {pump, importer, heredity}, re-asked inside one persistent world across
+    24 model structures under seven ledgers, is not jointly sufficient. No subset persists into a
+    1% ocean, only {pump, heredity} into a 10% one (2 of 24 structures), and the importer is a net
+    cost under a leaky membrane, so og-08 is recorded as a hypothesis generator. A fourth result
+    is spatial: in Phase 4 the eight-solute prebiotic mixture fractionates rather than
+    co-localizing in one thermophoretic pore (Soret-driven; surrogate and dolfinx FEM agree), and
+    concentrating one tracer is not concentrating the set a protocell needs together. Phase 1
+    anchors the arc: conditioning on the Lost City windows leaves a posterior in which 100% of the
+    empirically supported vent states supply what carbon fixation needs, the two
+    transport-structure classes agree, dissolved H2 is the single binding observation, and the
+    ledger is exact (0 of 96 points rejected). Phases 1-9 are built and run. What remains open is
+    editorial (publication scope, bottleneck-map framing) and a few expert priors (the Hadean
+    ocean's H2 / organic floor, heredity attachment thresholds, membrane permeabilities):
+    decisions, not unrun science.
   verdict_status: complete
-  verdict_detail: 23 member studies (the fourteen-stage arc — Campaigns 0–VIII, four resource/energy
-    bottleneck modules, an adversarial control — plus nine Model-Upgrade calibration / -alt studies
-    spanning Phases 1–9 — environmental calibration, electrochemistry, open network, endogenous boundary,
-    physical reproduction, energy-coupling threshold, information-per-cost heredity, biochemical ecology,
-    integrated autonomy) wired into a DAG —
-    all run; all gate-passing except the Phase-2 map and the Phase-9 capstone, whose gates fail honestly (below). The Phase-3 study (og-02-alt-reaction-universe)
-    passes its motifs-emerge-not-imposed gate as an honest result — 0 autocatalytic motifs on the Phase-1
-    feed, the formose cycle only on a formaldehyde feed (enriched over matched nulls, p ≈ 0.04). Each runs a coupled Vivarium composite of real tools (PHREEQC + FiPy;
-    eQuilibrator + FiPy; libRoadRunner; a FiPy thermal trap; amphiphile self-assembly; bioenergetic
-    internalization; an agent-based heredity lineage; a pore metacommunity; an osmotic growth/division
-    compartment; a Butler–Volmer galvanic cell) and is graded on its conservation and acceptance gates. Headline results carry numbers — og-00 holds the Lost
-    City window (T 40–91 °C, pH 9.0–10.8, positive H2 flux) over ~80% of the swept grid with |charge|=0;
-    og-01 reproduces the Preiner/Hudson yields and shows the Tutolo arm halve the usable proton-motive
-    gradient (427→43 mV); og-02 reaches a peak autocatalytic gain ~29.5 (settling lower as CO2 limits);
-    og-06's compositional/hybrid heredity is seed-robust (0.878±0.005, 5/5 graded seeds, 8/8 in a wider
-    sweep); og-08's escape set is irreducible (full set survives 1.0, any single knockout 0); og-cal's
-    Lost-City-conditioned posterior is 12.5% of the prior yet 100% viable for downstream carbon fixation
-    and transport-class-independent, with the conservation ledger exact (0/96 points rejected);
-    og-01-cal-electrochemistry builds the vent wall as a Butler–Volmer galvanic cell sitting in the
-    Altair-2025 current window (7 of 8 pre-registered gates pass, charge/electron ledger exact on 750
-    runs) but its failure-mode-attribution gate fails at label agreement 0.47 — a structure-sensitive
-    limitation attribution reported as the Phase-2 mechanism map. The adversarial control is rejected by
-    all five discriminating gates (min margin 1.8 decades) while the vent passes all five.
+  verdict_detail: >-
+    Twenty-three studies, the fourteen-stage arc (Campaigns 0-VIII, the nitrogen / phosphorus /
+    energy / growth bottleneck modules, an adversarial control) plus nine Model-Upgrade
+    calibration and -alt studies spanning Phases 1-9, wired into a DAG and all run. Each runs a
+    coupled Vivarium composite of real tools (PHREEQC + FiPy; eQuilibrator; libRoadRunner; a FiPy
+    thermal trap; amphiphile self-assembly; bioenergetic internalization; an agent-based heredity
+    lineage; a pore metacommunity; an osmotic growth/division compartment; a Butler-Volmer
+    galvanic cell) and is graded on its conservation and acceptance gates. Headline numbers: og-00
+    holds the Lost City window (T 40-91 C, pH 9.0-10.8, positive H2 flux) over ~80% of the swept
+    grid with |charge| = 0; og-01 reproduces the Preiner/Hudson yields and shows the Tutolo arm
+    halve the usable proton-motive gradient (427 -> 43 mV); og-02 reaches a peak autocatalytic
+    gain ~29.5; og-06's compositional / hybrid heredity is seed-robust (0.878 +/- 0.005, 5/5
+    graded seeds); og-08's escape set is irreducible (full set survives 1.0, any single knockout
+    0); og-cal's Lost-City-conditioned posterior is 12.5% of the prior yet 100% viable downstream
+    and transport-class-independent (ledger 0/96 rejected). og-01-cal builds the vent wall as a
+    Butler-Volmer cell in the Altair-2025 current window (7 of 8 gates pass, ledger exact on 750
+    runs) but its attribution gate fails at label agreement 0.47. The adversarial control is
+    rejected by all five discriminating gates (min margin 1.8 decades) while the vent passes all
+    five.
   decisions_resolved:
   - 'Baseline parameterization: run BOTH arms — classical favorable (Russell/Lane/Sojo) and the 2026 unfavorable
     reassessment (Tutolo/Jackson) — so the campaign adjudicates rather than assumes. Implemented in og-01.'
@@ -214,14 +186,6 @@ executive:
       through og-04-06 adds membrane compartmentation, bioenergetic internalization and the agent-based
       heredity result; the full arc also carries ecology (og-07), escape (og-08) and the N/P/energy/growth
       bottlenecks. Editorial scope call.'
-  - question: 'First limiting resource / next module: which enrichment-plan module to build first — nitrogen
-      assimilation (N2/NO3->NH4, FeS), phosphorus availability (phosphate/polyphosphate co-concentration),
-      proto-energetics (thioester/acyl-phosphate energy currency before pumping), or metabolism->growth/division
-      (osmotic growth)?'
-    context: The Scientific Enrichment Plan (references/scientific-enrichment-plan.md) argues carbon
-      is not the only bottleneck. Its recommended arc inserts N, then P, then a coupled C-N-P 
-      protometabolism, with proto-energetics before og-05 and growth/division after og-04. Each is a
-      new adjacent study of similar size to og-00..06; help-team is already building og-07/08.
   - question: Actually RUN the og-03 -> og-02 localization->ignition coupling (trap enrichment feeds
       the rTCA network as a real swept phase map), resolving the demoted phantom finding and giving 
       og-03 its own Decision phase map?
@@ -282,14 +246,19 @@ executive:
       depends directly on the DIC prior and on the equilibrium-vs-kinetic carbon-redox choice. The expert''s
       prior here changes the posterior more than any swept knob does.'
 scientific_argument:
-  main_claim: Cells could have originated at alkaline hydrothermal vents. In simulation on real
-    geochemical and chemical engines, a serpentinization-fed vent–ocean interface supplies — in order
-    — the free energy, reduced carbon, self-amplifying chemistry, concentration, compartmentation,
-    internalized bioenergetics and heritable organization a protocell needs, each as an independently
-    falsifiable nonequilibrium transition. The full arc passes its pre-stated gates, every step has a
-    mapped parameter region where it fails, and an adversarial vent-ablated control is rejected by
-    every discriminating gate — so the campaign adjudicates the vent mechanism rather than illustrating
-    one story.
+  main_claim: >-
+    Cells could have originated at alkaline hydrothermal vents. On real geochemical and chemical
+    engines, a serpentinization-fed vent-ocean interface supplies, in order, the free energy,
+    reduced carbon, self-amplifying chemistry, concentration, compartmentation, internalized
+    bioenergetics and heritable organization a protocell needs, each as an independently
+    falsifiable nonequilibrium transition. The full arc passes its pre-stated gates and an
+    adversarial vent-ablated control is rejected by every discriminating gate, so the campaign
+    adjudicates the vent mechanism rather than illustrating one story. The sharper contribution is
+    where the higher-fidelity re-grounding breaks the easy story: the limiting step in carbon
+    fixation is structure-sensitive, autocatalysis needs a one-carbon feed, the prebiotic mixture
+    fractionates instead of co-localizing, and og-08's escape set is not jointly sufficient
+    off-gradient. Each failure is a mapped parameter region and a discriminating prediction, not a
+    dead end.
   evidence_for:
   - H2-dependent mineral-catalyzed CO2 fixation (Preiner, Varma, Huber)
   - pH-gradient-driven CO2 reduction with isotope controls (Hudson, Altair)
