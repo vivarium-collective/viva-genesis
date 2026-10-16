@@ -2,7 +2,7 @@
 name = "viva-genesis"
 version = "0.0.0"
 description = "Process-bigraph research workspace"
-requires-python = ">=3.11"
+requires-python = ">=3.12"
 dependencies = [
     "process-bigraph",
     "bigraph-schema",
@@ -18,10 +18,24 @@ dependencies = [
     # fipy is the finite-volume PDE solver for the spatial vent reactor.
     "phreeqpython>=1.6",
     "fipy>=4.0",
-    # Campaign-I (og-01) real reaction thermodynamics: eQuilibrator component-
-    # contribution ΔG' (bundled offline cache via equilibrator-cache-data).
+    # Genuine-simulator wrappers — the real engines/processes this campaign
+    # REUSES instead of wrapping internally. They surface as IMPORTED repos in
+    # the workbench Catalog (see [tool.uv.sources] for the pinned refs):
+    #   - viva-equilibrator: the eQuilibrator component-contribution ΔG' engine;
+    #     local:EquilibratorThermoStep IS its EquilibratorThermoStep (og-01).
+    #   - viva-tellurium: the Tellurium/libRoadRunner SBML engine; the og-02
+    #     curated-rTCA RoadRunnerNetworkProcess drives it via the imported loader.
+    #   - viva-fenics: the real dolfinx advection-diffusion-Soret FEM solver +
+    #     the two face-conforming transport classes (local:FenicsReactive/
+    #     ThermophoreticTrapProcess). dolfinx is conda-only, so they register in
+    #     this uv venv (import-safe) but only RUN under viva-fenics's pixi env.
+    "viva-equilibrator",
+    "viva-tellurium",
+    "viva-fenics",
+    # Direct deps still used outside the imported paths (transitional — the
+    # remaining `import tellurium` / `import equilibrator_api` call sites migrate
+    # to the wrappers in the process-reuse follow-up audit):
     "equilibrator-api>=0.6",
-    # Campaign-II (og-02) real SBML reaction-network simulation + graph analysis.
     "tellurium>=2.2",
     "networkx>=3.0",
     # Web-based workspace dashboard (server + templates + assets + lib helpers).
@@ -52,3 +66,9 @@ packages = ["viva_genesis"]
 [tool.uv.sources]
 process-bigraph = { git = "https://github.com/vivarium-collective/process-bigraph.git", branch = "main" }
 vivarium-workbench = { git = "https://github.com/vivarium-collective/vivarium-workbench.git", branch = "main" }
+# Imported genuine-simulator wrappers (pinned to releases). These appear as
+# IMPORTED repos in the workbench Catalog and provide the engines/processes
+# viva-genesis reuses instead of wrapping internally.
+viva-equilibrator = { git = "https://github.com/vivarium-collective/viva-equilibrator.git", tag = "v0.1.0" }
+viva-tellurium = { git = "https://github.com/vivarium-collective/viva-tellurium.git", tag = "v0.1.2" }
+viva-fenics = { git = "https://github.com/vivarium-collective/viva-fenics.git", tag = "v0.1.0" }

@@ -100,6 +100,33 @@ def build_core(core=None):
     if core is None:
         core = allocate_core()
     register_workspace_processes(core)
+    _register_imported_simulator_processes(core)
     from .schemas import register_canonical_types
     register_canonical_types(core)
+    return core
+
+
+def _register_imported_simulator_processes(core):
+    """Register the genuine-simulator classes imported from wrapper packages.
+
+    These live in the imported ``viva_equilibrator`` / ``viva_fenics`` packages
+    (declared in ``pyproject``/``workspace.yaml:imports``), so the package walk
+    in :func:`register_workspace_processes` -- which only registers classes
+    defined *in* ``viva_genesis`` -- does not pick them up. Register them here so
+    their ``local:`` addresses resolve. ``import viva_fenics`` is import-safe
+    without dolfinx (only *running* the FEM arm needs the pixi env), so this is
+    safe in the uv ``.venv``. Idempotent: a name already present is left alone.
+    """
+    from viva_equilibrator import EquilibratorThermoStep
+    from viva_fenics import (
+        FenicsReactiveTransportProcess,
+        FenicsThermophoreticTrapProcess,
+    )
+    for name, cls in (
+        ("EquilibratorThermoStep", EquilibratorThermoStep),
+        ("FenicsReactiveTransportProcess", FenicsReactiveTransportProcess),
+        ("FenicsThermophoreticTrapProcess", FenicsThermophoreticTrapProcess),
+    ):
+        if name not in core.link_registry:
+            core.register_link(name, cls)
     return core

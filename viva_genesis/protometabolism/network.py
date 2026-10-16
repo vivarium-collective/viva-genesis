@@ -124,8 +124,10 @@ class RoadRunnerNetworkProcess(Process):
 
     def _engine(self):
         if self._rr is None:
-            import tellurium as te  # lazy — real libRoadRunner/Antimony bridge
-            self._rr = te.loada(_MODEL)
+            # Reuse the genuine libRoadRunner/Antimony engine from the imported
+            # viva-tellurium wrapper (lazy) instead of importing tellurium here.
+            from viva_tellurium.processes import _load_roadrunner
+            self._rr = _load_roadrunner(_MODEL, model_format="antimony")
             self._rr.k_rtca = float(self.config["k_rtca"])
             self._rr.k_wash = float(self.config["k_wash"])
             self._connected = self._network_connected()

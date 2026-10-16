@@ -37,15 +37,17 @@ from .fipy_reactor import (  # noqa: E402,F401
 from .thermophoretic_trap import ThermophoreticTrapProcess  # noqa: E402,F401
 from .vent_reactor import VentReactorReproductionProcess  # noqa: E402,F401
 # FEniCS/dolfinx spatial-transport models (full modeling plan section 4.5): the
-# high-fidelity twins behind the same spatial_transport face. dolfinx is imported
-# LAZILY (inside update()), so these modules import -- and the classes register --
-# even in the uv .venv without dolfinx; only *running* one there raises a clear
-# "run under pixi" error. The surrogate is the reduced Decision-map filler (4.6).
-from .fenics_reactor import (  # noqa: E402,F401
+# high-fidelity twins behind the same spatial_transport face, now IMPORTED from
+# the viva-fenics package (they carry the real dolfinx advection-diffusion-Soret
+# solver). `import viva_fenics` is import-safe without dolfinx, so re-exporting
+# them here works in the uv .venv (the classes register via build_core); only
+# *running* the FEM arm needs viva-fenics's pixi env. The reduced Decision-map
+# surrogate (plan 4.6) stays local in .fenics_reactor.
+from viva_fenics import (  # noqa: E402,F401
     FenicsReactiveTransportProcess,
     FenicsThermophoreticTrapProcess,
-    SurrogateThermophoreticTrapProcess,
 )
+from .fenics_reactor import SurrogateThermophoreticTrapProcess  # noqa: E402,F401
 
 __all__ = [
     "FipyReactiveTransportProcess",
