@@ -99,3 +99,38 @@ These map directly to plan requirements that have **no enforcing gate today**:
 
 Owner: this session drives the gate/validator design with the workbench; writer
 handles evidence/citation discipline; viz handles the re-run-on-change loop.
+
+---
+
+## D. Schema & scaffolding gaps (found scaffolding studies 27-31, from genesis-helper)
+
+11. **No native `builds_on` or `tools[]`/`build_status` field in study.schema.json.**
+    Both had to be added as custom fields (persist via `additionalProperties`,
+    but no dashboard tooling reads them). The dependency structure the whole
+    upgrade is organized around (and the composition-contract handoff) has no
+    first-class schema home — the handoff validator must read custom fields.
+    *Needed:* promote `builds_on` + a per-tool `build_status` into the schema.
+
+12. **`parent_studies[].relation` enum disagrees between the /viva-study skill doc
+    and the schema.** Schema (and the new two-axis ontology) uses
+    `[builds-on, tests, motivates, alternative-to]`; the skill doc still lists
+    `[leads-to, regulatory, supports, refutes]`. Existing og-07/og-08 use
+    `leads-to` and lint-WARN. *Needed:* reconcile the viva-superpowers skill doc
+    + viva-template schema to the ontology enum (small framework fix).
+
+13. **`/viva-study new` cannot scaffold a design-phase study without a live
+    dashboard + a real composite source.** Helper had to author `study.yaml`
+    directly (og-08 `planned:true` pattern); `check-observables`/`preview-viz`
+    are no-ops until composites exist. *Needed:* a design-phase scaffold path
+    that doesn't require a built composite — the plan is explicitly "design
+    first, build later," which the tooling doesn't support.
+
+14. **Dependencies to studies not yet scaffolded can't be expressed in
+    `parent_studies`** (parent-not-found) — the plan numbers 14,15,16,11,21,17
+    are kept numeric-only in `builds_on` until those studies land. The
+    dependency graph is only partially machine-represented until every referenced
+    study exists; a forward-reference/placeholder dep has no home.
+
+Shells: branch `wip/scaffold-studies-27-31` (off origin/main @493b5c7), 5
+lint-clean design shells (og-27…og-31); handoff findings land in native
+`findings[]` so the handoff validator has a target there.
