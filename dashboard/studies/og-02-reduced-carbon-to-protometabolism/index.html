@@ -684,7 +684,7 @@
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Claim</h2>
-      <p class="ctr-text">Under continuous feed and washout the curated rTCA-fragment network sustains nonzero carbon throughput and an autocatalytic motif (OAA self-amplification, gain peaking near 29.5) inside a bounded ignition region, where enough feed and slow enough washout let the loop outpace dilution and past the gain = 1 boundary the hub washes out. It shows a specified protometabolic network persists under flow, while leaving open whether such motifs emerge from a broader, unconstrained reaction universe.</p>
+      <p class="ctr-text">Under continuous feed and washout, a balanced, experimentally-constrained minimal reaction network either sustains net carbon throughput and genuine autocatalytic amplification through stoichiometrically valid reactions that survive washout, or it does not — in which case the earlier lumped-network amplification (gain peaking near 29.5) is shown to be an artifact of an element- unbalanced reaction rather than endogenous emergence. Curated persistence is no longer claimed as emergence; the corrected-curated, measured-nonenzymatic, and rule-generated arms are compared on equal footing, each held to mass/charge balance.</p>
       
     </div>
 
@@ -702,7 +702,7 @@
       <h2 class="overview-label ctr-h">Model &amp; approach</h2>
       <p class="ctr-text">Insert an experimentally-motivated reaction graph and test whether metabolism-like subnetworks emerge under flow.</p>
       <div class="ctr-meta">
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Model</span> <code>Reduced carbon to protometabolism</code><a class="ov-tablink" href="#" onclick="_setStudyTab('compose');return false;">model →</a></div>
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Model</span> <code>Reduced carbon to protometabolism (balanced rebuild)</code><a class="ov-tablink" href="#" onclick="_setStudyTab('compose');return false;">model →</a></div>
         
         <ul class="ov-methods"><li>Module E — REAL libRoadRunner/Tellurium: a curated SBML rTCA-fragment network (pyruvate carboxylation + a lumped autocatalytic reductive-TCA turn OAA+2CO2 -&gt; 2OAA+acetate + reductive branch to malate/succinate) run as a continuous-feed / washout CSTR, advanced each tick by the genuine roadrunner ODE integrator.</li><li>Emergent observables (not assumptions): net carbon throughput under feed+washout; the autocatalytic gain k_rtca.[CO2]/k_wash (&gt;1 =&gt; a reinforcing motif is active; gain peaks ~29.5 then CO2-limits); networkx connectivity of the species-reaction graph (a single connected network). A no-CO2 control collapses flux + gain to 0.</li></ul>
         
@@ -1042,34 +1042,28 @@
   <div class="overview-section" id="model-section">
     <h3>Runnable models <span class="muted" style="font-size:0.85em;font-weight:normal">— the composite(s) this study simulates</span></h3>
     
-    <div class="cond-block" data-model-composite="viva_genesis.composites.protometabolism.protometabolic_network" data-model-overrides='{}'>
+    <div class="cond-block" data-model-composite="viva_genesis.composites.open_chemical_network.open_chemical_network" data-model-overrides='{"model_proto_metabolism": "curated_rtca"}'>
       <div class="cond-block-title" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-        <strong>Reduced carbon to protometabolism</strong>
+        <strong>Reduced carbon to protometabolism (balanced rebuild)</strong>
         
-        <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.protometabolism.protometabolic_network</code>
+        <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.open_chemical_network.open_chemical_network</code>
         <button type="button" class="action-btn" style="font-size:0.8em"
-                onclick="_openCompositeLoom('viva_genesis.composites.protometabolism.protometabolic_network')">🧬 explore &amp; run ↗</button>
+                onclick="_openCompositeLoom('viva_genesis.composites.open_chemical_network.open_chemical_network')">🧬 explore &amp; run ↗</button>
         
       </div>
       
       <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
         
-        <select class="baseline-composite-input" data-baseline-name="Reduced carbon to protometabolism"
-                data-current="viva_genesis.composites.protometabolism.protometabolic_network"
+        <select class="baseline-composite-input" data-baseline-name="Reduced carbon to protometabolism (balanced rebuild)"
+                data-current="viva_genesis.composites.open_chemical_network.open_chemical_network"
                 style="flex:1;min-width:200px;font-family:monospace;font-size:0.82em;padding:3px 6px">
-          <option value="viva_genesis.composites.protometabolism.protometabolic_network" selected>viva_genesis.composites.protometabolism.protometabolic_network</option>
+          <option value="viva_genesis.composites.open_chemical_network.open_chemical_network" selected>viva_genesis.composites.open_chemical_network.open_chemical_network</option>
           
         </select>
         <button type="button" class="action-btn baseline-composite-set" style="font-size:0.8em"
-                data-baseline-name="Reduced carbon to protometabolism">Set composite</button>
+                data-baseline-name="Reduced carbon to protometabolism (balanced rebuild)">Set composite</button>
       </div>
-      <div class="baseline-composite-status muted" data-baseline-name="Reduced carbon to protometabolism" style="font-size:0.8em;margin-top:2px"></div>
-      
-      
-      
-      
-      
-      
+      <div class="baseline-composite-status muted" data-baseline-name="Reduced carbon to protometabolism (balanced rebuild)" style="font-size:0.8em;margin-top:2px"></div>
       
       
       
@@ -1087,6 +1081,30 @@
       
     </div>
     
+    
+    
+    <div class="cond-block" data-model-composite="viva_genesis.composites.protometabolism.protometabolic_network" data-model-overrides='{}'>
+      <div class="cond-block-title" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+        <strong>baseline</strong>
+        
+        <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.protometabolism.protometabolic_network</code>
+        <button type="button" class="action-btn" style="font-size:0.8em"
+                onclick="_openCompositeLoom('viva_genesis.composites.protometabolism.protometabolic_network')">🧬 explore &amp; run ↗</button>
+        
+      </div>
+      
+      <div class="model-config-mount" style="margin-top:8px">
+        <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading configuration…</span></div></div>
+      
+      
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;font-size:0.8em">
+        
+        
+        
+        <span class="cond-pill"><span class="cond-pill-k">status</span>=completed</span>
+      </div>
+      
+    </div>
     
   </div>
   
@@ -1719,7 +1737,7 @@ pass_if: {"detail": "connected network (not one-offs)", "op": "\u003e=", "value"
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "7d5f38d307576c451c90b711a3ebf33f8e500c24", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/7d5f38d307576c451c90b711a3ebf33f8e500c24", "branch": "main", "lockfile": "uv.lock@938765c000c0", "generated_at": "2026-10-17 22:57 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "5f14658da6dd64a8188bcfe499916f4284eef8b0", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/5f14658da6dd64a8188bcfe499916f4284eef8b0", "branch": "main", "lockfile": "uv.lock@828864dd2583", "generated_at": "2026-10-17 23:17 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>

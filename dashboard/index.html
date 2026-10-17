@@ -1593,6 +1593,19 @@ a.viv-bs-commit:hover { text-decoration: underline; }
           <button id="aig-expand-btn" type="button" title="Expand graph — snap to top and grow it tall (workbench stays)"
                   aria-label="Expand graph" onclick="window._aigExpand()">⤒</button>
           <button type="button" title="Fullscreen" aria-label="Fullscreen" onclick="window._aigFullscreen()">⛶</button>
+          <!-- Open the graph as a dockable side panel (graph-panel.js / VivPanelDock):
+               moves this graph into a panel you can dock left/right/top/bottom or pop
+               out. Hidden once the graph is already inside the panel (CSS). -->
+          <button id="aig-dock-panel-btn" type="button" title="Open as a dockable side panel — drag it to any edge or pop it out"
+                  aria-label="Open graph as a side panel" onclick="window.GraphPanel&&GraphPanel.open()">◧</button>
+          <!-- Panel controls: shown ONLY while the graph is docked in the panel
+               (CSS: .viv-graph-body .aig-panel-ctl). They replace the old separate
+               panel header — dock/pop-out menu + close (back to the full-page graph).
+               The toolbar itself is the drag-to-dock handle (graph-panel.js). -->
+          <button class="aig-panel-ctl" type="button" title="Move or pop out the graph panel" aria-label="Move or pop out the graph panel"
+                  onclick="window.GraphPanel&&GraphPanel.dockMenu(this)">▭</button>
+          <button class="aig-panel-ctl" type="button" title="Back to the full-page graph" aria-label="Back to the full-page graph"
+                  onclick="window.GraphPanel&&GraphPanel.toFull()">⤢</button>
         </span>
       </span>
       <span class="aig-tb-group aig-tb-right aig-dl-ctl" style="position:relative">
@@ -2246,6 +2259,23 @@ a.viv-bs-commit:hover { text-decoration: underline; }
     </div>
   </aside>
 
+  <!-- Dockable investigation-graph panel. The investigation graph (the
+       #investigation-dag-fs toolbar + shell) is RELOCATED into #viv-graph-body
+       when this panel is open, and moved back inline for the full-page view.
+       Built on VivPanelDock (static/graph-panel.js) exactly like the Chat and
+       Code panels — docks left / right / bottom / top, resizes, pops out. -->
+  <aside id="viv-graph-panel" class="viv-graph-panel" aria-label="Investigation graph" hidden>
+    <div class="viv-graph-panel-inner">
+      <div class="viv-graph-resize-handle" id="viv-graph-resize-handle"
+           role="separator" aria-orientation="vertical" aria-label="Resize graph panel"
+           title="Drag to resize"></div>
+      <!-- No separate panel header: the hosted graph's own toolbar is the single
+           bar, and it carries the dock/close controls (the .aig-panel-ctl group,
+           shown only while docked) + acts as the drag-to-dock handle. -->
+      <div class="viv-graph-body" id="viv-graph-body"></div>
+    </div>
+  </aside>
+
 </div> <!-- /.viv-layout -->
 
 <!-- ============================================================ -->
@@ -2571,7 +2601,7 @@ Nothing on <code id="pr-base-display-2">main</code> changes until someone presse
      DataSource global that renderers call to fetch narrative data.
      local-server mode (default) fetches from the same-origin /api/* endpoints.
      Hosted mode (sub-projects #2/#3) will set a different config here. -->
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "7d5f38d307576c451c90b711a3ebf33f8e500c24", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/7d5f38d307576c451c90b711a3ebf33f8e500c24", "branch": "main", "lockfile": "uv.lock@938765c000c0", "generated_at": "2026-10-17 22:57 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "5f14658da6dd64a8188bcfe499916f4284eef8b0", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/5f14658da6dd64a8188bcfe499916f4284eef8b0", "branch": "main", "lockfile": "uv.lock@828864dd2583", "generated_at": "2026-10-17 23:17 UTC"} };</script>
 <!-- Derive the global URL prefix from the (possibly publish-injected) config.
      Many renderers prefix workspace-root-absolute links (/studies/, /api/)
      with window.__BASE_PATH__ so they resolve when the read-only bundle is
@@ -2610,6 +2640,9 @@ Nothing on <code id="pr-base-display-2">main</code> changes until someone presse
 <script src="/viva-genesis/dashboard/assets/loom-embed.js" onerror="/* loom-embed unavailable */"></script>
 <script src="/viva-genesis/dashboard/assets/checklist-select.js" onerror="/* checklist-select unavailable */"></script>
 <script src="/viva-genesis/dashboard/assets/walkthrough.js" onerror="/* walkthrough unavailable */"></script>
+<!-- graph-panel.js: the dockable investigation-graph panel (VivPanelDock). Loads
+     AFTER panel-dock.js (the engine) and walkthrough.js (the DAG renderer it hosts). -->
+<script src="/viva-genesis/dashboard/assets/graph-panel.js" onerror="/* graph panel unavailable */"></script>
 <script src="/viva-genesis/dashboard/assets/mobile-nav.js" onerror="/* mobile-nav unavailable */"></script>
 <script src="/viva-genesis/dashboard/assets/search-palette.js" onerror="/* global search unavailable */"></script>
 <script src="/viva-genesis/dashboard/assets/github-login.js" onerror="/* github-login unavailable */"></script>

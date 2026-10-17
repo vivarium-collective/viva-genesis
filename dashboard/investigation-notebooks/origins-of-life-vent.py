@@ -607,7 +607,7 @@ _save_viz('og-01-geology-to-reduced-carbon', 'carbon-fixation-phase-map', _rende
 #
 # **Hypothesis.** A curated graph (formate/acetate/pyruvate/glyoxylate + rTCA fragments) seeded with Muchowska/Moran edges sustains nonzero throughput and at least one autocatalytic motif within a feasible resource budget.
 #
-# **Claim.** Under continuous feed and washout the curated rTCA-fragment network sustains nonzero carbon throughput and an autocatalytic motif (OAA self-amplification, gain peaking near 29.5) inside a bounded ignition region, where enough feed and slow enough washout let the loop outpace dilution and past the gain = 1 boundary the hub washes out. It shows a specified protometabolic network persists under flow, while leaving open whether such motifs emerge from a broader, unconstrained reaction universe.
+# **Claim.** Under continuous feed and washout, a balanced, experimentally-constrained minimal reaction network either sustains net carbon throughput and genuine autocatalytic amplification through stoichiometrically valid reactions that survive washout, or it does not — in which case the earlier lumped-network amplification (gain peaking near 29.5) is shown to be an artifact of an element- unbalanced reaction rather than endogenous emergence. Curated persistence is no longer claimed as emergence; the corrected-curated, measured-nonenzymatic, and rule-generated arms are compared on equal footing, each held to mass/charge balance.
 
 # ### Design — originally proposed
 #
@@ -633,7 +633,7 @@ _save_viz('og-01-geology-to-reduced-carbon', 'carbon-fixation-phase-map', _rende
 #
 # | simulation | composite | steps | params |
 # | --- | --- | --- | --- |
-# | `Reduced carbon to protometabolism` | `viva_genesis.composites.protometabolism.protometabolic_network` | 0 | — |
+# | `Reduced carbon to protometabolism (balanced rebuild)` | `viva_genesis.composites.open_chemical_network.open_chemical_network` | 0 | model_proto_metabolism=curated_rtca |
 #
 # Declared parameter sets (`study.yaml` variants):
 #
@@ -643,17 +643,21 @@ _save_viz('og-01-geology-to-reduced-carbon', 'carbon-fixation-phase-map', _rende
 #
 # Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
 
-# **The model — `viva_genesis.composites.protometabolism.protometabolic_network`**
+# **The model — `viva_genesis.composites.open_chemical_network.open_chemical_network`**
 #
-# A reusable protometabolic reaction-network module. A genuine libRoadRunner/Tellurium SBML ODE integration (needs tellurium) of an rTCA-fragment CSTR (pyruvate carboxylation + lumped autocatalytic rTCA turn + reductive branch) fed the og-01 reduced-carbon products under continuous feed+washout, with a networkx connectivity check on the species-reaction graph (needs networkx). Emergent: sustained carbon throughput, an autocatalytic motif (gain>1), and a connected reaction network.
+# og-02's continuous-feed reactor rebuilt as the Phase-3 open chemical network: the reaction network is a model CLASS on the proto_metabolism face (model_proto_metabolism: curated_rtca | reaction_universe | null_network), all three integrated by the genuine libRoadRunner engine under the same Phase-1-posterior feed (CO2, H2, pyruvate), graded by one class-agnostic post-hoc detector (flux-carrying simple cycles with stoichiometric gain > 1) and audited by a NetworkLedgerProcess (exact element residual, integrated carbon balance, dissipation >= 0). The universe class is generated from Wolos-2020-style rules over linear C/H/O skeletons with eQuilibrator dG' (vg-data package reaction_universe); the null class is its degree-preserving, carbon-matched rewiring.
 
 # === Parameters — edit any value, then re-run from the Run cell below ===
 # Each entry is the composite's current default; the comment explains it.
-ov_viva_genesis_composites_protometabolism_protometabolic_network = {
-    'feed_pyruvate': 0.0001,   # Pyruvate feed set-point (M) from og-01 reduced carbon
-    'feed_CO2'     : 0.002,   # CO2 feed set-point (M); ~0 = no-carbon control
-    'k_rtca'       : 800.0,   # Autocatalytic rTCA-turn rate constant (Fe-promoted)
-    'k_wash'       : 0.05,   # CSTR washout / dilution rate (1/s); the feed-vs-washout axis of the gain phase map
+ov_viva_genesis_composites_open_chemical_network_open_chemical_network = {
+    'model_proto_metabolism': 'reaction_universe',   # Model class behind the 'proto_metabolism' face: curated_rtca | null_network | reaction_universe
+    'feed_CO2'              : 0.0014,   # Vent-buffered CO2 set-point (M) [vg-data: calibrated, Phase-1 posterior]
+    'feed_H2'               : 0.0108,   # Vent-buffered H2 set-point (M) [vg-data: calibrated, Phase-1 posterior]
+    'feed_pyruvate'         : 0.0001,   # Pyruvate CSTR inflow (M) from og-01 reduced carbon [vg-data: inferred]
+    'feed_formaldehyde'     : 0.0,   # Formaldehyde CSTR inflow (M); 0 canonical, 1e-3 in the formose arm [vg-data: hypothetical]
+    'k_wash'                : 0.05,   # CSTR washout / dilution rate (1/s) [vg-data: inferred]
+    'null_seed'             : 0,   # Null-network draw (null_network class only)
+    'max_carbons'           : 4,   # Carbon cap of the generated universe (reaction_universe / null_network) [vg-data: hypothetical]
 }
 
 # ### Typed contract (declared interface)
@@ -695,20 +699,20 @@ RUNS_DB = str(STUDY_DIR / "runs.db")
 # This study has no *recorded* runs yet. RERUN builds its declared
 # composite(s) live and runs them; a composite whose module processes
 # are not implemented yet reports the error instead of crashing.
-STEPS_Reduced_carbon_to_protometabolism = 100
-INTERVAL_Reduced_carbon_to_protometabolism = 1.0
+STEPS_Reduced_carbon_to_protometabolism_balanced_rebuild = 100
+INTERVAL_Reduced_carbon_to_protometabolism_balanced_rebuild = 1.0
 
 if RERUN:
     from process_bigraph import Composite
     try:
         with quiet():  # keep per-step stdout out of the notebook
-            _ov = ov_viva_genesis_composites_protometabolism_protometabolic_network if 'ov_viva_genesis_composites_protometabolism_protometabolic_network' in dir() else None  # edits from the panel cell, if any
-            spec_viva_genesis_composites_protometabolism_protometabolic_network = materialize_composite('viva_genesis.composites.protometabolism.protometabolic_network', _ov)
-            _comp = Composite({'state': spec_viva_genesis_composites_protometabolism_protometabolic_network['state']}, core=core)
-            _comp.run(STEPS_Reduced_carbon_to_protometabolism)
-        print('ran', 'Reduced carbon to protometabolism', f'(viva_genesis.composites.protometabolism.protometabolic_network) for', STEPS_Reduced_carbon_to_protometabolism, 'steps')
+            _ov = ov_viva_genesis_composites_open_chemical_network_open_chemical_network if 'ov_viva_genesis_composites_open_chemical_network_open_chemical_network' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_open_chemical_network_open_chemical_network = materialize_composite('viva_genesis.composites.open_chemical_network.open_chemical_network', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_open_chemical_network_open_chemical_network['state']}, core=core)
+            _comp.run(STEPS_Reduced_carbon_to_protometabolism_balanced_rebuild)
+        print('ran', 'Reduced carbon to protometabolism (balanced rebuild)', f'(viva_genesis.composites.open_chemical_network.open_chemical_network) for', STEPS_Reduced_carbon_to_protometabolism_balanced_rebuild, 'steps')
     except Exception as _e:
-        print(f"Reduced carbon to protometabolism not runnable yet: {type(_e).__name__}: {_e}")
+        print(f"Reduced carbon to protometabolism (balanced rebuild) not runnable yet: {type(_e).__name__}: {_e}")
 else:
     print("RERUN=False — not re-simulating.")
 
@@ -719,12 +723,12 @@ else:
 # **protometabolic-network**
 
 # protometabolic-network
-_save_viz('og-02-reduced-carbon-to-protometabolism', 'protometabolic-network', _render_one('local:ProtometabolicNetwork', {'composite': 'viva_genesis.composites.protometabolism.protometabolic_network', 'n_steps': 60, 'title': 'The protometabolic network igniting'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_protometabolism_protometabolic_network if 'ov_viva_genesis_composites_protometabolism_protometabolic_network' in dir() else None)))
+_save_viz('og-02-reduced-carbon-to-protometabolism', 'protometabolic-network', _render_one('local:ProtometabolicNetwork', {'composite': 'viva_genesis.composites.protometabolism.protometabolic_network', 'n_steps': 60, 'title': 'The protometabolic network igniting'}, RUNS_DB, STUDY_YAML))
 
 # **protometabolism-network**
 
 # protometabolism-network
-_save_viz('og-02-reduced-carbon-to-protometabolism', 'protometabolism-network', _render_one('local:ProtometabolismViz', {'composite': 'viva_genesis.composites.protometabolism.protometabolic_network', 'n_steps': 120, 'title': 'Protometabolic network (libRoadRunner)'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_protometabolism_protometabolic_network if 'ov_viva_genesis_composites_protometabolism_protometabolic_network' in dir() else None)))
+_save_viz('og-02-reduced-carbon-to-protometabolism', 'protometabolism-network', _render_one('local:ProtometabolismViz', {'composite': 'viva_genesis.composites.protometabolism.protometabolic_network', 'n_steps': 120, 'title': 'Protometabolic network (libRoadRunner)'}, RUNS_DB, STUDY_YAML))
 
 # **protometabolism-gain-phase-map**
 
@@ -755,7 +759,7 @@ _save_viz('og-02-reduced-carbon-to-protometabolism', 'protometabolism-gain-phase
 #
 # **Hypothesis.** Thermophoresis + convection + adsorption in evolving pores raise local concentration enough that synthesis outruns hydrolysis/leakage in a bounded geometry region; elsewhere washout dominates.
 #
-# **Claim.** Localization occurs robustly in a bounded geometry regime: long, tight pores trap and concentrate the feed (the favorable pore clears the Baaske-2007 extreme-accumulation regime at an accumulation Peclet of 18.4, with finite-volume flux conserved to machine precision), while open or short pores wash it through at enrichment near one, and the native porosity x pore-length map localizes at about 17% of the grid (25/144 points). The very large fold- enrichment estimates at high Peclet (reduced-model roughly 1e6-1e7) are solver-sensitive above Peclet about 13, where FiPy and FEniCS diverge by up to 5.6 decades. So the defensible result is the existence and location of a localization regime, not a precise extreme- enrichment magnitude.
+# **Claim.** Resolving diffusion, thermophoresis, adsorption, surface catalysis and advection for every actual reactant, a bounded-geometry pore either increases useful product flux or network persistence at identical feeds relative to a well-mixed control, or it does not. The defensible result is the existence and location of a localization regime and its effect on the network — not a precise single-solute extreme-enrichment magnitude, which is solver-sensitive and precursor-dependent.
 
 # ### Design — originally proposed
 #
@@ -1065,7 +1069,7 @@ _save_viz('og-04-mineral-compartments-to-protocells', 'protocell-vesicle-3d', _r
 #
 # **Hypothesis.** When membrane permeability, Na+/H+ coupling and catalyst efficiency vary under selection, systems with increasing internal gradient generation win on throughput + persistence — but only if membranes stay sufficiently leaky (Sojo constraint).
 #
-# **Claim.** Under a collapsing external gradient, replicator selection drives an efficient lineage to internalize gradient generation (pump fraction rising from near zero to about 0.95) and persist, while a weak-pump lineage goes extinct, and the external share of useful free energy falls from about 82% to about 1% as the organism comes to own its energy. Survival is a bounded region of pump efficiency x gradient floor - about 94% of the swept grid - but internal pumping only pays above a cost-benefit threshold near eta = 0.30, the Sojo leaky- membrane line. The replicator dynamics are coarse-grained with calibrated couplings and fix a single gradient-decline scenario, so the transition has a measurable cost-benefit boundary rather than being automatically favorable.
+# **Claim.** Presented as a conditional selection/cost model, internalizing energy handling pays only where the specified chemistry confers positive net useful work after all synthesis, leak and maintenance costs; the three regimes (direct gradient use / chemical carrier / active pumping) are distinguished and compared rather than collapsed into one inserted pump. Where no specified chemistry clears the cost, internalization does not pay and is not claimed.
 
 # ### Design — originally proposed
 #
@@ -1209,7 +1213,7 @@ _save_viz('og-05-environmental-to-internal-bioenergetics', 'bioenergetic-surviva
 #
 # **Hypothesis.** At least one heredity module raises lineage persistence + information retention above its non-heritable control under a feasible resource budget; the winner is not assumed a priori.
 #
-# **Claim.** Heritable state improves lineage performance when information retention exceeds its replication cost: a high-fidelity RNA-like module reaches fitness 0.38 with retention 0.62 and outranks a cheaper peptide module (0.24), both beating non-inheritance, while a module below the Eigen error threshold collapses. Long templates suffer the expected length catastrophe as Q = fidelity^length declines, whereas compositional (GARD) and template- focused hybrid inheritance stay approximately length-independent, with functional persistence around 0.88 (0.878 +/- 0.005 across five graded seeds) while the non-heritable control loses parent-offspring correlation and collapses. This shows heredity need not presume a long high-fidelity RNA template, while the functional benefit and replication cost remain reduced couplings rather than first-principles chemistry.
+# **Claim.** Separating chemical memory, inherited network composition, differential reproduction and template copying, heredity is demonstrated only where a chemical difference actually inherited by a daughter causes reproducible differences in survival or reproduction. Heredity need not presume a long high-fidelity RNA template, but each mechanism is judged on an inherited chemical difference with a measured consequence, not on a provided inheritance rule.
 
 # ### Design — originally proposed
 #
@@ -1487,7 +1491,7 @@ _save_viz('og-07-ecology-before-luca', 'metacommunity-phase-map', _render_one('l
 #
 # **Hypothesis.** A bounded innovation set (internal energy conversion + resource import + heredity) allows persistence as gradient strength/mineral access/feed are reduced; below it, systems stay obligately vent-tied.
 #
-# **Claim.** The full innovation set of an internal pump, an active resource importer and heredity persists off-gradient at surviving fraction 1.0 after the vent support is withdrawn, while removing any one of the three collapses persistence to 0. Because the budget is co-limited and needs both usable free energy and usable resources at once, a single innovation is a cost with no co-benefit, which is what makes the set irreducible. In this coarse-grained model autonomy therefore appears as a coordinated set of innovations acquired together rather than one final invention.
+# **Claim.** Within this specific coarse-grained model, autonomy appears as a coordinated set of innovations (internal pump, active importer, heredity) acquired together, with any single removal collapsing persistence. This is retained as a reduced, model-specific hypothesis only: the general claim that this set is minimally sufficient for escape does not survive the Study 22 structure variation and is withdrawn.
 
 # ### Design — originally proposed
 #
@@ -3681,7 +3685,7 @@ _save_viz('og-07-alt-real-metabolite-exchange', 'metabolite-exchange-map', _rend
 #
 # **Hypothesis.** og-08's set is a hypothesis generator, not a result: in the integrated world the innovations are real processes whose benefit and cost depend on the structure around them, so the required set will not be the same under every structure. The pump (an internal store charged by the drive the cell's own substrate pool sustains) should be required wherever anything persists, because the external tap vanishes with the gradient; heredity should be required wherever the inheritance class holds more machinery attached than its de-novo control does; the importer should matter only where the membrane is tight enough for concentration to pay and the ocean background is poor enough to need it; and the ocean floor the withdrawal relaxes toward — a hypothetical — should decide whether any subset persists at all.
 #
-# **Claim.** No - the set is not jointly sufficient, and the gate fails. Withdrawn into a nominal (1%) ocean, no subset of {pump, importer, heredity} persists under any of the 24 sampled structures (0 of 192 runs); into a 10x richer ocean only {pump, heredity} persists, under 2 of 24 structures, and the importer is a pure net cost because it concentrates organics against a leaky fatty-acid membrane while the energy drive is already fed by ocean H2. og-08's three-innovation set therefore reduces to "a pump held by heredity," and the full set never persists. The machinery is real - all seven ledgers close on 485 runs and the generic non-vent control is rejected - but the off-gradient verdict turns on one number no measurement yet constrains, the ocean's residual substrate background, so the campaign's honest endpoint is a mapped dependency rather than a sufficiency result.
+# **Claim.** Varying pH gradient, H2, CO2, mineral catalysis, temperature and organics one at a time, the study determines which specific environmental support each chemical lineage can internalize or replace and which it cannot — locating where persistence fails and attributing that failure to a named missing support, rather than reporting a single lumped collapse. The earlier joint-sufficiency framing is withdrawn because lumped withdrawal cannot attribute the loss.
 
 # ### Design — originally proposed
 #

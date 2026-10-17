@@ -675,7 +675,7 @@
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Claim</h2>
-      <p class="ctr-text">Localization occurs robustly in a bounded geometry regime: long, tight pores trap and concentrate the feed (the favorable pore clears the Baaske-2007 extreme-accumulation regime at an accumulation Peclet of 18.4, with finite-volume flux conserved to machine precision), while open or short pores wash it through at enrichment near one, and the native porosity x pore-length map localizes at about 17% of the grid (25/144 points). The very large fold- enrichment estimates at high Peclet (reduced-model roughly 1e6-1e7) are solver-sensitive above Peclet about 13, where FiPy and FEniCS diverge by up to 5.6 decades. So the defensible result is the existence and location of a localization regime, not a precise extreme- enrichment magnitude.</p>
+      <p class="ctr-text">Resolving diffusion, thermophoresis, adsorption, surface catalysis and advection for every actual reactant, a bounded-geometry pore either increases useful product flux or network persistence at identical feeds relative to a well-mixed control, or it does not. The defensible result is the existence and location of a localization regime and its effect on the network — not a precise single-solute extreme-enrichment magnitude, which is solver-sensitive and precursor-dependent.</p>
       
     </div>
 
@@ -1780,7 +1780,7 @@ pass_if: {"detail": "FVM residual small (direct LU solve)", "op": "\u003c=", "va
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "7d5f38d307576c451c90b711a3ebf33f8e500c24", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/7d5f38d307576c451c90b711a3ebf33f8e500c24", "branch": "main", "lockfile": "uv.lock@938765c000c0", "generated_at": "2026-10-17 22:57 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "5f14658da6dd64a8188bcfe499916f4284eef8b0", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/5f14658da6dd64a8188bcfe499916f4284eef8b0", "branch": "main", "lockfile": "uv.lock@828864dd2583", "generated_at": "2026-10-17 23:17 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>
