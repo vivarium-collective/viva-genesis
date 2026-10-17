@@ -6,5 +6,6 @@ geochemical gradient (Jordan 2019). See ``workspace/notes/modules.md``.
 """
 
 from .protocell_assembly import ProtocellAssemblyProcess  # noqa: E402,F401
+from .amphiphile_chain_extension import AmphiphileChainExtensionProcess  # noqa: E402,F401
 
-__all__ = ["ProtocellAssemblyProcess"]
+__all__ = ["ProtocellAssemblyProcess", "AmphiphileChainExtensionProcess"]

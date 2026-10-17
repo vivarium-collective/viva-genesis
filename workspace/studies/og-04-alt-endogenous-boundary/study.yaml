@@ -112,24 +112,34 @@ literature_anchors:
     to >12 at seawater salinity — alkaline hydrothermal conditions favour protocell
     assembly.
 baseline:
-- name: Favorable — endogenous amphiphile synthesis forms the boundary
-  composite: viva_genesis.composites.endogenous_boundary.endogenous_boundary
+- name: Endogenous amphiphiles by explicit chain extension
+  composite: viva_genesis.composites.og_17_amphiphile_chain_extension.og_17_amphiphile_chain_extension
   params:
-    model_boundary: mixed
-    k_synth: 0.05
-    acetate0: 0.05
-    formate0: 0.05
-    pH: 9.0
-    ionic_strength: 0.35
+    acetate_feed: 0.05
+    k_extend: 0.4
+    cac_molar: 0.005
   canonical: true
+  planned: true   # REBUILD chemistry: explicit chain-extension repointed; awaiting the balanced run
+disposition: >-
+  REBUILD chemistry. The landed study assumes acetate + formate condense to a single generic amphiphile
+  with no defensible kinetics (k_synth is an inferred rate with no direct prebiotic measurement, as the
+  current claim concedes). Replace that one assumed step with explicit molecular chemistry: carbon-chain
+  extension, headgroup formation, degradation/hydrolysis, and assembly across MULTIPLE amphiphile
+  species — not a lumped condensation to one product. og-31's membrane engine now exists (viva-openmm),
+  so assembly is modeled against a real composition-dependent closure rather than a bare threshold.
 claim: >-
-  When acetate and formate condense into an amphiphile under alkaline, saline conditions it
-  clears the critical aggregation concentration, and a new individual appears in the agents
-  map through a matter-conserving structural rewrite. Ablating the synthesis leaves the
-  amphiphile below threshold and no individual forms, so boundary formation is caused by the
-  endogenous chemistry rather than an added amphiphile. What remains assumed is the
-  condensation rate itself (k_synth), an inferred value with no direct prebiotic measurement,
-  swept over a wide prior.
+  Vent-fed chemistry, through explicit chain-extension, headgroup and degradation reactions across
+  multiple amphiphile species, either reaches an experimentally-grounded aggregation-competent
+  composition on its own — assembling via the real og-31 / viva-openmm membrane closure — or it does
+  not, in which case boundary formation is not supported by defensible endogenous kinetics. The single
+  assumed acetate+formate→amphiphile condensation is retired in favour of named reactions with tracked
+  rates and losses.
+decision_test: >-
+  Vent-fed chemistry must reach experimentally-grounded aggregation-competent compositions (measured
+  critical aggregation + phase stability) using only amphiphiles produced by the explicit reactions,
+  with no exogenous amphiphile feed and all degradation/hydrolysis losses tracked. Falling short is an
+  accepted negative result naming the missing chemistry, not tuned to pass (evidence standard #2 no
+  untracked amphiphile feed, #6 independent experimental validation, #8).
 findings:
 - id: endogenous-boundary-forms
   provenance:

@@ -25,6 +25,7 @@ from . import og_27_coupled_geochemical_reaction_interface  # noqa: F401
 from . import electrochemical_interface  # noqa: F401
 from . import open_chemical_network  # noqa: F401
 from . import og_12_energy_carrier_cycle  # noqa: F401
+from . import og_17_amphiphile_chain_extension  # noqa: F401
 from . import og_28_prebiotic_reaction_atlas  # noqa: F401
 from . import og_30_spatially_integrated_protometabolism  # noqa: F401
 from . import og_31_protometabolism_to_amphiphiles  # noqa: F401
