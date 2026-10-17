@@ -111,12 +111,15 @@ SPATIAL_TRANSPORT_FACE = {
 
 # The serpentinization source: (T, flow[, DIC]) -> H2 / alkalinity / heat
 # source deltas + instantaneous flux sensors. The real PHREEQC class adds the
-# speciation sensors (pe, pH_eq, charge_imbalance) as optional outputs.
+# speciation sensors (pe, pH_eq, charge_imbalance) and the carbonate saturation
+# index (saturation_index — the evolving-interface precipitation driver consumed
+# by MineralSurfaceDynamicsProcess) as optional outputs.
 SERPENTINIZATION_FACE = {
     "required_inputs": {"temperature", "flow_velocity"},
     "optional_inputs": {"DIC", "pressure"},
     "required_outputs": {"H2", "alkalinity", "heat", "H2_flux"},
-    "optional_outputs": {"alkalinity_flux", "heat_flux", "pe", "pH_eq", "charge_imbalance"},
+    "optional_outputs": {"alkalinity_flux", "heat_flux", "pe", "pH_eq",
+                         "charge_imbalance", "saturation_index"},
 }
 
 # Carbon fixation at the Fe/Ni-sulfide interface (Model Upgrade plan, Phase 2).
