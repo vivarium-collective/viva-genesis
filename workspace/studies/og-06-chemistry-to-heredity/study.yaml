@@ -4,6 +4,7 @@ investigation: origins-of-life-vent
 created: '2026-10-11'
 phase: Evaluate
 status: ran
+execution_status: completed
 design_status: approved
 simulation_status: ran
 evaluation_status: evaluated
@@ -328,7 +329,7 @@ key_assumptions:
   mechanism.
 parent_relations:
 - study: og-05-environmental-to-internal-bioenergetics
-  relation: leads-to
+  relation: builds-on
 expert_questions:
 - 'Which heredity modules to prioritize first: RNA-world, peptide-first, compositional,
   or mineral-surface templating?'

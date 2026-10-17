@@ -4,6 +4,7 @@ investigation: origins-of-life-vent
 created: '2026-10-15'
 phase: Evaluate
 status: ran
+execution_status: completed
 design_status: approved
 simulation_status: ran
 evaluation_status: evaluated
@@ -667,13 +668,13 @@ parent_relations:
 - study: og-08-escape-from-the-vent
   relation: alternative-to
 - study: og-adv-generic-nonequilibrium
-  relation: leads-to
+  relation: builds-on
 - study: og-energy-alt-internalization-threshold
-  relation: leads-to
+  relation: builds-on
 - study: og-06-alt-information-per-cost
-  relation: leads-to
+  relation: builds-on
 - study: og-07-alt-real-metabolite-exchange
-  relation: leads-to
+  relation: builds-on
 key_assumptions:
 - One 0.52-pL protocell (the energy-coupling individual) carries the reaction universe (generalist
   repertoire) and the metacommunity exchange rules; its vent is one vent posterior draw
@@ -1185,7 +1186,7 @@ runs:
         lowest_floor_majority_persists: no value in the artifact (undefined for this
         ensemble)'
       auto_evaluated: true
-verdict: honest-negative
+verdict: refuted
 evidence_tier: conceptual_demonstration
 
 # Capstone-scale composite (many processes): a plain structural overview reads

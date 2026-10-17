@@ -4,6 +4,7 @@ investigation: origins-of-life-vent
 created: '2026-10-15'
 phase: Evaluate
 status: ran
+execution_status: completed
 design_status: approved
 simulation_status: ran
 evaluation_status: evaluated
@@ -719,7 +720,7 @@ parent_relations:
 - study: og-06-chemistry-to-heredity
   relation: alternative-to
 - study: og-energy-proto-energetics
-  relation: leads-to
+  relation: builds-on
 key_assumptions:
 - 32 individuals of 1 fL at carrying capacity, 16 heritable molecules per founder
   (cap 48), bulk mass 20 doubling to divide; bulk and heritable growth both scale

@@ -4,6 +4,7 @@ investigation: origins-of-life-vent
 created: '2026-10-11'
 phase: Evaluate
 status: ran
+execution_status: completed
 design_status: approved
 confidence: Accepted
 gate_status: passed
@@ -243,7 +244,7 @@ key_assumptions:
   the same models, not a mock.
 parent_relations:
 - study: og-02-reduced-carbon-to-protometabolism
-  relation: refutes
+  relation: tests
 kind: adversarial
 simulation_status: ran
 implementation_status: complete

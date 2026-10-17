@@ -4,6 +4,7 @@ investigation: origins-of-life-vent
 created: '2026-10-13'
 phase: Evaluate
 status: ran
+execution_status: completed
 design_status: approved
 confidence: Accepted
 gate_status: passed
