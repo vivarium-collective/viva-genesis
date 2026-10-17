@@ -13,6 +13,8 @@ from .build import (
     feasibility,
     build_atlas,
 )
+# Re-exported so build_core()'s non-recursive package walk registers the Process.
+from .atlas_build_process import ReactionAtlasBuildProcess, SEED_RECORDS
 
 __all__ = [
     "parse_formula",
@@ -24,4 +26,6 @@ __all__ = [
     "extract_record",
     "feasibility",
     "build_atlas",
+    "ReactionAtlasBuildProcess",
+    "SEED_RECORDS",
 ]
