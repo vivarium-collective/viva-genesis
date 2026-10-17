@@ -205,6 +205,19 @@ findings:
     condition study 29 consumes.
   evidence: {from_test: handoff-27-to-29-complete}   # satisfies 27→29 handoff validator
 literature_anchors: []
+visualizations:
+- name: coupled-interface-evolution
+  address: local:OgCoupledInterfaceViz
+  config:
+    composite: viva_genesis.composites.og_27_coupled_geochemical_reaction_interface.og_27_coupled_geochemical_reaction_interface
+    n_steps: 80
+    title: The interface evolves — supply vs self-throttling
+    caption: >-
+      Top row — outlet temperature, pH and H2 flux: the conditions and reducing power the vent wall
+      delivers. Bottom row — porosity closing, catalytic accessibility passivating, and carbonate
+      saturation index driving precipitation. Plainly: the wall delivers chemistry at first, but as
+      minerals grow and clog it that delivery declines — the interface depletes rather than lasting
+      forever.
 baseline:
 - name: Coupled Geochemical Reaction Interface
   composite: viva_genesis.composites.og_27_coupled_geochemical_reaction_interface.og_27_coupled_geochemical_reaction_interface
