@@ -11,6 +11,13 @@ stored separately from model code and linked to a DOI + condition vector (see
   LAB-ANALOG / MODEL / RECONSTRUCTION / HYPOTHESIS) and a `papers.bib` citation
   key. Laboratory values are experimental outcomes, **not** Hadean environmental
   concentrations.
+- **`source-databases.yaml`** — external public databases the new studies
+  (27-37) draw on (Rhea, ChEBI, PubChem, ORD, EarthChem/PetDB, KIDA/NIST,
+  InterRidge/PANGAEA), each with an acquisition mode + the studies it feeds.
+  Upstream of the derived atlas below.
+- **`prebiotic-reaction-atlas/`** — the new shared, versioned, provenance-tagged
+  candidate-reaction network (Study 28; `README.md` + per-record `schema.yaml`).
+  **To be built** — see `../references/build-registry.yaml`.
 
 ## To acquire / digitize (priority order)
 

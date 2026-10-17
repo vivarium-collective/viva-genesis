@@ -1,0 +1,88 @@
+# viva-genesis — external source-database registry
+# Added for the Scientific Investigation Upgrade & Resource Plan (17 Oct 2026).
+#
+# These are the PUBLIC databases the new studies (27-37) draw on. They are the
+# UPSTREAM sources from which the workspace's own derived dataset (the Prebiotic
+# Reaction Atlas, see ../datasets/prebiotic-reaction-atlas/) is curated — not a
+# claim that any database reaction is prebiotically viable. Keep reaction
+# identification, thermodynamic feasibility and kinetic accessibility separate.
+#
+# acquisition: EXTERNAL-API | EXTERNAL-DOWNLOAD | DERIVED  (how the data enters)
+# status: catalogued (declared here) | mirrored (local copy taken) | wired (a
+#         wrapper/tool reads it) — see ../references/build-registry.yaml for the
+#         tool that consumes each source.
+
+schema_version: 1
+source: "Scientific Investigation Upgrade & Resource Plan (17 Oct 2026), §Public data and computational resource stack"
+
+databases:
+  - id: rhea
+    name: Rhea
+    role: Balanced biochemical reaction definitions + canonical chemical identities
+    acquisition: EXTERNAL-API
+    status: catalogued
+    url: https://www.rhea-db.org/
+    caution: "Do NOT infer abiotic kinetics from enzyme catalysis."
+    feeds: [prebiotic-reaction-atlas]
+    studies: [28, 29]
+
+  - id: chebi
+    name: ChEBI
+    role: Canonical chemical identities / ontology; protonation + charge conventions
+    acquisition: EXTERNAL-API
+    status: catalogued
+    url: https://www.ebi.ac.uk/chebi/
+    caution: "Resolve protonation/charge state on import; shared species must use the same formula + charge across simulators."
+    feeds: [prebiotic-reaction-atlas]
+    studies: [28, 29]
+
+  - id: pubchem
+    name: PubChem
+    role: Molecular structures + properties for candidate carbon and amphiphile species
+    acquisition: EXTERNAL-API
+    status: catalogued
+    url: https://pubchem.ncbi.nlm.nih.gov/
+    caution: "Structures/properties only — not vent-condition kinetics."
+    feeds: [prebiotic-reaction-atlas]
+    studies: [28, 31]
+
+  - id: ord
+    name: Open Reaction Database
+    role: Structured organic reaction evidence
+    acquisition: EXTERNAL-DOWNLOAD
+    status: catalogued
+    url: https://open-reaction-database.org/
+    caution: "Many synthetic conditions do not reflect vents; tag condition domain."
+    feeds: [prebiotic-reaction-atlas]
+    studies: [28, 31]
+
+  - id: earthchem_petdb
+    name: EarthChem / PetDB
+    role: Rock and mineral constraints for the evolving mineral-water interface
+    acquisition: EXTERNAL-DOWNLOAD
+    status: catalogued
+    url: https://earthchem.org/
+    caution: "NOT a complete Lost City vent-fluid dataset; a geological prior, not the outlet state."
+    feeds: []
+    studies: [27]
+
+  - id: kida_nist_kinetics
+    name: KIDA / NIST kinetics
+    role: Selective kinetic references
+    acquisition: EXTERNAL-DOWNLOAD
+    status: catalogued
+    url: https://kida.astrochem-tools.org/
+    url_alt: https://kinetics.nist.gov/kinetics/
+    caution: "Mostly astrochemical / gas phase — NOT aqueous vent substitutes. Use only with a justified-range tag."
+    feeds: [prebiotic-reaction-atlas]
+    studies: [28]
+
+  - id: interridge_pangaea
+    name: InterRidge / PANGAEA vent database
+    role: Global active submarine hydrothermal vent fields — environmental prior
+    acquisition: EXTERNAL-DOWNLOAD
+    status: catalogued
+    url: https://doi.pangaea.de/10.1594/PANGAEA.917894
+    caution: "Prior over vent setting (depth, T, tectonic context); not reaction-zone chemistry."
+    feeds: []
+    studies: [27]

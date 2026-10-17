@@ -1,0 +1,164 @@
+# viva-genesis — build registry (tools + datasets to be built)
+# Scientific Investigation Upgrade & Resource Plan (17 Oct 2026).
+#
+# WHY THIS FILE EXISTS (capability gap): the workspace registry
+# (/api/workspace-manifest) only reports processes/steps/emitters/viz/types that
+# are ALREADY importable, and /viva-catalog only installs pbg-* packages that
+# ALREADY EXIST. Neither can express "a tool/dataset the plan says to BUILD".
+# This file is that missing declaration surface. See
+# ../notes/audit-build-capability-gaps.md.
+#
+# build_status:  exists        — importable now (in the serving registry)
+#                in-workspace  — lives in viva_genesis/, not a standalone wrapper
+#                wrapper-needed — real upstream tool exists; needs a pbg Process wrapper
+#                to-build       — new method/tool with no off-the-shelf equivalent
+# audit_status:  audited       — has a report-card / contract gate that runs in CI
+#                partial       — some checks exist, not gated
+#                none          — nothing audits it yet  (← most new work starts here)
+# fidelity:      real | reproduction | mock   (viva-expert fidelity ladder; default real)
+
+schema_version: 1
+source: "Scientific Investigation Upgrade & Resource Plan (17 Oct 2026)"
+
+# ── Simulator wrappers (bridge a real upstream tool as a pbg Process) ──────────
+wrappers:
+  - id: viva-equilibrator
+    role: Reaction thermodynamics / feasibility ΔG screen
+    upstream: eQuilibrator (component-contribution)
+    package: viva_equilibrator
+    build_status: exists
+    audit_status: partial          # feasibility_gate composite exists; no cross-study band
+    fidelity: real
+    studies: [28, 29, 35]
+
+  - id: viva-fenics
+    role: Finite-element multiphysics (Poisson/Nernst-Planck verification)
+    upstream: FEniCSx / dolfinx
+    package: viva_fenics
+    build_status: exists
+    audit_status: partial
+    fidelity: real
+    studies: [27]
+
+  - id: viva-reaktoro
+    role: Multiphase equilibrium + reactive geochemistry
+    upstream: Reaktoro
+    package: viva_genesis.geochemistry   # lightweight in-workspace today
+    build_status: in-workspace
+    audit_status: none                    # no mineral mass/charge ledger gate
+    fidelity: real
+    studies: [27]
+
+  - id: viva-phreeqc
+    role: Aqueous speciation + mineral reactions (cell-resolved PhreeqcRM)
+    upstream: PHREEQC / PhreeqcRM
+    package: viva_phreeqc
+    build_status: wrapper-needed          # not yet wrapped
+    audit_status: none
+    fidelity: real
+    studies: [27, 30]
+
+  - id: viva-fipy
+    role: Finite-volume multispecies reactive transport (advection/diffusion/electrodiffusion)
+    upstream: FiPy
+    package: viva_genesis.transport        # lightweight in-workspace today
+    build_status: in-workspace
+    audit_status: partial                  # spatial_flux_conservation invariant on og-00
+    fidelity: real
+    studies: [27, 30, 36]
+
+  - id: viva-kinetics
+    role: SBML kinetic reaction-network simulation + fitting
+    upstream: COPASI / libRoadRunner (Tellurium)
+    package: viva_genesis.protometabolism   # tellurium engine-reuse today
+    build_status: in-workspace
+    audit_status: none
+    fidelity: real
+    studies: [29, 30, 33, 34, 35, 36]
+
+  - id: viva-md-membrane
+    role: Molecular/coarse-grained closure laws for membrane assembly + permeability
+    upstream: OpenMM / LAMMPS
+    package: viva_md_membrane
+    build_status: to-build                  # validated force fields required
+    audit_status: none
+    fidelity: real
+    studies: [31, 32]
+
+# ── New numerical / inferential methods (plan §"New numerical and inferential methods") ──
+methods:
+  - id: reaction-rule-generation
+    role: Rule-based reaction generation + thermodynamic, mass-balance and kinetic filtering
+    upstream: RDKit (+ eQuilibrator for the ΔG filter)
+    package: viva_reaction_atlas            # the atlas builder tool
+    build_status: to-build
+    audit_status: none                      # NEEDS: balance/charge/thermo validator at write time
+    fidelity: real
+    studies: [28, 29]
+    produces: [prebiotic-reaction-atlas]
+
+  - id: mineral-surface-dynamics
+    role: Dissolution, precipitation, adsorption, passivation, evolving catalytic accessibility
+    upstream: PHREEQC / Reaktoro
+    package: viva_genesis.geochemistry
+    build_status: to-build
+    audit_status: none                      # NEEDS: mineral mass ledger + catalyst-state gate
+    fidelity: real
+    studies: [27, 30]
+
+  - id: multispecies-reactive-transport
+    role: Multispecies thermophoresis / reactive transport with solver cross-comparison
+    upstream: FiPy (+ an independent solver for cross-check)
+    package: viva_genesis.transport
+    build_status: to-build                   # cross-solver comparison is the new part
+    audit_status: partial                    # single-solver conservation only today
+    fidelity: real
+    studies: [30, 36]
+
+  - id: continuum-stochastic-exchange
+    role: Adaptive continuum-to-stochastic handoff for low molecule counts
+    upstream: GillesPy2 / custom SSA + continuum fields
+    package: viva_continuum_stochastic
+    build_status: to-build
+    audit_status: none
+    fidelity: real
+    studies: [36]
+
+  - id: molecular-to-continuum-membrane
+    role: composition -> assembly / leakage / permeability closure models
+    upstream: OpenMM / LAMMPS -> continuum
+    package: viva_md_membrane
+    build_status: to-build
+    audit_status: none
+    fidelity: real
+    studies: [31, 32]
+
+  - id: bayesian-calibration-sensitivity
+    role: Bayesian calibration, global sensitivity, model-class comparison, active learning
+    upstream: PyMC / SALib
+    package: viva_genesis.uq                  # partial today
+    build_status: to-build                    # model-class comparison + active learning new
+    audit_status: partial
+    fidelity: real
+    studies: [all]
+
+  - id: ai-literature-extraction
+    role: AI-assisted literature extraction with deterministic chemistry validation + expert review
+    upstream: viva-superpowers + RDKit/ChEBI validators
+    package: viva_reaction_atlas.extract
+    build_status: to-build
+    audit_status: none                        # NEEDS: deterministic-validation gate on every extracted record
+    fidelity: real
+    studies: [28]
+    produces: [prebiotic-reaction-atlas]
+
+# ── Datasets to build ─────────────────────────────────────────────────────────
+datasets:
+  - id: prebiotic-reaction-atlas
+    role: Versioned candidate-reaction network w/ provenance + confidence tiers
+    path: workspace/datasets/prebiotic-reaction-atlas/
+    schema: workspace/datasets/prebiotic-reaction-atlas/schema.yaml
+    build_status: to-build
+    audit_status: none                        # NEEDS: schema + balance validator run on write
+    sources: [rhea, chebi, pubchem, ord, kida_nist_kinetics]
+    studies: [28, 29, 30, 31, 35]

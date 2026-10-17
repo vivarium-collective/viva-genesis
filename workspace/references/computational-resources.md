@@ -93,3 +93,51 @@ flux, later as a coupled mineral-kinetics module.
 | Months 5–6 | CO2-to-formate/acetate kinetic process; experimental comparison; provenance-rich model cards; first integrated demonstration. |
 | Months 7–9 | Dynamic pore/adsorption/concentration models; compare alternative physical closures and gradient mechanisms. |
 | Months 10–12 | Compartment agents, amphiphile exchange, scenario comparisons; reproducible Workbench demonstration and manuscript-ready figures. |
+
+---
+
+## Upgrade plan additions (17 Oct 2026) — resource stack for studies 27-37
+
+From the **Scientific Investigation Upgrade & Resource Plan**. The aim is to
+reuse proven tools and build only the missing common chemistry/provenance layer.
+Not every database reaction is prebiotically viable: separate **reaction
+identification** from **thermodynamic feasibility** from **actual kinetic
+accessibility**. New resources not already catalogued above:
+
+| Resource | Role | Caution | Primary link | Studies |
+|---|---|---|---|---|
+| **Rhea** | Balanced biochemical reaction definitions + canonical chemical identities | Do NOT infer abiotic kinetics from enzyme catalysis | https://www.rhea-db.org/ | 28-29 |
+| **ChEBI** | Canonical chemical identities / ontology | Resolve protonation/charge conventions on import | https://www.ebi.ac.uk/chebi/ | 28-29 |
+| **PubChem** | Molecular structures + properties (carbon, amphiphile species) | Structures, not vent-condition kinetics | https://pubchem.ncbi.nlm.nih.gov/ | 28,31 |
+| **Open Reaction Database (ORD)** | Structured organic reaction evidence | Many synthetic conditions do not reflect vents | https://open-reaction-database.org/ | 28,31 |
+| **RDKit** | Structure validation, reaction rules, descriptors, precursor enumeration | Cheminformatics ≠ aqueous mineral-surface chemistry | https://www.rdkit.org/ | 28-29,31 |
+| **PetDB (EarthChem)** | Rock & mineral constraints | NOT a complete Lost City vent-fluid dataset | https://earthchem.org/ (PetDB) | 27 |
+| **SALib** | Global sensitivity analysis | Pair with identifiability checks before large fits | https://salib.readthedocs.io/ | All |
+| **KIDA / NIST kinetics** | Selective kinetic references | Mostly astrochemical / gas phase — not aqueous vent substitutes | https://kida.astrochem-tools.org/ · https://kinetics.nist.gov/kinetics/ | 28 |
+
+Already catalogued above and reused as-is: **eQuilibrator** (studies 28-29,35),
+**PHREEQC/PhreeqcRM** (27,30), **Reaktoro** (27), **FiPy** (27,30,36),
+**COPASI/libRoadRunner** (29-30,33-36), **OpenMM/LAMMPS** (31-32),
+**PyMC** (All).
+
+### Per-study tool map (plan §"Public data and computational resource stack")
+
+- **27 Coupled Geochemical Reaction Interface** — PHREEQC/PhreeqcRM + FiPy/Reaktoro; PetDB.
+- **28 Prebiotic Reaction Atlas** — Rhea/ChEBI/ORD/RDKit + eQuilibrator + KIDA/NIST; primary-paper extraction.
+- **29 Endogenous Autocatalysis** — RDKit (rule generation) + eQuilibrator + COPASI/libRoadRunner.
+- **30 Spatially Integrated Protometabolism** — FiPy reactive multispecies transport + PHREEQC; COPASI.
+- **31 Protometabolism to Amphiphiles** — RDKit + PubChem + ORD; OpenMM/LAMMPS.
+- **32 First Self-Maintaining Protocell** — OpenMM/LAMMPS closure laws; one Vivarium coupling composite.
+- **33-36** — libRoadRunner/COPASI kinetics; FiPy (36); PyMC/SALib throughout.
+- **35 Chemical Energy Coupling** — eQuilibrator + candidate carrier reaction cycles.
+
+### Evidence standard for every new study (plan §"Evidence standard")
+
+1. No unbalanced or undefined molecular transformations.
+2. All physical inputs explicitly sourced; no untracked energy, biomass or amphiphile feeds.
+3. Conditions within measured or clearly marked extrapolated ranges.
+4. Time-resolved outcomes + conservation ledgers, not only terminal state.
+5. Uncertainty + mechanism ablations; realistic adverse controls.
+6. Independent validation whenever a quantitative experimental benchmark exists.
+7. Discrete kinetics when expected molecule counts make continuum concentrations unreliable.
+8. A negative result is an accepted scientific outcome; never tune success thresholds to force a pass.
