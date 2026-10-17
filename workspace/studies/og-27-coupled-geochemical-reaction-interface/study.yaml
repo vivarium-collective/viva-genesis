@@ -32,6 +32,13 @@ objective: >-
 # Verbatim plan dependencies (handoff contracts wired by genesis-writer after scaffolding).
 # 14, 15 have no scaffolded slug yet; recorded numeric-only — parent_studies holds the resolvable deps.
 builds_on: [0, 1, 14, 15]
+plan_id: 27
+# Machine-checkable handoff contract (read by viva_genesis/handoff/validate.py).
+# The prose handoff findings above are the human record; this is the audited contract.
+handoff:
+  emits:
+  - {to: 29, provides: [H2 flux, inorganic carbon flux, pH, T, ionic activities, catalyst state, time-dependent feeds]}
+  receives: []
 proposed_mechanisms:
 - serpentinization-driven H2 + alkalinity generation at the vent wall
 - mixing-controlled pH/redox/ionic-activity gradients across the interface

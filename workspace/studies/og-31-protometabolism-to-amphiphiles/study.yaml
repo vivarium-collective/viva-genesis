@@ -27,6 +27,15 @@ objective: >-
 # Verbatim plan dependencies (handoff contracts wired by genesis-writer after scaffolding).
 # 17 has no scaffolded slug yet; recorded numeric-only — parent_studies holds the resolvable deps.
 builds_on: [4, 17, 28, 30]
+plan_id: 31
+# Machine-checkable handoff contract (read by viva_genesis/handoff/validate.py).
+# The prose handoff findings above are the human record; this is the audited contract.
+# emit->32 is not audited until study 32 is scaffolded (validator skips edges to absent studies).
+handoff:
+  emits:
+  - {to: 32, provides: [amphiphile pools, composition-dependent assembly, permeability]}
+  receives:
+  - {from: 30, requires: [precursor concentrations, T, pH, residence time, competing sinks]}
 proposed_mechanisms:
 - carbon-chain extension from real metabolic precursors
 - headgroup generation and competing hydrolysis / degradation losses
