@@ -1,0 +1,97 @@
+schema_version: 4
+name: og-28-prebiotic-reaction-atlas
+investigation: origins-of-life-vent
+created: '2026-10-17'
+phase: Design
+status: planned
+design_status: drafted
+confidence: Planned
+title: Prebiotic Reaction Atlas
+question: Which measured or defensibly inferred reaction pathways can connect C1-C3 products to functional
+  chemistry?
+hypothesis: A versioned candidate-reaction network — each reaction carrying species identity, balanced
+  stoichiometry, a confidence tier and a kinetic domain, built only from measured or defensibly inferred
+  pathways — can connect C1-C3 products toward functional chemistry with no unbalanced or unexplained
+  step.
+objective: Build a versioned chemical-network dataset from Rhea/ChEBI/ORD/RDKit plus primary-paper extraction
+  and eQuilibrator feasibility screening, recording species identity, stoichiometry, confidence and kinetic
+  domain with full source provenance, so downstream studies draw only from vetted reactions.
+# Verbatim plan dependencies (handoff contracts wired by genesis-writer after scaffolding).
+# 16 has no scaffolded slug yet; recorded here only.
+builds_on: [1, 2, 16]
+proposed_mechanisms:
+- reaction identification (ChEBI/Rhea/ORD + primary papers) separated from thermodynamic feasibility
+  (eQuilibrator) separated from kinetic accessibility
+- deterministic chemistry validation (balance / charge / identity) on every record at write time
+proposed_models_methods:
+- ChEBI / Rhea / ORD / RDKit + primary-paper extraction
+- eQuilibrator feasibility screen
+- per-reaction: species identity, stoichiometry, confidence tier, kinetic domain
+# Tools this study draws on, at their TRUE build status (see workspace/references/build-registry.yaml).
+tools:
+- {id: viva-equilibrator, build_status: exists, role: reaction thermodynamics / feasibility deltaG screen}
+- {id: reaction-rule-generation, build_status: to-build, role: RDKit rule generation + balance/charge/thermo filter}
+- {id: ai-literature-extraction, build_status: to-build, role: AI extraction with deterministic chemistry validation + expert review}
+produces:
+- {dataset: prebiotic-reaction-atlas, build_status: to-build, path: workspace/datasets/prebiotic-reaction-atlas/}
+contract:
+  face:
+    inputs:
+      candidate_reactions:
+        _type: integer
+        _units: dimensionless
+        _min: 0
+    outputs:
+      balanced_fraction:
+        _type: float
+        _units: dimensionless
+        _min: 0.0
+        _max: 1.0
+      provenance_complete_fraction:
+        _type: float
+        _units: dimensionless
+        _min: 0.0
+        _max: 1.0
+  conditions:
+  - kind: invariant
+    name: every_reaction_balanced
+    expr: every accepted reaction mass- and charge-balanced (balanced_fraction == 1.0)
+  - kind: invariant
+    name: every_reaction_sourced
+    expr: every accepted reaction carries species identity + source provenance + confidence tier
+  note: 'The output is a versioned dataset (workspace/datasets/prebiotic-reaction-atlas/), not a sim
+    trajectory — bounds and source provenance travel with each reaction. Deterministic balance/charge
+    validation runs at write time.'
+behavior_tests:
+- name: no-unbalanced-or-unexplained-reaction
+  classification: primary
+  description: 'Decision test — no unexplained precursor or unbalanced reaction enters an accepted model:
+    every reaction admitted to the atlas is mass/charge balanced, has resolved species identities and
+    carries source provenance + a confidence tier.'
+  measure:
+    kind: observable
+    detail: fraction of accepted reactions that are balanced AND fully sourced (target 1.0); count of
+      unexplained precursors (target 0)
+  pass_if:
+    op: threshold
+    detail: no unbalanced reaction and no unexplained precursor in the accepted set
+  requires_simulation: 'no'
+literature_anchors: []
+baseline:
+- name: Prebiotic Reaction Atlas
+  composite: viva_genesis.composites.og_28_prebiotic_reaction_atlas
+  params: {}
+  planned: true
+parent_studies:
+- {study: og-01-geology-to-reduced-carbon, condition: tests-passed}
+- {study: og-02-reduced-carbon-to-protometabolism, condition: tests-passed}
+key_assumptions:
+- Reaction identification, thermodynamic feasibility and kinetic accessibility are three separate gates;
+  a database reaction is not assumed prebiotically viable.
+- Enzyme-catalysed kinetics (Rhea) do NOT license abiotic kinetic claims.
+parent_relations:
+- {study: og-01-geology-to-reduced-carbon, relation: builds-on}
+- {study: og-02-reduced-carbon-to-protometabolism, relation: builds-on}
+expert_questions:
+- What confidence-tier rubric and minimum provenance (primary measurement vs. defensible inference) should
+  gate admission to the accepted network?

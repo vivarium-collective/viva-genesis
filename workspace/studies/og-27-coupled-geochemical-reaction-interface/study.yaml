@@ -1,0 +1,102 @@
+schema_version: 4
+name: og-27-coupled-geochemical-reaction-interface
+investigation: origins-of-life-vent
+created: '2026-10-17'
+phase: Design
+status: planned
+design_status: drafted
+confidence: Planned
+title: Coupled Geochemical Reaction Interface
+question: Can an evolving mineral-water interface sustainably supply carbon, H2, chemical gradients and
+  catalysis?
+hypothesis: A reactive mineral-water interface, as it precipitates, dissolves and passivates, holds a
+  sustained supply of reduced carbon, H2, chemical gradients and catalytic surface over transport and
+  mineral-evolution timescales — rather than collapsing to equilibrium once the fresh surface is consumed.
+objective: Couple aqueous speciation (PHREEQC/PhreeqcRM, Reaktoro) to reactive transport (FiPy) with
+  mineral precipitation, dissolution and surface passivation, and check the electrochemical driving
+  forces, to measure whether reactive flux is sustained as the interface evolves.
+# Verbatim plan dependencies (handoff contracts wired by genesis-writer after scaffolding).
+# Numbers without a scaffolded slug (14, 15) are recorded here only; parent_studies lists the
+# dependencies that resolve to a real study today.
+builds_on: [0, 1, 14, 15]
+proposed_mechanisms:
+- evolving mineral surface (precipitation / dissolution / passivation) as the catalyst + gradient source
+- electrochemical (Nernst-Planck-Poisson) driving forces across the interface
+proposed_models_methods:
+- PHREEQC / PhreeqcRM + FiPy / Reaktoro coupling
+- mineral precipitation, dissolution, surface passivation
+- electrochemical model checks
+# Tools this study draws on, at their TRUE build status (see workspace/references/build-registry.yaml).
+# Marked honestly — several are not yet built; the composite is planned, not registered.
+tools:
+- {id: viva-fenics, build_status: exists, role: FEM Poisson/Nernst-Planck verification}
+- {id: viva-reaktoro, build_status: in-workspace, role: multiphase equilibrium + reactive geochemistry}
+- {id: viva-phreeqc, build_status: wrapper-needed, role: cell-resolved aqueous speciation (PhreeqcRM)}
+- {id: viva-fipy, build_status: in-workspace, role: finite-volume reactive transport}
+- {id: mineral-surface-dynamics, build_status: to-build, role: dissolution/precipitation/passivation + catalyst-state ledger}
+contract:
+  face:
+    inputs:
+      temperature:
+        _type: float
+        _units: kelvin
+        _min: 273.0
+        _max: 673.0
+      H2:
+        _type: float
+        _units: molar
+        _min: 0.0
+    outputs:
+      reactive_flux:
+        _type: float
+        _units: mol/second
+      interface_potential:
+        _type: float
+        _units: volt
+      catalyst_accessibility:
+        _type: float
+        _units: dimensionless
+  conditions:
+  - kind: invariant
+    name: mass_charge_balance
+    expr: abs(residual_C)+abs(residual_H)+abs(residual_O)+abs(residual_charge) < tol
+  - kind: invariant
+    name: reproducibility
+    expr: solver and db and seed and scenario recorded
+  note: bigraph-schema typed ports + conservation predicates; the composite built for this study must
+    declare a ProcessContract matching this face (audited via the workbench §Contract panel). Outputs
+    the plan calls for — time/space-resolved activities, flows, electrical driving forces, catalyst
+    states — are surfaced as the typed outputs above plus time-resolved readouts.
+behavior_tests:
+- name: sustained-reactive-flux
+  classification: primary
+  description: 'Decision test — sustained reactive flux over transport and mineral-evolution timescales:
+    the interface keeps supplying reduced carbon, H2, gradients and catalysis as it precipitates, dissolves
+    and passivates, rather than decaying to equilibrium.'
+  measure:
+    kind: observable
+    detail: reactive flux (and gradient / catalyst accessibility) tracked over the mineral-evolution
+      timescale, not just terminal state
+  pass_if:
+    op: threshold
+    detail: reactive flux sustained (non-vanishing) across transport and mineral-evolution timescales
+  requires_simulation: 'yes'
+literature_anchors: []
+baseline:
+- name: Coupled Geochemical Reaction Interface
+  composite: viva_genesis.composites.og_27_coupled_geochemical_reaction_interface
+  params: {}
+  planned: true
+parent_studies:
+- {study: og-00-vent-reactor-baseline, condition: tests-passed}
+- {study: og-01-geology-to-reduced-carbon, condition: tests-passed}
+key_assumptions:
+- The mineral surface is dynamic (it precipitates, dissolves and passivates); a static-surface model
+  is the control it must beat.
+- Supply is a sustained-flux property over mineral-evolution time, not a terminal-state concentration.
+parent_relations:
+- {study: og-00-vent-reactor-baseline, relation: builds-on}
+- {study: og-01-geology-to-reduced-carbon, relation: builds-on}
+expert_questions:
+- Which thermodynamic database (and activity model) should anchor the high-ionic-strength speciation,
+  and what passivation law for the evolving surface?
