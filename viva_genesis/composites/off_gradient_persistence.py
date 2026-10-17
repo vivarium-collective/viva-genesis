@@ -67,6 +67,7 @@ _EMIT_PATHS = [
          "config": {"title": "The survival frontier off the gradient"}},
     ],
     default_n_steps=60,
+    preferred_time="1000 years",
     core_extensions=[build_core],
     emitters=[{"address": "local:ParquetEmitter", "paths": _EMIT_PATHS}],
 )

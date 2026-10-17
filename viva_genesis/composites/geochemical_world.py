@@ -121,6 +121,7 @@ _REDUCED_H2_RATE_AT_REFERENCE = 1.0e-3   # mol/s at olivine_rate = 0.15 (reduced
                "description": "FiPy finite-volume cells across the interface column"},
     },
     default_n_steps=120,
+    preferred_time="6 hours",
     core_extensions=[build_core],
     emitters=[{"address": "local:ParquetEmitter", "paths": _EMIT_PATHS}],
 )

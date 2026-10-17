@@ -58,6 +58,7 @@ def _seed_agent(volume, amounts):
         "founder_acetate": {"type": "number", "default": 4.0, "description": "Founder internal acetate (mol)"},
     },
     default_n_steps=30,
+    preferred_time="48 hours",
     core_extensions=[build_core],
     emitters=[{"address": "local:ParquetEmitter", "paths": _EMIT_PATHS}],
 )

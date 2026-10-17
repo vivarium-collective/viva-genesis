@@ -60,6 +60,7 @@ _EMIT_PATHS = [
          "config": {"title": "Where cross-feeding robustness emerges"}},
     ],
     default_n_steps=40,
+    preferred_time="100 years",
     core_extensions=[build_core],
     emitters=[{"address": "local:ParquetEmitter", "paths": _EMIT_PATHS}],
 )

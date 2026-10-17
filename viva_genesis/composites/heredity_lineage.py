@@ -60,6 +60,7 @@ _EMIT_PATHS = [
          "config": {"title": "Heredity as an inherited lineage"}},
     ],
     default_n_steps=40,
+    preferred_time="40 generations",
     core_extensions=[build_core],
     emitters=[{"address": "local:ParquetEmitter", "paths": _EMIT_PATHS}],
 )

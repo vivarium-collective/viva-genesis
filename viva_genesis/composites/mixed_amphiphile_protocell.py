@@ -52,6 +52,7 @@ _EMIT_PATHS = [
          "config": {"title": "The protocell window broadens (mixed amphiphiles)"}},
     ],
     default_n_steps=20,
+    preferred_time="6 hours",
     core_extensions=[build_core],
     emitters=[{"address": "local:ParquetEmitter", "paths": _EMIT_PATHS}],
 )

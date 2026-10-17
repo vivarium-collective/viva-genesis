@@ -69,6 +69,7 @@ _EMIT_PATHS = [
          "config": {"title": "Proto-energetics — charging and spending the currency"}},
     ],
     default_n_steps=60,
+    preferred_time="12 hours",
     core_extensions=[build_core],
     emitters=[{"address": "local:ParquetEmitter", "paths": _EMIT_PATHS}],
 )

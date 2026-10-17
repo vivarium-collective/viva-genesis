@@ -64,6 +64,7 @@ _EMIT_PATHS = [
          "config": {"title": "Phosphorus bottleneck — reactive-P production vs loss"}},
     ],
     default_n_steps=120,
+    preferred_time="24 hours",
     core_extensions=[build_core],
     emitters=[{"address": "local:ParquetEmitter", "paths": _EMIT_PATHS}],
 )

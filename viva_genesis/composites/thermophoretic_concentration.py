@@ -52,6 +52,7 @@ _EMIT_PATHS = [
          "config": {"title": "The thermal trap concentrates an individual"}},
     ],
     default_n_steps=30,
+    preferred_time="7 days",
     core_extensions=[build_core],
     emitters=[{"address": "local:ParquetEmitter", "paths": _EMIT_PATHS}],
 )

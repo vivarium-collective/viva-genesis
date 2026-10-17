@@ -86,6 +86,7 @@ _PMF, _DRIVE, _FE_DRIVE, _PERM, _RADIUS = 0.216, 50.0, 40.0, 1.0e-6, 5.0e-7
         "tick_seconds": {"type": "float", "default": 10.0, "description": "Physical seconds per composite tick (store timescales are ~1e3 s); processes run at interval 1"},
     },
     default_n_steps=150,
+    preferred_time="12 hours",
     core_extensions=[build_core],
     emitters=[{"address": "local:ParquetEmitter", "paths": _EMIT_PATHS}],
 )

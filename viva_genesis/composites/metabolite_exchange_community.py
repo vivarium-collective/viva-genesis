@@ -143,6 +143,7 @@ def place_agents(names: list[str], n_cells: int, placement: str, seed: int) -> l
         "seed": {"type": "integer", "default": 1, "description": "Placement seed (random placement only)"},
     },
     default_n_steps=200,
+    preferred_time="100 years",
     core_extensions=[build_core],
     emitters=[{"address": "local:ParquetEmitter", "paths": _EMIT_PATHS}],
 )

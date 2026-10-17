@@ -62,6 +62,7 @@ _EMIT_TYPES = {
         "localized_acetate": {"type": "number", "default": 2.0, "description": "Localized acetate parcel (mol)"},
     },
     default_n_steps=40,
+    preferred_time="6 hours",
     core_extensions=[build_core],
     emitters=[{"address": "local:ParquetEmitter", "paths": _EMIT_PATHS}],
 )
