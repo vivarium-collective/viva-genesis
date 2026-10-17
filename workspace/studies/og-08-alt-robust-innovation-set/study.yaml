@@ -35,17 +35,23 @@ objective: Build the integrated world (AblationStep, GeologicalDriverStep, Linea
   og-adv generic control and the full set over the floor axis, grade the pre-registered
   gates and report the intersection of the required innovations as a lattice with
   the continuous autonomy value decomposed by function.
+disposition: >-
+  REBUILD question. Withdrawing the vent's support all at once mixes losses, so an observed collapse
+  cannot be attributed to any single missing support — the joint-sufficiency test confounds the factors.
+  Rebuild the question: instead of asking whether the {pump, importer, heredity} set is jointly sufficient
+  under lumped withdrawal, separately vary pH gradient, H2, CO2, mineral catalysis, temperature and
+  organics, and ask which specific support each chemical lineage can replace and where it fails.
 claim: >-
-  No - the set is not jointly sufficient, and the gate fails. Withdrawn into a nominal (1%)
-  ocean, no subset of {pump, importer, heredity} persists under any of the 24 sampled
-  structures (0 of 192 runs); into a 10x richer ocean only {pump, heredity} persists, under 2
-  of 24 structures, and the importer is a pure net cost because it concentrates organics
-  against a leaky fatty-acid membrane while the energy drive is already fed by ocean H2.
-  og-08's three-innovation set therefore reduces to "a pump held by heredity," and the full
-  set never persists. The machinery is real - all seven ledgers close on 485 runs and the
-  generic non-vent control is rejected - but the off-gradient verdict turns on one number no
-  measurement yet constrains, the ocean's residual substrate background, so the campaign's
-  honest endpoint is a mapped dependency rather than a sufficiency result.
+  Varying pH gradient, H2, CO2, mineral catalysis, temperature and organics one at a time, the study
+  determines which specific environmental support each chemical lineage can internalize or replace and
+  which it cannot — locating where persistence fails and attributing that failure to a named missing
+  support, rather than reporting a single lumped collapse. The earlier joint-sufficiency framing is
+  withdrawn because lumped withdrawal cannot attribute the loss.
+decision_test: >-
+  For each support (pH gradient, H2, CO2, mineral catalysis, temperature, organics) varied separately,
+  determine which the lineage can replace and the point at which it fails, against an explicit chemical
+  budget. A collapse under lumped withdrawal is not accepted as attribution; failure must be assigned to a
+  specific withdrawn support or reported as unresolved (evidence standard #8).
 findings:
 - id: og08alt-no-subset-persists-at-the-nominal-floor
   provenance:

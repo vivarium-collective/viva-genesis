@@ -185,17 +185,22 @@ baseline:
   params:
     module: rna-like
     temperature: 353.15
+disposition: >-
+  RESCOPE. The inheritance rules are provided, not emergent — functional benefit and replication cost are
+  reduced couplings, not first-principles chemistry. Rescope to separate four distinct inheritance
+  mechanisms and test each individually: chemical memory, inherited network composition, differential
+  reproduction, and template copying — rather than assuming a single heredity rule.
 claim: >-
-  Heritable state improves lineage performance when information retention exceeds its
-  replication cost: a high-fidelity RNA-like module reaches fitness 0.38 with retention 0.62
-  and outranks a cheaper peptide module (0.24), both beating non-inheritance, while a module
-  below the Eigen error threshold collapses. Long templates suffer the expected length
-  catastrophe as Q = fidelity^length declines, whereas compositional (GARD) and template-
-  focused hybrid inheritance stay approximately length-independent, with functional
-  persistence around 0.88 (0.878 +/- 0.005 across five graded seeds) while the non-heritable
-  control loses parent-offspring correlation and collapses. This shows heredity need not
-  presume a long high-fidelity RNA template, while the functional benefit and replication cost
-  remain reduced couplings rather than first-principles chemistry.
+  Separating chemical memory, inherited network composition, differential reproduction and template
+  copying, heredity is demonstrated only where a chemical difference actually inherited by a daughter
+  causes reproducible differences in survival or reproduction. Heredity need not presume a long
+  high-fidelity RNA template, but each mechanism is judged on an inherited chemical difference with a
+  measured consequence, not on a provided inheritance rule.
+decision_test: >-
+  A daughter-inherited chemical difference must cause reproducible differences in survival/reproduction
+  for the mechanism to count as heredity. An inheritance rule with no measured parent-offspring
+  consequence — or compositional memory that cannot transmit a selectable difference — is reported as
+  such, not credited as heredity (evidence standard #8).
 findings:
 - id: og06-inheritance-pays
   provenance:

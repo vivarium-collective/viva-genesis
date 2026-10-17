@@ -63,16 +63,24 @@ contract:
   note: bigraph-schema typed ports (_type/_units/bounds) + conservation predicates;
     the composite built for this study must declare a ProcessContract matching this
     face (audited via the workbench §Contract panel).
+disposition: >-
+  RESCOPE. The extreme single-solute enrichment magnitudes are not numerically robust (FiPy and FEniCS
+  diverge by up to 5.6 decades above Peclet ~13), and different precursors fractionate differently, so a
+  single-solute fold-enrichment is not a defensible headline. Rescope from "how much does one solute
+  concentrate" to resolving the full transport physics — diffusion, thermophoresis, adsorption, surface
+  catalysis and advection — for ALL actual reactants, judging the pore by its effect on the reacting
+  network rather than on one species.
 claim: >-
-  Localization occurs robustly in a bounded geometry regime: long, tight pores trap and
-  concentrate the feed (the favorable pore clears the Baaske-2007 extreme-accumulation regime
-  at an accumulation Peclet of 18.4, with finite-volume flux conserved to machine precision),
-  while open or short pores wash it through at enrichment near one, and the native porosity x
-  pore-length map localizes at about 17% of the grid (25/144 points). The very large fold-
-  enrichment estimates at high Peclet (reduced-model roughly 1e6-1e7) are solver-sensitive
-  above Peclet about 13, where FiPy and FEniCS diverge by up to 5.6 decades. So the defensible
-  result is the existence and location of a localization regime, not a precise extreme-
-  enrichment magnitude.
+  Resolving diffusion, thermophoresis, adsorption, surface catalysis and advection for every actual
+  reactant, a bounded-geometry pore either increases useful product flux or network persistence at
+  identical feeds relative to a well-mixed control, or it does not. The defensible result is the
+  existence and location of a localization regime and its effect on the network — not a precise
+  single-solute extreme-enrichment magnitude, which is solver-sensitive and precursor-dependent.
+decision_test: >-
+  At identical feeds, the pore must increase useful product flux or network persistence versus a matched
+  well-mixed control, across all resolved reactants. A pore that does not beat the well-mixed control is
+  reported as "localization without benefit," not rescued by a single-solute enrichment number (evidence
+  standard #7, #8).
 confidence_level: high
 findings:
 - id: og03-baaske-enrichment
