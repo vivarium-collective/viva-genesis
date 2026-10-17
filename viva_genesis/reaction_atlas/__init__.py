@@ -6,5 +6,22 @@ decision test ("no unexplained precursor or unbalanced reaction enters an
 accepted model").
 """
 from .validate import parse_formula, reaction_balance, validate_record, is_acceptable
+from .build import (
+    AtlasBuildResult,
+    canonical_formula_charge,
+    extract_record,
+    feasibility,
+    build_atlas,
+)
 
-__all__ = ["parse_formula", "reaction_balance", "validate_record", "is_acceptable"]
+__all__ = [
+    "parse_formula",
+    "reaction_balance",
+    "validate_record",
+    "is_acceptable",
+    "AtlasBuildResult",
+    "canonical_formula_charge",
+    "extract_record",
+    "feasibility",
+    "build_atlas",
+]
