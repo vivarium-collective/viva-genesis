@@ -166,6 +166,22 @@ findings:
     composition-dependent assembly and permeability — as the typed input study 32 consumes.
   evidence: {from_test: handoff-31-to-32-complete}   # satisfies 31→32 handoff validator
 literature_anchors: []
+visualizations:
+- name: membrane-cohesion
+  address: local:OgMembraneCohesionViz
+  config:
+    composite: viva_genesis.composites.og_31_protometabolism_to_amphiphiles.og_31_protometabolism_to_amphiphiles
+    n_steps: 8
+    nx: 4
+    ny: 4
+    platform: CPU
+    title: Bilayer cohesion and packing — a real Martini bilayer
+    caption: >-
+      Two panels from the Martini NVT run — potential energy settling negative as the coarse-grained
+      bilayer assembles and holds, and the equilibrium area per lipid. Plainly: the membrane snaps
+      into a stable sheet instead of dispersing, and the lipids pack at the spacing real membranes
+      show. Rendered from the real OpenMM run where the membrane extra is installed; otherwise the
+      figure shows a note that the engine is unavailable.
 baseline:
 - name: Protometabolism to Amphiphiles
   composite: viva_genesis.composites.og_31_protometabolism_to_amphiphiles.og_31_protometabolism_to_amphiphiles

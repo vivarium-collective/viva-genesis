@@ -266,3 +266,173 @@ class OgSpatialProtometabolismViz(Visualization):
                 "long they reside, and the net productive carbon flux in the structured pore against a "
                 "matched well-mixed control at identical feeds. Plainly: does the pore actually help the "
                 "chemistry, or would a stirred pot do just as well?")))
+
+
+class OgReactionAtlasCoverageViz(Visualization):
+    """og-28 — prebiotic reaction atlas coverage by confidence tier.
+
+    Runs ``og_28_prebiotic_reaction_atlas`` (the atlas-builder composite) and
+    reports its coverage from the composite's real coverage emit: how many
+    reactions are accepted at each confidence tier (measured / inferred /
+    hypothetical), accepted vs proposed-and-held, the carbon species connected,
+    and the zero-leakage gate — unbalanced / unsourced records are HELD OUT of
+    the accepted set, never admitted. (Counts, not a trajectory, so the final
+    emitted row is the atlas state.)
+    """
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "Reaction atlas coverage by confidence tier"},
+        "caption": {"_type": "string", "_default": ""},
+        "n_steps": {"_type": "integer", "_default": 3},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        from ..core import build_core
+        from ..composites.og_28_prebiotic_reaction_atlas import (
+            og_28_prebiotic_reaction_atlas as gen,
+        )
+        core = build_core()
+        rows = _run(gen, core, self.config["n_steps"])
+        return {"html": self._figure(rows[-1] if rows else {})}
+
+    def _figure(self, last) -> str:
+        from plotly.subplots import make_subplots
+
+        def g(k):
+            return float(last.get(k, 0) or 0)
+
+        covered = int(g("carbon_species_covered"))
+        fig = make_subplots(
+            rows=1, cols=3, horizontal_spacing=0.09,
+            subplot_titles=("Accepted reactions by tier", "Accepted vs proposed",
+                            "Zero-leakage gate"),
+        )
+        fig.add_bar(x=["measured", "inferred", "hypothetical"],
+                    y=[g("n_measured"), g("n_inferred"), g("n_hypothetical")],
+                    marker_color=[TEAL, AMBER, SLATE], showlegend=False, row=1, col=1)
+        fig.add_bar(x=["accepted", "proposed (held)"], y=[g("n_accepted"), g("n_proposed")],
+                    marker_color=[TEAL, SLATE], showlegend=False, row=1, col=2)
+        fig.add_bar(x=["admitted unbalanced", "held out"],
+                    y=[g("accepted_balance_violations"), g("balance_violations_held")],
+                    marker_color=[RUST, SLATE], showlegend=False, row=1, col=3)
+        fig.add_annotation(text=f"C-species connected: {covered}", showarrow=False,
+                           xref="paper", yref="paper", x=0.0, y=1.14, font=dict(size=11, color=INK))
+        fig.update_yaxes(showgrid=True, gridcolor=S.GRID)
+        fig.update_layout(**S.base_layout(height=400, showlegend=False,
+                                          margin=dict(l=50, r=25, t=60, b=50)))
+        inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+        return S.frame(
+            inner, title=(self.config.get("title") or "Reaction atlas coverage by confidence tier"),
+            phase="Study 28", view="Decision", tier="conceptual_demonstration",
+            caption_prefix="How to read",
+            caption_text=(self.config.get("caption") or (
+                "The candidate-reaction network connecting C1–C3 products to functional chemistry, counted "
+                "by confidence tier — measured, inferred, hypothetical — with accepted vs proposed-and-held, "
+                "and the zero-leakage gate: unbalanced / unsourced reactions are held out of the accepted "
+                "set (admitted-unbalanced reads 0). Plainly: the chemistry we can defensibly connect, how "
+                "sure we are of each step, and proof that nothing unbalanced slipped in.")))
+
+
+class OgMembraneCohesionViz(Visualization):
+    """og-31 — Martini bilayer cohesion: potential energy settling negative.
+
+    Runs ``og_31_protometabolism_to_amphiphiles`` (the REAL OpenMMMartiniProcess
+    on a generated POPE bilayer under minimize + NVT); plots the potential energy
+    settling to a stable negative value (the cohesion / assembly signal) and the
+    area per lipid. The real run needs the ``membrane`` extra (viva-openmm +
+    OpenMM); where it is absent the figure DEGRADES CLEANLY to an explanatory
+    panel rather than erroring, so the viz stays valid + discoverable everywhere.
+    """
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "Bilayer cohesion — potential energy settling negative"},
+        "caption": {"_type": "string", "_default": ""},
+        "n_steps": {"_type": "integer", "_default": 8},
+        "nx": {"_type": "integer", "_default": 4},
+        "ny": {"_type": "integer", "_default": 4},
+        "platform": {"_type": "string", "_default": "CPU"},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        try:
+            from ..core import build_core
+            from ..composites.og_31_protometabolism_to_amphiphiles import (
+                og_31_protometabolism_to_amphiphiles as gen,
+            )
+            core = build_core()
+            rows = _run(gen, core, self.config["n_steps"],
+                        nx=int(self.config["nx"]), ny=int(self.config["ny"]),
+                        platform=str(self.config["platform"]))
+        except (ImportError, ModuleNotFoundError) as e:
+            return {"html": self._unavailable(e)}
+        except Exception as e:  # OpenMM platform / viva-openmm runtime gaps degrade too
+            if "openmm" in str(e).lower():
+                return {"html": self._unavailable(e)}
+            raise
+        return {"html": self._figure(rows)}
+
+    def _figure(self, rows) -> str:
+        from plotly.subplots import make_subplots
+        from ..composites.og_31_protometabolism_to_amphiphiles import (
+            og_31_protometabolism_to_amphiphiles as gen,
+        )
+        t, tlabel = S.real_time([r.get("global_time", i) for i, r in enumerate(rows)], gen)
+        apl = _col(rows, "area_per_lipid")
+        fig = make_subplots(
+            rows=1, cols=2, horizontal_spacing=0.11,
+            subplot_titles=("Potential energy (settling negative)", "Area per lipid"),
+        )
+        fig.add_scatter(x=t, y=_col(rows, "potential_energy"), mode="lines",
+                        line=dict(color=TEAL, width=2.5), name="potential energy", row=1, col=1)
+        fig.add_hline(y=0.0, line=dict(color=SLATE, width=1, dash="dot"), row=1, col=1)
+        fig.add_scatter(x=t, y=apl, mode="lines", line=dict(color=AMBER, width=2.5),
+                        name="area per lipid (nm²)", row=1, col=2)
+        fig.update_xaxes(title_text=tlabel, showgrid=True, gridcolor=S.GRID)
+        fig.update_yaxes(showgrid=True, gridcolor=S.GRID)
+        fig.update_layout(**S.base_layout(
+            height=400, showlegend=True,
+            legend=dict(orientation="h", y=-0.16, x=0.5, xanchor="center", font=dict(size=10)),
+            margin=dict(l=60, r=25, t=46, b=70)))
+        inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+        return S.frame(
+            inner, title=(self.config.get("title") or "Bilayer cohesion — potential energy settling negative"),
+            phase="Study 31", view="Mechanism", tier="mechanistic_prediction",
+            caption_prefix="How to read",
+            caption_text=(self.config.get("caption") or (
+                "Potential energy settling to a stable negative value as the real Martini coarse-grained "
+                "POPE bilayer assembles under minimize + NVT, with the equilibrium area per lipid alongside. "
+                "Plainly: the membrane snaps into a stable sheet instead of dispersing, and the lipids settle "
+                "at the spacing real membranes show.")))
+
+    def _unavailable(self, err) -> str:
+        note = (
+            '<div style="padding:28px 22px;border:1px dashed ' + S.HAIR + ';border-radius:8px;'
+            'background:' + S.PANEL + ';color:' + S.INK_SOFT + ';font-size:13px;line-height:1.5">'
+            "This figure renders a <b>real</b> Martini coarse-grained bilayer run "
+            "(og_31 → OpenMMMartiniProcess). It requires the <code>membrane</code> extra "
+            "(<code>viva-openmm</code> + OpenMM), which is not installed in this environment, so the "
+            "live run was skipped rather than faked. Install the extra (a <code>/viva-catalog</code> / "
+            "<code>pip install &#39;viva-genesis[membrane]&#39;</code> step) to render the potential-energy "
+            "cohesion curve + area-per-lipid from the actual MD."
+            f'<div style="margin-top:8px;color:{S.MUTED};font-size:11px">({type(err).__name__}: {str(err)[:140]})</div>'
+            "</div>"
+        )
+        return S.frame(
+            note, title=(self.config.get("title") or "Bilayer cohesion — membrane extra required"),
+            phase="Study 31", view="Mechanism", tier="mechanistic_prediction", tone="caution",
+            caption_prefix="Note",
+            caption_text=(
+                "The real-run path is guarded: where OpenMM is present this panel is the live PE-settling + "
+                "area-per-lipid figure; where it is absent it degrades to this note instead of erroring."))

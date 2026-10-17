@@ -176,6 +176,19 @@ findings:
     rate forms, parameter bounds and confidence tags — as the typed reaction set study 29 consumes.
   evidence: {from_test: handoff-28-to-29-complete}   # satisfies 28→29 handoff validator
 literature_anchors: []
+visualizations:
+- name: reaction-atlas-coverage
+  address: local:OgReactionAtlasCoverageViz
+  config:
+    composite: viva_genesis.composites.og_28_prebiotic_reaction_atlas.og_28_prebiotic_reaction_atlas
+    n_steps: 3
+    title: Reaction atlas — coverage, confidence, and zero leakage
+    caption: >-
+      Three bars from the atlas's real coverage emit — accepted reactions by confidence tier
+      (measured / inferred / hypothetical), accepted versus proposed-and-held, and the zero-leakage
+      gate (admitted-unbalanced = 0), with the count of C-species connected annotated. Plainly: how
+      much defensible chemistry the atlas connects, how sure we are of each part, and proof that
+      nothing unbalanced or unsourced got in.
 baseline:
 - name: Prebiotic Reaction Atlas
   composite: viva_genesis.composites.og_28_prebiotic_reaction_atlas.og_28_prebiotic_reaction_atlas
