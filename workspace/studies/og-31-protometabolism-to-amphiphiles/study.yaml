@@ -7,30 +7,48 @@ status: planned
 design_status: drafted
 confidence: Planned
 title: Protometabolism to Amphiphiles
-question: Can actual metabolic products yield membrane-forming amphiphile mixtures?
-hypothesis: The actual carbon products of the protometabolic network, through candidate chain extension,
-  headgroup generation and hydrolysis, reach a chain-length and headgroup mixture whose concentration
-  crosses a measured critical aggregation window and forms a phase-stable membrane — with no exogenous
-  amphiphile added.
-objective: Take the network's real carbon products through candidate carbon-chain extension, headgroup
-  generation and hydrolysis, and compare the resulting amphiphile concentrations against measured critical
-  aggregation and phase-stability windows to decide whether membrane-forming mixtures arise endogenously.
+claim: >-
+  The actual carbon products of the spatially integrated protometabolism can, through modeled chain
+  extension, headgroup generation and hydrolysis, yield amphiphile mixtures that reach an experimentally
+  measured critical-aggregation / phase-stability window WITHOUT any exogenous amphiphile feed — or they
+  fall short of that window, which is reported. No membrane-former is assumed into existence.
+question: >-
+  Can actual metabolic products — not supplied amphiphiles — yield membrane-forming amphiphile mixtures
+  under vent-local conditions?
+hypothesis: >-
+  Carbon-chain extension, headgroup generation and competing hydrolysis acting on the real product pool
+  from study 30 will produce a chain-length and headgroup distribution whose concentration reaches the
+  measured critical aggregation concentration and a stable phase window; if losses (hydrolysis, dilution)
+  keep concentrations below that window, no assembly is claimed.
+objective: >-
+  Transform the study-30 precursor pool via modeled chain-extension/headgroup/hydrolysis chemistry, track
+  chain-length and headgroup distributions, concentrations and losses, and test against measured critical
+  aggregation and phase-stability data — with zero exogenous amphiphile input.
 # Verbatim plan dependencies (handoff contracts wired by genesis-writer after scaffolding).
-# 17 has no scaffolded slug yet; recorded here only.
+# 17 has no scaffolded slug yet; recorded numeric-only — parent_studies holds the resolvable deps.
 builds_on: [4, 17, 28, 30]
 proposed_mechanisms:
-- chain extension + headgroup generation building amphiphiles from endogenous carbon products
-- hydrolysis as the loss term competing with amphiphile accumulation
+- carbon-chain extension from real metabolic precursors
+- headgroup generation and competing hydrolysis / degradation losses
+- concentration vs the measured critical aggregation concentration (CAC) and phase window
 proposed_models_methods:
-- candidate carbon-chain extension
-- headgroup generation
-- hydrolysis
-- measured critical aggregation + phase stability
-# Tools this study draws on, at their TRUE build status (see workspace/references/build-registry.yaml).
+- 'RDKit chain-extension / headgroup generation + precursor enumeration   [to-build: viva_reaction_atlas]'
+- 'OpenMM/LAMMPS composition-dependent assembly + permeability closure     [to-build: viva_md_membrane]'
+- PubChem / ORD amphiphile species identities and properties
+- measured CAC / phase-stability benchmarks for independent validation (evidence standard #6)
+model_approach:
+  prose: >-
+    Study 31 is where chemistry meets compartment, and the hard rule is evidence standard #2: no untracked
+    amphiphile feed. Every amphiphile must come from the study-30 product pool through explicit modeled
+    chemistry, with hydrolysis and dilution as real sinks. The assembly claim is tested against measured
+    critical aggregation concentrations and phase windows, not a chosen threshold — if the modeled pool
+    never reaches the experimental window, the study reports that the vent-local chemistry is insufficient
+    on its own, and names what is missing.
+# Tools at their TRUE build status (workspace/references/build-registry.yaml); not upgraded.
 tools:
-- {id: viva-md-membrane, build_status: to-build, role: coarse-grained closure laws for assembly + permeability}
+- {id: reaction-rule-generation, build_status: to-build, role: RDKit chain-extension / headgroup generation + precursor enumeration}
+- {id: viva-md-membrane, build_status: to-build, role: OpenMM/LAMMPS composition-dependent assembly + permeability closure}
 - {id: molecular-to-continuum-membrane, build_status: to-build, role: composition -> assembly/leakage/permeability closure}
-- {id: reaction-rule-generation, build_status: to-build, role: RDKit chain-extension / headgroup enumeration}
 contract:
   face:
     inputs:
@@ -56,23 +74,88 @@ contract:
   - kind: invariant
     name: carbon_mass_balance
     expr: chain extension + headgroup + hydrolysis conserve carbon (balanced against supply)
-  note: Outputs the plan calls for — chain-length + headgroup distributions, concentrations, losses —
-    are the typed outputs plus distribution readouts; the assembly window is a MEASURED critical aggregation
-    / phase-stability band, not a tuned threshold.
+  note: Consumes the 30→31 bundle; emits the 31→32 bundle. The assembly window is a MEASURED critical
+    aggregation / phase-stability band, not a tuned threshold.
 behavior_tests:
-- name: reaches-assembly-window-without-exogenous-amphiphiles
-  classification: primary
-  description: 'Decision test — model reaches an experimental assembly window without exogenous amphiphiles:
-    the amphiphile mixture built from endogenous carbon products reaches a measured critical aggregation
-    / phase-stability window with no amphiphile added from outside the network.'
+- name: receives-30-handoff-bundle
+  classification: secondary
+  description: Study 31 receives the full 30→31 bundle — spatially local precursor concentrations, T, pH,
+    residence time and competing sinks — as typed inputs, verified complete before the amphiphile chemistry.
   measure:
     kind: observable
-    detail: endogenous amphiphile concentration + chain-length/headgroup mixture vs. measured critical
-      aggregation and phase-stability windows
+    detail: completeness + typing of the 30→31 bundle checked against 30's emitted bundle
   pass_if:
     op: threshold
-    detail: concentration reaches the measured assembly window with no exogenous amphiphile supply
+    detail: bundle received complete and typed
   requires_simulation: 'yes'
+- name: no-untracked-amphiphile-feed
+  classification: primary
+  description: Every amphiphile in the model is produced from the study-30 product pool via explicit
+    chain-extension/headgroup chemistry; no exogenous amphiphile is fed, and hydrolysis/dilution losses
+    are tracked.
+  measure:
+    kind: observable
+    detail: amphiphile mass ledger — fraction traceable to the study-30 pool (target 1.0); exogenous feed (target 0)
+  pass_if:
+    op: threshold
+    detail: no untracked amphiphile feed; losses tracked
+  requires_simulation: 'yes'
+- name: reaches-measured-assembly-window
+  classification: primary
+  description: The modeled chain-length/headgroup distribution either reaches the experimentally measured
+    critical aggregation concentration and a stable phase window, or it falls short; the finding reports
+    which, with the distributions, concentrations and losses.
+  measure:
+    kind: observable
+    detail: endogenous amphiphile concentration + chain-length/headgroup distribution vs. measured CAC + phase window
+  pass_if:
+    op: threshold
+    detail: concentration reaches the measured assembly window (else a reported shortfall)
+  requires_simulation: 'yes'
+- name: handoff-31-to-32-complete
+  classification: secondary
+  description: The study emits the 31→32 transfer bundle — structure-resolved amphiphile pools with
+    composition-dependent assembly and permeability — as the typed input study 32 consumes.
+  measure:
+    kind: observable
+    detail: presence + typing of every field in the 31→32 transfer bundle
+  pass_if:
+    op: threshold
+    detail: bundle complete and typed (satisfies 31→32 handoff validator)
+  requires_simulation: 'yes'
+decision_test: >-
+  The model must reach an experimentally measured assembly window (critical aggregation + phase stability)
+  using ONLY amphiphiles produced from real metabolic products — no exogenous amphiphile feed (evidence
+  standard #2). Falling short of the measured window is an accepted negative result that names the missing
+  chemistry, reported not tuned (evidence standard #6, #8).
+findings:
+- id: og31-receives-30-handoff
+  kind: methodological
+  status: planned
+  statement: Study 31 receives the full 30→31 bundle — spatially local precursor concentrations, T, pH,
+    residence time and competing sinks — as typed inputs, verified complete before the amphiphile chemistry.
+  evidence: {from_test: receives-30-handoff-bundle}   # handoff verifiable against 30's emitted bundle
+- id: og31-no-exogenous-amphiphile-feed
+  kind: methodological
+  status: planned
+  statement: Every amphiphile in the model is produced from the study-30 product pool via explicit
+    chain-extension/headgroup chemistry; no exogenous amphiphile is fed, and hydrolysis/dilution losses
+    are tracked. This no-untracked-feed guarantee is the study's core constraint (evidence standard #2).
+  evidence: {from_test: no-untracked-amphiphile-feed}   # internal mass-ledger result → run_ids (correct-uncitable)
+- id: og31-reaches-assembly-window-or-not
+  kind: computational
+  status: planned
+  statement: The modeled chain-length/headgroup distribution either reaches the experimentally measured
+    critical aggregation concentration and a stable phase window, or it falls short; the finding reports
+    which, with the distributions, concentrations and losses.
+  evidence: {from_test: reaches-measured-assembly-window}
+  expected: {cites: [jordan2019promotion, budin2012concentration, hanczyc2003experimental]}
+- id: og31-handoff-bundle-to-32
+  kind: methodological
+  status: planned
+  statement: The study emits the 31→32 transfer bundle — structure-resolved amphiphile pools with
+    composition-dependent assembly and permeability — as the typed input study 32 consumes.
+  evidence: {from_test: handoff-31-to-32-complete}   # satisfies 31→32 handoff validator
 literature_anchors: []
 baseline:
 - name: Protometabolism to Amphiphiles

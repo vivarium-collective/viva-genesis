@@ -7,32 +7,54 @@ status: planned
 design_status: drafted
 confidence: Planned
 title: Spatially Integrated Protometabolism
-question: Can the full chemical network operate in a pore despite fractionation and washout?
-hypothesis: In a pore with reactive multispecies transport, thermophoresis, adsorption and surfaces,
-  the vetted protometabolic network sustains productive flux above matched well-mixed and nonconcentrating
-  controls — concentration and co-localization winning out over fractionation and washout — where continuum
-  concentrations fail, discrete stochastic chemistry carries the low-count species.
-objective: Run the full network under FiPy reactive multispecies transport with thermophoresis, adsorption
-  and surfaces (discrete stochastic chemistry where molecule counts demand it) and compare productive
-  flux against matched well-mixed and nonconcentrating controls.
+claim: >-
+  The full vent-fed chemical network, placed in an explicit mineral pore with reactive transport,
+  thermophoresis and surface adsorption, either sustains productive reaction flux that EXCEEDS a matched
+  well-mixed control AND a matched nonconcentrating control — demonstrating that the pore itself helps —
+  or it does not, in which case the clean result is that pores do not help under these conditions.
+  Spatial benefit is a margin won against controls, not assumed from co-localization.
+question: >-
+  Can the full chemical network operate productively inside a pore despite fractionation and washout —
+  and does the pore structure actually improve persistence over a well-mixed system?
+hypothesis: >-
+  Reactive multispecies transport with thermophoretic accumulation and mineral-surface adsorption will
+  co-localize intermediates and raise local productive flux and residence time enough to beat both a
+  matched well-mixed control and a matched nonconcentrating control; if co-localization does not produce
+  a flux margin over those controls, the pore confers no benefit and that is reported.
+objective: >-
+  Run the 29 reaction network inside an explicit mineral-pore transport field (FiPy), with thermophoresis
+  and surface adsorption, using discrete stochastic chemistry where molecule counts make a continuum
+  unreliable; quantify co-localization, spatial reaction flux, residence and persistence against matched
+  well-mixed and nonconcentrating controls.
 # Verbatim plan dependencies (handoff contracts wired by genesis-writer after scaffolding).
-# 11 and 21 have no scaffolded slug yet; recorded here only.
+# 11, 21 have no scaffolded slug yet; recorded numeric-only — parent_studies holds the resolvable deps.
 builds_on: [3, 11, 21, 27, 29]
 proposed_mechanisms:
-- thermophoretic / adsorptive concentration and co-localization in the pore
-- continuum-to-stochastic handoff where expected molecule counts make continuum concentrations unreliable
+- thermophoretic / gradient-driven accumulation of intermediates in the pore
+- mineral-surface adsorption concentrating and positioning reactants
+- washout vs residence as the competition that determines persistence
 proposed_models_methods:
-- FiPy reactive multispecies transport
-- thermophoresis, adsorption, surfaces
-- discrete stochastic chemistry where needed
-- matched well-mixed + nonconcentrating controls
-# Tools this study draws on, at their TRUE build status (see workspace/references/build-registry.yaml).
+- 'FiPy finite-volume multispecies reactive transport                      [in-workspace: viva_genesis.transport]'
+- 'multispecies-reactive-transport cross-solver comparison                 [to-build: adds an independent solver check]'
+- 'mineral-surface adsorption / evolving catalytic accessibility           [to-build: mineral-surface-dynamics]'
+- 'discrete/stochastic chemistry where expected counts make continuum unreliable (evidence standard #7) [in-workspace/partial: continuum-stochastic handoff is to-build]'
+- 'PHREEQC speciation coupling for pore chemistry                          [wrapper-needed: viva_phreeqc]'
+model_approach:
+  prose: >-
+    Study 30 puts the chemistry of study 29 into space. The pore is not assumed to help: the whole point
+    is the two matched controls. A well-mixed control runs the identical network with the identical input
+    fluxes but no spatial structure; a nonconcentrating control keeps the geometry but removes the
+    accumulation mechanism. Only productive flux (and persistence) that beats BOTH counts as a spatial
+    benefit. Where expected molecule counts in a pore subvolume are small, the chemistry is simulated
+    with discrete kinetics rather than continuum concentrations, so accumulation is not an artifact of
+    treating a few molecules as a smooth field.
+# Tools at their TRUE build status (workspace/references/build-registry.yaml); not upgraded.
 tools:
 - {id: viva-fipy, build_status: in-workspace, role: finite-volume multispecies reactive transport}
-- {id: viva-phreeqc, build_status: wrapper-needed, role: cell-resolved aqueous speciation}
-- {id: viva-kinetics, build_status: in-workspace, role: reaction-network kinetics}
 - {id: multispecies-reactive-transport, build_status: to-build, role: thermophoresis + cross-solver comparison}
-- {id: mineral-surface-dynamics, build_status: to-build, role: adsorption / surface accessibility}
+- {id: mineral-surface-dynamics, build_status: to-build, role: adsorption / evolving catalytic accessibility}
+- {id: continuum-stochastic-exchange, build_status: to-build, role: continuum-to-stochastic handoff at low counts}
+- {id: viva-phreeqc, build_status: wrapper-needed, role: pore-chemistry speciation coupling}
 contract:
   face:
     inputs:
@@ -59,22 +81,93 @@ contract:
   - kind: invariant
     name: controls_matched
     expr: well-mixed and nonconcentrating controls share feed, network and total material
-  note: Outputs the plan calls for — co-localization, spatial reaction flux, residence, persistence —
-    are the typed outputs plus spatially resolved readouts; discrete stochastic chemistry replaces continuum
-    where counts are low.
+  note: Consumes the 29→30 bundle. Part of Gate B (spatial organization = Gate A + 30).
 behavior_tests:
-- name: productive-flux-beats-mixed-and-nonconcentrating-controls
-  classification: primary
-  description: 'Decision test — productive flux exceeds matched well-mixed and nonconcentrating controls:
-    the pore''s spatial concentration and co-localization produce more productive reaction flux than
-    both a well-mixed control and a nonconcentrating control on the same feed and network.'
+- name: receives-29-handoff-bundle
+  classification: secondary
+  description: Study 30 receives the full 29→30 bundle — active reactions, molecular species, actual
+    concentrations and competing degradation routes — as typed inputs, verified complete before the
+    spatial run.
   measure:
     kind: observable
-    detail: productive reaction flux in the pore vs. matched well-mixed and nonconcentrating controls
+    detail: completeness + typing of the 29→30 bundle checked against 29's emitted bundle
   pass_if:
     op: threshold
-    detail: pore productive flux > both matched controls
+    detail: bundle received complete and typed
   requires_simulation: 'yes'
+- name: colocalization-residence-measured
+  classification: primary
+  description: Reactive transport with thermophoresis and adsorption produces measurable co-localization of
+    intermediates and increased residence time in the pore, reported as time- and space-resolved fields,
+    not a terminal snapshot.
+  measure:
+    kind: observable
+    detail: co-localization + residence time as time/space-resolved fields
+  pass_if:
+    op: threshold
+    detail: measurable co-localization and residence increase reported
+  requires_simulation: 'yes'
+- name: productive-flux-beats-wellmixed-and-nonconcentrating
+  classification: primary
+  description: Productive network flux (and persistence) in the pore EXCEEDS both a matched well-mixed
+    control and a matched nonconcentrating control with chemical input fluxes held equal; flux not
+    separable from the controls is reported as "pores do not help," not tuned away. This is the Gate B arm.
+  measure:
+    kind: observable
+    detail: pore productive flux + persistence vs. matched well-mixed and nonconcentrating controls
+  pass_if:
+    op: threshold
+    detail: pore flux exceeds BOTH matched controls (else reported as no benefit)
+  requires_simulation: 'yes'
+- name: spatial-flux-conservation-and-cross-solver
+  classification: secondary
+  description: Mass and charge close across the spatial reactive-transport solve (divergence of flux equals
+    source minus sink) with no untracked feed; the cross-solver comparison agrees to tolerance.
+  measure:
+    kind: observable
+    detail: flux-divergence residual vs. source−sink; cross-solver agreement
+  pass_if:
+    op: threshold
+    detail: conservation within tolerance; cross-solver agreement to tolerance
+  requires_simulation: 'yes'
+gate_B: >-
+  Gate B (spatial organization) = Gate A + study 30 passing together. Acceptance REQUIRES that explicit
+  mineral pores improve productive network persistence over BOTH the well-mixed and the nonconcentrating
+  matched controls with input fluxes held equal.
+decision_test: >-
+  Productive flux must EXCEED a matched well-mixed control AND a matched nonconcentrating control (chemical
+  input fluxes held equal) over the transport/residence timescale. A clean negative — pores do not help —
+  is an accepted result, reported not tuned (evidence standard #5, #7, #8).
+findings:
+- id: og30-receives-29-handoff
+  kind: methodological
+  status: planned
+  statement: Study 30 receives the full 29→30 bundle — active reactions, molecular species, actual
+    concentrations and competing degradation routes — as typed inputs, verified complete before the
+    spatial run.
+  evidence: {from_test: receives-29-handoff-bundle}   # handoff verifiable against 29's emitted bundle
+- id: og30-colocalization-and-residence
+  kind: computational
+  status: planned
+  statement: Reactive transport with thermophoresis and adsorption produces measurable co-localization of
+    intermediates and increased residence time in the pore, reported as time- and space-resolved fields,
+    not a terminal snapshot.
+  evidence: {from_test: colocalization-residence-measured}   # internal spatial fields → run_ids (correct-uncitable)
+  expected: {cites: [baaske2007extreme]}   # pore thermophoretic accumulation anchor
+- id: og30-beats-matched-null
+  kind: computational
+  status: planned
+  statement: Productive network flux (and persistence) in the pore EXCEEDS both a matched well-mixed
+    control and a matched nonconcentrating control with chemical input fluxes held equal; flux not
+    separable from the controls is reported as "pores do not help," not tuned away. This is the Gate B arm.
+  evidence: {from_test: productive-flux-beats-wellmixed-and-nonconcentrating}   # internal matched-null comparison → run_ids
+  expected: {cites: [muchowska2019synthesis]}   # productive network chemistry anchor
+- id: og30-spatial-conservation-ledger
+  kind: computational
+  status: planned
+  statement: Mass and charge close across the spatial reactive-transport solve (divergence of flux equals
+    source minus sink) with no untracked feed; the cross-solver comparison agrees to tolerance.
+  evidence: {from_test: spatial-flux-conservation-and-cross-solver}   # internal invariant + cross-solver → run_ids (correct-uncitable)
 literature_anchors: []
 baseline:
 - name: Spatially Integrated Protometabolism

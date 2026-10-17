@@ -7,33 +7,59 @@ status: planned
 design_status: drafted
 confidence: Planned
 title: Prebiotic Reaction Atlas
-question: Which measured or defensibly inferred reaction pathways can connect C1-C3 products to functional
-  chemistry?
-hypothesis: A versioned candidate-reaction network — each reaction carrying species identity, balanced
-  stoichiometry, a confidence tier and a kinetic domain, built only from measured or defensibly inferred
-  pathways — can connect C1-C3 products toward functional chemistry with no unbalanced or unexplained
-  step.
-objective: Build a versioned chemical-network dataset from Rhea/ChEBI/ORD/RDKit plus primary-paper extraction
-  and eQuilibrator feasibility screening, recording species identity, stoichiometry, confidence and kinetic
-  domain with full source provenance, so downstream studies draw only from vetted reactions.
+claim: >-
+  A versioned, provenance-tracked atlas of candidate prebiotic reactions — each with canonical species
+  identities, a mass- and charge-balanced equation, a confidence tier (measured / inferred /
+  hypothetical) and a kinetic domain — can connect C1–C3 carbon products to functional downstream
+  chemistry while guaranteeing that no unbalanced or unsourced reaction ever enters an accepted model.
+  The atlas's worth is measured by its coverage and the defensibility of its tiers, not by any single
+  simulation.
+question: >-
+  Which measured or defensibly inferred reaction pathways connect C1–C3 products to functional
+  chemistry, and with what confidence?
+hypothesis: >-
+  The primary literature plus curated reaction databases, filtered through balance, thermodynamic
+  feasibility and kinetic-accessibility checks, yield a connected network from C1–C3 species to key
+  functional products in which the measured-tier core is sparse but real, the inferred tier extends it
+  under explicit thermodynamic/kinetic assumptions, and the hypothetical tier is flagged — and keeping
+  these three tiers separate is precisely what stops enzyme-catalyzed or synthetic-only reactions from
+  leaking into prebiotic models.
+objective: >-
+  Build and version the shared prebiotic-reaction-atlas (schema on PR #69): import/curate candidate
+  reactions from Rhea/ChEBI/ORD plus primary-paper extraction, run deterministic chemistry validation
+  (ChEBI identity, mass/charge balance, eQuilibrator ΔG), assign confidence tiers and kinetic domains,
+  and expose the 28→29 transfer bundle.
 # Verbatim plan dependencies (handoff contracts wired by genesis-writer after scaffolding).
-# 16 has no scaffolded slug yet; recorded here only.
+# 16 has no scaffolded slug yet; recorded numeric-only — parent_studies holds the resolvable deps.
 builds_on: [1, 2, 16]
 proposed_mechanisms:
-- reaction identification (ChEBI/Rhea/ORD + primary papers) separated from thermodynamic feasibility
-  (eQuilibrator) separated from kinetic accessibility
-- deterministic chemistry validation (balance / charge / identity) on every record at write time
+- separate reaction IDENTIFICATION (Rhea/ORD) from thermodynamic FEASIBILITY (eQuilibrator) from kinetic
+  ACCESSIBILITY (rate form + domain) — never infer abiotic kinetics from enzyme catalysis
+- 'confidence tiering: measured | inferred | hypothetical'
+- deterministic chemistry validation as a write-time gate into atlas.vN.jsonl
 proposed_models_methods:
-- ChEBI / Rhea / ORD / RDKit + primary-paper extraction
-- eQuilibrator feasibility screen
-- per-reaction: species identity, stoichiometry, confidence tier, kinetic domain
-# Tools this study draws on, at their TRUE build status (see workspace/references/build-registry.yaml).
+- Rhea + ChEBI canonical identities & balanced reaction definitions
+- 'ORD structured organic-reaction evidence; RDKit structure/reaction validation + precursor enumeration [to-build: viva_reaction_atlas]'
+- 'eQuilibrator component-contribution ΔG feasibility screen                [exists: viva_equilibrator]'
+- 'AI-assisted literature extraction with deterministic validators + expert review [to-build: viva_reaction_atlas.extract — every record gated]'
+- 'KIDA/NIST selective kinetic references (caution: mostly gas-phase/astrochemical, not aqueous-vent)'
+model_approach:
+  prose: >-
+    Study 28 is a data-asset build, not a simulation. Records stage through raw/ (observations) and
+    proposed/ (rule-generated or agent-proposed candidates); only records that pass the balance +
+    identity + provenance gate enter the versioned atlas.vN.jsonl. The deterministic validator is the
+    load-bearing piece — mass_balanced and charge_balanced must be true and a source_key present, or the
+    record is rejected. eQuilibrator supplies the ΔG feasibility flag; RDKit canonicalizes structures
+    and enumerates precursors; AI extraction is allowed only behind the deterministic validators and
+    expert review, never as an unchecked source.
+# Tools at their TRUE build status (workspace/references/build-registry.yaml); not upgraded.
 tools:
 - {id: viva-equilibrator, build_status: exists, role: reaction thermodynamics / feasibility deltaG screen}
 - {id: reaction-rule-generation, build_status: to-build, role: RDKit rule generation + balance/charge/thermo filter}
 - {id: ai-literature-extraction, build_status: to-build, role: AI extraction with deterministic chemistry validation + expert review}
 produces:
-- {dataset: prebiotic-reaction-atlas, build_status: to-build, path: workspace/datasets/prebiotic-reaction-atlas/}
+- {dataset: prebiotic-reaction-atlas, build_status: to-build, path: workspace/datasets/prebiotic-reaction-atlas/,
+   schema: workspace/datasets/prebiotic-reaction-atlas/schema.yaml}
 contract:
   face:
     inputs:
@@ -63,19 +89,85 @@ contract:
     trajectory — bounds and source provenance travel with each reaction. Deterministic balance/charge
     validation runs at write time.'
 behavior_tests:
-- name: no-unbalanced-or-unexplained-reaction
+- name: inferred-tier-has-thermo-and-rate-basis
   classification: primary
-  description: 'Decision test — no unexplained precursor or unbalanced reaction enters an accepted model:
-    every reaction admitted to the atlas is mass/charge balanced, has resolved species identities and
-    carries source provenance + a confidence tier.'
+  description: The inferred tier extends connectivity from C1–C3 to functional products only where
+    eQuilibrator ΔG feasibility holds and a justified rate form/range is attached, each flagged is_range
+    with its thermodynamic model recorded — no inferred reaction is promoted without that explicit basis.
   measure:
     kind: observable
-    detail: fraction of accepted reactions that are balanced AND fully sourced (target 1.0); count of
-      unexplained precursors (target 0)
+    detail: fraction of inferred-tier reactions carrying a ΔG feasibility flag + justified rate form/range
   pass_if:
     op: threshold
-    detail: no unbalanced reaction and no unexplained precursor in the accepted set
+    detail: every inferred reaction has an explicit thermo + rate basis
   requires_simulation: 'no'
+- name: atlas-write-gate-zero-leakage
+  classification: primary
+  description: No record with mass_balanced=false, charge_balanced=false, or a missing source_key enters
+    atlas.vN.jsonl — the deterministic validator rejects it at write time.
+  measure:
+    kind: observable
+    detail: count of unbalanced / unsourced records admitted to atlas.vN.jsonl (target 0)
+  pass_if:
+    op: threshold
+    detail: zero balance/provenance violations in the accepted atlas
+  requires_simulation: 'no'
+- name: handoff-28-to-29-complete
+  classification: secondary
+  description: The atlas emits the 28→29 transfer bundle — canonical species, balanced stoichiometry,
+    rate forms, parameter bounds and confidence tags — as the typed reaction set study 29 consumes.
+  measure:
+    kind: observable
+    detail: presence + typing of every field in the 28→29 transfer bundle
+  pass_if:
+    op: threshold
+    detail: bundle complete and typed (satisfies 28→29 handoff validator)
+  requires_simulation: 'no'
+decision_test: >-
+  A reaction may enter an accepted downstream model only if it exists in the atlas with a balanced
+  equation, canonical species, a source_key (measured/inferred) or an explicit hypothetical flag, and a
+  kinetic domain. Any precursor appearing in a model without a matching atlas record, or any unbalanced
+  reaction, is a blocking failure. Success = coverage of the C1–C3 → functional-chemistry connection at
+  the measured+inferred tiers with zero balance/provenance violations; gaps are reported as gaps
+  (hypothetical tier, or "no defensible pathway"), never filled by lowering the bar (evidence standard #1, #8).
+findings:
+- id: og28-measured-core-coverage
+  kind: dataset
+  status: planned
+  statement: The measured tier reproduces the nonenzymatic metal-promoted carbon-fixation and
+    reverse-Krebs-like segments from the primary literature as balanced, source-keyed records (metal-
+    promoted rTCA sequences; Fe-driven synthesis/breakdown of universal precursors; native-iron CO2
+    reduction to acetyl-CoA-pathway intermediates).
+  evidence: {source_keys: [muchowska2019synthesis, muchowska2017metals, varma2018native]}
+  expected: {cites: [muchowska2019synthesis, muchowska2017metals, varma2018native]}
+- id: og28-inferred-tier-under-explicit-assumptions
+  kind: dataset
+  status: planned
+  statement: The inferred tier extends connectivity from C1–C3 to functional products only where
+    eQuilibrator ΔG feasibility holds and a justified rate form/range is attached, each flagged
+    is_range with its thermodynamic model recorded — no inferred reaction is promoted without that
+    explicit basis.
+  evidence: {from_test: inferred-tier-has-thermo-and-rate-basis}  # eQuilibrator + validator → run_ids (correct-uncitable)
+- id: og28-balance-and-provenance-gate
+  kind: methodological
+  status: planned
+  statement: No record with mass_balanced=false, charge_balanced=false, or a missing source_key enters
+    atlas.vN.jsonl — the deterministic validator rejects it at write time. This zero-leakage guarantee
+    is the study's core deliverable.
+  evidence: {from_test: atlas-write-gate-zero-leakage}   # internal validator result → run_ids (correct-uncitable)
+- id: og28-energy-coupling-anchors
+  kind: dataset
+  status: planned
+  statement: Candidate energy-coupling and Fe–S / UV-driven steps relevant to downstream energy
+    carriers (study 35) are catalogued with their experimental anchors and confidence tiers.
+  evidence: {source_keys: [bonfio2017uvlight, naturecomms2024ironsulfide]}
+  expected: {cites: [bonfio2017uvlight, naturecomms2024ironsulfide]}
+- id: og28-handoff-bundle-to-29
+  kind: methodological
+  status: planned
+  statement: The atlas emits the 28→29 transfer bundle — canonical species, balanced stoichiometry,
+    rate forms, parameter bounds and confidence tags — as the typed reaction set study 29 consumes.
+  evidence: {from_test: handoff-28-to-29-complete}   # satisfies 28→29 handoff validator
 literature_anchors: []
 baseline:
 - name: Prebiotic Reaction Atlas
