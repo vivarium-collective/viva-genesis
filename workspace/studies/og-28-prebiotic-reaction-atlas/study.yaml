@@ -139,7 +139,7 @@ decision_test: >-
   (hypothetical tier, or "no defensible pathway"), never filled by lowering the bar (evidence standard #1, #8).
 findings:
 - id: og28-measured-core-coverage
-  kind: dataset
+  kind: methodological
   status: planned
   statement: The measured tier reproduces the nonenzymatic metal-promoted carbon-fixation and
     reverse-Krebs-like segments from the primary literature as balanced, source-keyed records (metal-
@@ -148,7 +148,7 @@ findings:
   evidence: {source_keys: [muchowska2019synthesis, muchowska2017metals, varma2018native]}
   expected: {cites: [muchowska2019synthesis, muchowska2017metals, varma2018native]}
 - id: og28-inferred-tier-under-explicit-assumptions
-  kind: dataset
+  kind: methodological
   status: planned
   statement: The inferred tier extends connectivity from C1–C3 to functional products only where
     eQuilibrator ΔG feasibility holds and a justified rate form/range is attached, each flagged
@@ -163,7 +163,7 @@ findings:
     is the study's core deliverable.
   evidence: {from_test: atlas-write-gate-zero-leakage}   # internal validator result → run_ids (correct-uncitable)
 - id: og28-energy-coupling-anchors
-  kind: dataset
+  kind: methodological
   status: planned
   statement: Candidate energy-coupling and Fe–S / UV-driven steps relevant to downstream energy
     carriers (study 35) are catalogued with their experimental anchors and confidence tiers.
