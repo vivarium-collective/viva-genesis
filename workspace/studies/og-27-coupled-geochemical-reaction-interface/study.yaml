@@ -7,27 +7,52 @@ status: planned
 design_status: drafted
 confidence: Planned
 title: Coupled Geochemical Reaction Interface
-question: Can an evolving mineral-water interface sustainably supply carbon, H2, chemical gradients and
-  catalysis?
-hypothesis: A reactive mineral-water interface, as it precipitates, dissolves and passivates, holds a
-  sustained supply of reduced carbon, H2, chemical gradients and catalytic surface over transport and
-  mineral-evolution timescales — rather than collapsing to equilibrium once the fresh surface is consumed.
-objective: Couple aqueous speciation (PHREEQC/PhreeqcRM, Reaktoro) to reactive transport (FiPy) with
-  mineral precipitation, dissolution and surface passivation, and check the electrochemical driving
-  forces, to measure whether reactive flux is sustained as the interface evolves.
+claim: >-
+  An evolving mineral–water interface at a Lost City–type vent can be modeled as a coupled
+  geochemical reactor whose precipitation, dissolution and surface passivation reshape — not
+  merely sustain — its delivery of H2, inorganic carbon, pH/redox gradients and catalytic
+  surface. Whether that delivery stays above the level a downstream reaction network needs,
+  and for how long before mineral evolution throttles it, is the quantity this study measures;
+  sustained reactive flux is a result to demonstrate, not an assumption.
+question: >-
+  Can an evolving mineral–water interface sustainably supply carbon, H2, chemical gradients and
+  catalysis to a prebiotic reaction network — and over what timescale, before mineral evolution
+  (precipitation, passivation) chokes that supply?
+hypothesis: >-
+  A cell-resolved coupling of aqueous speciation (PHREEQC/PhreeqcRM), reactive transport (FiPy)
+  and multiphase mineral equilibrium (Reaktoro), with explicit precipitation/dissolution and
+  surface-passivation dynamics, will show H2, inorganic-carbon and gradient delivery sustained
+  over transport timescales but declining on the slower mineral-evolution timescale as reactive
+  surfaces passivate — i.e. the interface is a depleting supply with a measurable crossover time,
+  not a perpetual one.
+objective: >-
+  Build a cell-resolved geochemical reaction interface that evolves its own mineral surfaces, and
+  quantify the time- and space-resolved supply of reducing power, carbon, gradients and catalytic
+  surface it hands to the downstream network (study 29), with closed mass/charge/energy ledgers.
 # Verbatim plan dependencies (handoff contracts wired by genesis-writer after scaffolding).
-# Numbers without a scaffolded slug (14, 15) are recorded here only; parent_studies lists the
-# dependencies that resolve to a real study today.
+# 14, 15 have no scaffolded slug yet; recorded numeric-only — parent_studies holds the resolvable deps.
 builds_on: [0, 1, 14, 15]
 proposed_mechanisms:
-- evolving mineral surface (precipitation / dissolution / passivation) as the catalyst + gradient source
-- electrochemical (Nernst-Planck-Poisson) driving forces across the interface
+- serpentinization-driven H2 + alkalinity generation at the vent wall
+- mixing-controlled pH/redox/ionic-activity gradients across the interface
+- mineral precipitation/dissolution that opens and closes reactive porosity
+- surface passivation degrading catalytic accessibility over time
 proposed_models_methods:
-- PHREEQC / PhreeqcRM + FiPy / Reaktoro coupling
-- mineral precipitation, dissolution, surface passivation
-- electrochemical model checks
-# Tools this study draws on, at their TRUE build status (see workspace/references/build-registry.yaml).
-# Marked honestly — several are not yet built; the composite is planned, not registered.
+- 'PHREEQC/PhreeqcRM cell-resolved aqueous speciation + mineral reactions  [build_status: wrapper-needed]'
+- 'FiPy finite-volume multispecies reactive transport                      [in-workspace: viva_genesis.transport]'
+- 'Reaktoro multiphase equilibrium cross-check                             [in-workspace: viva_genesis.geochemistry]'
+- 'FEniCSx Poisson/Nernst–Planck verification of electrochemical driving forces [exists: viva_fenics]'
+- PetDB/EarthChem rock & mineral constraints for boundary composition
+model_approach:
+  prose: >-
+    This study turns the og-00 vent-reactor baseline from a fixed-boundary testbed into an interface
+    that evolves. The new, to-build piece is mineral-surface dynamics — precipitation, dissolution,
+    adsorption and passivation that change reactive porosity and catalytic area as the run proceeds —
+    coupled cell-by-cell to speciation and reactive transport. Every physical input (fluid end-members,
+    mineral assemblage, flow) is sourced to field/geochemical constraints, not tuned; the interface
+    is driven, never fed an untracked supply. Reactive flux is reported as time- and space-resolved
+    series with conservation ledgers, so a decline is visible rather than hidden in a terminal average.
+# Tools at their TRUE build status (workspace/references/build-registry.yaml); not upgraded.
 tools:
 - {id: viva-fenics, build_status: exists, role: FEM Poisson/Nernst-Planck verification}
 - {id: viva-reaktoro, build_status: in-workspace, role: multiphase equilibrium + reactive geochemistry}
@@ -64,23 +89,114 @@ contract:
     name: reproducibility
     expr: solver and db and seed and scenario recorded
   note: bigraph-schema typed ports + conservation predicates; the composite built for this study must
-    declare a ProcessContract matching this face (audited via the workbench §Contract panel). Outputs
-    the plan calls for — time/space-resolved activities, flows, electrical driving forces, catalyst
-    states — are surfaced as the typed outputs above plus time-resolved readouts.
+    declare a ProcessContract matching this face (audited via the workbench §Contract panel).
 behavior_tests:
-- name: sustained-reactive-flux
+- name: sustained-reactive-flux-over-timescales
   classification: primary
-  description: 'Decision test — sustained reactive flux over transport and mineral-evolution timescales:
-    the interface keeps supplying reduced carbon, H2, gradients and catalysis as it precipitates, dissolves
-    and passivates, rather than decaying to equilibrium.'
+  description: Over transport timescales the interface delivers H2 and inorganic-carbon fluxes and a
+    maintained pH/redox gradient at or above the levels used by published vent-reactor and
+    H2-dependent-metabolism work; the full time series and the onset of decay are reported, not a single
+    terminal value.
   measure:
     kind: observable
-    detail: reactive flux (and gradient / catalyst accessibility) tracked over the mineral-evolution
-      timescale, not just terminal state
+    detail: time- and space-resolved H2 + inorganic-carbon flux and pH/redox gradient over transport
+      timescales
   pass_if:
     op: threshold
-    detail: reactive flux sustained (non-vanishing) across transport and mineral-evolution timescales
+    detail: delivery at or above the downstream-required level over the transport timescale
   requires_simulation: 'yes'
+- name: mineral-evolution-supply-decay
+  classification: primary
+  description: Precipitation and surface passivation reduce reactive surface and throttle catalytic
+    supply on the mineral-evolution timescale; the crossover time at which delivery drops below the
+    downstream-required threshold is quantified.
+  measure:
+    kind: observable
+    detail: catalytic supply / reactive surface vs. the slower mineral-evolution timescale; crossover
+      time below threshold
+  pass_if:
+    op: threshold
+    detail: crossover time quantified (depleting-supply behaviour characterised)
+  requires_simulation: 'yes'
+- name: electrochemical-driving-force-verified
+  classification: secondary
+  description: The cross-interface electrical driving force is non-trivial and of the sign/scale needed
+    to drive CO2 reduction, verified independently by a FEniCSx Nernst–Planck solve against the FiPy
+    transport result.
+  measure:
+    kind: observable
+    detail: interface potential from FiPy transport vs. independent FEniCSx Nernst–Planck solve
+  pass_if:
+    op: threshold
+    detail: non-trivial driving force, cross-solver agreement to tolerance
+  requires_simulation: 'yes'
+- name: coupled-conservation
+  classification: secondary
+  description: Mass, charge and energy close across the coupled PHREEQC+FiPy+Reaktoro solve to tolerance
+    with no untracked feeds.
+  measure:
+    kind: observable
+    detail: C/H/O/charge/energy residuals across the coupled solve
+  pass_if:
+    op: threshold
+    detail: residuals within tolerance; no untracked feed
+  requires_simulation: 'yes'
+- name: handoff-27-to-29-complete
+  classification: secondary
+  description: The study emits the full 27→29 transfer bundle — H2 + inorganic-carbon flux, pH, T, ionic
+    activities, catalyst (mineral-surface) state and time-dependent feeds — as the typed boundary
+    condition study 29 consumes.
+  measure:
+    kind: observable
+    detail: presence + typing of every field in the 27→29 transfer bundle
+  pass_if:
+    op: threshold
+    detail: bundle complete and typed (satisfies 27→29 handoff validator)
+  requires_simulation: 'yes'
+decision_test: >-
+  PROCEED to coupling study 29 only if the interface sustains reactive flux — H2 + inorganic-carbon
+  delivery and gradients above the downstream-required threshold — over BOTH the transport and the
+  mineral-evolution timescales, with conservation ledgers intact. If supply decays below threshold
+  before the network can turn over, that is a reported negative result that bounds where and when the
+  interface is viable and reshapes downstream scope — it is not tuned away (evidence standard #8).
+findings:
+- id: og27-sustained-reactive-flux
+  kind: computational
+  status: planned
+  statement: Over transport timescales the interface delivers H2 and inorganic-carbon fluxes and a
+    maintained pH/redox gradient at or above the levels used by published vent-reactor and
+    H2-dependent-metabolism work; the study reports the full time series and the onset of decay, not a
+    single terminal value.
+  evidence: {from_test: sustained-reactive-flux-over-timescales}
+  expected: {cites: [herschy2014originreactor, preiner2020hydrogen]}
+- id: og27-mineral-evolution-throttles-supply
+  kind: computational
+  status: planned
+  statement: Precipitation and surface passivation reduce reactive surface and throttle catalytic
+    supply on the mineral-evolution timescale — the interface is depleting, and the study quantifies
+    the crossover time at which delivery drops below the downstream-required threshold.
+  evidence: {from_test: mineral-evolution-supply-decay}   # internal time-series → run_ids on run (correct-uncitable)
+  expected: {cites: [varma2018native, naturecomms2024ironsulfide]}  # native-metal/FeS catalytic-surface relevance
+- id: og27-electrochemical-driving-force
+  kind: computational
+  status: planned
+  statement: The cross-interface electrical driving force is non-trivial and of the sign/scale needed
+    to drive CO2 reduction, verified independently by a FEniCSx Nernst–Planck solve against the FiPy
+    transport result.
+  evidence: {from_test: electrochemical-driving-force-verified}  # cross-solver internal verification → run_ids
+- id: og27-coupled-conservation-ledger
+  kind: computational
+  status: planned
+  statement: Mass, charge and energy close across the coupled PHREEQC+FiPy+Reaktoro solve to tolerance
+    with no untracked feeds.
+  evidence: {from_test: coupled-conservation}   # internal-threshold invariant → run_ids (correct-uncitable)
+- id: og27-handoff-bundle-to-29
+  kind: methodological
+  status: planned
+  statement: The study emits the full 27→29 transfer bundle — H2 + inorganic-carbon flux, pH, T, ionic
+    activities, catalyst (mineral-surface) state and time-dependent feeds — as the typed boundary
+    condition study 29 consumes.
+  evidence: {from_test: handoff-27-to-29-complete}   # satisfies 27→29 handoff validator
 literature_anchors: []
 baseline:
 - name: Coupled Geochemical Reaction Interface
