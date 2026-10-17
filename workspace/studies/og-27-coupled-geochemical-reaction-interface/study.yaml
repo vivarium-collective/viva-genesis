@@ -207,9 +207,9 @@ findings:
 literature_anchors: []
 baseline:
 - name: Coupled Geochemical Reaction Interface
-  composite: viva_genesis.composites.og_27_coupled_geochemical_reaction_interface
+  composite: viva_genesis.composites.og_27_coupled_geochemical_reaction_interface.og_27_coupled_geochemical_reaction_interface
   params: {}
-  planned: true
+  planned: false
 parent_studies:
 - {study: og-00-vent-reactor-baseline, condition: tests-passed}
 - {study: og-01-geology-to-reduced-carbon, condition: tests-passed}
