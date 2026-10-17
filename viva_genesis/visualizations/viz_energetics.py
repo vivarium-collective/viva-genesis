@@ -134,6 +134,7 @@ def threshold_map_figure(mmap: dict, report: dict, *, title: str = "") -> str:
 def energy_budget_figure(report: dict, *, activity: str = "1", title: str = "", load_kj: float = 30.0) -> str:
     import plotly.graph_objects as go
     from plotly.subplots import make_subplots
+    from ..composites.protocell_energetics import protocell_energetics
 
     traj = report.get("trajectories") or {}
     series = traj.get("series") or {}
@@ -149,7 +150,7 @@ def energy_budget_figure(report: dict, *, activity: str = "1", title: str = "", 
     fig.update_annotations(font_size=12)
     for j, c in enumerate(classes, start=1):
         s = series[c].get(key) or next(iter(series[c].values()))
-        t = np.asarray(s["global_time"], dtype=float)
+        t, tlabel = S.real_time([float(v) for v in s["global_time"]], protocell_energetics)
         for k, name, color in (("external_power", "external tap", _SLATE), ("internal_power", "internal store", _TEAL)):
             fig.add_trace(go.Scatter(x=t, y=s[k], mode="lines", name=name, stackgroup="in", line=dict(color=color, width=1),
                                      showlegend=(j == 1)), row=1, col=j)
@@ -164,7 +165,7 @@ def energy_budget_figure(report: dict, *, activity: str = "1", title: str = "", 
                                  line=dict(color=_RUST, dash="dot"), showlegend=(j == 1)), row=2, col=j)
         fig.add_trace(go.Scatter(x=t, y=[a for a in s["autonomy"]], mode="lines", name="autonomy", yaxis="y2",
                                  line=dict(color=_SLATE, dash="dash"), showlegend=(j == 1), visible="legendonly"), row=2, col=j)
-        fig.update_xaxes(title_text="time (s)", row=2, col=j)
+        fig.update_xaxes(title_text=tlabel, row=2, col=j)
         fig.update_yaxes(title_text="power (W)" if j == 1 else None, row=1, col=j)
         fig.update_yaxes(title_text="store µ(q) kJ/mol" if j == 1 else None, row=2, col=j)
     fig.update_layout(**S.base_layout(height=620, margin=dict(l=60, r=20, t=52, b=60),
