@@ -506,6 +506,67 @@ def main() -> None:
     except Exception:
         pass  # process-bigraph too old / no generators — skip silently
 
+    # ---- Handoff-contract audit (upgrade plan §"Explicit interfaces") ----
+    # Verify each scaffolded builds-on handoff edge actually transfers the
+    # required state (viva_genesis.handoff). Advisory WARN: the validator skips
+    # edges whose downstream study isn't scaffolded yet, so a partial spine won't
+    # false-fire. Import from WS_ROOT so the worktree's OWN module is audited,
+    # not whatever viva_genesis is pip-installed. Promote to hard-fail once the
+    # investigation is fully scaffolded.
+    handoff_warnings: list[str] = []
+    _hdir = WS_ROOT / "viva_genesis" / "handoff"
+    if (_hdir / "validate.py").exists() and (_hdir / "load.py").exists():
+        # Load the worktree's OWN handoff modules by file path, so the audit runs
+        # against the code being linted regardless of which viva_genesis is
+        # pip-installed (both modules are self-contained — no relative imports).
+        try:
+            import importlib.util as _iu
+
+            def _load_mod(_name, _path):
+                _spec = _iu.spec_from_file_location(_name, _path)
+                _mod = _iu.module_from_spec(_spec)
+                _spec.loader.exec_module(_mod)
+                return _mod
+
+            _valmod = _load_mod("_wf_handoff_validate", _hdir / "validate.py")
+            _loadmod = _load_mod("_wf_handoff_load", _hdir / "load.py")
+            for _v in _valmod.validate_investigation(_loadmod.load_investigation(_dir("studies"))):
+                handoff_warnings.append(f"  WARN handoff: {_v}")
+        except Exception as _e:
+            handoff_warnings.append(f"  WARN handoff audit skipped: {_e}")
+
+    # ---- Study-finding cite resolution (capability gap 16) ----
+    # Every external cite key on a study finding must resolve against papers.bib
+    # on THIS branch — catches the cross-branch dangling-cite hazard where a
+    # study cites a key that only exists on another branch's bib.
+    cite_warnings: list[str] = []
+    for _sy in sorted((_dir("studies")).glob("*/study.yaml")):
+        try:
+            _sd = yaml.safe_load(_sy.read_text()) or {}
+        except Exception:
+            continue
+        _sname = _sd.get("name", _sy.parent.name)
+        _keys: set[str] = set()
+        for _f in (_sd.get("findings") or []):
+            if not isinstance(_f, dict):
+                continue
+            _exp = _f.get("expected") or {}
+            _ev = _f.get("evidence") or {}
+            for _k in (_exp.get("cites") or []):
+                if isinstance(_k, str):
+                    _keys.add(_k)
+            for _k in (_ev.get("source_keys") or []):
+                if isinstance(_k, str):
+                    _keys.add(_k)
+            _sk = _ev.get("source_key")
+            if isinstance(_sk, str) and _sk:
+                _keys.add(_sk)
+        for _k in sorted(_keys):
+            if bib_keys_found and _k not in bib_keys_found:
+                cite_warnings.append(
+                    f"  WARN study {_sname}: finding cite '{_k}' not in papers.bib "
+                    f"(dangling on this branch — see capability gap 16)")
+
     # Print summary
     ws_name = ws.get("name", "?")
     ws_pkg = ws.get("package_path", "")
@@ -541,6 +602,10 @@ def main() -> None:
             f"(validated: {schema_check}, {dashboard_check})"
         )
     print(f"  {n_active_runs} active runs, {n_completed_runs} completed runs")
+    print(
+        f"  handoff audit: {len(handoff_warnings)} issue(s); "
+        f"cite resolution: {len(cite_warnings)} dangling"
+    )
 
     # Surface investigation validation warnings (one line per error). These
     # don't fail the lint — they're advisory; the dashboard does strict
@@ -559,6 +624,10 @@ def main() -> None:
     for w in any_type_warnings:
         print(w, file=sys.stderr)
     for w in composite_warnings:
+        print(w, file=sys.stderr)
+    for w in handoff_warnings:
+        print(w, file=sys.stderr)
+    for w in cite_warnings:
         print(w, file=sys.stderr)
 
 

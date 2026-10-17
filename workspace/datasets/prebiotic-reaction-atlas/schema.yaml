@@ -1,0 +1,47 @@
+# Prebiotic Reaction Atlas — per-record schema
+# Scientific Investigation Upgrade & Resource Plan (17 Oct 2026), §New shared data asset.
+# A record describes ONE candidate prebiotic reaction. Raw observations live in
+# raw/ ; agent-proposed/rule-generated candidates in proposed/ ; only validated
+# records enter atlas.vN.jsonl. Every field below is required unless marked opt.
+
+schema_version: 1
+
+record:
+  id: string                      # stable atlas id, e.g. pra-000123
+  tier: enum                      # measured | inferred | hypothetical
+  species:                        # canonical identities for every participant
+    - chebi_id: string            # ChEBI id (or canonical identifier)
+      formula: string             # molecular formula
+      charge: int                 # protonation/charge state used
+      role: enum                  # reactant | product | catalyst
+  reaction:
+    equation: string              # balanced reaction string
+    mass_balanced: bool           # MUST be true to enter atlas.vN.jsonl
+    charge_balanced: bool         # MUST be true to enter atlas.vN.jsonl
+    proton_convention: string     # e.g. "pH 9, aqueous, 1 M standard state"
+  conditions:
+    temperature_c: float
+    pH: float
+    pressure_bar: float           # opt where not reported
+    ionic_strength_M: float       # opt where not reported
+    catalyst_mineral: string      # e.g. "Fe(Ni)S, coprecipitated"
+    catalyst_preparation: string
+  kinetics:
+    rate_form: string             # e.g. "mass-action", "Michaelis-like", "n/a"
+    parameters: map               # k, Ea, etc. — values OR justified ranges
+    is_range: bool                # true when a justified range, not a measurement
+    uncertainty: map              # per-parameter uncertainty / CI
+  thermodynamics:
+    model: string                 # thermodynamic model used (e.g. eQuilibrator cc)
+    delta_g_kj_mol: float         # opt; from the ΔG feasibility screen
+    feasible: bool                # opt; result of the feasibility gate
+  competing_reactions: [string]   # ids of side reactions / degradation routes
+  evidence:
+    source_doi: string            # primary source DOI (NOT sufficient alone)
+    source_key: string            # ../references/papers.bib key where imported
+    extracted_fields: [string]    # which fields came from the source vs inferred
+    verified_against_source: bool # step-3 chemical validation done
+  provenance:
+    acquisition: enum             # extracted | rule-generated | agent-proposed
+    added_by: string              # tool/run id
+    added_at: string              # ISO date
