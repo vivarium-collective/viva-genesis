@@ -72,6 +72,7 @@ _EMIT_PATHS = [
          "config": {"n_steps": 120, "title": "Geology to reduced carbon (eQuilibrator + FiPy)"}},
     ],
     default_n_steps=120,
+    preferred_time="12 hours",
     core_extensions=[build_core],
     emitters=[{"address": "local:ParquetEmitter", "paths": _EMIT_PATHS}],
 )

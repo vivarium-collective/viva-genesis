@@ -54,6 +54,7 @@ _EMIT_PATHS = [
          "config": {"title": "Selection internalizes the gradient"}},
     ],
     default_n_steps=40,
+    preferred_time="1000 years",
     core_extensions=[build_core],
     emitters=[{"address": "local:ParquetEmitter", "paths": _EMIT_PATHS}],
 )

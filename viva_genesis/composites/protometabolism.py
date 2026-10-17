@@ -52,6 +52,7 @@ _EMIT_PATHS = [
          "config": {"n_steps": 120, "title": "Protometabolic network (libRoadRunner)"}},
     ],
     default_n_steps=120,
+    preferred_time="24 hours",
     core_extensions=[build_core],
     emitters=[{"address": "local:ParquetEmitter", "paths": _EMIT_PATHS}],
 )

@@ -62,6 +62,7 @@ _REAL_EMIT_PATHS = [
                "description": "FiPy finite-volume cells across the interface column"},
     },
     default_n_steps=120,
+    preferred_time="6 hours",
     core_extensions=[build_core],
     emitters=[{"address": "local:ParquetEmitter", "paths": _REAL_EMIT_PATHS}],
 )
@@ -146,6 +147,7 @@ def serpentinizing_vent_reactor(core=None, *, flow_velocity=1.0e-3, olivine_rate
                         "description": "Peak H2 source rate at reference flow (mol/s)"},
     },
     default_n_steps=120,
+    preferred_time="6 hours",
     core_extensions=[build_core],
     emitters=[{
         "address": "local:ParquetEmitter",

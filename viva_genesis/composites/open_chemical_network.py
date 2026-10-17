@@ -95,6 +95,7 @@ _FEED_CO2, _FEED_H2, _FEED_PYR = 1.4e-3, 1.08e-2, 1.0e-4
                         "description": "Carbon cap of the generated universe (reaction_universe / null_network) [vg-data: hypothetical]"},
     },
     default_n_steps=120,
+    preferred_time="24 hours",
     core_extensions=[build_core],
     emitters=[{"address": "local:ParquetEmitter", "paths": _EMIT_PATHS}],
 )

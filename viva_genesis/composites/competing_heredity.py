@@ -95,6 +95,7 @@ _EMIT_PATHS = ["/".join(v) for v in _WIRES.values()]
         "seed": {"type": "integer", "default": 1, "description": "RNG seed (reproducible SSA)"},
     },
     default_n_steps=60,
+    preferred_time="60 generations",
     core_extensions=[build_core],
     emitters=[{"address": "local:ParquetEmitter", "paths": _EMIT_PATHS}],
 )

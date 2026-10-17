@@ -58,6 +58,7 @@ _MODULES = {
          "config": {"title": "Heredity above the error threshold"}},
     ],
     default_n_steps=50,
+    preferred_time="50 generations",
     core_extensions=[build_core],
     emitters=[{"address": "local:ParquetEmitter", "paths": _EMIT_PATHS}],
 )

@@ -69,6 +69,7 @@ _EMIT_PATHS = [
          "config": {"title": "Decision — the viable growth→division band"}},
     ],
     default_n_steps=100,
+    preferred_time="48 hours",
     core_extensions=[build_core],
     emitters=[{"address": "local:ParquetEmitter", "paths": _EMIT_PATHS}],
 )

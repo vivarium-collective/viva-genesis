@@ -213,6 +213,7 @@ def relative_leak(core, model_boundary: str, *, temperature: float, ph: float = 
         "seed": {"type": "integer", "default": 1, "description": "Heredity-class RNG seed"},
     },
     default_n_steps=18000,
+    preferred_time="10000 years",
     core_extensions=[build_core],
     emitters=[{"address": "local:ParquetEmitter", "paths": _EMIT_PATHS}],
 )

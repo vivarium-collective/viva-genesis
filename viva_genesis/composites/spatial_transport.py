@@ -63,6 +63,7 @@ _TRAP_EMIT = [
         "delta_T": {"type": "float", "default": 30.0, "description": "Cross-pore temperature difference (K)"},
     },
     default_n_steps=20,
+    preferred_time="7 days",
     core_extensions=[build_core],
     emitters=[{"address": "local:ParquetEmitter", "paths": _TRAP_EMIT}],
 )
@@ -138,6 +139,7 @@ _VENT_EMIT = [
         "pH_eq": {"type": "float", "default": 10.5, "description": "Serpentinized source equilibrium pH"},
     },
     default_n_steps=60,
+    preferred_time="6 hours",
     core_extensions=[build_core],
     emitters=[{"address": "local:ParquetEmitter", "paths": _VENT_EMIT}],
 )

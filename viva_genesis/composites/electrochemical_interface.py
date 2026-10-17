@@ -120,6 +120,7 @@ _CHARGE_LEDGER_OUT = ("charge_residual", "charge_residual_max", "faradaic_effici
          "config": {"title": "Vent wall as a galvanic cell: polarization and loss partition"}},
     ],
     default_n_steps=60,
+    preferred_time="12 hours",
     core_extensions=[build_core],
     emitters=[{"address": "local:ParquetEmitter", "paths": _EMIT_PATHS}],
 )
