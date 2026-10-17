@@ -154,6 +154,42 @@ lint-clean design shells (og-27…og-31); handoff findings land in native
     check in CI; meanwhile **merge order is enforced by hand: #69 before the spine
     branch.**
 
+## E. Build-tab assessment against Study 27 (is the Build tab sufficient?)
+
+Evaluated the workbench Build functionality against og-27 (closest-to-buildable
+spine study: viva-fenics `exists`, viva-fipy/viva-reaktoro `in-workspace`,
+viva-phreeqc `wrapper-needed`, mineral-surface-dynamics `to-build`). Findings:
+
+- **What works:** the Model tab renders og-27's *planned design* even with no
+  composite — the `model-planned-design` slot shows the typed contract,
+  mechanisms and methods, with a clean "No composite declared" fallback. So
+  design-phase intent IS visible.
+- **The "Build" panel only engages for loop-built models.** It was folded into
+  Model → "Advanced — build provenance" (`#build-loop-state`, `_loadBuild`),
+  which renders the `/viva-model-build` loop trajectory (draft, frozen tests,
+  iteration edits, agent notes). og-27 was authored directly, so it has no
+  trajectory → the panel is empty. This is why "the Build tab was not engaged":
+  it is a *provenance viewer for models built via the loop*, not a builder for
+  design-first studies.
+- **GAP 17 — the Build tab can't build a study whose tools are unbuilt, and
+  doesn't say so.** og-27's composite needs 2 tools that don't exist yet
+  (viva-phreeqc `wrapper-needed`, mineral-surface-dynamics `to-build`). The
+  `/viva-model-build` loop composes *registered* processes; it cannot compose an
+  unwrapped tool. Worse, the Build tab does **not read the study's `tools[]` /
+  `build_status`** (the fields in build-registry.yaml / the study shell), so it
+  gives no "you can't build this yet — wrap viva-phreeqc + mineral-surface
+  first" signal. The design→build dependency is invisible to the builder.
+  *Needed:* the Build tab should read `tools[]`+`build_status`, show a
+  build-readiness state ("blocked on N unbuilt tools, listed"), and only offer
+  the build loop once the required processes are registered — turning it from a
+  provenance viewer into a design→build gate.
+
+**Verdict:** the Build tab is sufficient as a *provenance viewer* for
+loop-built models, but **not sufficient for this upgrade's design-first,
+tools-to-build studies** — it neither drives the build (tools missing) nor
+surfaces *why* it can't (no `build_status` awareness). The fix is upstream
+(wrap the tools, per build-registry) plus making the tab `build_status`-aware.
+
 ### Enforcement status (what these validators now gate)
 - Gaps **1/3/4** → `viva_genesis/reaction_atlas/validate.py` (write-time atlas gate). CLOSED (tool built; wiring into the write path is the remaining step).
 - Gap **6** → `viva_genesis/handoff/validate.py` (builds-on handoff contract). CLOSED (tool built; run against the live spine once the structured `handoff:` blocks are added).
