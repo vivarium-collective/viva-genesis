@@ -30,6 +30,15 @@ objective: >-
 # Verbatim plan dependencies (handoff contracts wired by genesis-writer after scaffolding).
 # 16 has no scaffolded slug yet; recorded numeric-only — parent_studies holds the resolvable deps.
 builds_on: [2, 16, 27, 28]
+plan_id: 29
+# Machine-checkable handoff contract (read by viva_genesis/handoff/validate.py).
+# The prose handoff findings above are the human record; this is the audited contract.
+handoff:
+  emits:
+  - {to: 30, provides: [active reactions, molecular species, concentrations, competing degradation routes]}
+  receives:
+  - {from: 27, requires: [H2 flux, inorganic carbon flux, pH, T, ionic activities, catalyst state, time-dependent feeds]}
+  - {from: 28, requires: [canonical species, balanced stoichiometry, rate forms, parameter bounds, confidence tags]}
 proposed_mechanisms:
 - network amplification / self-maintaining cycles seeded from atlas reactions
 - stoichiometric autocatalysis (a subnetwork that produces its own catalyst/seed)
