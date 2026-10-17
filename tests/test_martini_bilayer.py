@@ -1,4 +1,8 @@
-"""The Martini bilayer generator (no OpenMM needed)."""
+"""The Martini bilayer generator — needs viva_openmm for the vendored Martini FF data dir."""
+import pytest
+
+pytest.importorskip("viva_openmm")  # generator resolves the FF itps from viva_openmm/data
+
 import tempfile
 from viva_genesis.membranes.martini_bilayer import build_pope_bilayer, _POPE_BEADS
 
