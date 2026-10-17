@@ -188,25 +188,34 @@ literature_anchors:
   - buckel2013energy
   - lane2010chemiosmotic
 baseline:
-- name: Proto-energetics (favourable energy currency)
-  composite: viva_genesis.composites.proto_energetics.proto_energetics
+- name: Energy carrier cycle (explicit thioester/acyl-phosphate chemistry)
+  composite: viva_genesis.composites.og_12_energy_carrier_cycle.og_12_energy_carrier_cycle
   params:
     drive_free_energy: 50.0
-    coupling_efficiency: 0.6
+    bond_energy_kjmol: 31.5
+  planned: true   # REBUILD chemistry: explicit thioester cycle repointed; awaiting the balanced run
     carrier_pool: 0.001
     loss_rate: 0.05
     load: 0.2
     carrier: thioester
+disposition: >-
+  REBUILD chemistry. The abstract charged carrier is not a specified chemical cycle — "~39% charged,
+  ~47% capture" describes a filling/discharging pool, not named molecules reacting. Replace it with a
+  candidate thioester- and/or acyl-phosphate-class cycle defined as explicit chemistry: precursor
+  synthesis, activation to the high-energy bond, use against an endergonic load, and hydrolysis — each
+  a balanced reaction with tracked free energy. This resolves the open question the current claim
+  already names (which concrete carrier realizes the abstract currency).
 claim: >-
-  A pre-ATP thioester-class carrier coupled to an exergonic geochemical drive builds and
-  maintains a transferable energy currency under continuous endergonic load, the charged pool
-  filling from empty to about 39% of capacity and stored against discharge and hydrolysis,
-  capturing roughly 47% of the tapped free energy as usable work at the favourable point.
-  Removing the coupling chemistry or starving the drive below the carrier's high-energy bond
-  collapses the capture. This makes energy capture into a transferable store an explicit,
-  bounded transition rather than a favourable reaction direction, while leaving open which
-  concrete prebiotic carrier - thioester, acyl phosphate, polyphosphate, reduced metal or
-  another chemistry - best realizes this abstract currency.
+  A specified thioester- and/or acyl-phosphate-class carrier, written as an explicit chemical cycle
+  (synthesis → activation → use → hydrolysis) of named species with a full free-energy ledger, either
+  supports useful coupled work with no hidden energy inflow, or it does not. The abstract currency is
+  replaced by balanced chemistry: capture is credited only when every synthesis, activation, discharge,
+  leak and maintenance cost is accounted and the geochemical drive supplies the high-energy bond.
+decision_test: >-
+  A full energy accounting across synthesis, activation, use, hydrolysis and leak supports useful
+  coupled work WITHOUT hidden energy inflow. Any net capture that only balances by an untracked energy
+  source is reported as a negative result, not tuned to pass (evidence standard #2 no untracked feeds,
+  #8 negative-result-is-a-result).
 findings:
 - id: ogenergy-currency-maintained
   provenance:
