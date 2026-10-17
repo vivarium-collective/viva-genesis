@@ -257,10 +257,11 @@ implemented_methods:
   gain peaks ~29.5 then CO2-limits); networkx connectivity of the species-reaction
   graph (a single connected network). A no-CO2 control collapses flux + gain to 0.'
 baseline:
-- name: Reduced carbon to protometabolism
-  composite: viva_genesis.composites.protometabolism.protometabolic_network
-  params: {}
+- name: Reduced carbon to protometabolism (balanced rebuild)
+  composite: viva_genesis.composites.open_chemical_network.open_chemical_network
+  params: {model_proto_metabolism: curated_rtca}
   canonical: true
+  planned: true   # REBUILD: balanced network repointed; awaiting the balanced rerun across the 3 arms
 runtime:
   default_emitter: sqlite
   default_n_steps: 120
@@ -290,13 +291,33 @@ visualizations:
 key_assumptions:
 - Rate laws/mineral dependencies carry provenance; autocatalysis is an emergent observable,
   not an assumption.
+disposition: >-
+  REBUILD. The landed result rests on a lumped autocatalytic reaction that is element-unbalanced,
+  and curated persistence is not endogenous emergence: a network hand-seeded with the right edges
+  persisting under flow does not show that metabolism-like organization arises on its own. So this
+  study is rebuilt, not patched. Replace the lumped network with a balanced, experimentally-
+  constrained minimal network, and compare three arms head-to-head under identical feed and washout:
+  (1) corrected-curated — the rTCA-fragment graph re-expressed as mass- and charge-balanced reactions;
+  (2) measured-nonenzymatic — only reactions with direct experimental support (metal-promoted rTCA
+  sequences, Fe-driven precursor synthesis/breakdown, native-iron CO2 reduction to acetyl-CoA-pathway
+  intermediates); (3) rule-generated alternatives — drawn from the study-28 atlas and screened by the
+  study-29 stoichiometric-autocatalysis + matched-null pipeline. This rebuild consumes the study-28
+  atlas (balanced reactions + confidence tiers) and the study-29 detection/null machinery, so it sits
+  downstream of the landed 27-31 spine.
 claim: >-
-  Under continuous feed and washout the curated rTCA-fragment network sustains nonzero carbon
-  throughput and an autocatalytic motif (OAA self-amplification, gain peaking near 29.5)
-  inside a bounded ignition region, where enough feed and slow enough washout let the loop
-  outpace dilution and past the gain = 1 boundary the hub washes out. It shows a specified
-  protometabolic network persists under flow, while leaving open whether such motifs emerge
-  from a broader, unconstrained reaction universe.
+  Under continuous feed and washout, a balanced, experimentally-constrained minimal reaction network
+  either sustains net carbon throughput and genuine autocatalytic amplification through
+  stoichiometrically valid reactions that survive washout, or it does not — in which case the earlier
+  lumped-network amplification (gain peaking near 29.5) is shown to be an artifact of an element-
+  unbalanced reaction rather than endogenous emergence. Curated persistence is no longer claimed as
+  emergence; the corrected-curated, measured-nonenzymatic, and rule-generated arms are compared on
+  equal footing, each held to mass/charge balance.
+decision_test: >-
+  Sustained net flux and any amplification must follow stoichiometrically valid (mass- and charge-
+  balanced) reactions and survive washout at identical feeds across all three arms. Amplification that
+  depends on an unbalanced lumped step, or that cannot persist against dilution, is reported as a
+  negative/artifact result and not tuned to pass (evidence standard #1 balanced transformations, #8
+  negative-result-is-a-result).
 kind: baseline
 simulation_status: ran
 implementation_status: complete
