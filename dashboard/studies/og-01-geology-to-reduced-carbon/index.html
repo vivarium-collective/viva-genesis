@@ -24,8 +24,10 @@
   </h1>
   <span class="study-header-actions" style="display:inline-flex; gap:6px; flex-shrink:0; align-items:center;">
     
-    <button type="button" id="study-dl-figures" class="btn-mini study-dl-btn" onclick="window._vivStudyFiguresFromCard(event, 'og-01-geology-to-reduced-carbon')" title="Download this study's figures (figure panels + its composite) as a zip">↓ figures</button>
-    <button type="button" id="study-dl-notebook" class="btn-mini study-dl-btn" onclick="window._vivStudyNotebookFromCard(event, 'og-01-geology-to-reduced-carbon', 'origins-of-life-vent')" title="Download a runnable Jupyter notebook for THIS study — its composite + editable parameters + figures">↓ notebook</button>
+    <span class="study-dl">
+      <button type="button" id="study-dl-figures" class="btn-mini study-dl-btn" onclick="window._vivStudyFiguresFromCard(event, 'og-01-geology-to-reduced-carbon')" title="Download this study's figures (figure panels + its composite) as a zip">↓ figures</button>
+      <button type="button" id="study-dl-notebook" class="btn-mini study-dl-btn" onclick="window._vivStudyNotebookFromCard(event, 'og-01-geology-to-reduced-carbon', 'origins-of-life-vent')" title="Download a runnable Jupyter notebook for THIS study — its composite + editable parameters + figures">↓ notebook</button>
+    </span>
     <span aria-hidden="true" style="width:1px; align-self:stretch; margin:2px 4px; background:#e2e8f0;"></span>
     
     <button type="button" id="study-reproduce" class="btn-mini" title="Replay this study's most recent run's RECORDED manifest verbatim (POST /api/study-reproduce) — ignores any study.yaml edits made since">↻ Reproduce</button>
@@ -33,7 +35,15 @@
     
     <button type="button" id="study-run-composite" class="btn-mini" title="Dispatch a specific process-bigraph composite_id to the remote compute backend (pbg-native multi_node/mbp, or the Nextflow campaign path) — advanced, independent of this study's own pinned baseline">⚙ Dispatch composite</button>
     
-    <button type="button" id="study-next" class="btn-mini" style="display:none" data-investigation="origins-of-life-vent" title="Go to the next study in this investigation's narrative (leads-to)">Next study →</button>
+    
+    <span id="study-nav" class="study-nav" data-investigation="origins-of-life-vent" style="display:none">
+      <button type="button" id="study-prev" class="btn-mini study-nav-btn" title="Previous study" aria-label="Previous study">←</button>
+      <span class="study-jump-wrap" style="position:relative;display:inline-flex">
+        <button type="button" id="study-jump-btn" class="btn-mini study-nav-btn" aria-haspopup="true" aria-expanded="false" title="Jump to any study in this investigation">⇄ Studies</button>
+        <div id="study-jump-menu" role="menu" style="display:none;position:absolute;right:0;top:100%;margin-top:4px;background:#fff;border:1px solid #e2e8f0;border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,0.14);z-index:70;min-width:240px;max-width:360px;max-height:380px;overflow:auto;padding:4px"></div>
+      </span>
+      <button type="button" id="study-next" class="btn-mini study-nav-btn" title="Next study" aria-label="Next study">→</button>
+    </span>
   </span>
   </div>
   <div class="study-status-row" style="display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-top:6px;">
@@ -1321,7 +1331,6 @@
 <section class="study-tab-panel" data-kind="simulate" id="panel-simulate" hidden>
 
 <div class="overview-section" id="simulations-section">
-  <h2>Simulations</h2>
   <div id="study-sim-table" style="overflow-x:auto"><div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading simulations…</span></div></div>
   <div id="study-run-detail" style="margin-top:14px"></div>
 </div>
@@ -1332,11 +1341,10 @@
 <section class="study-tab-panel" data-kind="results" id="panel-results" hidden>
 
 <div class="overview-section" id="results-section">
-  <h2>Results</h2>
-  <p class="muted">What came back from this study's runs — a per-store preview of the latest run, plus the raw emitter store (zarr/parquet/runs.db) for every run.</p>
+  
+  <div id="results-summary" data-study="og-01-geology-to-reduced-carbon" style="margin:0 0 16px"></div>
 
-  <h4>Latest run preview</h4>
-  <p class="muted" style="font-size:0.9em">Per-store sparkline + first/last/min/max from the most recent run's emitted trajectory. This is a downsampled PREVIEW, not the full data — use the per-store or Download-all links for the complete arrays. For a cross-engine comparison run, this shows how closely the simulators agree, model by model, instead.</p>
+  <h4>Latest run preview <span class="muted" style="font-size:0.8em;font-weight:normal">— downsampled sparkline + first/last/min/max per store</span></h4>
   <div id="results-preview" data-study="og-01-geology-to-reduced-carbon">
     <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading results preview…</span></div>
   </div>
@@ -1367,8 +1375,8 @@
   </div>
 
 <div class="overview-section" id="analyses-results-section">
-  <h2>Analyses</h2>
-  <p class="muted">Result files written by this study's analysis steps.</p>
+  <p class="muted" style="margin:0 0 12px 0">Derived result files (<code>.csv</code>/<code>.tsv</code>) computed from the runs —
+  distinct from <strong>Results</strong>, which holds the raw emitted arrays.</p>
 
   <div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap">
     <span class="muted" style="margin-right:auto;font-weight:600">Analysis result files</span>
@@ -1384,38 +1392,16 @@
 
 <section class="study-tab-panel" data-kind="readouts" id="panel-readouts" hidden>
   <div class="observables-section">
-    <div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap">
-      <h3 class="section-title" style="margin-right:auto">Readouts</h3>
+    
+    <div id="readouts-emitter" data-study="og-01-geology-to-reduced-carbon" style="margin:0 0 14px">
+      <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading emitter…</span></div>
     </div>
-    <p class="muted">The observables this study records from a run — the composite's
-    store paths with authored names, units and descriptions on top. See
-    <strong>Results</strong> for the values a run returned.</p>
-
-    <details class="readouts-emitter-details" style="margin:4px 0 14px 0">
-      <summary class="muted" style="font-size:0.85em;cursor:pointer">Emitter &amp; config</summary>
-      <div id="readouts-emitter" data-study="og-01-geology-to-reduced-carbon" style="margin-top:8px">
-        <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading emitter configuration…</span></div>
-      </div>
-    </details>
-
-    <h4>Emitted paths</h4>
-    <p class="muted" style="font-size:0.9em">Each row is an emitter <code>store_path</code>
-    the composite will save; authored entries in <code>study.yaml</code> add names,
-    descriptions, and units on top.</p>
 
     
-    <div id="readouts-download" style="margin:0 0 16px 0"></div>
+    <div id="readouts-download" style="margin:0 0 12px 0"></div>
 
     <div id="readouts-table" data-study="og-01-geology-to-reduced-carbon">
       <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading readouts from the composite emit plan…</span></div>
-    </div>
-
-    <h4>Outputs &amp; shapes</h4>
-    <p class="muted" style="font-size:0.9em">Store path, dtype, shape
-    <code>(n_steps, …)</code>, units, and a best-effort byte estimate for each emitted
-    leaf.</p>
-    <div id="readouts-shapes" data-study="og-01-geology-to-reduced-carbon">
-      <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading output shapes…</span></div>
     </div>
 
     
@@ -1446,8 +1432,7 @@
 </section>
 
 <section class="study-tab-panel" data-kind="tests" id="panel-tests" hidden>
-  <h2>Tests</h2>
-  <p class="muted" style="margin:0 0 12px 0"><strong>The bar.</strong> What must be true for this model to count as correct — the acceptance criteria, their bands, and the report cards that grade them.</p>
+  <p class="muted" style="margin:0 0 12px 0"><strong>The bar</strong> — what must be true for this model to count as correct: the acceptance criteria, their bands, and the report cards that grade them.</p>
 
   
   
@@ -2033,8 +2018,12 @@ cites:   ["tutolo2026rethinking", "jackson2016natural"]</pre>
 
 
 <section class="study-tab-panel" data-kind="audit" id="panel-audit" hidden>
-  <h2>Audit</h2>
-  <p class="muted" style="margin:0 0 12px 0"><strong>Is the bar sound?</strong> Whether the tests themselves are rigorous and matched to the problem — sufficiency, where the model was sourced, and the rigor + reproducibility scorecards.</p>
+  <p class="muted" style="margin:0 0 12px 0"><strong>Is the bar sound?</strong> The concrete readiness gaps to close first, then whether the test set itself is rigorous and matched to the problem — sufficiency, sourcing, and the rigor + reproducibility scorecards.</p>
+
+  
+  <div id="audit-readiness" data-slug="og-01-geology-to-reduced-carbon" style="margin:0 0 18px 0">
+    <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading readiness…</span></div>
+  </div>
 
   <div class="checks-band">
     <div class="check-group check-group-sufficiency" id="audit-sufficiency" data-check-group="sufficiency">
@@ -2058,8 +2047,7 @@ cites:   ["tutolo2026rethinking", "jackson2016natural"]</pre>
 
 
 <section class="study-tab-panel" data-kind="build" id="panel-build" hidden>
-  <h2>Build</h2>
-  <p class="muted" style="margin:0 0 12px 0"><strong>Was it earned?</strong> The agentic model-building loop that iterated the model to clear the bar — the draft, the frozen tests, the iteration-by-iteration trajectory, and the result (or an honest give-up).</p>
+  <p class="muted" style="margin:0 0 12px 0"><strong>How the model was built</strong> — the <code>/viva-model-build</code> loop trajectory (draft, frozen tests, iteration edits, result) and the agent's notes, when it was built that way.</p>
 
   <div id="build-loop-state"><div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading loop provenance…</span></div></div>
 </section>
@@ -2300,7 +2288,7 @@ cites:   ["tutolo2026rethinking", "jackson2016natural"]</pre>
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "e3cfa0067acde02eade28e42c96389f97e58db3c", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/e3cfa0067acde02eade28e42c96389f97e58db3c", "branch": "main", "lockfile": "uv.lock@8f522e07bf20", "generated_at": "2026-10-17 03:07 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "ee78234e451692fc9b893ad0414bbb0088c692bf", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/ee78234e451692fc9b893ad0414bbb0088c692bf", "branch": "main", "lockfile": "uv.lock@bcf676bfe242", "generated_at": "2026-10-17 19:24 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>

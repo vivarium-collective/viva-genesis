@@ -156,7 +156,6 @@
     _readoutsLoaded = true;
     var host = document.getElementById('readouts-table');
     var emitterHost = document.getElementById('readouts-emitter');
-    var shapesHost = document.getElementById('readouts-shapes');
     if (!host) return;
     var slug = host.getAttribute('data-study') || studyName();
     if (!slug) return;
@@ -170,16 +169,13 @@
         if (emitterHost) emitterHost.innerHTML = _renderEmitterBlock(j && j.emitter);
         if (!j || !Array.isArray(j.rows)) {
           host.innerHTML = '<p class="empty-message">Readouts unavailable.</p>';
-          if (shapesHost) shapesHost.innerHTML = '<p class="empty-message">Output shapes unavailable.</p>';
           return;
         }
         host.innerHTML = _renderReadoutsTable(j);
-        if (shapesHost) shapesHost.innerHTML = _renderReadoutsShapesTable(j.rows);
       })
       .catch(function() {
         host.innerHTML = '<p class="empty-message">Readouts unavailable.</p>';
         if (emitterHost) emitterHost.innerHTML = '<p class="empty-message">Emitter configuration unavailable.</p>';
-        if (shapesHost) shapesHost.innerHTML = '<p class="empty-message">Output shapes unavailable.</p>';
       });
   }
 
@@ -187,56 +183,27 @@
   // emit scope. `em` may be absent/partial (a study spec that failed to
   // parse never reaches the emitter block) — degrade to an empty note rather
   // than throw.
+  // Compact one-line emitter summary: kind · how often · what it emits → output.
+  // Auto-filled from the composite's resolved default emitter (always computable).
   function _renderEmitterBlock(em) {
     var e = escapeHtmlForTests;
-    var dash = '<span class="muted">—</span>';
     if (!em || !em.name) {
-      return '<p class="empty-message">No emitter configuration declared.</p>';
+      return '<p class="muted" style="font-size:0.88em">Emitter: default (unresolved).</p>';
     }
-    var errNote = em.error ? '<p class="muted" style="color:#92400e">' + e(em.error) + '</p>' : '';
-    var rows = [
-      ['Emitter', (em.class_name ? '<code>' + e(em.class_name) + '</code> (' + e(em.name) + ')' : '<code>' + e(em.name) + '</code>')],
-      ['Module', em.module ? '<code style="font-size:0.85em;">' + e(em.module) + '</code>' : dash],
-      ['Output kind', em.output_kind ? e(em.output_kind) : dash],
-      ['Emit interval', (em.interval === null || em.interval === undefined) ? dash : (e(String(em.interval)) + ' tick(s)')],
-      ['Buffer', (em.buffer === null || em.buffer === undefined) ? dash : (e(String(em.buffer)) + ' emits')],
-      ['Output dir', em.output_dir ? '<code style="font-size:0.85em;">' + e(em.output_dir) + '</code>' : dash],
-      ['Emit scope', em.scope ? e(em.scope) : dash],
-    ];
-    var body = rows.map(function (r) {
-      return '<tr style="border-bottom:1px solid #f1f5f9;">'
-        + '<td style="padding:6px; font-weight:600; width:140px; vertical-align:top;">' + r[0] + '</td>'
-        + '<td style="padding:6px; vertical-align:top;">' + r[1] + '</td></tr>';
-    }).join('');
-    return errNote + '<table class="observables-table" style="width:100%; border-collapse: collapse;"><tbody>' + body + '</tbody></table>';
-  }
-
-  // Block 3: Outputs & shapes — store path / dtype / shape / units / bytes,
-  // one row per confirmed emit leaf (rows without a `shape` — derived /
-  // not-in-plan / unverified — are omitted; they have no verified structure
-  // to describe, and already show up flagged in the Emitted paths block).
-  function _renderReadoutsShapesTable(rows) {
-    var e = escapeHtmlForTests;
-    var shaped = (rows || []).filter(function (o) { return o.store_path && Array.isArray(o.shape); });
-    if (!shaped.length) {
-      return '<p class="empty-message">No output shapes available (composite unbuilt, or no emitted paths).</p>';
-    }
-    var head = '<table class="observables-table" style="width:100%; border-collapse: collapse;"><thead><tr>'
-      + ['Store path', 'dtype', 'Shape', 'Units', 'Bytes'].map(function (h) {
-          return '<th style="text-align:left; padding:6px; border-bottom:1px solid #e2e8f0;">' + h + '</th>';
-        }).join('') + '</tr></thead><tbody>';
-    var body = shaped.map(function (o) {
-      var dims = o.shape.map(function (d) { return String(d); });
-      var shapeStr = '(' + dims.join(', ') + (dims.length === 1 ? ',' : '') + ')';
-      return '<tr style="border-bottom:1px solid #f1f5f9;">'
-        + '<td style="padding:6px;"><code style="font-size:0.85em;">' + e(o.store_path) + '</code></td>'
-        + '<td style="padding:6px;">' + e(o.dtype || '') + '</td>'
-        + '<td style="padding:6px;"><code style="font-size:0.85em;">' + e(shapeStr) + '</code></td>'
-        + '<td style="padding:6px;">' + e(o.units || '') + '</td>'
-        + '<td style="padding:6px;">' + (o.bytes != null ? e(_fmtBytes(o.bytes)) : '<span class="muted">—</span>') + '</td>'
-        + '</tr>';
-    }).join('');
-    return head + body + '</tbody></table>';
+    var kind = em.class_name || em.name;
+    var every = (em.interval === 1) ? 'every tick'
+      : (em.interval === null || em.interval === undefined) ? 'default cadence'
+      : ('every ' + e(String(em.interval)) + ' ticks');
+    var scope = (em.scope === 'declared') ? 'declared observables' : e(em.scope || 'declared observables');
+    var out = em.output_dir ? (' <span class="muted">&rarr;</span> <code style="font-size:0.82em">' + e(em.output_dir) + '</code>') : '';
+    var errNote = em.error ? ' <span class="muted" style="color:#92400e">(' + e(em.error) + ')</span>' : '';
+    var sep = '<span class="muted">·</span>';
+    return '<div style="font-size:0.9em;color:#475569;display:flex;align-items:center;gap:7px;flex-wrap:wrap">'
+      + '<span style="font-weight:600;color:#334155">Emitter</span>'
+      + '<code style="font-size:0.82em">' + e(kind) + '</code>'
+      + sep + '<span>' + every + '</span>'
+      + sep + '<span>' + scope + '</span>'
+      + out + errNote + '</div>';
   }
 
   // ── Readouts tab: pointer to the raw-data downloads that live under Results ──
@@ -289,8 +256,9 @@
     var e = escapeHtmlForTests;
     var files = (j && j.files) || [];
     if (!files.length) {
-      return '<p class="empty-message">No result files yet. Analysis steps write '
-        + '<code>.csv</code>/<code>.tsv</code> files here once this study has run.</p>';
+      return '<p class="empty-message">No derived result files. Analysis steps write '
+        + '<code>.csv</code>/<code>.tsv</code> tables here when a study runs them; this study’s '
+        + 'evidence is assessed by its behavior-test report cards — see <strong>Tests</strong>.</p>';
     }
     // Group by parent dir so ptools/ and per-run analysis tables read cleanly.
     var groups = {}, order = [];
@@ -1036,6 +1004,35 @@
   // The per-store PREVIEW of the latest run (sparkline + first/last/min/max)
   // is _loadResultsPreview above; _loadResults triggers both.
   var _rawDataLoaded = false;
+  // Compact run-summary header for the Results tab: run count, completed,
+  // latest run + when, step count, emitter — all from the /api/simulations rows.
+  function _renderResultsSummary(rows, esc) {
+    esc = esc || function (x) { return String(x == null ? '' : x); };
+    if (!rows || !rows.length) {
+      return '<p class="muted" style="font-size:0.88em">No runs yet — launch one from <strong>Simulations</strong>.</p>';
+    }
+    var done = rows.filter(function (r) { return String(r.status || '').toLowerCase() === 'completed'; }).length;
+    var latest = rows.slice().sort(function (a, b) {
+      return (new Date(b.created || b.started || 0)) - (new Date(a.created || a.started || 0));
+    })[0] || rows[rows.length - 1];
+    var emitters = {};
+    rows.forEach(function (r) { if (r.emitter_type) emitters[r.emitter_type] = 1; });
+    var emList = Object.keys(emitters);
+    var chips = [];
+    chips.push('<strong>' + rows.length + '</strong> run' + (rows.length === 1 ? '' : 's'));
+    chips.push('<span style="color:#059669;font-weight:600">' + done + '</span> completed');
+    if (latest) {
+      var lbl = latest.sim_name || latest.label || latest.run_id || '';
+      chips.push('latest <code style="font-size:0.82em">' + esc(lbl) + '</code>');
+      var when = latest.created || latest.started;
+      if (when) chips.push('<span class="muted">' + esc(String(when).slice(0, 16).replace('T', ' ')) + '</span>');
+      if (latest.n_steps != null) chips.push(esc(String(latest.n_steps)) + ' steps');
+    }
+    if (emList.length) chips.push('emitter <code style="font-size:0.82em">' + esc(emList.join(', ')) + '</code>');
+    return '<div style="font-size:0.9em;color:#475569;display:flex;align-items:center;gap:8px;flex-wrap:wrap">'
+      + chips.join('<span class="muted">·</span>') + '</div>';
+  }
+
   function _loadResults(force) {
     _loadResultsPreview(force);
     var mount = document.getElementById('raw-data-list');
@@ -1050,6 +1047,8 @@
     fetch(url).then(function (r) { return r.text(); }).then(function (t) {
       var d = {}; try { d = t ? JSON.parse(t) : {}; } catch (e) {}
       var rows = (DS && DS.simulationsFilter) ? DS.simulationsFilter(d.simulations || [], slug) : (d.simulations || []);
+      var summaryHost = document.getElementById('results-summary');
+      if (summaryHost) summaryHost.innerHTML = _renderResultsSummary(rows, esc);
       if (!rows.length) {
         mount.innerHTML = '<p class="empty-message">No runs with persisted data yet.</p>';
         if (bulkBtn) bulkBtn.style.display = 'none';
@@ -1339,7 +1338,7 @@
     // mechanisms/methods at the top of the Model tab, so a study with no built
     // composite yet still shows its planned model/interface. Idempotent slot.
     var _pdSpec = window._study || {};
-    var _pdHtml = _pdContractHtml(_pdSpec.contract, '§ Contract — declared interface (planned)') +
+    var _pdHtml = _pdContractHtml(_pdSpec.contract, 'Typed interface — ports, units, bounds + conservation predicates') +
                   _pdListHtml('Proposed mechanisms', _pdSpec.proposed_mechanisms) +
                   _pdListHtml('Proposed models & methods', _pdSpec.proposed_models_methods);
     var _pdSlotEl = _pdSlot(document.getElementById('panel-compose'), 'model-planned-design');
@@ -2041,6 +2040,15 @@
       .then(function (data) { return (data && data.classes || []).filter(function (c) { return c.kind === 'analysis'; }); })
       .catch(function () { return []; })
       .then(function (classes) {
+        // No ANALYSIS_REGISTRY entries and nothing declared → the dispatch-time
+        // analysis picker is N/A for this workspace; hide the whole control
+        // rather than show an empty "No analyses registered / Save" block.
+        var section = document.getElementById('study-analyses-section');
+        if (!classes.length && !declared.length) {
+          if (section) section.style.display = 'none';
+          return;
+        }
+        if (section) section.style.display = '';
         var known = {};
         var items = classes.map(function (c) {
           known[c.name] = true;
@@ -3055,65 +3063,90 @@
   // AND standalone (opened from the Studies sidebar) — where it computes "next"
   // from the investigation itself and navigates directly. Hidden only on a
   // genuinely terminal study or outside any investigation.
-  (function _wireNextStudy() {
-    var btn = document.getElementById('study-next');
-    if (!btn) return;
+  // Study navigator: ← prev / next → along the investigation chain, plus a
+  // "⇄ Studies" jump menu to ANY study (grouped: this study's parents it builds
+  // on, what it leads to, and all). Prev/next prefer the typed DAG edges
+  // (parent_studies) and fall back to declared order. Works standalone (full
+  // page nav) and embedded in the graph view (opens a tab in the parent).
+  (function _wireStudyNav() {
+    var nav = document.getElementById('study-nav');
+    if (!nav) return;
+    var prevBtn = document.getElementById('study-prev');
+    var nextBtn = document.getElementById('study-next');
+    var jumpBtn = document.getElementById('study-jump-btn');
+    var jumpMenu = document.getElementById('study-jump-menu');
     var current = studyName();
-    function show(next, go) {
-      btn.style.display = '';
-      btn.textContent = 'Next study →';
-      btn.title = 'Go to "' + next + '" — the next study in this investigation';
-      btn.onclick = go;
+    var base = (window.__BASE_PATH__ || '');
+
+    function _go(slug) {
+      if (!slug) return;
+      try {
+        var p = window.parent;
+        if (p && p !== window && typeof p._openStudyEmbeddedNewTab === 'function') {
+          p._openStudyEmbeddedNewTab(slug); return;
+        }
+      } catch (e) { /* fall through to standalone */ }
+      window.location = base + '/studies/' + encodeURIComponent(slug);
     }
 
-    // 1) Embedded in the investigation graph view — delegate to the parent.
-    try {
-      var p = window.parent;
-      if (p && p !== window && typeof p._nextStudySlug === 'function') {
-        var pn = p._nextStudySlug(current);
-        if (pn) {
-          show(pn, function () {
-            try { window.parent._openStudyEmbeddedNewTab(pn); } catch (e) { /* no-op */ }
-          });
-        } else {
-          btn.style.display = 'none';  // terminal within the graph view
-        }
-        return;
-      }
-    } catch (e) { /* fall through to standalone */ }
+    var inv = nav.getAttribute('data-investigation') || (window._study && window._study.investigation);
+    if (!inv) { nav.style.display = 'none'; return; }
 
-    // 2) Standalone study page — compute "next" from the investigation. The
-    //    investigation slug is stamped on the button server-side (data-investigation)
-    //    so it's available synchronously, before the async study spec loads.
-    var inv = btn.getAttribute('data-investigation') || (window._study && window._study.investigation);
-    if (!inv) { btn.style.display = 'none'; return; }
-    var base = (window.__BASE_PATH__ || '');
     fetch(base + '/api/investigation/' + encodeURIComponent(inv))
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (d) {
-        if (!d) { btn.style.display = 'none'; return; }
+        if (!d) { nav.style.display = 'none'; return; }
         var studies = d.studies || d.members || [];
-        var slug = function (s) { return (typeof s === 'string') ? s : (s && (s.name || s.slug || s.study)); };
-        var next = null;
-        // Prefer a leads-to child: a study whose parent_studies lists current.
-        for (var i = 0; i < studies.length && !next; i++) {
-          var parents = (studies[i] && studies[i].parent_studies) || [];
-          for (var j = 0; j < parents.length; j++) {
-            var pk = parents[j];
-            var pname = (pk && typeof pk === 'object') ? (pk.study || pk.name || pk.slug) : pk;
-            if (String(pname).trim() === current) { next = slug(studies[i]); break; }
+        var nameOf = function (s) { return (typeof s === 'string') ? s : (s && (s.name || s.slug || s.study)); };
+        var titleOf = function (s) { return (s && typeof s === 'object' && s.title) ? s.title : nameOf(s); };
+        var order = studies.map(nameOf).filter(Boolean);
+        if (!order.length) { nav.style.display = 'none'; return; }
+        var byName = {}; studies.forEach(function (s) { var n = nameOf(s); if (n) byName[n] = s; });
+        var parentsOf = function (n) {
+          var s = byName[n]; var ps = (s && s.parent_studies) || [];
+          return ps.map(function (pk) { return (pk && typeof pk === 'object') ? (pk.study || pk.name || pk.slug) : pk; }).filter(Boolean);
+        };
+        var curParents = parentsOf(current).filter(function (n) { return byName[n]; });
+        var curChildren = order.filter(function (n) { return parentsOf(n).indexOf(current) >= 0; });
+        var idx = order.indexOf(current);
+        var prev = (idx > 0) ? order[idx - 1] : (curParents[0] || null);
+        var next = curChildren[0] || ((idx >= 0 && idx < order.length - 1) ? order[idx + 1] : null);
+
+        nav.style.display = 'inline-flex';
+        if (prev) { prevBtn.disabled = false; prevBtn.title = 'Previous: ' + prev; prevBtn.onclick = function () { _go(prev); }; }
+        else { prevBtn.disabled = true; prevBtn.title = 'No previous study'; }
+        if (next) { nextBtn.disabled = false; nextBtn.title = 'Next: ' + next; nextBtn.onclick = function () { _go(next); }; }
+        else { nextBtn.disabled = true; nextBtn.title = 'No next study'; }
+
+        function _item(n) {
+          return '<button type="button" class="study-jump-item' + (n === current ? ' current' : '')
+            + '" data-slug="' + _esc(n) + '">' + _esc(titleOf(byName[n]) || n) + '</button>';
+        }
+        var html = '';
+        if (curParents.length) html += '<div class="study-jump-group">Builds on</div>' + curParents.map(_item).join('');
+        if (curChildren.length) html += '<div class="study-jump-group">Leads to</div>' + curChildren.map(_item).join('');
+        html += '<div class="study-jump-group">All studies</div>' + order.map(_item).join('');
+        jumpMenu.innerHTML = html;
+        jumpMenu.querySelectorAll('.study-jump-item').forEach(function (b) {
+          b.addEventListener('click', function () {
+            var slug = b.getAttribute('data-slug');
+            jumpMenu.style.display = 'none'; jumpBtn.setAttribute('aria-expanded', 'false');
+            if (slug && slug !== current) _go(slug);
+          });
+        });
+        jumpBtn.onclick = function (ev) {
+          ev.stopPropagation();
+          var open = jumpMenu.style.display !== 'none' && jumpMenu.style.display !== '';
+          jumpMenu.style.display = open ? 'none' : 'block';
+          jumpBtn.setAttribute('aria-expanded', open ? 'false' : 'true');
+        };
+        document.addEventListener('click', function (e) {
+          if (!e.target.closest || !e.target.closest('.study-jump-wrap')) {
+            jumpMenu.style.display = 'none'; jumpBtn.setAttribute('aria-expanded', 'false');
           }
-        }
-        // Fallback: the next study in the investigation's declared order.
-        if (!next) {
-          var order = studies.map(slug).filter(Boolean);
-          var idx = order.indexOf(current);
-          if (idx >= 0 && idx < order.length - 1) next = order[idx + 1];
-        }
-        if (!next) { btn.style.display = 'none'; return; }
-        show(next, function () { window.location = base + '/studies/' + encodeURIComponent(next); });
+        }, true);
       })
-      .catch(function () { btn.style.display = 'none'; });
+      .catch(function () { nav.style.display = 'none'; });
   })();
 
   // btn-delete has class "btn-delete danger" — selector ".btn-delete" still matches.
@@ -3965,8 +3998,65 @@
   // Quality, Reproducibility) plus the Sourcing sub-panel. Quality/
   // Reproducibility MOVED here from the Tests panel's old _loadTestsPanel
   // (spec §3.6/§3.7); their loaders are unchanged, just dispatched from here.
+  // Readiness gaps as the actionable TOP of Audit — the same deterministic
+  // report linter the header "⚠ N readiness gaps" dropdown reads (_reportLint),
+  // but expanded and grouped by check, so the exact fixes to make the study
+  // release-ready lead the audit. Re-computes from the live linter (responsive
+  // to the current study state), AI-free.
+  var _auditReadinessLoaded = false;
+  function _renderAuditReadiness(spec) {
+    var host = document.getElementById('audit-readiness');
+    if (!host || _auditReadinessLoaded) return;
+    _auditReadinessLoaded = true;
+    var slug = host.getAttribute('data-slug') || (spec && spec.name) || studyName() || '';
+    _reportLint().then(function (j) {
+      var findings = (j.findings || []).filter(function (f) { return (f.study || '') === slug; });
+      if (!findings.length) {
+        host.innerHTML = '<div style="display:flex;align-items:center;gap:8px;padding:10px 13px;'
+          + 'border:1px solid #bbf7d0;background:#f0fdf4;border-radius:8px;font-size:0.9em;color:#166534">'
+          + '<strong>✓ Ready</strong><span style="color:#166534">no readiness gaps — the report '
+          + 'linter finds nothing to fix.</span></div>';
+        return;
+      }
+      var sev = { error: 0, warning: 0, info: 0 };
+      findings.forEach(function (f) { var s = f.severity || 'info'; if (sev[s] != null) sev[s]++; else sev.info++; });
+      var gaps = sev.error + sev.warning;
+      var byCheck = {};
+      findings.forEach(function (f) { var c = f.check || 'other'; (byCheck[c] = byCheck[c] || []).push(f); });
+      var checks = Object.keys(byCheck).sort(function (a, b) { return byCheck[b].length - byCheck[a].length; });
+      var groups = checks.map(function (c) {
+        var items = byCheck[c].map(function (f) {
+          var s = f.severity || 'info';
+          var dot = s === 'error' ? '#dc2626' : (s === 'warning' ? '#f59e0b' : '#3b82f6');
+          var fix = f.fix || f.hint || f.suggestion || '';
+          var loc = f.field_path ? ' <code style="font-size:0.78em;color:#94a3b8">' + _esc(f.field_path) + '</code>' : '';
+          return '<li style="margin-top:5px;line-height:1.4"><span style="color:' + dot + ';font-weight:700">●</span> '
+            + _esc(f.message || '') + loc
+            + (fix ? '<div class="muted" style="margin:2px 0 0 16px;font-size:0.92em">→ ' + _esc(fix) + '</div>' : '')
+            + '</li>';
+        }).join('');
+        return '<div style="margin-top:10px"><code>' + _esc(c) + '</code> '
+          + '<span class="muted" style="font-size:0.82em">(' + byCheck[c].length + ')</span>'
+          + '<ul style="margin:3px 0 0 18px;font-size:0.9em;padding:0;list-style:none">' + items + '</ul></div>';
+      }).join('');
+      var headColor = sev.error ? '#dc2626' : (sev.warning ? '#92400e' : '#1e40af');
+      var counts = [];
+      if (sev.error) counts.push(sev.error + ' error' + (sev.error === 1 ? '' : 's'));
+      if (sev.warning) counts.push(sev.warning + ' warning' + (sev.warning === 1 ? '' : 's'));
+      if (sev.info) counts.push(sev.info + ' note' + (sev.info === 1 ? '' : 's'));
+      host.innerHTML =
+        '<div style="border:1px solid #fde68a;background:#fffbeb;border-radius:8px;padding:12px 14px">'
+        + '<div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">'
+        + '<strong style="color:' + headColor + ';font-size:1.02em">⚠ ' + gaps + ' readiness gap'
+        + (gaps === 1 ? '' : 's') + ' to close</strong>'
+        + '<span class="muted" style="font-size:0.82em">' + _esc(counts.join(' · ')) + '</span>'
+        + '<span class="muted" style="font-size:0.82em;margin-left:auto">code-computed — report linter (deterministic)</span>'
+        + '</div>' + groups + '</div>';
+    }).catch(function () { _auditReadinessLoaded = false; });
+  }
+
   function _loadAudit(spec) {
-    _loadDeclaredContract(spec);
+    _renderAuditReadiness(spec);
     _loadAuditSufficiency(spec);
     _loadQualityChecks(spec);
     _loadReproducibilityChecks(spec);
@@ -3974,16 +4064,8 @@
   }
   window._loadAudit = _loadAudit;
 
-  // Declared contract (§Contract) — the study's PLANNED typed interface +
-  // conservation predicates, rendered at the top of the Audit tab so it is
-  // populated at Design time (before any live-run audit exists). Connects the
-  // planning contract to the audit surface.
-  function _loadDeclaredContract(spec) {
-    var slot = _pdSlot(document.getElementById('panel-audit'), 'audit-declared-contract');
-    if (!slot) return;
-    var contract = ((spec || window._study || {}) || {}).contract;
-    slot.innerHTML = _pdContractHtml(contract, 'Declared contract (§Contract) — the study’s planned interface');
-  }
+  // (The typed-interface contract table used to render here too; it was a
+  // duplicate of the Model tab's and now lives in Model only.)
 
   // ── Build tab (Assurance) — model-build loop provenance ──────────────────
   // GET /api/study-loop-state?study=<slug> → viva_superpowers.loop_state
@@ -4083,9 +4165,17 @@
   function _buildPanelHtml(state) {
     var e = escapeHtmlForTests;
     if (!state || !state.present) {
-      var reason = (state && state.reason)
-        || 'This study was not built via the agentic model-building loop (/viva-model-build).';
-      return '<p class="empty-message">' + e(reason) + '</p>';
+      // Directly-authored studies have no loop artifact (.pbg/loop/<study>.json
+      // is written only by /viva-model-build). Explain that plainly and point to
+      // where the model + its bar actually live, instead of a bare dead-end.
+      return '<div class="empty-message">'
+        + '<p>This model was <strong>authored directly</strong> — wrapped and composed via '
+        + '<code>/viva-expert</code> — not iterated through the <code>/viva-model-build</code> loop '
+        + 'that records a draft → frozen-tests → iteration trajectory. There is no loop '
+        + 'provenance to show here.</p>'
+        + '<p style="margin-top:8px">See <strong>Model</strong> for the composite structure and '
+        + '<strong>Tests</strong> for the behavior tests this model has to clear.</p>'
+        + '</div>';
     }
     var history = state.history || [];
     var sc = _BUILD_STATE_COLORS[state.state] || { bg: '#f1f5f9', fg: '#475569' };
@@ -4115,7 +4205,36 @@
     if (history.length) {
       html += _renderMarginMatrix(history) || _renderIterationLadder(history);
     }
+    // Agent notes + conversation — the loop's running commentary, rendered only
+    // when the loop recorded it (viva_superpowers.loop_state).
+    html += _renderBuildNotes(state);
     return html;
+  }
+
+  // Agent notes (free text / list) + the build conversation (role-tagged turns),
+  // surfaced when the loop artifact carries them. Absent → renders nothing.
+  function _renderBuildNotes(state) {
+    var e = escapeHtmlForTests;
+    var out = '';
+    var notes = state && state.notes;
+    if (notes) {
+      var txt = Array.isArray(notes) ? notes.join('\n') : String(notes);
+      out += '<div style="margin-top:14px"><strong style="font-size:0.9em">Agent notes</strong>'
+        + '<div style="margin-top:4px;font-size:0.86em;white-space:pre-wrap;color:#475569">' + e(txt) + '</div></div>';
+    }
+    var conv = state && state.conversation;
+    if (Array.isArray(conv) && conv.length) {
+      var turns = conv.map(function (m) {
+        var role = (m && m.role) ? m.role : '';
+        var text = (m && (m.text || m.content)) ? (m.text || m.content) : (typeof m === 'string' ? m : '');
+        return '<li style="padding:6px 0;border-top:1px solid #f1f5f9;font-size:0.85em">'
+          + (role ? '<strong>' + e(role) + ':</strong> ' : '') + e(text) + '</li>';
+      }).join('');
+      out += '<details style="margin-top:12px"><summary class="muted" style="cursor:pointer;font-size:0.88em">'
+        + 'Build conversation (' + conv.length + ')</summary>'
+        + '<ul style="list-style:none;padding-left:0;margin:6px 0 0">' + turns + '</ul></details>';
+    }
+    return out;
   }
 
   var _buildLoaded = false;
