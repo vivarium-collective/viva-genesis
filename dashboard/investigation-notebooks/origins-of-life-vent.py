@@ -2087,7 +2087,7 @@ _save_viz('og-res-phosphorus-availability', 'phosphorus-availability-map', _rend
 #
 # **Hypothesis.** A pre-ATP carrier (thioester / acyl-phosphate class) coupled to an exergonic geochemical drive maintains a transferable currency above threshold under endergonic load — but only where the drive ΔG clears the carrier's high-energy bond and the coupling is efficient enough to beat discharge + hydrolysis. A bounded fraction of the geochemical free energy is captured as stored usable work; the rest is dissipated. Remove the coupling or starve the drive below the bond and the currency collapses.
 #
-# **Claim.** A pre-ATP thioester-class carrier coupled to an exergonic geochemical drive builds and maintains a transferable energy currency under continuous endergonic load, the charged pool filling from empty to about 39% of capacity and stored against discharge and hydrolysis, capturing roughly 47% of the tapped free energy as usable work at the favourable point. Removing the coupling chemistry or starving the drive below the carrier's high-energy bond collapses the capture. This makes energy capture into a transferable store an explicit, bounded transition rather than a favourable reaction direction, while leaving open which concrete prebiotic carrier - thioester, acyl phosphate, polyphosphate, reduced metal or another chemistry - best realizes this abstract currency.
+# **Claim.** A specified thioester- and/or acyl-phosphate-class carrier, written as an explicit chemical cycle (synthesis → activation → use → hydrolysis) of named species with a full free-energy ledger, either supports useful coupled work with no hidden energy inflow, or it does not. The abstract currency is replaced by balanced chemistry: capture is credited only when every synthesis, activation, discharge, leak and maintenance cost is accounted and the geochemical drive supplies the high-energy bond.
 
 # ### Design — originally proposed
 #
@@ -2112,25 +2112,23 @@ _save_viz('og-res-phosphorus-availability', 'phosphorus-availability-map', _rend
 #
 # | simulation | composite | steps | params |
 # | --- | --- | --- | --- |
-# | `Proto-energetics (favourable energy currency)` | `viva_genesis.composites.proto_energetics.proto_energetics` | 0 | drive_free_energy=50.0, coupling_efficiency=0.6, carrier_pool=0.001, loss_rate=0.05, load=0.2, carrier=thioester |
+# | `Energy carrier cycle (explicit thioester/acyl-phosphate chemistry)` | `viva_genesis.composites.og_12_energy_carrier_cycle.og_12_energy_carrier_cycle` | 0 | drive_free_energy=50.0, bond_energy_kjmol=31.5 |
 
 # ### The model & its parameters
 #
 # Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
 
-# **The model — `viva_genesis.composites.proto_energetics.proto_energetics`**
+# **The model — `viva_genesis.composites.og_12_energy_carrier_cycle.og_12_energy_carrier_cycle`**
 #
-# A transferable energy currency before modern pumping (pre-og-05). An exergonic geochemical drive charges a carrier pool (thioester / acyl-phosphate class) that is discharged for endergonic work under load and bled by hydrolysis, all tracked in a conserved free-energy ledger (input = work + stored + dissipated). Tests whether the system captures environmental free energy into a transferable store, and what fraction becomes stored usable work. drive_free_energy / coupling_efficiency set the arm; coupling->0 or drive below the carrier bond collapses the currency (ablations). Coarse-grained, deterministic reproduction (not a wrapped engine).
+# Study 12: the energy currency as explicit chemistry. GeochemicalDriveProcess supplies an exergonic drive ΔG that activates a named thioester carrier only when it clears the high-energy bond; the carrier does useful work against an endergonic load and leaks by hydrolysis. A closed free-energy ledger (budget_residual ~ 0) credits useful coupled work only with no hidden energy inflow — replacing the abstract charged-pool currency.
 
 # === Parameters — edit any value, then re-run from the Run cell below ===
 # Each entry is the composite's current default; the comment explains it.
-ov_viva_genesis_composites_proto_energetics_proto_energetics = {
-    'drive_free_energy'  : 50.0,   # Exergonic geochemical drive ΔG available (kJ/mol); below the carrier bond the drive cannot charge it
-    'coupling_efficiency': 0.6,   # Fraction of tapped drive free energy coupled into the carrier bond (0 = no coupling ablation)
-    'carrier_pool'       : 0.001,   # Total carrier concentration (molar), charged + free
-    'loss_rate'          : 0.05,   # First-order hydrolysis / loss rate of charged carrier (per tick)
-    'load'               : 0.2,   # Endergonic work demand as a fraction of the carrier pool per tick
-    'carrier'            : 'thioester',   # Primitive carrier chemistry (thioester / acyl_phosphate / polyphosphate / reduced_metal)
+ov_viva_genesis_composites_og_12_energy_carrier_cycle_og_12_energy_carrier_cycle = {
+    'drive_free_energy': 50.0,   # Geochemical drive ΔG supplied (kJ/mol)
+    'bond_energy_kjmol': 31.5,   # Carrier high-energy bond (thioester ~31.5; acyl-phosphate ~43)
+    'load'             : 20.0,   # Endergonic load the carrier does work against (kJ/mol)
+    'k_hydrolyze'      : 0.02,   # Hydrolysis leak rate (1/s)
 }
 
 # ### Typed contract (declared interface)
@@ -2177,20 +2175,20 @@ RUNS_DB = str(STUDY_DIR / "runs.db")
 # This study has no *recorded* runs yet. RERUN builds its declared
 # composite(s) live and runs them; a composite whose module processes
 # are not implemented yet reports the error instead of crashing.
-STEPS_Proto_energetics_favourable_energy_currency = 100
-INTERVAL_Proto_energetics_favourable_energy_currency = 1.0
+STEPS_Energy_carrier_cycle_explicit_thioester_acyl_phosphate_chemistry = 100
+INTERVAL_Energy_carrier_cycle_explicit_thioester_acyl_phosphate_chemistry = 1.0
 
 if RERUN:
     from process_bigraph import Composite
     try:
         with quiet():  # keep per-step stdout out of the notebook
-            _ov = ov_viva_genesis_composites_proto_energetics_proto_energetics if 'ov_viva_genesis_composites_proto_energetics_proto_energetics' in dir() else None  # edits from the panel cell, if any
-            spec_viva_genesis_composites_proto_energetics_proto_energetics = materialize_composite('viva_genesis.composites.proto_energetics.proto_energetics', _ov)
-            _comp = Composite({'state': spec_viva_genesis_composites_proto_energetics_proto_energetics['state']}, core=core)
-            _comp.run(STEPS_Proto_energetics_favourable_energy_currency)
-        print('ran', 'Proto-energetics (favourable energy currency)', f'(viva_genesis.composites.proto_energetics.proto_energetics) for', STEPS_Proto_energetics_favourable_energy_currency, 'steps')
+            _ov = ov_viva_genesis_composites_og_12_energy_carrier_cycle_og_12_energy_carrier_cycle if 'ov_viva_genesis_composites_og_12_energy_carrier_cycle_og_12_energy_carrier_cycle' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_og_12_energy_carrier_cycle_og_12_energy_carrier_cycle = materialize_composite('viva_genesis.composites.og_12_energy_carrier_cycle.og_12_energy_carrier_cycle', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_og_12_energy_carrier_cycle_og_12_energy_carrier_cycle['state']}, core=core)
+            _comp.run(STEPS_Energy_carrier_cycle_explicit_thioester_acyl_phosphate_chemistry)
+        print('ran', 'Energy carrier cycle (explicit thioester/acyl-phosphate chemistry)', f'(viva_genesis.composites.og_12_energy_carrier_cycle.og_12_energy_carrier_cycle) for', STEPS_Energy_carrier_cycle_explicit_thioester_acyl_phosphate_chemistry, 'steps')
     except Exception as _e:
-        print(f"Proto-energetics (favourable energy currency) not runnable yet: {type(_e).__name__}: {_e}")
+        print(f"Energy carrier cycle (explicit thioester/acyl-phosphate chemistry) not runnable yet: {type(_e).__name__}: {_e}")
 else:
     print("RERUN=False — not re-simulating.")
 
@@ -2201,7 +2199,7 @@ else:
 # **proto-energetics-world**
 
 # proto-energetics-world
-_save_viz('og-energy-proto-energetics', 'proto-energetics-world', _render_one('local:ProtoEnergeticsWorldViz', {'composite': 'viva_genesis.composites.proto_energetics.proto_energetics', 'title': 'Proto-energetics — charging and spending the currency (World view)'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_proto_energetics_proto_energetics if 'ov_viva_genesis_composites_proto_energetics_proto_energetics' in dir() else None)))
+_save_viz('og-energy-proto-energetics', 'proto-energetics-world', _render_one('local:ProtoEnergeticsWorldViz', {'composite': 'viva_genesis.composites.proto_energetics.proto_energetics', 'title': 'Proto-energetics — charging and spending the currency (World view)'}, RUNS_DB, STUDY_YAML))
 
 # **proto-energetics-provenance**
 
@@ -2211,7 +2209,7 @@ _save_viz('og-energy-proto-energetics', 'proto-energetics-provenance', _render_o
 # **proto-energetics-map**
 
 # proto-energetics-map
-_save_viz('og-energy-proto-energetics', 'proto-energetics-map', _render_one('local:ProtoEnergeticsMap', {'composite': 'viva_genesis.composites.proto_energetics.proto_energetics', 'grid_json': 'workspace/studies/og-energy-proto-energetics/artifacts/proto_energetics_phase_grid.json', 'title': 'Proto-energetics — capturing free energy into a transferable currency (Decision view)'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_proto_energetics_proto_energetics if 'ov_viva_genesis_composites_proto_energetics_proto_energetics' in dir() else None)))
+_save_viz('og-energy-proto-energetics', 'proto-energetics-map', _render_one('local:ProtoEnergeticsMap', {'composite': 'viva_genesis.composites.proto_energetics.proto_energetics', 'grid_json': 'workspace/studies/og-energy-proto-energetics/artifacts/proto_energetics_phase_grid.json', 'title': 'Proto-energetics — capturing free energy into a transferable currency (Decision view)'}, RUNS_DB, STUDY_YAML))
 
 # ### Acceptance criteria
 #
