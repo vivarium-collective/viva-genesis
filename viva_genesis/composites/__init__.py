@@ -21,6 +21,7 @@ from . import osmotic_growth_division  # noqa: F401
 from . import spatial_transport  # noqa: F401
 from . import integrated_autonomy  # noqa: F401
 from . import geochemical_world  # noqa: F401
+from . import og_27_coupled_geochemical_reaction_interface  # noqa: F401
 from . import electrochemical_interface  # noqa: F401
 from . import open_chemical_network  # noqa: F401
 from . import og_29_endogenous_autocatalysis  # noqa: F401

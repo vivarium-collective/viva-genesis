@@ -33,6 +33,8 @@ from .phreeqc_serpentinization import PhreeqcSerpentinizationProcess  # noqa: E4
 from .serpentinization import SerpentinizationReproductionProcess  # noqa: E402,F401
 from .nitrogen_assimilation import ReducedNitrogenProductionProcess  # noqa: E402,F401
 from .phosphorus_speciation import PhosphorusSpeciationProcess  # noqa: E402,F401
+from .mineral_surface_dynamics import MineralSurfaceDynamicsProcess  # noqa: E402,F401
 
 __all__ = ["PhreeqcSerpentinizationProcess", "SerpentinizationReproductionProcess",
-           "ReducedNitrogenProductionProcess", "PhosphorusSpeciationProcess"]
+           "ReducedNitrogenProductionProcess", "PhosphorusSpeciationProcess",
+           "MineralSurfaceDynamicsProcess"]
