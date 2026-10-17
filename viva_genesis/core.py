@@ -129,4 +129,16 @@ def _register_imported_simulator_processes(core):
     ):
         if name not in core.link_registry:
             core.register_link(name, cls)
+
+    # viva-openmm: real Martini 3 CG MD (OpenMM + martini_openmm) for the
+    # membrane-closure studies (31/32). Guarded — unlike eQuilibrator/FEniCS it
+    # is a heavy optional dep; a workspace without it installed still builds core
+    # (only RUNNING the membrane arm needs OpenMM). import viva_openmm is
+    # import-safe (OpenMM is imported lazily inside update()).
+    try:
+        from viva_openmm import OpenMMMartiniProcess
+        if "OpenMMMartiniProcess" not in core.link_registry:
+            core.register_link("OpenMMMartiniProcess", OpenMMMartiniProcess)
+    except Exception:
+        pass
     return core
