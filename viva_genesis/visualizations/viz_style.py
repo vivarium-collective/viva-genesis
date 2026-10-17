@@ -55,6 +55,100 @@ BAND_FILL = "rgba(100,116,139,0.16)"      # slate — generic uncertainty band
 FONT_STACK = "Inter, 'Helvetica Neue', Helvetica, Arial, sans-serif"
 
 
+# --------------------------------------------------------------------------- #
+# Time axis — real units, not abstract ticks.
+#
+# The engine advances in abstract steps and emits a bare ``global_time`` that is
+# just the step index (0, 1, 2, …). Each composite declares its own *real* run
+# timescale on ``@composite_generator(preferred_time="6 hours")`` (process-bigraph
+# #245) — coarser than its internal processes' per-step intervals. These helpers
+# turn the step-index axis into that real timescale so a figure reads "time
+# (hours)" / "time (years)" / "generations" instead of the misleading "time (s)".
+#
+# Per-step real duration is ``preferred_magnitude / default_n_steps`` (both read
+# off the generator's registered ``GeneratorEntry``), so the axis stays correct
+# even when a visualization renders a different number of steps than the
+# composite's canonical run. When ``default_n_steps`` is absent we fall back to
+# spreading the declared duration across whatever steps were rendered.
+# --------------------------------------------------------------------------- #
+
+# Unit words that are counts, not durations — labelled on their own ("generations")
+# rather than as "time (generations)".
+_COUNT_TIME_UNITS = {
+    "generation", "generations", "step", "steps", "tick", "ticks", "cycle", "cycles",
+}
+
+
+def parse_quantity(s):
+    """Split a unit-bearing quantity string into ``(magnitude, unit)``.
+
+    ``"6 hours"`` → ``(6.0, "hours")``; ``"60 generations"`` → ``(60.0,
+    "generations")``; ``"1000 years"`` → ``(1000.0, "years")``. Returns
+    ``(None, None)`` for anything unparseable.
+    """
+    if not isinstance(s, str):
+        return (None, None)
+    m = re.match(r"\s*([0-9]*\.?[0-9]+)\s*(.+?)\s*$", s)
+    if not m:
+        return (None, None)
+    try:
+        return (float(m.group(1)), m.group(2).strip())
+    except ValueError:
+        return (None, None)
+
+
+def _time_entry(gen):
+    """Resolve ``gen`` (a decorated composite-generator fn, a ``GeneratorEntry``,
+    or a bare ``preferred_time`` string) to something with ``preferred_time`` /
+    ``default_n_steps`` attributes, or ``None``."""
+    if gen is None:
+        return None
+    entry = getattr(gen, "_composite_generator_entry", None)
+    return entry if entry is not None else gen
+
+
+def _time_fields(gen):
+    entry = _time_entry(gen)
+    if isinstance(entry, str):
+        return (entry, None)
+    if entry is None:
+        return (None, None)
+    return (getattr(entry, "preferred_time", None), getattr(entry, "default_n_steps", None))
+
+
+def time_axis_label(gen):
+    """Axis label for ``gen``'s real timescale, e.g. ``"time (hours)"`` /
+    ``"generations"``. Falls back to ``"time (steps)"`` when undeclared."""
+    pt, _ = _time_fields(gen)
+    _, unit = parse_quantity(pt)
+    if not unit:
+        return "time (steps)"
+    return unit if unit.lower() in _COUNT_TIME_UNITS else f"time ({unit})"
+
+
+def real_time(t, gen):
+    """Map a step-index / ``global_time`` sequence onto ``gen``'s real run
+    duration. Returns ``(scaled_list, axis_label)``.
+
+    ``t`` is the raw per-row time (step index). When the composite declares a
+    ``preferred_time`` the values are rescaled to that unit; otherwise they are
+    returned unchanged with a ``"time (steps)"`` label.
+    """
+    t = [float(x) for x in t] if t is not None else []
+    pt, dns = _time_fields(gen)
+    mag, unit = parse_quantity(pt)
+    if not t or mag is None or not unit:
+        return (t, "time (steps)" if t else "time")
+    if dns and float(dns) > 0:
+        dt = mag / float(dns)
+        scaled = [x * dt for x in t]
+    else:
+        span = t[-1] if t[-1] else (len(t) - 1 or 1)
+        scaled = [x / span * mag for x in t]
+    label = unit if unit.lower() in _COUNT_TIME_UNITS else f"time ({unit})"
+    return (scaled, label)
+
+
 def FONT(size: int = 12, color: str = INK) -> dict:
     """The shared Plotly font dict."""
     return {"family": FONT_STACK, "color": color, "size": size}

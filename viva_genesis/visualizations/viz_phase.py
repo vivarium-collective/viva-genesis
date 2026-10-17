@@ -240,7 +240,7 @@ def pore_ignition_figure(gain_grid, traj, enrichment, dilute, enriched, k_wash, 
                              line=dict(color=_SLATE, width=2.5, dash="dot"), name="well-mixed ocean"), row=1, col=2)
     fig.add_trace(go.Scatter(x=t, y=[v * 1e3 for v in traj["oaa_pore"]], mode="lines",
                              line=dict(color=_TEAL, width=3), name="inside the pore"), row=1, col=2)
-    fig.update_xaxes(title_text="time (s)", row=1, col=2)
+    fig.update_xaxes(title_text=traj.get("t_label", "time (steps)"), row=1, col=2)
     fig.update_yaxes(title_text="autocatalytic hub OAA (mM)", row=1, col=2)
 
     fig.update_layout(**S.base_layout(height=450, width=960, margin=dict(t=48, b=60, l=70, r=20),
@@ -308,7 +308,8 @@ class PoreIgnitionCoupling(Visualization):
             sim.run(n)
             rows = gather_emitter_results(sim)[("emitter",)]
             traj[key] = [r.get("OAA", 0.0) for r in rows]
-            traj["t"] = [r.get("global_time", i) for i, r in enumerate(rows)]
+            traj["t"], traj["t_label"] = S.real_time(
+                [r.get("global_time", i) for i, r in enumerate(rows)], protometabolic_network)
         # og-02 ignition landscape (persisted grid or a modest live grid)
         resolved = _resolve_grid_path(str(self.config.get("grid_json", "") or ""))
         if resolved:
@@ -446,11 +447,15 @@ def bioenergetic_provenance_figure(fav, weak, *, title=None) -> str:
     ``weak`` are the emitter row lists for the two arms."""
     import plotly.graph_objects as go
     from plotly.subplots import make_subplots
+    from ..composites.bioenergetic_internalization import bioenergetic_internalization
 
     def col(rows, k):
         return [float(r.get(k, 0.0)) for r in rows]
 
-    t = [r.get("global_time", i) for i, r in enumerate(fav)]
+    t, tlabel = S.real_time([r.get("global_time", i) for i, r in enumerate(fav)],
+                            bioenergetic_internalization)
+    wt, _ = S.real_time([r.get("global_time", i) for i, r in enumerate(weak)],
+                        bioenergetic_internalization)
     ext = col(fav, "external_power")
     intl = col(fav, "internal_power")
     frac_ext = [e / (e + n) if (e + n) > 1e-30 else 0.0 for e, n in zip(ext, intl)]
@@ -472,17 +477,17 @@ def bioenergetic_provenance_figure(fav, weak, *, title=None) -> str:
                              line=dict(color=_INK, width=2, dash="dot")), row=1, col=1, secondary_y=True)
     fig.update_yaxes(title_text="share of useful free energy (%)", range=[0, 100], row=1, col=1, secondary_y=False)
     fig.update_yaxes(title_text="external pmf (V)", row=1, col=1, secondary_y=True, showgrid=False)
-    fig.update_xaxes(title_text="time (s)", row=1, col=1)
+    fig.update_xaxes(title_text=tlabel, row=1, col=1)
     # --- right: survivors, efficient vs weak pump ---
     fig.add_trace(go.Scatter(x=t, y=col(fav, "survivors"), mode="lines", name="efficient pump",
                              line=dict(color=_TEAL, width=3)), row=1, col=2)
-    fig.add_trace(go.Scatter(x=[r.get("global_time", i) for i, r in enumerate(weak)],
+    fig.add_trace(go.Scatter(x=wt,
                              y=col(weak, "survivors"), mode="lines", name="weak-pump control",
                              line=dict(color=_RUST, width=2.5, dash="dash")), row=1, col=2)
     fig.add_trace(go.Scatter(x=t, y=col(fav, "internalization"), mode="lines", name="internalization",
                              line=dict(color=_SLATE, width=1.5, dash="dot")), row=1, col=2)
     fig.update_yaxes(title_text="surviving population fraction", range=[-0.02, 1.05], row=1, col=2)
-    fig.update_xaxes(title_text="time (s)", row=1, col=2)
+    fig.update_xaxes(title_text=tlabel, row=1, col=2)
 
     fig.update_layout(**S.base_layout(
         height=450, width=960, margin=dict(t=48, b=60, l=70, r=60),
@@ -1430,11 +1435,12 @@ def energy_provenance_figure(rows, *, title=None) -> str:
     ``rows`` is the favourable-run emitter row list."""
     import plotly.graph_objects as go
     from plotly.subplots import make_subplots
+    from ..composites.proto_energetics import proto_energetics
 
     def col(k):
         return [float(r.get(k, 0.0)) for r in rows]
 
-    t = [r.get("global_time", i) for i, r in enumerate(rows)]
+    t, tlabel = S.real_time([r.get("global_time", i) for i, r in enumerate(rows)], proto_energetics)
     inp = col("energy_input"); work = col("energy_work")
     stored = col("energy_stored"); diss = col("energy_dissipated")
     cap_frac = [(w + s) / i * 100 if i > 1e-30 else 0.0 for w, s, i in zip(work, stored, inp)]
@@ -1456,7 +1462,7 @@ def energy_provenance_figure(rows, *, title=None) -> str:
                   row=1, col=1, secondary_y=True)
     fig.update_yaxes(title_text="share of input free energy (%)", range=[0, 100], row=1, col=1, secondary_y=False)
     fig.update_yaxes(title_text="capture efficiency", range=[0, 1], row=1, col=1, secondary_y=True, showgrid=False)
-    fig.update_xaxes(title_text="time (s)", row=1, col=1)
+    fig.update_xaxes(title_text=tlabel, row=1, col=1)
     # --- right: the cumulative ledger ---
     fig.add_trace(go.Scatter(x=t, y=inp, mode="lines", name="input (drive)",
                              line=dict(color=_INK, width=2.6)), row=1, col=2)
@@ -1467,7 +1473,7 @@ def energy_provenance_figure(rows, *, title=None) -> str:
     fig.add_trace(go.Scatter(x=t, y=diss, mode="lines", name="dissipated",
                              line=dict(color=_SLATE, width=2.0, dash="dash")), row=1, col=2)
     fig.update_yaxes(title_text="cumulative free energy (kJ/liter)", row=1, col=2)
-    fig.update_xaxes(title_text="time (s)", row=1, col=2)
+    fig.update_xaxes(title_text=tlabel, row=1, col=2)
 
     fig.update_layout(**S.base_layout(
         height=450, width=960, margin=dict(t=48, b=60, l=70, r=60),
@@ -1743,11 +1749,13 @@ def vent_engine_figure(rows, *, title=None) -> str:
     the baseline run's emitter row list (patched to also emit pH_eq)."""
     import plotly.graph_objects as go
     from plotly.subplots import make_subplots
+    from ..composites.vent_reactor import serpentinizing_vent_reactor
 
     def col(k):
         return [float(r.get(k, 0.0)) for r in rows]
 
-    t = [r.get("global_time", i) for i, r in enumerate(rows)]
+    t, tlabel = S.real_time([r.get("global_time", i) for i, r in enumerate(rows)],
+                            serpentinizing_vent_reactor)
     ph_eq = col("pH_eq"); ph = col("pH")
     h2 = col("H2"); alk = col("alkalinity"); h2_flux = col("H2_flux")
 
@@ -1765,7 +1773,7 @@ def vent_engine_figure(rows, *, title=None) -> str:
     fig.add_annotation(x=t[-1], y=10.8, text="Lost City pH window", showarrow=False, yshift=7,
                        xanchor="right", font=dict(size=9, color=_SLATE), row=1, col=1)
     fig.update_yaxes(title_text="pH", row=1, col=1)
-    fig.update_xaxes(title_text="time (s)", row=1, col=1)
+    fig.update_xaxes(title_text=tlabel, row=1, col=1)
     # --- right: H2 + alkalinity pools + H2 flux (secondary) ---
     fig.add_trace(go.Scatter(x=t, y=[v * 1e3 for v in h2], mode="lines", name="dissolved H₂ (mM)",
                              line=dict(color=_INK, width=2.6)), row=1, col=2, secondary_y=False)
@@ -1775,7 +1783,7 @@ def vent_engine_figure(rows, *, title=None) -> str:
                              line=dict(color=_TEAL, width=2.0, dash="dot")), row=1, col=2, secondary_y=True)
     fig.update_yaxes(title_text="pool (mM / mmol·L⁻¹)", row=1, col=2, secondary_y=False)
     fig.update_yaxes(title_text="H₂ source flux (µmol/s)", row=1, col=2, secondary_y=True, showgrid=False)
-    fig.update_xaxes(title_text="time (s)", row=1, col=2)
+    fig.update_xaxes(title_text=tlabel, row=1, col=2)
 
     fig.update_layout(**S.base_layout(
         height=450, width=960, margin=dict(t=48, b=60, l=70, r=60),
@@ -2693,7 +2701,9 @@ def vent_specificity_threeview_figure(res, trajectories, gate_rows=None, *, titl
     fig.add_annotation(x=0.5, y=0.96, xref="x domain", yref="y domain", xanchor="center",
                        text="og-01 formate gate (50 mM)", showarrow=False,
                        font=dict(size=8.5, color=_INK))
-    fig.update_xaxes(title_text="time (s)", row=1, col=1)
+    _tlab = ((trajectories or {}).get("vent", {}).get("t_label")
+             or (trajectories or {}).get("generic", {}).get("t_label") or "time (steps)")
+    fig.update_xaxes(title_text=_tlab, row=1, col=1)
     fig.update_yaxes(type="log", title_text="formate (mM)", row=1, col=1)
 
     # --- Mechanism (bottom-left): the per-gate rejection bars ------------------
@@ -2794,9 +2804,10 @@ class VentSpecificityThreeView(Visualization):
             sim = Composite({"state": hydrothermal_carbon_fixation(core=core, **params)}, core=core)
             sim.run(float(tsteps))
             rows = gather_emitter_results(sim)[("emitter",)]
-            t = [float(r.get("global_time", i)) for i, r in enumerate(rows)]
+            t, t_label = S.real_time([float(r.get("global_time", i)) for i, r in enumerate(rows)],
+                                     hydrothermal_carbon_fixation)
             form = [max(float(r.get("formate", 0.0)) * 1e3, 1e-12) for r in rows]
-            return {"t": t, "formate_mM": form}
+            return {"t": t, "formate_mM": form, "t_label": t_label}
         trajectories = {"vent": _traj(VENT_PARAMS["carbon"]),
                         "generic": _traj(GENERIC_PARAMS["carbon"])}
         return {"html": vent_specificity_threeview_figure(res, trajectories, gate_rows=gate_rows,

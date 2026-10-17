@@ -57,11 +57,13 @@ class VentReactorTimeseries(Visualization):
     def _figure(self, rows) -> str:
         import plotly.graph_objects as go
         from plotly.subplots import make_subplots
+        from ..composites.vent_reactor import serpentinizing_vent_reactor
 
         def col(k):
             return [r[k] for r in rows if k in r]
 
-        t = [r.get("global_time", i) for i, r in enumerate(rows)]
+        t, tlabel = S.real_time([r.get("global_time", i) for i, r in enumerate(rows)],
+                                serpentinizing_vent_reactor)
         temp_c = [v - 273.15 for v in col("temperature")]
         ph = col("pH")
         h2f = col("H2_flux")
@@ -97,7 +99,7 @@ class VentReactorTimeseries(Visualization):
         fig.add_scatter(x=t, y=[max(v, 1e-18) for v in fdr], mode="lines",
                         line=dict(color=teal, width=2, dash="dot"), name="|flux div. residual|", row=2, col=3)
 
-        fig.update_xaxes(title_text="time (s)", showgrid=True, gridcolor="#eef2f7")
+        fig.update_xaxes(title_text=tlabel, showgrid=True, gridcolor="#eef2f7")
         fig.update_yaxes(showgrid=True, gridcolor="#eef2f7")
         fig.update_yaxes(type="log", row=2, col=3)
         fig.update_layout(**S.base_layout(
@@ -149,11 +151,13 @@ class CarbonFixationViz(Visualization):
 
     def _figure(self, rows) -> str:
         from plotly.subplots import make_subplots
+        from ..composites.carbon_fixation import hydrothermal_carbon_fixation
 
         def col(k):
             return [r[k] for r in rows if k in r]
 
-        t = [r.get("global_time", i) for i, r in enumerate(rows)]
+        t, tlabel = S.real_time([r.get("global_time", i) for i, r in enumerate(rows)],
+                                hydrothermal_carbon_fixation)
         formate = [v * 1000.0 for v in col("formate")]      # mM
         acetate = [v * 1e6 for v in col("acetate")]         # uM
         pyruvate = [v * 1e6 for v in col("pyruvate")]       # uM
@@ -182,7 +186,7 @@ class CarbonFixationViz(Visualization):
         fig.add_scatter(x=t, y=[f * 100 for f in feas], mode="lines", line=dict(color=teal, width=2, dash="dot"), name="feasibility ×100", row=2, col=3)
         fig.add_hline(y=0.0, line=dict(color=slate, width=1, dash="dot"), row=2, col=3)
 
-        fig.update_xaxes(title_text="time (s)", showgrid=True, gridcolor="#eef2f7")
+        fig.update_xaxes(title_text=tlabel, showgrid=True, gridcolor="#eef2f7")
         fig.update_yaxes(showgrid=True, gridcolor="#eef2f7")
         fig.update_layout(**S.base_layout(
             height=620, showlegend=True,
@@ -233,11 +237,13 @@ class ProtometabolismViz(Visualization):
 
     def _figure(self, rows) -> str:
         from plotly.subplots import make_subplots
+        from ..composites.protometabolism import protometabolic_network
 
         def col(k):
             return [r[k] for r in rows if k in r]
 
-        t = [r.get("global_time", i) for i, r in enumerate(rows)]
+        t, tlabel = S.real_time([r.get("global_time", i) for i, r in enumerate(rows)],
+                                protometabolic_network)
         oaa = [v * 1e3 for v in col("OAA")]            # mM
         acetate = [v * 1e3 for v in col("acetate")]   # mM
         succinate = [v * 1e3 for v in col("succinate")]
@@ -257,7 +263,7 @@ class ProtometabolismViz(Visualization):
         fig.add_hline(y=1.0, line=dict(color=slate, width=1, dash="dot"), row=1, col=3)
         fig.add_scatter(x=t, y=gain, mode="lines", line=dict(color=rust, width=2.5), row=1, col=3)
 
-        fig.update_xaxes(title_text="time (s)", showgrid=True, gridcolor="#eef2f7")
+        fig.update_xaxes(title_text=tlabel, showgrid=True, gridcolor="#eef2f7")
         fig.update_yaxes(showgrid=True, gridcolor="#eef2f7")
         fig.update_layout(**S.base_layout(
             height=380, showlegend=True,
@@ -575,13 +581,15 @@ class ProtonGradientProfile(Visualization):
     def _figure(self, profiles, rows) -> str:
         import plotly.graph_objects as go
         from plotly.subplots import make_subplots
+        from ..composites.carbon_fixation import hydrothermal_carbon_fixation
 
         if not profiles:
             return "<p>No proton profile produced.</p>"
         ink, teal, amber, rust = "#1e293b", "#0d9488", "#d97706", "#b91c1c"
         last = profiles[-1]
         x = last["x_cm"]
-        t = [r.get("global_time", i) for i, r in enumerate(rows)]
+        t, tlabel = S.real_time([r.get("global_time", i) for i, r in enumerate(rows)],
+                                hydrothermal_carbon_fixation)
 
         def col(k):
             return [r.get(k) for r in rows if k in r]
@@ -620,8 +628,8 @@ class ProtonGradientProfile(Visualization):
                                 text="pmf spent<br>fixing carbon", showarrow=True, arrowhead=2,
                                 ax=32, ay=0, font=dict(size=9, color="#7c3aed"), row=1, col=3)
         stat.update_xaxes(title_text="across the barrier (cm)", row=1, col=1, showgrid=False)
-        stat.update_xaxes(title_text="time (s)", row=1, col=2, showgrid=True, gridcolor="#eef2f7")
-        stat.update_xaxes(title_text="time (s)", row=1, col=3, showgrid=True, gridcolor="#eef2f7")
+        stat.update_xaxes(title_text=tlabel, row=1, col=2, showgrid=True, gridcolor="#eef2f7")
+        stat.update_xaxes(title_text=tlabel, row=1, col=3, showgrid=True, gridcolor="#eef2f7")
         stat.update_yaxes(title_text="pH", row=1, col=1, showgrid=True, gridcolor="#eef2f7")
         stat.update_yaxes(title_text="concentration (M, log)", type="log", row=1, col=2,
                           showgrid=True, gridcolor="#eef2f7")
@@ -654,7 +662,7 @@ class ProtonGradientProfile(Visualization):
         anim = go.Figure(
             data=_rev(idxs[0]) if idxs else _rev(0),
             frames=[go.Frame(data=_rev(k), name=str(j)) for j, k in enumerate(idxs)])
-        anim.update_xaxes(title_text="time (s)", range=[0, tt[-1] if tt else 1],
+        anim.update_xaxes(title_text=tlabel, range=[0, tt[-1] if tt else 1],
                           showgrid=True, gridcolor="#eef2f7")
         anim.update_yaxes(type="log", title_text="concentration (M)",
                           range=[-6, _m.ceil(_m.log10(yhi) + 0.3)],
@@ -788,7 +796,9 @@ class ProtometabolicNetwork(Visualization):
 
         def col(k):
             return [r.get(k) for r in rows if k in r]
-        t = [r.get("global_time", i) for i, r in enumerate(rows)]
+        from ..composites.protometabolism import protometabolic_network
+        t, tlabel = S.real_time([r.get("global_time", i) for i, r in enumerate(rows)],
+                                protometabolic_network)
 
         # ---- STATIC: settled network (left) + gain & flux (right) via two figures
         net_fig = go.Figure(edge_traces + [node_trace(snaps[-1])])
@@ -815,7 +825,7 @@ class ProtometabolicNetwork(Visualization):
             legend=dict(orientation="h", y=1.14, x=1.0, xanchor="right", font=dict(size=10)),
             title=dict(text="does it ignite? gain > 1 + sustained flux", x=0.5, xanchor="center",
                        y=0.98, font=dict(size=13, color=ink)),
-            xaxis=dict(title="time (s)", showgrid=True, gridcolor="#eef2f7"),
+            xaxis=dict(title=tlabel, showgrid=True, gridcolor="#eef2f7"),
             yaxis=dict(title="autocatalytic gain", showgrid=True, gridcolor="#eef2f7"),
             yaxis2=dict(title="net carbon flux (mol/s)", overlaying="y", side="right", showgrid=False),
             margin=dict(l=55, r=60, t=70, b=50), font=dict(color=ink))
@@ -1425,7 +1435,9 @@ class BioenergeticInternalizationViz(Visualization):
 
         def col(k):
             return [r.get(k) for r in rows if k in r]
-        t = [r.get("global_time", i) for i, r in enumerate(rows)]
+        from ..composites.bioenergetic_internalization import bioenergetic_internalization
+        t, tlabel = S.real_time([r.get("global_time", i) for i, r in enumerate(rows)],
+                                bioenergetic_internalization)
         intern = col("internalization"); surv = col("survivors"); vext = col("electric_potential")
         P = snaps[-1]["P"]; pump = snaps[-1]["pump"]
 
@@ -1440,7 +1452,7 @@ class BioenergeticInternalizationViz(Visualization):
                          name="external gradient (V)", row=1, col=1)
         stat.add_trace(go.Heatmap(z=snaps[-1]["freq"], x=P, y=pump, colorscale="Oranges",
                        colorbar=dict(title="freq", thickness=12, len=0.8)), row=1, col=2)
-        stat.update_xaxes(title_text="time (s)", row=1, col=1, showgrid=True, gridcolor="#eef2f7")
+        stat.update_xaxes(title_text=tlabel, row=1, col=1, showgrid=True, gridcolor="#eef2f7")
         stat.update_yaxes(title_text="fraction", row=1, col=1, showgrid=True, gridcolor="#eef2f7")
         stat.update_xaxes(title_text="permeability (leaky →)", row=1, col=2)
         stat.update_yaxes(title_text="active-pump rate (→ internalized)", row=1, col=2)
@@ -1585,8 +1597,9 @@ class HeredityErrorThresholdViz(Visualization):
             margin=dict(l=55, r=20, t=56, b=55)))
 
         # motion: retention trajectories diverging over time.
+        from ..composites.heredity_module_comparison import heredity_module_comparison
         n = max(len(v) for v in mods.values())
-        t = list(range(n))
+        t, tlabel = S.real_time(list(range(n)), heredity_module_comparison)
         def _series(m, k):
             return [r.get("information_retention") for r in mods[m]]
         anim = go.Figure(
@@ -1595,7 +1608,7 @@ class HeredityErrorThresholdViz(Visualization):
             frames=[go.Frame(data=[go.Scatter(x=t[:j + 1], y=_series(m, j)[:j + 1], mode="lines",
                              line=dict(color=COL[m], width=2.6), name=m) for m in names], name=str(j))
                     for j in range(1, n)])
-        anim.update_xaxes(title_text="time (s)", range=[0, n], showgrid=True, gridcolor="#eef2f7")
+        anim.update_xaxes(title_text=tlabel, range=[0, t[-1] if t else 1], showgrid=True, gridcolor="#eef2f7")
         anim.update_yaxes(title_text="information retention C/(C+E)", range=[-0.03, 1.03],
                           showgrid=True, gridcolor="#eef2f7")
         anim.update_layout(template="plotly_white", height=430, width=580, showlegend=True,
@@ -1666,11 +1679,13 @@ class NitrogenAssimilationViz(Visualization):
 
     def _figure(self, rows) -> str:
         from plotly.subplots import make_subplots
+        from ..composites.nitrogen_assimilation import reduced_nitrogen_reactor
 
         def col(k):
             return [r[k] for r in rows if k in r]
 
-        t = [r.get("global_time", i) for i, r in enumerate(rows)]
+        t, tlabel = S.real_time([r.get("global_time", i) for i, r in enumerate(rows)],
+                                reduced_nitrogen_reactor)
         no3 = [v * 1e6 for v in col("NO3")]
         no2 = [v * 1e6 for v in col("NO2")]
         nh4 = [v * 1e6 for v in col("NH4")]
@@ -1692,7 +1707,7 @@ class NitrogenAssimilationViz(Visualization):
                         fill="tozeroy", fillcolor="rgba(13,148,136,0.12)", name="reduced N (NH₄⁺+precursor)", row=1, col=2)
         fig.add_scatter(x=t, y=prod, mode="lines", line=dict(color=ink, width=2.5), row=1, col=3)
 
-        fig.update_xaxes(title_text="time (s)", showgrid=True, gridcolor="#eef2f7")
+        fig.update_xaxes(title_text=tlabel, showgrid=True, gridcolor="#eef2f7")
         fig.update_yaxes(showgrid=True, gridcolor="#eef2f7")
         fig.update_layout(**S.base_layout(
             height=400, showlegend=True,
@@ -1747,12 +1762,15 @@ class NitrogenCarbonBalanceViz(Visualization):
 
     def _figure(self, fav, lim, c_demand) -> str:
         from plotly.subplots import make_subplots
+        from ..composites.nitrogen_assimilation import reduced_nitrogen_reactor
 
         def col(rows, k):
             return [r.get(k) for r in rows if k in r]
 
-        tf = [r.get("global_time", i) for i, r in enumerate(fav)]
-        tl = [r.get("global_time", i) for i, r in enumerate(lim)]
+        tf, tlabel = S.real_time([r.get("global_time", i) for i, r in enumerate(fav)],
+                                 reduced_nitrogen_reactor)
+        tl, _ = S.real_time([r.get("global_time", i) for i, r in enumerate(lim)],
+                            reduced_nitrogen_reactor)
         prod_f = col(fav, "nh4_production_rate")
         prod_l = col(lim, "nh4_production_rate")
         cn_f = [min(v, 1e3) for v in col(fav, "cn_supply_ratio")]
@@ -1784,7 +1802,7 @@ class NitrogenCarbonBalanceViz(Visualization):
         fig.add_annotation(x=tf[-1], y=thr, text="keeps-pace band", showarrow=False, yshift=-10,
                            xanchor="right", font=dict(size=9, color=teal), row=1, col=2)
 
-        fig.update_xaxes(title_text="time (s)", showgrid=True, gridcolor="#eef2f7")
+        fig.update_xaxes(title_text=tlabel, showgrid=True, gridcolor="#eef2f7")
         fig.update_yaxes(title_text="production (mol/s)", row=1, col=1, showgrid=True, gridcolor="#eef2f7")
         fig.update_yaxes(title_text="C:N supply ratio (log)", type="log", row=1, col=2,
                          showgrid=True, gridcolor="#eef2f7")
@@ -1838,11 +1856,13 @@ class PhosphorusSpeciationViz(Visualization):
 
     def _figure(self, rows) -> str:
         from plotly.subplots import make_subplots
+        from ..composites.phosphorus_availability import phosphorus_availability
 
         def col(k):
             return [r[k] for r in rows if k in r]
 
-        t = [r.get("global_time", i) for i, r in enumerate(rows)]
+        t, tlabel = S.real_time([r.get("global_time", i) for i, r in enumerate(rows)],
+                                phosphorus_availability)
         phosphate = [v * 1e6 for v in col("phosphate")]        # µM
         polyp = [v * 1e6 for v in col("polyphosphate")]
         reactivep = [v * 1e6 for v in col("reactive_P")]
@@ -1860,7 +1880,7 @@ class PhosphorusSpeciationViz(Visualization):
         fig.add_scatter(x=t, y=mineralp, mode="lines", line=dict(color=rust, width=2, dash="dot"), name="mineral-bound P", row=1, col=1)
         fig.add_scatter(x=t, y=precipf, mode="lines", line=dict(color=rust, width=2.5), showlegend=False, row=1, col=2)
 
-        fig.update_xaxes(title_text="time (s)", showgrid=True, gridcolor="#eef2f7")
+        fig.update_xaxes(title_text=tlabel, showgrid=True, gridcolor="#eef2f7")
         fig.update_yaxes(showgrid=True, gridcolor="#eef2f7")
         fig.update_yaxes(range=[0, 1], row=1, col=2)
         fig.update_layout(**S.base_layout(
@@ -1915,11 +1935,13 @@ class PhosphorusMechanismViz(Visualization):
 
     def _figure(self, fav, ctl) -> str:
         from plotly.subplots import make_subplots
+        from ..composites.phosphorus_availability import phosphorus_availability
 
         def series(rows, k):
             return [r.get(k, 0.0) * 1e6 for r in rows]   # µmol/s
 
-        t = [r.get("global_time", i) for i, r in enumerate(fav)]
+        t, tlabel = S.real_time([r.get("global_time", i) for i, r in enumerate(fav)],
+                                phosphorus_availability)
         ink, teal, amber, slate, rust = "#1e293b", "#0d9488", "#d97706", "#64748b", "#b91c1c"
         fig = make_subplots(
             rows=1, cols=2, horizontal_spacing=0.1, shared_yaxes=False,
@@ -1937,7 +1959,7 @@ class PhosphorusMechanismViz(Visualization):
                             name="net availability", showlegend=(col_i == 1), row=1, col=col_i)
             fig.add_hline(y=0.0, line=dict(color=slate, width=1, dash="dot"), row=1, col=col_i)
 
-        fig.update_xaxes(title_text="time (s)", showgrid=True, gridcolor="#eef2f7")
+        fig.update_xaxes(title_text=tlabel, showgrid=True, gridcolor="#eef2f7")
         fig.update_yaxes(title_text="flux (µmol/s)", showgrid=True, gridcolor="#eef2f7")
         fig.update_layout(**S.base_layout(
             height=400, showlegend=True,
@@ -2002,7 +2024,9 @@ class ProtoEnergeticsWorldViz(Visualization):
 
         def col(rows, k):
             return [float(r.get(k, 0.0)) for r in rows]
-        t = [r.get("global_time", i) for i, r in enumerate(fav)]
+        from ..composites.proto_energetics import proto_energetics
+        t, tlabel = S.real_time([r.get("global_time", i) for i, r in enumerate(fav)],
+                                proto_energetics)
         # molar -> mM, per-tick fluxes -> µM/tick for readability
         charge_mM = [v * 1e3 for v in col(fav, "energy_charge")]
         chg_flux = [v * 1e6 for v in col(fav, "energy_charge_flux")]
@@ -2024,9 +2048,9 @@ class ProtoEnergeticsWorldViz(Visualization):
                          name="discharge→work", row=1, col=2)
         stat.add_scatter(x=t, y=loss_flux, mode="lines", line=dict(color=rust, width=1.8, dash="dot"),
                          name="hydrolysis", row=1, col=2)
-        stat.update_xaxes(title_text="time (s)", row=1, col=1, showgrid=True, gridcolor="#eef2f7")
+        stat.update_xaxes(title_text=tlabel, row=1, col=1, showgrid=True, gridcolor="#eef2f7")
         stat.update_yaxes(title_text="charged carrier (mM)", row=1, col=1, showgrid=True, gridcolor="#eef2f7")
-        stat.update_xaxes(title_text="time (s)", row=1, col=2, showgrid=True, gridcolor="#eef2f7")
+        stat.update_xaxes(title_text=tlabel, row=1, col=2, showgrid=True, gridcolor="#eef2f7")
         stat.update_yaxes(title_text="flux (µM / tick)", row=1, col=2, showgrid=True, gridcolor="#eef2f7")
         stat.update_layout(**S.base_layout(
             height=430, width=960, showlegend=True,
@@ -2120,11 +2144,13 @@ class OsmoticGrowthWorld(Visualization):
 
     def _figure(self, rows) -> str:
         from plotly.subplots import make_subplots
+        from ..composites.osmotic_growth_division import osmotic_growth_division
 
         def col(k):
             return [r.get(k) for r in rows]
 
-        t = [r.get("global_time", i) for i, r in enumerate(rows)]
+        t, tlabel = S.real_time([r.get("global_time", i) for i, r in enumerate(rows)],
+                                osmotic_growth_division)
         vol = [v * 1e18 for v in col("volume")]               # aL (1e-18 L)
         conc = [v * 1e3 for v in col("internal_concentration")]  # mM
         div_count = col("division_count")
@@ -2141,7 +2167,7 @@ class OsmoticGrowthWorld(Visualization):
         fig.add_scatter(x=t, y=conc, mode="lines", line=dict(color=ink, width=2.5), name="c_in", row=1, col=2)
         fig.add_scatter(x=t, y=div_count, mode="lines", line=dict(color=amber, width=2.5, shape="hv"),
                         name="divisions", row=1, col=3)
-        fig.update_xaxes(title_text="time (s)", showgrid=True, gridcolor="#eef2f7")
+        fig.update_xaxes(title_text=tlabel, showgrid=True, gridcolor="#eef2f7")
         fig.update_yaxes(showgrid=True, gridcolor="#eef2f7")
         fig.update_layout(**S.base_layout(
             height=380, showlegend=False, margin=dict(l=60, r=30, t=46, b=60)))
@@ -2193,12 +2219,10 @@ class OsmoticCouplingMechanism(Visualization):
 
     def _figure(self, fav, starve, lyse) -> str:
         from plotly.subplots import make_subplots
+        from ..composites.osmotic_growth_division import osmotic_growth_division
 
         def series(rows, k, scale=1.0):
             return [r.get(k, 0.0) * scale for r in rows]
-
-        def tt(rows):
-            return [r.get("global_time", i) for i, r in enumerate(rows)]
 
         ink, teal, amber, rust, slate = "#1e293b", "#0d9488", "#d97706", "#b91c1c", "#64748b"
         pi_lyse_bar = 1.5e5 / 1e3   # kPa
@@ -2208,7 +2232,8 @@ class OsmoticCouplingMechanism(Visualization):
             specs=[[{"secondary_y": True}, {}]],
             subplot_titles=("The coupling chain (matched regime)",
                             "The three fates on the pressure–volume plane"))
-        t = tt(fav)
+        t, tlabel = S.real_time([r.get("global_time", i) for i, r in enumerate(fav)],
+                                osmotic_growth_division)
         fig.add_scatter(x=t, y=series(fav, "product_amount", 1e18), mode="lines",
                         line=dict(color=teal, width=2.5), name="product (amol)",
                         row=1, col=1, secondary_y=False)
@@ -2229,7 +2254,7 @@ class OsmoticCouplingMechanism(Visualization):
                            text="burst tension", showarrow=False, xanchor="right",
                            font=dict(size=9, color=rust))
 
-        fig.update_xaxes(title_text="time (s)", row=1, col=1)
+        fig.update_xaxes(title_text=tlabel, row=1, col=1)
         fig.update_xaxes(title_text="volume (aL)", row=1, col=2)
         fig.update_yaxes(title_text="product (amol) · volume (aL)", row=1, col=1, secondary_y=False)
         fig.update_yaxes(title_text="osmotic pressure (kPa)", row=1, col=1, secondary_y=True)
