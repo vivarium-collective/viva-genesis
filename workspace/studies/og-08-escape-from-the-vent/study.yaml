@@ -125,14 +125,22 @@ baseline:
   composite: viva_genesis.composites.off_gradient_persistence.off_gradient_persistence
   params: {}
   canonical: true
+disposition: >-
+  RESCOPE. The claimed minimal sufficient set (internal pump + active importer + heredity) fails in
+  Study 22 (og-08-alt-robust-innovation-set) once model structure is varied, so the general sufficiency
+  claim does not hold. Retain og-08 as a REDUCED, model-specific hypothesis — the coordinated-innovation
+  picture within this one coarse-grained model — and remove the general sufficiency claim.
 claim: >-
-  The full innovation set of an internal pump, an active resource importer and heredity
-  persists off-gradient at surviving fraction 1.0 after the vent support is withdrawn, while
-  removing any one of the three collapses persistence to 0. Because the budget is co-limited
-  and needs both usable free energy and usable resources at once, a single innovation is a
-  cost with no co-benefit, which is what makes the set irreducible. In this coarse-grained
-  model autonomy therefore appears as a coordinated set of innovations acquired together
-  rather than one final invention.
+  Within this specific coarse-grained model, autonomy appears as a coordinated set of innovations
+  (internal pump, active importer, heredity) acquired together, with any single removal collapsing
+  persistence. This is retained as a reduced, model-specific hypothesis only: the general claim that this
+  set is minimally sufficient for escape does not survive the Study 22 structure variation and is
+  withdrawn.
+decision_test: >-
+  The reduced model is informative only where its predictions are checked against an explicit chemical
+  budget: clearly identify where reduced-model predictions DISAGREE with that budget. Agreement does not
+  extend the claim beyond this model; disagreement bounds where the reduced hypothesis fails and is
+  reported, not smoothed over (evidence standard #8).
 findings:
 - id: og08-minimum-innovation-set
   provenance:

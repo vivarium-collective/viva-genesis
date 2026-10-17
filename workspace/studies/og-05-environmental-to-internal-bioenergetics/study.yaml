@@ -163,16 +163,22 @@ baseline:
     catalyst_efficiency: 1.0
     v_start: 0.4
     decline_rate: 0.01
+disposition: >-
+  RESCOPE. The functional energy pumps are inserted, not derived — pump fraction and couplings are
+  coarse-grained calibrations, so "owning its energy" is assumed into the model. Rescope to a conditional
+  selection/cost model that distinguishes three regimes — direct natural-gradient use, a chemical carrier,
+  and active pumping — and asks under which specified chemistry each pays, rather than presuming
+  internalization.
 claim: >-
-  Under a collapsing external gradient, replicator selection drives an efficient lineage to
-  internalize gradient generation (pump fraction rising from near zero to about 0.95) and
-  persist, while a weak-pump lineage goes extinct, and the external share of useful free
-  energy falls from about 82% to about 1% as the organism comes to own its energy. Survival is
-  a bounded region of pump efficiency x gradient floor - about 94% of the swept grid - but
-  internal pumping only pays above a cost-benefit threshold near eta = 0.30, the Sojo leaky-
-  membrane line. The replicator dynamics are coarse-grained with calibrated couplings and fix
-  a single gradient-decline scenario, so the transition has a measurable cost-benefit boundary
-  rather than being automatically favorable.
+  Presented as a conditional selection/cost model, internalizing energy handling pays only where the
+  specified chemistry confers positive net useful work after all synthesis, leak and maintenance costs;
+  the three regimes (direct gradient use / chemical carrier / active pumping) are distinguished and
+  compared rather than collapsed into one inserted pump. Where no specified chemistry clears the cost,
+  internalization does not pay and is not claimed.
+decision_test: >-
+  A specified energy chemistry must confer POSITIVE net useful work after all synthesis, leak and
+  maintenance costs for the regime in question. A regime whose costs exceed its useful-work return is
+  reported as not paying, not tuned past the cost-benefit boundary (evidence standard #2, #8).
 findings:
 - id: og05-internalization-under-selection
   provenance:
