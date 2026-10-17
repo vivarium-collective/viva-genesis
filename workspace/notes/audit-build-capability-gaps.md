@@ -134,3 +134,27 @@ handles evidence/citation discipline; viz handles the re-run-on-change loop.
 Shells: branch `wip/scaffold-studies-27-31` (off origin/main @493b5c7), 5
 lint-clean design shells (og-27…og-31); handoff findings land in native
 `findings[]` so the handoff validator has a target there.
+
+15. **No design-phase findings vocabulary** (from genesis-helper, content pass).
+    `study.schema.json` `findings.status` enum is `[confirms, partial,
+    contradicts, novel]` (no `planned`) and `findings.kind` is `[biological,
+    computational, methodological]` (no `dataset`). The findings vocab assumes
+    POST-RUN outcomes; a design-phase study can't express a *planned* finding or
+    a *dataset-coverage* finding (Study 28) without a WARN on every finding.
+    *Needed:* add `planned` to status and `dataset` to kind (or a design-phase
+    findings mode). Worked around by placing writer's content verbatim and
+    accepting the non-blocking WARNs.
+
+16. **Cross-branch cite dependency is invisible to tooling** (merge-ordering).
+    4 cite keys (bonfio2017uvlight, budin2012concentration, hanczyc2003experimental,
+    naturecomms2024ironsulfide) exist only on PR #69's papers.bib, not on main, so
+    the spine content on `wip/scaffold-studies-27-31` cites dangling keys until #69
+    (or its papers.bib) lands first. Nothing checks that a study's cite keys
+    resolve against the bib on its *merge target*. *Needed:* a cite-resolution
+    check in CI; meanwhile **merge order is enforced by hand: #69 before the spine
+    branch.**
+
+### Enforcement status (what these validators now gate)
+- Gaps **1/3/4** → `viva_genesis/reaction_atlas/validate.py` (write-time atlas gate). CLOSED (tool built; wiring into the write path is the remaining step).
+- Gap **6** → `viva_genesis/handoff/validate.py` (builds-on handoff contract). CLOSED (tool built; run against the live spine once the structured `handoff:` blocks are added).
+- Gaps **2, 5, 7-16** remain open (framework/schema/CI changes or not-yet-built).
