@@ -234,6 +234,18 @@ findings:
   evidence: {from_test: negative-result-isolates-gap}
   expected: {cites: [naturecomms2024ironsulfide]}   # candidate missing fixation step anchor
 literature_anchors: []
+visualizations:
+- name: endogenous-autocatalysis-gate-a
+  address: local:OgEndogenousAutocatalysisViz
+  config:
+    composite: viva_genesis.composites.og_29_endogenous_autocatalysis.og_29_endogenous_autocatalysis
+    n_steps: 120
+    title: Autocatalysis under flow — and the Gate-A null test
+    caption: >-
+      Net carbon flux and the autocatalytic gain of the vent-fed network under flow, then the Gate-A
+      comparison against a degree-preserving matched null run at identical input fluxes. Plainly: is
+      the network fixing and multiplying carbon, and does that amplification beat a look-alike control
+      fed exactly the same — or was the apparent growth just the feed?
 baseline:
 - name: Endogenous Autocatalysis
   composite: viva_genesis.composites.og_29_endogenous_autocatalysis.og_29_endogenous_autocatalysis
