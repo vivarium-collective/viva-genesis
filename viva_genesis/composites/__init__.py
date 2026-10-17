@@ -23,6 +23,7 @@ from . import integrated_autonomy  # noqa: F401
 from . import geochemical_world  # noqa: F401
 from . import electrochemical_interface  # noqa: F401
 from . import open_chemical_network  # noqa: F401
+from . import og_29_endogenous_autocatalysis  # noqa: F401
 from . import endogenous_boundary  # noqa: F401
 from . import physical_reproduction  # noqa: F401
 from . import protocell_energetics  # noqa: F401
