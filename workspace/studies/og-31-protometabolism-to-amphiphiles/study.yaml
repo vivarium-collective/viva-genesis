@@ -168,9 +168,9 @@ findings:
 literature_anchors: []
 baseline:
 - name: Protometabolism to Amphiphiles
-  composite: viva_genesis.composites.og_31_protometabolism_to_amphiphiles
+  composite: viva_genesis.composites.og_31_protometabolism_to_amphiphiles.og_31_protometabolism_to_amphiphiles
   params: {}
-  planned: true
+  planned: false
 parent_studies:
 - {study: og-04-mineral-compartments-to-protocells, condition: tests-passed}
 - {study: og-28-prebiotic-reaction-atlas, condition: tests-passed}

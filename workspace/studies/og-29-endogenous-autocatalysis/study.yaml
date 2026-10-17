@@ -236,9 +236,9 @@ findings:
 literature_anchors: []
 baseline:
 - name: Endogenous Autocatalysis
-  composite: viva_genesis.composites.og_29_endogenous_autocatalysis
+  composite: viva_genesis.composites.og_29_endogenous_autocatalysis.og_29_endogenous_autocatalysis
   params: {}
-  planned: true
+  planned: false
 parent_studies:
 - {study: og-02-reduced-carbon-to-protometabolism, condition: tests-passed}
 - {study: og-27-coupled-geochemical-reaction-interface, condition: tests-passed}
