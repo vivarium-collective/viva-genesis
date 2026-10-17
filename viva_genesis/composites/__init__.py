@@ -24,6 +24,7 @@ from . import geochemical_world  # noqa: F401
 from . import og_27_coupled_geochemical_reaction_interface  # noqa: F401
 from . import electrochemical_interface  # noqa: F401
 from . import open_chemical_network  # noqa: F401
+from . import og_28_prebiotic_reaction_atlas  # noqa: F401
 from . import og_30_spatially_integrated_protometabolism  # noqa: F401
 from . import og_29_endogenous_autocatalysis  # noqa: F401
 from . import endogenous_boundary  # noqa: F401
