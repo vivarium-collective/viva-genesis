@@ -46,6 +46,12 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["pytest>=7.4"]
+# Membrane-closure studies (31/32) — real Martini 3 CG MD. OpenMM is heavy, so
+# viva-openmm is an OPT-IN extra, not a core dep: core.build_core() registers
+# OpenMMMartiniProcess only when it's installed (guarded import). Install with
+# `uv pip install -e .[membrane]` (also pulls martini_openmm — a GitHub-only dep;
+# add it separately: pip install "git+https://github.com/maccallumlab/martini_openmm.git").
+membrane = ["viva-openmm"]
 
 [build-system]
 requires = ["hatchling"]
@@ -72,3 +78,5 @@ vivarium-workbench = { git = "https://github.com/vivarium-collective/vivarium-wo
 viva-equilibrator = { git = "https://github.com/vivarium-collective/viva-equilibrator.git", tag = "v0.1.0" }
 viva-tellurium = { git = "https://github.com/vivarium-collective/viva-tellurium.git", tag = "v0.1.2" }
 viva-fenics = { git = "https://github.com/vivarium-collective/viva-fenics.git", tag = "v0.1.0" }
+# viva-openmm has no release tag yet — pin to the pushed rename commit on main.
+viva-openmm = { git = "https://github.com/vivarium-collective/viva-openmm.git", rev = "7b7cb6a" }

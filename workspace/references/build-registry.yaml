@@ -76,14 +76,19 @@ wrappers:
     fidelity: real
     studies: [29, 30, 33, 34, 35, 36]
 
-  - id: viva-md-membrane
+  - id: viva-openmm
     role: Molecular/coarse-grained closure laws for membrane assembly + permeability
-    upstream: OpenMM / LAMMPS
-    package: viva_md_membrane
-    build_status: to-build                  # validated force fields required
-    audit_status: none
+    upstream: OpenMM + martini_openmm (Martini 3 CG MD)
+    package: viva_openmm            # REUSE: ~/code/viva-openmm (was viva_md_membrane to-build)
+    build_status: integrated        # real engine exists + registered in genesis core (guarded, optional extra)
+    audit_status: none              # membrane observables / permeability PMF not gated yet
     fidelity: real
     studies: [31, 32]
+    notes: >-
+      Reuses viva-openmm (real Martini 3 CG MD; vendors the POPE/phospholipid FFs).
+      Registered via core._register_imported_simulator_processes (guarded). Still
+      needs a Martini amphiphile bilayer system + membrane observables
+      (area/thickness/permeability) for the og_31/og_32 composites.
 
 # ── New numerical / inferential methods (plan §"New numerical and inferential methods") ──
 methods:
@@ -126,9 +131,9 @@ methods:
 
   - id: molecular-to-continuum-membrane
     role: composition -> assembly / leakage / permeability closure models
-    upstream: OpenMM / LAMMPS -> continuum
-    package: viva_md_membrane
-    build_status: to-build
+    upstream: viva-openmm (Martini 3 CG MD) -> continuum
+    package: viva_openmm
+    build_status: in-progress       # engine integrated; bilayer system + closure extraction to-build
     audit_status: none
     fidelity: real
     studies: [31, 32]
