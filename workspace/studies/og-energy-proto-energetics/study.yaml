@@ -194,10 +194,6 @@ baseline:
     drive_free_energy: 50.0
     bond_energy_kjmol: 31.5
   planned: true   # REBUILD chemistry: explicit thioester cycle repointed; awaiting the balanced run
-    carrier_pool: 0.001
-    loss_rate: 0.05
-    load: 0.2
-    carrier: thioester
 disposition: >-
   REBUILD chemistry. The abstract charged carrier is not a specified chemical cycle — "~39% charged,
   ~47% capture" describes a filling/discharging pool, not named molecules reacting. Replace it with a
