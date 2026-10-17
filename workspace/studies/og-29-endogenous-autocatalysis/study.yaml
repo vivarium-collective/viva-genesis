@@ -1,0 +1,96 @@
+schema_version: 4
+name: og-29-endogenous-autocatalysis
+investigation: origins-of-life-vent
+created: '2026-10-17'
+phase: Design
+status: planned
+design_status: drafted
+confidence: Planned
+title: Endogenous Autocatalysis
+question: Can vent-fed chemistry spontaneously form network amplification or self-maintaining cycles?
+hypothesis: Vent-fed chemistry drawn from the vetted reaction atlas can form a genuinely balanced autocatalytic
+  subnetwork — net carbon fixation with amplification that survives above a critical dilution and fails
+  in matched nulls — or, failing that, the search identifies the specific missing precursor or mechanism.
+objective: Generate candidate networks (rule-based + curated alternatives), run stoichiometric autocatalysis
+  detection and kinetic simulation under feed and dilution, with matched nulls, to decide whether endogenous
+  amplification or a self-maintaining cycle emerges.
+# Verbatim plan dependencies (handoff contracts wired by genesis-writer after scaffolding).
+# 16 has no scaffolded slug yet; recorded here only.
+builds_on: [2, 16, 27, 28]
+proposed_mechanisms:
+- stoichiometric autocatalysis (balanced self-amplifying cycle) detected in the reaction network
+- critical-dilution threshold separating self-maintenance from washout
+proposed_models_methods:
+- rule-generated + curated alternative networks
+- stoichiometric autocatalysis detection
+- kinetic simulation
+- dilution sweeps + matched nulls (adverse controls)
+# Tools this study draws on, at their TRUE build status (see workspace/references/build-registry.yaml).
+tools:
+- {id: viva-equilibrator, build_status: exists, role: feasibility deltaG screen on candidate cycles}
+- {id: viva-kinetics, build_status: in-workspace, role: SBML/libRoadRunner kinetic simulation (tellurium engine-reuse)}
+- {id: reaction-rule-generation, build_status: to-build, role: RDKit rule generation of candidate networks}
+contract:
+  face:
+    inputs:
+      feed_rate:
+        _type: float
+        _units: molar/second
+        _min: 0.0
+      dilution_rate:
+        _type: float
+        _units: 1/second
+        _min: 0.0
+    outputs:
+      autocatalytic_gain:
+        _type: float
+        _units: dimensionless
+      net_carbon_fixation:
+        _type: float
+        _units: mol/second
+      critical_dilution:
+        _type: float
+        _units: 1/second
+  conditions:
+  - kind: invariant
+    name: balanced_autocatalysis
+    expr: any detected autocatalytic cycle is mass- and charge-balanced (no phantom source)
+  - kind: invariant
+    name: null_controls_fail
+    expr: matched non-autocatalytic nulls show no amplification above washout
+  note: Outputs the plan calls for — amplification, net carbon fixation, intermediate turnover, critical
+    dilution — are the typed outputs plus time-resolved turnover readouts.
+behavior_tests:
+- name: genuine-autocatalysis-or-named-gap
+  classification: primary
+  description: 'Decision test — detect genuine balanced autocatalysis or identify the missing precursor/mechanism:
+    either an amplifying, mass-balanced self-maintaining cycle persists above a critical dilution (and
+    fails in matched nulls), or the study names the specific precursor/mechanism whose absence blocks it.'
+  measure:
+    kind: observable
+    detail: autocatalytic gain vs. dilution with matched nulls; on failure, the identified missing precursor/mechanism
+  pass_if:
+    op: threshold
+    detail: balanced autocatalysis above critical dilution (nulls fail), OR a named missing precursor/mechanism
+  requires_simulation: 'yes'
+literature_anchors: []
+baseline:
+- name: Endogenous Autocatalysis
+  composite: viva_genesis.composites.og_29_endogenous_autocatalysis
+  params: {}
+  planned: true
+parent_studies:
+- {study: og-02-reduced-carbon-to-protometabolism, condition: tests-passed}
+- {study: og-27-coupled-geochemical-reaction-interface, condition: tests-passed}
+- {study: og-28-prebiotic-reaction-atlas, condition: tests-passed}
+key_assumptions:
+- Autocatalysis must be stoichiometrically balanced — an apparent cycle fed by an untracked source is
+  rejected, not counted.
+- A matched non-concentrating / non-autocatalytic null is the control the favourable case must beat.
+parent_relations:
+- {study: og-02-reduced-carbon-to-protometabolism, relation: builds-on}
+- {study: og-27-coupled-geochemical-reaction-interface, relation: builds-on}
+- {study: og-28-prebiotic-reaction-atlas, relation: builds-on}
+expert_questions:
+- Is an honest negative (a named missing precursor/mechanism) an acceptable decision outcome here, or
+  must a positive autocatalytic cycle be demonstrated to pass?
