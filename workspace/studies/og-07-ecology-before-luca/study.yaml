@@ -4,6 +4,7 @@ investigation: origins-of-life-vent
 created: '2026-10-11'
 phase: Evaluate
 status: ran
+execution_status: completed
 design_status: approved
 simulation_status: ran
 evaluation_status: evaluated
@@ -309,7 +310,7 @@ key_assumptions:
   set, not an instantiated metabolic network.
 parent_relations:
 - study: og-06-chemistry-to-heredity
-  relation: leads-to
+  relation: builds-on
 expert_questions:
 - Scope og-07 to cross-feeding only first, or include horizontal exchange + parasitism
   from the start? (Implemented — cross-feeding + horizontal transfer + optional parasite/cooperator

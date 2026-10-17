@@ -4,6 +4,7 @@ investigation: origins-of-life-vent
 created: '2026-10-15'
 phase: Evaluate
 status: ran
+execution_status: completed
 design_status: approved
 simulation_status: ran
 evaluation_status: evaluated
@@ -680,7 +681,7 @@ parent_relations:
 - study: og-05-environmental-to-internal-bioenergetics
   relation: alternative-to
 - study: og-04-mineral-compartments-to-protocells
-  relation: leads-to
+  relation: builds-on
 key_assumptions:
 - One individual (radius 0.5 um) between the external ion gradient (tapped through
   its H+ leak, F P_H A dc pmf, captured at 0.3) and a chemical drive delivered by

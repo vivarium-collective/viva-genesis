@@ -4,6 +4,7 @@ investigation: origins-of-life-vent
 created: '2026-10-13'
 phase: Evaluate
 status: ran
+execution_status: completed
 design_status: approved
 simulation_status: ran
 evaluation_status: evaluated
@@ -365,9 +366,9 @@ key_assumptions:
   gate, not just a rate).
 parent_relations:
 - study: og-04-mineral-compartments-to-protocells
-  relation: leads-to
+  relation: builds-on
 - study: og-05-environmental-to-internal-bioenergetics
-  relation: precedes
+  relation: motivates
 expert_questions:
 - Which endergonic load spectrum (synthesis / transport / maintenance) should weight
   the currency's usefulness, and at what split?

@@ -3,13 +3,14 @@ name: og-01-cal-dx-label-disagreement
 investigation: origins-of-life-vent
 parent_relations:
 - study: og-01-cal-electrochemistry
-  relation: leads-to
+  relation: builds-on
 pipeline_gate:
   prerequisites:
   - study: og-01-cal-electrochemistry
     condition: tests-passed
 title: Why do the empirical and Butler-Volmer classes disagree on the limitation label?
 status: planned
+execution_status: proposed
 design_status: drafted
 simulation_status: not_run
 study_type: diagnostic

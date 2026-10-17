@@ -4,6 +4,7 @@ investigation: origins-of-life-vent
 created: '2026-10-15'
 phase: Evaluate
 status: ran
+execution_status: completed
 design_status: approved
 simulation_status: ran
 evaluation_status: evaluated
@@ -502,9 +503,9 @@ baseline:
   canonical: true
 parent_relations:
 - study: og-01-geology-to-reduced-carbon
-  relation: leads-to
+  relation: builds-on
 - study: og-cal-vent-environment
-  relation: leads-to
+  relation: builds-on
 key_assumptions:
 - 'Steady galvanic cell each tick: the CO2/HCOOH couple sets the cathode emf (acetate
   and pyruvate are side branches of the same current); H2 and CO2 are boundary feeds;
@@ -856,7 +857,7 @@ runs:
         knob: null
         citation: altair2025carbon; preiner2020hydrogen
       auto_evaluated: true
-verdict: honest-negative
+verdict: refuted
 evidence_tier: mechanistic_prediction
 
 loom:

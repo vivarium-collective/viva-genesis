@@ -4,6 +4,7 @@ investigation: origins-of-life-vent
 created: '2026-10-11'
 phase: Evaluate
 status: ran
+execution_status: completed
 design_status: approved
 simulation_status: ran
 evaluation_status: evaluated
@@ -309,7 +310,7 @@ key_assumptions:
   transition.
 parent_relations:
 - study: og-03-dilution-to-localized-individuals
-  relation: leads-to
+  relation: builds-on
 expert_questions:
 - Model mineral-confined and free vesicles both, or start mineral-confined only?
 visualizations:

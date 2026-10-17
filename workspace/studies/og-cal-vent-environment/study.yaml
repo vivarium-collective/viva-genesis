@@ -4,6 +4,7 @@ investigation: origins-of-life-vent
 created: '2026-10-14'
 phase: Evaluate
 status: ran
+execution_status: completed
 design_status: approved
 simulation_status: ran
 evaluation_status: evaluated
@@ -475,7 +476,7 @@ baseline:
   canonical: true
 parent_relations:
 - study: og-00-vent-reactor-baseline
-  relation: leads-to
+  relation: builds-on
 key_assumptions:
 - 'The prior is the vg-data package vent_environment (six free parameters; provenance
   audit: 0 measured, 2 calibrated, 1 inferred, 3 extrapolated, 2 hypothetical).'

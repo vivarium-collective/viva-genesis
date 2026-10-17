@@ -3,13 +3,14 @@ name: og-00b-ph-endmember-sweep
 investigation: origins-of-life-vent
 parent_relations:
 - study: og-00-vent-reactor-baseline
-  relation: leads-to
+  relation: motivates
 pipeline_gate:
   prerequisites:
   - study: og-00-vent-reactor-baseline
     condition: tests-passed
 title: Bounding the pH endmember — pyroxene fraction and seawater-mixing dilution
 status: planned
+execution_status: proposed
 design_status: drafted
 simulation_status: not_run
 study_type: exploratory

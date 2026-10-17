@@ -4,6 +4,7 @@ investigation: origins-of-life-vent
 created: '2026-10-15'
 phase: Evaluate
 status: ran
+execution_status: completed
 design_status: approved
 simulation_status: ran
 evaluation_status: evaluated
@@ -755,7 +756,7 @@ parent_relations:
 - study: og-07-ecology-before-luca
   relation: alternative-to
 - study: og-02-alt-reaction-universe
-  relation: leads-to
+  relation: builds-on
 key_assumptions:
 - Eight 1-fL protocells (4 fixers, 4 reducers) at fixed positions on a 4-cell pore
   of 10x their volume; feed CO2 1.4 mM, H2 10.8 mM, pyruvate 0.1 mM (the vent posterior

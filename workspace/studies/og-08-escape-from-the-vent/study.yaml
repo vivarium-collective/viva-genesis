@@ -4,6 +4,7 @@ investigation: origins-of-life-vent
 created: '2026-10-11'
 phase: Evaluate
 status: ran
+execution_status: completed
 design_status: approved
 simulation_status: ran
 evaluation_status: evaluated
@@ -257,7 +258,7 @@ key_assumptions:
   — not a binary.
 parent_relations:
 - study: og-07-ecology-before-luca
-  relation: leads-to
+  relation: builds-on
 expert_questions:
 - Define 'autonomy' as survival off-gradient, or as a quantitative reduced-dependence
   threshold?

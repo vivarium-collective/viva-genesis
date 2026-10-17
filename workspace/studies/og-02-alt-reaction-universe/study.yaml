@@ -4,6 +4,7 @@ investigation: origins-of-life-vent
 created: '2026-10-15'
 phase: Evaluate
 status: ran
+execution_status: completed
 design_status: approved
 simulation_status: ran
 evaluation_status: evaluated
@@ -610,7 +611,7 @@ parent_relations:
 - study: og-02-reduced-carbon-to-protometabolism
   relation: alternative-to
 - study: og-cal-vent-environment
-  relation: leads-to
+  relation: builds-on
 key_assumptions:
 - Linear C/H/O skeletons up to C4; eleven reaction rules (H2 reductions, enol / reductive
   carboxylation, formose initiation, aldol, isomerisation, alpha/beta decarboxylation,

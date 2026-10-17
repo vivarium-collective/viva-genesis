@@ -3,13 +3,14 @@ name: og-05b-collapse-rate-sweep
 investigation: origins-of-life-vent
 parent_relations:
 - study: og-05-environmental-to-internal-bioenergetics
-  relation: leads-to
+  relation: motivates
 pipeline_gate:
   prerequisites:
   - study: og-05-environmental-to-internal-bioenergetics
     condition: tests-passed
 title: How the survival region deforms with the speed of gradient loss
 status: planned
+execution_status: proposed
 design_status: drafted
 simulation_status: not_run
 study_type: exploratory

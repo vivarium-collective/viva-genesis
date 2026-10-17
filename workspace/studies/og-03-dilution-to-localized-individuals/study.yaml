@@ -4,6 +4,7 @@ investigation: origins-of-life-vent
 created: '2026-10-11'
 phase: Evaluate
 status: ran
+execution_status: completed
 design_status: approved
 simulation_status: ran
 evaluation_status: evaluated
@@ -361,7 +362,7 @@ key_assumptions:
   adsorption, precipitation and degradation — not assumed.
 parent_relations:
 - study: og-02-reduced-carbon-to-protometabolism
-  relation: leads-to
+  relation: builds-on
 expert_questions:
 - Is og-03 the right end-point for the first publication milestone (pre-genetic),
   or extend the milestone to include og-04?
