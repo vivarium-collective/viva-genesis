@@ -393,6 +393,9 @@ PORT_TO_CANONICAL: dict[str, str] = {
     "loss_transport": "diagnostics.loss_transport",
     "limitation_code": "diagnostics.limitation",
     "shunt_fraction": "diagnostics.shunt_fraction",
+    # mineral-interface saturation state (SI) — the real PHREEQC carbonate
+    # saturation index driving MineralSurfaceDynamicsProcess (study 27/30).
+    "saturation_index": "diagnostics.saturation_index",
     # proto_metabolism post-hoc network statistics + Phase-3 ledger witnesses
     "autocatalytic_gain": "diagnostics.autocatalytic_gain",
     "network_connected": "diagnostics.network_connected",
