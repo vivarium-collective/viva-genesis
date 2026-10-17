@@ -177,6 +177,18 @@ findings:
     source minus sink) with no untracked feed; the cross-solver comparison agrees to tolerance.
   evidence: {from_test: spatial-flux-conservation-and-cross-solver}   # internal invariant + cross-solver → run_ids (correct-uncitable)
 literature_anchors: []
+visualizations:
+- name: spatial-protometabolism-pore-vs-control
+  address: local:OgSpatialProtometabolismViz
+  config:
+    composite: viva_genesis.composites.og_30_spatially_integrated_protometabolism.og_30_spatially_integrated_protometabolism
+    n_steps: 120
+    title: 'Does the pore help? Enrichment, residence, and flux vs control'
+    caption: >-
+      Thermophoretic enrichment factor and residence time in the structured pore, then net productive
+      carbon flux in the pore against a matched well-mixed control at identical feeds. Plainly: the
+      pore gathers and holds the ingredients — but the real test is whether that makes more product
+      than a stirred pot, shown in the third panel.
 baseline:
 - name: Spatially Integrated Protometabolism
   composite: viva_genesis.composites.og_30_spatially_integrated_protometabolism.og_30_spatially_integrated_protometabolism
