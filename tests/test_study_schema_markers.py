@@ -14,15 +14,19 @@ def _valid_study(**extra):
 
 
 def test_verdict_and_tier_accept_valid_enums():
-    for v in ["supported", "qualified", "honest-negative", "refuted", "mixed"]:
+    # Two-axis ontology: the four canonical verdicts (honest-negative folds to
+    # refuted, mixed to inconclusive — they are no longer valid enum values).
+    for v in ["supported", "qualified", "inconclusive", "refuted"]:
         jsonschema.validate(_valid_study(verdict=v), SCHEMA)
     for t in ["conceptual_demonstration", "mechanistic_prediction", "calibrated"]:
         jsonschema.validate(_valid_study(evidence_tier=t), SCHEMA)
 
 
 def test_verdict_rejects_out_of_enum():
-    with pytest.raises(jsonschema.ValidationError):
-        jsonschema.validate(_valid_study(verdict="accepted"), SCHEMA)
+    # Retired values and bare invalids both rejected.
+    for v in ["accepted", "honest-negative", "mixed"]:
+        with pytest.raises(jsonschema.ValidationError):
+            jsonschema.validate(_valid_study(verdict=v), SCHEMA)
 
 
 def test_evidence_tier_rejects_out_of_enum():
