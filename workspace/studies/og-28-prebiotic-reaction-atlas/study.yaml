@@ -178,9 +178,9 @@ findings:
 literature_anchors: []
 baseline:
 - name: Prebiotic Reaction Atlas
-  composite: viva_genesis.composites.og_28_prebiotic_reaction_atlas
+  composite: viva_genesis.composites.og_28_prebiotic_reaction_atlas.og_28_prebiotic_reaction_atlas
   params: {}
-  planned: true
+  planned: false
 parent_studies:
 - {study: og-01-geology-to-reduced-carbon, condition: tests-passed}
 - {study: og-02-reduced-carbon-to-protometabolism, condition: tests-passed}

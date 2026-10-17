@@ -179,9 +179,9 @@ findings:
 literature_anchors: []
 baseline:
 - name: Spatially Integrated Protometabolism
-  composite: viva_genesis.composites.og_30_spatially_integrated_protometabolism
+  composite: viva_genesis.composites.og_30_spatially_integrated_protometabolism.og_30_spatially_integrated_protometabolism
   params: {}
-  planned: true
+  planned: false
 parent_studies:
 - {study: og-03-dilution-to-localized-individuals, condition: tests-passed}
 - {study: og-27-coupled-geochemical-reaction-interface, condition: tests-passed}
