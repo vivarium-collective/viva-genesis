@@ -173,6 +173,11 @@ class PhreeqcSerpentinizationProcess(Process):
             "pH_eq": {"_type": "overwrite[float]", "_units": "dimensionless"},
             # PHREEQC charge imbalance (eq/kgw) — audited by charge_neutrality.
             "charge_imbalance": {"_type": "overwrite[float]", "_units": "dimensionless"},
+            # Saturation index of the reacted alkaline fluid w.r.t. carbonate
+            # (Calcite) — the real driver of Lost City chimney / pore-wall
+            # precipitation downstream. SI>0 => supersaturated => precipitates.
+            # Consumed by MineralSurfaceDynamicsProcess to evolve the interface.
+            "saturation_index": {"_type": "overwrite[float]", "_units": "dimensionless"},
         }
 
     def initial_state(self):
@@ -229,9 +234,17 @@ class PhreeqcSerpentinizationProcess(Process):
             co3 = float(sp.get("CO3-2", 0.0))
             hplus = float(sp.get("H+", 0.0))
             alk = max(0.0, oh + hco3 + 2.0 * co3 - hplus)       # eq/kgw (OH + carbonate)
+            # Carbonate saturation of the reacted fluid — the downstream
+            # chimney/pore-wall precipitation driver (not forced to equilibrium,
+            # so it carries a meaningful SI). Guarded: a database lacking the
+            # phase yields 0.0 (neutral driver) rather than raising.
+            try:
+                si_carbonate = float(sol.si("Calcite"))
+            except Exception:
+                si_carbonate = 0.0
             out = {
                 "pH": float(sol.pH), "pe": float(sol.pe), "H2": h2, "alkalinity": alk,
-                "charge": float(sol.total("charge")),
+                "charge": float(sol.total("charge")), "saturation_index": si_carbonate,
             }
         finally:
             sol.forget()  # release the PHREEQC solution slot (avoid leak over a long run)
@@ -269,4 +282,5 @@ class PhreeqcSerpentinizationProcess(Process):
             "pe": fluid["pe"],
             "pH_eq": fluid["pH"],
             "charge_imbalance": fluid["charge"],
+            "saturation_index": fluid["saturation_index"],
         }
