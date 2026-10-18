@@ -4930,6 +4930,150 @@ _save_viz('og-31-protometabolism-to-amphiphiles', 'membrane-cohesion', _render_o
 # | membrane-benefit-access-window _(primary)_ | kind=observable detail=membrane TOC vs ablation across an access sweep; locate the inversion boundary | op threshold detail a bounded access window where membrane TOC exceeds ablation, with a located failure boundary |
 # | membrane-benefit-throughput _(secondary)_ | kind=observable detail=net_carbon_flux(membrane) vs net_carbon_flux(ablation) | op threshold detail reported either way (the physically-expected null is not a gate failure) |
 
+# ## Study: First Self-Maintaining Protocell (`og-32-first-self-maintaining-protocell`)
+#
+# **Question.** Can a vent-fed metabolism and an endogenous membrane be coupled so the membrane encloses and is maintained by the metabolism - and does the enclosed system persist and function better than the same metabolism with no membrane, at equal feeds?
+#
+# **Objective.** Join the study-30 reactive transport and study-29 kinetics to the study-31 amphiphile pool in one Vivarium composite, with membrane permeability informed by short molecular dynamics of the amphiphile composition and gating the metabolite exchange; track membrane integrity (production vs degradation), standing metabolite pool and productive flux; and test both self-maintenance criteria against a matched no-endogenous-membrane ablation with input fluxes held equal - reporting a net cost honestly if that is the result.
+#
+# **Hypothesis.** Coupling the study-29/30 reaction network to the study-31 amphiphile/membrane closure yields a compartment that retains metabolites against leakage, is replenished by metabolism-supplied amphiphiles faster than it degrades, and sustains higher productive flux or persistence than a membrane-less control at equal feeds - with the membrane's permeability informed by short molecular dynamics of its composition, so retention follows more directly from the chemistry than an imposed parameter does. If net amphiphile production falls below degradation, or the compartment fails to beat the matched null, no self-maintenance is claimed.
+#
+# **Claim.** A composite coupling the endogenous vent-fed metabolism to an endogenous membrane - with the membrane's permeability informed by short molecular dynamics of its amphiphile composition, a tighter coupling than og-31's retention/access proxy - self-maintains in the measurable sense: at input fluxes held equal to a no-endogenous-membrane ablation, the membrane is rebuilt by metabolism-supplied amphiphiles at least as fast as it degrades (net production >= degradation) AND the enclosed system exceeds the ablation on persistence (standing metabolite pool ~2.0x). Throughput is not improved (0.79x, feed-limited) - so the benefit is retention, not faster chemistry, and the verdict is qualified, not an unconditional pass. The metabolism is the sustained A1 carbon-fixing network (not autocatalytic; A2 refuted), so the result is that a persisting network can make and keep a membrane that pays its way on persistence, within a located window (integrity holds up to a degradation rate k_deg <= ~0.01/s, and the persistence benefit tracks the MD composition).
+
+# ### Design — originally proposed
+#
+# _The mechanisms and methods proposed when this study was designed; the model **actually built** (and the tools it uses) is shown below. These may differ as the design was realized._
+#
+# **Proposed mechanisms**
+#
+# - metabolism-supplied amphiphile production vs membrane degradation (net integrity)
+# - composition-informed permeability from short molecular dynamics (tightening og-31's retention/access proxy)
+# - permeability-gated metabolite retention feeding back on the enclosed metabolism
+# - benefit (persistence and/or productive flux) over a matched membrane-less control at equal feeds
+#
+# **Proposed models / methods**
+#
+# - Short Martini 3 CG-MD of two amphiphile chain-length compositions -> bilayer thickness -> effective permeability via a published solubility-diffusion structure->permeability relation [viva-openmm / martini_openmm, run on the mini; Option B = MD-informed structural proxy. The PMF-resolved closure (Option A) is a budgeted follow-up - see discovery_implications]
+# - study-30 reactive transport + study-29 kinetics (real libRoadRunner reaction universe) coupled [in-workspace]
+# - Vivarium coupling composite: metabolism <-> membrane via permeability-gated metabolite retention
+# - composition / k_deg boundary sweep to locate the self-maintenance window
+# - measured permeability / CAC / phase-stability benchmarks for independent validation (evidence standard #6)
+#
+# **Key assumptions**
+#
+# - Input fluxes are held equal to the no-endogenous-membrane ablation - the Gate C benefit must be a margin over the matched null, not more feed.
+# - Membrane permeability is informed by short molecular dynamics of the amphiphile composition, not set as a free parameter (Option B MD-informed structural proxy; PMF-resolved A is a budgeted follow-up).
+# - Self-maintenance is the measurable criterion (net production >= degradation AND beats the ablation), not strict autopoietic closure.
+# - The enclosed metabolism is the sustained A1 carbon-fixing network, not autocatalytic (A2 refuted under vent conditions).
+
+# ### Parameters
+#
+# | simulation | composite | steps | params |
+# | --- | --- | --- | --- |
+# | `First Self-Maintaining Protocell (MD-coupled, long di-C16)` | `viva_genesis.composites.og_32_first_self_maintaining_protocell.og_32_first_self_maintaining_protocell` | 0 | membrane=True, composition=long_di-C16, porosity=0.88, base_CO2=0.001, base_H2=0.001, max_carbons=4 |
+# | `No-endogenous-membrane ablation (permeability open, equal feeds)` | `viva_genesis.composites.og_32_first_self_maintaining_protocell.og_32_first_self_maintaining_protocell` | 0 | membrane=False, porosity=0.88, base_CO2=0.001, base_H2=0.001, max_carbons=4 |
+
+# ### The model & its parameters
+#
+# Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
+
+# **The model — `viva_genesis.composites.og_32_first_self_maintaining_protocell.og_32_first_self_maintaining_protocell`**
+#
+# Full Gate C (Option B, MD-INFORMED not PMF-resolved): couples the sustained A1 carbon-fixing network (Gate-B pore) to an endogenous membrane whose permeability is INFORMED BY short Martini CG-MD of the amphiphile composition (bilayer thickness: DLPC/di-C12 2.325 nm vs DPPC/di-C16 2.870 nm). A solubility-diffusion relation (proposed_input) maps thickness->permeability->retention (thicker long-chain membrane retains more); retention lowers effective washout (k_wash*(1-retention)) at feeds held EQUAL to the ablation. membrane=False is the matched no-endogenous-membrane control (permeability open, retention 0). Metabolism = sustained A1 network, NOT autocatalytic (A2 refuted). Full PMF-resolved permeability is Option A (study og-32a, budgeted follow-on).
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_og_32_first_self_maintaining_protocell_og_32_first_self_maintaining_protocell = {
+    'membrane'   : True,   # Endogenous membrane (True) vs matched no-membrane ablation (False)
+    'composition': 'long_di-C16',   # MD amphiphile composition (long_di-C16 = aggregation-competent pool)
+    'base_CO2'   : 0.001,   # Bulk precursor CO2 (molar) — equal across arms
+    'base_H2'    : 0.001,   # Bulk precursor H2 (molar) — equal across arms
+    'porosity'   : 0.88,   # Gate-B pore porosity (0.88 = demo pore)
+    'k_wash'     : 0.05,   # Base CSTR washout (1/s) before retention
+    'max_carbons': 4,   # Carbon cap of the reaction universe
+}
+
+# ### Typed contract (declared interface)
+#
+# _The bigraph-schema typed ports + conservation predicates this study's composite must satisfy (audited in the workbench §Contract panel). Declared design — independent of whether a run exists yet._
+#
+# **Inputs**
+#
+# | port | type | units | bounds |
+# | --- | --- | --- | --- |
+# | `external_co2_supply` | float | molar/second | >= 0.0 |
+# | `external_h2_supply` | float | molar/second | >= 0.0 |
+# | `amphiphile_precursor_supply` | float | molar/second | >= 0.0 |
+#
+# **Outputs**
+#
+# | port | type | units | bounds |
+# | --- | --- | --- | --- |
+# | `membrane_integrity` | float | molar/second |  |
+# | `metabolite_retention` | float | dimensionless | >= 0.0 |
+# | `standing_metabolite_pool` | float | molar | >= 0.0 |
+# | `productive_flux` | float | molar/second |  |
+# | `md_informed_permeability` | float | dimensionless | >= 0.0 |
+#
+# **Conditions**
+#
+# - `equal_input_fluxes_vs_ablation` (invariant): `external feed fluxes are held equal to the no-endogenous-membrane ablation (the Gate C benefit is the margin over this matched null)`
+# - `permeability_informed_by_md` (invariant): `membrane permeability is informed by short molecular dynamics of the amphiphile composition (MD-informed structural proxy, not PMF-resolved), a tighter coupling than og-31's retention/access proxy - not a free parameter`
+# - `metabolism_is_A1_not_autocatalytic` (invariant): `the enclosed metabolism is the sustained A1 carbon-fixing network; no autocatalytic self-amplification is assumed (A2 refuted under vent conditions)`
+
+# ### Run
+#
+# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
+
+# === Study: og-32-first-self-maintaining-protocell ===
+STUDY = 'og-32-first-self-maintaining-protocell'
+STUDY_DIR = REPO / 'workspace/studies' / STUDY
+STUDY_YAML = str(STUDY_DIR / "study.yaml")
+RUNS_DB = str(STUDY_DIR / "runs.db")
+
+# This study has no *recorded* runs yet. RERUN builds its declared
+# composite(s) live and runs them; a composite whose module processes
+# are not implemented yet reports the error instead of crashing.
+STEPS_First_Self_Maintaining_Protocell_MD_coupled_long_di_C16 = 100
+INTERVAL_First_Self_Maintaining_Protocell_MD_coupled_long_di_C16 = 1.0
+STEPS_No_endogenous_membrane_ablation_permeability_open_equal_feeds = 100
+INTERVAL_No_endogenous_membrane_ablation_permeability_open_equal_feeds = 1.0
+
+if RERUN:
+    from process_bigraph import Composite
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_og_32_first_self_maintaining_protocell_og_32_first_self_maintaining_protocell if 'ov_viva_genesis_composites_og_32_first_self_maintaining_protocell_og_32_first_self_maintaining_protocell' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_og_32_first_self_maintaining_protocell_og_32_first_self_maintaining_protocell = materialize_composite('viva_genesis.composites.og_32_first_self_maintaining_protocell.og_32_first_self_maintaining_protocell', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_og_32_first_self_maintaining_protocell_og_32_first_self_maintaining_protocell['state']}, core=core)
+            _comp.run(STEPS_First_Self_Maintaining_Protocell_MD_coupled_long_di_C16)
+        print('ran', 'First Self-Maintaining Protocell (MD-coupled, long di-C16)', f'(viva_genesis.composites.og_32_first_self_maintaining_protocell.og_32_first_self_maintaining_protocell) for', STEPS_First_Self_Maintaining_Protocell_MD_coupled_long_di_C16, 'steps')
+    except Exception as _e:
+        print(f"First Self-Maintaining Protocell (MD-coupled, long di-C16) not runnable yet: {type(_e).__name__}: {_e}")
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_og_32_first_self_maintaining_protocell_og_32_first_self_maintaining_protocell if 'ov_viva_genesis_composites_og_32_first_self_maintaining_protocell_og_32_first_self_maintaining_protocell' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_og_32_first_self_maintaining_protocell_og_32_first_self_maintaining_protocell = materialize_composite('viva_genesis.composites.og_32_first_self_maintaining_protocell.og_32_first_self_maintaining_protocell', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_og_32_first_self_maintaining_protocell_og_32_first_self_maintaining_protocell['state']}, core=core)
+            _comp.run(STEPS_No_endogenous_membrane_ablation_permeability_open_equal_feeds)
+        print('ran', 'No-endogenous-membrane ablation (permeability open, equal feeds)', f'(viva_genesis.composites.og_32_first_self_maintaining_protocell.og_32_first_self_maintaining_protocell) for', STEPS_No_endogenous_membrane_ablation_permeability_open_equal_feeds, 'steps')
+    except Exception as _e:
+        print(f"No-endogenous-membrane ablation (permeability open, equal feeds) not runnable yet: {type(_e).__name__}: {_e}")
+else:
+    print("RERUN=False — not re-simulating.")
+
+# ### Acceptance criteria
+#
+# _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
+#
+# | test | measures | passes if |
+# | --- | --- | --- |
+# | permeability-md-informed _(primary)_ | kind=observable detail=MD thickness (long 2.870 nm vs short 2.325 nm) -> permeability -> retention | op threshold detail permeability/retention derived from MD thickness moving with composition None |
+# | self-maintenance-membrane-integrity _(primary)_ | kind=observable detail=net membrane_integrity = eta_amph*productive_flux - k_deg*M_req | op threshold detail net production >= degradation |
+# | beats-ablation-flux-or-persistence _(primary)_ | kind=observable detail=productive_flux + standing pool membrane vs ablation=None equal feed=None | op threshold detail membrane beats the ablation on flux or persistence |
+# | matched-null-equal-feeds _(primary)_ | kind=observable detail=external feed ledger - membrane vs ablation feeds held equal | op threshold detail input fluxes equal across arms |
+# | self-maintenance-windowed _(secondary)_ | kind=observable detail=k_deg boundary sweep + composition (short/long) sweep | op threshold detail a real upper k_deg boundary is bracketed |
+
 # ## Open decisions
 # - Read og-08's {pump, importer, heredity} as a HYPOTHESIS GENERATOR, not a result: the integrated world (og-08-alt-robust-innovation-set) finds the required set structure-dependent and the off-gradient verdict decided by the ocean floor, the membrane leakiness and the inheritance class's budget sensitivity. Adopt this framing for the campaign's endpoint statement, and supply the ocean's H2 / organic background (the floor) as an expert prior?
 # - Agent motion model (ecology stage): DEFERRED. The proto_ecology component points agents at fixed cells of the og-03 enrichment field (interleaved or segregated along the pore); no motility, chemotaxis or advective drift of agents is modelled. Which motion model (none / advected with the pore flow / Brownian between cells / thermophoretic like the solutes) should the ecology follow-up adopt?
