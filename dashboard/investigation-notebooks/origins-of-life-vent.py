@@ -5073,6 +5073,15 @@ if RERUN:
 else:
     print("RERUN=False — not re-simulating.")
 
+# ### Visualizations
+#
+# _Results are shown by the figures below, produced by the run above._
+
+# **self-maintaining-protocell**
+
+# self-maintaining-protocell
+_save_viz('og-32-first-self-maintaining-protocell', 'self-maintaining-protocell', _render_one('local:OgSelfMaintainingProtocellViz', {'title': 'The first self-maintaining protocell holds its pool', 'report_json': 'workspace/studies/og-32-first-self-maintaining-protocell/artifacts/gate_c_full.json', 'md_json': 'workspace/studies/og-32-first-self-maintaining-protocell/artifacts/md_bilayer_observables.json'}, RUNS_DB, STUDY_YAML))
+
 # ### Acceptance criteria
 #
 # _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
@@ -5217,6 +5226,15 @@ if RERUN:
         print(f"Growth-decoupled null (equal feeds) not runnable yet: {type(_e).__name__}: {_e}")
 else:
     print("RERUN=False — not re-simulating.")
+
+# ### Visualizations
+#
+# _Results are shown by the figures below, produced by the run above._
+
+# **growth-division**
+
+# growth-division
+_save_viz('og-33-chemically-coupled-growth-and-division', 'growth-division', _render_one('local:OgGrowthDivisionViz', {'title': 'Metabolism-driven growth & division', 'report_json': 'workspace/studies/og-33-chemically-coupled-growth-and-division/artifacts/gate_d_growth_division.json'}, RUNS_DB, STUDY_YAML))
 
 # ### Acceptance criteria
 #
@@ -5366,6 +5384,15 @@ if RERUN:
 else:
     print("RERUN=False — not re-simulating.")
 
+# ### Visualizations
+#
+# _Results are shown by the figures below, produced by the run above._
+
+# **chemical-heredity-selection**
+
+# chemical-heredity-selection
+_save_viz('og-34-chemical-heredity-and-selection', 'chemical-heredity-selection', _render_one('local:OgChemicalHeredityViz', {'title': 'Selectable compositional heredity', 'report_json': 'workspace/studies/og-34-chemical-heredity-and-selection/artifacts/gate_d_heredity.json'}, RUNS_DB, STUDY_YAML))
+
 # ### Acceptance criteria
 #
 # _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
@@ -5513,6 +5540,15 @@ if RERUN:
         print(f"Gradient-only null (no carrier store, equal drive/load) not runnable yet: {type(_e).__name__}: {_e}")
 else:
     print("RERUN=False — not re-simulating.")
+
+# ### Visualizations
+#
+# _Results are shown by the figures below, produced by the run above._
+
+# **energy-coupling**
+
+# energy-coupling
+_save_viz('og-35-chemical-energy-coupling', 'energy-coupling', _render_one('local:OgEnergyCouplingViz', {'title': 'The carrier buys gradient-dip resilience, not throughput', 'report_json': 'workspace/studies/og-35-chemical-energy-coupling/artifacts/gate_e_energy.json'}, RUNS_DB, STUDY_YAML))
 
 # ### Acceptance criteria
 #
@@ -5681,6 +5717,15 @@ if RERUN:
         print(f"Cross-feeding knockout (community, cross-feeding off, equal feed) not runnable yet: {type(_e).__name__}: {_e}")
 else:
     print("RERUN=False — not re-simulating.")
+
+# ### Visualizations
+#
+# _Results are shown by the figures below, produced by the run above._
+
+# **stochastic-ecology**
+
+# stochastic-ecology
+_save_viz('og-36-stochastic-protocell-ecology', 'stochastic-ecology', _render_one('local:OgStochasticEcologyViz', {'title': 'Stochastic protocell ecology — productivity, not robustness', 'report_json': 'workspace/studies/og-36-stochastic-protocell-ecology/artifacts/gate_e_ecology.json'}, RUNS_DB, STUDY_YAML))
 
 # ### Acceptance criteria
 #
