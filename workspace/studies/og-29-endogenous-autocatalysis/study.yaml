@@ -328,7 +328,10 @@ limitations:
   is ~1.2-2.9 mM (example 1.4), so x20's 40 mM CO2 is ~14x over the DIC upper bound. So the
   carbon-fixing network emerges only above vent-realistic concentrations; at defensible vent feeds
   it does not ignite. (The autocatalysis refutation is unaffected - at the ignition point there is
-  still 0 gain.)
+  still 0 gain.) Cross-link to og-30: that ~x50 "washout" is the brittle network_connected proxy
+  degrading at high feed - raw carbon flux stays high, the connectivity metric drops - not a loss of
+  flux, the same behavior og-30 documents across C4/C6 and well-mixed vs pore. The refutation stands on
+  thermodynamics and the coefficient-free seed-independence discriminator, not connectivity.
 - >-
   The autocatalytic gain is 0 for both the vent-fed network and its matched null across the x1–x50 feed
   sweep, and with the C6 universe built this is a genuine, mechanistically-explained result — not a
