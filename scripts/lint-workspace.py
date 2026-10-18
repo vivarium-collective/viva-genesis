@@ -372,6 +372,7 @@ def main() -> None:
             check_units_present,
             check_gate_matched_null,
             check_gate_members_in_roster,
+            check_used_imports_declared,
         )
     except Exception as _e:  # viva_genesis not importable here — warn, don't fail
         print(f"LINT WARNING: audit checks skipped ({_e})", file=sys.stderr)
@@ -474,6 +475,59 @@ def main() -> None:
                                       for e in check_gate_matched_null(_rows, _inv["plan_gates"])]
         except Exception:
             pass
+
+        # H — every external simulator-wrapper package the code uses must be
+        # declared in workspace.yaml imports: (so the dashboard Repositories tab
+        # and affected-study attribution see it). Detected DETERMINISTICALLY by a
+        # source scan — NOT via build_core's registry, whose resolution needs the
+        # optional sim deps (viva_openmm/OpenMM, dolfinx) that CI does not install
+        # and whose import drags in viva_genesis/__init__'s heavy deps:
+        #   (a) `import viva_X` / `from viva_X import` across viva_genesis/**, and
+        #   (b) `local:<ProcessName>` composite addresses whose class is a known
+        #       external wrapper (the curated map below) — those imports are
+        #       guarded/optional, so (a) alone can miss a guarded-only reference.
+        # The workspace's own package and framework/toolchain packages (e.g.
+        # viva_superpowers — the authoring plugin, not a referenced simulator
+        # repo) are excluded: only reference-imported wrappers belong in imports:.
+        _FRAMEWORK_PACKAGES = {"viva_superpowers"}
+        _EXTERNAL_LOCAL_PROCESS_PACKAGE = {
+            "EquilibratorThermoStep": "viva_equilibrator",
+            "FenicsReactiveTransportProcess": "viva_fenics",
+            "FenicsThermophoreticTrapProcess": "viva_fenics",
+            "OpenMMMartiniProcess": "viva_openmm",
+        }
+        _pkg_root = WS_ROOT / "viva_genesis"
+        _used_pkgs: dict[str, str] = {}
+        if _pkg_root.exists():
+            _imp_re = re.compile(r"^[ \t]*(?:from|import)[ \t]+(viva_[a-z0-9_]+)", re.M)
+            _addr_re = re.compile(r"local:([A-Za-z0-9_]+)")
+            _py_files = [(p.relative_to(WS_ROOT), p) for p in sorted(_pkg_root.rglob("*.py"))]
+            _srcs = []
+            for _rel, _py in _py_files:
+                try:
+                    _srcs.append((_rel, _py.read_text()))
+                except Exception:
+                    continue
+            # Pass 1: direct imports (the authoritative, strongest evidence).
+            for _rel, _src in _srcs:
+                for _name in _imp_re.findall(_src):
+                    if _name.startswith("viva_genesis") or _name in _FRAMEWORK_PACKAGES:
+                        continue
+                    _used_pkgs.setdefault(_name, f"imported in {_rel}")
+            # Pass 2: local:<Process> addresses for external wrappers whose import
+            # is guarded/optional — only add a package not already seen via import.
+            for _rel, _src in _srcs:
+                for _proc in _addr_re.findall(_src):
+                    _pkg = _EXTERNAL_LOCAL_PROCESS_PACKAGE.get(_proc)
+                    if _pkg and _pkg not in _FRAMEWORK_PACKAGES:
+                        _used_pkgs.setdefault(_pkg, f"local:{_proc} in {_rel}")
+        _declared_pkgs = {
+            (_v or {}).get("package")
+            for _v in (ws.get("imports") or {}).values()
+            if isinstance(_v, dict) and (_v or {}).get("package")
+        }
+        _audit_errors += [f"used-import-undeclared: {e}"
+                          for e in check_used_imports_declared(_used_pkgs, _declared_pkgs)]
 
         # E/F — WARN only (don't fail): knife-edge margins + missing units.
         for _w in check_knife_edge_margins(studies_by_dir):

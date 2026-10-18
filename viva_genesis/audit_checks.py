@@ -289,6 +289,37 @@ def check_gate_matched_null(gate_rows: Iterable[dict], authored_gates: Iterable[
     return errors
 
 
+def check_used_imports_declared(
+    used_packages: Dict[str, str],
+    declared_packages: Set[str],
+) -> List[str]:
+    """Every external simulator-wrapper package the workspace actually uses must
+    be declared in ``workspace.yaml`` ``imports:`` — otherwise the dashboard
+    Repositories tab silently omits the repo and affected-study attribution is
+    wrong. (The viva-openmm gap: used by ``viva_genesis/core.py`` and og-31's
+    ``local:OpenMMMartiniProcess``, but never declared.)
+
+    Pure set comparison so it is unit-testable; the lint script resolves the
+    inputs by source-scanning the package (``import viva_X`` + ``local:<Process>``
+    addresses) and reading the ``imports[].package`` values.
+
+    ``used_packages`` maps a used import-name (e.g. ``viva_openmm``) to a short
+    human note of where it was detected. ``declared_packages`` is the set of
+    declared ``imports[].package`` values. Framework/toolchain packages (e.g.
+    ``viva_superpowers``) and the workspace's own package are excluded upstream,
+    so everything here is a reference-imported wrapper that belongs in imports.
+    """
+    errors: List[str] = []
+    for pkg in sorted(used_packages):
+        if pkg not in declared_packages:
+            where = used_packages.get(pkg) or ""
+            errors.append(
+                f"package '{pkg}' is used ({where}) but is not declared in "
+                f"workspace.yaml imports: — the dashboard Repositories tab will "
+                f"silently omit it and mis-attribute affected studies")
+    return errors
+
+
 def check_gate_members_in_roster(
     inv_name: str,
     plan_gates: Iterable[dict],
