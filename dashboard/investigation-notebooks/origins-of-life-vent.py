@@ -6047,6 +6047,157 @@ print("No baseline composite declared for this study — nothing to build.")
 # | sojo2014bioenergetic | | | |
 # | jordan2019promotion | | | |
 
+# ## Study: Kinetic-network re-evaluation under realistic uncertainty (P0) (`og-ev-kinetic-uq`)
+#
+# **Question.** Do the A1 network's persistence and (apparent) amplification survive realistic KINETIC uncertainty, rather than holding only at idealized order-of-magnitude rate constants?
+#
+# **Objective.** Re-run the og-02 / og-30 carbon-fixing network with fitted, bounded rate distributions and the neglected kinetic effects, and report persistence as a probability with posterior-predictive checks against the idealized baseline.
+#
+# **Hypothesis.** With bounded, fitted reaction rates and side products, reversibility, substrate depletion and catalyst aging included, net persistence is retained but the probability-of-persistence is reduced and the apparent amplification weakens further - consistent with A1 qualified and A2 refuted, now under an uncertainty budget rather than point rates.
+
+# ### Parameters
+
+# ### Run
+#
+# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
+
+# === Study: og-ev-kinetic-uq ===
+STUDY = 'og-ev-kinetic-uq'
+STUDY_DIR = REPO / 'workspace/studies' / STUDY
+STUDY_YAML = str(STUDY_DIR / "study.yaml")
+RUNS_DB = str(STUDY_DIR / "runs.db")
+
+print("No baseline composite declared for this study — nothing to build.")
+
+# ### Literature anchors
+#
+# | expectation | model observable | source | status |
+# | --- | --- | --- | --- |
+# | muchowska2019synthesis | | | |
+# | wolos2020synthetic | | | |
+# | somogyi2015libroadrunner | | | |
+
+# ## Study: Time-varying geochemical forcing (P1) (`og-ev-timevarying-forcing`)
+#
+# **Question.** Do the carbon-fixing network and the protocell persist under FLUCTUATING pH / feed / flow / temperature / mineral activity, rather than only under fixed-favorable conditions?
+#
+# **Objective.** Drive the A1 (and compartmented) network with time-varying forcing trajectories (steps, ramps, oscillations, stochastic) over the vent-realistic ranges and measure persistence, recovery and budgets vs the fixed-favorable baseline.
+#
+# **Hypothesis.** Persistence degrades gracefully under modest fluctuation (bounded recovery times) but fails past a fluctuation amplitude / frequency threshold - the robustness the pore, membrane and energy carrier buy is spent against environmental variability, so this is the robustness-is- the-traded-axis through-line tested directly against time-varying forcing.
+
+# ### Parameters
+
+# ### Run
+#
+# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
+
+# === Study: og-ev-timevarying-forcing ===
+STUDY = 'og-ev-timevarying-forcing'
+STUDY_DIR = REPO / 'workspace/studies' / STUDY
+STUDY_YAML = str(STUDY_DIR / "study.yaml")
+RUNS_DB = str(STUDY_DIR / "runs.db")
+
+print("No baseline composite declared for this study — nothing to build.")
+
+# ### Literature anchors
+#
+# | expectation | model observable | source | status |
+# | --- | --- | --- | --- |
+# | kelley2005serpentinite | | | |
+# | fruhgreen2003thirtythousand | | | |
+# | tutolo2026rethinking | | | |
+
+# ## Study: Competing origin environments — cross-cutting falsification (P2) (`og-ev-competing-environments`)
+#
+# **Question.** Under matched chemical constraints and matched evidence quality, does the alkaline hydrothermal vent OUTPERFORM alternative origin environments (e.g. surface pools / wet-dry cycling, acidic springs, other hydrothermal settings) - or is its advantage assumed rather than earned?
+#
+# **Objective.** Run the campaign's gates against alternative origin-environment scenarios under matched chemical input constraints and matched evidence quality, and compare scenario likelihoods, sensitivities and failure regimes with no favored prior.
+#
+# **Hypothesis.** No setting is assumed favored. The vent's advantage, if any, is specific to particular gates (persistence/concentration) and may be matched or beaten by other settings on others (e.g. wet-dry cycling for condensation); the honest output is a scenario-likelihood / failure-regime comparison, not a foregone vent win.
+
+# ### Parameters
+
+# ### Run
+#
+# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
+
+# === Study: og-ev-competing-environments ===
+STUDY = 'og-ev-competing-environments'
+STUDY_DIR = REPO / 'workspace/studies' / STUDY
+STUDY_YAML = str(STUDY_DIR / "study.yaml")
+RUNS_DB = str(STUDY_DIR / "runs.db")
+
+print("No baseline composite declared for this study — nothing to build.")
+
+# ### Literature anchors
+#
+# | expectation | model observable | source | status |
+# | --- | --- | --- | --- |
+# | sutherland2017opinion | | | |
+# | mulkidjanian2012origin | | | |
+# | martin2008hydrothermal | | | |
+# | tutolo2026rethinking | | | |
+
+# ## Study: Chemistry→membrane composition-overlap discriminator (B4) (`og-ev-chemistry-membrane-overlap`)
+#
+# **Question.** Does the campaign's modeled reaction network supply the ACTUAL vesicle-forming amphiphile identities and abundances (not just "some amphiphile"), overlapping the Jordan-2019 assembly windows and the MARTINI-modelled candidate compositions?
+#
+# **Objective.** Map the overlap between the network's emitted amphiphile composition (identities + abundances from AmphiphileChainExtensionProcess) and the Jordan-2019 assembly windows + the MARTINI candidate set, with explicit supply-vs-loss budgets.
+#
+# **Hypothesis.** The endogenous chain-extension chemistry supplies long-chain amphiphiles that partially overlap the assembly-competent window, but with a supply-vs-loss budget that may fall short of the abundances the measured windows require - so the composition overlap is partial, a bound rather than a guarantee.
+
+# ### Parameters
+
+# ### Run
+#
+# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
+
+# === Study: og-ev-chemistry-membrane-overlap ===
+STUDY = 'og-ev-chemistry-membrane-overlap'
+STUDY_DIR = REPO / 'workspace/studies' / STUDY
+STUDY_YAML = str(STUDY_DIR / "study.yaml")
+RUNS_DB = str(STUDY_DIR / "runs.db")
+
+print("No baseline composite declared for this study — nothing to build.")
+
+# ### Literature anchors
+#
+# | expectation | model observable | source | status |
+# | --- | --- | --- | --- |
+# | jordan2019promotion | | | |
+# | souza2021martini3 | | | |
+# | budin2012concentration | | | |
+
+# ## Study: Pore-transport Baaske benchmark discriminator (B5) (`og-ev-pore-transport-benchmark`)
+#
+# **Question.** Do the pore's concentration and the network's persistence survive CALIBRATED transport (Soret coefficients, realistic pore geometries) when benchmarked against the Baaske-2007 thermophoretic-accumulation regimes?
+#
+# **Objective.** Replicate the Baaske-2007 accumulation regimes under calibrated transport (measured Soret coefficients, realistic geometries) with matched open / plugged / well-mixed controls, and a Soret sensitivity sweep, testing whether the Gate-B rescue survives.
+#
+# **Hypothesis.** The Gate-B enrichment (~23x at porosity 0.88) reproduces the Baaske regime qualitatively but is sensitive to the Soret coefficient and pore geometry; the concentration+persistence hold in the open-pore regime and collapse in plugged / well-mixed controls - a calibrated, bounded rescue rather than the extreme >=1e6 folds, consistent with the og-03 Peclet restatement.
+
+# ### Parameters
+
+# ### Run
+#
+# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
+
+# === Study: og-ev-pore-transport-benchmark ===
+STUDY = 'og-ev-pore-transport-benchmark'
+STUDY_DIR = REPO / 'workspace/studies' / STUDY
+STUDY_YAML = str(STUDY_DIR / "study.yaml")
+RUNS_DB = str(STUDY_DIR / "runs.db")
+
+print("No baseline composite declared for this study — nothing to build.")
+
+# ### Literature anchors
+#
+# | expectation | model observable | source | status |
+# | --- | --- | --- | --- |
+# | baaske2007extreme | | | |
+# | mast2010thermal | | | |
+# | jordan2019promotion | | | |
+
 # ## Open decisions
 # - Ocean-floor H2 / organic prior (og-08 autonomy floor): supply an expert prior on the Hadean ocean's dissolved H2 and organic background (the floor) to turn og-08-alt's floor map into a prediction. (The {pump, importer, heredity} required-set framing is now RESOLVED — driver-specific, see decisions_resolved; this is the remaining open piece.)
 # - Agent motion model (ecology stage): DEFERRED. The proto_ecology component points agents at fixed cells of the og-03 enrichment field (interleaved or segregated along the pore); no motility, chemotaxis or advective drift of agents is modelled. Which motion model (none / advected with the pore flow / Brownian between cells / thermophoretic like the solutes) should the ecology follow-up adopt?
