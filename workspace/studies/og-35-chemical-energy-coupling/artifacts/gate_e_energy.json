@@ -1,0 +1,69 @@
+{
+ "meta": {
+  "n_steps": 120,
+  "bond_energy_kjmol": 31.5,
+  "carrier": "Option B: one specified thioester cycle (ThioesterCarrierCycleProcess, merged); bond energies literature values (huber1997/buckel2013), a proposed_input not tuned",
+  "null": "matched gradient-only (GradientOnlyWorkProcess): same activation throughput + drive + load, NO store -> starves in the dip",
+  "ledger": "full free-energy ledger (activation/use/hydrolysis/stored); closes by construction, budget_residual ~ 0 = no hidden inflow",
+  "scope": "Option A (acyl-phosphate carrier / microkinetic resolution) = study og-35a, follow-on",
+  "guardrail": "carrier funds work for the sustained A1 carbon-fixing network, NOT autocatalytic (A2 refuted)"
+ },
+ "carrier_arm": {
+  "total_useful_work": 0.2563636360346044,
+  "dip_useful_work": 0.030247663975303263,
+  "max_budget_residual": 8.673617379884035e-19
+ },
+ "gradient_only_arm": {
+  "total_useful_work": 0.28200000000000014,
+  "dip_useful_work": 0.006000000000000005,
+  "max_budget_residual": 0.0
+ },
+ "criteria": {
+  "persistence_pays": true,
+  "throughput_pays": false,
+  "ledger_closes": true
+ },
+ "k_hydrolyze_window": {
+  "sweep": [
+   {
+    "k_hydrolyze": 0.0,
+    "carrier_total": 0.2563636360346044,
+    "pays_total": false,
+    "carrier_dip": 0.030247663975303263
+   },
+   {
+    "k_hydrolyze": 0.005,
+    "carrier_total": 0.275121949697336,
+    "pays_total": false,
+    "carrier_dip": 0.034407343204829105
+   },
+   {
+    "k_hydrolyze": 0.01,
+    "carrier_total": 0.2685714276562337,
+    "pays_total": false,
+    "carrier_dip": 0.03292463754807845
+   },
+   {
+    "k_hydrolyze": 0.02,
+    "carrier_total": 0.2563636360346044,
+    "pays_total": false,
+    "carrier_dip": 0.030247663975303263
+   },
+   {
+    "k_hydrolyze": 0.05,
+    "carrier_total": 0.2255999999854531,
+    "pays_total": false,
+    "carrier_dip": 0.023999965620216
+   },
+   {
+    "k_hydrolyze": 0.1,
+    "carrier_total": 0.18799999999993444,
+    "pays_total": false,
+    "carrier_dip": 0.017333332334536655
+   }
+  ],
+  "pay_boundary": null
+ },
+ "verdict": "qualified",
+ "headline": "Gate E chemical energy coupling (Option B, specified thioester carrier \u2014 NOT acyl-phosphate / microkinetic): verdict=qualified. Under a declining geochemical drive (the gradient dipping) and a full free-energy ledger that CLOSES in both arms (max|budget_residual| 9e-19, no hidden inflow), the thioester carrier does useful work THROUGH the dip (0.0302) where the matched gradient-only control starves (0.0060) - so the carrier pays on DIP-PERSISTENCE (persistence_pays=True). On TOTAL useful work, carrier 0.2564 vs gradient-only 0.2820 (throughput_pays=False): the merged carrier gates activation at the bond and does not capture the above-bond surplus, so it TIME-SHIFTS work into the dip rather than netting more, and hydrolysis is a real cost. On the cost/benefit window, the carrier does NOT beat gradient-only on total useful work at any tested leak rate (including zero hydrolysis) - it banks/time-shifts and leaves some carrier unused at run end, so the benefit is strictly dip-persistence, not total throughput. So qualified = pays on persistence-through-the-dip with a closed ledger, not a clean net-positive-total win; the carrier buys gradient-dip resilience, not raw throughput - the same persistence-not-throughput motif as the pore (Gate B) and the membrane (Gate C). Acyl-phosphate / microkinetic resolution (Option A) is the follow-on og-35a. Metabolism = sustained A1 network, NOT autocatalytic (A2 refuted)."
+}
