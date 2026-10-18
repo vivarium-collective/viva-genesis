@@ -83,6 +83,11 @@ CARBONYL = ("D", "K")
 
 CO2, H2, H2O, TAR = "CO2", "H2", "H2O", "tar"
 SPECIAL_FORMULAS = {CO2: {"C": 1, "O": 2}, H2: {"H": 2}, H2O: {"H": 2, "O": 1}}
+# Curated non-linear species (e.g. the branched rTCA intermediates in
+# ``rtca.py``) register their carbon count here so the free ``n_carbons`` helper
+# reports it — a linear skeleton id encodes its carbon count in its length, a
+# curated id (``X_citrate``) does not. Populated by the curated builder.
+SPECIAL_CARBONS: dict[str, int] = {}
 
 # Skeleton -> (KEGG id, common name). Every id is verified against the
 # eQuilibrator compound formula (C and O counts; H up to the charge) before
@@ -171,6 +176,8 @@ def n_carbons(sid: str) -> int:
     """Organic carbon count of a species (0 for CO2, H2, H2O, tar)."""
     if sid == CO2:
         return 0
+    if sid in SPECIAL_CARBONS:          # curated non-linear species (e.g. branched rTCA)
+        return SPECIAL_CARBONS[sid]
     skel = skeleton_of(sid)
     return len(skel) if skel else 0
 

@@ -41,30 +41,29 @@ executive:
     bioenergetic autonomy, grounded in serpentinization-driven alkaline hydrothermal vents, with 
     explicit competing scenarios.
   gate_a_status: >-
-    Gate A (chemical emergence) does not pass. The keystone result splits it into two sub-claims that
-    came out differently, so each is recorded separately. A1 (network persistence): a sustained,
-    connected, carbon-fixing reaction network emerges on bounded geochemical feeds - this holds
-    pending a feed check. At six carbons the vent-fed network ignites and fixes carbon, but in the
-    well-mixed case only at about 20x the vent posterior feed; A1 is credited only pending
-    confirmation that this ignition feed is within plausible vent bounds (under check) and/or Gate B
-    (og-30) showing that spatial concentration brings ignition down to vent-realistic feeds. If both
-    resolve against it, A1 drops to not-met at vent-realistic feeds. A2 (endogenous autocatalysis):
-    the network self-amplifies beyond a degree-preserving matched null - refuted for formose-type
-    (linear C<=6), with a mechanism. The canonical formose doubling step is present in the universe
-    (reaction r409, two glycolaldehyde to threose, a coefficient-2 splitting), so this is not detector
-    blindness or an absent motif; its standard free energy is -16.4 kJ/mol toward condensation, so net
-    flux runs the building direction (two C2 combine to C4) while the autocatalytic splitting direction
-    (C4 back to two C2) is +16.4 kJ/mol uphill and carries no net flux across the x1-x50 feed sweep,
-    giving zero autocatalytic gain everywhere, including x20 where the network is connected and fixing
-    carbon. Branched C6 rTCA (citrate, isocitrate) is outside the v1 linear-skeleton representation and
-    is under active test, with the branched-skeleton v2 build in progress; a coefficient-independent
-    functional discriminator (seed-dependence plus super-linear production) is also being built so
-    formose and rTCA are judged on the same footing. The supporting members stand: the atlas (og-28)
-    passes its zero-leakage balance gate, and the coupled interface (og-27) is partial pending a
-    supersaturating rerun. Overall Gate A remains not passed - the plan required autocatalysis, which
-    is refuted for the representable linear chemistry because the doubling step runs the wrong way at
-    vent conditions - with the carbon-fixing-network positive (A1) credited distinctly and
-    contingently and branched rTCA the decisive test now under active build.
+    Gate A (chemical emergence) does not pass, but it is now fully characterized: the keystone question - does
+    the network self-amplify? - is answered. Gate A splits into two sub-claims recorded separately. A1 (network
+    persistence): a sustained, connected, carbon-fixing network emerges on bounded geochemical feeds - holds
+    pending a feed check. At six carbons the vent-fed network ignites and fixes carbon, but in the well-mixed
+    case only at about 20x the vent posterior feed; A1 is credited only pending confirmation that this ignition
+    feed is within plausible vent bounds (under check) and/or Gate B (og-30) showing spatial concentration
+    brings ignition down to vent-realistic feeds. If both resolve against it, A1 drops to not-met at vent-
+    realistic feeds. A2 (endogenous autocatalysis): self-amplification beyond a degree-preserving matched null
+    is refuted under vent conditions for both candidate routes, each with a distinct mechanism. (i) Formose
+    (linear): the canonical doubling step (r409, two glycolaldehyde to threose) is thermodynamically
+    condensation-favored (standard free energy -16.4 kJ/mol), so its splitting direction carries no net flux;
+    and on a coefficient-free functional discriminator it is refuted again - the network fixes carbon but
+    production is seed-independent, i.e. feed-driven rather than self-amplified. (ii) rTCA (branched): under
+    vent H2 a seeded reductive-TCA cycle washes out, because the reductive carboxylations (succinate to alpha-
+    ketoglutarate, +18 kJ/mol; acetyl to pyruvate, +31 kJ/mol) run uphill under H2 and too slow against washout
+    - the same reason real rTCA uses ferredoxin, not H2, as its reductant. Importantly, the rTCA topology is
+    shown autocatalysis-capable and topology-specific in a labelled counterfactual (lowering the carboxylation
+    barrier switches it on), so the vent negative is a redox-environment limitation, not a limitation of the
+    cycle's wiring. Overall: Gate A remains not passed, but is now fully characterized rather than open. A2 (the
+    keystone) is definitively resolved - autocatalysis is refuted under vent conditions for both representable
+    routes, mechanistically - while A1 (a carbon-fixing network does emerge) holds pending the feed check and
+    Gate B. The autocatalysis-capable rTCA topology under a stronger reductant is noted as the basis for a
+    possible beyond-vent follow-up, outside the current vent scope.
   verdict: >-
     The full geochemistry-to-heredity arc runs on real simulators and passes its pre-stated,
     falsifiable gates, with conservation held to machine precision. Twenty-three studies execute
@@ -686,6 +685,7 @@ studies:
 - og-27-coupled-geochemical-reaction-interface
 - og-28-prebiotic-reaction-atlas
 - og-29-endogenous-autocatalysis
+- og-rtca-autocatalysis
 - og-30-spatially-integrated-protometabolism
 - og-31-protometabolism-to-amphiphiles
 acceptance_criteria:

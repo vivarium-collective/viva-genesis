@@ -316,7 +316,10 @@ limitations:
   across the x1–x50 feed sweep — motifs = 0 and gain = 0 everywhere, including x20 where the network is
   connected and fixing carbon. Formose-type does not self-amplify because the doubling step runs the
   wrong way at vent conditions. Branched C6 rTCA (citrate/isocitrate) is outside the v1 linear-skeleton
-  representation and is under active test via the branched-skeleton v2 build.
+  representation and is under active test via the branched-skeleton v2 build. Functional cross-check
+  (coefficient-free discriminator, now run): formose is refuted functionally as well — carbon is fixed,
+  but production is seed-independent (feed-driven), not self-amplified — confirming the thermodynamic
+  negative by a second, coefficient-independent method.
 - >-
   Persistence is QUALIFIED by feed plausibility. The network ignites only at x20 (supply_H2 20 mM,
   supply_CO2 40 mM); at the vent-posterior operating point (x1) and x5 it does not ignite, and x50
@@ -334,6 +337,7 @@ limitations:
   self-amplification carries no net flux. The one case still outside scope is the reductive TCA cycle,
   whose branched C6 species the v1 linear skeleton cannot hold — the branched-skeleton v2 is being built
   now to test it. A coefficient-independent functional discriminator (seed-dependence + super-linear
-  production) is also being built so formose and rTCA are judged on the same footing. So the negative is
-  mechanistic for formose-type and an open, actively-building test for branched rTCA — not a claim that
-  vent-fed chemistry cannot self-amplify by any route.
+  production) has now run, judging formose and rTCA on the same footing: formose is seed-independent
+  (refuted), and rTCA is topology-specific under a permissive counterfactual but washes out under vent H2
+  (refuted). So the negative is mechanistic for formose-type and an open, actively-building test for
+  branched rTCA — not a claim that vent-fed chemistry cannot self-amplify by any route.
