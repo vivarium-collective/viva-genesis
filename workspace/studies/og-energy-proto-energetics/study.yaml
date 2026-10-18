@@ -166,7 +166,6 @@ baseline:
   params:
     drive_free_energy: 50.0
     bond_energy_kjmol: 31.5
-  planned: true   # REBUILD chemistry: explicit thioester cycle repointed; awaiting the balanced run
 disposition: >-
   REBUILD chemistry. The abstract charged carrier is not a specified chemical cycle — "~39% charged,
   ~47% capture" describes a filling/discharging pool, not named molecules reacting. Replace it with a
@@ -189,7 +188,7 @@ findings:
 - id: ogenergy-currency-maintained
   provenance:
     run_ids:
-    - viva_genesis.composites.proto_energetics.proto_energetics__1791926822__702902
+    - viva_genesis.composites.proto_energetics.proto_energetics__1792351385__122918
   kind: computational
   status: confirms
   statement: An exergonic geochemical drive coupled to a pre-ATP thioester-class carrier builds and MAINTAINS a transferable energy currency under continuous endergonic load — the charged pool fills from empty and settles at ~39% of capacity, a spendable store held against discharge and hydrolysis. This is energetic bookkeeping (a carrier charged and spent), not a favourable reaction direction.
@@ -205,7 +204,7 @@ findings:
 - id: ogenergy-stored-work-fraction
   provenance:
     run_ids:
-    - viva_genesis.composites.proto_energetics.proto_energetics__1791926822__702902
+    - viva_genesis.composites.proto_energetics.proto_energetics__1792351385__122918
   kind: computational
   status: novel
   statement: 'Accounting the free energy by DESTINATION (a conserved ledger: input = useful work + stored + dissipated) shows ~47% of the tapped geochemical free energy is captured as transferable usable work at the favourable operating point, the remaining ~53% dissipated (uncoupled drive, discharge inefficiency, hydrolysis). Capture is not assumed — it is measured, bounded, and falls off smoothly as the coupling efficiency or the drive margin over the carrier bond declines.'
@@ -220,7 +219,7 @@ findings:
 - id: ogenergy-coupling-and-drive-both-required
   provenance:
     run_ids:
-    - viva_genesis.composites.proto_energetics.proto_energetics__1791926822__702902
+    - viva_genesis.composites.proto_energetics.proto_energetics__1792351385__122918
   kind: computational
   status: novel
   statement: The currency collapses under either ablation — no coupling (efficiency -> 0) OR a drive ΔG below the carrier's high-energy bond — so capturing environmental free energy into a transferable store requires BOTH a coupling chemistry and a drive strong enough to clear the bond. The drive axis has a real thermodynamic gate, not merely a rate dependence; the Decision phase map is the bounded region where both conditions hold.

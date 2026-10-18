@@ -100,7 +100,6 @@ baseline:
     k_extend: 0.4
     cac_molar: 0.005
   canonical: true
-  planned: true   # REBUILD chemistry: explicit chain-extension repointed; awaiting the balanced run
 disposition: >-
   REBUILD chemistry. The landed study assumes acetate + formate condense to a single generic amphiphile
   with no defensible kinetics (k_synth is an inferred rate with no direct prebiotic measurement, as the
@@ -125,7 +124,7 @@ findings:
 - id: endogenous-boundary-forms
   provenance:
     run_ids:
-    - viva_genesis.composites.endogenous_boundary.endogenous_boundary__1792073782__997a9b
+    - viva_genesis.composites.endogenous_boundary.endogenous_boundary__1792350382__6fe7d7
   kind: computational
   status: confirms
   statement: The boundary forms from acetate+formate-derived amphiphile; with synthesis ablated it does not — boundary formation is caused by the endogenous chemistry.

@@ -43,7 +43,7 @@ findings:
 - id: og02-network-closure
   provenance:
     run_ids:
-    - viva_genesis.composites.protometabolism.protometabolic_network__1791858208__cae24f
+    - viva_genesis.composites.protometabolism.protometabolic_network__1792351383__20bdb6
   kind: computational
   status: confirms
   statement: Products form ONE connected reaction network (networkx connectivity), not disconnected one-offs.
@@ -224,7 +224,6 @@ baseline:
   composite: viva_genesis.composites.open_chemical_network.open_chemical_network
   params: {model_proto_metabolism: curated_rtca}
   canonical: true
-  planned: true   # REBUILD: balanced network repointed; awaiting the balanced rerun across the 3 arms
 runtime:
   default_emitter: sqlite
   default_n_steps: 120
