@@ -15,6 +15,7 @@ from .proto_energetics import (  # noqa: E402,F401
     ProtoEnergyCurrencyProcess,
 )
 from .thioester_cycle import ThioesterCarrierCycleProcess  # noqa: E402,F401
+from .gradient_only_work import GradientOnlyWorkProcess  # noqa: E402,F401
 from .energy_coupling import (  # noqa: E402,F401
     PassiveGradientCouplingProcess,
     IonGradientCouplingProcess,
@@ -29,6 +30,7 @@ __all__ = [
     "GeochemicalDriveProcess",
     "ProtoEnergyCurrencyProcess",
     "ThioesterCarrierCycleProcess",
+    "GradientOnlyWorkProcess",
     "PassiveGradientCouplingProcess",
     "IonGradientCouplingProcess",
     "ThioesterCouplingProcess",
