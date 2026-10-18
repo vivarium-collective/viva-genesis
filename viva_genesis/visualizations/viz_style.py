@@ -231,6 +231,16 @@ QUANTITY_UNITS = {
     "generations": "count",
     "motifs": "count",
     "product_classes": "count",
+    # demographic ecology (og-36/37) — the model counts integer cell births on a
+    # shared feed, NOT a carbon ledger, so productivity is "births", not M / mol/s.
+    "cumulative_productivity": "births",
+    "productivity_margin": "×",        # community vs best single lineage (a ratio)
+    "omega": "count",                  # system size Ω
+    "n_alive": "count",
+    "n_alive_mean": "count",
+    "extinction_fraction": "fraction",
+    "lineage_retention": "fraction",
+    "community_cv": "dimensionless",   # coefficient of variation across replicates
 }
 
 # A few display names that ``key.replace("_", " ")`` would get wrong or too terse.
@@ -245,6 +255,8 @@ _QUANTITY_DISPLAY = {
     "k_wash": "washout rate k_wash",
     "k_deg": "membrane degradation rate k_deg",
     "k_hydrolyze": "carrier hydrolysis rate k_hydrolyze",
+    "omega": "system size Ω",
+    "community_cv": "community CV",
 }
 
 
