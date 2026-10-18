@@ -1,0 +1,88 @@
+{
+ "meta": {
+  "wall_time_s": 26.740330934524536,
+  "network": "C4",
+  "porosity": 0.88,
+  "n_steps": 160,
+  "division_geometry": "MEASURED area-doubling budding threshold (division_ratio 2.0; hanczyc2003/budin2012) \u2014 a proposed_input, NOT tuned",
+  "coupling": "membrane area grows from the real metabolic flux (viva-genesis og_32 protocell); NOT CG membrane mechanics (Option A = study og-33a)",
+  "guardrail": "metabolism = sustained A1 carbon-fixing network, NOT autocatalytic (A2 refuted)"
+ },
+ "coupled": [
+  {
+   "feed": 0.001,
+   "net_carbon_flux": 0.00033600041548916194,
+   "membrane_area": 31.44305027665134,
+   "reduced_volume": 0.5173523850645595,
+   "division_count": 2,
+   "division_rate": 0.012499999999999834,
+   "daughter_viable": 1.0
+  },
+  {
+   "feed": 0.002,
+   "net_carbon_flux": 0.0007448528816931205,
+   "membrane_area": 36.97323362090955,
+   "reduced_volume": 0.42455572428775235,
+   "division_count": 5,
+   "division_rate": 0.031249999999999584,
+   "daughter_viable": 1.0
+  },
+  {
+   "feed": 0.003,
+   "net_carbon_flux": 0.0011566619132854072,
+   "membrane_area": 40.66642163045705,
+   "reduced_volume": 0.3959035242556916,
+   "division_count": 8,
+   "division_rate": 0.04999999999999934,
+   "daughter_viable": 1.0
+  }
+ ],
+ "decoupled": [
+  {
+   "feed": 0.001,
+   "net_carbon_flux": 0.00033600041548916194,
+   "membrane_area": 27.844741178683726,
+   "reduced_volume": 0.61077427142808,
+   "division_count": 2,
+   "division_rate": 0.012499999999999834,
+   "daughter_viable": 1.0
+  },
+  {
+   "feed": 0.002,
+   "net_carbon_flux": 0.0007448528816931205,
+   "membrane_area": 27.844741178683726,
+   "reduced_volume": 0.61077427142808,
+   "division_count": 2,
+   "division_rate": 0.012499999999999834,
+   "daughter_viable": 1.0
+  },
+  {
+   "feed": 0.003,
+   "net_carbon_flux": 0.0011566619132854072,
+   "membrane_area": 27.844741178683726,
+   "reduced_volume": 0.61077427142808,
+   "division_count": 2,
+   "division_rate": 0.012499999999999834,
+   "daughter_viable": 1.0
+  }
+ ],
+ "imposed": {
+  "feed": 0.001,
+  "net_carbon_flux": 0.00033600041548916194,
+  "membrane_area": 11.037707158130795,
+  "reduced_volume": 0.45166881655928387,
+  "division_count": 7,
+  "division_rate": 0.043749999999999414,
+  "daughter_viable": 1.0
+ },
+ "coupled_slope": 45.69464738116627,
+ "decoupled_slope": -2.7926115702446908e-31,
+ "criteria": {
+  "growth_from_metabolism": true,
+  "division_at_geometry": true,
+  "daughters_viable": true,
+  "beats_null": true
+ },
+ "verdict": "qualified",
+ "headline": "Gate D first half (growth & division, Option B MEASURED critical-geometry \u2014 NOT CG membrane mechanics): verdict=qualified. On study-32's self-maintaining protocell, membrane area grows from the real metabolic amphiphile flux and the compartment divides at a measured area-doubling budding geometry (no imposed event). Division RATE scales with metabolic flux in the coupled arm (rate 0.0125 -> 0.0500 as flux 3.36e-04 -> 1.16e-03; slope 4.57e+01 > 0) while the growth-decoupled null is flux-INDEPENDENT (slope -2.79e-31 ~ 0), and the imposed-division null divides on a timer (rate 0.0437) regardless of geometry. Daughters are viable (resume the study-32 self-maintenance criterion) across the sweep. So growth and division FOLLOW from metabolism + measured geometry and beat both matched nulls at equal feeds; qualified because this is the measured-geometry first cut (CG membrane mechanics = Option A / og-33a, budgeted follow-on). Metabolism = sustained A1 network, NOT autocatalytic (A2 refuted)."
+}
