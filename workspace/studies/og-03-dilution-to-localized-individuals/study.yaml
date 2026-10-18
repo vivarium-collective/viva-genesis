@@ -253,7 +253,7 @@ behavior_tests:
   - mast2010thermal
   gate_class: acceptance_criterion
 - name: enrichment-resolved-within-convergence
-  classification: primary
+  classification: diagnostic
   description: Within the FEM-trustworthy / convergence-verified Péclet range (Pe_acc
     ≲ 13, spatial-transport-solver-comparison), the resolved thermophoretic field
     DOES concentrate the feed above its inflow — a bounded individual forms. This

@@ -2,7 +2,6 @@
 """Validate workspace.yaml + cross-references. Exit non-zero on failure."""
 from __future__ import annotations
 import hashlib
-import importlib
 import json
 import re
 import subprocess
@@ -11,7 +10,7 @@ from pathlib import Path
 from collections import Counter
 
 import yaml
-from jsonschema import Draft7Validator, FormatChecker, ValidationError
+from jsonschema import Draft7Validator, FormatChecker
 
 
 def _try_get_registry(ws_root: Path, ws_data: dict) -> set | None:
@@ -262,7 +261,6 @@ def main() -> None:
     # Count expert_docs
     expert_docs = ws.get("expert_docs", []) or []
     n_expert = len(expert_docs)
-    expert_names = [d.get("name", "?") for d in expert_docs if isinstance(d, dict)]
 
     # Count bib keys
     bib_file = _dir("references") / "papers.bib"
@@ -310,6 +308,7 @@ def main() -> None:
     study_names: list[str] = []
     study_statuses: list[str] = []
     study_warnings: list[str] = []
+    studies_by_dir: dict[str, dict] = {}  # for the audit checks below
     # F-friction #6: keep a separate count of studies that fail dashboard
     # load so the summary line can swap ✓ for ✗ when any fail. Without this,
     # the summary said `dashboard ✓` while WARN lines underneath said
@@ -324,6 +323,7 @@ def main() -> None:
             s_status = study_data.get("status", "unknown")
             study_names.append(s_name)
             study_statuses.append(s_status)
+            studies_by_dir[study_dir] = study_data
 
             # Validate against JSON schema if available
             if study_schema is not None:
@@ -356,6 +356,135 @@ def main() -> None:
                     n_studies_failed_dashboard += 1
         except Exception as exc:
             study_warnings.append(f"  WARN could not parse {study_yaml_path}: {exc}")
+
+    # ---- Audit checks (hard-fail) --------------------------------------
+    # Pure checks live in viva_genesis.audit_checks; resolve their inputs here.
+    _audit_errors: list[str] = []
+    try:
+        from viva_genesis.audit_checks import (
+            check_baseline_params,
+            check_unguarded_optional_imports,
+            check_dangling_refs,
+            check_artifacts_exist,
+            check_planned_not_passed,
+            check_verdict_evidence,
+            check_knife_edge_margins,
+            check_units_present,
+            check_gate_matched_null,
+            check_gate_members_in_roster,
+        )
+    except Exception as _e:  # viva_genesis not importable here — warn, don't fail
+        print(f"LINT WARNING: audit checks skipped ({_e})", file=sys.stderr)
+    else:
+        # (1) baseline params must be declared parameters of their composite.
+        gen_parameters: dict[str, set] | None = None
+        try:
+            import viva_genesis.composites  # noqa: F401  (registers generators)
+            from process_bigraph.composite_generator import _REGISTRY as _CG
+            gen_parameters = {
+                k: set((getattr(e, "parameters", None) or {}).keys())
+                for k, e in _CG.items()
+                if k.startswith("viva_genesis.composites.")
+            }
+        except Exception as _e:
+            print(f"LINT WARNING: baseline-param check skipped — "
+                  f"could not introspect composite parameters ({_e})", file=sys.stderr)
+        if gen_parameters is not None:
+            _audit_errors += [f"baseline-param: {e}"
+                              for e in check_baseline_params(studies_by_dir, gen_parameters)]
+
+        # (3) optional-dep imports in tests/ must be importorskip-guarded.
+        optional_deps = {"viva_openmm", "openmm", "rdkit", "phreeqpython",
+                         "reaktoro", "fipy", "simtk"}
+        try:
+            import tomllib
+            _pp = tomllib.loads((WS_ROOT / "pyproject.toml").read_text())
+            for _deps in (_pp.get("project", {}).get("optional-dependencies", {}) or {}).values():
+                for _d in _deps or []:
+                    _nm = re.split(r"[<>=!~;\[ ]", str(_d))[0].strip().replace("-", "_")
+                    if _nm and _nm not in ("pytest", "pytest_cov"):
+                        optional_deps.add(_nm)
+        except Exception:
+            pass  # fall back to the hardcoded set
+        _test_files = []
+        _tests_dir = WS_ROOT / "tests"
+        if _tests_dir.exists():
+            for _tf in sorted(_tests_dir.rglob("test_*.py")):
+                try:
+                    _test_files.append((str(_tf.relative_to(WS_ROOT)), _tf.read_text()))
+                except Exception:
+                    pass
+        _audit_errors += [f"optional-import: {e}"
+                          for e in check_unguarded_optional_imports(_test_files, optional_deps)]
+
+        # ---- Batch 2: evidence-integrity checks ------------------------
+        _all_slugs = set(studies_by_dir)
+        # A — dangling cross-references (from_test / run_ids / cites / prerequisites).
+        _audit_errors += [f"dangling-ref: {e}"
+                          for e in check_dangling_refs(studies_by_dir, _all_slugs, bib_keys_found)]
+
+        # B — committed artifacts must exist for ran/passed studies. Artifact paths
+        # are workspace-root-relative; run store_paths are study-dir-relative and
+        # usually git-ignored (run DBs aren't committed) — those are skipped.
+        import subprocess as _sp
+
+        def _resolve_artifact(_slug: str, _rel: str) -> str:
+            _full = (WS_ROOT / _rel) if str(_rel).startswith("workspace/") \
+                else (_dir("studies") / _slug / _rel)
+            try:
+                if _sp.run(["git", "check-ignore", str(_full)],
+                           capture_output=True, cwd=str(WS_ROOT)).returncode == 0:
+                    return "ignored"
+            except Exception:
+                pass
+            return "ok" if _full.exists() else "missing"
+
+        _audit_errors += [f"artifact-missing: {e}"
+                          for e in check_artifacts_exist(studies_by_dir, _resolve_artifact)]
+
+        # C — a planned canonical baseline cannot be a passed result.
+        _audit_errors += [f"planned-but-passed: {e}"
+                          for e in check_planned_not_passed(studies_by_dir)]
+
+        # D — a supported verdict / passed gate needs its primary test outcome == PASS.
+        _audit_errors += [f"verdict-evidence: {e}"
+                          for e in check_verdict_evidence(studies_by_dir)]
+
+        # Roster — every plan_gates member must be in the investigation studies roster.
+        for _inv_path in sorted((_dir("investigations")).glob("*/investigation.yaml")):
+            try:
+                _inv = yaml.safe_load(_inv_path.read_text()) or {}
+            except Exception:
+                continue
+            if _inv.get("plan_gates"):
+                _roster = set(_inv.get("studies") or [])
+                _audit_errors += [f"gate-member-roster: {e}" for e in
+                                  check_gate_members_in_roster(_inv.get("name", _inv_path.parent.name),
+                                                               _inv["plan_gates"], _roster)]
+
+        # G — a gate authored passed must be derivation-passed (matched-null confirmed).
+        # Best-effort: inert until plan_progress + plan_gates land on this branch.
+        try:
+            from viva_genesis.plan_progress import build_plan_progress
+            for _inv_path in sorted((_dir("investigations")).glob("*/investigation.yaml")):
+                _inv = yaml.safe_load(_inv_path.read_text()) or {}
+                if _inv.get("plan_gates"):
+                    _rows = build_plan_progress(_inv, studies_by_dir)
+                    _audit_errors += [f"gate-matched-null: {e}"
+                                      for e in check_gate_matched_null(_rows, _inv["plan_gates"])]
+        except Exception:
+            pass
+
+        # E/F — WARN only (don't fail): knife-edge margins + missing units.
+        for _w in check_knife_edge_margins(studies_by_dir):
+            print(f"LINT WARNING: knife-edge: {_w}", file=sys.stderr)
+        for _w in check_units_present(studies_by_dir):
+            print(f"LINT WARNING: units: {_w}", file=sys.stderr)
+
+    if _audit_errors:
+        for _e in _audit_errors:
+            print(f"LINT ERROR: {_e}", file=sys.stderr)
+        sys.exit(1)
 
     n_studies = len(study_names)
     status_counts = Counter(study_statuses)

@@ -6,8 +6,8 @@ phase: Evaluate
 status: ran
 execution_status: completed
 design_status: approved
-confidence: Accepted
-gate_status: passed
+confidence: Investigating
+gate_status: stale
 title: The First Metabolism
 question: >-
   Under continuous feed and washout, does a curated prebiotic reaction network persist and
@@ -88,9 +88,10 @@ conclusion: A real SBML rTCA-fragment network sustains throughput and an autocat
   emergence this study set out to test.
 conclusion_verdicts:
   biological_validation:
-    result: PASS
-    basis: Emergent sustained throughput + autocatalysis + connectivity, with a no-CO2
-      control collapsing them.
+    result: PENDING
+    basis: Pending the balanced open_chemical_network rebuild (canonical baseline is
+      planned:true). Prior pre-repoint run showed emergent sustained throughput +
+      autocatalysis + connectivity, with a no-CO2 control collapsing them.
   explanatory_gain:
     result: POSITIVE
     basis: The genuine libRoadRunner ODE network shows WHY autocatalysis arises (the

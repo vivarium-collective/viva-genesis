@@ -1,88 +1,22 @@
 """viva_genesis composite generators (dashboard-visible entry points).
 
-Each submodule is imported for its side effect so the ``@composite_generator``
-decorators fire on package import.
+Every submodule here is imported for its side effect — the
+``@composite_generator`` decorators fire on package import, registering each
+generator in the process-bigraph registry. Discovery is by a package glob (not a
+hand-maintained ``from . import X`` list): dropping a new ``*.py`` composite in
+this directory registers it automatically, with no manual append. (That manual
+append block used to be a merge-conflict magnet — every spine/rescope PR edited
+the same anchor.)
+
+``__all__`` is the submodule list, built the same way. Composite references
+resolve by their full ``viva_genesis.composites.<module>.<generator>`` id via the
+registry / import path, so no package-level function re-exports are needed.
 """
+import importlib as _importlib
+import pkgutil as _pkgutil
 
-from . import vent_reactor  # noqa: F401
-from . import carbon_fixation  # noqa: F401
-from . import protometabolism  # noqa: F401
-from . import thermophoretic_concentration  # noqa: F401
-from . import mixed_amphiphile_protocell  # noqa: F401
-from . import bioenergetic_internalization  # noqa: F401
-from . import heredity_module_comparison  # noqa: F401
-from . import heredity_lineage  # noqa: F401
-from . import off_gradient_persistence  # noqa: F401
-from . import cross_feeding_metacommunity  # noqa: F401
-from . import nitrogen_assimilation  # noqa: F401
-from . import phosphorus_availability  # noqa: F401
-from . import proto_energetics  # noqa: F401
-from . import osmotic_growth_division  # noqa: F401
-from . import spatial_transport  # noqa: F401
-from . import integrated_autonomy  # noqa: F401
-from . import geochemical_world  # noqa: F401
-from . import og_27_coupled_geochemical_reaction_interface  # noqa: F401
-from . import electrochemical_interface  # noqa: F401
-from . import open_chemical_network  # noqa: F401
-from . import og_12_energy_carrier_cycle  # noqa: F401
-from . import og_17_amphiphile_chain_extension  # noqa: F401
-from . import og_28_prebiotic_reaction_atlas  # noqa: F401
-from . import og_30_spatially_integrated_protometabolism  # noqa: F401
-from . import og_31_protometabolism_to_amphiphiles  # noqa: F401
-from . import og_29_endogenous_autocatalysis  # noqa: F401
-from . import endogenous_boundary  # noqa: F401
-from . import physical_reproduction  # noqa: F401
-from . import protocell_energetics  # noqa: F401
-from . import competing_heredity  # noqa: F401
-from . import metabolite_exchange_community  # noqa: F401
-
-from .vent_reactor import serpentinizing_vent_reactor, serpentinizing_vent_reactor_reduced
-from .carbon_fixation import hydrothermal_carbon_fixation
-from .protometabolism import protometabolic_network
-from .thermophoretic_concentration import thermophoretic_concentration
-from .mixed_amphiphile_protocell import mixed_amphiphile_protocell
-from .bioenergetic_internalization import bioenergetic_internalization
-from .heredity_module_comparison import heredity_module_comparison
-from .heredity_lineage import heredity_lineage_comparison
-from .off_gradient_persistence import off_gradient_persistence
-from .cross_feeding_metacommunity import cross_feeding_metacommunity
-from .nitrogen_assimilation import reduced_nitrogen_reactor
-from .phosphorus_availability import phosphorus_availability
-from .proto_energetics import proto_energetics
-from .osmotic_growth_division import osmotic_growth_division
-from .spatial_transport import spatial_transport_trap, spatial_transport_vent
-from .geochemical_world import geochemical_world
-from .electrochemical_interface import electrochemical_carbon_fixation
-from .open_chemical_network import open_chemical_network
-from .endogenous_boundary import endogenous_boundary
-from .physical_reproduction import physical_reproduction
-from .protocell_energetics import protocell_energetics
-from .competing_heredity import competing_heredity
-from .metabolite_exchange_community import metabolite_exchange_community
-
-__all__ = [
-    "serpentinizing_vent_reactor", "serpentinizing_vent_reactor_reduced",
-    "hydrothermal_carbon_fixation",
-    "protometabolic_network",
-    "thermophoretic_concentration",
-    "mixed_amphiphile_protocell",
-    "bioenergetic_internalization",
-    "heredity_module_comparison",
-    "heredity_lineage_comparison",
-    "off_gradient_persistence",
-    "cross_feeding_metacommunity",
-    "reduced_nitrogen_reactor",
-    "phosphorus_availability",
-    "proto_energetics",
-    "osmotic_growth_division",
-    "spatial_transport_trap",
-    "spatial_transport_vent",
-    "geochemical_world",
-    "electrochemical_carbon_fixation",
-    "open_chemical_network",
-    "endogenous_boundary",
-    "physical_reproduction",
-    "protocell_energetics",
-    "competing_heredity",
-    "metabolite_exchange_community",
-]
+__all__ = []
+for _m in _pkgutil.iter_modules(__path__):
+    _importlib.import_module(f"{__name__}.{_m.name}")
+    __all__.append(_m.name)
+__all__ = sorted(__all__)

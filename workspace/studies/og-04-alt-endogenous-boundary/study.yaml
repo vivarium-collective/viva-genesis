@@ -8,8 +8,8 @@ execution_status: completed
 design_status: approved
 simulation_status: ran
 evaluation_status: evaluated
-confidence: Accepted
-gate_status: passed
+confidence: Investigating
+gate_status: stale
 title: The Endogenous Boundary
 question: >-
   Can a protocell boundary form from the campaign's own reduced-carbon chemistry - an
@@ -154,7 +154,7 @@ findings:
   cites:
   - jordan2019promotion
 conclusion_verdicts:
-  boundary-forms-from-chemistry: supported
+  boundary-forms-from-chemistry: pending
 limitations:
 - The amphiphile synthesis rate (k_synth) is an inferred condensation rate with no
   direct prebiotic measurement (vg-data provenance hypothetical, wide prior).
