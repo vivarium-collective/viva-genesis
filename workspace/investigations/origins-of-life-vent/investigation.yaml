@@ -108,38 +108,48 @@ executive:
     the claim is that a persisting network makes a membrane that pays for itself on persistence, never that the
     chemistry self-amplifies.
   verdict: >-
-    The full geochemistry-to-heredity arc runs on real simulators and passes its pre-stated,
-    falsifiable gates, with conservation held to machine precision. Twenty-three studies execute
-    end to end: a Lost City vent (og-00), H2-driven carbon fixation benchmarked against Preiner
-    and Hudson (og-01), a self-amplifying rTCA network (og-02), thermophoretic individuality
-    (og-03), amphiphile compartments (og-04), internalized bioenergetics bounded by the Sojo cost
-    (og-05), heredity that need not presume RNA (og-06), metacommunity robustness (og-07), the
-    {pump, importer, heredity} escape set (og-08), plus the nitrogen, phosphorus, energy-currency
-    and growth/division modules. An adversarial vent-ablated control is rejected by every
-    discriminating gate, so the gates are vent-specific rather than generic. The sharpest findings
-    come from re-running each stage on higher-fidelity model
-    classes under a feasibility / robustness / discrimination standard, which returned three honest
-    negatives. Carbon fixation runs, but which limitation stops it is
-    structure-sensitive. The Butler-Volmer and empirical classes agree on the label only 47% of
-    the time against an 80% gate, so the mechanism map, not a pass, is the result (charge/electron
-    ledger exact on 750 runs). A rule-generated C/H/O reaction universe (413 reactions,
-    real eQuilibrator dG') on the calibrated vent grows zero autocatalytic motifs, every C-C route
-    uphill at vent activities, and grows exactly one (the formose cycle) once fed formaldehyde,
-    enriched over matched nulls (p = 0.04). No autocatalysis without a one-carbon feed. The capstone: og-08's {pump, importer, heredity}, re-asked inside one persistent world across
-    24 model structures under seven ledgers, is not jointly sufficient. No subset persists into a
-    1% ocean, only {pump, heredity} into a 10% one (2 of 24 structures), and the importer is a net
-    cost under a leaky membrane, so og-08 is recorded as a hypothesis generator. A fourth result
-    is spatial: in the localization stage the eight-solute prebiotic mixture fractionates rather than
-    co-localizing in one thermophoretic pore (Soret-driven; surrogate and dolfinx FEM agree), and
-    concentrating one tracer is not concentrating the set a protocell needs together. The vent calibration
-    anchors the arc: conditioning on the Lost City windows leaves a posterior in which 100% of the
-    empirically supported vent states supply what carbon fixation needs, the two
-    transport-structure classes agree, dissolved H2 is the single binding observation, and the
-    ledger is exact (0 of 96 points rejected). Every stage is built and run. What remains open is
-    editorial (publication scope, bottleneck-map framing) and a few expert priors (the Hadean
-    ocean's H2 / organic floor, heredity attachment thresholds, membrane permeabilities):
-    decisions, not unrun science.
-  verdict_status: complete
+    The full geochemistry-to-heredity arc runs end to end on real simulators, with conservation held to
+    machine precision, and the campaign adjudicates its scenarios rather than asserting them. The sharpest
+    results come from re-running each stage on higher-fidelity model classes under a feasibility / robustness
+    / discrimination standard, and the honest headline is a spine that advances on persistence while
+    endogenous autocatalysis was tested and refuted along the way. On the spine, a rule-generated C/H/O
+    reaction network emerges and fixes carbon and then persists at vent-realistic feeds once a concentrating
+    mineral pore is added - Gate A1 (network persistence) is met, qualified: a connected carbon-fixing network
+    ignites inside a physical pore (porosity ~0.88, pore-local ~0.023 M) where a matched well-mixed control
+    stays dead, within a bounded, somewhat brittle porosity window (~0.80-0.90), confirmed directly on the
+    six-carbon network (Gate B met). Endogenous autocatalysis, by contrast, is refuted under vent conditions
+    for both representable routes - Gate A2, an off-spine branch, each with a mechanism: the formose doubling
+    step is thermodynamically condensation-favored (-16.4 kJ/mol) so its splitting direction carries no net
+    flux, and on a coefficient-free discriminator production is seed-independent (feed-driven, not
+    self-amplified); a seeded reductive-TCA cycle washes out under vent H2 because its reductive carboxylations
+    run uphill (+18, +31 kJ/mol), the same reason real rTCA uses ferredoxin, not H2 - though a labelled
+    counterfactual shows the rTCA topology is autocatalysis-capable under a stronger reductant, noted as a
+    possible beyond-vent follow-up. An endogenous membrane then pays for itself on persistence (standing pool
+    ~2.9x a matched no-membrane ablation) but not throughput, within a membrane-access window - Gate C partial,
+    qualified; the full MD-coupled Gate C (study 32, First Self-Maintaining Protocell) is under build.
+    Reproduction and heredity (Gate D) and the optional extensions (Gate E) are pending. The earlier,
+    lower-fidelity arc stands as the scaffold these sharpened: a Lost City vent (og-00) holding its window over
+    ~80% of the swept grid with exact charge balance; H2-driven carbon fixation benchmarked against Preiner and
+    Hudson (og-01); thermophoretic individuality, amphiphile compartments, internalized bioenergetics bounded
+    by the Sojo cost, heredity that need not presume RNA, metacommunity robustness, and the {pump, importer,
+    heredity} escape set (og-02 through og-08), plus the nitrogen, phosphorus, energy-currency and
+    growth/division modules. An adversarial vent-ablated control is rejected by every discriminating gate, so
+    the gates are vent-specific rather than generic. Three honest negatives are the sharpest of these: carbon
+    fixation runs but which limitation stops it is structure-sensitive (the Butler-Volmer and empirical classes
+    agree on the label only 47% of the time against an 80% gate, so the mechanism map, not a pass, is the
+    result; charge/electron ledger exact on 750 runs); the eight-solute mixture fractionates rather than
+    co-localizing in one thermophoretic pore (concentrating one tracer is not concentrating the set a protocell
+    needs together); and og-08's {pump, importer, heredity}, re-asked inside one persistent world across 24
+    model structures, is not jointly sufficient (recorded as a hypothesis generator). The vent calibration
+    anchors the arc: conditioning on the Lost City windows leaves a posterior in which 100% of the empirically
+    supported vent states supply what carbon fixation needs, transport-class-independent, with the ledger exact
+    (0 of 96 points rejected). So the campaign's result is a mechanism map and an honestly-advanced spine, not
+    a declaration of success: a carbon-fixing network persists at vent-realistic feeds in a pore (A1),
+    self-amplification does not occur under vent conditions (A2 refuted, both routes), a membrane earns its
+    cost on persistence (C partial), with the full self-maintaining protocell under build. What remains open is
+    editorial (publication scope, bottleneck-map framing) and a few expert priors (the Hadean ocean's H2 /
+    organic floor, heredity attachment thresholds, membrane permeabilities) - decisions, not unrun science.
+  verdict_status: in-progress
   verdict_detail: >-
     Twenty-three studies, the fourteen-stage arc (the geochemistry-to-heredity stages, the nitrogen / phosphorus /
     energy / growth bottleneck modules, an adversarial control) plus nine
@@ -151,7 +161,9 @@ executive:
     holds the Lost City window (T 40-91 C, pH 9.0-10.8, positive H2 flux) over ~80% of the swept
     grid with |charge| = 0; og-01 reproduces the Preiner/Hudson yields and shows the Tutolo arm
     halve the usable proton-motive gradient (427 -> 43 mV); og-02 reaches a peak autocatalytic
-    gain ~29.5; og-06's compositional / hybrid heredity is seed-robust (0.878 +/- 0.005, 5/5
+    gain ~29.5 in its earlier reduced model - superseded under vent conditions by og-29's
+    higher-fidelity refutation (Gate A2: autocatalysis refuted for both representable routes);
+    og-06's compositional / hybrid heredity is seed-robust (0.878 +/- 0.005, 5/5
     graded seeds); og-08's escape set is irreducible (full set survives 1.0, any single knockout
     0); og-cal's Lost-City-conditioned posterior is 12.5% of the prior yet 100% viable downstream
     and transport-class-independent (ledger 0/96 rejected). og-01-cal builds the vent wall as a
