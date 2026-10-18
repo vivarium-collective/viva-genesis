@@ -900,7 +900,7 @@
         </div>
         
         
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Caveat</span> <span class="ctr-meta-item">Mineral-evolution throttling criterion unexercised - at the current undersaturated operating point (SI -15 to -17) the system is in a dissolution regime (porosity opens, no precipitation/passivation). Serpentinization reaches carbonate/brucite supersaturation (Lost City chimney precipitation), so the throttling half of the decision test requires a supersaturating operating point (higher Ca/Mg/DIC or pH) - named follow-up.</span></div>
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Caveat</span> <span class="ctr-meta-item">Supersaturating rerun (fluid_dic=0.02, SI +3.2) now EXERCISES the mineral-evolution throttling that the default undersaturated point (SI -15) could not: real precipitation (0.26), catalytic accessibility passivates (1 -&gt; 0.88), and porosity closes (0.35 -&gt; 0), with conservation held (ledger_ok, charge balanced, mineral-mass residual ~0). The throttling mechanism works.</span></div>
         
       </div>
       
@@ -1596,7 +1596,7 @@ pass_if: {"detail": "bundle complete and typed (satisfies 27\u219229 handoff val
       <h3 class="overview-label">Limitations</h3>
       <p class="muted" style="margin:0 0 6px 0;font-size:0.85em">What this study explicitly does NOT validate (prevents overclaim).</p>
       <ul style="margin:0 0 0 18px;padding:0;font-size:0.93em">
-        <li style="margin:2px 0">Mineral-evolution throttling criterion unexercised - at the current undersaturated operating point (SI -15 to -17) the system is in a dissolution regime (porosity opens, no precipitation/passivation). Serpentinization reaches carbonate/brucite supersaturation (Lost City chimney precipitation), so the throttling half of the decision test requires a supersaturating operating point (higher Ca/Mg/DIC or pH) - named follow-up.</li>
+        <li style="margin:2px 0">Supersaturating rerun (fluid_dic=0.02, SI +3.2) now EXERCISES the mineral-evolution throttling that the default undersaturated point (SI -15) could not: real precipitation (0.26), catalytic accessibility passivates (1 -&gt; 0.88), and porosity closes (0.35 -&gt; 0), with conservation held (ledger_ok, charge balanced, mineral-mass residual ~0). The throttling mechanism works.</li><li style="margin:2px 0">TWO-REGIME TENSION (the honest finding): there is no single operating point that sustains reactive flux over BOTH the transport AND the mineral-evolution timescales. Undersaturated (SI -15) sustains H2 flux (2.74e-4) but never precipitates, so throttling is not exercised; supersaturated (SI +3.2) exercises throttling but chokes the supply (porosity -&gt; 0, H2_flux -&gt; 8.5e-9). The interface is inherently self-limiting at precipitating conditions - it either supplies or throttles, not both at once. gate_status=needs_calibration: a DIC sweep for a mild- supersaturation crossover window (if any exists) is the named follow-up.</li><li style="margin:2px 0">Feed plausibility: the supersaturating point (fluid_dic 20 mM DIC) is ~7-16x above the vent DIC posterior (1.2-2.9 mM). Lost City does precipitate carbonate chimneys, so supersaturation is geochemically real at the precipitation front, but the exact crossover-vs-full-clog depends on the local DIC - hence the calibration follow-up.</li>
       </ul>
     </div>
     
@@ -1658,7 +1658,7 @@ pass_if: {"detail": "bundle complete and typed (satisfies 27\u219229 handoff val
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "7d5a1978cc2b3c947565c0c8a2558208deb67516", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/7d5a1978cc2b3c947565c0c8a2558208deb67516", "branch": "main", "lockfile": "uv.lock@6b67541037ac", "generated_at": "2026-10-18 01:48 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "85d4d8c295a705ccdd4b5b1ba6b7710c3c950acf", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/85d4d8c295a705ccdd4b5b1ba6b7710c3c950acf", "branch": "main", "lockfile": "uv.lock@6b67541037ac", "generated_at": "2026-10-18 03:13 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>
