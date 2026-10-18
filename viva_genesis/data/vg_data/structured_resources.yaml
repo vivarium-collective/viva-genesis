@@ -21,6 +21,11 @@ description: >-
   pathways (surfacing the generated Phase-3 reaction universe with its thermodynamics and
   honesty notes), paper references (the Martini/coarse-grained-MD set plus campaign
   citations), and the imported simulation engines. Each entry carries its citations.
+# The QA rule (PDF §4) governing every evidence-dataset entry; the Resources tab shows it once.
+evidence_dataset_qa_rule: >-
+  No inferred rate constants from endpoint yields without a stated kinetic model; out-of-domain
+  conditions carry a warning; original published values are preserved and a unit-normalized copy
+  is provided alongside.
 resources:
 
 # ============================================================================
@@ -599,3 +604,99 @@ resources:
   role: "per-reaction dG' at the vent condition (pH 9.38, I 0.25 M, 322 K) across the reaction universe"
   used_by: [og-28, reaction_universe]
   references: [beber2022equilibrator, noor2013consistent]
+
+# ============================================================================
+# PAPER REFERENCE (anchor not already present above)
+# ============================================================================
+- id: baaske2007extreme
+  type: paper-reference
+  name: "Baaske et al. 2007 — extreme accumulation in hydrothermal pores"
+  summary: Thermophoresis + convection drive extreme molecular accumulation in model hydrothermal pore systems.
+  bibtex_key: baaske2007extreme
+  tags: [thermophoresis, accumulation, pore, spatial]
+  in_papers_bib: true
+
+# ============================================================================
+# EVIDENCE DATASETS  (the 4 campaign anchor papers imported as validated evidence,
+# per the QA rule above: original value preserved + unit-normalized copy; model_prediction
+# uses a REAL campaign study output where one exists, else {status: pending}; caution verbatim.)
+# ============================================================================
+- id: evidence-muchowska2019-rtca-network
+  type: evidence-dataset
+  name: "Muchowska 2019 — nonenzymatic rTCA-like network yields"
+  summary: Metal-promoted nonenzymatic synthesis of rTCA-cycle intermediates; the network-chemistry evidence anchor.
+  citation: {bibtex_key: muchowska2019synthesis, doi: "10.1038/s41586-019-1151-1"}
+  provenance_class: LAB-DIRECT
+  source_figure_table: "main-text per-step yields (Fig. 2)"
+  original_measurement: {quantity: product yields of rTCA-cycle intermediates, value: "per-step % yields as reported", units: percent, value_normalized: fraction, uncertainty_or_detection_limit: "as reported"}
+  model_prediction: {study: og-29-endogenous-autocatalysis, output: "net carbon flux + autocatalytic gain (seed-independence discriminator)", value: "flux 5.69e-4; autocatalytic gain 0 (feed-driven, A2 refuted)", units: "mol/s; dimensionless"}
+  species: [glyoxylate, pyruvate, oxaloacetate, "rTCA intermediates"]
+  condition_vector: {pH: "lab", T: "lab", P: ambient, ionic_strength: null, mineral_comp: "Fe / transition metals", concentrations: "as reported"}
+  control_arm: "no-metal / no-CO2 controls (as in the paper)"
+  digitization_provenance: "main-text yields; not pixel-digitized from figures"
+  license_access: "subscription (Nature); DOI"
+  source_asset_link: "doi.org/10.1038/s41586-019-1151-1"
+  feeds_into: [og-02-reduced-carbon-to-protometabolism, og-29-endogenous-autocatalysis, og-30-spatially-integrated-protometabolism, og-31-protometabolism-to-amphiphiles]
+  caution: "Yields/endpoints are NOT kinetic constants — do not infer rate constants from them without a stated kinetic model."
+  status: catalogued
+  references: [muchowska2019synthesis]
+
+- id: evidence-jordan2019-amphiphile-vesicles
+  type: evidence-dataset
+  name: "Jordan 2019 — mixed-amphiphile vesicle assembly windows"
+  summary: Prebiotic mixed amphiphiles self-assemble into vesicles across a salt / pH / temperature window; the amphiphile-emergence evidence anchor.
+  citation: {bibtex_key: jordan2019promotion, doi: "10.1038/s41559-019-1015-y"}
+  provenance_class: LAB-DIRECT
+  source_figure_table: "assembly phase windows (main figures)"
+  original_measurement: {quantity: aggregation-competent window (chain length / salt / pH / divalent / temperature), value: "assembly window as reported", units: "varied (M, pH, deg C)", value_normalized: "SI units", uncertainty_or_detection_limit: "as reported"}
+  model_prediction: {study: og-32-first-self-maintaining-protocell, output: "composition -> permeability -> retention window (og-31 retention/access; og-32 MD-informed)", value: "retention 0.905 / access 0.997 vent-calibrated (og-31); thickness->permeability->retention (og-32)", units: dimensionless}
+  species: ["fatty acids", "fatty alcohols", "monoacylglycerols", "mixed amphiphiles"]
+  condition_vector: {pH: "alkaline (as reported)", T: "as reported", P: ambient, ionic_strength: "saline (as reported)", mineral_comp: null, concentrations: "as reported"}
+  control_arm: "composition / condition variation across the assembly window (as in the paper)"
+  digitization_provenance: "assembly windows from main figures; not pixel-digitized"
+  license_access: "subscription (Nature Ecology & Evolution); DOI"
+  source_asset_link: "doi.org/10.1038/s41559-019-1015-y"
+  feeds_into: [og-31-protometabolism-to-amphiphiles, og-33-chemically-coupled-growth-and-division, mem-m1-amphiphile-assembly, mem-m3-stability-gradients]
+  caution: "Lab amphiphile mixtures demonstrate assembly, NOT endogenous synthesis — they do not establish that the campaign's own chemistry produces these amphiphiles."
+  status: catalogued
+  references: [jordan2019promotion]
+
+- id: evidence-baaske2007-thermophoretic-accumulation
+  type: evidence-dataset
+  name: "Baaske 2007 — thermophoretic accumulation in hydrothermal pores"
+  summary: Thermophoresis + convection drive extreme molecular accumulation in model pore systems; the spatial-concentration evidence anchor.
+  citation: {bibtex_key: baaske2007extreme, doi: "10.1073/pnas.0609592104"}
+  provenance_class: MODEL
+  source_figure_table: "accumulation factor vs pore geometry (main figures)"
+  original_measurement: {quantity: molecular accumulation factor vs pore geometry, value: "up to ~1e8-1e12 fold (geometry-dependent)", units: "fold (dimensionless)", value_normalized: "log10 fold", uncertainty_or_detection_limit: "model output"}
+  model_prediction: {study: og-30-spatially-integrated-protometabolism, output: "pore enrichment factor / ignition", value: "enrichment ~23x at porosity 0.88 (og-30); og-03 restated at the resolvable Peclet, NOT the >=1e6 fold", units: "fold (dimensionless)"}
+  species: ["DNA / charged solutes", "model tracers"]
+  condition_vector: {pH: null, T: "thermal gradient (as reported)", P: ambient, ionic_strength: "as reported", mineral_comp: "pore geometry", concentrations: "trace"}
+  control_arm: "open / plugged / well-mixed pore controls (the Baaske regimes)"
+  digitization_provenance: "accumulation regimes from main figures; not pixel-digitized"
+  license_access: "PNAS; DOI"
+  source_asset_link: "doi.org/10.1073/pnas.0609592104"
+  feeds_into: [og-03-dilution-to-localized-individuals, og-05-environmental-to-internal-bioenergetics, og-30-spatially-integrated-protometabolism, og-32-first-self-maintaining-protocell]
+  caution: "The extreme accumulation is a GEOMETRY-DEPENDENT model output, not a universal constant; og-03 restated localization at the resolvable Peclet (the resolved FEM does not confirm the >=1e6 fold above Pe ~13)."
+  status: catalogued
+  references: [baaske2007extreme]
+
+- id: evidence-souza2021-martini3-forcefield
+  type: evidence-dataset
+  name: "Souza 2021 — Martini 3 force field (CG-MD parameters)"
+  summary: The Martini 3 general-purpose coarse-grained force field; the parameter basis for the membrane-MD property library (M1-M4).
+  citation: {bibtex_key: souza2021martini3, doi: "10.1038/s41592-021-01098-3"}
+  provenance_class: MODEL
+  source_figure_table: "bead-type definitions + validation (main + SI)"
+  original_measurement: {quantity: CG bead types + bonded/nonbonded parameters + validation observables, value: "force-field parameter set", units: "various", value_normalized: "SI", uncertainty_or_detection_limit: "validation RMSD as reported"}
+  model_prediction: {study: og-32-first-self-maintaining-protocell, output: "MD-informed bilayer thickness -> permeability -> retention", value: "di-C16 2.870 nm / di-C12 2.325 nm -> permeability 0.256 -> retention 0.661", units: "nm; dimensionless"}
+  species: ["Martini 3 CG beads", "phospholipids", "fatty-acid amphiphiles"]
+  condition_vector: {pH: "fixed protonation state (standard Martini)", T: "322 K (og-32 run)", P: "1 bar", ionic_strength: "as set", mineral_comp: null, concentrations: "bilayer"}
+  control_arm: "composition comparison (di-C12 vs di-C16) + no-endogenous-membrane ablation (og-32)"
+  digitization_provenance: "published parameter set (Nature Methods + SI / Martini portal)"
+  license_access: "subscription (Nature Methods); parameters open via cgmartini.nl"
+  source_asset_link: "doi.org/10.1038/s41592-021-01098-3 ; cgmartini.nl"
+  feeds_into: [og-31-protometabolism-to-amphiphiles, og-32-first-self-maintaining-protocell, mem-m1-amphiphile-assembly, mem-m2-permeability-retention, mem-m3-stability-gradients, mem-m4-growth-division-propensity]
+  caution: "A general CG force field — nonstandard prebiotic amphiphiles (single-chain fatty acids, titratable carboxylates) need specific validation; the Martini-3-building-block fatty-acid defs are a proposed_input, not published lipidome entries."
+  status: wired
+  references: [souza2021martini3]
