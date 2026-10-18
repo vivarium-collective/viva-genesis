@@ -757,6 +757,7 @@ studies:
 - og-34-chemical-heredity-and-selection
 - og-35-chemical-energy-coupling
 - og-36-stochastic-protocell-ecology
+- og-37-progressive-independence
 acceptance_criteria:
 - study: og-00-vent-reactor-baseline
   behavior: vent-pH-in-lostcity-range
@@ -1102,8 +1103,8 @@ plan_gates:
     member_studies:
       - og-35-chemical-energy-coupling
       - og-36-stochastic-protocell-ecology
-    pending_studies:
-      - {plan_no: 37, title: Progressive Independence, scaffolded: false}
+      - og-37-progressive-independence
+    pending_studies: []
     criterion: >-
       Each extension gate's composite is compared against a matched ablation with chemical
       input fluxes held equal; these extend the spine rather than gating it.
