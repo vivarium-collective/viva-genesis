@@ -84,6 +84,20 @@ executive:
     own criterion, Gate B resolves Gate A's open A1 feed-plausibility question: the ~20x well-mixed ignition gap
     is bridged inside this physical pore window, so a carbon-fixing network persists at vent-realistic feeds in
     a pore.
+  gate_c_status: >-
+    Gate C (self-compartmentation) is PARTIAL. og-31 tests the "benefits from it" half under a reduced-coupling
+    membrane model (retention/access, explicitly NOT the MD-resolved permeability PMF): on the Gate-B pore-
+    concentrated, carbon-fixing (not autocatalytic) network at the Jordan-2019 vent-calibrated setting
+    (retention 0.905, access 0.997), an endogenous membrane raises the standing metabolite pool to about 2.9x
+    the no-membrane ablation - it pays for itself on persistence - while net fixation flux is about 0.6x
+    (lower), because throughput is feed-limited. The benefit is windowed (holds for access down to ~0.45,
+    inverts below, vent-calibrated point inside). Together with og-31's Martini-MD cohesion (the "makes a
+    membrane" half), this is partial Gate C. Full Gate C - the structurally-resolved coupling of composition to
+    permeability to retention, and whether the compartment is genuinely self-maintaining - requires study 32
+    (First Self-Maintaining Protocell) plus the viva-md-membrane coupling (to-build). Guardrail: the metabolism
+    here is the sustained A1 carbon-fixing network, not autocatalysis (A2 is refuted under vent conditions) -
+    the claim is that a persisting network makes a membrane that pays for itself on persistence, never that the
+    chemistry self-amplifies.
   verdict: >-
     The full geochemistry-to-heredity arc runs on real simulators and passes its pre-stated,
     falsifiable gates, with conservation held to machine precision. Twenty-three studies execute

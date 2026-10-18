@@ -1,0 +1,117 @@
+{
+ "meta": {
+  "wall_time_s": 30.411543130874634,
+  "network": "C4",
+  "porosity": 0.88,
+  "base_feed": 0.001,
+  "k_wash": 0.05,
+  "coupling": "REDUCED retention/access (washout x(1-retention), feed x access) \u2014 NOT MD-resolved PMF",
+  "retention_access_source": "Jordan-2019 ProtocellAssemblyProcess at vent conditions (retention 0.905, access 0.997) \u2014 grounded, not tuned",
+  "guardrail": "metabolism = sustained A1 carbon-fixing network, NOT autocatalytic (A2 refuted)",
+  "scope": "PARTIAL Gate C; full Gate C = study 32 (First Self-Maintaining Protocell) + viva-md-membrane MD-resolved coupling (to-build)",
+  "benefit_metric": "persistence = total_organic_carbon (standing metabolite pool); throughput = net_carbon_flux"
+ },
+ "benefit_demo": {
+  "membrane": {
+   "total_organic_carbon": 0.02624835049756988,
+   "net_carbon_flux": 0.00028048375840577817,
+   "network_connected": 0.0,
+   "n_persistent_species": 18.0
+  },
+  "ablation": {
+   "total_organic_carbon": 0.008963129433052539,
+   "net_carbon_flux": 0.00044325006904878125,
+   "network_connected": 1.0,
+   "n_persistent_species": 17.0
+  },
+  "toc_benefit": 2.9284805818798247,
+  "flux_ratio": 0.6327889784827307,
+  "persistence_pays": true,
+  "throughput_pays": false
+ },
+ "access_window": {
+  "sweep": [
+   {
+    "access": 0.997,
+    "total_organic_carbon": 0.02624835049756988,
+    "toc_benefit": 2.9284805818798247,
+    "net_carbon_flux": 0.00028048375840577817,
+    "persistence_pays": true
+   },
+   {
+    "access": 0.8,
+    "total_organic_carbon": 0.019958449972368113,
+    "toc_benefit": 2.2267278545336078,
+    "net_carbon_flux": 0.0002188379955225347,
+    "persistence_pays": true
+   },
+   {
+    "access": 0.7,
+    "total_organic_carbon": 0.016806491285869998,
+    "toc_benefit": 1.8750695737912908,
+    "net_carbon_flux": 0.0001874492941932294,
+    "persistence_pays": true
+   },
+   {
+    "access": 0.6,
+    "total_organic_carbon": 0.013698942407414273,
+    "toc_benefit": 1.5283660143183804,
+    "net_carbon_flux": 0.0001559935394032455,
+    "persistence_pays": true
+   },
+   {
+    "access": 0.5,
+    "total_organic_carbon": 0.010659328400064831,
+    "toc_benefit": 1.1892418244856946,
+    "net_carbon_flux": 0.0001244995056676922,
+    "persistence_pays": true
+   },
+   {
+    "access": 0.45,
+    "total_organic_carbon": 0.009176919341961208,
+    "toc_benefit": 1.0238521501341145,
+    "net_carbon_flux": 0.00010876832645072947,
+    "persistence_pays": true
+   },
+   {
+    "access": 0.4,
+    "total_organic_carbon": 0.0077293481255868695,
+    "toc_benefit": 0.8623492702318943,
+    "net_carbon_flux": 9.308687283652666e-05,
+    "persistence_pays": false
+   },
+   {
+    "access": 0.35,
+    "total_organic_carbon": 0.006327641205276074,
+    "toc_benefit": 0.7059633861742743,
+    "net_carbon_flux": 7.75154948983691e-05,
+    "persistence_pays": false
+   },
+   {
+    "access": 0.3,
+    "total_organic_carbon": 0.004987233838983553,
+    "toc_benefit": 0.5564165815337412,
+    "net_carbon_flux": 6.216298250337825e-05,
+    "persistence_pays": false
+   },
+   {
+    "access": 0.2,
+    "total_organic_carbon": 0.002585865706710826,
+    "toc_benefit": 0.28850031967352363,
+    "net_carbon_flux": 3.3037981341159575e-05,
+    "persistence_pays": false
+   },
+   {
+    "access": 0.1,
+    "total_organic_carbon": 0.0008156271855095383,
+    "toc_benefit": 0.09099803719243663,
+    "net_carbon_flux": 9.537673857516914e-06,
+    "persistence_pays": false
+   }
+  ],
+  "ablation_toc": 0.008963129433052539,
+  "persistence_benefit_access_boundary": 0.45
+ },
+ "verdict": "qualified",
+ "headline": "Gate C (partial, QUALIFIED \u2014 reduced retention/access coupling, NOT MD-resolved PMF): an endogenous membrane PAYS FOR ITSELF ON PERSISTENCE, not throughput. On the Gate-B pore-concentrated A1 (sustained, NON-autocatalytic) network, at Jordan-2019 vent-calibrated retention 0.905 / access 0.997 (grounded, not tuned), the membrane retains 2.9x the standing metabolite pool vs the matched no-membrane ablation (persistence_pays=True); net fixation FLUX is 0.63x (throughput_pays=False). The throughput-null is the PHYSICALLY EXPECTED result, not a shortcoming: a membrane acts on retention (lowers washout -> raises the standing pool), and at steady state with fixed feed the fixation RATE is feed-limited, so persistence rises while throughput stays flat/down. The scientific takeaway: compartmentalization buys retention/concentration, not faster chemistry. The persistence benefit is WINDOWED: it holds for access >= ~0.45 and inverts below (a too-tight membrane starves the network faster than retention helps, so the retained pool falls below the open system); the vent-calibrated access 0.997 sits comfortably inside. Four qualifications on the positive: persistence-only (throughput feed-limited), windowed, reduced coupling (not MD-PMF), and PARTIAL Gate C (full = study 32 First Self-Maintaining Protocell + viva-md-membrane MD-resolved coupling)."
+}
