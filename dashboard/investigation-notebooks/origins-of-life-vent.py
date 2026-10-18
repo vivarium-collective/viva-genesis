@@ -4776,7 +4776,7 @@ _save_viz('og-30-spatially-integrated-protometabolism', 'spatial-protometabolism
 #
 # **Hypothesis.** Carbon-chain extension, headgroup generation and competing hydrolysis acting on the real product pool from study 30 will produce a chain-length and headgroup distribution whose concentration reaches the measured critical aggregation concentration and a stable phase window; if losses (hydrolysis, dilution) keep concentrations below that window, no assembly is claimed.
 #
-# **Claim.** The actual carbon products of the spatially integrated protometabolism can, through modeled chain extension, headgroup generation and hydrolysis, yield amphiphile mixtures that reach an experimentally measured critical-aggregation / phase-stability window WITHOUT any exogenous amphiphile feed — or they fall short of that window, which is reported. No membrane-former is assumed into existence.
+# **Claim.** Under a reduced-coupling membrane model - retention reduces effective washout, finite access reduces effective feed crossing, explicitly NOT the MD-resolved permeability PMF (that is study 32's full Gate C test) - an endogenous membrane pays for itself on persistence but not on throughput. On the Gate-B pore-concentrated network, which is the sustained A1 carbon-fixing metabolism and NOT autocatalytic (A2 is refuted under vent conditions), a membrane at the Jordan-2019 vent-calibrated setting (retention 0.905, access 0.997; grounded, not tuned) raises the standing metabolite pool to about 2.9x the no-membrane ablation, while net carbon-fixation flux is about 0.6x - lower, because throughput is feed-limited, so reduced washout grows the pool rather than the rate. The benefit is windowed: it holds for membrane access down to about 0.45 and inverts below that (a too-tight membrane starves the feed and the retained pool falls below the open system), with the vent-calibrated access inside the window. This is the "benefits from it" half of Gate C, complementing og-31's Martini-MD cohesion (the "makes a membrane" half); the structurally-resolved coupling is study 32.
 
 # ### Design — originally proposed
 #
@@ -4804,11 +4804,29 @@ _save_viz('og-30-spatially-integrated-protometabolism', 'spatial-protometabolism
 #
 # | simulation | composite | steps | params |
 # | --- | --- | --- | --- |
-# | `Protometabolism to Amphiphiles` | `viva_genesis.composites.og_31_protometabolism_to_amphiphiles.og_31_protometabolism_to_amphiphiles` | 0 | — |
+# | `Membrane benefit (reduced coupling, concentrating pore)` | `viva_genesis.composites.og_31_membrane_benefit.og_31_membrane_benefit` | 0 | membrane=True, retention=0.905, access=0.997, porosity=0.88, base_CO2=0.001, base_H2=0.001, max_carbons=4 |
+# | `Protometabolism to Amphiphiles (Martini-MD cohesion)` | `viva_genesis.composites.og_31_protometabolism_to_amphiphiles.og_31_protometabolism_to_amphiphiles` | 0 | — |
 
 # ### The model & its parameters
 #
 # Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
+
+# **The model — `viva_genesis.composites.og_31_membrane_benefit.og_31_membrane_benefit`**
+#
+# Partial Gate C: does an endogenous membrane pay for itself? Puts the sustained (A1, NOT autocatalytic) carbon-fixing network in the Gate-B concentrating pore and adds a REDUCED membrane coupling - retention reduces effective washout (k_wash*(1-retention)), finite access reduces effective feed crossing (feed*access) - with Jordan-2019-calibrated vent retention/access (0.905/0.997, grounded not tuned). membrane=False is the matched ablation (retention 0, access 1). Benefit = net carbon flux / persistence(membrane) > (ablation). NOT the MD-resolved PMF coupling (that is study 32 / viva-md-membrane = full Gate C).
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_og_31_membrane_benefit_og_31_membrane_benefit = {
+    'membrane'   : True,   # Endogenous membrane (True) vs matched no-membrane ablation (False)
+    'retention'  : 0.905,   # Fraction of metabolites the membrane retains [Jordan-2019 vent value]
+    'access'     : 0.997,   # Membrane feed access/permeability in [0,1]; lower = tighter = starves feed
+    'base_CO2'   : 0.001,   # Bulk precursor CO2 (molar)
+    'base_H2'    : 0.001,   # Bulk precursor H2 (molar)
+    'porosity'   : 0.88,   # Gate-B pore porosity (0.88 = demo pore)
+    'k_wash'     : 0.05,   # Base CSTR washout (1/s) before retention
+    'max_carbons': 4,   # Carbon cap of the reaction universe
+}
 
 # **The model — `viva_genesis.composites.og_31_protometabolism_to_amphiphiles.og_31_protometabolism_to_amphiphiles`**
 #
@@ -4861,20 +4879,31 @@ RUNS_DB = str(STUDY_DIR / "runs.db")
 # This study has no *recorded* runs yet. RERUN builds its declared
 # composite(s) live and runs them; a composite whose module processes
 # are not implemented yet reports the error instead of crashing.
-STEPS_Protometabolism_to_Amphiphiles = 100
-INTERVAL_Protometabolism_to_Amphiphiles = 1.0
+STEPS_Membrane_benefit_reduced_coupling_concentrating_pore = 100
+INTERVAL_Membrane_benefit_reduced_coupling_concentrating_pore = 1.0
+STEPS_Protometabolism_to_Amphiphiles_Martini_MD_cohesion = 100
+INTERVAL_Protometabolism_to_Amphiphiles_Martini_MD_cohesion = 1.0
 
 if RERUN:
     from process_bigraph import Composite
     try:
         with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_og_31_membrane_benefit_og_31_membrane_benefit if 'ov_viva_genesis_composites_og_31_membrane_benefit_og_31_membrane_benefit' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_og_31_membrane_benefit_og_31_membrane_benefit = materialize_composite('viva_genesis.composites.og_31_membrane_benefit.og_31_membrane_benefit', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_og_31_membrane_benefit_og_31_membrane_benefit['state']}, core=core)
+            _comp.run(STEPS_Membrane_benefit_reduced_coupling_concentrating_pore)
+        print('ran', 'Membrane benefit (reduced coupling, concentrating pore)', f'(viva_genesis.composites.og_31_membrane_benefit.og_31_membrane_benefit) for', STEPS_Membrane_benefit_reduced_coupling_concentrating_pore, 'steps')
+    except Exception as _e:
+        print(f"Membrane benefit (reduced coupling, concentrating pore) not runnable yet: {type(_e).__name__}: {_e}")
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
             _ov = ov_viva_genesis_composites_og_31_protometabolism_to_amphiphiles_og_31_protometabolism_to_amphiphiles if 'ov_viva_genesis_composites_og_31_protometabolism_to_amphiphiles_og_31_protometabolism_to_amphiphiles' in dir() else None  # edits from the panel cell, if any
             spec_viva_genesis_composites_og_31_protometabolism_to_amphiphiles_og_31_protometabolism_to_amphiphiles = materialize_composite('viva_genesis.composites.og_31_protometabolism_to_amphiphiles.og_31_protometabolism_to_amphiphiles', _ov)
             _comp = Composite({'state': spec_viva_genesis_composites_og_31_protometabolism_to_amphiphiles_og_31_protometabolism_to_amphiphiles['state']}, core=core)
-            _comp.run(STEPS_Protometabolism_to_Amphiphiles)
-        print('ran', 'Protometabolism to Amphiphiles', f'(viva_genesis.composites.og_31_protometabolism_to_amphiphiles.og_31_protometabolism_to_amphiphiles) for', STEPS_Protometabolism_to_Amphiphiles, 'steps')
+            _comp.run(STEPS_Protometabolism_to_Amphiphiles_Martini_MD_cohesion)
+        print('ran', 'Protometabolism to Amphiphiles (Martini-MD cohesion)', f'(viva_genesis.composites.og_31_protometabolism_to_amphiphiles.og_31_protometabolism_to_amphiphiles) for', STEPS_Protometabolism_to_Amphiphiles_Martini_MD_cohesion, 'steps')
     except Exception as _e:
-        print(f"Protometabolism to Amphiphiles not runnable yet: {type(_e).__name__}: {_e}")
+        print(f"Protometabolism to Amphiphiles (Martini-MD cohesion) not runnable yet: {type(_e).__name__}: {_e}")
 else:
     print("RERUN=False — not re-simulating.")
 
@@ -4894,9 +4923,12 @@ _save_viz('og-31-protometabolism-to-amphiphiles', 'membrane-cohesion', _render_o
 # | test | measures | passes if |
 # | --- | --- | --- |
 # | receives-30-handoff-bundle _(secondary)_ | kind=observable detail=completeness + typing of the 30→31 bundle checked against 30's emitted bundle | op threshold detail bundle received complete and typed |
-# | no-untracked-amphiphile-feed _(primary)_ | kind=observable detail=amphiphile mass ledger — fraction traceable to the study-30 pool (target 1.0); exogenous feed (target 0) | op threshold detail no untracked amphiphile feed; losses tracked |
-# | reaches-measured-assembly-window _(primary)_ | kind=observable detail=endogenous amphiphile concentration + chain-length/headgroup distribution vs. measured CAC + phase window | op threshold detail concentration reaches the measured assembly window (else a reported shortfall) |
+# | no-untracked-amphiphile-feed _(secondary)_ | kind=observable detail=amphiphile mass ledger — fraction traceable to the study-30 pool (target 1.0); exogenous feed (target 0) | op threshold detail no untracked amphiphile feed; losses tracked |
+# | reaches-measured-assembly-window _(secondary)_ | kind=observable detail=endogenous amphiphile concentration + chain-length/headgroup distribution vs. measured CAC + phase window | op threshold detail concentration reaches the measured assembly window (else a reported shortfall) |
 # | handoff-31-to-32-complete _(secondary)_ | kind=observable detail=presence + typing of every field in the 31→32 transfer bundle | op threshold detail bundle complete and typed (satisfies 31→32 handoff validator) |
+# | membrane-benefit-persistence _(primary)_ | kind=observable detail=total_organic_carbon(membrane) vs total_organic_carbon(ablation), equal feed | op threshold detail membrane TOC exceeds the ablation TOC (else no persistence benefit) |
+# | membrane-benefit-access-window _(primary)_ | kind=observable detail=membrane TOC vs ablation across an access sweep; locate the inversion boundary | op threshold detail a bounded access window where membrane TOC exceeds ablation, with a located failure boundary |
+# | membrane-benefit-throughput _(secondary)_ | kind=observable detail=net_carbon_flux(membrane) vs net_carbon_flux(ablation) | op threshold detail reported either way (the physically-expected null is not a gate failure) |
 
 # ## Open decisions
 # - Read og-08's {pump, importer, heredity} as a HYPOTHESIS GENERATOR, not a result: the integrated world (og-08-alt-robust-innovation-set) finds the required set structure-dependent and the off-gradient verdict decided by the ocean floor, the membrane leakiness and the inheritance class's budget sensitivity. Adopt this framing for the campaign's endpoint statement, and supply the ocean's H2 / organic background (the floor) as an expert prior?

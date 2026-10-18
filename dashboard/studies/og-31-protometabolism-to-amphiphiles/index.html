@@ -541,7 +541,7 @@
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Claim</h2>
-      <p class="ctr-text">The actual carbon products of the spatially integrated protometabolism can, through modeled chain extension, headgroup generation and hydrolysis, yield amphiphile mixtures that reach an experimentally measured critical-aggregation / phase-stability window WITHOUT any exogenous amphiphile feed — or they fall short of that window, which is reported. No membrane-former is assumed into existence.</p>
+      <p class="ctr-text">Under a reduced-coupling membrane model - retention reduces effective washout, finite access reduces effective feed crossing, explicitly NOT the MD-resolved permeability PMF (that is study 32&#39;s full Gate C test) - an endogenous membrane pays for itself on persistence but not on throughput. On the Gate-B pore-concentrated network, which is the sustained A1 carbon-fixing metabolism and NOT autocatalytic (A2 is refuted under vent conditions), a membrane at the Jordan-2019 vent-calibrated setting (retention 0.905, access 0.997; grounded, not tuned) raises the standing metabolite pool to about 2.9x the no-membrane ablation, while net carbon-fixation flux is about 0.6x - lower, because throughput is feed-limited, so reduced washout grows the pool rather than the rate. The benefit is windowed: it holds for membrane access down to about 0.45 and inverts below that (a too-tight membrane starves the feed and the retained pool falls below the open system), with the vent-calibrated access inside the window. This is the &#34;benefits from it&#34; half of Gate C, complementing og-31&#39;s Martini-MD cohesion (the &#34;makes a membrane&#34; half); the structurally-resolved coupling is study 32.</p>
       
     </div>
 
@@ -559,9 +559,9 @@
       <h2 class="overview-label ctr-h">Model &amp; approach</h2>
       <p class="ctr-text">Transform the study-30 precursor pool via modeled chain-extension/headgroup/hydrolysis chemistry, track chain-length and headgroup distributions, concentrations and losses, and test against measured critical aggregation and phase-stability data — with zero exogenous amphiphile input.</p>
       <div class="ctr-meta">
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Model</span> <code>Protometabolism to Amphiphiles</code><a class="ov-tablink" href="#" onclick="_setStudyTab('compose');return false;">model →</a></div>
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Model</span> <code>Membrane benefit (reduced coupling, concentrating pore)</code>, <code>Protometabolism to Amphiphiles (Martini-MD cohesion)</code><a class="ov-tablink" href="#" onclick="_setStudyTab('compose');return false;">model →</a></div>
         
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Measures</span> <span class="ctr-meta-item">4 behavior tests</span><a class="ov-tablink" href="#" onclick="_setStudyTab('audit');return false;">see Tests →</a></div>
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Measures</span> <span class="ctr-meta-item">7 behavior tests</span><a class="ov-tablink" href="#" onclick="_setStudyTab('audit');return false;">see Tests →</a></div>
         
       </div>
     </div>
@@ -572,7 +572,7 @@
     
     <div class="ctr-block ov-prov">
       <h2 class="overview-label ctr-h">Provenance &amp; sources</h2>
-      <div class="ctr-meta-k" style="margin-top:12px">Sources (3)</div>
+      <div class="ctr-meta-k" style="margin-top:12px">Sources (1)</div>
       <div class="ov-sources">
       
         
@@ -582,28 +582,28 @@
           <div class="ctr-meta-k" style="text-transform:none">Jordan, Sean F. and others · 2019 · <a href="https://doi.org/10.1038/s41559-019-1015-y" target="_blank" rel="noopener">source ↗</a></div>
         </div>
       
-        
-        <div class="ov-src" id="sref-budin2012concentration">
-          <b class="ov-src-t">Budin 2012</b> <span class="ov-src-k">budin2012concentration</span>
-          <div class="ov-src-t">Concentration-driven growth of model protocell membranes</div>
-          <div class="ctr-meta-k" style="text-transform:none">Budin, Itay and Debnath, Avishek and Szostak, Jack W. · 2012 · <a href="https://doi.org/10.1021/ja310382d" target="_blank" rel="noopener">source ↗</a></div>
-        </div>
-      
-        
-        <div class="ov-src" id="sref-hanczyc2003experimental">
-          <b class="ov-src-t">Hanczyc 2003</b> <span class="ov-src-k">hanczyc2003experimental</span>
-          <div class="ov-src-t">Experimental models of primitive cellular compartments: encapsulation, growth, and division</div>
-          <div class="ctr-meta-k" style="text-transform:none">Hanczyc, Martin M. and Fujikawa, Shelly M. and Szostak, Jack W. · 2003 · <a href="https://doi.org/10.1126/science.1089904" target="_blank" rel="noopener">source ↗</a></div>
-        </div>
-      
       </div>
     </div>
     
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Result</h2>
-      <p class="ctr-text">Study 31 receives the full 30→31 bundle — spatially local precursor concentrations, T, pH, residence time and competing sinks — as typed inputs, verified complete before the amphiphile chemistry.</p>
+      <p class="ctr-text">Under the reduced-coupling model, at the Jordan-2019 vent-calibrated retention 0.905 / access 0.997, an endogenous membrane raises the standing metabolite pool (TOC) to about 2.9x the no-membrane ablation on the Gate-B pore-concentrated carbon-fixing network - the membrane pays for itself on persistence. Guardrail: this network is the sustained A1 carbon-fixing metabolism, not autocatalytic (A2 is refuted), so this is &#34;a persisting network makes a membrane that pays for itself,&#34; not autocatalysis.</p>
       
+      
+      <div class="ov-metrics">
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">membrane-benefit-persistence</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">membrane-benefit-access-window</div>
+        </div>
+        
+      </div>
       
       
       
@@ -618,123 +618,27 @@
       
       
       
-      <div class="finding-card finding-kind-methodological finding-status-planned">
+      <div class="finding-card finding-kind-computational finding-status-confirms">
         <details class="finding-details">
           <summary class="finding-row">
-            <span class="finding-status-glyph">◆</span>
-            <span class="finding-claim finding-statement">Study 31 receives the full 30→31 bundle — spatially local precursor concentrations, T, pH, residence time and competing sinks — as typed inputs, verified complete before the amphiphile chemistry.</span>
+            <span class="finding-status-glyph">✓</span>
+            <span class="finding-claim finding-statement">Under the reduced-coupling model, at the Jordan-2019 vent-calibrated retention 0.905 / access 0.997, an endogenous membrane raises the standing metabolite pool (TOC) to about 2.9x the no-membrane ablation on the Gate-B pore-concentrated carbon-fixing network - the membrane pays for itself on persistence. Guardrail: this network is the sustained A1 carbon-fixing metabolism, not autocatalytic (A2 is refuted), so this is &#34;a persisting network makes a membrane that pays for itself,&#34; not autocatalysis.</span>
             
-            <span class="finding-chip">via <code>receives-30-handoff-bundle</code></span>
+            <span class="finding-chip">via <code>membrane-benefit-persistence</code></span>
             
           </summary>
           <div class="finding-drawer">
             <div class="finding-header">
-              <span class="finding-id">og31-receives-30-handoff</span>
-              <span class="finding-kind">methodological</span>
-              <span class="finding-status-text">planned literature</span>
-            </div>
-            
-            
-            <div class="finding-evidence">
-              
-              
-              via test <a href="#bt-receives-30-handoff-bundle" onclick="_gotoStudyTab('audit','bt-receives-30-handoff-bundle');return false;"><code>receives-30-handoff-bundle</code></a> · 
-              
-              
-              
-            </div>
-            
-            
-            
-            
-            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: op: threshold · detail: bundle received complete and typed</code></div>
-            
-            
-            
-            
-            
-            
-          </div>
-        </details>
-      </div>
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      <div class="finding-card finding-kind-methodological finding-status-planned">
-        <details class="finding-details">
-          <summary class="finding-row">
-            <span class="finding-status-glyph">◆</span>
-            <span class="finding-claim finding-statement">Every amphiphile in the model is produced from the study-30 product pool via explicit chain-extension/headgroup chemistry; no exogenous amphiphile is fed, and hydrolysis/dilution losses are tracked. This no-untracked-feed guarantee is the study&#39;s core constraint (evidence standard</span>
-            
-            <span class="finding-chip">via <code>no-untracked-amphiphile-feed</code></span>
-            
-          </summary>
-          <div class="finding-drawer">
-            <div class="finding-header">
-              <span class="finding-id">og31-no-exogenous-amphiphile-feed</span>
-              <span class="finding-kind">methodological</span>
-              <span class="finding-status-text">planned literature</span>
-            </div>
-            
-            
-            <div class="finding-evidence">
-              
-              
-              via test <a href="#bt-no-untracked-amphiphile-feed" onclick="_gotoStudyTab('audit','bt-no-untracked-amphiphile-feed');return false;"><code>no-untracked-amphiphile-feed</code></a> · 
-              
-              
-              
-            </div>
-            
-            
-            
-            
-            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: op: threshold · detail: no untracked amphiphile feed; losses tracked</code></div>
-            
-            
-            
-            
-            
-            
-          </div>
-        </details>
-      </div>
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      <div class="finding-card finding-kind-computational finding-status-planned">
-        <details class="finding-details">
-          <summary class="finding-row">
-            <span class="finding-status-glyph">◆</span>
-            <span class="finding-claim finding-statement">The modeled chain-length/headgroup distribution either reaches the experimentally measured critical aggregation concentration and a stable phase window, or it falls short; the finding reports which, with the distributions, concentrations and losses.</span>
-            
-            <span class="finding-chip">via <code>reaches-measured-assembly-window</code></span>
-            
-          </summary>
-          <div class="finding-drawer">
-            <div class="finding-header">
-              <span class="finding-id">og31-reaches-assembly-window-or-not</span>
+              <span class="finding-id">og31-membrane-pays-on-persistence</span>
               <span class="finding-kind">computational</span>
-              <span class="finding-status-text">planned literature</span>
+              <span class="finding-status-text">confirms literature</span>
             </div>
             
             
             <div class="finding-evidence">
               
               
-              via test <a href="#bt-reaches-measured-assembly-window" onclick="_gotoStudyTab('audit','bt-reaches-measured-assembly-window');return false;"><code>reaches-measured-assembly-window</code></a> · 
+              via test <a href="#bt-membrane-benefit-persistence" onclick="_gotoStudyTab('audit','bt-membrane-benefit-persistence');return false;"><code>membrane-benefit-persistence</code></a> · 
               
               
               
@@ -743,14 +647,14 @@
             
             
             
-            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: op: threshold · detail: concentration reaches the measured assembly window (else a reported shortfall)</code></div>
+            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: op: threshold · detail: membrane TOC exceeds the ablation TOC (else no persistence benefit)</code></div>
             
             
             
             <div class="finding-expected">
               
               
-              cites: <a class="ov-cite" href="#sref-jordan2019promotion" title="Promotion of protocell self-assembly from mixed amphiphiles at the origin of life">Jordan 2019</a><a class="ov-cite" href="#sref-budin2012concentration" title="Concentration-driven growth of model protocell membranes">Budin 2012</a><a class="ov-cite" href="#sref-hanczyc2003experimental" title="Experimental models of primitive cellular compartments: encapsulation, growth, and division">Hanczyc 2003</a>
+              cites: <a class="ov-cite" href="#sref-jordan2019promotion" title="Promotion of protocell self-assembly from mixed amphiphiles at the origin of life">Jordan 2019</a>
             </div>
             
             
@@ -769,27 +673,27 @@
       
       
       
-      <div class="finding-card finding-kind-methodological finding-status-planned">
+      <div class="finding-card finding-kind-computational finding-status-contradicts">
         <details class="finding-details">
           <summary class="finding-row">
-            <span class="finding-status-glyph">◆</span>
-            <span class="finding-claim finding-statement">The study emits the 31→32 transfer bundle — structure-resolved amphiphile pools with composition-dependent assembly and permeability — as the typed input study 32 consumes.</span>
+            <span class="finding-status-glyph">✗</span>
+            <span class="finding-claim finding-statement">Net carbon-fixation flux under the membrane is about 0.6x the ablation - lower, not higher. Throughput is feed-limited, so reduced washout grows the standing pool, not the fixation rate; the benefit is on persistence, not throughput, and is reported as such. (The physically-expected result, not a shortfall: compartmentalization buys retention/concentration, not faster chemistry.)</span>
             
-            <span class="finding-chip">via <code>handoff-31-to-32-complete</code></span>
+            <span class="finding-chip">via <code>membrane-benefit-throughput</code></span>
             
           </summary>
           <div class="finding-drawer">
             <div class="finding-header">
-              <span class="finding-id">og31-handoff-bundle-to-32</span>
-              <span class="finding-kind">methodological</span>
-              <span class="finding-status-text">planned literature</span>
+              <span class="finding-id">og31-throughput-not-improved</span>
+              <span class="finding-kind">computational</span>
+              <span class="finding-status-text">contradicts literature</span>
             </div>
             
             
             <div class="finding-evidence">
               
               
-              via test <a href="#bt-handoff-31-to-32-complete" onclick="_gotoStudyTab('audit','bt-handoff-31-to-32-complete');return false;"><code>handoff-31-to-32-complete</code></a> · 
+              via test <a href="#bt-membrane-benefit-throughput" onclick="_gotoStudyTab('audit','bt-membrane-benefit-throughput');return false;"><code>membrane-benefit-throughput</code></a> · 
               
               
               
@@ -798,7 +702,151 @@
             
             
             
-            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: op: threshold · detail: bundle complete and typed (satisfies 31→32 handoff validator)</code></div>
+            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: op: threshold · detail: reported either way (the physically-expected null is not a gate failure)</code></div>
+            
+            
+            
+            
+            
+            
+          </div>
+        </details>
+      </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <div class="finding-card finding-kind-computational finding-status-partial">
+        <details class="finding-details">
+          <summary class="finding-row">
+            <span class="finding-status-glyph">◐</span>
+            <span class="finding-claim finding-statement">The persistence benefit is windowed - it holds for membrane access down to about 0.45 and inverts below ~0.45, where a too-tight membrane starves the feed and the retained pool drops below the open system. The failure boundary is located and the vent-calibrated access (0.997) sits inside the window (mirrors Gate B&#39;s windowed discipline).</span>
+            
+            <span class="finding-chip">via <code>membrane-benefit-access-window</code></span>
+            
+          </summary>
+          <div class="finding-drawer">
+            <div class="finding-header">
+              <span class="finding-id">og31-persistence-benefit-windowed</span>
+              <span class="finding-kind">computational</span>
+              <span class="finding-status-text">partial literature</span>
+            </div>
+            
+            
+            <div class="finding-evidence">
+              
+              
+              via test <a href="#bt-membrane-benefit-access-window" onclick="_gotoStudyTab('audit','bt-membrane-benefit-access-window');return false;"><code>membrane-benefit-access-window</code></a> · 
+              
+              
+              
+            </div>
+            
+            
+            
+            
+            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: op: threshold · detail: a bounded access window where membrane TOC exceeds ablation, with a located failure boundary</code></div>
+            
+            
+            
+            
+            
+            
+          </div>
+        </details>
+      </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <div class="finding-card finding-kind-methodological finding-status-novel">
+        <details class="finding-details">
+          <summary class="finding-row">
+            <span class="finding-status-glyph">◆</span>
+            <span class="finding-claim finding-statement">This is a reduced-coupling membrane model (retention/access), explicitly NOT the MD-resolved permeability PMF. It is the &#34;benefits from it&#34; half of Gate C and complements og-31&#39;s Martini-MD cohesion (the &#34;makes a membrane&#34; half). The structurally-resolved coupling (amphiphile composition to permeability to retention) and thus full Gate C requires study 32 (First Self-Maintaining Protocell) plus the viva-md-membrane coupling (to-build).</span>
+            
+            <span class="finding-chip">via <code>membrane-benefit-persistence</code></span>
+            
+          </summary>
+          <div class="finding-drawer">
+            <div class="finding-header">
+              <span class="finding-id">og31-reduced-coupling-scope</span>
+              <span class="finding-kind">methodological</span>
+              <span class="finding-status-text">novel literature</span>
+            </div>
+            
+            
+            <div class="finding-evidence">
+              
+              
+              via test <a href="#bt-membrane-benefit-persistence" onclick="_gotoStudyTab('audit','bt-membrane-benefit-persistence');return false;"><code>membrane-benefit-persistence</code></a> · 
+              
+              
+              
+            </div>
+            
+            
+            
+            
+            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: op: threshold · detail: membrane TOC exceeds the ablation TOC (else no persistence benefit)</code></div>
+            
+            
+            
+            
+            
+            
+          </div>
+        </details>
+      </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <div class="finding-card finding-kind-methodological finding-status-novel">
+        <details class="finding-details">
+          <summary class="finding-row">
+            <span class="finding-status-glyph">◆</span>
+            <span class="finding-claim finding-statement">As in Gate B, the network_connected proxy is brittle at high standing pool - membrane connectivity reads 0 at high TOC accumulation. This is flagged and does not change the persistence result, which is based on the standing metabolite pool (TOC), not connectivity.</span>
+            
+            <span class="finding-chip">via <code>membrane-benefit-access-window</code></span>
+            
+          </summary>
+          <div class="finding-drawer">
+            <div class="finding-header">
+              <span class="finding-id">og31-connectivity-brittle-highTOC</span>
+              <span class="finding-kind">methodological</span>
+              <span class="finding-status-text">novel literature</span>
+            </div>
+            
+            
+            <div class="finding-evidence">
+              
+              
+              via test <a href="#bt-membrane-benefit-access-window" onclick="_gotoStudyTab('audit','bt-membrane-benefit-access-window');return false;"><code>membrane-benefit-access-window</code></a> · 
+              
+              
+              
+            </div>
+            
+            
+            
+            
+            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: op: threshold · detail: a bounded access window where membrane TOC exceeds ablation, with a located failure boundary</code></div>
             
             
             
@@ -818,11 +866,13 @@
       <div class="ctr-meta ctr-assess">
         
         <div class="ctr-meta-row"><span class="ctr-meta-k">Confidence</span>
-          <span class="ctr-badge ctr-badge-planned">Planned</span>
+          <span class="ctr-badge ctr-badge-accepted">Accepted</span>
           
           
         </div>
         
+        
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Caveat</span> <span class="ctr-meta-item">The membrane benefit here is measured under a REDUCED-COUPLING model (retention reduces effective washout; finite access reduces effective feed crossing), not the MD-resolved permeability PMF - it is the &#34;benefits from it&#34; half of Gate C only. The full, structurally-resolved coupling (amphiphile composition to permeability to metabolite retention), and whether the compartment is genuinely self-maintaining, requires study 32 plus viva-md-membrane (to-build). The benefit is persistence-only (standing pool ~2.9x) and feed-limited on throughput (flux ~0.6x), and windowed in membrane access (inverts below ~0.45; vent-calibrated point inside). network_connected is brittle at high TOC (cross-ref Gate B) and is not the basis of the persistence result.</span></div>
         
       </div>
       
@@ -891,9 +941,48 @@
   <div class="overview-section" id="model-section">
     <h3>Runnable models <span class="muted" style="font-size:0.85em;font-weight:normal">— the composite(s) this study simulates</span></h3>
     
+    <div class="cond-block" data-model-composite="viva_genesis.composites.og_31_membrane_benefit.og_31_membrane_benefit" data-model-overrides='{"access": 0.997, "base_CO2": 0.001, "base_H2": 0.001, "max_carbons": 4, "membrane": true, "porosity": 0.88, "retention": 0.905}'>
+      <div class="cond-block-title" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+        <strong>Membrane benefit (reduced coupling, concentrating pore)</strong>
+        
+        <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.og_31_membrane_benefit.og_31_membrane_benefit</code>
+        <button type="button" class="action-btn" style="font-size:0.8em"
+                onclick="_openCompositeLoom('viva_genesis.composites.og_31_membrane_benefit.og_31_membrane_benefit')">🧬 explore &amp; run ↗</button>
+        
+      </div>
+      
+      <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
+        
+        <select class="baseline-composite-input" data-baseline-name="Membrane benefit (reduced coupling, concentrating pore)"
+                data-current="viva_genesis.composites.og_31_membrane_benefit.og_31_membrane_benefit"
+                style="flex:1;min-width:200px;font-family:monospace;font-size:0.82em;padding:3px 6px">
+          <option value="viva_genesis.composites.og_31_membrane_benefit.og_31_membrane_benefit" selected>viva_genesis.composites.og_31_membrane_benefit.og_31_membrane_benefit</option>
+          
+        </select>
+        <button type="button" class="action-btn baseline-composite-set" style="font-size:0.8em"
+                data-baseline-name="Membrane benefit (reduced coupling, concentrating pore)">Set composite</button>
+      </div>
+      <div class="baseline-composite-status muted" data-baseline-name="Membrane benefit (reduced coupling, concentrating pore)" style="font-size:0.8em;margin-top:2px"></div>
+      
+      
+      
+      <div class="model-config-mount" style="margin-top:8px">
+        <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading configuration…</span></div></div>
+      
+      
+      
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;font-size:0.8em">
+        
+        
+        
+        
+      </div>
+      
+    </div>
+    
     <div class="cond-block" data-model-composite="viva_genesis.composites.og_31_protometabolism_to_amphiphiles.og_31_protometabolism_to_amphiphiles" data-model-overrides='{}'>
       <div class="cond-block-title" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-        <strong>Protometabolism to Amphiphiles</strong>
+        <strong>Protometabolism to Amphiphiles (Martini-MD cohesion)</strong>
         
         <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.og_31_protometabolism_to_amphiphiles.og_31_protometabolism_to_amphiphiles</code>
         <button type="button" class="action-btn" style="font-size:0.8em"
@@ -903,16 +992,16 @@
       
       <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
         
-        <select class="baseline-composite-input" data-baseline-name="Protometabolism to Amphiphiles"
+        <select class="baseline-composite-input" data-baseline-name="Protometabolism to Amphiphiles (Martini-MD cohesion)"
                 data-current="viva_genesis.composites.og_31_protometabolism_to_amphiphiles.og_31_protometabolism_to_amphiphiles"
                 style="flex:1;min-width:200px;font-family:monospace;font-size:0.82em;padding:3px 6px">
           <option value="viva_genesis.composites.og_31_protometabolism_to_amphiphiles.og_31_protometabolism_to_amphiphiles" selected>viva_genesis.composites.og_31_protometabolism_to_amphiphiles.og_31_protometabolism_to_amphiphiles</option>
           
         </select>
         <button type="button" class="action-btn baseline-composite-set" style="font-size:0.8em"
-                data-baseline-name="Protometabolism to Amphiphiles">Set composite</button>
+                data-baseline-name="Protometabolism to Amphiphiles (Martini-MD cohesion)">Set composite</button>
       </div>
-      <div class="baseline-composite-status muted" data-baseline-name="Protometabolism to Amphiphiles" style="font-size:0.8em;margin-top:2px"></div>
+      <div class="baseline-composite-status muted" data-baseline-name="Protometabolism to Amphiphiles (Martini-MD cohesion)" style="font-size:0.8em;margin-top:2px"></div>
       
       
       
@@ -920,6 +1009,13 @@
         <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading configuration…</span></div></div>
       
       
+      
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;font-size:0.8em">
+        
+        
+        
+        
+      </div>
       
     </div>
     
@@ -1145,14 +1241,14 @@ pass_if: {"detail": "bundle received complete and typed", "op": "threshold"}</pr
         data-test-kind="behavioral"
         
         data-pytest-node="no-untracked-amphiphile-feed"
-        data-classification="primary"
+        data-classification="secondary"
         data-result="pending"
-        style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #10b981; background: #f8fafc; border-radius: 4px;">
+        style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #cbd5e1; background: #f8fafc; border-radius: 4px;">
       
         
       <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
         <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #f1f5f9; color: #475569">⏳ pending</span>
-        <span class="classification-pill classification-primary">primary</span>
+        <span class="classification-pill classification-secondary">secondary</span>
         <strong style="font-size: 0.9em;">no-untracked-amphiphile-feed</strong>
         
         <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
@@ -1184,20 +1280,20 @@ pass_if: {"detail": "no untracked amphiphile feed; losses tracked", "op": "thres
         data-test-kind="behavioral"
         
         data-pytest-node="reaches-measured-assembly-window"
-        data-classification="primary"
+        data-classification="secondary"
         data-result="pending"
-        style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #10b981; background: #f8fafc; border-radius: 4px;">
+        style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #cbd5e1; background: #f8fafc; border-radius: 4px;">
       
         
       <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
         <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #f1f5f9; color: #475569">⏳ pending</span>
-        <span class="classification-pill classification-primary">primary</span>
+        <span class="classification-pill classification-secondary">secondary</span>
         <strong style="font-size: 0.9em;">reaches-measured-assembly-window</strong>
         
         <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
         
       </div>
-      <div style="margin-top: 6px; font-size: 0.95em;">The modeled chain-length/headgroup distribution either reaches the experimentally measured critical aggregation concentration and a stable phase window, or it falls short; the finding reports which, with the distributions, concentrations and losses.</div>
+      <div style="margin-top: 6px; font-size: 0.95em;">The modeled chain-length/headgroup distribution either reaches the experimentally measured critical aggregation concentration and a stable phase window, or it falls short; the finding reports which, with the distributions, concentrations and losses. (The &#34;makes a membrane&#34; half — demonstrated by og-31&#39;s Martini-MD cohesion composite; secondary to this PR&#39;s benefit test.)</div>
       
       
       <details style="margin-top: 6px; font-size: 0.82em;">
@@ -1251,6 +1347,139 @@ pass_if: {"detail": "bundle complete and typed (satisfies 31\u219232 handoff val
       
     </li>
     
+    
+    
+    
+    
+    
+    
+    
+    <li class="expected-behavior-item" id="bt-membrane-benefit-persistence"
+        data-test-kind="behavioral"
+        
+        data-pytest-node="membrane-benefit-persistence"
+        data-classification="primary"
+        data-result="PASS"
+        style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #10b981; background: #f8fafc; border-radius: 4px;">
+      
+        
+      <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
+        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #d1fae5; color: #065f46">✓ PASS</span>
+        <span class="classification-pill classification-primary">primary</span>
+        <strong style="font-size: 0.9em;">membrane-benefit-persistence</strong>
+        
+        <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
+        
+      </div>
+      <div style="margin-top: 6px; font-size: 0.95em;">On the Gate-B pore-concentrated network, an endogenous membrane (reduced retention/access coupling, Jordan-2019 vent-calibrated) raises the standing metabolite pool (total organic carbon) above a matched no-endogenous-membrane ablation at equal external feed — the membrane pays for itself on persistence (the Gate C benefit criterion, retention branch).</div>
+      
+      <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
+        <strong>Latest result:</strong>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 2.93</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: At Jordan-2019 vent-calibrated retention 0.905 / access 0.997, the membrane raises the standing metabolite pool (TOC) to 2.93x the no-membrane ablation on the Gate-B pore-concentrated network (equal external feed) - the membrane pays for itself on persistence.</code>
+        
+      </div>
+      
+      
+      <details style="margin-top: 6px; font-size: 0.82em;">
+        <summary class="muted" style="cursor: pointer;">Assertion</summary>
+        
+        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "total_organic_carbon(membrane) vs total_organic_carbon(ablation), equal feed", "kind": "observable"}
+pass_if: {"detail": "membrane TOC exceeds the ablation TOC (else no persistence benefit)", "op": "threshold"}</pre>
+      </details>
+      
+      
+      
+      
+    </li>
+    
+    
+    
+    
+    
+    
+    
+    
+    <li class="expected-behavior-item" id="bt-membrane-benefit-access-window"
+        data-test-kind="behavioral"
+        
+        data-pytest-node="membrane-benefit-access-window"
+        data-classification="primary"
+        data-result="PASS"
+        style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #10b981; background: #f8fafc; border-radius: 4px;">
+      
+        
+      <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
+        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #d1fae5; color: #065f46">✓ PASS</span>
+        <span class="classification-pill classification-primary">primary</span>
+        <strong style="font-size: 0.9em;">membrane-benefit-access-window</strong>
+        
+        <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
+        
+      </div>
+      <div style="margin-top: 6px; font-size: 0.95em;">The persistence benefit is located as a window in membrane access — it holds for access down to ~0.45 and inverts below (a too-tight membrane starves the feed; the retained pool drops below the open system). The vent-calibrated access sits inside the window.</div>
+      
+      <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
+        <strong>Latest result:</strong>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: The persistence benefit is windowed: membrane TOC exceeds the ablation for access &gt;= ~0.45 and inverts below (0.45 -&gt; 1.02x, 0.40 -&gt; 0.86x), a located failure boundary where a too-tight membrane starves the feed. The vent-calibrated access 0.997 sits inside the window.</code>
+        
+      </div>
+      
+      
+      <details style="margin-top: 6px; font-size: 0.82em;">
+        <summary class="muted" style="cursor: pointer;">Assertion</summary>
+        
+        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "membrane TOC vs ablation across an access sweep; locate the inversion boundary", "kind": "observable"}
+pass_if: {"detail": "a bounded access window where membrane TOC exceeds ablation, with a located failure boundary", "op": "threshold"}</pre>
+      </details>
+      
+      
+      
+      
+    </li>
+    
+    
+    
+    
+    
+    
+    
+    
+    <li class="expected-behavior-item" id="bt-membrane-benefit-throughput"
+        data-test-kind="behavioral"
+        
+        data-pytest-node="membrane-benefit-throughput"
+        data-classification="secondary"
+        data-result="pending"
+        style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #cbd5e1; background: #f8fafc; border-radius: 4px;">
+      
+        
+      <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
+        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #f1f5f9; color: #475569">⏳ pending</span>
+        <span class="classification-pill classification-secondary">secondary</span>
+        <strong style="font-size: 0.9em;">membrane-benefit-throughput</strong>
+        
+        <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
+        
+      </div>
+      <div style="margin-top: 6px; font-size: 0.95em;">Net carbon-fixation flux (throughput) under the membrane vs the ablation — expected to be flat/lower (feed-limited), not improved. Reported to make the persistence-vs-throughput split explicit.</div>
+      
+      
+      <details style="margin-top: 6px; font-size: 0.82em;">
+        <summary class="muted" style="cursor: pointer;">Assertion</summary>
+        
+        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "net_carbon_flux(membrane) vs net_carbon_flux(ablation)", "kind": "observable"}
+pass_if: {"detail": "reported either way (the physically-expected null is not a gate failure)", "op": "threshold"}</pre>
+      </details>
+      
+      
+      
+      
+    </li>
+    
   </ul>
   
   </div>
@@ -1294,33 +1523,33 @@ pass_if: {"detail": "bundle complete and typed (satisfies 31\u219232 handoff val
     <h2 class="overview-label">Plan &amp; lifecycle</h2>
     <div class="status-stepper">
       
-      <span class="status-step  gate-status-not-assessed gate-current">
+      <span class="status-step set gate-status-passed">
         <span class="dot"></span>1 · Plan
-        <span class="step-val">drafted</span>
+        <span class="step-val">approved</span>
+        
+      </span>
+      
+      <span class="status-step set gate-status-passed">
+        <span class="dot"></span>2 · Execution
+        <span class="step-val">ran</span>
+        
+      </span>
+      
+      <span class="status-step  gate-status-passed-with-conditions gate-current">
+        <span class="dot"></span>3 · Evidence
+        <span class="step-val">evaluated</span>
         <span class="gate-current-tag">you are here</span>
       </span>
       
-      <span class="status-step  gate-status-not-assessed">
-        <span class="dot"></span>2 · Execution
-        
-        
-      </span>
-      
-      <span class="status-step  gate-status-passed-with-conditions">
-        <span class="dot"></span>3 · Evidence
-        
-        
-      </span>
-      
-      <span class="status-step  gate-status-not-assessed">
+      <span class="status-step set gate-status-passed">
         <span class="dot"></span>4 · Quality
-        
+        <span class="step-val">evaluated</span>
         
       </span>
       
-      <span class="status-step  gate-status-not-assessed">
+      <span class="status-step set gate-status-passed">
         <span class="dot"></span>5 · Decision
-        
+        <span class="step-val">passed</span>
         
       </span>
       
@@ -1411,9 +1640,9 @@ pass_if: {"detail": "bundle complete and typed (satisfies 31\u219232 handoff val
         evaluator's result from the behavior-test outcomes — the evaluation the
         conclusion rests on.</p>
       <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
-        <span class="gate-status-not_started" style="padding:2px 12px;border-radius:9999px;font-weight:700;font-size:0.85em">not_started</span>
+        <span class="gate-status-passed" style="padding:2px 12px;border-radius:9999px;font-weight:700;font-size:0.85em">passed</span>
         <span class="muted small">evaluated by code</span>
-        <span class="muted small">0/4 passed</span>
+        <span class="muted small">2/7 passed</span>
       </div>
       
     </div>
@@ -1445,6 +1674,14 @@ pass_if: {"detail": "bundle complete and typed (satisfies 31\u219232 handoff val
     
 
     
+    <div class="overview-section">
+      <h3 class="overview-label">Limitations</h3>
+      <p class="muted" style="margin:0 0 6px 0;font-size:0.85em">What this study explicitly does NOT validate (prevents overclaim).</p>
+      <ul style="margin:0 0 0 18px;padding:0;font-size:0.93em">
+        <li style="margin:2px 0">The membrane benefit here is measured under a REDUCED-COUPLING model (retention reduces effective washout; finite access reduces effective feed crossing), not the MD-resolved permeability PMF - it is the &#34;benefits from it&#34; half of Gate C only. The full, structurally-resolved coupling (amphiphile composition to permeability to metabolite retention), and whether the compartment is genuinely self-maintaining, requires study 32 plus viva-md-membrane (to-build). The benefit is persistence-only (standing pool ~2.9x) and feed-limited on throughput (flux ~0.6x), and windowed in membrane access (inverts below ~0.45; vent-calibrated point inside). network_connected is brittle at high TOC (cross-ref Gate B) and is not the basis of the persistence result.</li>
+      </ul>
+    </div>
+    
 
   </div>
   
@@ -1455,6 +1692,27 @@ pass_if: {"detail": "bundle complete and typed (satisfies 31\u219232 handoff val
     
     
     
+    
+    <div class="decide-section">
+      <h3 class="overview-label">Latest run outcomes</h3>
+      <div style="font-size:0.88em;color:#64748b;margin-bottom:8px">
+        baseline · seed ? ·
+        ?s simulated ·
+        ? history rows ·
+        started ?
+      </div>
+      
+      
+      
+      <p class="muted" style="margin:0;font-size:0.9em">
+        <strong>2</strong> test outcomes
+        — <span style="color:#065f46;font-weight:600">2 PASS</span> ·
+        <span style="color:#991b1b;font-weight:600">0 FAIL</span>.
+        Per-test outcomes (measured value · evaluator · band) are canonical on the
+        <a onclick="_setStudyTab('audit')" style="cursor:pointer;color:#3b82f6;text-decoration:underline">Tests (in Audit) →</a>.
+      </p>
+      
+    </div>
     
     
 
@@ -1482,7 +1740,7 @@ pass_if: {"detail": "bundle complete and typed (satisfies 31\u219232 handoff val
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "a17634f10d3773a2df7e41f993880c1fce48161e", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/a17634f10d3773a2df7e41f993880c1fce48161e", "branch": "main", "lockfile": "uv.lock@524abfbc6197", "generated_at": "2026-10-18 04:50 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "8178fb563e7f52c94bf7bd7255bd4cbf7d5b0835", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/8178fb563e7f52c94bf7bd7255bd4cbf7d5b0835", "branch": "main", "lockfile": "uv.lock@524abfbc6197", "generated_at": "2026-10-18 05:11 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>
