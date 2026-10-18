@@ -9,6 +9,8 @@ simulation_status: ran
 evaluation_status: evaluated
 gate_status: passed
 confidence: Accepted
+verdict: supported
+evidence_tier: conceptual_demonstration
 title: Prebiotic Reaction Atlas
 claim: >-
   A versioned, provenance-tracked atlas of candidate prebiotic reactions — each with canonical species

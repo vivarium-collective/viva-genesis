@@ -40,6 +40,18 @@ executive:
     origin of cells — treating a cellular origin as coupled transitions from geochemistry to 
     bioenergetic autonomy, grounded in serpentinization-driven alkaline hydrothermal vents, with 
     explicit competing scenarios.
+  gate_a_status: >-
+    Gate A (chemical emergence) is in progress and does not pass yet. All three member studies have
+    been built and run honestly, and the gate is held open by one build task and one operating-point
+    rerun, not by a negative scientific result. The prebiotic reaction atlas (og-28) passes cleanly:
+    its balance gate admitted zero unbalanced reactions and correctly held one out, with measured-
+    tier coverage of the C1-C3 chemistry. The coupled geochemical interface (og-27) is partial - it
+    sustains H2 flux and conserves mass and charge, but the current operating point sits deep in the
+    dissolution regime (saturation index -15 to -17), so the half of the decision test about mineral
+    evolution throttling supply is not yet exercised; a supersaturating rerun is the named follow-
+    up. The keystone, endogenous autocatalysis (og-29), is blocked rather than refuted (see its
+    limitation). Gate A will resolve once og-29's reaction universe is rebuilt to the carbon range
+    real autocatalytic cycles require and og-27 is rerun at a supersaturating operating point.
   verdict: >-
     The full geochemistry-to-heredity arc runs on real simulators and passes its pre-stated,
     falsifiable gates, with conservation held to machine precision. Twenty-three studies execute

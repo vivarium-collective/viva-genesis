@@ -9,6 +9,8 @@ simulation_status: ran
 evaluation_status: evaluated
 gate_status: needs_calibration
 confidence: Investigating
+verdict: qualified
+evidence_tier: mechanistic_prediction
 title: Coupled Geochemical Reaction Interface
 claim: >-
   An evolving mineral–water interface at a Lost City–type vent can be modeled as a coupled
