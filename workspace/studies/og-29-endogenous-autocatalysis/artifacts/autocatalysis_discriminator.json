@@ -1,0 +1,14 @@
+{
+  "headline": {
+    "max_carbons": 4,
+    "autocatalytic_gain_favorable": 0.0,
+    "autocatalytic_gain_null": 0.0,
+    "net_carbon_flux_favorable": 1.6137650378679723e-06,
+    "net_carbon_flux_null": 1.6172922706231707e-06,
+    "n_autocatalytic_motifs": 0.0,
+    "network_connected": 0.0,
+    "beats_matched_null": false,
+    "status": "BLOCKED",
+    "reason": "max_carbons=4 universe cannot contain C5-C6 autocatalytic cycle; >=6C thermo-skeleton table crashes (build limit). Not a refutation."
+  }
+}

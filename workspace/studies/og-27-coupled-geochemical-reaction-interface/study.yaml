@@ -2,10 +2,15 @@ schema_version: 4
 name: og-27-coupled-geochemical-reaction-interface
 investigation: origins-of-life-vent
 created: '2026-10-17'
-phase: Design
-status: planned
-design_status: drafted
-confidence: Planned
+phase: Evaluate
+status: ran
+design_status: approved
+simulation_status: ran
+evaluation_status: evaluated
+gate_status: needs_calibration
+confidence: Investigating
+verdict: qualified
+evidence_tier: mechanistic_prediction
 title: Coupled Geochemical Reaction Interface
 claim: >-
   An evolving mineral–water interface at a Lost City–type vent can be modeled as a coupled
@@ -100,6 +105,7 @@ contract:
 behavior_tests:
 - name: sustained-reactive-flux-over-timescales
   classification: primary
+  artifact: workspace/studies/og-27-coupled-geochemical-reaction-interface/artifacts/interface_report.json
   description: Over transport timescales the interface delivers H2 and inorganic-carbon fluxes and a
     maintained pH/redox gradient at or above the levels used by published vent-reactor and
     H2-dependent-metabolism work; the full time series and the onset of decay are reported, not a single
@@ -114,6 +120,7 @@ behavior_tests:
   requires_simulation: 'yes'
 - name: mineral-evolution-supply-decay
   classification: primary
+  artifact: workspace/studies/og-27-coupled-geochemical-reaction-interface/artifacts/interface_report.json
   description: Precipitation and surface passivation reduce reactive surface and throttle catalytic
     supply on the mineral-evolution timescale; the crossover time at which delivery drops below the
     downstream-required threshold is quantified.
@@ -139,6 +146,7 @@ behavior_tests:
   requires_simulation: 'yes'
 - name: coupled-conservation
   classification: secondary
+  artifact: workspace/studies/og-27-coupled-geochemical-reaction-interface/artifacts/interface_report.json
   description: Mass, charge and energy close across the coupled PHREEQC+FiPy+Reaktoro solve to tolerance
     with no untracked feeds.
   measure:
@@ -236,3 +244,21 @@ parent_relations:
 expert_questions:
 - Which thermodynamic database (and activity model) should anchor the high-ionic-strength speciation,
   and what passivation law for the evolving surface?
+runs:
+- name: gate-a-execution
+  status: completed
+  timestamp: 1792285919.102866
+  params: {nx: 20}
+  outcomes:
+    sustained-reactive-flux-over-timescales:
+      result: PASS
+      measured_value: 0.0002742
+      detail: H2 source flux sustained (0 -> 2.74e-4 mol/s) over the transport timescale; conservation holds.
+    coupled-conservation:
+      result: PASS
+      detail: ledger_ok=1 throughout; charge_imbalance=0; flux-divergence residual ~3e-5.
+    mineral-evolution-supply-decay:
+      result: NOT_EXERCISED
+      detail: Undersaturated dissolution regime (saturation_index -15..-17); porosity opens 0.35->0.98, mineral_precipitation=0, catalytic_accessibility stays 1 - throttling criterion unexercised at this operating point.
+limitations:
+- Mineral-evolution throttling criterion unexercised - at the current undersaturated operating point (SI -15 to -17) the system is in a dissolution regime (porosity opens, no precipitation/passivation). Serpentinization reaches carbonate/brucite supersaturation (Lost City chimney precipitation), so the throttling half of the decision test requires a supersaturating operating point (higher Ca/Mg/DIC or pH) - named follow-up.

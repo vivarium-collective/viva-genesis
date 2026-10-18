@@ -2,10 +2,15 @@ schema_version: 4
 name: og-29-endogenous-autocatalysis
 investigation: origins-of-life-vent
 created: '2026-10-17'
-phase: Design
-status: planned
-design_status: drafted
-confidence: Planned
+phase: Evaluate
+status: ran
+design_status: approved
+simulation_status: ran
+evaluation_status: evaluated
+gate_status: blocked
+confidence: Investigating
+verdict: blocked
+evidence_tier: mechanistic_prediction
 title: Endogenous Autocatalysis
 claim: >-
   Vent-fed chemistry, assembled from the study-28 atlas reactions under the study-27 interface feeds,
@@ -120,6 +125,7 @@ behavior_tests:
   requires_simulation: 'yes'
 - name: stoichiometric-autocatalysis-detection
   classification: primary
+  artifact: workspace/studies/og-29-endogenous-autocatalysis/artifacts/autocatalysis_discriminator.json
   description: Stoichiometric detection plus kinetic simulation either exhibit a balanced, mass-conserving
     autocatalytic cycle with measurable amplification and net carbon fixation, or they do not.
   measure:
@@ -131,6 +137,7 @@ behavior_tests:
   requires_simulation: 'yes'
 - name: autocatalysis-beats-matched-null
   classification: primary
+  artifact: workspace/studies/og-29-endogenous-autocatalysis/artifacts/autocatalysis_discriminator.json
   description: Any detected amplification must exceed a matched null (identical chemical input fluxes,
     autocatalytic topology removed); amplification not separable from the null is reported as feed-driven
     accumulation, not autocatalysis. This is the Gate A null arm.
@@ -165,6 +172,7 @@ behavior_tests:
   requires_simulation: 'yes'
 - name: negative-result-isolates-gap
   classification: primary
+  artifact: workspace/studies/og-29-endogenous-autocatalysis/artifacts/autocatalysis_discriminator.json
   description: If no genuine autocatalysis is found, the study isolates and names the missing precursor or
     rate-limiting mechanism — a clean negative is an accepted result that scopes downstream work.
   measure:
@@ -266,3 +274,41 @@ parent_relations:
 expert_questions:
 - Is an honest negative (a named missing precursor/mechanism) an acceptable decision outcome here, or
   must a positive autocatalytic cycle be demonstrated to pass?
+runs:
+- name: gate-a-execution-c4
+  status: completed
+  timestamp: 1792285919.102866
+  params: {max_carbons: 4}
+  outcomes:
+    autocatalysis-beats-matched-null:
+      result: BLOCKED
+      measured_value: 0.0
+      detail: autocatalytic_gain 0.0 (favorable) vs 0.0 (matched null) at max_carbons=4 across a 20x feed sweep; favorable does not beat null. CANNOT be evaluated - the universe truncates at 4 carbons and crashes at >=6C, but rTCA (C6) and formose (C5-C6) autocatalytic cycles need C5-C6 intermediates, so a 4C universe cannot contain the cycle. Build limit, not a demonstrated absence.
+    stoichiometric-autocatalysis-detection:
+      result: BLOCKED
+      detail: n_autocatalytic_motifs=0, core_size=0, network disconnected at max_carbons=4; the >=6C universe is unavailable (thermo table crash).
+    negative-result-isolates-gap:
+      result: BLOCKED
+      detail: The blocker is a build limit (>=6C thermo-skeleton table), not an isolated scientific gap.
+limitations:
+- >-
+  Discriminator cannot be evaluated at max_carbons=4 (thermo-skeleton table truncates at 4C;
+  crashes at >=6C). Two distinct limits: (i) LINEAR C5-C6 formose-type autocatalysis is blocked
+  only by the 4C thermo truncation and is unblocked by a >=6C thermo-skeleton rebuild; (ii)
+  BRANCHED C6 rTCA (citrate/isocitrate) is outside the v1 linear-skeleton representation and is
+  NOT reachable by the thermo rebuild - a named v2 item (branched-skeleton universe). BLOCKED
+  pending the >=6C thermo rebuild for formose-type; rTCA stays out of representational scope
+  pending v2.
+- >-
+  The run reports an autocatalytic gain of 0.0 for both the vent-fed network and its matched null,
+  across a 20-fold feed sweep. That looks like a clean negative, but it is an artifact of the
+  reaction universe, not evidence of absence - and the universe has TWO separate limits. (1)
+  Linear C5-C6 formose-type sugar autocatalysis is fully representable; it is hidden only because
+  the thermo table truncates at four carbons (and crashes at six), so a >=6C thermo-skeleton
+  rebuild makes the matched-null comparison meaningful for formose-type chemistry. (2) The
+  reductive TCA cycle turns on BRANCHED C6 species (citrate, alpha-ketoglutarate), which are
+  outside the v1 linear-skeleton representation entirely - a recorded limitation - so no thermo
+  rebuild reaches rTCA; that needs a branched-skeleton universe (v2). So the 0-versus-0 says
+  nothing about whether vent-fed chemistry can self-amplify: the apparatus was asked with an
+  alphabet too small for formose (fixable now by the rebuild) and with no letters at all for
+  branched rTCA (a v2 item). Held as blocked accordingly.

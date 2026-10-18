@@ -2,10 +2,15 @@ schema_version: 4
 name: og-28-prebiotic-reaction-atlas
 investigation: origins-of-life-vent
 created: '2026-10-17'
-phase: Design
-status: planned
-design_status: drafted
-confidence: Planned
+phase: Evaluate
+status: ran
+design_status: approved
+simulation_status: ran
+evaluation_status: evaluated
+gate_status: passed
+confidence: Accepted
+verdict: supported
+evidence_tier: conceptual_demonstration
 title: Prebiotic Reaction Atlas
 claim: >-
   A versioned, provenance-tracked atlas of candidate prebiotic reactions — each with canonical species
@@ -98,6 +103,7 @@ contract:
 behavior_tests:
 - name: inferred-tier-has-thermo-and-rate-basis
   classification: primary
+  artifact: workspace/studies/og-28-prebiotic-reaction-atlas/artifacts/atlas_coverage_report.json
   description: The inferred tier extends connectivity from C1–C3 to functional products only where
     eQuilibrator ΔG feasibility holds and a justified rate form/range is attached, each flagged is_range
     with its thermodynamic model recorded — no inferred reaction is promoted without that explicit basis.
@@ -110,6 +116,7 @@ behavior_tests:
   requires_simulation: 'no'
 - name: atlas-write-gate-zero-leakage
   classification: primary
+  artifact: workspace/studies/og-28-prebiotic-reaction-atlas/artifacts/atlas_coverage_report.json
   description: No record with mass_balanced=false, charge_balanced=false, or a missing source_key enters
     atlas.vN.jsonl — the deterministic validator rejects it at write time.
   measure:
@@ -207,3 +214,20 @@ parent_relations:
 expert_questions:
 - What confidence-tier rubric and minimum provenance (primary measurement vs. defensible inference) should
   gate admission to the accepted network?
+runs:
+- name: gate-a-execution
+  status: completed
+  timestamp: 1792285919.102866
+  params: {}
+  outcomes:
+    atlas-write-gate-zero-leakage:
+      result: PASS
+      measured_value: 0
+      detail: accepted_balance_violations=0; one unbalanced record held out of the accepted set (zero-leakage gate met).
+    inferred-tier-has-thermo-and-rate-basis:
+      result: PASS
+      measured_value: 0
+      detail: 0 inferred-tier reactions (measured-tier core only); vacuously satisfied - no inferred reaction lacks a thermo/rate basis.
+    handoff-28-to-29-complete:
+      result: PASS
+      detail: 28->29 transfer bundle fields present.

@@ -2,7 +2,7 @@ import pathlib, yaml
 
 STUDIES = sorted((pathlib.Path(__file__).resolve().parents[1]
                   / "workspace/studies").glob("*/study.yaml"))
-V = {"supported", "qualified", "honest-negative", "refuted", "mixed"}
+V = {"supported", "qualified", "honest-negative", "refuted", "mixed", "blocked"}
 T = {"conceptual_demonstration", "mechanistic_prediction", "calibrated"}
 
 
