@@ -534,3 +534,194 @@ class OgRtcaAutocatalysisViz(Visualization):
                 "the cycle self-amplifies only beyond vent, and only with its own wiring (the null stays off). "
                 "Plainly: the rTCA wiring is capable; the vent redox environment is what refutes it, not the "
                 "cycle's topology.")))
+
+
+# --------------------------------------------------------------------------- #
+# og-29 ADDITIVE Decision view — the x1–x50 feed-sweep autocatalysis discriminator.
+# Added ALONGSIDE the #98 render set (does not modify it). Reads the committed
+# autocatalysis_discriminator.json — no re-run.
+# --------------------------------------------------------------------------- #
+class OgAutocatalysisDiscriminatorViz(Visualization):
+    """og-29 — endogenous autocatalysis refuted (formose-type), the honest negative.
+
+    Reads the committed functional discriminator (``artifacts/autocatalysis_discriminator.json``):
+    across the x1–x50 vent-feed sweep the net carbon flux is FEED-DRIVEN (climbs with the feed,
+    the network connecting at the x20 ignition point) while the autocatalytic GAIN stays flat at
+    ZERO at every feed — carbon is fixed, but production is feed-driven, not self-amplified. So
+    autocatalysis is refuted on a coefficient-free functional discriminator (the coefficient
+    detector reads 0 by construction for a topological cycle with no doubling reaction)."""
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "Autocatalysis discriminator — feed-driven flux, zero self-amplification"},
+        "artifact_json": {"_type": "string",
+                          "_default": "workspace/studies/og-29-endogenous-autocatalysis/artifacts/autocatalysis_discriminator.json"},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        import json
+        import os
+        path = str(self.config["artifact_json"])
+        if not os.path.isabs(path) and not os.path.exists(path):
+            alt = os.path.join(os.getcwd(), path)
+            if os.path.exists(alt):
+                path = alt
+        if not os.path.exists(path):
+            return {"html": S.frame(f'<p style="padding:18px;color:{SLATE}">autocatalysis_discriminator.json not found.</p>',
+                                    title="Artifact not available", tone="caution", max_width=900)}
+        with open(path, encoding="utf-8") as f:
+            d = json.load(f)
+        return {"html": self._figure(d)}
+
+    def _figure(self, d) -> str:
+        from plotly.subplots import make_subplots
+
+        fs = d["favorable_sweep"]
+        levels = list(fs.keys())                       # x1, x5, x20, x50
+        xmul = [float(lv.lstrip("x")) for lv in levels]
+        flux = [float(fs[lv]["net_carbon_flux"]) for lv in levels]
+        gain = [float(fs[lv]["autocatalytic_gain"]) for lv in levels]
+        conn = [float(fs[lv].get("network_connected", 0.0)) for lv in levels]
+        hd = d.get("headline", {})
+        ign = str(hd.get("ignition_point", "x20")).split()[0]
+        ign_x = float(ign.lstrip("x")) if ign.lstrip("x").replace(".", "").isdigit() else 20.0
+
+        fig = make_subplots(rows=1, cols=2, horizontal_spacing=0.13,
+                            subplot_titles=("Net carbon flux is FEED-DRIVEN",
+                                            "Autocatalytic gain is ZERO at every feed"))
+        # P1 — flux climbs with feed; mark the x20 ignition (network connects)
+        fig.add_scatter(x=xmul, y=flux, mode="lines+markers", line=dict(color=SLATE, width=2),
+                        marker=dict(color=[TEAL if c >= 0.5 else SLATE for c in conn], size=9),
+                        name="net carbon flux", row=1, col=1, showlegend=False)
+        fig.add_vline(x=ign_x, line=dict(color=AMBER, width=2, dash="dot"), row=1, col=1)
+        fig.add_annotation(x=ign_x, y=max(flux), xref="x1", yref="y1", yshift=8, showarrow=False,
+                           text=f"ignition {ign} (network connects)", font=S.FONT(10, S.AMBER))
+        fig.update_xaxes(title_text="vent feed level (× posterior)", type="log", row=1, col=1)
+        fig.update_yaxes(title_text=S.quantity_label("net_carbon_flux", unit="mol/s"), type="log", row=1, col=1)
+        # P2 — gain flat at zero: the honest negative
+        fig.add_bar(x=[f"×{int(m)}" for m in xmul], y=gain, marker_color=RUST, row=1, col=2,
+                    text=[f"{g:.2f}" for g in gain], textposition="outside", showlegend=False)
+        fig.add_annotation(x=0.5, y=0.6, xref="x2 domain", yref="y2 domain", showarrow=False,
+                           text="autocatalytic gain = 0<br>at every feed → feed-driven,<br>NOT self-amplified",
+                           font=S.FONT(11, RUST), align="center")
+        fig.update_yaxes(title_text=S.quantity_label("autocatalytic_gain", unit="dimensionless, ratio"),
+                         range=[-0.1, 1.0], row=1, col=2)
+
+        fig.update_layout(S.base_layout(height=420))
+        inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+        cap = (
+            f"<b>Left (feed-driven flux):</b> across the vent-feed sweep (x1–x50) the net carbon flux climbs from "
+            f"{flux[0]:.1e} to {flux[-1]:.1e} mol/s and the six-carbon network connects at the {ign} ignition point "
+            f"(teal marker) — carbon IS fixed, driven by the feed. <b>Right (zero self-amplification):</b> the "
+            f"autocatalytic gain is flat at 0 at EVERY feed (RUST) — production is feed-driven, not self-amplified. "
+            f"So endogenous autocatalysis is <b>{hd.get('verdict', 'refuted (formose-type)')}</b> on a coefficient-free "
+            f"functional discriminator. (The canonical formose doubling r409, 2 glycolaldehyde→threose, is "
+            f"condensation-favoured — ΔG° ≈ −16.4 kJ/mol — so its splitting direction carries no net flux.) This is the "
+            f"off-spine A2 branch: refuted, not a spine prerequisite; the spine advances on persistence (A1), not "
+            f"self-amplification."
+        )
+        return S.frame(inner, title=(self.config["title"]),
+                       phase="Gate A2", view="Decision", tier="mechanistic_prediction",
+                       caption_text=cap, caption_prefix="How to read", tone="neutral", max_width=1120)
+
+
+# --------------------------------------------------------------------------- #
+# og-rtca ADDITIVE Mechanism view — WHY the branched reductive-TCA cycle washes
+# out at the vent (the uphill reductive carboxylations) and why its TOPOLOGY is
+# nonetheless autocatalysis-capable under a stronger reductant. Added ALONGSIDE
+# the #98 OgRtcaAutocatalysisViz discriminator-bars class (does not modify it).
+# --------------------------------------------------------------------------- #
+class OgRtcaMechanismViz(Visualization):
+    """og-rtca — the mechanism behind the honest negative: the reductive carboxylations are
+    uphill under vent H2, so the seeded cycle washes out; but the TOPOLOGY is autocatalysis-
+    capable under a stronger reductant (ferredoxin, not H2), and topology-specifically (the
+    matched null stays off). Reads the committed rtca_discriminator.json for the vent vs
+    permissive-limit growth; the reductive-carboxylation free energies are LABELLED literature
+    values (Fuchs/Buckel rTCA thermodynamics), annotated as the mechanism, not a model output."""
+
+    # literature reductive-carboxylation free energies (uphill under H2) — labelled, not model output
+    _CARBOX = [("acetyl-CoA → pyruvate", 31.0), ("succinate → α-ketoglutarate", 18.0)]
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "Reductive-TCA mechanism — uphill at the vent, topology-capable beyond it"},
+        "artifact_json": {"_type": "string",
+                          "_default": "workspace/studies/og-rtca-autocatalysis/artifacts/rtca_discriminator.json"},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    @staticmethod
+    def _mu(block) -> float:
+        return float(((block or {}).get("favorable") or {}).get("growth", {}).get("mu_max") or 0.0)
+
+    @staticmethod
+    def _mu_null(block) -> float:
+        return float(((block or {}).get("matched_null") or {}).get("growth", {}).get("mu_max") or 0.0)
+
+    def update(self, state=None):
+        import json
+        import os
+        path = str(self.config["artifact_json"])
+        if not os.path.isabs(path) and not os.path.exists(path):
+            alt = os.path.join(os.getcwd(), path)
+            if os.path.exists(alt):
+                path = alt
+        if not os.path.exists(path):
+            return {"html": S.frame(f'<p style="padding:18px;color:{SLATE}">rtca_discriminator.json not found.</p>',
+                                    title="Artifact not available", tone="caution", max_width=900)}
+        with open(path, encoding="utf-8") as f:
+            d = json.load(f)
+        return {"html": self._figure(d)}
+
+    def _figure(self, d) -> str:
+        from plotly.subplots import make_subplots
+
+        vent = d.get("vent") or {}
+        vent_rep = vent.get("x20") or (list(vent.values())[-1] if vent else {})
+        pl = (d.get("counterfactual") or {}).get("permissive_limit") or {}
+        mu_vent = self._mu(vent_rep); mu_perm = self._mu(pl); mu_null = self._mu_null(pl)
+
+        fig = make_subplots(rows=1, cols=2, horizontal_spacing=0.14,
+                            subplot_titles=("Reductive carboxylations are UPHILL (vent H2)",
+                                            "Topology IS autocatalysis-capable (beyond vent)"))
+        # P1 — the thermodynamic barrier: +ΔG carboxylations under vent H2
+        names = [c[0] for c in self._CARBOX]; dG = [c[1] for c in self._CARBOX]
+        fig.add_bar(x=names, y=dG, marker_color=RUST, row=1, col=1, showlegend=False,
+                    text=[f"+{g:g}" for g in dG], textposition="outside")
+        fig.add_hline(y=0.0, line=dict(color=SLATE, width=1), row=1, col=1)
+        fig.add_annotation(x=0.5, y=0.92, xref="x domain", yref="y domain", showarrow=False,
+                           text="uphill under H2 → the seeded cycle washes out<br>(ferredoxin, not H2, is the real reductant)",
+                           font=S.FONT(10, RUST), align="center")
+        fig.update_yaxes(title_text="reductive-carboxylation ΔG° (kJ/mol, literature)", row=1, col=1)
+        # P2 — vent vs permissive counterfactual vs matched null (topology-specific ignition)
+        fig.add_bar(x=["real vent", "permissive<br>counterfactual", "matched<br>null"],
+                    y=[mu_vent, mu_perm, mu_null], marker_color=[RUST, TEAL, SLATE], row=1, col=2, showlegend=False,
+                    text=[f"{mu_vent:.1e}", f"{mu_perm:.1e}", f"{mu_null:.1e}"], textposition="outside")
+        fig.update_yaxes(title_text="self-amplification growth rate μ_max (1/step)", row=1, col=2)
+
+        fig.update_layout(S.base_layout(height=420))
+        inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+        cap = (
+            f"<b>Left (Mechanism):</b> the branched reductive-TCA cycle's reductive carboxylations run UPHILL under "
+            f"vent H2 — acetyl-CoA→pyruvate ΔG° ≈ +31 kJ/mol and succinate→α-ketoglutarate ≈ +18 kJ/mol (labelled "
+            f"literature values) — so the seeded cycle cannot self-amplify and washes out (μ_max = {mu_vent:.1e} at the "
+            f"x20 ignition point). The real reductant is ferredoxin, not H2 — exactly why biological rTCA uses it. "
+            f"<b>Right (counterfactual):</b> under a stronger reductant / lower dilution (a LABELLED beyond-vent "
+            f"counterfactual, NOT a vent-feasibility claim) the SAME topology ignites exponentially "
+            f"(μ_max = {mu_perm:.1e}, TEAL) while its matched null stays off ({mu_null:.1e}, SLATE) — so the cycle is "
+            f"topology-specifically autocatalysis-capable. <b>Conclusion:</b> the vent negative ("
+            f"{d.get('verdict', 'honest-negative')}) is a redox-environment / thermodynamic limitation, not a flaw in "
+            f"the rTCA wiring — the off-spine A2 branch, refuted at the vent but noted as a basis for a beyond-vent follow-up."
+        )
+        return S.frame(inner, title=(self.config["title"]),
+                       phase="Gate A2", view="Mechanism", tier="mechanistic_prediction",
+                       caption_text=cap, caption_prefix="How to read", tone="neutral", max_width=1120)

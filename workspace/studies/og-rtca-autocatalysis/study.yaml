@@ -79,6 +79,12 @@ visualizations:
     artifact_json: workspace/studies/og-rtca-autocatalysis/artifacts/rtca_discriminator.json
     title: "Reductive-TCA autocatalysis — refuted at vent, topology-capable beyond it"
     caption: "Across the x1–x50 vent feed sweep the seeded reductive-TCA cycle shows zero self-amplification growth (it washes out under vent H2 — the honest negative); it ignites only in a labelled stronger-reductant + lower-dilution counterfactual, and topology-specifically (the matched null stays off). So the vent negative is a redox / residence-time limitation, not a limitation of the rTCA wiring."
+- name: rtca-mechanism
+  address: local:OgRtcaMechanismViz
+  config:
+    title: "Reductive-TCA mechanism — uphill at the vent, topology-capable beyond it"
+    artifact_json: workspace/studies/og-rtca-autocatalysis/artifacts/rtca_discriminator.json
+  rendered: workspace/studies/og-rtca-autocatalysis/viz/rtca-mechanism.html
 
 behavior_tests:
 - name: rtca-vent-h2-washout
