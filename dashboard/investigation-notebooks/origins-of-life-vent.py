@@ -5074,6 +5074,152 @@ else:
 # | matched-null-equal-feeds _(primary)_ | kind=observable detail=external feed ledger - membrane vs ablation feeds held equal | op threshold detail input fluxes equal across arms |
 # | self-maintenance-windowed _(secondary)_ | kind=observable detail=k_deg boundary sweep + composition (short/long) sweep | op threshold detail a real upper k_deg boundary is bracketed |
 
+# ## Study: Chemically Coupled Growth and Division (`og-33-chemically-coupled-growth-and-division`)
+#
+# **Question.** Can a self-maintaining protocell grow and divide as a consequence of its own chemistry - membrane area and content increasing from metabolism until a physical instability splits it - rather than by an imposed division rule, and are the daughters viable?
+#
+# **Objective.** Couple study-32's self-maintaining protocell to membrane growth from the metabolic amphiphile flux; grow membrane area until a measured area-doubling budding geometry triggers division; partition contents to daughters and test whether each daughter resumes the study-32 self-maintenance criterion - all against a matched null (growth decoupled from metabolism, or an imposed-division rule) at input fluxes held equal, reporting an imposed-rule outcome honestly if that is the result.
+#
+# **Hypothesis.** Metabolism-supplied amphiphiles grow the membrane; as area outpaces volume the compartment reaches a shape instability and divides at a measured critical-geometry threshold, partitioning contents; division rate scales with metabolic flux and the daughters re-enter self-maintenance. If division needs an imposed event, or the daughters cannot resume self-maintenance, no emergent growth/division is claimed.
+#
+# **Claim.** The protocell grows from its own metabolic amphiphile production and divides at a physically-grounded, measured area-doubling geometry - yielding viable daughters that resume self-maintenance - rather than by an imposed rule. Division rate scales with metabolic flux (coupled) while a growth-decoupled null is flux-independent and an imposed-division null divides on a timer; the metabolism-coupled arm beats both matched nulls at equal feeds, and daughters are viable only because they resume the study-32 self-maintenance criterion (integrity plus benefit over the no-membrane ablation). The verdict is qualified: the criterion is met on the measured-geometry first cut (Option B); full coarse-grained membrane mechanics (Option A, og-33a) is the budgeted follow-up. The metabolism is the sustained A1 carbon-fixing network (not autocatalytic), so growth is funded by carbon fixation, not self-amplification.
+
+# ### Design — originally proposed
+#
+# _The mechanisms and methods proposed when this study was designed; the model **actually built** (and the tools it uses) is shown below. These may differ as the design was realized._
+#
+# **Proposed mechanisms**
+#
+# - membrane growth from the metabolic amphiphile flux (area increasing with metabolic flux)
+# - division at a MEASURED critical-geometry threshold (area-doubling budding instability), no imposed event
+# - content partitioning to daughters, each tested for resumed self-maintenance (viability)
+# - division rate scaling with metabolic flux vs a growth-decoupled / imposed-rule control at equal feeds
+#
+# **Proposed models / methods**
+#
+# - Membrane growth from the metabolic flux + division via a MEASURED area-doubling budding geometry  [Option B / first cut; grounded in hanczyc/budin growth-division geometries]
+# - Coarse-grained membrane mechanics for division (viva-md-membrane)  [to-build; the richer follow-on, tracked as og-33a in discovery_implications - NOT over-committed here]
+# - study-32 self-maintaining protocell (real A1 reaction universe + MD-informed membrane) coupled to the GrowthDivisionProcess  [in-workspace]
+# - division-rate vs flux slope + daughter-viability across a feed sweep
+# - measured growth-division geometry / critical-radius benchmarks for independent validation (evidence standard
+#
+# **Key assumptions**
+#
+# - Input fluxes are held equal to the matched null (growth-decoupled or imposed-division) - emergent growth/division must be a margin over it, not more feed.
+# - Division triggers at a MEASURED area-doubling budding geometry (hanczyc/budin), not a value tuned to force division (Option B; CG membrane mechanics is a follow-up og-33a).
+# - Daughters are viable only if they resume the study-32 self-maintenance criterion (production >= degradation), not merely form.
+# - The enclosed metabolism is the sustained A1 carbon-fixing network, not autocatalytic (A2 refuted under vent conditions).
+
+# ### Parameters
+#
+# | simulation | composite | steps | params |
+# | --- | --- | --- | --- |
+# | `Chemically coupled growth and division (metabolism-coupled, measured geometry)` | `viva_genesis.composites.og_33_chemically_coupled_growth_and_division.og_33_chemically_coupled_growth_and_division` | 0 | coupled=True, porosity=0.88, base_CO2=0.001, base_H2=0.001, max_carbons=4 |
+# | `Growth-decoupled null (equal feeds)` | `viva_genesis.composites.og_33_chemically_coupled_growth_and_division.og_33_chemically_coupled_growth_and_division` | 0 | coupled=False, porosity=0.88, base_CO2=0.001, base_H2=0.001, max_carbons=4 |
+
+# ### The model & its parameters
+#
+# Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
+
+# **The model — `viva_genesis.composites.og_33_chemically_coupled_growth_and_division.og_33_chemically_coupled_growth_and_division`**
+#
+# Gate D first half: couples study 32's self-maintaining protocell to amphiphile-driven membrane growth and division at a MEASURED critical-geometry (reduced-volume) threshold (hanczyc/budin; ⚑2 Option B, NOT CG membrane mechanics - that is og-33a). Membrane area grows from the metabolism's productive flux; at the measured critical reduced volume the compartment divides (geometry, not an imposed rule). coupled=False is the growth-decoupled null (fixed amphiphile supply); imposed_division=True is the imposed-rule null. Daughters viable only if they resume study-32 self-maintenance. Metabolism = sustained A1 network, NOT autocatalytic (A2 refuted).
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_og_33_chemically_coupled_growth_and_division_og_33_chemically_coupled_growth_and_division = {
+    'coupled'         : True,   # Growth driven by metabolic flux (True) vs growth-decoupled null (False)
+    'imposed_division': False,   # Divide on a fixed timer (imposed-rule null) vs measured geometry
+    'composition'     : 'long_di-C16',   # MD amphiphile composition for the study-32 membrane
+    'base_CO2'        : 0.001,   # Bulk precursor CO2 (molar) — equal across arms
+    'base_H2'         : 0.001,   # Bulk precursor H2 (molar) — equal across arms
+    'porosity'        : 0.88,   # Gate-B pore porosity
+    'k_wash'          : 0.05,   # Base CSTR washout (1/s)
+    'max_carbons'     : 4,   # Carbon cap of the reaction universe
+}
+
+# ### Typed contract (declared interface)
+#
+# _The bigraph-schema typed ports + conservation predicates this study's composite must satisfy (audited in the workbench §Contract panel). Declared design — independent of whether a run exists yet._
+#
+# **Inputs**
+#
+# | port | type | units | bounds |
+# | --- | --- | --- | --- |
+# | `external_co2_supply` | float | molar/second | >= 0.0 |
+# | `external_h2_supply` | float | molar/second | >= 0.0 |
+#
+# **Outputs**
+#
+# | port | type | units | bounds |
+# | --- | --- | --- | --- |
+# | `membrane_area` | float | nanometer**2 | >= 0.0 |
+# | `reduced_volume` | float | dimensionless | >= 0.0 |
+# | `division_rate` | float | 1/second | >= 0.0 |
+# | `daughter_viable` | float | dimensionless | >= 0.0 |
+#
+# **Conditions**
+#
+# - `equal_input_fluxes_vs_null` (invariant): `external feed fluxes are held equal to the matched null (growth-decoupled or imposed-division control); emergent growth/division is the margin over it`
+# - `no_imposed_division` (invariant): `division follows from the area-doubling budding instability at a measured critical-geometry threshold, with no imposed division event`
+# - `division_geometry_measured` (invariant): `the critical-geometry threshold (area-doubling budding) is taken from measured growth-division geometries (hanczyc/budin), not tuned to force division`
+# - `daughters_resume_self_maintenance` (invariant): `a daughter is viable only if it resumes the study-32 self-maintenance criterion (production >= degradation)`
+# - `metabolism_is_A1_not_autocatalytic` (invariant): `the enclosed metabolism is the sustained A1 carbon-fixing network; growth is funded by carbon fixation, not autocatalytic self-amplification (A2 refuted)`
+
+# ### Run
+#
+# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
+
+# === Study: og-33-chemically-coupled-growth-and-division ===
+STUDY = 'og-33-chemically-coupled-growth-and-division'
+STUDY_DIR = REPO / 'workspace/studies' / STUDY
+STUDY_YAML = str(STUDY_DIR / "study.yaml")
+RUNS_DB = str(STUDY_DIR / "runs.db")
+
+# This study has no *recorded* runs yet. RERUN builds its declared
+# composite(s) live and runs them; a composite whose module processes
+# are not implemented yet reports the error instead of crashing.
+STEPS_Chemically_coupled_growth_and_division_metabolism_coupled_measured_geometry = 100
+INTERVAL_Chemically_coupled_growth_and_division_metabolism_coupled_measured_geometry = 1.0
+STEPS_Growth_decoupled_null_equal_feeds = 100
+INTERVAL_Growth_decoupled_null_equal_feeds = 1.0
+
+if RERUN:
+    from process_bigraph import Composite
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_og_33_chemically_coupled_growth_and_division_og_33_chemically_coupled_growth_and_division if 'ov_viva_genesis_composites_og_33_chemically_coupled_growth_and_division_og_33_chemically_coupled_growth_and_division' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_og_33_chemically_coupled_growth_and_division_og_33_chemically_coupled_growth_and_division = materialize_composite('viva_genesis.composites.og_33_chemically_coupled_growth_and_division.og_33_chemically_coupled_growth_and_division', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_og_33_chemically_coupled_growth_and_division_og_33_chemically_coupled_growth_and_division['state']}, core=core)
+            _comp.run(STEPS_Chemically_coupled_growth_and_division_metabolism_coupled_measured_geometry)
+        print('ran', 'Chemically coupled growth and division (metabolism-coupled, measured geometry)', f'(viva_genesis.composites.og_33_chemically_coupled_growth_and_division.og_33_chemically_coupled_growth_and_division) for', STEPS_Chemically_coupled_growth_and_division_metabolism_coupled_measured_geometry, 'steps')
+    except Exception as _e:
+        print(f"Chemically coupled growth and division (metabolism-coupled, measured geometry) not runnable yet: {type(_e).__name__}: {_e}")
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_og_33_chemically_coupled_growth_and_division_og_33_chemically_coupled_growth_and_division if 'ov_viva_genesis_composites_og_33_chemically_coupled_growth_and_division_og_33_chemically_coupled_growth_and_division' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_og_33_chemically_coupled_growth_and_division_og_33_chemically_coupled_growth_and_division = materialize_composite('viva_genesis.composites.og_33_chemically_coupled_growth_and_division.og_33_chemically_coupled_growth_and_division', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_og_33_chemically_coupled_growth_and_division_og_33_chemically_coupled_growth_and_division['state']}, core=core)
+            _comp.run(STEPS_Growth_decoupled_null_equal_feeds)
+        print('ran', 'Growth-decoupled null (equal feeds)', f'(viva_genesis.composites.og_33_chemically_coupled_growth_and_division.og_33_chemically_coupled_growth_and_division) for', STEPS_Growth_decoupled_null_equal_feeds, 'steps')
+    except Exception as _e:
+        print(f"Growth-decoupled null (equal feeds) not runnable yet: {type(_e).__name__}: {_e}")
+else:
+    print("RERUN=False — not re-simulating.")
+
+# ### Acceptance criteria
+#
+# _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
+#
+# | test | measures | passes if |
+# | --- | --- | --- |
+# | receives-32-handoff-bundle _(secondary)_ | kind=observable detail=og_33 composite wires the og_32 protocell + GrowthDivisionProcess | op threshold detail composite builds + runs on the study-32 protocell |
+# | growth-from-metabolism _(primary)_ | kind=observable detail=division_rate vs net carbon flux coupled vs growth-decoupled null=None | op threshold detail coupled division rate rises with flux (slope > 0) while decoupled is flat |
+# | division-at-measured-geometry _(primary)_ | kind=observable detail=divisions trigger at the measured area-doubling threshold not a timer=None | op threshold detail division triggers at the measured geometry no imposed event None |
+# | daughters-viable _(primary)_ | kind=observable detail=daughter_viable across the coupled feed sweep | op threshold detail daughters resume self-maintenance (viable) |
+# | beats-null-growth-decoupled-or-imposed _(primary)_ | kind=observable detail=coupled division rate vs flux-independent decoupled/imposed nulls equal feeds=None | op threshold detail metabolism-coupled growth/division exceeds the matched null |
+# | handoff-33-to-34-complete _(secondary)_ | kind=observable detail=division events + daughter compartments available to study 34 | op threshold detail dividing-protocell handoff available |
+
 # ## Open decisions
 # - Read og-08's {pump, importer, heredity} as a HYPOTHESIS GENERATOR, not a result: the integrated world (og-08-alt-robust-innovation-set) finds the required set structure-dependent and the off-gradient verdict decided by the ocean floor, the membrane leakiness and the inheritance class's budget sensitivity. Adopt this framing for the campaign's endpoint statement, and supply the ocean's H2 / organic background (the floor) as an expert prior?
 # - Agent motion model (ecology stage): DEFERRED. The proto_ecology component points agents at fixed cells of the og-03 enrichment field (interleaved or segregated along the pore); no motility, chemotaxis or advective drift of agents is modelled. Which motion model (none / advected with the pore flow / Brownian between cells / thermophoretic like the solutes) should the ecology follow-up adopt?
