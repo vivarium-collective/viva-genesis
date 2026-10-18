@@ -4622,6 +4622,15 @@ if RERUN:
 else:
     print("RERUN=False — not re-simulating.")
 
+# ### Visualizations
+#
+# _Results are shown by the figures below, produced by the run above._
+
+# **rtca-discriminator**
+
+# rtca-discriminator
+_save_viz('og-rtca-autocatalysis', 'rtca-discriminator', _render_one('local:OgRtcaAutocatalysisViz', {'artifact_json': 'workspace/studies/og-rtca-autocatalysis/artifacts/rtca_discriminator.json', 'title': 'Reductive-TCA autocatalysis — refuted at vent, topology-capable beyond it', 'caption': 'Across the x1–x50 vent feed sweep the seeded reductive-TCA cycle shows zero self-amplification growth (it washes out under vent H2 — the honest negative); it ignites only in a labelled stronger-reductant + lower-dilution counterfactual, and topology-specifically (the matched null stays off). So the vent negative is a redox / residence-time limitation, not a limitation of the rTCA wiring.'}, RUNS_DB, STUDY_YAML))
+
 # ### Acceptance criteria
 #
 # _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
@@ -5366,6 +5375,155 @@ else:
 # | population-shifts-under-selection _(primary)_ | kind=observable detail=population composition shift over generations inheritance vs null=None permutation p=None | op threshold detail the population shifts above the null (perm p < 0.05) |
 # | matched-null-no-inheritance _(primary)_ | kind=observable detail=null shows neither parent-offspring correlation nor directional shift | op threshold detail null correlation ~ 0 and null drift ~ 0 |
 # | handoff-34-to-35-36-37-complete _(secondary)_ | kind=observable detail=heritable population + fitness-composition map available | op threshold detail heritable-population handoff available |
+
+# ## Study: Chemical Energy Coupling (`og-35-chemical-energy-coupling`)
+#
+# **Question.** Does coupling a specified chemical energy carrier (thioester / acyl-phosphate cycle) to the protocell's metabolism improve net useful work and persistence over using the environmental gradient alone - with a full energy ledger and no hidden inflow?
+#
+# **Objective.** Couple a specified thioester carrier cycle (tied to og-12) to the protocell energy supply under a declining geochemical drive; account every energy term (activation, use, hydrolysis, stored) in a closing ledger with no hidden inflow; and test net useful work and persistence - including through a gradient dip - against a matched gradient-only control at input fluxes held equal, reporting a net cost / wash honestly if that is the result.
+#
+# **Hypothesis.** A carrier cycle that stores and transfers free energy lets the protocell do endergonic work when the gradient dips, raising persistence/robustness versus gradient-only operation - provided its synthesis and hydrolysis/leak costs are outweighed. If the carrier's costs exceed its benefit, or the energy ledger does not close without a hidden inflow, no net energy benefit is claimed.
+#
+# **Claim.** Coupling a specified thioester carrier cycle to the protocell's energy supply pays for itself on PERSISTENCE through a gradient dip, not on total throughput. At input fluxes held equal to a matched gradient-only control and with a full free-energy ledger that closes (no hidden inflow), the carrier does useful work through the dip (where gradient-only, lacking a store, starves to near zero) - but its total useful work is not greater than gradient-only, because it time-shifts banked free energy into the dip and loses some to hydrolysis, and it gates activation at the bond rather than capturing the above-bond surplus (true even at zero hydrolysis). So the honest result is dip-resilience, not more work overall - verdict qualified - and the alternative carrier / microkinetic resolution (og-35a) is the follow-up. The metabolism is the sustained A1 carbon-fixing network (not autocatalytic), so the carrier funds endergonic work, not self-amplification.
+
+# ### Design — originally proposed
+#
+# _The mechanisms and methods proposed when this study was designed; the model **actually built** (and the tools it uses) is shown below. These may differ as the design was realized._
+#
+# **Proposed mechanisms**
+#
+# - a specified thioester carrier cycle storing and transferring free energy
+# - endergonic work funded by the carrier when the environmental gradient dips (buffering)
+# - full energy ledger (activation / use / hydrolysis / stored) with no hidden inflow
+# - net useful work + persistence vs a gradient-only control at equal feeds (benefit minus carrier cost)
+#
+# **Proposed models / methods**
+#
+# - og-12 thioester carrier chemistry (ThioesterCarrierCycleProcess) + declining GeochemicalDrive, lumped kinetics  [Option B / first cut; one specified carrier]
+# - Alternative carrier (acyl-phosphate) and/or microkinetic enzyme-free resolution  [the richer follow-on, tracked as og-35a]
+# - matched gradient-only control (GradientOnlyWorkProcess): same activation throughput + drive + load, no store  [in-workspace]
+# - full energy-ledger accounting (activation / use / hydrolysis / stored), closure checked; k_hydrolyze cost/benefit window
+# - measured carrier thermodynamics (thioester hydrolysis dG') for independent validation (evidence standard
+#
+# **Key assumptions**
+#
+# - Drive + load are held equal to the gradient-only control - any energy benefit must be a margin over it, not more input.
+# - The energy ledger (activation / use / hydrolysis / stored) must close with no hidden inflow (budget_residual ~ 0).
+# - Carrier chemistry is one specified thioester cycle first (Option B); the alternative carrier / microkinetic resolution is a tracked follow-up (og-35a).
+# - The enclosed metabolism is the sustained A1 carbon-fixing network, not autocatalytic (A2 refuted under vent conditions).
+
+# ### Parameters
+#
+# | simulation | composite | steps | params |
+# | --- | --- | --- | --- |
+# | `Chemical energy coupling (thioester carrier)` | `viva_genesis.composites.og_35_chemical_energy_coupling.og_35_chemical_energy_coupling` | 0 | carrier=True, g_drive=50.0, decline_rate=0.4, load=30.0, bond_energy_kjmol=31.5 |
+# | `Gradient-only null (no carrier store, equal drive/load)` | `viva_genesis.composites.og_35_chemical_energy_coupling.og_35_chemical_energy_coupling` | 0 | carrier=False, g_drive=50.0, decline_rate=0.4, load=30.0, bond_energy_kjmol=31.5 |
+
+# ### The model & its parameters
+#
+# Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
+
+# **The model — `viva_genesis.composites.og_35_chemical_energy_coupling.og_35_chemical_energy_coupling`**
+#
+# Gate E energy coupling: does a specified thioester carrier cycle do endergonic work when the geochemical gradient DIPS, beating a matched gradient-only control, with a FULL closing energy ledger and no hidden inflow? carrier=True charges/discharges a stored carrier (buffered); carrier=False is the gradient-only null (direct drive->work, no store). Both see the same declining drive + load. Carrier chemistry = one specified thioester (Option B; acyl-phosphate / microkinetic = og-35a). Metabolism = sustained A1 network, NOT autocatalytic (A2 refuted).
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_og_35_chemical_energy_coupling_og_35_chemical_energy_coupling = {
+    'carrier'          : True,   # Thioester carrier cycle (True) vs matched gradient-only null (False)
+    'g_drive'          : 50.0,   # Initial geochemical drive free energy (kJ/mol)
+    'decline_rate'     : 0.4,   # Drive decline per step (kJ/mol) — the gradient dip
+    'g_floor'          : 2.0,   # Drive floor (kJ/mol)
+    'load'             : 30.0,   # Endergonic load to lift (kJ/mol)
+    'bond_energy_kjmol': 31.5,   # Carrier high-energy bond (thioester ~31.5; proposed_input)
+    'k_hydrolyze'      : 0.02,   # Carrier hydrolysis leak rate (1/s)
+    'base_CO2'         : 0.001,   # Vent feed (provenance for the metabolic regime)
+    'base_H2'          : 0.001,   # Vent feed (provenance)
+    'porosity'         : 0.88,   # Gate-B pore porosity (provenance)
+    'max_carbons'      : 4,   # Carbon cap (provenance)
+}
+
+# ### Typed contract (declared interface)
+#
+# _The bigraph-schema typed ports + conservation predicates this study's composite must satisfy (audited in the workbench §Contract panel). Declared design — independent of whether a run exists yet._
+#
+# **Inputs**
+#
+# | port | type | units | bounds |
+# | --- | --- | --- | --- |
+# | `external_co2_supply` | float | molar/second | >= 0.0 |
+# | `external_h2_supply` | float | molar/second | >= 0.0 |
+# | `gradient_available` | float | kilojoule/mole | >= 0.0 |
+#
+# **Outputs**
+#
+# | port | type | units | bounds |
+# | --- | --- | --- | --- |
+# | `net_useful_work` | float | kilojoule/mole |  |
+# | `carrier_pool` | float | molar | >= 0.0 |
+# | `energy_ledger_residual` | float | kilojoule/mole |  |
+# | `dip_useful_work` | float | kilojoule/mole | >= 0.0 |
+#
+# **Conditions**
+#
+# - `equal_input_fluxes_vs_gradient_only` (invariant): `drive + load are held equal to the gradient-only (no-store) control; any benefit is the margin over it`
+# - `energy_ledger_closes` (invariant): `the full energy ledger (activation + use + hydrolysis + stored) closes to machine precision; energy_ledger_residual ~ 0`
+# - `no_hidden_energy_inflow` (invariant): `there is no energy inflow outside the accounted drive and carrier terms (budget_residual ~ 0 witnesses this)`
+# - `metabolism_is_A1_not_autocatalytic` (invariant): `the enclosed metabolism is the sustained A1 carbon-fixing network; the carrier funds endergonic work, not autocatalytic self-amplification (A2 refuted)`
+
+# ### Run
+#
+# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
+
+# === Study: og-35-chemical-energy-coupling ===
+STUDY = 'og-35-chemical-energy-coupling'
+STUDY_DIR = REPO / 'workspace/studies' / STUDY
+STUDY_YAML = str(STUDY_DIR / "study.yaml")
+RUNS_DB = str(STUDY_DIR / "runs.db")
+
+# This study has no *recorded* runs yet. RERUN builds its declared
+# composite(s) live and runs them; a composite whose module processes
+# are not implemented yet reports the error instead of crashing.
+STEPS_Chemical_energy_coupling_thioester_carrier = 100
+INTERVAL_Chemical_energy_coupling_thioester_carrier = 1.0
+STEPS_Gradient_only_null_no_carrier_store_equal_drive_load = 100
+INTERVAL_Gradient_only_null_no_carrier_store_equal_drive_load = 1.0
+
+if RERUN:
+    from process_bigraph import Composite
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_og_35_chemical_energy_coupling_og_35_chemical_energy_coupling if 'ov_viva_genesis_composites_og_35_chemical_energy_coupling_og_35_chemical_energy_coupling' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_og_35_chemical_energy_coupling_og_35_chemical_energy_coupling = materialize_composite('viva_genesis.composites.og_35_chemical_energy_coupling.og_35_chemical_energy_coupling', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_og_35_chemical_energy_coupling_og_35_chemical_energy_coupling['state']}, core=core)
+            _comp.run(STEPS_Chemical_energy_coupling_thioester_carrier)
+        print('ran', 'Chemical energy coupling (thioester carrier)', f'(viva_genesis.composites.og_35_chemical_energy_coupling.og_35_chemical_energy_coupling) for', STEPS_Chemical_energy_coupling_thioester_carrier, 'steps')
+    except Exception as _e:
+        print(f"Chemical energy coupling (thioester carrier) not runnable yet: {type(_e).__name__}: {_e}")
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_og_35_chemical_energy_coupling_og_35_chemical_energy_coupling if 'ov_viva_genesis_composites_og_35_chemical_energy_coupling_og_35_chemical_energy_coupling' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_og_35_chemical_energy_coupling_og_35_chemical_energy_coupling = materialize_composite('viva_genesis.composites.og_35_chemical_energy_coupling.og_35_chemical_energy_coupling', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_og_35_chemical_energy_coupling_og_35_chemical_energy_coupling['state']}, core=core)
+            _comp.run(STEPS_Gradient_only_null_no_carrier_store_equal_drive_load)
+        print('ran', 'Gradient-only null (no carrier store, equal drive/load)', f'(viva_genesis.composites.og_35_chemical_energy_coupling.og_35_chemical_energy_coupling) for', STEPS_Gradient_only_null_no_carrier_store_equal_drive_load, 'steps')
+    except Exception as _e:
+        print(f"Gradient-only null (no carrier store, equal drive/load) not runnable yet: {type(_e).__name__}: {_e}")
+else:
+    print("RERUN=False — not re-simulating.")
+
+# ### Acceptance criteria
+#
+# _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
+#
+# | test | measures | passes if |
+# | --- | --- | --- |
+# | receives-34-handoff-bundle _(secondary)_ | kind=observable detail=composite runs on the merged thioester carrier + declining drive | op threshold detail composite builds + runs |
+# | carrier-pays-on-dip-persistence _(primary)_ | kind=observable detail=useful work during the dip carrier vs gradient-only=None equal drive/load=None | op threshold detail carrier dip-work > gradient-only dip-work |
+# | carrier-throughput-not-improved _(primary)_ | kind=observable detail=total useful work carrier vs gradient-only=None | op threshold detail total useful work not improved (carrier <= gradient-only) - reported not tuned None |
+# | energy-ledger-closes _(primary)_ | kind=observable detail=max |budget_residual| in both arms | op threshold detail ledger closes (residual ~ 0) no hidden inflow None |
+# | matched-null-equal-feeds _(primary)_ | kind=observable detail=drive + load held equal across arms | op threshold detail inputs equal across arms |
+# | handoff-35-to-37-complete _(secondary)_ | kind=observable detail=energy-coupling readouts available to study 37 | op threshold detail handoff available |
 
 # ## Open decisions
 # - Read og-08's {pump, importer, heredity} as a HYPOTHESIS GENERATOR, not a result: the integrated world (og-08-alt-robust-innovation-set) finds the required set structure-dependent and the off-gradient verdict decided by the ocean floor, the membrane leakiness and the inheritance class's budget sensitivity. Adopt this framing for the campaign's endpoint statement, and supply the ocean's H2 / organic background (the floor) as an expert prior?
