@@ -1,0 +1,147 @@
+{
+ "meta": {
+  "n_seeds": 8,
+  "n_generations": 40,
+  "sigma": 0.03,
+  "n_perm": 20000,
+  "fitness_grounding": "composition -> study-32 MD-informed retention (0.333/0.661) -> standing pool -> study-33 division rate = fitness (real merged coupling, not a toy)",
+  "inheritance": "Option B: inherited network composition (compositional/GARD-style); template copying = Option A follow-on og-34a",
+  "significance": "dependency-free PERMUTATION test (PyMC noted as the richer stat, not installed)",
+  "guardrail": "metabolism = sustained A1 carbon-fixing network, NOT autocatalytic (A2 refuted)"
+ },
+ "inheritance_arm": [
+  {
+   "seed": 0,
+   "shift": 0.5620572899685022,
+   "mean_corr": 0.9654333323579838,
+   "final_mean_c": 0.935596154362651,
+   "heritable_fitness_variance": 0.0006659990684283638
+  },
+  {
+   "seed": 1,
+   "shift": 0.5653916346343332,
+   "mean_corr": 0.9364104944780411,
+   "final_mean_c": 0.9547385412026529,
+   "heritable_fitness_variance": 0.0003348006387837199
+  },
+  {
+   "seed": 2,
+   "shift": 0.5360613578470921,
+   "mean_corr": 0.9561938449464329,
+   "final_mean_c": 0.9424109634965167,
+   "heritable_fitness_variance": 0.0008938019347268577
+  },
+  {
+   "seed": 3,
+   "shift": 0.5593078977650746,
+   "mean_corr": 0.9391302898980314,
+   "final_mean_c": 0.9453467342560753,
+   "heritable_fitness_variance": 0.0005137343514947
+  },
+  {
+   "seed": 4,
+   "shift": 0.5615772055762751,
+   "mean_corr": 0.9455829890658457,
+   "final_mean_c": 0.951696594759964,
+   "heritable_fitness_variance": 0.00034977034632465993
+  },
+  {
+   "seed": 5,
+   "shift": 0.544551791725727,
+   "mean_corr": 0.9311126397472368,
+   "final_mean_c": 0.9193001379018192,
+   "heritable_fitness_variance": 0.0007272958663615663
+  },
+  {
+   "seed": 6,
+   "shift": 0.5129958011092985,
+   "mean_corr": 0.954803331895496,
+   "final_mean_c": 0.924846050755065,
+   "heritable_fitness_variance": 0.0005976975269457631
+  },
+  {
+   "seed": 7,
+   "shift": 0.5620572899685022,
+   "mean_corr": 0.9654333323579838,
+   "final_mean_c": 0.935596154362651,
+   "heritable_fitness_variance": 0.0006659990684283638
+  }
+ ],
+ "no_inheritance_arm": [
+  {
+   "seed": 0,
+   "shift": -0.010499671378197073,
+   "mean_corr": -0.014744689181418033,
+   "final_mean_c": 0.36303919301595167,
+   "heritable_fitness_variance": 8.016947541031943e-05
+  },
+  {
+   "seed": 1,
+   "shift": -0.009436870462026348,
+   "mean_corr": -0.02492795547198933,
+   "final_mean_c": 0.37991003610629337,
+   "heritable_fitness_variance": 6.730617401170362e-05
+  },
+  {
+   "seed": 2,
+   "shift": -0.016979751616122307,
+   "mean_corr": 0.003948140470403227,
+   "final_mean_c": 0.38936985403330227,
+   "heritable_fitness_variance": 6.726394461155664e-05
+  },
+  {
+   "seed": 3,
+   "shift": -0.01583710439342001,
+   "mean_corr": -0.027002044502453,
+   "final_mean_c": 0.37020173209758067,
+   "heritable_fitness_variance": 6.051921252783812e-05
+  },
+  {
+   "seed": 4,
+   "shift": -0.0020079954264559108,
+   "mean_corr": -0.013668650902881923,
+   "final_mean_c": 0.388111393757233,
+   "heritable_fitness_variance": 9.102829485423273e-05
+  },
+  {
+   "seed": 5,
+   "shift": 0.0052611309498962755,
+   "mean_corr": -0.026416177635329607,
+   "final_mean_c": 0.38000947712598854,
+   "heritable_fitness_variance": 9.24301628291804e-05
+  },
+  {
+   "seed": 6,
+   "shift": 0.02480182980787754,
+   "mean_corr": -0.02244982098515755,
+   "final_mean_c": 0.436652079453644,
+   "heritable_fitness_variance": 7.16830623826262e-05
+  },
+  {
+   "seed": 7,
+   "shift": -0.010499671378197073,
+   "mean_corr": -0.014744689181418033,
+   "final_mean_c": 0.36303919301595167,
+   "heritable_fitness_variance": 8.016947541031943e-05
+  }
+ ],
+ "parent_offspring_correlation": {
+  "inheritance_mean": 0.9492625318433814,
+  "null_mean": -0.01750073592378053,
+  "obs_delta": 0.9667632677671619,
+  "perm_p": 0.00014999250037498125
+ },
+ "population_shift": {
+  "inheritance_mean": 0.5505000335743506,
+  "null_mean": -0.004399762987080613,
+  "obs_delta": 0.5548997965614313,
+  "perm_p": 0.000199990000499975
+ },
+ "criteria": {
+  "heritable_fitness": true,
+  "population_shifts": true
+ },
+ "selectable_heredity": true,
+ "verdict": "qualified",
+ "headline": "Gate D second half (chemical heredity & selection, Option B inherited NETWORK COMPOSITION \u2014 NOT template copying): verdict=qualified. Fitness is grounded in the real study-32/33 coupling (composition -> membrane retention -> standing pool -> division rate), so selection acts on a trait with a real mechanistic fitness consequence. Across 8 seeds x 40 generations at equal feeds: an inherited composition difference yields a reproducible parent-offspring FITNESS correlation (mean +0.949) far above the matched no-inheritance null (-0.018; permutation p=0.0001), AND the inheriting population SHIFTS composition under selection (mean shift +0.551 toward higher-retention / longer-chain) while the null drifts (-0.004; p=0.0002). So there IS selectable chemical heredity on the compositional-inheritance first cut; the vasas-2010 evolvability caveat was TESTED (sigma=0.03, not tuned) and the population shifts rather than drifts. Qualified because inheritance is compositional (Option B); template copying (Option A, og-34a) is the higher-fidelity follow-on. Metabolism = sustained A1 network, NOT autocatalytic (A2 refuted)."
+}
