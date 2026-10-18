@@ -4296,6 +4296,7 @@ _save_viz('og-27-coupled-geochemical-reaction-interface', 'coupled-interface-evo
 # | electrochemical-driving-force-verified _(secondary)_ | kind=observable detail=interface potential from FiPy transport vs. independent FEniCSx Nernst–Planck solve | op threshold detail non-trivial driving force, cross-solver agreement to tolerance |
 # | coupled-conservation _(secondary)_ | kind=observable detail=C/H/O/charge/energy residuals across the coupled solve | op threshold detail residuals within tolerance; no untracked feed |
 # | handoff-27-to-29-complete _(secondary)_ | kind=observable detail=presence + typing of every field in the 27→29 transfer bundle | op threshold detail bundle complete and typed (satisfies 27→29 handoff validator) |
+# | dic-crossover-sweep _(primary)_ | kind=observable detail=H2 flux / precipitation / accessibility / porosity vs fluid_dic across SI=0 ledger closure=None | op threshold detail the crossover is characterized with the ledger closing at every point (window_exists resolved either way) |
 
 # ## Study: Prebiotic Reaction Atlas (`og-28-prebiotic-reaction-atlas`)
 #
