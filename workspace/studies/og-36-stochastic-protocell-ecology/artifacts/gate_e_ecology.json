@@ -1,0 +1,146 @@
+{
+ "meta": {
+  "n_steps": 120,
+  "n_lineages": 4,
+  "n_seeds": 24,
+  "sweep_seeds": 16,
+  "base_params": {
+   "feed_F": 7.0,
+   "feed_Ks": 3.0,
+   "cross_Kb": 3.0,
+   "S0": 9.0,
+   "n0": 3
+  },
+  "omega_sweep": [
+   0.7,
+   1.0,
+   2.0,
+   4.0
+  ],
+  "model": "Option B: dependency-free numpy Gillespie SSA (exact) + matched mean-field Euler ODE; explicit integer counts (shared feed S, K byproduct pools, K cell counts); a reproduction, NOT a wrapped ALife engine; parameters are proposed_inputs, not fitted",
+  "equal_feed": "feed_F held equal across community / best-single / knockout arms",
+  "best_single": "max over all 4 single-lineage monocultures (lineage 0); the strict control",
+  "scope": "GillesPy2 / COBRApy genome-scale resolution = study og-36a, follow-on",
+  "guardrail": "cross-feeding community is the sustained A1 network, NOT autocatalytic (A2 refuted)"
+ },
+ "deterministic": {
+  "community": {
+   "productivity": 1573.7538567998379,
+   "n_alive": 4.0,
+   "n_extinct": 0.0,
+   "total_population": 121.16606859134954
+  },
+  "best_single": {
+   "productivity": 810.7445899006585,
+   "n_alive": 1.0,
+   "n_extinct": 0.0,
+   "total_population": 62.396545501104896
+  },
+  "knockout": {
+   "productivity": 816.0752501050057,
+   "n_alive": 2.0,
+   "n_extinct": 2.0,
+   "total_population": 62.37257742112092
+  },
+  "per_lineage_mono": [
+   {
+    "productivity": 810.7445899006585,
+    "n_alive": 1.0,
+    "n_extinct": 0.0,
+    "total_population": 62.396545501104896
+   },
+   {
+    "productivity": 789.3765687396746,
+    "n_alive": 1.0,
+    "n_extinct": 0.0,
+    "total_population": 61.688110670714046
+   },
+   {
+    "productivity": 802.7036847092202,
+    "n_alive": 1.0,
+    "n_extinct": 0.0,
+    "total_population": 62.121046401897544
+   },
+   {
+    "productivity": 810.7445899006585,
+    "n_alive": 1.0,
+    "n_extinct": 0.0,
+    "total_population": 62.396545501104896
+   }
+  ],
+  "best_lineage": 0,
+  "margin": 763.0092668991794,
+  "ko_margin": 5.3306602043471685
+ },
+ "stochastic": {
+  "community": {
+   "mean": 1522.2083333333333,
+   "sd": 129.01097471619312,
+   "cv": 0.08475250850432856,
+   "n_alive_mean": 3.8333333333333335,
+   "extinction_frac": 0.125,
+   "mean_extinct": 0.16666666666666666
+  },
+  "best_single": {
+   "mean": 812.0,
+   "sd": 29.734940165849782,
+   "cv": 0.0366193844407017
+  },
+  "knockout": {
+   "mean": 822.875,
+   "sd": 28.539902621884796,
+   "cv": 0.03468315676364551
+  },
+  "margin": 710.2083333333333,
+  "ko_margin": 10.875,
+  "ko_margin_fraction": 0.015312408330888825,
+  "frac_seeds_positive": 1.0
+ },
+ "omega_sweep": [
+  {
+   "omega": 0.7,
+   "ssa_margin": 425.125,
+   "det_margin": 533.8141805762478,
+   "rel_margin_gap": 0.20360864235363477,
+   "extinction_frac": 0.3125,
+   "n_alive_mean": 3.375,
+   "community_cv": 0.14500167389190782
+  },
+  {
+   "omega": 1.0,
+   "ssa_margin": 694.0,
+   "det_margin": 763.0092668991794,
+   "rel_margin_gap": 0.09044355015454607,
+   "extinction_frac": 0.1875,
+   "n_alive_mean": 3.75,
+   "community_cv": 0.09835920240028574
+  },
+  {
+   "omega": 2.0,
+   "ssa_margin": 1548.6875,
+   "det_margin": 1526.0185337983587,
+   "rel_margin_gap": -0.014854974366016889,
+   "extinction_frac": 0.0,
+   "n_alive_mean": 4.0,
+   "community_cv": 0.030407574146115342
+  },
+  {
+   "omega": 4.0,
+   "ssa_margin": 3071.5,
+   "det_margin": 3052.0370675967174,
+   "rel_margin_gap": -0.006377030151409137,
+   "extinction_frac": 0.0,
+   "n_alive_mean": 4.0,
+   "community_cv": 0.016840745950664857
+  }
+ ],
+ "divergence_grows_at_low_counts": true,
+ "criteria": {
+  "margin_positive": true,
+  "cross_feeding_causal": true,
+  "stochastic_material": true,
+  "community_more_robust": false
+ },
+ "verdict": "qualified",
+ "headline": "Gate E stochastic protocell ecology (Option B, dependency-free Gillespie SSA \u2014 NOT GillesPy2/COBRApy, which is og-36a): verdict=qualified. With the shared feed budget held EQUAL across arms, a cross-feeding community of 4 protocell lineages out-produces the BEST single lineage (community 1522 vs best-single 812 cumulative births; SSA margin 710, positive in 100% of seeds; margin_positive=True), and the margin is CAUSALLY cross-feeding: the knockout (cross-feeding off, same feed) collapses it to 11 (2% of the community margin; cross_feeding_causal=True). Coexistence is stabilised by depletable byproduct pools (negative frequency dependence), not assumed \u2014 deterministically all 4 lineages persist (n_alive=4), the knockout excludes down (2). BUT the benefit is productivity, not robustness: under low-count demographic noise the community is MORE variable than the rock-stable monoculture (cv 0.08 vs 0.04) and loses a lineage in 12% of runs (community_more_robust=False); the system-size sweep shows this divergence GROWING as counts fall (Omega 0.7: ext_frac 0.31, margin gap 0.20 vs Omega 4.0: 0.00/-0.01; stochastic_material=True) \u2014 the mean-field misses it. So qualified = a real, cross-feeding-caused community productivity win that low-count stochasticity makes FRAGILE. Unlike the pore (B), membrane (C) and energy carrier (35) \u2014 each of which buys persistence, NOT throughput \u2014 the cross-feeding ecology is the campaign's first genuine THROUGHPUT/productivity win (the community extracts more biomass from the same feed than the best single lineage, causally via cross-feeding); but it buys that productivity at the cost of ROBUSTNESS (more variable than a monoculture, lineage loss at low counts). The unifying campaign reading is not 'nothing buys throughput' but 'every mechanism trades one virtue for another \u2014 robustness/persistence is never free.' Metabolism = sustained A1 community, NOT autocatalytic (A2 refuted)."
+}
