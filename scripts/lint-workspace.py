@@ -2,7 +2,6 @@
 """Validate workspace.yaml + cross-references. Exit non-zero on failure."""
 from __future__ import annotations
 import hashlib
-import importlib
 import json
 import re
 import subprocess
@@ -11,7 +10,7 @@ from pathlib import Path
 from collections import Counter
 
 import yaml
-from jsonschema import Draft7Validator, FormatChecker, ValidationError
+from jsonschema import Draft7Validator, FormatChecker
 
 
 def _try_get_registry(ws_root: Path, ws_data: dict) -> set | None:
@@ -262,7 +261,6 @@ def main() -> None:
     # Count expert_docs
     expert_docs = ws.get("expert_docs", []) or []
     n_expert = len(expert_docs)
-    expert_names = [d.get("name", "?") for d in expert_docs if isinstance(d, dict)]
 
     # Count bib keys
     bib_file = _dir("references") / "papers.bib"
@@ -366,6 +364,13 @@ def main() -> None:
         from viva_genesis.audit_checks import (
             check_baseline_params,
             check_unguarded_optional_imports,
+            check_dangling_refs,
+            check_artifacts_exist,
+            check_planned_not_passed,
+            check_verdict_evidence,
+            check_knife_edge_margins,
+            check_units_present,
+            check_gate_matched_null,
         )
     except Exception as _e:  # viva_genesis not importable here — warn, don't fail
         print(f"LINT WARNING: audit checks skipped ({_e})", file=sys.stderr)
@@ -410,6 +415,58 @@ def main() -> None:
                     pass
         _audit_errors += [f"optional-import: {e}"
                           for e in check_unguarded_optional_imports(_test_files, optional_deps)]
+
+        # ---- Batch 2: evidence-integrity checks ------------------------
+        _all_slugs = set(studies_by_dir)
+        # A — dangling cross-references (from_test / run_ids / cites / prerequisites).
+        _audit_errors += [f"dangling-ref: {e}"
+                          for e in check_dangling_refs(studies_by_dir, _all_slugs, bib_keys_found)]
+
+        # B — committed artifacts must exist for ran/passed studies. Artifact paths
+        # are workspace-root-relative; run store_paths are study-dir-relative and
+        # usually git-ignored (run DBs aren't committed) — those are skipped.
+        import subprocess as _sp
+
+        def _resolve_artifact(_slug: str, _rel: str) -> str:
+            _full = (WS_ROOT / _rel) if str(_rel).startswith("workspace/") \
+                else (_dir("studies") / _slug / _rel)
+            try:
+                if _sp.run(["git", "check-ignore", str(_full)],
+                           capture_output=True, cwd=str(WS_ROOT)).returncode == 0:
+                    return "ignored"
+            except Exception:
+                pass
+            return "ok" if _full.exists() else "missing"
+
+        _audit_errors += [f"artifact-missing: {e}"
+                          for e in check_artifacts_exist(studies_by_dir, _resolve_artifact)]
+
+        # C — a planned canonical baseline cannot be a passed result.
+        _audit_errors += [f"planned-but-passed: {e}"
+                          for e in check_planned_not_passed(studies_by_dir)]
+
+        # D — a supported verdict / passed gate needs its primary test outcome == PASS.
+        _audit_errors += [f"verdict-evidence: {e}"
+                          for e in check_verdict_evidence(studies_by_dir)]
+
+        # G — a gate authored passed must be derivation-passed (matched-null confirmed).
+        # Best-effort: inert until plan_progress + plan_gates land on this branch.
+        try:
+            from viva_genesis.plan_progress import build_plan_progress
+            for _inv_path in sorted((_dir("investigations")).glob("*/investigation.yaml")):
+                _inv = yaml.safe_load(_inv_path.read_text()) or {}
+                if _inv.get("plan_gates"):
+                    _rows = build_plan_progress(_inv, studies_by_dir)
+                    _audit_errors += [f"gate-matched-null: {e}"
+                                      for e in check_gate_matched_null(_rows, _inv["plan_gates"])]
+        except Exception:
+            pass
+
+        # E/F — WARN only (don't fail): knife-edge margins + missing units.
+        for _w in check_knife_edge_margins(studies_by_dir):
+            print(f"LINT WARNING: knife-edge: {_w}", file=sys.stderr)
+        for _w in check_units_present(studies_by_dir):
+            print(f"LINT WARNING: units: {_w}", file=sys.stderr)
 
     if _audit_errors:
         for _e in _audit_errors:
