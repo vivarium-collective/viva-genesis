@@ -12,8 +12,9 @@ verdict: qualified
 evidence_tier: mechanistic_prediction
 title: Chemical Energy Coupling
 gate_reason: >-
-  Gate E (optional extension), energy. Building on the study-32/34 protocell and the og-05 bioenergetics /
-  og-12 carrier rebuild, the test is whether coupling a specified chemical energy carrier (a thioester cycle)
+  Gate E (optional extension), energy. Building on the study-32/34 protocell and the og-12 energy-currency
+  rebuild (og-energy-proto-energetics, "The Energy Currency"; plus the og-05 Sojo-cost bioenergetics), the
+  test is whether coupling a specified chemical energy carrier (a thioester cycle)
   to the metabolism improves net useful work and persistence over using the environmental gradient alone -
   with a FULL energy ledger (activation, use, hydrolysis, stored) that closes and no hidden energy inflow. The
   gate is met only if, at input fluxes held equal to a matched gradient-only control, the carrier confers net
@@ -51,7 +52,7 @@ objective: >-
   no hidden inflow; and test net useful work and persistence - including through a gradient dip - against a
   matched gradient-only control at input fluxes held equal, reporting a net cost / wash honestly if that is
   the result.
-builds_on: [5, 12, 32, 34]
+builds_on: [12, 5, 32, 34]
 plan_id: 35
 handoff:
   emits:
@@ -117,7 +118,7 @@ contract:
 behavior_tests:
 - name: receives-34-handoff-bundle
   classification: secondary
-  description: Study 35 builds on the study-34 heritable protocell + the og-05/og-12 energy carrier chemistry.
+  description: Study 35 builds on the study-34 heritable protocell + the og-12 energy-currency rebuild (og-energy-proto-energetics) / og-05 bioenergetics carrier chemistry.
   measure: {kind: observable, detail: composite runs on the merged thioester carrier + declining drive}
   pass_if: {op: threshold, detail: composite builds + runs}
   requires_simulation: 'yes'
@@ -268,6 +269,7 @@ artifacts:
 - path: workspace/studies/og-35-chemical-energy-coupling/artifacts/gate_e_energy.json
   description: Gate E energy coupling — carrier vs gradient-only, dip-persistence, ledger closure, k_hydrolyze window, verdict (qualified).
 parent_studies:
+- {study: og-energy-proto-energetics, condition: tests-passed}
 - {study: og-05-environmental-to-internal-bioenergetics, condition: tests-passed}
 - {study: og-32-first-self-maintaining-protocell, condition: tests-passed}
 - {study: og-34-chemical-heredity-and-selection, condition: tests-passed}
