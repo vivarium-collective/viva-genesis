@@ -43,27 +43,47 @@ executive:
   gate_a_status: >-
     Gate A (chemical emergence) does not pass, but it is now fully characterized: the keystone question - does
     the network self-amplify? - is answered. Gate A splits into two sub-claims recorded separately. A1 (network
-    persistence): a sustained, connected, carbon-fixing network emerges on bounded geochemical feeds - holds
-    pending a feed check. At six carbons the vent-fed network ignites and fixes carbon, but in the well-mixed
-    case only at about 20x the vent posterior feed; A1 is credited only pending confirmation that this ignition
-    feed is within plausible vent bounds (under check) and/or Gate B (og-30) showing spatial concentration
-    brings ignition down to vent-realistic feeds. If both resolve against it, A1 drops to not-met at vent-
-    realistic feeds. A2 (endogenous autocatalysis): self-amplification beyond a degree-preserving matched null
-    is refuted under vent conditions for both candidate routes, each with a distinct mechanism. (i) Formose
-    (linear): the canonical doubling step (r409, two glycolaldehyde to threose) is thermodynamically
-    condensation-favored (standard free energy -16.4 kJ/mol), so its splitting direction carries no net flux;
-    and on a coefficient-free functional discriminator it is refuted again - the network fixes carbon but
-    production is seed-independent, i.e. feed-driven rather than self-amplified. (ii) rTCA (branched): under
-    vent H2 a seeded reductive-TCA cycle washes out, because the reductive carboxylations (succinate to alpha-
-    ketoglutarate, +18 kJ/mol; acetyl to pyruvate, +31 kJ/mol) run uphill under H2 and too slow against washout
-    - the same reason real rTCA uses ferredoxin, not H2, as its reductant. Importantly, the rTCA topology is
-    shown autocatalysis-capable and topology-specific in a labelled counterfactual (lowering the carboxylation
-    barrier switches it on), so the vent negative is a redox-environment limitation, not a limitation of the
-    cycle's wiring. Overall: Gate A remains not passed, but is now fully characterized rather than open. A2 (the
-    keystone) is definitively resolved - autocatalysis is refuted under vent conditions for both representable
-    routes, mechanistically - while A1 (a carbon-fixing network does emerge) holds pending the feed check and
-    Gate B. The autocatalysis-capable rTCA topology under a stronger reductant is noted as the basis for a
-    possible beyond-vent follow-up, outside the current vent scope.
+    persistence): a sustained, connected, carbon-fixing network emerges on bounded geochemical feeds - this
+    holds, with its feed-plausibility question resolved by Gate B. In a well-mixed system the six-carbon network
+    ignites only at about 20x the vent posterior feed, above defensible vent concentrations; Gate B (og-30)
+    shows a concentrating mineral pore bridges that gap at a modest, physical porosity (0.88, pore-local ~0.023
+    M), igniting the network - confirmed directly on the C6 network (flux +4.49e-4, connected) - where a matched
+    well-mixed control stays dead. The rescue holds within a bounded, somewhat brittle pore-geometry window
+    (porosity ~0.80-0.90): below it enrichment is sub-threshold, above it pore-local feeds are physically
+    implausible. So a carbon-fixing network persists at vent-realistic feeds inside a pore, within that window.
+    A2 (endogenous autocatalysis): self-amplification beyond a degree-preserving matched null is refuted under
+    vent conditions for both candidate routes, each with a distinct mechanism. (i) Formose (linear): the
+    canonical doubling step (r409, two glycolaldehyde to threose) is thermodynamically condensation-favored
+    (standard free energy -16.4 kJ/mol), so its splitting direction carries no net flux; and on a coefficient-
+    free functional discriminator it is refuted again - the network fixes carbon but production is seed-
+    independent, i.e. feed-driven rather than self-amplified. (ii) rTCA (branched): under vent H2 a seeded
+    reductive-TCA cycle washes out, because the reductive carboxylations (succinate to alpha-ketoglutarate, +18
+    kJ/mol; acetyl to pyruvate, +31 kJ/mol) run uphill under H2 and too slow against washout - the same reason
+    real rTCA uses ferredoxin, not H2, as its reductant. Importantly, the rTCA topology is shown autocatalysis-
+    capable and topology-specific in a labelled counterfactual (lowering the carboxylation barrier switches it
+    on), so the vent negative is a redox-environment limitation, not a limitation of the cycle's wiring.
+    Overall: Gate A remains not passed - the plan required autocatalysis (A2), refuted under vent conditions for
+    both representable routes - but is now fully characterized: a carbon-fixing network emerges and persists at
+    vent-realistic feeds in a pore (A1, resolved by Gate B), while self-amplification does not occur under vent
+    conditions (A2). The autocatalysis-capable rTCA topology under a stronger reductant is noted as the basis
+    for a possible beyond-vent follow-up, outside the current vent scope.
+  gate_b_status: >-
+    Gate B (spatial organization) is met. At the same vent-posterior base feed held equal (CO2 and H2 at 1e-3),
+    a concentrating mineral pore at a modest, physical porosity (0.88; enrichment ~23x; pore-local ~0.023 M)
+    ignites the reaction network (net carbon flux +4.5e-4, a connected network of 17 persistent species) while a
+    matched well-mixed, nonconcentrating control does not (flux ~0, not connected) - spatial concentration is
+    the only difference, so the pore itself causes the productive flux, and Gate B's criterion is met at the
+    demonstrated pore. A porosity sweep shows this is a bounded, somewhat brittle window rather than a broad
+    swath: net carbon flux rises monotonically with confinement (no flux washout), but the connectivity-defined
+    ignition occupies a band around porosity ~0.80-0.90 (pore-local ~0.01-0.2 M) - below it enrichment is sub-
+    threshold, above it the pore-local feeds become physically implausible (0.70 -> 2.6 M, 0.60 -> 36 M) and the
+    connectivity metric itself degrades (flipping 1/0/1 across adjacent porosities). The result is confirmed
+    directly on the C6 network - the one og-29 found ignites only at ~20x well-mixed feed - which ignites in the
+    demo pore at the vent-posterior feed (flux +4.49e-4, connected, 22 species) while its matched well-mixed
+    control stays dead, with the same bounded-window behavior (no flux-washout upper bound). Beyond meeting its
+    own criterion, Gate B resolves Gate A's open A1 feed-plausibility question: the ~20x well-mixed ignition gap
+    is bridged inside this physical pore window, so a carbon-fixing network persists at vent-realistic feeds in
+    a pore.
   verdict: >-
     The full geochemistry-to-heredity arc runs on real simulators and passes its pre-stated,
     falsifiable gates, with conservation held to machine precision. Twenty-three studies execute

@@ -1,0 +1,243 @@
+{
+ "meta": {
+  "wall_time_s": 1651.5292029380798,
+  "demo_network": "C4 (+ C6 confirm)",
+  "ignition_gap_well_mixed": 20.0,
+  "demo_porosity": 0.88,
+  "demo_base_feed": 0.001,
+  "plausible_feed_max_molar": 0.5,
+  "ignition_metric": "network_connected (og-29's metric) AND net_carbon_flux > 1e-06",
+  "note": "porosity_map is empirical (actual composite runs), not an exp(beta*L) extrapolation. net flux rises monotonically with enrichment; network_connected is a brittle ignition proxy near threshold; low-porosity pores give physically implausible pore-local feeds, so the connected-ignition window is bounded, not a broad swath. Feeds held equal between pore and control arms."
+ },
+ "ignition_demo": {
+  "pore": {
+   "enrichment": 23.336064580942733,
+   "feed_CO2": 0.02333606458094273,
+   "feed_H2": 0.02333606458094273,
+   "net_carbon_flux": 0.00044325006904878125,
+   "network_connected": 1.0,
+   "n_persistent_species": 17.0,
+   "carbon_fixing": true,
+   "connected_ignited": true,
+   "physical_feed": true
+  },
+  "control": {
+   "enrichment": 23.336064580942733,
+   "feed_CO2": 0.001,
+   "feed_H2": 0.001,
+   "net_carbon_flux": -1.7991272002745475e-08,
+   "network_connected": 0.0,
+   "n_persistent_species": 16.0,
+   "carbon_fixing": false,
+   "connected_ignited": false,
+   "physical_feed": true
+  },
+  "rescued": true,
+  "feeds_held_equal": true
+ },
+ "porosity_map": {
+  "sweep": [
+   {
+    "enrichment": 36315.5026742467,
+    "feed_CO2": 36.3155026742467,
+    "feed_H2": 36.3155026742467,
+    "net_carbon_flux": 1.0138763457535893,
+    "network_connected": 1.0,
+    "n_persistent_species": 36.0,
+    "carbon_fixing": true,
+    "connected_ignited": true,
+    "physical_feed": false,
+    "porosity": 0.6,
+    "class": "over-concentrated (pore-local feed physically implausible)"
+   },
+   {
+    "enrichment": 2630.6861902991427,
+    "feed_CO2": 2.630686190299143,
+    "feed_H2": 2.630686190299143,
+    "net_carbon_flux": 0.07201775081161464,
+    "network_connected": 0.0,
+    "n_persistent_species": 22.0,
+    "carbon_fixing": true,
+    "connected_ignited": false,
+    "physical_feed": false,
+    "porosity": 0.7,
+    "class": "over-concentrated (pore-local feed physically implausible)"
+   },
+   {
+    "enrichment": 190.56626845863,
+    "feed_CO2": 0.19056626845863,
+    "feed_H2": 0.19056626845863,
+    "net_carbon_flux": 0.004993609126602282,
+    "network_connected": 1.0,
+    "n_persistent_species": 21.0,
+    "carbon_fixing": true,
+    "connected_ignited": true,
+    "physical_feed": true,
+    "porosity": 0.8,
+    "class": "ignited (connected + carbon-fixing, physical feed)"
+   },
+   {
+    "enrichment": 51.290215346585775,
+    "feed_CO2": 0.051290215346585774,
+    "feed_H2": 0.051290215346585774,
+    "net_carbon_flux": 0.0011863214844486738,
+    "network_connected": 0.0,
+    "n_persistent_species": 18.0,
+    "carbon_fixing": true,
+    "connected_ignited": false,
+    "physical_feed": true,
+    "porosity": 0.85,
+    "class": "carbon-fixing but network_connected=0 (brittle connectivity near threshold)"
+   },
+   {
+    "enrichment": 23.336064580942733,
+    "feed_CO2": 0.02333606458094273,
+    "feed_H2": 0.02333606458094273,
+    "net_carbon_flux": 0.00044325006904878125,
+    "network_connected": 1.0,
+    "n_persistent_species": 17.0,
+    "carbon_fixing": true,
+    "connected_ignited": true,
+    "physical_feed": true,
+    "porosity": 0.88,
+    "class": "ignited (connected + carbon-fixing, physical feed)"
+   },
+   {
+    "enrichment": 13.804574186067095,
+    "feed_CO2": 0.013804574186067096,
+    "feed_H2": 0.013804574186067096,
+    "net_carbon_flux": 0.00020833565993951618,
+    "network_connected": 1.0,
+    "n_persistent_species": 16.0,
+    "carbon_fixing": true,
+    "connected_ignited": true,
+    "physical_feed": true,
+    "porosity": 0.9,
+    "class": "ignited (connected + carbon-fixing, physical feed)"
+   },
+   {
+    "enrichment": 8.166169912567646,
+    "feed_CO2": 0.008166169912567647,
+    "feed_H2": 0.008166169912567647,
+    "net_carbon_flux": 8.827777666751258e-05,
+    "network_connected": 0.0,
+    "n_persistent_species": 14.0,
+    "carbon_fixing": true,
+    "connected_ignited": false,
+    "physical_feed": true,
+    "porosity": 0.92,
+    "class": "sub-threshold (enrichment below ignition gap)"
+   },
+   {
+    "enrichment": 3.7154507379411097,
+    "feed_CO2": 0.0037154507379411096,
+    "feed_H2": 0.0037154507379411096,
+    "net_carbon_flux": 1.999484513981357e-05,
+    "network_connected": 0.0,
+    "n_persistent_species": 16.0,
+    "carbon_fixing": true,
+    "connected_ignited": false,
+    "physical_feed": true,
+    "porosity": 0.95,
+    "class": "sub-threshold (enrichment below ignition gap)"
+   },
+   {
+    "enrichment": 1.3001764681684915,
+    "feed_CO2": 0.0013001764681684915,
+    "feed_H2": 0.0013001764681684915,
+    "net_carbon_flux": 1.1484423014781475e-06,
+    "network_connected": 0.0,
+    "n_persistent_species": 16.0,
+    "carbon_fixing": true,
+    "connected_ignited": false,
+    "physical_feed": true,
+    "porosity": 0.99,
+    "class": "sub-threshold (enrichment below ignition gap)"
+   }
+  ],
+  "ignited_physical_window_porosity": [
+   0.8,
+   0.88,
+   0.9
+  ],
+  "flux_monotone_in_enrichment": true,
+  "network_connected_brittle": true
+ },
+ "base_feed_sweep": {
+  "sweep": [
+   {
+    "base_feed": 0.0001,
+    "pore_ignited": false,
+    "control_ignited": false,
+    "pore_flux": 7.232301484781518e-06,
+    "control_flux": -1.8217587163682017e-06
+   },
+   {
+    "base_feed": 0.0003,
+    "pore_ignited": false,
+    "control_ignited": false,
+    "pore_flux": 6.725116453519987e-05,
+    "control_flux": -1.6434183579939946e-06
+   },
+   {
+    "base_feed": 0.001,
+    "pore_ignited": true,
+    "control_ignited": false,
+    "pore_flux": 0.00044325006904878125,
+    "control_flux": -1.7991272002745475e-08
+   },
+   {
+    "base_feed": 0.003,
+    "pore_ignited": false,
+    "control_ignited": false,
+    "pore_flux": 0.0016944040938078357,
+    "control_flux": 1.276339614549391e-05
+   },
+   {
+    "base_feed": 0.01,
+    "pore_ignited": true,
+    "control_ignited": true,
+    "pore_flux": 0.006167239887683774,
+    "control_flux": 0.00012452761150642764
+   }
+  ]
+ },
+ "c6_confirm": {
+  "control": {
+   "enrichment": 23.336064580942733,
+   "feed_CO2": 0.001,
+   "feed_H2": 0.001,
+   "net_carbon_flux": -9.959709187643577e-09,
+   "network_connected": 0.0,
+   "n_persistent_species": 18.0,
+   "carbon_fixing": false,
+   "connected_ignited": false,
+   "physical_feed": true
+  },
+  "pore_demo": {
+   "enrichment": 23.336064580942733,
+   "feed_CO2": 0.02333606458094273,
+   "feed_H2": 0.02333606458094273,
+   "net_carbon_flux": 0.00044584508172106774,
+   "network_connected": 1.0,
+   "n_persistent_species": 23.0,
+   "carbon_fixing": true,
+   "connected_ignited": true,
+   "physical_feed": true
+  },
+  "pore_tight": {
+   "enrichment": 2630.6861902991427,
+   "feed_CO2": 2.630686190299143,
+   "feed_H2": 2.630686190299143,
+   "net_carbon_flux": 0.07216668432315122,
+   "network_connected": 0.0,
+   "n_persistent_species": 29.0,
+   "carbon_fixing": true,
+   "connected_ignited": false,
+   "physical_feed": false
+  }
+ },
+ "verdict": "supported",
+ "a1_resolution": "firms up \u2014 ignition rescued at vent-realistic feeds in a pore, within a bounded pore-geometry window",
+ "headline": "Gate B (concentration-rescues-ignition): MET at the demonstrated pore. At the vent-posterior base feed (1e-03 M, held equal), the concentrating pore (porosity 0.88, enrichment 23x, pore-local feed 2.33e-02 M) IGNITES the network (net_carbon_flux +4.43e-04, connected, 17 persistent species) while the matched well-mixed nonconcentrating control does NOT (flux -1.80e-08, not connected). WINDOW (empirical, not extrapolated): connected-ignition occupies a BOUNDED porosity band (ignited+physical at porosity in [0.9, 0.8]) \u2014 below it enrichment is sub-threshold, above it the pore-local feed becomes physically implausible; net carbon flux is monotone in enrichment while network_connected is brittle near threshold. NOT a broad robust swath. This resolves Gate A's A1 feed-plausibility: a carbon-fixing network persists at vent-realistic feeds in a pore within that geometry window. C6 confirmation: demo pore ignited=True (flux +4.46e-04), control ignited=False, tight pore ignited=False."
+}
