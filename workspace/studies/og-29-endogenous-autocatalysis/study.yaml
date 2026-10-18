@@ -291,17 +291,24 @@ runs:
       result: BLOCKED
       detail: The blocker is a build limit (>=6C thermo-skeleton table), not an isolated scientific gap.
 limitations:
-- Discriminator cannot be evaluated at max_carbons=4; the thermo-skeleton table truncates at 4C and crashes at >=6C. rTCA/formose autocatalysis requires C5-C6 intermediates, so a 4C universe cannot structurally contain the hypothesized cycle. BLOCKED pending a >=6-carbon thermo-skeleton table rebuild.
+- >-
+  Discriminator cannot be evaluated at max_carbons=4 (thermo-skeleton table truncates at 4C;
+  crashes at >=6C). Two distinct limits: (i) LINEAR C5-C6 formose-type autocatalysis is blocked
+  only by the 4C thermo truncation and is unblocked by a >=6C thermo-skeleton rebuild; (ii)
+  BRANCHED C6 rTCA (citrate/isocitrate) is outside the v1 linear-skeleton representation and is
+  NOT reachable by the thermo rebuild - a named v2 item (branched-skeleton universe). BLOCKED
+  pending the >=6C thermo rebuild for formose-type; rTCA stays out of representational scope
+  pending v2.
 - >-
   The run reports an autocatalytic gain of 0.0 for both the vent-fed network and its matched null,
   across a 20-fold feed sweep. That looks like a clean negative, but it is an artifact of the
-  reaction universe, not evidence of absence. The current universe truncates at four carbons and
-  fails numerically at six or more, while the autocatalytic cycles this study is meant to detect
-  run through larger intermediates: the reductive TCA cycle turns on C6 species (citrate, alpha-
-  ketoglutarate), and formose chemistry cycles through C5-C6 sugars. A four-carbon universe
-  structurally cannot contain either cycle, so a gain of zero is the only result it could have
-  produced - the measurement never had the chemistry in scope to find. The 0-versus-0 against the
-  matched null therefore says nothing about whether vent-fed chemistry can self-amplify; it says
-  the apparatus was asked the question with an alphabet too small to answer it. The finding is
-  held as blocked pending a reaction skeleton that spans at least six carbons, after which the
-  matched-null comparison becomes meaningful.
+  reaction universe, not evidence of absence - and the universe has TWO separate limits. (1)
+  Linear C5-C6 formose-type sugar autocatalysis is fully representable; it is hidden only because
+  the thermo table truncates at four carbons (and crashes at six), so a >=6C thermo-skeleton
+  rebuild makes the matched-null comparison meaningful for formose-type chemistry. (2) The
+  reductive TCA cycle turns on BRANCHED C6 species (citrate, alpha-ketoglutarate), which are
+  outside the v1 linear-skeleton representation entirely - a recorded limitation - so no thermo
+  rebuild reaches rTCA; that needs a branched-skeleton universe (v2). So the 0-versus-0 says
+  nothing about whether vent-fed chemistry can self-amplify: the apparatus was asked with an
+  alphabet too small for formose (fixable now by the rebuild) and with no letters at all for
+  branched rTCA (a v2 item). Held as blocked accordingly.
