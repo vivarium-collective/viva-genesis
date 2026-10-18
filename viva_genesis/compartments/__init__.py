@@ -31,5 +31,6 @@ starvation set by membrane permeability).
 
 from .osmotic_growth_division import OsmoticGrowthDivisionProcess  # noqa: E402,F401
 from .growth_division import GrowthDivisionProcess  # noqa: E402,F401
+from .heredity_population import HeredityPopulationProcess  # noqa: E402,F401
 
-__all__ = ["OsmoticGrowthDivisionProcess", "GrowthDivisionProcess"]
+__all__ = ["OsmoticGrowthDivisionProcess", "GrowthDivisionProcess", "HeredityPopulationProcess"]
