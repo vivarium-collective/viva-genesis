@@ -7,9 +7,9 @@ status: ran
 design_status: approved
 simulation_status: ran
 evaluation_status: evaluated
-gate_status: blocked
+gate_status: failed
 confidence: Investigating
-verdict: blocked
+verdict: honest-negative
 evidence_tier: mechanistic_prediction
 title: Endogenous Autocatalysis
 claim: >-
@@ -275,40 +275,50 @@ expert_questions:
 - Is an honest negative (a named missing precursor/mechanism) an acceptable decision outcome here, or
   must a positive autocatalytic cycle be demonstrated to pass?
 runs:
-- name: gate-a-execution-c4
+- name: gate-a-c6-ignition-sweep
   status: completed
-  timestamp: 1792285919.102866
-  params: {max_carbons: 4}
+  params: {max_carbons: 6, feed_sweep: x1/x5/x20/x50, steps: 350}
   outcomes:
     autocatalysis-beats-matched-null:
-      result: BLOCKED
+      result: FAIL
       measured_value: 0.0
-      detail: autocatalytic_gain 0.0 (favorable) vs 0.0 (matched null) at max_carbons=4 across a 20x feed sweep; favorable does not beat null. CANNOT be evaluated - the universe truncates at 4 carbons and crashes at >=6C, but rTCA (C6) and formose (C5-C6) autocatalytic cycles need C5-C6 intermediates, so a 4C universe cannot contain the cycle. Build limit, not a demonstrated absence.
+      detail: >-
+        At max_carbons=6 the favorable network ignites at x20 feed (network_connected=1, net_carbon_flux
+        5.69e-4, carbon-fixing) but autocatalytic_gain=0 and n_autocatalytic_motifs=0; the matched null
+        at x20 has gain=0 and essentially identical flux (5.70e-4). Favorable does NOT beat the degree-
+        preserving matched null. REFUTED for formose-type (linear C<=6).
     stoichiometric-autocatalysis-detection:
-      result: BLOCKED
-      detail: n_autocatalytic_motifs=0, core_size=0, network disconnected at max_carbons=4; the >=6C universe is unavailable (thermo table crash).
+      result: FAIL
+      detail: >-
+        No stoichiometric autocatalytic motif detected at any feed, including the ignited x20 point
+        (n_autocatalytic_motifs=0 throughout). The linear C<=6 formose network fixes carbon but contains
+        no self-amplifying cycle.
     negative-result-isolates-gap:
-      result: BLOCKED
-      detail: The blocker is a build limit (>=6C thermo-skeleton table), not an isolated scientific gap.
+      result: PASS
+      detail: >-
+        Gap isolated and characterized: the linear formose universe (C<=6) has no autocatalytic motif
+        even with an active network; the branched C6 rTCA cycle (citrate/isocitrate) is outside the v1
+        linear-skeleton representation and is the named v2 follow-up.
 limitations:
 - >-
-  Discriminator cannot be evaluated at max_carbons=4 (thermo-skeleton table truncates at 4C;
-  crashes at >=6C). Two distinct limits: (i) LINEAR C5-C6 formose-type autocatalysis is blocked
-  only by the 4C thermo truncation and is unblocked by a >=6C thermo-skeleton rebuild; (ii)
-  BRANCHED C6 rTCA (citrate/isocitrate) is outside the v1 linear-skeleton representation and is
-  NOT reachable by the thermo rebuild - a named v2 item (branched-skeleton universe). BLOCKED
-  pending the >=6C thermo rebuild for formose-type; rTCA stays out of representational scope
-  pending v2.
+  Two-part result from the >=6C rebuild (linear formose universe: 1024 species, 5515 reactions).
+  (a) POSITIVE: a sustained, connected, carbon-fixing reaction network emerges
+  (network_connected=1, net_carbon_flux 5.69e-4, TOC 0.0115) - a genuine positive for the 'network
+  persists' half of Gate A's criterion. (b) NEGATIVE: at that same point autocatalytic_gain=0, no
+  stoichiometric motif forms, and the favorable arm does not beat the degree-preserving matched
+  null - formose-type self-amplification is REFUTED. Framed honestly: the network persists and
+  fixes carbon, but does not self-amplify.
 - >-
-  The run reports an autocatalytic gain of 0.0 for both the vent-fed network and its matched null,
-  across a 20-fold feed sweep. That looks like a clean negative, but it is an artifact of the
-  reaction universe, not evidence of absence - and the universe has TWO separate limits. (1)
-  Linear C5-C6 formose-type sugar autocatalysis is fully representable; it is hidden only because
-  the thermo table truncates at four carbons (and crashes at six), so a >=6C thermo-skeleton
-  rebuild makes the matched-null comparison meaningful for formose-type chemistry. (2) The
-  reductive TCA cycle turns on BRANCHED C6 species (citrate, alpha-ketoglutarate), which are
-  outside the v1 linear-skeleton representation entirely - a recorded limitation - so no thermo
-  rebuild reaches rTCA; that needs a branched-skeleton universe (v2). So the 0-versus-0 says
-  nothing about whether vent-fed chemistry can self-amplify: the apparatus was asked with an
-  alphabet too small for formose (fixable now by the rebuild) and with no letters at all for
-  branched rTCA (a v2 item). Held as blocked accordingly.
+  Persistence is QUALIFIED by feed plausibility. The network ignites only at x20 (supply_H2 20 mM,
+  supply_CO2 40 mM); at the vent-posterior operating point (x1) and x5 it does not ignite, and x50
+  washes out - a narrow window well ABOVE defensible vent feeds. Lost City dissolved H2 is ~1-15
+  mmol/kg (posterior example 10.8), so x20's 20 mM is ~1.3x over the H2 window; the DIC posterior
+  is ~1.2-2.9 mM (example 1.4), so x20's 40 mM CO2 is ~14x over the DIC upper bound. So the
+  carbon-fixing network emerges only above vent-realistic concentrations; at defensible vent feeds
+  it does not ignite. (The autocatalysis refutation is unaffected - at the ignition point there is
+  still 0 gain.)
+- >-
+  Still out of scope: branched C6 rTCA (citrate, isocitrate) sits outside the v1 linear-skeleton
+  representation entirely, so no carbon-count rebuild reaches it; testing rTCA needs a branched-
+  skeleton universe (a named v2 follow-up). This result refutes formose-type self-amplification
+  only; it does not speak to rTCA.
