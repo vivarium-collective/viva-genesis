@@ -276,10 +276,13 @@ def check_gate_matched_null(gate_rows: Iterable[dict], authored_gates: Iterable[
     the output of ``build_plan_progress``; ``authored_gates`` is the raw plan_gates.
     """
     errors: List[str] = []
+    # build_plan_progress emits "met" for a fully-satisfied gate; "passed" is the
+    # legacy synonym. Either derived value supports an authored passed/met.
+    _ok = ("passed", "met")
     derived = {r.get("id"): r.get("status") for r in gate_rows}
     for g in authored_gates:
-        if str(g.get("status") or "").strip().lower() == "passed":
-            if derived.get(g.get("id")) != "passed":
+        if str(g.get("status") or "").strip().lower() in _ok:
+            if derived.get(g.get("id")) not in _ok:
                 errors.append(f"plan gate {g.get('id')}: authored status 'passed' but the "
                               f"matched-null/criterion evidence does not support it "
                               f"(derived: {derived.get(g.get('id'))})")

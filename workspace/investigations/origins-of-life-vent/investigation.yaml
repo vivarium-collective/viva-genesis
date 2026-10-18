@@ -41,32 +41,41 @@ executive:
     bioenergetic autonomy, grounded in serpentinization-driven alkaline hydrothermal vents, with 
     explicit competing scenarios.
   gate_a_status: >-
-    Gate A (chemical emergence) does not pass, but it is now fully characterized: the keystone question - does
-    the network self-amplify? - is answered. Gate A splits into two sub-claims recorded separately. A1 (network
-    persistence): a sustained, connected, carbon-fixing network emerges on bounded geochemical feeds - this
-    holds, with its feed-plausibility question resolved by Gate B. In a well-mixed system the six-carbon network
-    ignites only at about 20x the vent posterior feed, above defensible vent concentrations; Gate B (og-30)
-    shows a concentrating mineral pore bridges that gap at a modest, physical porosity (0.88, pore-local ~0.023
-    M), igniting the network - confirmed directly on the C6 network (flux +4.49e-4, connected) - where a matched
-    well-mixed control stays dead. The rescue holds within a bounded, somewhat brittle pore-geometry window
-    (porosity ~0.80-0.90): below it enrichment is sub-threshold, above it pore-local feeds are physically
-    implausible. So a carbon-fixing network persists at vent-realistic feeds inside a pore, within that window.
-    A2 (endogenous autocatalysis): self-amplification beyond a degree-preserving matched null is refuted under
-    vent conditions for both candidate routes, each with a distinct mechanism. (i) Formose (linear): the
+    Gate A (chemical emergence) is recorded as two sub-gates, split because they answer different questions and
+    sit at different places in the spine. A1 (network persistence) is a spine gate and is met, qualified. A2
+    (endogenous autocatalysis) is an off-spine branch - tested and refuted, not a prerequisite for the spine.
+
+
+    A1 - network persistence (spine; met, qualified): a sustained, connected, carbon-fixing network emerges on
+    bounded geochemical feeds. In a well-mixed system the six-carbon network ignites only at about 20x the vent
+    posterior feed, above defensible vent concentrations; Gate B (og-30) bridges that gap - a concentrating
+    mineral pore at a modest, physical porosity (0.88, pore-local ~0.023 M) ignites the network, confirmed
+    directly on the C6 network (flux +4.49e-4, connected), where a matched well-mixed control stays dead. The
+    rescue holds within a bounded, somewhat brittle pore-geometry window (porosity ~0.80-0.90): below it
+    enrichment is sub-threshold, above it pore-local feeds are physically implausible. So a carbon-fixing
+    network persists at vent-realistic feeds inside a pore, within that window - this is what Gates B and C
+    build on.
+
+
+    A2 - endogenous autocatalysis (off-spine branch; refuted, mechanistic): self-amplification beyond a
+    degree-preserving matched null is refuted under vent conditions for both candidate routes, each with a
+    distinct mechanism; this is a tested-and-refuted branch, not a spine prerequisite. (i) Formose (linear): the
     canonical doubling step (r409, two glycolaldehyde to threose) is thermodynamically condensation-favored
-    (standard free energy -16.4 kJ/mol), so its splitting direction carries no net flux; and on a coefficient-
-    free functional discriminator it is refuted again - the network fixes carbon but production is seed-
-    independent, i.e. feed-driven rather than self-amplified. (ii) rTCA (branched): under vent H2 a seeded
-    reductive-TCA cycle washes out, because the reductive carboxylations (succinate to alpha-ketoglutarate, +18
-    kJ/mol; acetyl to pyruvate, +31 kJ/mol) run uphill under H2 and too slow against washout - the same reason
-    real rTCA uses ferredoxin, not H2, as its reductant. Importantly, the rTCA topology is shown autocatalysis-
-    capable and topology-specific in a labelled counterfactual (lowering the carboxylation barrier switches it
-    on), so the vent negative is a redox-environment limitation, not a limitation of the cycle's wiring.
-    Overall: Gate A remains not passed - the plan required autocatalysis (A2), refuted under vent conditions for
-    both representable routes - but is now fully characterized: a carbon-fixing network emerges and persists at
-    vent-realistic feeds in a pore (A1, resolved by Gate B), while self-amplification does not occur under vent
-    conditions (A2). The autocatalysis-capable rTCA topology under a stronger reductant is noted as the basis
-    for a possible beyond-vent follow-up, outside the current vent scope.
+    (standard free energy -16.4 kJ/mol), so its splitting direction carries no net flux; and on a coefficient-free
+    functional discriminator it is refuted again - the network fixes carbon but production is seed-independent,
+    i.e. feed-driven rather than self-amplified. (ii) rTCA (branched): under vent H2 a seeded reductive-TCA cycle
+    washes out, because the reductive carboxylations (succinate to alpha-ketoglutarate, +18 kJ/mol; acetyl to
+    pyruvate, +31 kJ/mol) run uphill under H2 and too slow against washout - the same reason real rTCA uses
+    ferredoxin, not H2, as its reductant. The rTCA topology is shown autocatalysis-capable and topology-specific
+    in a labelled counterfactual (lowering the carboxylation barrier switches it on), so the vent negative is a
+    redox-environment limitation, not a limitation of the cycle's wiring.
+
+
+    Overall: the spine advances on persistence - A1 is met (qualified: holds in a pore, within a bounded porosity
+    window) and is what B (met), C (partial) and D build on - while endogenous autocatalysis was tested and
+    refuted along the way (A2, off-spine, both representable routes under vent conditions). The
+    autocatalysis-capable rTCA topology under a stronger reductant is noted as the basis for a possible
+    beyond-vent follow-up, outside the current vent scope.
   gate_b_status: >-
     Gate B (spatial organization) is met. At the same vent-posterior base feed held equal (CO2 and H2 at 1e-3),
     a concentrating mineral pore at a modest, physical porosity (0.88; enrichment ~23x; pore-local ~0.023 M)
@@ -979,39 +988,59 @@ proposed_inputs:
       N/P-bearing rules enter the reaction universe."
     provenance: "Not in references/papers.bib; recorded here pending expert review."
     status: pending
-# Four cumulative integration gates (upgrade plan §"Four cumulative integration gates")
+# Cumulative integration gates (upgrade plan §"Four cumulative integration gates")
 # + an optional extension. Gate definitions + membership + criteria are authored;
 # each gate's `status` here is a STUB — the live board status is DERIVED from member
-# studies' lifecycle gates by viva_genesis.plan_progress.build_plan_progress (member
-# Decision gates across the cumulative member_studies ∪ extends-chain, + the gate's
-# matched-null/ablation criterion). member_studies = studies ADDED at each gate
-# (27-31 real); pending_studies = plan members not yet scaffolded (32-37).
+# studies' own evaluated verdicts by viva_genesis.plan_progress.build_plan_progress
+# (each evaluated gate shows its OWN verdict: met / qualified / refuted, + the gate's
+# matched-null/ablation criterion_findings). member_studies = studies ADDED at each
+# gate (27-31 real); pending_studies = plan members not yet scaffolded (32-37).
+#
+# Gate A is recorded as TWO sub-gates answering different questions at different
+# spine positions: A1 (network persistence) is the SPINE ROOT — B/C/D build on it;
+# A2 (endogenous autocatalysis) is an OFF-SPINE BRANCH (off_spine: true) — nothing
+# extends it, so its refuted verdict never gates the spine.
 plan_gates:
-  - id: A
-    name: Chemical emergence
+  - id: A1
+    name: Network persistence
     extends: null
     member_studies:
       - og-27-coupled-geochemical-reaction-interface
       - og-28-prebiotic-reaction-atlas
-      - og-29-endogenous-autocatalysis
     pending_studies: []
-    # Explicit matched-null evidence the board audits for this gate (must be a
-    # confirmed finding on a member study), rather than inferring it.
-    criterion_findings:
-      - og29-beats-matched-null
+    # No matched-null clause here — persistence is the criterion; the autocatalysis
+    # matched-null arm lives on the A2 branch below.
     criterion: >-
       An endogenous reaction network persists on measured or plausibly-bounded geochemical
-      feeds — any detected autocatalysis/amplification must beat a matched (degree-preserving)
-      null with chemical input fluxes held equal.
+      feeds (chemical foundation). Spine root — Gates B, C and D build on this.
+    status: pending
+  - id: A2
+    name: Endogenous autocatalysis
+    extends: A1
+    off_spine: true
+    member_studies:
+      - og-29-endogenous-autocatalysis
+      - og-rtca-autocatalysis
+    pending_studies: []
+    # Explicit matched-null / refutation evidence the board audits for this branch
+    # (confirmed → criterion met; contradicted → criterion refuted). Real member
+    # finding ids: the formose matched-null arm and the rTCA vent-H2 washout.
+    criterion_findings:
+      - og29-beats-matched-null
+      - og-rtca-vent-h2-washout
+    criterion: >-
+      Any detected autocatalysis/amplification must beat a matched (degree-preserving)
+      null with chemical input fluxes held equal. Off-spine branch — tested and refuted
+      under vent conditions for both routes; never a spine prerequisite.
     status: pending
   - id: B
     name: Spatial organization
-    extends: A
+    extends: A1
     member_studies:
       - og-30-spatially-integrated-protometabolism
     pending_studies: []
     criterion_findings:
-      - og30-beats-matched-null
+      - og30-pore-ignites-vs-control
     criterion: >-
       Explicit mineral pores improve productive network persistence — productive flux must
       exceed a matched well-mixed (and nonconcentrating) control with chemical input fluxes
