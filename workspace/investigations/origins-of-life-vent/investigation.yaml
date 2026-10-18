@@ -804,6 +804,11 @@ studies:
 - mem-m3-stability-gradients
 - mem-m4-growth-division-propensity
 - mem-m5-functional-membrane-window
+- og-ev-kinetic-uq
+- og-ev-timevarying-forcing
+- og-ev-competing-environments
+- og-ev-chemistry-membrane-overlap
+- og-ev-pore-transport-benchmark
 acceptance_criteria:
 - study: og-00-vent-reactor-baseline
   behavior: vent-pH-in-lostcity-range
@@ -1080,7 +1085,13 @@ plan_gates:
     member_studies:
       - og-27-coupled-geochemical-reaction-interface
       - og-28-prebiotic-reaction-atlas
-    pending_studies: []
+    pending_studies:
+      # Evidence-expansion sub-program (PLANNED challenge studies; honest-bar — they test whether
+      # the A1 conclusions SURVIVE harder scrutiny, a negative being a meaningful result). These
+      # EXTEND Gate A1; they do not contribute to its verdict (which rests on the member_studies).
+      - {slug: og-ev-kinetic-uq, title: Kinetic-network re-evaluation under realistic uncertainty, scaffolded: true, planned: true, program: evidence-expansion}
+      - {slug: og-ev-timevarying-forcing, title: Time-varying geochemical forcing, scaffolded: true, planned: true, program: evidence-expansion}
+      - {slug: og-ev-competing-environments, title: Competing origin environments (cross-cutting falsification), scaffolded: true, planned: true, program: evidence-expansion, cross_cutting: true}
     # No matched-null clause here — persistence is the criterion; the autocatalysis
     # matched-null arm lives on the A2 branch below.
     criterion: >-
@@ -1111,7 +1122,9 @@ plan_gates:
     extends: A1
     member_studies:
       - og-30-spatially-integrated-protometabolism
-    pending_studies: []
+    pending_studies:
+      # Evidence-expansion discriminator (PLANNED; EXTENDS Gate B, does not change its verdict).
+      - {slug: og-ev-pore-transport-benchmark, title: Pore-transport Baaske benchmark, scaffolded: true, planned: true, program: evidence-expansion}
     criterion_findings:
       - og30-pore-ignites-vs-control
     criterion: >-
@@ -1134,6 +1147,8 @@ plan_gates:
       - {slug: mem-m2-permeability-retention, title: Permeability & selective retention, scaffolded: true, planned: true, program: membrane-md}
       - {slug: mem-m3-stability-gradients, title: Stability across environmental gradients, scaffolded: true, planned: true, program: membrane-md}
       - {slug: mem-m5-functional-membrane-window, title: Functional membrane window (integrative), scaffolded: true, planned: true, program: membrane-md}
+      # Evidence-expansion discriminator (PLANNED; EXTENDS Gate C, does not change its verdict).
+      - {slug: og-ev-chemistry-membrane-overlap, title: Chemistry-membrane composition-overlap, scaffolded: true, planned: true, program: evidence-expansion}
     criterion: >-
       Metabolism makes its own membrane and benefits from it — the compartmented system must
       beat a matched ablation (no endogenous membrane) with chemical input fluxes held equal.
