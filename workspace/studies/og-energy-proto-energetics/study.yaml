@@ -8,26 +8,18 @@ execution_status: completed
 design_status: approved
 simulation_status: ran
 evaluation_status: evaluated
-confidence: Investigating
-gate_status: stale
+confidence: Accepted
+gate_status: passed
 title: The Energy Currency
 question: >-
   Before modern pumps and ATP, can a primitive chemical system capture environmental
   geochemical free energy into a transferable store that can perform work?
-hypothesis: A pre-ATP carrier (thioester / acyl-phosphate class) coupled to an exergonic
-  geochemical drive maintains a transferable currency above threshold under endergonic
-  load — but only where the drive ΔG clears the carrier's high-energy bond and the
-  coupling is efficient enough to beat discharge + hydrolysis. A bounded fraction
-  of the geochemical free energy is captured as stored usable work; the rest is dissipated.
-  Remove the coupling or starve the drive below the bond and the currency collapses.
-objective: Represent the exergonic-to-endergonic coupling as explicit energetic bookkeeping
-  (a free-energy ledger), not a favourable reaction direction; map where a transferable
-  currency is maintained and measure the stored-work fraction.
+hypothesis: A pre-ATP carrier (thioester / acyl-phosphate class) coupled to an exergonic geochemical drive maintains a transferable currency above threshold under endergonic load — but only where the drive ΔG clears the carrier's high-energy bond and the coupling is efficient enough to beat discharge + hydrolysis. A bounded fraction of the geochemical free energy is captured as stored usable work; the rest is dissipated. Remove the coupling or starve the drive below the bond and the currency collapses.
+objective: Represent the exergonic-to-endergonic coupling as explicit energetic bookkeeping (a free-energy ledger), not a favourable reaction direction; map where a transferable currency is maintained and measure the stored-work fraction.
 proposed_mechanisms:
 - 'energetics: pre-ATP energy currency (thioesters / acyl phosphates / polyphosphates)'
 proposed_models_methods:
-- free-energy ledger (input = useful work + stored + dissipated) as a conservation
-  invariant
+- free-energy ledger (input = useful work + stored + dissipated) as a conservation invariant
 - charge / discharge / hydrolysis kinetics of a transferable carrier pool
 - phase map over (geochemical free-energy drive x coupling efficiency)
 contract:
@@ -83,34 +75,27 @@ contract:
   conditions:
   - kind: invariant
     name: free_energy_accounting
-    expr: abs(energy_input - (energy_work + energy_stored + energy_dissipated)) <
-      tol
+    expr: abs(energy_input - (energy_work + energy_stored + energy_dissipated)) < tol
   - kind: invariant
     name: carrier_bounds
     expr: 0 <= energy_charge <= carrier_pool
   - kind: invariant
     name: reproducibility
     expr: solver and db and seed and scenario recorded
-  note: bigraph-schema typed ports (_type/_units/bounds) + a free-energy-accounting
-    conservation predicate; the proto_energetics composite declares a ProcessContract
-    matching this face (audited via the workbench §Contract panel). Free-energy accounting
-    (input = work + stored + dissipated) is the stage's conservation invariant, held
-    to machine precision.
+  note: bigraph-schema typed ports (_type/_units/bounds) + a free-energy-accounting conservation predicate; the proto_energetics composite declares a ProcessContract matching this face (audited via the workbench §Contract panel). Free-energy accounting (input = work + stored + dissipated) is the stage's conservation invariant, held to machine precision.
 behavior_tests:
 - name: currency-maintained
   classification: primary
-  description: The carrier stays charged under continuous endergonic load — a transferable
-    currency is MAINTAINED above threshold, not merely charged transiently.
+  description: The carrier stays charged under continuous endergonic load — a transferable currency is MAINTAINED above threshold, not merely charged transiently.
   measure:
     kind: derived
     path: energy_final_charge_fraction
     detail: charged fraction of the carrier pool at the end of the run
-    under load: null
+    under load:
   pass_if:
     op: '>='
     value: 0.25
-    detail: the currency is maintained (charged fraction >= 0.25) against discharge
-      + hydrolysis
+    detail: the currency is maintained (charged fraction >= 0.25) against discharge + hydrolysis
   units: dimensionless
   requires_simulation: 'yes'
   cites:
@@ -120,18 +105,15 @@ behavior_tests:
   band_basis: first_principles
 - name: captures-free-energy
   classification: primary
-  description: A substantial fraction of the input geochemical free energy is captured
-    as transferable usable work (stored-work fraction), not just dissipated.
+  description: A substantial fraction of the input geochemical free energy is captured as transferable usable work (stored-work fraction), not just dissipated.
   measure:
     kind: derived
     path: energy_stored_work_fraction
-    detail: (delivered work + currently stored)/input free energy at the end of the
-      run
+    detail: (delivered work + currently stored)/input free energy at the end of the run
   pass_if:
     op: '>='
     value: 0.3
-    detail: capture into transferable currency exceeds 30% of the tapped geochemical
-      free energy
+    detail: capture into transferable currency exceeds 30% of the tapped geochemical free energy
   units: dimensionless
   requires_simulation: 'yes'
   cites:
@@ -140,16 +122,13 @@ behavior_tests:
   band_basis: first_principles
 - name: ablation-no-coupling-or-drive-collapses
   classification: primary
-  description: 'Feature ablation: with no coupling (coupling_efficiency -> 0) or no
-    drive (drive ΔG below the carrier bond), the currency never charges — capturing
-    free energy requires BOTH the coupling chemistry and a drive that clears the bond.'
+  description: 'Feature ablation: with no coupling (coupling_efficiency -> 0) or no drive (drive ΔG below the carrier bond), the currency never charges — capturing free energy requires BOTH the coupling chemistry and a drive that clears the bond.'
   measure:
     kind: cross_run
     detail: no-coupling and no-drive controls vs the favourable arm
   pass_if:
     op: controls_absent
-    detail: both ablations collapse (charged fraction ~0) where the favourable arm
-      maintains the currency
+    detail: both ablations collapse (charged fraction ~0) where the favourable arm maintains the currency
   units: dimensionless
   requires_simulation: 'yes'
   cites:
@@ -159,8 +138,7 @@ behavior_tests:
 - name: free-energy-conserved
   gate_class: regression_pin
   classification: supporting
-  description: Free-energy accounting is a contract invariant — input = useful work
-    + stored + dissipated, held to machine precision every tick.
+  description: Free-energy accounting is a contract invariant — input = useful work + stored + dissipated, held to machine precision every tick.
   measure:
     kind: derived
     path: energy_ledger_residual
@@ -168,22 +146,17 @@ behavior_tests:
   pass_if:
     op: <=
     value: 1.0e-09
-    detail: the ledger residual stays at machine precision (free-energy accounting
-      invariant)
+    detail: the ledger residual stays at machine precision (free-energy accounting invariant)
   units: kilojoule/liter
   requires_simulation: 'yes'
   cites:
   - buckel2013energy
   band_basis: first_principles
 literature_anchors:
-- expectation: Pre-ATP carriers (thioesters, acyl phosphates) couple exergonic to
-    endergonic chemistry as a transferable energy currency before membrane bioenergetics
-    / ATP
+- expectation: Pre-ATP carriers (thioesters, acyl phosphates) couple exergonic to endergonic chemistry as a transferable energy currency before membrane bioenergetics / ATP
   model_observable: charged fraction + stored-work fraction vs drive and coupling
-  source: Buckel & Thauer 2013 (flavin-based electron bifurcation / energy coupling);
-    Lane & Martin 2010 (chemiosmotic coupling at the vent)
-  status_in_workspace: Reproduced as explicit free-energy bookkeeping (coarse-grained
-    reduced kinetics)
+  source: Buckel & Thauer 2013 (flavin-based electron bifurcation / energy coupling); Lane & Martin 2010 (chemiosmotic coupling at the vent)
+  status_in_workspace: Reproduced as explicit free-energy bookkeeping (coarse-grained reduced kinetics)
   cites:
   - buckel2013energy
   - lane2010chemiosmotic
@@ -219,11 +192,7 @@ findings:
     - viva_genesis.composites.proto_energetics.proto_energetics__1791926822__702902
   kind: computational
   status: confirms
-  statement: An exergonic geochemical drive coupled to a pre-ATP thioester-class carrier
-    builds and MAINTAINS a transferable energy currency under continuous endergonic
-    load — the charged pool fills from empty and settles at ~39% of capacity, a spendable
-    store held against discharge and hydrolysis. This is energetic bookkeeping (a
-    carrier charged and spent), not a favourable reaction direction.
+  statement: An exergonic geochemical drive coupled to a pre-ATP thioester-class carrier builds and MAINTAINS a transferable energy currency under continuous endergonic load — the charged pool fills from empty and settles at ~39% of capacity, a spendable store held against discharge and hydrolysis. This is energetic bookkeeping (a carrier charged and spent), not a favourable reaction direction.
   evidence:
     from_test: currency-maintained
     observed: charged fraction 0.00 -> 0.39 and held under load
@@ -232,48 +201,29 @@ findings:
     cites:
     - buckel2013energy
     - lane2010chemiosmotic
-  explanation: ProtoEnergyCurrencyProcess charges the carrier at the coupling efficiency
-    when the drive ΔG clears the carrier bond, discharges it to endergonic work under
-    load, and bleeds it by first-order hydrolysis; the steady charge is the balance
-    of charging against the two drains.
+  explanation: ProtoEnergyCurrencyProcess charges the carrier at the coupling efficiency when the drive ΔG clears the carrier bond, discharges it to endergonic work under load, and bleeds it by first-order hydrolysis; the steady charge is the balance of charging against the two drains.
 - id: ogenergy-stored-work-fraction
   provenance:
     run_ids:
     - viva_genesis.composites.proto_energetics.proto_energetics__1791926822__702902
   kind: computational
   status: novel
-  statement: 'Accounting the free energy by DESTINATION (a conserved ledger: input
-    = useful work + stored + dissipated) shows ~47% of the tapped geochemical free
-    energy is captured as transferable usable work at the favourable operating point,
-    the remaining ~53% dissipated (uncoupled drive, discharge inefficiency, hydrolysis).
-    Capture is not assumed — it is measured, bounded, and falls off smoothly as the
-    coupling efficiency or the drive margin over the carrier bond declines.'
+  statement: 'Accounting the free energy by DESTINATION (a conserved ledger: input = useful work + stored + dissipated) shows ~47% of the tapped geochemical free energy is captured as transferable usable work at the favourable operating point, the remaining ~53% dissipated (uncoupled drive, discharge inefficiency, hydrolysis). Capture is not assumed — it is measured, bounded, and falls off smoothly as the coupling efficiency or the drive margin over the carrier bond declines.'
   evidence:
     from_test: captures-free-energy
-    observed: stored-work fraction 0.47 of input free energy; ledger residual ~1e-16
-      kJ/L
+    observed: stored-work fraction 0.47 of input free energy; ledger residual ~1e-16 kJ/L
     units: dimensionless
   expected:
     cites:
     - buckel2013energy
-  explanation: The currency process emits the full ledger (input / work / stored /
-    dissipated); the stored-work fraction is (work + stored)/input. Charging draws
-    bond/efficiency of input per charged mole (the uncoupled remainder dissipated),
-    so the captured fraction is bounded above by the coupling efficiency and reduced
-    further by discharge loss and hydrolysis — rendered as the energy-provenance panel
-    (Mechanism) and the capture landscape (Decision).
+  explanation: The currency process emits the full ledger (input / work / stored / dissipated); the stored-work fraction is (work + stored)/input. Charging draws bond/efficiency of input per charged mole (the uncoupled remainder dissipated), so the captured fraction is bounded above by the coupling efficiency and reduced further by discharge loss and hydrolysis — rendered as the energy-provenance panel (Mechanism) and the capture landscape (Decision).
 - id: ogenergy-coupling-and-drive-both-required
   provenance:
     run_ids:
     - viva_genesis.composites.proto_energetics.proto_energetics__1791926822__702902
   kind: computational
   status: novel
-  statement: The currency collapses under either ablation — no coupling (efficiency
-    -> 0) OR a drive ΔG below the carrier's high-energy bond — so capturing environmental
-    free energy into a transferable store requires BOTH a coupling chemistry and a
-    drive strong enough to clear the bond. The drive axis has a real thermodynamic
-    gate, not merely a rate dependence; the Decision phase map is the bounded region
-    where both conditions hold.
+  statement: The currency collapses under either ablation — no coupling (efficiency -> 0) OR a drive ΔG below the carrier's high-energy bond — so capturing environmental free energy into a transferable store requires BOTH a coupling chemistry and a drive strong enough to clear the bond. The drive axis has a real thermodynamic gate, not merely a rate dependence; the Decision phase map is the bounded region where both conditions hold.
   evidence:
     from_test: ablation-no-coupling-or-drive-collapses
     observed: favourable charged fraction 0.39 vs no-coupling 0.00 / no-drive 0.00
@@ -281,44 +231,27 @@ findings:
     cites:
     - buckel2013energy
     - lane2010chemiosmotic
-  explanation: A carrier can only be charged when the drive ΔG exceeds the bond energy
-    (a weak drive cannot charge a high-energy carrier) and the coupling actually transfers
-    it; below either threshold no store builds, so the viable region is bounded on
-    both axes.
+  explanation: A carrier can only be charged when the drive ΔG exceeds the bond energy (a weak drive cannot charge a high-energy carrier) and the coupling actually transfers it; below either threshold no store builds, so the viable region is bounded on both axes.
 conclusion_verdicts:
   biological_validation:
     result: PENDING
-    basis: Pending re-run against the canonical baseline (planned:true). Prior run
-      reproduced the pre-ATP energy-currency concept (Buckel & Thauer 2013; Lane
-      & Martin 2010) — an exergonic drive captured into a transferable carrier that
-      does endergonic work, with capture gated by the drive-vs-bond thermodynamics.
+    basis: Pending re-run against the canonical baseline (planned:true). Prior run reproduced the pre-ATP energy-currency concept (Buckel & Thauer 2013; Lane & Martin 2010) — an exergonic drive captured into a transferable carrier that does endergonic work, with capture gated by the drive-vs-bond thermodynamics.
   explanatory_gain:
     result: POSITIVE
-    basis: The free-energy ledger explains both WHERE a currency is viable (the bounded
-      drive x efficiency region) and HOW MUCH geochemical free energy becomes usable
-      work (the stored-work fraction), from explicit bookkeeping rather than assumption.
+    basis: The free-energy ledger explains both WHERE a currency is viable (the bounded drive x efficiency region) and HOW MUCH geochemical free energy becomes usable work (the stored-work fraction), from explicit bookkeeping rather than assumption.
 limitations:
-- Coarse-grained deterministic reduced kinetics with textbook carrier-bond anchors;
-  not a wrapped quantum-chemistry / MD engine.
-- A single carrier at a time (thioester default); the cross-carrier comparison (acyl-phosphate
-  / polyphosphate / reduced-metal) is available via the carrier parameter but not
-  swept here.
+- Coarse-grained deterministic reduced kinetics with textbook carrier-bond anchors; not a wrapped quantum-chemistry / MD engine.
+- A single carrier at a time (thioester default); the cross-carrier comparison (acyl-phosphate / polyphosphate / reduced-metal) is available via the carrier parameter but not swept here.
 discovery_implications:
   resolved_uncertainties:
-  - A primitive system can capture environmental free energy into a transferable currency,
-    and the captured fraction is bounded and measurable (~47% at the favourable point).
-  - Capture requires both a coupling chemistry and a drive that clears the carrier
-    bond (both ablations collapse).
+  - A primitive system can capture environmental free energy into a transferable currency, and the captured fraction is bounded and measurable (~47% at the favourable point).
+  - Capture requires both a coupling chemistry and a drive that clears the carrier bond (both ablations collapse).
   remaining_uncertainties:
-  - Which primitive coupling chemistry (thioester vs acyl-phosphate vs polyphosphate
-    vs reduced-metal) best supports synthesis / transport / maintenance under realistic
-    drives.
-  - How the stored-work fraction trades against turnover when the endergonic load
-    spectrum (synthesis / transport / maintenance) is resolved.
+  - Which primitive coupling chemistry (thioester vs acyl-phosphate vs polyphosphate vs reduced-metal) best supports synthesis / transport / maintenance under realistic drives.
+  - How the stored-work fraction trades against turnover when the endergonic load spectrum (synthesis / transport / maintenance) is resolved.
   followup_study_proposals:
   - study: og-energy-proto-energetics-b
-    rationale: Sweep the carrier type and the load spectrum to rank the primitive
-      coupling chemistries for synthesis / transport / maintenance.
+    rationale: Sweep the carrier type and the load spectrum to rank the primitive coupling chemistries for synthesis / transport / maintenance.
 readouts:
 - name: energy_charge
   store_path: pool.energy_charge
@@ -366,20 +299,16 @@ readouts:
   description: Exergonic geochemical drive ΔG
   status: available
 key_assumptions:
-- Capturing environmental free energy into a transferable store is the transition
-  — not merely a favourable reaction direction.
-- A carrier can only be charged when the drive ΔG clears its high-energy bond (a thermodynamic
-  gate, not just a rate).
+- Capturing environmental free energy into a transferable store is the transition — not merely a favourable reaction direction.
+- A carrier can only be charged when the drive ΔG clears its high-energy bond (a thermodynamic gate, not just a rate).
 parent_relations:
 - study: og-04-mineral-compartments-to-protocells
   relation: builds-on
 - study: og-05-environmental-to-internal-bioenergetics
   relation: motivates
 expert_questions:
-- Which endergonic load spectrum (synthesis / transport / maintenance) should weight
-  the currency's usefulness, and at what split?
-- Fed-disproportionation as the exergonic drive (natcomm2025fedisproportionation)
-  — accept as a cited drive anchor?
+- Which endergonic load spectrum (synthesis / transport / maintenance) should weight the currency's usefulness, and at what split?
+- Fed-disproportionation as the exergonic drive (natcomm2025fedisproportionation) — accept as a cited drive anchor?
 visualizations:
 - name: proto-energetics-world
   address: local:ProtoEnergeticsWorldViz
@@ -395,8 +324,7 @@ visualizations:
   config:
     composite: viva_genesis.composites.proto_energetics.proto_energetics
     grid_json: workspace/studies/og-energy-proto-energetics/artifacts/proto_energetics_phase_grid.json
-    title: Proto-energetics — capturing free energy into a transferable currency (Decision
-      view)
+    title: Proto-energetics — capturing free energy into a transferable currency (Decision view)
 pipeline_gate:
   prerequisites:
   - study: og-04-mineral-compartments-to-protocells
@@ -407,14 +335,14 @@ pipeline_gate:
     evaluated_by: code
     diverges_from_authored: false
 runs:
-- name: viva_genesis.composites.proto_energetics.proto_energetics__1791926822__702902
+- name: viva_genesis.composites.proto_energetics.proto_energetics__1792351385__122918
   status: completed
-  timestamp: 1791926822.9053729
+  timestamp: 1792351385.608812
   canonical: true
   emitter:
     kind: sqlite
-    store: canonical-runs/viva_genesis.composites.proto_energetics.proto_energetics__1791926822__702902/run.db
-  store_path: canonical-runs/viva_genesis.composites.proto_energetics.proto_energetics__1791926822__702902/run.db
+    store: canonical-runs/viva_genesis.composites.proto_energetics.proto_energetics__1792351385__122918/run.db
+  store_path: canonical-runs/viva_genesis.composites.proto_energetics.proto_energetics__1792351385__122918/run.db
   params: '{}'
   outcomes:
     currency-maintained:
@@ -425,24 +353,23 @@ runs:
       evaluated_by: code
       axis:
         id: currency-maintained
-        label: The carrier stays charged under continuous endergonic load — a transferable
-          currency is MAINTAINED above threshold, not merely charged transiently.
+        label: The carrier stays charged under continuous endergonic load — a transferable currency is MAINTAINED above threshold, not merely charged transiently.
         verdict: within_tol
         value: 0.390244
         meter: 0.780488
-        detail: null
+        detail:
         expected:
           kind: value
           value: 0.25
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.14024399999999998
         severity: hard
-        units: null
-        knob: null
+        units:
+        knob:
         citation: buckel2013energy; lane2010chemiosmotic
       auto_evaluated: true
     captures-free-energy:
@@ -453,24 +380,23 @@ runs:
       evaluated_by: code
       axis:
         id: captures-free-energy
-        label: A substantial fraction of the input geochemical free energy is captured
-          as transferable usable work (stored-work fraction), not just dissipated.
+        label: A substantial fraction of the input geochemical free energy is captured as transferable usable work (stored-work fraction), not just dissipated.
         verdict: within_tol
         value: 0.472557
         meter: 0.787595
-        detail: null
+        detail:
         expected:
           kind: value
           value: 0.3
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.17255700000000002
         severity: hard
-        units: null
-        knob: null
+        units:
+        knob:
         citation: buckel2013energy
       auto_evaluated: true
     ablation-no-coupling-or-drive-collapses:
@@ -478,9 +404,7 @@ runs:
       measured_value: 0.0
       evaluated_by: code
       operator: cross_run
-      detail: favourable charged fraction=0.390 vs no-coupling=0.000 / no-drive=0.000
-        (both ablations collapse => the currency needs BOTH the coupling and a drive
-        that clears the carrier bond)
+      detail: favourable charged fraction=0.390 vs no-coupling=0.000 / no-drive=0.000 (both ablations collapse => the currency needs BOTH the coupling and a drive that clears the carrier bond)
     free-energy-conserved:
       result: PASS
       measured_value: -0.0
@@ -489,31 +413,26 @@ runs:
       evaluated_by: code
       axis:
         id: free-energy-conserved
-        label: Free-energy accounting is a contract invariant — input = useful work
-          + stored + dissipated, held to machine precision every tick.
+        label: Free-energy accounting is a contract invariant — input = useful work + stored + dissipated, held to machine precision every tick.
         verdict: within_tol
         value: -0.0
         meter: 1.0
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1e-09
-          low: null
-          high: null
+          low:
+          high:
           op: <=
           tol: 0.05
-          statement: null
+          statement:
         margin: 1e-09
         severity: hard
-        units: null
-        knob: null
+        units:
+        knob:
         citation: buckel2013energy
       auto_evaluated: true
-conclusion: 'The energy-currency bookkeeping shows the missing pre-modern transition:
-  an exergonic geochemical drive is captured into a transferable store (thioester
-  / acyl-phosphate class) that does endergonic work, before any modern-style ion pumping.
-  It sits BEFORE og-05''s internalized gradient generation in the campaign logic —
-  owning a spendable energy currency is the prerequisite the later pumping stage internalizes.'
+conclusion: "A pre-ATP thioester-class carrier coupled to an exergonic geochemical drive maintains a transferable energy currency above threshold (energy charge 0.390 ≥ 0.25) and captures a bounded fraction of the geochemical free energy as stored usable work (0.473 ≥ 0.3), with the free-energy ledger closing to machine precision (residual -8.46e-17, no hidden inflow). Both the coupling and the drive are required: ablating either collapses the currency (charged 0.390 → 0.000 with no coupling; → 0.000 with no drive). Supported, reproduced on rerun — a primitive chemical system can bank geochemical free energy into a transferable store that does work, with no untracked energy source. (This 'Energy Currency' result is the abstract-ledger foundation that Gate E's og-35 later extends to an explicit thioester cycle — the two are consistent: og-energy establishes capture-into-a-store, og-35 shows the carrier buys dip-persistence, not more total work.)"
 verdict: supported
 evidence_tier: mechanistic_prediction
 
