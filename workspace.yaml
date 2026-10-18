@@ -69,6 +69,15 @@ imports:
       dolfinx FEM advection-diffusion-Soret solver + the two face-conforming
       spatial-transport classes (FenicsReactiveTransportProcess,
       FenicsThermophoreticTrapProcess) — the plan-4.5 high-fidelity cross-check.
+  viva-openmm:
+    source: https://github.com/vivarium-collective/viva-openmm.git
+    ref: main
+    mode: reference
+    package: viva_openmm
+    description: >-
+      Martini 3 coarse-grained MD engine (OpenMM + martini_openmm) — the
+      OpenMMMartiniProcess bilayer-assembly run for og-31 (membrane extra; the
+      "makes a membrane" half of Gate C).
 
 # Expert documents — source dossiers that ground the campaign. Rendered on the
 # Resources page (workspace-inputs) and searchable via the expert-doc tools.

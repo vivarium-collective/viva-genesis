@@ -2,6 +2,7 @@
 from viva_genesis.audit_checks import (
     check_baseline_params,
     check_unguarded_optional_imports,
+    check_used_imports_declared,
 )
 
 
@@ -225,3 +226,33 @@ def test_gate_member_missing_from_roster_flagged():
 def test_gate_members_all_in_roster_clean():
     gates = [{"id": "A", "member_studies": ["og-27", "og-28"]}]
     assert check_gate_members_in_roster("inv", gates, {"og-27", "og-28"}) == []
+
+
+# --------------------------------------------------------------------------- #
+# check_used_imports_declared — used wrapper must be declared in imports:
+# --------------------------------------------------------------------------- #
+def test_used_import_declared_is_clean():
+    used = {"viva_equilibrator": "imported in viva_genesis/thermo.py",
+            "viva_fenics": "imported in viva_genesis/core.py"}
+    declared = {"viva_equilibrator", "viva_tellurium", "viva_fenics"}
+    assert check_used_imports_declared(used, declared) == []
+
+
+def test_used_but_undeclared_is_flagged():
+    # The viva-openmm gap: used by core.py + og-31's local:OpenMMMartiniProcess,
+    # never declared in imports: -> dashboard Repositories tab omits it.
+    used = {"viva_openmm": "local:OpenMMMartiniProcess in viva_genesis/core.py",
+            "viva_fenics": "imported in viva_genesis/core.py"}
+    declared = {"viva_equilibrator", "viva_tellurium", "viva_fenics"}
+    errs = check_used_imports_declared(used, declared)
+    assert len(errs) == 1
+    assert "viva_openmm" in errs[0]
+    assert "OpenMMMartiniProcess" in errs[0]          # where-detected note surfaces
+    assert "imports:" in errs[0]
+
+
+def test_multiple_undeclared_are_each_flagged_sorted():
+    used = {"viva_zeta": "imported in a.py", "viva_alpha": "imported in b.py"}
+    errs = check_used_imports_declared(used, declared_packages=set())
+    assert len(errs) == 2
+    assert "viva_alpha" in errs[0] and "viva_zeta" in errs[1]   # sorted
