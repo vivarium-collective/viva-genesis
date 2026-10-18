@@ -791,6 +791,11 @@ studies:
 - og-35-chemical-energy-coupling
 - og-36-stochastic-protocell-ecology
 - og-37-progressive-independence
+- mem-m1-amphiphile-assembly
+- mem-m2-permeability-retention
+- mem-m3-stability-gradients
+- mem-m4-growth-division-propensity
+- mem-m5-functional-membrane-window
 acceptance_criteria:
 - study: og-00-vent-reactor-baseline
   behavior: vent-pH-in-lostcity-range
@@ -1112,7 +1117,15 @@ plan_gates:
     member_studies:
       - og-31-protometabolism-to-amphiphiles
       - og-32-first-self-maintaining-protocell
-    pending_studies: []
+    pending_studies:
+      # Membrane-MD sub-program (PLANNED; honest-bar — MD tests candidate compositions, it does
+      # NOT by itself demonstrate endogenous membrane formation). Fuller planned studies that
+      # EXTEND the already-qualified Gate C; they do not contribute to its verdict (which rests on
+      # the member_studies above). First-cut seeds forthcoming. See membrane-md-studies-m1-m5-designs.md.
+      - {slug: mem-m1-amphiphile-assembly, title: Amphiphile assembly & composition, scaffolded: true, planned: true, program: membrane-md}
+      - {slug: mem-m2-permeability-retention, title: Permeability & selective retention, scaffolded: true, planned: true, program: membrane-md}
+      - {slug: mem-m3-stability-gradients, title: Stability across environmental gradients, scaffolded: true, planned: true, program: membrane-md}
+      - {slug: mem-m5-functional-membrane-window, title: Functional membrane window (integrative), scaffolded: true, planned: true, program: membrane-md}
     criterion: >-
       Metabolism makes its own membrane and benefits from it — the compartmented system must
       beat a matched ablation (no endogenous membrane) with chemical input fluxes held equal.
@@ -1123,7 +1136,11 @@ plan_gates:
     member_studies:
       - og-33-chemically-coupled-growth-and-division
       - og-34-chemical-heredity-and-selection
-    pending_studies: []
+    pending_studies:
+      # Membrane-MD sub-program (PLANNED). Division PROPENSITY only (geometry/curvature/barrier) —
+      # explicitly NOT heritable division (og-33/og-34 remain the gate-earning lines). See
+      # membrane-md-studies-m1-m5-designs.md.
+      - {slug: mem-m4-growth-division-propensity, title: Growth, shape change & division propensity, scaffolded: true, planned: true, program: membrane-md}
     criterion: >-
       Viable daughters inherit functional traits that influence fitness — an inherited
       functional difference must produce a reproducible fitness difference versus a matched
