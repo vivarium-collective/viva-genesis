@@ -1,0 +1,57 @@
+schema_version: 4
+name: og-ev-pore-transport-benchmark
+investigation: origins-of-life-vent
+created: '2026-10-18'
+phase: Design
+status: planned
+execution_status: proposed
+design_status: drafted
+simulation_status: not_run
+evaluation_status: not_started
+gate_status: not_started
+study_type: exploratory
+proposed: true
+title: Pore-transport Baaske benchmark discriminator (B5)
+program: evidence-expansion
+honest_caveat: >-
+  A discriminator refining Gate B: it tests whether the pore concentration + persistence
+  survive CALIBRATED transport and realistic pore geometries, benchmarked to Baaske-2007. The
+  Baaske accumulation is a geometry-dependent model output, not a universal constant - the
+  benchmark checks our pore against it, it does not inherit its extreme folds.
+question: >-
+  Do the pore's concentration and the network's persistence survive CALIBRATED transport
+  (Soret coefficients, realistic pore geometries) when benchmarked against the Baaske-2007
+  thermophoretic-accumulation regimes?
+hypothesis: >-
+  The Gate-B enrichment (~23x at porosity 0.88) reproduces the Baaske regime qualitatively but
+  is sensitive to the Soret coefficient and pore geometry; the concentration+persistence hold
+  in the open-pore regime and collapse in plugged / well-mixed controls - a calibrated, bounded
+  rescue rather than the extreme >=1e6 folds, consistent with the og-03 Peclet restatement.
+objective: >-
+  Replicate the Baaske-2007 accumulation regimes under calibrated transport (measured Soret
+  coefficients, realistic geometries) with matched open / plugged / well-mixed controls, and a
+  Soret sensitivity sweep, testing whether the Gate-B rescue survives.
+primary_output: >-
+  Concentration + persistence across the Baaske regimes, open/plugged/well-mixed control
+  outcomes, and a Soret-coefficient sensitivity profile.
+refines: "refines og-03-dilution-to-localized-individuals and og-30-spatially-integrated-protometabolism (Gate B calibration)"
+evidence_datasets: [evidence-baaske2007-thermophoretic-accumulation]
+baseline:
+- name: Open pore (concentrating) — the Gate-B demonstrated regime
+  planned: true
+  params: {pore: open}
+- name: Plugged pore control
+  planned: true
+  params: {pore: plugged}
+- name: Well-mixed non-concentrating control
+  planned: true
+  params: {pore: well_mixed}
+- name: Soret-coefficient sensitivity sweep
+  planned: true
+  params: {sweep: soret}
+proposed_acceptance_criteria:
+- The Baaske-2007 regimes are replicated under calibrated transport (measured Soret coefficients, realistic geometries), with matched open/plugged/well-mixed controls at equal feeds.
+- Concentration + persistence are reported with a Soret sensitivity profile; the result is stated at the resolvable Peclet, not the extreme >=1e6 fold.
+- Whether the Gate-B rescue survives calibrated transport is reported either way (a failure under realistic transport is an accepted result).
+literature_anchors: [baaske2007extreme, mast2010thermal, jordan2019promotion]
+visualizations: []

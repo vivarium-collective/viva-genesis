@@ -1,0 +1,57 @@
+schema_version: 4
+name: og-ev-chemistry-membrane-overlap
+investigation: origins-of-life-vent
+created: '2026-10-18'
+phase: Design
+status: planned
+execution_status: proposed
+design_status: drafted
+simulation_status: not_run
+evaluation_status: not_started
+gate_status: not_started
+study_type: exploratory
+proposed: true
+title: Chemistry→membrane composition-overlap discriminator (B4)
+program: evidence-expansion
+honest_caveat: >-
+  A discriminator refining Gate C: it tests whether the modeled network actually SUPPLIES the
+  amphiphile identities and abundances a vesicle needs - the chemistry->composition link the
+  "MD tests compositions it is handed" caveat flags. A supply shortfall is a meaningful boundary.
+question: >-
+  Does the campaign's modeled reaction network supply the ACTUAL vesicle-forming amphiphile
+  identities and abundances (not just "some amphiphile"), overlapping the Jordan-2019 assembly
+  windows and the MARTINI-modelled candidate compositions?
+hypothesis: >-
+  The endogenous chain-extension chemistry supplies long-chain amphiphiles that partially
+  overlap the assembly-competent window, but with a supply-vs-loss budget that may fall short
+  of the abundances the measured windows require - so the composition overlap is partial, a
+  bound rather than a guarantee.
+objective: >-
+  Map the overlap between the network's emitted amphiphile composition (identities + abundances
+  from AmphiphileChainExtensionProcess) and the Jordan-2019 assembly windows + the MARTINI
+  candidate set, with explicit supply-vs-loss budgets.
+primary_output: >-
+  A composition-overlap map (emitted identities/abundances vs assembly-competent compositions)
+  and supply-vs-loss budgets per amphiphile class.
+refines: "refines mem-m1-amphiphile-assembly and og-31-protometabolism-to-amphiphiles (the chemistry->composition seam)"
+data_contract: >-
+  Consumes AmphiphileChainExtensionProcess outputs (mean_chain_length, amphiphile_total,
+  long_chain_fraction, aggregation_competent, degradation_loss) and compares them against the
+  Jordan-2019 assembly windows (evidence-dataset) and the structured_resources lipid-structure set.
+evidence_datasets: [evidence-jordan2019-amphiphile-vesicles, evidence-souza2021-martini3-forcefield]
+baseline:
+- name: Emitted network composition vs the Jordan assembly windows
+  planned: true
+  params: {reference: jordan2019_windows}
+- name: Emitted composition vs the MARTINI candidate set (structured_resources lipid-structure)
+  planned: true
+  params: {reference: martini_candidates}
+- name: Supply-vs-loss budget (production vs hydrolysis/washout), equal feeds
+  planned: true
+  params: {budget: supply_vs_loss}
+proposed_acceptance_criteria:
+- The emitted amphiphile identities + abundances are compared to the measured assembly windows + MARTINI candidates (not just a presence check).
+- Supply-vs-loss budgets are reported per class at equal feeds.
+- Whether the chemistry supplies the needed compositions/abundances is reported either way (a partial or failing overlap is an accepted boundary).
+literature_anchors: [jordan2019promotion, souza2021martini3, budin2012concentration]
+visualizations: []
