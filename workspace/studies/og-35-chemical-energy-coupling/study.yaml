@@ -244,7 +244,13 @@ discovery_implications:
     compute_budget_note: Microkinetic carrier chemistry needs reaction-rule-generation (to-build); scheduled when that wrapper exists.
     status: proposed
 literature_anchors: []
-visualizations: []
+visualizations:
+- name: energy-coupling
+  address: local:OgEnergyCouplingViz
+  config:
+    title: The carrier buys gradient-dip resilience, not throughput
+    report_json: workspace/studies/og-35-chemical-energy-coupling/artifacts/gate_e_energy.json
+  rendered: workspace/studies/og-35-chemical-energy-coupling/viz/energy-coupling.html
 baseline:
 - name: Chemical energy coupling (thioester carrier)
   composite: viva_genesis.composites.og_35_chemical_energy_coupling.og_35_chemical_energy_coupling

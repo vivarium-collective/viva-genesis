@@ -252,7 +252,14 @@ discovery_implications:
     compute_budget_note: Multi-day, heavy-GPU per composition; compute-budget gated - scheduled when GPU budget allows.
     status: proposed
 literature_anchors: []
-visualizations: []
+visualizations:
+- name: self-maintaining-protocell
+  address: local:OgSelfMaintainingProtocellViz
+  config:
+    title: The first self-maintaining protocell holds its pool
+    report_json: workspace/studies/og-32-first-self-maintaining-protocell/artifacts/gate_c_full.json
+    md_json: workspace/studies/og-32-first-self-maintaining-protocell/artifacts/md_bilayer_observables.json
+  rendered: workspace/studies/og-32-first-self-maintaining-protocell/viz/self-maintaining-protocell.html
 baseline:
 - name: First Self-Maintaining Protocell (MD-coupled, long di-C16)
   composite: viva_genesis.composites.og_32_first_self_maintaining_protocell.og_32_first_self_maintaining_protocell

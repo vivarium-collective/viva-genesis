@@ -245,7 +245,13 @@ discovery_implications:
     compute_budget_note: Heavy coarse-grained MD per division geometry; compute-budget gated - scheduled when GPU budget allows.
     status: proposed
 literature_anchors: []
-visualizations: []
+visualizations:
+- name: growth-division
+  address: local:OgGrowthDivisionViz
+  config:
+    title: Metabolism-driven growth & division
+    report_json: workspace/studies/og-33-chemically-coupled-growth-and-division/artifacts/gate_d_growth_division.json
+  rendered: workspace/studies/og-33-chemically-coupled-growth-and-division/viz/growth-division.html
 baseline:
 - name: Chemically coupled growth and division (metabolism-coupled, measured geometry)
   composite: viva_genesis.composites.og_33_chemically_coupled_growth_and_division.og_33_chemically_coupled_growth_and_division
