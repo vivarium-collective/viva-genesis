@@ -36,10 +36,19 @@ lead: >-
   feed, and og-08's {pump, importer, heredity} set is not jointly sufficient
   off-gradient.
 executive:
-  what_is_this: A staged, falsifiable Vivarium campaign testing the alkaline-vent theory for the 
-    origin of cells — treating a cellular origin as coupled transitions from geochemistry to 
-    bioenergetic autonomy, grounded in serpentinization-driven alkaline hydrothermal vents, with 
+  what_is_this: A staged, falsifiable Vivarium campaign testing the alkaline-vent theory for the
+    origin of cells — treating a cellular origin as coupled transitions from geochemistry to
+    bioenergetic autonomy, grounded in serpentinization-driven alkaline hydrothermal vents, with
     explicit competing scenarios.
+  campaign_synthesis: >-
+    Campaign synthesis — the whole origins-of-life-vent arc in one place (see campaign-synthesis.md). The
+    required spine (Gates A–D) is complete: a vent-fed chemistry persists (A1, in a concentrating pore),
+    concentrates (B), compartments and maintains itself (C), and reproduces and inherits a selectable chemical
+    trait (D) — each gate judged against a matched null with input fluxes held equal, Gate D a genuine positive.
+    Endogenous autocatalysis is refuted under vent conditions for both representable routes (A2, off-spine), on
+    thermodynamics and on a seed-independence discriminator. The campaign-level reading is that concentration,
+    compartmentation and energy coupling (Gate E study 35, qualified) alike buy persistence and robustness, not
+    productivity.
   gate_a_status: >-
     Gate A (chemical emergence) is recorded as two sub-gates, split because they answer different questions and
     sit at different places in the spine. A1 (network persistence) is a spine gate and is met, qualified. A2
