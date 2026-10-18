@@ -4557,6 +4557,82 @@ _save_viz('og-29-endogenous-autocatalysis', 'endogenous-autocatalysis-gate-a', _
 # | carbon-conservation-ledger _(secondary)_ | kind=observable detail=C/mass/charge residuals across the kinetic run | op threshold detail residuals within tolerance; 27 feeds the only source |
 # | negative-result-isolates-gap _(primary)_ | kind=observable detail=on no-detection, the identified missing precursor / rate-limiting mechanism | op threshold detail balanced autocatalysis demonstrated OR a named missing precursor/mechanism |
 
+# ## Study: Reductive-TCA Autocatalysis (branched v2) (`og-rtca-autocatalysis`)
+#
+# **Question.** Does the canonical reductive-TCA cycle — the branched-C6 route that the linear-skeleton formose universe (og-29) cannot represent — turn over and self-amplify under vent CO2/H2 feeds (feasibility), and does its specific wiring self-amplify beyond a degree-preserving matched null (topology-specificity)?
+#
+# **Objective.** Build the curated mechanistic rTCA network as a real libRoadRunner reaction universe (same engine, feeds, eQuilibrator thermodynamics and matched-null machinery as Phase 3), grade it by the functional autocatalysis discriminator across the ignition sweep against a degree-preserving matched null, and report feasibility + topology-specificity honestly with the governing mechanism.
+#
+# **Hypothesis.** Curated with its real branched intermediates (citrate/isocitrate/cis-aconitate) and eQuilibrator thermodynamics, the rTCA cycle's citrate-lyase branch (citrate → OAA + acetyl, acetyl recycled to a second OAA) is autocatalytic by topology (every elementary step 1:1, no coefficient-2 reaction). A functional, coefficient-independent discriminator will reveal whether that topology actually self-amplifies under vent feeds; if it does not, the analysis names the rate-limiting/thermodynamic step rather than tuning a pass.
+#
+# **Claim.** Under vent conditions (H2 as reductant) a seeded reductive-TCA cycle does not self-amplify - it washes out across the x1-x50 feed sweep. The cycle is genuinely autocatalytic in topology: its net turn, 1 oxaloacetate + 4 CO2 + 5 H2 -> 2 oxaloacetate + 3 H2O, doubles the carrier oxaloacetate with no explicit coefficient-2 doubling reaction, so a coefficient detector reads zero by construction and a coefficient-free functional discriminator is required to judge it. Under vent H2 it fails that test: the reductive carboxylations that close the cycle (succinate to alpha-ketoglutarate, +18 kJ/mol; acetyl to pyruvate, +31 kJ/mol) run uphill and too slow against washout - the same reason the biological reductive TCA cycle uses ferredoxin, not H2, as its reductant. In a labelled permissive counterfactual that lowers the carboxylation barrier, the same topology meets the self-amplification bar and is topology-specific (a degree-preserving null does not), so the vent negative is a redox-environment limitation, not a defect of the cycle's wiring. The counterfactual is explicitly not a vent claim.
+
+# ### Parameters
+#
+# | simulation | composite | steps | params |
+# | --- | --- | --- | --- |
+# | `Curated mechanistic rTCA (vent-fed)` | `viva_genesis.composites.og_rtca_autocatalysis.og_rtca_autocatalysis` | 0 | supply_H2=0.02, supply_CO2=0.04, k_wash=0.02, matched_null=False, carboxylation_drive_kj=0.0 |
+
+# ### The model & its parameters
+#
+# Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
+
+# **The model — `viva_genesis.composites.og_rtca_autocatalysis.og_rtca_autocatalysis`**
+#
+# Curated MECHANISTIC reductive-TCA cycle (9 elementary steps incl. the citrate lyase branch; branched C6 intermediates citrate/isocitrate/cis-aconitate with eQuilibrator dG'; acetate as the acetyl-CoA surrogate; fumarate lumped) on the real libRoadRunner engine under vent CO2/H2 feed + washout. Its autocatalysis is topological (no coefficient-2 reaction), so the coefficient-gated autocatalytic_gain reads 0 by construction; feasibility + topology-specificity are graded by the coefficient-independent functional discriminator. matched_null swaps the degree-preserving null; carboxylation_drive_kj is a labelled stronger-reductant counterfactual (0 = real vent H2) that separates topology from thermodynamics.
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_og_rtca_autocatalysis_og_rtca_autocatalysis = {
+    'supply_H2'             : 0.001,   # Vent H2 supply (molar) [27->rtca handoff]
+    'supply_CO2'            : 0.002,   # Vent inorganic-carbon supply (molar) [27->rtca handoff]
+    'k_wash'                : 0.02,   # CSTR washout / dilution rate (1/s) — the critical-dilution knob
+    'matched_null'          : False,   # Topology-specificity arm: degree-preserving null on the same feed
+    'null_seed'             : 0,   # Null-network draw (matched_null only)
+    'carboxylation_drive_kj': 0.0,   # Labelled counterfactual: kJ/mol subtracted from each reductive carboxylation dG' (stronger reductant than H2). 0 = real vent.
+}
+
+# ### Run
+#
+# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
+
+# === Study: og-rtca-autocatalysis ===
+STUDY = 'og-rtca-autocatalysis'
+STUDY_DIR = REPO / 'workspace/studies' / STUDY
+STUDY_YAML = str(STUDY_DIR / "study.yaml")
+RUNS_DB = str(STUDY_DIR / "runs.db")
+
+# This study has no *recorded* runs yet. RERUN builds its declared
+# composite(s) live and runs them; a composite whose module processes
+# are not implemented yet reports the error instead of crashing.
+STEPS_Curated_mechanistic_rTCA_vent_fed = 100
+INTERVAL_Curated_mechanistic_rTCA_vent_fed = 1.0
+
+if RERUN:
+    from process_bigraph import Composite
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_og_rtca_autocatalysis_og_rtca_autocatalysis if 'ov_viva_genesis_composites_og_rtca_autocatalysis_og_rtca_autocatalysis' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_og_rtca_autocatalysis_og_rtca_autocatalysis = materialize_composite('viva_genesis.composites.og_rtca_autocatalysis.og_rtca_autocatalysis', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_og_rtca_autocatalysis_og_rtca_autocatalysis['state']}, core=core)
+            _comp.run(STEPS_Curated_mechanistic_rTCA_vent_fed)
+        print('ran', 'Curated mechanistic rTCA (vent-fed)', f'(viva_genesis.composites.og_rtca_autocatalysis.og_rtca_autocatalysis) for', STEPS_Curated_mechanistic_rTCA_vent_fed, 'steps')
+    except Exception as _e:
+        print(f"Curated mechanistic rTCA (vent-fed) not runnable yet: {type(_e).__name__}: {_e}")
+else:
+    print("RERUN=False — not re-simulating.")
+
+# ### Acceptance criteria
+#
+# _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
+#
+# | test | measures | passes if |
+# | --- | --- | --- |
+# | rtca-vent-h2-washout |  |  |
+# | rtca-topology-net-turn |  |  |
+# | rtca-permissive-limit-topology-specific |  |  |
+# | gate-a-a2-branched-resolved |  |  |
+
 # ## Study: Spatially Integrated Protometabolism (`og-30-spatially-integrated-protometabolism`)
 #
 # **Question.** Can the full chemical network operate productively inside a pore despite fractionation and washout — and does the pore structure actually improve persistence over a well-mixed system?

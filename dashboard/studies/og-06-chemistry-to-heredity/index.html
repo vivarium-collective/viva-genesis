@@ -477,12 +477,17 @@
   
   <div class="overview-toolbar" style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px">
     <h2 class="overview-label" style="margin:0">Overview</h2>
+    <span style="display:inline-flex;align-items:center;gap:8px">
+    
+    <button type="button" id="study-jump-figures" class="btn-mini" title="Jump to the visualizations"
+            onclick="window._vivStudyJumpToFigures&&window._vivStudyJumpToFigures()">↓ Figures</button>
     <span class="study-dl study-export-wrap" style="position:relative;display:inline-flex">
       <button type="button" id="study-export-btn" class="btn-mini study-dl-btn" aria-haspopup="true" aria-expanded="false" title="Download this study's figures or a runnable notebook">⬇ Export ▾</button>
       <div id="study-export-menu" role="menu" style="display:none;position:absolute;right:0;top:100%;margin-top:4px;background:#fff;border:1px solid #e2e8f0;border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,0.14);z-index:70;min-width:200px;padding:4px">
         <button type="button" id="study-dl-figures" role="menuitem" class="study-jump-item" onclick="window._vivStudyFiguresFromCard(event, 'og-06-chemistry-to-heredity')">Download figures</button>
         <button type="button" id="study-dl-notebook" role="menuitem" class="study-jump-item" onclick="window._vivStudyNotebookFromCard(event, 'og-06-chemistry-to-heredity', 'origins-of-life-vent')">Download notebook</button>
       </div>
+    </span>
     </span>
   </div>
   <div class="study-overview">
@@ -649,7 +654,7 @@
       </div>
       
       
-      <div id="overview-key-figure" class="ov-keyfig" data-study="og-06-chemistry-to-heredity"></div>
+      
       
     <div class="overview-section findings-section">
       <h2 class="overview-label">🔬 Findings — what this study taught us</h2>
@@ -1838,7 +1843,7 @@ cites:   ["sutherland2017opinion"]</pre>
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "bc57351edec778245b4755b2eae8790e5a7c049b", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/bc57351edec778245b4755b2eae8790e5a7c049b", "branch": "main", "lockfile": "uv.lock@6b67541037ac", "generated_at": "2026-10-18 03:37 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "a1bf292bc2852a39e807c47fe3d349b04afa6aec", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/a1bf292bc2852a39e807c47fe3d349b04afa6aec", "branch": "main", "lockfile": "uv.lock@524abfbc6197", "generated_at": "2026-10-18 03:58 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>
