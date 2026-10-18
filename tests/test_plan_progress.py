@@ -192,6 +192,30 @@ def test_row_shape_and_member_stages():
     assert set(b["cumulative_members"]) == {"og-27", "og-28", "og-29", "og-30"}
 
 
+def test_explicit_criterion_findings_gate_a_pass():
+    # A gate carrying criterion_findings passes only when every listed finding is
+    # confirmed on a member study, regardless of the id-heuristic.
+    inv = {"name": "t", "plan_gates": [
+        {"id": "A", "name": "Chemical emergence", "extends": None,
+         "member_studies": ["og-27", "og-28", "og-29"], "pending_studies": [],
+         "criterion_findings": ["og29-beats-matched-null"],
+         "criterion": "beat a matched null", "status": "pending"},
+    ]}
+    confirmed = [{"id": "og29-beats-matched-null", "kind": "computational", "status": "confirms"}]
+    planned = [{"id": "og29-beats-matched-null", "kind": "computational", "status": "planned"}]
+
+    base = {"og-27": _passed("og-27"), "og-28": _passed("og-28")}
+    # listed finding still planned -> criterion not met -> in_progress
+    rows = _by_id(build_plan_progress(inv, {**base, "og-29": _passed("og-29", findings=planned)}))
+    assert rows["A"]["status"] == "in_progress"
+    # listed finding confirmed -> passed
+    rows = _by_id(build_plan_progress(inv, {**base, "og-29": _passed("og-29", findings=confirmed)}))
+    assert rows["A"]["status"] == "passed"
+    # missing the listed finding entirely -> criterion not met (explicit list is strict)
+    rows = _by_id(build_plan_progress(inv, {**base, "og-29": _passed("og-29")}))
+    assert rows["A"]["status"] == "in_progress"
+
+
 def test_unscaffolded_members_are_not_invented():
     # D/E reference only pending (unscaffolded) studies -> no member_stages rows.
     studies = {s: _planned(s) for s in ["og-27", "og-28", "og-29", "og-30", "og-31"]}

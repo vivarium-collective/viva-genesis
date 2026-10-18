@@ -931,6 +931,10 @@ plan_gates:
       - og-28-prebiotic-reaction-atlas
       - og-29-endogenous-autocatalysis
     pending_studies: []
+    # Explicit matched-null evidence the board audits for this gate (must be a
+    # confirmed finding on a member study), rather than inferring it.
+    criterion_findings:
+      - og29-beats-matched-null
     criterion: >-
       An endogenous reaction network persists on measured or plausibly-bounded geochemical
       feeds — any detected autocatalysis/amplification must beat a matched (degree-preserving)
@@ -942,6 +946,8 @@ plan_gates:
     member_studies:
       - og-30-spatially-integrated-protometabolism
     pending_studies: []
+    criterion_findings:
+      - og30-beats-matched-null
     criterion: >-
       Explicit mineral pores improve productive network persistence — productive flux must
       exceed a matched well-mixed (and nonconcentrating) control with chemical input fluxes
