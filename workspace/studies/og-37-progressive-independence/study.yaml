@@ -54,7 +54,7 @@ hypothesis: >-
   via an internal pump, resources via import) but remains dependent on others, giving a measurable, attributed
   independence profile rather than an all-or-nothing escape. If no support is internalizable, or the apparent
   independence is not causally attributable to a specific innovation, that is reported honestly.
-objective: >-
+experiment: >-
   Reuse og-08's validated co-limited off-gradient budget and withdraw each support channel one at a time
   (others held full); for each, determine whether the lineage persists via its innovation set (internalizable)
   or fails, attribute the rescue to a specific innovation with a matched ablation, show the all-at-once run as

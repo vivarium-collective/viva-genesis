@@ -15,7 +15,7 @@ question: >-
   Before modern pumps and ATP, can a primitive chemical system capture environmental
   geochemical free energy into a transferable store that can perform work?
 hypothesis: A pre-ATP carrier (thioester / acyl-phosphate class) coupled to an exergonic geochemical drive maintains a transferable currency above threshold under endergonic load — but only where the drive ΔG clears the carrier's high-energy bond and the coupling is efficient enough to beat discharge + hydrolysis. A bounded fraction of the geochemical free energy is captured as stored usable work; the rest is dissipated. Remove the coupling or starve the drive below the bond and the currency collapses.
-objective: Represent the exergonic-to-endergonic coupling as explicit energetic bookkeeping (a free-energy ledger), not a favourable reaction direction; map where a transferable currency is maintained and measure the stored-work fraction.
+experiment: Represent the exergonic-to-endergonic coupling as explicit energetic bookkeeping (a free-energy ledger), not a favourable reaction direction; map where a transferable currency is maintained and measure the stored-work fraction.
 proposed_mechanisms:
 - 'energetics: pre-ATP energy currency (thioesters / acyl phosphates / polyphosphates)'
 proposed_models_methods:
@@ -431,7 +431,7 @@ runs:
         knob:
         citation: buckel2013energy
       auto_evaluated: true
-conclusion: "A pre-ATP thioester-class carrier coupled to an exergonic geochemical drive maintains a transferable energy currency above threshold (energy charge 0.390 ≥ 0.25) and captures a bounded fraction of the geochemical free energy as stored usable work (0.473 ≥ 0.3), with the free-energy ledger closing to machine precision (residual -8.46e-17, no hidden inflow). Both the coupling and the drive are required: ablating either collapses the currency (charged 0.390 → 0.000 with no coupling; → 0.000 with no drive). Supported, reproduced on rerun — a primitive chemical system can bank geochemical free energy into a transferable store that does work, with no untracked energy source. (This 'Energy Currency' result is the abstract-ledger foundation that Gate E's og-35 later extends to an explicit thioester cycle — the two are consistent: og-energy establishes capture-into-a-store, og-35 shows the carrier buys dip-persistence, not more total work.)"
+result: "A pre-ATP thioester-class carrier coupled to an exergonic geochemical drive maintains a transferable energy currency above threshold (energy charge 0.390 ≥ 0.25) and captures a bounded fraction of the geochemical free energy as stored usable work (0.473 ≥ 0.3), with the free-energy ledger closing to machine precision (residual -8.46e-17, no hidden inflow). Both the coupling and the drive are required: ablating either collapses the currency (charged 0.390 → 0.000 with no coupling; → 0.000 with no drive). Supported, reproduced on rerun — a primitive chemical system can bank geochemical free energy into a transferable store that does work, with no untracked energy source. (This 'Energy Currency' result is the abstract-ledger foundation that Gate E's og-35 later extends to an explicit thioester cycle — the two are consistent: og-energy establishes capture-into-a-store, og-35 shows the carrier buys dip-persistence, not more total work.)"
 verdict: supported
 evidence_tier: mechanistic_prediction
 

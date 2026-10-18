@@ -22,7 +22,7 @@ question: >-
   on only 47% of the region both call favorable) a real structural difference in how each
   class represents electrical, catalytic, and transport limits, or an avoidable artifact of
   binning and threshold placement?
-objective: >-
+experiment: >-
   Isolate the source of the cross-class disagreement: decompose the empirical Michaelis drive against
   the Butler-Volmer overpotential terms point by point; test whether re-binning or a shared label
   threshold changes agreement; attribute the residual disagreement to a named model-structure cause.

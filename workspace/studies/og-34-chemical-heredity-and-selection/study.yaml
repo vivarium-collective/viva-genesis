@@ -51,7 +51,7 @@ hypothesis: >-
   differences under the vent feed, so a population shifts composition under selection rather than drifting. If
   inherited composition produces no reproducible fitness difference above a no-inheritance control, or a
   population does not shift measurably, no selectable heredity is claimed.
-objective: >-
+experiment: >-
   Run a multi-compartment population of study-33 dividing protocells under selection on an inherited
   network-composition trait whose fitness is grounded in the study-32/33 retention -> division-rate coupling;
   measure the parent-offspring fitness correlation and whether a population under selection shifts

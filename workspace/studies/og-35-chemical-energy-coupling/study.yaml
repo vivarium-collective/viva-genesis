@@ -46,7 +46,7 @@ hypothesis: >-
   gradient dips, raising persistence/robustness versus gradient-only operation - provided its synthesis and
   hydrolysis/leak costs are outweighed. If the carrier's costs exceed its benefit, or the energy ledger does
   not close without a hidden inflow, no net energy benefit is claimed.
-objective: >-
+experiment: >-
   Couple a specified thioester carrier cycle (tied to og-12) to the protocell energy supply under a declining
   geochemical drive; account every energy term (activation, use, hydrolysis, stored) in a closing ledger with
   no hidden inflow; and test net useful work and persistence - including through a gradient dip - against a

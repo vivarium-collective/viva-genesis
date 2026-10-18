@@ -24,7 +24,7 @@ hypothesis: Under the vent posterior feed (CO2 1.4 mM, H2 10.8 mM, pyruvate 0.1
   motif count is enriched relative to degree-preserving, carbon/oxygen-matched nulls;
   the curated class's motif is detected but imposed and its stoichiometry fails the
   element ledger.
-objective: Build the proto_metabolism face (curated_rtca | reaction_universe | null_network),
+experiment: Build the proto_metabolism face (curated_rtca | reaction_universe | null_network),
   the vg-data package reaction_universe (rules, eQuilibrator dG', catalyst requirements),
   the NetworkLedgerProcess (exact element residual, integrated carbon balance, dissipation
   >= 0) and a class-agnostic post-hoc motif detector; run the three classes under
@@ -185,7 +185,7 @@ findings:
     cites:
     - beber2022equilibrator
     - noor2013consistent
-conclusion: The generated universe at the vent posterior feed has no autocatalytic
+result: The generated universe at the vent posterior feed has no autocatalytic
   motif; with the formose feedstock one emerges post hoc and is enriched over matched
   nulls (p = 0.04); the curated rTCA motif is imposed and its lumped turn is not element-balanced;
   the universe's ledger closes exactly.

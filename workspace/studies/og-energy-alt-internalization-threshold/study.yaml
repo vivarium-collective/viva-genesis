@@ -26,7 +26,7 @@ hypothesis: 'Internalization pays only where the store can be charged above the 
   and is marginal. The threshold is thermodynamic (the store potential must clear
   the load), not a fitted rate, so the classes separate on their leak law and bond
   energy — a structure-sensitive answer the sweep reports as such.'
-objective: Build the energy_coupling face (passive_gradient | h_na_gradient_leaky_membrane
+experiment: Build the energy_coupling face (passive_gradient | h_na_gradient_leaky_membrane
   | thioester_acyl_phosphate | polyphosphate | fe_redox) with the per-individual autonomy
   readout internal / (internal + external) power, the vg-data package energy_currencies
   (drives, H+/Na+ permeabilities, carrier bonds and decay, per-cell turnover and maintenance),
@@ -192,7 +192,7 @@ findings:
   expected:
     cites:
     - buckel2013energy
-conclusion: Internalization pays for the thioester store from activity 0.10 and for
+result: Internalization pays for the thioester store from activity 0.10 and for
   the Fe-redox store from 0.80 at the nominal membrane; the pumped H+/Na+ gradient
   pays only below P_H 1e-8 m/s and polyphosphate never against a 30 kJ/mol load; the
   free-energy ledger closes exactly on all 990 runs; the threshold is structure-sensitive

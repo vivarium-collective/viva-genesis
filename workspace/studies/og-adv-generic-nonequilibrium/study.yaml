@@ -14,7 +14,7 @@ question: >-
   any generic driven nonequilibrium chemistry pass them? It should not.
 hypothesis: The og-01/og-02/og-03 gates REJECT this control; if they pass it, the
   gates measure generic nonequilibrium chemistry, not the vent mechanism.
-objective: Run the og-01..03 behavior tests on a vent-feature-ablated control; the
+experiment: Run the og-01..03 behavior tests on a vent-feature-ablated control; the
   campaign's gates must reject it, and the vent must pass the same tests.
 claim: >-
   Run with the vent's characteristic features ablated - no sustained H2, no Fe/Ni/S catalytic
@@ -284,7 +284,7 @@ runs:
       operator: cross_run
       detail: the vent passes all 5 gates where the generic control fails every one
         => vent-specificity demonstrated (pass-where-control-fails on each gate)
-conclusion: The adversarial control closes the falsifiability loop for the investigation.
+result: The adversarial control closes the falsifiability loop for the investigation.
   Running the SAME og-01/02/03 composites with no sustained H2, no Fe/Ni/S catalytic
   interface and no pore concentration, all five discriminating gates reject it (tightest
   margin 1.8 decades) where the vent passes all five. A PASS anywhere in the campaign

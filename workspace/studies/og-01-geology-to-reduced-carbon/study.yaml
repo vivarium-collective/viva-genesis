@@ -18,7 +18,7 @@ hypothesis: Over Fe/Ni/S surfaces and across the pH gradient, H2-driven CO2 redu
   yields formate/acetate/pyruvate at lab-calibrated rates within a bounded (T,pH,H2,pressure)
   region; the Tutolo-2026 in-situ arm roughly halves the flux, and the feature-ablation
   controls (no gradient / no H2 / no catalyst) zero it.
-objective: Add H2-driven CO2 reduction, reproduce the three benchmark experiments,
+experiment: Add H2-driven CO2 reduction, reproduce the three benchmark experiments,
   and map the parameter region of sustained net organic-carbon flux.
 findings:
 - id: og01-preiner-yields
@@ -108,7 +108,7 @@ findings:
   explanation: 14×14 sweep of the real open-flow composite (pH 7–11 × H₂ 0.1–20 mM,
     exponential washout) reduced to sustained throughput per point; rendered as the
     carbon-fixation phase map (Decision view). Runner sims/compute_phase_grid.py.
-conclusion: Reduced-carbon synthesis reproduces the lab benchmarks and maps a viable
+result: Reduced-carbon synthesis reproduces the lab benchmarks and maps a viable
   favorable regime, while the Tutolo-2026 arm identifies the in-situ gradient collapse
   that og-03+ must address. Feeds og-02 with pyruvate.
 conclusion_verdicts:

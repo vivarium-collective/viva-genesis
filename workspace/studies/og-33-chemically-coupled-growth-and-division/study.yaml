@@ -46,7 +46,7 @@ hypothesis: >-
   instability and divides at a measured critical-geometry threshold, partitioning contents; division rate
   scales with metabolic flux and the daughters re-enter self-maintenance. If division needs an imposed event,
   or the daughters cannot resume self-maintenance, no emergent growth/division is claimed.
-objective: >-
+experiment: >-
   Couple study-32's self-maintaining protocell to membrane growth from the metabolic amphiphile flux; grow
   membrane area until a measured area-doubling budding geometry triggers division; partition contents to
   daughters and test whether each daughter resumes the study-32 self-maintenance criterion - all against a

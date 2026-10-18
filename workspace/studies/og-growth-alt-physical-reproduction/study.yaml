@@ -20,7 +20,7 @@ hypothesis: A founder individual whose division_state grows to threshold divides
   half each (their amounts and volumes sum to the mother's) and grow and divide in
   turn, so a >=3-generation lineage forms in the agents map with the partition residual
   0 at every division.
-objective: Drive AgentGrowthProcess -> DivisionStep over the agents map from a single
+experiment: Drive AgentGrowthProcess -> DivisionStep over the agents map from a single
   founder; gate that the lineage reaches >=3 generations and that every _divide conserves
   matter and volume (daughter volumes sum to the mother's — partition residual 0,
   total volume constant).

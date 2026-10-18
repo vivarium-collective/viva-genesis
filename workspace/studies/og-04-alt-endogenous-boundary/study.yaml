@@ -17,7 +17,7 @@ question: >-
   concentration - rather than from an injected amphiphile pool, and is its formation caused by
   that synthesis?
 hypothesis: When acetate + formate condense to an amphiphile that clears the critical aggregation concentration under vesicle-favourable (alkaline, saline) conditions, a viable boundary forms and a new individual appears in the agents map by an _add structural rewrite; with amphiphile synthesis ablated no individual forms, so boundary formation is caused by the endogenous chemistry.
-objective: Drive AmphiphileSynthesisProcess from a dissolved acetate+formate pool into the boundary face (single_chain | mixed | thioester_aminothiol); gate that a BoundaryFormationStep _add produces agents 0 -> >=1 in the favorable arm and 0 in the synthesis-ablated control, with the RewriteLedger confirming the rewrite conserves matter.
+experiment: Drive AmphiphileSynthesisProcess from a dissolved acetate+formate pool into the boundary face (single_chain | mixed | thioester_aminothiol); gate that a BoundaryFormationStep _add produces agents 0 -> >=1 in the favorable arm and 0 in the synthesis-ablated control, with the RewriteLedger confirming the rewrite conserves matter.
 proposed_mechanisms:
 - 'H+: the boundary is built from the campaign''s own carbon chemistry, not an added amphiphile'
 - structural-rewrite individuation (_add on the agents map) rather than a continuous field
@@ -215,7 +215,7 @@ pipeline_gate:
   state: passed
 verdict: supported
 evidence_tier: mechanistic_prediction
-conclusion: "The protocell boundary forms from the campaign's own reduced-carbon chemistry: acetate+formate-derived amphiphile clears the aggregation threshold and a new individual appears in the agents map (favorable arm: 31 agents, amphiphile 4.56e-3 M), while the synthesis-ablated control gives 0 agents (1e-13). Boundary formation is therefore CAUSED by the endogenous chemistry, not an injected amphiphile pool, and the structural-rewrite individuation conserves matter (ledger 1.0). Supported, reproduced on rerun."
+result: "The protocell boundary forms from the campaign's own reduced-carbon chemistry: acetate+formate-derived amphiphile clears the aggregation threshold and a new individual appears in the agents map (favorable arm: 31 agents, amphiphile 4.56e-3 M), while the synthesis-ablated control gives 0 agents (1e-13). Boundary formation is therefore CAUSED by the endogenous chemistry, not an injected amphiphile pool, and the structural-rewrite individuation conserves matter (ledger 1.0). Supported, reproduced on rerun."
 
 loom:
   layout: hierarchy

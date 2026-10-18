@@ -25,7 +25,7 @@ hypothesis: >-
   Supplied amphiphiles insert and expand membrane area; area growth drives curvature/shape
   change and lowers the budding barrier - a propensity to divide, set by composition and
   osmotic conditions.
-objective: >-
+experiment: >-
   Measure amphiphile insertion/exchange, area growth, curvature change and the budding/division
   barrier for candidate vesicles - a division PROPENSITY, kept separate from heritable division.
 primary_output: >-

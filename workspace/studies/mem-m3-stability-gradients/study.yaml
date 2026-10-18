@@ -25,7 +25,7 @@ hypothesis: >-
   protonation define a stability envelope; integrity degrades (defects, desorption, rupture)
   outside it, and that envelope may not coincide with the functional (selective-permeability)
   window.
-objective: >-
+experiment: >-
   Map the stability envelope of candidate compositions across the vent-relevant gradients,
   one factor at a time then a small factorial.
 primary_output: >-

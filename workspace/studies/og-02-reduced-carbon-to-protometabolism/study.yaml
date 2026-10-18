@@ -13,7 +13,7 @@ question: >-
   Under continuous feed and washout, does a curated prebiotic reaction network persist and
   self-amplify as a connected system, rather than merely producing isolated organic molecules?
 hypothesis: A curated graph (formate/acetate/pyruvate/glyoxylate + rTCA fragments) seeded with Muchowska/Moran edges sustains nonzero throughput and at least one autocatalytic motif within a feasible resource budget.
-objective: Insert an experimentally-motivated reaction graph and test whether metabolism-like subnetworks emerge under flow.
+experiment: Insert an experimentally-motivated reaction graph and test whether metabolism-like subnetworks emerge under flow.
 findings:
 - id: og02-sustained-throughput
   kind: computational
@@ -63,7 +63,7 @@ findings:
     - muchowska2019synthesis
     - muchowska2017metals
   explanation: 16×16 sweep of the real libRoadRunner composite reduced to the settled OAA pool, net throughput and gain; rendered as the ignition phase map (Decision view). Runner sims/compute_gain_grid.py. Per-reaction fluxes are now read live from the engine (getReactionRates) so the network view is flux-weighted.
-conclusion: "og-02 is a 'first metabolism' in the operational sense the gate tests: under continuous feed and washout the rTCA-fragment network sustains net carbon throughput (8.97e-4 mol/s), forms ONE connected reaction network (not isolated one-offs), and ignites over a bounded feed×washout landscape — all reproduced on rerun. It does NOT establish endogenous autocatalysis: the gain of 29.5 is a curated, element-lumped, feed-driven apparent gain (no-CO₂ → 0), and og-29 (Gate A2) refutes genuine self-amplification against a degree-preserving null with seed-independence. So og-02 supports sustained, connected, feed-driven protometabolism — not a self-amplifying core — fully consistent with the campaign's A2 refutation."
+result: "og-02 is a 'first metabolism' in the operational sense the gate tests: under continuous feed and washout the rTCA-fragment network sustains net carbon throughput (8.97e-4 mol/s), forms ONE connected reaction network (not isolated one-offs), and ignites over a bounded feed×washout landscape — all reproduced on rerun. It does NOT establish endogenous autocatalysis: the gain of 29.5 is a curated, element-lumped, feed-driven apparent gain (no-CO₂ → 0), and og-29 (Gate A2) refutes genuine self-amplification against a degree-preserving null with seed-independence. So og-02 supports sustained, connected, feed-driven protometabolism — not a self-amplifying core — fully consistent with the campaign's A2 refutation."
 conclusion_verdicts:
   biological_validation:
     result: PENDING

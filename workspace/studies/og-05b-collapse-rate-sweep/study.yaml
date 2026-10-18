@@ -22,7 +22,7 @@ question: >-
   When the gradient-decline rate is swept and alternative collapse scenarios such as step loss
   and oscillatory decline are substituted, is survival governed by the speed of gradient loss,
   the total dose, or the terminal level?
-objective: >-
+experiment: >-
   Sweep decline_rate and substitute alternative collapse trajectories on the bioenergetic-internalization
   composite; measure where the survival region contracts or holds; report which feature of the collapse
   (rate, dose, or endpoint) controls the boundary.

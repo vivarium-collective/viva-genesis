@@ -21,7 +21,7 @@ hypothesis: Product accumulation from an internal autocatalytic source generates
   leading to division, flanked by starvation (too permeable, the product leaks before
   osmotic pressure can build) and lysis (too impermeable, the pressure bursts the
   membrane).
-objective: Couple a reduced autocatalytic osmolyte source to compartment osmotic physics
+experiment: Couple a reduced autocatalytic osmolyte source to compartment osmotic physics
   (osmotic pressure → solvent influx → volume → division) with a semi-permeable membrane;
   map the (network throughput × membrane permeability) plane and locate the viable
   growth→division band between starvation and lysis, conserving mass across growth
@@ -472,7 +472,7 @@ runs:
       operator: cross_run
       detail: favorable → 8 divisions; zero-throughput ablation → 0 divisions, net
         growth 1.040 (no autocatalytic source ⇒ no osmotic growth)
-conclusion: 'A coarse-grained, units-typed, mass-conserving osmotic-coupling model
+result: 'A coarse-grained, units-typed, mass-conserving osmotic-coupling model
   shows that an internal autocatalytic source, by accumulating an osmolyte, can drive
   a compartment to grow and divide under osmotic pressure alone. The fate is set by
   the membrane permeability against the network throughput: a bounded viable band
