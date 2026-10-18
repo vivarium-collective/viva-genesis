@@ -2875,7 +2875,7 @@ _save_viz('og-02-alt-reaction-universe', 'reaction-universe-subnetwork', _render
 #
 # **Hypothesis.** When acetate + formate condense to an amphiphile that clears the critical aggregation concentration under vesicle-favourable (alkaline, saline) conditions, a viable boundary forms and a new individual appears in the agents map by an _add structural rewrite; with amphiphile synthesis ablated no individual forms, so boundary formation is caused by the endogenous chemistry.
 #
-# **Claim.** When acetate and formate condense into an amphiphile under alkaline, saline conditions it clears the critical aggregation concentration, and a new individual appears in the agents map through a matter-conserving structural rewrite. Ablating the synthesis leaves the amphiphile below threshold and no individual forms, so boundary formation is caused by the endogenous chemistry rather than an added amphiphile. What remains assumed is the condensation rate itself (k_synth), an inferred value with no direct prebiotic measurement, swept over a wide prior.
+# **Claim.** Vent-fed chemistry, through explicit chain-extension, headgroup and degradation reactions across multiple amphiphile species, either reaches an experimentally-grounded aggregation-competent composition on its own — assembling via the real og-31 / viva-openmm membrane closure — or it does not, in which case boundary formation is not supported by defensible endogenous kinetics. The single assumed acetate+formate→amphiphile condensation is retired in favour of named reactions with tracked rates and losses.
 
 # ### Design — originally proposed
 #
@@ -2896,29 +2896,23 @@ _save_viz('og-02-alt-reaction-universe', 'reaction-universe-subnetwork', _render
 #
 # | simulation | composite | steps | params |
 # | --- | --- | --- | --- |
-# | `Favorable — endogenous amphiphile synthesis forms the boundary` | `viva_genesis.composites.endogenous_boundary.endogenous_boundary` | 0 | model_boundary=mixed, k_synth=0.05, acetate0=0.05, formate0=0.05, pH=9.0, ionic_strength=0.35 |
+# | `Endogenous amphiphiles by explicit chain extension` | `viva_genesis.composites.og_17_amphiphile_chain_extension.og_17_amphiphile_chain_extension` | 0 | acetate_feed=0.05, k_extend=0.4, cac_molar=0.005 |
 
 # ### The model & its parameters
 #
 # Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
 
-# **The model — `viva_genesis.composites.endogenous_boundary.endogenous_boundary`**
+# **The model — `viva_genesis.composites.og_17_amphiphile_chain_extension.og_17_amphiphile_chain_extension`**
 #
-# og-04-alt: a protocell boundary formed from the campaign's OWN chemistry. Acetate + formate condense to an amphiphile (AmphiphileSynthesisProcess); when it clears the critical aggregation concentration and the boundary face class (model_boundary: single_chain | mixed | thioester_aminothiol) reports a viable vesicle, a BoundaryFormationStep does an _add structural rewrite and a new individual appears in the agents map, matter seeded from the localized pool. Synthesis-ablated (k_synth=0) is the control: no amphiphile, no individual. A RewriteLedgerProcess audits that the _add conserves matter (rewrite_ok).
+# Study 17: endogenous amphiphiles by explicit chemistry. AmphiphileChainExtensionProcess elongates fatty acids 2 carbons at a time from the vent-carbon feed (acetate), with degradation and a length-dependent critical aggregation concentration — replacing the lumped acetate+formate condensation. Reports the chain-length distribution + whether the composition clears the CAC (aggregation_competent >= 1), the input og-31's Martini membrane run would assemble. No exogenous amphiphile feed; losses tracked.
 
 # === Parameters — edit any value, then re-run from the Run cell below ===
 # Each entry is the composite's current default; the comment explains it.
-ov_viva_genesis_composites_endogenous_boundary_endogenous_boundary = {
-    'model_boundary'   : 'mixed',   # Model class behind the 'boundary' face: mixed | single_chain | thioester_aminothiol
-    'k_synth'          : 0.05,   # Amphiphile condensation rate (0 = synthesis-ablated control) [vg-data: hypothetical]
-    'acetate0'         : 0.05,   # Initial dissolved acetate (M)
-    'formate0'         : 0.05,   # Initial dissolved formate (M)
-    'pH'               : 9.0,   # Vent-fluid pH (alkaline, vesicle-favourable)
-    'ionic_strength'   : 0.35,   # Ionic strength (M, seawater)
-    'temperature'      : 333.15,   # Temperature (K)
-    'cac'              : 0.001,   # Critical aggregation concentration (M) [vg-data: measured]
-    'localized_formate': 4.0,   # Localized formate parcel seeding the individual (mol)
-    'localized_acetate': 2.0,   # Localized acetate parcel (mol)
+ov_viva_genesis_composites_og_17_amphiphile_chain_extension_og_17_amphiphile_chain_extension = {
+    'acetate_feed': 0.02,   # Vent-carbon (acetate, C2) feed concentration (molar)
+    'k_extend'    : 0.4,   # Chain-elongation rate (1/s)
+    'k_degrade'   : 0.02,   # Degradation/hydrolysis rate (1/s)
+    'cac_molar'   : 0.005,   # Long-chain critical aggregation concentration (molar)
 }
 
 # ### Typed contract (declared interface)
@@ -2958,20 +2952,20 @@ RUNS_DB = str(STUDY_DIR / "runs.db")
 # This study has no *recorded* runs yet. RERUN builds its declared
 # composite(s) live and runs them; a composite whose module processes
 # are not implemented yet reports the error instead of crashing.
-STEPS_Favorable_endogenous_amphiphile_synthesis_forms_the_boundary = 100
-INTERVAL_Favorable_endogenous_amphiphile_synthesis_forms_the_boundary = 1.0
+STEPS_Endogenous_amphiphiles_by_explicit_chain_extension = 100
+INTERVAL_Endogenous_amphiphiles_by_explicit_chain_extension = 1.0
 
 if RERUN:
     from process_bigraph import Composite
     try:
         with quiet():  # keep per-step stdout out of the notebook
-            _ov = ov_viva_genesis_composites_endogenous_boundary_endogenous_boundary if 'ov_viva_genesis_composites_endogenous_boundary_endogenous_boundary' in dir() else None  # edits from the panel cell, if any
-            spec_viva_genesis_composites_endogenous_boundary_endogenous_boundary = materialize_composite('viva_genesis.composites.endogenous_boundary.endogenous_boundary', _ov)
-            _comp = Composite({'state': spec_viva_genesis_composites_endogenous_boundary_endogenous_boundary['state']}, core=core)
-            _comp.run(STEPS_Favorable_endogenous_amphiphile_synthesis_forms_the_boundary)
-        print('ran', 'Favorable — endogenous amphiphile synthesis forms the boundary', f'(viva_genesis.composites.endogenous_boundary.endogenous_boundary) for', STEPS_Favorable_endogenous_amphiphile_synthesis_forms_the_boundary, 'steps')
+            _ov = ov_viva_genesis_composites_og_17_amphiphile_chain_extension_og_17_amphiphile_chain_extension if 'ov_viva_genesis_composites_og_17_amphiphile_chain_extension_og_17_amphiphile_chain_extension' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_og_17_amphiphile_chain_extension_og_17_amphiphile_chain_extension = materialize_composite('viva_genesis.composites.og_17_amphiphile_chain_extension.og_17_amphiphile_chain_extension', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_og_17_amphiphile_chain_extension_og_17_amphiphile_chain_extension['state']}, core=core)
+            _comp.run(STEPS_Endogenous_amphiphiles_by_explicit_chain_extension)
+        print('ran', 'Endogenous amphiphiles by explicit chain extension', f'(viva_genesis.composites.og_17_amphiphile_chain_extension.og_17_amphiphile_chain_extension) for', STEPS_Endogenous_amphiphiles_by_explicit_chain_extension, 'steps')
     except Exception as _e:
-        print(f"Favorable — endogenous amphiphile synthesis forms the boundary not runnable yet: {type(_e).__name__}: {_e}")
+        print(f"Endogenous amphiphiles by explicit chain extension not runnable yet: {type(_e).__name__}: {_e}")
 else:
     print("RERUN=False — not re-simulating.")
 

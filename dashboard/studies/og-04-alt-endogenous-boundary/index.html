@@ -675,7 +675,7 @@
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Claim</h2>
-      <p class="ctr-text">When acetate and formate condense into an amphiphile under alkaline, saline conditions it clears the critical aggregation concentration, and a new individual appears in the agents map through a matter-conserving structural rewrite. Ablating the synthesis leaves the amphiphile below threshold and no individual forms, so boundary formation is caused by the endogenous chemistry rather than an added amphiphile. What remains assumed is the condensation rate itself (k_synth), an inferred value with no direct prebiotic measurement, swept over a wide prior.</p>
+      <p class="ctr-text">Vent-fed chemistry, through explicit chain-extension, headgroup and degradation reactions across multiple amphiphile species, either reaches an experimentally-grounded aggregation-competent composition on its own — assembling via the real og-31 / viva-openmm membrane closure — or it does not, in which case boundary formation is not supported by defensible endogenous kinetics. The single assumed acetate+formate→amphiphile condensation is retired in favour of named reactions with tracked rates and losses.</p>
       
     </div>
 
@@ -693,7 +693,7 @@
       <h2 class="overview-label ctr-h">Model &amp; approach</h2>
       <p class="ctr-text">Drive AmphiphileSynthesisProcess from a dissolved acetate+formate pool into the boundary face (single_chain | mixed | thioester_aminothiol); gate that a BoundaryFormationStep _add produces agents 0 -&gt; &gt;=1 in the favorable arm and 0 in the synthesis-ablated control, with the RewriteLedger confirming the rewrite conserves matter.</p>
       <div class="ctr-meta">
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Model</span> <code>Favorable — endogenous amphiphile synthesis forms the boundary</code><a class="ov-tablink" href="#" onclick="_setStudyTab('compose');return false;">model →</a></div>
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Model</span> <code>Endogenous amphiphiles by explicit chain extension</code><a class="ov-tablink" href="#" onclick="_setStudyTab('compose');return false;">model →</a></div>
         
         <div class="ctr-meta-row"><span class="ctr-meta-k">Measures</span> <span class="ctr-meta-item">2 behavior tests</span><a class="ov-tablink" href="#" onclick="_setStudyTab('tests');return false;">see Tests →</a></div>
         
@@ -856,28 +856,28 @@
   <div class="overview-section" id="model-section">
     <h3>Runnable models <span class="muted" style="font-size:0.85em;font-weight:normal">— the composite(s) this study simulates</span></h3>
     
-    <div class="cond-block" data-model-composite="viva_genesis.composites.endogenous_boundary.endogenous_boundary" data-model-overrides='{"acetate0": 0.05, "formate0": 0.05, "ionic_strength": 0.35, "k_synth": 0.05, "model_boundary": "mixed", "pH": 9.0}'>
+    <div class="cond-block" data-model-composite="viva_genesis.composites.og_17_amphiphile_chain_extension.og_17_amphiphile_chain_extension" data-model-overrides='{"acetate_feed": 0.05, "cac_molar": 0.005, "k_extend": 0.4}'>
       <div class="cond-block-title" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-        <strong>Favorable — endogenous amphiphile synthesis forms the boundary</strong>
+        <strong>Endogenous amphiphiles by explicit chain extension</strong>
         
-        <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.endogenous_boundary.endogenous_boundary</code>
+        <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.og_17_amphiphile_chain_extension.og_17_amphiphile_chain_extension</code>
         <button type="button" class="action-btn" style="font-size:0.8em"
-                onclick="_openCompositeLoom('viva_genesis.composites.endogenous_boundary.endogenous_boundary')">🧬 explore &amp; run ↗</button>
+                onclick="_openCompositeLoom('viva_genesis.composites.og_17_amphiphile_chain_extension.og_17_amphiphile_chain_extension')">🧬 explore &amp; run ↗</button>
         
       </div>
       
       <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
         
-        <select class="baseline-composite-input" data-baseline-name="Favorable — endogenous amphiphile synthesis forms the boundary"
-                data-current="viva_genesis.composites.endogenous_boundary.endogenous_boundary"
+        <select class="baseline-composite-input" data-baseline-name="Endogenous amphiphiles by explicit chain extension"
+                data-current="viva_genesis.composites.og_17_amphiphile_chain_extension.og_17_amphiphile_chain_extension"
                 style="flex:1;min-width:200px;font-family:monospace;font-size:0.82em;padding:3px 6px">
-          <option value="viva_genesis.composites.endogenous_boundary.endogenous_boundary" selected>viva_genesis.composites.endogenous_boundary.endogenous_boundary</option>
+          <option value="viva_genesis.composites.og_17_amphiphile_chain_extension.og_17_amphiphile_chain_extension" selected>viva_genesis.composites.og_17_amphiphile_chain_extension.og_17_amphiphile_chain_extension</option>
           
         </select>
         <button type="button" class="action-btn baseline-composite-set" style="font-size:0.8em"
-                data-baseline-name="Favorable — endogenous amphiphile synthesis forms the boundary">Set composite</button>
+                data-baseline-name="Endogenous amphiphiles by explicit chain extension">Set composite</button>
       </div>
-      <div class="baseline-composite-status muted" data-baseline-name="Favorable — endogenous amphiphile synthesis forms the boundary" style="font-size:0.8em;margin-top:2px"></div>
+      <div class="baseline-composite-status muted" data-baseline-name="Endogenous amphiphiles by explicit chain extension" style="font-size:0.8em;margin-top:2px"></div>
       
       
       
@@ -1414,7 +1414,7 @@ pass_if: {"detail": "rewrite_residual_max == 0 at every structural rewrite", "op
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "9822cf0d65457244b8fc3bceefbc47fc7e9835e6", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/9822cf0d65457244b8fc3bceefbc47fc7e9835e6", "branch": "main", "lockfile": "uv.lock@828864dd2583", "generated_at": "2026-10-17 23:38 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "57b0be388ab78a84e032cb8b7f2915183ac05e2f", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/57b0be388ab78a84e032cb8b7f2915183ac05e2f", "branch": "main", "lockfile": "uv.lock@828864dd2583", "generated_at": "2026-10-18 00:01 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>
