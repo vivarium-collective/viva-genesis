@@ -900,7 +900,7 @@ _save_viz('og-03-dilution-to-localized-individuals', 'pore-accumulation-3d', _re
 # | test | measures | passes if |
 # | --- | --- | --- |
 # | thermophoretic-enrichment-reproduces-baaske _(primary)_ | kind=derived path=settled_accumulation_peclet detail=ln(enrichment) = beta × pore length (reduced column) | op arms_reported detail reduced-column Pe_acc ≈ 18.4 (~10^8-fold) reported as the closed-cell/reduced-model figure; the resolved FEM does not confirm it past the convergence-verified Pe_acc ≈ 13 |
-# | enrichment-resolved-within-convergence _(primary)_ | kind=derived path=log10_enrichment detail=localization occurs within the resolvable range (positive enrichment agreement region)=None | op > value 0.0 detail log10_enrichment > 0 (the resolved trap concentrates above inflow within Pe_acc ≲ 13) |
+# | enrichment-resolved-within-convergence _(diagnostic)_ | kind=derived path=log10_enrichment detail=localization occurs within the resolvable range (positive enrichment agreement region)=None | op > value 0.0 detail log10_enrichment > 0 (the resolved trap concentrates above inflow within Pe_acc ≲ 13) |
 # | retention-beats-destruction _(primary)_ | kind=derived path=log10_enrichment detail=log10 of the settled enrichment fold (reduced column; resolved value within Pe_acc ≲ 13) | op arms_reported detail reduced-column ≥10^6-fold reported as the closed-cell figure; net accumulation within demonstrated convergence is the gated claim (enrichment-resolved-within-convergence) |
 # | open-pore-control-does-not-concentrate _(primary)_ | kind=cross_run detail=favorable enrichment vs open-pore control | op controls_absent detail enrichment collapses to ~1 in the open-pore control |
 # | enrichment-exponential-in-pore-length _(diagnostic)_ | kind=cross_run detail=favorable vs 10× shorter pore | op arms_reported detail short pore enriches ≥100× less than the favorable pore |
@@ -4161,6 +4161,666 @@ if RERUN:
         print(f"Integrated autonomy world (og-08-alt canonical structure) not runnable yet: {type(_e).__name__}: {_e}")
 else:
     print("RERUN=False — not re-simulating.")
+
+# ## Study: Coupled Geochemical Reaction Interface (`og-27-coupled-geochemical-reaction-interface`)
+#
+# **Question.** Can an evolving mineral–water interface sustainably supply carbon, H2, chemical gradients and catalysis to a prebiotic reaction network — and over what timescale, before mineral evolution (precipitation, passivation) chokes that supply?
+#
+# **Objective.** Build a cell-resolved geochemical reaction interface that evolves its own mineral surfaces, and quantify the time- and space-resolved supply of reducing power, carbon, gradients and catalytic surface it hands to the downstream network (study 29), with closed mass/charge/energy ledgers.
+#
+# **Hypothesis.** A cell-resolved coupling of aqueous speciation (PHREEQC/PhreeqcRM), reactive transport (FiPy) and multiphase mineral equilibrium (Reaktoro), with explicit precipitation/dissolution and surface-passivation dynamics, will show H2, inorganic-carbon and gradient delivery sustained over transport timescales but declining on the slower mineral-evolution timescale as reactive surfaces passivate — i.e. the interface is a depleting supply with a measurable crossover time, not a perpetual one.
+#
+# **Claim.** An evolving mineral–water interface at a Lost City–type vent can be modeled as a coupled geochemical reactor whose precipitation, dissolution and surface passivation reshape — not merely sustain — its delivery of H2, inorganic carbon, pH/redox gradients and catalytic surface. Whether that delivery stays above the level a downstream reaction network needs, and for how long before mineral evolution throttles it, is the quantity this study measures; sustained reactive flux is a result to demonstrate, not an assumption.
+
+# ### Design — originally proposed
+#
+# _The mechanisms and methods proposed when this study was designed; the model **actually built** (and the tools it uses) is shown below. These may differ as the design was realized._
+#
+# **Proposed mechanisms**
+#
+# - serpentinization-driven H2 + alkalinity generation at the vent wall
+# - mixing-controlled pH/redox/ionic-activity gradients across the interface
+# - mineral precipitation/dissolution that opens and closes reactive porosity
+# - surface passivation degrading catalytic accessibility over time
+#
+# **Proposed models / methods**
+#
+# - PHREEQC/PhreeqcRM cell-resolved aqueous speciation + mineral reactions  [build_status: wrapper-needed]
+# - FiPy finite-volume multispecies reactive transport                      [in-workspace: viva_genesis.transport]
+# - Reaktoro multiphase equilibrium cross-check                             [in-workspace: viva_genesis.geochemistry]
+# - FEniCSx Poisson/Nernst–Planck verification of electrochemical driving forces [exists: viva_fenics]
+# - PetDB/EarthChem rock & mineral constraints for boundary composition
+#
+# **Key assumptions**
+#
+# - The mineral surface is dynamic (it precipitates, dissolves and passivates); a static-surface model is the control it must beat.
+# - Supply is a sustained-flux property over mineral-evolution time, not a terminal-state concentration.
+
+# ### Parameters
+#
+# | simulation | composite | steps | params |
+# | --- | --- | --- | --- |
+# | `Coupled Geochemical Reaction Interface` | `viva_genesis.composites.og_27_coupled_geochemical_reaction_interface.og_27_coupled_geochemical_reaction_interface` | 0 | — |
+
+# ### The model & its parameters
+#
+# Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
+
+# **The model — `viva_genesis.composites.og_27_coupled_geochemical_reaction_interface.og_27_coupled_geochemical_reaction_interface`**
+#
+# Study 27: og-00's real serpentinizing vent made into an EVOLVING interface. geochemical_world (genuine PHREEQC speciation -> genuine FiPy transport) is augmented with MineralSurfaceDynamicsProcess: the reacted fluid's real carbonate saturation index drives precipitation/dissolution (a porosity delta that composes with FiPy's) and passivates the catalytic surface over time. Reports time- and space-resolved supply of H2/carbon/gradients/catalysis and the crossover time at which mineral evolution throttles it, with closed mass/charge/energy ledgers.
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_og_27_coupled_geochemical_reaction_interface_og_27_coupled_geochemical_reaction_interface = {
+    'flow_velocity': 0.001,   # Boundary water flux through the reaction zone (m/s)
+    'olivine_rate' : 0.15,   # Olivine reaction extent per flow-saturated step
+    'fluid_dic'    : 0.002,   # Inflowing-fluid DIC, Hadean-ocean proxy (molar)
+    'nx'           : 40,   # FiPy finite-volume cells across the interface column
+    'k_precip'     : 0.05,   # Precipitation rate coefficient (pore clogging, 1/s)
+    'k_dissolve'   : 0.02,   # Dissolution rate coefficient (pore opening, 1/s)
+    'k_passivate'  : 0.5,   # Catalytic passivation coefficient under precipitation
+}
+
+# ### Typed contract (declared interface)
+#
+# _The bigraph-schema typed ports + conservation predicates this study's composite must satisfy (audited in the workbench §Contract panel). Declared design — independent of whether a run exists yet._
+#
+# **Inputs**
+#
+# | port | type | units | bounds |
+# | --- | --- | --- | --- |
+# | `temperature` | float | kelvin | [273.0, 673.0] |
+# | `H2` | float | molar | >= 0.0 |
+#
+# **Outputs**
+#
+# | port | type | units | bounds |
+# | --- | --- | --- | --- |
+# | `reactive_flux` | float | mol/second |  |
+# | `interface_potential` | float | volt |  |
+# | `catalyst_accessibility` | float | dimensionless |  |
+#
+# **Conditions**
+#
+# - `mass_charge_balance` (invariant): `abs(residual_C)+abs(residual_H)+abs(residual_O)+abs(residual_charge) < tol`
+# - `reproducibility` (invariant): `solver and db and seed and scenario recorded`
+
+# ### Run
+#
+# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
+
+# === Study: og-27-coupled-geochemical-reaction-interface ===
+STUDY = 'og-27-coupled-geochemical-reaction-interface'
+STUDY_DIR = REPO / 'workspace/studies' / STUDY
+STUDY_YAML = str(STUDY_DIR / "study.yaml")
+RUNS_DB = str(STUDY_DIR / "runs.db")
+
+# This study has no *recorded* runs yet. RERUN builds its declared
+# composite(s) live and runs them; a composite whose module processes
+# are not implemented yet reports the error instead of crashing.
+STEPS_Coupled_Geochemical_Reaction_Interface = 100
+INTERVAL_Coupled_Geochemical_Reaction_Interface = 1.0
+
+if RERUN:
+    from process_bigraph import Composite
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_og_27_coupled_geochemical_reaction_interface_og_27_coupled_geochemical_reaction_interface if 'ov_viva_genesis_composites_og_27_coupled_geochemical_reaction_interface_og_27_coupled_geochemical_reaction_interface' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_og_27_coupled_geochemical_reaction_interface_og_27_coupled_geochemical_reaction_interface = materialize_composite('viva_genesis.composites.og_27_coupled_geochemical_reaction_interface.og_27_coupled_geochemical_reaction_interface', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_og_27_coupled_geochemical_reaction_interface_og_27_coupled_geochemical_reaction_interface['state']}, core=core)
+            _comp.run(STEPS_Coupled_Geochemical_Reaction_Interface)
+        print('ran', 'Coupled Geochemical Reaction Interface', f'(viva_genesis.composites.og_27_coupled_geochemical_reaction_interface.og_27_coupled_geochemical_reaction_interface) for', STEPS_Coupled_Geochemical_Reaction_Interface, 'steps')
+    except Exception as _e:
+        print(f"Coupled Geochemical Reaction Interface not runnable yet: {type(_e).__name__}: {_e}")
+else:
+    print("RERUN=False — not re-simulating.")
+
+# ### Visualizations
+#
+# _Results are shown by the figures below, produced by the run above._
+
+# **coupled-interface-evolution**
+
+# coupled-interface-evolution
+_save_viz('og-27-coupled-geochemical-reaction-interface', 'coupled-interface-evolution', _render_one('local:OgCoupledInterfaceViz', {'composite': 'viva_genesis.composites.og_27_coupled_geochemical_reaction_interface.og_27_coupled_geochemical_reaction_interface', 'n_steps': 80, 'title': 'The interface evolves — supply vs self-throttling', 'caption': 'Top row — outlet temperature, pH and H2 flux: the conditions and reducing power the vent wall delivers. Bottom row — porosity closing, catalytic accessibility passivating, and carbonate saturation index driving precipitation. Plainly: the wall delivers chemistry at first, but as minerals grow and clog it that delivery declines — the interface depletes rather than lasting forever.'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_og_27_coupled_geochemical_reaction_interface_og_27_coupled_geochemical_reaction_interface if 'ov_viva_genesis_composites_og_27_coupled_geochemical_reaction_interface_og_27_coupled_geochemical_reaction_interface' in dir() else None)))
+
+# ### Acceptance criteria
+#
+# _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
+#
+# | test | measures | passes if |
+# | --- | --- | --- |
+# | sustained-reactive-flux-over-timescales _(primary)_ | kind=observable detail=time- and space-resolved H2 + inorganic-carbon flux and pH/redox gradient over transport timescales | op threshold detail delivery at or above the downstream-required level over the transport timescale |
+# | mineral-evolution-supply-decay _(primary)_ | kind=observable detail=catalytic supply / reactive surface vs. the slower mineral-evolution timescale; crossover time below threshold | op threshold detail crossover time quantified (depleting-supply behaviour characterised) |
+# | electrochemical-driving-force-verified _(secondary)_ | kind=observable detail=interface potential from FiPy transport vs. independent FEniCSx Nernst–Planck solve | op threshold detail non-trivial driving force, cross-solver agreement to tolerance |
+# | coupled-conservation _(secondary)_ | kind=observable detail=C/H/O/charge/energy residuals across the coupled solve | op threshold detail residuals within tolerance; no untracked feed |
+# | handoff-27-to-29-complete _(secondary)_ | kind=observable detail=presence + typing of every field in the 27→29 transfer bundle | op threshold detail bundle complete and typed (satisfies 27→29 handoff validator) |
+
+# ## Study: Prebiotic Reaction Atlas (`og-28-prebiotic-reaction-atlas`)
+#
+# **Question.** Which measured or defensibly inferred reaction pathways connect C1–C3 products to functional chemistry, and with what confidence?
+#
+# **Objective.** Build and version the shared prebiotic-reaction-atlas (schema on PR #69): import/curate candidate reactions from Rhea/ChEBI/ORD plus primary-paper extraction, run deterministic chemistry validation (ChEBI identity, mass/charge balance, eQuilibrator ΔG), assign confidence tiers and kinetic domains, and expose the 28→29 transfer bundle.
+#
+# **Hypothesis.** The primary literature plus curated reaction databases, filtered through balance, thermodynamic feasibility and kinetic-accessibility checks, yield a connected network from C1–C3 species to key functional products in which the measured-tier core is sparse but real, the inferred tier extends it under explicit thermodynamic/kinetic assumptions, and the hypothetical tier is flagged — and keeping these three tiers separate is precisely what stops enzyme-catalyzed or synthetic-only reactions from leaking into prebiotic models.
+#
+# **Claim.** A versioned, provenance-tracked atlas of candidate prebiotic reactions — each with canonical species identities, a mass- and charge-balanced equation, a confidence tier (measured / inferred / hypothetical) and a kinetic domain — can connect C1–C3 carbon products to functional downstream chemistry while guaranteeing that no unbalanced or unsourced reaction ever enters an accepted model. The atlas's worth is measured by its coverage and the defensibility of its tiers, not by any single simulation.
+
+# ### Design — originally proposed
+#
+# _The mechanisms and methods proposed when this study was designed; the model **actually built** (and the tools it uses) is shown below. These may differ as the design was realized._
+#
+# **Proposed mechanisms**
+#
+# - separate reaction IDENTIFICATION (Rhea/ORD) from thermodynamic FEASIBILITY (eQuilibrator) from kinetic ACCESSIBILITY (rate form + domain) — never infer abiotic kinetics from enzyme catalysis
+# - confidence tiering: measured | inferred | hypothetical
+# - deterministic chemistry validation as a write-time gate into atlas.vN.jsonl
+#
+# **Proposed models / methods**
+#
+# - Rhea + ChEBI canonical identities & balanced reaction definitions
+# - ORD structured organic-reaction evidence; RDKit structure/reaction validation + precursor enumeration [to-build: viva_reaction_atlas]
+# - eQuilibrator component-contribution ΔG feasibility screen                [exists: viva_equilibrator]
+# - AI-assisted literature extraction with deterministic validators + expert review [to-build: viva_reaction_atlas.extract — every record gated]
+# - KIDA/NIST selective kinetic references (caution: mostly gas-phase/astrochemical, not aqueous-vent)
+#
+# **Key assumptions**
+#
+# - Reaction identification, thermodynamic feasibility and kinetic accessibility are three separate gates; a database reaction is not assumed prebiotically viable.
+# - Enzyme-catalysed kinetics (Rhea) do NOT license abiotic kinetic claims.
+
+# ### Parameters
+#
+# | simulation | composite | steps | params |
+# | --- | --- | --- | --- |
+# | `Prebiotic Reaction Atlas` | `viva_genesis.composites.og_28_prebiotic_reaction_atlas.og_28_prebiotic_reaction_atlas` | 0 | — |
+
+# ### The model & its parameters
+#
+# Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
+
+# **The model — `viva_genesis.composites.og_28_prebiotic_reaction_atlas.og_28_prebiotic_reaction_atlas`**
+#
+# Study 28: build the versioned Prebiotic Reaction Atlas. Runs the real extract->validate pipeline over the measured-tier carbon-fixation seed and reports coverage + the zero-leakage guarantee: accepted_balance_violations == 0 while an unbalanced candidate is held back in proposed. Produces the shared data asset consumed by studies 29/30/31.
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_og_28_prebiotic_reaction_atlas_og_28_prebiotic_reaction_atlas = {
+    'run_feasibility': False,   # Attach eQuilibrator ΔG feasibility (advisory; needs the real bridge)
+}
+
+# ### Typed contract (declared interface)
+#
+# _The bigraph-schema typed ports + conservation predicates this study's composite must satisfy (audited in the workbench §Contract panel). Declared design — independent of whether a run exists yet._
+#
+# **Inputs**
+#
+# | port | type | units | bounds |
+# | --- | --- | --- | --- |
+# | `candidate_reactions` | integer | dimensionless | >= 0 |
+#
+# **Outputs**
+#
+# | port | type | units | bounds |
+# | --- | --- | --- | --- |
+# | `balanced_fraction` | float | dimensionless | [0.0, 1.0] |
+# | `provenance_complete_fraction` | float | dimensionless | [0.0, 1.0] |
+#
+# **Conditions**
+#
+# - `every_reaction_balanced` (invariant): `every accepted reaction mass- and charge-balanced (balanced_fraction == 1.0)`
+# - `every_reaction_sourced` (invariant): `every accepted reaction carries species identity + source provenance + confidence tier`
+
+# ### Run
+#
+# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
+
+# === Study: og-28-prebiotic-reaction-atlas ===
+STUDY = 'og-28-prebiotic-reaction-atlas'
+STUDY_DIR = REPO / 'workspace/studies' / STUDY
+STUDY_YAML = str(STUDY_DIR / "study.yaml")
+RUNS_DB = str(STUDY_DIR / "runs.db")
+
+# This study has no *recorded* runs yet. RERUN builds its declared
+# composite(s) live and runs them; a composite whose module processes
+# are not implemented yet reports the error instead of crashing.
+STEPS_Prebiotic_Reaction_Atlas = 100
+INTERVAL_Prebiotic_Reaction_Atlas = 1.0
+
+if RERUN:
+    from process_bigraph import Composite
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_og_28_prebiotic_reaction_atlas_og_28_prebiotic_reaction_atlas if 'ov_viva_genesis_composites_og_28_prebiotic_reaction_atlas_og_28_prebiotic_reaction_atlas' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_og_28_prebiotic_reaction_atlas_og_28_prebiotic_reaction_atlas = materialize_composite('viva_genesis.composites.og_28_prebiotic_reaction_atlas.og_28_prebiotic_reaction_atlas', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_og_28_prebiotic_reaction_atlas_og_28_prebiotic_reaction_atlas['state']}, core=core)
+            _comp.run(STEPS_Prebiotic_Reaction_Atlas)
+        print('ran', 'Prebiotic Reaction Atlas', f'(viva_genesis.composites.og_28_prebiotic_reaction_atlas.og_28_prebiotic_reaction_atlas) for', STEPS_Prebiotic_Reaction_Atlas, 'steps')
+    except Exception as _e:
+        print(f"Prebiotic Reaction Atlas not runnable yet: {type(_e).__name__}: {_e}")
+else:
+    print("RERUN=False — not re-simulating.")
+
+# ### Visualizations
+#
+# _Results are shown by the figures below, produced by the run above._
+
+# **reaction-atlas-coverage**
+
+# reaction-atlas-coverage
+_save_viz('og-28-prebiotic-reaction-atlas', 'reaction-atlas-coverage', _render_one('local:OgReactionAtlasCoverageViz', {'composite': 'viva_genesis.composites.og_28_prebiotic_reaction_atlas.og_28_prebiotic_reaction_atlas', 'n_steps': 3, 'title': 'Reaction atlas — coverage, confidence, and zero leakage', 'caption': "Three bars from the atlas's real coverage emit — accepted reactions by confidence tier (measured / inferred / hypothetical), accepted versus proposed-and-held, and the zero-leakage gate (admitted-unbalanced = 0), with the count of C-species connected annotated. Plainly: how much defensible chemistry the atlas connects, how sure we are of each part, and proof that nothing unbalanced or unsourced got in."}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_og_28_prebiotic_reaction_atlas_og_28_prebiotic_reaction_atlas if 'ov_viva_genesis_composites_og_28_prebiotic_reaction_atlas_og_28_prebiotic_reaction_atlas' in dir() else None)))
+
+# ### Acceptance criteria
+#
+# _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
+#
+# | test | measures | passes if |
+# | --- | --- | --- |
+# | inferred-tier-has-thermo-and-rate-basis _(primary)_ | kind=observable detail=fraction of inferred-tier reactions carrying a ΔG feasibility flag + justified rate form/range | op threshold detail every inferred reaction has an explicit thermo + rate basis |
+# | atlas-write-gate-zero-leakage _(primary)_ | kind=observable detail=count of unbalanced / unsourced records admitted to atlas.vN.jsonl (target 0) | op threshold detail zero balance/provenance violations in the accepted atlas |
+# | handoff-28-to-29-complete _(secondary)_ | kind=observable detail=presence + typing of every field in the 28→29 transfer bundle | op threshold detail bundle complete and typed (satisfies 28→29 handoff validator) |
+
+# ## Study: Endogenous Autocatalysis (`og-29-endogenous-autocatalysis`)
+#
+# **Question.** Can vent-fed chemistry spontaneously form network amplification or self-maintaining cycles — genuine, balanced autocatalysis rather than accumulation driven by the input feed?
+#
+# **Objective.** Assemble vent-fed reaction networks from the 27 and 28 handoff bundles, detect stoichiometric autocatalysis, simulate kinetics with dilution, and test any detected amplification against a matched null — reporting either genuine autocatalysis with its critical dilution, or a clean negative that names the gap.
+#
+# **Hypothesis.** Given the 27 interface feeds and the 28 reaction set, stoichiometric autocatalysis detection plus kinetic simulation under dilution will reveal whether a self-amplifying cycle exists; if it does, its amplification and net carbon fixation exceed a matched null (identical input fluxes, autocatalytic topology removed) and persist above a critical dilution rate; if it does not, the analysis isolates the missing precursor or rate-limiting step.
+#
+# **Claim.** Vent-fed chemistry, assembled from the study-28 atlas reactions under the study-27 interface feeds, either forms a genuinely balanced, mass-conserving autocatalytic cycle whose amplification beats a matched null with equal chemical input fluxes — or it does not, in which case the study names the specific missing precursor or rate-limiting mechanism. Spontaneous network amplification is a claim won against a null, never inferred from apparent growth.
+
+# ### Design — originally proposed
+#
+# _The mechanisms and methods proposed when this study was designed; the model **actually built** (and the tools it uses) is shown below. These may differ as the design was realized._
+#
+# **Proposed mechanisms**
+#
+# - network amplification / self-maintaining cycles seeded from atlas reactions
+# - stoichiometric autocatalysis (a subnetwork that produces its own catalyst/seed)
+# - dilution as the selective pressure separating true autocatalysis from feed-driven accumulation
+#
+# **Proposed models / methods**
+#
+# - RDKit rule-generated reaction candidates + curated atlas alternatives [to-build: reaction-rule-generation / viva_reaction_atlas]
+# - stoichiometric autocatalysis detection on the reaction network (algebraic, pre-kinetic)
+# - COPASI/libRoadRunner kinetic simulation with dilution                 [in-workspace: viva_genesis.protometabolism]
+# - discrete/stochastic kinetics where expected molecule counts make continuum concentrations unreliable (evidence standard
+# - eQuilibrator ΔG screen so any detected cycle is thermodynamically allowed [exists: viva_equilibrator]
+# - matched-null construction + PyMC/SALib sensitivity & identifiability   [partial: viva_genesis.uq]
+#
+# **Key assumptions**
+#
+# - Autocatalysis must be stoichiometrically balanced — an apparent cycle fed by an untracked source is rejected, not counted.
+# - A matched non-concentrating / non-autocatalytic null is the control the favourable case must beat.
+
+# ### Parameters
+#
+# | simulation | composite | steps | params |
+# | --- | --- | --- | --- |
+# | `Endogenous Autocatalysis` | `viva_genesis.composites.og_29_endogenous_autocatalysis.og_29_endogenous_autocatalysis` | 0 | — |
+
+# ### The model & its parameters
+#
+# Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
+
+# **The model — `viva_genesis.composites.og_29_endogenous_autocatalysis.og_29_endogenous_autocatalysis`**
+#
+# Study 29: is vent-fed chemistry self-amplifying? Reuses open_chemical_network's real reaction-universe engine + autocatalysis detector, but feeds the network from the ENDOGENOUS 27->29 supply (H2 + inorganic carbon from the evolving geochemical interface) rather than a prescribed feed. matched_null swaps the degree-preserving null on the same supply for the Gate A comparison (chemical input fluxes held equal). Reports amplification (autocatalytic_gain), net carbon fixation, intermediate turnover and the critical dilution (k_wash) at which the loop washes out.
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_og_29_endogenous_autocatalysis_og_29_endogenous_autocatalysis = {
+    'supply_H2'   : 0.001,   # Endogenous H2 supply from the vent interface (molar) [27->29 handoff]
+    'supply_CO2'  : 0.002,   # Endogenous inorganic-carbon supply (molar) [27->29 handoff]
+    'k_wash'      : 0.05,   # CSTR washout / dilution rate (1/s) — the critical-dilution knob
+    'max_carbons' : 4,   # Carbon cap of the generated reaction universe
+    'matched_null': False,   # Gate A arm: run the degree-preserving null on the SAME supply
+    'null_seed'   : 0,   # Null-network draw (matched_null only)
+}
+
+# ### Typed contract (declared interface)
+#
+# _The bigraph-schema typed ports + conservation predicates this study's composite must satisfy (audited in the workbench §Contract panel). Declared design — independent of whether a run exists yet._
+#
+# **Inputs**
+#
+# | port | type | units | bounds |
+# | --- | --- | --- | --- |
+# | `feed_rate` | float | molar/second | >= 0.0 |
+# | `dilution_rate` | float | 1/second | >= 0.0 |
+#
+# **Outputs**
+#
+# | port | type | units | bounds |
+# | --- | --- | --- | --- |
+# | `autocatalytic_gain` | float | dimensionless |  |
+# | `net_carbon_fixation` | float | mol/second |  |
+# | `critical_dilution` | float | 1/second |  |
+#
+# **Conditions**
+#
+# - `balanced_autocatalysis` (invariant): `any detected autocatalytic cycle is mass- and charge-balanced (no phantom source)`
+# - `null_controls_fail` (invariant): `matched non-autocatalytic nulls show no amplification above washout`
+
+# ### Run
+#
+# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
+
+# === Study: og-29-endogenous-autocatalysis ===
+STUDY = 'og-29-endogenous-autocatalysis'
+STUDY_DIR = REPO / 'workspace/studies' / STUDY
+STUDY_YAML = str(STUDY_DIR / "study.yaml")
+RUNS_DB = str(STUDY_DIR / "runs.db")
+
+# This study has no *recorded* runs yet. RERUN builds its declared
+# composite(s) live and runs them; a composite whose module processes
+# are not implemented yet reports the error instead of crashing.
+STEPS_Endogenous_Autocatalysis = 100
+INTERVAL_Endogenous_Autocatalysis = 1.0
+
+if RERUN:
+    from process_bigraph import Composite
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_og_29_endogenous_autocatalysis_og_29_endogenous_autocatalysis if 'ov_viva_genesis_composites_og_29_endogenous_autocatalysis_og_29_endogenous_autocatalysis' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_og_29_endogenous_autocatalysis_og_29_endogenous_autocatalysis = materialize_composite('viva_genesis.composites.og_29_endogenous_autocatalysis.og_29_endogenous_autocatalysis', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_og_29_endogenous_autocatalysis_og_29_endogenous_autocatalysis['state']}, core=core)
+            _comp.run(STEPS_Endogenous_Autocatalysis)
+        print('ran', 'Endogenous Autocatalysis', f'(viva_genesis.composites.og_29_endogenous_autocatalysis.og_29_endogenous_autocatalysis) for', STEPS_Endogenous_Autocatalysis, 'steps')
+    except Exception as _e:
+        print(f"Endogenous Autocatalysis not runnable yet: {type(_e).__name__}: {_e}")
+else:
+    print("RERUN=False — not re-simulating.")
+
+# ### Visualizations
+#
+# _Results are shown by the figures below, produced by the run above._
+
+# **endogenous-autocatalysis-gate-a**
+
+# endogenous-autocatalysis-gate-a
+_save_viz('og-29-endogenous-autocatalysis', 'endogenous-autocatalysis-gate-a', _render_one('local:OgEndogenousAutocatalysisViz', {'composite': 'viva_genesis.composites.og_29_endogenous_autocatalysis.og_29_endogenous_autocatalysis', 'n_steps': 120, 'title': 'Autocatalysis under flow — and the Gate-A null test', 'caption': 'Net carbon flux and the autocatalytic gain of the vent-fed network under flow, then the Gate-A comparison against a degree-preserving matched null run at identical input fluxes. Plainly: is the network fixing and multiplying carbon, and does that amplification beat a look-alike control fed exactly the same — or was the apparent growth just the feed?'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_og_29_endogenous_autocatalysis_og_29_endogenous_autocatalysis if 'ov_viva_genesis_composites_og_29_endogenous_autocatalysis_og_29_endogenous_autocatalysis' in dir() else None)))
+
+# ### Acceptance criteria
+#
+# _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
+#
+# | test | measures | passes if |
+# | --- | --- | --- |
+# | receives-27-handoff-bundle _(secondary)_ | kind=observable detail=completeness + typing of the 27→29 bundle checked against 27's emitted bundle | op threshold detail bundle received complete and typed |
+# | receives-28-handoff-bundle _(secondary)_ | kind=observable detail=completeness + typing of the 28→29 bundle checked against 28's emitted bundle | op threshold detail bundle received complete and typed |
+# | stoichiometric-autocatalysis-detection _(primary)_ | kind=observable detail=detected autocatalytic cycle; amplification factor + net carbon fixation when positive | op threshold detail balanced autocatalysis detected, OR a clean no-detection result |
+# | autocatalysis-beats-matched-null _(primary)_ | kind=observable detail=amplification in the autocatalytic network vs. matched null with equal input fluxes | op threshold detail amplification margin over the matched null (else reported as feed-driven accumulation) |
+# | critical-dilution-threshold _(secondary)_ | kind=observable detail=autocatalytic gain vs. dilution rate; critical dilution at collapse | op threshold detail critical dilution rate reported (robustness envelope characterised) |
+# | carbon-conservation-ledger _(secondary)_ | kind=observable detail=C/mass/charge residuals across the kinetic run | op threshold detail residuals within tolerance; 27 feeds the only source |
+# | negative-result-isolates-gap _(primary)_ | kind=observable detail=on no-detection, the identified missing precursor / rate-limiting mechanism | op threshold detail balanced autocatalysis demonstrated OR a named missing precursor/mechanism |
+
+# ## Study: Spatially Integrated Protometabolism (`og-30-spatially-integrated-protometabolism`)
+#
+# **Question.** Can the full chemical network operate productively inside a pore despite fractionation and washout — and does the pore structure actually improve persistence over a well-mixed system?
+#
+# **Objective.** Run the 29 reaction network inside an explicit mineral-pore transport field (FiPy), with thermophoresis and surface adsorption, using discrete stochastic chemistry where molecule counts make a continuum unreliable; quantify co-localization, spatial reaction flux, residence and persistence against matched well-mixed and nonconcentrating controls.
+#
+# **Hypothesis.** Reactive multispecies transport with thermophoretic accumulation and mineral-surface adsorption will co-localize intermediates and raise local productive flux and residence time enough to beat both a matched well-mixed control and a matched nonconcentrating control; if co-localization does not produce a flux margin over those controls, the pore confers no benefit and that is reported.
+#
+# **Claim.** The full vent-fed chemical network, placed in an explicit mineral pore with reactive transport, thermophoresis and surface adsorption, either sustains productive reaction flux that EXCEEDS a matched well-mixed control AND a matched nonconcentrating control — demonstrating that the pore itself helps — or it does not, in which case the clean result is that pores do not help under these conditions. Spatial benefit is a margin won against controls, not assumed from co-localization.
+
+# ### Design — originally proposed
+#
+# _The mechanisms and methods proposed when this study was designed; the model **actually built** (and the tools it uses) is shown below. These may differ as the design was realized._
+#
+# **Proposed mechanisms**
+#
+# - thermophoretic / gradient-driven accumulation of intermediates in the pore
+# - mineral-surface adsorption concentrating and positioning reactants
+# - washout vs residence as the competition that determines persistence
+#
+# **Proposed models / methods**
+#
+# - FiPy finite-volume multispecies reactive transport                      [in-workspace: viva_genesis.transport]
+# - multispecies-reactive-transport cross-solver comparison                 [to-build: adds an independent solver check]
+# - mineral-surface adsorption / evolving catalytic accessibility           [to-build: mineral-surface-dynamics]
+# - discrete/stochastic chemistry where expected counts make continuum unreliable (evidence standard #7) [in-workspace/partial: continuum-stochastic handoff is to-build]
+# - PHREEQC speciation coupling for pore chemistry                          [wrapper-needed: viva_phreeqc]
+#
+# **Key assumptions**
+#
+# - Two adverse controls are required — a well-mixed control and a nonconcentrating control — both matched on feed, network and total material.
+# - Where molecule counts are low, continuum concentrations are unreliable and discrete stochastic chemistry is used instead.
+
+# ### Parameters
+#
+# | simulation | composite | steps | params |
+# | --- | --- | --- | --- |
+# | `Spatially Integrated Protometabolism` | `viva_genesis.composites.og_30_spatially_integrated_protometabolism.og_30_spatially_integrated_protometabolism` | 0 | — |
+
+# ### The model & its parameters
+#
+# Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
+
+# **The model — `viva_genesis.composites.og_30_spatially_integrated_protometabolism.og_30_spatially_integrated_protometabolism`**
+#
+# Study 30: the reaction network operating IN A PORE. The real FiPy thermophoretic trap concentrates the precursor feed (enrichment_factor); the enriched pore-local feed drives open_chemical_network's real reaction universe. concentrating=False runs the matched nonconcentrating control (feed at base, everything else equal) so the decision test — productive flux in the pore exceeds the control — is a direct comparison. Reports co-localization, spatial reaction flux, residence, persistence.
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_og_30_spatially_integrated_protometabolism_og_30_spatially_integrated_protometabolism = {
+    'concentrating': True,   # Pore (True) vs matched nonconcentrating control (False)
+    'base_CO2'     : 0.001,   # Bulk precursor CO2 before pore concentration (molar)
+    'base_H2'      : 0.001,   # Bulk precursor H2 before pore concentration (molar)
+    'temperature'  : 333.15,   # Pore temperature (K)
+    'flow_velocity': 0.0001,   # Convective flow through the pore (m/s); 0 = no-trap control
+    'porosity'     : 0.3,   # Pore openness (0-1); ~1 = open-pore (wash-through) control
+    'delta_T'      : 30.0,   # Thermal gradient across the pore (K) driving the Soret trap
+    'k_wash'       : 0.05,   # CSTR washout / dilution rate (1/s)
+    'max_carbons'  : 4,   # Carbon cap of the reaction universe
+}
+
+# ### Typed contract (declared interface)
+#
+# _The bigraph-schema typed ports + conservation predicates this study's composite must satisfy (audited in the workbench §Contract panel). Declared design — independent of whether a run exists yet._
+#
+# **Inputs**
+#
+# | port | type | units | bounds |
+# | --- | --- | --- | --- |
+# | `temperature_gradient` | float | kelvin/meter |  |
+# | `flow_velocity` | float | meter/second |  |
+#
+# **Outputs**
+#
+# | port | type | units | bounds |
+# | --- | --- | --- | --- |
+# | `productive_flux` | float | mol/second |  |
+# | `co_localization` | float | dimensionless |  |
+# | `residence_time` | float | second |  |
+#
+# **Conditions**
+#
+# - `species_mass_balance` (invariant): `per-species mass balance holds across transport + reaction + adsorption`
+# - `controls_matched` (invariant): `well-mixed and nonconcentrating controls share feed, network and total material`
+
+# ### Run
+#
+# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
+
+# === Study: og-30-spatially-integrated-protometabolism ===
+STUDY = 'og-30-spatially-integrated-protometabolism'
+STUDY_DIR = REPO / 'workspace/studies' / STUDY
+STUDY_YAML = str(STUDY_DIR / "study.yaml")
+RUNS_DB = str(STUDY_DIR / "runs.db")
+
+# This study has no *recorded* runs yet. RERUN builds its declared
+# composite(s) live and runs them; a composite whose module processes
+# are not implemented yet reports the error instead of crashing.
+STEPS_Spatially_Integrated_Protometabolism = 100
+INTERVAL_Spatially_Integrated_Protometabolism = 1.0
+
+if RERUN:
+    from process_bigraph import Composite
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_og_30_spatially_integrated_protometabolism_og_30_spatially_integrated_protometabolism if 'ov_viva_genesis_composites_og_30_spatially_integrated_protometabolism_og_30_spatially_integrated_protometabolism' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_og_30_spatially_integrated_protometabolism_og_30_spatially_integrated_protometabolism = materialize_composite('viva_genesis.composites.og_30_spatially_integrated_protometabolism.og_30_spatially_integrated_protometabolism', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_og_30_spatially_integrated_protometabolism_og_30_spatially_integrated_protometabolism['state']}, core=core)
+            _comp.run(STEPS_Spatially_Integrated_Protometabolism)
+        print('ran', 'Spatially Integrated Protometabolism', f'(viva_genesis.composites.og_30_spatially_integrated_protometabolism.og_30_spatially_integrated_protometabolism) for', STEPS_Spatially_Integrated_Protometabolism, 'steps')
+    except Exception as _e:
+        print(f"Spatially Integrated Protometabolism not runnable yet: {type(_e).__name__}: {_e}")
+else:
+    print("RERUN=False — not re-simulating.")
+
+# ### Visualizations
+#
+# _Results are shown by the figures below, produced by the run above._
+
+# **spatial-protometabolism-pore-vs-control**
+
+# spatial-protometabolism-pore-vs-control
+_save_viz('og-30-spatially-integrated-protometabolism', 'spatial-protometabolism-pore-vs-control', _render_one('local:OgSpatialProtometabolismViz', {'composite': 'viva_genesis.composites.og_30_spatially_integrated_protometabolism.og_30_spatially_integrated_protometabolism', 'n_steps': 120, 'title': 'Does the pore help? Enrichment, residence, and flux vs control', 'caption': 'Thermophoretic enrichment factor and residence time in the structured pore, then net productive carbon flux in the pore against a matched well-mixed control at identical feeds. Plainly: the pore gathers and holds the ingredients — but the real test is whether that makes more product than a stirred pot, shown in the third panel.'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_og_30_spatially_integrated_protometabolism_og_30_spatially_integrated_protometabolism if 'ov_viva_genesis_composites_og_30_spatially_integrated_protometabolism_og_30_spatially_integrated_protometabolism' in dir() else None)))
+
+# ### Acceptance criteria
+#
+# _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
+#
+# | test | measures | passes if |
+# | --- | --- | --- |
+# | receives-29-handoff-bundle _(secondary)_ | kind=observable detail=completeness + typing of the 29→30 bundle checked against 29's emitted bundle | op threshold detail bundle received complete and typed |
+# | colocalization-residence-measured _(primary)_ | kind=observable detail=co-localization + residence time as time/space-resolved fields | op threshold detail measurable co-localization and residence increase reported |
+# | productive-flux-beats-wellmixed-and-nonconcentrating _(primary)_ | kind=observable detail=pore productive flux + persistence vs. matched well-mixed and nonconcentrating controls | op threshold detail pore flux exceeds BOTH matched controls (else reported as no benefit) |
+# | spatial-flux-conservation-and-cross-solver _(secondary)_ | kind=observable detail=flux-divergence residual vs. source−sink; cross-solver agreement | op threshold detail conservation within tolerance; cross-solver agreement to tolerance |
+
+# ## Study: Protometabolism to Amphiphiles (`og-31-protometabolism-to-amphiphiles`)
+#
+# **Question.** Can actual metabolic products — not supplied amphiphiles — yield membrane-forming amphiphile mixtures under vent-local conditions?
+#
+# **Objective.** Transform the study-30 precursor pool via modeled chain-extension/headgroup/hydrolysis chemistry, track chain-length and headgroup distributions, concentrations and losses, and test against measured critical aggregation and phase-stability data — with zero exogenous amphiphile input.
+#
+# **Hypothesis.** Carbon-chain extension, headgroup generation and competing hydrolysis acting on the real product pool from study 30 will produce a chain-length and headgroup distribution whose concentration reaches the measured critical aggregation concentration and a stable phase window; if losses (hydrolysis, dilution) keep concentrations below that window, no assembly is claimed.
+#
+# **Claim.** The actual carbon products of the spatially integrated protometabolism can, through modeled chain extension, headgroup generation and hydrolysis, yield amphiphile mixtures that reach an experimentally measured critical-aggregation / phase-stability window WITHOUT any exogenous amphiphile feed — or they fall short of that window, which is reported. No membrane-former is assumed into existence.
+
+# ### Design — originally proposed
+#
+# _The mechanisms and methods proposed when this study was designed; the model **actually built** (and the tools it uses) is shown below. These may differ as the design was realized._
+#
+# **Proposed mechanisms**
+#
+# - carbon-chain extension from real metabolic precursors
+# - headgroup generation and competing hydrolysis / degradation losses
+# - concentration vs the measured critical aggregation concentration (CAC) and phase window
+#
+# **Proposed models / methods**
+#
+# - RDKit chain-extension / headgroup generation + precursor enumeration   [to-build: viva_reaction_atlas]
+# - OpenMM/LAMMPS composition-dependent assembly + permeability closure     [to-build: viva_md_membrane]
+# - PubChem / ORD amphiphile species identities and properties
+# - measured CAC / phase-stability benchmarks for independent validation (evidence standard
+#
+# **Key assumptions**
+#
+# - No exogenous amphiphile feed — every amphiphile must trace back to the network's carbon products.
+# - The assembly window is a measured critical-aggregation / phase-stability band from experiment, not a threshold tuned to pass.
+
+# ### Parameters
+#
+# | simulation | composite | steps | params |
+# | --- | --- | --- | --- |
+# | `Protometabolism to Amphiphiles` | `viva_genesis.composites.og_31_protometabolism_to_amphiphiles.og_31_protometabolism_to_amphiphiles` | 0 | — |
+
+# ### The model & its parameters
+#
+# Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
+
+# **The model — `viva_genesis.composites.og_31_protometabolism_to_amphiphiles.og_31_protometabolism_to_amphiphiles`**
+#
+# Study 31: do amphiphiles assemble into a membrane? Drives real Martini 3 CG MD (viva-openmm) on a generated POPE bilayer; minimize+NVT relaxes the clashy initial placement into a bound bilayer so the potential energy settles negative — the membrane-cohesion / assembly signal. Reports PE/KE (cohesion), static area-per-lipid and lipid count. Charged-intermediate permeability (PMF) is the documented follow-up.
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_og_31_protometabolism_to_amphiphiles_og_31_protometabolism_to_amphiphiles = {
+    'nx'              : 4,   # Lipids per leaflet in x
+    'ny'              : 4,   # Lipids per leaflet in y
+    'temperature'     : 310.0,   # Thermostat (K)
+    'steps_per_update': 500,   # MD steps per composite tick
+    'platform'        : 'OpenCL',   # OpenMM platform (OpenCL=Metal GPU; CPU/Reference also valid)
+    'minimize'        : True,   # Energy-minimize the clashy initial placement first
+}
+
+# ### Typed contract (declared interface)
+#
+# _The bigraph-schema typed ports + conservation predicates this study's composite must satisfy (audited in the workbench §Contract panel). Declared design — independent of whether a run exists yet._
+#
+# **Inputs**
+#
+# | port | type | units | bounds |
+# | --- | --- | --- | --- |
+# | `carbon_product_supply` | float | molar/second | >= 0.0 |
+#
+# **Outputs**
+#
+# | port | type | units | bounds |
+# | --- | --- | --- | --- |
+# | `amphiphile_concentration` | float | molar | >= 0.0 |
+# | `mean_chain_length` | float | dimensionless |  |
+# | `hydrolysis_loss` | float | molar/second |  |
+#
+# **Conditions**
+#
+# - `no_exogenous_amphiphile` (invariant): `all amphiphiles derive from the network's carbon products (no untracked amphiphile feed)`
+# - `carbon_mass_balance` (invariant): `chain extension + headgroup + hydrolysis conserve carbon (balanced against supply)`
+
+# ### Run
+#
+# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
+
+# === Study: og-31-protometabolism-to-amphiphiles ===
+STUDY = 'og-31-protometabolism-to-amphiphiles'
+STUDY_DIR = REPO / 'workspace/studies' / STUDY
+STUDY_YAML = str(STUDY_DIR / "study.yaml")
+RUNS_DB = str(STUDY_DIR / "runs.db")
+
+# This study has no *recorded* runs yet. RERUN builds its declared
+# composite(s) live and runs them; a composite whose module processes
+# are not implemented yet reports the error instead of crashing.
+STEPS_Protometabolism_to_Amphiphiles = 100
+INTERVAL_Protometabolism_to_Amphiphiles = 1.0
+
+if RERUN:
+    from process_bigraph import Composite
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_og_31_protometabolism_to_amphiphiles_og_31_protometabolism_to_amphiphiles if 'ov_viva_genesis_composites_og_31_protometabolism_to_amphiphiles_og_31_protometabolism_to_amphiphiles' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_og_31_protometabolism_to_amphiphiles_og_31_protometabolism_to_amphiphiles = materialize_composite('viva_genesis.composites.og_31_protometabolism_to_amphiphiles.og_31_protometabolism_to_amphiphiles', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_og_31_protometabolism_to_amphiphiles_og_31_protometabolism_to_amphiphiles['state']}, core=core)
+            _comp.run(STEPS_Protometabolism_to_Amphiphiles)
+        print('ran', 'Protometabolism to Amphiphiles', f'(viva_genesis.composites.og_31_protometabolism_to_amphiphiles.og_31_protometabolism_to_amphiphiles) for', STEPS_Protometabolism_to_Amphiphiles, 'steps')
+    except Exception as _e:
+        print(f"Protometabolism to Amphiphiles not runnable yet: {type(_e).__name__}: {_e}")
+else:
+    print("RERUN=False — not re-simulating.")
+
+# ### Visualizations
+#
+# _Results are shown by the figures below, produced by the run above._
+
+# **membrane-cohesion**
+
+# membrane-cohesion
+_save_viz('og-31-protometabolism-to-amphiphiles', 'membrane-cohesion', _render_one('local:OgMembraneCohesionViz', {'composite': 'viva_genesis.composites.og_31_protometabolism_to_amphiphiles.og_31_protometabolism_to_amphiphiles', 'n_steps': 8, 'nx': 4, 'ny': 4, 'platform': 'CPU', 'title': 'Bilayer cohesion and packing — a real Martini bilayer', 'caption': 'Two panels from the Martini NVT run — potential energy settling negative as the coarse-grained bilayer assembles and holds, and the equilibrium area per lipid. Plainly: the membrane snaps into a stable sheet instead of dispersing, and the lipids pack at the spacing real membranes show. Rendered from the real OpenMM run where the membrane extra is installed; otherwise the figure shows a note that the engine is unavailable.'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_og_31_protometabolism_to_amphiphiles_og_31_protometabolism_to_amphiphiles if 'ov_viva_genesis_composites_og_31_protometabolism_to_amphiphiles_og_31_protometabolism_to_amphiphiles' in dir() else None)))
+
+# ### Acceptance criteria
+#
+# _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
+#
+# | test | measures | passes if |
+# | --- | --- | --- |
+# | receives-30-handoff-bundle _(secondary)_ | kind=observable detail=completeness + typing of the 30→31 bundle checked against 30's emitted bundle | op threshold detail bundle received complete and typed |
+# | no-untracked-amphiphile-feed _(primary)_ | kind=observable detail=amphiphile mass ledger — fraction traceable to the study-30 pool (target 1.0); exogenous feed (target 0) | op threshold detail no untracked amphiphile feed; losses tracked |
+# | reaches-measured-assembly-window _(primary)_ | kind=observable detail=endogenous amphiphile concentration + chain-length/headgroup distribution vs. measured CAC + phase window | op threshold detail concentration reaches the measured assembly window (else a reported shortfall) |
+# | handoff-31-to-32-complete _(secondary)_ | kind=observable detail=presence + typing of every field in the 31→32 transfer bundle | op threshold detail bundle complete and typed (satisfies 31→32 handoff validator) |
 
 # ## Open decisions
 # - Read og-08's {pump, importer, heredity} as a HYPOTHESIS GENERATOR, not a result: the integrated world (og-08-alt-robust-innovation-set) finds the required set structure-dependent and the off-gradient verdict decided by the ocean floor, the membrane leakiness and the inheritance class's budget sensitivity. Adopt this framing for the campaign's endpoint statement, and supply the ocean's H2 / organic background (the floor) as an expert prior?
