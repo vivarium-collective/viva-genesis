@@ -132,7 +132,7 @@ def protometabolism_gain_figure(res, *, title=None) -> str:
                              contours=dict(showlabels=True, labelfont=dict(size=9, color="white")),
                              line=dict(width=0.4, color="rgba(255,255,255,0.3)")), row=1, col=1)
     fig.add_trace(go.Contour(x=wash, y=feed, z=net, colorscale="Inferno", ncontours=14, showscale=True,
-                             colorbar=dict(title="net flux", len=0.9),
+                             colorbar=dict(title="net flux (mol/s)", len=0.9),
                              line=dict(width=0.4, color="rgba(255,255,255,0.3)")), row=1, col=2)
     # autocatalytic threshold (gain = 1) on both panels.
     for c in (1, 2):

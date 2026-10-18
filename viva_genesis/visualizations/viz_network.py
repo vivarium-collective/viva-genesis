@@ -68,8 +68,8 @@ def enrichment_figure(rep: dict, *, title: str = "") -> str:
                            x=0.98, y=0.72, xanchor="right", showarrow=False,
                            text=f"p = {p:.3f}, z = {a['enrichment']['n_motifs']['z']:.1f}" if math.isfinite(a['enrichment']['n_motifs']['z']) else f"p = {p:.3f}",
                            font=dict(size=11, color=_INK))
-        fig.update_xaxes(title_text="persistent autocatalytic motifs", dtick=1, row=1, col=c)
-        fig.update_yaxes(title_text="null networks" if c == 1 else None, row=1, col=c)
+        fig.update_xaxes(title_text="persistent autocatalytic motifs (count)", dtick=1, row=1, col=c)
+        fig.update_yaxes(title_text="null networks (count)" if c == 1 else None, row=1, col=c)
     # ignition map
     m = rep["ignition_map"]
     z = np.array(m["universe_n_motifs"], dtype=float)
@@ -77,7 +77,7 @@ def enrichment_figure(rep: dict, *, title: str = "") -> str:
     col = len(arm_names) + 1
     fig.add_trace(go.Heatmap(x=[f"{v:.3g}" for v in m["k_wash"]], y=[f"{v * 1e3:.3g}" for v in m["feed_formaldehyde"]],
                              z=z, colorscale=[[0, "#f1f5f9"], [1, _TEAL]], zmin=0, zmax=max(1.0, float(z.max())),
-                             colorbar=dict(title="motifs", len=0.8, x=1.0, thickness=12),
+                             colorbar=dict(title="motifs (count)", len=0.8, x=1.0, thickness=12),
                              customdata=nullz,
                              hovertemplate="k_wash %{x} 1/s<br>CH2O feed %{y} mM<br>universe motifs %{z:.0f}"
                                            "<br>null mean %{customdata:.2f}<extra></extra>"), row=1, col=col)

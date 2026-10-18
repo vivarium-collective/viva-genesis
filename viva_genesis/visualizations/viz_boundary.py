@@ -48,16 +48,17 @@ class EndogenousBoundaryViz(Visualization):
         def _series(rows, key):
             return [float(r.get(key, 0.0)) for r in rows]
 
-        t = list(range(len(fav)))
+        t, tlabel = S.real_time(list(range(len(fav))), endogenous_boundary)
+        t_abl, _ = S.real_time(list(range(len(abl))), endogenous_boundary)
         fig = go.Figure()
         fig.add_trace(go.Scatter(x=t, y=_series(fav, "n_agents"), mode="lines",
                                  name="favorable (endogenous synthesis)",
                                  line=dict(color=_TEAL, width=2.5)))
-        fig.add_trace(go.Scatter(x=list(range(len(abl))), y=_series(abl, "n_agents"),
+        fig.add_trace(go.Scatter(x=t_abl, y=_series(abl, "n_agents"),
                                  mode="lines", name="synthesis ablated (control)",
                                  line=dict(color=_SLATE, width=2, dash="dash")))
         fig.update_layout(**S.base_layout(height=420, width=720, margin=dict(l=60, r=30, t=40, b=50)),
-                          xaxis_title="step", yaxis_title="individuals in the agents map (n_agents)")
+                          xaxis_title=tlabel, yaxis_title="individuals in the agents map (n_agents, count)")
         cap = ("The individuals count (n_agents) climbs in the favorable arm, where endogenous amphiphile "
                "synthesis builds the boundary, but stays flat when synthesis is ablated (dashed). The "
                "boundary forms from the chemistry, and does not without it &mdash; that favorable-vs-ablated "
@@ -91,7 +92,7 @@ class PhysicalReproductionViz(Visualization):
 
         rows = _rows(physical_reproduction, build_core(), growth_per_step=0.4,
                      n_steps=int(self.config["n_steps"]))
-        t = list(range(len(rows)))
+        t, tlabel = S.real_time(list(range(len(rows))), physical_reproduction)
 
         def s(key):
             return [float(r.get(key, 0.0)) for r in rows]
@@ -102,9 +103,9 @@ class PhysicalReproductionViz(Visualization):
         fig.add_trace(go.Scatter(x=t, y=s("max_generation"), mode="lines", name="deepest generation",
                                  line=dict(color=_AMBER, width=2.5)), secondary_y=True)
         fig.update_layout(**S.base_layout(height=420, width=720, margin=dict(l=60, r=60, t=40, b=50)),
-                          xaxis_title="step")
-        fig.update_yaxes(title_text="population", secondary_y=False)
-        fig.update_yaxes(title_text="generation", secondary_y=True)
+                          xaxis_title=tlabel)
+        fig.update_yaxes(title_text="population (n_agents, count)", secondary_y=False)
+        fig.update_yaxes(title_text="deepest generation (count)", secondary_y=True)
         cap = ("Population (n_agents) and the deepest generation both climb as individuals grow and divide; "
                "total volume is conserved across each division (daughter volumes sum to the mother), so this "
                "is physical reproduction of a lineage, not spawning.")

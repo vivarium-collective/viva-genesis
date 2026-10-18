@@ -149,6 +149,137 @@ def real_time(t, gen):
     return (scaled, label)
 
 
+# --------------------------------------------------------------------------- #
+# Quantity axis labels — real units, not bare names.
+#
+# Like the time axis above, every *quantity* axis should read with its physical
+# unit (or an explicit "dimensionless" / "fraction" / "count") rather than a bare
+# name. The unit of record for each quantity is the pint ``_units`` tag on the
+# emitting process's port schema (validated by ``tests/test_schemas.py``); this
+# map mirrors those tags so a figure can label an axis without importing the
+# process. House style is slash notation ("mol/s", "kJ/mol", "A/m²"), matching
+# the labels the phase-map figures already use.
+#
+# Genuinely dimensionless quantities (pH, fractions, ratios, counts) map to an
+# explicit "dimensionless" / "fraction" / "count" — never left to pick up a
+# spurious unit. ``permeability`` is the one trap: most figures plot it as a
+# normalized 0–1 leakiness knob (``perm_scale``: P=1 ⇒ 1e-8 m/s) while the phase
+# maps plot the physical ``mean_permeability`` in m/s — hence the two keys.
+# --------------------------------------------------------------------------- #
+
+# Unit parenthetical per canonical quantity key; "" = a bare domain label (pH).
+QUANTITY_UNITS = {
+    # geochemical interface
+    "temperature": "°C",            # declared kelvin; the figures display °C
+    "pH": "",
+    "porosity": "fraction",
+    "catalytic_accessibility": "fraction",
+    "saturation_index": "dimensionless",
+    "mineral_precipitation": "fraction",
+    # carbon-fixing network
+    "net_carbon_flux": "mol/s",
+    "carbon_flux": "mol/s",
+    "h2_flux": "mol/s",
+    "co2_flux": "mol/s",
+    "alkalinity_flux": "mol/s",
+    "autocatalytic_gain": "dimensionless",
+    "total_organic_carbon": "M",
+    "concentration": "M",
+    "supply_h2": "M",
+    "supply_co2": "M",
+    "no3_supply": "M/s",
+    # spatial / transport
+    "enrichment_factor": "fold",
+    "residence_time": "s",
+    "flow_velocity": "m/s",
+    # membrane / compartment
+    "potential_energy": "kJ/mol",
+    "area_per_lipid": "nm²",
+    "bilayer_thickness": "nm",
+    "thickness": "nm",
+    "permeability": "normalized; P=1 ⇒ 1e-8 m/s",
+    "mean_permeability": "m/s",
+    "retention": "fraction",
+    # growth / division
+    "division_ratio": "dimensionless",
+    "division_threshold": "L",
+    "daughter_viable": "fraction",
+    # heredity / selection
+    "parent_offspring_correlation": "dimensionless",
+    "heritability": "dimensionless",
+    "population_shift": "dimensionless",
+    "survivors": "fraction",
+    "surviving_fraction": "fraction",
+    "information_retention": "fraction",
+    "heritable_bits": "bits",
+    # energetics
+    "net_useful_work": "kJ/mol",
+    "useful_work": "kJ/mol",
+    "budget_residual": "kJ/mol",
+    "energy_ledger_residual": "kJ/L",
+    "net_power": "W",
+    "pmf": "mV",
+    "gradient_voltage": "V",
+    "current_density": "A/m²",
+    "osmotic_pressure": "kPa",
+    # rate constants
+    "k_wash": "1/s",
+    "k_deg": "1/s",
+    "k_hydrolyze": "1/s",
+    # counts (dimensionless, but labelled as counts not left bare)
+    "n_agents": "count",
+    "generations": "count",
+    "motifs": "count",
+    "product_classes": "count",
+    # demographic ecology (og-36/37) — the model counts integer cell births on a
+    # shared feed, NOT a carbon ledger, so productivity is "births", not M / mol/s.
+    "cumulative_productivity": "births",
+    "productivity_margin": "×",        # community vs best single lineage (a ratio)
+    "omega": "count",                  # system size Ω
+    "n_alive": "count",
+    "n_alive_mean": "count",
+    "extinction_fraction": "fraction",
+    "lineage_retention": "fraction",
+    "community_cv": "dimensionless",   # coefficient of variation across replicates
+}
+
+# A few display names that ``key.replace("_", " ")`` would get wrong or too terse.
+_QUANTITY_DISPLAY = {
+    "pH": "pH",
+    "net_carbon_flux": "net carbon flux",
+    "total_organic_carbon": "total organic carbon",
+    "area_per_lipid": "area per lipid",
+    "net_useful_work": "net useful work",
+    "parent_offspring_correlation": "parent–offspring correlation",
+    "pmf": "proton-motive force",
+    "k_wash": "washout rate k_wash",
+    "k_deg": "membrane degradation rate k_deg",
+    "k_hydrolyze": "carrier hydrolysis rate k_hydrolyze",
+    "omega": "system size Ω",
+    "community_cv": "community CV",
+}
+
+
+def quantity_label(name, *, unit=None, display=None):
+    """A unit-bearing axis / legend / colorbar title for a quantity.
+
+    ``quantity_label("net_carbon_flux")`` → ``"net carbon flux (mol/s)"``;
+    ``quantity_label("pH")`` → ``"pH"``; ``quantity_label("retention")`` →
+    ``"retention (fraction)"``.
+
+    ``unit`` overrides the mapped unit — use it for a swept parameter whose unit
+    is only known at call time, or for ``division_rate`` whose unit is the
+    generator's time base (e.g. ``unit="divisions/" + time_unit``). ``display``
+    overrides the shown quantity name. An unmapped quantity with no explicit
+    ``unit`` returns its prettified name with **no** unit — never a guessed one.
+    """
+    disp = display or _QUANTITY_DISPLAY.get(name) or str(name).replace("_", " ")
+    u = unit if unit is not None else QUANTITY_UNITS.get(name)
+    if not u:
+        return disp
+    return f"{disp} ({u})"
+
+
 def FONT(size: int = 12, color: str = INK) -> dict:
     """The shared Plotly font dict."""
     return {"family": FONT_STACK, "color": color, "size": size}

@@ -181,8 +181,8 @@ def exchange_map_figure(rep: dict, *, title: str = "") -> str:
         fig.add_trace(go.Scatter(x=s["t"], y=s["robustness_gain"], mode="lines", name="community robustness gain",
                                  line=dict(color=_AMBER, width=1.5, dash="dot"), yaxis="y3",
                                  hovertemplate="robustness gain %{y:.2f} at t=%{x}<extra></extra>"), row=1, col=2)
-    fig.update_xaxes(title_text="tick", row=1, col=2)
-    fig.update_yaxes(title_text="product classes held", row=1, col=2)
+    fig.update_xaxes(title_text="ticks", row=1, col=2)
+    fig.update_yaxes(title_text="product classes held (count)", row=1, col=2)
     # --- og-07 readouts per arm ---------------------------------------------------------------------
     keys = [("metacommunity_robustness", "robustness"), ("isolated_robustness", "isolated (produced)"),
             ("robustness_gain", "gain"), ("luca_capability_overlap", "LUCA overlap"), ("mean_cell_completeness", "mean completeness"),

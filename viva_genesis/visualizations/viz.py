@@ -77,7 +77,7 @@ class VentReactorTimeseries(Visualization):
             rows=2, cols=3, vertical_spacing=0.17, horizontal_spacing=0.09,
             subplot_titles=(
                 "Temperature (°C)", "pH", "H₂ source flux (mol/s)",
-                "Redox pe", "Porosity", "Conservation residuals (|·|)",
+                "Redox pe (dimensionless)", "Porosity (fraction)", "Conservation residuals (|·|)",
             ),
         )
         # Temperature + Lost City window 40–91 °C.
@@ -254,7 +254,7 @@ class ProtometabolismViz(Visualization):
         fig = make_subplots(
             rows=1, cols=3, horizontal_spacing=0.08,
             subplot_titles=("rTCA-fragment species (mM)", "Net carbon throughput (mol/s)",
-                            "Autocatalytic gain"),
+                            "Autocatalytic gain (dimensionless)"),
         )
         fig.add_scatter(x=t, y=oaa, mode="lines", line=dict(color=teal, width=2.5), name="OAA", row=1, col=1)
         fig.add_scatter(x=t, y=acetate, mode="lines", line=dict(color=amber, width=2), name="acetate", row=1, col=1)
@@ -1454,8 +1454,8 @@ class BioenergeticInternalizationViz(Visualization):
                        colorbar=dict(title="freq", thickness=12, len=0.8)), row=1, col=2)
         stat.update_xaxes(title_text=tlabel, row=1, col=1, showgrid=True, gridcolor="#eef2f7")
         stat.update_yaxes(title_text="fraction", row=1, col=1, showgrid=True, gridcolor="#eef2f7")
-        stat.update_xaxes(title_text="permeability (leaky →)", row=1, col=2)
-        stat.update_yaxes(title_text="active-pump rate (→ internalized)", row=1, col=2)
+        stat.update_xaxes(title_text="membrane permeability P (normalized; P=1 ⇒ 1e-8 m/s)", row=1, col=2)
+        stat.update_yaxes(title_text="active-pump rate (normalized)", row=1, col=2)
         stat.update_layout(**S.base_layout(
             height=430, width=940, showlegend=True,
             legend=dict(orientation="h", y=-0.2, x=0.25, font=dict(size=10)),
