@@ -8,8 +8,8 @@ execution_status: completed
 design_status: approved
 simulation_status: ran
 evaluation_status: evaluated
-confidence: Accepted
-gate_status: passed
+confidence: Investigating
+gate_status: stale
 title: The Energy Currency
 question: >-
   Before modern pumps and ATP, can a primitive chemical system capture environmental
@@ -287,8 +287,9 @@ findings:
     both axes.
 conclusion_verdicts:
   biological_validation:
-    result: PASS
-    basis: Reproduces the pre-ATP energy-currency concept (Buckel & Thauer 2013; Lane
+    result: PENDING
+    basis: Pending re-run against the canonical baseline (planned:true). Prior run
+      reproduced the pre-ATP energy-currency concept (Buckel & Thauer 2013; Lane
       & Martin 2010) — an exergonic drive captured into a transferable carrier that
       does endergonic work, with capture gated by the drive-vs-bond thermodynamics.
   explanatory_gain:
