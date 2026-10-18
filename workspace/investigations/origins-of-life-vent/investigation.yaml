@@ -103,19 +103,22 @@ executive:
     is bridged inside this physical pore window, so a carbon-fixing network persists at vent-realistic feeds in
     a pore.
   gate_c_status: >-
-    Gate C (self-compartmentation) is PARTIAL. og-31 tests the "benefits from it" half under a reduced-coupling
+    Gate C (self-compartmentation) is qualified. og-31 tests the "benefits from it" half under a reduced-coupling
     membrane model (retention/access, explicitly NOT the MD-resolved permeability PMF): on the Gate-B pore-
     concentrated, carbon-fixing (not autocatalytic) network at the Jordan-2019 vent-calibrated setting
     (retention 0.905, access 0.997), an endogenous membrane raises the standing metabolite pool to about 2.9x
     the no-membrane ablation - it pays for itself on persistence - while net fixation flux is about 0.6x
-    (lower), because throughput is feed-limited. The benefit is windowed (holds for access down to ~0.45,
-    inverts below, vent-calibrated point inside). Together with og-31's Martini-MD cohesion (the "makes a
-    membrane" half), this is partial Gate C. Full Gate C - the structurally-resolved coupling of composition to
-    permeability to retention, and whether the compartment is genuinely self-maintaining - requires study 32
-    (First Self-Maintaining Protocell) plus the viva-md-membrane coupling (to-build). Guardrail: the metabolism
-    here is the sustained A1 carbon-fixing network, not autocatalysis (A2 is refuted under vent conditions) -
-    the claim is that a persisting network makes a membrane that pays for itself on persistence, never that the
-    chemistry self-amplifies.
+    (lower), because throughput is feed-limited. og-32 (First Self-Maintaining Protocell) then takes full Gate C
+    on an MD-informed first cut: short Martini CG-MD gives a thicker long-chain bilayer (di-C16 2.870 nm vs
+    di-C12 2.325 nm) -> lower permeability (0.256) -> higher retention (0.661), so composition sets permeability
+    sets retention (a resolved coupling, not a free knob); the membrane raises the standing pool ~1.98x over a
+    no-endogenous-membrane ablation (persistence) while net flux stays ~0.79x (throughput feed-limited), and it
+    is self-maintaining on the measurable criterion (net amphiphile production >= degradation and beats the
+    ablation at equal feeds), within a windowed integrity (membrane access >~0.45; degradation rate k_deg <=
+    ~0.01/s). Qualified: persistence not throughput, windowed, and MD-informed rather than PMF-resolved (the
+    gold standard is tracked as og-32a). Guardrail: the metabolism here is the sustained A1 carbon-fixing
+    network, not autocatalysis (A2 is refuted under vent conditions) - the claim is that a persisting network
+    makes a membrane that pays for itself on persistence, never that the chemistry self-amplifies.
   verdict: >-
     The full geochemistry-to-heredity arc runs end to end on real simulators, with conservation held to
     machine precision, and the campaign adjudicates its scenarios rather than asserting them. The sharpest
@@ -134,9 +137,18 @@ executive:
     run uphill (+18, +31 kJ/mol), the same reason real rTCA uses ferredoxin, not H2 - though a labelled
     counterfactual shows the rTCA topology is autocatalysis-capable under a stronger reductant, noted as a
     possible beyond-vent follow-up. An endogenous membrane then pays for itself on persistence (standing pool
-    ~2.9x a matched no-membrane ablation) but not throughput, within a membrane-access window - Gate C partial,
-    qualified; the full MD-coupled Gate C (study 32, First Self-Maintaining Protocell) is under build.
-    Reproduction and heredity (Gate D) and the optional extensions (Gate E) are pending. The earlier,
+    ~2.9x reduced-coupling, ~1.98x MD-informed, over a matched no-membrane ablation) but not throughput, within
+    a membrane-access window - Gate C qualified (og-31 reduced-coupling plus og-32's MD-informed first
+    self-maintaining protocell, where composition sets permeability sets retention; PMF-resolved gold standard
+    tracked as og-32a). Reproduction and heredity follow as a genuine positive - Gate D qualified: the protocell
+    grows from its own amphiphile production and divides at a measured area-doubling geometry (og-33), and a
+    daughter-inherited compositional difference produces a reproducible, selectable fitness difference
+    (parent-offspring fitness correlation +0.949 vs a no-inheritance control, og-34), both against matched nulls
+    at equal feeds. The optional Gate E extension is complete, all three qualified: an energy carrier buys
+    dip-persistence not more total work (og-35), a cross-feeding community buys productivity ~1.9x but pays in
+    robustness (og-36, the counterpoint), and a budget leave-one-out maps a conditional, coarse-budget
+    independence with heredity the irreducible substrate - an affordability map, not a demonstrated escape
+    (og-37). The earlier,
     lower-fidelity arc stands as the scaffold these sharpened: a Lost City vent (og-00) holding its window over
     ~80% of the swept grid with exact charge balance; H2-driven carbon fixation benchmarked against Preiner and
     Hudson (og-01); thermophoretic individuality, amphiphile compartments, internalized bioenergetics bounded
@@ -152,13 +164,20 @@ executive:
     model structures, is not jointly sufficient (recorded as a hypothesis generator). The vent calibration
     anchors the arc: conditioning on the Lost City windows leaves a posterior in which 100% of the empirically
     supported vent states supply what carbon fixation needs, transport-class-independent, with the ledger exact
-    (0 of 96 points rejected). So the campaign's result is a mechanism map and an honestly-advanced spine, not
-    a declaration of success: a carbon-fixing network persists at vent-realistic feeds in a pore (A1),
-    self-amplification does not occur under vent conditions (A2 refuted, both routes), a membrane earns its
-    cost on persistence (C partial), with the full self-maintaining protocell under build. What remains open is
-    editorial (publication scope, bottleneck-map framing) and a few expert priors (the Hadean ocean's H2 /
-    organic floor, heredity attachment thresholds, membrane permeabilities) - decisions, not unrun science.
-  verdict_status: in-progress
+    (0 of 96 points rejected). So the campaign's result is a mechanism map and an honestly-advanced, now-complete
+    spine, not a declaration of success: a carbon-fixing network persists at vent-realistic feeds in a pore
+    (A1), self-amplification does not occur under vent conditions (A2 refuted, both routes), a membrane earns its
+    cost on persistence (C qualified), and the protocell reproduces and inherits a selectable trait (D
+    qualified), with the optional Gate E extension complete (og-35/36/37 qualified). A single through-line runs
+    across the independent mechanisms: robustness is the consistently hard-won and consistently traded axis -
+    the pore, the membrane and the energy carrier each buy persistence/robustness not throughput, the ecology
+    (og-36) is the counterpoint that buys throughput by spending robustness, and independence (og-37) is an
+    affordability map rather than a demonstrated escape. The honest caveats stay explicit (coarse budgets,
+    lumped feeds, MD-informed not PMF-resolved, compositional not template heredity), each a named og-Na
+    follow-up; the full gate-by-gate arc is in campaign-synthesis.md. What remains open is editorial
+    (publication scope, bottleneck-map framing) and a few expert priors (the Hadean ocean's H2 / organic floor,
+    heredity attachment thresholds, membrane permeabilities) - decisions, not unrun science.
+  verdict_status: complete
   verdict_detail: >-
     Twenty-three studies, the fourteen-stage arc (the geochemistry-to-heredity stages, the nitrogen / phosphorus /
     energy / growth bottleneck modules, an adversarial control) plus nine
@@ -179,7 +198,21 @@ executive:
     Butler-Volmer cell in the Altair-2025 current window (7 of 8 gates pass, ledger exact on 750
     runs) but its attribution gate fails at label agreement 0.47. The adversarial control is
     rejected by all five discriminating gates (min margin 1.8 decades) while the vent passes all
-    five.
+    five. The designed arc that sharpened this scaffold (og-27 through og-37) is now complete on main. The spine
+    lands A1 (persistence, qualified) through B (spatial rescue, met), C (self-compartmentation, qualified:
+    og-31 reduced-coupling ~2.9x and og-32 MD-informed ~1.98x standing pool over a no-membrane ablation, with
+    composition -> permeability -> retention resolved) and D (reproduction + heredity, qualified: og-33
+    metabolism-driven division at a measured area-doubling geometry, og-34 parent-offspring fitness correlation
+    +0.949 vs a no-inheritance control under selection), with A2 refuted for both routes (og-29 formose
+    seed-independent and -16.4 kJ/mol; og-rtca reductive-TCA uphill +18/+31 kJ/mol under vent H2). The optional
+    Gate E extension is complete and all qualified: og-35 energy carrier (dip useful work 0.030 vs gradient-only
+    0.006 kJ/mol, total work NOT improved 0.256 vs 0.282, ledger closes ~9e-19); og-36 ecology (community
+    productivity ~1.9x over the best single lineage, cross-feeding-causal, but more variable with lineage loss
+    at low counts - productivity-yes / robustness-no, the counterpoint); og-37 progressive independence (all
+    three validated channels affordable to internalize, conditional on heredity and pump efficiency >~0.7 - an
+    affordability / attribution map, not a demonstrated escape). Every gate is judged against a matched null
+    with input fluxes held equal; the gold-standard follow-ups (og-32a/33a/34a/35a/36a/37a) are tracked, not
+    hidden.
   decisions_resolved:
   - 'Baseline parameterization: run BOTH arms — classical favorable (Russell/Lane/Sojo) and the 2026 unfavorable
     reassessment (Tutolo/Jackson) — so the campaign adjudicates rather than assumes. Implemented in og-01.'
