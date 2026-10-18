@@ -5695,6 +5695,150 @@ else:
 # | matched-null-equal-feeds _(primary)_ | kind=observable detail=feed_F held equal across arms | op threshold detail feed budget equal across arms |
 # | handoff-36-to-37-complete _(secondary)_ | kind=observable detail=ecology readouts available to study 37 | op threshold detail handoff available |
 
+# ## Study: Progressive Independence (`og-37-progressive-independence`)
+#
+# **Question.** As each environmental support is withdrawn one at a time, how independent can a protocell lineage become — which supports can it internalize or replace via its innovations, and where does it still fail — against a matched per-support ablation with input fluxes held equal?
+#
+# **Objective.** Reuse og-08's validated co-limited off-gradient budget and withdraw each support channel one at a time (others held full); for each, determine whether the lineage persists via its innovation set (internalizable) or fails, attribute the rescue to a specific innovation with a matched ablation, show the all-at-once run as og-08's attribution confound, report per-channel budget margins + a pump-affordability sensitivity, and state plainly the lumped-feed and coarse-abstraction limits — reporting the honest profile, not an escape it does not demonstrate.
+#
+# **Hypothesis.** The coupled protocell (studies 32/34 + 35 energy + 36 ecology) can internalize a subset of supports (energy via an internal pump, resources via import) but remains dependent on others, giving a measurable, attributed independence profile rather than an all-or-nothing escape. If no support is internalizable, or the apparent independence is not causally attributable to a specific innovation, that is reported honestly.
+#
+# **Claim.** A protocell lineage achieves GRADED, attributed independence — a per-support map of which environmental support each innovation internalizes — not an all-or-nothing escape, and not a free one. Reusing og-08's validated co-limited budget and withdrawing each support ONE AT A TIME (where og-08 relaxed them jointly), each of the three channels is internalizable with the full innovation set and is causally attributed to a specific innovation by a matched ablation (gradient<-pump, mineral<-importer, feed<-importer; switching that innovation off collapses the lineage) — an attribution og-08's all-at-once relaxation cannot make. Heredity is the irreducible substrate (every channel collapses without it), and the gradient (pH/pmf drive) is budget-sensitive: its internalization requires a reasonably efficient internal pump (catalyst_efficiency >= ~0.7) and flips to a hard dependency below that, grounded in study-35's persistence-not-throughput limited surplus. Because the feed is LUMPED (H2+CO2+organics) and the innovations are coarse budget abstractions, this is an affordability/attribution profile, not a demonstrated escape — verdict qualified — and the resolved per-feedstock + temperature-Arrhenius + combinatorial model (og-37a) is the follow-up.
+
+# ### Design — originally proposed
+#
+# _The mechanisms and methods proposed when this study was designed; the model **actually built** (and the tools it uses) is shown below. These may differ as the design was realized._
+#
+# **Proposed mechanisms**
+#
+# - per-support one-at-a-time withdrawal of geological support (vs og-08's joint all-at-once relaxation)
+# - internalization via the og-08 innovations — internal pump (energy; the study-35 carrier), active importer (resource), heredity (holds machinery)
+# - matched per-support ablation (rescuing innovation off -> collapse) for causal attribution
+# - a graded, attributed independence profile with named irreducible dependencies (heredity substrate; budget-sensitive gradient)
+#
+# **Proposed models / methods**
+#
+# - REUSE og-08 autonomy budget (OffGradientPersistenceProcess + EnvironmentalRelaxationProcess), co-limited Liebig-minimum, in a new og_37 composite with per-channel withdrawal  [Option B / first cut, no invented terms]
+# - per-feedstock resolution (split feed into H2 / CO2 / organics) + temperature as an Arrhenius rate modifier + combinatorial multi-withdrawal  [the richer follow-on, tracked as og-37a]
+# - matched per-support ablation (rescuing innovation off) + the all-at-once confound run  [in-workspace causal controls]
+# - pump-affordability sensitivity sweep (catalyst_efficiency) locating the gradient internalization boundary
+#
+# **Key assumptions**
+#
+# - Each support is withdrawn one-at-a-time with the others held full; the matched ablation sees the same withdrawal, so any independence is a margin over the ablation, not more input.
+# - The budget is og-08's validated co-limited (Liebig-minimum) model reused verbatim — no parallel ledger, no invented terms.
+# - A support is internalized by an innovation only if the lineage persists WITH it and collapses WITHOUT it (matched ablation).
+# - Feed is LUMPED (H2+CO2+organics); innovations are coarse budget abstractions — an affordability/attribution profile, not a demonstrated escape. Per-feedstock + temperature-Arrhenius = og-37a.
+# - The metabolism is the sustained A1 carbon-fixing network, not autocatalytic (A2 refuted under vent conditions).
+
+# ### Parameters
+#
+# | simulation | composite | steps | params |
+# | --- | --- | --- | --- |
+# | `Progressive independence (all-at-once, full innovation set — the og-08 reference)` | `viva_genesis.composites.og_37_progressive_independence.og_37_progressive_independence` | 0 | withdraw=all, has_pump=1.0, has_importer=1.0, has_heredity=1.0, catalyst_efficiency=1.0 |
+# | `One-at-a-time withdrawal (per-channel; the study's novelty)` | `viva_genesis.composites.og_37_progressive_independence.og_37_progressive_independence` | 0 | withdraw=gradient, has_pump=1.0, has_importer=1.0, has_heredity=1.0, catalyst_efficiency=1.0 |
+
+# ### The model & its parameters
+#
+# Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
+
+# **The model — `viva_genesis.composites.og_37_progressive_independence.og_37_progressive_independence`**
+#
+# Gate E progressive independence: withdraw each environmental support ONE AT A TIME and ask which the lineage can internalize (persist via an innovation) vs which are hard dependencies. Reuses the validated og-08 off-gradient budget (OffGradientPersistenceProcess + EnvironmentalRelaxationProcess) verbatim — no invented terms — but relaxes a single channel at a time (others held full) instead of og-08's joint all-at-once relaxation, so a matched per-support ablation (rescuing innovation off -> fail) attributes each support to its internalizing innovation (gradient->pump, mineral/feed->importer, all gated by heredity). Channels: gradient (pH/pmf drive), mineral_access (mineral catalysis), feed (H2+CO2+organics LUMPED — per-feedstock split + temperature-Arrhenius = og-37a). Coarse budget abstraction = an affordability/attribution profile, NOT a demonstrated escape; heredity = irreducible substrate. Terminal (consumes 34/35/36, extends nothing).
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_og_37_progressive_independence_og_37_progressive_independence = {
+    'withdraw'           : 'all',   # Which support to withdraw one-at-a-time: gradient | mineral | feed | all (og-08 confound) | none (baseline)
+    'has_pump'           : 1.0,   # Internal energy-conversion innovation (study-35 carrier); 1 present, 0 knockout
+    'has_importer'       : 1.0,   # Active resource-import innovation; 1 present, 0 knockout
+    'has_heredity'       : 1.0,   # Information-maintenance innovation (holds machinery); 1 present, 0 knockout
+    'catalyst_efficiency': 1.0,   # Internal-pump catalytic efficiency (dimensionless) — the pump-affordability knob
+    'decline_rate'       : 0.02,   # Support relaxation per step (1/s); the withdrawn channel reaches 0 partway through the run
+}
+
+# ### Typed contract (declared interface)
+#
+# _The bigraph-schema typed ports + conservation predicates this study's composite must satisfy (audited in the workbench §Contract panel). Declared design — independent of whether a run exists yet._
+#
+# **Inputs**
+#
+# | port | type | units | bounds |
+# | --- | --- | --- | --- |
+# | `withdrawn_support` | string | dimensionless |  |
+# | `innovation_set` | string | dimensionless |  |
+#
+# **Outputs**
+#
+# | port | type | units | bounds |
+# | --- | --- | --- | --- |
+# | `internalizable` | boolean | dimensionless |  |
+# | `budget_margin` | float | dimensionless |  |
+# | `survivors` | float | dimensionless | [0.0, 1.0] |
+# | `affordability_boundary` | float | dimensionless |  |
+#
+# **Conditions**
+#
+# - `equal_input_fluxes_per_support` (invariant): `each support is withdrawn one-at-a-time with the others held full; the matched ablation sees the same withdrawal — any independence is a margin over the ablation, not more input`
+# - `reuses_validated_og08_budget` (invariant): `the budget is og-08's validated co-limited (Liebig-minimum) model reused verbatim; no parallel ledger, no invented terms`
+# - `attribution_requires_causal_ablation` (invariant): `a support counts as internalized by an innovation only if it persists WITH the innovation and collapses WITHOUT it (matched ablation)`
+# - `metabolism_is_A1_not_autocatalytic` (invariant): `the lineage's metabolism is the sustained A1 carbon-fixing network; independence is budget persistence, not autocatalytic self-amplification (A2 refuted)`
+
+# ### Run
+#
+# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
+
+# === Study: og-37-progressive-independence ===
+STUDY = 'og-37-progressive-independence'
+STUDY_DIR = REPO / 'workspace/studies' / STUDY
+STUDY_YAML = str(STUDY_DIR / "study.yaml")
+RUNS_DB = str(STUDY_DIR / "runs.db")
+
+# This study has no *recorded* runs yet. RERUN builds its declared
+# composite(s) live and runs them; a composite whose module processes
+# are not implemented yet reports the error instead of crashing.
+STEPS_Progressive_independence_all_at_once_full_innovation_set_the_og_08_reference = 100
+INTERVAL_Progressive_independence_all_at_once_full_innovation_set_the_og_08_reference = 1.0
+STEPS_One_at_a_time_withdrawal_per_channel_the_study_s_novelty = 100
+INTERVAL_One_at_a_time_withdrawal_per_channel_the_study_s_novelty = 1.0
+
+if RERUN:
+    from process_bigraph import Composite
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_og_37_progressive_independence_og_37_progressive_independence if 'ov_viva_genesis_composites_og_37_progressive_independence_og_37_progressive_independence' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_og_37_progressive_independence_og_37_progressive_independence = materialize_composite('viva_genesis.composites.og_37_progressive_independence.og_37_progressive_independence', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_og_37_progressive_independence_og_37_progressive_independence['state']}, core=core)
+            _comp.run(STEPS_Progressive_independence_all_at_once_full_innovation_set_the_og_08_reference)
+        print('ran', 'Progressive independence (all-at-once, full innovation set — the og-08 reference)', f'(viva_genesis.composites.og_37_progressive_independence.og_37_progressive_independence) for', STEPS_Progressive_independence_all_at_once_full_innovation_set_the_og_08_reference, 'steps')
+    except Exception as _e:
+        print(f"Progressive independence (all-at-once, full innovation set — the og-08 reference) not runnable yet: {type(_e).__name__}: {_e}")
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_og_37_progressive_independence_og_37_progressive_independence if 'ov_viva_genesis_composites_og_37_progressive_independence_og_37_progressive_independence' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_og_37_progressive_independence_og_37_progressive_independence = materialize_composite('viva_genesis.composites.og_37_progressive_independence.og_37_progressive_independence', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_og_37_progressive_independence_og_37_progressive_independence['state']}, core=core)
+            _comp.run(STEPS_One_at_a_time_withdrawal_per_channel_the_study_s_novelty)
+        print('ran', "One-at-a-time withdrawal (per-channel; the study's novelty)", f'(viva_genesis.composites.og_37_progressive_independence.og_37_progressive_independence) for', STEPS_One_at_a_time_withdrawal_per_channel_the_study_s_novelty, 'steps')
+    except Exception as _e:
+        print(f"One-at-a-time withdrawal (per-channel; the study's novelty) not runnable yet: {type(_e).__name__}: {_e}")
+else:
+    print("RERUN=False — not re-simulating.")
+
+# ### Acceptance criteria
+#
+# _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
+#
+# | test | measures | passes if |
+# | --- | --- | --- |
+# | receives-handoff-bundle _(secondary)_ | kind=observable detail=og_37 composite builds + runs the reused og-08 processes | op threshold detail composite builds + runs |
+# | channels-internalizable-with-full-set _(primary)_ | kind=observable detail=final survivors per channel at full withdrawal full innovation set=None | op threshold detail survivors >= 0.5 for each channel |
+# | attribution-causal-via-ablation _(primary)_ | kind=observable detail=survivors with the rescuing innovation off vs on per channel=None | op threshold detail full-set survivors >= 0.5 AND ablated survivors < 0.5 for each channel |
+# | heredity-irreducible-substrate _(primary)_ | kind=observable detail=survivors with heredity off per channel=None | op threshold detail survivors < 0.5 for every channel with heredity off |
+# | all-at-once-is-the-confound _(primary)_ | kind=observable detail=all-at-once survivors full set vs each innovation knockout=None | op threshold detail escapes with full set AND fails with each single innovation removed |
+# | gradient-budget-sensitive _(primary)_ | kind=observable detail=catalyst_efficiency sweep of the gradient-channel internalization | op threshold detail the gradient verdict flips within the swept efficiency range (a located boundary) |
+# | terminal-emits-nothing _(secondary)_ | kind=observable detail=handoff.emits is empty | op threshold detail emits empty |
+
 # ## Open decisions
 # - Read og-08's {pump, importer, heredity} as a HYPOTHESIS GENERATOR, not a result: the integrated world (og-08-alt-robust-innovation-set) finds the required set structure-dependent and the off-gradient verdict decided by the ocean floor, the membrane leakiness and the inheritance class's budget sensitivity. Adopt this framing for the campaign's endpoint statement, and supply the ocean's H2 / organic background (the floor) as an expert prior?
 # - Agent motion model (ecology stage): DEFERRED. The proto_ecology component points agents at fixed cells of the og-03 enrichment field (interleaved or segregated along the pore); no motility, chemotaxis or advective drift of agents is modelled. Which motion model (none / advected with the pore flow / Brownian between cells / thermophoretic like the solutes) should the ecology follow-up adopt?
