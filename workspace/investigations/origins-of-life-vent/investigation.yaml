@@ -658,6 +658,11 @@ studies:
 - og-01-cal-dx-label-disagreement
 - og-05b-collapse-rate-sweep
 - og-08-alt-dx-importer-cost
+- og-27-coupled-geochemical-reaction-interface
+- og-28-prebiotic-reaction-atlas
+- og-29-endogenous-autocatalysis
+- og-30-spatially-integrated-protometabolism
+- og-31-protometabolism-to-amphiphiles
 acceptance_criteria:
 - study: og-00-vent-reactor-baseline
   behavior: vent-pH-in-lostcity-range

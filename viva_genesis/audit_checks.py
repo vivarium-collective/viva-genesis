@@ -284,3 +284,23 @@ def check_gate_matched_null(gate_rows: Iterable[dict], authored_gates: Iterable[
                               f"matched-null/criterion evidence does not support it "
                               f"(derived: {derived.get(g.get('id'))})")
     return errors
+
+
+def check_gate_members_in_roster(
+    inv_name: str,
+    plan_gates: Iterable[dict],
+    roster: Set[str],
+) -> List[str]:
+    """Every ``plan_gates[].member_studies`` slug must be in the investigation's
+    top-level ``studies:`` roster — otherwise the gate references a study the
+    investigation graph/DAG never iterates (it builds from the roster), so the
+    study is silently missing from the graph. (Caught by the plan-board build:
+    og-27..31 were gate members but absent from the roster.)"""
+    errors: List[str] = []
+    for g in plan_gates or []:
+        for slug in g.get("member_studies") or []:
+            if slug not in roster:
+                errors.append(
+                    f"investigation {inv_name}: plan_gates gate {g.get('id')} member "
+                    f"'{slug}' is not in the studies: roster — it won't appear in the graph/DAG")
+    return errors

@@ -371,6 +371,7 @@ def main() -> None:
             check_knife_edge_margins,
             check_units_present,
             check_gate_matched_null,
+            check_gate_members_in_roster,
         )
     except Exception as _e:  # viva_genesis not importable here — warn, don't fail
         print(f"LINT WARNING: audit checks skipped ({_e})", file=sys.stderr)
@@ -448,6 +449,18 @@ def main() -> None:
         # D — a supported verdict / passed gate needs its primary test outcome == PASS.
         _audit_errors += [f"verdict-evidence: {e}"
                           for e in check_verdict_evidence(studies_by_dir)]
+
+        # Roster — every plan_gates member must be in the investigation studies roster.
+        for _inv_path in sorted((_dir("investigations")).glob("*/investigation.yaml")):
+            try:
+                _inv = yaml.safe_load(_inv_path.read_text()) or {}
+            except Exception:
+                continue
+            if _inv.get("plan_gates"):
+                _roster = set(_inv.get("studies") or [])
+                _audit_errors += [f"gate-member-roster: {e}" for e in
+                                  check_gate_members_in_roster(_inv.get("name", _inv_path.parent.name),
+                                                               _inv["plan_gates"], _roster)]
 
         # G — a gate authored passed must be derivation-passed (matched-null confirmed).
         # Best-effort: inert until plan_progress + plan_gates land on this branch.

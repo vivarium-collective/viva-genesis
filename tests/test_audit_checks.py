@@ -211,3 +211,17 @@ def test_gate_matched_null_consistent_is_clean():
     rows = [{"id": "A", "status": "passed"}]
     authored = [{"id": "A", "status": "passed"}]
     assert check_gate_matched_null(rows, authored) == []
+
+
+from viva_genesis.audit_checks import check_gate_members_in_roster  # noqa: E402
+
+
+def test_gate_member_missing_from_roster_flagged():
+    gates = [{"id": "A", "member_studies": ["og-27", "og-28"]}]
+    errs = check_gate_members_in_roster("inv", gates, {"og-27"})
+    assert len(errs) == 1 and "og-28" in errs[0]
+
+
+def test_gate_members_all_in_roster_clean():
+    gates = [{"id": "A", "member_studies": ["og-27", "og-28"]}]
+    assert check_gate_members_in_roster("inv", gates, {"og-27", "og-28"}) == []
