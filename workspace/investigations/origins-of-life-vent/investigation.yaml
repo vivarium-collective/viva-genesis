@@ -746,6 +746,7 @@ studies:
 - og-32-first-self-maintaining-protocell
 - og-33-chemically-coupled-growth-and-division
 - og-34-chemical-heredity-and-selection
+- og-35-chemical-energy-coupling
 acceptance_criteria:
 - study: og-00-vent-reactor-baseline
   behavior: vent-pH-in-lostcity-range
@@ -1088,9 +1089,9 @@ plan_gates:
     name: Optional extension (energy / ecology / graded autonomy)
     extends: D
     optional: true
-    member_studies: []
+    member_studies:
+      - og-35-chemical-energy-coupling
     pending_studies:
-      - {plan_no: 35, title: Chemical Energy Coupling, scaffolded: false}
       - {plan_no: 36, title: Stochastic Protocell Ecology, scaffolded: false}
       - {plan_no: 37, title: Progressive Independence, scaffolded: false}
     criterion: >-
