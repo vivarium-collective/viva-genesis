@@ -241,7 +241,13 @@ discovery_implications:
     compute_budget_note: Requires template-copying chemistry (reaction-rule-generation, to-build); scheduled when that wrapper exists.
     status: proposed
 literature_anchors: []
-visualizations: []
+visualizations:
+- name: chemical-heredity-selection
+  address: local:OgChemicalHeredityViz
+  config:
+    title: Selectable compositional heredity
+    report_json: workspace/studies/og-34-chemical-heredity-and-selection/artifacts/gate_d_heredity.json
+  rendered: workspace/studies/og-34-chemical-heredity-and-selection/viz/chemical-heredity-selection.html
 baseline:
 - name: Chemical heredity and selection (inherited network composition)
   composite: viva_genesis.composites.og_34_chemical_heredity_and_selection.og_34_chemical_heredity_and_selection

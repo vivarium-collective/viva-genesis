@@ -280,7 +280,13 @@ discovery_implications:
     compute_budget_note: GillesPy2 + COBRApy genome-scale ensembles need a dependency build and more compute; scheduled when those wrappers exist.
     status: proposed
 literature_anchors: []
-visualizations: []
+visualizations:
+- name: stochastic-ecology
+  address: local:OgStochasticEcologyViz
+  config:
+    title: Stochastic protocell ecology — productivity, not robustness
+    report_json: workspace/studies/og-36-stochastic-protocell-ecology/artifacts/gate_e_ecology.json
+  rendered: workspace/studies/og-36-stochastic-protocell-ecology/viz/stochastic-ecology.html
 baseline:
 - name: Cross-feeding community (stochastic, SSA)
   composite: viva_genesis.composites.og_36_stochastic_protocell_ecology.og_36_stochastic_protocell_ecology
