@@ -915,3 +915,77 @@ proposed_inputs:
       N/P-bearing rules enter the reaction universe."
     provenance: "Not in references/papers.bib; recorded here pending expert review."
     status: pending
+# Four cumulative integration gates (upgrade plan §"Four cumulative integration gates")
+# + an optional extension. Gate definitions + membership + criteria are authored;
+# each gate's `status` here is a STUB — the live board status is DERIVED from member
+# studies' lifecycle gates by viva_genesis.plan_progress.build_plan_progress (member
+# Decision gates across the cumulative member_studies ∪ extends-chain, + the gate's
+# matched-null/ablation criterion). member_studies = studies ADDED at each gate
+# (27-31 real); pending_studies = plan members not yet scaffolded (32-37).
+plan_gates:
+  - id: A
+    name: Chemical emergence
+    extends: null
+    member_studies:
+      - og-27-coupled-geochemical-reaction-interface
+      - og-28-prebiotic-reaction-atlas
+      - og-29-endogenous-autocatalysis
+    pending_studies: []
+    # Explicit matched-null evidence the board audits for this gate (must be a
+    # confirmed finding on a member study), rather than inferring it.
+    criterion_findings:
+      - og29-beats-matched-null
+    criterion: >-
+      An endogenous reaction network persists on measured or plausibly-bounded geochemical
+      feeds — any detected autocatalysis/amplification must beat a matched (degree-preserving)
+      null with chemical input fluxes held equal.
+    status: pending
+  - id: B
+    name: Spatial organization
+    extends: A
+    member_studies:
+      - og-30-spatially-integrated-protometabolism
+    pending_studies: []
+    criterion_findings:
+      - og30-beats-matched-null
+    criterion: >-
+      Explicit mineral pores improve productive network persistence — productive flux must
+      exceed a matched well-mixed (and nonconcentrating) control with chemical input fluxes
+      held equal.
+    status: pending
+  - id: C
+    name: Self-compartmentation
+    extends: B
+    member_studies:
+      - og-31-protometabolism-to-amphiphiles
+    pending_studies:
+      - {plan_no: 32, title: First Self-Maintaining Protocell, scaffolded: false}
+    criterion: >-
+      Metabolism makes its own membrane and benefits from it — the compartmented system must
+      beat a matched ablation (no endogenous membrane) with chemical input fluxes held equal.
+    status: pending
+  - id: D
+    name: Reproduction & heredity
+    extends: C
+    member_studies: []
+    pending_studies:
+      - {plan_no: 33, title: Chemically Coupled Growth & Division, scaffolded: false}
+      - {plan_no: 34, title: Chemical Heredity & Selection, scaffolded: false}
+    criterion: >-
+      Viable daughters inherit functional traits that influence fitness — an inherited
+      functional difference must produce a reproducible fitness difference versus a matched
+      ablation with input fluxes held equal.
+    status: pending
+  - id: E
+    name: Optional extension (energy / ecology / graded autonomy)
+    extends: D
+    optional: true
+    member_studies: []
+    pending_studies:
+      - {plan_no: 35, title: Chemical Energy Coupling, scaffolded: false}
+      - {plan_no: 36, title: Stochastic Protocell Ecology, scaffolded: false}
+      - {plan_no: 37, title: Progressive Independence, scaffolded: false}
+    criterion: >-
+      Each extension gate's composite is compared against a matched ablation with chemical
+      input fluxes held equal; these extend the spine rather than gating it.
+    status: pending
