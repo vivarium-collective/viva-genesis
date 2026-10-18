@@ -1,5 +1,6 @@
 #!/usr/bin/env python
-"""Short Martini 3 CG-MD of two fatty-acid-chain-length bilayer compositions ->
+"""Short Martini 3 CG-MD of two chain-length bilayer compositions (DLPC/DPPC
+phosphatidylcholine stand-ins for the amphiphile chain-length axis, NOT fatty acids) ->
 composition-responsive STRUCTURAL observables (bilayer thickness, area per lipid).
 
 Option-B evidence for study 32 (full Gate C): the og-17/og-31 amphiphile composition

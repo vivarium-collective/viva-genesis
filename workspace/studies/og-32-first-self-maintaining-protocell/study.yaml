@@ -201,9 +201,10 @@ findings:
 limitations:
 - >-
   Permeability method = Option B (MD-informed structural proxy), chosen as the first cut: short Martini 3
-  CG-MD of two fatty-acid chain-length compositions (DLPC di-C12 / DPPC di-C16, standing in for og-17's C2
-  elongation axis) -> bilayer thickness -> effective permeability via a published solubility-diffusion
-  structure->permeability relation. Only the monotone SHAPE of that relation is claimed; its constants
+  CG-MD of two chain-length compositions (DLPC di-C12 / DPPC di-C16 phosphatidylcholine bilayers - tractable,
+  well-parameterized Martini stand-ins for the amphiphile chain-length axis / og-17's C2 elongation, NOT the
+  actual endogenous fatty-acid amphiphiles) -> bilayer thickness -> effective permeability via a published
+  solubility-diffusion structure->permeability relation. Only the monotone SHAPE of that relation is claimed; its constants
   (P0, d0, lambda, P_half) are a labelled proposed_input pending calibration to a measured composition-resolved
   permeability dataset at vent conditions. This is MD-informed, strictly more real-MD than og-31's
   retention/access proxy, but NOT a PMF-resolved permeability - Option A (the full PMF+diffusion closure in a
