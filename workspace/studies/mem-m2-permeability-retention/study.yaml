@@ -1,0 +1,52 @@
+schema_version: 4
+name: mem-m2-permeability-retention
+investigation: origins-of-life-vent
+created: '2026-10-18'
+phase: Design
+status: planned
+execution_status: proposed
+design_status: drafted
+simulation_status: not_run
+evaluation_status: not_started
+gate_status: not_started
+study_type: exploratory
+proposed: true
+title: Permeability & selective retention (membrane-MD M2)
+program: membrane-md
+design_ref: workspace/references/membrane-md-studies-m1-m5-designs.md
+honest_caveat: >-
+  MD tests candidate prebiotic compositions; it does NOT by itself demonstrate endogenous
+  membrane formation.
+question: >-
+  Which membranes admit substrates while retaining products - which compositions are
+  selectively permeable in the direction the metabolism needs?
+hypothesis: >-
+  Permeability is graded by solute class and set by composition; a window exists where small
+  substrates (water, neutral organics) cross while larger / charged products (organic acids,
+  charged metabolites) are retained - but stability and selective retention may trade off
+  (the core feasibility tension).
+objective: >-
+  Compute per-solute-class permeabilities with uncertainty via PMF + diffusivity and build a
+  composition->transport lookup the functional-window study (M5) consumes.
+primary_output: >-
+  Potential-of-mean-force profiles, diffusivities and permeabilities with uncertainty per
+  solute class (water, neutral organics, organic acids, charged metabolites); a
+  composition->transport lookup table.
+first_cut_forthcoming: >-
+  og-32a (the already-tracked PMF / membrane-closure gold-standard follow-up) is the natural
+  first cut for this study - a PMF + diffusion closure per composition. Soft forward-reference
+  only (no hard parent dependency); hardened when og-32a is scaffolded.
+extends: mem-m1-amphiphile-assembly (the assembled compositions)
+baseline:
+- name: Per-solute PMF at matched enhanced-sampling protocol / windows
+  planned: true
+  params: {method: pmf_umbrella}
+- name: No-membrane free-diffusion reference
+  planned: true
+  params: {membrane: false}
+proposed_acceptance_criteria:
+- PMFs/permeabilities are reported per solute class with uncertainty, at matched sampling protocol across compositions.
+- Selective permeability (substrate-in vs product-retained) is assessed against the no-membrane reference.
+- Either a composition window admits substrates while retaining products, or the transport bound (no accessible composition does) is reported, not tuned.
+literature_anchors: [souza2021martini3, grunewald2020titratable, marrink2007martini]
+visualizations: []

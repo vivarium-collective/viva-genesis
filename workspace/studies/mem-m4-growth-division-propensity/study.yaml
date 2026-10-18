@@ -1,0 +1,56 @@
+schema_version: 4
+name: mem-m4-growth-division-propensity
+investigation: origins-of-life-vent
+created: '2026-10-18'
+phase: Design
+status: planned
+execution_status: proposed
+design_status: drafted
+simulation_status: not_run
+evaluation_status: not_started
+gate_status: not_started
+study_type: exploratory
+proposed: true
+title: Growth, shape change & division propensity (membrane-MD M4)
+program: membrane-md
+design_ref: workspace/references/membrane-md-studies-m1-m5-designs.md
+honest_caveat: >-
+  MD tests candidate prebiotic compositions; it does NOT by itself demonstrate endogenous
+  membrane formation. Division PROPENSITY here is a geometry/curvature/barrier measure and is
+  NOT a demonstration of heritable division (that is Gate D's og-34 / template-copying line).
+question: >-
+  Can supplied amphiphiles insert into, reshape, and expand a vesicle - and what is its
+  propensity to divide?
+hypothesis: >-
+  Supplied amphiphiles insert and expand membrane area; area growth drives curvature/shape
+  change and lowers the budding barrier - a propensity to divide, set by composition and
+  osmotic conditions.
+objective: >-
+  Measure amphiphile insertion/exchange, area growth, curvature change and the budding/division
+  barrier for candidate vesicles - a division PROPENSITY, kept separate from heritable division.
+primary_output: >-
+  Insertion/exchange rates, area-growth trajectories, curvature change, and budding/division
+  barrier estimates.
+first_cut_forthcoming: >-
+  A lightweight amphiphile-insertion / area-growth MD on a preassembled vesicle (planned, not
+  yet scaffolded or named). Soft forward-reference only; hardened later.
+extends: mem-m1-amphiphile-assembly (vesicles); mem-m2/mem-m3 (their transport + stability)
+baseline:
+- name: No-supply control (no amphiphile added)
+  planned: true
+  params: {supply: none}
+- name: Composition-matched supply
+  planned: true
+  params: {supply: composition_matched}
+- name: Multiple vesicle sizes
+  planned: true
+  params: {vesicle_size: [small, medium, large]}
+- name: Matched osmotic conditions
+  planned: true
+  params: {osmotic: matched}
+proposed_acceptance_criteria:
+- Insertion/area-growth/curvature are measured for supplied vs no-supply at identical feeds across vesicle sizes.
+- A division-propensity bound (toward or away from a division-competent geometry) is reported either way.
+- The result is reported as a propensity, explicitly NOT as evidence of heredity (og-33 metabolism-driven division and og-34 heredity remain the gate-earning lines).
+literature_anchors: [hanczyc2003experimental, budin2012concentration, marrink2003vesicle]
+visualizations: []
