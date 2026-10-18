@@ -1,0 +1,15 @@
+{
+  "headline": {
+    "h2_flux_first": 0.0,
+    "h2_flux_last": 0.0002741726089597007,
+    "h2_flux_min": 0.0,
+    "sustained_flux": true,
+    "ledger_ok_all": true,
+    "porosity_first": 0.35,
+    "porosity_last": 0.9832998585436414,
+    "saturation_index_last": -15.019096939803465,
+    "mineral_precipitation_max": 0.0,
+    "throttling_exercised": false,
+    "regime": "dissolution (undersaturated)"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "headline": {
+    "accepted_balance_violations": 0.0,
+    "balance_violations_held": 1.0,
+    "n_accepted": 2.0,
+    "n_measured": 2.0,
+    "n_inferred": 0.0,
+    "n_hypothetical": 0.0,
+    "n_proposed": 1.0,
+    "carbon_species_covered": 3.0,
+    "zero_leakage": true
+  }
+}
