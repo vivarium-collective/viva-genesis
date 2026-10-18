@@ -1,0 +1,772 @@
+{
+ "meta": {
+  "n_steps": 150,
+  "wall_time_s": 27.959166049957275,
+  "discriminator": "functional_autocatalysis: flux-based seed-dependence / self-maintained carbon fixation vs degree-preserving matched null; coefficient-independent",
+  "carrier": "X_ACKA",
+  "acetyl_surrogate": "X_AM",
+  "network": {
+   "n_species": 9,
+   "n_reactions": 9,
+   "doubling_reactions_coeff": [],
+   "element_residual_max": 0.0,
+   "net_turn": "1 OAA + 4 CO2 + 5 H2 -> 2 OAA + 3 H2O"
+  },
+  "curation": [
+   "acetate for acetyl-CoA",
+   "fumarate lumped into malate->succinate",
+   "no ATP/CoA cofactor energetics"
+  ],
+  "counterfactual_note": "carboxylation_drive_kj and the permissive limit are LABELLED counterfactuals to separate topology from thermodynamics; they are NOT vent-feasibility claims."
+ },
+ "vent": {
+  "x1": {
+   "carrier": "X_ACKA",
+   "feeds": {
+    "feed_CO2": 0.002,
+    "feed_H2": 0.001,
+    "feed_pyruvate": 0.0,
+    "feed_formaldehyde": 0.0,
+    "feed_formate": 0.0,
+    "feed_acetate": 0.0
+   },
+   "n_steps": 150,
+   "favorable": {
+    "label": "favorable",
+    "seed_dependence": {
+     "seeded_carrier": 1.2009744225599876e-09,
+     "unseeded_carrier": 0.0,
+     "seeded_flux": -8.323693614203752e-09,
+     "unseeded_flux": 0.0,
+     "carrier_ratio": 1.2009744225599876e+21,
+     "flux_ratio": -8.323693614203751e+21,
+     "seed_level": 0.0001,
+     "self_maintained": false,
+     "bistable": false
+    },
+    "growth": {
+     "mu_max": 0.0,
+     "r2": 0.0,
+     "window": [
+      0,
+      0
+     ],
+     "exponential_phase": false,
+     "n_alive": 150
+    },
+    "production_order": {
+     "p": NaN,
+     "r2": NaN,
+     "n_points": 0,
+     "pools": [
+      1.1003019531701794e-06,
+      2.2006039063403587e-06,
+      4.4012078126807175e-06,
+      8.802415625361435e-06,
+      1.760483125072287e-05,
+      3.520966250144574e-05,
+      7.041932500289148e-05
+     ],
+     "productions": [
+      -1.6053568563896913e-12,
+      -3.218625815557847e-12,
+      -6.468900042229551e-12,
+      -1.3064393728914526e-11,
+      -2.6635162035650754e-11,
+      -5.529582238258832e-11,
+      -1.1869363801032389e-10
+     ],
+     "note": "no positive-production region \u2014 production does not rise with the pool (feed-driven or net-consuming)"
+    },
+    "detector_gain_final": 0.0,
+    "functional_autocatalysis": false
+   },
+   "matched_null": {
+    "label": "matched_null",
+    "seed_dependence": {
+     "seeded_carrier": 5.909405596347235e-06,
+     "unseeded_carrier": 0.0,
+     "seeded_flux": 0.0,
+     "unseeded_flux": 0.0,
+     "carrier_ratio": 5.909405596347235e+24,
+     "flux_ratio": 0.0,
+     "seed_level": 0.0001,
+     "self_maintained": false,
+     "bistable": false
+    },
+    "growth": {
+     "mu_max": 0.0,
+     "r2": 0.0,
+     "window": [
+      0,
+      0
+     ],
+     "exponential_phase": false,
+     "n_alive": 150
+    },
+    "production_order": {
+     "p": NaN,
+     "r2": NaN,
+     "n_points": 0,
+     "pools": [
+      2.14364259675382e-06,
+      4.28728519350764e-06,
+      8.57457038701528e-06,
+      1.714914077403056e-05,
+      3.429828154806112e-05,
+      6.859656309612224e-05,
+      0.00013719312619224448
+     ],
+     "productions": [
+      -5.35910649188455e-10,
+      -1.07182129837691e-09,
+      -2.14364259675382e-09,
+      -4.28728519350764e-09,
+      -8.57457038701528e-09,
+      -1.714914077403056e-08,
+      -3.429828154806112e-08
+     ],
+     "note": "no positive-production region \u2014 production does not rise with the pool (feed-driven or net-consuming)"
+    },
+    "detector_gain_final": 0.0,
+    "functional_autocatalysis": false
+   },
+   "topology_specific": false,
+   "verdict": "refuted"
+  },
+  "x5": {
+   "carrier": "X_ACKA",
+   "feeds": {
+    "feed_CO2": 0.01,
+    "feed_H2": 0.005,
+    "feed_pyruvate": 0.0,
+    "feed_formaldehyde": 0.0,
+    "feed_formate": 0.0,
+    "feed_acetate": 0.0
+   },
+   "n_steps": 150,
+   "favorable": {
+    "label": "favorable",
+    "seed_dependence": {
+     "seeded_carrier": 5.595872635824251e-09,
+     "unseeded_carrier": 0.0,
+     "seeded_flux": -7.599306765960885e-09,
+     "unseeded_flux": 0.0,
+     "carrier_ratio": 5.595872635824251e+21,
+     "flux_ratio": -7.599306765960885e+21,
+     "seed_level": 0.0001,
+     "self_maintained": false,
+     "bistable": false
+    },
+    "growth": {
+     "mu_max": 0.0,
+     "r2": 0.0,
+     "window": [
+      0,
+      0
+     ],
+     "exponential_phase": false,
+     "n_alive": 150
+    },
+    "production_order": {
+     "p": NaN,
+     "r2": NaN,
+     "n_points": 0,
+     "pools": [
+      1.1329884637750457e-06,
+      2.2659769275500914e-06,
+      4.531953855100183e-06,
+      9.063907710200366e-06,
+      1.812781542040073e-05,
+      3.625563084080146e-05,
+      7.251126168160292e-05
+     ],
+     "productions": [
+      -7.582492460127212e-12,
+      -1.5200469117034194e-11,
+      -3.0542875021187486e-11,
+      -6.165349719085133e-11,
+      -1.2557798297560818e-10,
+      -2.6023992032683827e-10,
+      -5.568156581561642e-10
+     ],
+     "note": "no positive-production region \u2014 production does not rise with the pool (feed-driven or net-consuming)"
+    },
+    "detector_gain_final": 0.0,
+    "functional_autocatalysis": false
+   },
+   "matched_null": {
+    "label": "matched_null",
+    "seed_dependence": {
+     "seeded_carrier": 5.90940559666758e-06,
+     "unseeded_carrier": 0.0,
+     "seeded_flux": 0.0,
+     "unseeded_flux": 0.0,
+     "carrier_ratio": 5.909405596667579e+24,
+     "flux_ratio": 0.0,
+     "seed_level": 0.0001,
+     "self_maintained": false,
+     "bistable": false
+    },
+    "growth": {
+     "mu_max": 0.0,
+     "r2": 0.0,
+     "window": [
+      0,
+      0
+     ],
+     "exponential_phase": false,
+     "n_alive": 150
+    },
+    "production_order": {
+     "p": NaN,
+     "r2": NaN,
+     "n_points": 0,
+     "pools": [
+      2.1436425968700244e-06,
+      4.287285193740049e-06,
+      8.574570387480098e-06,
+      1.7149140774960195e-05,
+      3.429828154992039e-05,
+      6.859656309984078e-05,
+      0.00013719312619968156
+     ],
+     "productions": [
+      -5.359106492175061e-10,
+      -1.0718212984350123e-09,
+      -2.1436425968700245e-09,
+      -4.287285193740049e-09,
+      -8.574570387480098e-09,
+      -1.7149140774960196e-08,
+      -3.429828154992039e-08
+     ],
+     "note": "no positive-production region \u2014 production does not rise with the pool (feed-driven or net-consuming)"
+    },
+    "detector_gain_final": 0.0,
+    "functional_autocatalysis": false
+   },
+   "topology_specific": false,
+   "verdict": "refuted"
+  },
+  "x20": {
+   "carrier": "X_ACKA",
+   "feeds": {
+    "feed_CO2": 0.04,
+    "feed_H2": 0.02,
+    "feed_pyruvate": 0.0,
+    "feed_formaldehyde": 0.0,
+    "feed_formate": 0.0,
+    "feed_acetate": 0.0
+   },
+   "n_steps": 150,
+   "favorable": {
+    "label": "favorable",
+    "seed_dependence": {
+     "seeded_carrier": 6.531019372404022e-09,
+     "unseeded_carrier": 0.0,
+     "seeded_flux": -1.2081401599816726e-09,
+     "unseeded_flux": 0.0,
+     "carrier_ratio": 6.531019372404021e+21,
+     "flux_ratio": -1.2081401599816725e+21,
+     "seed_level": 0.0001,
+     "self_maintained": false,
+     "bistable": false
+    },
+    "growth": {
+     "mu_max": 0.0,
+     "r2": 0.0,
+     "window": [
+      0,
+      0
+     ],
+     "exponential_phase": false,
+     "n_alive": 150
+    },
+    "production_order": {
+     "p": NaN,
+     "r2": NaN,
+     "n_points": 0,
+     "pools": [
+      1.4599002745753636e-06,
+      2.919800549150727e-06,
+      5.839601098301454e-06,
+      1.1679202196602909e-05,
+      2.3358404393205817e-05,
+      4.6716808786411634e-05,
+      9.343361757282327e-05
+     ],
+     "productions": [
+      -1.0793029716306436e-11,
+      -2.161031070033463e-11,
+      -4.3317626471556233e-11,
+      -8.702327322666047e-11,
+      -1.7559862758751297e-10,
+      -3.5740557971179447e-10,
+      -7.396444575706614e-10
+     ],
+     "note": "no positive-production region \u2014 production does not rise with the pool (feed-driven or net-consuming)"
+    },
+    "detector_gain_final": 0.0,
+    "functional_autocatalysis": false
+   },
+   "matched_null": {
+    "label": "matched_null",
+    "seed_dependence": {
+     "seeded_carrier": 5.909405596727729e-06,
+     "unseeded_carrier": 0.0,
+     "seeded_flux": 0.0,
+     "unseeded_flux": 0.0,
+     "carrier_ratio": 5.909405596727729e+24,
+     "flux_ratio": 0.0,
+     "seed_level": 0.0001,
+     "self_maintained": false,
+     "bistable": false
+    },
+    "growth": {
+     "mu_max": 0.0,
+     "r2": 0.0,
+     "window": [
+      0,
+      0
+     ],
+     "exponential_phase": false,
+     "n_alive": 150
+    },
+    "production_order": {
+     "p": NaN,
+     "r2": NaN,
+     "n_points": 0,
+     "pools": [
+      2.143642596891839e-06,
+      4.287285193783678e-06,
+      8.574570387567356e-06,
+      1.714914077513471e-05,
+      3.429828155026942e-05,
+      6.859656310053885e-05,
+      0.0001371931262010777
+     ],
+     "productions": [
+      -5.359106492229597e-10,
+      -1.0718212984459195e-09,
+      -2.143642596891839e-09,
+      -4.287285193783678e-09,
+      -8.574570387567356e-09,
+      -1.714914077513471e-08,
+      -3.429828155026942e-08
+     ],
+     "note": "no positive-production region \u2014 production does not rise with the pool (feed-driven or net-consuming)"
+    },
+    "detector_gain_final": 0.0,
+    "functional_autocatalysis": false
+   },
+   "topology_specific": false,
+   "verdict": "refuted"
+  },
+  "x50": {
+   "carrier": "X_ACKA",
+   "feeds": {
+    "feed_CO2": 0.1,
+    "feed_H2": 0.05,
+    "feed_pyruvate": 0.0,
+    "feed_formaldehyde": 0.0,
+    "feed_formate": 0.0,
+    "feed_acetate": 0.0
+   },
+   "n_steps": 150,
+   "favorable": {
+    "label": "favorable",
+    "seed_dependence": {
+     "seeded_carrier": 2.8398332069081075e-11,
+     "unseeded_carrier": 0.0,
+     "seeded_flux": 7.573358737863405e-12,
+     "unseeded_flux": 0.0,
+     "carrier_ratio": 2.839833206908107e+19,
+     "flux_ratio": 7.573358737863405e+18,
+     "seed_level": 0.0001,
+     "self_maintained": false,
+     "bistable": false
+    },
+    "growth": {
+     "mu_max": 0.0,
+     "r2": 0.0,
+     "window": [
+      0,
+      0
+     ],
+     "exponential_phase": false,
+     "n_alive": 150
+    },
+    "production_order": {
+     "p": NaN,
+     "r2": NaN,
+     "n_points": 0,
+     "pools": [
+      1.905750286856397e-06,
+      3.811500573712794e-06,
+      7.623001147425588e-06,
+      1.5246002294851176e-05,
+      3.0492004589702352e-05,
+      6.0984009179404704e-05,
+      0.00012196801835880941
+     ],
+     "productions": [
+      -4.7498067723708764e-14,
+      -9.501049916155611e-14,
+      -1.9007845317966655e-13,
+      -3.8038672578555e-13,
+      -7.616927292759684e-13,
+      -1.5270625693714106e-12,
+      -3.068833582020713e-12
+     ],
+     "note": "no positive-production region \u2014 production does not rise with the pool (feed-driven or net-consuming)"
+    },
+    "detector_gain_final": 0.0,
+    "functional_autocatalysis": false
+   },
+   "matched_null": {
+    "label": "matched_null",
+    "seed_dependence": {
+     "seeded_carrier": 5.909405596739784e-06,
+     "unseeded_carrier": 0.0,
+     "seeded_flux": 0.0,
+     "unseeded_flux": 0.0,
+     "carrier_ratio": 5.909405596739784e+24,
+     "flux_ratio": 0.0,
+     "seed_level": 0.0001,
+     "self_maintained": false,
+     "bistable": false
+    },
+    "growth": {
+     "mu_max": 0.0,
+     "r2": 0.0,
+     "window": [
+      0,
+      0
+     ],
+     "exponential_phase": false,
+     "n_alive": 150
+    },
+    "production_order": {
+     "p": NaN,
+     "r2": NaN,
+     "n_points": 0,
+     "pools": [
+      2.1436425968962215e-06,
+      4.287285193792443e-06,
+      8.574570387584886e-06,
+      1.7149140775169772e-05,
+      3.4298281550339543e-05,
+      6.859656310067909e-05,
+      0.00013719312620135817
+     ],
+     "productions": [
+      -5.359106492240553e-10,
+      -1.0718212984481107e-09,
+      -2.1436425968962213e-09,
+      -4.287285193792443e-09,
+      -8.574570387584885e-09,
+      -1.714914077516977e-08,
+      -3.429828155033954e-08
+     ],
+     "note": "no positive-production region \u2014 production does not rise with the pool (feed-driven or net-consuming)"
+    },
+    "detector_gain_final": 0.0,
+    "functional_autocatalysis": false
+   },
+   "topology_specific": false,
+   "verdict": "refuted"
+  }
+ },
+ "vent_feasible": false,
+ "counterfactual": {
+  "drive_scan": [
+   {
+    "carboxylation_drive_kj": 0.0,
+    "seeded_carrier": 7.270158238627951e-10,
+    "unseeded_carrier": 0.0,
+    "seeded_flux": -1.3453629848502185e-10,
+    "unseeded_flux": 0.0,
+    "carrier_ratio": 7.270158238627951e+20,
+    "flux_ratio": -1.3453629848502184e+20,
+    "seed_level": 0.0001,
+    "self_maintained": false,
+    "bistable": false
+   },
+   {
+    "carboxylation_drive_kj": 10.0,
+    "seeded_carrier": 7.270339812003928e-10,
+    "unseeded_carrier": 0.0,
+    "seeded_flux": -1.3442263937848633e-10,
+    "unseeded_flux": 0.0,
+    "carrier_ratio": 7.270339812003928e+20,
+    "flux_ratio": -1.3442263937848631e+20,
+    "seed_level": 0.0001,
+    "self_maintained": false,
+    "bistable": false
+   },
+   {
+    "carboxylation_drive_kj": 20.0,
+    "seeded_carrier": 7.277758258573221e-10,
+    "unseeded_carrier": 0.0,
+    "seeded_flux": -1.3008354473778408e-10,
+    "unseeded_flux": 0.0,
+    "carrier_ratio": 7.27775825857322e+20,
+    "flux_ratio": -1.3008354473778407e+20,
+    "seed_level": 0.0001,
+    "self_maintained": false,
+    "bistable": false
+   },
+   {
+    "carboxylation_drive_kj": 30.0,
+    "seeded_carrier": 7.587329039571165e-10,
+    "unseeded_carrier": 0.0,
+    "seeded_flux": -1.1289984430601563e-10,
+    "unseeded_flux": 0.0,
+    "carrier_ratio": 7.587329039571164e+20,
+    "flux_ratio": -1.1289984430601562e+20,
+    "seed_level": 0.0001,
+    "self_maintained": false,
+    "bistable": false
+   },
+   {
+    "carboxylation_drive_kj": 40.0,
+    "seeded_carrier": 1.7980863523318273e-08,
+    "unseeded_carrier": 0.0,
+    "seeded_flux": 3.0929267170389087e-09,
+    "unseeded_flux": 0.0,
+    "carrier_ratio": 1.7980863523318271e+22,
+    "flux_ratio": 3.0929267170389084e+21,
+    "seed_level": 0.0001,
+    "self_maintained": false,
+    "bistable": false
+   }
+  ],
+  "permissive_limit": {
+   "carrier": "X_ACKA",
+   "feeds": {
+    "feed_CO2": 0.04,
+    "feed_H2": 0.02,
+    "feed_pyruvate": 0.0,
+    "feed_formaldehyde": 0.0,
+    "feed_formate": 0.0,
+    "feed_acetate": 0.0
+   },
+   "n_steps": 400,
+   "favorable": {
+    "label": "favorable",
+    "seed_dependence": {
+     "seeded_carrier": 6.781357238285198e-07,
+     "unseeded_carrier": 0.0,
+     "seeded_flux": 3.255189166012212e-07,
+     "unseeded_flux": 0.0,
+     "carrier_ratio": 6.781357238285198e+23,
+     "flux_ratio": 3.2551891660122114e+23,
+     "seed_level": 0.0001,
+     "self_maintained": true,
+     "bistable": true
+    },
+    "growth": {
+     "mu_max": 0.0012897778503740554,
+     "r2": 0.9976550043935457,
+     "window": [
+      233,
+      320
+     ],
+     "exponential_phase": true,
+     "n_alive": 400
+    },
+    "production_order": {
+     "p": 0.7471459791143872,
+     "r2": 0.9734773960475275,
+     "n_points": 5,
+     "pools": [
+      2.3771419448880678e-05,
+      4.7542838897761356e-05,
+      9.508567779552271e-05,
+      0.00019017135559104543,
+      0.00038034271118209085,
+      0.0007606854223641817,
+      0.0015213708447283634
+     ],
+     "productions": [
+      1.44160942086878e-10,
+      2.781567514121765e-10,
+      5.15652971778035e-10,
+      8.686638193708116e-10,
+      1.086759142000589e-09,
+      -4.2875570296285296e-10,
+      -1.1266607353782148e-08
+     ]
+    },
+    "detector_gain_final": 0.0,
+    "functional_autocatalysis": true
+   },
+   "matched_null": {
+    "label": "matched_null",
+    "seed_dependence": {
+     "seeded_carrier": 3.400324897781964e-05,
+     "unseeded_carrier": 0.0,
+     "seeded_flux": 0.0,
+     "unseeded_flux": 0.0,
+     "carrier_ratio": 3.400324897781964e+25,
+     "flux_ratio": 0.0,
+     "seed_level": 0.0001,
+     "self_maintained": false,
+     "bistable": false
+    },
+    "growth": {
+     "mu_max": 0.0,
+     "r2": 0.0,
+     "window": [
+      0,
+      0
+     ],
+     "exponential_phase": false,
+     "n_alive": 400
+    },
+    "production_order": {
+     "p": NaN,
+     "r2": NaN,
+     "n_points": 0,
+     "pools": [
+      1.506676223659748e-05,
+      3.013352447319496e-05,
+      6.026704894638992e-05,
+      0.00012053409789277984,
+      0.00024106819578555968,
+      0.00048213639157111937,
+      0.0009642727831422387
+     ],
+     "productions": [
+      -3.76669055914937e-09,
+      -7.53338111829874e-09,
+      -1.506676223659748e-08,
+      -3.013352447319496e-08,
+      -6.026704894638992e-08,
+      -1.2053409789277984e-07,
+      -2.410681957855597e-07
+     ],
+     "note": "no positive-production region \u2014 production does not rise with the pool (feed-driven or net-consuming)"
+    },
+    "detector_gain_final": 0.0,
+    "functional_autocatalysis": false
+   },
+   "topology_specific": true,
+   "verdict": "MET"
+  }
+ },
+ "formose_crosscheck": {
+  "carrier": "X_DH",
+  "feeds": {
+   "feed_CO2": 0.04,
+   "feed_H2": 0.02,
+   "feed_pyruvate": 0.0001,
+   "feed_formaldehyde": 0.01,
+   "feed_formate": 0.0,
+   "feed_acetate": 0.0
+  },
+  "n_steps": 150,
+  "favorable": {
+   "label": "favorable",
+   "seed_dependence": {
+    "seeded_carrier": 2.864700990021192e-07,
+    "unseeded_carrier": 2.864697013331568e-07,
+    "seeded_flux": 0.0004985121091045223,
+    "unseeded_flux": 0.0004985121721988062,
+    "carrier_ratio": 1.000001388171107,
+    "flux_ratio": 0.9999998734348178,
+    "seed_level": 0.0001,
+    "self_maintained": true,
+    "bistable": false
+   },
+   "growth": {
+    "mu_max": 0.00021301370105785816,
+    "r2": 0.995616208705628,
+    "window": [
+     56,
+     82
+    ],
+    "exponential_phase": true,
+    "n_alive": 150
+   },
+   "production_order": {
+    "p": 2.3335593343265044,
+    "r2": 0.9945120885876177,
+    "n_points": 5,
+    "pools": [
+     0.0024471501049354665,
+     0.004894300209870933,
+     0.009788600419741866,
+     0.019577200839483732,
+     0.039154401678967464,
+     0.07830880335793493,
+     0.15661760671586986
+    ],
+    "productions": [
+     -5.269339930158276e-10,
+     -3.91728899302447e-10,
+     1.8650985483119416e-09,
+     1.4324422484291232e-08,
+     7.102574651925181e-08,
+     3.1155909924118144e-07,
+     1.3011486232930721e-06
+    ]
+   },
+   "detector_gain_final": 3.154867849713535,
+   "functional_autocatalysis": false
+  },
+  "matched_null": {
+   "label": "matched_null",
+   "seed_dependence": {
+    "seeded_carrier": 6.093630342014086e-14,
+    "unseeded_carrier": 6.088853757015663e-14,
+    "seeded_flux": 0.00045051614429850455,
+    "unseeded_flux": 0.0004505162621146313,
+    "carrier_ratio": 1.000784480164747,
+    "flux_ratio": 0.9999997384864062,
+    "seed_level": 0.0001,
+    "self_maintained": true,
+    "bistable": false
+   },
+   "growth": {
+    "mu_max": 0.0,
+    "r2": 0.0,
+    "exponential_phase": false,
+    "window": [
+     0,
+     0
+    ],
+    "n_alive": 1
+   },
+   "production_order": {
+    "p": 0.9729575559981664,
+    "r2": 0.999754225094892,
+    "n_points": 7,
+    "pools": [
+     0.002364465557439507,
+     0.004728931114879014,
+     0.009457862229758028,
+     0.018915724459516055,
+     0.03783144891903211,
+     0.07566289783806422,
+     0.15132579567612844
+    ],
+    "productions": [
+     3.8577753893028916e-16,
+     7.700849886925427e-16,
+     1.534289620712943e-15,
+     3.0450578147373155e-15,
+     5.996029922720351e-15,
+     1.1615717018423584e-14,
+     2.1726062728778695e-14
+    ]
+   },
+   "detector_gain_final": 0.0,
+   "functional_autocatalysis": false
+  },
+  "topology_specific": false,
+  "verdict": "refuted"
+ },
+ "verdict": "honest-negative",
+ "headline": "Curated mechanistic rTCA, functional (coefficient-independent) discriminator. VENT FEASIBILITY: REFUTED \u2014 across the x1-x50 feed sweep at real vent-H2 thermodynamics the cycle does not self-amplify (seeded OAA nucleus washes out, net flux <= 0, not self-maintained); vent_feasible=False. MECHANISM: the reductive carboxylations (succinate->aKG dG0 +18, acetyl->pyruvate +31 kJ/mol) are uphill under H2 and slow vs washout, so the citrate-lyase autocatalytic loop never closes. TOPOLOGY: autocatalysis-CAPABLE + topology-SPECIFIC \u2014 in the labelled stronger-reductant/lower-dilution counterfactual the cycle ignites (permissive verdict MET, topology_specific=True): seeding OAA bootstraps a self-maintained carbon-fixing cycle the feed alone cannot, and the matched null does not. So the vent negative is about H2 redox + residence time, NOT the rTCA wiring. COEFFICIENT DETECTOR: autocatalytic_gain = 0 by construction (doubling_reactions empty \u2014 topological autocatalysis), which is why the functional discriminator is required. FORMOSE CROSS-CHECK: functionally refuted (refuted) \u2014 fixes carbon but seed-INDEPENDENT (feed-driven), confirming og-29 on a coefficient-free basis."
+}
