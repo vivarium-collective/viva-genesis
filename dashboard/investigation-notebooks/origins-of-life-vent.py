@@ -3868,6 +3868,7 @@ _save_viz('og-08-alt-robust-innovation-set', 'autonomy-ablation-trace', _render_
 # | ensemble-ledgers-close _(primary)_ | kind=derived path=lattice_all_ledgers_ok detail=1 when all runs close | op >= value 1.0 detail all runs within tolerance |
 # | autonomy-of-the-persisting-lineages _(diagnostic)_ | kind=derived path=lattice_autonomy_persisting_any_rich detail=mean over persisting runs of any subset | op >= value 0.0 detail informative readout |
 # | ocean-floor-for-majority-persistence _(diagnostic)_ | kind=derived path=lattice_lowest_floor_majority_persists detail=from floor_map | op <= value 1.0 detail inside the swept range |
+# | per-driver-attribution-resolves-confound _(primary)_ | kind=observable detail=per-driver full-set persistence fraction + required intersection across 24 structures × 3 drivers × 8 subsets | op threshold detail differential per-driver survivability with the confound resolved and ledgers closing at every point |
 
 # ### Literature anchors
 #
@@ -5839,6 +5840,157 @@ else:
 # | all-at-once-is-the-confound _(primary)_ | kind=observable detail=all-at-once survivors full set vs each innovation knockout=None | op threshold detail escapes with full set AND fails with each single innovation removed |
 # | gradient-budget-sensitive _(primary)_ | kind=observable detail=catalyst_efficiency sweep of the gradient-channel internalization | op threshold detail the gradient verdict flips within the swept efficiency range (a located boundary) |
 # | terminal-emits-nothing _(secondary)_ | kind=observable detail=handoff.emits is empty | op threshold detail emits empty |
+
+# ## Study: Amphiphile assembly & composition (membrane-MD M1) (`mem-m1-amphiphile-assembly`)
+#
+# **Question.** Which amphiphile structures and mixtures - fatty acids C8-C14, fatty alcohols, monoacylglycerols, and their mixtures - form micelles, bilayers or vesicles under vent-relevant conditions?
+#
+# **Objective.** Self-assemble a defined set of prebiotically-plausible compositions in coarse-grained MD and classify the assembly state, with unbiased self-assembly rather than a preassembled start.
+#
+# **Hypothesis.** Assembly state is set by chain length, headgroup, mixture composition and the carboxylate protonation fraction; a feasible bilayer/vesicle window exists for long-enough chains and favorable mixtures, bounded below by the critical aggregation concentration and above by insolubility.
+
+# ### Parameters
+
+# ### Run
+#
+# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
+
+# === Study: mem-m1-amphiphile-assembly ===
+STUDY = 'mem-m1-amphiphile-assembly'
+STUDY_DIR = REPO / 'workspace/studies' / STUDY
+STUDY_YAML = str(STUDY_DIR / "study.yaml")
+RUNS_DB = str(STUDY_DIR / "runs.db")
+
+print("No baseline composite declared for this study — nothing to build.")
+
+# ### Literature anchors
+#
+# | expectation | model observable | source | status |
+# | --- | --- | --- | --- |
+# | souza2021martini3 | | | |
+# | marrink2003vesicle | | | |
+# | janke2014oleic | | | |
+# | jordan2019promotion | | | |
+
+# ## Study: Permeability & selective retention (membrane-MD M2) (`mem-m2-permeability-retention`)
+#
+# **Question.** Which membranes admit substrates while retaining products - which compositions are selectively permeable in the direction the metabolism needs?
+#
+# **Objective.** Compute per-solute-class permeabilities with uncertainty via PMF + diffusivity and build a composition->transport lookup the functional-window study (M5) consumes.
+#
+# **Hypothesis.** Permeability is graded by solute class and set by composition; a window exists where small substrates (water, neutral organics) cross while larger / charged products (organic acids, charged metabolites) are retained - but stability and selective retention may trade off (the core feasibility tension).
+
+# ### Parameters
+
+# ### Run
+#
+# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
+
+# === Study: mem-m2-permeability-retention ===
+STUDY = 'mem-m2-permeability-retention'
+STUDY_DIR = REPO / 'workspace/studies' / STUDY
+STUDY_YAML = str(STUDY_DIR / "study.yaml")
+RUNS_DB = str(STUDY_DIR / "runs.db")
+
+print("No baseline composite declared for this study — nothing to build.")
+
+# ### Literature anchors
+#
+# | expectation | model observable | source | status |
+# | --- | --- | --- | --- |
+# | souza2021martini3 | | | |
+# | grunewald2020titratable | | | |
+# | marrink2007martini | | | |
+
+# ## Study: Stability across environmental gradients (membrane-MD M3) (`mem-m3-stability-gradients`)
+#
+# **Question.** How do ionic strength, mono- and divalent ions, temperature, and carboxylate protonation fraction change membrane integrity?
+#
+# **Objective.** Map the stability envelope of candidate compositions across the vent-relevant gradients, one factor at a time then a small factorial.
+#
+# **Hypothesis.** Vent-relevant ionic strength, divalent cations (Mg2+/Ca2+), temperature and pH-set protonation define a stability envelope; integrity degrades (defects, desorption, rupture) outside it, and that envelope may not coincide with the functional (selective-permeability) window.
+
+# ### Parameters
+
+# ### Run
+#
+# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
+
+# === Study: mem-m3-stability-gradients ===
+STUDY = 'mem-m3-stability-gradients'
+STUDY_DIR = REPO / 'workspace/studies' / STUDY
+STUDY_YAML = str(STUDY_DIR / "study.yaml")
+RUNS_DB = str(STUDY_DIR / "runs.db")
+
+print("No baseline composite declared for this study — nothing to build.")
+
+# ### Literature anchors
+#
+# | expectation | model observable | source | status |
+# | --- | --- | --- | --- |
+# | janke2014oleic | | | |
+# | grunewald2020titratable | | | |
+# | souza2021martini3 | | | |
+
+# ## Study: Growth, shape change & division propensity (membrane-MD M4) (`mem-m4-growth-division-propensity`)
+#
+# **Question.** Can supplied amphiphiles insert into, reshape, and expand a vesicle - and what is its propensity to divide?
+#
+# **Objective.** Measure amphiphile insertion/exchange, area growth, curvature change and the budding/division barrier for candidate vesicles - a division PROPENSITY, kept separate from heritable division.
+#
+# **Hypothesis.** Supplied amphiphiles insert and expand membrane area; area growth drives curvature/shape change and lowers the budding barrier - a propensity to divide, set by composition and osmotic conditions.
+
+# ### Parameters
+
+# ### Run
+#
+# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
+
+# === Study: mem-m4-growth-division-propensity ===
+STUDY = 'mem-m4-growth-division-propensity'
+STUDY_DIR = REPO / 'workspace/studies' / STUDY
+STUDY_YAML = str(STUDY_DIR / "study.yaml")
+RUNS_DB = str(STUDY_DIR / "runs.db")
+
+print("No baseline composite declared for this study — nothing to build.")
+
+# ### Literature anchors
+#
+# | expectation | model observable | source | status |
+# | --- | --- | --- | --- |
+# | hanczyc2003experimental | | | |
+# | budin2012concentration | | | |
+# | marrink2003vesicle | | | |
+
+# ## Study: Functional membrane window (membrane-MD M5) (`mem-m5-functional-membrane-window`)
+#
+# **Question.** Which measured compositions sustain a modeled internal reaction network - where do assembly, stability, selective permeability and growth-requirement constraints jointly hold?
+#
+# **Objective.** Insert the M2-M4 measured properties into a coupled compartment-reaction model (reusing og-32's coupling and the A1 network), scan compositions, and rank them on joint feasibility.
+#
+# **Hypothesis.** The feasible region is an intersection, likely narrow: the most stable composition is not the most functional, so the compositions that sustain the internal network are a bounded compromise - and the region may be empty (a meaningful mechanistic boundary).
+
+# ### Parameters
+
+# ### Run
+#
+# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
+
+# === Study: mem-m5-functional-membrane-window ===
+STUDY = 'mem-m5-functional-membrane-window'
+STUDY_DIR = REPO / 'workspace/studies' / STUDY
+STUDY_YAML = str(STUDY_DIR / "study.yaml")
+RUNS_DB = str(STUDY_DIR / "runs.db")
+
+print("No baseline composite declared for this study — nothing to build.")
+
+# ### Literature anchors
+#
+# | expectation | model observable | source | status |
+# | --- | --- | --- | --- |
+# | souza2021martini3 | | | |
+# | sojo2014bioenergetic | | | |
+# | jordan2019promotion | | | |
 
 # ## Open decisions
 # - Read og-08's {pump, importer, heredity} as a HYPOTHESIS GENERATOR, not a result: the integrated world (og-08-alt-robust-innovation-set) finds the required set structure-dependent and the off-gradient verdict decided by the ocean floor, the membrane leakiness and the inheritance class's budget sensitivity. Adopt this framing for the campaign's endpoint statement, and supply the ocean's H2 / organic background (the floor) as an expert prior?
