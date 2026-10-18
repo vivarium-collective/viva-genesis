@@ -5220,6 +5220,153 @@ else:
 # | beats-null-growth-decoupled-or-imposed _(primary)_ | kind=observable detail=coupled division rate vs flux-independent decoupled/imposed nulls equal feeds=None | op threshold detail metabolism-coupled growth/division exceeds the matched null |
 # | handoff-33-to-34-complete _(secondary)_ | kind=observable detail=division events + daughter compartments available to study 34 | op threshold detail dividing-protocell handoff available |
 
+# ## Study: Chemical Heredity and Selection (`og-34-chemical-heredity-and-selection`)
+#
+# **Question.** Does a chemical difference inherited by a daughter protocell cause reproducible differences in survival or reproduction - is there heritable variation selection can act on?
+#
+# **Objective.** Run a multi-compartment population of study-33 dividing protocells under selection on an inherited network-composition trait whose fitness is grounded in the study-32/33 retention -> division-rate coupling; measure the parent-offspring fitness correlation and whether a population under selection shifts composition - against a matched no-inheritance control (daughters reset to a common composition) at input fluxes held equal, reporting no-selectable-difference honestly if that is the result. Instantiates the og-06 heredity rescope.
+#
+# **Hypothesis.** Compartments carrying different inherited network compositions show reproducible, heritable fitness differences under the vent feed, so a population shifts composition under selection rather than drifting. If inherited composition produces no reproducible fitness difference above a no-inheritance control, or a population does not shift measurably, no selectable heredity is claimed.
+#
+# **Claim.** A daughter-inherited chemical difference produces a reproducible fitness difference that selection acts on, shown against a matched no-inheritance control (daughters reset to a common composition) at equal feeds. Heredity is carried by inherited network composition (Option B), and fitness is grounded in the real study-32/33 coupling - composition sets membrane retention (study 32), which sets the standing pool and division rate (study 33) - so selection acts on a trait with a genuine mechanistic fitness consequence. Across seeds and generations, an inherited composition difference yields a parent-offspring fitness correlation far above the no-inheritance control, and the inheriting population shifts composition toward higher retention while the control drifts. The vasas-2010 evolvability caveat was TESTED (a declared, not tuned, heritable variance) and the population shifts rather than drifts - so compositional inheritance carries enough selectable variance here. Verdict qualified: compositional inheritance (Option B); template copying (Option A, og-34a) is the higher-fidelity follow-up. The metabolism is the sustained A1 carbon-fixing network (not autocatalytic), so selection acts on the inherited composition of a carbon-fixing network, not a self-amplifying one.
+
+# ### Design — originally proposed
+#
+# _The mechanisms and methods proposed when this study was designed; the model **actually built** (and the tools it uses) is shown below. These may differ as the design was realized._
+#
+# **Proposed mechanisms**
+#
+# - inheritance via NETWORK COMPOSITION partitioned at division (compositional / GARD-style, not template copying in v1)
+# - fitness grounded in the study-32/33 coupling (composition -> retention -> standing pool -> division rate)
+# - parent-offspring fitness correlation vs a no-inheritance control (daughters reset to a common composition)
+# - selection as differential reproduction shifting a population's composition vs drift
+# - the vasas-2010 evolvability caveat (compositional inheritance may lack the variance selection needs) tested, not assumed
+#
+# **Proposed models / methods**
+#
+# - Wright-Fisher selection on an inherited network-composition trait; fitness grounded in study-32/33 retention -> division-rate coupling  [Option B / first cut]
+# - Template-copying inheritance  [the richer follow-on, tracked as og-34a in discovery_implications - NOT built here]
+# - study-33 division + study-32 self-maintenance set the per-compartment fitness  [in-workspace]
+# - dependency-free PERMUTATION test for parent-offspring correlation + selection-response significance  [PyMC noted as the richer stat, not installed]
+# - measured compositional-inheritance / GARD evolvability benchmarks for independent validation (evidence standard
+#
+# **Key assumptions**
+#
+# - Input fluxes are held equal to the no-inheritance control (daughters reset to a common composition) - any heritable fitness difference must be a margin over it, not more feed.
+# - Heredity is carried by inherited network composition (Option B); template copying is a tracked follow-up (og-34a).
+# - Fitness is grounded in the real study-32/33 coupling (composition -> retention -> division rate), not a toy function.
+# - The vasas-2010 evolvability caveat is tested with a declared (not tuned) heritable variance - a drift-only outcome would be reported.
+# - The enclosed metabolism is the sustained A1 carbon-fixing network, not autocatalytic (A2 refuted under vent conditions).
+
+# ### Parameters
+#
+# | simulation | composite | steps | params |
+# | --- | --- | --- | --- |
+# | `Chemical heredity and selection (inherited network composition)` | `viva_genesis.composites.og_34_chemical_heredity_and_selection.og_34_chemical_heredity_and_selection` | 0 | inheritance=True, porosity=0.88, base_CO2=0.001, base_H2=0.001, max_carbons=4 |
+# | `No-inheritance control (daughters reset to common composition, equal feeds)` | `viva_genesis.composites.og_34_chemical_heredity_and_selection.og_34_chemical_heredity_and_selection` | 0 | inheritance=False, porosity=0.88, base_CO2=0.001, base_H2=0.001, max_carbons=4 |
+
+# ### The model & its parameters
+#
+# Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
+
+# **The model — `viva_genesis.composites.og_34_chemical_heredity_and_selection.og_34_chemical_heredity_and_selection`**
+#
+# Gate D second half: selection on an inherited NETWORK COMPOSITION trait in a protocell population (⚑3 Option B; template copying = follow-on og-34a). Fitness is grounded in the real study-32/33 coupling (composition -> membrane retention [study-32 MD endpoints 0.333/0.661] -> standing pool -> division rate). inheritance=False is the matched no-inheritance null (daughters reset to the common composition). Reports parent-offspring fitness correlation + population composition shift; the vasas-2010 evolvability caveat is TESTED (does the population shift above the null?), not assumed. Metabolism = sustained A1 network, NOT autocatalytic (A2 refuted).
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_og_34_chemical_heredity_and_selection_og_34_chemical_heredity_and_selection = {
+    'inheritance': True,   # Inherit parent composition (True) vs no-inheritance null (False)
+    'n_pop'      : 80,   # Population size
+    'sigma'      : 0.03,   # Heritable mutation std (declared, not tuned)
+    'seed'       : 7,   # RNG seed
+    'base_CO2'   : 0.001,   # Vent feed (provenance for the fitness regime)
+    'base_H2'    : 0.001,   # Vent feed (provenance for the fitness regime)
+    'porosity'   : 0.88,   # Gate-B pore porosity (provenance)
+    'max_carbons': 4,   # Carbon cap (provenance)
+}
+
+# ### Typed contract (declared interface)
+#
+# _The bigraph-schema typed ports + conservation predicates this study's composite must satisfy (audited in the workbench §Contract panel). Declared design — independent of whether a run exists yet._
+#
+# **Inputs**
+#
+# | port | type | units | bounds |
+# | --- | --- | --- | --- |
+# | `external_co2_supply` | float | molar/second | >= 0.0 |
+# | `external_h2_supply` | float | molar/second | >= 0.0 |
+#
+# **Outputs**
+#
+# | port | type | units | bounds |
+# | --- | --- | --- | --- |
+# | `parent_offspring_fitness_correlation` | float | dimensionless |  |
+# | `population_composition_shift` | float | dimensionless |  |
+# | `heritable_fitness_variance` | float | dimensionless | >= 0.0 |
+# | `selection_response` | float | dimensionless |  |
+#
+# **Conditions**
+#
+# - `equal_input_fluxes_vs_no_inheritance` (invariant): `external feed fluxes are held equal to the no-inheritance control (daughters reset to a common composition); any heritable fitness difference is the margin over it`
+# - `inheritance_via_network_composition` (invariant): `heredity is carried by network composition partitioned at division (compositional / GARD-style), not template copying in this first cut`
+# - `fitness_grounded_in_real_coupling` (invariant): `fitness is the study-33 division rate set by study-32 membrane retention from the inherited composition - a real mechanistic consequence, not a toy fitness function`
+# - `evolvability_caveat_tested` (invariant): `the vasas-2010 evolvability caveat (compositional inheritance may lack selectable variance) is tested against the no-inheritance control with a declared (not tuned) heritable variance, not assumed`
+# - `metabolism_is_A1_not_autocatalytic` (invariant): `the enclosed metabolism is the sustained A1 carbon-fixing network; selection acts on inherited composition of a carbon-fixing network, not an autocatalytic one (A2 refuted)`
+
+# ### Run
+#
+# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
+
+# === Study: og-34-chemical-heredity-and-selection ===
+STUDY = 'og-34-chemical-heredity-and-selection'
+STUDY_DIR = REPO / 'workspace/studies' / STUDY
+STUDY_YAML = str(STUDY_DIR / "study.yaml")
+RUNS_DB = str(STUDY_DIR / "runs.db")
+
+# This study has no *recorded* runs yet. RERUN builds its declared
+# composite(s) live and runs them; a composite whose module processes
+# are not implemented yet reports the error instead of crashing.
+STEPS_Chemical_heredity_and_selection_inherited_network_composition = 100
+INTERVAL_Chemical_heredity_and_selection_inherited_network_composition = 1.0
+STEPS_No_inheritance_control_daughters_reset_to_common_composition_equal_feeds = 100
+INTERVAL_No_inheritance_control_daughters_reset_to_common_composition_equal_feeds = 1.0
+
+if RERUN:
+    from process_bigraph import Composite
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_og_34_chemical_heredity_and_selection_og_34_chemical_heredity_and_selection if 'ov_viva_genesis_composites_og_34_chemical_heredity_and_selection_og_34_chemical_heredity_and_selection' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_og_34_chemical_heredity_and_selection_og_34_chemical_heredity_and_selection = materialize_composite('viva_genesis.composites.og_34_chemical_heredity_and_selection.og_34_chemical_heredity_and_selection', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_og_34_chemical_heredity_and_selection_og_34_chemical_heredity_and_selection['state']}, core=core)
+            _comp.run(STEPS_Chemical_heredity_and_selection_inherited_network_composition)
+        print('ran', 'Chemical heredity and selection (inherited network composition)', f'(viva_genesis.composites.og_34_chemical_heredity_and_selection.og_34_chemical_heredity_and_selection) for', STEPS_Chemical_heredity_and_selection_inherited_network_composition, 'steps')
+    except Exception as _e:
+        print(f"Chemical heredity and selection (inherited network composition) not runnable yet: {type(_e).__name__}: {_e}")
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_og_34_chemical_heredity_and_selection_og_34_chemical_heredity_and_selection if 'ov_viva_genesis_composites_og_34_chemical_heredity_and_selection_og_34_chemical_heredity_and_selection' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_og_34_chemical_heredity_and_selection_og_34_chemical_heredity_and_selection = materialize_composite('viva_genesis.composites.og_34_chemical_heredity_and_selection.og_34_chemical_heredity_and_selection', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_og_34_chemical_heredity_and_selection_og_34_chemical_heredity_and_selection['state']}, core=core)
+            _comp.run(STEPS_No_inheritance_control_daughters_reset_to_common_composition_equal_feeds)
+        print('ran', 'No-inheritance control (daughters reset to common composition, equal feeds)', f'(viva_genesis.composites.og_34_chemical_heredity_and_selection.og_34_chemical_heredity_and_selection) for', STEPS_No_inheritance_control_daughters_reset_to_common_composition_equal_feeds, 'steps')
+    except Exception as _e:
+        print(f"No-inheritance control (daughters reset to common composition, equal feeds) not runnable yet: {type(_e).__name__}: {_e}")
+else:
+    print("RERUN=False — not re-simulating.")
+
+# ### Acceptance criteria
+#
+# _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
+#
+# | test | measures | passes if |
+# | --- | --- | --- |
+# | receives-33-handoff-bundle _(secondary)_ | kind=observable detail=population built on the study-33 dividing protocell with an inherited composition trait | op threshold detail population runs on the study-33 division substrate |
+# | inherited-difference-reproducible-fitness _(primary)_ | kind=observable detail=parent-offspring fitness correlation inheritance vs no-inheritance null=None permutation p=None | op threshold detail correlation above the null (perm p < 0.05) |
+# | population-shifts-under-selection _(primary)_ | kind=observable detail=population composition shift over generations inheritance vs null=None permutation p=None | op threshold detail the population shifts above the null (perm p < 0.05) |
+# | matched-null-no-inheritance _(primary)_ | kind=observable detail=null shows neither parent-offspring correlation nor directional shift | op threshold detail null correlation ~ 0 and null drift ~ 0 |
+# | handoff-34-to-35-36-37-complete _(secondary)_ | kind=observable detail=heritable population + fitness-composition map available | op threshold detail heritable-population handoff available |
+
 # ## Open decisions
 # - Read og-08's {pump, importer, heredity} as a HYPOTHESIS GENERATOR, not a result: the integrated world (og-08-alt-robust-innovation-set) finds the required set structure-dependent and the off-gradient verdict decided by the ocean floor, the membrane leakiness and the inheritance class's budget sensitivity. Adopt this framing for the campaign's endpoint statement, and supply the ocean's H2 / organic background (the floor) as an expert prior?
 # - Agent motion model (ecology stage): DEFERRED. The proto_ecology component points agents at fixed cells of the og-03 enrichment field (interleaved or segregated along the pore); no motility, chemotaxis or advective drift of agents is modelled. Which motion model (none / advected with the pore flow / Brownian between cells / thermophoretic like the solutes) should the ecology follow-up adopt?
