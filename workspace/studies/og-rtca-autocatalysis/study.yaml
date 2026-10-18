@@ -72,6 +72,14 @@ baseline:
   composite: viva_genesis.composites.og_rtca_autocatalysis.og_rtca_autocatalysis
   params: {supply_H2: 0.02, supply_CO2: 0.04, k_wash: 0.02, matched_null: false, carboxylation_drive_kj: 0.0}
 
+visualizations:
+- name: rtca-discriminator
+  address: local:OgRtcaAutocatalysisViz
+  config:
+    artifact_json: workspace/studies/og-rtca-autocatalysis/artifacts/rtca_discriminator.json
+    title: "Reductive-TCA autocatalysis — refuted at vent, topology-capable beyond it"
+    caption: "Across the x1–x50 vent feed sweep the seeded reductive-TCA cycle shows zero self-amplification growth (it washes out under vent H2 — the honest negative); it ignites only in a labelled stronger-reductant + lower-dilution counterfactual, and topology-specifically (the matched null stays off). So the vent negative is a redox / residence-time limitation, not a limitation of the rTCA wiring."
+
 behavior_tests:
 - name: rtca-vent-h2-washout
   description: >-

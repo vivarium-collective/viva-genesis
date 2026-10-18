@@ -436,3 +436,101 @@ class OgMembraneCohesionViz(Visualization):
             caption_text=(
                 "The real-run path is guarded: where OpenMM is present this panel is the live PE-settling + "
                 "area-per-lipid figure; where it is absent it degrades to this note instead of erroring."))
+
+
+class OgRtcaAutocatalysisViz(Visualization):
+    """og-rtca — branched reductive-TCA: refuted at vent, topology-capable beyond it.
+
+    Reads the committed functional-discriminator artifact
+    (``artifacts/rtca_discriminator.json``) — no re-run; that JSON is the
+    deterministic study result — and plots the honest negative: (1) the
+    self-amplification growth rate across the whole vent feed sweep (x1–x50), zero
+    at every feed, so the seeded cycle washes out under vent H2; and (2) that same
+    growth rate for real vent vs a LABELLED beyond-vent counterfactual (stronger
+    reductant + lower dilution) vs the counterfactual's matched null — the cycle
+    ignites only beyond vent, and topology-specifically (the null stays off). So
+    the vent negative is a redox / residence-time limitation, not a limitation of
+    the rTCA wiring. The coefficient detector reads gain 0 by construction
+    (topological autocatalysis, no doubling reaction), which is why a
+    coefficient-free functional discriminator is used.
+    """
+
+    config_schema = {
+        "title": {"_type": "string",
+                  "_default": "Reductive-TCA autocatalysis — refuted at vent, topology-capable beyond it"},
+        "caption": {"_type": "string", "_default": ""},
+        "artifact_json": {"_type": "string",
+                          "_default": "workspace/studies/og-rtca-autocatalysis/artifacts/rtca_discriminator.json"},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        import json
+        import os
+
+        path = str(self.config["artifact_json"])
+        if not os.path.isabs(path) and not os.path.exists(path):
+            alt = os.path.join(os.getcwd(), path)
+            if os.path.exists(alt):
+                path = alt
+        with open(path, encoding="utf-8") as f:
+            d = json.load(f)
+        return {"html": self._figure(d)}
+
+    @staticmethod
+    def _mu(block) -> float:
+        try:
+            return float(((block or {}).get("favorable") or {}).get("growth", {}).get("mu_max") or 0.0)
+        except Exception:
+            return 0.0
+
+    def _figure(self, d) -> str:
+        from plotly.subplots import make_subplots
+
+        vent = d.get("vent") or {}
+        levels = list(vent.keys())  # x1, x5, x20, x50
+        mu_vent = [self._mu(vent[lv]) for lv in levels]
+        feed_lab = [f"{lv}<br>(H2 {vent[lv]['feeds']['feed_H2']:g})" for lv in levels]
+
+        pl = (d.get("counterfactual") or {}).get("permissive_limit") or {}
+        vent_rep = vent.get("x20") or (vent[levels[-1]] if levels else {})
+        cmp_mu = [
+            self._mu(vent_rep),
+            self._mu(pl),
+            float((pl.get("matched_null") or {}).get("growth", {}).get("mu_max") or 0.0),
+        ]
+        cmp_lab = ["real vent", "permissive<br>counterfactual", "matched null"]
+        cmp_col = [SLATE, TEAL, RUST]
+
+        fig = make_subplots(
+            rows=1, cols=2, horizontal_spacing=0.135,
+            subplot_titles=("Self-amplification across the vent feed sweep",
+                            "Topology capable + specific (beyond-vent counterfactual)"))
+        fig.add_bar(x=feed_lab, y=mu_vent, marker_color=RUST, showlegend=False, row=1, col=1)
+        fig.add_bar(x=cmp_lab, y=cmp_mu, marker_color=cmp_col, showlegend=False, row=1, col=2)
+        fig.update_yaxes(title_text="growth rate μ_max (1/s)", showgrid=True,
+                         gridcolor=S.GRID, rangemode="tozero")
+        fig.update_xaxes(showgrid=False)
+        fig.update_layout(**S.base_layout(height=400, showlegend=False,
+                                          margin=dict(l=72, r=25, t=54, b=66)))
+
+        return S.frame(
+            fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False}),
+            title=(self.config.get("title") or "Reductive-TCA autocatalysis — refuted at vent"),
+            subtitle=("Vent feasibility refuted — the seeded cycle does not self-amplify at any vent feed; "
+                      "it ignites only in a labelled beyond-vent counterfactual, and topology-specifically."),
+            phase="Gate A · A2", view="Decision", tier="null_control", tone="caution",
+            caption_prefix="How to read",
+            caption_text=(self.config.get("caption") or (
+                "Left: the self-amplification growth rate across the real-vent feed sweep (x1–x50) — "
+                "zero at every feed, so the seeded reductive-TCA cycle washes out and never closes under vent "
+                "H2 (the honest negative). Right: the same growth rate for real vent, a labelled "
+                "stronger-reductant + lower-dilution counterfactual, and that counterfactual's matched null — "
+                "the cycle self-amplifies only beyond vent, and only with its own wiring (the null stays off). "
+                "Plainly: the rTCA wiring is capable; the vent redox environment is what refutes it, not the "
+                "cycle's topology.")))
