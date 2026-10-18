@@ -756,6 +756,7 @@ studies:
 - og-33-chemically-coupled-growth-and-division
 - og-34-chemical-heredity-and-selection
 - og-35-chemical-energy-coupling
+- og-36-stochastic-protocell-ecology
 acceptance_criteria:
 - study: og-00-vent-reactor-baseline
   behavior: vent-pH-in-lostcity-range
@@ -1100,8 +1101,8 @@ plan_gates:
     optional: true
     member_studies:
       - og-35-chemical-energy-coupling
+      - og-36-stochastic-protocell-ecology
     pending_studies:
-      - {plan_no: 36, title: Stochastic Protocell Ecology, scaffolded: false}
       - {plan_no: 37, title: Progressive Independence, scaffolded: false}
     criterion: >-
       Each extension gate's composite is compared against a matched ablation with chemical
