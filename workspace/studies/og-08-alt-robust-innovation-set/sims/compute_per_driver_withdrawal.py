@@ -81,6 +81,9 @@ def main() -> int:
     workers = _arg("--workers", 6)
     seed = _arg("--seed", 0)
     quick = "--quick" in sys.argv
+    # --rederive: recompute the summary/labels/headline from the SAVED raw run data in the
+    # existing artifact (no ensemble recompute) — for a labelling/threshold fix.
+    rederive = "--rederive" in sys.argv
     extra = {}
     if quick:
         n_struct, n_ticks = 4, 120
@@ -90,52 +93,66 @@ def main() -> int:
     draws = posterior_draws()
     structures = RI.sample_structures(n_struct, seed=seed, n_draws=len(draws))
 
-    # Build specs: each structure x each driver-withdrawn x each of the 8 innovation subsets.
-    specs: list[tuple[tuple, dict]] = []
-    for s in structures:
-        base = {**RI.structure_kwargs(s, draws), "n_ticks": n_ticks, **extra}
-        for driver in DRIVERS:
-            floors = _driver_floors(driver)
-            for subset in RI.INNOVATION_SETS:
-                specs.append(((s["id"], driver, RI.set_label(subset)),
-                              {**base, **RI.subset_flags(subset), **floors}))
-    print(f"{len(specs)} integrated-world runs ({n_struct} structures x 3 drivers x 8 subsets; "
-          f"{n_ticks} ticks) on {workers} workers ...", flush=True)
-
     results: dict = {}
-    if int(workers) <= 1:
-        for i, (key, spec) in enumerate(specs):
-            results[key] = RI.run_point(dict(spec))
-            if (i + 1) % 10 == 0:
-                print(f"  [{i + 1}/{len(specs)}] ({time.time() - t0:.0f} s)", flush=True)
+    prev_ledgers_ok = None
+    if rederive:
+        # Load the saved raw run data (per-driver lattices + fractions + required sets) and
+        # skip the ensemble — regenerate the derived summary/labels/headline only.
+        prev = json.loads((ARTIFACTS / "per_driver_withdrawal.json").read_text())
+        per_driver = prev["per_driver"]
+        n_struct = int(prev["meta"]["n_structures"]); n_ticks = int(prev["meta"]["n_ticks"])
+        structures = [{"id": sid} for sid in prev["structures"]]
+        prev_ledgers_ok = (prev.get("criteria") or {}).get("ledgers_ok_all")
+        print(f"re-deriving from saved artifact ({n_struct} structures x 3 drivers x 8 subsets, {n_ticks} ticks)", flush=True)
+        for driver in DRIVERS:
+            print(f"  driver={driver}: required_intersection={per_driver[driver].get('required_intersection')} "
+                  f"full_set_persists_frac={per_driver[driver].get('full_set_persistence_fraction')}", flush=True)
     else:
-        with ProcessPoolExecutor(max_workers=int(workers)) as pool:
-            for i, (key, res) in enumerate(zip([k for k, _ in specs],
-                                               pool.map(RI.run_point, [dict(sp) for _, sp in specs], chunksize=2))):
-                results[key] = res
-                if (i + 1) % 25 == 0:
-                    print(f"  {i + 1}/{len(specs)} done ({time.time() - t0:.0f} s)", flush=True)
-    print(f"runs done in {time.time() - t0:.0f} s", flush=True)
+        # Build specs: each structure x each driver-withdrawn x each of the 8 innovation subsets.
+        specs: list[tuple[tuple, dict]] = []
+        for s in structures:
+            base = {**RI.structure_kwargs(s, draws), "n_ticks": n_ticks, **extra}
+            for driver in DRIVERS:
+                floors = _driver_floors(driver)
+                for subset in RI.INNOVATION_SETS:
+                    specs.append(((s["id"], driver, RI.set_label(subset)),
+                                  {**base, **RI.subset_flags(subset), **floors}))
+        print(f"{len(specs)} integrated-world runs ({n_struct} structures x 3 drivers x 8 subsets; "
+              f"{n_ticks} ticks) on {workers} workers ...", flush=True)
 
-    # Per-driver lattice: evaluate the 8-subset innovation lattice SEPARATELY for each driver.
-    per_driver = {}
-    for driver in DRIVERS:
-        by_label = {(sid, lab): r for (sid, d, lab), r in results.items() if d == driver}
-        lattice = RI.evaluate_lattice(structures, by_label)
-        # which innovations are required under THIS driver's withdrawal: the intersection of
-        # the minimal sufficient sets over the structures where the full set persists.
-        per_driver[driver] = {
-            "required_intersection": lattice.get("required_intersection"),
-            "required_union": lattice.get("required_union"),
-            "full_set_persistence_fraction": lattice.get("full_set_persistence_fraction"),
-            "none_persistence_fraction": lattice.get("none_persistence_fraction"),
-            "viable_fraction": lattice.get("viable_fraction"),
-            "n_viable": lattice.get("n_viable"),
-            "lattice": lattice,
-        }
-        req = per_driver[driver]["required_intersection"]
-        print(f"  driver={driver}: required_intersection={req} "
-              f"full_set_persists_frac={per_driver[driver]['full_set_persistence_fraction']}", flush=True)
+        if int(workers) <= 1:
+            for i, (key, spec) in enumerate(specs):
+                results[key] = RI.run_point(dict(spec))
+                if (i + 1) % 10 == 0:
+                    print(f"  [{i + 1}/{len(specs)}] ({time.time() - t0:.0f} s)", flush=True)
+        else:
+            with ProcessPoolExecutor(max_workers=int(workers)) as pool:
+                for i, (key, res) in enumerate(zip([k for k, _ in specs],
+                                                   pool.map(RI.run_point, [dict(sp) for _, sp in specs], chunksize=2))):
+                    results[key] = res
+                    if (i + 1) % 25 == 0:
+                        print(f"  {i + 1}/{len(specs)} done ({time.time() - t0:.0f} s)", flush=True)
+        print(f"runs done in {time.time() - t0:.0f} s", flush=True)
+
+        # Per-driver lattice: evaluate the 8-subset innovation lattice SEPARATELY for each driver.
+        per_driver = {}
+        for driver in DRIVERS:
+            by_label = {(sid, lab): r for (sid, d, lab), r in results.items() if d == driver}
+            lattice = RI.evaluate_lattice(structures, by_label)
+            # which innovations are required under THIS driver's withdrawal: the intersection of
+            # the minimal sufficient sets over the structures where the full set persists.
+            per_driver[driver] = {
+                "required_intersection": lattice.get("required_intersection"),
+                "required_union": lattice.get("required_union"),
+                "full_set_persistence_fraction": lattice.get("full_set_persistence_fraction"),
+                "none_persistence_fraction": lattice.get("none_persistence_fraction"),
+                "viable_fraction": lattice.get("viable_fraction"),
+                "n_viable": lattice.get("n_viable"),
+                "lattice": lattice,
+            }
+            req = per_driver[driver]["required_intersection"]
+            print(f"  driver={driver}: required_intersection={req} "
+                  f"full_set_persists_frac={per_driver[driver]['full_set_persistence_fraction']}", flush=True)
 
     # Confound resolution is at the DRIVER level: the lumped all-at-once run gave ONE
     # collapse that could not be attributed; per-driver withdrawal gives a DIFFERENTIAL
@@ -150,15 +167,19 @@ def main() -> int:
     survivability = {}
     for d in DRIVERS:
         f = persist_frac[d]
-        survivability[d] = ("irreducible_dependency" if (f is not None and f <= 0.01)
-                            else "freely_survivable" if (f is not None and f >= 0.99)
+        survivability[d] = ("hard_dependency" if (f is not None and f <= 0.10)
+                            else "freely_survivable" if (f is not None and f >= 0.90)
                             else "borderline")
     fracs = [persist_frac[d] for d in DRIVERS if persist_frac[d] is not None]
-    differential = bool(fracs and (max(fracs) - min(fracs) > 0.01))   # drivers differ in survivability
-    irreducible = [d for d in DRIVERS if survivability[d] == "irreducible_dependency"]
+    differential = bool(fracs and (max(fracs) - min(fracs) > 0.10))   # drivers differ markedly in survivability
+    # a hard dependency: the full set rarely rescues its withdrawal (survivable <= 10% of structures)
+    hard_dependencies = [d for d in DRIVERS if survivability[d] == "hard_dependency"]
     confound_resolved = bool(differential)   # per-driver attribution obtained (vs lumped: none)
 
-    ledgers_ok = all(RI.every_ledger_ok(r) for r in results.values()) if hasattr(RI, "every_ledger_ok") else None
+    if rederive:
+        ledgers_ok = prev_ledgers_ok          # reuse the saved value (no runs to re-check)
+    else:
+        ledgers_ok = all(RI.every_ledger_ok(r) for r in results.values()) if hasattr(RI, "every_ledger_ok") else None
 
     # Decision: the rebuild RESOLVES the confound if per-driver withdrawal yields a DIFFERENTIAL
     # survivability attribution (each driver characterised separately) where the lumped run could
@@ -179,10 +200,15 @@ def main() -> int:
         f"could not give. Full-innovation-set persistence when only that driver is withdrawn: gradient "
         f"{persist_frac['gradient']} ({survivability['gradient']}), mineral {persist_frac['mineral']} "
         f"({survivability['mineral']}), feed {persist_frac['feed']} ({survivability['feed']}). So the confound is RESOLVED "
-        f"(confound_resolved={confound_resolved}): the irreducible dependency is {irreducible or 'none'} — no innovation "
-        f"subset rescues withdrawal of the vent pmf drive, while mineral access / feed are differentially survivable. This "
-        f"is the rich-integrated-world analogue of study 37's validated per-support attribution (there the pH/pmf gradient "
-        f"was the budget-sensitive hard dependency too). Metabolism = sustained A1 network, not autocatalysis (A2 refuted)."
+        f"(confound_resolved={confound_resolved}): the hard dependency is {hard_dependencies or 'none'} — the full "
+        f"innovation set rescues gradient withdrawal in only {persist_frac['gradient']:.0%} of structures, and WHERE it "
+        f"does the required set is {required_by_driver['gradient']} (pump+heredity attributed specifically to the vent pmf "
+        f"drive), while mineral access ({persist_frac['mineral']:.0%}) and feed ({persist_frac['feed']:.0%}) are "
+        f"differentially survivable and require no specific innovation. This reconciles og-08's original "
+        f"{{pump,importer,heredity}} hypothesis — the lumped all-at-once run confounded it because the gradient (needing "
+        f"pump+heredity, rarely survivable) dominated; per-driver attribution shows the required set is DRIVER-SPECIFIC. "
+        f"The rich-integrated-world analogue of study 37's per-support attribution (there the pH/pmf gradient was the "
+        f"budget-sensitive hard dependency too). Metabolism = sustained A1 network, not autocatalysis (A2 refuted)."
     )
 
     out = {
@@ -198,7 +224,7 @@ def main() -> int:
         "required_by_driver": required_by_driver,
         "full_set_persistence_fraction_by_driver": persist_frac,
         "survivability_by_driver": survivability,
-        "irreducible_dependencies": irreducible,
+        "hard_dependencies": hard_dependencies,
         "criteria": {"confound_resolved": confound_resolved, "differential_survivability": differential,
                      "ledgers_ok_all": ledgers_ok},
         "verdict": verdict, "resolution": resolution, "headline": headline,

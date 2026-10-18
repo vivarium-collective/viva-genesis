@@ -1,0 +1,2802 @@
+{
+ "meta": {
+  "n_structures": 24,
+  "n_ticks": 300,
+  "drivers": [
+   "gradient",
+   "mineral",
+   "feed"
+  ],
+  "withdrawn_floor": {
+   "gradient": 0.0,
+   "mineral": -1.0,
+   "feed": 0.01
+  },
+  "held_support": 1.0,
+  "quick": false,
+  "full_gold_standard": true,
+  "wall_s": 0.0012679100036621094,
+  "n_runs": 0,
+  "method": "per-driver one-at-a-time withdrawal (floor config: target driver -> ocean floor, others held at 1.0) over the structure ensemble; innovation lattice evaluated per driver; reuses the og-08-alt RI harness; rich-world analogue of study 37.",
+  "guardrail": "metabolism = sustained A1 network, not autocatalytic (A2 refuted)"
+ },
+ "structures": [
+  "s00",
+  "s01",
+  "s02",
+  "s03",
+  "s04",
+  "s05",
+  "s06",
+  "s07",
+  "s08",
+  "s09",
+  "s10",
+  "s11",
+  "s12",
+  "s13",
+  "s14",
+  "s15",
+  "s16",
+  "s17",
+  "s18",
+  "s19",
+  "s20",
+  "s21",
+  "s22",
+  "s23"
+ ],
+ "per_driver": {
+  "gradient": {
+   "required_intersection": [
+    "pump",
+    "heredity"
+   ],
+   "required_union": [
+    "pump",
+    "heredity"
+   ],
+   "full_set_persistence_fraction": 0.041666666666666664,
+   "none_persistence_fraction": 0.0,
+   "viable_fraction": 0.125,
+   "n_viable": 3,
+   "lattice": {
+    "n_structures": 24,
+    "n_viable": 3,
+    "viable_fraction": 0.125,
+    "full_set_persistence_fraction": 0.041666666666666664,
+    "none_persistence_fraction": 0.0,
+    "nodes": {
+     "none": {
+      "innovations": [],
+      "n_persist": 0,
+      "n": 24,
+      "persistence_fraction": 0.0
+     },
+     "pump": {
+      "innovations": [
+       "pump"
+      ],
+      "n_persist": 0,
+      "n": 24,
+      "persistence_fraction": 0.0
+     },
+     "importer": {
+      "innovations": [
+       "importer"
+      ],
+      "n_persist": 0,
+      "n": 24,
+      "persistence_fraction": 0.0
+     },
+     "pump+importer": {
+      "innovations": [
+       "pump",
+       "importer"
+      ],
+      "n_persist": 0,
+      "n": 24,
+      "persistence_fraction": 0.0
+     },
+     "heredity": {
+      "innovations": [
+       "heredity"
+      ],
+      "n_persist": 0,
+      "n": 24,
+      "persistence_fraction": 0.0
+     },
+     "pump+heredity": {
+      "innovations": [
+       "pump",
+       "heredity"
+      ],
+      "n_persist": 3,
+      "n": 24,
+      "persistence_fraction": 0.125
+     },
+     "importer+heredity": {
+      "innovations": [
+       "importer",
+       "heredity"
+      ],
+      "n_persist": 0,
+      "n": 24,
+      "persistence_fraction": 0.0
+     },
+     "pump+importer+heredity": {
+      "innovations": [
+       "pump",
+       "importer",
+       "heredity"
+      ],
+      "n_persist": 1,
+      "n": 24,
+      "persistence_fraction": 0.041666666666666664
+     }
+    },
+    "per_structure": {
+     "s00": {
+      "sufficient": [],
+      "minimal_sufficient": [],
+      "required": null,
+      "full_set_persists": false,
+      "none_persists": false,
+      "persists": {
+       "none": false,
+       "pump": false,
+       "importer": false,
+       "pump+importer": false,
+       "heredity": false,
+       "pump+heredity": false,
+       "importer+heredity": false,
+       "pump+importer+heredity": false
+      }
+     },
+     "s01": {
+      "sufficient": [],
+      "minimal_sufficient": [],
+      "required": null,
+      "full_set_persists": false,
+      "none_persists": false,
+      "persists": {
+       "none": false,
+       "pump": false,
+       "importer": false,
+       "pump+importer": false,
+       "heredity": false,
+       "pump+heredity": false,
+       "importer+heredity": false,
+       "pump+importer+heredity": false
+      }
+     },
+     "s02": {
+      "sufficient": [],
+      "minimal_sufficient": [],
+      "required": null,
+      "full_set_persists": false,
+      "none_persists": false,
+      "persists": {
+       "none": false,
+       "pump": false,
+       "importer": false,
+       "pump+importer": false,
+       "heredity": false,
+       "pump+heredity": false,
+       "importer+heredity": false,
+       "pump+importer+heredity": false
+      }
+     },
+     "s03": {
+      "sufficient": [],
+      "minimal_sufficient": [],
+      "required": null,
+      "full_set_persists": false,
+      "none_persists": false,
+      "persists": {
+       "none": false,
+       "pump": false,
+       "importer": false,
+       "pump+importer": false,
+       "heredity": false,
+       "pump+heredity": false,
+       "importer+heredity": false,
+       "pump+importer+heredity": false
+      }
+     },
+     "s04": {
+      "sufficient": [],
+      "minimal_sufficient": [],
+      "required": null,
+      "full_set_persists": false,
+      "none_persists": false,
+      "persists": {
+       "none": false,
+       "pump": false,
+       "importer": false,
+       "pump+importer": false,
+       "heredity": false,
+       "pump+heredity": false,
+       "importer+heredity": false,
+       "pump+importer+heredity": false
+      }
+     },
+     "s05": {
+      "sufficient": [],
+      "minimal_sufficient": [],
+      "required": null,
+      "full_set_persists": false,
+      "none_persists": false,
+      "persists": {
+       "none": false,
+       "pump": false,
+       "importer": false,
+       "pump+importer": false,
+       "heredity": false,
+       "pump+heredity": false,
+       "importer+heredity": false,
+       "pump+importer+heredity": false
+      }
+     },
+     "s06": {
+      "sufficient": [],
+      "minimal_sufficient": [],
+      "required": null,
+      "full_set_persists": false,
+      "none_persists": false,
+      "persists": {
+       "none": false,
+       "pump": false,
+       "importer": false,
+       "pump+importer": false,
+       "heredity": false,
+       "pump+heredity": false,
+       "importer+heredity": false,
+       "pump+importer+heredity": false
+      }
+     },
+     "s07": {
+      "sufficient": [],
+      "minimal_sufficient": [],
+      "required": null,
+      "full_set_persists": false,
+      "none_persists": false,
+      "persists": {
+       "none": false,
+       "pump": false,
+       "importer": false,
+       "pump+importer": false,
+       "heredity": false,
+       "pump+heredity": false,
+       "importer+heredity": false,
+       "pump+importer+heredity": false
+      }
+     },
+     "s08": {
+      "sufficient": [],
+      "minimal_sufficient": [],
+      "required": null,
+      "full_set_persists": false,
+      "none_persists": false,
+      "persists": {
+       "none": false,
+       "pump": false,
+       "importer": false,
+       "pump+importer": false,
+       "heredity": false,
+       "pump+heredity": false,
+       "importer+heredity": false,
+       "pump+importer+heredity": false
+      }
+     },
+     "s09": {
+      "sufficient": [],
+      "minimal_sufficient": [],
+      "required": null,
+      "full_set_persists": false,
+      "none_persists": false,
+      "persists": {
+       "none": false,
+       "pump": false,
+       "importer": false,
+       "pump+importer": false,
+       "heredity": false,
+       "pump+heredity": false,
+       "importer+heredity": false,
+       "pump+importer+heredity": false
+      }
+     },
+     "s10": {
+      "sufficient": [],
+      "minimal_sufficient": [],
+      "required": null,
+      "full_set_persists": false,
+      "none_persists": false,
+      "persists": {
+       "none": false,
+       "pump": false,
+       "importer": false,
+       "pump+importer": false,
+       "heredity": false,
+       "pump+heredity": false,
+       "importer+heredity": false,
+       "pump+importer+heredity": false
+      }
+     },
+     "s11": {
+      "sufficient": [],
+      "minimal_sufficient": [],
+      "required": null,
+      "full_set_persists": false,
+      "none_persists": false,
+      "persists": {
+       "none": false,
+       "pump": false,
+       "importer": false,
+       "pump+importer": false,
+       "heredity": false,
+       "pump+heredity": false,
+       "importer+heredity": false,
+       "pump+importer+heredity": false
+      }
+     },
+     "s12": {
+      "sufficient": [],
+      "minimal_sufficient": [],
+      "required": null,
+      "full_set_persists": false,
+      "none_persists": false,
+      "persists": {
+       "none": false,
+       "pump": false,
+       "importer": false,
+       "pump+importer": false,
+       "heredity": false,
+       "pump+heredity": false,
+       "importer+heredity": false,
+       "pump+importer+heredity": false
+      }
+     },
+     "s13": {
+      "sufficient": [],
+      "minimal_sufficient": [],
+      "required": null,
+      "full_set_persists": false,
+      "none_persists": false,
+      "persists": {
+       "none": false,
+       "pump": false,
+       "importer": false,
+       "pump+importer": false,
+       "heredity": false,
+       "pump+heredity": false,
+       "importer+heredity": false,
+       "pump+importer+heredity": false
+      }
+     },
+     "s14": {
+      "sufficient": [],
+      "minimal_sufficient": [],
+      "required": null,
+      "full_set_persists": false,
+      "none_persists": false,
+      "persists": {
+       "none": false,
+       "pump": false,
+       "importer": false,
+       "pump+importer": false,
+       "heredity": false,
+       "pump+heredity": false,
+       "importer+heredity": false,
+       "pump+importer+heredity": false
+      }
+     },
+     "s15": {
+      "sufficient": [],
+      "minimal_sufficient": [],
+      "required": null,
+      "full_set_persists": false,
+      "none_persists": false,
+      "persists": {
+       "none": false,
+       "pump": false,
+       "importer": false,
+       "pump+importer": false,
+       "heredity": false,
+       "pump+heredity": false,
+       "importer+heredity": false,
+       "pump+importer+heredity": false
+      }
+     },
+     "s16": {
+      "sufficient": [
+       "pump+heredity",
+       "pump+importer+heredity"
+      ],
+      "minimal_sufficient": [
+       "pump+heredity"
+      ],
+      "required": [
+       "pump",
+       "heredity"
+      ],
+      "full_set_persists": true,
+      "none_persists": false,
+      "persists": {
+       "none": false,
+       "pump": false,
+       "importer": false,
+       "pump+importer": false,
+       "heredity": false,
+       "pump+heredity": true,
+       "importer+heredity": false,
+       "pump+importer+heredity": true
+      }
+     },
+     "s17": {
+      "sufficient": [],
+      "minimal_sufficient": [],
+      "required": null,
+      "full_set_persists": false,
+      "none_persists": false,
+      "persists": {
+       "none": false,
+       "pump": false,
+       "importer": false,
+       "pump+importer": false,
+       "heredity": false,
+       "pump+heredity": false,
+       "importer+heredity": false,
+       "pump+importer+heredity": false
+      }
+     },
+     "s18": {
+      "sufficient": [],
+      "minimal_sufficient": [],
+      "required": null,
+      "full_set_persists": false,
+      "none_persists": false,
+      "persists": {
+       "none": false,
+       "pump": false,
+       "importer": false,
+       "pump+importer": false,
+       "heredity": false,
+       "pump+heredity": false,
+       "importer+heredity": false,
+       "pump+importer+heredity": false
+      }
+     },
+     "s19": {
+      "sufficient": [
+       "pump+heredity"
+      ],
+      "minimal_sufficient": [
+       "pump+heredity"
+      ],
+      "required": [
+       "pump",
+       "heredity"
+      ],
+      "full_set_persists": false,
+      "none_persists": false,
+      "persists": {
+       "none": false,
+       "pump": false,
+       "importer": false,
+       "pump+importer": false,
+       "heredity": false,
+       "pump+heredity": true,
+       "importer+heredity": false,
+       "pump+importer+heredity": false
+      }
+     },
+     "s20": {
+      "sufficient": [],
+      "minimal_sufficient": [],
+      "required": null,
+      "full_set_persists": false,
+      "none_persists": false,
+      "persists": {
+       "none": false,
+       "pump": false,
+       "importer": false,
+       "pump+importer": false,
+       "heredity": false,
+       "pump+heredity": false,
+       "importer+heredity": false,
+       "pump+importer+heredity": false
+      }
+     },
+     "s21": {
+      "sufficient": [],
+      "minimal_sufficient": [],
+      "required": null,
+      "full_set_persists": false,
+      "none_persists": false,
+      "persists": {
+       "none": false,
+       "pump": false,
+       "importer": false,
+       "pump+importer": false,
+       "heredity": false,
+       "pump+heredity": false,
+       "importer+heredity": false,
+       "pump+importer+heredity": false
+      }
+     },
+     "s22": {
+      "sufficient": [
+       "pump+heredity"
+      ],
+      "minimal_sufficient": [
+       "pump+heredity"
+      ],
+      "required": [
+       "pump",
+       "heredity"
+      ],
+      "full_set_persists": false,
+      "none_persists": false,
+      "persists": {
+       "none": false,
+       "pump": false,
+       "importer": false,
+       "pump+importer": false,
+       "heredity": false,
+       "pump+heredity": true,
+       "importer+heredity": false,
+       "pump+importer+heredity": false
+      }
+     },
+     "s23": {
+      "sufficient": [],
+      "minimal_sufficient": [],
+      "required": null,
+      "full_set_persists": false,
+      "none_persists": false,
+      "persists": {
+       "none": false,
+       "pump": false,
+       "importer": false,
+       "pump+importer": false,
+       "heredity": false,
+       "pump+heredity": false,
+       "importer+heredity": false,
+       "pump+importer+heredity": false
+      }
+     }
+    },
+    "required_intersection": [
+     "pump",
+     "heredity"
+    ],
+    "required_union": [
+     "pump",
+     "heredity"
+    ],
+    "required_counts": {
+     "pump": 3,
+     "importer": 0,
+     "heredity": 3
+    },
+    "required_fraction": {
+     "pump": 1.0,
+     "importer": 0.0,
+     "heredity": 1.0
+    },
+    "modal_required": {
+     "required": [
+      "pump",
+      "heredity"
+     ],
+     "fraction": 1.0
+    },
+    "required_set_agreement": 1.0,
+    "og08_hypothesis": {
+     "set": [
+      "pump",
+      "importer",
+      "heredity"
+     ],
+     "intersection_matches": false,
+     "union_matches": false
+    },
+    "by_axis": {
+     "model_energy_coupling": {
+      "h_na_gradient_leaky_membrane": {
+       "n": 6,
+       "full_set_persistence": 0.0,
+       "n_viable": 0,
+       "required_fraction": {
+        "pump": NaN,
+        "importer": NaN,
+        "heredity": NaN
+       }
+      },
+      "thioester_acyl_phosphate": {
+       "n": 6,
+       "full_set_persistence": 0.16666666666666666,
+       "n_viable": 3,
+       "required_fraction": {
+        "pump": 1.0,
+        "importer": 0.0,
+        "heredity": 1.0
+       }
+      },
+      "polyphosphate": {
+       "n": 6,
+       "full_set_persistence": 0.0,
+       "n_viable": 0,
+       "required_fraction": {
+        "pump": NaN,
+        "importer": NaN,
+        "heredity": NaN
+       }
+      },
+      "fe_redox": {
+       "n": 6,
+       "full_set_persistence": 0.0,
+       "n_viable": 0,
+       "required_fraction": {
+        "pump": NaN,
+        "importer": NaN,
+        "heredity": NaN
+       }
+      }
+     },
+     "model_heredity": {
+      "compositional": {
+       "n": 4,
+       "full_set_persistence": 0.0,
+       "n_viable": 1,
+       "required_fraction": {
+        "pump": 1.0,
+        "importer": 0.0,
+        "heredity": 1.0
+       }
+      },
+      "network": {
+       "n": 4,
+       "full_set_persistence": 0.0,
+       "n_viable": 0,
+       "required_fraction": {
+        "pump": NaN,
+        "importer": NaN,
+        "heredity": NaN
+       }
+      },
+      "peptide": {
+       "n": 4,
+       "full_set_persistence": 0.0,
+       "n_viable": 0,
+       "required_fraction": {
+        "pump": NaN,
+        "importer": NaN,
+        "heredity": NaN
+       }
+      },
+      "rna_like": {
+       "n": 4,
+       "full_set_persistence": 0.0,
+       "n_viable": 1,
+       "required_fraction": {
+        "pump": 1.0,
+        "importer": 0.0,
+        "heredity": 1.0
+       }
+      },
+      "hybrid": {
+       "n": 4,
+       "full_set_persistence": 0.25,
+       "n_viable": 1,
+       "required_fraction": {
+        "pump": 1.0,
+        "importer": 0.0,
+        "heredity": 1.0
+       }
+      },
+      "mineral_state": {
+       "n": 4,
+       "full_set_persistence": 0.0,
+       "n_viable": 0,
+       "required_fraction": {
+        "pump": NaN,
+        "importer": NaN,
+        "heredity": NaN
+       }
+      }
+     },
+     "model_boundary": {
+      "single_chain": {
+       "n": 8,
+       "full_set_persistence": 0.0,
+       "n_viable": 2,
+       "required_fraction": {
+        "pump": 1.0,
+        "importer": 0.0,
+        "heredity": 1.0
+       }
+      },
+      "mixed": {
+       "n": 8,
+       "full_set_persistence": 0.125,
+       "n_viable": 1,
+       "required_fraction": {
+        "pump": 1.0,
+        "importer": 0.0,
+        "heredity": 1.0
+       }
+      },
+      "thioester_aminothiol": {
+       "n": 8,
+       "full_set_persistence": 0.0,
+       "n_viable": 0,
+       "required_fraction": {
+        "pump": NaN,
+        "importer": NaN,
+        "heredity": NaN
+       }
+      }
+     },
+     "permeability_anchor": {
+      "extrapolated": {
+       "n": 12,
+       "full_set_persistence": 0.0,
+       "n_viable": 2,
+       "required_fraction": {
+        "pump": 1.0,
+        "importer": 0.0,
+        "heredity": 1.0
+       }
+      },
+      "measured": {
+       "n": 12,
+       "full_set_persistence": 0.08333333333333333,
+       "n_viable": 1,
+       "required_fraction": {
+        "pump": 1.0,
+        "importer": 0.0,
+        "heredity": 1.0
+       }
+      }
+     },
+     "model_localization": {
+      "multisolute_surrogate": {
+       "n": 8,
+       "full_set_persistence": 0.125,
+       "n_viable": 2,
+       "required_fraction": {
+        "pump": 1.0,
+        "importer": 0.0,
+        "heredity": 1.0
+       }
+      },
+      "surrogate": {
+       "n": 8,
+       "full_set_persistence": 0.0,
+       "n_viable": 0,
+       "required_fraction": {
+        "pump": NaN,
+        "importer": NaN,
+        "heredity": NaN
+       }
+      },
+      "fipy": {
+       "n": 8,
+       "full_set_persistence": 0.0,
+       "n_viable": 1,
+       "required_fraction": {
+        "pump": 1.0,
+        "importer": 0.0,
+        "heredity": 1.0
+       }
+      }
+     },
+     "maintenance_law": {
+      "constant": {
+       "n": 8,
+       "full_set_persistence": 0.125,
+       "n_viable": 2,
+       "required_fraction": {
+        "pump": 1.0,
+        "importer": 0.0,
+        "heredity": 1.0
+       }
+      },
+      "leak_repair": {
+       "n": 8,
+       "full_set_persistence": 0.0,
+       "n_viable": 0,
+       "required_fraction": {
+        "pump": NaN,
+        "importer": NaN,
+        "heredity": NaN
+       }
+      },
+      "turnover": {
+       "n": 8,
+       "full_set_persistence": 0.0,
+       "n_viable": 1,
+       "required_fraction": {
+        "pump": 1.0,
+        "importer": 0.0,
+        "heredity": 1.0
+       }
+      }
+     }
+    }
+   }
+  },
+  "mineral": {
+   "required_intersection": [],
+   "required_union": [],
+   "full_set_persistence_fraction": 0.9583333333333334,
+   "none_persistence_fraction": 0.9583333333333334,
+   "viable_fraction": 0.9583333333333334,
+   "n_viable": 23,
+   "lattice": {
+    "n_structures": 24,
+    "n_viable": 23,
+    "viable_fraction": 0.9583333333333334,
+    "full_set_persistence_fraction": 0.9583333333333334,
+    "none_persistence_fraction": 0.9583333333333334,
+    "nodes": {
+     "none": {
+      "innovations": [],
+      "n_persist": 23,
+      "n": 24,
+      "persistence_fraction": 0.9583333333333334
+     },
+     "pump": {
+      "innovations": [
+       "pump"
+      ],
+      "n_persist": 23,
+      "n": 24,
+      "persistence_fraction": 0.9583333333333334
+     },
+     "importer": {
+      "innovations": [
+       "importer"
+      ],
+      "n_persist": 23,
+      "n": 24,
+      "persistence_fraction": 0.9583333333333334
+     },
+     "pump+importer": {
+      "innovations": [
+       "pump",
+       "importer"
+      ],
+      "n_persist": 23,
+      "n": 24,
+      "persistence_fraction": 0.9583333333333334
+     },
+     "heredity": {
+      "innovations": [
+       "heredity"
+      ],
+      "n_persist": 23,
+      "n": 24,
+      "persistence_fraction": 0.9583333333333334
+     },
+     "pump+heredity": {
+      "innovations": [
+       "pump",
+       "heredity"
+      ],
+      "n_persist": 23,
+      "n": 24,
+      "persistence_fraction": 0.9583333333333334
+     },
+     "importer+heredity": {
+      "innovations": [
+       "importer",
+       "heredity"
+      ],
+      "n_persist": 23,
+      "n": 24,
+      "persistence_fraction": 0.9583333333333334
+     },
+     "pump+importer+heredity": {
+      "innovations": [
+       "pump",
+       "importer",
+       "heredity"
+      ],
+      "n_persist": 23,
+      "n": 24,
+      "persistence_fraction": 0.9583333333333334
+     }
+    },
+    "per_structure": {
+     "s00": {
+      "sufficient": [],
+      "minimal_sufficient": [],
+      "required": null,
+      "full_set_persists": false,
+      "none_persists": false,
+      "persists": {
+       "none": false,
+       "pump": false,
+       "importer": false,
+       "pump+importer": false,
+       "heredity": false,
+       "pump+heredity": false,
+       "importer+heredity": false,
+       "pump+importer+heredity": false
+      }
+     },
+     "s01": {
+      "sufficient": [
+       "none",
+       "pump",
+       "importer",
+       "pump+importer",
+       "heredity",
+       "pump+heredity",
+       "importer+heredity",
+       "pump+importer+heredity"
+      ],
+      "minimal_sufficient": [
+       "none"
+      ],
+      "required": [],
+      "full_set_persists": true,
+      "none_persists": true,
+      "persists": {
+       "none": true,
+       "pump": true,
+       "importer": true,
+       "pump+importer": true,
+       "heredity": true,
+       "pump+heredity": true,
+       "importer+heredity": true,
+       "pump+importer+heredity": true
+      }
+     },
+     "s02": {
+      "sufficient": [
+       "none",
+       "pump",
+       "importer",
+       "pump+importer",
+       "heredity",
+       "pump+heredity",
+       "importer+heredity",
+       "pump+importer+heredity"
+      ],
+      "minimal_sufficient": [
+       "none"
+      ],
+      "required": [],
+      "full_set_persists": true,
+      "none_persists": true,
+      "persists": {
+       "none": true,
+       "pump": true,
+       "importer": true,
+       "pump+importer": true,
+       "heredity": true,
+       "pump+heredity": true,
+       "importer+heredity": true,
+       "pump+importer+heredity": true
+      }
+     },
+     "s03": {
+      "sufficient": [
+       "none",
+       "pump",
+       "importer",
+       "pump+importer",
+       "heredity",
+       "pump+heredity",
+       "importer+heredity",
+       "pump+importer+heredity"
+      ],
+      "minimal_sufficient": [
+       "none"
+      ],
+      "required": [],
+      "full_set_persists": true,
+      "none_persists": true,
+      "persists": {
+       "none": true,
+       "pump": true,
+       "importer": true,
+       "pump+importer": true,
+       "heredity": true,
+       "pump+heredity": true,
+       "importer+heredity": true,
+       "pump+importer+heredity": true
+      }
+     },
+     "s04": {
+      "sufficient": [
+       "none",
+       "pump",
+       "importer",
+       "pump+importer",
+       "heredity",
+       "pump+heredity",
+       "importer+heredity",
+       "pump+importer+heredity"
+      ],
+      "minimal_sufficient": [
+       "none"
+      ],
+      "required": [],
+      "full_set_persists": true,
+      "none_persists": true,
+      "persists": {
+       "none": true,
+       "pump": true,
+       "importer": true,
+       "pump+importer": true,
+       "heredity": true,
+       "pump+heredity": true,
+       "importer+heredity": true,
+       "pump+importer+heredity": true
+      }
+     },
+     "s05": {
+      "sufficient": [
+       "none",
+       "pump",
+       "importer",
+       "pump+importer",
+       "heredity",
+       "pump+heredity",
+       "importer+heredity",
+       "pump+importer+heredity"
+      ],
+      "minimal_sufficient": [
+       "none"
+      ],
+      "required": [],
+      "full_set_persists": true,
+      "none_persists": true,
+      "persists": {
+       "none": true,
+       "pump": true,
+       "importer": true,
+       "pump+importer": true,
+       "heredity": true,
+       "pump+heredity": true,
+       "importer+heredity": true,
+       "pump+importer+heredity": true
+      }
+     },
+     "s06": {
+      "sufficient": [
+       "none",
+       "pump",
+       "importer",
+       "pump+importer",
+       "heredity",
+       "pump+heredity",
+       "importer+heredity",
+       "pump+importer+heredity"
+      ],
+      "minimal_sufficient": [
+       "none"
+      ],
+      "required": [],
+      "full_set_persists": true,
+      "none_persists": true,
+      "persists": {
+       "none": true,
+       "pump": true,
+       "importer": true,
+       "pump+importer": true,
+       "heredity": true,
+       "pump+heredity": true,
+       "importer+heredity": true,
+       "pump+importer+heredity": true
+      }
+     },
+     "s07": {
+      "sufficient": [
+       "none",
+       "pump",
+       "importer",
+       "pump+importer",
+       "heredity",
+       "pump+heredity",
+       "importer+heredity",
+       "pump+importer+heredity"
+      ],
+      "minimal_sufficient": [
+       "none"
+      ],
+      "required": [],
+      "full_set_persists": true,
+      "none_persists": true,
+      "persists": {
+       "none": true,
+       "pump": true,
+       "importer": true,
+       "pump+importer": true,
+       "heredity": true,
+       "pump+heredity": true,
+       "importer+heredity": true,
+       "pump+importer+heredity": true
+      }
+     },
+     "s08": {
+      "sufficient": [
+       "none",
+       "pump",
+       "importer",
+       "pump+importer",
+       "heredity",
+       "pump+heredity",
+       "importer+heredity",
+       "pump+importer+heredity"
+      ],
+      "minimal_sufficient": [
+       "none"
+      ],
+      "required": [],
+      "full_set_persists": true,
+      "none_persists": true,
+      "persists": {
+       "none": true,
+       "pump": true,
+       "importer": true,
+       "pump+importer": true,
+       "heredity": true,
+       "pump+heredity": true,
+       "importer+heredity": true,
+       "pump+importer+heredity": true
+      }
+     },
+     "s09": {
+      "sufficient": [
+       "none",
+       "pump",
+       "importer",
+       "pump+importer",
+       "heredity",
+       "pump+heredity",
+       "importer+heredity",
+       "pump+importer+heredity"
+      ],
+      "minimal_sufficient": [
+       "none"
+      ],
+      "required": [],
+      "full_set_persists": true,
+      "none_persists": true,
+      "persists": {
+       "none": true,
+       "pump": true,
+       "importer": true,
+       "pump+importer": true,
+       "heredity": true,
+       "pump+heredity": true,
+       "importer+heredity": true,
+       "pump+importer+heredity": true
+      }
+     },
+     "s10": {
+      "sufficient": [
+       "none",
+       "pump",
+       "importer",
+       "pump+importer",
+       "heredity",
+       "pump+heredity",
+       "importer+heredity",
+       "pump+importer+heredity"
+      ],
+      "minimal_sufficient": [
+       "none"
+      ],
+      "required": [],
+      "full_set_persists": true,
+      "none_persists": true,
+      "persists": {
+       "none": true,
+       "pump": true,
+       "importer": true,
+       "pump+importer": true,
+       "heredity": true,
+       "pump+heredity": true,
+       "importer+heredity": true,
+       "pump+importer+heredity": true
+      }
+     },
+     "s11": {
+      "sufficient": [
+       "none",
+       "pump",
+       "importer",
+       "pump+importer",
+       "heredity",
+       "pump+heredity",
+       "importer+heredity",
+       "pump+importer+heredity"
+      ],
+      "minimal_sufficient": [
+       "none"
+      ],
+      "required": [],
+      "full_set_persists": true,
+      "none_persists": true,
+      "persists": {
+       "none": true,
+       "pump": true,
+       "importer": true,
+       "pump+importer": true,
+       "heredity": true,
+       "pump+heredity": true,
+       "importer+heredity": true,
+       "pump+importer+heredity": true
+      }
+     },
+     "s12": {
+      "sufficient": [
+       "none",
+       "pump",
+       "importer",
+       "pump+importer",
+       "heredity",
+       "pump+heredity",
+       "importer+heredity",
+       "pump+importer+heredity"
+      ],
+      "minimal_sufficient": [
+       "none"
+      ],
+      "required": [],
+      "full_set_persists": true,
+      "none_persists": true,
+      "persists": {
+       "none": true,
+       "pump": true,
+       "importer": true,
+       "pump+importer": true,
+       "heredity": true,
+       "pump+heredity": true,
+       "importer+heredity": true,
+       "pump+importer+heredity": true
+      }
+     },
+     "s13": {
+      "sufficient": [
+       "none",
+       "pump",
+       "importer",
+       "pump+importer",
+       "heredity",
+       "pump+heredity",
+       "importer+heredity",
+       "pump+importer+heredity"
+      ],
+      "minimal_sufficient": [
+       "none"
+      ],
+      "required": [],
+      "full_set_persists": true,
+      "none_persists": true,
+      "persists": {
+       "none": true,
+       "pump": true,
+       "importer": true,
+       "pump+importer": true,
+       "heredity": true,
+       "pump+heredity": true,
+       "importer+heredity": true,
+       "pump+importer+heredity": true
+      }
+     },
+     "s14": {
+      "sufficient": [
+       "none",
+       "pump",
+       "importer",
+       "pump+importer",
+       "heredity",
+       "pump+heredity",
+       "importer+heredity",
+       "pump+importer+heredity"
+      ],
+      "minimal_sufficient": [
+       "none"
+      ],
+      "required": [],
+      "full_set_persists": true,
+      "none_persists": true,
+      "persists": {
+       "none": true,
+       "pump": true,
+       "importer": true,
+       "pump+importer": true,
+       "heredity": true,
+       "pump+heredity": true,
+       "importer+heredity": true,
+       "pump+importer+heredity": true
+      }
+     },
+     "s15": {
+      "sufficient": [
+       "none",
+       "pump",
+       "importer",
+       "pump+importer",
+       "heredity",
+       "pump+heredity",
+       "importer+heredity",
+       "pump+importer+heredity"
+      ],
+      "minimal_sufficient": [
+       "none"
+      ],
+      "required": [],
+      "full_set_persists": true,
+      "none_persists": true,
+      "persists": {
+       "none": true,
+       "pump": true,
+       "importer": true,
+       "pump+importer": true,
+       "heredity": true,
+       "pump+heredity": true,
+       "importer+heredity": true,
+       "pump+importer+heredity": true
+      }
+     },
+     "s16": {
+      "sufficient": [
+       "none",
+       "pump",
+       "importer",
+       "pump+importer",
+       "heredity",
+       "pump+heredity",
+       "importer+heredity",
+       "pump+importer+heredity"
+      ],
+      "minimal_sufficient": [
+       "none"
+      ],
+      "required": [],
+      "full_set_persists": true,
+      "none_persists": true,
+      "persists": {
+       "none": true,
+       "pump": true,
+       "importer": true,
+       "pump+importer": true,
+       "heredity": true,
+       "pump+heredity": true,
+       "importer+heredity": true,
+       "pump+importer+heredity": true
+      }
+     },
+     "s17": {
+      "sufficient": [
+       "none",
+       "pump",
+       "importer",
+       "pump+importer",
+       "heredity",
+       "pump+heredity",
+       "importer+heredity",
+       "pump+importer+heredity"
+      ],
+      "minimal_sufficient": [
+       "none"
+      ],
+      "required": [],
+      "full_set_persists": true,
+      "none_persists": true,
+      "persists": {
+       "none": true,
+       "pump": true,
+       "importer": true,
+       "pump+importer": true,
+       "heredity": true,
+       "pump+heredity": true,
+       "importer+heredity": true,
+       "pump+importer+heredity": true
+      }
+     },
+     "s18": {
+      "sufficient": [
+       "none",
+       "pump",
+       "importer",
+       "pump+importer",
+       "heredity",
+       "pump+heredity",
+       "importer+heredity",
+       "pump+importer+heredity"
+      ],
+      "minimal_sufficient": [
+       "none"
+      ],
+      "required": [],
+      "full_set_persists": true,
+      "none_persists": true,
+      "persists": {
+       "none": true,
+       "pump": true,
+       "importer": true,
+       "pump+importer": true,
+       "heredity": true,
+       "pump+heredity": true,
+       "importer+heredity": true,
+       "pump+importer+heredity": true
+      }
+     },
+     "s19": {
+      "sufficient": [
+       "none",
+       "pump",
+       "importer",
+       "pump+importer",
+       "heredity",
+       "pump+heredity",
+       "importer+heredity",
+       "pump+importer+heredity"
+      ],
+      "minimal_sufficient": [
+       "none"
+      ],
+      "required": [],
+      "full_set_persists": true,
+      "none_persists": true,
+      "persists": {
+       "none": true,
+       "pump": true,
+       "importer": true,
+       "pump+importer": true,
+       "heredity": true,
+       "pump+heredity": true,
+       "importer+heredity": true,
+       "pump+importer+heredity": true
+      }
+     },
+     "s20": {
+      "sufficient": [
+       "none",
+       "pump",
+       "importer",
+       "pump+importer",
+       "heredity",
+       "pump+heredity",
+       "importer+heredity",
+       "pump+importer+heredity"
+      ],
+      "minimal_sufficient": [
+       "none"
+      ],
+      "required": [],
+      "full_set_persists": true,
+      "none_persists": true,
+      "persists": {
+       "none": true,
+       "pump": true,
+       "importer": true,
+       "pump+importer": true,
+       "heredity": true,
+       "pump+heredity": true,
+       "importer+heredity": true,
+       "pump+importer+heredity": true
+      }
+     },
+     "s21": {
+      "sufficient": [
+       "none",
+       "pump",
+       "importer",
+       "pump+importer",
+       "heredity",
+       "pump+heredity",
+       "importer+heredity",
+       "pump+importer+heredity"
+      ],
+      "minimal_sufficient": [
+       "none"
+      ],
+      "required": [],
+      "full_set_persists": true,
+      "none_persists": true,
+      "persists": {
+       "none": true,
+       "pump": true,
+       "importer": true,
+       "pump+importer": true,
+       "heredity": true,
+       "pump+heredity": true,
+       "importer+heredity": true,
+       "pump+importer+heredity": true
+      }
+     },
+     "s22": {
+      "sufficient": [
+       "none",
+       "pump",
+       "importer",
+       "pump+importer",
+       "heredity",
+       "pump+heredity",
+       "importer+heredity",
+       "pump+importer+heredity"
+      ],
+      "minimal_sufficient": [
+       "none"
+      ],
+      "required": [],
+      "full_set_persists": true,
+      "none_persists": true,
+      "persists": {
+       "none": true,
+       "pump": true,
+       "importer": true,
+       "pump+importer": true,
+       "heredity": true,
+       "pump+heredity": true,
+       "importer+heredity": true,
+       "pump+importer+heredity": true
+      }
+     },
+     "s23": {
+      "sufficient": [
+       "none",
+       "pump",
+       "importer",
+       "pump+importer",
+       "heredity",
+       "pump+heredity",
+       "importer+heredity",
+       "pump+importer+heredity"
+      ],
+      "minimal_sufficient": [
+       "none"
+      ],
+      "required": [],
+      "full_set_persists": true,
+      "none_persists": true,
+      "persists": {
+       "none": true,
+       "pump": true,
+       "importer": true,
+       "pump+importer": true,
+       "heredity": true,
+       "pump+heredity": true,
+       "importer+heredity": true,
+       "pump+importer+heredity": true
+      }
+     }
+    },
+    "required_intersection": [],
+    "required_union": [],
+    "required_counts": {
+     "pump": 0,
+     "importer": 0,
+     "heredity": 0
+    },
+    "required_fraction": {
+     "pump": 0.0,
+     "importer": 0.0,
+     "heredity": 0.0
+    },
+    "modal_required": {
+     "required": [],
+     "fraction": 1.0
+    },
+    "required_set_agreement": 1.0,
+    "og08_hypothesis": {
+     "set": [
+      "pump",
+      "importer",
+      "heredity"
+     ],
+     "intersection_matches": false,
+     "union_matches": false
+    },
+    "by_axis": {
+     "model_energy_coupling": {
+      "h_na_gradient_leaky_membrane": {
+       "n": 6,
+       "full_set_persistence": 1.0,
+       "n_viable": 6,
+       "required_fraction": {
+        "pump": 0.0,
+        "importer": 0.0,
+        "heredity": 0.0
+       }
+      },
+      "thioester_acyl_phosphate": {
+       "n": 6,
+       "full_set_persistence": 1.0,
+       "n_viable": 6,
+       "required_fraction": {
+        "pump": 0.0,
+        "importer": 0.0,
+        "heredity": 0.0
+       }
+      },
+      "polyphosphate": {
+       "n": 6,
+       "full_set_persistence": 0.8333333333333334,
+       "n_viable": 5,
+       "required_fraction": {
+        "pump": 0.0,
+        "importer": 0.0,
+        "heredity": 0.0
+       }
+      },
+      "fe_redox": {
+       "n": 6,
+       "full_set_persistence": 1.0,
+       "n_viable": 6,
+       "required_fraction": {
+        "pump": 0.0,
+        "importer": 0.0,
+        "heredity": 0.0
+       }
+      }
+     },
+     "model_heredity": {
+      "compositional": {
+       "n": 4,
+       "full_set_persistence": 1.0,
+       "n_viable": 4,
+       "required_fraction": {
+        "pump": 0.0,
+        "importer": 0.0,
+        "heredity": 0.0
+       }
+      },
+      "network": {
+       "n": 4,
+       "full_set_persistence": 1.0,
+       "n_viable": 4,
+       "required_fraction": {
+        "pump": 0.0,
+        "importer": 0.0,
+        "heredity": 0.0
+       }
+      },
+      "peptide": {
+       "n": 4,
+       "full_set_persistence": 0.75,
+       "n_viable": 3,
+       "required_fraction": {
+        "pump": 0.0,
+        "importer": 0.0,
+        "heredity": 0.0
+       }
+      },
+      "rna_like": {
+       "n": 4,
+       "full_set_persistence": 1.0,
+       "n_viable": 4,
+       "required_fraction": {
+        "pump": 0.0,
+        "importer": 0.0,
+        "heredity": 0.0
+       }
+      },
+      "hybrid": {
+       "n": 4,
+       "full_set_persistence": 1.0,
+       "n_viable": 4,
+       "required_fraction": {
+        "pump": 0.0,
+        "importer": 0.0,
+        "heredity": 0.0
+       }
+      },
+      "mineral_state": {
+       "n": 4,
+       "full_set_persistence": 1.0,
+       "n_viable": 4,
+       "required_fraction": {
+        "pump": 0.0,
+        "importer": 0.0,
+        "heredity": 0.0
+       }
+      }
+     },
+     "model_boundary": {
+      "single_chain": {
+       "n": 8,
+       "full_set_persistence": 0.875,
+       "n_viable": 7,
+       "required_fraction": {
+        "pump": 0.0,
+        "importer": 0.0,
+        "heredity": 0.0
+       }
+      },
+      "mixed": {
+       "n": 8,
+       "full_set_persistence": 1.0,
+       "n_viable": 8,
+       "required_fraction": {
+        "pump": 0.0,
+        "importer": 0.0,
+        "heredity": 0.0
+       }
+      },
+      "thioester_aminothiol": {
+       "n": 8,
+       "full_set_persistence": 1.0,
+       "n_viable": 8,
+       "required_fraction": {
+        "pump": 0.0,
+        "importer": 0.0,
+        "heredity": 0.0
+       }
+      }
+     },
+     "permeability_anchor": {
+      "extrapolated": {
+       "n": 12,
+       "full_set_persistence": 1.0,
+       "n_viable": 12,
+       "required_fraction": {
+        "pump": 0.0,
+        "importer": 0.0,
+        "heredity": 0.0
+       }
+      },
+      "measured": {
+       "n": 12,
+       "full_set_persistence": 0.9166666666666666,
+       "n_viable": 11,
+       "required_fraction": {
+        "pump": 0.0,
+        "importer": 0.0,
+        "heredity": 0.0
+       }
+      }
+     },
+     "model_localization": {
+      "multisolute_surrogate": {
+       "n": 8,
+       "full_set_persistence": 1.0,
+       "n_viable": 8,
+       "required_fraction": {
+        "pump": 0.0,
+        "importer": 0.0,
+        "heredity": 0.0
+       }
+      },
+      "surrogate": {
+       "n": 8,
+       "full_set_persistence": 1.0,
+       "n_viable": 8,
+       "required_fraction": {
+        "pump": 0.0,
+        "importer": 0.0,
+        "heredity": 0.0
+       }
+      },
+      "fipy": {
+       "n": 8,
+       "full_set_persistence": 0.875,
+       "n_viable": 7,
+       "required_fraction": {
+        "pump": 0.0,
+        "importer": 0.0,
+        "heredity": 0.0
+       }
+      }
+     },
+     "maintenance_law": {
+      "constant": {
+       "n": 8,
+       "full_set_persistence": 1.0,
+       "n_viable": 8,
+       "required_fraction": {
+        "pump": 0.0,
+        "importer": 0.0,
+        "heredity": 0.0
+       }
+      },
+      "leak_repair": {
+       "n": 8,
+       "full_set_persistence": 0.875,
+       "n_viable": 7,
+       "required_fraction": {
+        "pump": 0.0,
+        "importer": 0.0,
+        "heredity": 0.0
+       }
+      },
+      "turnover": {
+       "n": 8,
+       "full_set_persistence": 1.0,
+       "n_viable": 8,
+       "required_fraction": {
+        "pump": 0.0,
+        "importer": 0.0,
+        "heredity": 0.0
+       }
+      }
+     }
+    }
+   }
+  },
+  "feed": {
+   "required_intersection": [],
+   "required_union": [
+    "importer"
+   ],
+   "full_set_persistence_fraction": 0.75,
+   "none_persistence_fraction": 0.7083333333333334,
+   "viable_fraction": 0.75,
+   "n_viable": 18,
+   "lattice": {
+    "n_structures": 24,
+    "n_viable": 18,
+    "viable_fraction": 0.75,
+    "full_set_persistence_fraction": 0.75,
+    "none_persistence_fraction": 0.7083333333333334,
+    "nodes": {
+     "none": {
+      "innovations": [],
+      "n_persist": 17,
+      "n": 24,
+      "persistence_fraction": 0.7083333333333334
+     },
+     "pump": {
+      "innovations": [
+       "pump"
+      ],
+      "n_persist": 17,
+      "n": 24,
+      "persistence_fraction": 0.7083333333333334
+     },
+     "importer": {
+      "innovations": [
+       "importer"
+      ],
+      "n_persist": 18,
+      "n": 24,
+      "persistence_fraction": 0.75
+     },
+     "pump+importer": {
+      "innovations": [
+       "pump",
+       "importer"
+      ],
+      "n_persist": 18,
+      "n": 24,
+      "persistence_fraction": 0.75
+     },
+     "heredity": {
+      "innovations": [
+       "heredity"
+      ],
+      "n_persist": 17,
+      "n": 24,
+      "persistence_fraction": 0.7083333333333334
+     },
+     "pump+heredity": {
+      "innovations": [
+       "pump",
+       "heredity"
+      ],
+      "n_persist": 17,
+      "n": 24,
+      "persistence_fraction": 0.7083333333333334
+     },
+     "importer+heredity": {
+      "innovations": [
+       "importer",
+       "heredity"
+      ],
+      "n_persist": 18,
+      "n": 24,
+      "persistence_fraction": 0.75
+     },
+     "pump+importer+heredity": {
+      "innovations": [
+       "pump",
+       "importer",
+       "heredity"
+      ],
+      "n_persist": 18,
+      "n": 24,
+      "persistence_fraction": 0.75
+     }
+    },
+    "per_structure": {
+     "s00": {
+      "sufficient": [],
+      "minimal_sufficient": [],
+      "required": null,
+      "full_set_persists": false,
+      "none_persists": false,
+      "persists": {
+       "none": false,
+       "pump": false,
+       "importer": false,
+       "pump+importer": false,
+       "heredity": false,
+       "pump+heredity": false,
+       "importer+heredity": false,
+       "pump+importer+heredity": false
+      }
+     },
+     "s01": {
+      "sufficient": [
+       "none",
+       "pump",
+       "importer",
+       "pump+importer",
+       "heredity",
+       "pump+heredity",
+       "importer+heredity",
+       "pump+importer+heredity"
+      ],
+      "minimal_sufficient": [
+       "none"
+      ],
+      "required": [],
+      "full_set_persists": true,
+      "none_persists": true,
+      "persists": {
+       "none": true,
+       "pump": true,
+       "importer": true,
+       "pump+importer": true,
+       "heredity": true,
+       "pump+heredity": true,
+       "importer+heredity": true,
+       "pump+importer+heredity": true
+      }
+     },
+     "s02": {
+      "sufficient": [],
+      "minimal_sufficient": [],
+      "required": null,
+      "full_set_persists": false,
+      "none_persists": false,
+      "persists": {
+       "none": false,
+       "pump": false,
+       "importer": false,
+       "pump+importer": false,
+       "heredity": false,
+       "pump+heredity": false,
+       "importer+heredity": false,
+       "pump+importer+heredity": false
+      }
+     },
+     "s03": {
+      "sufficient": [
+       "none",
+       "pump",
+       "importer",
+       "pump+importer",
+       "heredity",
+       "pump+heredity",
+       "importer+heredity",
+       "pump+importer+heredity"
+      ],
+      "minimal_sufficient": [
+       "none"
+      ],
+      "required": [],
+      "full_set_persists": true,
+      "none_persists": true,
+      "persists": {
+       "none": true,
+       "pump": true,
+       "importer": true,
+       "pump+importer": true,
+       "heredity": true,
+       "pump+heredity": true,
+       "importer+heredity": true,
+       "pump+importer+heredity": true
+      }
+     },
+     "s04": {
+      "sufficient": [],
+      "minimal_sufficient": [],
+      "required": null,
+      "full_set_persists": false,
+      "none_persists": false,
+      "persists": {
+       "none": false,
+       "pump": false,
+       "importer": false,
+       "pump+importer": false,
+       "heredity": false,
+       "pump+heredity": false,
+       "importer+heredity": false,
+       "pump+importer+heredity": false
+      }
+     },
+     "s05": {
+      "sufficient": [],
+      "minimal_sufficient": [],
+      "required": null,
+      "full_set_persists": false,
+      "none_persists": false,
+      "persists": {
+       "none": false,
+       "pump": false,
+       "importer": false,
+       "pump+importer": false,
+       "heredity": false,
+       "pump+heredity": false,
+       "importer+heredity": false,
+       "pump+importer+heredity": false
+      }
+     },
+     "s06": {
+      "sufficient": [
+       "none",
+       "pump",
+       "importer",
+       "pump+importer",
+       "heredity",
+       "pump+heredity",
+       "importer+heredity",
+       "pump+importer+heredity"
+      ],
+      "minimal_sufficient": [
+       "none"
+      ],
+      "required": [],
+      "full_set_persists": true,
+      "none_persists": true,
+      "persists": {
+       "none": true,
+       "pump": true,
+       "importer": true,
+       "pump+importer": true,
+       "heredity": true,
+       "pump+heredity": true,
+       "importer+heredity": true,
+       "pump+importer+heredity": true
+      }
+     },
+     "s07": {
+      "sufficient": [
+       "none",
+       "pump",
+       "importer",
+       "pump+importer",
+       "heredity",
+       "pump+heredity",
+       "importer+heredity",
+       "pump+importer+heredity"
+      ],
+      "minimal_sufficient": [
+       "none"
+      ],
+      "required": [],
+      "full_set_persists": true,
+      "none_persists": true,
+      "persists": {
+       "none": true,
+       "pump": true,
+       "importer": true,
+       "pump+importer": true,
+       "heredity": true,
+       "pump+heredity": true,
+       "importer+heredity": true,
+       "pump+importer+heredity": true
+      }
+     },
+     "s08": {
+      "sufficient": [
+       "none",
+       "pump",
+       "importer",
+       "pump+importer",
+       "heredity",
+       "pump+heredity",
+       "importer+heredity",
+       "pump+importer+heredity"
+      ],
+      "minimal_sufficient": [
+       "none"
+      ],
+      "required": [],
+      "full_set_persists": true,
+      "none_persists": true,
+      "persists": {
+       "none": true,
+       "pump": true,
+       "importer": true,
+       "pump+importer": true,
+       "heredity": true,
+       "pump+heredity": true,
+       "importer+heredity": true,
+       "pump+importer+heredity": true
+      }
+     },
+     "s09": {
+      "sufficient": [
+       "none",
+       "pump",
+       "importer",
+       "pump+importer",
+       "heredity",
+       "pump+heredity",
+       "importer+heredity",
+       "pump+importer+heredity"
+      ],
+      "minimal_sufficient": [
+       "none"
+      ],
+      "required": [],
+      "full_set_persists": true,
+      "none_persists": true,
+      "persists": {
+       "none": true,
+       "pump": true,
+       "importer": true,
+       "pump+importer": true,
+       "heredity": true,
+       "pump+heredity": true,
+       "importer+heredity": true,
+       "pump+importer+heredity": true
+      }
+     },
+     "s10": {
+      "sufficient": [
+       "none",
+       "pump",
+       "importer",
+       "pump+importer",
+       "heredity",
+       "pump+heredity",
+       "importer+heredity",
+       "pump+importer+heredity"
+      ],
+      "minimal_sufficient": [
+       "none"
+      ],
+      "required": [],
+      "full_set_persists": true,
+      "none_persists": true,
+      "persists": {
+       "none": true,
+       "pump": true,
+       "importer": true,
+       "pump+importer": true,
+       "heredity": true,
+       "pump+heredity": true,
+       "importer+heredity": true,
+       "pump+importer+heredity": true
+      }
+     },
+     "s11": {
+      "sufficient": [],
+      "minimal_sufficient": [],
+      "required": null,
+      "full_set_persists": false,
+      "none_persists": false,
+      "persists": {
+       "none": false,
+       "pump": false,
+       "importer": false,
+       "pump+importer": false,
+       "heredity": false,
+       "pump+heredity": false,
+       "importer+heredity": false,
+       "pump+importer+heredity": false
+      }
+     },
+     "s12": {
+      "sufficient": [
+       "none",
+       "pump",
+       "importer",
+       "pump+importer",
+       "heredity",
+       "pump+heredity",
+       "importer+heredity",
+       "pump+importer+heredity"
+      ],
+      "minimal_sufficient": [
+       "none"
+      ],
+      "required": [],
+      "full_set_persists": true,
+      "none_persists": true,
+      "persists": {
+       "none": true,
+       "pump": true,
+       "importer": true,
+       "pump+importer": true,
+       "heredity": true,
+       "pump+heredity": true,
+       "importer+heredity": true,
+       "pump+importer+heredity": true
+      }
+     },
+     "s13": {
+      "sufficient": [],
+      "minimal_sufficient": [],
+      "required": null,
+      "full_set_persists": false,
+      "none_persists": false,
+      "persists": {
+       "none": false,
+       "pump": false,
+       "importer": false,
+       "pump+importer": false,
+       "heredity": false,
+       "pump+heredity": false,
+       "importer+heredity": false,
+       "pump+importer+heredity": false
+      }
+     },
+     "s14": {
+      "sufficient": [
+       "none",
+       "pump",
+       "importer",
+       "pump+importer",
+       "heredity",
+       "pump+heredity",
+       "importer+heredity",
+       "pump+importer+heredity"
+      ],
+      "minimal_sufficient": [
+       "none"
+      ],
+      "required": [],
+      "full_set_persists": true,
+      "none_persists": true,
+      "persists": {
+       "none": true,
+       "pump": true,
+       "importer": true,
+       "pump+importer": true,
+       "heredity": true,
+       "pump+heredity": true,
+       "importer+heredity": true,
+       "pump+importer+heredity": true
+      }
+     },
+     "s15": {
+      "sufficient": [
+       "none",
+       "pump",
+       "importer",
+       "pump+importer",
+       "heredity",
+       "pump+heredity",
+       "importer+heredity",
+       "pump+importer+heredity"
+      ],
+      "minimal_sufficient": [
+       "none"
+      ],
+      "required": [],
+      "full_set_persists": true,
+      "none_persists": true,
+      "persists": {
+       "none": true,
+       "pump": true,
+       "importer": true,
+       "pump+importer": true,
+       "heredity": true,
+       "pump+heredity": true,
+       "importer+heredity": true,
+       "pump+importer+heredity": true
+      }
+     },
+     "s16": {
+      "sufficient": [
+       "importer",
+       "pump+importer",
+       "importer+heredity",
+       "pump+importer+heredity"
+      ],
+      "minimal_sufficient": [
+       "importer"
+      ],
+      "required": [
+       "importer"
+      ],
+      "full_set_persists": true,
+      "none_persists": false,
+      "persists": {
+       "none": false,
+       "pump": false,
+       "importer": true,
+       "pump+importer": true,
+       "heredity": false,
+       "pump+heredity": false,
+       "importer+heredity": true,
+       "pump+importer+heredity": true
+      }
+     },
+     "s17": {
+      "sufficient": [
+       "none",
+       "pump",
+       "importer",
+       "pump+importer",
+       "heredity",
+       "pump+heredity",
+       "importer+heredity",
+       "pump+importer+heredity"
+      ],
+      "minimal_sufficient": [
+       "none"
+      ],
+      "required": [],
+      "full_set_persists": true,
+      "none_persists": true,
+      "persists": {
+       "none": true,
+       "pump": true,
+       "importer": true,
+       "pump+importer": true,
+       "heredity": true,
+       "pump+heredity": true,
+       "importer+heredity": true,
+       "pump+importer+heredity": true
+      }
+     },
+     "s18": {
+      "sufficient": [
+       "none",
+       "pump",
+       "importer",
+       "pump+importer",
+       "heredity",
+       "pump+heredity",
+       "importer+heredity",
+       "pump+importer+heredity"
+      ],
+      "minimal_sufficient": [
+       "none"
+      ],
+      "required": [],
+      "full_set_persists": true,
+      "none_persists": true,
+      "persists": {
+       "none": true,
+       "pump": true,
+       "importer": true,
+       "pump+importer": true,
+       "heredity": true,
+       "pump+heredity": true,
+       "importer+heredity": true,
+       "pump+importer+heredity": true
+      }
+     },
+     "s19": {
+      "sufficient": [
+       "none",
+       "pump",
+       "importer",
+       "pump+importer",
+       "heredity",
+       "pump+heredity",
+       "importer+heredity",
+       "pump+importer+heredity"
+      ],
+      "minimal_sufficient": [
+       "none"
+      ],
+      "required": [],
+      "full_set_persists": true,
+      "none_persists": true,
+      "persists": {
+       "none": true,
+       "pump": true,
+       "importer": true,
+       "pump+importer": true,
+       "heredity": true,
+       "pump+heredity": true,
+       "importer+heredity": true,
+       "pump+importer+heredity": true
+      }
+     },
+     "s20": {
+      "sufficient": [
+       "none",
+       "pump",
+       "importer",
+       "pump+importer",
+       "heredity",
+       "pump+heredity",
+       "importer+heredity",
+       "pump+importer+heredity"
+      ],
+      "minimal_sufficient": [
+       "none"
+      ],
+      "required": [],
+      "full_set_persists": true,
+      "none_persists": true,
+      "persists": {
+       "none": true,
+       "pump": true,
+       "importer": true,
+       "pump+importer": true,
+       "heredity": true,
+       "pump+heredity": true,
+       "importer+heredity": true,
+       "pump+importer+heredity": true
+      }
+     },
+     "s21": {
+      "sufficient": [
+       "none",
+       "pump",
+       "importer",
+       "pump+importer",
+       "heredity",
+       "pump+heredity",
+       "importer+heredity",
+       "pump+importer+heredity"
+      ],
+      "minimal_sufficient": [
+       "none"
+      ],
+      "required": [],
+      "full_set_persists": true,
+      "none_persists": true,
+      "persists": {
+       "none": true,
+       "pump": true,
+       "importer": true,
+       "pump+importer": true,
+       "heredity": true,
+       "pump+heredity": true,
+       "importer+heredity": true,
+       "pump+importer+heredity": true
+      }
+     },
+     "s22": {
+      "sufficient": [
+       "none",
+       "pump",
+       "importer",
+       "pump+importer",
+       "heredity",
+       "pump+heredity",
+       "importer+heredity",
+       "pump+importer+heredity"
+      ],
+      "minimal_sufficient": [
+       "none"
+      ],
+      "required": [],
+      "full_set_persists": true,
+      "none_persists": true,
+      "persists": {
+       "none": true,
+       "pump": true,
+       "importer": true,
+       "pump+importer": true,
+       "heredity": true,
+       "pump+heredity": true,
+       "importer+heredity": true,
+       "pump+importer+heredity": true
+      }
+     },
+     "s23": {
+      "sufficient": [
+       "none",
+       "pump",
+       "importer",
+       "pump+importer",
+       "heredity",
+       "pump+heredity",
+       "importer+heredity",
+       "pump+importer+heredity"
+      ],
+      "minimal_sufficient": [
+       "none"
+      ],
+      "required": [],
+      "full_set_persists": true,
+      "none_persists": true,
+      "persists": {
+       "none": true,
+       "pump": true,
+       "importer": true,
+       "pump+importer": true,
+       "heredity": true,
+       "pump+heredity": true,
+       "importer+heredity": true,
+       "pump+importer+heredity": true
+      }
+     }
+    },
+    "required_intersection": [],
+    "required_union": [
+     "importer"
+    ],
+    "required_counts": {
+     "pump": 0,
+     "importer": 1,
+     "heredity": 0
+    },
+    "required_fraction": {
+     "pump": 0.0,
+     "importer": 0.05555555555555555,
+     "heredity": 0.0
+    },
+    "modal_required": {
+     "required": [],
+     "fraction": 0.9444444444444444
+    },
+    "required_set_agreement": 0.9444444444444444,
+    "og08_hypothesis": {
+     "set": [
+      "pump",
+      "importer",
+      "heredity"
+     ],
+     "intersection_matches": false,
+     "union_matches": false
+    },
+    "by_axis": {
+     "model_energy_coupling": {
+      "h_na_gradient_leaky_membrane": {
+       "n": 6,
+       "full_set_persistence": 0.6666666666666666,
+       "n_viable": 4,
+       "required_fraction": {
+        "pump": 0.0,
+        "importer": 0.0,
+        "heredity": 0.0
+       }
+      },
+      "thioester_acyl_phosphate": {
+       "n": 6,
+       "full_set_persistence": 0.8333333333333334,
+       "n_viable": 5,
+       "required_fraction": {
+        "pump": 0.0,
+        "importer": 0.2,
+        "heredity": 0.0
+       }
+      },
+      "polyphosphate": {
+       "n": 6,
+       "full_set_persistence": 0.6666666666666666,
+       "n_viable": 4,
+       "required_fraction": {
+        "pump": 0.0,
+        "importer": 0.0,
+        "heredity": 0.0
+       }
+      },
+      "fe_redox": {
+       "n": 6,
+       "full_set_persistence": 0.8333333333333334,
+       "n_viable": 5,
+       "required_fraction": {
+        "pump": 0.0,
+        "importer": 0.0,
+        "heredity": 0.0
+       }
+      }
+     },
+     "model_heredity": {
+      "compositional": {
+       "n": 4,
+       "full_set_persistence": 0.75,
+       "n_viable": 3,
+       "required_fraction": {
+        "pump": 0.0,
+        "importer": 0.0,
+        "heredity": 0.0
+       }
+      },
+      "network": {
+       "n": 4,
+       "full_set_persistence": 0.75,
+       "n_viable": 3,
+       "required_fraction": {
+        "pump": 0.0,
+        "importer": 0.0,
+        "heredity": 0.0
+       }
+      },
+      "peptide": {
+       "n": 4,
+       "full_set_persistence": 0.5,
+       "n_viable": 2,
+       "required_fraction": {
+        "pump": 0.0,
+        "importer": 0.0,
+        "heredity": 0.0
+       }
+      },
+      "rna_like": {
+       "n": 4,
+       "full_set_persistence": 1.0,
+       "n_viable": 4,
+       "required_fraction": {
+        "pump": 0.0,
+        "importer": 0.0,
+        "heredity": 0.0
+       }
+      },
+      "hybrid": {
+       "n": 4,
+       "full_set_persistence": 0.5,
+       "n_viable": 2,
+       "required_fraction": {
+        "pump": 0.0,
+        "importer": 0.5,
+        "heredity": 0.0
+       }
+      },
+      "mineral_state": {
+       "n": 4,
+       "full_set_persistence": 1.0,
+       "n_viable": 4,
+       "required_fraction": {
+        "pump": 0.0,
+        "importer": 0.0,
+        "heredity": 0.0
+       }
+      }
+     },
+     "model_boundary": {
+      "single_chain": {
+       "n": 8,
+       "full_set_persistence": 0.75,
+       "n_viable": 6,
+       "required_fraction": {
+        "pump": 0.0,
+        "importer": 0.0,
+        "heredity": 0.0
+       }
+      },
+      "mixed": {
+       "n": 8,
+       "full_set_persistence": 0.5,
+       "n_viable": 4,
+       "required_fraction": {
+        "pump": 0.0,
+        "importer": 0.25,
+        "heredity": 0.0
+       }
+      },
+      "thioester_aminothiol": {
+       "n": 8,
+       "full_set_persistence": 1.0,
+       "n_viable": 8,
+       "required_fraction": {
+        "pump": 0.0,
+        "importer": 0.0,
+        "heredity": 0.0
+       }
+      }
+     },
+     "permeability_anchor": {
+      "extrapolated": {
+       "n": 12,
+       "full_set_persistence": 1.0,
+       "n_viable": 12,
+       "required_fraction": {
+        "pump": 0.0,
+        "importer": 0.0,
+        "heredity": 0.0
+       }
+      },
+      "measured": {
+       "n": 12,
+       "full_set_persistence": 0.5,
+       "n_viable": 6,
+       "required_fraction": {
+        "pump": 0.0,
+        "importer": 0.16666666666666666,
+        "heredity": 0.0
+       }
+      }
+     },
+     "model_localization": {
+      "multisolute_surrogate": {
+       "n": 8,
+       "full_set_persistence": 1.0,
+       "n_viable": 8,
+       "required_fraction": {
+        "pump": 0.0,
+        "importer": 0.125,
+        "heredity": 0.0
+       }
+      },
+      "surrogate": {
+       "n": 8,
+       "full_set_persistence": 0.875,
+       "n_viable": 7,
+       "required_fraction": {
+        "pump": 0.0,
+        "importer": 0.0,
+        "heredity": 0.0
+       }
+      },
+      "fipy": {
+       "n": 8,
+       "full_set_persistence": 0.375,
+       "n_viable": 3,
+       "required_fraction": {
+        "pump": 0.0,
+        "importer": 0.0,
+        "heredity": 0.0
+       }
+      }
+     },
+     "maintenance_law": {
+      "constant": {
+       "n": 8,
+       "full_set_persistence": 0.75,
+       "n_viable": 6,
+       "required_fraction": {
+        "pump": 0.0,
+        "importer": 0.16666666666666666,
+        "heredity": 0.0
+       }
+      },
+      "leak_repair": {
+       "n": 8,
+       "full_set_persistence": 0.625,
+       "n_viable": 5,
+       "required_fraction": {
+        "pump": 0.0,
+        "importer": 0.0,
+        "heredity": 0.0
+       }
+      },
+      "turnover": {
+       "n": 8,
+       "full_set_persistence": 0.875,
+       "n_viable": 7,
+       "required_fraction": {
+        "pump": 0.0,
+        "importer": 0.0,
+        "heredity": 0.0
+       }
+      }
+     }
+    }
+   }
+  }
+ },
+ "required_by_driver": {
+  "gradient": [
+   "pump",
+   "heredity"
+  ],
+  "mineral": [],
+  "feed": []
+ },
+ "full_set_persistence_fraction_by_driver": {
+  "gradient": 0.041666666666666664,
+  "mineral": 0.9583333333333334,
+  "feed": 0.75
+ },
+ "survivability_by_driver": {
+  "gradient": "hard_dependency",
+  "mineral": "freely_survivable",
+  "feed": "borderline"
+ },
+ "hard_dependencies": [
+  "gradient"
+ ],
+ "criteria": {
+  "confound_resolved": true,
+  "differential_survivability": true,
+  "ledgers_ok_all": true
+ },
+ "verdict": "qualified",
+ "resolution": "confound_resolved_per_driver_attribution",
+ "headline": "og-08-alt REBUILD \u2014 per-driver one-at-a-time withdrawal (full gold-standard 24 structures x 3 drivers x 8 subsets, 300 ticks): verdict=qualified, confound_resolved_per_driver_attribution. The original lumped (all-at-once) withdrawal gave ONE un-attributable collapse; withdrawing each driver ALONE (the other two held at full support) characterises each separately \u2014 a DIFFERENTIAL per-driver survivability the lumped run could not give. Full-innovation-set persistence when only that driver is withdrawn: gradient 0.041666666666666664 (hard_dependency), mineral 0.9583333333333334 (freely_survivable), feed 0.75 (borderline). So the confound is RESOLVED (confound_resolved=True): the hard dependency is ['gradient'] \u2014 the full innovation set rescues gradient withdrawal in only 4% of structures, and WHERE it does the required set is ['pump', 'heredity'] (pump+heredity attributed specifically to the vent pmf drive), while mineral access (96%) and feed (75%) are differentially survivable and require no specific innovation. This reconciles og-08's original {pump,importer,heredity} hypothesis \u2014 the lumped all-at-once run confounded it because the gradient (needing pump+heredity, rarely survivable) dominated; per-driver attribution shows the required set is DRIVER-SPECIFIC. The rich-integrated-world analogue of study 37's per-support attribution (there the pH/pmf gradient was the budget-sensitive hard dependency too). Metabolism = sustained A1 network, not autocatalysis (A2 refuted)."
+}
