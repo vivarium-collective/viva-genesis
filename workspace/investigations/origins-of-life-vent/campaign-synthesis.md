@@ -149,6 +149,64 @@ chemistry that gets a long way toward a cell by persistence, concentration,
 compartmentation and heredity — without ever needing, or achieving, a self-amplifying
 core by a vent-representable route.
 
+## Beyond the required spine — Gate E (the optional extension)
+
+Gate E is contracted beyond the required A–D spine: does the protocell's chemistry
+extend to **energy coupling, ecology, and independence from the vent**? All three of its
+studies have run; each is judged against the same matched-null standard with
+input fluxes held equal. Gate E does not change the spine's verdicts — it extends the
+picture, and in doing so it sharpens the through-line above.
+
+### Gate E · energy coupling (og-35, qualified)
+
+A thioester energy carrier buys **persistence through a gradient dip, not more total
+work.** Against a gradient-only matched null at equal drive, the carrier does useful
+work **0.030 kJ/mol through the dip, where the gradient-only system starves (0.006)** —
+but total useful work is **not improved** (0.256 vs 0.282 kJ/mol, even at zero
+hydrolysis), and the free-energy ledger closes to machine precision (~9×10⁻¹⁹, no
+hidden inflow). The carrier banks and time-shifts energy rather than netting more — a
+**third robustness-not-throughput instance**, alongside the pore (B) and the membrane
+(C). Qualified on a first-cut carrier (alternative-carrier / microkinetic tracked as
+og-35a).
+
+### Gate E · ecology (og-36, qualified) — the counterpoint
+
+A cross-feeding community is the campaign's **one throughput win, and it is paid for in
+robustness.** At equal feed the community out-produces the best single lineage by
+**~1.9× in cumulative productivity (cell births)**, and a cross-feeding knockout
+(remove a donor → the recipient drops below its isolated baseline) shows the gain is
+**causally** cross-feeding, not incidental co-culture. But the benefit is
+**productivity, not robustness**: at low system size the stochastic community is *more*
+variable than a rock-stable monoculture and **loses lineages** (extinction rises as the
+system size Ω falls). Ecology is thus the **inverse** of the other mechanisms —
+productivity-yes, robustness-no. Qualified on a first-cut stochastic engine (full
+GillesPy2/SSA + COBRApy benchmark tracked as og-36a).
+
+**What Gate E sharpens.** The pore (B), the membrane (C) and the energy carrier (og-35)
+each buy robustness and pay in throughput; the ecology (og-36) buys throughput and pays
+in robustness. Read across all four, the consistently hard-won — and consistently
+traded — axis is **robustness**: the one place the campaign raises output
+(cross-feeding) does so only by spending the robustness the other mechanisms spent to
+buy. Nothing in this chemistry gives both at once for free.
+
+### Gate E · progressive independence (og-37, qualified)
+
+Withdrawing each of the three validated budget channels one at a time — the vent drive
+(pH gradient), mineral access, and a lumped H₂/CO₂/organics feed — the coupled lineage
+can **afford to internalize all three** with its full innovation set (survivors 1.00,
+budget margin **+0.26** above the floor), and the one-at-a-time design **cleanly
+attributes each rescue** to its innovation (gradient→pump, mineral→importer,
+feed→importer; each ablation collapses the channel to zero) where og-08's all-at-once
+relaxation could not — the same attribution confound the og-08-alt rebuild addresses, a
+clean loop between the Gate E tail and the hardening. The result is **conditional**:
+gradient internalization is budget-sensitive — affordable only at pump efficiency
+**≳0.7**, collapsing below (grounded in study-35's limited surplus) — and **heredity is
+the irreducible substrate**, the one thing whose removal collapses every channel. And it
+is an **affordability-and-attribution map in a coarse budget, not a demonstrated cellular
+escape**: the feed is lumped (no per-feedstock resolution) and the innovations are coarse
+abstractions, so a per-feedstock split, resolved chemistry and temperature-as-Arrhenius
+are the gold-standard og-37a. Qualified.
+
 ## Tracked follow-ups (the gold-standard versions)
 
 None of these is a hidden caveat; each is a named, budgeted follow-up study:
@@ -161,13 +219,15 @@ None of these is a hidden caveat; each is a named, budgeted follow-up study:
 - **og-34a** — template-copying inheritance, to re-test selectable heredity under a
   higher-fidelity copying mechanism rather than compositional inheritance.
 
-**Gate E (optional extension)** is designed and contracted beyond the required spine.
-og-35 chemical energy coupling has **run (qualified)** — the third
-robustness-not-throughput instance noted above (follow-up og-35a: alternative-carrier
-/ microkinetic); og-36 stochastic protocell ecology (og-36a: full GillesPy2/SSA +
-COBRApy benchmark) and og-37 progressive independence (og-37a: combinatorial /
-staged-order withdrawal) remain designed. Its execution scope is decided if and when
-the campaign reaches it.
+- **og-35a** — alternative-carrier / microkinetic energy coupling, to re-test Gate E
+  energy under a resolved carrier rather than the first-cut thioester.
+- **og-36a** — full GillesPy2/SSA + COBRApy ecology benchmark, to re-test the community
+  result under a production-grade stochastic + flux-balance engine.
+- **og-37a** — combinatorial / staged-order support withdrawal, to re-test independence
+  beyond the one-at-a-time leave-one-out.
+
+The **Gate E (optional extension)** arc and its verdicts are in the section above:
+og-35, og-36 and og-37 have all run (qualified).
 
 ## How to read these verdicts
 
