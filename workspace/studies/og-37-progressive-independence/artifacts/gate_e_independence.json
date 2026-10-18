@@ -1,0 +1,131 @@
+{
+ "meta": {
+  "n_steps": 80,
+  "survive_threshold": 0.5,
+  "survival_floor": 0.1,
+  "channels": [
+   "gradient",
+   "mineral",
+   "feed"
+  ],
+  "rescuing_innovation": {
+   "gradient": "pump",
+   "mineral": "importer",
+   "feed": "importer"
+  },
+  "model": "3-channel og-08 reuse: og_37 composite wiring the VALIDATED EnvironmentalRelaxationProcess + OffGradientPersistenceProcess (co-limited Liebig-minimum budget); per-channel one-at-a-time withdrawal; no invented terms; innovations are coarse budget abstractions (affordability/attribution, NOT a demonstrated escape); deterministic/reproducible",
+  "lumped_feed": "feed = H2 + CO2 + organics LUMPED \u2014 does NOT resolve those feedstocks individually; per-feedstock split + temperature-as-Arrhenius = og-37a",
+  "scope": "per-feedstock mechanistic resolution + Arrhenius temperature + combinatorial multi-withdrawal = study og-37a, follow-on",
+  "guardrail": "metabolism = sustained A1 network, NOT autocatalytic (A2 refuted)"
+ },
+ "baseline": {
+  "survivors": 1.0,
+  "net": 1.3599999999999999,
+  "machinery": 1.0
+ },
+ "profile": {
+  "gradient": {
+   "rescuing_innovation": "pump",
+   "internalizable": true,
+   "causal": true,
+   "heredity_required": true,
+   "survivors_full": 1.0,
+   "survivors_ablated": 1.1394196811467852e-12,
+   "survivors_heredity_off": 7.484191480989643e-11,
+   "net_full": 0.36,
+   "budget_margin": 0.26,
+   "budget_sensitive": true,
+   "affordability_boundary_catalyst_efficiency": 0.7
+  },
+  "mineral": {
+   "rescuing_innovation": "importer",
+   "internalizable": true,
+   "causal": true,
+   "heredity_required": true,
+   "survivors_full": 1.0,
+   "survivors_ablated": 1.1394196811467852e-12,
+   "survivors_heredity_off": 7.484191480989643e-11,
+   "net_full": 0.36,
+   "budget_margin": 0.26
+  },
+  "feed": {
+   "rescuing_innovation": "importer",
+   "internalizable": true,
+   "causal": true,
+   "heredity_required": true,
+   "survivors_full": 1.0,
+   "survivors_ablated": 1.1394196811467852e-12,
+   "survivors_heredity_off": 7.484191480989643e-11,
+   "net_full": 0.36,
+   "budget_margin": 0.26
+  }
+ },
+ "all_at_once_confound": {
+  "full_set_survivors": 1.0,
+  "pump_off_survivors": 1.1394196811467852e-12,
+  "importer_off_survivors": 8.730437158948895e-16,
+  "heredity_off_survivors": 1.0426402219793805e-13,
+  "escapes_with_full_set": true,
+  "every_innovation_needed": true
+ },
+ "pump_affordability_sweep": {
+  "sweep": [
+   {
+    "catalyst_efficiency": 0.25,
+    "survivors": 6.848502967073087e-12,
+    "net": -0.16499999999999998,
+    "margin": -0.265,
+    "internalizable": false
+   },
+   {
+    "catalyst_efficiency": 0.5,
+    "survivors": 1.4870701044493267e-09,
+    "net": 0.010000000000000009,
+    "margin": -0.09,
+    "internalizable": false
+   },
+   {
+    "catalyst_efficiency": 0.6,
+    "survivors": 8.938062235608273e-09,
+    "net": 0.08000000000000002,
+    "margin": -0.01999999999999999,
+    "internalizable": false
+   },
+   {
+    "catalyst_efficiency": 0.7,
+    "survivors": 1.0,
+    "net": 0.14999999999999997,
+    "margin": 0.04999999999999996,
+    "internalizable": true
+   },
+   {
+    "catalyst_efficiency": 0.75,
+    "survivors": 1.0,
+    "net": 0.18499999999999994,
+    "margin": 0.08499999999999994,
+    "internalizable": true
+   },
+   {
+    "catalyst_efficiency": 1.0,
+    "survivors": 1.0,
+    "net": 0.36,
+    "margin": 0.26,
+    "internalizable": true
+   }
+  ],
+  "boundary": 0.7
+ },
+ "criteria": {
+  "all_attributed": true,
+  "heredity_substrate": true,
+  "confound_shown": true,
+  "gradient_budget_sensitive": true
+ },
+ "internalizable_channels": [
+  "gradient",
+  "mineral",
+  "feed"
+ ],
+ "verdict": "qualified",
+ "headline": "Gate E progressive independence (3-channel og-08-reuse, one-at-a-time \u2014 the per-feedstock split + temperature-as-Arrhenius is og-37a): verdict=qualified. Reusing og-08's VALIDATED co-limited off-gradient budget verbatim (no invented terms), each support channel is withdrawn ALONE where og-08 relaxed them jointly. With the full innovation set each of the 3 channels is internalizable (gradient surv 1.00, mineral 1.00, feed 1.00; all \u2265 0.5, budget margins +0.26/+0.26/+0.26 above the floor \u2014 transparent, not knife-edge), and the matched per-support ablation ATTRIBUTES each to its rescuing innovation (gradient\u2192pump, mineral\u2192importer, feed\u2192importer: switching that innovation off collapses the lineage), which the og-08 all-at-once run cannot do (it escapes with the full set but fails if ANY innovation is removed, confound_shown=True). Heredity is the irreducible substrate \u2014 every channel also collapses with heredity off (heredity_substrate=True). The gradient channel is BUDGET-SENSITIVE: its internalization flips to a hard dependency below pump efficiency ~0.7 (internalizable only for catalyst_efficiency \u2265 0.7), grounded in study-35's limited internal surplus \u2014 so at a less efficient pump the pH/pmf drive is irreducible. Mineral and feed (importer) are robust. HONEST CAVEATS: feed is LUMPED (H2+CO2+organics), so this does NOT resolve independence for those feedstocks individually; and the innovations are COARSE budget abstractions, so this is an affordability/attribution profile, NOT a demonstrated real-cell escape. So qualified = a graded, attributed independence profile on the validated coarse budget, never a clean escape; the resolved per-feedstock chemistry + Arrhenius temperature + combinatorial multi-withdrawal is og-37a. Metabolism = sustained A1 network, NOT autocatalytic (A2 refuted)."
+}
