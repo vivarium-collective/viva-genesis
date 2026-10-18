@@ -1,14 +1,84 @@
 {
   "headline": {
-    "max_carbons": 4,
+    "max_carbons": 6,
+    "verdict": "refuted (formose-type)",
+    "ignition_point": "x20 (supply_H2=0.02, supply_CO2=0.04)",
+    "network_connected_at_ignition": true,
     "autocatalytic_gain_favorable": 0.0,
     "autocatalytic_gain_null": 0.0,
-    "net_carbon_flux_favorable": 1.6137650378679723e-06,
-    "net_carbon_flux_null": 1.6172922706231707e-06,
-    "n_autocatalytic_motifs": 0.0,
-    "network_connected": 0.0,
+    "n_autocatalytic_motifs_favorable": 0.0,
+    "net_carbon_flux_favorable": 0.0005693206956382809,
+    "net_carbon_flux_null": 0.0005698297138053092,
     "beats_matched_null": false,
-    "status": "BLOCKED",
-    "reason": "max_carbons=4 universe cannot contain C5-C6 autocatalytic cycle; >=6C thermo-skeleton table crashes (build limit). Not a refutation."
+    "scope": "linear formose-type C<=6; branched rTCA (citrate) outside the linear-skeleton representation (v2)",
+    "method": "max_carbons=6 thermo rebuild; favorable feed sweep x1/x5/x20/x50 (350 steps) found ignition at x20; matched null at x20",
+    "two_part_finding": {
+      "network_persists_fixes_carbon": "yes at x20 (network_connected=1, net_carbon_flux 5.69e-4, TOC 0.0115)",
+      "self_amplifies_beyond_null": "no (gain 0, no motif, does not beat matched null)"
+    },
+    "ignition_feed_vs_vent_bounds": {
+      "ignition_point_supply_H2_M": 0.02,
+      "ignition_point_supply_CO2_M": 0.04,
+      "vent_H2_window_mM": "1-15 (Lost City dissolved H2; posterior example 10.8)",
+      "x20_H2_mM": 20,
+      "vent_DIC_window_mM": "1.2-2.9 (posterior q05-q95; example 1.4)",
+      "x20_CO2_mM": 40,
+      "assessment": "ignition point is above defensible vent bounds - ~1.3x over the H2 window and ~14x over the DIC upper bound; at the vent-posterior feed (x1) and x5 the network does not ignite; x50 washes out. Persistence is QUALIFIED: the network ignites only above vent-realistic feeds."
+    }
+  },
+  "favorable_sweep": {
+    "x1": {
+      "sH": 0.001,
+      "sC": 0.002,
+      "autocatalytic_gain": 0.0,
+      "net_carbon_flux": 1.6135137352720384e-06,
+      "n_autocatalytic_motifs": 0.0,
+      "network_connected": 0.0,
+      "total_organic_carbon": 0.0003245027035758237,
+      "catalyst_saturation": 0.015789512642227388
+    },
+    "x5": {
+      "sH": 0.005,
+      "sC": 0.01,
+      "autocatalytic_gain": 0.0,
+      "net_carbon_flux": 6.81690314157284e-05,
+      "n_autocatalytic_motifs": 0.0,
+      "network_connected": 0.0,
+      "total_organic_carbon": 0.0016299824407314866,
+      "catalyst_saturation": 0.12692350059499558
+    },
+    "x20": {
+      "sH": 0.02,
+      "sC": 0.04,
+      "autocatalytic_gain": 0.0,
+      "net_carbon_flux": 0.0005693206956382809,
+      "n_autocatalytic_motifs": 0.0,
+      "network_connected": 1.0,
+      "total_organic_carbon": 0.011456744753494601,
+      "catalyst_saturation": 0.5297476452747714
+    },
+    "x50": {
+      "sH": 0.05,
+      "sC": 0.1,
+      "autocatalytic_gain": 0.0,
+      "net_carbon_flux": 0.0017072144169017107,
+      "n_autocatalytic_motifs": 0.0,
+      "network_connected": 0.0,
+      "total_organic_carbon": 0.03376838936497666,
+      "catalyst_saturation": 0.7704629945649463
+    }
+  },
+  "null_at_ignition": {
+    "x20": {
+      "sH": 0.02,
+      "sC": 0.04,
+      "autocatalytic_gain": 0.0,
+      "net_carbon_flux": 0.0005698297138053092,
+      "n_autocatalytic_motifs": 0.0,
+      "network_connected": 1.0,
+      "total_organic_carbon": 0.01146708919196068,
+      "catalyst_saturation": 0.5298701321092123,
+      "beats_null": false
+    }
   }
 }

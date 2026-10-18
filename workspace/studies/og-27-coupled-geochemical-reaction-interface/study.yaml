@@ -261,4 +261,21 @@ runs:
       result: NOT_EXERCISED
       detail: Undersaturated dissolution regime (saturation_index -15..-17); porosity opens 0.35->0.98, mineral_precipitation=0, catalytic_accessibility stays 1 - throttling criterion unexercised at this operating point.
 limitations:
-- Mineral-evolution throttling criterion unexercised - at the current undersaturated operating point (SI -15 to -17) the system is in a dissolution regime (porosity opens, no precipitation/passivation). Serpentinization reaches carbonate/brucite supersaturation (Lost City chimney precipitation), so the throttling half of the decision test requires a supersaturating operating point (higher Ca/Mg/DIC or pH) - named follow-up.
+- >-
+  Supersaturating rerun (fluid_dic=0.02, SI +3.2) now EXERCISES the mineral-evolution throttling
+  that the default undersaturated point (SI -15) could not: real precipitation (0.26), catalytic
+  accessibility passivates (1 -> 0.88), and porosity closes (0.35 -> 0), with conservation held
+  (ledger_ok, charge balanced, mineral-mass residual ~0). The throttling mechanism works.
+- >-
+  TWO-REGIME TENSION (the honest finding): there is no single operating point that sustains
+  reactive flux over BOTH the transport AND the mineral-evolution timescales. Undersaturated (SI
+  -15) sustains H2 flux (2.74e-4) but never precipitates, so throttling is not exercised;
+  supersaturated (SI +3.2) exercises throttling but chokes the supply (porosity -> 0, H2_flux ->
+  8.5e-9). The interface is inherently self-limiting at precipitating conditions - it either
+  supplies or throttles, not both at once. gate_status=needs_calibration: a DIC sweep for a mild-
+  supersaturation crossover window (if any exists) is the named follow-up.
+- >-
+  Feed plausibility: the supersaturating point (fluid_dic 20 mM DIC) is ~7-16x above the vent DIC
+  posterior (1.2-2.9 mM). Lost City does precipitate carbonate chimneys, so supersaturation is
+  geochemically real at the precipitation front, but the exact crossover-vs-full-clog depends on
+  the local DIC - hence the calibration follow-up.

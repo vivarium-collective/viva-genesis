@@ -10,6 +10,20 @@
     "saturation_index_last": -15.019096939803465,
     "mineral_precipitation_max": 0.0,
     "throttling_exercised": false,
-    "regime": "dissolution (undersaturated)"
+    "regime": "dissolution (undersaturated)",
+    "two_regime_finding": "undersaturated (fluid_dic=0.002, SI -15): sustained H2 flux, NO precipitation/throttling; supersaturated (fluid_dic=0.02, SI +3.2): throttling EXERCISED (precip 0.26, accessibility 1->0.88, porosity 0.35->0) but supply chokes (H2_flux ->8.5e-9). No single operating point sustains flux over BOTH transport and mineral-evolution timescales - the interface self-limits at precipitating conditions.",
+    "supersaturating_feed_vs_posterior": "fluid_dic 20 mM reaches SI+3.2; vent DIC posterior is 1.2-2.9 mM, so the supersaturating point is ~7-16x over the posterior DIC (Lost City does precipitate carbonate chimneys, so supersaturation is geochemically real at the precipitation front)."
+  },
+  "supersaturating_rerun": {
+    "fluid_dic": 0.02,
+    "saturation_index_last": 3.214351668937124,
+    "saturation_index_max": 3.268954781994626,
+    "mineral_precipitation_max": 0.2573071301808855,
+    "catalytic_accessibility_first": 1.0,
+    "catalytic_accessibility_last": 0.8782286076225844,
+    "porosity_first": 0.35,
+    "porosity_last": 0.0,
+    "H2_flux_last": 8.49568635697809e-09,
+    "ledger_ok_all": true
   }
 }
