@@ -41,22 +41,30 @@ executive:
     bioenergetic autonomy, grounded in serpentinization-driven alkaline hydrothermal vents, with 
     explicit competing scenarios.
   gate_a_status: >-
-    Gate A (chemical emergence) is in progress and does not pass yet. All three member studies have
-    been built and run honestly, and the gate is held open by one build task and one operating-point
-    rerun, not by a negative scientific result. The prebiotic reaction atlas (og-28) passes cleanly:
-    its balance gate admitted zero unbalanced reactions and correctly held one out, with measured-
-    tier coverage of the C1-C3 chemistry. The coupled geochemical interface (og-27) is partial - it
-    sustains H2 flux and conserves mass and charge, but the current operating point sits deep in the
-    dissolution regime (saturation index -15 to -17), so the mineral-evolution throttling half of
-    its decision test is not yet exercised; a supersaturating rerun is the named follow-up. The
-    keystone, endogenous autocatalysis (og-29), is blocked rather than refuted (see its limitation):
-    at four carbons the reaction universe cannot contain the autocatalytic cycle, and it blocks in
-    two different ways. Linear C5-C6 formose-type autocatalysis is only hidden by the 4-carbon
-    thermo truncation, so a >=6-carbon thermo-skeleton rebuild makes it testable (proceeding now).
-    Branched C6 rTCA (citrate, isocitrate) sits outside the v1 linear-skeleton representation
-    entirely, so no carbon-count rebuild reaches it; that needs a branched-skeleton universe (a
-    named v2 follow-up). Gate A resolves once og-29's formose-type discriminator is re-run on the
-    >=6C universe and og-27 is rerun at a supersaturating operating point.
+    Gate A (chemical emergence) does not pass. The keystone result splits it into two sub-claims that
+    came out differently, so each is recorded separately. A1 (network persistence): a sustained,
+    connected, carbon-fixing reaction network emerges on bounded geochemical feeds - this holds
+    pending a feed check. At six carbons the vent-fed network ignites and fixes carbon, but in the
+    well-mixed case only at about 20x the vent posterior feed; A1 is credited only pending
+    confirmation that this ignition feed is within plausible vent bounds (under check) and/or Gate B
+    (og-30) showing that spatial concentration brings ignition down to vent-realistic feeds. If both
+    resolve against it, A1 drops to not-met at vent-realistic feeds. A2 (endogenous autocatalysis):
+    the network self-amplifies beyond a degree-preserving matched null - refuted for formose-type
+    (linear C<=6), with a mechanism. The canonical formose doubling step is present in the universe
+    (reaction r409, two glycolaldehyde to threose, a coefficient-2 splitting), so this is not detector
+    blindness or an absent motif; its standard free energy is -16.4 kJ/mol toward condensation, so net
+    flux runs the building direction (two C2 combine to C4) while the autocatalytic splitting direction
+    (C4 back to two C2) is +16.4 kJ/mol uphill and carries no net flux across the x1-x50 feed sweep,
+    giving zero autocatalytic gain everywhere, including x20 where the network is connected and fixing
+    carbon. Branched C6 rTCA (citrate, isocitrate) is outside the v1 linear-skeleton representation and
+    is under active test, with the branched-skeleton v2 build in progress; a coefficient-independent
+    functional discriminator (seed-dependence plus super-linear production) is also being built so
+    formose and rTCA are judged on the same footing. The supporting members stand: the atlas (og-28)
+    passes its zero-leakage balance gate, and the coupled interface (og-27) is partial pending a
+    supersaturating rerun. Overall Gate A remains not passed - the plan required autocatalysis, which
+    is refuted for the representable linear chemistry because the doubling step runs the wrong way at
+    vent conditions - with the carbon-fixing-network positive (A1) credited distinctly and
+    contingently and branched rTCA the decisive test now under active build.
   verdict: >-
     The full geochemistry-to-heredity arc runs on real simulators and passes its pre-stated,
     falsifiable gates, with conservation held to machine precision. Twenty-three studies execute
