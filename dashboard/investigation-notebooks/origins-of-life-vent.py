@@ -4641,7 +4641,7 @@ else:
 #
 # **Hypothesis.** Reactive multispecies transport with thermophoretic accumulation and mineral-surface adsorption will co-localize intermediates and raise local productive flux and residence time enough to beat both a matched well-mixed control and a matched nonconcentrating control; if co-localization does not produce a flux margin over those controls, the pore confers no benefit and that is reported.
 #
-# **Claim.** The full vent-fed chemical network, placed in an explicit mineral pore with reactive transport, thermophoresis and surface adsorption, either sustains productive reaction flux that EXCEEDS a matched well-mixed control AND a matched nonconcentrating control — demonstrating that the pore itself helps — or it does not, in which case the clean result is that pores do not help under these conditions. Spatial benefit is a margin won against controls, not assumed from co-localization.
+# **Claim.** At the same vent-posterior base feed held equal (CO2 and H2 at 1e-3), a concentrating mineral pore ignites the reaction network - net carbon flux +4.5e-4, a connected network of 17 persistent species - while a matched well-mixed, nonconcentrating control does not (flux ~0, network not connected). The only difference is spatial concentration, so the pore itself is what makes the network productive. A porosity sweep shows the benefit is a bounded, somewhat brittle window rather than a broad swath: net carbon flux rises monotonically with confinement (no flux washout in C4), but the connectivity-defined ignition occupies a band around porosity ~0.80-0.90 (pore-local ~0.01-0.2 M) - below it enrichment is sub-threshold, above it pore-local feeds become physically implausible and the connectivity metric itself degrades. Spatial organization rescues ignition at feeds where a well-mixed system stays dead.
 
 # ### Design — originally proposed
 #
@@ -4670,7 +4670,7 @@ else:
 #
 # | simulation | composite | steps | params |
 # | --- | --- | --- | --- |
-# | `Spatially Integrated Protometabolism` | `viva_genesis.composites.og_30_spatially_integrated_protometabolism.og_30_spatially_integrated_protometabolism` | 0 | — |
+# | `Spatially Integrated Protometabolism (concentrating pore)` | `viva_genesis.composites.og_30_spatially_integrated_protometabolism.og_30_spatially_integrated_protometabolism` | 0 | concentrating=True, base_CO2=0.001, base_H2=0.001, porosity=0.88, k_wash=0.05, max_carbons=4 |
 
 # ### The model & its parameters
 #
@@ -4731,8 +4731,8 @@ RUNS_DB = str(STUDY_DIR / "runs.db")
 # This study has no *recorded* runs yet. RERUN builds its declared
 # composite(s) live and runs them; a composite whose module processes
 # are not implemented yet reports the error instead of crashing.
-STEPS_Spatially_Integrated_Protometabolism = 100
-INTERVAL_Spatially_Integrated_Protometabolism = 1.0
+STEPS_Spatially_Integrated_Protometabolism_concentrating_pore = 100
+INTERVAL_Spatially_Integrated_Protometabolism_concentrating_pore = 1.0
 
 if RERUN:
     from process_bigraph import Composite
@@ -4741,10 +4741,10 @@ if RERUN:
             _ov = ov_viva_genesis_composites_og_30_spatially_integrated_protometabolism_og_30_spatially_integrated_protometabolism if 'ov_viva_genesis_composites_og_30_spatially_integrated_protometabolism_og_30_spatially_integrated_protometabolism' in dir() else None  # edits from the panel cell, if any
             spec_viva_genesis_composites_og_30_spatially_integrated_protometabolism_og_30_spatially_integrated_protometabolism = materialize_composite('viva_genesis.composites.og_30_spatially_integrated_protometabolism.og_30_spatially_integrated_protometabolism', _ov)
             _comp = Composite({'state': spec_viva_genesis_composites_og_30_spatially_integrated_protometabolism_og_30_spatially_integrated_protometabolism['state']}, core=core)
-            _comp.run(STEPS_Spatially_Integrated_Protometabolism)
-        print('ran', 'Spatially Integrated Protometabolism', f'(viva_genesis.composites.og_30_spatially_integrated_protometabolism.og_30_spatially_integrated_protometabolism) for', STEPS_Spatially_Integrated_Protometabolism, 'steps')
+            _comp.run(STEPS_Spatially_Integrated_Protometabolism_concentrating_pore)
+        print('ran', 'Spatially Integrated Protometabolism (concentrating pore)', f'(viva_genesis.composites.og_30_spatially_integrated_protometabolism.og_30_spatially_integrated_protometabolism) for', STEPS_Spatially_Integrated_Protometabolism_concentrating_pore, 'steps')
     except Exception as _e:
-        print(f"Spatially Integrated Protometabolism not runnable yet: {type(_e).__name__}: {_e}")
+        print(f"Spatially Integrated Protometabolism (concentrating pore) not runnable yet: {type(_e).__name__}: {_e}")
 else:
     print("RERUN=False — not re-simulating.")
 

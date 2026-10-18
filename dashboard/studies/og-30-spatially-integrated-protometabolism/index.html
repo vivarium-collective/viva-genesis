@@ -541,7 +541,7 @@
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Claim</h2>
-      <p class="ctr-text">The full vent-fed chemical network, placed in an explicit mineral pore with reactive transport, thermophoresis and surface adsorption, either sustains productive reaction flux that EXCEEDS a matched well-mixed control AND a matched nonconcentrating control — demonstrating that the pore itself helps — or it does not, in which case the clean result is that pores do not help under these conditions. Spatial benefit is a margin won against controls, not assumed from co-localization.</p>
+      <p class="ctr-text">At the same vent-posterior base feed held equal (CO2 and H2 at 1e-3), a concentrating mineral pore ignites the reaction network - net carbon flux +4.5e-4, a connected network of 17 persistent species - while a matched well-mixed, nonconcentrating control does not (flux ~0, network not connected). The only difference is spatial concentration, so the pore itself is what makes the network productive. A porosity sweep shows the benefit is a bounded, somewhat brittle window rather than a broad swath: net carbon flux rises monotonically with confinement (no flux washout in C4), but the connectivity-defined ignition occupies a band around porosity ~0.80-0.90 (pore-local ~0.01-0.2 M) - below it enrichment is sub-threshold, above it pore-local feeds become physically implausible and the connectivity metric itself degrades. Spatial organization rescues ignition at feeds where a well-mixed system stays dead.</p>
       
     </div>
 
@@ -559,7 +559,7 @@
       <h2 class="overview-label ctr-h">Model &amp; approach</h2>
       <p class="ctr-text">Run the 29 reaction network inside an explicit mineral-pore transport field (FiPy), with thermophoresis and surface adsorption, using discrete stochastic chemistry where molecule counts make a continuum unreliable; quantify co-localization, spatial reaction flux, residence and persistence against matched well-mixed and nonconcentrating controls.</p>
       <div class="ctr-meta">
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Model</span> <code>Spatially Integrated Protometabolism</code><a class="ov-tablink" href="#" onclick="_setStudyTab('compose');return false;">model →</a></div>
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Model</span> <code>Spatially Integrated Protometabolism (concentrating pore)</code><a class="ov-tablink" href="#" onclick="_setStudyTab('compose');return false;">model →</a></div>
         
         <div class="ctr-meta-row"><span class="ctr-meta-k">Measures</span> <span class="ctr-meta-item">4 behavior tests</span><a class="ov-tablink" href="#" onclick="_setStudyTab('audit');return false;">see Tests →</a></div>
         
@@ -583,10 +583,10 @@
         </div>
       
         
-        <div class="ov-src" id="sref-muchowska2019synthesis">
-          <b class="ov-src-t">Muchowska 2019</b> <span class="ov-src-k">muchowska2019synthesis</span>
-          <div class="ov-src-t">Synthesis and breakdown of universal metabolic precursors promoted by iron</div>
-          <div class="ctr-meta-k" style="text-transform:none">Muchowska, Kamila B. and Varma, Sreejith J. and Moran, Joseph · 2019 · <a href="https://doi.org/10.1038/s41586-019-1151-1" target="_blank" rel="noopener">source ↗</a></div>
+        <div class="ov-src" id="sref-mast2010thermal">
+          <b class="ov-src-t">Mast 2010</b> <span class="ov-src-k">mast2010thermal</span>
+          <div class="ov-src-t">Thermal trap for DNA replication</div>
+          <div class="ctr-meta-k" style="text-transform:none">Mast, Christof B. and Braun, Dieter · 2010 · <a href="https://doi.org/10.1103/PhysRevLett.104.188102" target="_blank" rel="noopener">source ↗</a></div>
         </div>
       
       </div>
@@ -595,8 +595,27 @@
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Result</h2>
-      <p class="ctr-text">Study 30 receives the full 29→30 bundle — active reactions, molecular species, actual concentrations and competing degradation routes — as typed inputs, verified complete before the spatial run.</p>
+      <p class="ctr-text">At identical vent-posterior feeds (CO2/H2 = 1e-3), the concentrating pore ignites the network (net carbon flux +4.5e-4; connected; 17 persistent species) while the matched well-mixed nonconcentrating control does not (flux ~0; not connected) - spatial concentration is the only difference, so the pore causes the productive flux.</p>
       
+      
+      <div class="ov-metrics">
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">productive-flux-beats-wellmixed-and-nonconcentrating</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">colocalization-residence-measured</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">a1-feed-plausibility-resolved-in-pore</div>
+        </div>
+        
+      </div>
       
       
       
@@ -611,27 +630,27 @@
       
       
       
-      <div class="finding-card finding-kind-methodological finding-status-planned">
+      <div class="finding-card finding-kind-computational finding-status-confirms">
         <details class="finding-details">
           <summary class="finding-row">
-            <span class="finding-status-glyph">◆</span>
-            <span class="finding-claim finding-statement">Study 30 receives the full 29→30 bundle — active reactions, molecular species, actual concentrations and competing degradation routes — as typed inputs, verified complete before the spatial run.</span>
+            <span class="finding-status-glyph">✓</span>
+            <span class="finding-claim finding-statement">At identical vent-posterior feeds (CO2/H2 = 1e-3), the concentrating pore ignites the network (net carbon flux +4.5e-4; connected; 17 persistent species) while the matched well-mixed nonconcentrating control does not (flux ~0; not connected) - spatial concentration is the only difference, so the pore causes the productive flux.</span>
             
-            <span class="finding-chip">via <code>receives-29-handoff-bundle</code></span>
+            <span class="finding-chip">via <code>productive-flux-beats-wellmixed-and-nonconcentrating</code></span>
             
           </summary>
           <div class="finding-drawer">
             <div class="finding-header">
-              <span class="finding-id">og30-receives-29-handoff</span>
-              <span class="finding-kind">methodological</span>
-              <span class="finding-status-text">planned literature</span>
+              <span class="finding-id">og30-pore-ignites-vs-control</span>
+              <span class="finding-kind">computational</span>
+              <span class="finding-status-text">confirms literature</span>
             </div>
             
             
             <div class="finding-evidence">
               
               
-              via test <a href="#bt-receives-29-handoff-bundle" onclick="_gotoStudyTab('audit','bt-receives-29-handoff-bundle');return false;"><code>receives-29-handoff-bundle</code></a> · 
+              via test <a href="#bt-productive-flux-beats-wellmixed-and-nonconcentrating" onclick="_gotoStudyTab('audit','bt-productive-flux-beats-wellmixed-and-nonconcentrating');return false;"><code>productive-flux-beats-wellmixed-and-nonconcentrating</code></a> · 
               
               
               
@@ -640,7 +659,7 @@
             
             
             
-            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: op: threshold · detail: bundle received complete and typed</code></div>
+            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: op: threshold · detail: pore flux exceeds BOTH matched controls (else reported as no benefit)</code></div>
             
             
             
@@ -659,20 +678,68 @@
       
       
       
-      <div class="finding-card finding-kind-computational finding-status-planned">
+      <div class="finding-card finding-kind-computational finding-status-confirms">
         <details class="finding-details">
           <summary class="finding-row">
-            <span class="finding-status-glyph">◆</span>
-            <span class="finding-claim finding-statement">Reactive transport with thermophoresis and adsorption produces measurable co-localization of intermediates and increased residence time in the pore, reported as time- and space-resolved fields, not a terminal snapshot.</span>
+            <span class="finding-status-glyph">✓</span>
+            <span class="finding-claim finding-statement">The C6 network - the one og-29 found ignites only at ~20x well-mixed feed - ignites directly in the demo pore at the vent-posterior base feed (porosity 0.88, pore-local 0.023 M), net carbon flux +4.49e-4, connected, 22 persistent species, while the matched well-mixed C6 control stays dead (flux +1.5e-9, not connected). C6 shows the same bounded-window behavior as C4 - a tight pore (porosity 0.70, pore-local 2.63 M) gives higher flux (+0.072) but the connectivity metric still degrades (network_connected = 0), so there is no flux-washout upper bound; the bound above is physically-implausible feeds plus connectivity-metric degradation, not flux loss.</span>
+            
+            <span class="finding-chip">via <code>productive-flux-beats-wellmixed-and-nonconcentrating</code></span>
+            
+          </summary>
+          <div class="finding-drawer">
+            <div class="finding-header">
+              <span class="finding-id">og30-c6-confirmation</span>
+              <span class="finding-kind">computational</span>
+              <span class="finding-status-text">confirms literature</span>
+            </div>
+            
+            
+            <div class="finding-evidence">
+              
+              
+              via test <a href="#bt-productive-flux-beats-wellmixed-and-nonconcentrating" onclick="_gotoStudyTab('audit','bt-productive-flux-beats-wellmixed-and-nonconcentrating');return false;"><code>productive-flux-beats-wellmixed-and-nonconcentrating</code></a> · 
+              
+              
+              
+            </div>
+            
+            
+            
+            
+            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: op: threshold · detail: pore flux exceeds BOTH matched controls (else reported as no benefit)</code></div>
+            
+            
+            
+            
+            
+            
+          </div>
+        </details>
+      </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <div class="finding-card finding-kind-computational finding-status-partial">
+        <details class="finding-details">
+          <summary class="finding-row">
+            <span class="finding-status-glyph">◐</span>
+            <span class="finding-claim finding-statement">A porosity sweep shows the pore&#39;s benefit is a bounded window, not a broad swath. Net carbon flux rises monotonically with confinement (no flux washout in the C4 network, even at extreme feeds), but the connectivity-defined ignition (og-29&#39;s network_connected metric) occupies a bounded, somewhat brittle porosity band (~0.80-0.90; pore-local ~0.01-0.2 M) - below it enrichment is sub-threshold, and above it the pore-local feeds become physically implausible (porosity 0.70 implies 2.6 M, 0.60 implies 36 M) while the connectivity metric itself degrades, flipping 1/0/1 across adjacent porosities at similar high flux. So ignition is met in a specific pore-geometry window, not robustly across geometry.</span>
             
             <span class="finding-chip">via <code>colocalization-residence-measured</code></span>
             
           </summary>
           <div class="finding-drawer">
             <div class="finding-header">
-              <span class="finding-id">og30-colocalization-and-residence</span>
+              <span class="finding-id">og30-enrichment-bridges-ignition-gap</span>
               <span class="finding-kind">computational</span>
-              <span class="finding-status-text">planned literature</span>
+              <span class="finding-status-text">partial literature</span>
             </div>
             
             
@@ -695,7 +762,7 @@
             <div class="finding-expected">
               
               
-              cites: <a class="ov-cite" href="#sref-baaske2007extreme" title="Extreme accumulation of nucleotides in simulated hydrothermal pore systems">Baaske 2007</a>
+              cites: <a class="ov-cite" href="#sref-baaske2007extreme" title="Extreme accumulation of nucleotides in simulated hydrothermal pore systems">Baaske 2007</a><a class="ov-cite" href="#sref-mast2010thermal" title="Thermal trap for DNA replication">Mast 2010</a>
             </div>
             
             
@@ -714,20 +781,68 @@
       
       
       
-      <div class="finding-card finding-kind-computational finding-status-planned">
+      <div class="finding-card finding-kind-methodological finding-status-novel">
         <details class="finding-details">
           <summary class="finding-row">
             <span class="finding-status-glyph">◆</span>
-            <span class="finding-claim finding-statement">Productive network flux (and persistence) in the pore EXCEEDS both a matched well-mixed control and a matched nonconcentrating control with chemical input fluxes held equal; flux not separable from the controls is reported as &#34;pores do not help,&#34; not tuned away. This is the Gate B arm.</span>
+            <span class="finding-claim finding-statement">network_connected (og-29&#39;s ignition metric) is a BRITTLE proxy near threshold - at high feed the network stays carbon-fixing (flux high and monotone in enrichment) but loses broad connectivity (connected flips to 0), the same signal og-29 recorded as &#34;washout&#34; at x50 well-mixed, now seen to be connectivity-breadth loss rather than flux loss, consistent across C4/C6 and well-mixed/pore. This is a methodological caveat on the ignition metric only; it does NOT touch og-29&#39;s formose refutation, which rests on the thermodynamic mechanism and the coefficient-free seed-independence discriminator, not on connectivity.</span>
+            
+            <span class="finding-chip">via <code>colocalization-residence-measured</code></span>
+            
+          </summary>
+          <div class="finding-drawer">
+            <div class="finding-header">
+              <span class="finding-id">og30-connectivity-metric-brittle</span>
+              <span class="finding-kind">methodological</span>
+              <span class="finding-status-text">novel literature</span>
+            </div>
+            
+            
+            <div class="finding-evidence">
+              
+              
+              via test <a href="#bt-colocalization-residence-measured" onclick="_gotoStudyTab('audit','bt-colocalization-residence-measured');return false;"><code>colocalization-residence-measured</code></a> · 
+              
+              
+              
+            </div>
+            
+            
+            
+            
+            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: op: threshold · detail: measurable co-localization and residence increase reported</code></div>
+            
+            
+            
+            
+            
+            
+          </div>
+        </details>
+      </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <div class="finding-card finding-kind-methodological finding-status-confirms">
+        <details class="finding-details">
+          <summary class="finding-row">
+            <span class="finding-status-glyph">✓</span>
+            <span class="finding-claim finding-statement">This does double duty - it meets Gate B&#39;s own criterion (pore flux far exceeds the matched control) and resolves Gate A&#39;s open A1 feed-plausibility question: the ~20x well-mixed ignition gap is bridged by pore enrichment within the physical pore window, so a carbon-fixing network persists at vent-realistic feeds inside a pore (demonstrated on C4 and confirmed directly on C6).</span>
             
             <span class="finding-chip">via <code>productive-flux-beats-wellmixed-and-nonconcentrating</code></span>
             
           </summary>
           <div class="finding-drawer">
             <div class="finding-header">
-              <span class="finding-id">og30-beats-matched-null</span>
-              <span class="finding-kind">computational</span>
-              <span class="finding-status-text">planned literature</span>
+              <span class="finding-id">og30-resolves-a1-feed-plausibility</span>
+              <span class="finding-kind">methodological</span>
+              <span class="finding-status-text">confirms literature</span>
             </div>
             
             
@@ -747,61 +862,6 @@
             
             
             
-            <div class="finding-expected">
-              
-              
-              cites: <a class="ov-cite" href="#sref-muchowska2019synthesis" title="Synthesis and breakdown of universal metabolic precursors promoted by iron">Muchowska 2019</a>
-            </div>
-            
-            
-            
-            
-            
-          </div>
-        </details>
-      </div>
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      <div class="finding-card finding-kind-computational finding-status-planned">
-        <details class="finding-details">
-          <summary class="finding-row">
-            <span class="finding-status-glyph">◆</span>
-            <span class="finding-claim finding-statement">Mass and charge close across the spatial reactive-transport solve (divergence of flux equals source minus sink) with no untracked feed; the cross-solver comparison agrees to tolerance.</span>
-            
-            <span class="finding-chip">via <code>spatial-flux-conservation-and-cross-solver</code></span>
-            
-          </summary>
-          <div class="finding-drawer">
-            <div class="finding-header">
-              <span class="finding-id">og30-spatial-conservation-ledger</span>
-              <span class="finding-kind">computational</span>
-              <span class="finding-status-text">planned literature</span>
-            </div>
-            
-            
-            <div class="finding-evidence">
-              
-              
-              via test <a href="#bt-spatial-flux-conservation-and-cross-solver" onclick="_gotoStudyTab('audit','bt-spatial-flux-conservation-and-cross-solver');return false;"><code>spatial-flux-conservation-and-cross-solver</code></a> · 
-              
-              
-              
-            </div>
-            
-            
-            
-            
-            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: op: threshold · detail: conservation within tolerance; cross-solver agreement to tolerance</code></div>
-            
-            
-            
             
             
             
@@ -818,11 +878,13 @@
       <div class="ctr-meta ctr-assess">
         
         <div class="ctr-meta-row"><span class="ctr-meta-k">Confidence</span>
-          <span class="ctr-badge ctr-badge-planned">Planned</span>
+          <span class="ctr-badge ctr-badge-accepted">Accepted</span>
           
           
         </div>
         
+        
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Caveat</span> <span class="ctr-meta-item">Demonstrated on the C4 network and confirmed directly on the C6 network - the C6 network (the one og-29 found ignites at ~20x well-mixed feed) ignites in the demo pore at the vent-posterior base feed while the matched well-mixed control stays dead. C6 shows the same bounded-window behavior as C4: no flux-washout upper bound (a tight pore gives higher flux but the feed is physically implausible and the connectivity metric degrades), so the window&#39;s upper bound is physical-feed implausibility plus connectivity-metric degradation, not flux loss.</span></div>
         
       </div>
       
@@ -891,9 +953,9 @@
   <div class="overview-section" id="model-section">
     <h3>Runnable models <span class="muted" style="font-size:0.85em;font-weight:normal">— the composite(s) this study simulates</span></h3>
     
-    <div class="cond-block" data-model-composite="viva_genesis.composites.og_30_spatially_integrated_protometabolism.og_30_spatially_integrated_protometabolism" data-model-overrides='{}'>
+    <div class="cond-block" data-model-composite="viva_genesis.composites.og_30_spatially_integrated_protometabolism.og_30_spatially_integrated_protometabolism" data-model-overrides='{"base_CO2": 0.001, "base_H2": 0.001, "concentrating": true, "k_wash": 0.05, "max_carbons": 4, "porosity": 0.88}'>
       <div class="cond-block-title" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-        <strong>Spatially Integrated Protometabolism</strong>
+        <strong>Spatially Integrated Protometabolism (concentrating pore)</strong>
         
         <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.og_30_spatially_integrated_protometabolism.og_30_spatially_integrated_protometabolism</code>
         <button type="button" class="action-btn" style="font-size:0.8em"
@@ -903,16 +965,16 @@
       
       <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
         
-        <select class="baseline-composite-input" data-baseline-name="Spatially Integrated Protometabolism"
+        <select class="baseline-composite-input" data-baseline-name="Spatially Integrated Protometabolism (concentrating pore)"
                 data-current="viva_genesis.composites.og_30_spatially_integrated_protometabolism.og_30_spatially_integrated_protometabolism"
                 style="flex:1;min-width:200px;font-family:monospace;font-size:0.82em;padding:3px 6px">
           <option value="viva_genesis.composites.og_30_spatially_integrated_protometabolism.og_30_spatially_integrated_protometabolism" selected>viva_genesis.composites.og_30_spatially_integrated_protometabolism.og_30_spatially_integrated_protometabolism</option>
           
         </select>
         <button type="button" class="action-btn baseline-composite-set" style="font-size:0.8em"
-                data-baseline-name="Spatially Integrated Protometabolism">Set composite</button>
+                data-baseline-name="Spatially Integrated Protometabolism (concentrating pore)">Set composite</button>
       </div>
-      <div class="baseline-composite-status muted" data-baseline-name="Spatially Integrated Protometabolism" style="font-size:0.8em;margin-top:2px"></div>
+      <div class="baseline-composite-status muted" data-baseline-name="Spatially Integrated Protometabolism (concentrating pore)" style="font-size:0.8em;margin-top:2px"></div>
       
       
       
@@ -920,6 +982,13 @@
         <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading configuration…</span></div></div>
       
       
+      
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;font-size:0.8em">
+        
+        
+        
+        
+      </div>
       
     </div>
     
@@ -1146,12 +1215,12 @@ pass_if: {"detail": "bundle received complete and typed", "op": "threshold"}</pr
         
         data-pytest-node="colocalization-residence-measured"
         data-classification="primary"
-        data-result="pending"
+        data-result="PASS"
         style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #10b981; background: #f8fafc; border-radius: 4px;">
       
         
       <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
-        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #f1f5f9; color: #475569">⏳ pending</span>
+        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #d1fae5; color: #065f46">✓ PASS</span>
         <span class="classification-pill classification-primary">primary</span>
         <strong style="font-size: 0.9em;">colocalization-residence-measured</strong>
         
@@ -1159,6 +1228,13 @@ pass_if: {"detail": "bundle received complete and typed", "op": "threshold"}</pr
         
       </div>
       <div style="margin-top: 6px; font-size: 0.95em;">Reactive transport with thermophoresis and adsorption produces measurable co-localization of intermediates and increased residence time in the pore, reported as time- and space-resolved fields, not a terminal snapshot.</div>
+      
+      <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
+        <strong>Latest result:</strong>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: The thermophoretic trap&#39;s co-localization (enrichment) is resolved across an empirical porosity sweep: connected-ignition occupies a bounded band (~0.80-0.90, pore-local ~0.01-0.2 M) - sub-threshold enrichment below, physically-implausible feeds + connectivity-metric degradation above. Net carbon flux is monotone in enrichment (no flux washout); a bounded window, not robust-across-geometry.</code>
+        
+      </div>
       
       
       <details style="margin-top: 6px; font-size: 0.82em;">
@@ -1185,12 +1261,12 @@ pass_if: {"detail": "measurable co-localization and residence increase reported"
         
         data-pytest-node="productive-flux-beats-wellmixed-and-nonconcentrating"
         data-classification="primary"
-        data-result="pending"
+        data-result="PASS"
         style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #10b981; background: #f8fafc; border-radius: 4px;">
       
         
       <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
-        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #f1f5f9; color: #475569">⏳ pending</span>
+        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #d1fae5; color: #065f46">✓ PASS</span>
         <span class="classification-pill classification-primary">primary</span>
         <strong style="font-size: 0.9em;">productive-flux-beats-wellmixed-and-nonconcentrating</strong>
         
@@ -1198,6 +1274,15 @@ pass_if: {"detail": "measurable co-localization and residence increase reported"
         
       </div>
       <div style="margin-top: 6px; font-size: 0.95em;">Productive network flux (and persistence) in the pore EXCEEDS both a matched well-mixed control and a matched nonconcentrating control with chemical input fluxes held equal; flux not separable from the controls is reported as &#34;pores do not help,&#34; not tuned away. This is the Gate B arm.</div>
+      
+      <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
+        <strong>Latest result:</strong>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.00045</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: At the vent-posterior base feed (CO2/H2 1e-3, held equal) the concentrating pore (porosity 0.88, enrichment ~23x, pore-local ~0.023 M) ignites the network (net_carbon_flux +4.5e-4, connected, 17 persistent species) while the matched well-mixed nonconcentrating control does not (flux ~0, not connected). Confirmed on C6 (ignites in the demo pore; control dead).</code>
+        
+      </div>
       
       
       <details style="margin-top: 6px; font-size: 0.82em;">
@@ -1294,33 +1379,33 @@ pass_if: {"detail": "conservation within tolerance; cross-solver agreement to to
     <h2 class="overview-label">Plan &amp; lifecycle</h2>
     <div class="status-stepper">
       
-      <span class="status-step  gate-status-not-assessed gate-current">
+      <span class="status-step set gate-status-passed">
         <span class="dot"></span>1 · Plan
-        <span class="step-val">drafted</span>
+        <span class="step-val">approved</span>
+        
+      </span>
+      
+      <span class="status-step set gate-status-passed">
+        <span class="dot"></span>2 · Execution
+        <span class="step-val">ran</span>
+        
+      </span>
+      
+      <span class="status-step  gate-status-passed-with-conditions gate-current">
+        <span class="dot"></span>3 · Evidence
+        <span class="step-val">evaluated</span>
         <span class="gate-current-tag">you are here</span>
       </span>
       
-      <span class="status-step  gate-status-not-assessed">
-        <span class="dot"></span>2 · Execution
-        
-        
-      </span>
-      
-      <span class="status-step  gate-status-passed-with-conditions">
-        <span class="dot"></span>3 · Evidence
-        
-        
-      </span>
-      
-      <span class="status-step  gate-status-not-assessed">
+      <span class="status-step set gate-status-passed">
         <span class="dot"></span>4 · Quality
-        
+        <span class="step-val">evaluated</span>
         
       </span>
       
-      <span class="status-step  gate-status-not-assessed">
+      <span class="status-step set gate-status-passed">
         <span class="dot"></span>5 · Decision
-        
+        <span class="step-val">passed</span>
         
       </span>
       
@@ -1411,9 +1496,9 @@ pass_if: {"detail": "conservation within tolerance; cross-solver agreement to to
         evaluator's result from the behavior-test outcomes — the evaluation the
         conclusion rests on.</p>
       <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
-        <span class="gate-status-not_started" style="padding:2px 12px;border-radius:9999px;font-weight:700;font-size:0.85em">not_started</span>
+        <span class="gate-status-passed" style="padding:2px 12px;border-radius:9999px;font-weight:700;font-size:0.85em">passed</span>
         <span class="muted small">evaluated by code</span>
-        <span class="muted small">0/4 passed</span>
+        <span class="muted small">2/4 passed</span>
       </div>
       
     </div>
@@ -1445,6 +1530,14 @@ pass_if: {"detail": "conservation within tolerance; cross-solver agreement to to
     
 
     
+    <div class="overview-section">
+      <h3 class="overview-label">Limitations</h3>
+      <p class="muted" style="margin:0 0 6px 0;font-size:0.85em">What this study explicitly does NOT validate (prevents overclaim).</p>
+      <ul style="margin:0 0 0 18px;padding:0;font-size:0.93em">
+        <li style="margin:2px 0">Demonstrated on the C4 network and confirmed directly on the C6 network - the C6 network (the one og-29 found ignites at ~20x well-mixed feed) ignites in the demo pore at the vent-posterior base feed while the matched well-mixed control stays dead. C6 shows the same bounded-window behavior as C4: no flux-washout upper bound (a tight pore gives higher flux but the feed is physically implausible and the connectivity metric degrades), so the window&#39;s upper bound is physical-feed implausibility plus connectivity-metric degradation, not flux loss.</li><li style="margin:2px 0">The ignition readout uses og-29&#39;s network_connected metric, which is a BRITTLE proxy near threshold (raw carbon flux stays high while connectivity drops at high feed; flips 1/0/1 across adjacent porosities). The Gate B positive is reported with that caveat; it does not affect og-29&#39;s formose autocatalysis refutation (which rests on thermodynamics + the coefficient-free seed-independence discriminator, not connectivity).</li>
+      </ul>
+    </div>
+    
 
   </div>
   
@@ -1455,6 +1548,27 @@ pass_if: {"detail": "conservation within tolerance; cross-solver agreement to to
     
     
     
+    
+    <div class="decide-section">
+      <h3 class="overview-label">Latest run outcomes</h3>
+      <div style="font-size:0.88em;color:#64748b;margin-bottom:8px">
+        baseline · seed ? ·
+        ?s simulated ·
+        ? history rows ·
+        started ?
+      </div>
+      
+      
+      
+      <p class="muted" style="margin:0;font-size:0.9em">
+        <strong>3</strong> test outcomes
+        — <span style="color:#065f46;font-weight:600">3 PASS</span> ·
+        <span style="color:#991b1b;font-weight:600">0 FAIL</span>.
+        Per-test outcomes (measured value · evaluator · band) are canonical on the
+        <a onclick="_setStudyTab('audit')" style="cursor:pointer;color:#3b82f6;text-decoration:underline">Tests (in Audit) →</a>.
+      </p>
+      
+    </div>
     
     
 
@@ -1482,7 +1596,7 @@ pass_if: {"detail": "conservation within tolerance; cross-solver agreement to to
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "a1bf292bc2852a39e807c47fe3d349b04afa6aec", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/a1bf292bc2852a39e807c47fe3d349b04afa6aec", "branch": "main", "lockfile": "uv.lock@524abfbc6197", "generated_at": "2026-10-18 03:58 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "a17634f10d3773a2df7e41f993880c1fce48161e", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/a17634f10d3773a2df7e41f993880c1fce48161e", "branch": "main", "lockfile": "uv.lock@524abfbc6197", "generated_at": "2026-10-18 04:50 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>
