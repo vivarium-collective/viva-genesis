@@ -39,6 +39,8 @@ from .metacommunity import CrossFeedingMetacommunityProcess  # noqa: E402,F401
 from .proto_ecology import (EcologyReducerStep, ProtocellNetworkProcess,  # noqa: E402,F401
                             ProtocellNullNetworkProcess, SpatialCouplingStep)
 from .reactive_system import BigraphicalReactiveSystem  # noqa: E402,F401
+from .stochastic_ecology import StochasticProtocellEcologyProcess  # noqa: E402,F401
 
 __all__ = ["CrossFeedingMetacommunityProcess", "ProtocellNetworkProcess", "ProtocellNullNetworkProcess",
-           "SpatialCouplingStep", "EcologyReducerStep", "BigraphicalReactiveSystem"]
+           "SpatialCouplingStep", "EcologyReducerStep", "BigraphicalReactiveSystem",
+           "StochasticProtocellEcologyProcess"]
