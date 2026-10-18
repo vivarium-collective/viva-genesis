@@ -4545,6 +4545,11 @@ else:
 # endogenous-autocatalysis-gate-a
 _save_viz('og-29-endogenous-autocatalysis', 'endogenous-autocatalysis-gate-a', _render_one('local:OgEndogenousAutocatalysisViz', {'composite': 'viva_genesis.composites.og_29_endogenous_autocatalysis.og_29_endogenous_autocatalysis', 'n_steps': 120, 'title': 'Autocatalysis under flow — and the Gate-A null test', 'caption': 'Net carbon flux and the autocatalytic gain of the vent-fed network under flow, then the Gate-A comparison against a degree-preserving matched null run at identical input fluxes. Plainly: is the network fixing and multiplying carbon, and does that amplification beat a look-alike control fed exactly the same — or was the apparent growth just the feed?'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_og_29_endogenous_autocatalysis_og_29_endogenous_autocatalysis if 'ov_viva_genesis_composites_og_29_endogenous_autocatalysis_og_29_endogenous_autocatalysis' in dir() else None)))
 
+# **autocatalysis-discriminator**
+
+# autocatalysis-discriminator
+_save_viz('og-29-endogenous-autocatalysis', 'autocatalysis-discriminator', _render_one('local:OgAutocatalysisDiscriminatorViz', {'title': 'Autocatalysis discriminator — feed-driven flux, zero self-amplification', 'artifact_json': 'workspace/studies/og-29-endogenous-autocatalysis/artifacts/autocatalysis_discriminator.json'}, RUNS_DB, STUDY_YAML))
+
 # ### Acceptance criteria
 #
 # _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
@@ -4632,6 +4637,11 @@ else:
 
 # rtca-discriminator
 _save_viz('og-rtca-autocatalysis', 'rtca-discriminator', _render_one('local:OgRtcaAutocatalysisViz', {'artifact_json': 'workspace/studies/og-rtca-autocatalysis/artifacts/rtca_discriminator.json', 'title': 'Reductive-TCA autocatalysis — refuted at vent, topology-capable beyond it', 'caption': 'Across the x1–x50 vent feed sweep the seeded reductive-TCA cycle shows zero self-amplification growth (it washes out under vent H2 — the honest negative); it ignites only in a labelled stronger-reductant + lower-dilution counterfactual, and topology-specifically (the matched null stays off). So the vent negative is a redox / residence-time limitation, not a limitation of the rTCA wiring.'}, RUNS_DB, STUDY_YAML))
+
+# **rtca-mechanism**
+
+# rtca-mechanism
+_save_viz('og-rtca-autocatalysis', 'rtca-mechanism', _render_one('local:OgRtcaMechanismViz', {'title': 'Reductive-TCA mechanism — uphill at the vent, topology-capable beyond it', 'artifact_json': 'workspace/studies/og-rtca-autocatalysis/artifacts/rtca_discriminator.json'}, RUNS_DB, STUDY_YAML))
 
 # ### Acceptance criteria
 #
