@@ -743,6 +743,7 @@ studies:
 - og-rtca-autocatalysis
 - og-30-spatially-integrated-protometabolism
 - og-31-protometabolism-to-amphiphiles
+- og-32-first-self-maintaining-protocell
 acceptance_criteria:
 - study: og-00-vent-reactor-baseline
   behavior: vent-pH-in-lostcity-range
@@ -1063,8 +1064,8 @@ plan_gates:
     extends: B
     member_studies:
       - og-31-protometabolism-to-amphiphiles
-    pending_studies:
-      - {plan_no: 32, title: First Self-Maintaining Protocell, scaffolded: false}
+      - og-32-first-self-maintaining-protocell
+    pending_studies: []
     criterion: >-
       Metabolism makes its own membrane and benefits from it — the compartmented system must
       beat a matched ablation (no endogenous membrane) with chemical input fluxes held equal.
