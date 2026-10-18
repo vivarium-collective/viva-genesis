@@ -5525,6 +5525,176 @@ else:
 # | matched-null-equal-feeds _(primary)_ | kind=observable detail=drive + load held equal across arms | op threshold detail inputs equal across arms |
 # | handoff-35-to-37-complete _(secondary)_ | kind=observable detail=energy-coupling readouts available to study 37 | op threshold detail handoff available |
 
+# ## Study: Stochastic Protocell Ecology (`og-36-stochastic-protocell-ecology`)
+#
+# **Question.** In a heterogeneous protocell population under honest stochastic low-count dynamics, do cross-feeding and community-level function develop that single lineages do not have at equal feed - and do stochastic dynamics materially change the outcome versus the deterministic mean-field?
+#
+# **Objective.** Run a cross-feeding protocell community (shared limiting feed held equal across arms) as an exact Gillespie SSA and a matched mean-field ODE; measure cumulative productivity against the BEST single-lineage control at equal feed, test whether the margin is causally cross-feeding with a knockout, and compare stochastic vs deterministic outcomes across a system-size sweep - reporting a null / productivity-not-robustness result honestly if that is what the matched comparison shows.
+#
+# **Hypothesis.** Heterogeneous protocell populations over a shared feed develop metabolic division of labour / cross-feeding and greater robustness than any single lineage, with stochastic dynamics materially changing outcomes at low counts. If heterogeneity confers no community benefit, or the benefit is not causally cross-feeding, that is reported honestly rather than smoothed.
+#
+# **Claim.** A stochastic cross-feeding protocell community out-produces the best single lineage at equal feed - a real, cross-feeding-caused community function - but that benefit is productivity, not robustness. At the shared feed budget held equal to a matched best-single-lineage control, a ring of 4 cross-feeding lineages does ~1.9x the best single lineage's cumulative productivity (margin positive in every seed), and knocking out cross-feeding (same feed) collapses the margin to ~2% - so the benefit is causally cross-feeding, not mere diversity, with coexistence stabilised by depletable byproduct pools (negative frequency dependence), not assumed. BUT under low-count demographic noise the community is ~2x more variable than the rock-stable monoculture and loses a lineage in ~12% of runs; a system-size sweep shows this divergence from the deterministic mean-field GROWING as counts fall (to ~31% extinction / 20% margin erosion at half scale). So the honest result is the counterpoint to the required spine: cross-feeding genuinely RAISES productivity (the campaign's first throughput win) but PAYS in robustness - verdict qualified - and the GillesPy2/COBRApy genome-scale resolution (og-36a) is the follow-up. The metabolism is the sustained A1 cross-feeding community, not autocatalytic (A2 refuted).
+
+# ### Design — originally proposed
+#
+# _The mechanisms and methods proposed when this study was designed; the model **actually built** (and the tools it uses) is shown below. These may differ as the design was realized._
+#
+# **Proposed mechanisms**
+#
+# - {'cross-feeding ring': "each lineage's byproduct is substrate for its downstream neighbour"}
+# - coexistence stabilised by depletable byproduct pools (negative frequency dependence), not assumed
+# - community-level productivity margin over the best single lineage at equal shared feed (division of labour + recycling)
+# - honest low-count demographic stochasticity (extinction breaks the ring) vs the deterministic mean-field
+#
+# **Proposed models / methods**
+#
+# - dependency-free numpy Gillespie SSA (exact) + matched mean-field Euler ODE; explicit integer counts (shared feed, K byproduct pools, K cell counts)  [Option B / first cut]
+# - GillesPy2 / SSA tau-leaping + COBRApy genome-scale metabolic benchmark  [the richer follow-on, tracked as og-36a]
+# - matched best-single-lineage control: each lineage as a monoculture on the full shared feed, the best taken  [in-workspace]
+# - cross-feeding knockout (mu_cross gated to 0) at equal feed  [in-workspace causal ablation]
+# - system-size (Omega) sweep: scale the extensive counts to show the stochastic<->deterministic divergence grow as counts fall
+#
+# **Key assumptions**
+#
+# - The shared feed budget feed_F is held equal across arms - any community benefit must be a margin over the best single lineage, not more input.
+# - Coexistence is produced by depletable byproduct pools (negative frequency dependence), not assumed; the knockout excludes down.
+# - The SSA is exact on integer counts; a lineage at zero is extinct (no cell influx) and breaks the ring - the mean-field never truly reaches zero.
+# - Model is a dependency-free numpy SSA first (Option B); the GillesPy2 / COBRApy genome-scale resolution is a tracked follow-up (og-36a).
+# - The cross-feeding community is the sustained A1 network, not autocatalytic (A2 refuted under vent conditions).
+
+# ### Parameters
+#
+# | simulation | composite | steps | params |
+# | --- | --- | --- | --- |
+# | `Cross-feeding community (stochastic, SSA)` | `viva_genesis.composites.og_36_stochastic_protocell_ecology.og_36_stochastic_protocell_ecology` | 0 | n_lineages=4, n_seeded=4, deterministic=False, feed_F=7.0, mu_cross=0.5 |
+# | `Best-single-lineage null (monoculture, full shared feed)` | `viva_genesis.composites.og_36_stochastic_protocell_ecology.og_36_stochastic_protocell_ecology` | 0 | n_lineages=4, n_seeded=1, deterministic=False, feed_F=7.0 |
+# | `Cross-feeding knockout (community, cross-feeding off, equal feed)` | `viva_genesis.composites.og_36_stochastic_protocell_ecology.og_36_stochastic_protocell_ecology` | 0 | n_lineages=4, n_seeded=4, knockout=True, deterministic=False, feed_F=7.0 |
+
+# ### The model & its parameters
+#
+# Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
+
+# **The model — `viva_genesis.composites.og_36_stochastic_protocell_ecology.og_36_stochastic_protocell_ecology`**
+#
+# Gate E ecology: does a cross-feeding protocell community out-produce the best single lineage at EQUAL feed, is the margin causally due to cross-feeding (knockout), and do low-count stochastic dynamics materially change it versus the deterministic mean-field? One StochasticProtocellEcologyProcess drives all arms: community (all seeded, cross-feeding on), monoculture (best single lineage, full feed, no partner), knockout (all seeded, cross-feeding off). deterministic=False is the exact Gillespie SSA (extinction breaks the ring); deterministic=True the matched mean-field. Option B (dependency-free SSA); GillesPy2/COBRApy = og-36a. Metabolism = sustained A1 community, NOT autocatalytic (A2 refuted).
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_og_36_stochastic_protocell_ecology_og_36_stochastic_protocell_ecology = {
+    'n_lineages'   : 4,   # Number of protocell lineages on the ring
+    'n_seeded'     : 4,   # Lineages alive at t0 (set 1 for a monoculture arm — the best single lineage)
+    'knockout'     : False,   # Cross-feeding OFF (b_cross gated to 0) — the causal ablation
+    'deterministic': False,   # Mean-field Euler ODE (True) vs exact Gillespie SSA (False)
+    'feed_F'       : 16.0,   # Shared limiting feed influx, held EQUAL across arms (NOT split by lineage count)
+    'feed_Ks'      : 6.0,   # Monod half-saturation on the shared feed S
+    'cross_Kb'     : 6.0,   # Monod half-saturation on the byproduct B
+    'mu'           : 0.55,   # Birth coefficient on the shared feed
+    'mu_cross'     : 0.5,   # Cross-feeding (byproduct recycling) birth coefficient
+    'k_feed_wash'  : 0.25,   # Shared-feed washout rate
+    'k_byprod_wash': 0.3,   # Byproduct washout rate (what a monoculture loses)
+    'd0'           : 0.11,   # Cell death/washout rate
+    'eff_spread'   : 0.3,   # Heterogeneity of per-lineage feed efficiency (0 = identical)
+    'n0'           : 5,   # Initial cells per seeded lineage
+    'S0'           : 20.0,   # Initial shared feed
+    'mono_lineage' : -1,   # Monoculture arm: which lineage to seed (-1 = most efficient); lets the sims take the true best single lineage
+    'seed'         : 1,   # RNG seed (reproducible SSA trajectory / efficiency assignment)
+}
+
+# ### Typed contract (declared interface)
+#
+# _The bigraph-schema typed ports + conservation predicates this study's composite must satisfy (audited in the workbench §Contract panel). Declared design — independent of whether a run exists yet._
+#
+# **Inputs**
+#
+# | port | type | units | bounds |
+# | --- | --- | --- | --- |
+# | `shared_feed_flux` | float | dimensionless | >= 0.0 |
+# | `n_lineages` | integer | dimensionless | >= 1 |
+# | `cross_feeding_on` | boolean | dimensionless |  |
+#
+# **Outputs**
+#
+# | port | type | units | bounds |
+# | --- | --- | --- | --- |
+# | `cumulative_productivity` | float | dimensionless | >= 0.0 |
+# | `productivity_margin_over_best_single` | float | dimensionless |  |
+# | `n_alive` | float | dimensionless | >= 0.0 |
+# | `extinction_fraction` | float | dimensionless | [0.0, 1.0] |
+#
+# **Conditions**
+#
+# - `equal_shared_feed_across_arms` (invariant): `the shared feed flux feed_F is held equal across community / best-single / knockout arms; any benefit is the margin over the control`
+# - `coexistence_stabilised_not_assumed` (invariant): `deterministic coexistence of all K lineages is produced by depletable byproduct pools (negative frequency dependence); the knockout excludes down`
+# - `honest_low_count_stochasticity` (invariant): `the SSA is exact on integer counts; a lineage reaching zero is extinct (no cell influx) and breaks the ring - the mean-field never truly reaches zero`
+# - `metabolism_is_A1_not_autocatalytic` (invariant): `the cross-feeding community is the sustained A1 network; it is division of labour, not autocatalytic self-amplification (A2 refuted)`
+
+# ### Run
+#
+# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
+
+# === Study: og-36-stochastic-protocell-ecology ===
+STUDY = 'og-36-stochastic-protocell-ecology'
+STUDY_DIR = REPO / 'workspace/studies' / STUDY
+STUDY_YAML = str(STUDY_DIR / "study.yaml")
+RUNS_DB = str(STUDY_DIR / "runs.db")
+
+# This study has no *recorded* runs yet. RERUN builds its declared
+# composite(s) live and runs them; a composite whose module processes
+# are not implemented yet reports the error instead of crashing.
+STEPS_Cross_feeding_community_stochastic_SSA = 100
+INTERVAL_Cross_feeding_community_stochastic_SSA = 1.0
+STEPS_Best_single_lineage_null_monoculture_full_shared_feed = 100
+INTERVAL_Best_single_lineage_null_monoculture_full_shared_feed = 1.0
+STEPS_Cross_feeding_knockout_community_cross_feeding_off_equal_feed = 100
+INTERVAL_Cross_feeding_knockout_community_cross_feeding_off_equal_feed = 1.0
+
+if RERUN:
+    from process_bigraph import Composite
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_og_36_stochastic_protocell_ecology_og_36_stochastic_protocell_ecology if 'ov_viva_genesis_composites_og_36_stochastic_protocell_ecology_og_36_stochastic_protocell_ecology' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_og_36_stochastic_protocell_ecology_og_36_stochastic_protocell_ecology = materialize_composite('viva_genesis.composites.og_36_stochastic_protocell_ecology.og_36_stochastic_protocell_ecology', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_og_36_stochastic_protocell_ecology_og_36_stochastic_protocell_ecology['state']}, core=core)
+            _comp.run(STEPS_Cross_feeding_community_stochastic_SSA)
+        print('ran', 'Cross-feeding community (stochastic, SSA)', f'(viva_genesis.composites.og_36_stochastic_protocell_ecology.og_36_stochastic_protocell_ecology) for', STEPS_Cross_feeding_community_stochastic_SSA, 'steps')
+    except Exception as _e:
+        print(f"Cross-feeding community (stochastic, SSA) not runnable yet: {type(_e).__name__}: {_e}")
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_og_36_stochastic_protocell_ecology_og_36_stochastic_protocell_ecology if 'ov_viva_genesis_composites_og_36_stochastic_protocell_ecology_og_36_stochastic_protocell_ecology' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_og_36_stochastic_protocell_ecology_og_36_stochastic_protocell_ecology = materialize_composite('viva_genesis.composites.og_36_stochastic_protocell_ecology.og_36_stochastic_protocell_ecology', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_og_36_stochastic_protocell_ecology_og_36_stochastic_protocell_ecology['state']}, core=core)
+            _comp.run(STEPS_Best_single_lineage_null_monoculture_full_shared_feed)
+        print('ran', 'Best-single-lineage null (monoculture, full shared feed)', f'(viva_genesis.composites.og_36_stochastic_protocell_ecology.og_36_stochastic_protocell_ecology) for', STEPS_Best_single_lineage_null_monoculture_full_shared_feed, 'steps')
+    except Exception as _e:
+        print(f"Best-single-lineage null (monoculture, full shared feed) not runnable yet: {type(_e).__name__}: {_e}")
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_og_36_stochastic_protocell_ecology_og_36_stochastic_protocell_ecology if 'ov_viva_genesis_composites_og_36_stochastic_protocell_ecology_og_36_stochastic_protocell_ecology' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_og_36_stochastic_protocell_ecology_og_36_stochastic_protocell_ecology = materialize_composite('viva_genesis.composites.og_36_stochastic_protocell_ecology.og_36_stochastic_protocell_ecology', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_og_36_stochastic_protocell_ecology_og_36_stochastic_protocell_ecology['state']}, core=core)
+            _comp.run(STEPS_Cross_feeding_knockout_community_cross_feeding_off_equal_feed)
+        print('ran', 'Cross-feeding knockout (community, cross-feeding off, equal feed)', f'(viva_genesis.composites.og_36_stochastic_protocell_ecology.og_36_stochastic_protocell_ecology) for', STEPS_Cross_feeding_knockout_community_cross_feeding_off_equal_feed, 'steps')
+    except Exception as _e:
+        print(f"Cross-feeding knockout (community, cross-feeding off, equal feed) not runnable yet: {type(_e).__name__}: {_e}")
+else:
+    print("RERUN=False — not re-simulating.")
+
+# ### Acceptance criteria
+#
+# _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
+#
+# | test | measures | passes if |
+# | --- | --- | --- |
+# | receives-handoff-bundle _(secondary)_ | kind=observable detail=composite runs the SSA cross-feeding community + controls | op threshold detail composite builds + runs |
+# | community-out-produces-best-single _(primary)_ | kind=observable detail=community vs best-single-lineage cumulative productivity at equal feed | op threshold detail community productivity > best single lineage; margin positive in most seeds |
+# | margin-causally-cross-feeding _(primary)_ | kind=observable detail=knockout margin as a fraction of the community margin | op threshold detail knockout recovers < 15% of the community margin |
+# | coexistence-stabilized-not-assumed _(primary)_ | kind=observable detail=deterministic n_alive community vs knockout=None | op threshold detail community n_alive == K; knockout n_alive < K |
+# | stochastic-materially-changes-low-count _(primary)_ | kind=observable detail=SSA extinction fraction + stochastic/deterministic margin gap vs Omega | op threshold detail nominal extinction fraction > 0; divergence grows as counts fall |
+# | community-not-more-robust-than-monoculture _(primary)_ | kind=observable detail=community CV vs best-single CV; community_more_robust flag | op threshold detail community CV > best-single CV (community_more_robust False) - reported honestly |
+# | matched-null-equal-feeds _(primary)_ | kind=observable detail=feed_F held equal across arms | op threshold detail feed budget equal across arms |
+# | handoff-36-to-37-complete _(secondary)_ | kind=observable detail=ecology readouts available to study 37 | op threshold detail handoff available |
+
 # ## Open decisions
 # - Read og-08's {pump, importer, heredity} as a HYPOTHESIS GENERATOR, not a result: the integrated world (og-08-alt-robust-innovation-set) finds the required set structure-dependent and the off-gradient verdict decided by the ocean floor, the membrane leakiness and the inheritance class's budget sensitivity. Adopt this framing for the campaign's endpoint statement, and supply the ocean's H2 / organic background (the floor) as an expert prior?
 # - Agent motion model (ecology stage): DEFERRED. The proto_ecology component points agents at fixed cells of the og-03 enrichment field (interleaved or segregated along the pore); no motility, chemotaxis or advective drift of agents is modelled. Which motion model (none / advected with the pore flow / Brownian between cells / thermophoretic like the solutes) should the ecology follow-up adopt?
