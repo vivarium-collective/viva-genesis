@@ -1,0 +1,127 @@
+{
+ "meta": {
+  "wall_time_s": 13.738132953643799,
+  "network": "C4",
+  "porosity": 0.88,
+  "base_feed": 0.001,
+  "k_wash": 0.05,
+  "coupling": "MD-INFORMED (short Martini CG-MD bilayer thickness -> published solubility-diffusion relation -> permeability -> retention) \u2014 NOT PMF-resolved (Option A = og-32a)",
+  "md_source": "real short Martini 3 CG-MD on the mini (viva-openmm/martini_openmm); sims/run_md_bilayer_observables.py; md_bilayer_observables.json",
+  "md_thickness_nm": {
+   "short_di-C12": 2.325,
+   "long_di-C16": 2.87
+  },
+  "integrity_params": {
+   "eta_amph": 0.1,
+   "k_deg": 0.0001,
+   "m_req": 0.001,
+   "note": "declared model parameters, NOT tuned to pass"
+  },
+  "guardrail": "metabolism = sustained A1 carbon-fixing network, NOT autocatalytic (A2 refuted)",
+  "scope": "Option B MD-informed structural proxy; Option A PMF-resolved permeability = study og-32a (budgeted)"
+ },
+ "benefit_demo": {
+  "membrane": {
+   "total_organic_carbon": 0.017723372881665176,
+   "net_carbon_flux": 0.00034799000419370165,
+   "n_persistent_species": 17.0
+  },
+  "ablation": {
+   "total_organic_carbon": 0.008963129433052539,
+   "net_carbon_flux": 0.00044325006904878125,
+   "n_persistent_species": 17.0
+  },
+  "toc_benefit": 1.977364380827556,
+  "flux_benefit": 0.7850873096094297,
+  "persistence_pays": true,
+  "throughput_pays": false,
+  "beats_ablation": true
+ },
+ "membrane_integrity": {
+  "production": 3.479900041937017e-05,
+  "degradation": 1.0000000000000001e-07,
+  "net_integrity": 3.469900041937017e-05,
+  "maintained": true,
+  "permeability": 0.2560199264081301,
+  "retention": 0.6613582295052892,
+  "thickness_nm": 2.87
+ },
+ "self_maintaining": true,
+ "boundary": {
+  "composition": [
+   {
+    "composition": "short_di-C12",
+    "thickness_nm": 2.325,
+    "permeability": 1.0,
+    "retention": 0.3333333333333333,
+    "total_organic_carbon": 0.01200213852123355,
+    "net_carbon_flux": 0.0004082529647589693,
+    "persistence_pays": true,
+    "integrity_maintained": true
+   },
+   {
+    "composition": "long_di-C16",
+    "thickness_nm": 2.87,
+    "permeability": 0.2560199264081301,
+    "retention": 0.6613582295052892,
+    "total_organic_carbon": 0.017723372881665176,
+    "net_carbon_flux": 0.00034799000419370165,
+    "persistence_pays": true,
+    "integrity_maintained": true
+   }
+  ],
+  "k_deg": [
+   {
+    "k_deg": 0.0001,
+    "degradation": 1.0000000000000001e-07,
+    "net_integrity": 3.469900041937017e-05,
+    "maintained": true
+   },
+   {
+    "k_deg": 0.0005,
+    "degradation": 5e-07,
+    "net_integrity": 3.429900041937017e-05,
+    "maintained": true
+   },
+   {
+    "k_deg": 0.001,
+    "degradation": 1e-06,
+    "net_integrity": 3.379900041937017e-05,
+    "maintained": true
+   },
+   {
+    "k_deg": 0.005,
+    "degradation": 5e-06,
+    "net_integrity": 2.979900041937017e-05,
+    "maintained": true
+   },
+   {
+    "k_deg": 0.01,
+    "degradation": 1e-05,
+    "net_integrity": 2.479900041937017e-05,
+    "maintained": true
+   },
+   {
+    "k_deg": 0.05,
+    "degradation": 5e-05,
+    "net_integrity": -1.5200999580629833e-05,
+    "maintained": false
+   },
+   {
+    "k_deg": 0.1,
+    "degradation": 0.0001,
+    "net_integrity": -6.520099958062984e-05,
+    "maintained": false
+   },
+   {
+    "k_deg": 0.5,
+    "degradation": 0.0005,
+    "net_integrity": -0.00046520099958062983,
+    "maintained": false
+   }
+  ],
+  "k_deg_boundary_max": 0.01
+ },
+ "verdict": "qualified",
+ "headline": "Full Gate C (Option B, MD-INFORMED structural proxy \u2014 NOT PMF-resolved): verdict=qualified. On the Gate-B pore-concentrated A1 (sustained, non-autocatalytic) network, membrane permeability is informed by short Martini CG-MD of the amphiphile composition (long di-C16 bilayer thickness 2.87 nm vs short di-C12 2.325 nm; thicker long-chain core -> lower permeability 0.256 -> retention 0.661). Self-maintenance is the measurable \u26911 criterion: (i) net amphiphile production 3.48e-05 >= degradation 1.00e-07 (maintained=True), AND (ii) the membrane beats the matched no-endogenous-membrane ablation at equal feeds on persistence 1.98x (pays=True) / throughput 0.79x (pays=False). Self-maintaining=True. The result is WINDOWED: integrity holds up to k_deg <= 0.01 1/s, and persistence benefit tracks the MD composition (thicker = more retention). NOT strict autopoietic closure; the metabolism is the A1 network, not autocatalytic (A2 refuted). PMF-resolved permeability (Option A, study og-32a) is the budgeted gold-standard follow-on."
+}

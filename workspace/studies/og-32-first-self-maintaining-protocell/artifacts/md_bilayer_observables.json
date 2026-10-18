@@ -1,0 +1,27 @@
+{
+  "platform": "CPU",
+  "temp_k": 322.35,
+  "prod_steps": 50000,
+  "results": {
+    "DLPC": {
+      "bilayer_thickness_nm": 2.3249196581321026,
+      "hydrophobic_span_nm": 3.619572330456474,
+      "area_per_lipid_nm2": 0.81,
+      "resname": "DLPC",
+      "composition": "short_di-C12",
+      "n_tail_beads_per_chain": 3,
+      "n_lipids": 72,
+      "wall_s": 37.3
+    },
+    "DPPC": {
+      "bilayer_thickness_nm": 2.8698743215675258,
+      "hydrophobic_span_nm": 4.114101228477696,
+      "area_per_lipid_nm2": 0.81,
+      "resname": "DPPC",
+      "composition": "long_di-C16",
+      "n_tail_beads_per_chain": 4,
+      "n_lipids": 72,
+      "wall_s": 38.6
+    }
+  }
+}
