@@ -261,6 +261,12 @@ visualizations:
       comparison against a degree-preserving matched null run at identical input fluxes. Plainly: is
       the network fixing and multiplying carbon, and does that amplification beat a look-alike control
       fed exactly the same — or was the apparent growth just the feed?
+- name: autocatalysis-discriminator
+  address: local:OgAutocatalysisDiscriminatorViz
+  config:
+    title: Autocatalysis discriminator — feed-driven flux, zero self-amplification
+    artifact_json: workspace/studies/og-29-endogenous-autocatalysis/artifacts/autocatalysis_discriminator.json
+  rendered: workspace/studies/og-29-endogenous-autocatalysis/viz/autocatalysis-discriminator.html
 baseline:
 - name: Endogenous Autocatalysis
   composite: viva_genesis.composites.og_29_endogenous_autocatalysis.og_29_endogenous_autocatalysis
