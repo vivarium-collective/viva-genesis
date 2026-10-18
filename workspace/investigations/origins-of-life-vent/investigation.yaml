@@ -744,6 +744,7 @@ studies:
 - og-30-spatially-integrated-protometabolism
 - og-31-protometabolism-to-amphiphiles
 - og-32-first-self-maintaining-protocell
+- og-33-chemically-coupled-growth-and-division
 acceptance_criteria:
 - study: og-00-vent-reactor-baseline
   behavior: vent-pH-in-lostcity-range
@@ -1073,9 +1074,9 @@ plan_gates:
   - id: D
     name: Reproduction & heredity
     extends: C
-    member_studies: []
+    member_studies:
+      - og-33-chemically-coupled-growth-and-division
     pending_studies:
-      - {plan_no: 33, title: Chemically Coupled Growth & Division, scaffolded: false}
       - {plan_no: 34, title: Chemical Heredity & Selection, scaffolded: false}
     criterion: >-
       Viable daughters inherit functional traits that influence fitness — an inherited
