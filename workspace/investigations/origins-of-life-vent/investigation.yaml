@@ -745,6 +745,7 @@ studies:
 - og-31-protometabolism-to-amphiphiles
 - og-32-first-self-maintaining-protocell
 - og-33-chemically-coupled-growth-and-division
+- og-34-chemical-heredity-and-selection
 acceptance_criteria:
 - study: og-00-vent-reactor-baseline
   behavior: vent-pH-in-lostcity-range
@@ -1076,8 +1077,8 @@ plan_gates:
     extends: C
     member_studies:
       - og-33-chemically-coupled-growth-and-division
-    pending_studies:
-      - {plan_no: 34, title: Chemical Heredity & Selection, scaffolded: false}
+      - og-34-chemical-heredity-and-selection
+    pending_studies: []
     criterion: >-
       Viable daughters inherit functional traits that influence fitness — an inherited
       functional difference must produce a reproducible fitness difference versus a matched
