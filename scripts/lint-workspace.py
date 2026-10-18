@@ -310,6 +310,7 @@ def main() -> None:
     study_names: list[str] = []
     study_statuses: list[str] = []
     study_warnings: list[str] = []
+    studies_by_dir: dict[str, dict] = {}  # for the audit checks below
     # F-friction #6: keep a separate count of studies that fail dashboard
     # load so the summary line can swap ✓ for ✗ when any fail. Without this,
     # the summary said `dashboard ✓` while WARN lines underneath said
@@ -324,6 +325,7 @@ def main() -> None:
             s_status = study_data.get("status", "unknown")
             study_names.append(s_name)
             study_statuses.append(s_status)
+            studies_by_dir[study_dir] = study_data
 
             # Validate against JSON schema if available
             if study_schema is not None:
@@ -356,6 +358,63 @@ def main() -> None:
                     n_studies_failed_dashboard += 1
         except Exception as exc:
             study_warnings.append(f"  WARN could not parse {study_yaml_path}: {exc}")
+
+    # ---- Audit checks (hard-fail) --------------------------------------
+    # Pure checks live in viva_genesis.audit_checks; resolve their inputs here.
+    _audit_errors: list[str] = []
+    try:
+        from viva_genesis.audit_checks import (
+            check_baseline_params,
+            check_unguarded_optional_imports,
+        )
+    except Exception as _e:  # viva_genesis not importable here — warn, don't fail
+        print(f"LINT WARNING: audit checks skipped ({_e})", file=sys.stderr)
+    else:
+        # (1) baseline params must be declared parameters of their composite.
+        gen_parameters: dict[str, set] | None = None
+        try:
+            import viva_genesis.composites  # noqa: F401  (registers generators)
+            from process_bigraph.composite_generator import _REGISTRY as _CG
+            gen_parameters = {
+                k: set((getattr(e, "parameters", None) or {}).keys())
+                for k, e in _CG.items()
+                if k.startswith("viva_genesis.composites.")
+            }
+        except Exception as _e:
+            print(f"LINT WARNING: baseline-param check skipped — "
+                  f"could not introspect composite parameters ({_e})", file=sys.stderr)
+        if gen_parameters is not None:
+            _audit_errors += [f"baseline-param: {e}"
+                              for e in check_baseline_params(studies_by_dir, gen_parameters)]
+
+        # (3) optional-dep imports in tests/ must be importorskip-guarded.
+        optional_deps = {"viva_openmm", "openmm", "rdkit", "phreeqpython",
+                         "reaktoro", "fipy", "simtk"}
+        try:
+            import tomllib
+            _pp = tomllib.loads((WS_ROOT / "pyproject.toml").read_text())
+            for _deps in (_pp.get("project", {}).get("optional-dependencies", {}) or {}).values():
+                for _d in _deps or []:
+                    _nm = re.split(r"[<>=!~;\[ ]", str(_d))[0].strip().replace("-", "_")
+                    if _nm and _nm not in ("pytest", "pytest_cov"):
+                        optional_deps.add(_nm)
+        except Exception:
+            pass  # fall back to the hardcoded set
+        _test_files = []
+        _tests_dir = WS_ROOT / "tests"
+        if _tests_dir.exists():
+            for _tf in sorted(_tests_dir.rglob("test_*.py")):
+                try:
+                    _test_files.append((str(_tf.relative_to(WS_ROOT)), _tf.read_text()))
+                except Exception:
+                    pass
+        _audit_errors += [f"optional-import: {e}"
+                          for e in check_unguarded_optional_imports(_test_files, optional_deps)]
+
+    if _audit_errors:
+        for _e in _audit_errors:
+            print(f"LINT ERROR: {_e}", file=sys.stderr)
+        sys.exit(1)
 
     n_studies = len(study_names)
     status_counts = Counter(study_statuses)
