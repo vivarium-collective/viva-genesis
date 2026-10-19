@@ -272,7 +272,7 @@ discovery_implications:
     rationale: Instantiate the real og-02 libRoadRunner network per compartment for
       a small N and check the coarse-grained cross-feeding chains against metabolite
       exchange.
-  - study: og-08
+  - study: og-independence
     rationale: Carry the robust metacommunity into the escape-from-the-vent transition
       (dispersal to a fluctuating environment).
 readouts:

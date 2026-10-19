@@ -889,7 +889,7 @@ def _connected_minus_isolated_robustness(reader, test: dict, ws_root: Any) -> fl
 
 
 # --- Phase 9 (og-08-alt-robust-innovation-set): run-level + artifact gates ------------------
-_OG08ALT_SET = "workspace/studies/og-08-alt-robust-innovation-set/artifacts/robust_innovation_set.json"
+_OG08ALT_SET = "workspace/studies/og-independence/artifacts/og-08-alt-robust-innovation-set/robust_innovation_set.json"
 _PHASE9_LEDGER_FLAGS = ("geology_ledger_ok", "charge_ledger_ok", "network_ledger_ok", "element_ledger_ok",
                         "free_energy_ledger_ok", "rewrite_ok")
 
