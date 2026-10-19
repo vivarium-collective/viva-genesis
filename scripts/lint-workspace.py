@@ -365,6 +365,7 @@ def main() -> None:
             check_baseline_params,
             check_unguarded_optional_imports,
             check_dangling_refs,
+            check_dangling_edge_targets,
             check_artifacts_exist,
             check_planned_not_passed,
             check_verdict_evidence,
@@ -423,6 +424,16 @@ def main() -> None:
         # A — dangling cross-references (from_test / run_ids / cites / prerequisites).
         _audit_errors += [f"dangling-ref: {e}"
                           for e in check_dangling_refs(studies_by_dir, _all_slugs, bib_keys_found)]
+        # A2 — study-graph EDGE targets (builds_on / parent_studies / handoff from,to)
+        # must resolve to a CURRENT study: by slug, or by a current study's plan_id.
+        # Closes the stale-folded-edge gap (cites resolved but edge targets did not).
+        # The allowlist is EXPLICIT + documented (never a silent skip) and a last resort.
+        _all_plan_ids = {s["plan_id"] for s in studies_by_dir.values()
+                         if isinstance(s.get("plan_id"), int)}
+        _EDGE_TARGET_ALLOWLIST: set = set()   # e.g. {"plan:NN"} for a documented planned-but-unscaffolded concept
+        _audit_errors += [f"dangling-edge-target: {e}"
+                          for e in check_dangling_edge_targets(
+                              studies_by_dir, _all_slugs, _all_plan_ids, _EDGE_TARGET_ALLOWLIST)]
 
         # B — committed artifacts must exist for ran/passed studies. Artifact paths
         # are workspace-root-relative; run store_paths are study-dir-relative and
