@@ -3,10 +3,11 @@ name: origins-of-life-vent
 title: Origins-of-life vent campaign
 created: '2026-10-11'
 status: running
-question: Could the first cells have originated at alkaline hydrothermal vents? Can a physically 
-  plausible early-Earth vent–ocean interface generate and sustain, in order, the free energy, 
-  reduced carbon, self-amplifying chemistry, concentration, and compartments a protocell needs — 
-  without inserting metabolism, membranes, or heredity by assumption?
+question: Could the first cells have originated at alkaline hydrothermal vents — and where does the
+  geology-to-cells path run continuously, where does it depend on narrow regimes, and where does it
+  break? Can a physically plausible early-Earth vent–ocean interface generate and sustain, in order,
+  the free energy, reduced carbon, persistent network chemistry, concentration, and compartments a
+  protocell needs — without inserting metabolism, membranes, autocatalysis, or heredity by assumption?
 hypothesis: >-
   Under field- and lab-consistent parameter ranges, a serpentinization-fed, spatially resolved
   alkaline vent reproduces the conditions for a cellular origin: it crosses, in order, falsifiable
@@ -21,105 +22,139 @@ lead: >-
   across thin mineral walls), its first reduced carbon (H2-driven CO2 reduction), and a place to
   concentrate and enclose that chemistry, before the cell evolves its own membranes, pumps and
   genes. The campaign builds that vent from real geochemistry upward (serpentinization, reactive
-  transport, H2-driven carbon fixation, self-amplifying networks) and runs the classical favorable
-  scenario and the 2026 unfavorable reassessment head to head rather than assuming either. Every
+  transport, H2-driven carbon fixation, candidate self-amplifying networks — tested, not assumed)
+  and runs the classical favorable scenario and the 2026 unfavorable reassessment head to head
+  rather than assuming either. Every
   stage is a coupled Vivarium composite of genuine simulators (PHREEQC, FiPy, eQuilibrator,
   libRoadRunner, with a FEniCS/dolfinx FEM solver under pixi as a high-fidelity cross-check) under
   explicit conservation contracts. Thirteen consolidated studies — each gathering the campaign's
-  run arms (36 in all) at several fidelities — build and run on real simulators. A staged arc of
-  six gates, from vent geochemistry and network persistence through endogenous autocatalysis,
-  spatial individuation, self-compartmentation, reproduction and heredity, to the optional
-  energy, ecology and graded-autonomy extensions and the nitrogen/phosphorus/energy/growth
-  bottlenecks, passes its pre-stated gates, with an adversarial vent-ablated control rejected by
-  every discriminating gate. The sharper results come from re-grounding each stage on
-  higher-fidelity model classes, which returns three honest negatives: carbon fixation's limiting
-  step is structure-sensitive, no autocatalysis emerges at vent conditions without a one-carbon
-  feed, and og-independence's {pump, importer, heredity} set is not jointly sufficient
+  run arms (36 in all) at several fidelities — build and run on real simulators. A five-act arc —
+  the geological engine, chemical organization, chemical individuality, reproduction and evolution,
+  and robustness and autonomy, plus the nitrogen/phosphorus/energy/growth bottlenecks — is judged
+  act by act against matched nulls, with an adversarial vent-ablated control rejected by every
+  discriminating gate. The honest headline is that the arc advances on persistence while endogenous
+  autocatalysis is tested and refuted, and the central transition — chemistry maintaining a boundary
+  that in turn sustains that chemistry — stays open. The sharpest results come from re-grounding each
+  act on higher-fidelity model classes, which returns three honest negatives: carbon fixation's
+  limiting step is structure-sensitive, no autocatalysis emerges at vent conditions without a
+  one-carbon feed, and og-independence's {pump, importer, heredity} set is not jointly sufficient
   off-gradient.
 executive:
-  what_is_this: A staged, falsifiable Vivarium campaign testing the alkaline-vent theory for the
-    origin of cells — treating a cellular origin as coupled transitions from geochemistry to
-    bioenergetic autonomy, grounded in serpentinization-driven alkaline hydrothermal vents, with
-    explicit competing scenarios.
+  what_is_this: >-
+    A staged, falsifiable Vivarium campaign mapping where the geology-to-cells path at a
+    serpentinizing alkaline hydrothermal vent runs continuously, where it depends on narrow
+    regimes, and where it breaks. A cellular origin is treated as five acts of coupled
+    nonequilibrium transitions — geological engine, chemical organization, chemical individuality,
+    reproduction and evolution, robustness and autonomy — each judged against a matched null with
+    input fluxes held equal, with explicit competing scenarios. Not a demonstration that cells did
+    originate at vents: a quantitative map of the bottlenecks between geology and cells.
   campaign_synthesis: >-
-    Campaign synthesis — the whole origins-of-life-vent arc in one place (see campaign-synthesis.md). The
-    required spine (Gates A–D) is complete: a vent-fed chemistry persists (A1, in a concentrating pore),
-    concentrates (B), compartments and maintains itself (C), and reproduces and inherits a selectable chemical
-    trait (D) — each gate judged against a matched null with input fluxes held equal, Gate D a genuine positive.
-    Endogenous autocatalysis is refuted under vent conditions for both representable routes (A2, off-spine), on
-    thermodynamics and on a seed-independence discriminator. The campaign-level reading is that concentration,
-    compartmentation and energy coupling (Gate E study 35, qualified) alike buy persistence and robustness, not
-    productivity.
-  gate_a_status: >-
-    Gate A (chemical emergence) is recorded as two sub-gates, split because they answer different questions and
-    sit at different places in the spine. A1 (network persistence) is a spine gate and is met, qualified. A2
-    (endogenous autocatalysis) is an off-spine branch - tested and refuted, not a prerequisite for the spine.
-
-
-    A1 - network persistence (spine; met, qualified): a sustained, connected, carbon-fixing network emerges on
-    bounded geochemical feeds. In a well-mixed system the six-carbon network ignites only at about 20x the vent
-    posterior feed, above defensible vent concentrations; Gate B (og-spatial-concentration) bridges that gap - a concentrating
-    mineral pore at a modest, physical porosity (0.88, pore-local ~0.023 M) ignites the network, confirmed
-    directly on the C6 network (flux +4.49e-4, connected), where a matched well-mixed control stays dead. The
-    rescue holds within a bounded, somewhat brittle pore-geometry window (porosity ~0.80-0.90): below it
-    enrichment is sub-threshold, above it pore-local feeds are physically implausible. So a carbon-fixing
-    network persists at vent-realistic feeds inside a pore, within that window - this is what Gates B and C
-    build on.
-
-
-    A2 - endogenous autocatalysis (off-spine branch; refuted, mechanistic): self-amplification beyond a
-    degree-preserving matched null is refuted under vent conditions for both candidate routes, each with a
-    distinct mechanism; this is a tested-and-refuted branch, not a spine prerequisite. (i) Formose (linear): the
-    canonical doubling step (r409, two glycolaldehyde to threose) is thermodynamically condensation-favored
-    (standard free energy -16.4 kJ/mol), so its splitting direction carries no net flux; and on a coefficient-free
-    functional discriminator it is refuted again - the network fixes carbon but production is seed-independent,
-    i.e. feed-driven rather than self-amplified. (ii) rTCA (branched): under vent H2 a seeded reductive-TCA cycle
-    washes out, because the reductive carboxylations (succinate to alpha-ketoglutarate, +18 kJ/mol; acetyl to
-    pyruvate, +31 kJ/mol) run uphill under H2 and too slow against washout - the same reason real rTCA uses
-    ferredoxin, not H2, as its reductant. The rTCA topology is shown autocatalysis-capable and topology-specific
-    in a labelled counterfactual (lowering the carboxylation barrier switches it on), so the vent negative is a
-    redox-environment limitation, not a limitation of the cycle's wiring.
-
-
-    Overall: the spine advances on persistence - A1 is met (qualified: holds in a pore, within a bounded porosity
-    window) and is what B (met), C (partial) and D build on - while endogenous autocatalysis was tested and
-    refuted along the way (A2, off-spine, both representable routes under vent conditions). The
-    autocatalysis-capable rTCA topology under a stronger reductant is noted as the basis for a possible
-    beyond-vent follow-up, outside the current vent scope.
-  gate_b_status: >-
-    Gate B (spatial organization) is met. At the same vent-posterior base feed held equal (CO2 and H2 at 1e-3),
-    a concentrating mineral pore at a modest, physical porosity (0.88; enrichment ~23x; pore-local ~0.023 M)
-    ignites the reaction network (net carbon flux +4.5e-4, a connected network of 17 persistent species) while a
-    matched well-mixed, nonconcentrating control does not (flux ~0, not connected) - spatial concentration is
-    the only difference, so the pore itself causes the productive flux, and Gate B's criterion is met at the
-    demonstrated pore. A porosity sweep shows this is a bounded, somewhat brittle window rather than a broad
-    swath: net carbon flux rises monotonically with confinement (no flux washout), but the connectivity-defined
-    ignition occupies a band around porosity ~0.80-0.90 (pore-local ~0.01-0.2 M) - below it enrichment is sub-
-    threshold, above it the pore-local feeds become physically implausible (0.70 -> 2.6 M, 0.60 -> 36 M) and the
-    connectivity metric itself degrades (flipping 1/0/1 across adjacent porosities). The result is confirmed
-    directly on the C6 network - the one og-autocatalysis-a2 found ignites only at ~20x well-mixed feed - which ignites in the
-    demo pore at the vent-posterior feed (flux +4.49e-4, connected, 22 species) while its matched well-mixed
-    control stays dead, with the same bounded-window behavior (no flux-washout upper bound). Beyond meeting its
-    own criterion, Gate B resolves Gate A's open A1 feed-plausibility question: the ~20x well-mixed ignition gap
-    is bridged inside this physical pore window, so a carbon-fixing network persists at vent-realistic feeds in
-    a pore.
-  gate_c_status: >-
-    Gate C (self-compartmentation) is qualified. og-self-compartmentation tests the "benefits from it" half under a reduced-coupling
-    membrane model (retention/access, explicitly NOT the MD-resolved permeability PMF): on the Gate-B pore-
-    concentrated, carbon-fixing (not autocatalytic) network at the Jordan-2019 vent-calibrated setting
-    (retention 0.905, access 0.997), an endogenous membrane raises the standing metabolite pool to about 2.9x
-    the no-membrane ablation - it pays for itself on persistence - while net fixation flux is about 0.6x
-    (lower), because throughput is feed-limited. og-self-compartmentation (First Self-Maintaining Protocell) then takes full Gate C
-    on an MD-informed first cut: short Martini CG-MD gives a thicker long-chain bilayer (di-C16 2.870 nm vs
-    di-C12 2.325 nm) -> lower permeability (0.256) -> higher retention (0.661), so composition sets permeability
-    sets retention (a resolved coupling, not a free knob); the membrane raises the standing pool ~1.98x over a
-    no-endogenous-membrane ablation (persistence) while net flux stays ~0.79x (throughput feed-limited), and it
-    is self-maintaining on the measurable criterion (net amphiphile production >= degradation and beats the
-    ablation at equal feeds), within a windowed integrity (membrane access >~0.45; degradation rate k_deg <=
-    ~0.01/s). Qualified: persistence not throughput, windowed, and MD-informed rather than PMF-resolved (the
-    gold standard is tracked as og-32a). Guardrail: the metabolism here is the sustained A1 carbon-fixing
-    network, not autocatalysis (A2 is refuted under vent conditions) - the claim is that a persisting network
-    makes a membrane that pays for itself on persistence, never that the chemistry self-amplifies.
+    Campaign synthesis — the geology-to-cells arc in one place (see campaign-synthesis.md), read as
+    five acts, each judged against a matched null with input fluxes held equal. Geochemical
+    disequilibria can sustain carbon-reducing chemistry (Acts I–II), and a connected reaction
+    network persists without endogenous autocatalysis — amplification beyond a degree-preserving
+    null is refuted under vent conditions for both representable routes (A2, off-spine), on
+    thermodynamics and on a seed-independence discriminator. Persistence is bought by spatial
+    organization, retention and energy-buffering, not by productivity: a concentrating mineral pore
+    rescues the network (Act II), but the chemically-necessary multicomponent set fractionates
+    rather than co-localizing, and the rescue sits in a bounded, somewhat brittle porosity window.
+    An endogenous membrane pays for itself on persistence (Act III), yet self-produced boundary
+    closure and the chemistry-to-boundary feedback stay open; physical division is a measured
+    propensity, not demonstrated self-maintaining fission; and open-ended chemical evolvability is
+    unresolved (Act IV). Under reduced geological support the buffering, community and
+    internalization mechanisms map a robustness/productivity frontier, not a demonstrated escape
+    (Act V). The central scientific target the campaign now names is the emergence of reciprocal
+    coupling: chemistry maintaining a boundary that, in turn, sustains and propagates that
+    chemistry. Endogenous autocatalysis is not demonstrated and the chemistry-to-self-maintaining-
+    individual transition is open — these are the campaign's sharpest results, kept first-class, not
+    gaps papered over.
+  act_i_status: >-
+    Act I (geological engine) is qualified. The serpentinizing alkaline vent holds its Lost City
+    window (T 40-91 C, pH 9.0-10.8, positive H2 flux) over ~80% of the swept grid with the
+    charge/element ledger exact (|charge| = 0). Conditioning on that window leaves a posterior that
+    is 12.5% of the prior yet in which 100% of the empirically supported vent states supply what
+    downstream carbon fixation needs - transport-class-independent, ledger exact (0 of 96 points
+    rejected). The dissolved-H2 window is the binding observation (pH is mineral-buffered near 9.4),
+    so Act I delivers a bounded, calibrated feed of H2 / inorganic carbon / pH-redox gradient with a
+    documented lifetime - a viable geochemical reactor within bounds, not an origin claim. It
+    throttles on a bounded two-regime DIC window, and the H2 posterior depends on the DIC prior and
+    the equilibrium-vs-kinetic carbon-redox choice (an open expert prior). Exit condition met: the
+    calibrated, uncertainty-bearing feed with closed budgets and a documented lifetime that Act II
+    consumes.
+  act_ii_status: >-
+    Act II (chemical organization) resolves to persistence, not amplification. Abiotic carbon
+    production is supported: H2-driven CO2 reduction over the vent's Fe/Ni/S interface
+    reproduces the Preiner/Hudson yield hierarchy (formate ~200 mM >> acetate ~100 uM >> pyruvate
+    ~10 uM) and sustains net organic-carbon flux in a bounded pH-gradient x dissolved-H2 region,
+    with every control (no gradient / no H2 / no catalyst) collapsing formate below 1 mM; carbon
+    fixation spends the proton gradient (~2 H+/carbon). Network persistence (A1) is met, qualified:
+    a connected, carbon-fixing network sustains net throughput on the calibrated feed under washout.
+    Spatial organization (B) is met: at the same vent-posterior base feed held equal, a
+    concentrating mineral pore at a modest, physical porosity (0.88, pore-local ~0.023 M, enrichment
+    ~23x) ignites the network (net carbon flux +4.5e-4, 17 persistent species) while a matched
+    well-mixed, nonconcentrating control stays dead - spatial concentration is the only difference,
+    confirmed directly on the six-carbon network (flux +4.49e-4, connected, 22 species) that ignites
+    only at ~20x well-mixed feed. The rescue holds within a bounded, somewhat brittle porosity window
+    (~0.80-0.90); the chemically-necessary eight-solute mixture fractionates rather than
+    co-localizing (Soret-driven, co-localization index ~0.18 in the strong-Soret regime), a candidate
+    spatial incompatibility. Endogenous autocatalysis (A2, off-spine) is refuted under vent
+    conditions for both representable routes: the formose doubling step is thermodynamically
+    condensation-favored (-16.4 kJ/mol) so its splitting direction carries no net flux, and on a
+    coefficient-free discriminator production is seed-independent (feed-driven, not self-amplified);
+    a seeded reductive-TCA cycle washes out because its reductive carboxylations run uphill under vent
+    H2 (+18, +31 kJ/mol) - the same reason real rTCA uses ferredoxin, not H2 - though a labelled
+    counterfactual shows the rTCA topology is autocatalysis-capable under a stronger reductant (a
+    beyond-vent follow-up). Exit condition met: persistence is distinguished from endogenous
+    amplification, and the pore rescue and the mixed-solute fractionation are both reported.
+  act_iii_status: >-
+    Act III (chemical individuality) is qualified and partly open. Self-compartmentation (C) runs
+    on the Act-II pore-concentrated, carbon-fixing (not autocatalytic) network: an endogenous membrane
+    raises the standing metabolite pool to ~2.9x a no-membrane ablation under the reduced-coupling
+    model and ~1.98x under the MD-informed first self-maintaining protocell, while net fixation flux
+    stays ~0.6-0.79x (throughput feed-limited) - it pays for itself on persistence, not throughput.
+    Short Martini CG-MD gives a thicker long-chain bilayer (di-C16 2.870 nm vs di-C12 2.325 nm) ->
+    lower permeability (0.256) -> higher retention (0.661), so composition sets permeability sets
+    retention (a resolved coupling, not a free knob), and the system is self-maintaining on the
+    measurable criterion (net amphiphile production >= degradation, beating the ablation at equal
+    feeds) within a windowed integrity (membrane access >~0.45; k_deg <= ~0.01/s). Nutrient
+    availability: reduced nitrogen keeps pace with carbon and reactive phosphorus
+    co-concentrates in the pore (or limits first) - studied as nitrogen + phosphorus arms toward a
+    joint C/N/P feasibility, not separate single-nutrient successes. Qualified and open because
+    self-produced boundary closure and the chemistry-to-boundary reciprocal feedback are not yet
+    closed (MD-informed, not PMF-resolved; the GPU gold-standard PMF is tracked, not hidden). The
+    exit condition - closure of precursor-to-amphiphile synthesis plus an experimentally grounded
+    permeability-retention feedback - is partially met: the permeability-retention feedback is MD-
+    grounded; the synthesis closure is open.
+  act_iv_status: >-
+    Act IV (reproduction and evolution) is qualified. Reproduction: the protocell grows from its own
+    amphiphile production and divides at a measured area-doubling geometry, building a multi-generation
+    lineage (og-reproduction) - a measured division propensity, not emergent physical fission. Heredity:
+    a daughter-inherited compositional difference produces a reproducible, selectable fitness
+    difference (parent-offspring fitness correlation +0.949 vs a no-inheritance control under
+    selection, og-heredity, seed-robust 5/5 graded seeds), with competing inheritance modules graded
+    head-to-head - compositional and hybrid heredity escape the Eigen length catastrophe, so heredity
+    need not presume a long high-fidelity RNA template. Both judged against matched nulls at equal
+    feeds. Open: open-ended chemical evolvability (novelty beyond the seeded trait space) is not
+    demonstrated, and physical division remains a propensity rather than self-maintaining fission -
+    the planned membrane-MD division study (mem-m4) is a required mechanical validation, scaffolded,
+    not run. Exit condition partially met: physical division propensity, transmission and
+    multigeneration selection are shown; chemical novelty is open.
+  act_v_status: >-
+    Act V (robustness and autonomy) maps a frontier rather than a demonstrated escape, all qualified.
+    An energy carrier buys dip-persistence, not more total work (og-energetics: dip useful work 0.030
+    vs gradient-only 0.006 kJ/mol, total work NOT improved 0.256 vs 0.282). A cross-feeding community
+    out-produces the best single lineage (~1.9x, cross-feeding-causal) but pays in robustness with
+    lineage loss at low counts - productivity-yes / robustness-no, the counterpoint (og-ecology).
+    Progressive independence is a graded, attributed affordability map (og-independence): the required
+    innovation set is driver-specific, not a universal triple - {pump, heredity} rescues the vent-pmf
+    gradient (a hard dependency: the full set rescues its withdrawal in only ~4.2% of structures),
+    while mineral access and feed are freely/borderline survivable and the importer is never
+    individually required. The adversarial vent-ablated control is rejected by every discriminating
+    gate (min margin 1.8 decades) while the vent passes all five, so the gates are vent-specific rather
+    than generic (og-vent-specificity); genuine specificity also wants positive alternative-environment
+    models (planned). Exit condition met as a robustness/productivity frontier and a graded
+    support-withdrawal analysis - explicitly not an assumed vent escape, and the Hadean-ocean H2/organic
+    floor that would turn the off-gradient map into a prediction remains an open expert prior.
   verdict: >-
     The full geochemistry-to-heredity arc runs end to end on real simulators, with conservation held to
     machine precision, and the campaign adjudicates its scenarios rather than asserting them. The sharpest
@@ -127,11 +162,11 @@ executive:
     / discrimination standard, and the honest headline is a spine that advances on persistence while
     endogenous autocatalysis was tested and refuted along the way. On the spine, a rule-generated C/H/O
     reaction network emerges and fixes carbon and then persists at vent-realistic feeds once a concentrating
-    mineral pore is added - Gate A1 (network persistence) is met, qualified: a connected carbon-fixing network
+    mineral pore is added - network persistence (A1) is met, qualified: a connected carbon-fixing network
     ignites inside a physical pore (porosity ~0.88, pore-local ~0.023 M) where a matched well-mixed control
     stays dead, within a bounded, somewhat brittle porosity window (~0.80-0.90), confirmed directly on the
-    six-carbon network (Gate B met). Endogenous autocatalysis, by contrast, is refuted under vent conditions
-    for both representable routes - Gate A2, an off-spine branch, each with a mechanism: the formose doubling
+    six-carbon network (spatial organization, B, met). Endogenous autocatalysis, by contrast, is refuted under vent conditions
+    for both representable routes - A2, an off-spine branch, each with a mechanism: the formose doubling
     step is thermodynamically condensation-favored (-16.4 kJ/mol) so its splitting direction carries no net
     flux, and on a coefficient-free discriminator production is seed-independent (feed-driven, not
     self-amplified); a seeded reductive-TCA cycle washes out under vent H2 because its reductive carboxylations
@@ -139,13 +174,13 @@ executive:
     counterfactual shows the rTCA topology is autocatalysis-capable under a stronger reductant, noted as a
     possible beyond-vent follow-up. An endogenous membrane then pays for itself on persistence (standing pool
     ~2.9x reduced-coupling, ~1.98x MD-informed, over a matched no-membrane ablation) but not throughput, within
-    a membrane-access window - Gate C qualified (og-self-compartmentation reduced-coupling plus og-self-compartmentation's MD-informed first
+    a membrane-access window - Act III self-compartmentation (C) qualified (og-self-compartmentation reduced-coupling plus og-self-compartmentation's MD-informed first
     self-maintaining protocell, where composition sets permeability sets retention; PMF-resolved gold standard
-    tracked as og-32a). Reproduction and heredity follow as a genuine positive - Gate D qualified: the protocell
+    tracked as og-32a). Reproduction and heredity follow as a genuine positive - Act IV (D) qualified: the protocell
     grows from its own amphiphile production and divides at a measured area-doubling geometry (og-reproduction), and a
     daughter-inherited compositional difference produces a reproducible, selectable fitness difference
     (parent-offspring fitness correlation +0.949 vs a no-inheritance control, og-heredity), both against matched nulls
-    at equal feeds. The optional Gate E extension is complete, all three qualified: an energy carrier buys
+    at equal feeds. The optional Act V extension has run, all three qualified: an energy carrier buys
     dip-persistence not more total work (og-energetics), a cross-feeding community buys productivity ~1.9x but pays in
     robustness (og-ecology, the counterpoint), and a budget leave-one-out maps a conditional, coarse-budget
     independence with heredity the irreducible substrate - an affordability map, not a demonstrated escape
@@ -165,11 +200,15 @@ executive:
     model structures, is not jointly sufficient (recorded as a hypothesis generator). The vent calibration
     anchors the arc: conditioning on the Lost City windows leaves a posterior in which 100% of the empirically
     supported vent states supply what carbon fixation needs, transport-class-independent, with the ledger exact
-    (0 of 96 points rejected). So the campaign's result is a mechanism map and an honestly-advanced, now-complete
-    spine, not a declaration of success: a carbon-fixing network persists at vent-realistic feeds in a pore
-    (A1), self-amplification does not occur under vent conditions (A2 refuted, both routes), a membrane earns its
-    cost on persistence (C qualified), and the protocell reproduces and inherits a selectable trait (D
-    qualified), with the optional Gate E extension complete (og-energetics/36/37 qualified). A single through-line runs
+    (0 of 96 points rejected). So the campaign's result is a mechanism map and an honestly-advanced spine whose
+    central transition is still open, not a declaration of success: a carbon-fixing network persists at
+    vent-realistic feeds in a pore (Act II), self-amplification does not occur under vent conditions (A2
+    refuted, both routes), a membrane earns its cost on persistence (Act III qualified), and the protocell
+    reproduces and inherits a selectable trait (Act IV qualified), with the Act V robustness/autonomy extension a
+    mapped frontier rather than a demonstrated escape. The central scientific target the campaign now names is the
+    emergence of reciprocal coupling - chemistry maintaining a boundary that, in turn, sustains and propagates
+    that chemistry; endogenous autocatalysis is not demonstrated, and the chemistry-to-self-maintaining-individual
+    transition is open. A single through-line runs
     across the independent mechanisms: robustness is the consistently hard-won and consistently traded axis -
     the pore, the membrane and the energy carrier each buy persistence/robustness not throughput, the ecology
     (og-ecology) is the counterpoint that buys throughput by spending robustness, and independence (og-independence) is an
@@ -178,11 +217,11 @@ executive:
     follow-up; the full gate-by-gate arc is in campaign-synthesis.md. What remains open is editorial
     (publication scope, bottleneck-map framing) and a few expert priors (the Hadean ocean's H2 / organic floor,
     heredity attachment thresholds, membrane permeabilities) - decisions, not unrun science.
-  verdict_status: complete
+  verdict_status: in-progress
   verdict_detail: >-
     Thirteen consolidated studies — the geochemistry-to-heredity arc, the nitrogen / phosphorus /
     energy / growth bottleneck modules, and an adversarial control — gather 36 run arms (the former
-    calibration and -alt studies now folded as fidelities) across six gates, wired into a DAG and all run. Each runs a
+    calibration and -alt studies now folded as fidelities) across the five-act spine (its matched-null gates), wired into a DAG and all run. Each runs a
     coupled Vivarium composite of real tools (PHREEQC + FiPy; eQuilibrator; libRoadRunner; a FiPy
     thermal trap; amphiphile self-assembly; bioenergetic internalization; an agent-based heredity
     lineage; a pore metacommunity; an osmotic growth/division compartment; a Butler-Volmer
@@ -199,14 +238,15 @@ executive:
     Butler-Volmer cell in the Altair-2025 current window (7 of 8 gates pass, ledger exact on 750
     runs) but its attribution gate fails at label agreement 0.47. The adversarial control is
     rejected by all five discriminating gates (min margin 1.8 decades) while the vent passes all
-    five. The designed arc that sharpened this scaffold (og-vent-environment through og-independence) is now complete on main. The spine
-    lands A1 (persistence, qualified) through B (spatial rescue, met), C (self-compartmentation, qualified:
+    five. The designed arc that sharpened this scaffold (og-vent-environment through og-independence) has now all run and
+    merged on main; the central transition stays open. The spine
+    lands Act II network persistence (A1, qualified) and spatial rescue (B, met), Act III self-compartmentation (C, qualified:
     og-self-compartmentation reduced-coupling ~2.9x and og-self-compartmentation MD-informed ~1.98x standing pool over a no-membrane ablation, with
-    composition -> permeability -> retention resolved) and D (reproduction + heredity, qualified: og-reproduction
+    composition -> permeability -> retention resolved) and Act IV reproduction + heredity (D, qualified: og-reproduction
     metabolism-driven division at a measured area-doubling geometry, og-heredity parent-offspring fitness correlation
-    +0.949 vs a no-inheritance control under selection), with A2 refuted for both routes (og-autocatalysis-a2 formose
+    +0.949 vs a no-inheritance control under selection), with endogenous autocatalysis refuted for both routes (A2, off-spine: og-autocatalysis-a2 formose
     seed-independent and -16.4 kJ/mol; og-autocatalysis-a2 reductive-TCA uphill +18/+31 kJ/mol under vent H2). The optional
-    Gate E extension is complete and all qualified: og-energetics energy carrier (dip useful work 0.030 vs gradient-only
+    Act V extension has run and all qualified: og-energetics energy carrier (dip useful work 0.030 vs gradient-only
     0.006 kJ/mol, total work NOT improved 0.256 vs 0.282, ledger closes ~9e-19); og-ecology ecology (community
     productivity ~1.9x over the best single lineage, cross-feeding-causal, but more variable with lineage loss
     at low counts - productivity-yes / robustness-no, the counterpoint); og-independence progressive independence (all
@@ -376,18 +416,22 @@ executive:
       prior here changes the posterior more than any swept knob does.'
 scientific_argument:
   main_claim: >-
-    Cells could have originated at alkaline hydrothermal vents. On real geochemical and chemical
-    engines, a serpentinization-fed vent-ocean interface supplies, in order, the free energy,
-    reduced carbon, self-amplifying chemistry, concentration, compartmentation, internalized
-    bioenergetics and heritable organization a protocell needs, each as an independently
-    falsifiable nonequilibrium transition. The full arc passes its pre-stated gates and an
-    adversarial vent-ablated control is rejected by every discriminating gate, so the campaign
-    adjudicates the vent mechanism rather than illustrating one story. The sharper contribution is
-    where the higher-fidelity re-grounding breaks the easy story: the limiting step in carbon
-    fixation is structure-sensitive, autocatalysis needs a one-carbon feed, the prebiotic mixture
-    fractionates instead of co-localizing, and og-independence's escape set is not jointly sufficient
-    off-gradient. Each failure is a mapped parameter region and a discriminating prediction, not a
-    dead end.
+    On real geochemical and chemical engines, a serpentinization-fed alkaline vent-ocean interface
+    supplies, in order, the free energy, reduced carbon, persistent network chemistry, concentration,
+    compartmentation, internalized bioenergetics and heritable organization a protocell needs, each as
+    an independently falsifiable nonequilibrium transition judged against a matched null. Read as five
+    acts, the arc advances on persistence — spatial organization, retention and energy-buffering buy
+    persistence and robustness, not productivity — while endogenous autocatalysis is tested and refuted
+    under vent conditions, and an adversarial vent-ablated control is rejected by every discriminating
+    gate, so the campaign adjudicates the vent mechanism rather than illustrating one story. The sharper
+    contribution is where the higher-fidelity re-grounding breaks the easy story: the limiting step in
+    carbon fixation is structure-sensitive, no autocatalysis emerges without a one-carbon feed, the
+    prebiotic mixture fractionates instead of co-localizing, and og-independence's escape is
+    driver-specific rather than a universally sufficient {pump, importer, heredity} triple. Each failure
+    is a mapped parameter region and a discriminating prediction, not a dead end. The central scientific
+    target is the emergence of reciprocal coupling — chemistry maintaining a boundary that, in turn,
+    sustains and propagates that chemistry; that transition, and open-ended chemical evolvability, remain
+    open.
   evidence_for:
   - H2-dependent mineral-catalyzed CO2 fixation (Preiner, Varma, Huber)
   - pH-gradient-driven CO2 reduction with isotope controls (Hudson, Altair)
@@ -717,7 +761,7 @@ at_a_glance:
     threshold (Baaske regime cleared, accumulation Peclet 18.4) while open pores wash the feed through, and
     at equal vent feed the concentrating pore ignites the full network (net carbon flux +4.5e-4, 17 persistent
     species) vs a matched well-mixed control that stays dark; the benefit is a bounded porosity window. Also
-    resolves Gate A1 feed-plausibility.
+    resolves network persistence (A1) feed-plausibility.
 - study: og-self-compartmentation
   role: 'Self-compartmentation — from a self-made amphiphile boundary (retention without isolation) to the first self-maintaining protocell whose membrane pays on persistence, with real fatty-acid vesicle MD replacing the phospholipid stand-in; studied at several fidelities as arms'
 - study: og-energetics
@@ -1024,6 +1068,11 @@ proposed_inputs:
 # spine positions: A1 (network persistence) is the SPINE ROOT — B/C/D build on it;
 # A2 (endogenous autocatalysis) is an OFF-SPINE BRANCH (off_spine: true) — nothing
 # extends it, so its refuted verdict never gates the spine.
+#
+# The five-act narrative spine (plan_acts, below) is an ADDITIVE overlay that groups
+# these canonical gates into Acts I-V; plan_gates stays the source of truth for gate
+# state, so any reader (the dashboard board included) that does not know plan_acts
+# still works unchanged.
 plan_gates:
   - id: A1
     name: Network persistence
@@ -1117,3 +1166,96 @@ plan_gates:
       Each extension gate's composite is compared against a matched ablation with chemical
       input fluxes held equal; these extend the spine rather than gating it.
     status: pending
+# Five-act narrative spine (strengthening plan §2) — ADDITIVE overlay over plan_gates.
+# The acts group the canonical gates (referenced by id in `gates:` / `off_spine_gates:`)
+# into the geology-to-cells chapters and carry the act-level narrative. Nothing is
+# nested or copied: plan_gates stays the source of truth for gate state. Transition
+# rule: each act's `upstream_state_consumed` names the EXACT state variables +
+# uncertainty it draws from the upstream act (a conceptual handoff is not a validated
+# coupling). Gate A1's roster also carries og-vent-environment (Act I's study); A1 is
+# grouped under Act II because its criterion is network persistence.
+plan_acts:
+  - act: I
+    name: Geological engine
+    primary_question: >-
+      Do observed vent-like conditions deliver useful reactants and energy?
+    decisive_exit_condition: >-
+      A calibrated, time-varying feed with uncertainty, closed carbon/electron budgets, and a
+      documented reactor lifetime.
+    member_studies:
+      - og-vent-environment
+    gates: []                     # vent feasibility feeds gate A1; no distinct campaign gate of its own
+    upstream_state_consumed: []   # root act — draws on geochemical priors (inputs), not an upstream act
+  - act: II
+    name: Chemical organization
+    primary_question: >-
+      Does realistic driven chemistry persist, amplify, and benefit from spatial structure?
+    decisive_exit_condition: >-
+      Persistence distinguished from endogenous amplification, with pore rescue and mixed-solute
+      fractionation reported.
+    member_studies:
+      - og-carbon-fixation
+      - og-network-persistence
+      - og-spatial-concentration
+    gates: [A1, B]                # A1 network persistence (roster also carries og-vent-environment); B spatial
+    off_spine_gates: [A2]         # endogenous autocatalysis — tested and refuted, never a spine prerequisite
+    upstream_state_consumed:
+      - from: og-vent-environment
+        relation: builds-on
+        provides: >-
+          the calibrated vent feed posterior (dissolved inorganic carbon and H2 with uncertainty),
+          pH, temperature, H2 flux, and the documented reactor lifetime
+  - act: III
+    name: Chemical individuality
+    primary_question: >-
+      Can the network generate a boundary that feeds back on its own persistence?
+    decisive_exit_condition: >-
+      Closure of precursor-to-amphiphile synthesis and an experimentally grounded
+      permeability-retention feedback.
+    member_studies:
+      - og-self-compartmentation
+      - og-nutrient-bottlenecks
+    gates: [C]
+    upstream_state_consumed:
+      - from: og-spatial-concentration
+        relation: builds-on
+        provides: >-
+          the pore-concentrated, carbon-fixing persistent network at the calibrated setting (species
+          pool, standing concentrations, net fixation flux) within the bounded porosity window
+  - act: IV
+    name: Reproduction and evolution
+    primary_question: >-
+      Can a boundary grow, divide physically, and transmit selectable organization?
+    decisive_exit_condition: >-
+      Physical division propensity plus chemical novelty, transmission, and multigeneration selection.
+    member_studies:
+      - og-reproduction
+      - og-heredity
+    gates: [D]
+    pending_studies:
+      - {slug: mem-m4-growth-division-propensity, title: Growth, shape change & division propensity, scaffolded: true, planned: true, program: membrane-md}
+    upstream_state_consumed:
+      - from: og-self-compartmentation
+        relation: builds-on
+        provides: >-
+          the self-maintaining protocell (membrane composition -> permeability -> retention, standing
+          metabolite pool, net amphiphile production rate, integrity window)
+  - act: V
+    name: Robustness and autonomy
+    primary_question: >-
+      Which buffering, community and internalization mechanisms survive reduced geological support?
+    decisive_exit_condition: >-
+      A robustness / productivity frontier and a graded support-withdrawal analysis, not an assumed
+      vent escape.
+    member_studies:
+      - og-energetics
+      - og-ecology
+      - og-independence
+      - og-vent-specificity
+    gates: [E]
+    upstream_state_consumed:
+      - from: og-heredity
+        relation: builds-on
+        provides: >-
+          the reproducing, inheriting lineage (division geometry, the inherited compositional trait and
+          its selectable fitness difference, the multi-generation lineage)
