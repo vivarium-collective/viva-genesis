@@ -452,7 +452,7 @@ guidelines:
     tier_reading_of_current_studies:
       reproduction: [og-00-vent-reactor-baseline, og-01-geology-to-reduced-carbon (Preiner/Hudson yields), og-cal-vent-environment (conditioning step)]
       mechanistic_prediction: [og-01-geology-to-reduced-carbon (Tutolo collapse), og-network-persistence,
-        og-03-dilution-to-localized-individuals, og-04-mineral-compartments-to-protocells, og-res-nitrogen-assimilation,
+        og-spatial-concentration, og-04-mineral-compartments-to-protocells, og-res-nitrogen-assimilation,
         og-res-phosphorus-availability, og-energetics, og-heredity, og-independence, og-growth-division, og-cal-vent-environment (posterior prediction),
         og-01-cal-electrochemistry (mechanism map; the Altair current-window check is at reproduction tier)]
       conceptual_demonstration: [og-07-ecology-before-luca, og-07-alt-real-metabolite-exchange]
@@ -512,7 +512,7 @@ guidelines:
   - phase: 4
     name: 3-D multisolute localization
     status: built-and-run
-    studies: [og-03-dilution-to-localized-individuals, og-03-alt-colocalization]
+    studies: [og-spatial-concentration, og-03-alt-colocalization]
     component: localization face with the single-solute fipy | fenics | surrogate classes AND the
       multisolute pair — MultisolutePoreSurrogateProcess (numpy reduced pore-network) | FenicsMultisolutePoreProcess
       (dolfinx 3-D under pixi) — which transport the eight-solute mixture with per-species D / Soret /
@@ -705,9 +705,12 @@ at_a_glance:
     exogenous formaldehyde, p=0.04 vs matched nulls), and the curated rTCA motif is reclassed as imposed +
     element-unbalanced. A provenance-gated reaction atlas supplies the balanced reactions both arms draw on.
     Endogenous autocatalysis (A2) is the separate og-autocatalysis line.
-- study: og-03-dilution-to-localized-individuals
-  role: Becoming an individual — long tight pores cross the concentration/retention threshold while
-    open pores wash the feed through
+- study: og-spatial-concentration
+  role: Spatial concentration & individuation — long tight pores cross the concentration/retention
+    threshold (Baaske regime cleared, accumulation Peclet 18.4) while open pores wash the feed through, and
+    at equal vent feed the concentrating pore ignites the full network (net carbon flux +4.5e-4, 17 persistent
+    species) vs a matched well-mixed control that stays dark; the benefit is a bounded porosity window. Also
+    resolves Gate A1 feed-plausibility.
 - study: og-04-mineral-compartments-to-protocells
   role: The first boundary — amphiphile compartments give retention without isolation
 - study: og-energetics
@@ -753,7 +756,7 @@ studies:
 - og-00-vent-reactor-baseline
 - og-01-geology-to-reduced-carbon
 - og-network-persistence
-- og-03-dilution-to-localized-individuals
+- og-spatial-concentration
 - og-04-mineral-compartments-to-protocells
 - og-energetics
 - og-heredity
@@ -771,7 +774,6 @@ studies:
 - og-01-cal-dx-label-disagreement
 - og-27-coupled-geochemical-reaction-interface
 - og-autocatalysis-a2
-- og-30-spatially-integrated-protometabolism
 - og-31-protometabolism-to-amphiphiles
 - og-32-first-self-maintaining-protocell
 - og-32b-fatty-acid-vesicle-stability
@@ -785,7 +787,6 @@ studies:
 - mem-m5-functional-membrane-window
 - og-ev-competing-environments
 - og-ev-chemistry-membrane-overlap
-- og-ev-pore-transport-benchmark
 acceptance_criteria:
 - study: og-00-vent-reactor-baseline
   behavior: vent-pH-in-lostcity-range
@@ -793,7 +794,7 @@ acceptance_criteria:
   behavior: net-carbon-flux-nonzero-region
 - study: og-network-persistence
   behavior: sustained-carbon-throughput
-- study: og-03-dilution-to-localized-individuals
+- study: og-spatial-concentration
   behavior: enrichment-resolved-within-convergence
 - study: og-04-mineral-compartments-to-protocells
   behavior: retention-without-isolation
@@ -1095,10 +1096,9 @@ plan_gates:
     name: Spatial organization
     extends: A1
     member_studies:
-      - og-30-spatially-integrated-protometabolism
+      - og-spatial-concentration
     pending_studies:
       # Evidence-expansion discriminator (PLANNED; EXTENDS Gate B, does not change its verdict).
-      - {slug: og-ev-pore-transport-benchmark, title: Pore-transport Baaske benchmark, scaffolded: true, planned: true, program: evidence-expansion}
     criterion_findings:
       - og30-pore-ignites-vs-control
     criterion: >-
