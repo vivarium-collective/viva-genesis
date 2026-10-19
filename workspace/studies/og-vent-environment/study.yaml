@@ -59,10 +59,7 @@ result: >-
   gradients and a CO2-reducing electrochemical driving force (QUALIFIED) — but delivery is bounded: only
   12.5% of calibrated vent states bind (H2-limited), and the evolving mineral interface throttles supply
   via a sharp two-regime DIC cliff; conservation closes exactly.
-builds_on:
-- 1
-- 14
-- 15
+builds_on: []
 plan_id: 27
 handoff:
   emits:

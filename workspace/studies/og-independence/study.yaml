@@ -64,6 +64,7 @@ experiment: >-
   (og-08-alt-robust); and reuse og-08's validated co-limited off-gradient budget to withdraw each support
   ONE AT A TIME with matched per-support ablations, attributing each internalizable support to a specific
   innovation and reporting the honest profile with its lumped-feed and coarse-abstraction limits (og-37).
+plan_id: 37
 builds_on:
 - 34
 - 35

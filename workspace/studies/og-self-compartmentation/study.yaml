@@ -67,7 +67,6 @@ experiment: >-
   follow-ups.
 builds_on:
 - 2
-- 17
 - 29
 - 30
 handoff:
@@ -1147,11 +1146,11 @@ baseline:
   params: {}
   planned: false
 parent_studies:
-- study: og-30-spatially-integrated-protometabolism
+- study: og-spatial-concentration
   condition: tests-passed
 - study: og-autocatalysis-a2
   condition: ran
-- study: og-28-prebiotic-reaction-atlas
+- study: og-network-persistence
   condition: tests-passed
 consolidation_note: >-
   Consolidates og-04-mineral-compartments-to-protocells, og-04-alt-endogenous-boundary, og-31-protometabolism-to-amphiphiles,

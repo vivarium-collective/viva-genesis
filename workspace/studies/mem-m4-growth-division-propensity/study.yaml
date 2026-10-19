@@ -16,6 +16,9 @@ program: membrane-md
 parent_studies:
 - study: og-self-compartmentation
   condition: tests-passed
+parent_relations:
+- study: og-self-compartmentation
+  relation: motivates
 design_ref: workspace/references/membrane-md-studies-m1-m5-designs.md
 honest_caveat: >-
   MD tests candidate prebiotic compositions; it does NOT by itself demonstrate endogenous

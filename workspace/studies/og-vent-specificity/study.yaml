@@ -241,7 +241,24 @@ baseline:
     gradient_efficiency: 1.0
     catalyst_active: 1.0
   planned: false
-parent_studies: []
+parent_studies:
+- study: og-vent-environment
+  condition: tests-passed
+- study: og-carbon-fixation
+  condition: tests-passed
+- study: og-network-persistence
+  condition: tests-passed
+- study: og-spatial-concentration
+  condition: tests-passed
+parent_relations:
+- study: og-vent-environment
+  relation: alternative-to
+- study: og-carbon-fixation
+  relation: tests
+- study: og-network-persistence
+  relation: tests
+- study: og-spatial-concentration
+  relation: tests
 consolidation_note: >-
   Consolidates og-adv-generic-nonequilibrium (canonical, the adversarial null control) and the planned
   og-ev-competing-environments into one concept. og-adv is an adversarial null control: its verdict=refuted
