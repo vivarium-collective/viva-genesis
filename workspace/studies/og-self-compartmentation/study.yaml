@@ -1106,6 +1106,21 @@ visualizations:
       by leaflet
   rendered: >-
     workspace/studies/og-self-compartmentation/viz/og-32-first-self-maintaining-protocell/bilayer-3d-structure.html
+- name: fatty-acid-vesicle-3d-structure-static
+  config:
+    title: >-
+      Fatty-acid vesicle — Martini 3 CG-MD equatorial cross-section (static render): outer-leaflet heads
+      (teal) ring inner-leaflet heads (amber) around the water lumen. Print-friendly companion to the
+      interactive 3D viewer — embeds in the downloaded PDF (where cross-iframe WebGL does not render).
+  rendered: >-
+    workspace/studies/og-self-compartmentation/viz/og-32b-fatty-acid-vesicle-stability/vesicle-3d.png
+- name: bilayer-3d-structure-static
+  config:
+    title: >-
+      Phospholipid bilayer patch — Martini 3 CG-MD side view (static render): upper-leaflet heads (teal),
+      lower-leaflet heads (amber), tails forming the hydrophobic core. Print-friendly companion for the PDF.
+  rendered: >-
+    workspace/studies/og-self-compartmentation/viz/og-32-first-self-maintaining-protocell/bilayer-3d.png
 baseline:
 - name: >-
     First self-maintaining protocell (integrated, MD-informed) — canonical keystone arm (og-32)
