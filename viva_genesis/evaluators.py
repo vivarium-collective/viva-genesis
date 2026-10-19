@@ -1130,6 +1130,10 @@ def register_derived_scalars(registry: dict) -> None:
     registry["settled_pool_cn_ratio"] = _settled_pool_cn_ratio
     registry["settled_pool_c2_c1_ratio"] = _settled_pool_c2_c1_ratio
     registry["settled_pool_formate_mM"] = _settled_pool_formate_mM
+    # NEW B — og-operating-window (pore + membrane rescue of A's pool)
+    registry["settled_ow_enriched_pool"] = _settled_ow_enriched_pool
+    registry["settled_ow_enrichment_factor"] = _settled_ow_enrichment_factor
+    registry["settled_ow_retention"] = _settled_ow_retention
 
 
 # --- NEW A: og-precursor-pool derived scalars ------------------------------
@@ -1174,3 +1178,23 @@ def _settled_pool_c2_c1_ratio(reader, test: dict, ws_root: Any) -> float:
 def _settled_pool_formate_mM(reader, test: dict, ws_root: Any) -> float:
     """Settled formate (C1 feedstock) in mM — the calibrated C1 anchor."""
     return _settled_mean(reader, "formate", frac=0.2) * 1000.0
+
+
+# --- NEW B: og-operating-window derived scalars ----------------------------
+
+def _settled_ow_enriched_pool(reader, test: dict, ws_root: Any) -> float:
+    """Settled product-pool-enriched functional pool (molar C): the retained
+    functional pool times the pore enrichment factor — the rescue readout."""
+    pool = _settled_mean(reader, "functional_pool_carbon", frac=0.2)
+    enr = _settled_mean(reader, "enrichment_factor", frac=0.2)
+    return pool * enr
+
+
+def _settled_ow_enrichment_factor(reader, test: dict, ws_root: Any) -> float:
+    """Settled real-FiPy pore enrichment factor (dimensionless, >=1)."""
+    return _settled_mean(reader, "enrichment_factor", frac=0.2)
+
+
+def _settled_ow_retention(reader, test: dict, ws_root: Any) -> float:
+    """Settled membrane retention fraction from the real ProtocellAssembly model."""
+    return _settled_mean(reader, "retention", frac=0.2)
