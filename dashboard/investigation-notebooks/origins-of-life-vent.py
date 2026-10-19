@@ -1395,144 +1395,6 @@ _save_viz('og-heredity', 'chemical-heredity-selection', _render_one('local:OgChe
 # | matched-null-no-inheritance _(primary)_ | kind=observable detail=null shows neither parent-offspring correlation nor directional shift | op threshold detail null correlation ~ 0 and null drift ~ 0 |
 # | handoff-34-to-35-36-37-complete _(secondary)_ | kind=observable detail=heritable population + fitness-composition map available | op threshold detail heritable-population handoff available |
 
-# ## Study: Ecology Before LUCA (`og-07-ecology-before-luca`)
-#
-# **Question.** Can a connected population of heterogeneous protocells develop capabilities - functional redundancy and robustness - that no single already-complete ancestral compartment holds on its own?
-#
-# **Hypothesis.** Heterogeneous populations develop metabolic diversity, cross-feeding and robustness single compartments do not; the emergent capability set overlaps the anaerobic H2/CO2/FeS LUCA reconstruction as a boundary.
-#
-# **Claim.** A connected metacommunity of eight heterogeneous pore compartments develops functional redundancy that an isolated compartment cannot, reaching robustness about 0.71 against the isolated counterfactual's 0.42 and beating it on every one of eight seeds, so most functions get at least two-fold coverage and survive loss of a compartment. This emerges only in a bounded corner of the phase map: enough inter-compartment diversity to give cross-feeding something to share, enough exchange to spread it, and low enough parasite load not to erase it. The collective repertoire's roughly 0.6-0.7 overlap with an anaerobic H2/CO2/FeS LUCA reconstruction is reported as a far-end boundary the emergent set approaches, not as evidence that the earliest compartments were already LUCA-like.
-
-# ### Design — originally proposed
-#
-# _The mechanisms and methods proposed when this study was designed; the model **actually built** (and the tools it uses) is shown below. These may differ as the design was realized._
-#
-# **Proposed mechanisms**
-#
-# - ecology: populations + evolution
-# - LUCA boundary condition
-#
-# **Proposed models / methods**
-#
-# - Vivarium multi-agent composites over shared spatial fields
-# - COBRApy for late-stage genome-scale benchmarks
-# - evolutionary algorithms
-#
-# **Key assumptions**
-#
-# - Use LUCA as a constraint on capabilities eventually acquired, not evidence the first replicators were LUCA-like.
-# - Each compartment is a coarse-grained capability vector over a protometabolic function set, not an instantiated metabolic network.
-
-# ### Parameters
-#
-# | simulation | composite | steps | params |
-# | --- | --- | --- | --- |
-# | `Ecology before LUCA` | `viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity` | 0 | n_compartments=8, exchange_rate=0.3, diversity=0.75, hgt_rate=0.1, seed=1 |
-
-# ### The model & its parameters
-#
-# Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
-
-# **The model — `viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity`**
-#
-# A reusable cross-feeding metacommunity module (Module L). N connected compartments, each a coarse-grained capability vector over a protometabolic function set, evolving under cross-feeding (byproduct of one feeds the next capability in a neighbour), horizontal transfer, and parasite/cooperator roles. Connected heterogeneous populations develop capability redundancy (robustness) and a collective repertoire single compartments do not; the emergent set's overlap with the anaerobic H2/CO2/FeS LUCA reconstruction is reported as a far-end boundary, not a target. Coarse-grained, deterministic reproduction (not wrapped ALife).
-
-# === Parameters — edit any value, then re-run from the Run cell below ===
-# Each entry is the composite's current default; the comment explains it.
-ov_viva_genesis_composites_cross_feeding_metacommunity_cross_feeding_metacommunity = {
-    'n_compartments': 8,   # Number of connected compartments
-    'exchange_rate' : 0.3,   # Cross-feeding strength (use isolated flag, not 0, to disable)
-    'diversity'     : 0.75,   # Inter-compartment heterogeneity (0 identical; 1 all different)
-    'parasite_load' : 0.0,   # Fraction of compartments that drain neighbours
-    'hgt_rate'      : 0.1,   # Horizontal-transfer rate (0 = no spread)
-    'isolated'      : False,   # Isolated counterfactual arm: no cross-feeding/HGT/parasitism (use this, not exchange_rate=0)
-    'seed'          : 1,   # RNG seed (reproducible assignment)
-}
-
-# ### Typed contract (declared interface)
-#
-# _The bigraph-schema typed ports + conservation predicates this study's composite must satisfy (audited in the workbench §Contract panel). Declared design — independent of whether a run exists yet._
-#
-# **Inputs**
-#
-# | port | type | units | bounds |
-# | --- | --- | --- | --- |
-# | `temperature` | float | kelvin | [273.0, 673.0] |
-# | `flow_velocity` | float | meter/second | >= 0.0 |
-#
-# **Outputs**
-#
-# | port | type | units | bounds |
-# | --- | --- | --- | --- |
-# | `lineage_fitness` | float | dimensionless |  |
-#
-# **Conditions**
-#
-# - `mass_balance` (invariant): `abs(residual_C)+abs(residual_H)+abs(residual_O) < tol`
-# - `energy_directionality` (invariant): `free_energy_flux_logged == true`
-# - `spatial_flux_conservation` (invariant): `divergence(flux) == source_minus_sink`
-# - `reproducibility` (invariant): `solver and db and seed and scenario recorded`
-
-# ### Run
-#
-# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
-
-# === Study: og-07-ecology-before-luca ===
-STUDY = 'og-07-ecology-before-luca'
-STUDY_DIR = REPO / 'workspace/studies' / STUDY
-STUDY_YAML = str(STUDY_DIR / "study.yaml")
-RUNS_DB = str(STUDY_DIR / "runs.db")
-
-# This study has no *recorded* runs yet. RERUN builds its declared
-# composite(s) live and runs them; a composite whose module processes
-# are not implemented yet reports the error instead of crashing.
-STEPS_Ecology_before_LUCA = 100
-INTERVAL_Ecology_before_LUCA = 1.0
-
-if RERUN:
-    from process_bigraph import Composite
-    try:
-        with quiet():  # keep per-step stdout out of the notebook
-            _ov = ov_viva_genesis_composites_cross_feeding_metacommunity_cross_feeding_metacommunity if 'ov_viva_genesis_composites_cross_feeding_metacommunity_cross_feeding_metacommunity' in dir() else None  # edits from the panel cell, if any
-            spec_viva_genesis_composites_cross_feeding_metacommunity_cross_feeding_metacommunity = materialize_composite('viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity', _ov)
-            _comp = Composite({'state': spec_viva_genesis_composites_cross_feeding_metacommunity_cross_feeding_metacommunity['state']}, core=core)
-            _comp.run(STEPS_Ecology_before_LUCA)
-        print('ran', 'Ecology before LUCA', f'(viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity) for', STEPS_Ecology_before_LUCA, 'steps')
-    except Exception as _e:
-        print(f"Ecology before LUCA not runnable yet: {type(_e).__name__}: {_e}")
-else:
-    print("RERUN=False — not re-simulating.")
-
-# ### Visualizations
-#
-# _Results are shown by the figures below, produced by the run above._
-
-# **ecology-three-view**
-
-# ecology-three-view
-_save_viz('og-07-ecology-before-luca', 'ecology-three-view', _render_one('local:EcologyMetacommunityThreeView', {'composite': 'viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity', 'grid_json': 'workspace/studies/og-07-ecology-before-luca/artifacts/ecology_robustness_grid.json', 'title': 'Campaign VII — ecology before LUCA'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_cross_feeding_metacommunity_cross_feeding_metacommunity if 'ov_viva_genesis_composites_cross_feeding_metacommunity_cross_feeding_metacommunity' in dir() else None)))
-
-# **metacommunity-phase-map**
-
-# metacommunity-phase-map
-_save_viz('og-07-ecology-before-luca', 'metacommunity-phase-map', _render_one('local:MetacommunityPhaseMap', {'composite': 'viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity', 'grid_json': 'workspace/studies/og-07-ecology-before-luca/artifacts/metacommunity_robustness_grid.json', 'title': 'Where cross-feeding robustness emerges'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_cross_feeding_metacommunity_cross_feeding_metacommunity if 'ov_viva_genesis_composites_cross_feeding_metacommunity_cross_feeding_metacommunity' in dir() else None)))
-
-# ### Acceptance criteria
-#
-# _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
-#
-# | test | measures | passes if |
-# | --- | --- | --- |
-# | cross-feeding-robustness _(primary)_ | kind=derived path=metacommunity_robustness detail=settled metacommunity robustness (functional redundancy) of the connected run | op > value 0.5 detail a majority of capabilities are redundantly covered (robust to a single-compartment loss) |
-# | connected-beats-isolated _(primary)_ | kind=cross_run detail=connected vs isolated metacommunity robustness across an 8-seed sweep | op arms_reported detail connected robustness strictly higher than isolated on every seed (measured min gain reported) |
-# | luca-capability-overlap _(supporting)_ | kind=cross_run detail=collective repertoire overlap with the anaerobic LUCA core (Weiss 2016) | op arms_reported detail overlap reported as a boundary not a target None |
-
-# ### Literature anchors
-#
-# | expectation | model observable | source | status |
-# | --- | --- | --- | --- |
-# | LUCA: anaerobic, H2-dependent, CO2-fixing, FeS-rich (355 protein families) | emergent capability overlap | Weiss 2016 / Moody 2024 | Measured — collective repertoire overlaps the anaerobic LUCA core at ~0.6-0.7 (reported boundary) |
-
 # ## Study: The Adversarial Control (`og-adv-generic-nonequilibrium`)
 #
 # **Question.** Are the campaign's positive gates genuinely dependent on vent-specific mechanisms, or would any generic driven nonequilibrium chemistry pass them? It should not.
@@ -1972,196 +1834,6 @@ _save_viz('og-01-cal-electrochemistry', 'electrochemistry-polarization', _render
 # | --- | --- | --- | --- |
 # | Altair-2025 macroscale reactor currents ~10 nA .. 10 uA sufficient for carbon reduction | settled Butler-Volmer current density on a 1e-3 m^2 interface | Altair et al. 2025 (campaign dossier ref 12; parameter-registry electrochemical_current) | Used as the calibration window of the exchange currents (vg-data electrochemical_interface.observations.cell_current_density); 79.7% of the grid inside it. |
 # | Preiner 2020 product hierarchy formate >> acetate >> pyruvate, awaruite (Ni3Fe) the most productive catalyst | electron branch fractions and the Ni gain of the CO2-reduction exchange current | Preiner et al. 2020 | Branch fractions inferred from the yield hierarchy; the Ni gain is a hypothetical shape fitted to the ordering. |
-
-# ## Study: Biochemical Ecology: A Community Function That No Lineage Can Perform, Carried by Real Metabolite Flux (`og-07-alt-real-metabolite-exchange`)
-#
-# **Question.** If every protocell carries the same real rule-generated chemistry masked to its own catalyst repertoire, can a community of incomplete lineages realise a metabolic function no lineage performs alone, sustained by a real intermediate crossing membranes rather than a symbolic capability transfer?
-#
-# **Hypothesis.** The reductive C4 branch (oxaloacetate -> malate -> succinate) is split across the two incomplete lineages: the fixer carboxylates pyruvate to oxaloacetate but cannot reduce it, the reducer can reduce it but never makes it; in a shared pore the dicarboxylate crosses from one to the other and malate appears in the reducer lineage although neither monoculture ever holds it; cutting the sharing (each agent exchanging only with its own copy of the background) removes it; the function depends on the membrane permeability of the exchanged diacid and on the pore residence time, and it emerges while every cell is still incomplete.
-#
-# **Claim.** A community of one carboxylating and one hydrogenating lineage holds malate - the reductive C4 branch from oxaloacetate - at 6.4 nM while neither monoculture ever makes it and a complete cell makes it at about 20x the level. The function vanishes when nothing is shared, and its oxaloacetate precursor physically crosses between the lineages, so no capability changes hands; it appears while every cell is still incomplete. It exists only above a dicarboxylate membrane permeability of ~3e-9 m/s, one to two decades above the measured passage of charged solutes through fatty-acid vesicles, so the leakiness of the boundary rather than the chemistry decides whether ecology could run on exchanged intermediates - and at ~4e-3 molecules per cell the result is a mean-field expectation that still awaits a stochastic treatment.
-
-# ### Design — originally proposed
-#
-# _The mechanisms and methods proposed when this study was designed; the model **actually built** (and the tools it uses) is shown below. These may differ as the design was realized._
-#
-# **Proposed mechanisms**
-#
-# - L: ecology as real metabolite exchange between incomplete protocells
-# - division of labour across catalyst repertoires (carboxylation vs hydrogenation)
-#
-# **Proposed models / methods**
-#
-# - The reaction universe (libRoadRunner) inside every agent, masked to a lineage rule repertoire
-# - A bigraphical reactive system of matter-exchange rules with firing counts
-# - og-07's gate readouts recomputed from the agents map
-# - A C / N / P element ledger across agents and field
-#
-# **Key assumptions**
-#
-# - Eight 1-fL protocells (4 fixers, 4 reducers) at fixed positions on a 4-cell pore of 10x their volume; feed CO2 1.4 mM, H2 10.8 mM, pyruvate 0.1 mM (the vent posterior point), ammonium 50 uM, phosphate 10 uM; the localization-stage surrogate enrichment profile along the pore.
-# - A lineage is a subset of the twelve reaction rules; the thermal decarboxylations belong to all; fixer = CO2 reduction + carboxylations, reducer = hydrogenations; the universe (C <= 4, 413 reactions, eQuilibrator dG', detailed balance) is otherwise identical in every agent.
-# - Exchange is linear permeation by size / charge class (gas 1e-5, small neutral 1e-7, large neutral 3e-8, monoacid 1e-7, diacid 1e-8, ion 1e-10 m/s at the canonical point), applied as the exact two-compartment relaxation per tick; pore diffusion 0.1/s between cells; residence 100 s.
-# - Functions are product classes (chain length x carboxylation x oxidation state); held above 1 nM, produced above 1e-12 M/s gross internal production.
-
-# ### Parameters
-#
-# | simulation | composite | steps | params |
-# | --- | --- | --- | --- |
-# | `Metabolite-exchange community — fixer + reducer lineages at the canonical point` | `viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community` | 0 | lineages=fixer:4,reducer:4, p_diacid=1e-08, p_monoacid=1e-07, k_wash=0.01 |
-#
-# Declared parameter sets (`study.yaml` variants):
-#
-# - **mono-fixer** — `lineages=fixer:8`
-# - **mono-reducer** — `lineages=reducer:8`
-# - **private-no-sharing** — `coupling=private`
-# - **generalist-complete-cells** — `lineages=generalist:8`
-# - **segregated-placement** — `placement=segregated`
-# - **rewired-null** — `model_proto_ecology=null_network`
-
-# ### The model & its parameters
-#
-# Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
-
-# **The model — `viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community`**
-#
-# og-07's metacommunity rebuilt on real chemistry (Phase 8): N protocells in the agents map, each running the Phase-3 rule-generated reaction universe (libRoadRunner, eQuilibrator dG') masked to its lineage's catalyst repertoire (fixer: CO2 reduction + carboxylations; reducer: hydrogenations; condenser: aldol / formose; generalist: all), pointed at fixed cells of a pore whose background the Phase-4 localization class shapes species by species. A SpatialCouplingStep fires the exchange rules of a bigraphical reactive system every tick (uptake / secretion through size- and charge-dependent permeabilities, pore diffusion, feed / washout) and counts the firings; an EcologyReducerStep recomputes og-07's gate readouts from the agents (present vs produced functions); an EcologyElementLedgerProcess audits C / N / P over agents + field. coupling=private is the isolated counterfactual; model_proto_ecology=null_network the rewired control.
-
-# === Parameters — edit any value, then re-run from the Run cell below ===
-# Each entry is the composite's current default; the comment explains it.
-ov_viva_genesis_composites_metabolite_exchange_community_metabolite_exchange_community = {
-    'model_proto_ecology'   : 'reaction_universe',   # Model class behind the 'proto_ecology' face: null_network | reaction_universe
-    'model_localization'    : 'multisolute_surrogate',   # Model class behind the 'localization' face: fenics | fenics_multisolute_3d | fipy | multisolute_surrogate | surrogate
-    'lineages'              : 'fixer:4,reducer:4',   # Agents per lineage repertoire, e.g. fixer:4,reducer:4 | fixer:8 | generalist:8
-    'placement'             : 'mixed',   # mixed | segregated | random positions along the pore (fixed; no motion)
-    'coupling'              : 'shared',   # shared = agents exchange with a common pore field; private = each agent sees only the background (isolated counterfactual)
-    'n_cells'               : 4,   # Pore field cells along the flow axis [vg-data: hypothetical]
-    'pool_volume_multiplier': 10.0,   # Pore volume per agent volume [vg-data: hypothetical]
-    'k_wash'                : 0.05,   # Pore feed / washout rate (1/s); 1/residence time [vg-data: inferred, swept]
-    'k_diffusion'           : 0.1,   # Exchange rate between neighbouring cells (1/s) [vg-data: hypothetical]
-    'p_gas'                 : 1e-05,   # Membrane permeability class p_gas (m/s) [vg-data: extrapolated]
-    'p_small_neutral'       : 1e-07,   # Membrane permeability class p_small_neutral (m/s) [vg-data: extrapolated]
-    'p_large_neutral'       : 3e-08,   # Membrane permeability class p_large_neutral (m/s) [vg-data: extrapolated]
-    'p_monoacid'            : 1e-09,   # Membrane permeability class p_monoacid (m/s) [vg-data: extrapolated]
-    'p_diacid'              : 1e-10,   # Membrane permeability class p_diacid (m/s) [vg-data: hypothetical, swept]
-    'p_ion'                 : 1e-10,   # Membrane permeability class p_ion (m/s) [vg-data: extrapolated]
-    'feed_CO2'              : 0.0014,   # Inlet CO2 (M) [vg-data: calibrated, Phase-1 posterior]
-    'feed_H2'               : 0.0108,   # Inlet H2 (M) [vg-data: calibrated, Phase-1 posterior]
-    'feed_pyruvate'         : 0.0001,   # Inlet pyruvate (M) [vg-data: inferred]
-    'feed_formate'          : 0.0,   # Inlet formate (M) [vg-data: hypothetical]
-    'feed_ammonium'         : 5e-05,   # Inlet ammonium (M) [vg-data: extrapolated]
-    'feed_phosphate'        : 1e-05,   # Inlet phosphate (M) [vg-data: extrapolated]
-    'peclet'                : 8.0,   # Pore advective Peclet for the localization class
-    'soret_scale'           : 1.0,   # Scale on the per-species Soret coefficients
-    'null_seed'             : 0,   # Rewiring seed for the null_network class
-    'function_floor'        : 1e-09,   # Concentration floor for holding a function (M) [vg-data: inferred]
-    'seed'                  : 1,   # Placement seed (random placement only)
-}
-
-# ### Typed contract (declared interface)
-#
-# _The bigraph-schema typed ports + conservation predicates this study's composite must satisfy (audited in the workbench §Contract panel). Declared design — independent of whether a run exists yet._
-#
-# **Inputs**
-#
-# | port | type | units | bounds |
-# | --- | --- | --- | --- |
-# | `internal` | map[vg_concentration] | molar |  |
-#
-# **Outputs**
-#
-# | port | type | units | bounds |
-# | --- | --- | --- | --- |
-# | `internal` | map[vg_concentration] | molar |  |
-# | `functions_produced` | tree |  |  |
-# | `rule_flux` | tree |  |  |
-# | `net_carbon_flux` | float | mole/second |  |
-# | `dissipation` | float | watt | >= 0.0 |
-# | `element_residual` | float | dimensionless | >= 0.0 |
-#
-# **Conditions**
-#
-# - `cross_system_element_balance` (invariant): `total_X(t) = total_X(0) + in_X - out_X - degraded_X for X in C, N, P (C at integrator tolerance 1e-4; N, P at 1e-9)`
-# - `exchange_conserves` (invariant): `every exchange-rule firing moves the same moles out of one place and into the other`
-# - `element_balance_exact` (invariant): `max |E S| == 0 over every agent's reactions`
-# - `energy_directionality` (invariant): `dissipation >= 0 in every agent every tick`
-# - `no_capability_transfer` (invariant): `no rule writes a repertoire; functions_produced follows from each agent's own mask`
-
-# ### Run
-#
-# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
-
-# === Study: og-07-alt-real-metabolite-exchange ===
-STUDY = 'og-07-alt-real-metabolite-exchange'
-STUDY_DIR = REPO / 'workspace/studies' / STUDY
-STUDY_YAML = str(STUDY_DIR / "study.yaml")
-RUNS_DB = str(STUDY_DIR / "runs.db")
-
-# This study has no *recorded* runs yet. RERUN builds its declared
-# composite(s) live and runs them; a composite whose module processes
-# are not implemented yet reports the error instead of crashing.
-STEPS_Metabolite_exchange_community_fixer_reducer_lineages_at_the_canonical_point = 100
-INTERVAL_Metabolite_exchange_community_fixer_reducer_lineages_at_the_canonical_point = 1.0
-
-if RERUN:
-    from process_bigraph import Composite
-    try:
-        with quiet():  # keep per-step stdout out of the notebook
-            _ov = ov_viva_genesis_composites_metabolite_exchange_community_metabolite_exchange_community if 'ov_viva_genesis_composites_metabolite_exchange_community_metabolite_exchange_community' in dir() else None  # edits from the panel cell, if any
-            spec_viva_genesis_composites_metabolite_exchange_community_metabolite_exchange_community = materialize_composite('viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community', _ov)
-            _comp = Composite({'state': spec_viva_genesis_composites_metabolite_exchange_community_metabolite_exchange_community['state']}, core=core)
-            _comp.run(STEPS_Metabolite_exchange_community_fixer_reducer_lineages_at_the_canonical_point)
-        print('ran', 'Metabolite-exchange community — fixer + reducer lineages at the canonical point', f'(viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community) for', STEPS_Metabolite_exchange_community_fixer_reducer_lineages_at_the_canonical_point, 'steps')
-    except Exception as _e:
-        print(f"Metabolite-exchange community — fixer + reducer lineages at the canonical point not runnable yet: {type(_e).__name__}: {_e}")
-else:
-    print("RERUN=False — not re-simulating.")
-
-# ### Visualizations
-#
-# _Results are shown by the figures below, produced by the run above._
-
-# **community-function-map**
-
-# community-function-map
-_save_viz('og-07-alt-real-metabolite-exchange', 'community-function-map', _render_one('local:CommunityFunctionMap', {'title': 'Where a function no lineage can perform emerges (Decision view)', 'report_json': 'workspace/studies/og-07-alt-real-metabolite-exchange/artifacts/community_function_map.json'}, RUNS_DB, STUDY_YAML))
-
-# **metabolite-exchange-map**
-
-# metabolite-exchange-map
-_save_viz('og-07-alt-real-metabolite-exchange', 'metabolite-exchange-map', _render_one('local:MetaboliteExchangeMap', {'title': "Agents on the pore, the intermediate that crosses, and og-07's readouts from real agents (Mechanism / World view)", 'report_json': 'workspace/studies/og-07-alt-real-metabolite-exchange/artifacts/community_function_map.json'}, RUNS_DB, STUDY_YAML))
-
-# ### Acceptance criteria
-#
-# _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
-#
-# | test | measures | passes if |
-# | --- | --- | --- |
-# | cross-system-element-ledger-closes _(primary)_ | kind=derived path=element_ledger_ok_final detail=ledger.element_ledger_ok on the final tick | op >= value 1.0 detail every residual within tolerance |
-# | carbon-residual-at-integrator-tolerance _(diagnostic)_ | kind=derived path=carbon_residual_max_final detail=ledger.C_residual_max on the final tick | op <= value 0.0001 detail integrator tolerance |
-# | exchange-rules-fire _(supporting)_ | kind=derived path=exchange_firings_final detail=cumulative firings of every exchange rule | op > value 1000.0 detail rules fired |
-# | metabolites-cross-between-lineages _(supporting)_ | kind=derived path=cross_lineage_flux_total_final detail=cumulative cross-lineage moles | op > value 0.0 detail non-zero cross-lineage flux |
-# | no-cell-complete _(supporting)_ | kind=derived path=max_cell_completeness_final detail=max over agents of held / union | op < value 1.0 detail no complete cell |
-# | cross-feeding-robustness _(diagnostic)_ | kind=derived path=metacommunity_robustness detail=settled community.metacommunity_robustness | op > value 0.3 detail a third of the vocabulary redundantly held |
-# | luca-capability-overlap _(diagnostic)_ | kind=derived path=luca_capability_overlap detail=settled community.luca_capability_overlap | op >= value 0.0 detail informative readout |
-# | community-function-precedes-cell-completeness _(primary)_ | kind=derived path=n_community_only_functions detail=community-only product classes at the canonical point | op >= value 1.0 detail >= 1 community-only class |
-# | community-function-vanishes-without-exchange _(primary)_ | kind=derived path=n_vanish_without_exchange detail=community-only classes absent in the private arm | op >= value 1.0 detail vanishes without sharing |
-# | community-function-flux-sustained _(primary)_ | kind=derived path=community_flux_sustained detail=1 when sustained by a crossing precursor | op >= value 1.0 detail flux-sustained |
-# | community-max-cell-completeness _(supporting)_ | kind=derived path=community_max_cell_completeness detail=max over agents of held / union | op < value 1.0 detail no complete cell |
-# | community-vs-complete-cell _(diagnostic)_ | kind=derived path=community_over_generalist detail=community / generalist settled level | op >= value 0.0 detail informative readout |
-# | emergence-boundary-resolved _(diagnostic)_ | kind=derived path=emergence_p_diacid_nominal detail=from decision_map.emergence_p_diacid_by_k_wash | op <= value 1e-07 detail inside the swept range |
-# | null-community-only-count _(diagnostic)_ | kind=derived path=null_community_only_max detail=max over null seeds | op >= value 0.0 detail informative readout |
-# | segregated-placement-keeps-function _(supporting)_ | kind=derived path=segregated_n_community_only detail=community-only classes in the segregated arm | op >= value 1.0 detail function kept |
-# | connected-beats-isolated _(supporting)_ | kind=derived path=connected_minus_isolated_robustness detail=robustness(shared) - robustness(private) | op > value 0.0 detail shared more robust than private |
-# | map-ledgers-close _(diagnostic)_ | kind=derived path=map_ledgers_all_ok detail=1 when all runs within tolerance | op >= value 1.0 detail all runs within tolerance |
-
-# ### Literature anchors
-#
-# | expectation | model observable | source | status |
-# | --- | --- | --- | --- |
-# | LUCA: anaerobic, H2-dependent, CO2-fixing, FeS-rich — embedded in an ecosystem | community.luca_capability_overlap | Weiss 2016 / Moody 2024 | 0.8 for every arm with a carboxylating lineage (ceiling 0.8 — ion pumping is not in a C/H/O network); reported as a boundary. |
-# | Fatty-acid vesicles pass small uncharged solutes readily and charged solutes slowly | cnp_resources permeability classes (p_small_neutral, p_monoacid, p_diacid) | Jordan 2019 (vesicle system); measured charged-solute passage proposed (Mansy 2008, pending) | The emergence boundary (3e-9 m/s) sits 1-2 decades above the measured charged-solute range; the diacid value is hypothetical and swept. |
-# | Long tight pores retain solutes (residence set by the thermophoretic trap) | SpatialCouplingStep.k_wash (the residence axis) | Baaske 2007 / Mast 2010 | The function needs 20-100 s residence at 3e-9 m/s; at 500 s the feed depletes and it needs 1e-7 m/s. |
 
 # ## Study: Why do the empirical and Butler-Volmer classes disagree on the limitation label? (`og-01-cal-dx-label-disagreement`)
 #
@@ -2767,48 +2439,21 @@ _save_viz('og-reproduction', 'physical-reproduction-lineage', _render_one('local
 # | lineage-reaches-three-generations _(primary)_ | kind=derived path=peak_generation detail=deepest generation the lineage REACHES (peak over the run, not the time-mean); from artifacts/physical_reproduction_report.json | op >= value 3.0 detail a >=3-generation lineage forms (peak reaches generation 5) |
 # | division-conserves-volume _(primary)_ | kind=derived path=partition_residual_peak detail=worst (max) |mother - sum(daughters)| over every _divide; from artifacts/physical_reproduction_report.json | op <= value 1e-09 detail partition residual ~ 0 at every division (conserving split) |
 
-# ## Study: Stochastic Protocell Ecology (`og-36-stochastic-protocell-ecology`)
+# ## Study: Protocell Ecology: Community Function Before the Complete Cell (`og-ecology`)
 #
-# **Question.** In a heterogeneous protocell population under honest stochastic low-count dynamics, do cross-feeding and community-level function develop that single lineages do not have at equal feed - and do stochastic dynamics materially change the outcome versus the deterministic mean-field?
+# **Question.** Is protocell-era chemistry ecological before it is cellular — does a cross-feeding community out-produce the best single lineage (margin causally cross-feeding), does community function precede cell completeness and vanish without exchange — each against its own matched null with input fluxes held equal?
 #
-# **Hypothesis.** Heterogeneous protocell populations over a shared feed develop metabolic division of labour / cross-feeding and greater robustness than any single lineage, with stochastic dynamics materially changing outcomes at low counts. If heterogeneity confers no community benefit, or the benefit is not causally cross-feeding, that is reported honestly rather than smoothed.
+# **Hypothesis.** A cross-feeding community out-produces the best single lineage and sustains a function no single lineage performs, with the benefit causal to exchange and coexistence stabilized rather than assumed; where the community is not more robust, or stochasticity changes low-count outcomes, that is reported honestly rather than tuned to a pass.
 #
-# **Claim.** A stochastic cross-feeding protocell community out-produces the best single lineage at equal feed - a real, cross-feeding-caused community function - but that benefit is productivity, not robustness. At the shared feed budget held equal to a matched best-single-lineage control, a ring of 4 cross-feeding lineages does ~1.9x the best single lineage's cumulative productivity (margin positive in every seed), and knocking out cross-feeding (same feed) collapses the margin to ~2% - so the benefit is causally cross-feeding, not mere diversity, with coexistence stabilised by depletable byproduct pools (negative frequency dependence), not assumed. BUT under low-count demographic noise the community is ~2x more variable than the rock-stable monoculture and loses a lineage in ~12% of runs; a system-size sweep shows this divergence from the deterministic mean-field GROWING as counts fall (to ~31% extinction / 20% margin erosion at half scale). So the honest result is the counterpoint to the required spine: cross-feeding genuinely RAISES productivity (the campaign's first throughput win) but PAYS in robustness - verdict qualified - and the GillesPy2/COBRApy genome-scale resolution (og-36a) is the follow-up. The metabolism is the sustained A1 cross-feeding community, not autocatalytic (A2 refuted).
-
-# ### Design — originally proposed
-#
-# _The mechanisms and methods proposed when this study was designed; the model **actually built** (and the tools it uses) is shown below. These may differ as the design was realized._
-#
-# **Proposed mechanisms**
-#
-# - {'cross-feeding ring': "each lineage's byproduct is substrate for its downstream neighbour"}
-# - coexistence stabilised by depletable byproduct pools (negative frequency dependence), not assumed
-# - community-level productivity margin over the best single lineage at equal shared feed (division of labour + recycling)
-# - honest low-count demographic stochasticity (extinction breaks the ring) vs the deterministic mean-field
-#
-# **Proposed models / methods**
-#
-# - dependency-free numpy Gillespie SSA (exact) + matched mean-field Euler ODE; explicit integer counts (shared feed, K byproduct pools, K cell counts)  [Option B / first cut]
-# - GillesPy2 / SSA tau-leaping + COBRApy genome-scale metabolic benchmark  [the richer follow-on, tracked as og-36a]
-# - matched best-single-lineage control: each lineage as a monoculture on the full shared feed, the best taken  [in-workspace]
-# - cross-feeding knockout (mu_cross gated to 0) at equal feed  [in-workspace causal ablation]
-# - system-size (Omega) sweep: scale the extensive counts to show the stochastic<->deterministic divergence grow as counts fall
-#
-# **Key assumptions**
-#
-# - The shared feed budget feed_F is held equal across arms - any community benefit must be a margin over the best single lineage, not more input.
-# - Coexistence is produced by depletable byproduct pools (negative frequency dependence), not assumed; the knockout excludes down.
-# - The SSA is exact on integer counts; a lineage at zero is extinct (no cell influx) and breaks the ring - the mean-field never truly reaches zero.
-# - Model is a dependency-free numpy SSA first (Option B); the GillesPy2 / COBRApy genome-scale resolution is a tracked follow-up (og-36a).
-# - The cross-feeding community is the sustained A1 network, not autocatalytic (A2 refuted under vent conditions).
+# **Claim.** Protocell-era chemistry is ecological before it is cellular. A stochastic cross-feeding community out-produces the best single lineage with the margin causally attributable to cross-feeding and coexistence stabilized (not assumed), though the community is NOT more robust than monoculture and low-count stochasticity materially changes outcomes (og-36, qualified); a connected metacommunity beats an isolated control with cross-feeding robustness and closed ledgers (og-07, supported); and real metabolite exchange makes community function PRECEDE cell completeness and VANISH without exchange, segregated placement keeping function (og-07-alt, supported). Headline verdict qualified; every matched null and every arm verdict preserved.
 
 # ### Parameters
 #
 # | simulation | composite | steps | params |
 # | --- | --- | --- | --- |
-# | `Cross-feeding community (stochastic, SSA)` | `viva_genesis.composites.og_36_stochastic_protocell_ecology.og_36_stochastic_protocell_ecology` | 0 | n_lineages=4, n_seeded=4, deterministic=False, feed_F=7.0, mu_cross=0.5 |
-# | `Best-single-lineage null (monoculture, full shared feed)` | `viva_genesis.composites.og_36_stochastic_protocell_ecology.og_36_stochastic_protocell_ecology` | 0 | n_lineages=4, n_seeded=1, deterministic=False, feed_F=7.0 |
-# | `Cross-feeding knockout (community, cross-feeding off, equal feed)` | `viva_genesis.composites.og_36_stochastic_protocell_ecology.og_36_stochastic_protocell_ecology` | 0 | n_lineages=4, n_seeded=4, knockout=True, deterministic=False, feed_F=7.0 |
+# | `Stochastic protocell ecology (community vs best single, matched null) — canonical arm (og-36)` | `viva_genesis.composites.og_36_stochastic_protocell_ecology.og_36_stochastic_protocell_ecology` | 0 | — |
+# | `Cross-feeding metacommunity (connected vs isolated) — og-07 arm` | `viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity` | 0 | — |
+# | `Real metabolite-exchange community (function before cell completeness) — og-07-alt arm` | `viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community` | 0 | — |
 
 # ### The model & its parameters
 #
@@ -2840,40 +2485,63 @@ ov_viva_genesis_composites_og_36_stochastic_protocell_ecology_og_36_stochastic_p
     'seed'         : 1,   # RNG seed (reproducible SSA trajectory / efficiency assignment)
 }
 
-# ### Typed contract (declared interface)
+# **The model — `viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity`**
 #
-# _The bigraph-schema typed ports + conservation predicates this study's composite must satisfy (audited in the workbench §Contract panel). Declared design — independent of whether a run exists yet._
+# A reusable cross-feeding metacommunity module (Module L). N connected compartments, each a coarse-grained capability vector over a protometabolic function set, evolving under cross-feeding (byproduct of one feeds the next capability in a neighbour), horizontal transfer, and parasite/cooperator roles. Connected heterogeneous populations develop capability redundancy (robustness) and a collective repertoire single compartments do not; the emergent set's overlap with the anaerobic H2/CO2/FeS LUCA reconstruction is reported as a far-end boundary, not a target. Coarse-grained, deterministic reproduction (not wrapped ALife).
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_cross_feeding_metacommunity_cross_feeding_metacommunity = {
+    'n_compartments': 8,   # Number of connected compartments
+    'exchange_rate' : 0.3,   # Cross-feeding strength (use isolated flag, not 0, to disable)
+    'diversity'     : 0.75,   # Inter-compartment heterogeneity (0 identical; 1 all different)
+    'parasite_load' : 0.0,   # Fraction of compartments that drain neighbours
+    'hgt_rate'      : 0.1,   # Horizontal-transfer rate (0 = no spread)
+    'isolated'      : False,   # Isolated counterfactual arm: no cross-feeding/HGT/parasitism (use this, not exchange_rate=0)
+    'seed'          : 1,   # RNG seed (reproducible assignment)
+}
+
+# **The model — `viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community`**
 #
-# **Inputs**
-#
-# | port | type | units | bounds |
-# | --- | --- | --- | --- |
-# | `shared_feed_flux` | float | dimensionless | >= 0.0 |
-# | `n_lineages` | integer | dimensionless | >= 1 |
-# | `cross_feeding_on` | boolean | dimensionless |  |
-#
-# **Outputs**
-#
-# | port | type | units | bounds |
-# | --- | --- | --- | --- |
-# | `cumulative_productivity` | float | dimensionless | >= 0.0 |
-# | `productivity_margin_over_best_single` | float | dimensionless |  |
-# | `n_alive` | float | dimensionless | >= 0.0 |
-# | `extinction_fraction` | float | dimensionless | [0.0, 1.0] |
-#
-# **Conditions**
-#
-# - `equal_shared_feed_across_arms` (invariant): `the shared feed flux feed_F is held equal across community / best-single / knockout arms; any benefit is the margin over the control`
-# - `coexistence_stabilised_not_assumed` (invariant): `deterministic coexistence of all K lineages is produced by depletable byproduct pools (negative frequency dependence); the knockout excludes down`
-# - `honest_low_count_stochasticity` (invariant): `the SSA is exact on integer counts; a lineage reaching zero is extinct (no cell influx) and breaks the ring - the mean-field never truly reaches zero`
-# - `metabolism_is_A1_not_autocatalytic` (invariant): `the cross-feeding community is the sustained A1 network; it is division of labour, not autocatalytic self-amplification (A2 refuted)`
+# og-07's metacommunity rebuilt on real chemistry (Phase 8): N protocells in the agents map, each running the Phase-3 rule-generated reaction universe (libRoadRunner, eQuilibrator dG') masked to its lineage's catalyst repertoire (fixer: CO2 reduction + carboxylations; reducer: hydrogenations; condenser: aldol / formose; generalist: all), pointed at fixed cells of a pore whose background the Phase-4 localization class shapes species by species. A SpatialCouplingStep fires the exchange rules of a bigraphical reactive system every tick (uptake / secretion through size- and charge-dependent permeabilities, pore diffusion, feed / washout) and counts the firings; an EcologyReducerStep recomputes og-07's gate readouts from the agents (present vs produced functions); an EcologyElementLedgerProcess audits C / N / P over agents + field. coupling=private is the isolated counterfactual; model_proto_ecology=null_network the rewired control.
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_metabolite_exchange_community_metabolite_exchange_community = {
+    'model_proto_ecology'   : 'reaction_universe',   # Model class behind the 'proto_ecology' face: null_network | reaction_universe
+    'model_localization'    : 'multisolute_surrogate',   # Model class behind the 'localization' face: fenics | fenics_multisolute_3d | fipy | multisolute_surrogate | surrogate
+    'lineages'              : 'fixer:4,reducer:4',   # Agents per lineage repertoire, e.g. fixer:4,reducer:4 | fixer:8 | generalist:8
+    'placement'             : 'mixed',   # mixed | segregated | random positions along the pore (fixed; no motion)
+    'coupling'              : 'shared',   # shared = agents exchange with a common pore field; private = each agent sees only the background (isolated counterfactual)
+    'n_cells'               : 4,   # Pore field cells along the flow axis [vg-data: hypothetical]
+    'pool_volume_multiplier': 10.0,   # Pore volume per agent volume [vg-data: hypothetical]
+    'k_wash'                : 0.05,   # Pore feed / washout rate (1/s); 1/residence time [vg-data: inferred, swept]
+    'k_diffusion'           : 0.1,   # Exchange rate between neighbouring cells (1/s) [vg-data: hypothetical]
+    'p_gas'                 : 1e-05,   # Membrane permeability class p_gas (m/s) [vg-data: extrapolated]
+    'p_small_neutral'       : 1e-07,   # Membrane permeability class p_small_neutral (m/s) [vg-data: extrapolated]
+    'p_large_neutral'       : 3e-08,   # Membrane permeability class p_large_neutral (m/s) [vg-data: extrapolated]
+    'p_monoacid'            : 1e-09,   # Membrane permeability class p_monoacid (m/s) [vg-data: extrapolated]
+    'p_diacid'              : 1e-10,   # Membrane permeability class p_diacid (m/s) [vg-data: hypothetical, swept]
+    'p_ion'                 : 1e-10,   # Membrane permeability class p_ion (m/s) [vg-data: extrapolated]
+    'feed_CO2'              : 0.0014,   # Inlet CO2 (M) [vg-data: calibrated, Phase-1 posterior]
+    'feed_H2'               : 0.0108,   # Inlet H2 (M) [vg-data: calibrated, Phase-1 posterior]
+    'feed_pyruvate'         : 0.0001,   # Inlet pyruvate (M) [vg-data: inferred]
+    'feed_formate'          : 0.0,   # Inlet formate (M) [vg-data: hypothetical]
+    'feed_ammonium'         : 5e-05,   # Inlet ammonium (M) [vg-data: extrapolated]
+    'feed_phosphate'        : 1e-05,   # Inlet phosphate (M) [vg-data: extrapolated]
+    'peclet'                : 8.0,   # Pore advective Peclet for the localization class
+    'soret_scale'           : 1.0,   # Scale on the per-species Soret coefficients
+    'null_seed'             : 0,   # Rewiring seed for the null_network class
+    'function_floor'        : 1e-09,   # Concentration floor for holding a function (M) [vg-data: inferred]
+    'seed'                  : 1,   # Placement seed (random placement only)
+}
 
 # ### Run
 #
 # _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
 
-# === Study: og-36-stochastic-protocell-ecology ===
-STUDY = 'og-36-stochastic-protocell-ecology'
+# === Study: og-ecology ===
+STUDY = 'og-ecology'
 STUDY_DIR = REPO / 'workspace/studies' / STUDY
 STUDY_YAML = str(STUDY_DIR / "study.yaml")
 RUNS_DB = str(STUDY_DIR / "runs.db")
@@ -2881,12 +2549,12 @@ RUNS_DB = str(STUDY_DIR / "runs.db")
 # This study has no *recorded* runs yet. RERUN builds its declared
 # composite(s) live and runs them; a composite whose module processes
 # are not implemented yet reports the error instead of crashing.
-STEPS_Cross_feeding_community_stochastic_SSA = 100
-INTERVAL_Cross_feeding_community_stochastic_SSA = 1.0
-STEPS_Best_single_lineage_null_monoculture_full_shared_feed = 100
-INTERVAL_Best_single_lineage_null_monoculture_full_shared_feed = 1.0
-STEPS_Cross_feeding_knockout_community_cross_feeding_off_equal_feed = 100
-INTERVAL_Cross_feeding_knockout_community_cross_feeding_off_equal_feed = 1.0
+STEPS_Stochastic_protocell_ecology_community_vs_best_single_matched_null_canonical_arm_og_36 = 100
+INTERVAL_Stochastic_protocell_ecology_community_vs_best_single_matched_null_canonical_arm_og_36 = 1.0
+STEPS_Cross_feeding_metacommunity_connected_vs_isolated_og_07_arm = 100
+INTERVAL_Cross_feeding_metacommunity_connected_vs_isolated_og_07_arm = 1.0
+STEPS_Real_metabolite_exchange_community_function_before_cell_completeness_og_07_alt_arm = 100
+INTERVAL_Real_metabolite_exchange_community_function_before_cell_completeness_og_07_alt_arm = 1.0
 
 if RERUN:
     from process_bigraph import Composite
@@ -2895,28 +2563,28 @@ if RERUN:
             _ov = ov_viva_genesis_composites_og_36_stochastic_protocell_ecology_og_36_stochastic_protocell_ecology if 'ov_viva_genesis_composites_og_36_stochastic_protocell_ecology_og_36_stochastic_protocell_ecology' in dir() else None  # edits from the panel cell, if any
             spec_viva_genesis_composites_og_36_stochastic_protocell_ecology_og_36_stochastic_protocell_ecology = materialize_composite('viva_genesis.composites.og_36_stochastic_protocell_ecology.og_36_stochastic_protocell_ecology', _ov)
             _comp = Composite({'state': spec_viva_genesis_composites_og_36_stochastic_protocell_ecology_og_36_stochastic_protocell_ecology['state']}, core=core)
-            _comp.run(STEPS_Cross_feeding_community_stochastic_SSA)
-        print('ran', 'Cross-feeding community (stochastic, SSA)', f'(viva_genesis.composites.og_36_stochastic_protocell_ecology.og_36_stochastic_protocell_ecology) for', STEPS_Cross_feeding_community_stochastic_SSA, 'steps')
+            _comp.run(STEPS_Stochastic_protocell_ecology_community_vs_best_single_matched_null_canonical_arm_og_36)
+        print('ran', 'Stochastic protocell ecology (community vs best single, matched null) — canonical arm (og-36)', f'(viva_genesis.composites.og_36_stochastic_protocell_ecology.og_36_stochastic_protocell_ecology) for', STEPS_Stochastic_protocell_ecology_community_vs_best_single_matched_null_canonical_arm_og_36, 'steps')
     except Exception as _e:
-        print(f"Cross-feeding community (stochastic, SSA) not runnable yet: {type(_e).__name__}: {_e}")
+        print(f"Stochastic protocell ecology (community vs best single, matched null) — canonical arm (og-36) not runnable yet: {type(_e).__name__}: {_e}")
     try:
         with quiet():  # keep per-step stdout out of the notebook
-            _ov = ov_viva_genesis_composites_og_36_stochastic_protocell_ecology_og_36_stochastic_protocell_ecology if 'ov_viva_genesis_composites_og_36_stochastic_protocell_ecology_og_36_stochastic_protocell_ecology' in dir() else None  # edits from the panel cell, if any
-            spec_viva_genesis_composites_og_36_stochastic_protocell_ecology_og_36_stochastic_protocell_ecology = materialize_composite('viva_genesis.composites.og_36_stochastic_protocell_ecology.og_36_stochastic_protocell_ecology', _ov)
-            _comp = Composite({'state': spec_viva_genesis_composites_og_36_stochastic_protocell_ecology_og_36_stochastic_protocell_ecology['state']}, core=core)
-            _comp.run(STEPS_Best_single_lineage_null_monoculture_full_shared_feed)
-        print('ran', 'Best-single-lineage null (monoculture, full shared feed)', f'(viva_genesis.composites.og_36_stochastic_protocell_ecology.og_36_stochastic_protocell_ecology) for', STEPS_Best_single_lineage_null_monoculture_full_shared_feed, 'steps')
+            _ov = ov_viva_genesis_composites_cross_feeding_metacommunity_cross_feeding_metacommunity if 'ov_viva_genesis_composites_cross_feeding_metacommunity_cross_feeding_metacommunity' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_cross_feeding_metacommunity_cross_feeding_metacommunity = materialize_composite('viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_cross_feeding_metacommunity_cross_feeding_metacommunity['state']}, core=core)
+            _comp.run(STEPS_Cross_feeding_metacommunity_connected_vs_isolated_og_07_arm)
+        print('ran', 'Cross-feeding metacommunity (connected vs isolated) — og-07 arm', f'(viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity) for', STEPS_Cross_feeding_metacommunity_connected_vs_isolated_og_07_arm, 'steps')
     except Exception as _e:
-        print(f"Best-single-lineage null (monoculture, full shared feed) not runnable yet: {type(_e).__name__}: {_e}")
+        print(f"Cross-feeding metacommunity (connected vs isolated) — og-07 arm not runnable yet: {type(_e).__name__}: {_e}")
     try:
         with quiet():  # keep per-step stdout out of the notebook
-            _ov = ov_viva_genesis_composites_og_36_stochastic_protocell_ecology_og_36_stochastic_protocell_ecology if 'ov_viva_genesis_composites_og_36_stochastic_protocell_ecology_og_36_stochastic_protocell_ecology' in dir() else None  # edits from the panel cell, if any
-            spec_viva_genesis_composites_og_36_stochastic_protocell_ecology_og_36_stochastic_protocell_ecology = materialize_composite('viva_genesis.composites.og_36_stochastic_protocell_ecology.og_36_stochastic_protocell_ecology', _ov)
-            _comp = Composite({'state': spec_viva_genesis_composites_og_36_stochastic_protocell_ecology_og_36_stochastic_protocell_ecology['state']}, core=core)
-            _comp.run(STEPS_Cross_feeding_knockout_community_cross_feeding_off_equal_feed)
-        print('ran', 'Cross-feeding knockout (community, cross-feeding off, equal feed)', f'(viva_genesis.composites.og_36_stochastic_protocell_ecology.og_36_stochastic_protocell_ecology) for', STEPS_Cross_feeding_knockout_community_cross_feeding_off_equal_feed, 'steps')
+            _ov = ov_viva_genesis_composites_metabolite_exchange_community_metabolite_exchange_community if 'ov_viva_genesis_composites_metabolite_exchange_community_metabolite_exchange_community' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_metabolite_exchange_community_metabolite_exchange_community = materialize_composite('viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_metabolite_exchange_community_metabolite_exchange_community['state']}, core=core)
+            _comp.run(STEPS_Real_metabolite_exchange_community_function_before_cell_completeness_og_07_alt_arm)
+        print('ran', 'Real metabolite-exchange community (function before cell completeness) — og-07-alt arm', f'(viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community) for', STEPS_Real_metabolite_exchange_community_function_before_cell_completeness_og_07_alt_arm, 'steps')
     except Exception as _e:
-        print(f"Cross-feeding knockout (community, cross-feeding off, equal feed) not runnable yet: {type(_e).__name__}: {_e}")
+        print(f"Real metabolite-exchange community (function before cell completeness) — og-07-alt arm not runnable yet: {type(_e).__name__}: {_e}")
 else:
     print("RERUN=False — not re-simulating.")
 
@@ -2927,7 +2595,27 @@ else:
 # **stochastic-ecology**
 
 # stochastic-ecology
-_save_viz('og-36-stochastic-protocell-ecology', 'stochastic-ecology', _render_one('local:OgStochasticEcologyViz', {'title': 'Stochastic protocell ecology — productivity, not robustness', 'report_json': 'workspace/studies/og-36-stochastic-protocell-ecology/artifacts/gate_e_ecology.json'}, RUNS_DB, STUDY_YAML))
+_save_viz('og-ecology', 'stochastic-ecology', _render_one('local:OgStochasticEcologyViz', {'title': 'Stochastic protocell ecology — productivity, not robustness', 'report_json': 'workspace/studies/og-ecology/artifacts/og-36-stochastic-protocell-ecology/gate_e_ecology.json'}, RUNS_DB, STUDY_YAML))
+
+# **ecology-three-view**
+
+# ecology-three-view
+_save_viz('og-ecology', 'ecology-three-view', _render_one('local:EcologyMetacommunityThreeView', {'composite': 'viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity', 'grid_json': 'workspace/studies/og-ecology/artifacts/og-07-ecology-before-luca/ecology_robustness_grid.json', 'title': 'Campaign VII — ecology before LUCA'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_cross_feeding_metacommunity_cross_feeding_metacommunity if 'ov_viva_genesis_composites_cross_feeding_metacommunity_cross_feeding_metacommunity' in dir() else None)))
+
+# **metacommunity-phase-map**
+
+# metacommunity-phase-map
+_save_viz('og-ecology', 'metacommunity-phase-map', _render_one('local:MetacommunityPhaseMap', {'composite': 'viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity', 'grid_json': 'workspace/studies/og-ecology/artifacts/og-07-ecology-before-luca/metacommunity_robustness_grid.json', 'title': 'Where cross-feeding robustness emerges'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_cross_feeding_metacommunity_cross_feeding_metacommunity if 'ov_viva_genesis_composites_cross_feeding_metacommunity_cross_feeding_metacommunity' in dir() else None)))
+
+# **community-function-map**
+
+# community-function-map
+_save_viz('og-ecology', 'community-function-map', _render_one('local:CommunityFunctionMap', {'title': 'Where a function no lineage can perform emerges (Decision view)', 'report_json': 'workspace/studies/og-ecology/artifacts/og-07-alt-real-metabolite-exchange/community_function_map.json'}, RUNS_DB, STUDY_YAML))
+
+# **metabolite-exchange-map**
+
+# metabolite-exchange-map
+_save_viz('og-ecology', 'metabolite-exchange-map', _render_one('local:MetaboliteExchangeMap', {'title': "Agents on the pore, the intermediate that crosses, and og-07's readouts from real agents (Mechanism / World view)", 'report_json': 'workspace/studies/og-ecology/artifacts/og-07-alt-real-metabolite-exchange/community_function_map.json'}, RUNS_DB, STUDY_YAML))
 
 # ### Acceptance criteria
 #
@@ -2943,6 +2631,23 @@ _save_viz('og-36-stochastic-protocell-ecology', 'stochastic-ecology', _render_on
 # | community-not-more-robust-than-monoculture _(primary)_ | kind=observable detail=community CV vs best-single CV; community_more_robust flag | op threshold detail community CV > best-single CV (community_more_robust False) - reported honestly |
 # | matched-null-equal-feeds _(primary)_ | kind=observable detail=feed_F held equal across arms | op threshold detail feed budget equal across arms |
 # | handoff-36-to-37-complete _(secondary)_ | kind=observable detail=ecology readouts available to study 37 | op threshold detail handoff available |
+# | cross-feeding-robustness _(primary)_ | kind=derived path=metacommunity_robustness detail=settled metacommunity robustness (functional redundancy) of the connected run | op > value 0.5 detail a majority of capabilities are redundantly covered (robust to a single-compartment loss) |
+# | connected-beats-isolated _(primary)_ | kind=cross_run detail=connected vs isolated metacommunity robustness across an 8-seed sweep | op arms_reported detail connected robustness strictly higher than isolated on every seed (measured min gain reported) |
+# | luca-capability-overlap _(supporting)_ | kind=cross_run detail=collective repertoire overlap with the anaerobic LUCA core (Weiss 2016) | op arms_reported detail overlap reported as a boundary not a target None |
+# | cross-system-element-ledger-closes _(primary)_ | kind=derived path=element_ledger_ok_final detail=ledger.element_ledger_ok on the final tick | op >= value 1.0 detail every residual within tolerance |
+# | carbon-residual-at-integrator-tolerance _(diagnostic)_ | kind=derived path=carbon_residual_max_final detail=ledger.C_residual_max on the final tick | op <= value 0.0001 detail integrator tolerance |
+# | exchange-rules-fire _(supporting)_ | kind=derived path=exchange_firings_final detail=cumulative firings of every exchange rule | op > value 1000.0 detail rules fired |
+# | metabolites-cross-between-lineages _(supporting)_ | kind=derived path=cross_lineage_flux_total_final detail=cumulative cross-lineage moles | op > value 0.0 detail non-zero cross-lineage flux |
+# | no-cell-complete _(supporting)_ | kind=derived path=max_cell_completeness_final detail=max over agents of held / union | op < value 1.0 detail no complete cell |
+# | community-function-precedes-cell-completeness _(primary)_ | kind=derived path=n_community_only_functions detail=community-only product classes at the canonical point | op >= value 1.0 detail >= 1 community-only class |
+# | community-function-vanishes-without-exchange _(primary)_ | kind=derived path=n_vanish_without_exchange detail=community-only classes absent in the private arm | op >= value 1.0 detail vanishes without sharing |
+# | community-function-flux-sustained _(primary)_ | kind=derived path=community_flux_sustained detail=1 when sustained by a crossing precursor | op >= value 1.0 detail flux-sustained |
+# | community-max-cell-completeness _(supporting)_ | kind=derived path=community_max_cell_completeness detail=max over agents of held / union | op < value 1.0 detail no complete cell |
+# | community-vs-complete-cell _(diagnostic)_ | kind=derived path=community_over_generalist detail=community / generalist settled level | op >= value 0.0 detail informative readout |
+# | emergence-boundary-resolved _(diagnostic)_ | kind=derived path=emergence_p_diacid_nominal detail=from decision_map.emergence_p_diacid_by_k_wash | op <= value 1e-07 detail inside the swept range |
+# | null-community-only-count _(diagnostic)_ | kind=derived path=null_community_only_max detail=max over null seeds | op >= value 0.0 detail informative readout |
+# | segregated-placement-keeps-function _(supporting)_ | kind=derived path=segregated_n_community_only detail=community-only classes in the segregated arm | op >= value 1.0 detail function kept |
+# | map-ledgers-close _(diagnostic)_ | kind=derived path=map_ledgers_all_ok detail=1 when all runs within tolerance | op >= value 1.0 detail all runs within tolerance |
 
 # ## Study: Escape and Progressive Independence from the Vent (`og-independence`)
 #
