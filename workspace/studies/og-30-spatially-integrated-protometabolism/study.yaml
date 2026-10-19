@@ -282,7 +282,7 @@ baseline:
 parent_studies:
 - {study: og-03-dilution-to-localized-individuals, condition: tests-passed}
 - {study: og-27-coupled-geochemical-reaction-interface, condition: tests-passed}
-- {study: og-29-endogenous-autocatalysis, condition: tests-passed}
+- {study: og-autocatalysis-a2, condition: tests-passed}
 key_assumptions:
 - Two adverse controls are required — a well-mixed control and a nonconcentrating control — both matched
   on feed, network and total material.
@@ -291,7 +291,7 @@ key_assumptions:
 parent_relations:
 - {study: og-03-dilution-to-localized-individuals, relation: builds-on}
 - {study: og-27-coupled-geochemical-reaction-interface, relation: builds-on}
-- {study: og-29-endogenous-autocatalysis, relation: builds-on}
+- {study: og-autocatalysis-a2, relation: builds-on}
 expert_questions:
 - What count threshold should trigger the continuum-to-stochastic handoff, and which species most need
   it?

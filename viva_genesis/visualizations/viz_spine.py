@@ -460,7 +460,7 @@ class OgRtcaAutocatalysisViz(Visualization):
                   "_default": "Reductive-TCA autocatalysis — refuted at vent, topology-capable beyond it"},
         "caption": {"_type": "string", "_default": ""},
         "artifact_json": {"_type": "string",
-                          "_default": "workspace/studies/og-rtca-autocatalysis/artifacts/rtca_discriminator.json"},
+                          "_default": "workspace/studies/og-autocatalysis-a2/artifacts/og-rtca-autocatalysis/rtca_discriminator.json"},
     }
 
     def inputs(self):
@@ -554,7 +554,7 @@ class OgAutocatalysisDiscriminatorViz(Visualization):
     config_schema = {
         "title": {"_type": "string", "_default": "Autocatalysis discriminator — feed-driven flux, zero self-amplification"},
         "artifact_json": {"_type": "string",
-                          "_default": "workspace/studies/og-29-endogenous-autocatalysis/artifacts/autocatalysis_discriminator.json"},
+                          "_default": "workspace/studies/og-autocatalysis-a2/artifacts/og-29-endogenous-autocatalysis/autocatalysis_discriminator.json"},
     }
 
     def inputs(self):
@@ -650,7 +650,7 @@ class OgRtcaMechanismViz(Visualization):
     config_schema = {
         "title": {"_type": "string", "_default": "Reductive-TCA mechanism — uphill at the vent, topology-capable beyond it"},
         "artifact_json": {"_type": "string",
-                          "_default": "workspace/studies/og-rtca-autocatalysis/artifacts/rtca_discriminator.json"},
+                          "_default": "workspace/studies/og-autocatalysis-a2/artifacts/og-rtca-autocatalysis/rtca_discriminator.json"},
     }
 
     def inputs(self):

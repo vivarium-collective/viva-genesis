@@ -777,8 +777,7 @@ studies:
 - og-08-alt-dx-importer-cost
 - og-27-coupled-geochemical-reaction-interface
 - og-28-prebiotic-reaction-atlas
-- og-29-endogenous-autocatalysis
-- og-rtca-autocatalysis
+- og-autocatalysis-a2
 - og-30-spatially-integrated-protometabolism
 - og-31-protometabolism-to-amphiphiles
 - og-32-first-self-maintaining-protocell
@@ -1090,8 +1089,7 @@ plan_gates:
     extends: A1
     off_spine: true
     member_studies:
-      - og-29-endogenous-autocatalysis
-      - og-rtca-autocatalysis
+      - og-autocatalysis-a2
     pending_studies: []
     # Explicit matched-null / refutation evidence the board audits for this branch
     # (confirmed → criterion met; contradicted → criterion refuted). Real member
