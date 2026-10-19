@@ -252,44 +252,41 @@ def _render_one(address, config, runs_db, study_yaml, overrides=None):
         return _p.read_text(encoding='utf-8', errors='replace')
     return f'<p style="color:#6b7280">unsupported figure type: {address}</p>'
 
-# ## Study: The Serpentinizing Vent (`og-00-vent-reactor-baseline`)
+# ## Study: The Vent Environment: A Bounded but Viable Geochemical Reactor (`og-vent-environment`)
 #
-# **Question.** Can a Lost City-like, serpentinization-fed vent-ocean interface reproduce the physical and chemical environment in which the later origin-of-life steps are supposed to occur?
+# **Question.** Is a serpentinizing Lost City-type vent a viable geochemical reactor that supplies the H2, inorganic carbon, pH/redox gradients and electrochemical driving force downstream chemistry needs — and within what bounds, as the mineral interface evolves and across the plausible range of vent states?
 #
-# **Hypothesis.** A 1D/2D porous-wall reactor with prescribed boundary fluxes reproduces published Lost City ranges (T, pH, H2, DIC) and qualitative precipitation trends while conserving mass and charge.
+# **Hypothesis.** A serpentinizing vent supplies the reducing power and gradients downstream chemistry needs, but within a bounded window — only a fraction of plausible vent states bind (H2-limited) and the evolving mineral interface throttles supply over time; no unconditional supply is claimed outside that window.
 #
-# **Claim.** Across the swept olivine-rate x flow-velocity grid, about 80% of the operating region falls inside the combined Lost City window (40-91 C, pH 9.0-10.8, positive H2 flux), and the baseline settles comfortably inside it at 50.6 C / pH 9.37 with sustained H2, exact charge balance, and spatial-flux divergence within tolerance. This establishes a bounded geochemical habitat, a region rather than a single tuned point, and makes no origin-of-life claim by itself.
-
-# ### Design — originally proposed
-#
-# _The mechanisms and methods proposed when this study was designed; the model **actually built** (and the tools it uses) is shown below. These may differ as the design was realized._
-#
-# **Proposed mechanisms**
-#
-# - A: serpentinization as boundary flux
-# - B: flow/mixing/precipitation, evolving porosity
-#
-# **Proposed models / methods**
-#
-# - PHREEQC or Reaktoro (speciation + mineral kinetics)
-# - FiPy finite-volume advection–diffusion–reaction
-# - prescribed vent source term
-#
-# **Key assumptions**
-#
-# - Hadean ocean chemistry parameterized separately — never reuse modern seawater as the ancient prior.
-# - Partial equilibrium: a prescribed olivine dissolution rate (flow/T-driven) feeds PHREEQC equilibrium speciation each step — fast aqueous/mineral equilibrium vs a rate-limited rock reaction, standard for reactive-transport.
-# - The heat-partition fraction (fraction of serpentinization enthalpy retained in the fluid parcel) is CALIBRATED to the observed 40-91 C vent temperature; the chemistry (H2, pH, pe, charge) is emergent from PHREEQC, not tuned.
+# **Claim.** Across fidelities the vent environment is a viable but bounded geochemical reactor. The serpentinizing reactor settles inside the Lost City window (50.6 C, pH 9.37, sustained H2) over ~80% of the operating grid — habitability is a bounded region, not one tuned run (og-00, supported). Conditioning on the Lost City field windows, 12.5% (6/48) of the empirically motivated prior reproduces all three observations and 100% of that posterior supplies the H2 + pH gradient downstream carbon fixation needs; dissolved H2 is the binding observation, pH is buffered and non-discriminating (og-cal, supported, calibrated). The sharpened coupled interface delivers H2 / inorganic-carbon flux + a maintained pH/redox gradient at or above required levels and a CO2-reducing electrochemical driving force, with mass/charge/energy closing across PHREEQC+FiPy+Reaktoro — but precipitation and passivation throttle supply on the mineral-evolution timescale and the supply<->throttle is a sharp two-regime DIC cliff, so delivery is bounded (og-27, canonical, qualified). Consolidated headline: qualified — a viable vent reactor within a bounded window, supplying downstream chemistry conditionally. Every matched null and arm verdict kept.
 
 # ### Parameters
 #
 # | simulation | composite | steps | params |
 # | --- | --- | --- | --- |
-# | `Vent reactor baseline` | `viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor` | 0 | — |
+# | `Coupled geochemical reaction interface — canonical (og-27)` | `viva_genesis.composites.og_27_coupled_geochemical_reaction_interface.og_27_coupled_geochemical_reaction_interface` | 0 | — |
+# | `Serpentinizing vent reactor baseline (og-00 arm)` | `viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor` | 0 | — |
+# | `Geochemical world at the vent-calibration operating point (og-cal arm)` | `viva_genesis.composites.geochemical_world.geochemical_world` | 0 | — |
 
 # ### The model & its parameters
 #
 # Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
+
+# **The model — `viva_genesis.composites.og_27_coupled_geochemical_reaction_interface.og_27_coupled_geochemical_reaction_interface`**
+#
+# Study 27: og-00's real serpentinizing vent made into an EVOLVING interface. geochemical_world (genuine PHREEQC speciation -> genuine FiPy transport) is augmented with MineralSurfaceDynamicsProcess: the reacted fluid's real carbonate saturation index drives precipitation/dissolution (a porosity delta that composes with FiPy's) and passivates the catalytic surface over time. Reports time- and space-resolved supply of H2/carbon/gradients/catalysis and the crossover time at which mineral evolution throttles it, with closed mass/charge/energy ledgers.
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_og_27_coupled_geochemical_reaction_interface_og_27_coupled_geochemical_reaction_interface = {
+    'flow_velocity': 0.001,   # Boundary water flux through the reaction zone (m/s)
+    'olivine_rate' : 0.15,   # Olivine reaction extent per flow-saturated step
+    'fluid_dic'    : 0.002,   # Inflowing-fluid DIC, Hadean-ocean proxy (molar)
+    'nx'           : 40,   # FiPy finite-volume cells across the interface column
+    'k_precip'     : 0.05,   # Precipitation rate coefficient (pore clogging, 1/s)
+    'k_dissolve'   : 0.02,   # Dissolution rate coefficient (pore opening, 1/s)
+    'k_passivate'  : 0.5,   # Catalytic passivation coefficient under precipitation
+}
 
 # **The model — `viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor`**
 #
@@ -303,42 +300,30 @@ ov_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor = {
     'nx'           : 40,   # FiPy finite-volume cells across the interface column
 }
 
-# ### Typed contract (declared interface)
+# **The model — `viva_genesis.composites.geochemical_world.geochemical_world`**
 #
-# _The bigraph-schema typed ports + conservation predicates this study's composite must satisfy (audited in the workbench §Contract panel). Declared design — independent of whether a run exists yet._
-#
-# **Inputs**
-#
-# | port | type | units | bounds |
-# | --- | --- | --- | --- |
-# | `temperature` | float | kelvin | [273.0, 673.0] |
-# | `pressure` | float | pascal | [100000.0, 50000000.0] |
-# | `flow_velocity` | float | meter/second | >= 0.0 |
-# | `H2` | float | molar | >= 0.0 |
-# | `DIC` | float | molar | >= 0.0 |
-#
-# **Outputs**
-#
-# | port | type | units | bounds |
-# | --- | --- | --- | --- |
-# | `H2_flux` | float | mole/second | >= 0.0 |
-# | `alkalinity_flux` | float | mole/second |  |
-# | `heat_flux` | float | watt |  |
-# | `porosity` | float | dimensionless | [0.0, 1.0] |
-#
-# **Conditions**
-#
-# - `mass_balance` (invariant): `abs(residual_C)+abs(residual_H)+abs(residual_O) < tol`
-# - `charge_neutrality` (invariant): `abs(net_charge) < tol`
-# - `spatial_flux_conservation` (invariant): `divergence(flux) == source_minus_sink`
-# - `energy_directionality` (invariant): `free_energy_flux_logged == true`
+# og-00's real serpentinizing vent (genuine PHREEQC peridotite speciation feeding a genuine FiPy finite-volume advection-diffusion solve) rebuilt as the Phase-1 geochemical world: both mechanisms are selected through typed faces (model_serpentinization: phreeqc | reduced; model_spatial_transport: fipy convecting | fipy_uniform_upflow | fenics), so the model CLASS is a categorical sweep axis beside the physical parameters, and a ConservationLedgerProcess audits integrated sources against accumulated pools, charge balance, flux divergence and heat directionality (ledger/ledger_ok). The free parameters are the vg-data package 'vent_environment' (value-or-distribution, units, context, source, provenance class), which the environmental-calibration ensemble samples.
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_geochemical_world_geochemical_world = {
+    'model_serpentinization' : 'phreeqc',   # Model class behind the 'serpentinization' face: phreeqc | reduced
+    'model_spatial_transport': 'fipy',   # Model class behind the 'spatial_transport' face: fenics | fipy | fipy_uniform_upflow
+    'flow_velocity'          : 0.001,   # Boundary water flux through the reaction zone (m/s) [vg-data: inferred]
+    'olivine_rate'           : 0.15,   # Olivine reaction extent per flow-saturated step [vg-data: hypothetical]
+    'pyroxene_fraction'      : 0.5,   # Diopside per mole olivine (peridotite vs dunite) [vg-data: calibrated]
+    'fe_fraction'            : 0.25,   # Fayalite fraction of the dissolving olivine [vg-data: extrapolated]
+    'heat_to_fluid_fraction' : 0.0008,   # Serpentinization enthalpy retained in the fluid [vg-data: calibrated]
+    'fluid_dic'              : 0.002,   # Inflowing-fluid DIC, Hadean-ocean proxy (molar) [vg-data: extrapolated]
+    'nx'                     : 40,   # FiPy finite-volume cells across the interface column
+}
 
 # ### Run
 #
 # _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
 
-# === Study: og-00-vent-reactor-baseline ===
-STUDY = 'og-00-vent-reactor-baseline'
+# === Study: og-vent-environment ===
+STUDY = 'og-vent-environment'
 STUDY_DIR = REPO / 'workspace/studies' / STUDY
 STUDY_YAML = str(STUDY_DIR / "study.yaml")
 RUNS_DB = str(STUDY_DIR / "runs.db")
@@ -346,20 +331,42 @@ RUNS_DB = str(STUDY_DIR / "runs.db")
 # This study has no *recorded* runs yet. RERUN builds its declared
 # composite(s) live and runs them; a composite whose module processes
 # are not implemented yet reports the error instead of crashing.
-STEPS_Vent_reactor_baseline = 100
-INTERVAL_Vent_reactor_baseline = 1.0
+STEPS_Coupled_geochemical_reaction_interface_canonical_og_27 = 100
+INTERVAL_Coupled_geochemical_reaction_interface_canonical_og_27 = 1.0
+STEPS_Serpentinizing_vent_reactor_baseline_og_00_arm = 100
+INTERVAL_Serpentinizing_vent_reactor_baseline_og_00_arm = 1.0
+STEPS_Geochemical_world_at_the_vent_calibration_operating_point_og_cal_arm = 100
+INTERVAL_Geochemical_world_at_the_vent_calibration_operating_point_og_cal_arm = 1.0
 
 if RERUN:
     from process_bigraph import Composite
     try:
         with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_og_27_coupled_geochemical_reaction_interface_og_27_coupled_geochemical_reaction_interface if 'ov_viva_genesis_composites_og_27_coupled_geochemical_reaction_interface_og_27_coupled_geochemical_reaction_interface' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_og_27_coupled_geochemical_reaction_interface_og_27_coupled_geochemical_reaction_interface = materialize_composite('viva_genesis.composites.og_27_coupled_geochemical_reaction_interface.og_27_coupled_geochemical_reaction_interface', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_og_27_coupled_geochemical_reaction_interface_og_27_coupled_geochemical_reaction_interface['state']}, core=core)
+            _comp.run(STEPS_Coupled_geochemical_reaction_interface_canonical_og_27)
+        print('ran', 'Coupled geochemical reaction interface — canonical (og-27)', f'(viva_genesis.composites.og_27_coupled_geochemical_reaction_interface.og_27_coupled_geochemical_reaction_interface) for', STEPS_Coupled_geochemical_reaction_interface_canonical_og_27, 'steps')
+    except Exception as _e:
+        print(f"Coupled geochemical reaction interface — canonical (og-27) not runnable yet: {type(_e).__name__}: {_e}")
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
             _ov = ov_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor if 'ov_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor' in dir() else None  # edits from the panel cell, if any
             spec_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor = materialize_composite('viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor', _ov)
             _comp = Composite({'state': spec_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor['state']}, core=core)
-            _comp.run(STEPS_Vent_reactor_baseline)
-        print('ran', 'Vent reactor baseline', f'(viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor) for', STEPS_Vent_reactor_baseline, 'steps')
+            _comp.run(STEPS_Serpentinizing_vent_reactor_baseline_og_00_arm)
+        print('ran', 'Serpentinizing vent reactor baseline (og-00 arm)', f'(viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor) for', STEPS_Serpentinizing_vent_reactor_baseline_og_00_arm, 'steps')
     except Exception as _e:
-        print(f"Vent reactor baseline not runnable yet: {type(_e).__name__}: {_e}")
+        print(f"Serpentinizing vent reactor baseline (og-00 arm) not runnable yet: {type(_e).__name__}: {_e}")
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_geochemical_world_geochemical_world if 'ov_viva_genesis_composites_geochemical_world_geochemical_world' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_geochemical_world_geochemical_world = materialize_composite('viva_genesis.composites.geochemical_world.geochemical_world', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_geochemical_world_geochemical_world['state']}, core=core)
+            _comp.run(STEPS_Geochemical_world_at_the_vent_calibration_operating_point_og_cal_arm)
+        print('ran', 'Geochemical world at the vent-calibration operating point (og-cal arm)', f'(viva_genesis.composites.geochemical_world.geochemical_world) for', STEPS_Geochemical_world_at_the_vent_calibration_operating_point_og_cal_arm, 'steps')
+    except Exception as _e:
+        print(f"Geochemical world at the vent-calibration operating point (og-cal arm) not runnable yet: {type(_e).__name__}: {_e}")
 else:
     print("RERUN=False — not re-simulating.")
 
@@ -378,27 +385,42 @@ def _save_viz(study, slug, html):
 
 
 # vent-cross-section
-_save_viz('og-00-vent-reactor-baseline', 'vent-cross-section', _render_one('local:VentCrossSection', {'composite': 'viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor', 'n_steps': 60, 'title': 'Real 2-D vent cross-section (FiPy)', 'max_frames': 20}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor if 'ov_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor' in dir() else None)))
+_save_viz('og-vent-environment', 'vent-cross-section', _render_one('local:VentCrossSection', {'composite': 'viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor', 'n_steps': 60, 'title': 'Real 2-D vent cross-section (FiPy)', 'max_frames': 20}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor if 'ov_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor' in dir() else None)))
 
 # **vent-reactor-timeseries**
 
 # vent-reactor-timeseries
-_save_viz('og-00-vent-reactor-baseline', 'vent-reactor-timeseries', _render_one('local:VentReactorTimeseries', {'composite': 'viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor', 'n_steps': 120, 'title': 'Real vent reactor (PHREEQC + FiPy)'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor if 'ov_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor' in dir() else None)))
+_save_viz('og-vent-environment', 'vent-reactor-timeseries', _render_one('local:VentReactorTimeseries', {'composite': 'viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor', 'n_steps': 120, 'title': 'Real vent reactor (PHREEQC + FiPy)'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor if 'ov_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor' in dir() else None)))
 
 # **vent-serpentinization-engine**
 
 # vent-serpentinization-engine
-_save_viz('og-00-vent-reactor-baseline', 'vent-serpentinization-engine', _render_one('local:VentSerpentinizationEngine', {'n_steps': 120, 'nx': 40, 'title': 'The serpentinization engine (Mechanism view)'}, RUNS_DB, STUDY_YAML))
+_save_viz('og-vent-environment', 'vent-serpentinization-engine', _render_one('local:VentSerpentinizationEngine', {'n_steps': 120, 'nx': 40, 'title': 'The serpentinization engine (Mechanism view)'}, RUNS_DB, STUDY_YAML))
 
 # **vent-habitability-map**
 
 # vent-habitability-map
-_save_viz('og-00-vent-reactor-baseline', 'vent-habitability-map', _render_one('local:VentHabitabilityMap', {'grid_json': 'workspace/studies/og-00-vent-reactor-baseline/artifacts/vent_habitability_grid.json', 'title': 'The Lost City habitability window (Decision view)'}, RUNS_DB, STUDY_YAML))
+_save_viz('og-vent-environment', 'vent-habitability-map', _render_one('local:VentHabitabilityMap', {'grid_json': 'workspace/studies/og-vent-environment/artifacts/og-00-vent-reactor-baseline/vent_habitability_grid.json', 'title': 'The Lost City habitability window (Decision view)'}, RUNS_DB, STUDY_YAML))
 
 # **vent-wall-3d**
 
 # vent-wall-3d
-_save_viz('og-00-vent-reactor-baseline', 'vent-wall-3d', _render_one('local:VentChimney3D', {'title': 'The vent wall in 3-D — the across-wall thermal gradient (World view)'}, RUNS_DB, STUDY_YAML))
+_save_viz('og-vent-environment', 'vent-wall-3d', _render_one('local:VentChimney3D', {'title': 'The vent wall in 3-D — the across-wall thermal gradient (World view)'}, RUNS_DB, STUDY_YAML))
+
+# **vent-environment-posterior**
+
+# vent-environment-posterior
+_save_viz('og-vent-environment', 'vent-environment-posterior', _render_one('local:VentEnvironmentPosterior', {'title': 'Lost-City-conditioned vent posterior (Decision view)', 'ensemble_json': 'workspace/studies/og-vent-environment/artifacts/og-cal-vent-environment/vent_environment_ensemble.json', 'report_json': 'workspace/studies/og-vent-environment/artifacts/og-cal-vent-environment/vent_environment_report.json'}, RUNS_DB, STUDY_YAML))
+
+# **vent-reactor-timeseries**
+
+# vent-reactor-timeseries
+_save_viz('og-vent-environment', 'vent-reactor-timeseries', _render_one('local:VentReactorTimeseries', {'composite': 'viva_genesis.composites.geochemical_world.geochemical_world', 'n_steps': 120, 'title': 'Geochemical world at the operating point (World view)'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_geochemical_world_geochemical_world if 'ov_viva_genesis_composites_geochemical_world_geochemical_world' in dir() else None)))
+
+# **coupled-interface-evolution**
+
+# coupled-interface-evolution
+_save_viz('og-vent-environment', 'coupled-interface-evolution', _render_one('local:OgCoupledInterfaceViz', {'composite': 'viva_genesis.composites.og_27_coupled_geochemical_reaction_interface.og_27_coupled_geochemical_reaction_interface', 'n_steps': 80, 'title': 'The interface evolves — supply vs self-throttling', 'caption': 'Top row — outlet temperature, pH and H2 flux: the conditions and reducing power the vent wall delivers. Bottom row — porosity closing, catalytic accessibility passivating, and carbonate saturation index driving precipitation. Plainly: the wall delivers chemistry at first, but as minerals grow and clog it that delivery declines — the interface depletes rather than lasting forever.'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_og_27_coupled_geochemical_reaction_interface_og_27_coupled_geochemical_reaction_interface if 'ov_viva_genesis_composites_og_27_coupled_geochemical_reaction_interface_og_27_coupled_geochemical_reaction_interface' in dir() else None)))
 
 # ### Acceptance criteria
 #
@@ -411,12 +433,18 @@ _save_viz('og-00-vent-reactor-baseline', 'vent-wall-3d', _render_one('local:Vent
 # | charge-conserved _(primary)_ | kind=derived path=max_abs_charge_imbalance detail=worst-case |charge imbalance| over the run (eq/kgw) | op <= value 1e-06 detail |charge imbalance| < 1e-6 throughout |
 # | spatial-flux-conserved _(primary)_ | kind=derived path=max_flux_divergence_residual detail=worst-case normalized FVM flux-divergence residual over the run | op <= value 0.001 detail max |flux divergence residual| < 1e-3 (direct LU solve ~ machine eps) |
 # | vent-pH-in-lostcity-range _(primary)_ | kind=derived path=settled_pH detail=last-quartile mean outlet pH | op range low 9.0 high 10.8 detail settled pH in [9.0, 10.8] |
-
-# ### Literature anchors
-#
-# | expectation | model observable | source | status |
-# | --- | --- | --- | --- |
-# | Lost City ~40-91 C, pH ~9-10.8, >=30 ky activity | outlet T,pH; run duration | Kelley 2001 / Fruh-Green 2003 / Ludwig 2006 | Met by the real coupled model: settled T ~51 C and pH ~9.4 are both in the Lost City window, H2 reducing power is sustained, and mass/charge/flux conservation hold. pH was closed by reacting peridotite (olivine + pyroxene) so the Ca-OH endmember buffers the fluid to field pH — a real PHREEQC result. |
+# | ledger-closes _(primary)_ | kind=derived path=max_ledger_mass_residual detail=worst-case |pool - integral| / integral over H2 and alkalinity | op <= value 1e-12 detail matter ledger residual at machine precision |
+# | energy-ledger-closes _(primary)_ | kind=derived path=max_ledger_energy_residual detail=worst-case |heat pool - integrated heat| / integral | op <= value 1e-12 detail energy ledger residual at machine precision |
+# | heat-released-not-absorbed _(diagnostic)_ | kind=derived path=energy_directionality_final detail=1 while the heat source has never been negative | op >= value 1.0 detail directionality witness holds through the run |
+# | dissolved-h2-in-lost-city-range _(primary)_ | kind=derived path=settled_dissolved_h2_mM detail=settled H2_flux / (flow_velocity x flux_area) mmol/kg=None | op range low 1.0 high 15.0 detail dissolved H2 in [1, 15] mmol/kg |
+# | posterior-viable-vent-fraction _(primary)_ | kind=derived path=posterior_viable_fraction detail=viable | consistent, headline transport class, from artifacts/vent_environment_report.json | op > value 0.0 detail posterior-viable fraction > 0 |
+# | structure-agreement-across-transport-classes _(primary)_ | kind=derived path=structure_agreement_viable detail=fraction of identical draws on which every class agrees about viability | op >= value 0.8 detail cross-class agreement >= 0.8 |
+# | sustained-reactive-flux-over-timescales _(primary)_ | kind=observable detail=time- and space-resolved H2 + inorganic-carbon flux and pH/redox gradient over transport timescales | op threshold detail delivery at or above the downstream-required level over the transport timescale |
+# | mineral-evolution-supply-decay _(primary)_ | kind=observable detail=catalytic supply / reactive surface vs. the slower mineral-evolution timescale; crossover time below threshold | op threshold detail crossover time quantified (depleting-supply behaviour characterised) |
+# | electrochemical-driving-force-verified _(secondary)_ | kind=observable detail=interface potential from FiPy transport vs. independent FEniCSx Nernst–Planck solve | op threshold detail non-trivial driving force, cross-solver agreement to tolerance |
+# | coupled-conservation _(secondary)_ | kind=observable detail=C/H/O/charge/energy residuals across the coupled solve | op threshold detail residuals within tolerance; no untracked feed |
+# | handoff-27-to-29-complete _(secondary)_ | kind=observable detail=presence + typing of every field in the 27→29 transfer bundle | op threshold detail bundle complete and typed (satisfies 27→29 handoff validator) |
+# | dic-crossover-sweep _(primary)_ | kind=observable detail=H2 flux / precipitation / accessibility / porosity vs fluid_dic across SI=0 ledger closure=None | op threshold detail the crossover is characterized with the ledger closing at every point (window_exists resolved either way) |
 
 # ## Study: The First Carbon (`og-01-geology-to-reduced-carbon`)
 #
@@ -2100,161 +2128,6 @@ _save_viz('og-growth-division', 'growth-division-map', _render_one('local:Growth
 # | --- | --- | --- | --- |
 # | Internal product accumulation generates osmotic pressure that drives compartment growth and division; fatty-acid / mixed-amphiphile vesicles grow and divide under osmotic and physico-chemical forcing without dedicated division machinery. | viable growth→division band over (throughput × permeability) | Jordan 2019 (vesicle feasibility); Muchowska 2019 (autocatalytic rTCA source); osmotic-growth vesicle division (Nat. Chem. 2023, pending reference) | Reproduced as a coarse-grained, units-typed, mass-conserving osmotic-coupling model — the matched regime grows and divides; the band is bounded by starvation and lysis. |
 
-# ## Study: Calibrating the Vent: What Fraction of Observed-Consistent Vent States Feed Downstream Chemistry (`og-cal-vent-environment`)
-#
-# **Question.** Of the real-vent states consistent with the Lost City field observations (outlet temperature, pH, dissolved H2), what fraction also satisfies what downstream carbon fixation needs (H2 >= 1 mM, a >= 3-unit pH gradient, T in range), and which observation does the actual constraining?
-#
-# **Hypothesis.** A Lost-City-consistent posterior exists inside the empirically motivated prior of the og-00 world, most of it also satisfies the downstream requirements, the result is the same under the convecting and the prescribed-upflow transport classes, and the conservation ledger closes exactly on every draw.
-#
-# **Claim.** Conditioning the real PHREEQC + FiPy vent on the Lost City field windows, 12.5% of the empirically motivated prior (6 of 48 draws) reproduces all three observations, and 100% of that posterior supplies the H2 and pH gradient downstream carbon fixation requires. The dissolved-H2 window does all the constraining: pH is buffered at 9.4-9.9 by the peridotite assemblage and carries no information, temperature is loose, and the answer is the same whether or not the vent wall convects. The conservation ledger closes exactly on all 96 runs. This is a geochemical calibration, not an origin-of-life claim, and the H2 threshold rests on a full-redox-equilibrium assumption and an extrapolated DIC prior that a kinetic carbon-redox class could still shift.
-
-# ### Design — originally proposed
-#
-# _The mechanisms and methods proposed when this study was designed; the model **actually built** (and the tools it uses) is shown below. These may differ as the design was realized._
-#
-# **Proposed mechanisms**
-#
-# - A: serpentinization as boundary flux (PHREEQC speciation)
-# - B: flow/mixing (convecting vs prescribed-upflow transport classes)
-#
-# **Proposed models / methods**
-#
-# - vg-data prior package (value-or-distribution + provenance class per parameter)
-# - Latin-hypercube ensemble through the real PHREEQC + FiPy geochemical_world per model class
-# - ABC rejection on field observation windows; posterior-predictive requirement mask
-# - Morris elementary-effects screening; paired class differences; conservation ledger
-#
-# **Key assumptions**
-#
-# - The prior is the vg-data package vent_environment (six free parameters; provenance audit: 0 measured, 2 calibrated, 1 inferred, 3 extrapolated, 2 hypothetical).
-# - Uniform likelihood on observation windows (ABC rejection): a vent state is consistent when every readout lies inside its window.
-# - Full redox equilibrium each step (PHREEQC, llnl.dat): DIC is reduced before free H2 appears; a kinetic carbon-redox class is the planned alternative.
-# - Downstream requirements are og-01's favorable regime (H2 >= 1 mM, delta pH >= 3 against pH 6.0, T <= 100 C), classed inferred.
-
-# ### Parameters
-#
-# | simulation | composite | steps | params |
-# | --- | --- | --- | --- |
-# | `Geochemical world (vent-calibration operating point)` | `viva_genesis.composites.geochemical_world.geochemical_world` | 0 | — |
-#
-# Declared parameter sets (`study.yaml` variants):
-#
-# - **uniform-upflow-transport** — `model_spatial_transport=fipy_uniform_upflow`
-# - **reduced-serpentinization** — `model_serpentinization=reduced`
-
-# ### The model & its parameters
-#
-# Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
-
-# **The model — `viva_genesis.composites.geochemical_world.geochemical_world`**
-#
-# og-00's real serpentinizing vent (genuine PHREEQC peridotite speciation feeding a genuine FiPy finite-volume advection-diffusion solve) rebuilt as the Phase-1 geochemical world: both mechanisms are selected through typed faces (model_serpentinization: phreeqc | reduced; model_spatial_transport: fipy convecting | fipy_uniform_upflow | fenics), so the model CLASS is a categorical sweep axis beside the physical parameters, and a ConservationLedgerProcess audits integrated sources against accumulated pools, charge balance, flux divergence and heat directionality (ledger/ledger_ok). The free parameters are the vg-data package 'vent_environment' (value-or-distribution, units, context, source, provenance class), which the environmental-calibration ensemble samples.
-
-# === Parameters — edit any value, then re-run from the Run cell below ===
-# Each entry is the composite's current default; the comment explains it.
-ov_viva_genesis_composites_geochemical_world_geochemical_world = {
-    'model_serpentinization' : 'phreeqc',   # Model class behind the 'serpentinization' face: phreeqc | reduced
-    'model_spatial_transport': 'fipy',   # Model class behind the 'spatial_transport' face: fenics | fipy | fipy_uniform_upflow
-    'flow_velocity'          : 0.001,   # Boundary water flux through the reaction zone (m/s) [vg-data: inferred]
-    'olivine_rate'           : 0.15,   # Olivine reaction extent per flow-saturated step [vg-data: hypothetical]
-    'pyroxene_fraction'      : 0.5,   # Diopside per mole olivine (peridotite vs dunite) [vg-data: calibrated]
-    'fe_fraction'            : 0.25,   # Fayalite fraction of the dissolving olivine [vg-data: extrapolated]
-    'heat_to_fluid_fraction' : 0.0008,   # Serpentinization enthalpy retained in the fluid [vg-data: calibrated]
-    'fluid_dic'              : 0.002,   # Inflowing-fluid DIC, Hadean-ocean proxy (molar) [vg-data: extrapolated]
-    'nx'                     : 40,   # FiPy finite-volume cells across the interface column
-}
-
-# ### Typed contract (declared interface)
-#
-# _The bigraph-schema typed ports + conservation predicates this study's composite must satisfy (audited in the workbench §Contract panel). Declared design — independent of whether a run exists yet._
-#
-# **Inputs**
-#
-# | port | type | units | bounds |
-# | --- | --- | --- | --- |
-# | `flow_velocity` | float | meter/second | >= 0.0 |
-# | `olivine_rate` | float | dimensionless | >= 0.0 |
-# | `fluid_dic` | float | molar | >= 0.0 |
-#
-# **Outputs**
-#
-# | port | type | units | bounds |
-# | --- | --- | --- | --- |
-# | `H2_flux` | float | mole/second | >= 0.0 |
-# | `temperature` | float | kelvin | [273.0, 673.0] |
-# | `pH` | float | dimensionless | [0.0, 14.0] |
-#
-# **Conditions**
-#
-# - `mass_balance` (invariant): `ledger.H2_residual == 0 and ledger.alkalinity_residual == 0`
-# - `charge_neutrality` (invariant): `abs(charge_imbalance) < 1e-6`
-# - `spatial_flux_conservation` (invariant): `flux_divergence_residual < 1e-3`
-# - `energy_directionality` (invariant): `ledger.energy_directionality == 1`
-
-# ### Run
-#
-# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
-
-# === Study: og-cal-vent-environment ===
-STUDY = 'og-cal-vent-environment'
-STUDY_DIR = REPO / 'workspace/studies' / STUDY
-STUDY_YAML = str(STUDY_DIR / "study.yaml")
-RUNS_DB = str(STUDY_DIR / "runs.db")
-
-# This study has no *recorded* runs yet. RERUN builds its declared
-# composite(s) live and runs them; a composite whose module processes
-# are not implemented yet reports the error instead of crashing.
-STEPS_Geochemical_world_vent_calibration_operating_point = 100
-INTERVAL_Geochemical_world_vent_calibration_operating_point = 1.0
-
-if RERUN:
-    from process_bigraph import Composite
-    try:
-        with quiet():  # keep per-step stdout out of the notebook
-            _ov = ov_viva_genesis_composites_geochemical_world_geochemical_world if 'ov_viva_genesis_composites_geochemical_world_geochemical_world' in dir() else None  # edits from the panel cell, if any
-            spec_viva_genesis_composites_geochemical_world_geochemical_world = materialize_composite('viva_genesis.composites.geochemical_world.geochemical_world', _ov)
-            _comp = Composite({'state': spec_viva_genesis_composites_geochemical_world_geochemical_world['state']}, core=core)
-            _comp.run(STEPS_Geochemical_world_vent_calibration_operating_point)
-        print('ran', 'Geochemical world (vent-calibration operating point)', f'(viva_genesis.composites.geochemical_world.geochemical_world) for', STEPS_Geochemical_world_vent_calibration_operating_point, 'steps')
-    except Exception as _e:
-        print(f"Geochemical world (vent-calibration operating point) not runnable yet: {type(_e).__name__}: {_e}")
-else:
-    print("RERUN=False — not re-simulating.")
-
-# ### Visualizations
-#
-# _Results are shown by the figures below, produced by the run above._
-
-# **vent-environment-posterior**
-
-# vent-environment-posterior
-_save_viz('og-cal-vent-environment', 'vent-environment-posterior', _render_one('local:VentEnvironmentPosterior', {'title': 'Lost-City-conditioned vent posterior (Decision view)', 'ensemble_json': 'workspace/studies/og-cal-vent-environment/artifacts/vent_environment_ensemble.json', 'report_json': 'workspace/studies/og-cal-vent-environment/artifacts/vent_environment_report.json'}, RUNS_DB, STUDY_YAML))
-
-# **vent-reactor-timeseries**
-
-# vent-reactor-timeseries
-_save_viz('og-cal-vent-environment', 'vent-reactor-timeseries', _render_one('local:VentReactorTimeseries', {'composite': 'viva_genesis.composites.geochemical_world.geochemical_world', 'n_steps': 120, 'title': 'Geochemical world at the operating point (World view)'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_geochemical_world_geochemical_world if 'ov_viva_genesis_composites_geochemical_world_geochemical_world' in dir() else None)))
-
-# ### Acceptance criteria
-#
-# _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
-#
-# | test | measures | passes if |
-# | --- | --- | --- |
-# | ledger-closes _(primary)_ | kind=derived path=max_ledger_mass_residual detail=worst-case |pool - integral| / integral over H2 and alkalinity | op <= value 1e-12 detail matter ledger residual at machine precision |
-# | energy-ledger-closes _(primary)_ | kind=derived path=max_ledger_energy_residual detail=worst-case |heat pool - integrated heat| / integral | op <= value 1e-12 detail energy ledger residual at machine precision |
-# | heat-released-not-absorbed _(diagnostic)_ | kind=derived path=energy_directionality_final detail=1 while the heat source has never been negative | op >= value 1.0 detail directionality witness holds through the run |
-# | charge-conserved _(diagnostic)_ | kind=derived path=max_abs_charge_imbalance detail=worst-case |charge imbalance| over the run | op <= value 1e-06 detail |charge imbalance| < 1e-6 throughout |
-# | dissolved-h2-in-lost-city-range _(primary)_ | kind=derived path=settled_dissolved_h2_mM detail=settled H2_flux / (flow_velocity x flux_area) mmol/kg=None | op range low 1.0 high 15.0 detail dissolved H2 in [1, 15] mmol/kg |
-# | posterior-viable-vent-fraction _(primary)_ | kind=derived path=posterior_viable_fraction detail=viable | consistent, headline transport class, from artifacts/vent_environment_report.json | op > value 0.0 detail posterior-viable fraction > 0 |
-# | structure-agreement-across-transport-classes _(primary)_ | kind=derived path=structure_agreement_viable detail=fraction of identical draws on which every class agrees about viability | op >= value 0.8 detail cross-class agreement >= 0.8 |
-
-# ### Literature anchors
-#
-# | expectation | model observable | source | status |
-# | --- | --- | --- | --- |
-# | Lost City end-member fluids 40-91 C, pH 9-10.8, dissolved H2 1-15 mmol/kg | settled outlet T, pH; dissolved H2 backed out of the H2 flux | Kelley 2001 / Kelley 2005 / Ludwig 2006 / Proskurowski 2008 | Used as the ABC conditioning windows (vg-data vent_environment.observations); 6/48 prior draws reproduce all three. |
-
 # ## Study: The Vent Wall as a Galvanic Cell: Which Limitation Stops Carbon Fixation, and Do the Model Classes Agree? (`og-01-cal-electrochemistry`)
 #
 # **Question.** Treating the vent wall as an explicit galvanic cell (Nernst potentials, Butler-Volmer kinetics), do the empirical and the electrochemical model classes agree on which limitation (thermodynamic, electrical, catalytic, transport) stops carbon fixation across the region both call favorable - the pre-registered test being at least 80% agreement on the limitation label?
@@ -2735,62 +2608,6 @@ _save_viz('og-07-alt-real-metabolite-exchange', 'metabolite-exchange-map', _rend
 # | Fatty-acid vesicles pass small uncharged solutes readily and charged solutes slowly | cnp_resources permeability classes (p_small_neutral, p_monoacid, p_diacid) | Jordan 2019 (vesicle system); measured charged-solute passage proposed (Mansy 2008, pending) | The emergence boundary (3e-9 m/s) sits 1-2 decades above the measured charged-solute range; the diacid value is hypothetical and swept. |
 # | Long tight pores retain solutes (residence set by the thermophoretic trap) | SpatialCouplingStep.k_wash (the residence axis) | Baaske 2007 / Mast 2010 | The function needs 20-100 s residence at 3e-9 m/s; at 500 s the feed depletes and it needs 1e-7 m/s. |
 
-# ## Study: Bounding the pH endmember — pyroxene fraction and seawater-mixing dilution (`og-00b-ph-endmember-sweep`)
-#
-# **Question.** How far does the og-00 habitability window move when the host-rock pyroxene fraction and the seawater-mixing dilution are varied, and does the habitable region survive at the acidic, dilute endmember the recent reassessment emphasises?
-
-# ### Parameters
-#
-# | simulation | composite | steps | params |
-# | --- | --- | --- | --- |
-# | `Vent reactor at the olivine endmember (og-00 canonical)` | `viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor` | 0 | — |
-
-# ### The model & its parameters
-#
-# Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
-
-# **The model — `viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor`**
-#
-# A reusable alkaline-vent reactor module. Module A = genuine PHREEQC serpentinization (phreeqpython + vendored llnl.dat): olivine dissolution + serpentine/brucite/magnetite equilibrium gives dissolved H2 (reducing power), alkalinity, heat, pe, and a charge-balanced fluid. Module B = genuine FiPy finite-volume advection-diffusion-reaction column transporting those sources across the vent-ocean interface and setting outlet T/pH/porosity. PHREEQC conserves mass+charge and FiPy's FVM conserves flux, satisfying the og-00 contract invariants; the coupled model is driven by a real IPhreeqc speciation (needs phreeqpython) and a real FiPy FVM solve (needs fipy).
-
-# === Parameters — edit any value, then re-run from the Run cell below ===
-# Each entry is the composite's current default; the comment explains it.
-ov_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor = {
-    'flow_velocity': 0.001,   # Boundary water flux through the reaction zone (m/s)
-    'olivine_rate' : 0.15,   # Olivine dissolution rate (mol per flow-saturated reaction step)
-    'nx'           : 40,   # FiPy finite-volume cells across the interface column
-}
-
-# ### Run
-#
-# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
-
-# === Study: og-00b-ph-endmember-sweep ===
-STUDY = 'og-00b-ph-endmember-sweep'
-STUDY_DIR = REPO / 'workspace/studies' / STUDY
-STUDY_YAML = str(STUDY_DIR / "study.yaml")
-RUNS_DB = str(STUDY_DIR / "runs.db")
-
-# This study has no *recorded* runs yet. RERUN builds its declared
-# composite(s) live and runs them; a composite whose module processes
-# are not implemented yet reports the error instead of crashing.
-STEPS_Vent_reactor_at_the_olivine_endmember_og_00_canonical = 100
-INTERVAL_Vent_reactor_at_the_olivine_endmember_og_00_canonical = 1.0
-
-if RERUN:
-    from process_bigraph import Composite
-    try:
-        with quiet():  # keep per-step stdout out of the notebook
-            _ov = ov_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor if 'ov_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor' in dir() else None  # edits from the panel cell, if any
-            spec_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor = materialize_composite('viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor', _ov)
-            _comp = Composite({'state': spec_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor['state']}, core=core)
-            _comp.run(STEPS_Vent_reactor_at_the_olivine_endmember_og_00_canonical)
-        print('ran', 'Vent reactor at the olivine endmember (og-00 canonical)', f'(viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor) for', STEPS_Vent_reactor_at_the_olivine_endmember_og_00_canonical, 'steps')
-    except Exception as _e:
-        print(f"Vent reactor at the olivine endmember (og-00 canonical) not runnable yet: {type(_e).__name__}: {_e}")
-else:
-    print("RERUN=False — not re-simulating.")
-
 # ## Study: Why do the empirical and Butler-Volmer classes disagree on the limitation label? (`og-01-cal-dx-label-disagreement`)
 #
 # **Question.** Is the empirical-vs-Butler-Volmer disagreement on the dominant limitation label (they agree on only 47% of the region both call favorable) a real structural difference in how each class represents electrical, catalytic, and transport limits, or an avoidable artifact of binning and threshold placement?
@@ -2858,140 +2675,6 @@ if RERUN:
         print(f"Electrochemical interface — both classes, og-01-cal canonical grid not runnable yet: {type(_e).__name__}: {_e}")
 else:
     print("RERUN=False — not re-simulating.")
-
-# ## Study: Coupled Geochemical Reaction Interface (`og-27-coupled-geochemical-reaction-interface`)
-#
-# **Question.** Can an evolving mineral–water interface sustainably supply carbon, H2, chemical gradients and catalysis to a prebiotic reaction network — and over what timescale, before mineral evolution (precipitation, passivation) chokes that supply?
-#
-# **Hypothesis.** A cell-resolved coupling of aqueous speciation (PHREEQC/PhreeqcRM), reactive transport (FiPy) and multiphase mineral equilibrium (Reaktoro), with explicit precipitation/dissolution and surface-passivation dynamics, will show H2, inorganic-carbon and gradient delivery sustained over transport timescales but declining on the slower mineral-evolution timescale as reactive surfaces passivate — i.e. the interface is a depleting supply with a measurable crossover time, not a perpetual one.
-#
-# **Claim.** An evolving mineral–water interface at a Lost City–type vent can be modeled as a coupled geochemical reactor whose precipitation, dissolution and surface passivation reshape — not merely sustain — its delivery of H2, inorganic carbon, pH/redox gradients and catalytic surface. Whether that delivery stays above the level a downstream reaction network needs, and for how long before mineral evolution throttles it, is the quantity this study measures; sustained reactive flux is a result to demonstrate, not an assumption.
-
-# ### Design — originally proposed
-#
-# _The mechanisms and methods proposed when this study was designed; the model **actually built** (and the tools it uses) is shown below. These may differ as the design was realized._
-#
-# **Proposed mechanisms**
-#
-# - serpentinization-driven H2 + alkalinity generation at the vent wall
-# - mixing-controlled pH/redox/ionic-activity gradients across the interface
-# - mineral precipitation/dissolution that opens and closes reactive porosity
-# - surface passivation degrading catalytic accessibility over time
-#
-# **Proposed models / methods**
-#
-# - PHREEQC/PhreeqcRM cell-resolved aqueous speciation + mineral reactions  [build_status: wrapper-needed]
-# - FiPy finite-volume multispecies reactive transport                      [in-workspace: viva_genesis.transport]
-# - Reaktoro multiphase equilibrium cross-check                             [in-workspace: viva_genesis.geochemistry]
-# - FEniCSx Poisson/Nernst–Planck verification of electrochemical driving forces [exists: viva_fenics]
-# - PetDB/EarthChem rock & mineral constraints for boundary composition
-#
-# **Key assumptions**
-#
-# - The mineral surface is dynamic (it precipitates, dissolves and passivates); a static-surface model is the control it must beat.
-# - Supply is a sustained-flux property over mineral-evolution time, not a terminal-state concentration.
-
-# ### Parameters
-#
-# | simulation | composite | steps | params |
-# | --- | --- | --- | --- |
-# | `Coupled Geochemical Reaction Interface` | `viva_genesis.composites.og_27_coupled_geochemical_reaction_interface.og_27_coupled_geochemical_reaction_interface` | 0 | — |
-
-# ### The model & its parameters
-#
-# Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
-
-# **The model — `viva_genesis.composites.og_27_coupled_geochemical_reaction_interface.og_27_coupled_geochemical_reaction_interface`**
-#
-# Study 27: og-00's real serpentinizing vent made into an EVOLVING interface. geochemical_world (genuine PHREEQC speciation -> genuine FiPy transport) is augmented with MineralSurfaceDynamicsProcess: the reacted fluid's real carbonate saturation index drives precipitation/dissolution (a porosity delta that composes with FiPy's) and passivates the catalytic surface over time. Reports time- and space-resolved supply of H2/carbon/gradients/catalysis and the crossover time at which mineral evolution throttles it, with closed mass/charge/energy ledgers.
-
-# === Parameters — edit any value, then re-run from the Run cell below ===
-# Each entry is the composite's current default; the comment explains it.
-ov_viva_genesis_composites_og_27_coupled_geochemical_reaction_interface_og_27_coupled_geochemical_reaction_interface = {
-    'flow_velocity': 0.001,   # Boundary water flux through the reaction zone (m/s)
-    'olivine_rate' : 0.15,   # Olivine reaction extent per flow-saturated step
-    'fluid_dic'    : 0.002,   # Inflowing-fluid DIC, Hadean-ocean proxy (molar)
-    'nx'           : 40,   # FiPy finite-volume cells across the interface column
-    'k_precip'     : 0.05,   # Precipitation rate coefficient (pore clogging, 1/s)
-    'k_dissolve'   : 0.02,   # Dissolution rate coefficient (pore opening, 1/s)
-    'k_passivate'  : 0.5,   # Catalytic passivation coefficient under precipitation
-}
-
-# ### Typed contract (declared interface)
-#
-# _The bigraph-schema typed ports + conservation predicates this study's composite must satisfy (audited in the workbench §Contract panel). Declared design — independent of whether a run exists yet._
-#
-# **Inputs**
-#
-# | port | type | units | bounds |
-# | --- | --- | --- | --- |
-# | `temperature` | float | kelvin | [273.0, 673.0] |
-# | `H2` | float | molar | >= 0.0 |
-#
-# **Outputs**
-#
-# | port | type | units | bounds |
-# | --- | --- | --- | --- |
-# | `reactive_flux` | float | mol/second |  |
-# | `interface_potential` | float | volt |  |
-# | `catalyst_accessibility` | float | dimensionless |  |
-#
-# **Conditions**
-#
-# - `mass_charge_balance` (invariant): `abs(residual_C)+abs(residual_H)+abs(residual_O)+abs(residual_charge) < tol`
-# - `reproducibility` (invariant): `solver and db and seed and scenario recorded`
-
-# ### Run
-#
-# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
-
-# === Study: og-27-coupled-geochemical-reaction-interface ===
-STUDY = 'og-27-coupled-geochemical-reaction-interface'
-STUDY_DIR = REPO / 'workspace/studies' / STUDY
-STUDY_YAML = str(STUDY_DIR / "study.yaml")
-RUNS_DB = str(STUDY_DIR / "runs.db")
-
-# This study has no *recorded* runs yet. RERUN builds its declared
-# composite(s) live and runs them; a composite whose module processes
-# are not implemented yet reports the error instead of crashing.
-STEPS_Coupled_Geochemical_Reaction_Interface = 100
-INTERVAL_Coupled_Geochemical_Reaction_Interface = 1.0
-
-if RERUN:
-    from process_bigraph import Composite
-    try:
-        with quiet():  # keep per-step stdout out of the notebook
-            _ov = ov_viva_genesis_composites_og_27_coupled_geochemical_reaction_interface_og_27_coupled_geochemical_reaction_interface if 'ov_viva_genesis_composites_og_27_coupled_geochemical_reaction_interface_og_27_coupled_geochemical_reaction_interface' in dir() else None  # edits from the panel cell, if any
-            spec_viva_genesis_composites_og_27_coupled_geochemical_reaction_interface_og_27_coupled_geochemical_reaction_interface = materialize_composite('viva_genesis.composites.og_27_coupled_geochemical_reaction_interface.og_27_coupled_geochemical_reaction_interface', _ov)
-            _comp = Composite({'state': spec_viva_genesis_composites_og_27_coupled_geochemical_reaction_interface_og_27_coupled_geochemical_reaction_interface['state']}, core=core)
-            _comp.run(STEPS_Coupled_Geochemical_Reaction_Interface)
-        print('ran', 'Coupled Geochemical Reaction Interface', f'(viva_genesis.composites.og_27_coupled_geochemical_reaction_interface.og_27_coupled_geochemical_reaction_interface) for', STEPS_Coupled_Geochemical_Reaction_Interface, 'steps')
-    except Exception as _e:
-        print(f"Coupled Geochemical Reaction Interface not runnable yet: {type(_e).__name__}: {_e}")
-else:
-    print("RERUN=False — not re-simulating.")
-
-# ### Visualizations
-#
-# _Results are shown by the figures below, produced by the run above._
-
-# **coupled-interface-evolution**
-
-# coupled-interface-evolution
-_save_viz('og-27-coupled-geochemical-reaction-interface', 'coupled-interface-evolution', _render_one('local:OgCoupledInterfaceViz', {'composite': 'viva_genesis.composites.og_27_coupled_geochemical_reaction_interface.og_27_coupled_geochemical_reaction_interface', 'n_steps': 80, 'title': 'The interface evolves — supply vs self-throttling', 'caption': 'Top row — outlet temperature, pH and H2 flux: the conditions and reducing power the vent wall delivers. Bottom row — porosity closing, catalytic accessibility passivating, and carbonate saturation index driving precipitation. Plainly: the wall delivers chemistry at first, but as minerals grow and clog it that delivery declines — the interface depletes rather than lasting forever.'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_og_27_coupled_geochemical_reaction_interface_og_27_coupled_geochemical_reaction_interface if 'ov_viva_genesis_composites_og_27_coupled_geochemical_reaction_interface_og_27_coupled_geochemical_reaction_interface' in dir() else None)))
-
-# ### Acceptance criteria
-#
-# _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
-#
-# | test | measures | passes if |
-# | --- | --- | --- |
-# | sustained-reactive-flux-over-timescales _(primary)_ | kind=observable detail=time- and space-resolved H2 + inorganic-carbon flux and pH/redox gradient over transport timescales | op threshold detail delivery at or above the downstream-required level over the transport timescale |
-# | mineral-evolution-supply-decay _(primary)_ | kind=observable detail=catalytic supply / reactive surface vs. the slower mineral-evolution timescale; crossover time below threshold | op threshold detail crossover time quantified (depleting-supply behaviour characterised) |
-# | electrochemical-driving-force-verified _(secondary)_ | kind=observable detail=interface potential from FiPy transport vs. independent FEniCSx Nernst–Planck solve | op threshold detail non-trivial driving force, cross-solver agreement to tolerance |
-# | coupled-conservation _(secondary)_ | kind=observable detail=C/H/O/charge/energy residuals across the coupled solve | op threshold detail residuals within tolerance; no untracked feed |
-# | handoff-27-to-29-complete _(secondary)_ | kind=observable detail=presence + typing of every field in the 27→29 transfer bundle | op threshold detail bundle complete and typed (satisfies 27→29 handoff validator) |
-# | dic-crossover-sweep _(primary)_ | kind=observable detail=H2 flux / precipitation / accessibility / porosity vs fluid_dic across SI=0 ledger closure=None | op threshold detail the crossover is characterized with the ledger closing at every point (window_exists resolved either way) |
 
 # ## Study: Endogenous Autocatalysis (A2): Formose and Reductive-TCA Routes (`og-autocatalysis-a2`)
 #
