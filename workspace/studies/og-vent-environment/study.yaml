@@ -986,6 +986,7 @@ visualizations:
     n_steps: 120
     title: Real vent reactor (PHREEQC + FiPy)
 - name: vent-serpentinization-engine
+  display: mechanism
   address: local:VentSerpentinizationEngine
   config:
     n_steps: 120
@@ -1002,6 +1003,7 @@ visualizations:
   config:
     title: The vent wall in 3-D — the across-wall thermal gradient (World view)
 - name: vent-environment-posterior
+  display: primary
   address: local:VentEnvironmentPosterior
   config:
     title: Lost-City-conditioned vent posterior (Decision view)

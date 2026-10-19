@@ -1116,6 +1116,7 @@ runs:
       detail: favorable pmf=427 mV vs Tutolo-2026 pmf=43 mV => usable gradient COLLAPSES at in-situ T/P
 visualizations:
 - name: electrochemistry-mechanism-map
+  display: mechanism
   address: local:ElectrochemistryMechanismMap
   config:
     title: The vent wall as a galvanic cell — an honest negative
@@ -1140,6 +1141,7 @@ visualizations:
     n_steps: 120
     title: Geology to reduced carbon (eQuilibrator + FiPy)
 - name: carbon-fixation-phase-map
+  display: primary
   address: local:CarbonFixationPhaseMap
   config:
     title: The carbon-fixation landscape (Decision view)

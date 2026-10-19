@@ -293,6 +293,7 @@ runs:
       detail: Mass/charge/energy ledger closes at every swept fluid_dic (ledger_ok_all=True).
 visualizations:
 - name: coupled-interface-evolution
+  display: primary
   address: local:OgCoupledInterfaceViz
   config:
     composite: >-

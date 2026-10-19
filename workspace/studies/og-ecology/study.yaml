@@ -1460,6 +1460,7 @@ visualizations:
       workspace/studies/og-ecology/artifacts/og-07-ecology-before-luca/metacommunity_robustness_grid.json
     title: Where cross-feeding robustness emerges
 - name: community-function-map
+  display: primary
   address: local:CommunityFunctionMap
   config:
     title: Where a function no lineage can perform emerges (Decision view)

@@ -380,6 +380,7 @@ visualizations:
     composite: viva_genesis.composites.thermophoretic_concentration.thermophoretic_concentration
     title: The thermal trap concentrates an individual
 - name: pore-localization-map
+  display: primary
   address: local:PoreLocalizationMap
   config:
     grid_json: >-

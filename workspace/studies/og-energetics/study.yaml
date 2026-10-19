@@ -1608,6 +1608,7 @@ visualizations:
   config:
     title: Energy provenance — external to internal (Mechanism view)
 - name: bioenergetic-survival-map
+  display: primary
   address: local:BioenergeticSurvivalMap
   config:
     grid_json: >-
@@ -1629,6 +1630,7 @@ visualizations:
       workspace/studies/og-energetics/artifacts/og-energy-alt-internalization-threshold/internalization_threshold_report.json
     activity: '1'
 - name: energy-coupling
+  display: mechanism
   address: local:OgEnergyCouplingViz
   config:
     title: The carrier buys gradient-dip resilience, not throughput

@@ -682,6 +682,7 @@ visualizations:
     n_steps: 120
     title: Reduced-nitrogen assimilation (World view)
 - name: c-to-n-supply-balance
+  display: primary
   address: local:NitrogenCarbonBalanceViz
   config:
     composite: viva_genesis.composites.nitrogen_assimilation.reduced_nitrogen_reactor
@@ -700,6 +701,7 @@ visualizations:
     n_steps: 120
     title: Phosphorus bottleneck — P-species trajectories (World view)
 - name: phosphorus-mechanism
+  display: mechanism
   address: local:PhosphorusMechanismViz
   config:
     composite: viva_genesis.composites.phosphorus_availability.phosphorus_availability

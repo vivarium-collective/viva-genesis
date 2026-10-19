@@ -1203,6 +1203,7 @@ visualizations:
       workspace/studies/og-network-persistence/artifacts/og-02-alt-reaction-universe/motif_enrichment.json
     arm: formose_feed
 - name: protometabolic-network
+  display: primary
   address: local:ProtometabolicNetwork
   config:
     composite: viva_genesis.composites.protometabolism.protometabolic_network

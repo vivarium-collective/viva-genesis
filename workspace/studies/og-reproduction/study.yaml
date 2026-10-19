@@ -636,11 +636,13 @@ visualizations:
     composite: viva_genesis.composites.osmotic_growth_division.osmotic_growth_division
     title: Growth & division — volume, concentration, division events
 - name: osmotic-coupling-mechanism
+  display: mechanism
   address: local:OsmoticCouplingMechanism
   config:
     composite: viva_genesis.composites.osmotic_growth_division.osmotic_growth_division
     title: The osmotic coupling — why too permeable starves, too impermeable lyses
 - name: growth-division-map
+  display: primary
   address: local:GrowthDivisionMap
   config:
     composite: viva_genesis.composites.osmotic_growth_division.osmotic_growth_division
