@@ -794,6 +794,7 @@ studies:
 - og-30-spatially-integrated-protometabolism
 - og-31-protometabolism-to-amphiphiles
 - og-32-first-self-maintaining-protocell
+- og-32b-fatty-acid-vesicle-stability
 - og-33-chemically-coupled-growth-and-division
 - og-34-chemical-heredity-and-selection
 - og-35-chemical-energy-coupling
@@ -1138,6 +1139,11 @@ plan_gates:
     member_studies:
       - og-31-protometabolism-to-amphiphiles
       - og-32-first-self-maintaining-protocell
+      # og-32b REPLACES og-32's DLPC/DPPC phospholipid stand-in with real fatty-acid
+      # vesicle MD (run + qualified); the gate-earning Gate-C boundary is now the
+      # real protocell amphiphile. Converged chain/charge window = GPU gold-standard
+      # (og-32c self-assembly, og-32a PMF), tracked not hidden.
+      - og-32b-fatty-acid-vesicle-stability
     pending_studies:
       # Membrane-MD sub-program (PLANNED; honest-bar — MD tests candidate compositions, it does
       # NOT by itself demonstrate endogenous membrane formation). Fuller planned studies that

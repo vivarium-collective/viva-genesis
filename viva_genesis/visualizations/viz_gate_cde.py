@@ -544,3 +544,122 @@ class OgStochasticEcologyViz(Visualization):
         if rep is None:
             return {"html": _missing("gate_e_ecology.json")}
         return {"html": stochastic_ecology_figure(rep, title=self.config["title"])}
+
+
+# =========================================================================== #
+# og-32b — Fatty-Acid Vesicle Stability (Gate C, real amphiphile — QUALIFIED)
+# =========================================================================== #
+def fatty_acid_vesicle_stability_figure(rep: dict, title: str = "") -> str:
+    from plotly.subplots import make_subplots
+
+    arms = rep.get("arms", [])
+    thr = rep.get("verdict_thresholds", {})
+    inner_min = float(thr.get("inner_leaflet_min", 0.20))
+    cv_max = float(thr.get("head_radial_cv_max", 0.35))
+    hd = rep.get("headline", {})
+
+    prot = sorted([a for a in arms if a.get("protonated")], key=lambda a: a["chain"])
+    null = sorted([a for a in arms if not a.get("protonated")], key=lambda a: a["chain"])
+
+    def tone(a):
+        return S.TEAL if a["verdict"] == "stable_vesicle" else S.RUST
+
+    fig = make_subplots(
+        rows=1, cols=2, horizontal_spacing=0.14,
+        subplot_titles=("Protonated fatty-acid vesicles hold a bilayer (C10-C16)",
+                        "The charged-only null micellises at the short-chain corner"))
+
+    # P1 — inner-leaflet retention vs chain, protonated arms (bilayer-vs-micelle)
+    xs = [a["chain"] for a in prot]
+    ys = [a["inner_leaflet_fraction"] for a in prot]
+    es = [a.get("inner_leaflet_fraction_std", 0.0) for a in prot]
+    fig.add_scatter(
+        x=xs, y=ys, mode="lines+markers",
+        line=dict(color=S.SLATE, width=1.5),
+        marker=dict(color=[tone(a) for a in prot], size=12,
+                    line=dict(color=S.INK, width=1)),
+        error_y=dict(type="data", array=es, visible=True, color=S.SLATE, thickness=1),
+        showlegend=False, row=1, col=1)
+    fig.add_hline(y=inner_min, line=dict(color=S.SLATE, width=1, dash="dot"), row=1, col=1)
+    fig.add_annotation(x=xs[len(xs) // 2] if xs else 13, y=inner_min, yshift=-12,
+                       xref="x1", yref="y1", showarrow=False,
+                       text=f"bilayer threshold (inner-leaflet >= {inner_min:g})",
+                       font=S.FONT(9, S.SLATE))
+    fig.update_xaxes(title_text="fatty-acid chain length (carbons)",
+                     tickvals=xs, row=1, col=1)
+    fig.update_yaxes(title_text=S.quantity_label("inner_leaflet_fraction",
+                                                  unit="dimensionless"),
+                     range=[0, max(0.5, (max(ys) if ys else 0.4) + 0.1)], row=1, col=1)
+
+    # P2 — head-radial CV (dispersal), protonated vs charged-null at shared chains
+    null_chains = [a["chain"] for a in null]
+    pairs = [c for c in null_chains]
+    cats = [f"C{c}" for c in pairs]
+    prot_by = {a["chain"]: a for a in prot}
+    cv_prot = [prot_by[c]["head_radial_cv"] if c in prot_by else 0.0 for c in pairs]
+    cv_prot_e = [prot_by[c].get("head_radial_cv_std", 0.0) if c in prot_by else 0.0 for c in pairs]
+    null_by = {a["chain"]: a for a in null}
+    cv_null = [null_by[c]["head_radial_cv"] for c in pairs]
+    cv_null_e = [null_by[c].get("head_radial_cv_std", 0.0) for c in pairs]
+    fig.add_bar(x=cats, y=cv_prot, name="protonated (COOH)", marker_color=S.TEAL,
+                error_y=dict(type="data", array=cv_prot_e, visible=True, color=S.INK, thickness=1),
+                row=1, col=2)
+    fig.add_bar(x=cats, y=cv_null, name="charged-only null (COO-)", marker_color=S.RUST,
+                error_y=dict(type="data", array=cv_null_e, visible=True, color=S.INK, thickness=1),
+                row=1, col=2)
+    fig.add_hline(y=cv_max, line=dict(color=S.AMBER, width=1.5, dash="dot"), row=1, col=2)
+    fig.add_annotation(x=0.5, y=cv_max, xref="x2 domain", yref="y2", yshift=9, showarrow=False,
+                       text=f"micelle threshold (CV > {cv_max:g})", font=S.FONT(9, S.AMBER))
+    fig.update_yaxes(title_text=S.quantity_label("head_radial_cv", unit="dimensionless"),
+                     row=1, col=2)
+
+    fig.update_layout(S.base_layout(height=430))
+    fig.update_layout(barmode="group", legend=dict(orientation="h", y=-0.22, x=0.55))
+    inner = fig.to_html(full_html=False, include_plotlyjs="cdn",
+                        config={"displayModeBar": False})
+
+    win = hd.get("stable_chain_window", [])
+    nseed = prot[0]["n_seeds"] if prot else "?"
+    cap = (
+        f"<b>Left (chain-length window):</b> real single-chain fatty-acid vesicles (viva-openmm Martini 3, "
+        f"{nseed} independent MD seeds/arm) retain a closed bilayer - a populated INNER leaflet above the "
+        f"{inner_min:g} threshold (a water lumen + two leaflets, not a single-surface micelle) - across the "
+        f"protonated C10-C16 axis (stable chains: {win}; TEAL=bilayer, RUST=micelle). <b>Right (matched "
+        f"null):</b> the SAME fatty acid with fully-ionised charged-only heads (COO-) micellises at the "
+        f"short-chain corner - its head-radial CV crosses the {cv_max:g} dispersal threshold while the "
+        f"protonated arm stays coherent - the control that should fail. Longer charged chains do NOT disrupt "
+        f"within this short CPU-MD window. <b>Honest scope:</b> a SHORT-MD stability TREND (~0.8 ns/seed), "
+        f"not a converged micellisation equilibrium; the converged chain-length/charge window + the pH-resolved "
+        f"(mixed-protonation) boundary are the GPU gold-standard follow-ups (og-32c self-assembly, og-32a PMF). "
+        f"The SP2/SQ5n head is a tracked Martini-3 building-block proposed_input; the C1 tails are authoritative. "
+        f"This replaces og-32's DLPC/DPPC phospholipid stand-in with the real protocell amphiphile. Verdict "
+        f"<b>qualified</b>."
+    )
+    return S.frame(inner, title=(title or "Fatty-acid vesicle stability"),
+                   phase="Gate C", view="Decision", tier="mechanistic_prediction",
+                   caption_text=cap, caption_prefix="How to read", tone="neutral", max_width=1120)
+
+
+class OgFattyAcidVesicleStabilityViz(Visualization):
+    """og-32b Gate C: REAL single-chain fatty-acid vesicles (viva-openmm Martini 3) hold a closed
+    bilayer across the C10-C16 chain window over >=3 MD seeds, while the matched charged-only null
+    micellises at the short-chain corner. Reads vesicle_stability.json. Replaces og-32's DLPC/DPPC
+    phospholipid stand-in with the real amphiphile. Qualified (short-MD trend)."""
+
+    config_schema = {
+        "title": {"_type": "string", "_default": ""},
+        "report_json": {"_type": "string",
+                        "_default": "workspace/studies/og-32b-fatty-acid-vesicle-stability/artifacts/vesicle_stability.json"},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        rep = _load(self.config["report_json"])
+        if rep is None:
+            return {"html": _missing("vesicle_stability.json")}
+        return {"html": fatty_acid_vesicle_stability_figure(rep, title=self.config["title"])}

@@ -1,0 +1,267 @@
+{
+  "metric": "end-state bilayer-shell retention (SHORT MD stability trend)",
+  "verdict_thresholds": {
+    "inner_leaflet_min": 0.2,
+    "head_radial_cv_max": 0.35,
+    "shell_band_nm": 1.5
+  },
+  "arms": [
+    {
+      "label": "C10_protonated",
+      "chain": 10,
+      "protonated": true,
+      "arm": "protonated",
+      "n_seeds": 3,
+      "n_stable_seeds": 3,
+      "n_lipids": 1054,
+      "n_lipid_beads": 3162,
+      "n_water": 1500,
+      "radius_nm": 5.0,
+      "prod_steps": 40000,
+      "shell_integrity": 0.935,
+      "shell_integrity_std": 0.006,
+      "head_radial_cv": 0.227,
+      "head_radial_cv_std": 0.009,
+      "inner_leaflet_fraction": 0.388,
+      "inner_leaflet_fraction_std": 0.008,
+      "verdict": "stable_vesicle",
+      "seed_metrics": [
+        {
+          "shell_integrity": 0.944,
+          "head_radial_cv": 0.237,
+          "inner_leaflet_fraction": 0.395,
+          "verdict": "stable_vesicle"
+        },
+        {
+          "shell_integrity": 0.929,
+          "head_radial_cv": 0.216,
+          "inner_leaflet_fraction": 0.391,
+          "verdict": "stable_vesicle"
+        },
+        {
+          "shell_integrity": 0.933,
+          "head_radial_cv": 0.228,
+          "inner_leaflet_fraction": 0.377,
+          "verdict": "stable_vesicle"
+        }
+      ],
+      "wall_s": 161.5
+    },
+    {
+      "label": "C12_protonated",
+      "chain": 12,
+      "protonated": true,
+      "arm": "protonated",
+      "n_seeds": 3,
+      "n_stable_seeds": 3,
+      "n_lipids": 1054,
+      "n_lipid_beads": 4216,
+      "n_water": 1500,
+      "radius_nm": 5.0,
+      "prod_steps": 40000,
+      "shell_integrity": 0.798,
+      "shell_integrity_std": 0.011,
+      "head_radial_cv": 0.234,
+      "head_radial_cv_std": 0.003,
+      "inner_leaflet_fraction": 0.408,
+      "inner_leaflet_fraction_std": 0.008,
+      "verdict": "stable_vesicle",
+      "seed_metrics": [
+        {
+          "shell_integrity": 0.812,
+          "head_radial_cv": 0.236,
+          "inner_leaflet_fraction": 0.416,
+          "verdict": "stable_vesicle"
+        },
+        {
+          "shell_integrity": 0.784,
+          "head_radial_cv": 0.23,
+          "inner_leaflet_fraction": 0.397,
+          "verdict": "stable_vesicle"
+        },
+        {
+          "shell_integrity": 0.799,
+          "head_radial_cv": 0.237,
+          "inner_leaflet_fraction": 0.41,
+          "verdict": "stable_vesicle"
+        }
+      ],
+      "wall_s": 1130.2
+    },
+    {
+      "label": "C14_protonated",
+      "chain": 14,
+      "protonated": true,
+      "arm": "protonated",
+      "n_seeds": 3,
+      "n_stable_seeds": 3,
+      "n_lipids": 1054,
+      "n_lipid_beads": 4216,
+      "n_water": 1500,
+      "radius_nm": 5.0,
+      "prod_steps": 40000,
+      "shell_integrity": 0.812,
+      "shell_integrity_std": 0.012,
+      "head_radial_cv": 0.234,
+      "head_radial_cv_std": 0.004,
+      "inner_leaflet_fraction": 0.409,
+      "inner_leaflet_fraction_std": 0.01,
+      "verdict": "stable_vesicle",
+      "seed_metrics": [
+        {
+          "shell_integrity": 0.83,
+          "head_radial_cv": 0.229,
+          "inner_leaflet_fraction": 0.399,
+          "verdict": "stable_vesicle"
+        },
+        {
+          "shell_integrity": 0.804,
+          "head_radial_cv": 0.238,
+          "inner_leaflet_fraction": 0.423,
+          "verdict": "stable_vesicle"
+        },
+        {
+          "shell_integrity": 0.803,
+          "head_radial_cv": 0.235,
+          "inner_leaflet_fraction": 0.406,
+          "verdict": "stable_vesicle"
+        }
+      ],
+      "wall_s": 278.5
+    },
+    {
+      "label": "C16_protonated",
+      "chain": 16,
+      "protonated": true,
+      "arm": "protonated",
+      "n_seeds": 3,
+      "n_stable_seeds": 3,
+      "n_lipids": 1054,
+      "n_lipid_beads": 5270,
+      "n_water": 1500,
+      "radius_nm": 5.0,
+      "prod_steps": 40000,
+      "shell_integrity": 0.731,
+      "shell_integrity_std": 0.013,
+      "head_radial_cv": 0.247,
+      "head_radial_cv_std": 0.003,
+      "inner_leaflet_fraction": 0.389,
+      "inner_leaflet_fraction_std": 0.008,
+      "verdict": "stable_vesicle",
+      "seed_metrics": [
+        {
+          "shell_integrity": 0.722,
+          "head_radial_cv": 0.248,
+          "inner_leaflet_fraction": 0.389,
+          "verdict": "stable_vesicle"
+        },
+        {
+          "shell_integrity": 0.749,
+          "head_radial_cv": 0.242,
+          "inner_leaflet_fraction": 0.379,
+          "verdict": "stable_vesicle"
+        },
+        {
+          "shell_integrity": 0.722,
+          "head_radial_cv": 0.25,
+          "inner_leaflet_fraction": 0.398,
+          "verdict": "stable_vesicle"
+        }
+      ],
+      "wall_s": 1620.2
+    },
+    {
+      "label": "C14_charged_null",
+      "chain": 14,
+      "protonated": false,
+      "arm": "charged_null",
+      "n_seeds": 3,
+      "n_stable_seeds": 3,
+      "n_lipids": 1054,
+      "n_lipid_beads": 4216,
+      "n_water": 1500,
+      "radius_nm": 5.0,
+      "prod_steps": 40000,
+      "shell_integrity": 0.791,
+      "shell_integrity_std": 0.006,
+      "head_radial_cv": 0.296,
+      "head_radial_cv_std": 0.009,
+      "inner_leaflet_fraction": 0.424,
+      "inner_leaflet_fraction_std": 0.005,
+      "verdict": "stable_vesicle",
+      "seed_metrics": [
+        {
+          "shell_integrity": 0.799,
+          "head_radial_cv": 0.298,
+          "inner_leaflet_fraction": 0.429,
+          "verdict": "stable_vesicle"
+        },
+        {
+          "shell_integrity": 0.785,
+          "head_radial_cv": 0.284,
+          "inner_leaflet_fraction": 0.417,
+          "verdict": "stable_vesicle"
+        },
+        {
+          "shell_integrity": 0.79,
+          "head_radial_cv": 0.305,
+          "inner_leaflet_fraction": 0.425,
+          "verdict": "stable_vesicle"
+        }
+      ],
+      "wall_s": 568.1
+    },
+    {
+      "label": "C10_charged_null",
+      "chain": 10,
+      "protonated": false,
+      "arm": "charged_null",
+      "n_seeds": 3,
+      "n_stable_seeds": 0,
+      "n_lipids": 1054,
+      "n_lipid_beads": 3162,
+      "n_water": 1500,
+      "radius_nm": 5.0,
+      "prod_steps": 40000,
+      "shell_integrity": 0.754,
+      "shell_integrity_std": 0.007,
+      "head_radial_cv": 0.433,
+      "head_radial_cv_std": 0.009,
+      "inner_leaflet_fraction": 0.389,
+      "inner_leaflet_fraction_std": 0.005,
+      "verdict": "micellised",
+      "seed_metrics": [
+        {
+          "shell_integrity": 0.757,
+          "head_radial_cv": 0.421,
+          "inner_leaflet_fraction": 0.395,
+          "verdict": "micellised"
+        },
+        {
+          "shell_integrity": 0.744,
+          "head_radial_cv": 0.437,
+          "inner_leaflet_fraction": 0.382,
+          "verdict": "micellised"
+        },
+        {
+          "shell_integrity": 0.76,
+          "head_radial_cv": 0.442,
+          "inner_leaflet_fraction": 0.391,
+          "verdict": "micellised"
+        }
+      ],
+      "wall_s": 155.7
+    }
+  ],
+  "headline": {
+    "stable_chain_window": [
+      10,
+      12,
+      14,
+      16
+    ],
+    "all_protonated_stable": true,
+    "null_micellises": false,
+    "quick": false
+  }
+}
