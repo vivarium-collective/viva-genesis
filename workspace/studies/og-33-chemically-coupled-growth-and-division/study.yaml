@@ -277,8 +277,7 @@ artifacts:
 - path: workspace/studies/og-33-chemically-coupled-growth-and-division/artifacts/gate_d_growth_division.json
   description: Gate D first-half growth/division — coupled-vs-null feed sweep, geometry, viability, verdict (qualified).
 parent_studies:
-- {study: og-31-protometabolism-to-amphiphiles, condition: tests-passed}
-- {study: og-32-first-self-maintaining-protocell, condition: tests-passed}
+- {study: og-self-compartmentation, condition: tests-passed}
 key_assumptions:
 - Input fluxes are held equal to the matched null (growth-decoupled or imposed-division) - emergent growth/division must be a margin over it, not more feed.
 - Division triggers at a MEASURED area-doubling budding geometry (hanczyc/budin), not a value tuned to force division (Option B; CG membrane mechanics is a follow-up og-33a).

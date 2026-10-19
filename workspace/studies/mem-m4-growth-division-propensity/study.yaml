@@ -34,7 +34,7 @@ primary_output: >-
 first_cut_forthcoming: >-
   A lightweight amphiphile-insertion / area-growth MD on a preassembled vesicle (planned, not
   yet scaffolded or named). Soft forward-reference only; hardened later.
-extends: mem-m1-amphiphile-assembly (vesicles); mem-m2/mem-m3 (their transport + stability)
+extends: og-self-compartmentation (the mem-m1 amphiphile-assembly, mem-m2 permeability/retention, mem-m3 stability arms — folded there)
 baseline:
 - name: No-supply control (no amphiphile added)
   planned: true

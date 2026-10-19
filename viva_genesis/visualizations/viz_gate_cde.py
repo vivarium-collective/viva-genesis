@@ -141,9 +141,9 @@ class OgSelfMaintainingProtocellViz(Visualization):
     config_schema = {
         "title": {"_type": "string", "_default": ""},
         "report_json": {"_type": "string",
-                        "_default": "workspace/studies/og-32-first-self-maintaining-protocell/artifacts/gate_c_full.json"},
+                        "_default": "workspace/studies/og-self-compartmentation/artifacts/og-32-first-self-maintaining-protocell/gate_c_full.json"},
         "md_json": {"_type": "string",
-                    "_default": "workspace/studies/og-32-first-self-maintaining-protocell/artifacts/md_bilayer_observables.json"},
+                    "_default": "workspace/studies/og-self-compartmentation/artifacts/og-32-first-self-maintaining-protocell/md_bilayer_observables.json"},
     }
 
     def inputs(self):
@@ -649,7 +649,7 @@ class OgFattyAcidVesicleStabilityViz(Visualization):
     config_schema = {
         "title": {"_type": "string", "_default": ""},
         "report_json": {"_type": "string",
-                        "_default": "workspace/studies/og-32b-fatty-acid-vesicle-stability/artifacts/vesicle_stability.json"},
+                        "_default": "workspace/studies/og-self-compartmentation/artifacts/og-32b-fatty-acid-vesicle-stability/vesicle_stability.json"},
     }
 
     def inputs(self):

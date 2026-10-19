@@ -208,7 +208,7 @@ pipeline_gate:
   prerequisites:
   - study: og-growth-division
     condition: tests-passed
-  - study: og-04-alt-endogenous-boundary
+  - study: og-self-compartmentation
     condition: tests-passed
   state: passed
 verdict: supported

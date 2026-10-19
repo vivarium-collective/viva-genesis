@@ -1671,7 +1671,7 @@ baseline:
   params: {}
   planned: false
 parent_studies:
-- study: og-32-first-self-maintaining-protocell
+- study: og-self-compartmentation
   condition: tests-passed
 - study: og-heredity
   condition: tests-passed

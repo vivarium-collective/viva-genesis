@@ -452,7 +452,7 @@ guidelines:
     tier_reading_of_current_studies:
       reproduction: [og-00-vent-reactor-baseline, og-01-geology-to-reduced-carbon (Preiner/Hudson yields), og-cal-vent-environment (conditioning step)]
       mechanistic_prediction: [og-01-geology-to-reduced-carbon (Tutolo collapse), og-network-persistence,
-        og-spatial-concentration, og-04-mineral-compartments-to-protocells, og-res-nitrogen-assimilation,
+        og-spatial-concentration, og-self-compartmentation, og-res-nitrogen-assimilation,
         og-res-phosphorus-availability, og-energetics, og-heredity, og-independence, og-growth-division, og-cal-vent-environment (posterior prediction),
         og-01-cal-electrochemistry (mechanism map; the Altair current-window check is at reproduction tier)]
       conceptual_demonstration: [og-07-ecology-before-luca, og-07-alt-real-metabolite-exchange]
@@ -537,7 +537,7 @@ guidelines:
   - phase: 5
     name: Endogenous boundary + growth/division
     status: built-and-run
-    studies: [og-04-mineral-compartments-to-protocells, og-growth-division, og-04-alt-endogenous-boundary, og-growth-alt-physical-reproduction]
+    studies: [og-self-compartmentation, og-growth-division, og-growth-alt-physical-reproduction]
     component: AmphiphileSynthesisProcess; BoundaryFormation / Division / Lysis / Extinction structural rewrites on agents map[vg_individual]
     data_package: amphiphile_assembly (Jordan 2019; Lu 2024)
     exit_criterion: first continuous transition from chemistry to a growing, dividing individual with rewrite_residual == 0
@@ -711,8 +711,8 @@ at_a_glance:
     at equal vent feed the concentrating pore ignites the full network (net carbon flux +4.5e-4, 17 persistent
     species) vs a matched well-mixed control that stays dark; the benefit is a bounded porosity window. Also
     resolves Gate A1 feed-plausibility.
-- study: og-04-mineral-compartments-to-protocells
-  role: The first boundary — amphiphile compartments give retention without isolation
+- study: og-self-compartmentation
+  role: 'Self-compartmentation — from a self-made amphiphile boundary (retention without isolation) to the first self-maintaining protocell whose membrane pays on persistence, with real fatty-acid vesicle MD replacing the phospholipid stand-in; studied at several fidelities as arms'
 - study: og-energetics
   role: Proto-energetics — capturing geochemical free energy into a transferable store, internalizing it
     under selection, and coupling a carrier; which coupling chemistry pays, studied at several fidelities as
@@ -735,8 +735,6 @@ at_a_glance:
 - study: og-growth-division
   role: Growth and division — metabolism changes the compartment's physical fate (grow->divide vs lyse
     vs starve)
-- study: og-04-alt-endogenous-boundary
-  role: The endogenous boundary — a protocell boundary built from the campaign's own carbon chemistry
 - study: og-growth-alt-physical-reproduction
   role: Physical reproduction — a growing, dividing individual builds a multi-generation lineage in the agents map
 - study: og-cal-vent-environment
@@ -757,7 +755,6 @@ studies:
 - og-01-geology-to-reduced-carbon
 - og-network-persistence
 - og-spatial-concentration
-- og-04-mineral-compartments-to-protocells
 - og-energetics
 - og-heredity
 - og-07-ecology-before-luca
@@ -767,26 +764,18 @@ studies:
 - og-growth-division
 - og-cal-vent-environment
 - og-01-cal-electrochemistry
-- og-04-alt-endogenous-boundary
 - og-growth-alt-physical-reproduction
 - og-07-alt-real-metabolite-exchange
 - og-00b-ph-endmember-sweep
 - og-01-cal-dx-label-disagreement
 - og-27-coupled-geochemical-reaction-interface
 - og-autocatalysis-a2
-- og-31-protometabolism-to-amphiphiles
-- og-32-first-self-maintaining-protocell
-- og-32b-fatty-acid-vesicle-stability
+- og-self-compartmentation
 - og-33-chemically-coupled-growth-and-division
 - og-36-stochastic-protocell-ecology
 - og-independence
-- mem-m1-amphiphile-assembly
-- mem-m2-permeability-retention
-- mem-m3-stability-gradients
 - mem-m4-growth-division-propensity
-- mem-m5-functional-membrane-window
 - og-ev-competing-environments
-- og-ev-chemistry-membrane-overlap
 acceptance_criteria:
 - study: og-00-vent-reactor-baseline
   behavior: vent-pH-in-lostcity-range
@@ -796,7 +785,7 @@ acceptance_criteria:
   behavior: sustained-carbon-throughput
 - study: og-spatial-concentration
   behavior: enrichment-resolved-within-convergence
-- study: og-04-mineral-compartments-to-protocells
+- study: og-self-compartmentation
   behavior: retention-without-isolation
 - study: og-energetics
   behavior: reduced-gradient-dependence
@@ -816,7 +805,7 @@ acceptance_criteria:
   behavior: currency-maintained
 - study: og-growth-division
   behavior: net-growth-to-division
-- study: og-04-alt-endogenous-boundary
+- study: og-self-compartmentation
   behavior: boundary-forms-from-chemistry
 - study: og-growth-alt-physical-reproduction
   behavior: lineage-reaches-three-generations
@@ -1110,24 +1099,13 @@ plan_gates:
     name: Self-compartmentation
     extends: B
     member_studies:
-      - og-31-protometabolism-to-amphiphiles
-      - og-32-first-self-maintaining-protocell
-      # og-32b REPLACES og-32's DLPC/DPPC phospholipid stand-in with real fatty-acid
-      # vesicle MD (run + qualified); the gate-earning Gate-C boundary is now the
-      # real protocell amphiphile. Converged chain/charge window = GPU gold-standard
-      # (og-32c self-assembly, og-32a PMF), tracked not hidden.
-      - og-32b-fatty-acid-vesicle-stability
-    pending_studies:
-      # Membrane-MD sub-program (PLANNED; honest-bar — MD tests candidate compositions, it does
-      # NOT by itself demonstrate endogenous membrane formation). Fuller planned studies that
-      # EXTEND the already-qualified Gate C; they do not contribute to its verdict (which rests on
-      # the member_studies above). First-cut seeds forthcoming. See membrane-md-studies-m1-m5-designs.md.
-      - {slug: mem-m1-amphiphile-assembly, title: Amphiphile assembly & composition, scaffolded: true, planned: true, program: membrane-md}
-      - {slug: mem-m2-permeability-retention, title: Permeability & selective retention, scaffolded: true, planned: true, program: membrane-md}
-      - {slug: mem-m3-stability-gradients, title: Stability across environmental gradients, scaffolded: true, planned: true, program: membrane-md}
-      - {slug: mem-m5-functional-membrane-window, title: Functional membrane window (integrative), scaffolded: true, planned: true, program: membrane-md}
-      # Evidence-expansion discriminator (PLANNED; EXTENDS Gate C, does not change its verdict).
-      - {slug: og-ev-chemistry-membrane-overlap, title: Chemistry-membrane composition-overlap, scaffolded: true, planned: true, program: evidence-expansion}
+      - og-self-compartmentation
+    # og-self-compartmentation consolidates og-31 (Gate-C membrane benefit), og-32 (first
+    # self-maintaining protocell, canonical), og-32b (real fatty-acid vesicle MD, replacing og-32's
+    # DLPC/DPPC phospholipid stand-in), plus the membrane-MD sub-program (mem-m1/m2/m3/m5) and the
+    # chemistry-membrane composition-overlap discriminator (og-ev) as PLANNED arms. The GPU
+    # gold-standard PMF (og-32a) and self-assembly (og-32c) are tracked follow-ups there, not hidden.
+    pending_studies: []
     criterion: >-
       Metabolism makes its own membrane and benefits from it — the compartmented system must
       beat a matched ablation (no endogenous membrane) with chemical input fluxes held equal.

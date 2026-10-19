@@ -576,7 +576,7 @@ def _tolerance_sensitivity_max(reader, test: dict, ws_root: Any) -> float:
 # would apply. The derived-scalar names deliberately do NOT collide with any
 # emitted observable, so _resolve_series raises and these computers run.
 _PHASE5_BOUNDARY_REPORT = (
-    "workspace/studies/og-04-alt-endogenous-boundary/artifacts/"
+    "workspace/studies/og-self-compartmentation/artifacts/og-04-alt-endogenous-boundary/"
     "endogenous_boundary_report.json")
 _PHASE5_GROWTH_REPORT = (
     "workspace/studies/og-growth-alt-physical-reproduction/artifacts/"

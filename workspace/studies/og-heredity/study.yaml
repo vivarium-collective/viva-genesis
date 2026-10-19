@@ -1469,7 +1469,7 @@ baseline:
   params: {}
   planned: false
 parent_studies:
-- study: og-32-first-self-maintaining-protocell
+- study: og-self-compartmentation
   condition: tests-passed
 - study: og-33-chemically-coupled-growth-and-division
   condition: tests-passed

@@ -341,7 +341,7 @@ key_assumptions:
   are given; this stage couples them to osmotic physics to test whether chemistry
   drives a physical division.
 parent_relations:
-- study: og-04-mineral-compartments-to-protocells
+- study: og-self-compartmentation
   relation: builds-on
 - study: og-network-persistence
   relation: builds-on
@@ -382,7 +382,7 @@ pipeline_gate:
     evaluated_by: code
     diverges_from_authored: false
   prerequisites:
-  - study: og-04-mineral-compartments-to-protocells
+  - study: og-self-compartmentation
     condition: tests-passed
   - study: og-network-persistence
     condition: tests-passed

@@ -46,7 +46,7 @@ def test_phase5_committed_artifacts_carry_headline():
     import json
     from pathlib import Path
     root = Path(__file__).resolve().parents[1] / "workspace" / "studies"
-    bnd = json.loads((root / "og-04-alt-endogenous-boundary" / "artifacts"
+    bnd = json.loads((root / "og-self-compartmentation" / "artifacts" / "og-04-alt-endogenous-boundary"
                       / "endogenous_boundary_report.json").read_text())["headline"]
     assert bnd["boundary_forms_from_chemistry"] is True
     assert bnd["n_agents_favorable"] >= 1 and bnd["n_agents_ablated"] == 0
