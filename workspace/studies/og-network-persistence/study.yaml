@@ -64,7 +64,6 @@ result: >-
   line.
 builds_on:
 - 1
-- 16
 plan_id: 2
 handoff:
   emits:

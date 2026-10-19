@@ -60,10 +60,7 @@ experiment: >-
   with input fluxes held equal, and report either genuine self-amplification with its critical dilution
   or a clean mechanistic negative that names the gap — honestly, without tuning a pass, and keeping each
   route's verdict and matched null explicit.
-builds_on:
-- 2
-- 16
-- 27
+builds_on: []
 handoff:
   emits:
   - to: 30
@@ -475,12 +472,13 @@ baseline:
     carboxylation_drive_kj: 0.0
   planned: false
 parent_studies:
-- study: og-02-reduced-carbon-to-protometabolism
+- study: og-network-persistence
   condition: tests-passed
-- study: og-27-coupled-geochemical-reaction-interface
+- study: og-vent-environment
   condition: tests-passed
-- study: og-28-prebiotic-reaction-atlas
-  condition: tests-passed
+parent_relations:
+- study: og-network-persistence
+  relation: refutes
 consolidation_note: >-
   Consolidates og-29-endogenous-autocatalysis (canonical keystone, plan_id 29) and og-rtca-autocatalysis
   into one Gate-A2 autocatalysis concept. Each fold-in is an explicit arm (see `arms`) keeping its

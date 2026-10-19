@@ -57,14 +57,12 @@ result: >-
   species) where a matched well-mixed control stays dark (SUPPORTED); the benefit is a bounded porosity
   window, and og-30 also resolves Gate A1's feed-plausibility.
 builds_on:
-- 11
-- 21
 - 27
 - 29
 plan_id: 30
 handoff:
   emits:
-  - to: 31
+  - to: 32
     provides:
     - precursor concentrations
     - T
