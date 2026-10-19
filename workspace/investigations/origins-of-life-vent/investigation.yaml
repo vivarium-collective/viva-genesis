@@ -58,7 +58,7 @@ executive:
 
     A1 - network persistence (spine; met, qualified): a sustained, connected, carbon-fixing network emerges on
     bounded geochemical feeds. In a well-mixed system the six-carbon network ignites only at about 20x the vent
-    posterior feed, above defensible vent concentrations; Gate B (og-30) bridges that gap - a concentrating
+    posterior feed, above defensible vent concentrations; Gate B (og-spatial-concentration) bridges that gap - a concentrating
     mineral pore at a modest, physical porosity (0.88, pore-local ~0.023 M) ignites the network, confirmed
     directly on the C6 network (flux +4.49e-4, connected), where a matched well-mixed control stays dead. The
     rescue holds within a bounded, somewhat brittle pore-geometry window (porosity ~0.80-0.90): below it
@@ -97,19 +97,19 @@ executive:
     ignition occupies a band around porosity ~0.80-0.90 (pore-local ~0.01-0.2 M) - below it enrichment is sub-
     threshold, above it the pore-local feeds become physically implausible (0.70 -> 2.6 M, 0.60 -> 36 M) and the
     connectivity metric itself degrades (flipping 1/0/1 across adjacent porosities). The result is confirmed
-    directly on the C6 network - the one og-29 found ignites only at ~20x well-mixed feed - which ignites in the
+    directly on the C6 network - the one og-autocatalysis-a2 found ignites only at ~20x well-mixed feed - which ignites in the
     demo pore at the vent-posterior feed (flux +4.49e-4, connected, 22 species) while its matched well-mixed
     control stays dead, with the same bounded-window behavior (no flux-washout upper bound). Beyond meeting its
     own criterion, Gate B resolves Gate A's open A1 feed-plausibility question: the ~20x well-mixed ignition gap
     is bridged inside this physical pore window, so a carbon-fixing network persists at vent-realistic feeds in
     a pore.
   gate_c_status: >-
-    Gate C (self-compartmentation) is qualified. og-31 tests the "benefits from it" half under a reduced-coupling
+    Gate C (self-compartmentation) is qualified. og-self-compartmentation tests the "benefits from it" half under a reduced-coupling
     membrane model (retention/access, explicitly NOT the MD-resolved permeability PMF): on the Gate-B pore-
     concentrated, carbon-fixing (not autocatalytic) network at the Jordan-2019 vent-calibrated setting
     (retention 0.905, access 0.997), an endogenous membrane raises the standing metabolite pool to about 2.9x
     the no-membrane ablation - it pays for itself on persistence - while net fixation flux is about 0.6x
-    (lower), because throughput is feed-limited. og-32 (First Self-Maintaining Protocell) then takes full Gate C
+    (lower), because throughput is feed-limited. og-self-compartmentation (First Self-Maintaining Protocell) then takes full Gate C
     on an MD-informed first cut: short Martini CG-MD gives a thicker long-chain bilayer (di-C16 2.870 nm vs
     di-C12 2.325 nm) -> lower permeability (0.256) -> higher retention (0.661), so composition sets permeability
     sets retention (a resolved coupling, not a free knob); the membrane raises the standing pool ~1.98x over a
@@ -139,29 +139,29 @@ executive:
     counterfactual shows the rTCA topology is autocatalysis-capable under a stronger reductant, noted as a
     possible beyond-vent follow-up. An endogenous membrane then pays for itself on persistence (standing pool
     ~2.9x reduced-coupling, ~1.98x MD-informed, over a matched no-membrane ablation) but not throughput, within
-    a membrane-access window - Gate C qualified (og-31 reduced-coupling plus og-32's MD-informed first
+    a membrane-access window - Gate C qualified (og-self-compartmentation reduced-coupling plus og-self-compartmentation's MD-informed first
     self-maintaining protocell, where composition sets permeability sets retention; PMF-resolved gold standard
     tracked as og-32a). Reproduction and heredity follow as a genuine positive - Gate D qualified: the protocell
-    grows from its own amphiphile production and divides at a measured area-doubling geometry (og-33), and a
+    grows from its own amphiphile production and divides at a measured area-doubling geometry (og-reproduction), and a
     daughter-inherited compositional difference produces a reproducible, selectable fitness difference
-    (parent-offspring fitness correlation +0.949 vs a no-inheritance control, og-34), both against matched nulls
+    (parent-offspring fitness correlation +0.949 vs a no-inheritance control, og-heredity), both against matched nulls
     at equal feeds. The optional Gate E extension is complete, all three qualified: an energy carrier buys
-    dip-persistence not more total work (og-35), a cross-feeding community buys productivity ~1.9x but pays in
-    robustness (og-36, the counterpoint), and a budget leave-one-out maps a conditional, coarse-budget
+    dip-persistence not more total work (og-energetics), a cross-feeding community buys productivity ~1.9x but pays in
+    robustness (og-ecology, the counterpoint), and a budget leave-one-out maps a conditional, coarse-budget
     independence with heredity the irreducible substrate - an affordability map, not a demonstrated escape
-    (og-37). The earlier,
-    lower-fidelity arc stands as the scaffold these sharpened: a Lost City vent (og-00) holding its window over
+    (og-independence). The earlier,
+    lower-fidelity arc stands as the scaffold these sharpened: a Lost City vent (og-vent-environment) holding its window over
     ~80% of the swept grid with exact charge balance; H2-driven carbon fixation benchmarked against Preiner and
-    Hudson (og-01); thermophoretic individuality, amphiphile compartments, internalized bioenergetics bounded
+    Hudson (og-carbon-fixation); thermophoretic individuality, amphiphile compartments, internalized bioenergetics bounded
     by the Sojo cost, heredity that need not presume RNA, metacommunity robustness, and the {pump, importer,
-    heredity} escape set (og-02 through og-08), plus the nitrogen, phosphorus, energy-currency and
+    heredity} escape set (og-network-persistence through og-independence), plus the nitrogen, phosphorus, energy-currency and
     growth/division modules. An adversarial vent-ablated control is rejected by every discriminating gate, so
     the gates are vent-specific rather than generic. Three honest negatives are the sharpest of these: carbon
     fixation runs but which limitation stops it is structure-sensitive (the Butler-Volmer and empirical classes
     agree on the label only 47% of the time against an 80% gate, so the mechanism map, not a pass, is the
     result; charge/electron ledger exact on 750 runs); the eight-solute mixture fractionates rather than
     co-localizing in one thermophoretic pore (concentrating one tracer is not concentrating the set a protocell
-    needs together); and og-08's {pump, importer, heredity}, re-asked inside one persistent world across 24
+    needs together); and og-independence's {pump, importer, heredity}, re-asked inside one persistent world across 24
     model structures, is not jointly sufficient (recorded as a hypothesis generator). The vent calibration
     anchors the arc: conditioning on the Lost City windows leaves a posterior in which 100% of the empirically
     supported vent states supply what carbon fixation needs, transport-class-independent, with the ledger exact
@@ -169,10 +169,10 @@ executive:
     spine, not a declaration of success: a carbon-fixing network persists at vent-realistic feeds in a pore
     (A1), self-amplification does not occur under vent conditions (A2 refuted, both routes), a membrane earns its
     cost on persistence (C qualified), and the protocell reproduces and inherits a selectable trait (D
-    qualified), with the optional Gate E extension complete (og-35/36/37 qualified). A single through-line runs
+    qualified), with the optional Gate E extension complete (og-energetics/36/37 qualified). A single through-line runs
     across the independent mechanisms: robustness is the consistently hard-won and consistently traded axis -
     the pore, the membrane and the energy carrier each buy persistence/robustness not throughput, the ecology
-    (og-36) is the counterpoint that buys throughput by spending robustness, and independence (og-37) is an
+    (og-ecology) is the counterpoint that buys throughput by spending robustness, and independence (og-independence) is an
     affordability map rather than a demonstrated escape. The honest caveats stay explicit (coarse budgets,
     lumped feeds, MD-informed not PMF-resolved, compositional not template heredity), each a named og-Na
     follow-up; the full gate-by-gate arc is in campaign-synthesis.md. What remains open is editorial
@@ -186,58 +186,58 @@ executive:
     coupled Vivarium composite of real tools (PHREEQC + FiPy; eQuilibrator; libRoadRunner; a FiPy
     thermal trap; amphiphile self-assembly; bioenergetic internalization; an agent-based heredity
     lineage; a pore metacommunity; an osmotic growth/division compartment; a Butler-Volmer
-    galvanic cell) and is graded on its conservation and acceptance gates. Headline numbers: og-00
+    galvanic cell) and is graded on its conservation and acceptance gates. Headline numbers: og-vent-environment
     holds the Lost City window (T 40-91 C, pH 9.0-10.8, positive H2 flux) over ~80% of the swept
-    grid with |charge| = 0; og-01 reproduces the Preiner/Hudson yields and shows the Tutolo arm
-    halve the usable proton-motive gradient (427 -> 43 mV); og-02 reaches a peak autocatalytic
-    gain ~29.5 in its earlier reduced model - superseded under vent conditions by og-29's
+    grid with |charge| = 0; og-carbon-fixation reproduces the Preiner/Hudson yields and shows the Tutolo arm
+    halve the usable proton-motive gradient (427 -> 43 mV); og-network-persistence reaches a peak autocatalytic
+    gain ~29.5 in its earlier reduced model - superseded under vent conditions by og-autocatalysis-a2's
     higher-fidelity refutation (Gate A2: autocatalysis refuted for both representable routes);
-    og-06's compositional / hybrid heredity is seed-robust (0.878 +/- 0.005, 5/5
-    graded seeds); og-08's escape set is irreducible (full set survives 1.0, any single knockout
-    0); og-cal's Lost-City-conditioned posterior is 12.5% of the prior yet 100% viable downstream
-    and transport-class-independent (ledger 0/96 rejected). og-01-cal builds the vent wall as a
+    og-heredity's compositional / hybrid heredity is seed-robust (0.878 +/- 0.005, 5/5
+    graded seeds); og-independence's escape set is irreducible (full set survives 1.0, any single knockout
+    0); og-vent-environment's Lost-City-conditioned posterior is 12.5% of the prior yet 100% viable downstream
+    and transport-class-independent (ledger 0/96 rejected). og-carbon-fixation builds the vent wall as a
     Butler-Volmer cell in the Altair-2025 current window (7 of 8 gates pass, ledger exact on 750
     runs) but its attribution gate fails at label agreement 0.47. The adversarial control is
     rejected by all five discriminating gates (min margin 1.8 decades) while the vent passes all
-    five. The designed arc that sharpened this scaffold (og-27 through og-37) is now complete on main. The spine
+    five. The designed arc that sharpened this scaffold (og-vent-environment through og-independence) is now complete on main. The spine
     lands A1 (persistence, qualified) through B (spatial rescue, met), C (self-compartmentation, qualified:
-    og-31 reduced-coupling ~2.9x and og-32 MD-informed ~1.98x standing pool over a no-membrane ablation, with
-    composition -> permeability -> retention resolved) and D (reproduction + heredity, qualified: og-33
-    metabolism-driven division at a measured area-doubling geometry, og-34 parent-offspring fitness correlation
-    +0.949 vs a no-inheritance control under selection), with A2 refuted for both routes (og-29 formose
-    seed-independent and -16.4 kJ/mol; og-rtca reductive-TCA uphill +18/+31 kJ/mol under vent H2). The optional
-    Gate E extension is complete and all qualified: og-35 energy carrier (dip useful work 0.030 vs gradient-only
-    0.006 kJ/mol, total work NOT improved 0.256 vs 0.282, ledger closes ~9e-19); og-36 ecology (community
+    og-self-compartmentation reduced-coupling ~2.9x and og-self-compartmentation MD-informed ~1.98x standing pool over a no-membrane ablation, with
+    composition -> permeability -> retention resolved) and D (reproduction + heredity, qualified: og-reproduction
+    metabolism-driven division at a measured area-doubling geometry, og-heredity parent-offspring fitness correlation
+    +0.949 vs a no-inheritance control under selection), with A2 refuted for both routes (og-autocatalysis-a2 formose
+    seed-independent and -16.4 kJ/mol; og-autocatalysis-a2 reductive-TCA uphill +18/+31 kJ/mol under vent H2). The optional
+    Gate E extension is complete and all qualified: og-energetics energy carrier (dip useful work 0.030 vs gradient-only
+    0.006 kJ/mol, total work NOT improved 0.256 vs 0.282, ledger closes ~9e-19); og-ecology ecology (community
     productivity ~1.9x over the best single lineage, cross-feeding-causal, but more variable with lineage loss
-    at low counts - productivity-yes / robustness-no, the counterpoint); og-37 progressive independence (all
+    at low counts - productivity-yes / robustness-no, the counterpoint); og-independence progressive independence (all
     three validated channels affordable to internalize, conditional on heredity and pump efficiency >~0.7 - an
     affordability / attribution map, not a demonstrated escape). Every gate is judged against a matched null
     with input fluxes held equal; the gold-standard follow-ups (og-32a/33a/34a/35a/36a/37a) are tracked, not
     hidden.
   decisions_resolved:
   - 'Baseline parameterization: run BOTH arms — classical favorable (Russell/Lane/Sojo) and the 2026 unfavorable
-    reassessment (Tutolo/Jackson) — so the campaign adjudicates rather than assumes. Implemented in og-01.'
+    reassessment (Tutolo/Jackson) — so the campaign adjudicates rather than assumes. Implemented in og-carbon-fixation.'
   - 'Primary geochemistry engine: real PHREEQC (phreeqpython + vendored llnl.dat), which fields the Lost
     City pH endmember once peridotite (not dunite) is reacted. Reaktoro was conda-only and off the uv
     path.'
-  - 'Build order: geochemistry + transport first (og-00/og-01), then the reaction network (og-02) — not
+  - 'Build order: geochemistry + transport first (og-vent-environment/og-carbon-fixation), then the reaction network (og-network-persistence) — not
     a thin end-to-end skeleton. This put a real composite in the workbench at stage 0.'
-  - "Heredity strategy for og-06: compare all modules without presuming RNA. og-06's agent-based lineage
+  - "Heredity strategy for og-heredity: compare all modules without presuming RNA. og-heredity's agent-based lineage
     grades RNA-like template, compositional (GARD), a template-focused hybrid and a non-heritable control
     head-to-head; compositional and hybrid heredity persist length-independently (functional persistence
     ~0.88, seed-robust 5/5 graded seeds) where a long low-fidelity template suffers the Eigen length catastrophe —
     so heredity need NOT presume a long high-fidelity RNA template."
-  - 'Explicit electrochemistry for og-01: built, but not adopted as the
+  - 'Explicit electrochemistry for og-carbon-fixation: built, but not adopted as the
     gradient-efficiency abstraction — the carbon_fixation face adds a real Butler-Volmer galvanic-cell
     class (Nernst half-cells, Koutecky-Levich transport limits, Preiner electron branching), with
     MineralConductivityProcess deriving gradient_efficiency from the wall circuit and a ChargeLedger
     auditing the Kirchhoff/faradaic residuals. The empirical gradient-efficiency class is kept as
-    og-01''s graded default.'
+    og-carbon-fixation''s graded default.'
   - 'Carbon-fixation limitation attribution + default class (resolved by Eran): ACCEPT the structure-sensitive limitation
     attribution AS the carbon-fixation result — the empirical and Butler-Volmer classes disagreeing on the
     limitation label in the favorable region (agreement 0.47 < 0.8) IS the finding, reported as the
     og-carbon-fixation mechanism map with gate_status failed (an honest negative); the gate is
-    not re-tuned to force a pass. KEEP empirical as og-01''s graded/headline default and butler_volmer as
+    not re-tuned to force a pass. KEEP empirical as og-carbon-fixation''s graded/headline default and butler_volmer as
     the registered high-fidelity electrochemistry class (the same FiPy-grades / FEniCS-cross-checks
     pattern), revisiting butler_volmer as the headline once Altair per-condition data turns its
     calibration window into a fit.'
@@ -246,34 +246,34 @@ executive:
     microkinetic carbon_fixation class under pixi, then re-run the mechanism map with three classes.
     Deferred because the per-condition dataset is not yet in-workspace and the microkinetic backend needs
     a pixi env.'
-  - 'og-03 retention gate (resolved by Eran): RESTATE it at the resolvable Peclet rather than the >=1e6
+  - 'og-spatial-concentration retention gate (resolved by Eran): RESTATE it at the resolvable Peclet rather than the >=1e6
     enrichment fold — the extreme fold is the closed-cell/reduced-model FiPy exp(Pe) figure the resolved
     FEM does not confirm above Pe ~ 13, so localization is gated on the Peclet, not the fold-magnitude.
-    The gate change itself is implemented in a separate og-03 PR; recorded here as the decision-state.'
-  - 'og-08 {pump, importer, heredity} required-set (resolved by the og-08-alt rebuild): the per-driver
+    The gate change itself is implemented in a separate og-spatial-concentration PR; recorded here as the decision-state.'
+  - 'og-independence {pump, importer, heredity} required-set (resolved by the og-independence rebuild): the per-driver
     one-at-a-time withdrawal resolves the attribution confound — the required innovation set is
     DRIVER-SPECIFIC, not a universal triple. {pump, heredity} rescues the vent-pmf gradient (a hard
     dependency: the full set rescues its withdrawal in only ~4.2% of structures), while mineral access
     (0.958) and feed (0.75) are freely/borderline survivable needing no specific innovation, and the
     importer is never individually required. The earlier "no subset jointly sufficient / hypothesis
-    generator" reading was the gradient''s rarity dominating the lumped all-at-once collapse (og-08-alt is
+    generator" reading was the gradient''s rarity dominating the lumped all-at-once collapse (og-independence is
     now gate_status passed / verdict qualified; confound_resolved, ledgers close). So the campaign''s
     endpoint statement reads "driver-specific rescue, the vent drive the hard dependency," not "no subset
     sufficient." The ocean-floor H2/organic prior remains an open refinement (still in decisions_needed).'
   decisions_needed:
-  - question: 'Ocean-floor H2 / organic prior (og-08 autonomy floor): supply an expert prior on the Hadean
-      ocean''s dissolved H2 and organic background (the floor) to turn og-08-alt''s floor map into a
+  - question: 'Ocean-floor H2 / organic prior (og-independence autonomy floor): supply an expert prior on the Hadean
+      ocean''s dissolved H2 and organic background (the floor) to turn og-independence''s floor map into a
       prediction. (The {pump, importer, heredity} required-set framing is now RESOLVED — driver-specific,
       see decisions_resolved; this is the remaining open piece.)'
-    context: 'og-08-alt-robust-innovation-set: the floor (vg-data integrated_autonomy, hypothetical, swept
+    context: 'og-independence: the floor (vg-data integrated_autonomy, hypothetical, swept
       1e-3 .. 1e-1) and the bioenergetics upkeep are the numbers the off-gradient verdict turns on; an
       expert prior on the Hadean ocean''s dissolved H2 and organics would turn the floor map into a
       prediction. The attribution confound itself is resolved by the per-driver rebuild (decisions_resolved).'
   - question: 'Agent motion model (ecology stage): DEFERRED. The proto_ecology component points agents at fixed cells
-      of the og-03 enrichment field (interleaved or segregated along the pore); no motility, chemotaxis or advective
+      of the og-spatial-concentration enrichment field (interleaved or segregated along the pore); no motility, chemotaxis or advective
       drift of agents is modelled. Which motion model (none / advected with the pore flow / Brownian between
       cells / thermophoretic like the solutes) should the ecology follow-up adopt?'
-    context: 'og-07-alt-real-metabolite-exchange: the
+    context: 'og-ecology: the
       the study defers motion ("point agents on fields first"). With fixed positions the mixed and
       segregated placements give the same community-only function because pore diffusion between cells
       (k_diffusion 0.1/s, hypothetical) mixes the exchanged intermediate; a motion model would make that
@@ -302,26 +302,26 @@ executive:
       mineral_state dominate the frontier) has any measured anchor.'
   - question: 'Rule-set scope for the reaction universe: keep C1-C3 feedstock / C/H/O-only chemistry
       (as built: products capped at C4, 413 reactions) or include N/P-bearing reactions from the start, folding
-      the og-res-N / og-res-P resource chemistries into the universe?'
+      the nitrogen and phosphorus (og-nutrient-bottlenecks) resource chemistries into the universe?'
     context: 'og-network-persistence defaulted to C/H/O so the first enrichment result rests on the
       eQuilibrator-covered thermodynamics and a (C,O)-balanced null. N/P rules would let amino-acid /
       nucleotide-precursor motifs compete with formose but need N/P potentials, a redesigned null and N/P
       ledgers. Also open: whether branched skeletons (citrate) should be added so rTCA-type cycles can close.'
-  - question: 'Publication milestone: close the first paper at the pre-genetic arc (og-00 -> og-03) or
-      extend through the early-genetic arc (og-04 protocells -> og-06 heredity)?'
-    context: 'og-00 -> og-08 plus the bottleneck modules have now all run and passed, so every scope is
-      available. The pre-genetic arc (og-00->03: a precipitating interface retaining a persistent
+  - question: 'Publication milestone: close the first paper at the pre-genetic arc (og-vent-environment -> og-spatial-concentration) or
+      extend through the early-genetic arc (og-self-compartmentation protocells -> og-heredity heredity)?'
+    context: 'og-vent-environment -> og-independence plus the bottleneck modules have now all run and passed, so every scope is
+      available. The pre-genetic arc (og-vent-environment through og-spatial-concentration: a precipitating interface retaining a persistent
       protometabolic carbon flux, then localized individuals) is the tightest standalone story; extending
       through og-04-06 adds membrane compartmentation, bioenergetic internalization and the agent-based
-      heredity result; the full arc also carries ecology (og-07), escape (og-08) and the N/P/energy/growth
+      heredity result; the full arc also carries ecology (og-ecology), escape (og-independence) and the N/P/energy/growth
       bottlenecks. Editorial scope call.'
-  - question: Actually RUN the og-03 -> og-02 localization->ignition coupling (trap enrichment feeds
+  - question: Actually RUN the og-spatial-concentration -> og-network-persistence localization->ignition coupling (trap enrichment feeds
       the rTCA network as a real swept phase map), resolving the demoted phantom finding and giving 
-      og-03 its own Decision phase map?
-    context: The claims audit found an og-03 finding asserting an in-pore ignition result that was 
+      og-spatial-concentration its own Decision phase map?
+    context: The claims audit found an og-spatial-concentration finding asserting an in-pore ignition result that was 
       never run (now demoted to a proposed next step). Running it as a (porosity x k_wash) coupled 
       sweep would both make the 'localization makes the individual' claim real AND fix the viz 
-      audit's finding that og-03's Decision view borrows og-02's axes.
+      audit's finding that og-spatial-concentration's Decision view borrows og-network-persistence's axes.
   - question: Reframe the campaign's headline thesis from 'cells could originate at alkaline vents' 
       to the enrichment plan's 'quantitative MAP OF THE BOTTLENECKS between geology and cells' 
       (dependencies, failure regimes, discriminating experiments)?
@@ -329,7 +329,7 @@ executive:
       shifts from demonstrating one story to mapping where the geology->cells path is physically 
       continuous, where it depends on narrow regimes, and where it breaks. Several design principles
       (phase maps not trajectories, feature ablations, negative controls,
-      negative-results-as-output) are already partly realized (og-adv, the phase maps).
+      negative-results-as-output) are already partly realized (og-vent-specificity, the phase maps).
   - question: 'Adopt the Full Modeling Plan architecture (emergence-not-presupposition + structural
       rewrites + canonical schemas + model substitution) as the campaign''s build target, in the
       order — canonical schemas + geochemical_world first, then the electrochemical interface,
@@ -348,21 +348,21 @@ executive:
       discrimination) and evidence tiers as the reporting requirement for every stage — i.e. a stage''s
       verdict may not advance until it carries a TransitionReport whose decision-discipline audit is
       clean — and re-label the fourteen earlier studies (every member study except the already-
-      tier-labelled og-cal) with their tier language?'
+      tier-labelled og-vent-environment) with their tier language?'
     context: 'This is done for the vent calibration (og-vent-environment): the Lost-City-conditioned vent ensemble reports the posterior-viable fraction, the
       cross-class agreement and the discriminating readouts, with the ledger clean. The remaining studies
       currently report gate PASS/FAIL on swept grids; under the standard most of their claims are
       mechanistic predictions or conceptual demonstrations (guidelines.scientific_standard.
       tier_reading_of_current_studies). Editorial + sequencing call: apply the tier language now, and run
       the remaining stages in the recorded order (electrochemistry first) or re-order around the publication scope.'
-  - question: 'Proto-energetics: replace og-05''s population-mean internalization readout (mean active-pump fraction of
+  - question: 'Proto-energetics: replace og-energetics''s population-mean internalization readout (mean active-pump fraction of
       the surviving population) with the per-individual autonomy internal / (internal + external) power that
-      the energy_coupling face defines — i.e. re-point og-energetics''s gates (the og-05 arm:
+      the energy_coupling face defines — i.e. re-point og-energetics''s gates (the og-energetics arm:
       reduced-gradient-dependence, final_internalization) at autonomy?'
     context: 'BioenergeticSelectionProcess now publishes both from the same per-strategy power terms
-      (internalization 0.95 vs autonomy 0.99 at the og-05 arm''s collapsed gradient), and the og-energy-alt
+      (internalization 0.95 vs autonomy 0.99 at the og-energetics arm''s collapsed gradient), and the og-energetics
       internalization-threshold arm grades autonomy per individual for five coupling classes. Autonomy is the
-      quantity og-08''s off-gradient persistence and the integrated-autonomy lattice share; switching
+      quantity og-independence''s off-gradient persistence and the integrated-autonomy lattice share; switching
       og-energetics''s gates re-grades a passing study on a monotone-related but different observable. Default
       taken: added beside, not switched.'
   - question: 'Attach the MARHYS 4.0 hydrothermal-fluid compilation (PANGAEA) as a workspace dataset so the
@@ -385,7 +385,7 @@ scientific_argument:
     adjudicates the vent mechanism rather than illustrating one story. The sharper contribution is
     where the higher-fidelity re-grounding breaks the easy story: the limiting step in carbon
     fixation is structure-sensitive, autocatalysis needs a one-carbon feed, the prebiotic mixture
-    fractionates instead of co-localizing, and og-08's escape set is not jointly sufficient
+    fractionates instead of co-localizing, and og-independence's escape set is not jointly sufficient
     off-gradient. Each failure is a mapped parameter region and a discriminating prediction, not a
     dead end.
   evidence_for:
@@ -410,7 +410,7 @@ scientific_argument:
     environmental concentration — the campaign tests whether each mechanism is feasible and where
     it fails, not that these exact values held on the early Earth.
   - A few headline magnitudes are solver-sensitive extrapolations, not resolved results — notably
-    og-03's enrichment fold (the reduced FiPy accumulation column reaches ~10⁸-fold, 9.6×10⁷, at
+    og-spatial-concentration's enrichment fold (the reduced FiPy accumulation column reaches ~10⁸-fold, 9.6×10⁷, at
     accumulation Péclet ≈ 18, where it diverges ~5.6 decades from the resolved FEniCS/dolfinx field
     above the Pe ≈ 13 the FEM resolves); the defensible claim there is that localization occurs and is
     bounded, not the exact fold-magnitude. The resolved 3-D flow-through FEM solve (the localization stage) shows
