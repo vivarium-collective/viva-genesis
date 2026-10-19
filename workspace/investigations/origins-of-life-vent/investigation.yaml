@@ -699,7 +699,8 @@ at_a_glance:
   role: The cell's first carbon — H2-driven CO2 reduction; reproduce lab benchmarks; map the flux 
     region
 - study: og-network-persistence
-  role: Network persistence — the carbon-fixing network sustains net carbon throughput as a connected
+  role: >-
+    Network persistence — the carbon-fixing network sustains net carbon throughput as a connected
     system under vent-realistic feed + washout (supported); persistence is driven, not autocatalytic: under
     rule-generated real thermodynamics no self-amplifying motif emerges at the vent feed (formose only with
     exogenous formaldehyde, p=0.04 vs matched nulls), and the curated rTCA motif is reclassed as imposed +
@@ -718,7 +719,8 @@ at_a_glance:
     under selection, and coupling a carrier; which coupling chemistry pays, studied at several fidelities as
     arms (the carrier buys dip-persistence, not more total throughput)
 - study: og-heredity
-  role: Heredity — an inherited chemical difference transmitted and selectable, studied at several
+  role: >-
+    Heredity — an inherited chemical difference transmitted and selectable, studied at several
     fidelities as arms: competing inheritance modules (need not presume RNA; compositional/hybrid escape the
     Eigen length catastrophe), the information-per-cost frontier of six mechanisms, and a reproducible
     selectable fitness difference (parent-offspring correlation +0.949 vs a no-inheritance control); qualified
