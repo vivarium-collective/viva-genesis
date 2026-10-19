@@ -291,7 +291,7 @@ executive:
       for attaching heredity to a lineage? The build uses hypothetical values (10 copies, margin 1.0) and
       Eigen''s error threshold Q >= 1/sigma as the fidelity floor, and SWEEPS the budget x fidelity space
       instead of asserting a point.'
-    context: 'og-06-alt-information-per-cost: the
+    context: 'og-heredity: the
       HeredityAttachmentStep attaches a class only when all three conditions hold; the attachment map shows
       compositional / network / mineral classes attaching from 3 % of the nominal budget, hybrid from 30 %,
       rna_like only at the full budget and q >= 0.967, peptide never at q_p = 0.7. The thresholds are
@@ -453,10 +453,9 @@ guidelines:
       reproduction: [og-00-vent-reactor-baseline, og-01-geology-to-reduced-carbon (Preiner/Hudson yields), og-cal-vent-environment (conditioning step)]
       mechanistic_prediction: [og-01-geology-to-reduced-carbon (Tutolo collapse), og-02-reduced-carbon-to-protometabolism,
         og-03-dilution-to-localized-individuals, og-04-mineral-compartments-to-protocells, og-res-nitrogen-assimilation,
-        og-res-phosphorus-availability, og-energetics, og-growth-division, og-cal-vent-environment (posterior prediction),
+        og-res-phosphorus-availability, og-energetics, og-heredity, og-growth-division, og-cal-vent-environment (posterior prediction),
         og-01-cal-electrochemistry (mechanism map; the Altair current-window check is at reproduction tier)]
-      conceptual_demonstration: [og-06-chemistry-to-heredity,
-        og-07-ecology-before-luca, og-08-escape-from-the-vent, og-07-alt-real-metabolite-exchange,
+      conceptual_demonstration: [og-07-ecology-before-luca, og-08-escape-from-the-vent, og-07-alt-real-metabolite-exchange,
         og-08-alt-robust-innovation-set]
       null_control: [og-adv-generic-nonequilibrium]
     decision_discipline:
@@ -557,11 +556,11 @@ guidelines:
   - phase: 7
     name: Competing heredity
     status: built-and-run
-    studies: [og-06-chemistry-to-heredity, og-06-alt-information-per-cost]
+    studies: [og-heredity]
     component: heredity face with compositional | network | peptide | rna_like | hybrid | mineral_state classes (carved out of og-06's one LineageReplicatorProcess; each an exact Gillespie lineage of 32 protocell-scale individuals carrying ~10-40 heritable molecules, drawing integer precursors and energy quanta from one shared pool / store); HeredityAttachmentStep (precursor budget, energy budget and the Eigen floor Q >= 1/sigma must all hold; latched); InformationLedgerProcess (heritable bits per joule / per precursor, exact energy-store audit, MI-convergence gate)
     data_package: inheritance_budgets (39 parameters; 1 measured — the R18 ribozyme fidelity 0.967 — 6 inferred, 8 extrapolated, 24 hypothetical; attachment thresholds hypothetical and swept)
     exit_criterion: information-per-cost frontier; transition to templated heredity
-    result: "see og-06-alt-information-per-cost: 4/6 classes pass ancestry-predicts-phenotype under the strict rule (MI converged on every seed, >= 0.1 bit, >= 0.05 bit above the class's own unattached control); peptide at q_p = 0.7 sits below the Eigen floor and is refused by the step, mineral_state's estimate does not converge on every seed (its function decays through layer-copy errors). Bits per joule span 3.8 decades; the certified Pareto front is {network, rna_like}; mineral_state would dominate both axes (2.2 bits at 4e-20 J) on a hypothetical defect-copy error. rna_like transmits 1.46 bits at 3e-17 J per offspring and attaches only at the full budget and q >= 0.967; compositional / network / mineral attach from 3 % of it. og-06's 'need not presume RNA' splits by currency: per offspring the RNA-like template carries the most certified bits (best non-RNA = 0.36x), per joule the network class carries 26x. Energy-store residual <= 3e-14 on all 252 runs."
+    result: "see og-heredity: 4/6 classes pass ancestry-predicts-phenotype under the strict rule (MI converged on every seed, >= 0.1 bit, >= 0.05 bit above the class's own unattached control); peptide at q_p = 0.7 sits below the Eigen floor and is refused by the step, mineral_state's estimate does not converge on every seed (its function decays through layer-copy errors). Bits per joule span 3.8 decades; the certified Pareto front is {network, rna_like}; mineral_state would dominate both axes (2.2 bits at 4e-20 J) on a hypothetical defect-copy error. rna_like transmits 1.46 bits at 3e-17 J per offspring and attaches only at the full budget and q >= 0.967; compositional / network / mineral attach from 3 % of it. og-06's 'need not presume RNA' splits by currency: per offspring the RNA-like template carries the most certified bits (best non-RNA = 0.36x), per joule the network class carries 26x. Energy-store residual <= 3e-14 on all 252 runs."
     next: expert-defensible attachment thresholds (decisions_needed); a measured defect-replication fidelity for the mineral class (the weakest number); propagate the package priors (LHS over the 11 free parameters); sequence-level (not phenotype-level) information for the template classes; attach the classes to the boundary-stage agents as a bigraph rewrite
   - phase: 8
     name: Biochemical ecology
@@ -711,8 +710,11 @@ at_a_glance:
   role: Proto-energetics — capturing geochemical free energy into a transferable store, internalizing it
     under selection, and coupling a carrier; which coupling chemistry pays, studied at several fidelities as
     arms (the carrier buys dip-persistence, not more total throughput)
-- study: og-06-chemistry-to-heredity
-  role: The first heredity — competing inheritance modules; heredity must earn its keep
+- study: og-heredity
+  role: Heredity — an inherited chemical difference transmitted and selectable, studied at several
+    fidelities as arms: competing inheritance modules (need not presume RNA; compositional/hybrid escape the
+    Eigen length catastrophe), the information-per-cost frontier of six mechanisms, and a reproducible
+    selectable fitness difference (parent-offspring correlation +0.949 vs a no-inheritance control); qualified
 - study: og-07-ecology-before-luca
   role: Before LUCA — population-level emergence vs single-lineage reconstruction
 - study: og-08-escape-from-the-vent
@@ -741,13 +743,6 @@ at_a_glance:
   role: 'Open chemical network: a rule-generated C/H/O universe with real dG'' fed the vent-calibration posterior grows no
     autocatalytic motif; fed formaldehyde it grows the formose cycle, enriched over matched nulls (p = 0.04); the
     curated rTCA motif is reclassed as imposed and non-conserving'
-- study: og-06-alt-information-per-cost
-  role: 'Competing heredity: six inheritance mechanisms as classes on one face, each an exact
-    Gillespie lineage at low copy number under matched precursor + energy budgets, attached conditionally;
-    parent-offspring mutual information per class (5/6 pass, converged), bits per joule spanning > 3 decades,
-    mineral-state heredity cheapest and richest under hypothetical costs, templated heredity attaching only
-    at the full budget and ribozyme-level fidelity; og-06''s "need not presume RNA" becomes a
-    class-substitution result that splits by currency (fewer bits per offspring, 26x the bits per joule)'
 - study: og-07-alt-real-metabolite-exchange
   role: 'Biochemical ecology: the reaction universe inside every protocell, masked to a lineage
     repertoire, coupled only by matter crossing membranes into an og-03-shaped pore — a community of a
@@ -763,7 +758,7 @@ studies:
 - og-03-dilution-to-localized-individuals
 - og-04-mineral-compartments-to-protocells
 - og-energetics
-- og-06-chemistry-to-heredity
+- og-heredity
 - og-07-ecology-before-luca
 - og-08-escape-from-the-vent
 - og-adv-generic-nonequilibrium
@@ -775,7 +770,6 @@ studies:
 - og-02-alt-reaction-universe
 - og-04-alt-endogenous-boundary
 - og-growth-alt-physical-reproduction
-- og-06-alt-information-per-cost
 - og-07-alt-real-metabolite-exchange
 - og-08-alt-robust-innovation-set
 - og-00b-ph-endmember-sweep
@@ -790,7 +784,6 @@ studies:
 - og-32-first-self-maintaining-protocell
 - og-32b-fatty-acid-vesicle-stability
 - og-33-chemically-coupled-growth-and-division
-- og-34-chemical-heredity-and-selection
 - og-36-stochastic-protocell-ecology
 - og-37-progressive-independence
 - mem-m1-amphiphile-assembly
@@ -816,7 +809,7 @@ acceptance_criteria:
   behavior: retention-without-isolation
 - study: og-energetics
   behavior: reduced-gradient-dependence
-- study: og-06-chemistry-to-heredity
+- study: og-heredity
   behavior: inheritance-beats-noninheritance
 - study: og-07-ecology-before-luca
   behavior: cross-feeding-robustness
@@ -844,7 +837,7 @@ acceptance_criteria:
   behavior: motifs-emerge-not-imposed
 - study: og-energetics
   behavior: internalization-pays
-- study: og-06-alt-information-per-cost
+- study: og-heredity
   behavior: ancestry-predicts-phenotype
 - study: og-07-alt-real-metabolite-exchange
   behavior: community-function-precedes-cell-completeness
@@ -865,7 +858,7 @@ proposed_inputs:
       in mutually catalytic noncovalent assemblies. PNAS 97(8):4112-4117."
     proposed_by: agent
     proposed_at: '2026-10-13'
-    related_study: og-06-chemistry-to-heredity
+    related_study: og-heredity
     rationale: "og-06's agent-based lineage uses a GARD-style compositional module (multinomial fission
       of an autocatalytic composition vector) as the length-independent, non-template heredity arm that
       escapes the Eigen length catastrophe — the basis of the 'do NOT presume RNA' finding."
@@ -880,7 +873,7 @@ proposed_inputs:
       Die Naturwissenschaften 58(10):465-523."
     proposed_by: agent
     proposed_at: '2026-10-13'
-    related_study: og-06-chemistry-to-heredity
+    related_study: og-heredity
     rationale: "og-06's quasispecies replicator and its central result — the error threshold Q=fidelity^length,
       above which correct templates outreplicate the error tail and below which the error catastrophe
       destroys information — are Eigen's error-threshold/quasispecies theory. It is the load-bearing mechanism
@@ -1157,10 +1150,10 @@ plan_gates:
     extends: C
     member_studies:
       - og-33-chemically-coupled-growth-and-division
-      - og-34-chemical-heredity-and-selection
+      - og-heredity
     pending_studies:
       # Membrane-MD sub-program (PLANNED). Division PROPENSITY only (geometry/curvature/barrier) —
-      # explicitly NOT heritable division (og-33/og-34 remain the gate-earning lines). See
+      # explicitly NOT heritable division (og-33/og-heredity remain the gate-earning lines). See
       # membrane-md-studies-m1-m5-designs.md.
       - {slug: mem-m4-growth-division-propensity, title: Growth, shape change & division propensity, scaffolded: true, planned: true, program: membrane-md}
     criterion: >-

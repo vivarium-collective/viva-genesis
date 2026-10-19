@@ -309,7 +309,7 @@ key_assumptions:
 - Each compartment is a coarse-grained capability vector over a protometabolic function
   set, not an instantiated metabolic network.
 parent_relations:
-- study: og-06-chemistry-to-heredity
+- study: og-heredity
   relation: builds-on
 expert_questions:
 - Scope og-07 to cross-feeding only first, or include horizontal exchange + parasitism
@@ -330,7 +330,7 @@ visualizations:
     title: Where cross-feeding robustness emerges
 pipeline_gate:
   prerequisites:
-  - study: og-06-chemistry-to-heredity
+  - study: og-heredity
     condition: tests-passed
   gate_evaluator:
     result: passed

@@ -1673,7 +1673,7 @@ baseline:
 parent_studies:
 - study: og-32-first-self-maintaining-protocell
   condition: tests-passed
-- study: og-34-chemical-heredity-and-selection
+- study: og-heredity
   condition: tests-passed
 consolidation_note: >-
   Consolidates og-energy-proto-energetics, og-05-environmental-to-internal-bioenergetics, og-05b-collapse-rate-sweep

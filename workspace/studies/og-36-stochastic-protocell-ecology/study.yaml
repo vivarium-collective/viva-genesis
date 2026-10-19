@@ -352,7 +352,7 @@ parent_studies:
 - {study: og-07-ecology-before-luca, condition: tests-passed}
 - {study: og-07-alt-real-metabolite-exchange, condition: tests-passed}
 - {study: og-32-first-self-maintaining-protocell, condition: tests-passed}
-- {study: og-34-chemical-heredity-and-selection, condition: tests-passed}
+- {study: og-heredity, condition: tests-passed}
 key_assumptions:
 - The shared feed budget feed_F is held equal across arms - any community benefit must be a margin over the best single lineage, not more input.
 - Coexistence is produced by depletable byproduct pools (negative frequency dependence), not assumed; the knockout excludes down.

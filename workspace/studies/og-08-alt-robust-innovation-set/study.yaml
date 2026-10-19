@@ -694,7 +694,7 @@ parent_relations:
   relation: builds-on
 - study: og-energetics
   relation: builds-on
-- study: og-06-alt-information-per-cost
+- study: og-heredity
   relation: builds-on
 - study: og-07-alt-real-metabolite-exchange
   relation: builds-on
