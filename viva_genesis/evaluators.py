@@ -402,7 +402,7 @@ def _artifact_json(test: dict, ws_root: Any, default: str) -> dict:
     return json.loads(path.read_text())
 
 
-_OGCAL_REPORT = "workspace/studies/og-cal-vent-environment/artifacts/vent_environment_report.json"
+_OGCAL_REPORT = "workspace/studies/og-vent-environment/artifacts/og-cal-vent-environment/vent_environment_report.json"
 
 
 def _posterior_viable_fraction(reader, test: dict, ws_root: Any) -> float:
