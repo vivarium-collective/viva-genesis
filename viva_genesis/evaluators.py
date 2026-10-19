@@ -788,7 +788,7 @@ def _frontier_energy_within_tolerance(reader, test: dict, ws_root: Any) -> float
 
 
 # --- Phase 8 (og-07-alt-real-metabolite-exchange): run-level + artifact gates ----------------
-_OG07ALT_MAP = "workspace/studies/og-07-alt-real-metabolite-exchange/artifacts/community_function_map.json"
+_OG07ALT_MAP = "workspace/studies/og-ecology/artifacts/og-07-alt-real-metabolite-exchange/community_function_map.json"
 
 
 def _element_ledger_ok_final(reader, test: dict, ws_root: Any) -> float:

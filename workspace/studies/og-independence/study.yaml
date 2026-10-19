@@ -1392,7 +1392,7 @@ parent_studies:
   condition: tests-passed
 - study: og-energetics
   condition: tests-passed
-- study: og-36-stochastic-protocell-ecology
+- study: og-ecology
   condition: tests-passed
 consolidation_note: >-
   Consolidates og-08-escape-from-the-vent, og-08-alt-robust-innovation-set, og-37-progressive-independence

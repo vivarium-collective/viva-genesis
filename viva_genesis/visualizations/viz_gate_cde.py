@@ -530,7 +530,7 @@ class OgStochasticEcologyViz(Visualization):
     config_schema = {
         "title": {"_type": "string", "_default": ""},
         "report_json": {"_type": "string",
-                        "_default": "workspace/studies/og-36-stochastic-protocell-ecology/artifacts/gate_e_ecology.json"},
+                        "_default": "workspace/studies/og-ecology/artifacts/og-36-stochastic-protocell-ecology/gate_e_ecology.json"},
     }
 
     def inputs(self):

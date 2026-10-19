@@ -21,7 +21,7 @@ from viva_genesis.ecology.reactive_system import BigraphicalReactiveSystem, Rule
 from viva_genesis.protometabolism import universe as U
 
 WS_ROOT = Path(__file__).resolve().parents[1]
-SIMS = WS_ROOT / "workspace" / "studies" / "og-07-alt-real-metabolite-exchange" / "sims"
+SIMS = WS_ROOT / "workspace" / "studies" / "og-ecology" / "sims" / "og-07-alt-real-metabolite-exchange"
 
 
 @pytest.fixture(autouse=True)
