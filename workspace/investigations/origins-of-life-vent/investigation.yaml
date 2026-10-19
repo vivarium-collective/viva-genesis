@@ -452,7 +452,7 @@ guidelines:
     tier_reading_of_current_studies:
       reproduction: [og-01-geology-to-reduced-carbon (Preiner/Hudson yields)]
       mechanistic_prediction: [og-01-geology-to-reduced-carbon (Tutolo collapse), og-network-persistence,
-        og-spatial-concentration, og-self-compartmentation, og-nutrient-bottlenecks, og-energetics, og-heredity, og-independence, og-growth-division, og-vent-environment (posterior prediction),
+        og-spatial-concentration, og-self-compartmentation, og-nutrient-bottlenecks, og-energetics, og-heredity, og-independence, og-reproduction, og-vent-environment (posterior prediction),
         og-01-cal-electrochemistry (mechanism map; the Altair current-window check is at reproduction tier)]
       conceptual_demonstration: [og-07-ecology-before-luca, og-07-alt-real-metabolite-exchange]
       null_control: [og-adv-generic-nonequilibrium]
@@ -536,7 +536,7 @@ guidelines:
   - phase: 5
     name: Endogenous boundary + growth/division
     status: built-and-run
-    studies: [og-self-compartmentation, og-growth-division, og-growth-alt-physical-reproduction]
+    studies: [og-self-compartmentation, og-reproduction]
     component: AmphiphileSynthesisProcess; BoundaryFormation / Division / Lysis / Extinction structural rewrites on agents map[vg_individual]
     data_package: amphiphile_assembly (Jordan 2019; Lu 2024)
     exit_criterion: first continuous transition from chemistry to a growing, dividing individual with rewrite_residual == 0
@@ -735,11 +735,8 @@ at_a_glance:
   role: 'Adversarial control: the gates must reject generic non-vent chemistry'
 - study: og-nutrient-bottlenecks
   role: 'Nutrient bottlenecks — reduced nitrogen keeps pace with carbon and reactive phosphorus co-concentrates in the pore (or limits first), studied as nitrogen + phosphorus arms'
-- study: og-growth-division
-  role: Growth and division — metabolism changes the compartment's physical fate (grow->divide vs lyse
-    vs starve)
-- study: og-growth-alt-physical-reproduction
-  role: Physical reproduction — a growing, dividing individual builds a multi-generation lineage in the agents map
+- study: og-reproduction
+  role: 'Reproduction — metabolism-coupled growth to a measured-geometry division with viable daughters, building a multi-generation lineage; studied at several fidelities as arms (og-33 coupled growth+division, og-growth-division fate, og-growth-alt physical reproduction)'
 - study: og-01-cal-electrochemistry
   role: 'Carbon-fixation mechanism map: the vent wall as a galvanic cell — which limitation (thermodynamic,
     electrical, catalytic, transport) stops carbon fixation where, and whether the empirical and
@@ -760,14 +757,12 @@ studies:
 - og-07-ecology-before-luca
 - og-adv-generic-nonequilibrium
 - og-nutrient-bottlenecks
-- og-growth-division
 - og-01-cal-electrochemistry
-- og-growth-alt-physical-reproduction
 - og-07-alt-real-metabolite-exchange
 - og-01-cal-dx-label-disagreement
 - og-autocatalysis-a2
 - og-self-compartmentation
-- og-33-chemically-coupled-growth-and-division
+- og-reproduction
 - og-36-stochastic-protocell-ecology
 - og-independence
 - mem-m4-growth-division-propensity
@@ -799,11 +794,11 @@ acceptance_criteria:
   behavior: reactive-p-available
 - study: og-energetics
   behavior: currency-maintained
-- study: og-growth-division
+- study: og-reproduction
   behavior: net-growth-to-division
 - study: og-self-compartmentation
   behavior: boundary-forms-from-chemistry
-- study: og-growth-alt-physical-reproduction
+- study: og-reproduction
   behavior: lineage-reaches-three-generations
 - study: og-vent-environment
   behavior: posterior-viable-vent-fraction
@@ -942,7 +937,7 @@ proposed_inputs:
       growth and division."
     proposed_by: agent
     proposed_at: '2026-10-13'
-    related_study: og-growth-division
+    related_study: og-reproduction
     rationale: "og-growth-division's mechanism — internal osmolyte accumulation → osmotic pressure (van 't
       Hoff) → solvent influx → volume growth → division at a size threshold, bounded between starvation and
       lysis by membrane permeability — is the osmotic-growth-and-division route this paper reports. It is the
@@ -1110,7 +1105,7 @@ plan_gates:
     name: Reproduction & heredity
     extends: C
     member_studies:
-      - og-33-chemically-coupled-growth-and-division
+      - og-reproduction
       - og-heredity
     pending_studies:
       # Membrane-MD sub-program (PLANNED). Division PROPENSITY only (geometry/curvature/barrier) —
