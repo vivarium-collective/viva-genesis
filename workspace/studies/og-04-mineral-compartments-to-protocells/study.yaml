@@ -17,7 +17,7 @@ question: >-
 hypothesis: Over a salt/pH/divalent-cation/T window, vesicles form and selectively
   retain while remaining permeable enough to exploit the external gradient — a non-empty
   individuality-vs-access region exists.
-objective: Introduce mixed amphiphiles + membrane assembly; measure whether organic
+experiment: Introduce mixed amphiphiles + membrane assembly; measure whether organic
   boundaries enhance persistence without isolating the system.
 proposed_mechanisms:
 - 'G: amphiphiles, mineral pores and protocells'
@@ -426,7 +426,7 @@ pipeline_gate:
     blocked_by: []
     evaluated_by: code
     diverges_from_authored: false
-conclusion: 'The coarse-grained Jordan-calibrated model shows a non-empty organic-boundary
+result: 'The coarse-grained Jordan-calibrated model shows a non-empty organic-boundary
   region: mixed amphiphiles form viable, selectively-permeable vesicles at vent conditions.
   Hands og-05 a bounded, gradient-coupled protocell.'
 verdict: supported

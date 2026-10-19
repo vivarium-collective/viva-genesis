@@ -25,7 +25,7 @@ hypothesis: >-
   substrates (water, neutral organics) cross while larger / charged products (organic acids,
   charged metabolites) are retained - but stability and selective retention may trade off
   (the core feasibility tension).
-objective: >-
+experiment: >-
   Compute per-solute-class permeabilities with uncertainty via PMF + diffusivity and build a
   composition->transport lookup the functional-window study (M5) consumes.
 primary_output: >-

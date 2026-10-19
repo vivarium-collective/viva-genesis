@@ -21,7 +21,7 @@ question: >-
   Why is the active importer a net cost under a leaky membrane, which membrane-tightness or
   structure conditions would flip it to a net benefit, and what distinguishes the few
   structures that persist under {pump, heredity} from the many that fail?
-objective: >-
+experiment: >-
   Decompose the importer's per-structure energy/mass ledger (uptake vs leak) across the innovation
   lattice; sweep membrane permeability to locate any tightness at which the importer becomes net
   beneficial; characterise what the 2 persisting {pump, heredity} structures share that the other 22

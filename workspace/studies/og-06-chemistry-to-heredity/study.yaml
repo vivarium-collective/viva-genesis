@@ -17,7 +17,7 @@ question: >-
 hypothesis: At least one heredity module raises lineage persistence + information
   retention above its non-heritable control under a feasible resource budget; the
   winner is not assumed a priori.
-objective: Introduce competing heredity modules and test whether inherited state improves
+experiment: Introduce competing heredity modules and test whether inherited state improves
   persistence under feasible budgets.
 proposed_mechanisms:
 - 'J: polymers, information and heredity (as competing modules)'
@@ -477,7 +477,7 @@ pipeline_gate:
     blocked_by: []
     evaluated_by: code
     diverges_from_authored: false
-conclusion: Two real engines agree. A libRoadRunner quasispecies ODE shows inheritance
+result: Two real engines agree. A libRoadRunner quasispecies ODE shows inheritance
   is favored above the Eigen error threshold and ranks modules head-to-head; an agent-based
   lineage (individuals dividing into a phenotype tree) reproduces that threshold AND
   shows that compositional/hybrid heredity escapes the length catastrophe — so the

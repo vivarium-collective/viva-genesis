@@ -27,7 +27,7 @@ hypothesis: >-
   protonation fraction; a feasible bilayer/vesicle window exists for long-enough chains and
   favorable mixtures, bounded below by the critical aggregation concentration and above by
   insolubility.
-objective: >-
+experiment: >-
   Self-assemble a defined set of prebiotically-plausible compositions in coarse-grained MD and
   classify the assembly state, with unbiased self-assembly rather than a preassembled start.
 primary_output: >-

@@ -17,7 +17,7 @@ question: >-
 hypothesis: A bounded innovation set (internal energy conversion + resource import
   + heredity) allows persistence as gradient strength/mineral access/feed are reduced;
   below it, systems stay obligately vent-tied.
-objective: Relax environmental support via ablation sweeps and identify the minimum
+experiment: Relax environmental support via ablation sweeps and identify the minimum
   innovation set for autonomy.
 proposed_mechanisms:
 - all modules integrated
@@ -349,7 +349,7 @@ runs:
       detail: full set survivors=1.00 off-gradient; knockouts -pump=0.00 -importer=0.00
         -heredity=0.00 (each necessary => minimum robust set = {heredity, importer,
         pump})
-conclusion: A deterministic co-limited free-energy + resource budget shows that persistence
+result: A deterministic co-limited free-energy + resource budget shows that persistence
   away from the geological reactor requires three innovations at once — a pump to
   make free energy without the external gradient, an importer to acquire resources
   without ambient abundance, and heredity to hold that machinery against decay. The

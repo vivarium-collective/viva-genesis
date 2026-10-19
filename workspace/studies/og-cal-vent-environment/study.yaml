@@ -21,7 +21,7 @@ hypothesis: A Lost-City-consistent posterior exists inside the empirically motiv
   prior of the og-00 world, most of it also satisfies the downstream requirements,
   the result is the same under the convecting and the prescribed-upflow transport
   classes, and the conservation ledger closes exactly on every draw.
-objective: 'Run the environmental-calibration pipeline on the real geochemical
+experiment: 'Run the environmental-calibration pipeline on the real geochemical
   world: LHS prior from the vg-data package vent_environment -> ensemble per spatial-transport
   model class -> ABC conditioning on the field windows -> posterior-predictive fraction
   meeting the downstream requirements -> Morris screening -> the Feasibility / Robustness
@@ -181,7 +181,7 @@ findings:
   explanation: The og-00 contract's four invariants (mass_balance, charge_neutrality,
     spatial_flux_conservation, energy_directionality) are now all machine-witnessed;
     energy_directionality was previously declared but not computed.
-conclusion: 12.5% of the empirically motivated prior reproduces the Lost City observations,
+result: 12.5% of the empirically motivated prior reproduces the Lost City observations,
   the dissolved-H2 window is the only informative one, 100% of the posterior supplies
   what carbon fixation needs, the transport class changes nothing but outlet temperature,
   and the ledger closes exactly.

@@ -25,7 +25,7 @@ hypothesis: 'The reductive C4 branch (oxaloacetate -> malate -> succinate) is sp
   exchanging only with its own copy of the background) removes it; the function depends
   on the membrane permeability of the exchanged diacid and on the pore residence time,
   and it emerges while every cell is still incomplete.'
-objective: Build the proto_ecology face (ProtocellNetworkProcess and the matched-null
+experiment: Build the proto_ecology face (ProtocellNetworkProcess and the matched-null
   class — the reaction universe inside each agent, masked to a lineage repertoire),
   the SpatialCouplingStep onto the enrichment field with the exchange rules of a BigraphicalReactiveSystem
   (uptake, secretion, pore diffusion, feed / washout; every firing counted), the EcologyReducerStep
@@ -215,7 +215,7 @@ findings:
     - kelley2005serpentinite
     - pasek2017schreibersite
     - dorr2003prebiotic
-conclusion: One product class — malate, the reductive C4 branch — is held by the community
+result: One product class — malate, the reductive C4 branch — is held by the community
   of a carboxylating and a hydrogenating lineage and by neither alone; it vanishes
   without sharing, its oxaloacetate precursor crosses between the lineages, no cell
   is complete, and the function needs a diacid permeability of at least 3e-9 m/s;

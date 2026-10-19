@@ -18,7 +18,7 @@ question: >-
 hypothesis: Heterogeneous populations develop metabolic diversity, cross-feeding and
   robustness single compartments do not; the emergent capability set overlaps the
   anaerobic H2/CO2/FeS LUCA reconstruction as a boundary.
-objective: Run heterogeneous populations over a connected pore network; compare emergent
+experiment: Run heterogeneous populations over a connected pore network; compare emergent
   capability redundancy (robustness) to the isolated counterfactual, and the collective
   repertoire to the LUCA reconstruction as a constraint.
 proposed_mechanisms:
@@ -395,7 +395,7 @@ runs:
       detail: collective repertoire overlaps the anaerobic H2/CO2/FeS LUCA core at
         0.700±0.141 across 8 seeds — reported as a far-end BOUNDARY the emergent set
         approaches, not a fitting target
-conclusion: A coarse-grained, deterministic cross-feeding metacommunity shows that
+result: A coarse-grained, deterministic cross-feeding metacommunity shows that
   heterogeneous, connected pore compartments develop capability redundancy (robustness)
   a single compartment cannot — strictly, on every seed, above the isolated counterfactual
   run on the identical assignment. Robustness emerges in a bounded (diversity x exchange)

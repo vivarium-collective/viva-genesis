@@ -34,7 +34,7 @@ hypothesis: >-
   amplification and net carbon fixation exceed a matched null (identical input fluxes, autocatalytic
   topology removed) and persist above a critical dilution rate; if it does not, the analysis isolates
   the missing precursor or rate-limiting step.
-objective: >-
+experiment: >-
   Assemble vent-fed reaction networks from the 27 and 28 handoff bundles, detect stoichiometric
   autocatalysis, simulate kinetics with dilution, and test any detected amplification against a matched
   null — reporting either genuine autocatalysis with its critical dilution, or a clean negative that

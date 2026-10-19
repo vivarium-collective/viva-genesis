@@ -21,7 +21,7 @@ hypothesis: On an Fe/Ni/S catalyst with an H2 reductant, nitrate is reduced thro
   a bounded region of (nitrate supply x FeS activity), and outside it — low feed or
   passivated mineral — the C:N ratio blows up and nitrogen, not carbon or energy,
   becomes the first limiting resource.
-objective: Add nitrogen as its own module (FeS-mediated NO3-/NO2- -> NH4+ with minor
+experiment: Add nitrogen as its own module (FeS-mediated NO3-/NO2- -> NH4+ with minor
   N2 fixation and carbon-demanded reductive amination), track the C:N supply ratio,
   and map the region where reduced-N production keeps pace with the carbon-fixation
   demand.
@@ -102,7 +102,7 @@ findings:
     from_test: nitrogen-mass-conserved
     observed: max |n_mass_residual| ~1e-20 M over the run
     units: molar
-conclusion: Reduced-nitrogen production reproduces an FeS-mediated ammonium source
+result: Reduced-nitrogen production reproduces an FeS-mediated ammonium source
   and maps the region where it keeps pace with carbon fixation; nitrogen becomes limiting
   first where the nitrate feed is scarce or the mineral is passivated. Supplies reduced
   N (ammonium + amino-acid precursors) to the downstream protometabolism and heredity

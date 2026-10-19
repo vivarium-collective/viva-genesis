@@ -29,7 +29,7 @@ hypothesis: >-
   under explicit thermodynamic/kinetic assumptions, and the hypothetical tier is flagged — and keeping
   these three tiers separate is precisely what stops enzyme-catalyzed or synthetic-only reactions from
   leaking into prebiotic models.
-objective: >-
+experiment: >-
   Build and version the shared prebiotic-reaction-atlas (schema on PR #69): import/curate candidate
   reactions from Rhea/ChEBI/ORD plus primary-paper extraction, run deterministic chemistry validation
   (ChEBI identity, mass/charge balance, eQuilibrator ΔG), assign confidence tiers and kinetic domains,

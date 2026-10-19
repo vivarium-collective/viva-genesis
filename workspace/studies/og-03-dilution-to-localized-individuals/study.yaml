@@ -17,7 +17,7 @@ question: >-
 hypothesis: Thermophoresis + convection + adsorption in evolving pores raise local
   concentration enough that synthesis outruns hydrolysis/leakage in a bounded geometry
   region; elsewhere washout dominates.
-objective: Add pore geometry, adsorption, convection and thermophoresis; find where
+experiment: Add pore geometry, adsorption, convection and thermophoresis; find where
   retention + concentration cross persistence thresholds.
 proposed_mechanisms:
 - 'F: transport/concentration/retention'
@@ -523,7 +523,7 @@ visualizations:
   address: local:ThermophoreticTrap3D
   config:
     title: Inside the pore — the accumulation column in 3-D (World view)
-conclusion: The real FiPy thermal trap localizes a dilute feed into a bounded region
+result: The real FiPy thermal trap localizes a dilute feed into a bounded region
   of pore geometry and, in its own native (porosity × pore length) Decision map, draws
   the geometry threshold separating concentrated individuals from washed-out bulk.
   Feeds og-04 (mineral compartments) a concentrated starting pocket. Localization

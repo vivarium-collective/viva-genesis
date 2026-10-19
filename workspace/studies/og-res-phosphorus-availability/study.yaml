@@ -20,7 +20,7 @@ hypothesis: In a thermal-gradient pore (coupled from og-03), enrichment drives p
   first-order precipitation/adsorption sink in a bounded (source × enrichment) region
   — and that same enrichment co-concentrates P alongside carbon; without the gradient
   (open pore), precipitation wins and no reactive P accumulates.
-objective: Build a real P-speciation process (phosphate <-> polyphosphate <-> reactive-P
+experiment: Build a real P-speciation process (phosphate <-> polyphosphate <-> reactive-P
   with a precipitation/adsorption mineral sink), couple it to the og-03 thermal pore,
   and map where reactive-P availability beats loss and co-concentrates with carbon.
 claim: >-
@@ -123,7 +123,7 @@ findings:
     cites:
     - baaske2007extreme
     - pasek2017schreibersite
-conclusion: Reactive phosphorus becomes available only in a bounded enriched-pore
+result: Reactive phosphorus becomes available only in a bounded enriched-pore
   window where condensation and activation outrun the precipitation/adsorption sink;
   the same og-03 pore co-concentrates P with carbon, and the open-pore ablation precipitates
   ~96% of P — phosphorus is a localization-gated bottleneck.

@@ -24,7 +24,7 @@ hypothesis: Every attached class transmits parent-offspring information its unat
   mineral pattern would dominate both axes if its copy error were as low as hypothesised;
   the transition to templated heredity is the point at which the Eigen floor admits
   the template.
-objective: Build the heredity face (six classes carved out of og-06's LineageReplicatorProcess,
+experiment: Build the heredity face (six classes carved out of og-06's LineageReplicatorProcess,
   each an exact Gillespie lineage drawing integer precursors and quanta from matched
   budgets), the HeredityAttachmentStep (precursor budget, energy budget, Eigen floor
   Q >= 1/sigma), the InformationLedgerProcess (heritable bits per joule and per precursor
@@ -215,7 +215,7 @@ findings:
   expected:
     cites:
     - johnston2001rna
-conclusion: Four of six heredity classes transmit converged parent-offspring information
+result: Four of six heredity classes transmit converged parent-offspring information
   their controls do not; the frontier spans 3.8 decades in bits per joule; the RNA-like
   template is the richest certified carrier per offspring and the attractor classes
   the cheapest per joule; templated heredity attaches only at the full budget and

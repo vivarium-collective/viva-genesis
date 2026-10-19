@@ -15,7 +15,7 @@ question: >-
 hypothesis: A 1D/2D porous-wall reactor with prescribed boundary fluxes reproduces
   published Lost City ranges (T, pH, H2, DIC) and qualitative precipitation trends
   while conserving mass and charge.
-objective: Build a reduced vent–ocean reactor and validate it against Lost City field
+experiment: Build a reduced vent–ocean reactor and validate it against Lost City field
   ranges to establish a geochemical/spatial testbed.
 claim: >-
   Across the swept olivine-rate x flow-velocity grid, about 80% of the operating region falls
@@ -127,7 +127,7 @@ findings:
   next_action: Sweep pyroxene_fraction (ol/px ratio) and seawater-mixing dilution
     to bound the pH endmember (og-00b).
   next_action_type: calibrate
-conclusion: The real PHREEQC + FiPy vent reactor reproduces the Lost City field window
+result: The real PHREEQC + FiPy vent reactor reproduces the Lost City field window
   across a bounded ~80% habitability region of (olivine rate × flow velocity) and
   conserves mass/charge/flux at the baseline operating point, establishing the geochemical
   testbed og-01 builds on.

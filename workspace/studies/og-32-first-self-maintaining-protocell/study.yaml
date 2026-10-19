@@ -52,7 +52,7 @@ hypothesis: >-
   with the membrane's permeability informed by short molecular dynamics of its composition, so retention
   follows more directly from the chemistry than an imposed parameter does. If net amphiphile production falls
   below degradation, or the compartment fails to beat the matched null, no self-maintenance is claimed.
-objective: >-
+experiment: >-
   Join the study-30 reactive transport and study-29 kinetics to the study-31 amphiphile pool in one Vivarium
   composite, with membrane permeability informed by short molecular dynamics of the amphiphile composition
   and gating the metabolite exchange; track membrane integrity (production vs degradation), standing

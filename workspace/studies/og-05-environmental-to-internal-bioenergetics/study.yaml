@@ -17,7 +17,7 @@ question: >-
 hypothesis: When membrane permeability, Na+/H+ coupling and catalyst efficiency vary
   under selection, systems with increasing internal gradient generation win on throughput
   + persistence — but only if membranes stay sufficiently leaky (Sojo constraint).
-objective: Allow catalytic ion transport and active pumping; test whether selection
+experiment: Allow catalytic ion transport and active pumping; test whether selection
   favors internalized gradient generation.
 proposed_mechanisms:
 - 'H: bioenergetic internalization'
@@ -471,7 +471,7 @@ pipeline_gate:
     blocked_by: []
     evaluated_by: code
     diverges_from_authored: false
-conclusion: 'The evolutionary control loop maps the final pre-LUCA transition as a
+result: 'The evolutionary control loop maps the final pre-LUCA transition as a
   survival region (the Decision view): lineages move from externally imposed to internally
   maintained electrochemical states under selection, bounded by the Sojo cost line.
   Closes the pre-genetic milestone of the campaign.'

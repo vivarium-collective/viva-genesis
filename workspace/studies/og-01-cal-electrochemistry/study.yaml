@@ -24,7 +24,7 @@ hypothesis: 'Explicit electrochemistry reproduces the Altair-2025 current window
   electron ledger exactly, and labels every swept point with its dominant limitation.
   Pre-registered gate: the classes agree on the label on >= 80% of the region both
   call favorable.'
-objective: Build the carbon_fixation face with three classes (empirical = og-01's
+experiment: Build the carbon_fixation face with three classes (empirical = og-01's
   kinetics; butler_volmer = Nernst + Butler-Volmer galvanic cell, the primary new
   class; microkinetic = CatMAP/Cantera, pixi-only), the MineralConductivityProcess
   that derives gradient_efficiency from circuit physics, the ChargeLedgerProcess (Kirchhoff
@@ -163,7 +163,7 @@ findings:
     observed: charge residual <= 1.7e-13; FE max 1.0000000000001; iv residual <= 8.5e-9;
       0/750 failed
     units: dimensionless
-conclusion: The electrochemical interface is real, calibrated and ledger-exact; its
+result: The electrochemical interface is real, calibrated and ledger-exact; its
   mechanism map says the conducting vent wall is catalyst-limited and the insulating
   wall gradient-limited; the empirical class disagrees in the favorable region (agreement
   0.47), so the gate fails and the attribution is reported as structure-sensitive.

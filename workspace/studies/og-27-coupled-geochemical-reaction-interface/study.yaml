@@ -11,7 +11,7 @@ gate_status: passed
 confidence: Accepted
 verdict: qualified
 evidence_tier: mechanistic_prediction
-conclusion: "og-27's evolving mineral–water interface sustainably supplies reducing power, inorganic carbon, gradients and catalysis to the downstream network (og-29) — in the undersaturated carbonate regime, where the pore stays open (porosity ~0.96) and H2 flux holds at ~2.75e-4. The DIC-crossover sweep resolves the earlier needs_calibration flag with a fully-calibrated characterization, not an open gap: precipitation does reshape delivery (confirming the claim that the interface reshapes, not merely sustains), but at a SHARP SI=0 cliff (~3.2 mM fluid_dic), and supply and self-throttling occupy mutually exclusive regimes — the interface supplies OR throttles-and-chokes, never both (window_exists=False). The vent operating point is therefore necessarily undersaturated, and the interface is a bounded-window supply with a sharp carbonate limit, not a dual-function self-regulator; the result is sharper and DIC-keyed rather than the hypothesized gradual time-depletion. Conservation closes at every point. This firms up Gate A1's interface (it supplies at vent-realistic, undersaturated conditions) and says nothing about autocatalysis (A2 refuted). Qualified: a real, fully-characterized supply confined to the undersaturated regime with a sharp SI=0 bound."
+result: "og-27's evolving mineral–water interface sustainably supplies reducing power, inorganic carbon, gradients and catalysis to the downstream network (og-29) — in the undersaturated carbonate regime, where the pore stays open (porosity ~0.96) and H2 flux holds at ~2.75e-4. The DIC-crossover sweep resolves the earlier needs_calibration flag with a fully-calibrated characterization, not an open gap: precipitation does reshape delivery (confirming the claim that the interface reshapes, not merely sustains), but at a SHARP SI=0 cliff (~3.2 mM fluid_dic), and supply and self-throttling occupy mutually exclusive regimes — the interface supplies OR throttles-and-chokes, never both (window_exists=False). The vent operating point is therefore necessarily undersaturated, and the interface is a bounded-window supply with a sharp carbonate limit, not a dual-function self-regulator; the result is sharper and DIC-keyed rather than the hypothesized gradual time-depletion. Conservation closes at every point. This firms up Gate A1's interface (it supplies at vent-realistic, undersaturated conditions) and says nothing about autocatalysis (A2 refuted). Qualified: a real, fully-characterized supply confined to the undersaturated regime with a sharp SI=0 bound."
 title: Coupled Geochemical Reaction Interface
 claim: >-
   An evolving mineral–water interface at a Lost City–type vent can be modeled as a coupled
@@ -31,7 +31,7 @@ hypothesis: >-
   over transport timescales but declining on the slower mineral-evolution timescale as reactive
   surfaces passivate — i.e. the interface is a depleting supply with a measurable crossover time,
   not a perpetual one.
-objective: >-
+experiment: >-
   Build a cell-resolved geochemical reaction interface that evolves its own mineral surfaces, and
   quantify the time- and space-resolved supply of reducing power, carbon, gradients and catalytic
   surface it hands to the downstream network (study 29), with closed mass/charge/energy ledgers.

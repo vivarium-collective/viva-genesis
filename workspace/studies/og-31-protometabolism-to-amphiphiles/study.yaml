@@ -47,7 +47,7 @@ hypothesis: >-
   from study 30 will produce a chain-length and headgroup distribution whose concentration reaches the
   measured critical aggregation concentration and a stable phase window; if losses (hydrolysis, dilution)
   keep concentrations below that window, no assembly is claimed.
-objective: >-
+experiment: >-
   Transform the study-30 precursor pool via modeled chain-extension/headgroup/hydrolysis chemistry, track
   chain-length and headgroup distributions, concentrations and losses, and test against measured critical
   aggregation and phase-stability data — with zero exogenous amphiphile input.

@@ -25,7 +25,7 @@ hypothesis: >-
   The feasible region is an intersection, likely narrow: the most stable composition is not
   the most functional, so the compositions that sustain the internal network are a bounded
   compromise - and the region may be empty (a meaningful mechanistic boundary).
-objective: >-
+experiment: >-
   Insert the M2-M4 measured properties into a coupled compartment-reaction model (reusing
   og-32's coupling and the A1 network), scan compositions, and rank them on joint feasibility.
 primary_output: >-

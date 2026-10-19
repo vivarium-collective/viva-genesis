@@ -54,7 +54,7 @@ hypothesis: >-
   and greater robustness than any single lineage, with stochastic dynamics materially changing outcomes at low
   counts. If heterogeneity confers no community benefit, or the benefit is not causally cross-feeding, that is
   reported honestly rather than smoothed.
-objective: >-
+experiment: >-
   Run a cross-feeding protocell community (shared limiting feed held equal across arms) as an exact Gillespie
   SSA and a matched mean-field ODE; measure cumulative productivity against the BEST single-lineage control at
   equal feed, test whether the margin is causally cross-feeding with a knockout, and compare stochastic vs

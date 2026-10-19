@@ -41,7 +41,7 @@ hypothesis: >-
   co-localize intermediates and raise local productive flux and residence time enough to beat both a
   matched well-mixed control and a matched nonconcentrating control; if co-localization does not produce
   a flux margin over those controls, the pore confers no benefit and that is reported.
-objective: >-
+experiment: >-
   Run the 29 reaction network inside an explicit mineral-pore transport field (FiPy), with thermophoresis
   and surface adsorption, using discrete stochastic chemistry where molecule counts make a continuum
   unreliable; quantify co-localization, spatial reaction flux, residence and persistence against matched

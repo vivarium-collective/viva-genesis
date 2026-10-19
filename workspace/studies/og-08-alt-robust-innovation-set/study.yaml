@@ -26,7 +26,7 @@ hypothesis: 'og-08''s set is a hypothesis generator, not a result: in the integr
   only where the membrane is tight enough for concentration to pay and the ocean background
   is poor enough to need it; and the ocean floor the withdrawal relaxes toward — a
   hypothetical — should decide whether any subset persists at all.'
-objective: Build the integrated world (AblationStep, GeologicalDriverStep, LineageStateProcess,
+experiment: Build the integrated world (AblationStep, GeologicalDriverStep, LineageStateProcess,
   ActiveImportProcess with the ActiveUptakeRule, MaintenanceDemandProcess, LineageSupplyProcess,
   AutonomyBudgetStep, PopulationBudgetProcess, StructuralEventLogStep; the integrated_autonomy_world
   composite over the energy_coupling / heredity / boundary / localization faces with
@@ -195,7 +195,7 @@ findings:
     - kelley2005serpentinite
     - sojo2014bioenergetic
     - jordan2019promotion
-conclusion: "og-08-alt's rebuild resolves the integrated-autonomy attribution confound. The original all-at-once relaxation found no innovation subset jointly sufficient and reported {pump, importer, heredity} as a hypothesis generator (an honest negative). Withdrawing each vent driver ONE AT A TIME (24 structures × 3 drivers × 8 subsets, 300 ticks, ledgers closing everywhere) shows why: the requirement is driver-specific. The vent-pmf gradient is a hard dependency — rescued in only 4.2% of structures and only by {pump, heredity}; mineral access is freely survivable (0.958) and feed borderline (0.75), neither needing a specific innovation; the importer is never individually required. The earlier joint insufficiency was the gradient's rarity dominating the lumped collapse, not a universal triple. This is the rich-integrated-world analogue of study 37, where the pH gradient is likewise the irreducible, budget-hard dependency. Qualified: a characterized, confound-resolved, differential-survivability map — the vent drive is the hard dependency; the other supports are not."
+result: "og-08-alt's rebuild resolves the integrated-autonomy attribution confound. The original all-at-once relaxation found no innovation subset jointly sufficient and reported {pump, importer, heredity} as a hypothesis generator (an honest negative). Withdrawing each vent driver ONE AT A TIME (24 structures × 3 drivers × 8 subsets, 300 ticks, ledgers closing everywhere) shows why: the requirement is driver-specific. The vent-pmf gradient is a hard dependency — rescued in only 4.2% of structures and only by {pump, heredity}; mineral access is freely survivable (0.958) and feed borderline (0.75), neither needing a specific innovation; the importer is never individually required. The earlier joint insufficiency was the gradient's rarity dominating the lumped collapse, not a universal triple. This is the rich-integrated-world analogue of study 37, where the pH gradient is likewise the irreducible, budget-hard dependency. Qualified: a characterized, confound-resolved, differential-survivability map — the vent drive is the hard dependency; the other supports are not."
 conclusion_verdicts:
   biological_validation:
     result: PARTIAL

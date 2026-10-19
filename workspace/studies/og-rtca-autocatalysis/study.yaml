@@ -49,7 +49,7 @@ hypothesis: >-
   functional, coefficient-independent discriminator will reveal whether that topology actually
   self-amplifies under vent feeds; if it does not, the analysis names the rate-limiting/thermodynamic
   step rather than tuning a pass.
-objective: >-
+experiment: >-
   Build the curated mechanistic rTCA network as a real libRoadRunner reaction universe (same engine,
   feeds, eQuilibrator thermodynamics and matched-null machinery as Phase 3), grade it by the functional
   autocatalysis discriminator across the ignition sweep against a degree-preserving matched null, and
