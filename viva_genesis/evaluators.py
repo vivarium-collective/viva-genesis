@@ -425,7 +425,7 @@ def _structure_agreement_viable(reader, test: dict, ws_root: Any) -> float:
 
 # --- electrochemical interface / Phase-2 (og-01-cal-electrochemistry) --------
 
-_OGCAL_ELECTRO_REPORT = "workspace/studies/og-01-cal-electrochemistry/artifacts/electrochemistry_report.json"
+_OGCAL_ELECTRO_REPORT = "workspace/studies/og-carbon-fixation/artifacts/og-01-cal-electrochemistry/electrochemistry_report.json"
 
 
 def _charge_ledger_residual_max(reader, test: dict, ws_root: Any) -> float:

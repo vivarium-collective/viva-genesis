@@ -235,7 +235,7 @@ executive:
   - 'Carbon-fixation limitation attribution + default class (resolved by Eran): ACCEPT the structure-sensitive limitation
     attribution AS the carbon-fixation result — the empirical and Butler-Volmer classes disagreeing on the
     limitation label in the favorable region (agreement 0.47 < 0.8) IS the finding, reported as the
-    og-01-cal-electrochemistry mechanism map with gate_status failed (an honest negative); the gate is
+    og-carbon-fixation mechanism map with gate_status failed (an honest negative); the gate is
     not re-tuned to force a pass. KEEP empirical as og-01''s graded/headline default and butler_volmer as
     the registered high-fidelity electrochemistry class (the same FiPy-grades / FEniCS-cross-checks
     pattern), revisiting butler_volmer as the headline once Altair per-condition data turns its
@@ -450,10 +450,9 @@ guidelines:
       mechanistic_prediction: a parameterized model makes a new quantitative prediction -> "predicts under stated assumptions"
       conceptual_demonstration: a reduced model shows an organizational principle is possible -> "demonstrates in a coarse-grained model"
     tier_reading_of_current_studies:
-      reproduction: [og-01-geology-to-reduced-carbon (Preiner/Hudson yields)]
-      mechanistic_prediction: [og-01-geology-to-reduced-carbon (Tutolo collapse), og-network-persistence,
-        og-spatial-concentration, og-self-compartmentation, og-nutrient-bottlenecks, og-energetics, og-heredity, og-independence, og-reproduction, og-ecology, og-vent-environment (posterior prediction),
-        og-01-cal-electrochemistry (mechanism map; the Altair current-window check is at reproduction tier)]
+      reproduction: [og-carbon-fixation (Preiner/Hudson yields)]
+      mechanistic_prediction: [og-carbon-fixation (Tutolo collapse; electrochemical limitation-attribution refuted), og-network-persistence,
+        og-spatial-concentration, og-self-compartmentation, og-nutrient-bottlenecks, og-energetics, og-heredity, og-independence, og-reproduction, og-ecology, og-vent-environment (posterior prediction)]
       conceptual_demonstration: []
       null_control: [og-adv-generic-nonequilibrium]
     decision_discipline:
@@ -494,10 +493,10 @@ guidelines:
   - phase: 2
     name: Electrochemical carbon fixation
     status: built-and-run
-    studies: [og-01-geology-to-reduced-carbon, og-01-cal-electrochemistry]
+    studies: [og-carbon-fixation]
     component: carbon_fixation face with empirical | butler_volmer (primary, real Nernst + Butler-Volmer galvanic cell) | microkinetic (CatMAP/Cantera, registered, runs under pixi) classes; MineralConductivityProcess derives gradient_efficiency from the wall's circuit; ChargeLedgerProcess (Kirchhoff residual, faradaic efficiency <= 1, current-voltage residual)
     data_package: electrochemical_interface (Altair 2025 current window, Preiner 2020 branching, Ni/Fe gain, thickness, conductivity; full provenance)
-    exit_criterion: mechanism map - thermodynamic vs electrical vs catalytic vs transport limitation, classes agreeing on the label in the favorable region (gate failure-mode-attributed; see og-01-cal-electrochemistry for the measured agreement)
+    exit_criterion: mechanism map - thermodynamic vs electrical vs catalytic vs transport limitation, classes agreeing on the label in the favorable region (gate failure-mode-attributed; see og-carbon-fixation for the measured agreement)
     next: bridge CatMAP/Cantera for the microkinetic class under pixi and re-run the map with three classes; attach the Altair-2025 per-condition current / product time courses to turn the calibration window into a likelihood; decide whether og-01's default class becomes butler_volmer
   - phase: 3
     name: Open chemical network
@@ -698,9 +697,12 @@ at_a_glance:
     sharpened coupled interface that supplies H2 / inorganic carbon / pH-redox gradients + a CO2-reducing
     electrochemical driving force but throttles on a bounded two-regime DIC window; qualified — a viable
     geochemical reactor within bounds (no origin claim; the testbed downstream chemistry draws on).
-- study: og-01-geology-to-reduced-carbon
-  role: The cell's first carbon — H2-driven CO2 reduction; reproduce lab benchmarks; map the flux 
-    region
+- study: og-carbon-fixation
+  role: The cell's first carbon — H2-driven CO2 reduction reproduces the Preiner yield hierarchy and sustains
+    net organic-carbon flux in a bounded pH/H2 region, controls collapsing (supported); the explicit
+    electrochemical mechanism-attribution arm is refuted on a secondary question (the two model classes agree
+    on which limitation dominates only 47%, below the 80% gate) — kept honest as an arm without flipping the
+    supported headline.
 - study: og-network-persistence
   role: >-
     Network persistence — the carbon-fixing network sustains net carbon throughput as a connected
@@ -737,21 +739,15 @@ at_a_glance:
   role: 'Nutrient bottlenecks — reduced nitrogen keeps pace with carbon and reactive phosphorus co-concentrates in the pore (or limits first), studied as nitrogen + phosphorus arms'
 - study: og-reproduction
   role: 'Reproduction — metabolism-coupled growth to a measured-geometry division with viable daughters, building a multi-generation lineage; studied at several fidelities as arms (og-33 coupled growth+division, og-growth-division fate, og-growth-alt physical reproduction)'
-- study: og-01-cal-electrochemistry
-  role: 'Carbon-fixation mechanism map: the vent wall as a galvanic cell — which limitation (thermodynamic,
-    electrical, catalytic, transport) stops carbon fixation where, and whether the empirical and
-    Butler-Volmer classes agree on it; charge + electron ledger'
 studies:
 - og-vent-environment
-- og-01-geology-to-reduced-carbon
+- og-carbon-fixation
 - og-network-persistence
 - og-spatial-concentration
 - og-energetics
 - og-heredity
 - og-adv-generic-nonequilibrium
 - og-nutrient-bottlenecks
-- og-01-cal-electrochemistry
-- og-01-cal-dx-label-disagreement
 - og-autocatalysis-a2
 - og-self-compartmentation
 - og-reproduction
@@ -762,7 +758,7 @@ studies:
 acceptance_criteria:
 - study: og-vent-environment
   behavior: vent-pH-in-lostcity-range
-- study: og-01-geology-to-reduced-carbon
+- study: og-carbon-fixation
   behavior: net-carbon-flux-nonzero-region
 - study: og-network-persistence
   behavior: sustained-carbon-throughput
@@ -794,7 +790,7 @@ acceptance_criteria:
   behavior: lineage-reaches-three-generations
 - study: og-vent-environment
   behavior: posterior-viable-vent-fraction
-- study: og-01-cal-electrochemistry
+- study: og-carbon-fixation
   behavior: failure-mode-attributed
 - study: og-network-persistence
   behavior: motifs-emerge-not-imposed
@@ -957,7 +953,7 @@ proposed_inputs:
       for the onset of life. Communications Chemistry. Full bibliographic details pending."
     proposed_by: agent
     proposed_at: '2026-10-14'
-    related_study: og-01-geology-to-reduced-carbon
+    related_study: og-carbon-fixation
     rationale: "Electrochemical carbon-fixation calibration anchor: electrochemical coupling across
       FeS chimney-like interfaces, beside altair2025electrochemical for the Ni/Fe current-density calibration
       of the planned butler_volmer class on the carbon_fixation face."
