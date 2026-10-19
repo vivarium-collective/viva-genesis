@@ -64,7 +64,6 @@ builds_on:
 - 2
 - 16
 - 27
-- 28
 handoff:
   emits:
   - to: 30
@@ -83,7 +82,7 @@ handoff:
     - ionic activities
     - catalyst state
     - time-dependent feeds
-  - from: 28
+  - from: 2
     requires:
     - canonical species
     - balanced stoichiometry

@@ -755,7 +755,7 @@ baseline:
 parent_relations:
 - study: og-07-ecology-before-luca
   relation: alternative-to
-- study: og-02-alt-reaction-universe
+- study: og-network-persistence
   relation: builds-on
 key_assumptions:
 - Eight 1-fL protocells (4 fixers, 4 reducers) at fixed positions on a 4-cell pore
@@ -818,7 +818,7 @@ pipeline_gate:
   prerequisites:
   - study: og-07-ecology-before-luca
     condition: tests-passed
-  - study: og-02-alt-reaction-universe
+  - study: og-network-persistence
     condition: tests-passed
 conditions:
   baseline:

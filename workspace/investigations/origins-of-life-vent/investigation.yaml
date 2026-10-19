@@ -302,7 +302,7 @@ executive:
   - question: 'Rule-set scope for the reaction universe: keep C1-C3 feedstock / C/H/O-only chemistry
       (as built: products capped at C4, 413 reactions) or include N/P-bearing reactions from the start, folding
       the og-res-N / og-res-P resource chemistries into the universe?'
-    context: 'og-02-alt-reaction-universe defaulted to C/H/O so the first enrichment result rests on the
+    context: 'og-network-persistence defaulted to C/H/O so the first enrichment result rests on the
       eQuilibrator-covered thermodynamics and a (C,O)-balanced null. N/P rules would let amino-acid /
       nucleotide-precursor motifs compete with formose but need N/P potentials, a redesigned null and N/P
       ledgers. Also open: whether branched skeletons (citrate) should be added so rTCA-type cycles can close.'
@@ -451,7 +451,7 @@ guidelines:
       conceptual_demonstration: a reduced model shows an organizational principle is possible -> "demonstrates in a coarse-grained model"
     tier_reading_of_current_studies:
       reproduction: [og-00-vent-reactor-baseline, og-01-geology-to-reduced-carbon (Preiner/Hudson yields), og-cal-vent-environment (conditioning step)]
-      mechanistic_prediction: [og-01-geology-to-reduced-carbon (Tutolo collapse), og-02-reduced-carbon-to-protometabolism,
+      mechanistic_prediction: [og-01-geology-to-reduced-carbon (Tutolo collapse), og-network-persistence,
         og-03-dilution-to-localized-individuals, og-04-mineral-compartments-to-protocells, og-res-nitrogen-assimilation,
         og-res-phosphorus-availability, og-energetics, og-heredity, og-growth-division, og-cal-vent-environment (posterior prediction),
         og-01-cal-electrochemistry (mechanism map; the Altair current-window check is at reproduction tier)]
@@ -504,7 +504,7 @@ guidelines:
   - phase: 3
     name: Open chemical network
     status: built-and-run
-    studies: [og-02-reduced-carbon-to-protometabolism, og-02-alt-reaction-universe]
+    studies: [og-network-persistence]
     component: proto_metabolism face with curated_rtca | reaction_universe | null_network classes (all on libRoadRunner), NetworkLedgerProcess, post-hoc motif detector
     data_package: reaction_universe (11 rules over 121 linear C1-C4 C/H/O skeletons -> 413 reversible reactions; eQuilibrator dG' for 50 formula-verified KEGG compounds + group additivity for 71; catalyst classes with a saturating site pool)
     exit_criterion: distribution of persistent/autocatalytic subnetworks; motif enrichment vs matched nulls
@@ -699,8 +699,13 @@ at_a_glance:
 - study: og-01-geology-to-reduced-carbon
   role: The cell's first carbon — H2-driven CO2 reduction; reproduce lab benchmarks; map the flux 
     region
-- study: og-02-reduced-carbon-to-protometabolism
-  role: The first metabolism — reaction-network persistence and autocatalysis under flow
+- study: og-network-persistence
+  role: Network persistence — the carbon-fixing network sustains net carbon throughput as a connected
+    system under vent-realistic feed + washout (supported); persistence is driven, not autocatalytic: under
+    rule-generated real thermodynamics no self-amplifying motif emerges at the vent feed (formose only with
+    exogenous formaldehyde, p=0.04 vs matched nulls), and the curated rTCA motif is reclassed as imposed +
+    element-unbalanced. A provenance-gated reaction atlas supplies the balanced reactions both arms draw on.
+    Endogenous autocatalysis (A2) is the separate og-autocatalysis line.
 - study: og-03-dilution-to-localized-individuals
   role: Becoming an individual — long tight pores cross the concentration/retention threshold while
     open pores wash the feed through
@@ -739,10 +744,6 @@ at_a_glance:
   role: 'Carbon-fixation mechanism map: the vent wall as a galvanic cell — which limitation (thermodynamic,
     electrical, catalytic, transport) stops carbon fixation where, and whether the empirical and
     Butler-Volmer classes agree on it; charge + electron ledger'
-- study: og-02-alt-reaction-universe
-  role: 'Open chemical network: a rule-generated C/H/O universe with real dG'' fed the vent-calibration posterior grows no
-    autocatalytic motif; fed formaldehyde it grows the formose cycle, enriched over matched nulls (p = 0.04); the
-    curated rTCA motif is reclassed as imposed and non-conserving'
 - study: og-07-alt-real-metabolite-exchange
   role: 'Biochemical ecology: the reaction universe inside every protocell, masked to a lineage
     repertoire, coupled only by matter crossing membranes into an og-03-shaped pore — a community of a
@@ -754,7 +755,7 @@ at_a_glance:
 studies:
 - og-00-vent-reactor-baseline
 - og-01-geology-to-reduced-carbon
-- og-02-reduced-carbon-to-protometabolism
+- og-network-persistence
 - og-03-dilution-to-localized-individuals
 - og-04-mineral-compartments-to-protocells
 - og-energetics
@@ -767,7 +768,6 @@ studies:
 - og-growth-division
 - og-cal-vent-environment
 - og-01-cal-electrochemistry
-- og-02-alt-reaction-universe
 - og-04-alt-endogenous-boundary
 - og-growth-alt-physical-reproduction
 - og-07-alt-real-metabolite-exchange
@@ -776,7 +776,6 @@ studies:
 - og-01-cal-dx-label-disagreement
 - og-08-alt-dx-importer-cost
 - og-27-coupled-geochemical-reaction-interface
-- og-28-prebiotic-reaction-atlas
 - og-autocatalysis-a2
 - og-30-spatially-integrated-protometabolism
 - og-31-protometabolism-to-amphiphiles
@@ -790,8 +789,6 @@ studies:
 - mem-m3-stability-gradients
 - mem-m4-growth-division-propensity
 - mem-m5-functional-membrane-window
-- og-ev-kinetic-uq
-- og-ev-timevarying-forcing
 - og-ev-competing-environments
 - og-ev-chemistry-membrane-overlap
 - og-ev-pore-transport-benchmark
@@ -800,7 +797,7 @@ acceptance_criteria:
   behavior: vent-pH-in-lostcity-range
 - study: og-01-geology-to-reduced-carbon
   behavior: net-carbon-flux-nonzero-region
-- study: og-02-reduced-carbon-to-protometabolism
+- study: og-network-persistence
   behavior: sustained-carbon-throughput
 - study: og-03-dilution-to-localized-individuals
   behavior: enrichment-resolved-within-convergence
@@ -832,7 +829,7 @@ acceptance_criteria:
   behavior: posterior-viable-vent-fraction
 - study: og-01-cal-electrochemistry
   behavior: failure-mode-attributed
-- study: og-02-alt-reaction-universe
+- study: og-network-persistence
   behavior: motifs-emerge-not-imposed
 - study: og-energetics
   behavior: internalization-pays
@@ -1006,7 +1003,7 @@ proposed_inputs:
       of prebiotic chemistry. Science 369(6511):eaaw1955."
     proposed_by: agent
     proposed_at: '2026-10-14'
-    related_study: og-02-reduced-carbon-to-protometabolism
+    related_study: og-network-persistence
     rationale: "Open chemical network rule set: the reaction-transform library from which the
       reaction_universe generator and its matched null networks are built, so metabolism-like topology can be
       tested for enrichment among networks that persist under vent chemistry rather than selected in advance."
@@ -1070,13 +1067,11 @@ plan_gates:
     extends: null
     member_studies:
       - og-27-coupled-geochemical-reaction-interface
-      - og-28-prebiotic-reaction-atlas
+      - og-network-persistence
     pending_studies:
       # Evidence-expansion sub-program (PLANNED challenge studies; honest-bar — they test whether
       # the A1 conclusions SURVIVE harder scrutiny, a negative being a meaningful result). These
       # EXTEND Gate A1; they do not contribute to its verdict (which rests on the member_studies).
-      - {slug: og-ev-kinetic-uq, title: Kinetic-network re-evaluation under realistic uncertainty, scaffolded: true, planned: true, program: evidence-expansion}
-      - {slug: og-ev-timevarying-forcing, title: Time-varying geochemical forcing, scaffolded: true, planned: true, program: evidence-expansion}
       - {slug: og-ev-competing-environments, title: Competing origin environments (cross-cutting falsification), scaffolded: true, planned: true, program: evidence-expansion, cross_cutting: true}
     # No matched-null clause here — persistence is the criterion; the autocatalysis
     # matched-null arm lives on the A2 branch below.

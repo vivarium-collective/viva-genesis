@@ -369,7 +369,7 @@ key_assumptions:
 - Concentration arises from the balance of advection, diffusion, thermodiffusion,
   adsorption, precipitation and degradation — not assumed.
 parent_relations:
-- study: og-02-reduced-carbon-to-protometabolism
+- study: og-network-persistence
   relation: builds-on
 expert_questions:
 - Is og-03 the right end-point for the first publication milestone (pre-genetic),
@@ -486,7 +486,7 @@ runs:
       auto_evaluated: true
 pipeline_gate:
   prerequisites:
-  - study: og-02-reduced-carbon-to-protometabolism
+  - study: og-network-persistence
     condition: tests-passed
   gate_evaluator:
     result: passed
@@ -503,7 +503,7 @@ visualizations:
   address: local:PoreIgnitionCoupling
   config:
     title: Localization lifts the feed across the ignition threshold (Mechanism view)
-    grid_json: workspace/studies/og-02-reduced-carbon-to-protometabolism/artifacts/protometabolism_gain_grid.json
+    grid_json: workspace/studies/og-network-persistence/artifacts/protometabolism_gain_grid.json
 - name: pore-localization-map
   address: local:PoreLocalizationMap
   config:
