@@ -284,7 +284,7 @@ baseline:
     loss_rate: 0.08
   canonical: true
 parent_relations:
-- study: og-03-dilution-to-localized-individuals
+- study: og-spatial-concentration
   relation: builds-on
 key_assumptions:
 - Reactive-P availability arises from the balance of condensation, activation, hydrolysis
@@ -377,7 +377,7 @@ pipeline_gate:
     evaluated_by: code
     diverges_from_authored: false
   prerequisites:
-  - study: og-03-dilution-to-localized-individuals
+  - study: og-spatial-concentration
     condition: tests-passed
 conditions:
   baseline:

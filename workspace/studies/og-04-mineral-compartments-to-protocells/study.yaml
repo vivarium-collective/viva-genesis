@@ -309,7 +309,7 @@ key_assumptions:
 - Mineral pores provide initial individuality; organic boundaries are a later, condition-dependent
   transition.
 parent_relations:
-- study: og-03-dilution-to-localized-individuals
+- study: og-spatial-concentration
   relation: builds-on
 expert_questions:
 - Model mineral-confined and free vesicles both, or start mineral-confined only?
@@ -419,7 +419,7 @@ runs:
         abolish vesicles => bounded survival region)
 pipeline_gate:
   prerequisites:
-  - study: og-03-dilution-to-localized-individuals
+  - study: og-spatial-concentration
     condition: tests-passed
   gate_evaluator:
     result: passed
