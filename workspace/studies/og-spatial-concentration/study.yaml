@@ -9,6 +9,11 @@ simulation_status: ran
 evaluation_status: evaluated
 gate_status: passed
 verdict: supported
+primary_limitation: "The pore clears the Baaske accumulation regime but the chemically-necessary eight-solute set fractionates (Soret-driven, co-localization index ~0.18) rather than co-localizing - a candidate downstream bottleneck."
+key_assumptions:
+- "Concentration is a serpentinite pore (Soret + convection) vs an open-pore washout control"
+- "The Baaske-2007 extreme-accumulation regime is the benchmark"
+- "Localization is resolved as a bounded porosity x pore-length region"
 evidence_tier: mechanistic_prediction
 program: consolidated
 title: 'Spatial Concentration: Does a Pore Enrich a Dilute Feed?'

@@ -9,6 +9,11 @@ simulation_status: ran
 evaluation_status: evaluated
 gate_status: passed
 verdict: supported
+primary_limitation: "Network persistence is driven, not autocatalytic self-amplification - the apparent curated-motif autocatalysis is invalidated (element-unbalanced), and the inferred-tier atlas reactions remain planned under explicit assumptions."
+key_assumptions:
+- "Persistence is net carbon throughput of a connected network under vent-realistic feed + washout"
+- "The reaction set is the provenance-gated prebiotic-reaction-atlas Resource (balanced, confidence-tiered)"
+- "Autocatalysis is graded by a common detector against 24 matched nulls"
 evidence_tier: mechanistic_prediction
 program: consolidated
 title: 'Network Persistence: Does the Carbon-Fixing Network Sustain Itself?'

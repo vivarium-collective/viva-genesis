@@ -10,6 +10,11 @@ evaluation_status: evaluated
 gate_status: passed
 confidence: Accepted
 verdict: qualified
+primary_limitation: "The membrane buys persistence, not throughput (net flux ~0.6x the ablation), and the self-maintenance result is a reduced-coupling (retention/access) model, explicitly not the MD-resolved permeability PMF."
+key_assumptions:
+- "Boundaries are mixed single-chain amphiphiles at vent pH / seawater ionic strength"
+- "Permeability is MD-informed (Martini-3 CG-MD) for the cohesion arm; reduced-coupling (retention/access) for the persistence arm"
+- "Self-maintenance is scored against a no-endogenous-membrane ablation at equal feeds"
 evidence_tier: mechanistic_prediction
 program: consolidated
 plan_id: 32

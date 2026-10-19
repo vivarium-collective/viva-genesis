@@ -18,10 +18,14 @@ parent_studies:
   condition: tests-passed
 - study: og-vent-interface
   condition: tests-passed
+- study: og-nutrient-bottlenecks
+  condition: tests-passed
 parent_relations:
 - study: og-carbon-fixation
   relation: builds-on
 - study: og-vent-interface
+  relation: builds-on
+- study: og-nutrient-bottlenecks
   relation: builds-on
 honest_caveat: >-
   PLANNED bridge node - specifies a functional-precursor-pool study that targets the gap between bulk carbon flux
@@ -50,6 +54,11 @@ upstream_state_consumed:
   provides: >-
     the H2-driven CO2-reduction yield hierarchy and catalytic-interface rates the balanced reaction sets are anchored
     to
+- from: og-nutrient-bottlenecks
+  provides: >-
+    the joint non-carbon precursor feasibility - reduced-nitrogen (ammonium) availability keeping pace with carbon
+    fixation at a viable C:N and reactive-phosphorus availability co-concentrating with carbon in the thermophoretic
+    pore, each in compatible chemical forms under the pore / thermal-gradient physical regime
 proposed_controls:
 - no H2
 - no catalyst

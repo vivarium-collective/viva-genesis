@@ -10,6 +10,11 @@ evaluation_status: evaluated
 gate_status: passed
 confidence: Accepted
 verdict: qualified
+primary_limitation: "Independence is graded and attributed, not all-or-nothing; the three support channels are lumped, so the first cut does not resolve independence for H2 / CO2 / organics individually."
+key_assumptions:
+- "The innovation set is {internal pump, importer, heredity}"
+- "Support channels are gradient (pH/pmf), mineral access, and feed (H2+CO2+organics lumped)"
+- "Persistence is scored off-gradient against one-at-a-time and joint withdrawal"
 evidence_tier: mechanistic_prediction
 program: consolidated
 title: Escape and Progressive Independence from the Vent

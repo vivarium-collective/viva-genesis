@@ -10,6 +10,11 @@ evaluation_status: evaluated
 gate_status: passed
 confidence: Accepted
 verdict: qualified
+primary_limitation: "Sustained growth-to-division occupies only a bounded throughput x permeability band, and division is triggered at a measured area-doubling geometry (division_ratio 2.0, grounded in hanczyc/budin), not an open-ended process."
+key_assumptions:
+- "Growth is metabolism-coupled (an internal autocatalytic source drives osmotic influx)"
+- "Division geometry (ratio 2.0) is a proposed input grounded in the hanczyc/budin literature"
+- "Reproduction is scored against nulls where growth is decoupled or division imposed"
 evidence_tier: mechanistic_prediction
 program: consolidated
 plan_id: 33

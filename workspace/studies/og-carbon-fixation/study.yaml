@@ -9,6 +9,11 @@ simulation_status: ran
 evaluation_status: evaluated
 gate_status: passed
 verdict: supported
+primary_limitation: "Net fixation holds only inside a bounded pH-gradient x dissolved-H2 region; the Tutolo-2026 in-situ arm collapses the usable proton-motive gradient (427 -> 43 mV), the discriminating case the campaign must survive."
+key_assumptions:
+- "Carbon fixation is H2-driven CO2 reduction over Fe/Ni/S catalysts"
+- "Absolute yields are anchored to the Preiner-2020 hierarchy"
+- "Feasibility is gated by real eQuilibrator delta-G' (fixation stops where delta-G' >= 0)"
 evidence_tier: mechanistic_prediction
 program: consolidated
 title: 'Carbon Fixation: Does H2 Reduce CO2 at the Vent?'

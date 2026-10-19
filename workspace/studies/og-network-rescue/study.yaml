@@ -9,6 +9,11 @@ simulation_status: ran
 evaluation_status: evaluated
 gate_status: passed
 verdict: supported
+primary_limitation: "The pore's ignition benefit is a bounded window, not a broad swath; network_connected is a brittle proxy near threshold (reads 0 at high feed while the network stays carbon-fixing)."
+key_assumptions:
+- "The only difference between pore and control is spatial concentration, at identical vent-posterior feeds"
+- "Ignition is read as net carbon flux, with the brittle connectivity proxy cross-checked"
+- "The concentrating pore uses the og-03 thermophoretic enrichment"
 evidence_tier: mechanistic_prediction
 program: consolidated
 title: 'Network Rescue: Does Pore Concentration Ignite the Reaction Network?'
