@@ -3034,8 +3034,29 @@ _save_viz('og-operating-window', 'operating-window-phase-map', _render_one('', {
 # **Question.** Does the coupled chemistry-and-boundary system MAINTAIN ITSELF - chemistry making the boundary that in turn sustains the chemistry - under perturbation, without a built-in production or retention gain?
 #
 # **Hypothesis.** Coupling explicit amphiphile precursor flux, synthesis, membrane composition, permeability, nutrient influx, product retention and decay yields reciprocal maintenance that survives relevant perturbations only when neither direction of the coupling is assumed.
+#
+# **Claim.** The coupled chemistry-and-boundary system does NOT maintain itself endogenously under defensible vent conditions: the chemistry's acetate (even at B's favorable corner) yields an amphiphile pool ~4 orders below its CAC at the corner and ~7 orders below at the canonical point, so no membrane forms without assuming it, and reciprocal maintenance fails to close without a built-in retention gain - across all three ablations. SCOPED REFUTED of endogenous closure; the broader individuality-emergence question stays open (§9).
 
 # ### Parameters
+#
+# | simulation | composite | steps | params |
+# | --- | --- | --- | --- |
+# | `Self-maintaining individual — canonical reciprocal loop (A's pool, real synthesis, aggregation-gated membrane)` | `viva_genesis.composites.self_maintaining.og_self_maintaining_individual` | 0 | feed_CO2=0.002, k_wash_eff=0.05 |
+
+# ### The model & its parameters
+#
+# Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
+
+# **The model — `viva_genesis.composites.self_maintaining.og_self_maintaining_individual`**
+#
+# NEW C (one coupled pass): A's real precursor-pool reactor feeds its acetate to the real AmphiphileChainExtensionProcess (fatty-acid elongation -> aggregation_competent = long-chain / CAC) at a runner-supplied membrane-gated effective washout. The reciprocal fixed point, the 3 ablations and the with/without-built-in-gain comparison are in sims/run.py. Retention is earned on the actual aggregation_competent, never og_32's assumed ~0.9.
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_self_maintaining_og_self_maintaining_individual = {
+    'feed_CO2'  : 0.002,   # Inorganic-carbon feed (M), og-vent-interface DIC window
+    'k_wash_eff': 0.05,   # Effective CSTR washout (1/s); the runner sets it from the gated retention
+}
 
 # ### Run
 #
@@ -3047,14 +3068,44 @@ STUDY_DIR = REPO / 'workspace/studies' / STUDY
 STUDY_YAML = str(STUDY_DIR / "study.yaml")
 RUNS_DB = str(STUDY_DIR / "runs.db")
 
-print("No baseline composite declared for this study — nothing to build.")
+# This study has no *recorded* runs yet. RERUN builds its declared
+# composite(s) live and runs them; a composite whose module processes
+# are not implemented yet reports the error instead of crashing.
+STEPS_Self_maintaining_individual_canonical_reciprocal_loop_A_s_pool_real_synthesis_aggregation_gated_membrane = 100
+INTERVAL_Self_maintaining_individual_canonical_reciprocal_loop_A_s_pool_real_synthesis_aggregation_gated_membrane = 1.0
 
-# ### Literature anchors
+if RERUN:
+    from process_bigraph import Composite
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_self_maintaining_og_self_maintaining_individual if 'ov_viva_genesis_composites_self_maintaining_og_self_maintaining_individual' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_self_maintaining_og_self_maintaining_individual = materialize_composite('viva_genesis.composites.self_maintaining.og_self_maintaining_individual', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_self_maintaining_og_self_maintaining_individual['state']}, core=core)
+            _comp.run(STEPS_Self_maintaining_individual_canonical_reciprocal_loop_A_s_pool_real_synthesis_aggregation_gated_membrane)
+        print('ran', "Self-maintaining individual — canonical reciprocal loop (A's pool, real synthesis, aggregation-gated membrane)", f'(viva_genesis.composites.self_maintaining.og_self_maintaining_individual) for', STEPS_Self_maintaining_individual_canonical_reciprocal_loop_A_s_pool_real_synthesis_aggregation_gated_membrane, 'steps')
+    except Exception as _e:
+        print(f"Self-maintaining individual — canonical reciprocal loop (A's pool, real synthesis, aggregation-gated membrane) not runnable yet: {type(_e).__name__}: {_e}")
+else:
+    print("RERUN=False — not re-simulating.")
+
+# ### Visualizations
 #
-# | expectation | model observable | source | status |
-# | --- | --- | --- | --- |
-# | sojo2016origin | | | |
-# | jordan2019promotion | | | |
+# _Results are shown by the figures below, produced by the run above._
+
+# **self-maintaining-closure-map**
+
+# self-maintaining-closure-map
+_save_viz('og-self-maintaining-individual', 'self-maintaining-closure-map', _render_one('', {}, RUNS_DB, STUDY_YAML))
+
+# ### Acceptance criteria
+#
+# _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
+#
+# | test | measures | passes if |
+# | --- | --- | --- |
+# | acetate-delivered-to-synthesis _(supporting)_ | kind=derived path=settled_synth_acetate detail=settled acetate delivered to synthesis | op > value 0.0 detail the network delivers acetate to synthesis |
+# | amphiphiles-aggregation-competent _(primary)_ | kind=derived path=settled_aggregation_competent detail=long-chain amphiphile pool / CAC | op >= value 1.0 detail amphiphile pool clears CAC (a membrane can form endogenously) |
+# | reciprocal-maintenance-closes-endogenously _(primary)_ | kind=cross_run detail=endogenous closure (no built-in gain) at canonical + B-corner, vs the three ablations and the gain comparison | op controls_absent detail reciprocal maintenance closes endogenously without a built-in gain |
 
 # ## Study: NEW D — Evolvable Lineages (`og-evolvable-lineages`)
 #
