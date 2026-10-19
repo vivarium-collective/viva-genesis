@@ -3112,8 +3112,36 @@ _save_viz('og-self-maintaining-individual', 'self-maintaining-closure-map', _ren
 # **Question.** Do mechanically defensible daughters carry heritable chemical variation that produces a multi-generation, open-ended EVOLUTIONARY response - beyond a fixed trait space?
 #
 # **Hypothesis.** Stochastic chemical partition and variation at division produce heritable phenotype differences whose fitness, emerging from chemical persistence or division, drives a multi-generation response and adaptation to changed environments beyond a no-inheritance / shared-feed null.
+#
+# **Claim.** GIVEN a granted individual, stochastic partition + variation produce real heritable, selectable adaptation that shifts the population strongly above BOTH matched nulls (no-inheritance and shared-feed) and re-tracks a changed environment - but it is BOUNDED fixed-trait selection (heritable variance declines as it converges; the trait space is a fixed scalar), NOT open-ended novelty. Combined with C: the individuality bottleneck is the binding one; given an individual, evolvability works but is bounded. QUALIFIED.
 
 # ### Parameters
+#
+# | simulation | composite | steps | params |
+# | --- | --- | --- | --- |
+# | `Evolvable lineages — canonical (granted individual, grounded selection, static environment)` | `viva_genesis.composites.evolvable_lineages.og_evolvable_lineages` | 0 | inheritance=True, seed=7 |
+# | `No-inheritance null (daughters reset to common composition)` | `viva_genesis.composites.evolvable_lineages.og_evolvable_lineages` | 0 | inheritance=False |
+# | `Shared-feed null (flat fitness landscape, no fitness differential)` | `viva_genesis.composites.evolvable_lineages.og_evolvable_lineages` | 0 | retention_lo=0.5, retention_hi=0.5 |
+
+# ### The model & its parameters
+#
+# Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
+
+# **The model — `viva_genesis.composites.evolvable_lineages.og_evolvable_lineages`**
+#
+# NEW D (one static-environment condition): selection on an inherited network-composition trait in a population of og_33-dividing protocells, fitness grounded in the real composition->retention->division coupling. GIVEN a granted individual (C refuted endogenous closure). The runner drives this across the full condition, the no-inheritance null (inheritance=False), the shared-feed null (flat retention landscape), and a changed environment (swapped optimum), and reports whether evolvability is real above the nulls and whether it is open-ended or bounded fixed-trait selection.
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_evolvable_lineages_og_evolvable_lineages = {
+    'inheritance'     : True,   # Inherit parent composition (True) vs no-inheritance null (False)
+    'fitness_exponent': 2.0,   # Sharpens selection on retention (grounded fitness)
+    'retention_lo'    : 0.333,   # Retention at c=0 (study-32 short-chain MD endpoint); == retention_hi = shared-feed null
+    'retention_hi'    : 0.661,   # Retention at c=1 (study-32 long-chain MD endpoint); swap with lo = changed environment
+    'sigma'           : 0.03,   # Heritable partition/mutation std (declared, not tuned)
+    'n_pop'           : 120,   # Population size
+    'seed'            : 7,   # RNG seed (replicate)
+}
 
 # ### Run
 #
@@ -3125,13 +3153,67 @@ STUDY_DIR = REPO / 'workspace/studies' / STUDY
 STUDY_YAML = str(STUDY_DIR / "study.yaml")
 RUNS_DB = str(STUDY_DIR / "runs.db")
 
-print("No baseline composite declared for this study — nothing to build.")
+# This study has no *recorded* runs yet. RERUN builds its declared
+# composite(s) live and runs them; a composite whose module processes
+# are not implemented yet reports the error instead of crashing.
+STEPS_Evolvable_lineages_canonical_granted_individual_grounded_selection_static_environment = 100
+INTERVAL_Evolvable_lineages_canonical_granted_individual_grounded_selection_static_environment = 1.0
+STEPS_No_inheritance_null_daughters_reset_to_common_composition = 100
+INTERVAL_No_inheritance_null_daughters_reset_to_common_composition = 1.0
+STEPS_Shared_feed_null_flat_fitness_landscape_no_fitness_differential = 100
+INTERVAL_Shared_feed_null_flat_fitness_landscape_no_fitness_differential = 1.0
 
-# ### Literature anchors
+if RERUN:
+    from process_bigraph import Composite
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_evolvable_lineages_og_evolvable_lineages if 'ov_viva_genesis_composites_evolvable_lineages_og_evolvable_lineages' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_evolvable_lineages_og_evolvable_lineages = materialize_composite('viva_genesis.composites.evolvable_lineages.og_evolvable_lineages', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_evolvable_lineages_og_evolvable_lineages['state']}, core=core)
+            _comp.run(STEPS_Evolvable_lineages_canonical_granted_individual_grounded_selection_static_environment)
+        print('ran', 'Evolvable lineages — canonical (granted individual, grounded selection, static environment)', f'(viva_genesis.composites.evolvable_lineages.og_evolvable_lineages) for', STEPS_Evolvable_lineages_canonical_granted_individual_grounded_selection_static_environment, 'steps')
+    except Exception as _e:
+        print(f"Evolvable lineages — canonical (granted individual, grounded selection, static environment) not runnable yet: {type(_e).__name__}: {_e}")
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_evolvable_lineages_og_evolvable_lineages if 'ov_viva_genesis_composites_evolvable_lineages_og_evolvable_lineages' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_evolvable_lineages_og_evolvable_lineages = materialize_composite('viva_genesis.composites.evolvable_lineages.og_evolvable_lineages', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_evolvable_lineages_og_evolvable_lineages['state']}, core=core)
+            _comp.run(STEPS_No_inheritance_null_daughters_reset_to_common_composition)
+        print('ran', 'No-inheritance null (daughters reset to common composition)', f'(viva_genesis.composites.evolvable_lineages.og_evolvable_lineages) for', STEPS_No_inheritance_null_daughters_reset_to_common_composition, 'steps')
+    except Exception as _e:
+        print(f"No-inheritance null (daughters reset to common composition) not runnable yet: {type(_e).__name__}: {_e}")
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_evolvable_lineages_og_evolvable_lineages if 'ov_viva_genesis_composites_evolvable_lineages_og_evolvable_lineages' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_evolvable_lineages_og_evolvable_lineages = materialize_composite('viva_genesis.composites.evolvable_lineages.og_evolvable_lineages', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_evolvable_lineages_og_evolvable_lineages['state']}, core=core)
+            _comp.run(STEPS_Shared_feed_null_flat_fitness_landscape_no_fitness_differential)
+        print('ran', 'Shared-feed null (flat fitness landscape, no fitness differential)', f'(viva_genesis.composites.evolvable_lineages.og_evolvable_lineages) for', STEPS_Shared_feed_null_flat_fitness_landscape_no_fitness_differential, 'steps')
+    except Exception as _e:
+        print(f"Shared-feed null (flat fitness landscape, no fitness differential) not runnable yet: {type(_e).__name__}: {_e}")
+else:
+    print("RERUN=False — not re-simulating.")
+
+# ### Visualizations
 #
-# | expectation | model observable | source | status |
-# | --- | --- | --- | --- |
-# | vasas2010lack | | | |
+# _Results are shown by the figures below, produced by the run above._
+
+# **evolvable-lineages-response**
+
+# evolvable-lineages-response
+_save_viz('og-evolvable-lineages', 'evolvable-lineages-response', _render_one('', {}, RUNS_DB, STUDY_YAML))
+
+# ### Acceptance criteria
+#
+# _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
+#
+# | test | measures | passes if |
+# | --- | --- | --- |
+# | selection-shifts-composition _(primary)_ | kind=derived path=final_mean_composition detail=final-generation mean composition | op >= value 0.6 detail composition selected well above the ~0.4 start |
+# | parent-offspring-heritability _(supporting)_ | kind=derived path=final_parent_offspring_r detail=parent-offspring fitness correlation | op >= value 0.5 detail fitness is substantially heritable |
+# | heritable-selection-above-both-nulls _(primary)_ | kind=cross_run detail=full shift vs no-inheritance null vs shared-feed null | op controls_absent detail response present under inheritance+selection, absent in both matched nulls |
+# | heritable-variance-sustained _(diagnostic)_ | kind=derived path=heritable_variance_ratio detail=heritable fitness variance final / initial | op >= value 1.0 detail heritable variance sustained (open-ended) rather than declining (bounded) |
 
 # ## Open decisions
 # - Ocean-floor H2 / organic prior (og-independence autonomy floor): supply an expert prior on the Hadean ocean's dissolved H2 and organic background (the floor) to turn og-independence's floor map into a prediction. (The {pump, importer, heredity} required-set framing is now RESOLVED — driver-specific, see decisions_resolved; this is the remaining open piece.)
