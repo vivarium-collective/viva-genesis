@@ -1121,3 +1121,56 @@ def register_derived_scalars(registry: dict) -> None:
     registry["map_ledgers_all_ok"] = _map_ledgers_all_ok
     registry["map_carbon_residual_max"] = _map_carbon_residual_max
     registry["connected_minus_isolated_robustness"] = _connected_minus_isolated_robustness
+    # NEW A — og-precursor-pool (geochemical carbon -> functional precursor pool)
+    registry["settled_functional_pool_carbon"] = _settled_functional_pool_carbon
+    registry["settled_pool_cofixed_fraction"] = _settled_pool_cofixed_fraction
+    registry["pool_electron_budget_residual_max"] = _pool_electron_budget_residual_max
+    registry["pool_element_residual_max"] = _pool_element_residual_max
+    registry["pool_carbon_residual_max"] = _pool_carbon_residual_max
+    registry["settled_pool_cn_ratio"] = _settled_pool_cn_ratio
+    registry["settled_pool_c2_c1_ratio"] = _settled_pool_c2_c1_ratio
+    registry["settled_pool_formate_mM"] = _settled_pool_formate_mM
+
+
+# --- NEW A: og-precursor-pool derived scalars ------------------------------
+
+def _settled_functional_pool_carbon(reader, test: dict, ws_root: Any) -> float:
+    """Settled functional (C>=2) precursor pool carbon (molar C)."""
+    return _settled_mean(reader, "functional_pool_carbon", frac=0.2)
+
+
+def _settled_pool_cofixed_fraction(reader, test: dict, ws_root: Any) -> float:
+    """Settled carbon-weighted de-novo CO2-fixed fraction of the functional pool."""
+    return _settled_mean(reader, "pool_cofixed_fraction", frac=0.2)
+
+
+def _pool_electron_budget_residual_max(reader, test: dict, ws_root: Any) -> float:
+    """Worst-case degree-of-reduction (electron) budget residual."""
+    return max(abs(v) for v in _values(reader, "electron_budget_residual"))
+
+
+def _pool_element_residual_max(reader, test: dict, ws_root: Any) -> float:
+    """Worst-case atom-balance residual (exact for a generated universe -> 0)."""
+    return max(abs(v) for v in _values(reader, "element_residual"))
+
+
+def _pool_carbon_residual_max(reader, test: dict, ws_root: Any) -> float:
+    """Worst-case integrated carbon-balance residual."""
+    return max(abs(v) for v in _values(reader, "carbon_residual"))
+
+
+def _settled_pool_cn_ratio(reader, test: dict, ws_root: Any) -> float:
+    """Settled fixed-carbon : reduced-nitrogen ratio (dimensionless)."""
+    return _settled_mean(reader, "cn_ratio", frac=0.2)
+
+
+def _settled_pool_c2_c1_ratio(reader, test: dict, ws_root: Any) -> float:
+    """Predicted (withheld) C2:C1 hierarchy ratio = settled acetate / settled formate."""
+    formate = _settled_mean(reader, "formate", frac=0.2)
+    acetate = _settled_mean(reader, "acetate", frac=0.2)
+    return acetate / formate if formate > 0 else 0.0
+
+
+def _settled_pool_formate_mM(reader, test: dict, ws_root: Any) -> float:
+    """Settled formate (C1 feedstock) in mM — the calibrated C1 anchor."""
+    return _settled_mean(reader, "formate", frac=0.2) * 1000.0

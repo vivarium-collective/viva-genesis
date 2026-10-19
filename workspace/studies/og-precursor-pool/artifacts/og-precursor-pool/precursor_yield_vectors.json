@@ -1,0 +1,439 @@
+{
+  "study": "og-precursor-pool",
+  "feed": {
+    "feed_CO2_M": 0.002,
+    "feed_H2_M": 0.0108,
+    "ammonium_M": 0.00013,
+    "provenance": "og-vent-interface DIC window + og-carbon-fixation H2 + og-nutrient ammonium"
+  },
+  "n_steps": 240,
+  "functional_pool_carbon_M": 3.8913586788409497e-10,
+  "pool_cofixed_fraction": 1.0,
+  "cn_ratio": 4.8713280089013535,
+  "element_residual": 0.0,
+  "carbon_residual": 2.651533956243829e-09,
+  "electron_budget": {
+    "electrons_supplied_rate": 6.459398882214432e-05,
+    "electrons_fixed_rate": 6.459398882214432e-05,
+    "electron_budget_residual": 0.0
+  },
+  "yield_vectors": {
+    "formate": {
+      "sid": "X_A",
+      "n_carbons": 1,
+      "concentration_M": 0.0006332722258969192,
+      "co2_fixed_fraction": 1.0,
+      "fed_fraction": 0.0,
+      "functional": false
+    },
+    "formaldehyde": {
+      "sid": "X_D",
+      "n_carbons": 1,
+      "concentration_M": 9.331664855207675e-12,
+      "co2_fixed_fraction": 1.0,
+      "fed_fraction": 0.0,
+      "functional": false
+    },
+    "X_H": {
+      "sid": "X_H",
+      "n_carbons": 1,
+      "concentration_M": 1.6792723953635105e-11,
+      "co2_fixed_fraction": 1.0,
+      "fed_fraction": 0.0,
+      "functional": false
+    },
+    "X_AA": {
+      "sid": "X_AA",
+      "n_carbons": 2,
+      "concentration_M": 1.2023730697547015e-11,
+      "co2_fixed_fraction": 1.0,
+      "fed_fraction": 0.0,
+      "functional": true
+    },
+    "X_AD": {
+      "sid": "X_AD",
+      "n_carbons": 2,
+      "concentration_M": 6.518416906237334e-11,
+      "co2_fixed_fraction": 1.0,
+      "fed_fraction": 0.0,
+      "functional": true
+    },
+    "X_AH": {
+      "sid": "X_AH",
+      "n_carbons": 2,
+      "concentration_M": 1.076208630053059e-10,
+      "co2_fixed_fraction": 1.0,
+      "fed_fraction": 0.0,
+      "functional": true
+    },
+    "acetate": {
+      "sid": "X_AM",
+      "n_carbons": 2,
+      "concentration_M": 9.68110896065357e-12,
+      "co2_fixed_fraction": 1.0,
+      "fed_fraction": 0.0,
+      "functional": true
+    },
+    "X_DD": {
+      "sid": "X_DD",
+      "n_carbons": 2,
+      "concentration_M": 1.0186427465282062e-18,
+      "co2_fixed_fraction": 1.0,
+      "fed_fraction": 0.0,
+      "functional": true
+    },
+    "glycolaldehyde": {
+      "sid": "X_DH",
+      "n_carbons": 2,
+      "concentration_M": 6.0359761915459155e-19,
+      "co2_fixed_fraction": 1.0,
+      "fed_fraction": 0.0,
+      "functional": true
+    },
+    "X_DM": {
+      "sid": "X_DM",
+      "n_carbons": 2,
+      "concentration_M": 5.491190338468973e-20,
+      "co2_fixed_fraction": 1.0,
+      "fed_fraction": 0.0,
+      "functional": true
+    },
+    "X_HH": {
+      "sid": "X_HH",
+      "n_carbons": 2,
+      "concentration_M": 9.965161125455444e-19,
+      "co2_fixed_fraction": 1.0,
+      "fed_fraction": 0.0,
+      "functional": true
+    },
+    "X_HM": {
+      "sid": "X_HM",
+      "n_carbons": 2,
+      "concentration_M": 1.7279742809761921e-19,
+      "co2_fixed_fraction": 1.0,
+      "fed_fraction": 0.0,
+      "functional": true
+    },
+    "X_MM": {
+      "sid": "X_MM",
+      "n_carbons": 2,
+      "concentration_M": 1.5500852669702746e-20,
+      "co2_fixed_fraction": 1.0,
+      "fed_fraction": 0.0,
+      "functional": true
+    },
+    "X_ACA": {
+      "sid": "X_ACA",
+      "n_carbons": 3,
+      "concentration_M": 2.053131615978827e-15,
+      "co2_fixed_fraction": 1.0,
+      "fed_fraction": 0.0,
+      "functional": true
+    },
+    "X_ACD": {
+      "sid": "X_ACD",
+      "n_carbons": 3,
+      "concentration_M": 5.743409384398349e-21,
+      "co2_fixed_fraction": 1.0,
+      "fed_fraction": 0.0,
+      "functional": true
+    },
+    "X_ACH": {
+      "sid": "X_ACH",
+      "n_carbons": 3,
+      "concentration_M": 1.0748916401120012e-20,
+      "co2_fixed_fraction": 1.0,
+      "fed_fraction": 0.0,
+      "functional": true
+    },
+    "X_ACM": {
+      "sid": "X_ACM",
+      "n_carbons": 3,
+      "concentration_M": 1.1464206017122467e-21,
+      "co2_fixed_fraction": 1.0,
+      "fed_fraction": 0.0,
+      "functional": true
+    },
+    "X_AKA": {
+      "sid": "X_AKA",
+      "n_carbons": 3,
+      "concentration_M": 1.3826116477393608e-14,
+      "co2_fixed_fraction": 1.0,
+      "fed_fraction": 0.0,
+      "functional": true
+    },
+    "X_AKD": {
+      "sid": "X_AKD",
+      "n_carbons": 3,
+      "concentration_M": 2.3567014480294893e-20,
+      "co2_fixed_fraction": 1.0,
+      "fed_fraction": 0.0,
+      "functional": true
+    },
+    "X_AKH": {
+      "sid": "X_AKH",
+      "n_carbons": 3,
+      "concentration_M": 9.304165547698615e-21,
+      "co2_fixed_fraction": 1.0,
+      "fed_fraction": 0.0,
+      "functional": true
+    },
+    "pyruvate": {
+      "sid": "X_AKM",
+      "n_carbons": 3,
+      "concentration_M": 4.614895339041932e-22,
+      "co2_fixed_fraction": 1.0,
+      "fed_fraction": 0.0,
+      "functional": true
+    },
+    "X_AOA": {
+      "sid": "X_AOA",
+      "n_carbons": 3,
+      "concentration_M": 2.2826918703153864e-14,
+      "co2_fixed_fraction": 1.0,
+      "fed_fraction": 0.0,
+      "functional": true
+    },
+    "X_AOD": {
+      "sid": "X_AOD",
+      "n_carbons": 3,
+      "concentration_M": 8.4626864065338105e-22,
+      "co2_fixed_fraction": 1.0,
+      "fed_fraction": 0.0,
+      "functional": true
+    },
+    "X_AOH": {
+      "sid": "X_AOH",
+      "n_carbons": 3,
+      "concentration_M": 1.5480625360320636e-20,
+      "co2_fixed_fraction": 1.0,
+      "fed_fraction": 0.0,
+      "functional": true
+    },
+    "X_AOM": {
+      "sid": "X_AOM",
+      "n_carbons": 3,
+      "concentration_M": 2.039107521864586e-21,
+      "co2_fixed_fraction": 1.0,
+      "fed_fraction": 0.0,
+      "functional": true
+    },
+    "X_DCD": {
+      "sid": "X_DCD",
+      "n_carbons": 3,
+      "concentration_M": 2.973886196972186e-29,
+      "co2_fixed_fraction": 1.0,
+      "fed_fraction": 0.0,
+      "functional": true
+    },
+    "X_DCH": {
+      "sid": "X_DCH",
+      "n_carbons": 3,
+      "concentration_M": 4.8440009206813395e-28,
+      "co2_fixed_fraction": 1.0,
+      "fed_fraction": 0.0,
+      "functional": true
+    },
+    "X_DCM": {
+      "sid": "X_DCM",
+      "n_carbons": 3,
+      "concentration_M": 4.0152088196096937e-29,
+      "co2_fixed_fraction": 1.0,
+      "fed_fraction": 0.0,
+      "functional": true
+    },
+    "X_DKD": {
+      "sid": "X_DKD",
+      "n_carbons": 3,
+      "concentration_M": 5.598827511272835e-28,
+      "co2_fixed_fraction": 1.0,
+      "fed_fraction": 0.0,
+      "functional": true
+    },
+    "X_DKH": {
+      "sid": "X_DKH",
+      "n_carbons": 3,
+      "concentration_M": 9.281602969281462e-27,
+      "co2_fixed_fraction": 1.0,
+      "fed_fraction": 0.0,
+      "functional": true
+    },
+    "X_DKM": {
+      "sid": "X_DKM",
+      "n_carbons": 3,
+      "concentration_M": 1.2975707874645927e-27,
+      "co2_fixed_fraction": 1.0,
+      "fed_fraction": 0.0,
+      "functional": true
+    },
+    "X_DOD": {
+      "sid": "X_DOD",
+      "n_carbons": 3,
+      "concentration_M": 3.5990763074739498e-28,
+      "co2_fixed_fraction": 1.0,
+      "fed_fraction": 0.0,
+      "functional": true
+    },
+    "X_DOH": {
+      "sid": "X_DOH",
+      "n_carbons": 3,
+      "concentration_M": 5.159260712796895e-27,
+      "co2_fixed_fraction": 1.0,
+      "fed_fraction": 0.0,
+      "functional": true
+    },
+    "X_DOM": {
+      "sid": "X_DOM",
+      "n_carbons": 3,
+      "concentration_M": 7.114476699751514e-28,
+      "co2_fixed_fraction": 1.0,
+      "fed_fraction": 0.0,
+      "functional": true
+    },
+    "X_HCH": {
+      "sid": "X_HCH",
+      "n_carbons": 3,
+      "concentration_M": 2.3946451191415618e-27,
+      "co2_fixed_fraction": 1.0,
+      "fed_fraction": 0.0,
+      "functional": true
+    },
+    "X_HCM": {
+      "sid": "X_HCM",
+      "n_carbons": 3,
+      "concentration_M": 6.324011569038307e-28,
+      "co2_fixed_fraction": 1.0,
+      "fed_fraction": 0.0,
+      "functional": true
+    },
+    "X_HKH": {
+      "sid": "X_HKH",
+      "n_carbons": 3,
+      "concentration_M": 7.522128287386412e-27,
+      "co2_fixed_fraction": 1.0,
+      "fed_fraction": 0.0,
+      "functional": true
+    },
+    "X_HKM": {
+      "sid": "X_HKM",
+      "n_carbons": 3,
+      "concentration_M": 1.2602882210403304e-27,
+      "co2_fixed_fraction": 1.0,
+      "fed_fraction": 0.0,
+      "functional": true
+    },
+    "X_HOH": {
+      "sid": "X_HOH",
+      "n_carbons": 3,
+      "concentration_M": 1.9339934905373455e-26,
+      "co2_fixed_fraction": 1.0,
+      "fed_fraction": 0.0,
+      "functional": true
+    },
+    "X_HOM": {
+      "sid": "X_HOM",
+      "n_carbons": 3,
+      "concentration_M": 4.4795897505210305e-27,
+      "co2_fixed_fraction": 1.0,
+      "fed_fraction": 0.0,
+      "functional": true
+    },
+    "X_MCM": {
+      "sid": "X_MCM",
+      "n_carbons": 3,
+      "concentration_M": 9.546521979537637e-29,
+      "co2_fixed_fraction": 1.0,
+      "fed_fraction": 0.0,
+      "functional": true
+    },
+    "X_MKM": {
+      "sid": "X_MKM",
+      "n_carbons": 3,
+      "concentration_M": 4.050320959593085e-29,
+      "co2_fixed_fraction": 1.0,
+      "fed_fraction": 0.0,
+      "functional": true
+    },
+    "X_MOM": {
+      "sid": "X_MOM",
+      "n_carbons": 3,
+      "concentration_M": 4.358478131440694e-28,
+      "co2_fixed_fraction": 1.0,
+      "fed_fraction": 0.0,
+      "functional": true
+    }
+  },
+  "functional_species": [
+    "X_AA",
+    "X_AD",
+    "X_AH",
+    "acetate",
+    "X_DD",
+    "glycolaldehyde",
+    "X_DM",
+    "X_HH",
+    "X_HM",
+    "X_MM",
+    "X_ACA",
+    "X_ACD",
+    "X_ACH",
+    "X_ACM",
+    "X_AKA",
+    "X_AKD",
+    "X_AKH",
+    "pyruvate",
+    "X_AOA",
+    "X_AOD",
+    "X_AOH",
+    "X_AOM",
+    "X_DCD",
+    "X_DCH",
+    "X_DCM",
+    "X_DKD",
+    "X_DKH",
+    "X_DKM",
+    "X_DOD",
+    "X_DOH",
+    "X_DOM",
+    "X_HCH",
+    "X_HCM",
+    "X_HKH",
+    "X_HKM",
+    "X_HOH",
+    "X_HOM",
+    "X_MCM",
+    "X_MKM",
+    "X_MOM"
+  ],
+  "dic_window_sweep": [
+    {
+      "feed_CO2_mM": 2.0,
+      "functional_pool_carbon_M": 3.8913586788409497e-10,
+      "c1_M": 0.000633272252021308,
+      "c2_M": 1.945098745878465e-10,
+      "c2_c1_ratio": 3.0715047748736945e-07
+    },
+    {
+      "feed_CO2_mM": 5.0,
+      "functional_pool_carbon_M": 2.073796045126167e-09,
+      "c1_M": 0.0014610392388062692,
+      "c2_M": 1.0360791527914264e-09,
+      "c2_c1_ratio": 7.0913848531402e-07
+    },
+    {
+      "feed_CO2_mM": 10.0,
+      "functional_pool_carbon_M": 6.73128269767833e-09,
+      "c1_M": 0.002629998222276945,
+      "c2_M": 3.3599310345520264e-09,
+      "c2_c1_ratio": 1.2775411808617634e-06
+    },
+    {
+      "feed_CO2_mM": 20.0,
+      "functional_pool_carbon_M": 1.9868619866868012e-08,
+      "c1_M": 0.004512019678699391,
+      "c2_M": 9.897141417783508e-09,
+      "c2_c1_ratio": 2.1935058183603494e-06
+    }
+  ],
+  "consumable_threshold_M": 1e-06
+}
