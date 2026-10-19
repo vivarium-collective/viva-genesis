@@ -223,6 +223,7 @@ visualizations:
     grid_json: >-
       workspace/studies/og-vent-specificity/artifacts/og-adv-generic-nonequilibrium/vent_specificity_grid.json
 - name: vent-specificity-map
+  display: primary
   address: local:VentSpecificityMap
   config:
     title: Adversarial control — vent-specificity of the gates

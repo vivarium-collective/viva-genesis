@@ -1054,6 +1054,7 @@ visualizations:
   config:
     title: The protocell in 3-D — a boundary that retains without isolating (World view)
 - name: endogenous-boundary-formation
+  display: mechanism
   address: local:EndogenousBoundaryViz
   config:
     title: Boundary forms from chemistry (favorable vs synthesis-ablated)
@@ -1074,6 +1075,7 @@ visualizations:
       the real OpenMM run where the membrane extra is installed; otherwise the figure shows a note that
       the engine is unavailable.
 - name: self-maintaining-protocell
+  display: primary
   address: local:OgSelfMaintainingProtocellViz
   config:
     title: The first self-maintaining protocell holds its pool

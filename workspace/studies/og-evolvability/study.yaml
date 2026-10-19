@@ -220,6 +220,7 @@ runs:
       detail: no-inheritance null shows correlation ~0 and drift ~0 at equal feeds
 visualizations:
 - name: chemical-heredity-selection
+  display: primary
   address: local:OgChemicalHeredityViz
   config:
     title: Selectable compositional heredity

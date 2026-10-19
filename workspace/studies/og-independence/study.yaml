@@ -1340,6 +1340,7 @@ visualizations:
       workspace/studies/og-independence/artifacts/og-08-escape-from-the-vent/off_gradient_grid.json
     title: Campaign VIII — escape from the vent
 - name: off-gradient-survival-frontier
+  display: primary
   address: local:OffGradientPhaseMap
   config:
     composite: viva_genesis.composites.off_gradient_persistence.off_gradient_persistence
