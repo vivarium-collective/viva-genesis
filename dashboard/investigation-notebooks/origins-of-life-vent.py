@@ -1805,151 +1805,6 @@ _save_viz('og-nutrient-bottlenecks', 'phosphorus-availability-map', _render_one(
 # | open-pore-no-enrichment-control _(primary)_ | kind=cross_run detail=favorable enriched pore vs open-pore / no-gradient control | op controls_absent detail reactive-P availability collapses (net <= 0 ~fully precipitated) without enrichment None |
 # | p-mass-conserved _(diagnostic)_ | kind=derived path=phosphorus_p_mass_residual detail=max |total P - supplied| / supplied | op <= value 1e-06 detail P-mass residual small (P-atom-conserving network) |
 
-# ## Study: Growth and Division (`og-growth-division`)
-#
-# **Question.** Can an internal autocatalytic metabolism change a compartment's physical fate - driving growth and division through osmotic pressure alone - without assigning any abstract fitness score?
-#
-# **Hypothesis.** Product accumulation from an internal autocatalytic source generates osmotic pressure that drives solvent influx and volume growth to a division threshold; there is a bounded membrane-permeability band in which the compartment sustains net growth leading to division, flanked by starvation (too permeable, the product leaks before osmotic pressure can build) and lysis (too impermeable, the pressure bursts the membrane).
-#
-# **Claim.** An internal autocatalytic source accumulates an osmolyte whose osmotic pressure draws solvent across the membrane and grows the compartment to a division threshold; in the matched regime it divides eight times over the run, with an osmolyte mass-balance residual of about 4e-32 mol. Only about 25% of the throughput by permeability grid forms a viable growth-to-division band, flanked by starvation when the membrane is too permeable and the product leaks before pressure can build, and lysis when it is too impermeable and the pressure bursts the membrane, while zero throughput produces essentially no growth. The model therefore delivers a chemically selected, dividing protocell through mass-conserving osmotic coupling, with no abstract fitness function assigned.
-
-# ### Design — originally proposed
-#
-# _The mechanisms and methods proposed when this study was designed; the model **actually built** (and the tools it uses) is shown below. These may differ as the design was realized._
-#
-# **Proposed mechanisms**
-#
-# - H+: metabolism changes the compartment's physical fate (osmotic growth → division)
-# - osmotic pressure as a physical selection mechanism (no abstract fitness score)
-#
-# **Proposed models / methods**
-#
-# - custom coarse-grained osmotic membrane kinetics (van 't Hoff + solubility-diffusion permeability)
-# - reduced autocatalytic source (og-02 rTCA-style turn)
-# - parameter sweep over (throughput × permeability) → decision surface
-#
-# **Key assumptions**
-#
-# - The compartment (og-04 protocell) and the autocatalytic network (og-02 rTCA source) are given; this stage couples them to osmotic physics to test whether chemistry drives a physical division.
-
-# ### Parameters
-#
-# | simulation | composite | steps | params |
-# | --- | --- | --- | --- |
-# | `Metabolism to osmotic growth and division (favorable)` | `viva_genesis.composites.osmotic_growth_division.osmotic_growth_division` | 0 | network_throughput=1e-19, membrane_permeability=1e-09, autocatalytic_rate=0.5, division_threshold=6.4e-17, leak_rate=1.0 |
-
-# ### The model & its parameters
-#
-# Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
-
-# **The model — `viva_genesis.composites.osmotic_growth_division.osmotic_growth_division`**
-#
-# A reusable osmotic growth-and-division module (metabolism → growth & division). An internal autocatalytic osmolyte source coupled to compartment osmotic physics: product accumulation → osmotic pressure (van 't Hoff) → solvent influx → volume growth → division at a size threshold. Membrane permeability sets the fate: too permeable starves (product leaks, no osmotic build-up), too impermeable lyses (pressure bursts the membrane), matched gives sustained growth → division. Units-typed, mass-conserving coarse-grained reproduction (not wrapped membrane MD).
-
-# === Parameters — edit any value, then re-run from the Run cell below ===
-# Each entry is the composite's current default; the comment explains it.
-ov_viva_genesis_composites_osmotic_growth_division_osmotic_growth_division = {
-    'network_throughput'   : 1e-19,   # Internal autocatalytic/metabolic osmolyte source rate (mole/second); ~0 = ablation control
-    'autocatalytic_rate'   : 0.5,   # Self-amplification gain of the source (dimensionless)
-    'membrane_permeability': 1e-09,   # Membrane solute permeability (meter/second); the fate knob (leaky→starve, tight→lyse)
-    'division_threshold'   : 6.4e-17,   # Volume at which the compartment divides (liter); default 1.6× initial volume
-    'leak_rate'            : 1.0,   # Multiplier on the solute permeability for the outward leak (dimensionless)
-}
-
-# ### Typed contract (declared interface)
-#
-# _The bigraph-schema typed ports + conservation predicates this study's composite must satisfy (audited in the workbench §Contract panel). Declared design — independent of whether a run exists yet._
-#
-# **Inputs**
-#
-# | port | type | units | bounds |
-# | --- | --- | --- | --- |
-# | `network_throughput` | float | mole/second | >= 0.0 |
-# | `membrane_permeability` | float | meter/second | >= 0.0 |
-# | `external_osmolyte` | float | molar | >= 0.0 |
-#
-# **Outputs**
-#
-# | port | type | units | bounds |
-# | --- | --- | --- | --- |
-# | `volume` | float | liter | >= 0.0 |
-# | `internal_concentration` | float | molar | >= 0.0 |
-# | `osmotic_pressure` | float | pascal | >= 0.0 |
-# | `division_count` | integer | dimensionless | >= 0 |
-# | `osmolyte_balance_residual` | float | mole |  |
-#
-# **Conditions**
-#
-# - `mass_balance` (invariant): `abs(osmolyte_balance_residual) < tol`
-# - `osmotic_coupling_directionality` (invariant): `osmotic_pressure >= 0 and solvent influx follows the osmotic gradient (dV/dt = Lp*A*Pi)`
-# - `reproducibility` (invariant): `solver and db and seed and scenario recorded`
-
-# ### Run
-#
-# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
-
-# === Study: og-growth-division ===
-STUDY = 'og-growth-division'
-STUDY_DIR = REPO / 'workspace/studies' / STUDY
-STUDY_YAML = str(STUDY_DIR / "study.yaml")
-RUNS_DB = str(STUDY_DIR / "runs.db")
-
-# This study has no *recorded* runs yet. RERUN builds its declared
-# composite(s) live and runs them; a composite whose module processes
-# are not implemented yet reports the error instead of crashing.
-STEPS_Metabolism_to_osmotic_growth_and_division_favorable = 100
-INTERVAL_Metabolism_to_osmotic_growth_and_division_favorable = 1.0
-
-if RERUN:
-    from process_bigraph import Composite
-    try:
-        with quiet():  # keep per-step stdout out of the notebook
-            _ov = ov_viva_genesis_composites_osmotic_growth_division_osmotic_growth_division if 'ov_viva_genesis_composites_osmotic_growth_division_osmotic_growth_division' in dir() else None  # edits from the panel cell, if any
-            spec_viva_genesis_composites_osmotic_growth_division_osmotic_growth_division = materialize_composite('viva_genesis.composites.osmotic_growth_division.osmotic_growth_division', _ov)
-            _comp = Composite({'state': spec_viva_genesis_composites_osmotic_growth_division_osmotic_growth_division['state']}, core=core)
-            _comp.run(STEPS_Metabolism_to_osmotic_growth_and_division_favorable)
-        print('ran', 'Metabolism to osmotic growth and division (favorable)', f'(viva_genesis.composites.osmotic_growth_division.osmotic_growth_division) for', STEPS_Metabolism_to_osmotic_growth_and_division_favorable, 'steps')
-    except Exception as _e:
-        print(f"Metabolism to osmotic growth and division (favorable) not runnable yet: {type(_e).__name__}: {_e}")
-else:
-    print("RERUN=False — not re-simulating.")
-
-# ### Visualizations
-#
-# _Results are shown by the figures below, produced by the run above._
-
-# **osmotic-growth-world**
-
-# osmotic-growth-world
-_save_viz('og-growth-division', 'osmotic-growth-world', _render_one('local:OsmoticGrowthWorld', {'composite': 'viva_genesis.composites.osmotic_growth_division.osmotic_growth_division', 'title': 'Growth & division — volume, concentration, division events'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_osmotic_growth_division_osmotic_growth_division if 'ov_viva_genesis_composites_osmotic_growth_division_osmotic_growth_division' in dir() else None)))
-
-# **osmotic-coupling-mechanism**
-
-# osmotic-coupling-mechanism
-_save_viz('og-growth-division', 'osmotic-coupling-mechanism', _render_one('local:OsmoticCouplingMechanism', {'composite': 'viva_genesis.composites.osmotic_growth_division.osmotic_growth_division', 'title': 'The osmotic coupling — why too permeable starves, too impermeable lyses'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_osmotic_growth_division_osmotic_growth_division if 'ov_viva_genesis_composites_osmotic_growth_division_osmotic_growth_division' in dir() else None)))
-
-# **growth-division-map**
-
-# growth-division-map
-_save_viz('og-growth-division', 'growth-division-map', _render_one('local:GrowthDivisionMap', {'composite': 'viva_genesis.composites.osmotic_growth_division.osmotic_growth_division', 'grid_json': 'workspace/studies/og-growth-division/artifacts/growth_division_grid.json', 'title': 'Metabolism → growth & division — the viable band'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_osmotic_growth_division_osmotic_growth_division if 'ov_viva_genesis_composites_osmotic_growth_division_osmotic_growth_division' in dir() else None)))
-
-# ### Acceptance criteria
-#
-# _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
-#
-# | test | measures | passes if |
-# | --- | --- | --- |
-# | net-growth-to-division _(primary)_ | kind=derived path=growth_division_count detail=cumulative division count in the favorable (matched) arm | op > value 0.0 detail the compartment divides (>0) in the matched throughput/permeability regime |
-# | mass-conserved-across-division _(primary)_ | kind=derived path=osmotic_balance_residual_max detail=worst-case |osmolyte mass-balance residual| over the run (mol) | op < value 1e-18 detail mass conserved across the growth/division cycle (residual below a negligible mole tolerance) |
-# | division-not-lysis-or-starvation _(primary)_ | kind=cross_run detail=matched (divide) vs too-permeable (starve) and too-impermeable (lyse) arms | op arms_reported detail matched divides; too permeable = starve (no division no growth); too impermeable = lyse (viable band is bounded) None |
-# | ablation-no-throughput-no-growth _(primary)_ | kind=cross_run detail=favorable (source on) vs zero-throughput ablation (source off) | op controls_absent detail favorable divides; zero-throughput ablation shows no division and no net growth |
-
-# ### Literature anchors
-#
-# | expectation | model observable | source | status |
-# | --- | --- | --- | --- |
-# | Internal product accumulation generates osmotic pressure that drives compartment growth and division; fatty-acid / mixed-amphiphile vesicles grow and divide under osmotic and physico-chemical forcing without dedicated division machinery. | viable growth→division band over (throughput × permeability) | Jordan 2019 (vesicle feasibility); Muchowska 2019 (autocatalytic rTCA source); osmotic-growth vesicle division (Nat. Chem. 2023, pending reference) | Reproduced as a coarse-grained, units-typed, mass-conserving osmotic-coupling model — the matched regime grows and divides; the band is bounded by starvation and lysis. |
-
 # ## Study: The Vent Wall as a Galvanic Cell: Which Limitation Stops Carbon Fixation, and Do the Model Classes Agree? (`og-01-cal-electrochemistry`)
 #
 # **Question.** Treating the vent wall as an explicit galvanic cell (Nernst potentials, Butler-Volmer kinetics), do the empirical and the electrochemical model classes agree on which limitation (thermodynamic, electrical, catalytic, transport) stops carbon fixation across the region both call favorable - the pre-registered test being at least 80% agreement on the limitation label?
@@ -2117,128 +1972,6 @@ _save_viz('og-01-cal-electrochemistry', 'electrochemistry-polarization', _render
 # | --- | --- | --- | --- |
 # | Altair-2025 macroscale reactor currents ~10 nA .. 10 uA sufficient for carbon reduction | settled Butler-Volmer current density on a 1e-3 m^2 interface | Altair et al. 2025 (campaign dossier ref 12; parameter-registry electrochemical_current) | Used as the calibration window of the exchange currents (vg-data electrochemical_interface.observations.cell_current_density); 79.7% of the grid inside it. |
 # | Preiner 2020 product hierarchy formate >> acetate >> pyruvate, awaruite (Ni3Fe) the most productive catalyst | electron branch fractions and the Ni gain of the CO2-reduction exchange current | Preiner et al. 2020 | Branch fractions inferred from the yield hierarchy; the Ni gain is a hypothetical shape fitted to the ordering. |
-
-# ## Study: Physical Reproduction (`og-growth-alt-physical-reproduction`)
-#
-# **Question.** Can an individual physically reproduce - grow to a division threshold and divide into daughters that grow and divide in turn - building a multi-generation lineage with matter and volume conserved at every division?
-#
-# **Hypothesis.** A founder individual whose division_state grows to threshold divides by a _divide structural rewrite that halves its matter and volume; the daughters inherit half each (their amounts and volumes sum to the mother's) and grow and divide in turn, so a >=3-generation lineage forms in the agents map with the partition residual 0 at every division.
-#
-# **Claim.** A founder individual grows to threshold and divides by a structural rewrite that halves its matter and volume, its daughters do the same, and the lineage reaches 5 generations in the agents map, past the 3-generation bar, with the partition residual exactly 0 at every division. Matter and volume are conserved throughout. What the model demonstrates is the conserving division-and-lineage mechanism; growth itself is abstracted to a division trigger rather than the full osmotic volume growth, which coupling the two would supply.
-
-# ### Design — originally proposed
-#
-# _The mechanisms and methods proposed when this study was designed; the model **actually built** (and the tools it uses) is shown below. These may differ as the design was realized._
-#
-# **Proposed mechanisms**
-#
-# - H+: reproduction is a structural rewrite (_divide) on the agents map, not a counter
-# - conserving partition (FMP §9.1) — daughters'' amounts + volumes sum to the mother''s
-#
-# **Proposed models / methods**
-#
-# - AgentGrowthProcess (division_state -> threshold) + DivisionStep (_divide, matter + volume halved)
-# - LineageStatsProcess (deepest generation, total volume) + RewriteLedgerProcess (partition residual)
-
-# ### Parameters
-#
-# | simulation | composite | steps | params |
-# | --- | --- | --- | --- |
-# | `Founder lineage — growth to a >=3-generation lineage` | `viva_genesis.composites.physical_reproduction.physical_reproduction` | 0 | growth_per_step=0.4, founder_volume=8e-12, founder_formate=8.0, founder_acetate=4.0 |
-
-# ### The model & its parameters
-#
-# Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
-
-# **The model — `viva_genesis.composites.physical_reproduction.physical_reproduction`**
-#
-# og-growth-alt: a founder individual grows to a division threshold and divides by a _divide structural rewrite (matter + volume halved); the daughters grow and divide in turn, building a >=3-generation lineage in the agents map. A RewriteLedgerProcess audits that every division conserves matter (partition residual 0) and LineageStatsProcess reports the deepest generation + the total volume, which stays constant across divisions (the daughters' volumes sum to the mother's).
-
-# === Parameters — edit any value, then re-run from the Run cell below ===
-# Each entry is the composite's current default; the comment explains it.
-ov_viva_genesis_composites_physical_reproduction_physical_reproduction = {
-    'growth_per_step': 0.34,   # division_state added per step (growth to the division threshold) [vg-data: division_threshold]
-    'founder_volume' : 8e-12,   # Founder individual volume (liter)
-    'founder_formate': 8.0,   # Founder internal formate (mol)
-    'founder_acetate': 4.0,   # Founder internal acetate (mol)
-}
-
-# ### Typed contract (declared interface)
-#
-# _The bigraph-schema typed ports + conservation predicates this study's composite must satisfy (audited in the workbench §Contract panel). Declared design — independent of whether a run exists yet._
-#
-# **Inputs**
-#
-# | port | type | units | bounds |
-# | --- | --- | --- | --- |
-# | `growth_per_step` | float | dimensionless | >= 0.0 |
-# | `founder_volume` | float | liter | >= 0.0 |
-#
-# **Outputs**
-#
-# | port | type | units | bounds |
-# | --- | --- | --- | --- |
-# | `max_generation` | float | dimensionless | >= 0.0 |
-# | `total_volume` | float | liter | >= 0.0 |
-# | `partition_residual_max` | float | dimensionless |  |
-#
-# **Conditions**
-#
-# - `partition_conservation`: `partition_residual_max == 0 (daughter amounts + volumes sum to the mother)`
-
-# ### Run
-#
-# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
-
-# === Study: og-growth-alt-physical-reproduction ===
-STUDY = 'og-growth-alt-physical-reproduction'
-STUDY_DIR = REPO / 'workspace/studies' / STUDY
-STUDY_YAML = str(STUDY_DIR / "study.yaml")
-RUNS_DB = str(STUDY_DIR / "runs.db")
-
-# This study has no *recorded* runs yet. RERUN builds its declared
-# composite(s) live and runs them; a composite whose module processes
-# are not implemented yet reports the error instead of crashing.
-STEPS_Founder_lineage_growth_to_a_3_generation_lineage = 100
-INTERVAL_Founder_lineage_growth_to_a_3_generation_lineage = 1.0
-
-if RERUN:
-    from process_bigraph import Composite
-    try:
-        with quiet():  # keep per-step stdout out of the notebook
-            _ov = ov_viva_genesis_composites_physical_reproduction_physical_reproduction if 'ov_viva_genesis_composites_physical_reproduction_physical_reproduction' in dir() else None  # edits from the panel cell, if any
-            spec_viva_genesis_composites_physical_reproduction_physical_reproduction = materialize_composite('viva_genesis.composites.physical_reproduction.physical_reproduction', _ov)
-            _comp = Composite({'state': spec_viva_genesis_composites_physical_reproduction_physical_reproduction['state']}, core=core)
-            _comp.run(STEPS_Founder_lineage_growth_to_a_3_generation_lineage)
-        print('ran', 'Founder lineage — growth to a >=3-generation lineage', f'(viva_genesis.composites.physical_reproduction.physical_reproduction) for', STEPS_Founder_lineage_growth_to_a_3_generation_lineage, 'steps')
-    except Exception as _e:
-        print(f"Founder lineage — growth to a >=3-generation lineage not runnable yet: {type(_e).__name__}: {_e}")
-else:
-    print("RERUN=False — not re-simulating.")
-
-# ### Visualizations
-#
-# _Results are shown by the figures below, produced by the run above._
-
-# **physical-reproduction-lineage**
-
-# physical-reproduction-lineage
-_save_viz('og-growth-alt-physical-reproduction', 'physical-reproduction-lineage', _render_one('local:PhysicalReproductionViz', {'title': 'A multi-generation lineage in the agents map'}, RUNS_DB, STUDY_YAML))
-
-# ### Acceptance criteria
-#
-# _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
-#
-# | test | measures | passes if |
-# | --- | --- | --- |
-# | lineage-reaches-three-generations _(primary)_ | kind=derived path=peak_generation detail=deepest generation the lineage REACHES (peak over the run, not the time-mean); from artifacts/physical_reproduction_report.json | op >= value 3.0 detail a >=3-generation lineage forms (peak reaches generation 5) |
-# | division-conserves-volume _(primary)_ | kind=derived path=partition_residual_peak detail=worst (max) |mother - sum(daughters)| over every _divide; from artifacts/physical_reproduction_report.json | op <= value 1e-09 detail partition residual ~ 0 at every division (conserving split) |
-
-# ### Literature anchors
-#
-# | expectation | model observable | source | status |
-# | --- | --- | --- | --- |
-# |  |  |  |  |
 
 # ## Study: Biochemical Ecology: A Community Function That No Lineage Can Perform, Carried by Real Metabolite Flux (`og-07-alt-real-metabolite-exchange`)
 #
@@ -2870,46 +2603,21 @@ _save_viz('og-self-compartmentation', 'fatty-acid-vesicle-stability', _render_on
 # | real-fatty-acid-not-standin _(primary)_ | kind=observable detail=vesicle built from martini_v3.0.0_fatty_acids_v1.itp FAnn/FAnnM run in martini_openmm=None | op threshold detail real fatty-acid vesicle builds + integrates (finite energy) under the membrane barostat |
 # | multi-seed-robust _(secondary)_ | kind=observable detail=per-arm n_seeds n_stable_seeds=None and the std of each metric=None | op threshold detail at least 3 seeds per arm with reported mean +/- std |
 
-# ## Study: Chemically Coupled Growth and Division (`og-33-chemically-coupled-growth-and-division`)
+# ## Study: Reproduction: Coupled Growth and Division into a Lineage (`og-reproduction`)
 #
-# **Question.** Can a self-maintaining protocell grow and divide as a consequence of its own chemistry - membrane area and content increasing from metabolism until a physical instability splits it - rather than by an imposed division rule, and are the daughters viable?
+# **Question.** How does a self-maintaining protocell reproduce — does metabolism drive growth to a measured-geometry division with viable daughters (not lysis or starvation), building a multi-generation lineage, each against its own matched null with input fluxes held equal?
 #
-# **Hypothesis.** Metabolism-supplied amphiphiles grow the membrane; as area outpaces volume the compartment reaches a shape instability and divides at a measured critical-geometry threshold, partitioning contents; division rate scales with metabolic flux and the daughters re-enter self-maintenance. If division needs an imposed event, or the daughters cannot resume self-maintenance, no emergent growth/division is claimed.
+# **Hypothesis.** Metabolic throughput grows the compartment to a geometry-set division with viable daughters and a persisting lineage; each step is demonstrated only where it beats its matched null (growth decoupled/imposed, no-throughput ablation), and coarse-grained abstractions are reported as such rather than tuned to a pass.
 #
-# **Claim.** The protocell grows from its own metabolic amphiphile production and divides at a physically-grounded, measured area-doubling geometry - yielding viable daughters that resume self-maintenance - rather than by an imposed rule. Division rate scales with metabolic flux (coupled) while a growth-decoupled null is flux-independent and an imposed-division null divides on a timer; the metabolism-coupled arm beats both matched nulls at equal feeds, and daughters are viable only because they resume the study-32 self-maintenance criterion (integrity plus benefit over the no-membrane ablation). The verdict is qualified: the criterion is met on the measured-geometry first cut (Option B); full coarse-grained membrane mechanics (Option A, og-33a) is the budgeted follow-up. The metabolism is the sustained A1 carbon-fixing network (not autocatalytic), so growth is funded by carbon fixation, not self-amplification.
-
-# ### Design — originally proposed
-#
-# _The mechanisms and methods proposed when this study was designed; the model **actually built** (and the tools it uses) is shown below. These may differ as the design was realized._
-#
-# **Proposed mechanisms**
-#
-# - membrane growth from the metabolic amphiphile flux (area increasing with metabolic flux)
-# - division at a MEASURED critical-geometry threshold (area-doubling budding instability), no imposed event
-# - content partitioning to daughters, each tested for resumed self-maintenance (viability)
-# - division rate scaling with metabolic flux vs a growth-decoupled / imposed-rule control at equal feeds
-#
-# **Proposed models / methods**
-#
-# - Membrane growth from the metabolic flux + division via a MEASURED area-doubling budding geometry  [Option B / first cut; grounded in hanczyc/budin growth-division geometries]
-# - Coarse-grained membrane mechanics for division (viva-md-membrane)  [to-build; the richer follow-on, tracked as og-33a in discovery_implications - NOT over-committed here]
-# - study-32 self-maintaining protocell (real A1 reaction universe + MD-informed membrane) coupled to the GrowthDivisionProcess  [in-workspace]
-# - division-rate vs flux slope + daughter-viability across a feed sweep
-# - measured growth-division geometry / critical-radius benchmarks for independent validation (evidence standard
-#
-# **Key assumptions**
-#
-# - Input fluxes are held equal to the matched null (growth-decoupled or imposed-division) - emergent growth/division must be a margin over it, not more feed.
-# - Division triggers at a MEASURED area-doubling budding geometry (hanczyc/budin), not a value tuned to force division (Option B; CG membrane mechanics is a follow-up og-33a).
-# - Daughters are viable only if they resume the study-32 self-maintenance criterion (production >= degradation), not merely form.
-# - The enclosed metabolism is the sustained A1 carbon-fixing network, not autocatalytic (A2 refuted under vent conditions).
+# **Claim.** A self-maintaining protocell reproduces by metabolism-coupled growth and division into a lineage. Metabolism drives growth to a division at measured geometry with viable daughters, beating a null where growth is decoupled from metabolism or division is imposed (og-33, qualified); net throughput grows the compartment to division rather than lysis or starvation, mass-conserved, where a no-throughput ablation does not (og-growth-division, supported); and a growing, dividing individual builds a >=3-generation lineage with volume conserved across division (og-growth-alt, supported). Headline verdict qualified (coarse-grained geometry/budget abstraction); every matched null and every arm verdict preserved.
 
 # ### Parameters
 #
 # | simulation | composite | steps | params |
 # | --- | --- | --- | --- |
-# | `Chemically coupled growth and division (metabolism-coupled, measured geometry)` | `viva_genesis.composites.og_33_chemically_coupled_growth_and_division.og_33_chemically_coupled_growth_and_division` | 0 | coupled=True, porosity=0.88, base_CO2=0.001, base_H2=0.001, max_carbons=4 |
-# | `Growth-decoupled null (equal feeds)` | `viva_genesis.composites.og_33_chemically_coupled_growth_and_division.og_33_chemically_coupled_growth_and_division` | 0 | coupled=False, porosity=0.88, base_CO2=0.001, base_H2=0.001, max_carbons=4 |
+# | `Chemically coupled growth and division — canonical arm (og-33)` | `viva_genesis.composites.og_33_chemically_coupled_growth_and_division.og_33_chemically_coupled_growth_and_division` | 0 | — |
+# | `Growth->division fate (vs no-throughput ablation) — og-growth-division arm` | `viva_genesis.composites.osmotic_growth_division.osmotic_growth_division` | 0 | — |
+# | `Physical reproduction to a multi-generation lineage — og-growth-alt arm` | `viva_genesis.composites.physical_reproduction.physical_reproduction` | 0 | — |
 
 # ### The model & its parameters
 #
@@ -2932,40 +2640,39 @@ ov_viva_genesis_composites_og_33_chemically_coupled_growth_and_division_og_33_ch
     'max_carbons'     : 4,   # Carbon cap of the reaction universe
 }
 
-# ### Typed contract (declared interface)
+# **The model — `viva_genesis.composites.osmotic_growth_division.osmotic_growth_division`**
 #
-# _The bigraph-schema typed ports + conservation predicates this study's composite must satisfy (audited in the workbench §Contract panel). Declared design — independent of whether a run exists yet._
+# A reusable osmotic growth-and-division module (metabolism → growth & division). An internal autocatalytic osmolyte source coupled to compartment osmotic physics: product accumulation → osmotic pressure (van 't Hoff) → solvent influx → volume growth → division at a size threshold. Membrane permeability sets the fate: too permeable starves (product leaks, no osmotic build-up), too impermeable lyses (pressure bursts the membrane), matched gives sustained growth → division. Units-typed, mass-conserving coarse-grained reproduction (not wrapped membrane MD).
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_osmotic_growth_division_osmotic_growth_division = {
+    'network_throughput'   : 1e-19,   # Internal autocatalytic/metabolic osmolyte source rate (mole/second); ~0 = ablation control
+    'autocatalytic_rate'   : 0.5,   # Self-amplification gain of the source (dimensionless)
+    'membrane_permeability': 1e-09,   # Membrane solute permeability (meter/second); the fate knob (leaky→starve, tight→lyse)
+    'division_threshold'   : 6.4e-17,   # Volume at which the compartment divides (liter); default 1.6× initial volume
+    'leak_rate'            : 1.0,   # Multiplier on the solute permeability for the outward leak (dimensionless)
+}
+
+# **The model — `viva_genesis.composites.physical_reproduction.physical_reproduction`**
 #
-# **Inputs**
-#
-# | port | type | units | bounds |
-# | --- | --- | --- | --- |
-# | `external_co2_supply` | float | molar/second | >= 0.0 |
-# | `external_h2_supply` | float | molar/second | >= 0.0 |
-#
-# **Outputs**
-#
-# | port | type | units | bounds |
-# | --- | --- | --- | --- |
-# | `membrane_area` | float | nanometer**2 | >= 0.0 |
-# | `reduced_volume` | float | dimensionless | >= 0.0 |
-# | `division_rate` | float | 1/second | >= 0.0 |
-# | `daughter_viable` | float | dimensionless | >= 0.0 |
-#
-# **Conditions**
-#
-# - `equal_input_fluxes_vs_null` (invariant): `external feed fluxes are held equal to the matched null (growth-decoupled or imposed-division control); emergent growth/division is the margin over it`
-# - `no_imposed_division` (invariant): `division follows from the area-doubling budding instability at a measured critical-geometry threshold, with no imposed division event`
-# - `division_geometry_measured` (invariant): `the critical-geometry threshold (area-doubling budding) is taken from measured growth-division geometries (hanczyc/budin), not tuned to force division`
-# - `daughters_resume_self_maintenance` (invariant): `a daughter is viable only if it resumes the study-32 self-maintenance criterion (production >= degradation)`
-# - `metabolism_is_A1_not_autocatalytic` (invariant): `the enclosed metabolism is the sustained A1 carbon-fixing network; growth is funded by carbon fixation, not autocatalytic self-amplification (A2 refuted)`
+# og-growth-alt: a founder individual grows to a division threshold and divides by a _divide structural rewrite (matter + volume halved); the daughters grow and divide in turn, building a >=3-generation lineage in the agents map. A RewriteLedgerProcess audits that every division conserves matter (partition residual 0) and LineageStatsProcess reports the deepest generation + the total volume, which stays constant across divisions (the daughters' volumes sum to the mother's).
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_physical_reproduction_physical_reproduction = {
+    'growth_per_step': 0.34,   # division_state added per step (growth to the division threshold) [vg-data: division_threshold]
+    'founder_volume' : 8e-12,   # Founder individual volume (liter)
+    'founder_formate': 8.0,   # Founder internal formate (mol)
+    'founder_acetate': 4.0,   # Founder internal acetate (mol)
+}
 
 # ### Run
 #
 # _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
 
-# === Study: og-33-chemically-coupled-growth-and-division ===
-STUDY = 'og-33-chemically-coupled-growth-and-division'
+# === Study: og-reproduction ===
+STUDY = 'og-reproduction'
 STUDY_DIR = REPO / 'workspace/studies' / STUDY
 STUDY_YAML = str(STUDY_DIR / "study.yaml")
 RUNS_DB = str(STUDY_DIR / "runs.db")
@@ -2973,10 +2680,12 @@ RUNS_DB = str(STUDY_DIR / "runs.db")
 # This study has no *recorded* runs yet. RERUN builds its declared
 # composite(s) live and runs them; a composite whose module processes
 # are not implemented yet reports the error instead of crashing.
-STEPS_Chemically_coupled_growth_and_division_metabolism_coupled_measured_geometry = 100
-INTERVAL_Chemically_coupled_growth_and_division_metabolism_coupled_measured_geometry = 1.0
-STEPS_Growth_decoupled_null_equal_feeds = 100
-INTERVAL_Growth_decoupled_null_equal_feeds = 1.0
+STEPS_Chemically_coupled_growth_and_division_canonical_arm_og_33 = 100
+INTERVAL_Chemically_coupled_growth_and_division_canonical_arm_og_33 = 1.0
+STEPS_Growth_division_fate_vs_no_throughput_ablation_og_growth_division_arm = 100
+INTERVAL_Growth_division_fate_vs_no_throughput_ablation_og_growth_division_arm = 1.0
+STEPS_Physical_reproduction_to_a_multi_generation_lineage_og_growth_alt_arm = 100
+INTERVAL_Physical_reproduction_to_a_multi_generation_lineage_og_growth_alt_arm = 1.0
 
 if RERUN:
     from process_bigraph import Composite
@@ -2985,19 +2694,28 @@ if RERUN:
             _ov = ov_viva_genesis_composites_og_33_chemically_coupled_growth_and_division_og_33_chemically_coupled_growth_and_division if 'ov_viva_genesis_composites_og_33_chemically_coupled_growth_and_division_og_33_chemically_coupled_growth_and_division' in dir() else None  # edits from the panel cell, if any
             spec_viva_genesis_composites_og_33_chemically_coupled_growth_and_division_og_33_chemically_coupled_growth_and_division = materialize_composite('viva_genesis.composites.og_33_chemically_coupled_growth_and_division.og_33_chemically_coupled_growth_and_division', _ov)
             _comp = Composite({'state': spec_viva_genesis_composites_og_33_chemically_coupled_growth_and_division_og_33_chemically_coupled_growth_and_division['state']}, core=core)
-            _comp.run(STEPS_Chemically_coupled_growth_and_division_metabolism_coupled_measured_geometry)
-        print('ran', 'Chemically coupled growth and division (metabolism-coupled, measured geometry)', f'(viva_genesis.composites.og_33_chemically_coupled_growth_and_division.og_33_chemically_coupled_growth_and_division) for', STEPS_Chemically_coupled_growth_and_division_metabolism_coupled_measured_geometry, 'steps')
+            _comp.run(STEPS_Chemically_coupled_growth_and_division_canonical_arm_og_33)
+        print('ran', 'Chemically coupled growth and division — canonical arm (og-33)', f'(viva_genesis.composites.og_33_chemically_coupled_growth_and_division.og_33_chemically_coupled_growth_and_division) for', STEPS_Chemically_coupled_growth_and_division_canonical_arm_og_33, 'steps')
     except Exception as _e:
-        print(f"Chemically coupled growth and division (metabolism-coupled, measured geometry) not runnable yet: {type(_e).__name__}: {_e}")
+        print(f"Chemically coupled growth and division — canonical arm (og-33) not runnable yet: {type(_e).__name__}: {_e}")
     try:
         with quiet():  # keep per-step stdout out of the notebook
-            _ov = ov_viva_genesis_composites_og_33_chemically_coupled_growth_and_division_og_33_chemically_coupled_growth_and_division if 'ov_viva_genesis_composites_og_33_chemically_coupled_growth_and_division_og_33_chemically_coupled_growth_and_division' in dir() else None  # edits from the panel cell, if any
-            spec_viva_genesis_composites_og_33_chemically_coupled_growth_and_division_og_33_chemically_coupled_growth_and_division = materialize_composite('viva_genesis.composites.og_33_chemically_coupled_growth_and_division.og_33_chemically_coupled_growth_and_division', _ov)
-            _comp = Composite({'state': spec_viva_genesis_composites_og_33_chemically_coupled_growth_and_division_og_33_chemically_coupled_growth_and_division['state']}, core=core)
-            _comp.run(STEPS_Growth_decoupled_null_equal_feeds)
-        print('ran', 'Growth-decoupled null (equal feeds)', f'(viva_genesis.composites.og_33_chemically_coupled_growth_and_division.og_33_chemically_coupled_growth_and_division) for', STEPS_Growth_decoupled_null_equal_feeds, 'steps')
+            _ov = ov_viva_genesis_composites_osmotic_growth_division_osmotic_growth_division if 'ov_viva_genesis_composites_osmotic_growth_division_osmotic_growth_division' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_osmotic_growth_division_osmotic_growth_division = materialize_composite('viva_genesis.composites.osmotic_growth_division.osmotic_growth_division', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_osmotic_growth_division_osmotic_growth_division['state']}, core=core)
+            _comp.run(STEPS_Growth_division_fate_vs_no_throughput_ablation_og_growth_division_arm)
+        print('ran', 'Growth->division fate (vs no-throughput ablation) — og-growth-division arm', f'(viva_genesis.composites.osmotic_growth_division.osmotic_growth_division) for', STEPS_Growth_division_fate_vs_no_throughput_ablation_og_growth_division_arm, 'steps')
     except Exception as _e:
-        print(f"Growth-decoupled null (equal feeds) not runnable yet: {type(_e).__name__}: {_e}")
+        print(f"Growth->division fate (vs no-throughput ablation) — og-growth-division arm not runnable yet: {type(_e).__name__}: {_e}")
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_physical_reproduction_physical_reproduction if 'ov_viva_genesis_composites_physical_reproduction_physical_reproduction' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_physical_reproduction_physical_reproduction = materialize_composite('viva_genesis.composites.physical_reproduction.physical_reproduction', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_physical_reproduction_physical_reproduction['state']}, core=core)
+            _comp.run(STEPS_Physical_reproduction_to_a_multi_generation_lineage_og_growth_alt_arm)
+        print('ran', 'Physical reproduction to a multi-generation lineage — og-growth-alt arm', f'(viva_genesis.composites.physical_reproduction.physical_reproduction) for', STEPS_Physical_reproduction_to_a_multi_generation_lineage_og_growth_alt_arm, 'steps')
+    except Exception as _e:
+        print(f"Physical reproduction to a multi-generation lineage — og-growth-alt arm not runnable yet: {type(_e).__name__}: {_e}")
 else:
     print("RERUN=False — not re-simulating.")
 
@@ -3008,7 +2726,27 @@ else:
 # **growth-division**
 
 # growth-division
-_save_viz('og-33-chemically-coupled-growth-and-division', 'growth-division', _render_one('local:OgGrowthDivisionViz', {'title': 'Metabolism-driven growth & division', 'report_json': 'workspace/studies/og-33-chemically-coupled-growth-and-division/artifacts/gate_d_growth_division.json'}, RUNS_DB, STUDY_YAML))
+_save_viz('og-reproduction', 'growth-division', _render_one('local:OgGrowthDivisionViz', {'title': 'Metabolism-driven growth & division', 'report_json': 'workspace/studies/og-reproduction/artifacts/og-33-chemically-coupled-growth-and-division/gate_d_growth_division.json'}, RUNS_DB, STUDY_YAML))
+
+# **osmotic-growth-world**
+
+# osmotic-growth-world
+_save_viz('og-reproduction', 'osmotic-growth-world', _render_one('local:OsmoticGrowthWorld', {'composite': 'viva_genesis.composites.osmotic_growth_division.osmotic_growth_division', 'title': 'Growth & division — volume, concentration, division events'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_osmotic_growth_division_osmotic_growth_division if 'ov_viva_genesis_composites_osmotic_growth_division_osmotic_growth_division' in dir() else None)))
+
+# **osmotic-coupling-mechanism**
+
+# osmotic-coupling-mechanism
+_save_viz('og-reproduction', 'osmotic-coupling-mechanism', _render_one('local:OsmoticCouplingMechanism', {'composite': 'viva_genesis.composites.osmotic_growth_division.osmotic_growth_division', 'title': 'The osmotic coupling — why too permeable starves, too impermeable lyses'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_osmotic_growth_division_osmotic_growth_division if 'ov_viva_genesis_composites_osmotic_growth_division_osmotic_growth_division' in dir() else None)))
+
+# **growth-division-map**
+
+# growth-division-map
+_save_viz('og-reproduction', 'growth-division-map', _render_one('local:GrowthDivisionMap', {'composite': 'viva_genesis.composites.osmotic_growth_division.osmotic_growth_division', 'grid_json': 'workspace/studies/og-reproduction/artifacts/og-growth-division/growth_division_grid.json', 'title': 'Metabolism → growth & division — the viable band'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_osmotic_growth_division_osmotic_growth_division if 'ov_viva_genesis_composites_osmotic_growth_division_osmotic_growth_division' in dir() else None)))
+
+# **physical-reproduction-lineage**
+
+# physical-reproduction-lineage
+_save_viz('og-reproduction', 'physical-reproduction-lineage', _render_one('local:PhysicalReproductionViz', {'title': 'A multi-generation lineage in the agents map'}, RUNS_DB, STUDY_YAML))
 
 # ### Acceptance criteria
 #
@@ -3022,6 +2760,12 @@ _save_viz('og-33-chemically-coupled-growth-and-division', 'growth-division', _re
 # | daughters-viable _(primary)_ | kind=observable detail=daughter_viable across the coupled feed sweep | op threshold detail daughters resume self-maintenance (viable) |
 # | beats-null-growth-decoupled-or-imposed _(primary)_ | kind=observable detail=coupled division rate vs flux-independent decoupled/imposed nulls equal feeds=None | op threshold detail metabolism-coupled growth/division exceeds the matched null |
 # | handoff-33-to-34-complete _(secondary)_ | kind=observable detail=division events + daughter compartments available to study 34 | op threshold detail dividing-protocell handoff available |
+# | net-growth-to-division _(primary)_ | kind=derived path=growth_division_count detail=cumulative division count in the favorable (matched) arm | op > value 0.0 detail the compartment divides (>0) in the matched throughput/permeability regime |
+# | mass-conserved-across-division _(primary)_ | kind=derived path=osmotic_balance_residual_max detail=worst-case |osmolyte mass-balance residual| over the run (mol) | op < value 1e-18 detail mass conserved across the growth/division cycle (residual below a negligible mole tolerance) |
+# | division-not-lysis-or-starvation _(primary)_ | kind=cross_run detail=matched (divide) vs too-permeable (starve) and too-impermeable (lyse) arms | op arms_reported detail matched divides; too permeable = starve (no division no growth); too impermeable = lyse (viable band is bounded) None |
+# | ablation-no-throughput-no-growth _(primary)_ | kind=cross_run detail=favorable (source on) vs zero-throughput ablation (source off) | op controls_absent detail favorable divides; zero-throughput ablation shows no division and no net growth |
+# | lineage-reaches-three-generations _(primary)_ | kind=derived path=peak_generation detail=deepest generation the lineage REACHES (peak over the run, not the time-mean); from artifacts/physical_reproduction_report.json | op >= value 3.0 detail a >=3-generation lineage forms (peak reaches generation 5) |
+# | division-conserves-volume _(primary)_ | kind=derived path=partition_residual_peak detail=worst (max) |mother - sum(daughters)| over every _divide; from artifacts/physical_reproduction_report.json | op <= value 1e-09 detail partition residual ~ 0 at every division (conserving split) |
 
 # ## Study: Stochastic Protocell Ecology (`og-36-stochastic-protocell-ecology`)
 #
