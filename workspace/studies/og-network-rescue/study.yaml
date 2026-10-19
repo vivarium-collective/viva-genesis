@@ -243,10 +243,11 @@ runs:
         geometry window.
 visualizations:
 - name: pore-ignition-coupling
+  display: mechanism
   address: local:PoreIgnitionCoupling
   config:
     title: Localization lifts the feed across the ignition threshold (Mechanism view)
-    grid_json: workspace/studies/og-network-persistence/artifacts/protometabolism_gain_grid.json
+    grid_json: workspace/studies/og-network-persistence/artifacts/og-02-reduced-carbon-to-protometabolism/protometabolism_gain_grid.json
 - name: spatial-protometabolism-pore-vs-control
   display: primary
   address: local:OgSpatialProtometabolismViz
