@@ -21,9 +21,9 @@ if _os.environ.get("PYTHONUTF8") != "1":
 #
 # _Investigation `origins-of-life-vent` — coder reproduction notebook._
 #
-# **Question.** Could the first cells have originated at alkaline hydrothermal vents? Can a physically plausible early-Earth vent–ocean interface generate and sustain, in order, the free energy, reduced carbon, self-amplifying chemistry, concentration, and compartments a protocell needs — without inserting metabolism, membranes, or heredity by assumption?
+# **Question.** Could the first cells have originated at alkaline hydrothermal vents — and where does the geology-to-cells path run continuously, where does it depend on narrow regimes, and where does it break? Can a physically plausible early-Earth vent–ocean interface generate and sustain, in order, the free energy, reduced carbon, persistent network chemistry, concentration, and compartments a protocell needs — without inserting metabolism, membranes, autocatalysis, or heredity by assumption?
 #
-# A staged, falsifiable Vivarium campaign testing the alkaline-vent theory for the origin of cells — treating a cellular origin as coupled transitions from geochemistry to bioenergetic autonomy, grounded in serpentinization-driven alkaline hydrothermal vents, with explicit competing scenarios.
+# A staged, falsifiable Vivarium campaign mapping where the geology-to-cells path at a serpentinizing alkaline hydrothermal vent runs continuously, where it depends on narrow regimes, and where it breaks. A cellular origin is treated as five acts of coupled nonequilibrium transitions — geological engine, chemical organization, chemical individuality, reproduction and evolution, robustness and autonomy — each judged against a matched null with input fluxes held equal, with explicit competing scenarios. Not a demonstration that cells did originate at vents: a quantitative map of the bottlenecks between geology and cells.
 #
 # ---
 #
