@@ -333,7 +333,7 @@ key_assumptions:
 - Treat informational chemistry as a branch point; do not presume a viable RNA replication
   mechanism.
 parent_relations:
-- study: og-05-environmental-to-internal-bioenergetics
+- study: og-energetics
   relation: builds-on
 expert_questions:
 - 'Which heredity modules to prioritize first: RNA-world, peptide-first, compositional,
@@ -470,7 +470,7 @@ runs:
         control collapses every seed
 pipeline_gate:
   prerequisites:
-  - study: og-05-environmental-to-internal-bioenergetics
+  - study: og-energetics
     condition: tests-passed
   gate_evaluator:
     result: passed

@@ -452,9 +452,9 @@ guidelines:
       reproduction: [og-00-vent-reactor-baseline, og-01-geology-to-reduced-carbon (Preiner/Hudson yields), og-cal-vent-environment (conditioning step)]
       mechanistic_prediction: [og-01-geology-to-reduced-carbon (Tutolo collapse), og-02-reduced-carbon-to-protometabolism,
         og-03-dilution-to-localized-individuals, og-04-mineral-compartments-to-protocells, og-res-nitrogen-assimilation,
-        og-res-phosphorus-availability, og-energy-proto-energetics, og-growth-division, og-cal-vent-environment (posterior prediction),
+        og-res-phosphorus-availability, og-energetics, og-growth-division, og-cal-vent-environment (posterior prediction),
         og-01-cal-electrochemistry (mechanism map; the Altair current-window check is at reproduction tier)]
-      conceptual_demonstration: [og-05-environmental-to-internal-bioenergetics, og-06-chemistry-to-heredity,
+      conceptual_demonstration: [og-06-chemistry-to-heredity,
         og-07-ecology-before-luca, og-08-escape-from-the-vent, og-07-alt-real-metabolite-exchange,
         og-08-alt-robust-innovation-set]
       null_control: [og-adv-generic-nonequilibrium]
@@ -547,7 +547,7 @@ guidelines:
   - phase: 6
     name: Proto-energetics
     status: built-and-run
-    studies: [og-energy-proto-energetics, og-05-environmental-to-internal-bioenergetics, og-energy-alt-internalization-threshold]
+    studies: [og-energetics]
     component: energy_coupling face (passive_gradient | h_na_gradient_leaky_membrane | thioester_acyl_phosphate | polyphosphate | fe_redox) inside one protocell (protocell_energetics); per-individual autonomy = internal / (internal + external) power (also published by og-05's selection loop beside its population-mean internalization); FreeEnergyLedgerProcess (in + E0 - work - dissipated = E(t) exact, margin >= 0, dissipation >= 0, efficiency <= 1)
     data_package: energy_currencies (external pmf calibrated to the vent-calibration posterior, H+ permeability + Na+/H+ ratio, H2/CO2 and Fe(II)-disproportionation drives, carrier bonds and decay, per-cell turnover / maintenance / load; 24 parameters, 12 hypothetical, none unsourced)
     exit_criterion: energy-capture efficiency and the threshold at which internalization beats leakage + maintenance
@@ -706,8 +706,10 @@ at_a_glance:
     open pores wash the feed through
 - study: og-04-mineral-compartments-to-protocells
   role: The first boundary — amphiphile compartments give retention without isolation
-- study: og-05-environmental-to-internal-bioenergetics
-  role: Owning its energy — selection internalizes the vent's proton-gradient bioenergetics
+- study: og-energetics
+  role: Proto-energetics — capturing geochemical free energy into a transferable store, internalizing it
+    under selection, and coupling a carrier; which coupling chemistry pays, studied at several fidelities as
+    arms (the carrier buys dip-persistence, not more total throughput)
 - study: og-06-chemistry-to-heredity
   role: The first heredity — competing inheritance modules; heredity must earn its keep
 - study: og-07-ecology-before-luca
@@ -720,8 +722,6 @@ at_a_glance:
   role: 'The first nitrogen — reduced-N keeps pace with carbon, or limits first'
 - study: og-res-phosphorus-availability
   role: Phosphorus — can the pore co-concentrate P with C and N, or does it precipitate first?
-- study: og-energy-proto-energetics
-  role: Owning its energy currency — capturing geochemical free energy into a transferable store before modern pumps
 - study: og-growth-division
   role: Growth and division — metabolism changes the compartment's physical fate (grow->divide vs lyse
     vs starve)
@@ -740,10 +740,6 @@ at_a_glance:
   role: 'Open chemical network: a rule-generated C/H/O universe with real dG'' fed the vent-calibration posterior grows no
     autocatalytic motif; fed formaldehyde it grows the formose cycle, enriched over matched nulls (p = 0.04); the
     curated rTCA motif is reclassed as imposed and non-conserving'
-- study: og-energy-alt-internalization-threshold
-  role: 'Internalization threshold: five energy-coupling classes inside one protocell under a free-energy
-    ledger — the thioester store pays from a tenth of the drive, Fe-redox only near full activity, the H+/Na+
-    gradient only in a 100x tighter membrane, polyphosphate never; per-individual autonomy'
 - study: og-06-alt-information-per-cost
   role: 'Competing heredity: six inheritance mechanisms as classes on one face, each an exact
     Gillespie lineage at low copy number under matched precursor + energy budgets, attached conditionally;
@@ -765,27 +761,24 @@ studies:
 - og-02-reduced-carbon-to-protometabolism
 - og-03-dilution-to-localized-individuals
 - og-04-mineral-compartments-to-protocells
-- og-05-environmental-to-internal-bioenergetics
+- og-energetics
 - og-06-chemistry-to-heredity
 - og-07-ecology-before-luca
 - og-08-escape-from-the-vent
 - og-adv-generic-nonequilibrium
 - og-res-nitrogen-assimilation
 - og-res-phosphorus-availability
-- og-energy-proto-energetics
 - og-growth-division
 - og-cal-vent-environment
 - og-01-cal-electrochemistry
 - og-02-alt-reaction-universe
 - og-04-alt-endogenous-boundary
 - og-growth-alt-physical-reproduction
-- og-energy-alt-internalization-threshold
 - og-06-alt-information-per-cost
 - og-07-alt-real-metabolite-exchange
 - og-08-alt-robust-innovation-set
 - og-00b-ph-endmember-sweep
 - og-01-cal-dx-label-disagreement
-- og-05b-collapse-rate-sweep
 - og-08-alt-dx-importer-cost
 - og-27-coupled-geochemical-reaction-interface
 - og-28-prebiotic-reaction-atlas
@@ -797,7 +790,6 @@ studies:
 - og-32b-fatty-acid-vesicle-stability
 - og-33-chemically-coupled-growth-and-division
 - og-34-chemical-heredity-and-selection
-- og-35-chemical-energy-coupling
 - og-36-stochastic-protocell-ecology
 - og-37-progressive-independence
 - mem-m1-amphiphile-assembly
@@ -821,7 +813,7 @@ acceptance_criteria:
   behavior: enrichment-resolved-within-convergence
 - study: og-04-mineral-compartments-to-protocells
   behavior: retention-without-isolation
-- study: og-05-environmental-to-internal-bioenergetics
+- study: og-energetics
   behavior: reduced-gradient-dependence
 - study: og-06-chemistry-to-heredity
   behavior: inheritance-beats-noninheritance
@@ -835,7 +827,7 @@ acceptance_criteria:
   behavior: nitrogen-keeps-pace-with-carbon
 - study: og-res-phosphorus-availability
   behavior: reactive-p-available
-- study: og-energy-proto-energetics
+- study: og-energetics
   behavior: currency-maintained
 - study: og-growth-division
   behavior: net-growth-to-division
@@ -849,7 +841,7 @@ acceptance_criteria:
   behavior: failure-mode-attributed
 - study: og-02-alt-reaction-universe
   behavior: motifs-emerge-not-imposed
-- study: og-energy-alt-internalization-threshold
+- study: og-energetics
   behavior: internalization-pays
 - study: og-06-alt-information-per-cost
   behavior: ancestry-predicts-phenotype
@@ -962,8 +954,8 @@ proposed_inputs:
       hydrothermal conditions. Nat. Commun. 16, DOI 10.1038/s41467-025-65716-w."
     proposed_by: agent
     proposed_at: '2026-10-13'
-    related_study: og-energy-proto-energetics
-    rationale: "og-energy-proto-energetics models an exergonic geochemical drive charging a pre-ATP energy
+    related_study: og-energetics
+    rationale: "og-energetics models an exergonic geochemical drive charging a pre-ATP energy
       currency. Fe-disproportionation is a concrete candidate for that drive ΔG (a redox free-energy source
       at vent conditions), so this would anchor the drive term quantitatively rather than as a generic ΔG.
       The energetic-coupling mechanism itself is currently cited to buckel2013energy and lane2010chemiosmotic
@@ -1180,7 +1172,7 @@ plan_gates:
     extends: D
     optional: true
     member_studies:
-      - og-35-chemical-energy-coupling
+      - og-energetics
       - og-36-stochastic-protocell-ecology
       - og-37-progressive-independence
     pending_studies: []

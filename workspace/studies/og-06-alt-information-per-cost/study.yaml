@@ -719,7 +719,7 @@ baseline:
 parent_relations:
 - study: og-06-chemistry-to-heredity
   relation: alternative-to
-- study: og-energy-proto-energetics
+- study: og-energetics
   relation: builds-on
 key_assumptions:
 - 32 individuals of 1 fL at carrying capacity, 16 heritable molecules per founder
@@ -784,7 +784,7 @@ pipeline_gate:
   prerequisites:
   - study: og-06-chemistry-to-heredity
     condition: tests-passed
-  - study: og-energy-proto-energetics
+  - study: og-energetics
     condition: tests-passed
 conditions:
   baseline:
