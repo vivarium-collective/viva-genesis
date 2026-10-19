@@ -1383,37 +1383,20 @@ _save_viz('og-heredity', 'chemical-heredity-selection', _render_one('local:OgChe
 # | matched-null-no-inheritance _(primary)_ | kind=observable detail=null shows neither parent-offspring correlation nor directional shift | op threshold detail null correlation ~ 0 and null drift ~ 0 |
 # | handoff-34-to-35-36-37-complete _(secondary)_ | kind=observable detail=heritable population + fitness-composition map available | op threshold detail heritable-population handoff available |
 
-# ## Study: The Adversarial Control (`og-adv-generic-nonequilibrium`)
+# ## Study: Vent Specificity: Are the Gates Vent-Specific or Generic? (`og-vent-specificity`)
 #
-# **Question.** Are the campaign's positive gates genuinely dependent on vent-specific mechanisms, or would any generic driven nonequilibrium chemistry pass them? It should not.
+# **Question.** Do the campaign's discriminating gates detect the serpentinizing alkaline vent specifically, or would any generic non-equilibrium drive pass them?
 #
-# **Hypothesis.** The og-01/og-02/og-03 gates REJECT this control; if they pass it, the gates measure generic nonequilibrium chemistry, not the vent mechanism.
+# **Hypothesis.** The gates are vent-specific — ablating the vent's characteristic features (sustained H2, Fe/Ni/S catalyst, pore concentration) makes the real composites fail them, so a generic non-equilibrium drive does not reproduce the vent chemistry.
 #
-# **Claim.** Run with the vent's characteristic features ablated - no sustained H2, no Fe/Ni/S catalytic interface and no pore concentration - the same real composites fail all five discriminating gates (carbon flux, formate yield, protometabolic throughput, thermophoretic Peclet and enrichment), while the vent configuration passes all five, with the tightest rejection margin about 1.8 decades. This is a falsification control: a pass elsewhere in the campaign certifies the vent mechanism rather than simply any nonequilibrium chemistry producing activity. The extreme enrichment magnitude itself is a reduced-model, solver-sensitive figure and is used only as a pass/fail discriminator here.
-
-# ### Design — originally proposed
-#
-# _The mechanisms and methods proposed when this study was designed; the model **actually built** (and the tools it uses) is shown below. These may differ as the design was realized._
-#
-# **Proposed mechanisms**
-#
-# - the same real og-01/02/03 composites with vent features (H2, Fe/Ni/S catalyst, pore concentration) disabled
-#
-# **Proposed models / methods**
-#
-# - flat gradient, inert surface, open pore, well-mixed — a generic abiotic nonequilibrium mixture
-# - re-run the og-01/02/03 behavior-test gates unchanged and require rejection
-#
-# **Key assumptions**
-#
-# - This study passes by REJECTING; a control that passes the gates would mean the gates are not vent-specific.
-# - The control is a parameterization of the real og-01/02/03 composites, so it tests the same models, not a mock.
+# **Claim.** The campaign's discriminating gates are specific to the serpentinizing alkaline vent, not to generic non-equilibrium. Run with the vent's characteristic features ablated (no sustained H2, no Fe/Ni/S catalyst, no pore concentration), the same real og-01/02/03 composites fail all five gates (carbon flux, formate yield, protometabolic throughput, thermophoretic Peclet, enrichment) while the vent passes each — the generic-nonequilibrium null is refuted by every gate (og-adv, canonical; verdict=refuted = null correctly rejected, gate_status=passed = the control discriminates). A planned competing-environments study extends the falsification. Consolidated: the gates detect THIS vent, not any drive — specificity demonstrated via a refuted-by-design null. Every matched null and arm verdict kept.
 
 # ### Parameters
 #
 # | simulation | composite | steps | params |
 # | --- | --- | --- | --- |
-# | `Generic non-vent control (carbon-fixation composite, vent features off)` | `viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation` | 0 | gradient_efficiency=0.0, catalyst_active=0.0, h2=1e-09 |
+# | `Generic non-vent adversarial control (ablated: no sustained H2 / no Fe-Ni-S catalyst / no pore) — canonical (og-adv), fails all five gates` | `viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation` | 0 | gradient_efficiency=0.0, catalyst_active=0.0, h2=0.0 |
+# | `Vent reference (characteristic features present) — passes all five gates` | `viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation` | 0 | gradient_efficiency=1.0, catalyst_active=1.0 |
 
 # ### The model & its parameters
 #
@@ -1435,38 +1418,12 @@ ov_viva_genesis_composites_carbon_fixation_hydrothermal_carbon_fixation = {
     'dilution_rate'      : 0.0,   # Open-flow washout (1/s); 0 = closed batch (yield studies), >0 = open vent reactor → sustained-throughput regime (phase map)
 }
 
-# ### Typed contract (declared interface)
-#
-# _The bigraph-schema typed ports + conservation predicates this study's composite must satisfy (audited in the workbench §Contract panel). Declared design — independent of whether a run exists yet._
-#
-# **Inputs**
-#
-# | port | type | units | bounds |
-# | --- | --- | --- | --- |
-# | `temperature` | float | kelvin | [273.0, 673.0] |
-# | `pH` | float | dimensionless | [0.0, 14.0] |
-# | `H2` | float | molar | >= 0.0 |
-# | `CO2` | float | molar | >= 0.0 |
-#
-# **Outputs**
-#
-# | port | type | units | bounds |
-# | --- | --- | --- | --- |
-# | `net_carbon_flux` | float | mole/second |  |
-# | `formate` | float | molar | >= 0.0 |
-#
-# **Conditions**
-#
-# - `charge_neutrality` (invariant): `abs(net_charge) < tol`
-# - `energy_directionality` (invariant): `free_energy_flux_logged == true`
-# - `mass_balance` (invariant): `abs(residual_C)+abs(residual_H)+abs(residual_O) < tol`
-
 # ### Run
 #
 # _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
 
-# === Study: og-adv-generic-nonequilibrium ===
-STUDY = 'og-adv-generic-nonequilibrium'
+# === Study: og-vent-specificity ===
+STUDY = 'og-vent-specificity'
 STUDY_DIR = REPO / 'workspace/studies' / STUDY
 STUDY_YAML = str(STUDY_DIR / "study.yaml")
 RUNS_DB = str(STUDY_DIR / "runs.db")
@@ -1474,8 +1431,10 @@ RUNS_DB = str(STUDY_DIR / "runs.db")
 # This study has no *recorded* runs yet. RERUN builds its declared
 # composite(s) live and runs them; a composite whose module processes
 # are not implemented yet reports the error instead of crashing.
-STEPS_Generic_non_vent_control_carbon_fixation_composite_vent_features_off = 100
-INTERVAL_Generic_non_vent_control_carbon_fixation_composite_vent_features_off = 1.0
+STEPS_Generic_non_vent_adversarial_control_ablated_no_sustained_H2_no_Fe_Ni_S_catalyst_no_pore_canonical_og_adv_fails_all_five_gates = 100
+INTERVAL_Generic_non_vent_adversarial_control_ablated_no_sustained_H2_no_Fe_Ni_S_catalyst_no_pore_canonical_og_adv_fails_all_five_gates = 1.0
+STEPS_Vent_reference_characteristic_features_present_passes_all_five_gates = 100
+INTERVAL_Vent_reference_characteristic_features_present_passes_all_five_gates = 1.0
 
 if RERUN:
     from process_bigraph import Composite
@@ -1484,10 +1443,19 @@ if RERUN:
             _ov = ov_viva_genesis_composites_carbon_fixation_hydrothermal_carbon_fixation if 'ov_viva_genesis_composites_carbon_fixation_hydrothermal_carbon_fixation' in dir() else None  # edits from the panel cell, if any
             spec_viva_genesis_composites_carbon_fixation_hydrothermal_carbon_fixation = materialize_composite('viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation', _ov)
             _comp = Composite({'state': spec_viva_genesis_composites_carbon_fixation_hydrothermal_carbon_fixation['state']}, core=core)
-            _comp.run(STEPS_Generic_non_vent_control_carbon_fixation_composite_vent_features_off)
-        print('ran', 'Generic non-vent control (carbon-fixation composite, vent features off)', f'(viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation) for', STEPS_Generic_non_vent_control_carbon_fixation_composite_vent_features_off, 'steps')
+            _comp.run(STEPS_Generic_non_vent_adversarial_control_ablated_no_sustained_H2_no_Fe_Ni_S_catalyst_no_pore_canonical_og_adv_fails_all_five_gates)
+        print('ran', 'Generic non-vent adversarial control (ablated: no sustained H2 / no Fe-Ni-S catalyst / no pore) — canonical (og-adv), fails all five gates', f'(viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation) for', STEPS_Generic_non_vent_adversarial_control_ablated_no_sustained_H2_no_Fe_Ni_S_catalyst_no_pore_canonical_og_adv_fails_all_five_gates, 'steps')
     except Exception as _e:
-        print(f"Generic non-vent control (carbon-fixation composite, vent features off) not runnable yet: {type(_e).__name__}: {_e}")
+        print(f"Generic non-vent adversarial control (ablated: no sustained H2 / no Fe-Ni-S catalyst / no pore) — canonical (og-adv), fails all five gates not runnable yet: {type(_e).__name__}: {_e}")
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_carbon_fixation_hydrothermal_carbon_fixation if 'ov_viva_genesis_composites_carbon_fixation_hydrothermal_carbon_fixation' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_carbon_fixation_hydrothermal_carbon_fixation = materialize_composite('viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_carbon_fixation_hydrothermal_carbon_fixation['state']}, core=core)
+            _comp.run(STEPS_Vent_reference_characteristic_features_present_passes_all_five_gates)
+        print('ran', 'Vent reference (characteristic features present) — passes all five gates', f'(viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation) for', STEPS_Vent_reference_characteristic_features_present_passes_all_five_gates, 'steps')
+    except Exception as _e:
+        print(f"Vent reference (characteristic features present) — passes all five gates not runnable yet: {type(_e).__name__}: {_e}")
 else:
     print("RERUN=False — not re-simulating.")
 
@@ -1498,12 +1466,12 @@ else:
 # **vent-specificity-three-view**
 
 # vent-specificity-three-view
-_save_viz('og-adv-generic-nonequilibrium', 'vent-specificity-three-view', _render_one('local:VentSpecificityThreeView', {'title': 'Adversarial control — vent-specificity of the gates', 'grid_json': 'workspace/studies/og-adv-generic-nonequilibrium/artifacts/vent_specificity_grid.json'}, RUNS_DB, STUDY_YAML))
+_save_viz('og-vent-specificity', 'vent-specificity-three-view', _render_one('local:VentSpecificityThreeView', {'title': 'Adversarial control — vent-specificity of the gates', 'grid_json': 'workspace/studies/og-vent-specificity/artifacts/og-adv-generic-nonequilibrium/vent_specificity_grid.json'}, RUNS_DB, STUDY_YAML))
 
 # **vent-specificity-map**
 
 # vent-specificity-map
-_save_viz('og-adv-generic-nonequilibrium', 'vent-specificity-map', _render_one('local:VentSpecificityMap', {'title': 'Adversarial control — vent-specificity of the gates', 'grid_json': 'workspace/studies/og-adv-generic-nonequilibrium/artifacts/vent_specificity_grid.json'}, RUNS_DB, STUDY_YAML))
+_save_viz('og-vent-specificity', 'vent-specificity-map', _render_one('local:VentSpecificityMap', {'title': 'Adversarial control — vent-specificity of the gates', 'grid_json': 'workspace/studies/og-vent-specificity/artifacts/og-adv-generic-nonequilibrium/vent_specificity_grid.json'}, RUNS_DB, STUDY_YAML))
 
 # ### Acceptance criteria
 #
@@ -2652,37 +2620,6 @@ print("No baseline composite declared for this study — nothing to build.")
 # | hanczyc2003experimental | | | |
 # | budin2012concentration | | | |
 # | marrink2003vesicle | | | |
-
-# ## Study: Competing origin environments — cross-cutting falsification (P2) (`og-ev-competing-environments`)
-#
-# **Question.** Under matched chemical constraints and matched evidence quality, does the alkaline hydrothermal vent OUTPERFORM alternative origin environments (e.g. surface pools / wet-dry cycling, acidic springs, other hydrothermal settings) - or is its advantage assumed rather than earned?
-#
-# **Objective.** Run the campaign's gates against alternative origin-environment scenarios under matched chemical input constraints and matched evidence quality, and compare scenario likelihoods, sensitivities and failure regimes with no favored prior.
-#
-# **Hypothesis.** No setting is assumed favored. The vent's advantage, if any, is specific to particular gates (persistence/concentration) and may be matched or beaten by other settings on others (e.g. wet-dry cycling for condensation); the honest output is a scenario-likelihood / failure-regime comparison, not a foregone vent win.
-
-# ### Parameters
-
-# ### Run
-#
-# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
-
-# === Study: og-ev-competing-environments ===
-STUDY = 'og-ev-competing-environments'
-STUDY_DIR = REPO / 'workspace/studies' / STUDY
-STUDY_YAML = str(STUDY_DIR / "study.yaml")
-RUNS_DB = str(STUDY_DIR / "runs.db")
-
-print("No baseline composite declared for this study — nothing to build.")
-
-# ### Literature anchors
-#
-# | expectation | model observable | source | status |
-# | --- | --- | --- | --- |
-# | sutherland2017opinion | | | |
-# | mulkidjanian2012origin | | | |
-# | martin2008hydrothermal | | | |
-# | tutolo2026rethinking | | | |
 
 # ## Open decisions
 # - Ocean-floor H2 / organic prior (og-08 autonomy floor): supply an expert prior on the Hadean ocean's dissolved H2 and organic background (the floor) to turn og-08-alt's floor map into a prediction. (The {pump, importer, heredity} required-set framing is now RESOLVED — driver-specific, see decisions_resolved; this is the remaining open piece.)
