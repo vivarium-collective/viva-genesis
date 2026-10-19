@@ -9,29 +9,34 @@ simulation_status: ran
 evaluation_status: evaluated
 gate_status: passed
 confidence: Accepted
-verdict: supported
+verdict: qualified
 evidence_tier: mechanistic_prediction
 program: consolidated
-title: 'Nutrient Bottlenecks: Nitrogen and Phosphorus Keep Pace with Carbon'
+title: 'Nutrient Bottlenecks: Joint C/N/P Feasibility'
 concept: >-
-  Whether the two non-carbon nutrient bottlenecks clear at the vent — reduced nitrogen (ammonium) keeping
-  pace with carbon fixation, and reactive phosphorus co-concentrating with carbon. One concept (Gate
-  A1, nutrient supply), two arms (nitrogen and phosphorus), each judged against its own matched null.
+  Whether carbon, nitrogen and phosphorus are available JOINTLY at the vent — not just each non-carbon
+  bottleneck clearing on its own, but N and P available in COMPATIBLE chemical forms and the SAME physical
+  regime a protocell needs them together with carbon. Two arms (nitrogen and phosphorus) each clear their
+  individual bottleneck against a matched null; the sharpened, harder requirement is joint C/N/P
+  co-feasibility, carried by the planned precursor-pool (NEW A) and operating-window (NEW B) bridges.
 gate_reason: >-
-  Gate A1, nutrient supply. Consolidates the two resource-bottleneck studies into one concept with
-  explicit arms, each judged against its own matched null with input fluxes held equal: the nitrogen bottleneck
-  (og-res-nitrogen, canonical) and the phosphorus bottleneck (og-res-phosphorus). Both arms are supported,
-  so the consolidated verdict is SUPPORTED — reduced nitrogen and reactive phosphorus are both available
-  at the vent, nitrogen keeping pace with carbon and phosphorus co-concentrating with it, each beating its
-  matched null (feature-ablation for nitrogen, open-pore no-enrichment for phosphorus). Each arm keeps its
-  own verdict and matched null (see arms).
+  Joint C/N/P precursor-feasibility (Act III nutrient availability). Two arms, each judged against its own
+  matched null with input fluxes held equal: the nitrogen bottleneck (og-res-nitrogen, canonical) and the
+  phosphorus bottleneck (og-res-phosphorus). Each arm is supported individually — reduced nitrogen keeps
+  pace with carbon and reactive phosphorus co-concentrates, each beating its matched null (feature-ablation
+  for nitrogen, open-pore no-enrichment for phosphorus). QUALIFIED, not supported: individual clearance is
+  necessary but not sufficient — these are separate concentration successes, not a demonstration that C, N
+  and P are jointly available in compatible chemical forms in the same physical regime. That joint bar is
+  the sharpened requirement og-precursor-pool (NEW A) and og-operating-window (NEW B) are scaffolded to test.
 claim: >-
-  Neither non-carbon nutrient bottleneck blocks the vent pathway. Ammonium is produced and sustained,
-  keeping pace with carbon fixation (a viable C:N), while the feature-ablation null produces none and
-  nitrogen mass is conserved (nitrogen arm, supported). Reactive phosphorus is available and co-concentrates
-  with carbon in the pore, while an open-pore no-enrichment control shows no enrichment and P mass is
-  conserved (phosphorus arm, supported). Headline verdict supported; every matched null and arm verdict
-  is preserved explicitly.
+  Each non-carbon nutrient bottleneck clears individually: ammonium is produced and sustained, keeping pace
+  with carbon fixation (a viable C:N) while the feature-ablation null produces none and nitrogen mass is
+  conserved (nitrogen arm, supported); reactive phosphorus is available and co-concentrates with carbon in
+  the pore while an open-pore no-enrichment control shows none and P mass is conserved (phosphorus arm,
+  supported). Qualified overall: these are separate concentration successes, NOT a joint C/N/P feasibility
+  — whether C, N and P are available together in compatible chemical forms and the same physical regime is
+  the harder, open bar carried by the planned NEW A (precursor pool) and NEW B (operating window). Every
+  matched null and arm verdict preserved.
 question: >-
   Do the two non-carbon nutrient bottlenecks clear at the vent — does reduced nitrogen (ammonium) keep
   pace with carbon fixation, and does reactive phosphorus co-concentrate with carbon rather than precipitate
