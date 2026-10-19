@@ -374,6 +374,9 @@ def main() -> None:
             check_gate_matched_null,
             check_gate_members_in_roster,
             check_used_imports_declared,
+            check_evidence_basis_enum,
+            check_evidence_basis_coverage,
+            check_vacuous_inferred_coverage,
         )
     except Exception as _e:  # viva_genesis not importable here — warn, don't fail
         print(f"LINT WARNING: audit checks skipped ({_e})", file=sys.stderr)
@@ -569,11 +572,45 @@ def main() -> None:
                             f"stale-source-artifact-path: {_rel} references directory '{_tok}' "
                             f"which does not exist (a fold moved it? repoint the source path)")
 
+        # §6.2 — calibration-vs-prediction tagging. An out-of-enum evidence_basis
+        # value is an authoring error (hard-fail); absence is tolerated while
+        # tagging lands study by study (WARN, study-level coverage). Field shape
+        # locked with genesis-writer; distinct axis from band_basis.
+        _audit_errors += [f"evidence-basis-enum: {e}"
+                          for e in check_evidence_basis_enum(studies_by_dir)]
+
+        # §6.6 — avoid vacuous gates: a DELIVERED finding must not credit a
+        # zero-count inferred-tier gate (zero inferred reactions) or a
+        # balance-by-construction write-gate as substantive coverage/chemistry.
+        # Forward guard — inert while the study honestly keeps such findings
+        # status: planned; fails loud the moment a vacuous gate is credited.
+        # Resolve coverage reports (atlas-style {"headline": {...}}) keyed by the
+        # behavior_test artifact path, so rule (b) reads the authoritative
+        # balance_violations_held signal rather than guessing from a 0 count.
+        _coverage_reports: dict[str, dict] = {}
+        for _spec in studies_by_dir.values():
+            for _bt in _spec.get("behavior_tests") or []:
+                _art = isinstance(_bt, dict) and _bt.get("artifact")
+                if not _art or not str(_art).endswith(".json") or _art in _coverage_reports:
+                    continue
+                _full = (WS_ROOT / _art) if str(_art).startswith("workspace/") else None
+                if _full and _full.is_file():
+                    try:
+                        _doc = json.loads(_full.read_text())
+                        if isinstance(_doc, dict) and isinstance(_doc.get("headline"), dict):
+                            _coverage_reports[_art] = _doc["headline"]
+                    except Exception:
+                        pass
+        _audit_errors += [f"vacuous-inferred-gate: {e}"
+                          for e in check_vacuous_inferred_coverage(studies_by_dir, _coverage_reports)]
+
         # E/F — WARN only (don't fail): knife-edge margins + missing units.
         for _w in check_knife_edge_margins(studies_by_dir):
             print(f"LINT WARNING: knife-edge: {_w}", file=sys.stderr)
         for _w in check_units_present(studies_by_dir):
             print(f"LINT WARNING: units: {_w}", file=sys.stderr)
+        for _w in check_evidence_basis_coverage(studies_by_dir):
+            print(f"LINT WARNING: evidence-basis: {_w}", file=sys.stderr)
 
     if _audit_errors:
         for _e in _audit_errors:
