@@ -343,7 +343,7 @@ key_assumptions:
 parent_relations:
 - study: og-04-mineral-compartments-to-protocells
   relation: builds-on
-- study: og-02-reduced-carbon-to-protometabolism
+- study: og-network-persistence
   relation: builds-on
 expert_questions:
 - Treat lysis and starvation as symmetric failure modes bounding the band, or model
@@ -384,7 +384,7 @@ pipeline_gate:
   prerequisites:
   - study: og-04-mineral-compartments-to-protocells
     condition: tests-passed
-  - study: og-02-reduced-carbon-to-protometabolism
+  - study: og-network-persistence
     condition: tests-passed
 runs:
 - name: viva_genesis.composites.osmotic_growth_division.osmotic_growth_division__1791927288__76353a
