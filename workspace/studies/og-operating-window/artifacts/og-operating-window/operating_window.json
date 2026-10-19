@@ -1,0 +1,172 @@
+{
+  "axes": {
+    "soret_coeff": [
+      0.001,
+      0.003,
+      0.01,
+      0.03,
+      0.1
+    ],
+    "delta_T": [
+      10.0,
+      30.0,
+      50.0
+    ],
+    "feed_CO2": [
+      0.002,
+      0.01,
+      0.02
+    ]
+  },
+  "enriched_surface_M": [
+    [
+      [
+        1.224021748919665e-08,
+        1.3096639570583884e-07,
+        3.15723765356887e-07
+      ],
+      [
+        1.3835351861903278e-08,
+        1.4803382115348848e-07,
+        3.5686860864465007e-07
+      ],
+      [
+        1.5638362742460844e-08,
+        1.6732545846740463e-07,
+        4.0337541170525745e-07
+      ]
+    ],
+    [
+      [
+        1.3835351861903278e-08,
+        1.4803382115348848e-07,
+        3.5686860864465007e-07
+      ],
+      [
+        1.9979905543397196e-08,
+        2.1377857197973522e-07,
+        5.153610232174328e-07
+      ],
+      [
+        2.88533771679702e-08,
+        3.0872186829731013e-07,
+        7.442430570187418e-07
+      ]
+    ],
+    [
+      [
+        2.124192972631619e-08,
+        2.2728182538813158e-07,
+        5.479136332796569e-07
+      ],
+      [
+        7.231105670735165e-08,
+        7.737050812210629e-07,
+        1.865189006709295e-06
+      ],
+      [
+        2.4615884665393e-07,
+        2.6338205955756575e-06,
+        6.349413154634079e-06
+      ]
+    ],
+    [
+      [
+        7.231105670735165e-08,
+        7.737050812210629e-07,
+        1.865189006709295e-06
+      ],
+      [
+        2.852574063029884e-06,
+        3.0521626257762175e-05,
+        7.357920109949769e-05
+      ],
+      [
+        0.00011253021537221597,
+        0.001204037160966179,
+        0.00290260065600103
+      ]
+    ],
+    [
+      [
+        5.263108209959499e-06,
+        5.6313567391803295e-05,
+        0.00013575643921325605
+      ],
+      [
+        1.0998911371781077,
+        11.768481894390534,
+        28.370555639149188
+      ],
+      [
+        229856.66746385442,
+        2459392.514329606,
+        5928915.283419279
+      ]
+    ]
+  ],
+  "consumable_threshold_M": 1e-06,
+  "defensible_soret_max": 0.01,
+  "overlap_volume_all": 0.4222222222222222,
+  "overlap_volume_defensible": 0.1111111111111111,
+  "best_defensible_enriched_M": 6.349413154634079e-06,
+  "soret_crossover_per_K": 0.01,
+  "transport_decoupled_null": [
+    {
+      "soret_coeff": 0.001,
+      "enriched_M": 4.676305482792517e-10
+    },
+    {
+      "soret_coeff": 0.003,
+      "enriched_M": 6.753145331672959e-10
+    },
+    {
+      "soret_coeff": 0.01,
+      "enriched_M": 2.44409100919383e-09
+    },
+    {
+      "soret_coeff": 0.03,
+      "enriched_M": 9.641610754945634e-08
+    },
+    {
+      "soret_coeff": 0.1,
+      "enriched_M": 0.0371759750427722
+    }
+  ],
+  "sensitivity_morris": {
+    "method": "morris",
+    "names": [
+      "soret_coeff",
+      "delta_T",
+      "feed_CO2",
+      "mix_fraction"
+    ],
+    "mu": {
+      "soret_coeff": 2.459207970914724,
+      "delta_T": 1.7458741286761126,
+      "feed_CO2": 1.0331443355757384,
+      "mix_fraction": 0.0
+    },
+    "mu_star": {
+      "soret_coeff": 2.459207970914724,
+      "delta_T": 1.7458741286761126,
+      "feed_CO2": 1.0331443355757384,
+      "mix_fraction": 0.0
+    },
+    "sigma": {
+      "soret_coeff": 1.8930991786678522,
+      "delta_T": 1.0929813204065437,
+      "feed_CO2": 0.529928398046865,
+      "mix_fraction": 0.0
+    },
+    "n_evaluations": 20,
+    "ranking": [
+      "soret_coeff",
+      "delta_T",
+      "feed_CO2",
+      "mix_fraction"
+    ]
+  },
+  "failure_reason": "At defensible small-molecule Soret (<=1e-2/K) the pore enrichment is modest (best enriched pool 6.35e-06 M, still < 1e-06 M consumable); membrane retention adds ~30x via reduced washout but cannot close the ~1-2 order gap. Rescue needs S_T at the large-biomolecule scale, not defensible for C2-C3.",
+  "discriminating_experiment": "Measure the Soret (thermodiffusion) coefficient S_T of the C2-C3 precursors (acetate, glycolaldehyde, pyruvate) at the vent thermal gradient. S_T is the dominant parameter (Morris rank: soret_coeff); the simultaneous window opens only above S_T ~= 1e-02/K, so whether S_T(C2-C3) reaches that small-vs-large-molecule boundary decides the rescue."
+}
