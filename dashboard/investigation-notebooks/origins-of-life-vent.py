@@ -1051,41 +1051,62 @@ _save_viz('og-04-mineral-compartments-to-protocells', 'protocell-vesicle-3d', _r
 # | --- | --- | --- | --- |
 # | Mixed single-chain amphiphiles form vesicles across broader alkaline pH/salinity/divalent/T than single-fatty-acid models | vesicle stability map | Jordan 2019 | Met by the coarse-grained Jordan-calibrated protocell — mixed amphiphiles form ~8000 viable vesicles at alkaline vent pH and seawater salt where a single fatty acid forms none, and the (co-surfactant × ionic strength) feasibility map marks a viable region (individuality > 0.1) at 63/256 points. |
 
-# ## Study: Owning Its Energy (`og-05-environmental-to-internal-bioenergetics`)
+# ## Study: Proto-Energetics: Capture, Internalization, and Carrier Coupling (`og-energetics`)
 #
-# **Question.** Can an evolving compartment reduce its dependence on an externally imposed proton gradient by internalizing electrochemical work, and does that pay for itself?
+# **Question.** Can a primitive chemical system capture geochemical free energy, internalize it under selection, and couple a specified carrier to perform endergonic work — and does any of it improve total throughput, or only persistence/robustness — each tested against a matched null with a closing ledger?
 #
-# **Hypothesis.** When membrane permeability, Na+/H+ coupling and catalyst efficiency vary under selection, systems with increasing internal gradient generation win on throughput + persistence — but only if membranes stay sufficiently leaky (Sojo constraint).
+# **Hypothesis.** Energetic mechanisms (capture, internalization, carrier coupling) raise persistence/robustness — doing useful work through gradient dips and surviving gradient loss — but do not net more total useful work, because stores time-shift and leak and activation is gated at the carrier bond. No net benefit is claimed where an arm's ledger does not close without a hidden inflow.
 #
-# **Claim.** Presented as a conditional selection/cost model, internalizing energy handling pays only where the specified chemistry confers positive net useful work after all synthesis, leak and maintenance costs; the three regimes (direct gradient use / chemical carrier / active pumping) are distinguished and compared rather than collapsed into one inserted pump. Where no specified chemistry clears the cost, internalization does not pay and is not claimed.
-
-# ### Design — originally proposed
-#
-# _The mechanisms and methods proposed when this study was designed; the model **actually built** (and the tools it uses) is shown below. These may differ as the design was realized._
-#
-# **Proposed mechanisms**
-#
-# - H: bioenergetic internalization
-#
-# **Proposed models / methods**
-#
-# - evolutionary control loop over membrane parameters
-# - reward = throughput + persistence
-# - Sojo leaky-membrane model as baseline
-#
-# **Key assumptions**
-#
-# - Internalization is an evolutionary control problem, not a scripted upgrade.
+# **Claim.** Across fidelities, a protocell's energetics buy robustness/persistence, not raw throughput. A primitive carrier captures geochemical free energy into a transferable store with a closing ledger (proto-energetics arm, supported); a compartment internalizes electrochemical work under selection and pays for it within a Sojo-bounded survival region (internalization arm, supported); which coupling chemistry pays is structure-sensitive and membrane-leak-dependent (5-class alt arm, supported, classes agree ~46%); and a specified thioester carrier does useful work through a gradient dip where gradient-only starves but does NOT improve total useful work (sharpened Gate-E arm, og-35, qualified). The consolidated headline is bounded by that sharpest arm: qualified, dip-persistence not throughput. Every matched null and every arm verdict is preserved explicitly.
 
 # ### Parameters
 #
 # | simulation | composite | steps | params |
 # | --- | --- | --- | --- |
-# | `Environmental to internal bioenergetics` | `viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization` | 0 | catalyst_efficiency=1.0, v_start=0.4, decline_rate=0.01 |
+# | `Chemical energy coupling (thioester carrier) — canonical headline arm (og-35)` | `viva_genesis.composites.og_35_chemical_energy_coupling.og_35_chemical_energy_coupling` | 0 | carrier=True, g_drive=50.0, decline_rate=0.4, load=30.0, bond_energy_kjmol=31.5 |
+# | `Gradient-only null (no carrier store, equal drive/load) — og-35 matched null` | `viva_genesis.composites.og_35_chemical_energy_coupling.og_35_chemical_energy_coupling` | 0 | carrier=False, g_drive=50.0, decline_rate=0.4, load=30.0, bond_energy_kjmol=31.5 |
+# | `Proto-energetics carrier capture (og-energy-proto arm)` | `viva_genesis.composites.proto_energetics.proto_energetics` | 0 | — |
+# | `Bioenergetic internalization under selection (og-05 arm)` | `viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization` | 0 | — |
+# | `Internalization-threshold 5-class sweep (og-energy-alt arm)` | `viva_genesis.composites.protocell_energetics.protocell_energetics` | 0 | — |
 
 # ### The model & its parameters
 #
 # Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
+
+# **The model — `viva_genesis.composites.og_35_chemical_energy_coupling.og_35_chemical_energy_coupling`**
+#
+# Gate E energy coupling: does a specified thioester carrier cycle do endergonic work when the geochemical gradient DIPS, beating a matched gradient-only control, with a FULL closing energy ledger and no hidden inflow? carrier=True charges/discharges a stored carrier (buffered); carrier=False is the gradient-only null (direct drive->work, no store). Both see the same declining drive + load. Carrier chemistry = one specified thioester (Option B; acyl-phosphate / microkinetic = og-35a). Metabolism = sustained A1 network, NOT autocatalytic (A2 refuted).
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_og_35_chemical_energy_coupling_og_35_chemical_energy_coupling = {
+    'carrier'          : True,   # Thioester carrier cycle (True) vs matched gradient-only null (False)
+    'g_drive'          : 50.0,   # Initial geochemical drive free energy (kJ/mol)
+    'decline_rate'     : 0.4,   # Drive decline per step (kJ/mol) — the gradient dip
+    'g_floor'          : 2.0,   # Drive floor (kJ/mol)
+    'load'             : 30.0,   # Endergonic load to lift (kJ/mol)
+    'bond_energy_kjmol': 31.5,   # Carrier high-energy bond (thioester ~31.5; proposed_input)
+    'k_hydrolyze'      : 0.02,   # Carrier hydrolysis leak rate (1/s)
+    'base_CO2'         : 0.001,   # Vent feed (provenance for the metabolic regime)
+    'base_H2'          : 0.001,   # Vent feed (provenance)
+    'porosity'         : 0.88,   # Gate-B pore porosity (provenance)
+    'max_carbons'      : 4,   # Carbon cap (provenance)
+}
+
+# **The model — `viva_genesis.composites.proto_energetics.proto_energetics`**
+#
+# A transferable energy currency before modern pumping (pre-og-05). An exergonic geochemical drive charges a carrier pool (thioester / acyl-phosphate class) that is discharged for endergonic work under load and bled by hydrolysis, all tracked in a conserved free-energy ledger (input = work + stored + dissipated). Tests whether the system captures environmental free energy into a transferable store, and what fraction becomes stored usable work. drive_free_energy / coupling_efficiency set the arm; coupling->0 or drive below the carrier bond collapses the currency (ablations). Coarse-grained, deterministic reproduction (not a wrapped engine).
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_proto_energetics_proto_energetics = {
+    'drive_free_energy'  : 50.0,   # Exergonic geochemical drive ΔG available (kJ/mol); below the carrier bond the drive cannot charge it
+    'coupling_efficiency': 0.6,   # Fraction of tapped drive free energy coupled into the carrier bond (0 = no coupling ablation)
+    'carrier_pool'       : 0.001,   # Total carrier concentration (molar), charged + free
+    'loss_rate'          : 0.05,   # First-order hydrolysis / loss rate of charged carrier (per tick)
+    'load'               : 0.2,   # Endergonic work demand as a fraction of the carrier pool per tick
+    'carrier'            : 'thioester',   # Primitive carrier chemistry (thioester / acyl_phosphate / polyphosphate / reduced_metal)
+}
 
 # **The model — `viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization`**
 #
@@ -1100,39 +1121,33 @@ ov_viva_genesis_composites_bioenergetic_internalization_bioenergetic_internaliza
     'gradient_floor'     : 0.02,   # Floor the external gradient decays to (V); low floor forces internalization-or-die
 }
 
-# ### Typed contract (declared interface)
+# **The model — `viva_genesis.composites.protocell_energetics.protocell_energetics`**
 #
-# _The bigraph-schema typed ports + conservation predicates this study's composite must satisfy (audited in the workbench §Contract panel). Declared design — independent of whether a run exists yet._
-#
-# **Inputs**
-#
-# | port | type | units | bounds |
-# | --- | --- | --- | --- |
-# | `electric_potential` | float | volt |  |
-# | `catalyst_efficiency` | float | dimensionless | >= 0.0 |
-#
-# **Outputs**
-#
-# | port | type | units | bounds |
-# | --- | --- | --- | --- |
-# | `lineage_fitness` | float | dimensionless |  |
-# | `free_energy_flux` | float | watt |  |
-# | `internalization` | float | dimensionless | [0.0, 1.0] |
-# | `survivors` | float | dimensionless | [0.0, 1.0] |
-# | `mean_permeability` | float | meter/second | >= 0.0 |
-#
-# **Conditions**
-#
-# - `energy_directionality` (invariant): `free_energy_flux_logged == true`
-# - `charge_neutrality` (invariant): `abs(net_charge) < tol`
-# - `reproducibility` (invariant): `solver and db and seed and scenario recorded`
+# A protocell's energy budget with the energy-coupling mechanism as a model CLASS on the energy_coupling face (model_energy_coupling: passive_gradient | h_na_gradient_leaky_membrane | thioester_acyl_phosphate | polyphosphate | fe_redox). The individual (radius, membrane permeability) sits between the external ion gradient (tapped only through its leak) and the chemical drive (H2/CO2 redox, or Fe(II) disproportionation for fe_redox; vg-data energy_currencies); coupling_activity moves it from passive to active. Publishes the per-individual power budget (external / internal / maintenance / leak / net power, the store, autonomy = internal / (internal + external)) audited by a FreeEnergyLedgerProcess. Coarse-grained deterministic kinetics (reproducible), not a wrapped engine.
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_protocell_energetics_protocell_energetics = {
+    'model_energy_coupling': 'thioester_acyl_phosphate',   # Model class behind the 'energy_coupling' face: fe_redox | h_na_gradient_leaky_membrane | passive_gradient | polyphosphate | thioester_acyl_phosphate
+    'coupling_activity'    : 0.5,   # Passive -> active axis: fraction of the drive turnover coupled into the internal store (0 = external tap only) [vg-data: hypothetical]
+    'permeability'         : 1e-06,   # Membrane H+ permeability (m/s): the leak that feeds the external tap and drains the store [vg-data: extrapolated]
+    'electric_potential'   : 0.216,   # External ion gradient (V) at t = 0 [vg-data: calibrated to the Phase-1 posterior dpH]
+    'decline_rate'         : 0.0,   # External-gradient decline (V/s); 0 = steady (og-05's collapse scenario when > 0)
+    'gradient_floor'       : 0.02,   # Floor the declining gradient decays to (V)
+    'drive_free_energy'    : 50.0,   # Chemical drive free energy per turnover (kJ/mol) [vg-data: inferred]
+    'fe_drive_free_energy' : 40.0,   # Fe(II)-disproportionation drive (kJ/mol), used by the fe_redox class [vg-data: hypothetical]
+    'protocell_radius'     : 5e-07,   # Protocell radius (m) [vg-data: inferred]
+    'drive_turnover'       : 1e-21,   # Drive turnover per cell at full activity (mol/s) [vg-data: hypothetical]
+    'maintenance_active'   : 5e-18,   # Machinery upkeep at full activity (W) [vg-data: hypothetical]
+    'tick_seconds'         : 10.0,   # Physical seconds per composite tick (store timescales are ~1e3 s); processes run at interval 1
+}
 
 # ### Run
 #
 # _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
 
-# === Study: og-05-environmental-to-internal-bioenergetics ===
-STUDY = 'og-05-environmental-to-internal-bioenergetics'
+# === Study: og-energetics ===
+STUDY = 'og-energetics'
 STUDY_DIR = REPO / 'workspace/studies' / STUDY
 STUDY_YAML = str(STUDY_DIR / "study.yaml")
 RUNS_DB = str(STUDY_DIR / "runs.db")
@@ -1140,20 +1155,64 @@ RUNS_DB = str(STUDY_DIR / "runs.db")
 # This study has no *recorded* runs yet. RERUN builds its declared
 # composite(s) live and runs them; a composite whose module processes
 # are not implemented yet reports the error instead of crashing.
-STEPS_Environmental_to_internal_bioenergetics = 100
-INTERVAL_Environmental_to_internal_bioenergetics = 1.0
+STEPS_Chemical_energy_coupling_thioester_carrier_canonical_headline_arm_og_35 = 100
+INTERVAL_Chemical_energy_coupling_thioester_carrier_canonical_headline_arm_og_35 = 1.0
+STEPS_Gradient_only_null_no_carrier_store_equal_drive_load_og_35_matched_null = 100
+INTERVAL_Gradient_only_null_no_carrier_store_equal_drive_load_og_35_matched_null = 1.0
+STEPS_Proto_energetics_carrier_capture_og_energy_proto_arm = 100
+INTERVAL_Proto_energetics_carrier_capture_og_energy_proto_arm = 1.0
+STEPS_Bioenergetic_internalization_under_selection_og_05_arm = 100
+INTERVAL_Bioenergetic_internalization_under_selection_og_05_arm = 1.0
+STEPS_Internalization_threshold_5_class_sweep_og_energy_alt_arm = 100
+INTERVAL_Internalization_threshold_5_class_sweep_og_energy_alt_arm = 1.0
 
 if RERUN:
     from process_bigraph import Composite
     try:
         with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_og_35_chemical_energy_coupling_og_35_chemical_energy_coupling if 'ov_viva_genesis_composites_og_35_chemical_energy_coupling_og_35_chemical_energy_coupling' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_og_35_chemical_energy_coupling_og_35_chemical_energy_coupling = materialize_composite('viva_genesis.composites.og_35_chemical_energy_coupling.og_35_chemical_energy_coupling', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_og_35_chemical_energy_coupling_og_35_chemical_energy_coupling['state']}, core=core)
+            _comp.run(STEPS_Chemical_energy_coupling_thioester_carrier_canonical_headline_arm_og_35)
+        print('ran', 'Chemical energy coupling (thioester carrier) — canonical headline arm (og-35)', f'(viva_genesis.composites.og_35_chemical_energy_coupling.og_35_chemical_energy_coupling) for', STEPS_Chemical_energy_coupling_thioester_carrier_canonical_headline_arm_og_35, 'steps')
+    except Exception as _e:
+        print(f"Chemical energy coupling (thioester carrier) — canonical headline arm (og-35) not runnable yet: {type(_e).__name__}: {_e}")
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_og_35_chemical_energy_coupling_og_35_chemical_energy_coupling if 'ov_viva_genesis_composites_og_35_chemical_energy_coupling_og_35_chemical_energy_coupling' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_og_35_chemical_energy_coupling_og_35_chemical_energy_coupling = materialize_composite('viva_genesis.composites.og_35_chemical_energy_coupling.og_35_chemical_energy_coupling', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_og_35_chemical_energy_coupling_og_35_chemical_energy_coupling['state']}, core=core)
+            _comp.run(STEPS_Gradient_only_null_no_carrier_store_equal_drive_load_og_35_matched_null)
+        print('ran', 'Gradient-only null (no carrier store, equal drive/load) — og-35 matched null', f'(viva_genesis.composites.og_35_chemical_energy_coupling.og_35_chemical_energy_coupling) for', STEPS_Gradient_only_null_no_carrier_store_equal_drive_load_og_35_matched_null, 'steps')
+    except Exception as _e:
+        print(f"Gradient-only null (no carrier store, equal drive/load) — og-35 matched null not runnable yet: {type(_e).__name__}: {_e}")
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_proto_energetics_proto_energetics if 'ov_viva_genesis_composites_proto_energetics_proto_energetics' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_proto_energetics_proto_energetics = materialize_composite('viva_genesis.composites.proto_energetics.proto_energetics', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_proto_energetics_proto_energetics['state']}, core=core)
+            _comp.run(STEPS_Proto_energetics_carrier_capture_og_energy_proto_arm)
+        print('ran', 'Proto-energetics carrier capture (og-energy-proto arm)', f'(viva_genesis.composites.proto_energetics.proto_energetics) for', STEPS_Proto_energetics_carrier_capture_og_energy_proto_arm, 'steps')
+    except Exception as _e:
+        print(f"Proto-energetics carrier capture (og-energy-proto arm) not runnable yet: {type(_e).__name__}: {_e}")
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
             _ov = ov_viva_genesis_composites_bioenergetic_internalization_bioenergetic_internalization if 'ov_viva_genesis_composites_bioenergetic_internalization_bioenergetic_internalization' in dir() else None  # edits from the panel cell, if any
             spec_viva_genesis_composites_bioenergetic_internalization_bioenergetic_internalization = materialize_composite('viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization', _ov)
             _comp = Composite({'state': spec_viva_genesis_composites_bioenergetic_internalization_bioenergetic_internalization['state']}, core=core)
-            _comp.run(STEPS_Environmental_to_internal_bioenergetics)
-        print('ran', 'Environmental to internal bioenergetics', f'(viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization) for', STEPS_Environmental_to_internal_bioenergetics, 'steps')
+            _comp.run(STEPS_Bioenergetic_internalization_under_selection_og_05_arm)
+        print('ran', 'Bioenergetic internalization under selection (og-05 arm)', f'(viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization) for', STEPS_Bioenergetic_internalization_under_selection_og_05_arm, 'steps')
     except Exception as _e:
-        print(f"Environmental to internal bioenergetics not runnable yet: {type(_e).__name__}: {_e}")
+        print(f"Bioenergetic internalization under selection (og-05 arm) not runnable yet: {type(_e).__name__}: {_e}")
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_protocell_energetics_protocell_energetics if 'ov_viva_genesis_composites_protocell_energetics_protocell_energetics' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_protocell_energetics_protocell_energetics = materialize_composite('viva_genesis.composites.protocell_energetics.protocell_energetics', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_protocell_energetics_protocell_energetics['state']}, core=core)
+            _comp.run(STEPS_Internalization_threshold_5_class_sweep_og_energy_alt_arm)
+        print('ran', 'Internalization-threshold 5-class sweep (og-energy-alt arm)', f'(viva_genesis.composites.protocell_energetics.protocell_energetics) for', STEPS_Internalization_threshold_5_class_sweep_og_energy_alt_arm, 'steps')
+    except Exception as _e:
+        print(f"Internalization-threshold 5-class sweep (og-energy-alt arm) not runnable yet: {type(_e).__name__}: {_e}")
 else:
     print("RERUN=False — not re-simulating.")
 
@@ -1161,20 +1220,50 @@ else:
 #
 # _Results are shown by the figures below, produced by the run above._
 
+# **proto-energetics-world**
+
+# proto-energetics-world
+_save_viz('og-energetics', 'proto-energetics-world', _render_one('local:ProtoEnergeticsWorldViz', {'composite': 'viva_genesis.composites.proto_energetics.proto_energetics', 'title': 'Proto-energetics — charging and spending the currency (World view)'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_proto_energetics_proto_energetics if 'ov_viva_genesis_composites_proto_energetics_proto_energetics' in dir() else None)))
+
+# **proto-energetics-provenance**
+
+# proto-energetics-provenance
+_save_viz('og-energetics', 'proto-energetics-provenance', _render_one('local:ProtoEnergeticsProvenanceViz', {'title': 'Proto-energetics — the energy-provenance ledger (Mechanism view)'}, RUNS_DB, STUDY_YAML))
+
+# **proto-energetics-map**
+
+# proto-energetics-map
+_save_viz('og-energetics', 'proto-energetics-map', _render_one('local:ProtoEnergeticsMap', {'composite': 'viva_genesis.composites.proto_energetics.proto_energetics', 'grid_json': 'workspace/studies/og-energetics/artifacts/og-energy-proto-energetics/proto_energetics_phase_grid.json', 'title': 'Proto-energetics — capturing free energy into a transferable currency (Decision view)'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_proto_energetics_proto_energetics if 'ov_viva_genesis_composites_proto_energetics_proto_energetics' in dir() else None)))
+
 # **bioenergetic-internalization**
 
 # bioenergetic-internalization
-_save_viz('og-05-environmental-to-internal-bioenergetics', 'bioenergetic-internalization', _render_one('local:BioenergeticInternalizationViz', {'composite': 'viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization', 'title': 'Selection internalizes the gradient'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_bioenergetic_internalization_bioenergetic_internalization if 'ov_viva_genesis_composites_bioenergetic_internalization_bioenergetic_internalization' in dir() else None)))
+_save_viz('og-energetics', 'bioenergetic-internalization', _render_one('local:BioenergeticInternalizationViz', {'composite': 'viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization', 'title': 'Selection internalizes the gradient'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_bioenergetic_internalization_bioenergetic_internalization if 'ov_viva_genesis_composites_bioenergetic_internalization_bioenergetic_internalization' in dir() else None)))
 
 # **bioenergetic-provenance**
 
 # bioenergetic-provenance
-_save_viz('og-05-environmental-to-internal-bioenergetics', 'bioenergetic-provenance', _render_one('local:BioenergeticProvenanceViz', {'title': 'Energy provenance — external to internal (Mechanism view)'}, RUNS_DB, STUDY_YAML))
+_save_viz('og-energetics', 'bioenergetic-provenance', _render_one('local:BioenergeticProvenanceViz', {'title': 'Energy provenance — external to internal (Mechanism view)'}, RUNS_DB, STUDY_YAML))
 
 # **bioenergetic-survival-map**
 
 # bioenergetic-survival-map
-_save_viz('og-05-environmental-to-internal-bioenergetics', 'bioenergetic-survival-map', _render_one('local:BioenergeticSurvivalMap', {'grid_json': 'workspace/studies/og-05-environmental-to-internal-bioenergetics/artifacts/bioenergetic_survival_grid.json', 'title': 'Survival off the collapsing gradient (Decision view)'}, RUNS_DB, STUDY_YAML))
+_save_viz('og-energetics', 'bioenergetic-survival-map', _render_one('local:BioenergeticSurvivalMap', {'grid_json': 'workspace/studies/og-energetics/artifacts/og-05-environmental-to-internal-bioenergetics/bioenergetic_survival_grid.json', 'title': 'Survival off the collapsing gradient (Decision view)'}, RUNS_DB, STUDY_YAML))
+
+# **internalization-threshold-map**
+
+# internalization-threshold-map
+_save_viz('og-energetics', 'internalization-threshold-map', _render_one('local:InternalizationThresholdMap', {'title': 'Where internalization pays, per energy-coupling class (Decision view)', 'threshold_map_json': 'workspace/studies/og-energetics/artifacts/og-energy-alt-internalization-threshold/internalization_threshold_map.json', 'report_json': 'workspace/studies/og-energetics/artifacts/og-energy-alt-internalization-threshold/internalization_threshold_report.json'}, RUNS_DB, STUDY_YAML))
+
+# **protocell-energy-budget**
+
+# protocell-energy-budget
+_save_viz('og-energetics', 'protocell-energy-budget', _render_one('local:ProtocellEnergyBudget', {'title': "One individual's power budget per coupling class (Mechanism view)", 'report_json': 'workspace/studies/og-energetics/artifacts/og-energy-alt-internalization-threshold/internalization_threshold_report.json', 'activity': '1'}, RUNS_DB, STUDY_YAML))
+
+# **energy-coupling**
+
+# energy-coupling
+_save_viz('og-energetics', 'energy-coupling', _render_one('local:OgEnergyCouplingViz', {'title': 'The carrier buys gradient-dip resilience, not throughput', 'report_json': 'workspace/studies/og-energetics/artifacts/og-35-chemical-energy-coupling/gate_e_energy.json'}, RUNS_DB, STUDY_YAML))
 
 # ### Acceptance criteria
 #
@@ -1182,16 +1271,32 @@ _save_viz('og-05-environmental-to-internal-bioenergetics', 'bioenergetic-surviva
 #
 # | test | measures | passes if |
 # | --- | --- | --- |
+# | currency-maintained _(primary)_ | kind=derived path=energy_final_charge_fraction detail=charged fraction of the carrier pool at the end of the run under load=None | op >= value 0.25 detail the currency is maintained (charged fraction >= 0.25) against discharge + hydrolysis |
+# | captures-free-energy _(primary)_ | kind=derived path=energy_stored_work_fraction detail=(delivered work + currently stored)/input free energy at the end of the run | op >= value 0.3 detail capture into transferable currency exceeds 30% of the tapped geochemical free energy |
+# | ablation-no-coupling-or-drive-collapses _(primary)_ | kind=cross_run detail=no-coupling and no-drive controls vs the favourable arm | op controls_absent detail both ablations collapse (charged fraction ~0) where the favourable arm maintains the currency |
+# | free-energy-conserved _(supporting)_ | kind=derived path=energy_ledger_residual detail=worst-case |input - (work + stored + dissipated)| over the run | op <= value 1e-09 detail the ledger residual stays at machine precision (free-energy accounting invariant) |
 # | selection-internalizes-gradient-generation _(primary)_ | kind=derived path=final_internalization detail=active-pump fraction of the surviving population at the collapsed gradient | op >= value 0.6 detail the population internalizes (pump fraction >= 0.6) as the external gradient falls |
 # | reduced-gradient-dependence _(primary)_ | kind=derived path=final_survivors detail=surviving strategy mass at the collapsed external gradient | op >= value 0.5 detail internalizing lineage persists (survivors >= 0.5) at the collapsed gradient |
 # | sojo-constraint-weak-pump-collapses _(primary)_ | kind=cross_run detail=efficient-pump survivors vs weak-pump control | op controls_absent detail the weak-pump control collapses (survivors ~0) where the efficient pump persists |
 # | energy-cost-accounted _(supporting)_ | kind=derived path=final_internalization detail=internalized population has net-positive flux | op > value 0.0 detail a net-positive-flux internalized region exists |
-
-# ### Literature anchors
-#
-# | expectation | model observable | source | status |
-# | --- | --- | --- | --- |
-# | LUCA-like cells can use proton gradients only if membranes remain sufficiently leaky | permeability vs viability | Sojo 2014 / Lane 2012 | Met by the real replicator selection loop — the survival Decision map over (pump efficiency × gradient floor) is bounded by the Sojo cost line (η ≈ 0.30): efficient pumps internalize and persist (~94% of the grid survives) while weak pumps collapse at the gradient transition. |
+# | free-energy-ledger-closes _(primary)_ | kind=derived path=free_energy_ledger_ok_final detail=free_energy_ledger_ok on the final tick | op >= value 1.0 detail every ledger witness within tolerance |
+# | free-energy-residual-exact _(diagnostic)_ | kind=derived path=free_energy_residual_max detail=worst-case relative ledger residual | op <= value 1e-09 detail free-energy accounting exact by construction |
+# | second-law-margin-nonnegative _(diagnostic)_ | kind=derived path=second_law_margin_min detail=minimum margin over the run (joule) | op >= value -1e-24 detail non-negative to rounding (per-cell energies are ~1e-16 J) |
+# | individual-is-partly-autonomous _(primary)_ | kind=derived path=final_autonomy detail=autonomy on the final tick | op > value 0.05 detail the internal store contributes > 5 % of the useful power |
+# | internalization-pays _(primary)_ | kind=derived path=n_classes_paying_at_nominal detail=classes with a finite threshold at the nominal membrane + gradient, from artifacts/internalization_threshold_report.json | op >= value 1.0 detail >= 1 class pays at the nominal point |
+# | thioester-threshold-activity _(primary)_ | kind=derived path=internalization_threshold_activity detail=smallest activity that pays, class thioester_acyl_phosphate | op <= value 1.0 detail a finite threshold inside 0..1 |
+# | autonomy-at-threshold _(supporting)_ | kind=derived path=autonomy_at_threshold detail=internal / (internal + external) at a*, class thioester_acyl_phosphate | op > value 0.0 detail the store contributes at the threshold |
+# | ion-gradient-pays-fraction _(diagnostic)_ | kind=derived path=internalization_pays_fraction detail=class h_na_gradient_leaky_membrane | op >= value 0.0 detail informative readout (any value passes) |
+# | polyphosphate-pays-fraction _(diagnostic)_ | kind=derived path=internalization_pays_fraction detail=class polyphosphate | op >= value 0.0 detail informative readout (any value passes) |
+# | fe-redox-pays-fraction _(diagnostic)_ | kind=derived path=internalization_pays_fraction detail=class fe_redox | op >= value 0.0 detail informative readout (any value passes) |
+# | classes-agree-on-pays _(diagnostic)_ | kind=derived path=internalization_structure_agreement detail=structure agreement on the pays masks | op >= value 0.0 detail informative readout (any value passes) |
+# | threshold-map-ledger-all-ok _(supporting)_ | kind=derived path=threshold_map_ledger_all_ok detail=all classes' ledger all_ok | op >= value 1.0 detail no point with an open ledger |
+# | receives-34-handoff-bundle _(secondary)_ | kind=observable detail=composite runs on the merged thioester carrier + declining drive | op threshold detail composite builds + runs |
+# | carrier-pays-on-dip-persistence _(primary)_ | kind=observable detail=useful work during the dip carrier vs gradient-only=None equal drive/load=None | op threshold detail carrier dip-work > gradient-only dip-work |
+# | carrier-throughput-not-improved _(primary)_ | kind=observable detail=total useful work carrier vs gradient-only=None | op threshold detail total useful work not improved (carrier <= gradient-only) - reported not tuned None |
+# | energy-ledger-closes _(primary)_ | kind=observable detail=max |budget_residual| in both arms | op threshold detail ledger closes (residual ~ 0) no hidden inflow None |
+# | matched-null-equal-feeds _(primary)_ | kind=observable detail=drive + load held equal across arms | op threshold detail inputs equal across arms |
+# | handoff-35-to-37-complete _(secondary)_ | kind=observable detail=energy-coupling readouts available to study 37 | op threshold detail handoff available |
 
 # ## Study: The First Heredity (`og-06-chemistry-to-heredity`)
 #
@@ -2054,153 +2159,6 @@ _save_viz('og-res-phosphorus-availability', 'phosphorus-availability-map', _rend
 # | expectation | model observable | source | status |
 # | --- | --- | --- | --- |
 # | Reactive reduced-P (schreibersite-derived) and condensed/activated phosphates form under basic conditions; dissolved phosphate is prone to precipitation/adsorption. | reactive-P availability vs precipitated fraction | Pasek 2017 | measured — reactive-P availability + precipitated fraction graded from the real run |
-
-# ## Study: The Energy Currency (`og-energy-proto-energetics`)
-#
-# **Question.** Before modern pumps and ATP, can a primitive chemical system capture environmental geochemical free energy into a transferable store that can perform work?
-#
-# **Hypothesis.** A pre-ATP carrier (thioester / acyl-phosphate class) coupled to an exergonic geochemical drive maintains a transferable currency above threshold under endergonic load — but only where the drive ΔG clears the carrier's high-energy bond and the coupling is efficient enough to beat discharge + hydrolysis. A bounded fraction of the geochemical free energy is captured as stored usable work; the rest is dissipated. Remove the coupling or starve the drive below the bond and the currency collapses.
-#
-# **Claim.** A specified thioester- and/or acyl-phosphate-class carrier, written as an explicit chemical cycle (synthesis → activation → use → hydrolysis) of named species with a full free-energy ledger, either supports useful coupled work with no hidden energy inflow, or it does not. The abstract currency is replaced by balanced chemistry: capture is credited only when every synthesis, activation, discharge, leak and maintenance cost is accounted and the geochemical drive supplies the high-energy bond.
-
-# ### Design — originally proposed
-#
-# _The mechanisms and methods proposed when this study was designed; the model **actually built** (and the tools it uses) is shown below. These may differ as the design was realized._
-#
-# **Proposed mechanisms**
-#
-# - energetics: pre-ATP energy currency (thioesters / acyl phosphates / polyphosphates)
-#
-# **Proposed models / methods**
-#
-# - free-energy ledger (input = useful work + stored + dissipated) as a conservation invariant
-# - charge / discharge / hydrolysis kinetics of a transferable carrier pool
-# - phase map over (geochemical free-energy drive x coupling efficiency)
-#
-# **Key assumptions**
-#
-# - Capturing environmental free energy into a transferable store is the transition — not merely a favourable reaction direction.
-# - A carrier can only be charged when the drive ΔG clears its high-energy bond (a thermodynamic gate, not just a rate).
-
-# ### Parameters
-#
-# | simulation | composite | steps | params |
-# | --- | --- | --- | --- |
-# | `Energy carrier cycle (explicit thioester/acyl-phosphate chemistry)` | `viva_genesis.composites.og_12_energy_carrier_cycle.og_12_energy_carrier_cycle` | 0 | drive_free_energy=50.0, bond_energy_kjmol=31.5 |
-
-# ### The model & its parameters
-#
-# Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
-
-# **The model — `viva_genesis.composites.og_12_energy_carrier_cycle.og_12_energy_carrier_cycle`**
-#
-# Study 12: the energy currency as explicit chemistry. GeochemicalDriveProcess supplies an exergonic drive ΔG that activates a named thioester carrier only when it clears the high-energy bond; the carrier does useful work against an endergonic load and leaks by hydrolysis. A closed free-energy ledger (budget_residual ~ 0) credits useful coupled work only with no hidden energy inflow — replacing the abstract charged-pool currency.
-
-# === Parameters — edit any value, then re-run from the Run cell below ===
-# Each entry is the composite's current default; the comment explains it.
-ov_viva_genesis_composites_og_12_energy_carrier_cycle_og_12_energy_carrier_cycle = {
-    'drive_free_energy': 50.0,   # Geochemical drive ΔG supplied (kJ/mol)
-    'bond_energy_kjmol': 31.5,   # Carrier high-energy bond (thioester ~31.5; acyl-phosphate ~43)
-    'load'             : 20.0,   # Endergonic load the carrier does work against (kJ/mol)
-    'k_hydrolyze'      : 0.02,   # Hydrolysis leak rate (1/s)
-}
-
-# ### Typed contract (declared interface)
-#
-# _The bigraph-schema typed ports + conservation predicates this study's composite must satisfy (audited in the workbench §Contract panel). Declared design — independent of whether a run exists yet._
-#
-# **Inputs**
-#
-# | port | type | units | bounds |
-# | --- | --- | --- | --- |
-# | `drive_free_energy` | float | kilojoule/mole | >= 0.0 |
-# | `coupling_efficiency` | float | dimensionless | [0.0, 1.0] |
-# | `load` | float | dimensionless | >= 0.0 |
-#
-# **Outputs**
-#
-# | port | type | units | bounds |
-# | --- | --- | --- | --- |
-# | `energy_charge` | float | molar | >= 0.0 |
-# | `energy_charge_fraction` | float | dimensionless | [0.0, 1.0] |
-# | `energy_input` | float | kilojoule/liter | >= 0.0 |
-# | `energy_work` | float | kilojoule/liter | >= 0.0 |
-# | `energy_stored` | float | kilojoule/liter | >= 0.0 |
-# | `energy_dissipated` | float | kilojoule/liter | >= 0.0 |
-# | `energy_stored_work_fraction` | float | dimensionless | [0.0, 1.0] |
-# | `energy_ledger_residual` | float | kilojoule/liter |  |
-#
-# **Conditions**
-#
-# - `free_energy_accounting` (invariant): `abs(energy_input - (energy_work + energy_stored + energy_dissipated)) < tol`
-# - `carrier_bounds` (invariant): `0 <= energy_charge <= carrier_pool`
-# - `reproducibility` (invariant): `solver and db and seed and scenario recorded`
-
-# ### Run
-#
-# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
-
-# === Study: og-energy-proto-energetics ===
-STUDY = 'og-energy-proto-energetics'
-STUDY_DIR = REPO / 'workspace/studies' / STUDY
-STUDY_YAML = str(STUDY_DIR / "study.yaml")
-RUNS_DB = str(STUDY_DIR / "runs.db")
-
-# This study has no *recorded* runs yet. RERUN builds its declared
-# composite(s) live and runs them; a composite whose module processes
-# are not implemented yet reports the error instead of crashing.
-STEPS_Energy_carrier_cycle_explicit_thioester_acyl_phosphate_chemistry = 100
-INTERVAL_Energy_carrier_cycle_explicit_thioester_acyl_phosphate_chemistry = 1.0
-
-if RERUN:
-    from process_bigraph import Composite
-    try:
-        with quiet():  # keep per-step stdout out of the notebook
-            _ov = ov_viva_genesis_composites_og_12_energy_carrier_cycle_og_12_energy_carrier_cycle if 'ov_viva_genesis_composites_og_12_energy_carrier_cycle_og_12_energy_carrier_cycle' in dir() else None  # edits from the panel cell, if any
-            spec_viva_genesis_composites_og_12_energy_carrier_cycle_og_12_energy_carrier_cycle = materialize_composite('viva_genesis.composites.og_12_energy_carrier_cycle.og_12_energy_carrier_cycle', _ov)
-            _comp = Composite({'state': spec_viva_genesis_composites_og_12_energy_carrier_cycle_og_12_energy_carrier_cycle['state']}, core=core)
-            _comp.run(STEPS_Energy_carrier_cycle_explicit_thioester_acyl_phosphate_chemistry)
-        print('ran', 'Energy carrier cycle (explicit thioester/acyl-phosphate chemistry)', f'(viva_genesis.composites.og_12_energy_carrier_cycle.og_12_energy_carrier_cycle) for', STEPS_Energy_carrier_cycle_explicit_thioester_acyl_phosphate_chemistry, 'steps')
-    except Exception as _e:
-        print(f"Energy carrier cycle (explicit thioester/acyl-phosphate chemistry) not runnable yet: {type(_e).__name__}: {_e}")
-else:
-    print("RERUN=False — not re-simulating.")
-
-# ### Visualizations
-#
-# _Results are shown by the figures below, produced by the run above._
-
-# **proto-energetics-world**
-
-# proto-energetics-world
-_save_viz('og-energy-proto-energetics', 'proto-energetics-world', _render_one('local:ProtoEnergeticsWorldViz', {'composite': 'viva_genesis.composites.proto_energetics.proto_energetics', 'title': 'Proto-energetics — charging and spending the currency (World view)'}, RUNS_DB, STUDY_YAML))
-
-# **proto-energetics-provenance**
-
-# proto-energetics-provenance
-_save_viz('og-energy-proto-energetics', 'proto-energetics-provenance', _render_one('local:ProtoEnergeticsProvenanceViz', {'title': 'Proto-energetics — the energy-provenance ledger (Mechanism view)'}, RUNS_DB, STUDY_YAML))
-
-# **proto-energetics-map**
-
-# proto-energetics-map
-_save_viz('og-energy-proto-energetics', 'proto-energetics-map', _render_one('local:ProtoEnergeticsMap', {'composite': 'viva_genesis.composites.proto_energetics.proto_energetics', 'grid_json': 'workspace/studies/og-energy-proto-energetics/artifacts/proto_energetics_phase_grid.json', 'title': 'Proto-energetics — capturing free energy into a transferable currency (Decision view)'}, RUNS_DB, STUDY_YAML))
-
-# ### Acceptance criteria
-#
-# _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
-#
-# | test | measures | passes if |
-# | --- | --- | --- |
-# | currency-maintained _(primary)_ | kind=derived path=energy_final_charge_fraction detail=charged fraction of the carrier pool at the end of the run under load=None | op >= value 0.25 detail the currency is maintained (charged fraction >= 0.25) against discharge + hydrolysis |
-# | captures-free-energy _(primary)_ | kind=derived path=energy_stored_work_fraction detail=(delivered work + currently stored)/input free energy at the end of the run | op >= value 0.3 detail capture into transferable currency exceeds 30% of the tapped geochemical free energy |
-# | ablation-no-coupling-or-drive-collapses _(primary)_ | kind=cross_run detail=no-coupling and no-drive controls vs the favourable arm | op controls_absent detail both ablations collapse (charged fraction ~0) where the favourable arm maintains the currency |
-# | free-energy-conserved _(supporting)_ | kind=derived path=energy_ledger_residual detail=worst-case |input - (work + stored + dissipated)| over the run | op <= value 1e-09 detail the ledger residual stays at machine precision (free-energy accounting invariant) |
-
-# ### Literature anchors
-#
-# | expectation | model observable | source | status |
-# | --- | --- | --- | --- |
-# | Pre-ATP carriers (thioesters, acyl phosphates) couple exergonic to endergonic chemistry as a transferable energy currency before membrane bioenergetics / ATP | charged fraction + stored-work fraction vs drive and coupling | Buckel & Thauer 2013 (flavin-based electron bifurcation / energy coupling); Lane & Martin 2010 (chemiosmotic coupling at the vent) | Reproduced as explicit free-energy bookkeeping (coarse-grained reduced kinetics) |
 
 # ## Study: Growth and Division (`og-growth-division`)
 #
@@ -3079,182 +3037,6 @@ _save_viz('og-growth-alt-physical-reproduction', 'physical-reproduction-lineage'
 # | --- | --- | --- | --- |
 # |  |  |  |  |
 
-# ## Study: The Internalization Threshold: When Does Owning an Energy Store Pay, Per Coupling Class? (`og-energy-alt-internalization-threshold`)
-#
-# **Question.** With the energy-coupling mechanism placed inside a protocell as five competing model classes, at what coupling activity does owning an internal energy store pay (its benefit exceeding its leak plus maintenance), and how does that threshold depend on the carrier chemistry and the membrane leak?
-#
-# **Hypothesis.** Internalization pays only where the store can be charged above the load's free energy faster than it leaks: the thioester-class carrier (bond 35 kJ/mol, leaking by hydrolysis) pays from a low activity at the nominal membrane; the ion-gradient store drains through the Na+ leak at fatty-acid permeabilities and pays only in tight membranes; the polyphosphate store (bond 20 kJ/mol) cannot clear a 30 kJ/mol load unless nearly fully charged; the Fe-redox store sits near the load potential and is marginal. The threshold is thermodynamic (the store potential must clear the load), not a fitted rate, so the classes separate on their leak law and bond energy — a structure-sensitive answer the sweep reports as such.
-#
-# **Claim.** Owning an energy store pays only where it can be charged above the load's free energy faster than it leaks, and which chemistry clears that bar at a given membrane is the real answer: a thioester/acyl-phosphate carrier internalizes from a tenth of the drive at fatty-acid-like leak, an Fe-redox store only near full activity (~0.80), a pumped H+/Na+ gradient only once the membrane is ~100x tighter to Na+ (the Sojo constraint, per individual), and a polyphosphate store not at all against a 30 kJ/mol load. The free-energy ledger closes to rounding on all 990 runs, so these are real thermodynamic thresholds rather than bookkeeping artefacts. But the answer is structure-sensitive - the classes agree on only 46% of the grid - and every per-cell number (drive turnover, maintenance, bond energies) is hypothetical and unswept beyond the nominal grid.
-
-# ### Design — originally proposed
-#
-# _The mechanisms and methods proposed when this study was designed; the model **actually built** (and the tools it uses) is shown below. These may differ as the design was realized._
-#
-# **Proposed mechanisms**
-#
-# - H: bioenergetic internalization — inside the individual, as competing coupling classes
-# - energetics: pre-ATP currencies (thioester / acyl phosphate / polyphosphate / reduced metal) and the Sojo leaky-membrane ion gradient
-#
-# **Proposed models / methods**
-#
-# - energy_coupling face with five structurally different store laws (none / ionic capacitor / chemical ideal-mixing) behind one per-individual power budget
-# - thermodynamic store gates (drive must clear the store potential to charge; the store potential must clear the load to deliver work)
-# - free-energy ledger (free_energy_in >= work + dissipated with the store) as a contract invariant
-# - sweep over class x coupling activity x membrane permeability x gradient state; pays = net power above the passive baseline
-#
-# **Key assumptions**
-#
-# - One individual (radius 0.5 um) between the external ion gradient (tapped through its H+ leak, F P_H A dc pmf, captured at 0.3) and a chemical drive delivered by substrate turnover (1e-21 mol/s at full activity) that needs no leak.
-# - Store potentials: chemical carriers mu(q) = bond + RT ln(q/(1-q)) (ideal mixing, relative to the resting charge); ion gradient mu(q) = n F pmf_max q (capacitor, n = 3 ions per transfer, pmf_max 0.2 V).
-# - Charging needs the drive to clear mu(q) (capped exactly); work needs mu(q) to clear the 30 kJ/mol load; leaks relax toward the resting charge at hydrolysis / oxidation rates plus carrier permeation (ratio x P_H x A/V).
-# - Maintenance = 1e-19 W base + 5e-18 W x activity; the passive baseline pays only the base.
-# - pays = settled net power above the passive baseline at the same membrane and gradient by > 1e-21 W.
-
-# ### Parameters
-#
-# | simulation | composite | steps | params |
-# | --- | --- | --- | --- |
-# | `Protocell energetics — thioester class at half activity, nominal membrane` | `viva_genesis.composites.protocell_energetics.protocell_energetics` | 0 | model_energy_coupling=thioester_acyl_phosphate, coupling_activity=0.5 |
-#
-# Declared parameter sets (`study.yaml` variants):
-#
-# - **passive** — `model_energy_coupling=passive_gradient`
-# - **ion-gradient** — `model_energy_coupling=h_na_gradient_leaky_membrane`, `coupling_activity=1.0`
-# - **polyphosphate** — `model_energy_coupling=polyphosphate`, `coupling_activity=1.0`
-# - **fe-redox** — `model_energy_coupling=fe_redox`, `coupling_activity=1.0`
-# - **tight-membrane** — `permeability=1e-08`
-# - **collapsed-gradient** — `electric_potential=0.02`
-
-# ### The model & its parameters
-#
-# Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
-
-# **The model — `viva_genesis.composites.protocell_energetics.protocell_energetics`**
-#
-# A protocell's energy budget with the energy-coupling mechanism as a model CLASS on the energy_coupling face (model_energy_coupling: passive_gradient | h_na_gradient_leaky_membrane | thioester_acyl_phosphate | polyphosphate | fe_redox). The individual (radius, membrane permeability) sits between the external ion gradient (tapped only through its leak) and the chemical drive (H2/CO2 redox, or Fe(II) disproportionation for fe_redox; vg-data energy_currencies); coupling_activity moves it from passive to active. Publishes the per-individual power budget (external / internal / maintenance / leak / net power, the store, autonomy = internal / (internal + external)) audited by a FreeEnergyLedgerProcess. Coarse-grained deterministic kinetics (reproducible), not a wrapped engine.
-
-# === Parameters — edit any value, then re-run from the Run cell below ===
-# Each entry is the composite's current default; the comment explains it.
-ov_viva_genesis_composites_protocell_energetics_protocell_energetics = {
-    'model_energy_coupling': 'thioester_acyl_phosphate',   # Model class behind the 'energy_coupling' face: fe_redox | h_na_gradient_leaky_membrane | passive_gradient | polyphosphate | thioester_acyl_phosphate
-    'coupling_activity'    : 0.5,   # Passive -> active axis: fraction of the drive turnover coupled into the internal store (0 = external tap only) [vg-data: hypothetical]
-    'permeability'         : 1e-06,   # Membrane H+ permeability (m/s): the leak that feeds the external tap and drains the store [vg-data: extrapolated]
-    'electric_potential'   : 0.216,   # External ion gradient (V) at t = 0 [vg-data: calibrated to the Phase-1 posterior dpH]
-    'decline_rate'         : 0.0,   # External-gradient decline (V/s); 0 = steady (og-05's collapse scenario when > 0)
-    'gradient_floor'       : 0.02,   # Floor the declining gradient decays to (V)
-    'drive_free_energy'    : 50.0,   # Chemical drive free energy per turnover (kJ/mol) [vg-data: inferred]
-    'fe_drive_free_energy' : 40.0,   # Fe(II)-disproportionation drive (kJ/mol), used by the fe_redox class [vg-data: hypothetical]
-    'protocell_radius'     : 5e-07,   # Protocell radius (m) [vg-data: inferred]
-    'drive_turnover'       : 1e-21,   # Drive turnover per cell at full activity (mol/s) [vg-data: hypothetical]
-    'maintenance_active'   : 5e-18,   # Machinery upkeep at full activity (W) [vg-data: hypothetical]
-    'tick_seconds'         : 10.0,   # Physical seconds per composite tick (store timescales are ~1e3 s); processes run at interval 1
-}
-
-# ### Typed contract (declared interface)
-#
-# _The bigraph-schema typed ports + conservation predicates this study's composite must satisfy (audited in the workbench §Contract panel). Declared design — independent of whether a run exists yet._
-#
-# **Inputs**
-#
-# | port | type | units | bounds |
-# | --- | --- | --- | --- |
-# | `electric_potential` | float | volt | >= 0.0 |
-# | `drive_free_energy` | float | kilojoule/mole | >= 0.0 |
-# | `permeability` | float | meter/second | >= 0.0 |
-# | `membrane_area` | float | meter**2 | >= 0.0 |
-# | `compartment_volume` | float | liter | >= 0.0 |
-#
-# **Outputs**
-#
-# | port | type | units | bounds |
-# | --- | --- | --- | --- |
-# | `free_energy_in` | float | watt | >= 0.0 |
-# | `external_power` | float | watt | >= 0.0 |
-# | `internal_power` | float | watt | >= 0.0 |
-# | `maintenance_power` | float | watt | >= 0.0 |
-# | `work` | float | watt | >= 0.0 |
-# | `dissipated` | float | watt | >= 0.0 |
-# | `energy_stored` | float | joule | >= 0.0 |
-# | `autonomy` | float | dimensionless | [0.0, 1.0] |
-#
-# **Conditions**
-#
-# - `free_energy_ledger` (invariant): `in_cum + E0 - work_cum - diss_cum == E(t) to rounding; E(t) >= 0 (free_energy_in >= work + dissipated)`
-# - `dissipation_nonnegative` (invariant): `dissipated >= 0 every tick`
-# - `capture_bound` (invariant): `work_cum / in_cum <= 1`
-# - `load_gate` (invariant): `internal work flows only once mu(q) >= load_free_energy`
-
-# ### Run
-#
-# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
-
-# === Study: og-energy-alt-internalization-threshold ===
-STUDY = 'og-energy-alt-internalization-threshold'
-STUDY_DIR = REPO / 'workspace/studies' / STUDY
-STUDY_YAML = str(STUDY_DIR / "study.yaml")
-RUNS_DB = str(STUDY_DIR / "runs.db")
-
-# This study has no *recorded* runs yet. RERUN builds its declared
-# composite(s) live and runs them; a composite whose module processes
-# are not implemented yet reports the error instead of crashing.
-STEPS_Protocell_energetics_thioester_class_at_half_activity_nominal_membrane = 100
-INTERVAL_Protocell_energetics_thioester_class_at_half_activity_nominal_membrane = 1.0
-
-if RERUN:
-    from process_bigraph import Composite
-    try:
-        with quiet():  # keep per-step stdout out of the notebook
-            _ov = ov_viva_genesis_composites_protocell_energetics_protocell_energetics if 'ov_viva_genesis_composites_protocell_energetics_protocell_energetics' in dir() else None  # edits from the panel cell, if any
-            spec_viva_genesis_composites_protocell_energetics_protocell_energetics = materialize_composite('viva_genesis.composites.protocell_energetics.protocell_energetics', _ov)
-            _comp = Composite({'state': spec_viva_genesis_composites_protocell_energetics_protocell_energetics['state']}, core=core)
-            _comp.run(STEPS_Protocell_energetics_thioester_class_at_half_activity_nominal_membrane)
-        print('ran', 'Protocell energetics — thioester class at half activity, nominal membrane', f'(viva_genesis.composites.protocell_energetics.protocell_energetics) for', STEPS_Protocell_energetics_thioester_class_at_half_activity_nominal_membrane, 'steps')
-    except Exception as _e:
-        print(f"Protocell energetics — thioester class at half activity, nominal membrane not runnable yet: {type(_e).__name__}: {_e}")
-else:
-    print("RERUN=False — not re-simulating.")
-
-# ### Visualizations
-#
-# _Results are shown by the figures below, produced by the run above._
-
-# **internalization-threshold-map**
-
-# internalization-threshold-map
-_save_viz('og-energy-alt-internalization-threshold', 'internalization-threshold-map', _render_one('local:InternalizationThresholdMap', {'title': 'Where internalization pays, per energy-coupling class (Decision view)', 'threshold_map_json': 'workspace/studies/og-energy-alt-internalization-threshold/artifacts/internalization_threshold_map.json', 'report_json': 'workspace/studies/og-energy-alt-internalization-threshold/artifacts/internalization_threshold_report.json'}, RUNS_DB, STUDY_YAML))
-
-# **protocell-energy-budget**
-
-# protocell-energy-budget
-_save_viz('og-energy-alt-internalization-threshold', 'protocell-energy-budget', _render_one('local:ProtocellEnergyBudget', {'title': "One individual's power budget per coupling class (Mechanism view)", 'report_json': 'workspace/studies/og-energy-alt-internalization-threshold/artifacts/internalization_threshold_report.json', 'activity': '1'}, RUNS_DB, STUDY_YAML))
-
-# ### Acceptance criteria
-#
-# _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
-#
-# | test | measures | passes if |
-# | --- | --- | --- |
-# | free-energy-ledger-closes _(primary)_ | kind=derived path=free_energy_ledger_ok_final detail=free_energy_ledger_ok on the final tick | op >= value 1.0 detail every ledger witness within tolerance |
-# | free-energy-residual-exact _(diagnostic)_ | kind=derived path=free_energy_residual_max detail=worst-case relative ledger residual | op <= value 1e-09 detail free-energy accounting exact by construction |
-# | second-law-margin-nonnegative _(diagnostic)_ | kind=derived path=second_law_margin_min detail=minimum margin over the run (joule) | op >= value -1e-24 detail non-negative to rounding (per-cell energies are ~1e-16 J) |
-# | individual-is-partly-autonomous _(primary)_ | kind=derived path=final_autonomy detail=autonomy on the final tick | op > value 0.05 detail the internal store contributes > 5 % of the useful power |
-# | internalization-pays _(primary)_ | kind=derived path=n_classes_paying_at_nominal detail=classes with a finite threshold at the nominal membrane + gradient, from artifacts/internalization_threshold_report.json | op >= value 1.0 detail >= 1 class pays at the nominal point |
-# | thioester-threshold-activity _(primary)_ | kind=derived path=internalization_threshold_activity detail=smallest activity that pays, class thioester_acyl_phosphate | op <= value 1.0 detail a finite threshold inside 0..1 |
-# | autonomy-at-threshold _(supporting)_ | kind=derived path=autonomy_at_threshold detail=internal / (internal + external) at a*, class thioester_acyl_phosphate | op > value 0.0 detail the store contributes at the threshold |
-# | ion-gradient-pays-fraction _(diagnostic)_ | kind=derived path=internalization_pays_fraction detail=class h_na_gradient_leaky_membrane | op >= value 0.0 detail informative readout (any value passes) |
-# | polyphosphate-pays-fraction _(diagnostic)_ | kind=derived path=internalization_pays_fraction detail=class polyphosphate | op >= value 0.0 detail informative readout (any value passes) |
-# | fe-redox-pays-fraction _(diagnostic)_ | kind=derived path=internalization_pays_fraction detail=class fe_redox | op >= value 0.0 detail informative readout (any value passes) |
-# | classes-agree-on-pays _(diagnostic)_ | kind=derived path=internalization_structure_agreement detail=structure agreement on the pays masks | op >= value 0.0 detail informative readout (any value passes) |
-# | threshold-map-ledger-all-ok _(supporting)_ | kind=derived path=threshold_map_ledger_all_ok detail=all classes' ledger all_ok | op >= value 1.0 detail no point with an open ledger |
-
-# ### Literature anchors
-#
-# | expectation | model observable | source | status |
-# | --- | --- | --- | --- |
-# | Early membranes were far more permeable to H+ than Na+, so a Na+ gradient is the better internal store and tapping the natural gradient needs leak while owning one needs a tight membrane | the ion-gradient class's store potential and pays region against permeability | Sojo, Pomiankowski & Lane 2014 | Reproduced structurally — the ion store pays only below a permeability ceiling; the chemical carriers do not share the ceiling. |
-# | A transferable currency does work only when its phosphorylation-like potential (bond + RT ln q/(1-q)) clears the endergonic step; low-bond carriers must be held near full charge | store potential vs load per class; polyphosphate's charge fraction at the gate | Buckel & Thauer 2013 | Implemented as the draw gate; polyphosphate's 20 kJ/mol bond needs q > 0.98 for a 30 kJ/mol load. |
-
 # ## Study: Competing Heredity: Which Inheritance Mechanism Transmits the Most Bits Per Joule, and When Is It Attached? (`og-06-alt-information-per-cost`)
 #
 # **Question.** When six inheritance mechanisms are each simulated exactly at low copy number under matched precursor and energy budgets, which transmits the most heritable information per joule, and where does templated (RNA-like) heredity take over?
@@ -3952,63 +3734,6 @@ if RERUN:
         print('ran', 'Electrochemical interface — both classes, og-01-cal canonical grid', f'(viva_genesis.composites.electrochemical_interface.electrochemical_carbon_fixation) for', STEPS_Electrochemical_interface_both_classes_og_01_cal_canonical_grid, 'steps')
     except Exception as _e:
         print(f"Electrochemical interface — both classes, og-01-cal canonical grid not runnable yet: {type(_e).__name__}: {_e}")
-else:
-    print("RERUN=False — not re-simulating.")
-
-# ## Study: How the survival region deforms with the speed of gradient loss (`og-05b-collapse-rate-sweep`)
-#
-# **Question.** When the gradient-decline rate is swept and alternative collapse scenarios such as step loss and oscillatory decline are substituted, is survival governed by the speed of gradient loss, the total dose, or the terminal level?
-
-# ### Parameters
-#
-# | simulation | composite | steps | params |
-# | --- | --- | --- | --- |
-# | `Bioenergetic internalization (og-05 canonical)` | `viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization` | 0 | — |
-
-# ### The model & its parameters
-#
-# Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
-
-# **The model — `viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization`**
-#
-# A reusable bioenergetic-internalization module (Module H). An evolutionary control loop (replicator dynamics, Sojo-2014 leaky-membrane fitness) under a declining external gradient: as the geochemical pmf collapses, an efficient-pump population internalizes gradient generation and persists, while a weak-pump control collapses (the Sojo constraint). catalyst_efficiency sets the arm. Coarse-grained, deterministic reproduction (not wrapped ALife).
-
-# === Parameters — edit any value, then re-run from the Run cell below ===
-# Each entry is the composite's current default; the comment explains it.
-ov_viva_genesis_composites_bioenergetic_internalization_bioenergetic_internalization = {
-    'catalyst_efficiency': 1.0,   # Active-pump (Na+/H+) efficiency (1.0 efficient; ~0.3 weak-pump control)
-    'v_start'            : 0.4,   # Initial external gradient (V)
-    'decline_rate'       : 0.01,   # External-gradient decline per step (V/s)
-    'gradient_floor'     : 0.02,   # Floor the external gradient decays to (V); low floor forces internalization-or-die
-}
-
-# ### Run
-#
-# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
-
-# === Study: og-05b-collapse-rate-sweep ===
-STUDY = 'og-05b-collapse-rate-sweep'
-STUDY_DIR = REPO / 'workspace/studies' / STUDY
-STUDY_YAML = str(STUDY_DIR / "study.yaml")
-RUNS_DB = str(STUDY_DIR / "runs.db")
-
-# This study has no *recorded* runs yet. RERUN builds its declared
-# composite(s) live and runs them; a composite whose module processes
-# are not implemented yet reports the error instead of crashing.
-STEPS_Bioenergetic_internalization_og_05_canonical = 100
-INTERVAL_Bioenergetic_internalization_og_05_canonical = 1.0
-
-if RERUN:
-    from process_bigraph import Composite
-    try:
-        with quiet():  # keep per-step stdout out of the notebook
-            _ov = ov_viva_genesis_composites_bioenergetic_internalization_bioenergetic_internalization if 'ov_viva_genesis_composites_bioenergetic_internalization_bioenergetic_internalization' in dir() else None  # edits from the panel cell, if any
-            spec_viva_genesis_composites_bioenergetic_internalization_bioenergetic_internalization = materialize_composite('viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization', _ov)
-            _comp = Composite({'state': spec_viva_genesis_composites_bioenergetic_internalization_bioenergetic_internalization['state']}, core=core)
-            _comp.run(STEPS_Bioenergetic_internalization_og_05_canonical)
-        print('ran', 'Bioenergetic internalization (og-05 canonical)', f'(viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization) for', STEPS_Bioenergetic_internalization_og_05_canonical, 'steps')
-    except Exception as _e:
-        print(f"Bioenergetic internalization (og-05 canonical) not runnable yet: {type(_e).__name__}: {_e}")
 else:
     print("RERUN=False — not re-simulating.")
 
@@ -5476,162 +5201,6 @@ _save_viz('og-34-chemical-heredity-and-selection', 'chemical-heredity-selection'
 # | matched-null-no-inheritance _(primary)_ | kind=observable detail=null shows neither parent-offspring correlation nor directional shift | op threshold detail null correlation ~ 0 and null drift ~ 0 |
 # | handoff-34-to-35-36-37-complete _(secondary)_ | kind=observable detail=heritable population + fitness-composition map available | op threshold detail heritable-population handoff available |
 
-# ## Study: Chemical Energy Coupling (`og-35-chemical-energy-coupling`)
-#
-# **Question.** Does coupling a specified chemical energy carrier (thioester / acyl-phosphate cycle) to the protocell's metabolism improve net useful work and persistence over using the environmental gradient alone - with a full energy ledger and no hidden inflow?
-#
-# **Hypothesis.** A carrier cycle that stores and transfers free energy lets the protocell do endergonic work when the gradient dips, raising persistence/robustness versus gradient-only operation - provided its synthesis and hydrolysis/leak costs are outweighed. If the carrier's costs exceed its benefit, or the energy ledger does not close without a hidden inflow, no net energy benefit is claimed.
-#
-# **Claim.** Coupling a specified thioester carrier cycle to the protocell's energy supply pays for itself on PERSISTENCE through a gradient dip, not on total throughput. At input fluxes held equal to a matched gradient-only control and with a full free-energy ledger that closes (no hidden inflow), the carrier does useful work through the dip (where gradient-only, lacking a store, starves to near zero) - but its total useful work is not greater than gradient-only, because it time-shifts banked free energy into the dip and loses some to hydrolysis, and it gates activation at the bond rather than capturing the above-bond surplus (true even at zero hydrolysis). So the honest result is dip-resilience, not more work overall - verdict qualified - and the alternative carrier / microkinetic resolution (og-35a) is the follow-up. The metabolism is the sustained A1 carbon-fixing network (not autocatalytic), so the carrier funds endergonic work, not self-amplification.
-
-# ### Design — originally proposed
-#
-# _The mechanisms and methods proposed when this study was designed; the model **actually built** (and the tools it uses) is shown below. These may differ as the design was realized._
-#
-# **Proposed mechanisms**
-#
-# - a specified thioester carrier cycle storing and transferring free energy
-# - endergonic work funded by the carrier when the environmental gradient dips (buffering)
-# - full energy ledger (activation / use / hydrolysis / stored) with no hidden inflow
-# - net useful work + persistence vs a gradient-only control at equal feeds (benefit minus carrier cost)
-#
-# **Proposed models / methods**
-#
-# - og-12 thioester carrier chemistry (ThioesterCarrierCycleProcess) + declining GeochemicalDrive, lumped kinetics  [Option B / first cut; one specified carrier]
-# - Alternative carrier (acyl-phosphate) and/or microkinetic enzyme-free resolution  [the richer follow-on, tracked as og-35a]
-# - matched gradient-only control (GradientOnlyWorkProcess): same activation throughput + drive + load, no store  [in-workspace]
-# - full energy-ledger accounting (activation / use / hydrolysis / stored), closure checked; k_hydrolyze cost/benefit window
-# - measured carrier thermodynamics (thioester hydrolysis dG') for independent validation (evidence standard
-#
-# **Key assumptions**
-#
-# - Drive + load are held equal to the gradient-only control - any energy benefit must be a margin over it, not more input.
-# - The energy ledger (activation / use / hydrolysis / stored) must close with no hidden inflow (budget_residual ~ 0).
-# - Carrier chemistry is one specified thioester cycle first (Option B); the alternative carrier / microkinetic resolution is a tracked follow-up (og-35a).
-# - The enclosed metabolism is the sustained A1 carbon-fixing network, not autocatalytic (A2 refuted under vent conditions).
-
-# ### Parameters
-#
-# | simulation | composite | steps | params |
-# | --- | --- | --- | --- |
-# | `Chemical energy coupling (thioester carrier)` | `viva_genesis.composites.og_35_chemical_energy_coupling.og_35_chemical_energy_coupling` | 0 | carrier=True, g_drive=50.0, decline_rate=0.4, load=30.0, bond_energy_kjmol=31.5 |
-# | `Gradient-only null (no carrier store, equal drive/load)` | `viva_genesis.composites.og_35_chemical_energy_coupling.og_35_chemical_energy_coupling` | 0 | carrier=False, g_drive=50.0, decline_rate=0.4, load=30.0, bond_energy_kjmol=31.5 |
-
-# ### The model & its parameters
-#
-# Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
-
-# **The model — `viva_genesis.composites.og_35_chemical_energy_coupling.og_35_chemical_energy_coupling`**
-#
-# Gate E energy coupling: does a specified thioester carrier cycle do endergonic work when the geochemical gradient DIPS, beating a matched gradient-only control, with a FULL closing energy ledger and no hidden inflow? carrier=True charges/discharges a stored carrier (buffered); carrier=False is the gradient-only null (direct drive->work, no store). Both see the same declining drive + load. Carrier chemistry = one specified thioester (Option B; acyl-phosphate / microkinetic = og-35a). Metabolism = sustained A1 network, NOT autocatalytic (A2 refuted).
-
-# === Parameters — edit any value, then re-run from the Run cell below ===
-# Each entry is the composite's current default; the comment explains it.
-ov_viva_genesis_composites_og_35_chemical_energy_coupling_og_35_chemical_energy_coupling = {
-    'carrier'          : True,   # Thioester carrier cycle (True) vs matched gradient-only null (False)
-    'g_drive'          : 50.0,   # Initial geochemical drive free energy (kJ/mol)
-    'decline_rate'     : 0.4,   # Drive decline per step (kJ/mol) — the gradient dip
-    'g_floor'          : 2.0,   # Drive floor (kJ/mol)
-    'load'             : 30.0,   # Endergonic load to lift (kJ/mol)
-    'bond_energy_kjmol': 31.5,   # Carrier high-energy bond (thioester ~31.5; proposed_input)
-    'k_hydrolyze'      : 0.02,   # Carrier hydrolysis leak rate (1/s)
-    'base_CO2'         : 0.001,   # Vent feed (provenance for the metabolic regime)
-    'base_H2'          : 0.001,   # Vent feed (provenance)
-    'porosity'         : 0.88,   # Gate-B pore porosity (provenance)
-    'max_carbons'      : 4,   # Carbon cap (provenance)
-}
-
-# ### Typed contract (declared interface)
-#
-# _The bigraph-schema typed ports + conservation predicates this study's composite must satisfy (audited in the workbench §Contract panel). Declared design — independent of whether a run exists yet._
-#
-# **Inputs**
-#
-# | port | type | units | bounds |
-# | --- | --- | --- | --- |
-# | `external_co2_supply` | float | molar/second | >= 0.0 |
-# | `external_h2_supply` | float | molar/second | >= 0.0 |
-# | `gradient_available` | float | kilojoule/mole | >= 0.0 |
-#
-# **Outputs**
-#
-# | port | type | units | bounds |
-# | --- | --- | --- | --- |
-# | `net_useful_work` | float | kilojoule/mole |  |
-# | `carrier_pool` | float | molar | >= 0.0 |
-# | `energy_ledger_residual` | float | kilojoule/mole |  |
-# | `dip_useful_work` | float | kilojoule/mole | >= 0.0 |
-#
-# **Conditions**
-#
-# - `equal_input_fluxes_vs_gradient_only` (invariant): `drive + load are held equal to the gradient-only (no-store) control; any benefit is the margin over it`
-# - `energy_ledger_closes` (invariant): `the full energy ledger (activation + use + hydrolysis + stored) closes to machine precision; energy_ledger_residual ~ 0`
-# - `no_hidden_energy_inflow` (invariant): `there is no energy inflow outside the accounted drive and carrier terms (budget_residual ~ 0 witnesses this)`
-# - `metabolism_is_A1_not_autocatalytic` (invariant): `the enclosed metabolism is the sustained A1 carbon-fixing network; the carrier funds endergonic work, not autocatalytic self-amplification (A2 refuted)`
-
-# ### Run
-#
-# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
-
-# === Study: og-35-chemical-energy-coupling ===
-STUDY = 'og-35-chemical-energy-coupling'
-STUDY_DIR = REPO / 'workspace/studies' / STUDY
-STUDY_YAML = str(STUDY_DIR / "study.yaml")
-RUNS_DB = str(STUDY_DIR / "runs.db")
-
-# This study has no *recorded* runs yet. RERUN builds its declared
-# composite(s) live and runs them; a composite whose module processes
-# are not implemented yet reports the error instead of crashing.
-STEPS_Chemical_energy_coupling_thioester_carrier = 100
-INTERVAL_Chemical_energy_coupling_thioester_carrier = 1.0
-STEPS_Gradient_only_null_no_carrier_store_equal_drive_load = 100
-INTERVAL_Gradient_only_null_no_carrier_store_equal_drive_load = 1.0
-
-if RERUN:
-    from process_bigraph import Composite
-    try:
-        with quiet():  # keep per-step stdout out of the notebook
-            _ov = ov_viva_genesis_composites_og_35_chemical_energy_coupling_og_35_chemical_energy_coupling if 'ov_viva_genesis_composites_og_35_chemical_energy_coupling_og_35_chemical_energy_coupling' in dir() else None  # edits from the panel cell, if any
-            spec_viva_genesis_composites_og_35_chemical_energy_coupling_og_35_chemical_energy_coupling = materialize_composite('viva_genesis.composites.og_35_chemical_energy_coupling.og_35_chemical_energy_coupling', _ov)
-            _comp = Composite({'state': spec_viva_genesis_composites_og_35_chemical_energy_coupling_og_35_chemical_energy_coupling['state']}, core=core)
-            _comp.run(STEPS_Chemical_energy_coupling_thioester_carrier)
-        print('ran', 'Chemical energy coupling (thioester carrier)', f'(viva_genesis.composites.og_35_chemical_energy_coupling.og_35_chemical_energy_coupling) for', STEPS_Chemical_energy_coupling_thioester_carrier, 'steps')
-    except Exception as _e:
-        print(f"Chemical energy coupling (thioester carrier) not runnable yet: {type(_e).__name__}: {_e}")
-    try:
-        with quiet():  # keep per-step stdout out of the notebook
-            _ov = ov_viva_genesis_composites_og_35_chemical_energy_coupling_og_35_chemical_energy_coupling if 'ov_viva_genesis_composites_og_35_chemical_energy_coupling_og_35_chemical_energy_coupling' in dir() else None  # edits from the panel cell, if any
-            spec_viva_genesis_composites_og_35_chemical_energy_coupling_og_35_chemical_energy_coupling = materialize_composite('viva_genesis.composites.og_35_chemical_energy_coupling.og_35_chemical_energy_coupling', _ov)
-            _comp = Composite({'state': spec_viva_genesis_composites_og_35_chemical_energy_coupling_og_35_chemical_energy_coupling['state']}, core=core)
-            _comp.run(STEPS_Gradient_only_null_no_carrier_store_equal_drive_load)
-        print('ran', 'Gradient-only null (no carrier store, equal drive/load)', f'(viva_genesis.composites.og_35_chemical_energy_coupling.og_35_chemical_energy_coupling) for', STEPS_Gradient_only_null_no_carrier_store_equal_drive_load, 'steps')
-    except Exception as _e:
-        print(f"Gradient-only null (no carrier store, equal drive/load) not runnable yet: {type(_e).__name__}: {_e}")
-else:
-    print("RERUN=False — not re-simulating.")
-
-# ### Visualizations
-#
-# _Results are shown by the figures below, produced by the run above._
-
-# **energy-coupling**
-
-# energy-coupling
-_save_viz('og-35-chemical-energy-coupling', 'energy-coupling', _render_one('local:OgEnergyCouplingViz', {'title': 'The carrier buys gradient-dip resilience, not throughput', 'report_json': 'workspace/studies/og-35-chemical-energy-coupling/artifacts/gate_e_energy.json'}, RUNS_DB, STUDY_YAML))
-
-# ### Acceptance criteria
-#
-# _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
-#
-# | test | measures | passes if |
-# | --- | --- | --- |
-# | receives-34-handoff-bundle _(secondary)_ | kind=observable detail=composite runs on the merged thioester carrier + declining drive | op threshold detail composite builds + runs |
-# | carrier-pays-on-dip-persistence _(primary)_ | kind=observable detail=useful work during the dip carrier vs gradient-only=None equal drive/load=None | op threshold detail carrier dip-work > gradient-only dip-work |
-# | carrier-throughput-not-improved _(primary)_ | kind=observable detail=total useful work carrier vs gradient-only=None | op threshold detail total useful work not improved (carrier <= gradient-only) - reported not tuned None |
-# | energy-ledger-closes _(primary)_ | kind=observable detail=max |budget_residual| in both arms | op threshold detail ledger closes (residual ~ 0) no hidden inflow None |
-# | matched-null-equal-feeds _(primary)_ | kind=observable detail=drive + load held equal across arms | op threshold detail inputs equal across arms |
-# | handoff-35-to-37-complete _(secondary)_ | kind=observable detail=energy-coupling readouts available to study 37 | op threshold detail handoff available |
-
 # ## Study: Stochastic Protocell Ecology (`og-36-stochastic-protocell-ecology`)
 #
 # **Question.** In a heterogeneous protocell population under honest stochastic low-count dynamics, do cross-feeding and community-level function develop that single lineages do not have at equal feed - and do stochastic dynamics materially change the outcome versus the deterministic mean-field?
@@ -6254,5 +5823,5 @@ print("No baseline composite declared for this study — nothing to build.")
 # - Reframe the campaign's headline thesis from 'cells could originate at alkaline vents' to the enrichment plan's 'quantitative MAP OF THE BOTTLENECKS between geology and cells' (dependencies, failure regimes, discriminating experiments)?
 # - Adopt the Full Modeling Plan architecture (emergence-not-presupposition + structural rewrites + canonical schemas + model substitution) as the campaign's build target, in the order — canonical schemas + geochemical_world first, then the electrochemical interface, then C-N-P/energetics as cross-cutting layers, then localization, boundary, growth/division rewrites, competing heredity, ecology, autonomy?
 # - Adopt the three-quantity standard (feasibility / robustness / discrimination) and evidence tiers as the reporting requirement for every stage — i.e. a stage's verdict may not advance until it carries a TransitionReport whose decision-discipline audit is clean — and re-label the fourteen earlier studies (every member study except the already- tier-labelled og-cal) with their tier language?
-# - Proto-energetics: replace og-05's population-mean internalization readout (mean active-pump fraction of the surviving population) with the per-individual autonomy internal / (internal + external) power that the energy_coupling face defines — i.e. re-point og-05's gates (reduced-gradient-dependence, final_internalization) at autonomy?
+# - Proto-energetics: replace og-05's population-mean internalization readout (mean active-pump fraction of the surviving population) with the per-individual autonomy internal / (internal + external) power that the energy_coupling face defines — i.e. re-point og-energetics's gates (the og-05 arm: reduced-gradient-dependence, final_internalization) at autonomy?
 # - Attach the MARHYS 4.0 hydrothermal-fluid compilation (PANGAEA) as a workspace dataset so the vent-calibration conditioning set becomes the ultramafic-vent population rather than Lost City alone — and which Hadean-ocean prior (DIC, pH, T) should replace the modern-seawater proxy the audit flags?
