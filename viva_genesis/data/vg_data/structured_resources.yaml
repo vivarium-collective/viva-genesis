@@ -461,6 +461,38 @@ resources:
   - "N/P-bearing rules deliberately excluded pending the expert's rule-set-scope decision."
   references: [wolos2020synthetic, beber2022equilibrator, noor2013consistent, breslow1959mechanism, muchowska2017metals, muchowska2019synthesis]
 
+- id: prebiotic-reaction-atlas
+  type: reaction-dataset
+  name: "Prebiotic reaction atlas (versioned, provenance-tracked)"
+  summary: >-
+    The shared balanced-chemistry asset the network studies draw on — a versioned candidate-reaction
+    network, each reaction mass/charge-balanced and confidence-tiered (measured / inferred / hypothetical)
+    behind a zero-leakage write gate. Demoted from an og-28 study figure to a reproducible Resource.
+  version: '1'
+  role_in_campaign: "the balanced-reaction / provenance layer studies 27-37 draw on (the og-28 -> og-29 handoff bundle: canonical species, balanced stoichiometry, rate forms, parameter bounds, confidence tags)"
+  campaign_tie: "og-28 (reaction-atlas coverage + zero-leakage gate); feeds og-29 (A2) and og-30 (Gate B)"
+  data_source:
+    package: viva_reaction_atlas
+    home: workspace/datasets/prebiotic-reaction-atlas/
+    schema: workspace/datasets/prebiotic-reaction-atlas/schema.yaml
+    coverage_report: workspace/datasets/prebiotic-reaction-atlas/atlas_coverage_report.json
+    records: "atlas.vN.jsonl (materialized by the write-time validator; build_status: to-build — see workspace/references/build-registry.yaml)"
+    generated_by: "viva_genesis.reaction_atlas.build.build_atlas"
+  coverage_summary:   # read verbatim from coverage_report (the og-28 zero-leakage gate emit)
+    n_measured: 2
+    n_accepted: 2
+    n_inferred: 0
+    n_hypothetical: 0
+    n_proposed_held: 1
+    carbon_species_covered: 3
+    admitted_unbalanced: 0
+    zero_leakage: true
+  provenance_class: MODEL
+  honesty_notes:
+  - "The materialized per-reaction records (atlas.vN.jsonl) are to-build; the committed coverage_report is the og-28 gate evidence — 2 measured-core reactions accepted, 1 proposed held, zero unbalanced/unsourced admitted (zero-leakage)."
+  - "Raw extracted observations are stored separately from agent-proposed / rule-generated candidates (see the dataset README); a reaction that is not balanced or whose chemistry is uncertain is flagged, never silently admitted."
+  references: [wolos2020synthetic, beber2022equilibrator, noor2013consistent]
+
 - id: pathway-formose
   type: reaction-pathway
   name: "Formose chemistry (linear autocatalysis route)"

@@ -166,7 +166,7 @@ behavior_tests:
 - name: inferred-tier-has-thermo-and-rate-basis
   classification: primary
   artifact: >-
-    workspace/studies/og-network-persistence/artifacts/og-28-prebiotic-reaction-atlas/atlas_coverage_report.json
+    workspace/datasets/prebiotic-reaction-atlas/atlas_coverage_report.json
   description: >-
     The inferred tier extends connectivity from C1–C3 to functional products only where eQuilibrator ΔG
     feasibility holds and a justified rate form/range is attached, each flagged is_range with its thermodynamic
@@ -182,7 +182,7 @@ behavior_tests:
 - name: atlas-write-gate-zero-leakage
   classification: primary
   artifact: >-
-    workspace/studies/og-network-persistence/artifacts/og-28-prebiotic-reaction-atlas/atlas_coverage_report.json
+    workspace/datasets/prebiotic-reaction-atlas/atlas_coverage_report.json
   description: >-
     No record with mass_balanced=false, charge_balanced=false, or a missing source_key enters atlas.vN.jsonl
     — the deterministic validator rejects it at write time.
