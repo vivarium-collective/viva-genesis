@@ -1,0 +1,140 @@
+{
+  "study": "og-self-maintaining-individual",
+  "acetate_for_cac_clearance_M": 7.554114936785228e-05,
+  "b_corner": {
+    "soret_coeff": 0.01,
+    "delta_T": 50.0,
+    "feed_CO2": 0.02,
+    "enrichment_factor": 21.380942759123343,
+    "membrane_retention_if_earned": 0.905
+  },
+  "conditions": {
+    "canonical:full_no_gain": {
+      "closed": false,
+      "membrane_real": false,
+      "retention": 0.0,
+      "acetate": 9.638757406380317e-12,
+      "acetate_fed": 9.638757406380317e-12,
+      "aggregation_competent": 1.2759612779212185e-07,
+      "amphiphile_total": 6.596714674248249e-10,
+      "n_iter": 1,
+      "orders_short_of_cac": 6.894162538542475
+    },
+    "canonical:full_built_in_gain": {
+      "closed": false,
+      "membrane_real": false,
+      "retention": 0.6613582295052892,
+      "acetate": 1.674035068967751e-10,
+      "acetate_fed": 1.674035068967751e-10,
+      "aggregation_competent": 2.216057356595688e-06,
+      "amphiphile_total": 1.1457007619421786e-08,
+      "n_iter": 2,
+      "orders_short_of_cac": 5.654419036699875
+    },
+    "canonical:ablate_chem_to_mem": {
+      "closed": false,
+      "membrane_real": false,
+      "retention": 0.0,
+      "acetate": 9.638757406380317e-12,
+      "acetate_fed": 0.0,
+      "aggregation_competent": 0.0,
+      "amphiphile_total": 0.0,
+      "n_iter": 1,
+      "orders_short_of_cac": 25.878183588385582
+    },
+    "canonical:ablate_mem_to_chem": {
+      "closed": false,
+      "membrane_real": false,
+      "retention": 0.0,
+      "acetate": 9.638757406380317e-12,
+      "acetate_fed": 9.638757406380317e-12,
+      "aggregation_competent": 1.2759612779212185e-07,
+      "amphiphile_total": 6.596714674248249e-10,
+      "n_iter": 1,
+      "orders_short_of_cac": 6.894162538542475
+    },
+    "canonical:ablate_external_feed": {
+      "closed": false,
+      "membrane_real": false,
+      "retention": 0.0,
+      "acetate": 2.981694247615499e-30,
+      "acetate_fed": 2.981694247615499e-30,
+      "aggregation_competent": 3.947112933913491e-26,
+      "amphiphile_total": 2.0406557990915645e-28,
+      "n_iter": 1,
+      "orders_short_of_cac": 25.403720480918963
+    },
+    "b_corner:full_no_gain": {
+      "closed": false,
+      "membrane_real": false,
+      "retention": 0.0,
+      "acetate": 3.110490458792613e-10,
+      "acetate_fed": 6.650521845224417e-09,
+      "aggregation_competent": 8.803840572705354e-05,
+      "amphiphile_total": 4.5515820347091543e-07,
+      "n_iter": 1,
+      "orders_short_of_cac": 4.055327864043456
+    },
+    "b_corner:full_built_in_gain": {
+      "closed": false,
+      "membrane_real": false,
+      "retention": 0.6613582295052892,
+      "acetate": 3.2102989077140304e-09,
+      "acetate_fed": 6.863921718550988e-08,
+      "aggregation_competent": 0.0009086335466598792,
+      "amphiphile_total": 4.697631781217378e-06,
+      "n_iter": 2,
+      "orders_short_of_cac": 3.0416112665454
+    },
+    "b_corner:ablate_chem_to_mem": {
+      "closed": false,
+      "membrane_real": false,
+      "retention": 0.0,
+      "acetate": 3.110490458792613e-10,
+      "acetate_fed": 0.0,
+      "aggregation_competent": 0.0,
+      "amphiphile_total": 0.0,
+      "n_iter": 1,
+      "orders_short_of_cac": 25.878183588385582
+    },
+    "b_corner:ablate_mem_to_chem": {
+      "closed": false,
+      "membrane_real": false,
+      "retention": 0.0,
+      "acetate": 3.110490458792613e-10,
+      "acetate_fed": 6.650521845224417e-09,
+      "aggregation_competent": 8.803840572705354e-05,
+      "amphiphile_total": 4.5515820347091543e-07,
+      "n_iter": 1,
+      "orders_short_of_cac": 4.055327864043456
+    },
+    "b_corner:ablate_external_feed": {
+      "closed": false,
+      "membrane_real": false,
+      "retention": 0.0,
+      "acetate": 2.981694247615499e-30,
+      "acetate_fed": 6.375143403347432e-29,
+      "aggregation_competent": 8.439299570379973e-25,
+      "amphiphile_total": 4.363114483144984e-27,
+      "n_iter": 1,
+      "orders_short_of_cac": 24.073693630090254
+    }
+  },
+  "closes_without_built_in_gain": {
+    "canonical": false,
+    "b_corner": false
+  },
+  "cascade": {
+    "A_acetate_canonical_M": 9.638757406380317e-12,
+    "B_corner_acetate_fed_M": 6.650521845224417e-09,
+    "C_acetate_needed_M": 7.554114936785228e-05,
+    "orders_short_canonical": 6.894162538542475,
+    "orders_short_b_corner": 4.055327864043456
+  },
+  "built_in_gain_comparison": {
+    "b_corner_no_gain_closed": false,
+    "b_corner_with_gain_retention": 0.6613582295052892,
+    "b_corner_with_gain_membrane_real": false,
+    "note": "With the built-in gain, retention is forced to the earned long-chain value regardless of whether the pool clears CAC; membrane_real stays False, so the 'closure' is purely the assumed retention - the false closure the no-built-in-gain constraint forbids."
+  }
+}

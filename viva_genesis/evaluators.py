@@ -1134,6 +1134,10 @@ def register_derived_scalars(registry: dict) -> None:
     registry["settled_ow_enriched_pool"] = _settled_ow_enriched_pool
     registry["settled_ow_enrichment_factor"] = _settled_ow_enrichment_factor
     registry["settled_ow_retention"] = _settled_ow_retention
+    # NEW C — og-self-maintaining-individual (reciprocal maintenance)
+    registry["settled_aggregation_competent"] = _settled_aggregation_competent
+    registry["settled_amphiphile_total"] = _settled_amphiphile_total
+    registry["settled_synth_acetate"] = _settled_synth_acetate
 
 
 # --- NEW A: og-precursor-pool derived scalars ------------------------------
@@ -1198,3 +1202,21 @@ def _settled_ow_enrichment_factor(reader, test: dict, ws_root: Any) -> float:
 def _settled_ow_retention(reader, test: dict, ws_root: Any) -> float:
     """Settled membrane retention fraction from the real ProtocellAssembly model."""
     return _settled_mean(reader, "retention", frac=0.2)
+
+
+# --- NEW C: og-self-maintaining-individual derived scalars -----------------
+
+def _settled_aggregation_competent(reader, test: dict, ws_root: Any) -> float:
+    """Settled aggregation competence = long-chain amphiphile pool / CAC (>=1 = a
+    membrane can form). The no-built-in-gain witness."""
+    return _settled_mean(reader, "aggregation_competent", frac=0.2)
+
+
+def _settled_amphiphile_total(reader, test: dict, ws_root: Any) -> float:
+    """Settled total amphiphile concentration (molar) the chemistry produces."""
+    return _settled_mean(reader, "amphiphile_total", frac=0.2)
+
+
+def _settled_synth_acetate(reader, test: dict, ws_root: Any) -> float:
+    """Settled acetate (C2) the reaction network delivers to amphiphile synthesis (molar)."""
+    return _settled_mean(reader, "acetate", frac=0.2)
