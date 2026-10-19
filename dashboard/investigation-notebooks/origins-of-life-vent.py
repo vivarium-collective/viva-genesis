@@ -1966,6 +1966,26 @@ _save_viz('og-self-compartmentation', 'self-maintaining-protocell', _render_one(
 # fatty-acid-vesicle-stability
 _save_viz('og-self-compartmentation', 'fatty-acid-vesicle-stability', _render_one('local:OgFattyAcidVesicleStabilityViz', {'title': 'Fatty-acid vesicles hold a bilayer across the chain window; the charged null micellises', 'report_json': 'workspace/studies/og-self-compartmentation/artifacts/og-32b-fatty-acid-vesicle-stability/vesicle_stability.json'}, RUNS_DB, STUDY_YAML))
 
+# **fatty-acid-vesicle-3d-structure**
+
+# fatty-acid-vesicle-3d-structure
+_save_viz('og-self-compartmentation', 'fatty-acid-vesicle-3d-structure', _render_one('', {'title': 'Fatty-acid vesicle — real Martini 3 CG-MD 3D structure (og-32b): C14 protonated, closed bilayer shell + water lumen, coloured by leaflet'}, RUNS_DB, STUDY_YAML))
+
+# **bilayer-3d-structure**
+
+# bilayer-3d-structure
+_save_viz('og-self-compartmentation', 'bilayer-3d-structure', _render_one('', {'title': 'Phospholipid bilayer patch — real Martini 3 CG-MD 3D structure (og-32, DPPC stand-in), coloured by leaflet'}, RUNS_DB, STUDY_YAML))
+
+# **fatty-acid-vesicle-3d-structure-static**
+
+# fatty-acid-vesicle-3d-structure-static
+_save_viz('og-self-compartmentation', 'fatty-acid-vesicle-3d-structure-static', _render_one('', {'title': 'Fatty-acid vesicle — Martini 3 CG-MD equatorial cross-section (static render): outer-leaflet heads (teal) ring inner-leaflet heads (amber) around the water lumen. Print-friendly companion to the interactive 3D viewer — embeds in the downloaded PDF (where cross-iframe WebGL does not render).'}, RUNS_DB, STUDY_YAML))
+
+# **bilayer-3d-structure-static**
+
+# bilayer-3d-structure-static
+_save_viz('og-self-compartmentation', 'bilayer-3d-structure-static', _render_one('', {'title': 'Phospholipid bilayer patch — Martini 3 CG-MD side view (static render): upper-leaflet heads (teal), lower-leaflet heads (amber), tails forming the hydrophobic core. Print-friendly companion for the PDF.'}, RUNS_DB, STUDY_YAML))
+
 # ### Acceptance criteria
 #
 # _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
