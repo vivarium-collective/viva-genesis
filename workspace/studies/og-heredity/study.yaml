@@ -1471,7 +1471,7 @@ baseline:
 parent_studies:
 - study: og-self-compartmentation
   condition: tests-passed
-- study: og-33-chemically-coupled-growth-and-division
+- study: og-reproduction
   condition: tests-passed
 consolidation_note: >-
   Consolidates og-06-chemistry-to-heredity, og-06-alt-information-per-cost, and og-34-chemical-heredity-and-selection

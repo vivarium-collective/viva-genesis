@@ -579,7 +579,7 @@ _PHASE5_BOUNDARY_REPORT = (
     "workspace/studies/og-self-compartmentation/artifacts/og-04-alt-endogenous-boundary/"
     "endogenous_boundary_report.json")
 _PHASE5_GROWTH_REPORT = (
-    "workspace/studies/og-growth-alt-physical-reproduction/artifacts/"
+    "workspace/studies/og-reproduction/artifacts/og-growth-alt-physical-reproduction/"
     "physical_reproduction_report.json")
 
 

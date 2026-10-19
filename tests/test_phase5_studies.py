@@ -51,7 +51,7 @@ def test_phase5_committed_artifacts_carry_headline():
     assert bnd["boundary_forms_from_chemistry"] is True
     assert bnd["n_agents_favorable"] >= 1 and bnd["n_agents_ablated"] == 0
     assert bnd["rewrite_conservation_ok"] == 1.0
-    gro = json.loads((root / "og-growth-alt-physical-reproduction" / "artifacts"
+    gro = json.loads((root / "og-reproduction" / "artifacts" / "og-growth-alt-physical-reproduction"
                       / "physical_reproduction_report.json").read_text())["headline"]
     assert gro["peak_generation"] >= 3            # the lineage REACHES >=3 (peak 5)
     assert gro["partition_residual_peak"] <= 1e-9
