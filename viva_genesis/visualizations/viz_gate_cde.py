@@ -431,7 +431,7 @@ class OgGrowthDivisionViz(Visualization):
     config_schema = {
         "title": {"_type": "string", "_default": ""},
         "report_json": {"_type": "string",
-                        "_default": "workspace/studies/og-33-chemically-coupled-growth-and-division/artifacts/gate_d_growth_division.json"},
+                        "_default": "workspace/studies/og-reproduction/artifacts/og-33-chemically-coupled-growth-and-division/gate_d_growth_division.json"},
     }
 
     def inputs(self):
