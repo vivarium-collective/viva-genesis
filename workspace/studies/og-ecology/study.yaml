@@ -10,6 +10,11 @@ evaluation_status: evaluated
 gate_status: passed
 confidence: Accepted
 verdict: qualified
+primary_limitation: "The community function is productivity, not robustness - under low-count demographic noise the community is ~2x more variable than monoculture; the model is a lightweight reproduction (Option B), not a wrapped ALife engine."
+key_assumptions:
+- "Community dynamics are an exact numpy Gillespie SSA with a matched mean-field ODE (Option B)"
+- "Cross-feeding and coexistence are stabilized, not assumed"
+- "Parameters are labelled proposed_input"
 evidence_tier: mechanistic_prediction
 program: consolidated
 plan_id: 36

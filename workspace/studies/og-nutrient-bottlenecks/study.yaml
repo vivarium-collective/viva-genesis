@@ -10,8 +10,14 @@ evaluation_status: evaluated
 gate_status: passed
 confidence: Accepted
 verdict: qualified
+primary_limitation: "Each non-carbon bottleneck clears only individually (N and P tested separately); joint C/N/P feasibility and precursor co-availability are not yet demonstrated together."
+key_assumptions:
+- "Reduced nitrogen is FeS-mediated nitrate -> nitrite -> ammonium reduction with an H2 reductant"
+- "Reactive-P availability uses the same og-03 thermophoretic pore"
+- "Each bottleneck is scored against a feature-ablation null with mass conserved by construction"
 evidence_tier: mechanistic_prediction
 program: consolidated
+plan_id: 38
 title: 'Nutrient Bottlenecks: Joint C/N/P Feasibility'
 concept: >-
   Whether carbon, nitrogen and phosphorus are available JOINTLY at the vent — not just each non-carbon

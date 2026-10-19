@@ -10,6 +10,11 @@ evaluation_status: evaluated
 gate_status: failed
 confidence: Refuted
 verdict: refuted
+primary_limitation: "The refutation is a limitation of the modeled vent redox environment, not a universal impossibility - only the two representable routes (seeded rTCA, formose) were tested, and the bar is met in a beyond-vent permissive counterfactual."
+key_assumptions:
+- "Endogenous autocatalysis is represented by two routes only: seeded reductive-TCA and formose"
+- "Vent redox conditions (H2 activity, CO2) are those of the calibrated posterior"
+- "Self-amplification is scored against a matched null with identical input fluxes and the autocatalytic topology removed"
 evidence_tier: mechanistic_prediction
 program: consolidated
 off_spine: true

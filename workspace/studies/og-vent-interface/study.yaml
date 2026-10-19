@@ -9,6 +9,11 @@ simulation_status: ran
 evaluation_status: evaluated
 gate_status: passed
 verdict: qualified
+primary_limitation: "Reduced-carbon chemistry is delivered only within a narrow two-regime DIC window - under full redox equilibrium DIC is drawn down before free H2 appears; the DIC-cliff is the one realized finding, the rest of the interface budget still planned."
+key_assumptions:
+- "The interface is solved under full redox equilibrium (real PHREEQC)"
+- "The usable regime is a sharp two-regime DIC crossover (2-20 mM)"
+- "The study emits the 27->29 transfer bundle as a typed boundary condition"
 evidence_tier: mechanistic_prediction
 program: consolidated
 title: 'The Evolving Mineral Interface: A Bounded DIC Window'

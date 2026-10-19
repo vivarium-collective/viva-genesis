@@ -9,6 +9,11 @@ simulation_status: ran
 evaluation_status: evaluated
 gate_status: passed
 verdict: qualified
+primary_limitation: "Energetics buy persistence/robustness, not raw throughput - the carrier does not beat gradient-only on total work, and carrier chemistry is one specified thioester cycle (Option B)."
+key_assumptions:
+- "A pre-ATP thioester-class carrier stands in for the energy currency (Option B, tied to the og-12 rebuild)"
+- "The free-energy ledger closes (input = useful work + stored + dissipated)"
+- "Benefit is scored on dip-persistence under a declining geochemical drive, against ablation nulls"
 evidence_tier: mechanistic_prediction
 program: consolidated
 title: 'Proto-Energetics: Capture, Internalization, and Carrier Coupling'
