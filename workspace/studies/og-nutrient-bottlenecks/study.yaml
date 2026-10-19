@@ -288,6 +288,8 @@ findings:
     A real ReducedNitrogenProductionProcess reduces NO3- -> NO2- -> NH4+ gated by H2 availability, an
     FeS temperature window and catalyst activity.
 - id: ogn-keeps-pace
+  evidence_basis: predicted
+  evidence_basis_note: "The settled C:N ~5.0 is a model output; the viable band 1-8 is the external anchor it is judged against."
   kind: computational
   status: novel
   statement: >-
@@ -350,6 +352,8 @@ findings:
     observed: max |n_mass_residual| ~1e-20 M over the run
     units: molar
 - id: ogres-reactive-p-available
+  evidence_basis: predicted
+  evidence_basis_note: "Net reactive-P availability is a model output vs the open-pore no-enrichment control."
   provenance:
     run_ids:
     - >-

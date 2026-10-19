@@ -544,6 +544,8 @@ behavior_tests:
   requires_simulation: 'no'
 findings:
 - id: og08-minimum-innovation-set
+  evidence_basis: predicted
+  evidence_basis_note: "Off-gradient persistence of the full innovation set vs ablated subsets is a model outcome."
   provenance:
     run_ids:
     - >-

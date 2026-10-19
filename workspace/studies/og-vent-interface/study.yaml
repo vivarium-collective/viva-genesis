@@ -173,6 +173,8 @@ behavior_tests:
   requires_simulation: 'yes'
 findings:
 - id: og27-dic-crossover-bounded-window
+  evidence_basis: predicted
+  evidence_basis_note: "The sharp two-regime DIC cliff is a real-PHREEQC model finding."
   kind: computational
   status: novel
   statement: >-

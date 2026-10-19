@@ -342,6 +342,8 @@ findings:
     - zhu2012photochemically
     - natchem2023osmoticgrowth
 - id: og33-division-geometry-measured
+  evidence_basis: calibrated
+  evidence_basis_note: "The area-doubling division_ratio 2.0 is a proposed input grounded in the hanczyc/budin growth-division literature."
   kind: methodological
   status: confirms
   statement: >-
@@ -353,6 +355,8 @@ findings:
   evidence:
     from_test: division-at-measured-geometry
 - id: oggd-metabolism-changes-physical-fate
+  evidence_basis: predicted
+  evidence_basis_note: "Osmotically-driven growth and the 8 divisions are the coupled model's outcome."
   provenance:
     run_ids:
     - >-

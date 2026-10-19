@@ -462,6 +462,8 @@ behavior_tests:
   band_basis: machine_precision
 findings:
 - id: og06-inheritance-pays
+  evidence_basis: predicted
+  evidence_basis_note: "Retention and fitness are model outputs; the one measured input (R18 ribozyme 96.7% per-site fidelity) is a parameter tracked in the inheritance_budgets provenance audit, not this readout."
   provenance:
     run_ids:
     - >-
@@ -652,6 +654,8 @@ findings:
     - eigen1971selforganization
     - cairnssmith1982genetic
 - id: og06alt-eigen-threshold-at-the-agent-level
+  evidence_basis: predicted
+  evidence_basis_note: "Reproduces the Eigen error threshold at the agent level - an independent theoretical prediction, not a fit."
   provenance:
     run_ids:
     - viva_genesis.composites.competing_heredity.competing_heredity__1792072056__3db0cf

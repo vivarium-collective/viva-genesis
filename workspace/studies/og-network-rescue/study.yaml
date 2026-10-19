@@ -139,6 +139,8 @@ behavior_tests:
   requires_simulation: 'yes'
 findings:
 - id: og30-pore-ignites-vs-control
+  evidence_basis: predicted
+  evidence_basis_note: "Pore ignition at identical vent-posterior feeds vs the matched control is a model outcome."
   kind: computational
   status: confirms
   statement: >-

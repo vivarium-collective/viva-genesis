@@ -523,6 +523,8 @@ findings:
     - altair2025carbon
     - commchem2026currentproducing
 - id: og01cal-current-window-reproduced
+  evidence_basis: predicted
+  evidence_basis_note: "The Butler-Volmer settled current density lands inside the independent Altair-2025 window; it is not fit to that window."
   provenance:
     run_ids:
     - >-
@@ -562,6 +564,8 @@ findings:
     observed: charge residual <= 1.7e-13; FE max 1.0000000000001; iv residual <= 8.5e-9; 0/750 failed
     units: dimensionless
 - id: og01-preiner-yields
+  evidence_basis: calibrated
+  evidence_basis_note: "The absolute C1-C3 yields are anchored to the Preiner-2020 hierarchy they reproduce."
   kind: computational
   status: confirms
   statement: >-
@@ -587,6 +591,8 @@ findings:
     cites:
     - hudson2020co2
 - id: og01-tutolo-collapse
+  evidence_basis: predicted
+  evidence_basis_note: "The pmf collapse is the model's response under the independent Tutolo-2026 in-situ arm."
   kind: computational
   status: novel
   statement: >-

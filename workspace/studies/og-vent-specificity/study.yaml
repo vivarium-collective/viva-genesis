@@ -126,6 +126,8 @@ behavior_tests:
   - sutherland2017opinion
 findings:
 - id: ogadv-gates-reject-generic
+  evidence_basis: predicted
+  evidence_basis_note: "The generic non-equilibrium control fails all five vent-specific gates - a model outcome demonstrating specificity."
   kind: methodological
   status: confirms
   statement: >-

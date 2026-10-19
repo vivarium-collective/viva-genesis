@@ -553,6 +553,8 @@ findings:
     - preiner2020hydrogen
     - muchowska2019synthesis
 - id: og02alt-formose-motif-emerges-and-is-enriched
+  evidence_basis: predicted
+  evidence_basis_note: "The single autocatalytic motif emerges from the reaction rules and beats 24 matched nulls (p=0.040); the vent posterior feeds are calibrated inputs, tracked in the reaction_universe provenance audit."
   provenance:
     run_ids:
     - viva_genesis.composites.open_chemical_network.open_chemical_network__1792068379__c38055
