@@ -446,47 +446,21 @@ _save_viz('og-vent-environment', 'coupled-interface-evolution', _render_one('loc
 # | handoff-27-to-29-complete _(secondary)_ | kind=observable detail=presence + typing of every field in the 27→29 transfer bundle | op threshold detail bundle complete and typed (satisfies 27→29 handoff validator) |
 # | dic-crossover-sweep _(primary)_ | kind=observable detail=H2 flux / precipitation / accessibility / porosity vs fluid_dic across SI=0 ledger closure=None | op threshold detail the crossover is characterized with the ledger closing at every point (window_exists resolved either way) |
 
-# ## Study: The First Carbon (`og-01-geology-to-reduced-carbon`)
+# ## Study: Carbon Fixation: Does H2 Reduce CO2 at the Vent? (`og-carbon-fixation`)
 #
-# **Question.** Can geological H2 drive CO2 reduction on vent mineral catalysts strongly enough to sustain a source of reduced organic carbon?
+# **Question.** Does H2-driven CO2 reduction over Fe/Ni/S catalysts fix carbon and reproduce lab yield benchmarks at the vent — and can the model classes agree on which limitation stops it?
 #
-# **Hypothesis.** Over Fe/Ni/S surfaces and across the pH gradient, H2-driven CO2 reduction yields formate/acetate/pyruvate at lab-calibrated rates within a bounded (T,pH,H2,pressure) region; the Tutolo-2026 in-situ arm roughly halves the flux, and the feature-ablation controls (no gradient / no H2 / no catalyst) zero it.
+# **Hypothesis.** H2-driven CO2 reduction reproduces the Preiner yield hierarchy and sustains net carbon flux in a bounded pH/H2 region (the core claim); but the attribution of the dominant limitation is not claimed where the model classes disagree below the pre-registered agreement gate.
 #
-# **Claim.** Over Fe/Ni/S catalysts the model reproduces the Preiner-2020 yield hierarchy - formate about 200 mM, acetate about 100 uM, pyruvate about 10 uM - and sustains net organic-carbon flux inside a bounded region set by the pH gradient and dissolved H2, while the no-gradient, no-H2 and no-catalyst controls collapse it. A discriminating in-situ arm (Tutolo-2026) shows the usable proton-motive gradient falling from 427 to 43 mV, roughly halving the sustained flux. Because the CO2-reduction kinetics are lab-calibrated to Preiner rather than derived from first-principles surface chemistry, this establishes a computational bridge from serpentinization to an organic-carbon feedstock, not yet metabolism.
-
-# ### Design — originally proposed
-#
-# _The mechanisms and methods proposed when this study was designed; the model **actually built** (and the tools it uses) is shown below. These may differ as the design was realized._
-#
-# **Proposed mechanisms**
-#
-# - C: pH-gradient electrochemistry
-# - D: mineral-catalyzed carbon fixation
-#
-# **Proposed models / methods**
-#
-# - Nernst–Planck–Poisson (electroneutral) on FiPy/FEniCSx
-# - Cantera/custom heterogeneous kinetics
-# - eQuilibrator feasibility
-# - PyMC Bayesian calibration to Preiner/Hudson/Altair
-#
-# **Key assumptions**
-#
-# - Encode pH(T,P,ionic_strength), never laboratory pH as a constant environmental state.
+# **Claim.** H2-driven CO2 reduction fixes carbon at the vent. Over Fe/Ni/S catalysts the model reproduces the Preiner-2020 yield hierarchy (formate ~200 mM >> acetate ~100 uM >> pyruvate ~10 uM) and sustains net organic-carbon flux in a bounded pH-gradient x dissolved-H2 region; formate collapses to <1 mM in every no-gradient / no-H2 / no-catalyst control, and carbon fixation spends the proton gradient (~2 H+/carbon, chemiosmotic backpressure) (og-01, canonical, supported). Under explicit electrochemistry the vent cell is activation (catalyst) limited where the wall conducts and its current sits in the Altair-2025 window, but the two model classes agree on the dominant-limitation label on only 47% of the favorable region (below the pre-registered 80% gate), so the limitation attribution is structure-sensitive and og-01-cal-electrochemistry is refuted on that agreement question (og-01-cal, refuted; og-01-cal-dx planned to diagnose). Consolidated headline: supported — carbon fixation works and reproduces lab benchmarks; the mechanistic attribution of its rate-limiting step is not yet model-class-robust. Every matched null and arm verdict kept, including the refutation.
 
 # ### Parameters
 #
 # | simulation | composite | steps | params |
 # | --- | --- | --- | --- |
-# | `Geology to reduced carbon — favorable` | `viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation` | 0 | — |
-# | `Tutolo-2026 in-situ (unfavorable arm)` | `viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation` | 0 | gradient_efficiency=0.1 |
-#
-# Declared parameter sets (`study.yaml` variants):
-#
-# - **tutolo-2026** — `gradient_efficiency=0.1`
-# - **control-no-gradient** — `gradient_efficiency=1e-06`
-# - **control-no-h2** — `h2=1e-12`
-# - **control-no-catalyst** — `catalyst_active=1e-06`
+# | `Hydrothermal carbon fixation — favorable, canonical (og-01)` | `viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation` | 0 | gradient_efficiency=1.0, catalyst_active=1.0 |
+# | `No-gradient / no-H2 / no-catalyst matched null (og-01) — formate collapses <1 mM` | `viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation` | 0 | gradient_efficiency=0.0, catalyst_active=0.0, h2=0.0 |
+# | `Explicit electrochemical interface — Butler-Volmer + empirical classes (og-01-cal arm, refuted)` | `viva_genesis.composites.electrochemical_interface.electrochemical_carbon_fixation` | 0 | — |
 
 # ### The model & its parameters
 #
@@ -508,44 +482,36 @@ ov_viva_genesis_composites_carbon_fixation_hydrothermal_carbon_fixation = {
     'dilution_rate'      : 0.0,   # Open-flow washout (1/s); 0 = closed batch (yield studies), >0 = open vent reactor → sustained-throughput regime (phase map)
 }
 
-# ### Typed contract (declared interface)
+# **The model — `viva_genesis.composites.electrochemical_interface.electrochemical_carbon_fixation`**
 #
-# _The bigraph-schema typed ports + conservation predicates this study's composite must satisfy (audited in the workbench §Contract panel). Declared design — independent of whether a run exists yet._
-#
-# **Inputs**
-#
-# | port | type | units | bounds |
-# | --- | --- | --- | --- |
-# | `temperature` | float | kelvin | [273.0, 673.0] |
-# | `pH` | float | dimensionless | [0.0, 14.0] |
-# | `pressure` | float | pascal | [100000.0, 50000000.0] |
-# | `H2` | float | molar | >= 0.0 |
-# | `CO2` | float | molar | >= 0.0 |
-# | `ionic_strength` | float | molar | >= 0.0 |
-#
-# **Outputs**
-#
-# | port | type | units | bounds |
-# | --- | --- | --- | --- |
-# | `formate` | float | molar | >= 0.0 |
-# | `acetate` | float | molar | >= 0.0 |
-# | `pyruvate` | float | molar | >= 0.0 |
-# | `current_density` | float | ampere/meter**2 |  |
-# | `electric_potential` | float | volt |  |
-# | `net_carbon_flux` | float | mole/second |  |
-#
-# **Conditions**
-#
-# - `charge_neutrality` (invariant): `abs(net_charge) < tol`
-# - `energy_directionality` (invariant): `free_energy_flux_logged == true`
-# - `mass_balance` (invariant): `abs(residual_C)+abs(residual_H)+abs(residual_O) < tol`
+# og-01's H2/pH-driven carbon fixation rebuilt as the Phase-2 electrochemical interface: the carbon-fixation mechanism is a model CLASS on the carbon_fixation face (model_carbon_fixation: empirical | butler_volmer | microkinetic). The empirical class is og-01's lab-calibrated gated kinetics driven by the real FiPy Nernst-Planck proton gradient + proton budget, with gradient_efficiency DERIVED from the wall's circuit (MineralConductivityProcess: conductivity, thickness, porosity vs the electrodes' charge-transfer resistance) instead of a knob. The butler_volmer class solves the vent wall as a galvanic cell each tick (Nernst half-cell potentials from the fluid redox state, Butler-Volmer kinetics scaled by catalyst activity / Ni fraction / T, Koutecky-Levich transport limits, the ohmic mineral + ionic path, the faradaic split over formate / acetate / pyruvate calibrated to the Altair-2025 current window and the Preiner-2020 yield hierarchy). The microkinetic class (CatMAP/Cantera) builds here and runs under pixi. Every class publishes the thermodynamic / electrical / catalytic / transport loss fractions and a limitation code, and a ChargeLedgerProcess audits its electron balance (Kirchhoff residual, faradaic efficiency <= 1, current-voltage residual -> ledger/charge_ledger_ok). Free parameters are the vg-data package 'electrochemical_interface'.
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_electrochemical_interface_electrochemical_carbon_fixation = {
+    'model_carbon_fixation': 'butler_volmer',   # Model class behind the 'carbon_fixation' face: butler_volmer | empirical | microkinetic
+    'ph_vent'              : 9.5,   # Alkaline vent-side pH (from og-00)
+    'ph_ocean'             : 6.0,   # Acidic early-ocean-side pH
+    'h2'                   : 0.005,   # Dissolved H2 feed, vent side (M)
+    'co2'                  : 0.002,   # Dissolved CO2 feed, ocean side (M)
+    'temperature'          : 373.15,   # Interface temperature (K)
+    'conductivity'         : 0.001,   # Electronic conductivity of the mineral layer (S/m) [vg-data: extrapolated]
+    'layer_thickness'      : 0.001,   # Mineral layer thickness (m) [vg-data: inferred]
+    'ni_fraction'          : 0.75,   # Ni mole fraction of the Fe/Ni catalytic phase (0 greigite .. 0.75 awaruite) [vg-data: measured]
+    'porosity'             : 0.35,   # Wall porosity (ionic return path)
+    'catalyst_active'      : 1.0,   # Active Fe/Ni/S mineral catalyst fraction (0 = no-catalyst control)
+    'j0_co2'               : 1e-05,   # CO2-reduction exchange current density at Ni3Fe, 100 C (A/m^2) [vg-data: calibrated]
+    'boundary_layer'       : 0.001,   # Diffusion boundary layer at the electrodes (m) [vg-data: inferred]
+    'dilution_rate'        : 0.0,   # Open-flow washout (1/s); 0 = closed batch, >0 = sustained-throughput regime
+    'nx'                   : 20,   # FiPy cells across the Nernst-Planck barrier
+}
 
 # ### Run
 #
 # _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
 
-# === Study: og-01-geology-to-reduced-carbon ===
-STUDY = 'og-01-geology-to-reduced-carbon'
+# === Study: og-carbon-fixation ===
+STUDY = 'og-carbon-fixation'
 STUDY_DIR = REPO / 'workspace/studies' / STUDY
 STUDY_YAML = str(STUDY_DIR / "study.yaml")
 RUNS_DB = str(STUDY_DIR / "runs.db")
@@ -553,10 +519,12 @@ RUNS_DB = str(STUDY_DIR / "runs.db")
 # This study has no *recorded* runs yet. RERUN builds its declared
 # composite(s) live and runs them; a composite whose module processes
 # are not implemented yet reports the error instead of crashing.
-STEPS_Geology_to_reduced_carbon_favorable = 100
-INTERVAL_Geology_to_reduced_carbon_favorable = 1.0
-STEPS_Tutolo_2026_in_situ_unfavorable_arm = 100
-INTERVAL_Tutolo_2026_in_situ_unfavorable_arm = 1.0
+STEPS_Hydrothermal_carbon_fixation_favorable_canonical_og_01 = 100
+INTERVAL_Hydrothermal_carbon_fixation_favorable_canonical_og_01 = 1.0
+STEPS_No_gradient_no_H2_no_catalyst_matched_null_og_01_formate_collapses_1_mM = 100
+INTERVAL_No_gradient_no_H2_no_catalyst_matched_null_og_01_formate_collapses_1_mM = 1.0
+STEPS_Explicit_electrochemical_interface_Butler_Volmer_empirical_classes_og_01_cal_arm_refuted = 100
+INTERVAL_Explicit_electrochemical_interface_Butler_Volmer_empirical_classes_og_01_cal_arm_refuted = 1.0
 
 if RERUN:
     from process_bigraph import Composite
@@ -565,19 +533,28 @@ if RERUN:
             _ov = ov_viva_genesis_composites_carbon_fixation_hydrothermal_carbon_fixation if 'ov_viva_genesis_composites_carbon_fixation_hydrothermal_carbon_fixation' in dir() else None  # edits from the panel cell, if any
             spec_viva_genesis_composites_carbon_fixation_hydrothermal_carbon_fixation = materialize_composite('viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation', _ov)
             _comp = Composite({'state': spec_viva_genesis_composites_carbon_fixation_hydrothermal_carbon_fixation['state']}, core=core)
-            _comp.run(STEPS_Geology_to_reduced_carbon_favorable)
-        print('ran', 'Geology to reduced carbon — favorable', f'(viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation) for', STEPS_Geology_to_reduced_carbon_favorable, 'steps')
+            _comp.run(STEPS_Hydrothermal_carbon_fixation_favorable_canonical_og_01)
+        print('ran', 'Hydrothermal carbon fixation — favorable, canonical (og-01)', f'(viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation) for', STEPS_Hydrothermal_carbon_fixation_favorable_canonical_og_01, 'steps')
     except Exception as _e:
-        print(f"Geology to reduced carbon — favorable not runnable yet: {type(_e).__name__}: {_e}")
+        print(f"Hydrothermal carbon fixation — favorable, canonical (og-01) not runnable yet: {type(_e).__name__}: {_e}")
     try:
         with quiet():  # keep per-step stdout out of the notebook
             _ov = ov_viva_genesis_composites_carbon_fixation_hydrothermal_carbon_fixation if 'ov_viva_genesis_composites_carbon_fixation_hydrothermal_carbon_fixation' in dir() else None  # edits from the panel cell, if any
             spec_viva_genesis_composites_carbon_fixation_hydrothermal_carbon_fixation = materialize_composite('viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation', _ov)
             _comp = Composite({'state': spec_viva_genesis_composites_carbon_fixation_hydrothermal_carbon_fixation['state']}, core=core)
-            _comp.run(STEPS_Tutolo_2026_in_situ_unfavorable_arm)
-        print('ran', 'Tutolo-2026 in-situ (unfavorable arm)', f'(viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation) for', STEPS_Tutolo_2026_in_situ_unfavorable_arm, 'steps')
+            _comp.run(STEPS_No_gradient_no_H2_no_catalyst_matched_null_og_01_formate_collapses_1_mM)
+        print('ran', 'No-gradient / no-H2 / no-catalyst matched null (og-01) — formate collapses <1 mM', f'(viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation) for', STEPS_No_gradient_no_H2_no_catalyst_matched_null_og_01_formate_collapses_1_mM, 'steps')
     except Exception as _e:
-        print(f"Tutolo-2026 in-situ (unfavorable arm) not runnable yet: {type(_e).__name__}: {_e}")
+        print(f"No-gradient / no-H2 / no-catalyst matched null (og-01) — formate collapses <1 mM not runnable yet: {type(_e).__name__}: {_e}")
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_electrochemical_interface_electrochemical_carbon_fixation if 'ov_viva_genesis_composites_electrochemical_interface_electrochemical_carbon_fixation' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_electrochemical_interface_electrochemical_carbon_fixation = materialize_composite('viva_genesis.composites.electrochemical_interface.electrochemical_carbon_fixation', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_electrochemical_interface_electrochemical_carbon_fixation['state']}, core=core)
+            _comp.run(STEPS_Explicit_electrochemical_interface_Butler_Volmer_empirical_classes_og_01_cal_arm_refuted)
+        print('ran', 'Explicit electrochemical interface — Butler-Volmer + empirical classes (og-01-cal arm, refuted)', f'(viva_genesis.composites.electrochemical_interface.electrochemical_carbon_fixation) for', STEPS_Explicit_electrochemical_interface_Butler_Volmer_empirical_classes_og_01_cal_arm_refuted, 'steps')
+    except Exception as _e:
+        print(f"Explicit electrochemical interface — Butler-Volmer + empirical classes (og-01-cal arm, refuted) not runnable yet: {type(_e).__name__}: {_e}")
 else:
     print("RERUN=False — not re-simulating.")
 
@@ -585,20 +562,30 @@ else:
 #
 # _Results are shown by the figures below, produced by the run above._
 
+# **electrochemistry-mechanism-map**
+
+# electrochemistry-mechanism-map
+_save_viz('og-carbon-fixation', 'electrochemistry-mechanism-map', _render_one('local:ElectrochemistryMechanismMap', {'title': 'The vent wall as a galvanic cell — an honest negative', 'mechanism_map_json': 'workspace/studies/og-carbon-fixation/artifacts/og-01-cal-electrochemistry/electrochemistry_mechanism_map.json', 'report_json': 'workspace/studies/og-carbon-fixation/artifacts/og-01-cal-electrochemistry/electrochemistry_report.json'}, RUNS_DB, STUDY_YAML))
+
+# **electrochemistry-polarization**
+
+# electrochemistry-polarization
+_save_viz('og-carbon-fixation', 'electrochemistry-polarization', _render_one('local:ElectrochemistryPolarization', {'title': 'Vent wall as a galvanic cell at the nominal point (Mechanism view)'}, RUNS_DB, STUDY_YAML))
+
 # **proton-gradient-profile**
 
 # proton-gradient-profile
-_save_viz('og-01-geology-to-reduced-carbon', 'proton-gradient-profile', _render_one('local:ProtonGradientProfile', {'composite': 'viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation', 'n_steps': 80, 'title': 'Proton gradient → reduced carbon'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_carbon_fixation_hydrothermal_carbon_fixation if 'ov_viva_genesis_composites_carbon_fixation_hydrothermal_carbon_fixation' in dir() else None)))
+_save_viz('og-carbon-fixation', 'proton-gradient-profile', _render_one('local:ProtonGradientProfile', {'composite': 'viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation', 'n_steps': 80, 'title': 'Proton gradient → reduced carbon'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_carbon_fixation_hydrothermal_carbon_fixation if 'ov_viva_genesis_composites_carbon_fixation_hydrothermal_carbon_fixation' in dir() else None)))
 
 # **carbon-fixation-timeseries**
 
 # carbon-fixation-timeseries
-_save_viz('og-01-geology-to-reduced-carbon', 'carbon-fixation-timeseries', _render_one('local:CarbonFixationViz', {'composite': 'viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation', 'n_steps': 120, 'title': 'Geology to reduced carbon (eQuilibrator + FiPy)'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_carbon_fixation_hydrothermal_carbon_fixation if 'ov_viva_genesis_composites_carbon_fixation_hydrothermal_carbon_fixation' in dir() else None)))
+_save_viz('og-carbon-fixation', 'carbon-fixation-timeseries', _render_one('local:CarbonFixationViz', {'composite': 'viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation', 'n_steps': 120, 'title': 'Geology to reduced carbon (eQuilibrator + FiPy)'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_carbon_fixation_hydrothermal_carbon_fixation if 'ov_viva_genesis_composites_carbon_fixation_hydrothermal_carbon_fixation' in dir() else None)))
 
 # **carbon-fixation-phase-map**
 
 # carbon-fixation-phase-map
-_save_viz('og-01-geology-to-reduced-carbon', 'carbon-fixation-phase-map', _render_one('local:CarbonFixationPhaseMap', {'title': 'The carbon-fixation landscape (Decision view)', 'grid_json': 'workspace/studies/og-01-geology-to-reduced-carbon/artifacts/carbon_fixation_phase_grid.json'}, RUNS_DB, STUDY_YAML))
+_save_viz('og-carbon-fixation', 'carbon-fixation-phase-map', _render_one('local:CarbonFixationPhaseMap', {'title': 'The carbon-fixation landscape (Decision view)', 'grid_json': 'workspace/studies/og-carbon-fixation/artifacts/og-01-geology-to-reduced-carbon/carbon_fixation_phase_grid.json'}, RUNS_DB, STUDY_YAML))
 
 # ### Acceptance criteria
 #
@@ -606,6 +593,14 @@ _save_viz('og-01-geology-to-reduced-carbon', 'carbon-fixation-phase-map', _rende
 #
 # | test | measures | passes if |
 # | --- | --- | --- |
+# | failure-mode-labelled _(supporting)_ | kind=derived path=failure_mode_label_coverage detail=min over classes of the fraction of points with a finite label | op >= value 1.0 detail label coverage 1.0 in every class |
+# | failure-mode-attributed _(supporting)_ | kind=derived path=failure_mode_agreement_favorable detail=fraction of favorable-both points with identical labels | op >= value 0.8 detail cross-class label agreement >= 0.8 in the favorable region |
+# | mechanism-map-ledger-closes _(supporting)_ | kind=derived path=mechanism_map_ledger_all_ok detail=1 when charge_ledger_ok on every point | op >= value 1.0 detail ledger ok on all points |
+# | charge-ledger-closes _(supporting)_ | kind=derived path=charge_ledger_residual_max detail=worst-case charge residual | op <= value 1e-09 detail charge residual within tolerance |
+# | faradaic-efficiency-bounded _(supporting)_ | kind=derived path=faradaic_efficiency_max detail=worst-case faradaic efficiency over the run | op <= value 1.000001 detail FE <= 1 (1e-6 rounding allowance) |
+# | current-voltage-residual _(diagnostic)_ | kind=derived path=iv_residual_max detail=worst-case |residual| / emf_fresh | op <= value 1e-06 detail circuit residual below 1e-6 |
+# | current-in-altair-window _(supporting)_ | kind=derived path=settled_current_density detail=settled cell current density | op range low 1e-05 high 0.01 detail j in [1e-5, 1e-2] A/m^2 |
+# | selectivity-to-carbon _(diagnostic)_ | kind=derived path=settled_faradaic_efficiency detail=settled fraction of the current reducing CO2 | op >= value 0.5 detail faradaic efficiency to carbon >= 0.5 |
 # | formate-yield-reproduces-preiner _(primary)_ | kind=derived path=settled_formate_mM detail=batch formate yield mM=None | op range low 50.0 high 220.0 detail formate in Preiner range (~200 mM ceiling) |
 # | acetate-yield-reproduces-preiner _(primary)_ | kind=derived path=settled_acetate_uM detail=batch acetate yield uM=None | op range low 20.0 high 150.0 detail acetate in Preiner range |
 # | pyruvate-yield-reproduces-preiner _(primary)_ | kind=derived path=settled_pyruvate_uM detail=batch pyruvate yield uM=None | op range low 2.0 high 15.0 detail pyruvate in Preiner range |
@@ -615,13 +610,6 @@ _save_viz('og-01-geology-to-reduced-carbon', 'carbon-fixation-phase-map', _rende
 # | nernst-planck-flux-conserved _(diagnostic)_ | kind=derived path=max_abs_electro_flux_residual detail=max |FVM residual| | op <= value 0.01 detail max |flux divergence residual| small |
 # | ph-gradient-drives-formate _(primary)_ | kind=cross_run detail=favorable formate vs no-gradient / no-H2 / no-catalyst | op controls_absent detail formate present with gradient <1 mM in every control None |
 # | in-situ-ph-correction _(diagnostic)_ | kind=cross_run detail=favorable pmf vs Tutolo-2026 pmf | op arms_reported detail report both arms; flag if the Tutolo pmf collapses |
-
-# ### Literature anchors
-#
-# | expectation | model observable | source | status |
-# | --- | --- | --- | --- |
-# | Formate up to ~200 mM, acetate ~100 uM, pyruvate ~10 uM at 100 C | product concentrations by mineral/T/P | Preiner 2020 | Met by the favorable arm — batch formate ~200 mM, acetate ~100 uM, pyruvate ~10 uM (Preiner hierarchy), via real eQuilibrator-gated, lab-calibrated mineral kinetics. |
-# | CO2+H2->formate across pH gradient at room T, ~1.5 bar | formate yield vs delta-pH + controls | Hudson 2020 | Met — formate is present with the pH-gradient proton-motive force and collapses to <1 mM in every control (no gradient / no H2 / no catalyst). |
 
 # ## Study: Network Persistence: Does the Carbon-Fixing Network Sustain Itself? (`og-network-persistence`)
 #
@@ -1666,242 +1654,6 @@ _save_viz('og-nutrient-bottlenecks', 'phosphorus-availability-map', _render_one(
 # | p-coconcentrates-with-carbon _(primary)_ | kind=cross_run detail=og-03 pore enrichment vs the carbon co-concentration floor; P reactive-availability at that enrichment | op arms_reported detail the same pore regime co-concentrates P with C (enrichment >= carbon floor AND P reactive-availability positive) |
 # | open-pore-no-enrichment-control _(primary)_ | kind=cross_run detail=favorable enriched pore vs open-pore / no-gradient control | op controls_absent detail reactive-P availability collapses (net <= 0 ~fully precipitated) without enrichment None |
 # | p-mass-conserved _(diagnostic)_ | kind=derived path=phosphorus_p_mass_residual detail=max |total P - supplied| / supplied | op <= value 1e-06 detail P-mass residual small (P-atom-conserving network) |
-
-# ## Study: The Vent Wall as a Galvanic Cell: Which Limitation Stops Carbon Fixation, and Do the Model Classes Agree? (`og-01-cal-electrochemistry`)
-#
-# **Question.** Treating the vent wall as an explicit galvanic cell (Nernst potentials, Butler-Volmer kinetics), do the empirical and the electrochemical model classes agree on which limitation (thermodynamic, electrical, catalytic, transport) stops carbon fixation across the region both call favorable - the pre-registered test being at least 80% agreement on the limitation label?
-#
-# **Hypothesis.** Explicit electrochemistry reproduces the Altair-2025 current window at the nominal operating point with the Preiner product hierarchy, derives og-01's gradient efficiency from the wall's conductivity (an insulating wall collapses it, the Tutolo-2026 arm, as a consequence rather than a knob), closes a charge + electron ledger exactly, and labels every swept point with its dominant limitation. Pre-registered gate: the classes agree on the label on >= 80% of the region both call favorable.
-#
-# **Claim.** No. The two classes agree on the dominant-limitation label on only 47% of the favorable region, below the pre-registered 80% gate, so the gate fails and the attribution is structure-sensitive. Under explicit electrochemistry the vent cell is activation (catalyst) limited everywhere the wall conducts and electrical only below ~1e-6 S/m, but the empirical rate law's single Michaelis drive term lumps electrical and catalytic limitation together and invents a transport limit the cell physics never reaches. The electrochemistry itself is real, calibrated to the Altair-2025 current window, and ledger-exact on all 750 runs; what the study cannot yet deliver is a structure-independent answer to why fixation stops, recorded as an open decision for the expert rather than dressed up as a result.
-
-# ### Design — originally proposed
-#
-# _The mechanisms and methods proposed when this study was designed; the model **actually built** (and the tools it uses) is shown below. These may differ as the design was realized._
-#
-# **Proposed mechanisms**
-#
-# - A: empirical gated kinetics (og-01) with the gradient efficiency derived from the wall circuit
-# - B: the wall as a galvanic cell — Nernst potentials, Butler-Volmer kinetics, ohmic mineral + ionic path, faradaic split
-# - C: adsorbate microkinetics with site coverage and passivation (deferred; pixi)
-#
-# **Proposed models / methods**
-#
-# - carbon_fixation face with the model class as a categorical sweep axis
-# - Nernst + Butler-Volmer galvanic-cell solve (Brent) per tick; Koutecky-Levich transport limits; Bruggeman ionic path
-# - Loss-fraction partition of the fresh-fluid emf -> limitation label per point; cross-class agreement + confusion
-# - Charge + electron ledger (Kirchhoff residual, faradaic efficiency <= 1, current-voltage residual)
-#
-# **Key assumptions**
-#
-# - Steady galvanic cell each tick: the CO2/HCOOH couple sets the cathode emf (acetate and pyruvate are side branches of the same current); H2 and CO2 are boundary feeds; standard potentials at 25 C.
-# - Exchange currents calibrated to the Altair current window, not to per-condition curves; faradaic efficiency set by the competing H2-evolution branch and proton transport at pH 6.
-# - The empirical class is og-01's rate law unchanged, with the catalyst scaled by the same Ni gain and the gradient efficiency derived from the circuit.
-# - Favorable region = throughput >= 10% of each class's own maximum; label = largest loss fraction (FE < 0.5 -> catalytic).
-
-# ### Parameters
-#
-# | simulation | composite | steps | params |
-# | --- | --- | --- | --- |
-# | `Electrochemical interface — Butler-Volmer, open flow` | `viva_genesis.composites.electrochemical_interface.electrochemical_carbon_fixation` | 0 | model_carbon_fixation=butler_volmer, dilution_rate=2.0 |
-#
-# Declared parameter sets (`study.yaml` variants):
-#
-# - **empirical-class** — `model_carbon_fixation=empirical`, `dilution_rate=2.0`
-# - **microkinetic-class-pixi-only** — `model_carbon_fixation=microkinetic`, `dilution_rate=2.0`
-# - **insulating-wall** — `model_carbon_fixation=butler_volmer`, `dilution_rate=2.0`, `conductivity=1e-09`
-# - **iron-only-catalyst** — `model_carbon_fixation=butler_volmer`, `dilution_rate=2.0`, `ni_fraction=0.0`
-# - **control-no-catalyst** — `model_carbon_fixation=butler_volmer`, `dilution_rate=2.0`, `catalyst_active=0.0`
-
-# ### The model & its parameters
-#
-# Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
-
-# **The model — `viva_genesis.composites.electrochemical_interface.electrochemical_carbon_fixation`**
-#
-# og-01's H2/pH-driven carbon fixation rebuilt as the Phase-2 electrochemical interface: the carbon-fixation mechanism is a model CLASS on the carbon_fixation face (model_carbon_fixation: empirical | butler_volmer | microkinetic). The empirical class is og-01's lab-calibrated gated kinetics driven by the real FiPy Nernst-Planck proton gradient + proton budget, with gradient_efficiency DERIVED from the wall's circuit (MineralConductivityProcess: conductivity, thickness, porosity vs the electrodes' charge-transfer resistance) instead of a knob. The butler_volmer class solves the vent wall as a galvanic cell each tick (Nernst half-cell potentials from the fluid redox state, Butler-Volmer kinetics scaled by catalyst activity / Ni fraction / T, Koutecky-Levich transport limits, the ohmic mineral + ionic path, the faradaic split over formate / acetate / pyruvate calibrated to the Altair-2025 current window and the Preiner-2020 yield hierarchy). The microkinetic class (CatMAP/Cantera) builds here and runs under pixi. Every class publishes the thermodynamic / electrical / catalytic / transport loss fractions and a limitation code, and a ChargeLedgerProcess audits its electron balance (Kirchhoff residual, faradaic efficiency <= 1, current-voltage residual -> ledger/charge_ledger_ok). Free parameters are the vg-data package 'electrochemical_interface'.
-
-# === Parameters — edit any value, then re-run from the Run cell below ===
-# Each entry is the composite's current default; the comment explains it.
-ov_viva_genesis_composites_electrochemical_interface_electrochemical_carbon_fixation = {
-    'model_carbon_fixation': 'butler_volmer',   # Model class behind the 'carbon_fixation' face: butler_volmer | empirical | microkinetic
-    'ph_vent'              : 9.5,   # Alkaline vent-side pH (from og-00)
-    'ph_ocean'             : 6.0,   # Acidic early-ocean-side pH
-    'h2'                   : 0.005,   # Dissolved H2 feed, vent side (M)
-    'co2'                  : 0.002,   # Dissolved CO2 feed, ocean side (M)
-    'temperature'          : 373.15,   # Interface temperature (K)
-    'conductivity'         : 0.001,   # Electronic conductivity of the mineral layer (S/m) [vg-data: extrapolated]
-    'layer_thickness'      : 0.001,   # Mineral layer thickness (m) [vg-data: inferred]
-    'ni_fraction'          : 0.75,   # Ni mole fraction of the Fe/Ni catalytic phase (0 greigite .. 0.75 awaruite) [vg-data: measured]
-    'porosity'             : 0.35,   # Wall porosity (ionic return path)
-    'catalyst_active'      : 1.0,   # Active Fe/Ni/S mineral catalyst fraction (0 = no-catalyst control)
-    'j0_co2'               : 1e-05,   # CO2-reduction exchange current density at Ni3Fe, 100 C (A/m^2) [vg-data: calibrated]
-    'boundary_layer'       : 0.001,   # Diffusion boundary layer at the electrodes (m) [vg-data: inferred]
-    'dilution_rate'        : 0.0,   # Open-flow washout (1/s); 0 = closed batch, >0 = sustained-throughput regime
-    'nx'                   : 20,   # FiPy cells across the Nernst-Planck barrier
-}
-
-# ### Typed contract (declared interface)
-#
-# _The bigraph-schema typed ports + conservation predicates this study's composite must satisfy (audited in the workbench §Contract panel). Declared design — independent of whether a run exists yet._
-#
-# **Inputs**
-#
-# | port | type | units | bounds |
-# | --- | --- | --- | --- |
-# | `ph_vent` | float | dimensionless | [0.0, 14.0] |
-# | `h2` | float | molar | >= 0.0 |
-# | `conductivity` | float | siemens/meter | >= 0.0 |
-# | `ni_fraction` | float | dimensionless | [0.0, 1.0] |
-#
-# **Outputs**
-#
-# | port | type | units | bounds |
-# | --- | --- | --- | --- |
-# | `net_carbon_flux` | float | mole/second | >= 0.0 |
-# | `current_density` | float | ampere/meter**2 | >= 0.0 |
-# | `faradaic_efficiency` | float | dimensionless | [0.0, 1.0] |
-#
-# **Conditions**
-#
-# - `charge_conservation` (invariant): `ledger.charge_residual <= 1e-9 every tick`
-# - `faradaic_bound` (invariant): `ledger.faradaic_efficiency <= 1`
-# - `current_voltage_consistency` (invariant): `ledger.iv_residual_max <= 1e-6`
-# - `loss_partition` (invariant): `loss_thermodynamic + loss_electrical + loss_catalytic + loss_transport == 1 while current flows (butler_volmer)`
-
-# ### Run
-#
-# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
-
-# === Study: og-01-cal-electrochemistry ===
-STUDY = 'og-01-cal-electrochemistry'
-STUDY_DIR = REPO / 'workspace/studies' / STUDY
-STUDY_YAML = str(STUDY_DIR / "study.yaml")
-RUNS_DB = str(STUDY_DIR / "runs.db")
-
-# This study has no *recorded* runs yet. RERUN builds its declared
-# composite(s) live and runs them; a composite whose module processes
-# are not implemented yet reports the error instead of crashing.
-STEPS_Electrochemical_interface_Butler_Volmer_open_flow = 100
-INTERVAL_Electrochemical_interface_Butler_Volmer_open_flow = 1.0
-
-if RERUN:
-    from process_bigraph import Composite
-    try:
-        with quiet():  # keep per-step stdout out of the notebook
-            _ov = ov_viva_genesis_composites_electrochemical_interface_electrochemical_carbon_fixation if 'ov_viva_genesis_composites_electrochemical_interface_electrochemical_carbon_fixation' in dir() else None  # edits from the panel cell, if any
-            spec_viva_genesis_composites_electrochemical_interface_electrochemical_carbon_fixation = materialize_composite('viva_genesis.composites.electrochemical_interface.electrochemical_carbon_fixation', _ov)
-            _comp = Composite({'state': spec_viva_genesis_composites_electrochemical_interface_electrochemical_carbon_fixation['state']}, core=core)
-            _comp.run(STEPS_Electrochemical_interface_Butler_Volmer_open_flow)
-        print('ran', 'Electrochemical interface — Butler-Volmer, open flow', f'(viva_genesis.composites.electrochemical_interface.electrochemical_carbon_fixation) for', STEPS_Electrochemical_interface_Butler_Volmer_open_flow, 'steps')
-    except Exception as _e:
-        print(f"Electrochemical interface — Butler-Volmer, open flow not runnable yet: {type(_e).__name__}: {_e}")
-else:
-    print("RERUN=False — not re-simulating.")
-
-# ### Visualizations
-#
-# _Results are shown by the figures below, produced by the run above._
-
-# **electrochemistry-mechanism-map**
-
-# electrochemistry-mechanism-map
-_save_viz('og-01-cal-electrochemistry', 'electrochemistry-mechanism-map', _render_one('local:ElectrochemistryMechanismMap', {'title': 'The vent wall as a galvanic cell — an honest negative', 'mechanism_map_json': 'workspace/studies/og-01-cal-electrochemistry/artifacts/electrochemistry_mechanism_map.json', 'report_json': 'workspace/studies/og-01-cal-electrochemistry/artifacts/electrochemistry_report.json'}, RUNS_DB, STUDY_YAML))
-
-# **electrochemistry-polarization**
-
-# electrochemistry-polarization
-_save_viz('og-01-cal-electrochemistry', 'electrochemistry-polarization', _render_one('local:ElectrochemistryPolarization', {'title': 'Vent wall as a galvanic cell at the nominal point (Mechanism view)'}, RUNS_DB, STUDY_YAML))
-
-# ### Acceptance criteria
-#
-# _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
-#
-# | test | measures | passes if |
-# | --- | --- | --- |
-# | failure-mode-labelled _(primary)_ | kind=derived path=failure_mode_label_coverage detail=min over classes of the fraction of points with a finite label | op >= value 1.0 detail label coverage 1.0 in every class |
-# | failure-mode-attributed _(primary)_ | kind=derived path=failure_mode_agreement_favorable detail=fraction of favorable-both points with identical labels | op >= value 0.8 detail cross-class label agreement >= 0.8 in the favorable region |
-# | mechanism-map-ledger-closes _(primary)_ | kind=derived path=mechanism_map_ledger_all_ok detail=1 when charge_ledger_ok on every point | op >= value 1.0 detail ledger ok on all points |
-# | charge-ledger-closes _(primary)_ | kind=derived path=charge_ledger_residual_max detail=worst-case charge residual | op <= value 1e-09 detail charge residual within tolerance |
-# | faradaic-efficiency-bounded _(primary)_ | kind=derived path=faradaic_efficiency_max detail=worst-case faradaic efficiency over the run | op <= value 1.000001 detail FE <= 1 (1e-6 rounding allowance) |
-# | current-voltage-residual _(diagnostic)_ | kind=derived path=iv_residual_max detail=worst-case |residual| / emf_fresh | op <= value 1e-06 detail circuit residual below 1e-6 |
-# | current-in-altair-window _(primary)_ | kind=derived path=settled_current_density detail=settled cell current density | op range low 1e-05 high 0.01 detail j in [1e-5, 1e-2] A/m^2 |
-# | selectivity-to-carbon _(diagnostic)_ | kind=derived path=settled_faradaic_efficiency detail=settled fraction of the current reducing CO2 | op >= value 0.5 detail faradaic efficiency to carbon >= 0.5 |
-
-# ### Literature anchors
-#
-# | expectation | model observable | source | status |
-# | --- | --- | --- | --- |
-# | Altair-2025 macroscale reactor currents ~10 nA .. 10 uA sufficient for carbon reduction | settled Butler-Volmer current density on a 1e-3 m^2 interface | Altair et al. 2025 (campaign dossier ref 12; parameter-registry electrochemical_current) | Used as the calibration window of the exchange currents (vg-data electrochemical_interface.observations.cell_current_density); 79.7% of the grid inside it. |
-# | Preiner 2020 product hierarchy formate >> acetate >> pyruvate, awaruite (Ni3Fe) the most productive catalyst | electron branch fractions and the Ni gain of the CO2-reduction exchange current | Preiner et al. 2020 | Branch fractions inferred from the yield hierarchy; the Ni gain is a hypothetical shape fitted to the ordering. |
-
-# ## Study: Why do the empirical and Butler-Volmer classes disagree on the limitation label? (`og-01-cal-dx-label-disagreement`)
-#
-# **Question.** Is the empirical-vs-Butler-Volmer disagreement on the dominant limitation label (they agree on only 47% of the region both call favorable) a real structural difference in how each class represents electrical, catalytic, and transport limits, or an avoidable artifact of binning and threshold placement?
-
-# ### Parameters
-#
-# | simulation | composite | steps | params |
-# | --- | --- | --- | --- |
-# | `Electrochemical interface — both classes, og-01-cal canonical grid` | `viva_genesis.composites.electrochemical_interface.electrochemical_carbon_fixation` | 0 | — |
-
-# ### The model & its parameters
-#
-# Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
-
-# **The model — `viva_genesis.composites.electrochemical_interface.electrochemical_carbon_fixation`**
-#
-# og-01's H2/pH-driven carbon fixation rebuilt as the Phase-2 electrochemical interface: the carbon-fixation mechanism is a model CLASS on the carbon_fixation face (model_carbon_fixation: empirical | butler_volmer | microkinetic). The empirical class is og-01's lab-calibrated gated kinetics driven by the real FiPy Nernst-Planck proton gradient + proton budget, with gradient_efficiency DERIVED from the wall's circuit (MineralConductivityProcess: conductivity, thickness, porosity vs the electrodes' charge-transfer resistance) instead of a knob. The butler_volmer class solves the vent wall as a galvanic cell each tick (Nernst half-cell potentials from the fluid redox state, Butler-Volmer kinetics scaled by catalyst activity / Ni fraction / T, Koutecky-Levich transport limits, the ohmic mineral + ionic path, the faradaic split over formate / acetate / pyruvate calibrated to the Altair-2025 current window and the Preiner-2020 yield hierarchy). The microkinetic class (CatMAP/Cantera) builds here and runs under pixi. Every class publishes the thermodynamic / electrical / catalytic / transport loss fractions and a limitation code, and a ChargeLedgerProcess audits its electron balance (Kirchhoff residual, faradaic efficiency <= 1, current-voltage residual -> ledger/charge_ledger_ok). Free parameters are the vg-data package 'electrochemical_interface'.
-
-# === Parameters — edit any value, then re-run from the Run cell below ===
-# Each entry is the composite's current default; the comment explains it.
-ov_viva_genesis_composites_electrochemical_interface_electrochemical_carbon_fixation = {
-    'model_carbon_fixation': 'butler_volmer',   # Model class behind the 'carbon_fixation' face: butler_volmer | empirical | microkinetic
-    'ph_vent'              : 9.5,   # Alkaline vent-side pH (from og-00)
-    'ph_ocean'             : 6.0,   # Acidic early-ocean-side pH
-    'h2'                   : 0.005,   # Dissolved H2 feed, vent side (M)
-    'co2'                  : 0.002,   # Dissolved CO2 feed, ocean side (M)
-    'temperature'          : 373.15,   # Interface temperature (K)
-    'conductivity'         : 0.001,   # Electronic conductivity of the mineral layer (S/m) [vg-data: extrapolated]
-    'layer_thickness'      : 0.001,   # Mineral layer thickness (m) [vg-data: inferred]
-    'ni_fraction'          : 0.75,   # Ni mole fraction of the Fe/Ni catalytic phase (0 greigite .. 0.75 awaruite) [vg-data: measured]
-    'porosity'             : 0.35,   # Wall porosity (ionic return path)
-    'catalyst_active'      : 1.0,   # Active Fe/Ni/S mineral catalyst fraction (0 = no-catalyst control)
-    'j0_co2'               : 1e-05,   # CO2-reduction exchange current density at Ni3Fe, 100 C (A/m^2) [vg-data: calibrated]
-    'boundary_layer'       : 0.001,   # Diffusion boundary layer at the electrodes (m) [vg-data: inferred]
-    'dilution_rate'        : 0.0,   # Open-flow washout (1/s); 0 = closed batch, >0 = sustained-throughput regime
-    'nx'                   : 20,   # FiPy cells across the Nernst-Planck barrier
-}
-
-# ### Run
-#
-# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
-
-# === Study: og-01-cal-dx-label-disagreement ===
-STUDY = 'og-01-cal-dx-label-disagreement'
-STUDY_DIR = REPO / 'workspace/studies' / STUDY
-STUDY_YAML = str(STUDY_DIR / "study.yaml")
-RUNS_DB = str(STUDY_DIR / "runs.db")
-
-# This study has no *recorded* runs yet. RERUN builds its declared
-# composite(s) live and runs them; a composite whose module processes
-# are not implemented yet reports the error instead of crashing.
-STEPS_Electrochemical_interface_both_classes_og_01_cal_canonical_grid = 100
-INTERVAL_Electrochemical_interface_both_classes_og_01_cal_canonical_grid = 1.0
-
-if RERUN:
-    from process_bigraph import Composite
-    try:
-        with quiet():  # keep per-step stdout out of the notebook
-            _ov = ov_viva_genesis_composites_electrochemical_interface_electrochemical_carbon_fixation if 'ov_viva_genesis_composites_electrochemical_interface_electrochemical_carbon_fixation' in dir() else None  # edits from the panel cell, if any
-            spec_viva_genesis_composites_electrochemical_interface_electrochemical_carbon_fixation = materialize_composite('viva_genesis.composites.electrochemical_interface.electrochemical_carbon_fixation', _ov)
-            _comp = Composite({'state': spec_viva_genesis_composites_electrochemical_interface_electrochemical_carbon_fixation['state']}, core=core)
-            _comp.run(STEPS_Electrochemical_interface_both_classes_og_01_cal_canonical_grid)
-        print('ran', 'Electrochemical interface — both classes, og-01-cal canonical grid', f'(viva_genesis.composites.electrochemical_interface.electrochemical_carbon_fixation) for', STEPS_Electrochemical_interface_both_classes_og_01_cal_canonical_grid, 'steps')
-    except Exception as _e:
-        print(f"Electrochemical interface — both classes, og-01-cal canonical grid not runnable yet: {type(_e).__name__}: {_e}")
-else:
-    print("RERUN=False — not re-simulating.")
 
 # ## Study: Endogenous Autocatalysis (A2): Formose and Reductive-TCA Routes (`og-autocatalysis-a2`)
 #

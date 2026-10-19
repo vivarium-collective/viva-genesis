@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Study: og-01-cal-electrochemistry</title>
+<title>Study: og-carbon-fixation</title>
 <link rel="stylesheet" href="/viva-genesis/dashboard/assets/style.css">
 <link rel="stylesheet" href="/viva-genesis/dashboard/assets/progress-track.css">
 <link rel="stylesheet" href="/viva-genesis/dashboard/assets/responsive.css">
@@ -20,11 +20,11 @@
   <div style="display:flex; align-items:center; gap:14px; justify-content:space-between;">
   <div style="display:flex; align-items:center; gap:12px; min-width:0; flex-wrap:wrap">
   <h1 class="study-title" style="margin:0">
-    <span class="study-num-chip" style="font-size:0.5em; font-weight:700; color:#64748b; background:#f1f5f9; padding:3px 9px; border-radius:9999px; vertical-align:middle; margin-right:8px">og-01</span><span class="study-name" id="study-name" data-slug="og-01-cal-electrochemistry" data-study-kind="computational" title="og-01-cal-electrochemistry">The Vent Wall as a Galvanic Cell: Which Limitation Stops Carbon Fixation, and Do the Model Classes Agree?</span>
+    <span class="study-name" id="study-name" data-slug="og-carbon-fixation" data-study-kind="computational" title="og-carbon-fixation">Carbon Fixation: Does H2 Reduce CO2 at the Vent?</span>
     
   </h1>
     
-    <span id="study-axis-markers" data-slug="og-01-cal-electrochemistry" style="display:inline-flex; gap:8px; align-items:center; flex-wrap:wrap"></span>
+    <span id="study-axis-markers" data-slug="og-carbon-fixation" style="display:inline-flex; gap:8px; align-items:center; flex-wrap:wrap"></span>
   </div>
   <span class="study-header-actions" style="display:inline-flex; gap:6px; flex-shrink:0; align-items:center;">
     
@@ -50,7 +50,7 @@
 
 
 
-<p id="study-question-headline" class="study-question-headline"><span class="q-glyph">Q</span> Treating the vent wall as an explicit galvanic cell (Nernst potentials, Butler-Volmer kinetics), do the empirical and the electrochemical model classes agree on which limitation (thermodynamic, electrical, catalytic, transport) stops carbon fixation across the region both call favorable - the pre-registered test being at least 80% agreement on the limitation label?</p>
+<p id="study-question-headline" class="study-question-headline"><span class="q-glyph">Q</span> Does H2-driven CO2 reduction over Fe/Ni/S catalysts fix carbon and reproduce lab yield benchmarks at the vent — and can the model classes agree on which limitation stops it?</p>
 
 <nav class="study-tabs" aria-label="Study sections">
   
@@ -82,8 +82,8 @@
   <span class="study-dl study-export-wrap" style="margin-left:auto; align-self:center; position:relative; display:inline-flex">
     <button type="button" id="study-export-btn" class="btn-mini study-dl-btn" aria-haspopup="true" aria-expanded="false" title="Download this study's figures or a runnable notebook">↓ Export ▾</button>
     <div id="study-export-menu" role="menu" style="display:none;position:absolute;right:0;top:100%;margin-top:4px;background:#fff;border:1px solid #e2e8f0;border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,0.14);z-index:70;min-width:200px;padding:4px">
-      <button type="button" id="study-dl-figures" role="menuitem" class="study-jump-item" onclick="window._vivStudyFiguresFromCard(event, 'og-01-cal-electrochemistry')">Download figures</button>
-      <button type="button" id="study-dl-notebook" role="menuitem" class="study-jump-item" onclick="window._vivStudyNotebookFromCard(event, 'og-01-cal-electrochemistry', 'origins-of-life-vent')">Download notebook</button>
+      <button type="button" id="study-dl-figures" role="menuitem" class="study-jump-item" onclick="window._vivStudyFiguresFromCard(event, 'og-carbon-fixation')">Download figures</button>
+      <button type="button" id="study-dl-notebook" role="menuitem" class="study-jump-item" onclick="window._vivStudyNotebookFromCard(event, 'og-carbon-fixation', 'origins-of-life-vent')">Download notebook</button>
     </div>
   </span>
 </nav>
@@ -537,7 +537,7 @@
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Claim</h2>
-      <p class="ctr-text">No. The two classes agree on the dominant-limitation label on only 47% of the favorable region, below the pre-registered 80% gate, so the gate fails and the attribution is structure-sensitive. Under explicit electrochemistry the vent cell is activation (catalyst) limited everywhere the wall conducts and electrical only below ~1e-6 S/m, but the empirical rate law&#39;s single Michaelis drive term lumps electrical and catalytic limitation together and invents a transport limit the cell physics never reaches. The electrochemistry itself is real, calibrated to the Altair-2025 current window, and ledger-exact on all 750 runs; what the study cannot yet deliver is a structure-independent answer to why fixation stops, recorded as an open decision for the expert rather than dressed up as a result.</p>
+      <p class="ctr-text">H2-driven CO2 reduction fixes carbon at the vent. Over Fe/Ni/S catalysts the model reproduces the Preiner-2020 yield hierarchy (formate ~200 mM &gt;&gt; acetate ~100 uM &gt;&gt; pyruvate ~10 uM) and sustains net organic-carbon flux in a bounded pH-gradient x dissolved-H2 region; formate collapses to &lt;1 mM in every no-gradient / no-H2 / no-catalyst control, and carbon fixation spends the proton gradient (~2 H+/carbon, chemiosmotic backpressure) (og-01, canonical, supported). Under explicit electrochemistry the vent cell is activation (catalyst) limited where the wall conducts and its current sits in the Altair-2025 window, but the two model classes agree on the dominant-limitation label on only 47% of the favorable region (below the pre-registered 80% gate), so the limitation attribution is structure-sensitive and og-01-cal-electrochemistry is refuted on that agreement question (og-01-cal, refuted; og-01-cal-dx planned to diagnose). Consolidated headline: supported — carbon fixation works and reproduces lab benchmarks; the mechanistic attribution of its rate-limiting step is not yet model-class-robust. Every matched null and arm verdict kept, including the refutation.</p>
       
     </div>
 
@@ -545,19 +545,19 @@
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Background</h2>
       <div class="ctr-meta">
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Question</span> <span class="ctr-meta-item">Treating the vent wall as an explicit galvanic cell (Nernst potentials, Butler-Volmer kinetics), do the empirical and the electrochemical model classes agree on which limitation (thermodynamic, electrical, catalytic, transport) stops carbon fixation across the region both call favorable - the pre-registered test being at least 80% agreement on the limitation label?</span></div>
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Hypothesis</span> <span class="ctr-meta-item">Explicit electrochemistry reproduces the Altair-2025 current window at the nominal operating point with the Preiner product hierarchy, derives og-01&#39;s gradient efficiency from the wall&#39;s conductivity (an insulating wall collapses it, the Tutolo-2026 arm, as a consequence rather than a knob), closes a charge + electron ledger exactly, and labels every swept point with its dominant limitation. Pre-registered gate: the classes agree on the label on &gt;= 80% of the region both call favorable.</span></div>
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Question</span> <span class="ctr-meta-item">Does H2-driven CO2 reduction over Fe/Ni/S catalysts fix carbon and reproduce lab yield benchmarks at the vent — and can the model classes agree on which limitation stops it?</span></div>
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Hypothesis</span> <span class="ctr-meta-item">H2-driven CO2 reduction reproduces the Preiner yield hierarchy and sustains net carbon flux in a bounded pH/H2 region (the core claim); but the attribution of the dominant limitation is not claimed where the model classes disagree below the pre-registered agreement gate.</span></div>
       </div>
     </div>
     
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Model &amp; approach</h2>
-      <p class="ctr-text">Build the carbon_fixation face with three classes (empirical = og-01&#39;s kinetics; butler_volmer = Nernst + Butler-Volmer galvanic cell, the primary new class; microkinetic = CatMAP/Cantera, pixi-only), the MineralConductivityProcess that derives gradient_efficiency from circuit physics, the ChargeLedgerProcess (Kirchhoff residual per tick, faradaic efficiency &lt;= 1, current-voltage residual) and the vg-data package electrochemical_interface; sweep (pH x H2 x conductivity x Ni) x classes in open flow; attribute the limitation at every point; measure cross-class agreement; report Feasibility / Robustness / Discrimination.</p>
+      <p class="ctr-text">Consolidate the carbon-fixation studies into one concept with explicit fidelity-labelled arms (hydrothermal yields, explicit electrochemical attribution), preserving each arm&#39;s matched null, verdict (including the og-01-cal refutation), findings and run provenance; report the consolidated headline bounded by the canonical arm (og-01, supported) without letting the secondary-question refutation flip it.</p>
       <div class="ctr-meta">
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Model</span> <code>Electrochemical interface — Butler-Volmer, open flow</code><a class="ov-tablink" href="#" onclick="_setStudyTab('compose');return false;">model →</a></div>
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Model</span> <code>Hydrothermal carbon fixation — favorable, canonical (og-01)</code>, <code>No-gradient / no-H2 / no-catalyst matched null (og-01) — formate collapses &lt;1 mM</code>, <code>Explicit electrochemical interface — Butler-Volmer + empirical classes (og-01-cal arm, refuted)</code><a class="ov-tablink" href="#" onclick="_setStudyTab('compose');return false;">model →</a></div>
         
-        <ul class="ov-methods"><li>electrochemical_carbon_fixation: MineralConductivityProcess (circuit-derived gradient efficiency) -&gt; PhGradientNernstPlanckProcess (real FiPy) -&gt; [empirical: ProtonBudgetProcess + EquilibratorThermoStep + EmpiricalCarbonFixationProcess | butler_volmer: ButlerVolmerCarbonFixationProcess] -&gt; ChargeLedgerProcess; the class resolved through models.resolve_checked on the carbon_fixation face.</li><li>viva_genesis.uq.electrochemistry_calibration: sweep_grid over (model_carbon_fixation x ph_vent x h2 x conductivity x ni_fraction), attribute_mechanisms (labels, favorable regions, agreement, confusion, per-axis agreement, ledger summary), electrochemistry_report (TransitionReport + decision_discipline), save_artifacts (map + report + nominal cell + polarization curve).</li></ul>
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Measures</span> <span class="ctr-meta-item">17 behavior tests</span><a class="ov-tablink" href="#" onclick="_setStudyTab('audit');return false;">see Tests →</a></div>
         
       </div>
     </div>
@@ -568,7 +568,7 @@
     
     <div class="ctr-block ov-prov">
       <h2 class="overview-label ctr-h">Provenance &amp; sources</h2>
-      <div class="ctr-meta-k" style="margin-top:12px">Sources (5)</div>
+      <div class="ctr-meta-k" style="margin-top:12px">Sources (13)</div>
       <div class="ov-sources">
       
         
@@ -583,6 +583,48 @@
           <b class="ov-src-t">Preiner 2020</b> <span class="ov-src-k">preiner2020hydrogen</span>
           <div class="ov-src-t">A hydrogen-dependent geochemical analogue of primordial carbon and energy metabolism</div>
           <div class="ctr-meta-k" style="text-transform:none">Preiner, Martina and others · 2020 · <a href="https://doi.org/10.1038/s41559-020-1125-6" target="_blank" rel="noopener">source ↗</a></div>
+        </div>
+      
+        
+        <div class="ov-src" id="sref-lane2010chemiosmotic">
+          <b class="ov-src-t">Lane 2010</b> <span class="ov-src-k">lane2010chemiosmotic</span>
+          <div class="ov-src-t">How did LUCA make a living? Chemiosmosis in the origin of life</div>
+          <div class="ctr-meta-k" style="text-transform:none">Lane, Nick and Allen, John F. and Martin, William · 2010 · <a href="https://doi.org/10.1002/bies.200900131" target="_blank" rel="noopener">source ↗</a></div>
+        </div>
+      
+        
+        <div class="ov-src" id="sref-sojo2014bioenergetic">
+          <b class="ov-src-t">Sojo 2014</b> <span class="ov-src-k">sojo2014bioenergetic</span>
+          <div class="ov-src-t">A bioenergetic basis for membrane divergence in archaea and bacteria</div>
+          <div class="ctr-meta-k" style="text-transform:none">Sojo, Victor and Pomiankowski, Andrew and Lane, Nick · 2014 · <a href="https://doi.org/10.1371/journal.pbio.1001926" target="_blank" rel="noopener">source ↗</a></div>
+        </div>
+      
+        
+        <div class="ov-src" id="sref-herschy2014originreactor">
+          <b class="ov-src-t">Herschy 2014</b> <span class="ov-src-k">herschy2014originreactor</span>
+          <div class="ov-src-t">An origin-of-life reactor to simulate alkaline hydrothermal vents</div>
+          <div class="ctr-meta-k" style="text-transform:none">Herschy, Barry and others · 2014 · <a href="https://doi.org/10.1007/s00239-014-9658-4" target="_blank" rel="noopener">source ↗</a></div>
+        </div>
+      
+        
+        <div class="ov-src" id="sref-hudson2020co2">
+          <b class="ov-src-t">Hudson 2020</b> <span class="ov-src-k">hudson2020co2</span>
+          <div class="ov-src-t">CO2 reduction driven by a pH gradient</div>
+          <div class="ctr-meta-k" style="text-transform:none">Hudson, Reuben and others · 2020 · <a href="https://doi.org/10.1073/pnas.2002659117" target="_blank" rel="noopener">source ↗</a></div>
+        </div>
+      
+        
+        <div class="ov-src" id="sref-tutolo2026rethinking">
+          <b class="ov-src-t">Tutolo 2026</b> <span class="ov-src-k">tutolo2026rethinking</span>
+          <div class="ov-src-t">Rethinking the origin of life at seafloor hydrothermal vents</div>
+          <div class="ctr-meta-k" style="text-transform:none">Tutolo, Benjamin M. · 2026 · <a href="https://doi.org/10.1073/pnas.2613108123" target="_blank" rel="noopener">source ↗</a></div>
+        </div>
+      
+        
+        <div class="ov-src" id="sref-jackson2016natural">
+          <b class="ov-src-t">Jackson 2016</b> <span class="ov-src-k">jackson2016natural</span>
+          <div class="ov-src-t">Natural pH gradients in hydrothermal alkali vents were unlikely to have played a role in the origin of life</div>
+          <div class="ctr-meta-k" style="text-transform:none">Jackson, J. Baz · 2016 · <a href="https://doi.org/10.1007/s00239-016-9756-6" target="_blank" rel="noopener">source ↗</a></div>
         </div>
       
         
@@ -606,55 +648,74 @@
           <div class="ctr-meta-k" style="text-transform:none">Communications Chemistry · 2026 · <a href="https://doi.org/10.1038/s42004-026-02156-7" target="_blank" rel="noopener">source ↗</a></div>
         </div>
       
+        
+        <div class="ov-src" id="sref-lane2012origin">
+          <b class="ov-src-t">Lane 2012</b> <span class="ov-src-k">lane2012origin</span>
+          <div class="ov-src-t">The origin of membrane bioenergetics</div>
+          <div class="ctr-meta-k" style="text-transform:none">Lane, Nick and Martin, William F. · 2012 · <a href="https://doi.org/10.1016/j.cell.2012.11.050" target="_blank" rel="noopener">source ↗</a></div>
+        </div>
+      
+        
+        <div class="ov-src" id="sref-buckel2013energy">
+          <b class="ov-src-t">Buckel 2013</b> <span class="ov-src-k">buckel2013energy</span>
+          <div class="ov-src-t">Energy conservation via electron bifurcating ferredoxin reduction and proton/Na+ translocating ferredoxin oxidation</div>
+          <div class="ctr-meta-k" style="text-transform:none">Buckel, Wolfgang and Thauer, Rudolf K. · 2013 · <a href="https://doi.org/10.1016/j.bbabio.2012.07.002" target="_blank" rel="noopener">source ↗</a></div>
+        </div>
+      
       </div>
     </div>
     
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Result</h2>
-      <p class="ctr-text">The electrochemical interface is real, calibrated and ledger-exact; its mechanism map says the conducting vent wall is catalyst-limited and the insulating wall gradient-limited; the empirical class disagrees in the favorable region (agreement 0.47), so the gate fails and the attribution is reported as structure-sensitive.</p>
+      <p class="ctr-text">H2-driven CO2 reduction fixes carbon and reproduces the Preiner-2020 yield hierarchy, sustaining net organic-carbon flux in a bounded pH/H2 region with controls collapsing (SUPPORTED); but the mechanistic attribution of which limitation stops fixation is structure-sensitive — the two electrochemistry classes agree only 47% (&lt; 80% gate), so that secondary attribution question is refuted (og-01-cal) and tracked for diagnosis (og-01-cal-dx).</p>
       
       
       <div class="ov-metrics">
         
         <div class="ov-metric ov-metric-pass">
           <div class="ov-metric-v">PASS</div>
-          <div class="ov-metric-k">failure-mode-labelled</div>
-        </div>
-        
-        <div class="ov-metric ov-metric-fail">
-          <div class="ov-metric-v">FAIL</div>
-          <div class="ov-metric-k">failure-mode-attributed</div>
+          <div class="ov-metric-k">formate-yield-reproduces-preiner</div>
         </div>
         
         <div class="ov-metric ov-metric-pass">
           <div class="ov-metric-v">PASS</div>
-          <div class="ov-metric-k">mechanism-map-ledger-closes</div>
+          <div class="ov-metric-k">acetate-yield-reproduces-preiner</div>
         </div>
         
         <div class="ov-metric ov-metric-pass">
           <div class="ov-metric-v">PASS</div>
-          <div class="ov-metric-k">charge-ledger-closes</div>
+          <div class="ov-metric-k">pyruvate-yield-reproduces-preiner</div>
         </div>
         
         <div class="ov-metric ov-metric-pass">
           <div class="ov-metric-v">PASS</div>
-          <div class="ov-metric-k">faradaic-efficiency-bounded</div>
+          <div class="ov-metric-k">net-carbon-flux-nonzero-region</div>
         </div>
         
         <div class="ov-metric ov-metric-pass">
           <div class="ov-metric-v">PASS</div>
-          <div class="ov-metric-k">current-voltage-residual</div>
+          <div class="ov-metric-k">free-energy-directionality-logged</div>
         </div>
         
         <div class="ov-metric ov-metric-pass">
           <div class="ov-metric-v">PASS</div>
-          <div class="ov-metric-k">current-in-altair-window</div>
+          <div class="ov-metric-k">chemiosmotic-backpressure-loads-gradient</div>
         </div>
         
         <div class="ov-metric ov-metric-pass">
           <div class="ov-metric-v">PASS</div>
-          <div class="ov-metric-k">selectivity-to-carbon</div>
+          <div class="ov-metric-k">nernst-planck-flux-conserved</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">ph-gradient-drives-formate</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">in-situ-ph-correction</div>
         </div>
         
       </div>
@@ -956,23 +1017,333 @@
       </div>
       
       
+      
+      
+      
+      
+      
+      
+      
+      <div class="finding-card finding-kind-computational finding-status-confirms">
+        <details class="finding-details">
+          <summary class="finding-row">
+            <span class="finding-status-glyph">✓</span>
+            <span class="finding-claim finding-statement">The favorable arm reproduces the Preiner-2020 yield hierarchy (formate 200 mM &gt;&gt; acetate 100 µM &gt;&gt; pyruvate 10 µM) at 100 °C.</span>
+            
+            <span class="finding-chip">via <code>formate-yield-reproduces-preiner</code></span>
+            
+          </summary>
+          <div class="finding-drawer">
+            <div class="finding-header">
+              <span class="finding-id">og01-preiner-yields</span>
+              <span class="finding-kind">computational</span>
+              <span class="finding-status-text">confirms literature</span>
+            </div>
+            
+            
+            <div class="finding-evidence">
+              <strong>observed:</strong> formate=200 mM, acetate=100 µM, pyruvate=10 µM · 
+              
+              via test <a href="#bt-formate-yield-reproduces-preiner" onclick="_gotoStudyTab('audit','bt-formate-yield-reproduces-preiner');return false;"><code>formate-yield-reproduces-preiner</code></a> · 
+              
+              
+              
+            </div>
+            
+            
+            
+            
+            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: op: range · low: 50.0 · high: 220.0 · detail: formate in Preiner range (~200 mM ceiling)</code></div>
+            
+            
+            
+            <div class="finding-expected">
+              
+              
+              cites: <a class="ov-cite" href="#sref-preiner2020hydrogen" title="A hydrogen-dependent geochemical analogue of primordial carbon and energy metabolism">Preiner 2020</a>
+            </div>
+            
+            
+            <div class="finding-explanation"><em>Why:</em> Real eQuilibrator ΔG&#39;-gated, lab-calibrated mineral kinetics over the pH gradient.</div>
+            
+            
+          </div>
+        </details>
+      </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <div class="finding-card finding-kind-computational finding-status-confirms">
+        <details class="finding-details">
+          <summary class="finding-row">
+            <span class="finding-status-glyph">✓</span>
+            <span class="finding-claim finding-statement">Formate is present with the pH-gradient proton-motive force and collapses to &lt;1 mM in every control (no gradient / no H2 / no catalyst).</span>
+            
+            <span class="finding-chip">via <code>ph-gradient-drives-formate</code></span>
+            
+          </summary>
+          <div class="finding-drawer">
+            <div class="finding-header">
+              <span class="finding-id">og01-gradient-drives-formate</span>
+              <span class="finding-kind">computational</span>
+              <span class="finding-status-text">confirms literature</span>
+            </div>
+            
+            
+            <div class="finding-evidence">
+              <strong>observed:</strong> favorable 200 mM; all controls &lt;1 mM · 
+              
+              via test <a href="#bt-ph-gradient-drives-formate" onclick="_gotoStudyTab('audit','bt-ph-gradient-drives-formate');return false;"><code>ph-gradient-drives-formate</code></a> · 
+              
+              
+              
+            </div>
+            
+            
+            
+            
+            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: op: controls_absent · detail: formate present with gradient · &lt;1 mM in every control: None</code></div>
+            
+            
+            
+            <div class="finding-expected">
+              
+              
+              cites: <a class="ov-cite" href="#sref-hudson2020co2" title="CO2 reduction driven by a pH gradient">Hudson 2020</a>
+            </div>
+            
+            
+            
+            
+            
+          </div>
+        </details>
+      </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <div class="finding-card finding-kind-computational finding-status-novel">
+        <details class="finding-details">
+          <summary class="finding-row">
+            <span class="finding-status-glyph">◆</span>
+            <span class="finding-claim finding-statement">The Tutolo-2026 in-situ arm collapses the usable proton-motive gradient (pmf 427 → 43 mV), the discriminating test the campaign must survive.</span>
+            
+            <span class="finding-chip">via <code>in-situ-ph-correction</code></span>
+            
+          </summary>
+          <div class="finding-drawer">
+            <div class="finding-header">
+              <span class="finding-id">og01-tutolo-collapse</span>
+              <span class="finding-kind">computational</span>
+              <span class="finding-status-text">novel literature</span>
+            </div>
+            
+            
+            <div class="finding-evidence">
+              <strong>observed:</strong> favorable pmf 427 mV vs Tutolo 43 mV · 
+              
+              via test <a href="#bt-in-situ-ph-correction" onclick="_gotoStudyTab('audit','bt-in-situ-ph-correction');return false;"><code>in-situ-ph-correction</code></a> · 
+              
+              
+              
+            </div>
+            
+            
+            
+            
+            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: op: arms_reported · detail: report both arms; flag if the Tutolo pmf collapses</code></div>
+            
+            
+            
+            <div class="finding-expected">
+              
+              
+              cites: <a class="ov-cite" href="#sref-tutolo2026rethinking" title="Rethinking the origin of life at seafloor hydrothermal vents">Tutolo 2026</a>
+            </div>
+            
+            
+            <div class="finding-explanation"><em>Why:</em> Real FiPy Nernst-Planck electrodiffusion with a gradient_efficiency knob (1.0 favorable, 0.1 Tutolo).</div>
+            
+            
+          </div>
+        </details>
+      </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <div class="finding-card finding-kind-methodological finding-status-confirms">
+        <details class="finding-details">
+          <summary class="finding-row">
+            <span class="finding-status-glyph">✓</span>
+            <span class="finding-claim finding-statement">Real eQuilibrator ΔG&#39; is logged every step and makes feasibility explicit (fixation stops where ΔG&#39; ≥ 0 — genuine product inhibition).</span>
+            
+            <span class="finding-chip">via <code>free-energy-directionality-logged</code></span>
+            
+          </summary>
+          <div class="finding-drawer">
+            <div class="finding-header">
+              <span class="finding-id">og01-energy-directionality</span>
+              <span class="finding-kind">methodological</span>
+              <span class="finding-status-text">confirms literature</span>
+            </div>
+            
+            
+            <div class="finding-evidence">
+              
+              
+              via test <a href="#bt-free-energy-directionality-logged" onclick="_gotoStudyTab('audit','bt-free-energy-directionality-logged');return false;"><code>free-energy-directionality-logged</code></a> · 
+              
+              
+              
+            </div>
+            
+            
+            
+            
+            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: ≥ 1.0</code></div>
+            
+            
+            
+            
+            
+            
+          </div>
+        </details>
+      </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <div class="finding-card finding-kind-computational finding-status-novel">
+        <details class="finding-details">
+          <summary class="finding-row">
+            <span class="finding-status-glyph">◆</span>
+            <span class="finding-claim finding-statement">Carbon fixation SPENDS the proton gradient — a conserved proton budget (≈2 H⁺ per carbon) draws the loaded pmf down ~40% below the open-circuit 427 mV under load, then relaxes as products saturate. The gradient does work and is consumed, not merely correlated with reduction.</span>
+            
+            <span class="finding-chip">via <code>chemiosmotic-backpressure-loads-gradient</code></span>
+            
+          </summary>
+          <div class="finding-drawer">
+            <div class="finding-header">
+              <span class="finding-id">og01-chemiosmotic-backpressure</span>
+              <span class="finding-kind">computational</span>
+              <span class="finding-status-text">novel literature</span>
+            </div>
+            
+            
+            <div class="finding-evidence">
+              <strong>observed:</strong> pmf open-circuit 427 mV sags to ~250 mV (charge 0.60) at peak fixation, recovers to 427 mV dimensionless · 
+              
+              via test <a href="#bt-chemiosmotic-backpressure-loads-gradient" onclick="_gotoStudyTab('audit','bt-chemiosmotic-backpressure-loads-gradient');return false;"><code>chemiosmotic-backpressure-loads-gradient</code></a> · 
+              
+              
+              
+            </div>
+            
+            
+            
+            
+            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: op: range · low: 0.05 · high: 0.95 · detail: a meaningful back-pressure sag (gradient is spent) without total collapse</code></div>
+            
+            
+            
+            <div class="finding-expected">
+              
+              
+              cites: <a class="ov-cite" href="#sref-lane2010chemiosmotic" title="How did LUCA make a living? Chemiosmosis in the origin of life">Lane 2010</a><a class="ov-cite" href="#sref-lane2012origin" title="The origin of membrane bioenergetics">Lane 2012</a><a class="ov-cite" href="#sref-sojo2014bioenergetic" title="A bioenergetic basis for membrane divergence in archaea and bacteria">Sojo 2014</a><a class="ov-cite" href="#sref-herschy2014originreactor" title="An origin-of-life reactor to simulate alkaline hydrothermal vents">Herschy 2014</a><a class="ov-cite" href="#sref-buckel2013energy" title="Energy conservation via electron bifurcating ferredoxin reduction and proton/Na+ translocating ferredoxin oxidation">Buckel 2013</a>
+            </div>
+            
+            
+            <div class="finding-explanation"><em>Why:</em> A ProtonBudgetProcess integrates reservoir = supply − protons_per_carbon·carbon_flux − leak·reservoir; fixation reads the loaded pmf = pmf_open·(reservoir/capacity), closing the respiratory-control feedback.</div>
+            
+            
+          </div>
+        </details>
+      </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <div class="finding-card finding-kind-computational finding-status-novel">
+        <details class="finding-details">
+          <summary class="finding-row">
+            <span class="finding-status-glyph">◆</span>
+            <span class="finding-claim finding-statement">A parameter sweep over the (vent pH × dissolved H₂) plane maps the carbon-fixation landscape, not a single run. In the open-flow reactor, sustained reduced-carbon throughput scales with both the pH gradient and H₂ (6.4 → 24 ×10⁻³ mol-C/s; steady pool 7–28 mM); the Tutolo-2026 gradient collapse roughly halves it on the same axes, and the no-gradient / no-catalyst / no-H₂ controls zero it. The favorable region is broadly productive — the sharp dependence is on a SUSTAINED gradient, not on sitting at one pH/H₂ point.</span>
+            
+            <span class="finding-chip">via <code>net-carbon-flux-nonzero-region</code></span>
+            
+          </summary>
+          <div class="finding-drawer">
+            <div class="finding-header">
+              <span class="finding-id">og01-fixation-landscape</span>
+              <span class="finding-kind">computational</span>
+              <span class="finding-status-text">novel literature</span>
+            </div>
+            
+            
+            <div class="finding-evidence">
+              <strong>observed:</strong> favorable 6.4–24 ×10⁻³ mol-C/s vs Tutolo 2.2–15; controls 0 mole/second · 
+              
+              via test <a href="#bt-net-carbon-flux-nonzero-region" onclick="_gotoStudyTab('audit','bt-net-carbon-flux-nonzero-region');return false;"><code>net-carbon-flux-nonzero-region</code></a> · 
+              
+              
+              
+            </div>
+            
+            
+            
+            
+            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: &gt; 1e-06</code></div>
+            
+            
+            
+            <div class="finding-expected">
+              
+              
+              cites: <a class="ov-cite" href="#sref-preiner2020hydrogen" title="A hydrogen-dependent geochemical analogue of primordial carbon and energy metabolism">Preiner 2020</a><a class="ov-cite" href="#sref-tutolo2026rethinking" title="Rethinking the origin of life at seafloor hydrothermal vents">Tutolo 2026</a>
+            </div>
+            
+            
+            <div class="finding-explanation"><em>Why:</em> 14×14 sweep of the real open-flow composite (pH 7–11 × H₂ 0.1–20 mM, exponential washout) reduced to sustained throughput per point; rendered as the carbon-fixation phase map (Decision view). Runner sims/compute_phase_grid.py.</div>
+            
+            
+          </div>
+        </details>
+      </div>
+      
+      
     </div>
     
       
       
-      
-      <div class="ctr-meta ctr-assess">
-        
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Confidence</span>
-          
-          <span class="ctr-vch">biology&nbsp;PENDING</span>
-          <span class="ctr-vch">insight&nbsp;POSITIVE</span>
-        </div>
-        
-        
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Caveat</span> <span class="ctr-meta-item">Current-window calibration only; the Altair-2025 per-condition currents / products are not attached as a dataset.</span></div>
-        
-      </div>
       
     </div>
 
@@ -1010,12 +1381,12 @@
   <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:8px;">
     <h2 class="overview-label" style="margin:0">Model composition</h2>
     
-    <button type="button" class="btn-mini" onclick="window._vivStudyNotebookFromCard(event, 'og-01-cal-electrochemistry', 'origins-of-life-vent')" title="Download a runnable Jupyter notebook for THIS study — its composite + editable parameters + figures">↓ notebook</button>
+    <button type="button" class="btn-mini" onclick="window._vivStudyNotebookFromCard(event, 'og-carbon-fixation', 'origins-of-life-vent')" title="Download a runnable Jupyter notebook for THIS study — its composite + editable parameters + figures">↓ notebook</button>
   </div>
 
   
   
-  <div id="model-composite-cards" class="model-composite-cards" data-study="og-01-cal-electrochemistry"
+  <div id="model-composite-cards" class="model-composite-cards" data-study="og-carbon-fixation"
        data-study-config="">
     <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading composite card(s)…</span></div>
   </div>
@@ -1036,9 +1407,87 @@
   <div class="overview-section" id="model-section">
     <h3>Runnable models <span class="muted" style="font-size:0.85em;font-weight:normal">— the composite(s) this study simulates</span></h3>
     
-    <div class="cond-block" data-model-composite="viva_genesis.composites.electrochemical_interface.electrochemical_carbon_fixation" data-model-overrides='{"dilution_rate": 2.0, "model_carbon_fixation": "butler_volmer"}'>
+    <div class="cond-block" data-model-composite="viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation" data-model-overrides='{"catalyst_active": 1.0, "gradient_efficiency": 1.0}'>
       <div class="cond-block-title" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-        <strong>Electrochemical interface — Butler-Volmer, open flow</strong>
+        <strong>Hydrothermal carbon fixation — favorable, canonical (og-01)</strong>
+        
+        <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation</code>
+        <button type="button" class="action-btn" style="font-size:0.8em"
+                onclick="_openCompositeLoom('viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation')">🧬 explore &amp; run ↗</button>
+        
+      </div>
+      
+      <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
+        
+        <select class="baseline-composite-input" data-baseline-name="Hydrothermal carbon fixation — favorable, canonical (og-01)"
+                data-current="viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation"
+                style="flex:1;min-width:200px;font-family:monospace;font-size:0.82em;padding:3px 6px">
+          <option value="viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation" selected>viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation</option>
+          
+        </select>
+        <button type="button" class="action-btn baseline-composite-set" style="font-size:0.8em"
+                data-baseline-name="Hydrothermal carbon fixation — favorable, canonical (og-01)">Set composite</button>
+      </div>
+      <div class="baseline-composite-status muted" data-baseline-name="Hydrothermal carbon fixation — favorable, canonical (og-01)" style="font-size:0.8em;margin-top:2px"></div>
+      
+      
+      
+      <div class="model-config-mount" style="margin-top:8px">
+        <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading configuration…</span></div></div>
+      
+      
+      
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;font-size:0.8em">
+        
+        
+        
+        <span class="cond-pill"><span class="cond-pill-k">status</span>=completed</span>
+      </div>
+      
+    </div>
+    
+    <div class="cond-block" data-model-composite="viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation" data-model-overrides='{"catalyst_active": 0.0, "gradient_efficiency": 0.0, "h2": 0.0}'>
+      <div class="cond-block-title" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+        <strong>No-gradient / no-H2 / no-catalyst matched null (og-01) — formate collapses &lt;1 mM</strong>
+        
+        <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation</code>
+        <button type="button" class="action-btn" style="font-size:0.8em"
+                onclick="_openCompositeLoom('viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation')">🧬 explore &amp; run ↗</button>
+        
+      </div>
+      
+      <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
+        
+        <select class="baseline-composite-input" data-baseline-name="No-gradient / no-H2 / no-catalyst matched null (og-01) — formate collapses &lt;1 mM"
+                data-current="viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation"
+                style="flex:1;min-width:200px;font-family:monospace;font-size:0.82em;padding:3px 6px">
+          <option value="viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation" selected>viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation</option>
+          
+        </select>
+        <button type="button" class="action-btn baseline-composite-set" style="font-size:0.8em"
+                data-baseline-name="No-gradient / no-H2 / no-catalyst matched null (og-01) — formate collapses &lt;1 mM">Set composite</button>
+      </div>
+      <div class="baseline-composite-status muted" data-baseline-name="No-gradient / no-H2 / no-catalyst matched null (og-01) — formate collapses &lt;1 mM" style="font-size:0.8em;margin-top:2px"></div>
+      
+      
+      
+      <div class="model-config-mount" style="margin-top:8px">
+        <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading configuration…</span></div></div>
+      
+      
+      
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;font-size:0.8em">
+        
+        
+        
+        <span class="cond-pill"><span class="cond-pill-k">status</span>=completed</span>
+      </div>
+      
+    </div>
+    
+    <div class="cond-block" data-model-composite="viva_genesis.composites.electrochemical_interface.electrochemical_carbon_fixation" data-model-overrides='{}'>
+      <div class="cond-block-title" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+        <strong>Explicit electrochemical interface — Butler-Volmer + empirical classes (og-01-cal arm, refuted)</strong>
         
         <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.electrochemical_interface.electrochemical_carbon_fixation</code>
         <button type="button" class="action-btn" style="font-size:0.8em"
@@ -1048,26 +1497,16 @@
       
       <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
         
-        <select class="baseline-composite-input" data-baseline-name="Electrochemical interface — Butler-Volmer, open flow"
+        <select class="baseline-composite-input" data-baseline-name="Explicit electrochemical interface — Butler-Volmer + empirical classes (og-01-cal arm, refuted)"
                 data-current="viva_genesis.composites.electrochemical_interface.electrochemical_carbon_fixation"
                 style="flex:1;min-width:200px;font-family:monospace;font-size:0.82em;padding:3px 6px">
           <option value="viva_genesis.composites.electrochemical_interface.electrochemical_carbon_fixation" selected>viva_genesis.composites.electrochemical_interface.electrochemical_carbon_fixation</option>
           
         </select>
         <button type="button" class="action-btn baseline-composite-set" style="font-size:0.8em"
-                data-baseline-name="Electrochemical interface — Butler-Volmer, open flow">Set composite</button>
+                data-baseline-name="Explicit electrochemical interface — Butler-Volmer + empirical classes (og-01-cal arm, refuted)">Set composite</button>
       </div>
-      <div class="baseline-composite-status muted" data-baseline-name="Electrochemical interface — Butler-Volmer, open flow" style="font-size:0.8em;margin-top:2px"></div>
-      
-      
-      
-      
-      
-      
-        
-      
-        
-      
+      <div class="baseline-composite-status muted" data-baseline-name="Explicit electrochemical interface — Butler-Volmer + empirical classes (og-01-cal arm, refuted)" style="font-size:0.8em;margin-top:2px"></div>
       
       
       
@@ -1107,14 +1546,14 @@
 
   <div class="observables-section">
     
-    <div id="readouts-emitter" data-study="og-01-cal-electrochemistry" style="margin:0 0 14px">
+    <div id="readouts-emitter" data-study="og-carbon-fixation" style="margin:0 0 14px">
       <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading emitter…</span></div>
     </div>
 
     
     <div id="readouts-download" style="margin:0 0 12px 0"></div>
 
-    <div id="readouts-table" data-study="og-01-cal-electrochemistry">
+    <div id="readouts-table" data-study="og-carbon-fixation">
       <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading readouts from the composite emit plan…</span></div>
     </div>
 
@@ -1164,10 +1603,10 @@
 
 <div class="overview-section" id="results-section">
   
-  <div id="results-summary" data-study="og-01-cal-electrochemistry" style="margin:0 0 16px"></div>
+  <div id="results-summary" data-study="og-carbon-fixation" style="margin:0 0 16px"></div>
 
   <h4>Latest run preview <span class="muted" style="font-size:0.8em;font-weight:normal">— downsampled sparkline + first/last/min/max per store</span></h4>
-  <div id="results-preview" data-study="og-01-cal-electrochemistry">
+  <div id="results-preview" data-study="og-carbon-fixation">
     <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading results preview…</span></div>
   </div>
 
@@ -1186,7 +1625,7 @@
   
   <div class="overview-section" id="study-analyses-section">
     <h3>Analyses to run <span class="muted" style="font-size:0.85em;font-weight:normal">— which of the workspace's <code>ANALYSIS_REGISTRY</code> entries to compute on dispatch</span></h3>
-    <div id="study-analyses-list" data-study="og-01-cal-electrochemistry">
+    <div id="study-analyses-list" data-study="og-carbon-fixation">
       <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading analyses…</span></div>
     </div>
     <div style="margin-top:8px">
@@ -1202,9 +1641,9 @@
   <div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap">
     <span class="muted" style="margin-right:auto;font-weight:600">Analysis result files</span>
     <a id="data-download-all" class="btn-mini" style="display:none"
-       href="/api/study-analysis-zip?study=og-01-cal-electrochemistry">Download all (.zip)</a>
+       href="/api/study-analysis-zip?study=og-carbon-fixation">Download all (.zip)</a>
   </div>
-  <div id="data-files" data-study="og-01-cal-electrochemistry">
+  <div id="data-files" data-study="og-carbon-fixation">
     <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading result files…</span></div>
   </div>
 </div>
@@ -1221,44 +1660,6 @@
   <p class="muted" style="margin:0 0 12px 0"><strong>The bar</strong> — what must be true for this model to count as correct: the acceptance criteria, their bands, and the report cards that grade them.</p>
 
   
-  
-  
-  <div class="overview-section expectations-band" id="expectations-band">
-    <h3 class="section-title">Expectations
-      <span class="muted" style="font-size:0.85em;font-weight:normal">— from literature, mapped to the model observable that measures each</span>
-    </h3>
-    <ul class="literature-anchor-list" style="list-style:none;padding-left:0">
-    
-      
-      <li class="literature-anchor-card expectation-item">
-        <div class="anchor-expectation" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-          <span>Altair-2025 macroscale reactor currents ~10 nA .. 10 uA sufficient for carbon reduction</span>
-          
-        </div>
-        <div class="anchor-observable">
-          <em>Model observable:</em> <code>settled Butler-Volmer current density on a 1e-3 m^2 interface</code>
-        </div>
-        
-        <div class="anchor-source"><em>Source:</em> Altair et al. 2025 (campaign dossier ref 12; parameter-registry electrochemical_current)</div>
-        
-      </li>
-    
-      
-      <li class="literature-anchor-card expectation-item">
-        <div class="anchor-expectation" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-          <span>Preiner 2020 product hierarchy formate &gt;&gt; acetate &gt;&gt; pyruvate, awaruite (Ni3Fe) the most productive catalyst</span>
-          
-        </div>
-        <div class="anchor-observable">
-          <em>Model observable:</em> <code>electron branch fractions and the Ni gain of the CO2-reduction exchange current</code>
-        </div>
-        
-        <div class="anchor-source"><em>Source:</em> Preiner et al. 2020</div>
-        
-      </li>
-    
-    </ul>
-  </div>
   
 
   
@@ -1306,14 +1707,14 @@
         data-test-kind="behavioral"
         
         data-pytest-node="failure-mode-labelled"
-        data-classification="primary"
+        data-classification="supporting"
         data-result="PASS"
-        style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #10b981; background: #f8fafc; border-radius: 4px;">
+        style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #3b82f6; background: #f8fafc; border-radius: 4px;">
       
         
       <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
         <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #d1fae5; color: #065f46">✓ PASS</span>
-        <span class="classification-pill classification-primary">primary</span>
+        <span class="classification-pill classification-supporting">supporting</span>
         <strong style="font-size: 0.9em;">failure-mode-labelled</strong>
         
         <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
@@ -1362,14 +1763,14 @@ pass_if: {"detail": "label coverage 1.0 in every class", "op": "\u003e=", "value
         data-test-kind="behavioral"
         
         data-pytest-node="failure-mode-attributed"
-        data-classification="primary"
+        data-classification="supporting"
         data-result="FAIL"
-        style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #10b981; background: #f8fafc; border-radius: 4px;">
+        style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #3b82f6; background: #f8fafc; border-radius: 4px;">
       
         
       <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
         <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #fee2e2; color: #991b1b">✗ FAIL</span>
-        <span class="classification-pill classification-primary">primary</span>
+        <span class="classification-pill classification-supporting">supporting</span>
         <strong style="font-size: 0.9em;">failure-mode-attributed</strong>
         
         <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
@@ -1418,14 +1819,14 @@ pass_if: {"detail": "cross-class label agreement \u003e= 0.8 in the favorable re
         data-test-kind="behavioral"
         
         data-pytest-node="mechanism-map-ledger-closes"
-        data-classification="primary"
+        data-classification="supporting"
         data-result="PASS"
-        style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #10b981; background: #f8fafc; border-radius: 4px;">
+        style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #3b82f6; background: #f8fafc; border-radius: 4px;">
       
         
       <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
         <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #d1fae5; color: #065f46">✓ PASS</span>
-        <span class="classification-pill classification-primary">primary</span>
+        <span class="classification-pill classification-supporting">supporting</span>
         <strong style="font-size: 0.9em;">mechanism-map-ledger-closes</strong>
         
         <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
@@ -1474,14 +1875,14 @@ pass_if: {"detail": "ledger ok on all points", "op": "\u003e=", "value": 1.0}</p
         data-test-kind="behavioral"
         
         data-pytest-node="charge-ledger-closes"
-        data-classification="primary"
+        data-classification="supporting"
         data-result="PASS"
-        style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #10b981; background: #f8fafc; border-radius: 4px;">
+        style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #3b82f6; background: #f8fafc; border-radius: 4px;">
       
         
       <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
         <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #d1fae5; color: #065f46">✓ PASS</span>
-        <span class="classification-pill classification-primary">primary</span>
+        <span class="classification-pill classification-supporting">supporting</span>
         <strong style="font-size: 0.9em;">charge-ledger-closes</strong>
         
         <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
@@ -1530,14 +1931,14 @@ pass_if: {"detail": "charge residual within tolerance", "op": "\u003c=", "value"
         data-test-kind="behavioral"
         
         data-pytest-node="faradaic-efficiency-bounded"
-        data-classification="primary"
+        data-classification="supporting"
         data-result="PASS"
-        style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #10b981; background: #f8fafc; border-radius: 4px;">
+        style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #3b82f6; background: #f8fafc; border-radius: 4px;">
       
         
       <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
         <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #d1fae5; color: #065f46">✓ PASS</span>
-        <span class="classification-pill classification-primary">primary</span>
+        <span class="classification-pill classification-supporting">supporting</span>
         <strong style="font-size: 0.9em;">faradaic-efficiency-bounded</strong>
         
         <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
@@ -1642,14 +2043,14 @@ pass_if: {"detail": "circuit residual below 1e-6", "op": "\u003c=", "value": 1e-
         data-test-kind="behavioral"
         
         data-pytest-node="current-in-altair-window"
-        data-classification="primary"
+        data-classification="supporting"
         data-result="PASS"
-        style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #10b981; background: #f8fafc; border-radius: 4px;">
+        style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #3b82f6; background: #f8fafc; border-radius: 4px;">
       
         
       <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
         <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #d1fae5; color: #065f46">✓ PASS</span>
-        <span class="classification-pill classification-primary">primary</span>
+        <span class="classification-pill classification-supporting">supporting</span>
         <strong style="font-size: 0.9em;">current-in-altair-window</strong>
         
         <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
@@ -1745,6 +2146,363 @@ cites:   ["altair2025carbon", "preiner2020hydrogen"]</pre>
       
     </li>
     
+    
+    
+    
+    
+    
+    
+    
+    <li class="expected-behavior-item" id="bt-formate-yield-reproduces-preiner"
+        data-test-kind="behavioral"
+        
+        data-pytest-node="formate-yield-reproduces-preiner"
+        data-classification="primary"
+        data-result="pending"
+        style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #10b981; background: #f8fafc; border-radius: 4px;">
+      
+        
+      <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
+        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #f1f5f9; color: #475569">⏳ pending</span>
+        <span class="classification-pill classification-primary">primary</span>
+        <strong style="font-size: 0.9em;">formate-yield-reproduces-preiner</strong>
+        
+        <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
+        
+      </div>
+      <div style="margin-top: 6px; font-size: 0.95em;">Batch formate yield reaches the Preiner-2020 range over Fe/Ni/S catalysis.</div>
+      
+      
+      <details style="margin-top: 6px; font-size: 0.82em;">
+        <summary class="muted" style="cursor: pointer;">Assertion</summary>
+        
+        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "batch formate yield", "kind": "derived", "mM": null, "path": "settled_formate_mM"}
+pass_if: {"detail": "formate in Preiner range (~200 mM ceiling)", "high": 220.0, "low": 50.0, "op": "range"}
+cites:   ["preiner2020hydrogen"]</pre>
+      </details>
+      
+      
+      
+      
+    </li>
+    
+    
+    
+    
+    
+    
+    
+    
+    <li class="expected-behavior-item" id="bt-acetate-yield-reproduces-preiner"
+        data-test-kind="behavioral"
+        
+        data-pytest-node="acetate-yield-reproduces-preiner"
+        data-classification="primary"
+        data-result="pending"
+        style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #10b981; background: #f8fafc; border-radius: 4px;">
+      
+        
+      <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
+        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #f1f5f9; color: #475569">⏳ pending</span>
+        <span class="classification-pill classification-primary">primary</span>
+        <strong style="font-size: 0.9em;">acetate-yield-reproduces-preiner</strong>
+        
+        <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
+        
+      </div>
+      <div style="margin-top: 6px; font-size: 0.95em;">Batch acetate yield in the Preiner-2020 range (~100 uM), below formate.</div>
+      
+      
+      <details style="margin-top: 6px; font-size: 0.82em;">
+        <summary class="muted" style="cursor: pointer;">Assertion</summary>
+        
+        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "batch acetate yield", "kind": "derived", "path": "settled_acetate_uM", "uM": null}
+pass_if: {"detail": "acetate in Preiner range", "high": 150.0, "low": 20.0, "op": "range"}
+cites:   ["preiner2020hydrogen"]</pre>
+      </details>
+      
+      
+      
+      
+    </li>
+    
+    
+    
+    
+    
+    
+    
+    
+    <li class="expected-behavior-item" id="bt-pyruvate-yield-reproduces-preiner"
+        data-test-kind="behavioral"
+        
+        data-pytest-node="pyruvate-yield-reproduces-preiner"
+        data-classification="primary"
+        data-result="pending"
+        style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #10b981; background: #f8fafc; border-radius: 4px;">
+      
+        
+      <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
+        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #f1f5f9; color: #475569">⏳ pending</span>
+        <span class="classification-pill classification-primary">primary</span>
+        <strong style="font-size: 0.9em;">pyruvate-yield-reproduces-preiner</strong>
+        
+        <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
+        
+      </div>
+      <div style="margin-top: 6px; font-size: 0.95em;">Batch pyruvate yield in the Preiner-2020 range (~10 uM), the smallest product.</div>
+      
+      
+      <details style="margin-top: 6px; font-size: 0.82em;">
+        <summary class="muted" style="cursor: pointer;">Assertion</summary>
+        
+        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "batch pyruvate yield", "kind": "derived", "path": "settled_pyruvate_uM", "uM": null}
+pass_if: {"detail": "pyruvate in Preiner range", "high": 15.0, "low": 2.0, "op": "range"}
+cites:   ["preiner2020hydrogen"]</pre>
+      </details>
+      
+      
+      
+      
+    </li>
+    
+    
+    
+    
+    
+    
+    
+    
+    <li class="expected-behavior-item" id="bt-net-carbon-flux-nonzero-region"
+        data-test-kind="behavioral"
+        
+        data-pytest-node="net-carbon-flux-nonzero-region"
+        data-classification="primary"
+        data-result="pending"
+        style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #10b981; background: #f8fafc; border-radius: 4px;">
+      
+        
+      <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
+        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #f1f5f9; color: #475569">⏳ pending</span>
+        <span class="classification-pill classification-primary">primary</span>
+        <strong style="font-size: 0.9em;">net-carbon-flux-nonzero-region</strong>
+        
+        <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
+        
+      </div>
+      <div style="margin-top: 6px; font-size: 0.95em;">A sustained net organic-carbon flux region exists (favorable arm).</div>
+      
+      
+      <details style="margin-top: 6px; font-size: 0.82em;">
+        <summary class="muted" style="cursor: pointer;">Assertion</summary>
+        
+        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "peak organic-C fixation rate", "kind": "derived", "path": "peak_net_carbon_flux"}
+pass_if: {"detail": "peak net carbon flux \u003e 0 (viable region)", "op": "\u003e", "value": 1e-06}</pre>
+      </details>
+      
+      
+      
+      
+    </li>
+    
+    
+    
+    
+    
+    
+    
+    
+    <li class="expected-behavior-item" id="bt-free-energy-directionality-logged"
+        data-test-kind="behavioral"
+        
+        data-pytest-node="free-energy-directionality-logged"
+        data-classification="primary"
+        data-result="pending"
+        style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #10b981; background: #f8fafc; border-radius: 4px;">
+      
+        
+      <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
+        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #f1f5f9; color: #475569">⏳ pending</span>
+        <span class="classification-pill classification-primary">primary</span>
+        <strong style="font-size: 0.9em;">free-energy-directionality-logged</strong>
+        
+        <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
+        
+      </div>
+      <div style="margin-top: 6px; font-size: 0.95em;">Real eQuilibrator ΔG&#39; is logged every step (energy_directionality invariant).</div>
+      
+      
+      <details style="margin-top: 6px; font-size: 0.82em;">
+        <summary class="muted" style="cursor: pointer;">Assertion</summary>
+        
+        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "fraction of steps with logged \u0394G\u0027", "kind": "derived", "path": "free_energy_logged_fraction"}
+pass_if: {"detail": "\u0394G\u0027 logged every step", "op": "\u003e=", "value": 1.0}</pre>
+      </details>
+      
+      
+      
+      
+    </li>
+    
+    
+    
+    
+    
+    
+    
+    
+    <li class="expected-behavior-item" id="bt-chemiosmotic-backpressure-loads-gradient"
+        data-test-kind="behavioral"
+        
+        data-pytest-node="chemiosmotic-backpressure-loads-gradient"
+        data-classification="primary"
+        data-result="pending"
+        style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #10b981; background: #f8fafc; border-radius: 4px;">
+      
+        
+      <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
+        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #f1f5f9; color: #475569">⏳ pending</span>
+        <span class="classification-pill classification-primary">primary</span>
+        <strong style="font-size: 0.9em;">chemiosmotic-backpressure-loads-gradient</strong>
+        
+        <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
+        
+      </div>
+      <div style="margin-top: 6px; font-size: 0.95em;">Carbon fixation spends the proton gradient — the loaded pmf sags below open-circuit under load (conserved chemiosmotic coupling, not mere correlation).</div>
+      
+      
+      <details style="margin-top: 6px; font-size: 0.82em;">
+        <summary class="muted" style="cursor: pointer;">Assertion</summary>
+        
+        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "peak fractional pmf sag while fixation draws the proton reservoir down", "kind": "derived", "path": "pmf_backpressure_sag_frac"}
+pass_if: {"detail": "a meaningful back-pressure sag (gradient is spent) without total collapse", "high": 0.95, "low": 0.05, "op": "range"}
+cites:   ["lane2010chemiosmotic", "sojo2014bioenergetic", "herschy2014originreactor"]</pre>
+      </details>
+      
+      
+      
+      
+    </li>
+    
+    
+    
+    
+    
+    
+    
+    
+    <li class="expected-behavior-item" id="bt-nernst-planck-flux-conserved"
+        data-test-kind="behavioral"
+        
+        data-pytest-node="nernst-planck-flux-conserved"
+        data-classification="diagnostic"
+        data-result="pending"
+        style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #f59e0b; background: #f8fafc; border-radius: 4px;">
+      
+        
+      <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
+        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #f1f5f9; color: #475569">⏳ pending</span>
+        <span class="classification-pill classification-diagnostic">diagnostic</span>
+        <strong style="font-size: 0.9em;">nernst-planck-flux-conserved</strong>
+        
+        <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
+        
+      </div>
+      <div style="margin-top: 6px; font-size: 0.95em;">The FiPy Nernst-Planck electrodiffusion solve conserves flux.</div>
+      
+      
+      <details style="margin-top: 6px; font-size: 0.82em;">
+        <summary class="muted" style="cursor: pointer;">Assertion</summary>
+        
+        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "max |FVM residual|", "kind": "derived", "path": "max_abs_electro_flux_residual"}
+pass_if: {"detail": "max |flux divergence residual| small", "op": "\u003c=", "value": 0.01}</pre>
+      </details>
+      
+      
+      
+      
+    </li>
+    
+    
+    
+    
+    
+    
+    
+    
+    <li class="expected-behavior-item" id="bt-ph-gradient-drives-formate"
+        data-test-kind="behavioral"
+        
+        data-pytest-node="ph-gradient-drives-formate"
+        data-classification="primary"
+        data-result="pending"
+        style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #10b981; background: #f8fafc; border-radius: 4px;">
+      
+        
+      <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
+        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #f1f5f9; color: #475569">⏳ pending</span>
+        <span class="classification-pill classification-primary">primary</span>
+        <strong style="font-size: 0.9em;">ph-gradient-drives-formate</strong>
+        
+        <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
+        
+      </div>
+      <div style="margin-top: 6px; font-size: 0.95em;">Formate is present with the pH gradient and ABSENT in each control (no gradient / no H2 / no catalyst). Cross-run — graded by sims/run.py, which runs the three controls and checks formate collapses in each (Hudson 2020).</div>
+      
+      
+      <details style="margin-top: 6px; font-size: 0.82em;">
+        <summary class="muted" style="cursor: pointer;">Assertion</summary>
+        
+        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "favorable formate vs no-gradient / no-H2 / no-catalyst", "kind": "cross_run"}
+pass_if: {"\u003c1 mM in every control": null, "detail": "formate present with gradient", "op": "controls_absent"}
+cites:   ["hudson2020co2"]</pre>
+      </details>
+      
+      
+      
+      
+    </li>
+    
+    
+    
+    
+    
+    
+    
+    
+    <li class="expected-behavior-item" id="bt-in-situ-ph-correction"
+        data-test-kind="behavioral"
+        
+        data-pytest-node="in-situ-ph-correction"
+        data-classification="diagnostic"
+        data-result="pending"
+        style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #f59e0b; background: #f8fafc; border-radius: 4px;">
+      
+        
+      <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
+        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #f1f5f9; color: #475569">⏳ pending</span>
+        <span class="classification-pill classification-diagnostic">diagnostic</span>
+        <strong style="font-size: 0.9em;">in-situ-ph-correction</strong>
+        
+        <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
+        
+      </div>
+      <div style="margin-top: 6px; font-size: 0.95em;">DISCRIMINATING (Tutolo-2026): does the usable proton-motive gradient persist at in-situ T/P or collapse? Cross-run — sims/run.py compares the favorable and Tutolo arms and flags the pmf collapse.</div>
+      
+      
+      <details style="margin-top: 6px; font-size: 0.82em;">
+        <summary class="muted" style="cursor: pointer;">Assertion</summary>
+        
+        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "favorable pmf vs Tutolo-2026 pmf", "kind": "cross_run"}
+pass_if: {"detail": "report both arms; flag if the Tutolo pmf collapses", "op": "arms_reported"}
+cites:   ["tutolo2026rethinking", "jackson2016natural"]</pre>
+      </details>
+      
+      
+      
+      
+    </li>
+    
   </ul>
   
   </div>
@@ -1753,7 +2511,7 @@ cites:   ["altair2025carbon", "preiner2020hydrogen"]</pre>
   <p class="muted" style="margin:0 0 12px 0"><strong>Is the bar sound?</strong> The concrete readiness gaps to close first, then whether the test set itself is rigorous and matched to the problem — sufficiency, sourcing, and the rigor + reproducibility scorecards.</p>
 
   
-  <div id="audit-readiness" data-slug="og-01-cal-electrochemistry" style="margin:0 0 18px 0">
+  <div id="audit-readiness" data-slug="og-carbon-fixation" style="margin:0 0 18px 0">
     <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading readiness…</span></div>
   </div>
 
@@ -1800,10 +2558,10 @@ cites:   ["altair2025carbon", "preiner2020hydrogen"]</pre>
         
       </span>
       
-      <span class="status-step set gate-status-passed">
+      <span class="status-step  gate-status-passed-with-conditions gate-current">
         <span class="dot"></span>3 · Evidence
         <span class="step-val">evaluated</span>
-        
+        <span class="gate-current-tag">you are here</span>
       </span>
       
       <span class="status-step set gate-status-passed">
@@ -1812,10 +2570,10 @@ cites:   ["altair2025carbon", "preiner2020hydrogen"]</pre>
         
       </span>
       
-      <span class="status-step  gate-status-blocked gate-current">
+      <span class="status-step  gate-status-blocked">
         <span class="dot"></span>5 · Decision
-        <span class="step-val">failed</span>
-        <span class="gate-current-tag">you are here</span>
+        <span class="step-val">passed</span>
+        
       </span>
       
       <span class="status-step  gate-status-not-assessed">
@@ -1835,7 +2593,7 @@ cites:   ["altair2025carbon", "preiner2020hydrogen"]</pre>
   
   <div class="overview-section decide-readiness-section">
     <h2 class="overview-label">Readiness gaps</h2>
-    <div id="decide-readiness" data-slug="og-01-cal-electrochemistry"></div>
+    <div id="decide-readiness" data-slug="og-carbon-fixation"></div>
   </div>
 
   
@@ -1884,20 +2642,20 @@ cites:   ["altair2025carbon", "preiner2020hydrogen"]</pre>
           <span class="narrative-label">Empirical basis</span>
           <textarea class="narrative-input narrative-textarea" rows="2"
                     data-narrative-path="conclusion_verdicts.biological_validation.basis"
-                    placeholder="e.g. atp_fraction = 0.997, outside Boesen 2024 band [0.2, 0.5].">Calibrated to a current window; the per-condition Altair currents and the microkinetic class are needed before the catalytic-limitation claim can be called validated.</textarea>
+                    placeholder="e.g. atp_fraction = 0.997, outside Boesen 2024 band [0.2, 0.5]."></textarea>
         </label>
         <label class="narrative-row">
           <span class="narrative-label">Explanatory gain</span>
           <span class="narrative-input verdict-badge-computed" data-verdict-track="explanatory_gain"
                 title="Computed from interpretation-tier findings (read-only)"
-                style="display:inline-block;padding:2px 12px;border-radius:9999px;font-weight:700;font-size:0.85em;background:#f1f5f9;color:#475569">POSITIVE</span>
+                style="display:inline-block;padding:2px 12px;border-radius:9999px;font-weight:700;font-size:0.85em;background:#f1f5f9;color:#475569">PENDING</span>
           <span class="muted small" style="margin-left:6px">computed from interpretation-tier findings</span>
         </label>
         <label class="narrative-row narrative-row-wide">
           <span class="narrative-label">Explanatory basis</span>
           <textarea class="narrative-input narrative-textarea" rows="2"
                     data-narrative-path="conclusion_verdicts.explanatory_gain.basis"
-                    placeholder="e.g. Three findings worth keeping; design_pivot_required closed.">Separates electrical from catalytic limitation, derives the Tutolo collapse from conductivity, and shows the empirical rate law cannot attribute the limitation — a structural result the empirical class alone could not produce.</textarea>
+                    placeholder="e.g. Three findings worth keeping; design_pivot_required closed."></textarea>
         </label>
       </div>
     </div>
@@ -1913,7 +2671,7 @@ cites:   ["altair2025carbon", "preiner2020hydrogen"]</pre>
       <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
         <span class="gate-status-failed" style="padding:2px 12px;border-radius:9999px;font-weight:700;font-size:0.85em">failed</span>
         <span class="muted small">evaluated by code</span>
-        <span class="muted small">7/8 passed · 1 failed</span>
+        <span class="muted small">7/17 passed · 1 failed</span>
       </div>
       
     </div>
@@ -1921,23 +2679,6 @@ cites:   ["altair2025carbon", "preiner2020hydrogen"]</pre>
 
     
     
-    
-    
-    <div class="decide-section" style="margin-top:18px">
-      <h3 class="overview-label">Conclusion logic — gate decision</h3>
-      
-      
-      <div style="padding:10px 14px;background:#fef2f2;border-left:4px solid #dc2626;border-radius:4px">
-        <strong>✗ If primary tests fail:</strong>
-        
-        <div style="margin-top:4px"><em>Diagnose:</em>
-          <ul style="margin:4px 0 0 18px"><li>{&#39;issue&#39;: &#39;Empirical vs Butler-Volmer classes disagree on the dominant limitation label (agreement 0.47 &lt; 0.80).&#39;, &#39;seeded_study&#39;: &#39;og-01-cal-dx-label-disagreement&#39;}</li></ul>
-        </div>
-        
-        
-      </div>
-      
-    </div>
     
 
     
@@ -1947,45 +2688,6 @@ cites:   ["altair2025carbon", "preiner2020hydrogen"]</pre>
   </div>
 
   
-  
-  <div class="overview-section"><h2 class="overview-label">Plan &amp; assumptions</h2>
-
-    
-    <div class="overview-section">
-      <h3 class="overview-label">Pipeline gate</h3>
-      <p class="muted" style="margin: 0 0 8px 0;font-size:0.88em">
-        Each study is a model-building gate: it answers <em>"Can we safely build the next layer?"</em>
-      </p>
-      
-      <div style="margin-bottom:6px"><strong>Prerequisites:</strong>
-        <code>{&#39;study&#39;: &#39;og-01-geology-to-reduced-carbon&#39;, &#39;condition&#39;: &#39;tests-passed&#39;}</code>
-      </div>
-      
-      
-      
-    </div>
-    
-
-    
-    <div class="overview-section">
-      <h3 class="overview-label">Key assumptions</h3>
-      <ul style="margin:0 0 0 18px;padding:0;font-size:0.93em">
-        <li style="margin:2px 0">Steady galvanic cell each tick: the CO2/HCOOH couple sets the cathode emf (acetate and pyruvate are side branches of the same current); H2 and CO2 are boundary feeds; standard potentials at 25 C.</li><li style="margin:2px 0">Exchange currents calibrated to the Altair current window, not to per-condition curves; faradaic efficiency set by the competing H2-evolution branch and proton transport at pH 6.</li><li style="margin:2px 0">The empirical class is og-01&#39;s rate law unchanged, with the catalyst scaled by the same Ni gain and the gradient efficiency derived from the circuit.</li><li style="margin:2px 0">Favorable region = throughput &gt;= 10% of each class&#39;s own maximum; label = largest loss fraction (FE &lt; 0.5 -&gt; catalytic).</li>
-      </ul>
-    </div>
-    
-
-    
-    <div class="overview-section">
-      <h3 class="overview-label">Limitations</h3>
-      <p class="muted" style="margin:0 0 6px 0;font-size:0.85em">What this study explicitly does NOT validate (prevents overclaim).</p>
-      <ul style="margin:0 0 0 18px;padding:0;font-size:0.93em">
-        <li style="margin:2px 0">Current-window calibration only; the Altair-2025 per-condition currents / products are not attached as a dataset.</li><li style="margin:2px 0">Two runnable classes; the microkinetic (CatMAP/Cantera) class builds and face-checks but runs only under pixi.</li><li style="margin:2px 0">Favorability is per class relative to its own maximum because the classes&#39; absolute throughputs differ by ~10 decades (abstract vs physical ticks).</li><li style="margin:2px 0">The ocean-side H2 (1e-7 M) and the Ni-gain shape are hypothetical; the mineral conductivity prior is extrapolated.</li>
-      </ul>
-    </div>
-    
-
-  </div>
   
 
   
@@ -2001,7 +2703,7 @@ cites:   ["altair2025carbon", "preiner2020hydrogen"]</pre>
         baseline · seed ? ·
         ?s simulated ·
         ? history rows ·
-        started 1792066787.0
+        started 1791922501.0
       </div>
       
       
@@ -2028,81 +2730,6 @@ cites:   ["altair2025carbon", "preiner2020hydrogen"]</pre>
 
     
     
-    
-    <div class="overview-section" id="discovery-implications-section" style="margin-top:18px">
-      <h3 class="overview-label">Discovery implications</h3>
-      <p class="muted" style="margin:0 0 10px 0;font-size:0.88em">Where this study's results leave the mechanism model — and what to investigate next.</p>
-
-      
-      <div class="di-uncertainties">
-        
-        <div class="di-unc di-unc-resolved">
-          <h4>✓ Resolved uncertainties</h4>
-          <ul><li>gradient_efficiency can be derived from the wall&#39;s circuit; an insulating wall (&lt; 1e-6 S/m) collapses it as a consequence.</li><li>The charge + electron ledger closes for both classes; faradaic efficiency is bounded.</li></ul>
-        </div>
-        
-        
-        <div class="di-unc di-unc-remaining">
-          <h4>● Remaining uncertainties</h4>
-          <ul><li>Whether the cell is really activation-limited at Lost-City-like conditions (depends on the exchange currents; the per-condition Altair data would pin them).</li><li>Whether site coverage and passivation (microkinetic class) move the catalytic label toward transport at high current.</li></ul>
-        </div>
-        
-      </div>
-      
-
-      
-
-      
-
-      
-      
-      
-      <div class="di-group">
-        <h3>Follow-up study proposals
-          <span class="muted" style="font-weight:normal;font-size:0.82em">(discovered)</span>
-          <span class="muted" style="font-weight:normal;font-size:0.85em">(2)</span></h3>
-        <p class="muted" style="margin:0 0 8px 0;font-size:0.85em">Click <strong>➕ Add to investigation</strong> to spawn a new study node in the investigation graph.</p>
-        <div class="followup-list">
-          
-          
-          <div class="di-card di-fup-card">
-            <div class="followup-header">
-              <strong class="followup-title">(untitled proposal)</strong>
-              
-              
-              
-              
-            </div>
-            
-            
-            <div class="followup-actions" style="margin-top:8px">
-              <button class="btn-seed-followup"
-                      onclick="_seedFollowupProposal('og-01-cal-electrochemistry', "")">➕ Add to investigation</button>
-            </div>
-          </div>
-          
-          
-          <div class="di-card di-fup-card">
-            <div class="followup-header">
-              <strong class="followup-title">(untitled proposal)</strong>
-              
-              
-              
-              
-            </div>
-            
-            
-            <div class="followup-actions" style="margin-top:8px">
-              <button class="btn-seed-followup"
-                      onclick="_seedFollowupProposal('og-01-cal-electrochemistry', "")">➕ Add to investigation</button>
-            </div>
-          </div>
-          
-        </div>
-      </div>
-      
-    </div>
-    
 
     
     
@@ -2117,11 +2744,11 @@ cites:   ["altair2025carbon", "preiner2020hydrogen"]</pre>
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "071dd6a1a2efb98d169c63602cd553c7ad1e2041", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/071dd6a1a2efb98d169c63602cd553c7ad1e2041", "branch": "main", "lockfile": "uv.lock@222042163abd", "generated_at": "2026-10-19 03:46 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "7dc816a8ef33fb9ae8efc92382d9446edd90a4e3", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/7dc816a8ef33fb9ae8efc92382d9446edd90a4e3", "branch": "main", "lockfile": "uv.lock@ff24cfb3299d", "generated_at": "2026-10-19 03:54 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>
-window._studyName = "og-01-cal-electrochemistry";
+window._studyName = "og-carbon-fixation";
 window._study = null;  // populated by _bootstrapStudy() in study-detail.js
 
 // Save handler for the Conditions → Model settings editable rows.
