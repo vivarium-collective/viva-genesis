@@ -62,3 +62,45 @@ def test_source_hardcoded_artifact_paths_resolve():
         "stale hardcoded artifact paths in viva_genesis/ source (a fold moved them? "
         "repoint the source path):\n  " + "\n  ".join(stale)
     )
+
+
+def _load_studies():
+    studies = {}
+    for f in sorted((WS_ROOT / "workspace" / "studies").glob("*/study.yaml")):
+        studies[f.parent.name] = yaml.safe_load(f.read_text()) or {}
+    return studies
+
+
+def test_dangling_edge_targets_fixture():
+    """Unit: the pure check resolves slug + plan_id edges, flags danglers, honours
+    the explicit allowlist, and skips self-edges."""
+    from viva_genesis.audit_checks import check_dangling_edge_targets
+    studies = {
+        "og-a": {"plan_id": 2, "parent_studies": [{"study": "og-b"}],
+                 "builds_on": [2, 9], "handoff": {"emits": [{"to": 3}], "receives": [{"from": 99}]}},
+        "og-b": {"plan_id": 3, "parent_studies": ["og-a", "og-gone"],
+                 "parent_relations": [{"study": "og-vanished", "relation": "tests"}]},
+    }
+    slugs, plans = {"og-a", "og-b"}, {2, 3}
+    joined = " ".join(check_dangling_edge_targets(studies, slugs, plans))
+    assert "og-gone" in joined          # dangling parent_studies slug flagged
+    assert "og-vanished" in joined      # dangling parent_relations (typed-edge) slug flagged
+    assert "plan_id 9" in joined        # dangling builds_on plan flagged
+    assert "plan_id 99" in joined       # dangling handoff.receives.from flagged
+    assert "plan_id 3" not in joined    # handoff.to 3 resolves (og-b's plan)
+    assert check_dangling_edge_targets(
+        studies, slugs, plans,
+        allow={"slug:og-gone", "slug:og-vanished", "plan:9", "plan:99"}) == []
+
+
+def test_workspace_has_no_dangling_edge_targets():
+    """Every study-graph edge (builds_on / parent_studies / handoff) in the real
+    workspace resolves to a current study (slug or plan_id) — guards a consolidation
+    fold from leaving a stale pointer (cites resolved but edges did not)."""
+    from viva_genesis.audit_checks import check_dangling_edge_targets
+    studies = _load_studies()
+    slugs = set(studies)
+    plans = {s["plan_id"] for s in studies.values() if isinstance(s.get("plan_id"), int)}
+    ALLOW: set = set()   # explicit documented exceptions; keep in sync with lint-workspace.py
+    errs = check_dangling_edge_targets(studies, slugs, plans, ALLOW)
+    assert not errs, "dangling study-graph edges:\n  " + "\n  ".join(errs)

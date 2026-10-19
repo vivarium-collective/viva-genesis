@@ -338,3 +338,55 @@ def check_gate_members_in_roster(
                     f"investigation {inv_name}: plan_gates gate {g.get('id')} member "
                     f"'{slug}' is not in the studies: roster — it won't appear in the graph/DAG")
     return errors
+
+
+def check_dangling_edge_targets(
+    studies: Dict[str, dict],
+    all_slugs: Set[str],
+    all_plan_ids: Set[int],
+    allow: Set[str] = frozenset(),
+) -> List[str]:
+    """Every graph-EDGE target must resolve to a CURRENT study.
+
+    The audit previously resolved citations + finding/run cross-refs but NOT the
+    study-graph edges, so a consolidation fold that removed a study left stale
+    ``builds_on`` / ``parent_studies`` / ``handoff`` pointers (e.g. og-02, og-28,
+    og-30 after they folded into their consolidated studies) sailing through
+    "0 dangling". This closes that class, fail-loud like ``check_dangling_refs``.
+
+    Resolution rule: a SLUG edge (``parent_studies[].study`` and the typed
+    ``parent_relations[].study``) must be a current study slug; a NUMERIC edge
+    (``builds_on[]`` and ``handoff`` ``emits[].to`` /
+    ``receives[].from``) must be a ``plan_id`` claimed by a current study (studies
+    adopt their canonical arm's ``plan_id``). A self-edge is skipped.
+    ``pipeline_gate.prerequisites`` is intentionally NOT re-checked here — it is
+    already covered by :func:`check_dangling_refs` (avoid double-reporting).
+
+    ``allow`` is an EXPLICIT, documented exception set of ``"slug:<slug>"`` /
+    ``"plan:<n>"`` tokens — a last resort for a legitimate planned-but-unscaffolded
+    concept, never a silent skip.
+    """
+    errors: List[str] = []
+    for slug, spec in sorted(studies.items()):
+        own_plan = spec.get("plan_id")
+        # SLUG edges: parent_studies[].study + parent_relations[].study (the latter a
+        # TYPED edge {study, relation} the baker reads to type the graph).
+        for field in ("parent_studies", "parent_relations"):
+            for e in spec.get(field) or []:
+                t = e.get("study") if isinstance(e, dict) else e
+                if t and t != slug and t not in all_slugs and f"slug:{t}" not in allow:
+                    errors.append(f"study {slug}: {field} target '{t}' is not a current study slug "
+                                  f"(folded? repoint to the consolidated study)")
+        numeric = [("builds_on", n) for n in (spec.get("builds_on") or [])]
+        hp = spec.get("handoff") or {}
+        numeric += [("handoff.emits.to", (e.get("to") if isinstance(e, dict) else e))
+                    for e in (hp.get("emits") or [])]
+        numeric += [("handoff.receives.from", (e.get("from") if isinstance(e, dict) else e))
+                    for e in (hp.get("receives") or [])]
+        for kind, n in numeric:
+            if isinstance(n, bool) or not isinstance(n, int):
+                continue
+            if n != own_plan and n not in all_plan_ids and f"plan:{n}" not in allow:
+                errors.append(f"study {slug}: {kind} target plan_id {n} is not claimed by any current "
+                              f"study (folded/never-scaffolded? repoint, remove, scaffold, or allowlist)")
+    return errors
