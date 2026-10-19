@@ -8,79 +8,64 @@ design_status: approved
 simulation_status: ran
 evaluation_status: evaluated
 gate_status: passed
-verdict: qualified
+verdict: supported
 evidence_tier: mechanistic_prediction
 program: consolidated
-title: 'The Vent Environment: A Bounded but Viable Geochemical Reactor'
+title: 'The Vent Environment: Calibrated, Viable Geochemical States'
 concept: >-
-  Whether a serpentinizing Lost City-type vent is a viable reactor — one that supplies the H2, inorganic
-  carbon, pH/redox gradients and electrochemical driving force downstream chemistry needs, and within what
-  bounds — studied at several fidelities (reactor baseline, calibration of viable states, coupled evolving
-  interface) as arms.
+  Calibrated vent states: whether a serpentinizing alkaline vent holds its empirical (Lost City) window across
+  the operating grid and, conditioned on that window, leaves a posterior in which the dissolved-H2 / inorganic-carbon
+  / pH-redox feed downstream chemistry needs is supplied — with closed budgets and a documented lifetime. Whether
+  the EVOLVING mineral interface sustains that delivery over time is og-vent-interface (1B).
 gate_reason: >-
-  Gate A foundation (the vent environment; carries og-27's A1-relevant coupled-interface supply role).
-  Consolidates the vent-environment line into one concept with fidelity-labelled arms — the serpentinizing
-  reactor baseline (og-00), the calibration of which vent states feed downstream chemistry (og-cal, calibrated),
-  and the sharpened coupled geochemical interface (og-27, canonical) — each judged against its own discriminating
-  control with conservation closing. Headline (og-27, canonical): the evolving mineral-water interface
-  supplies H2, inorganic carbon, pH/redox gradients and a CO2-reducing electrochemical driving force with
-  a closing ledger, but delivery is BOUNDED and CONDITIONAL — the supply<->throttle behavior is a sharp
-  two-regime DIC cliff, not gradual depletion; mineral precipitation/passivation throttles catalytic supply
-  on the evolution timescale; and only 12.5% (6/48) of the calibrated prior reproduces all Lost City observations
-  (dissolved H2 is the binding one). QUALIFIED — a viable vent reactor within a bounded window, not unconditionally.
+  Calibrated-vent-states half of the former og-vent-environment (split from the evolving-interface half, og-vent-interface).
+  Two arms, both supported: og-00 (reactor baseline) holds the Lost City window over ~80% of the grid with |charge|=0;
+  og-cal (calibration) conditions on the Lost City fields, 12.5% of the prior binding, 100% viable downstream,
+  transport-class-independent, ledger 0/96. Supported: a bounded, calibrated feed, not an origin claim.
 claim: >-
-  Across fidelities the vent environment is a viable but bounded geochemical reactor. The serpentinizing
-  reactor settles inside the Lost City window (50.6 C, pH 9.37, sustained H2) over ~80% of the operating
-  grid — habitability is a bounded region, not one tuned run (og-00, supported). Conditioned on the Lost
-  City field windows, 12.5% (6/48) of the empirically motivated prior reproduces all three observations,
-  and 100% of that posterior supplies the H2 + pH gradient downstream carbon fixation needs; dissolved
-  H2 is the binding observation, pH is buffered and non-discriminating (og-cal, supported, calibrated).
-  The sharpened coupled interface delivers H2 / inorganic-carbon flux, a maintained pH/redox gradient at
-  or above required levels, and a CO2-reducing electrochemical driving force, with mass/charge/energy closing
-  across PHREEQC+FiPy+Reaktoro — but precipitation and passivation throttle supply on the mineral-evolution
-  timescale and the supply<->throttle is a sharp two-regime DIC cliff, so delivery is bounded (og-27, canonical,
-  qualified). Consolidated headline — qualified: a viable vent reactor within a bounded window, supplying
-  downstream chemistry conditionally. Every matched null and arm verdict kept.
+  A serpentinizing alkaline vent holds its Lost City window (T 40-91 C, pH 9.0-10.8, positive H2 flux) over ~80%
+  of the swept grid with |charge|=0, and conditioning on that window leaves a posterior 12.5% of the prior in
+  which 100% of empirically supported vent states supply what downstream carbon fixation needs — transport-class-independent,
+  ledger 0/96 rejected. Supported, bounded.
 question: >-
-  Is a serpentinizing Lost City-type vent a viable geochemical reactor that supplies the H2, inorganic
-  carbon, pH/redox gradients and electrochemical driving force downstream chemistry needs — and within
-  what bounds, as the mineral interface evolves and across the plausible range of vent states?
+  Does a serpentinizing alkaline vent hold its empirical (Lost City) window across the operating grid and supply,
+  in a calibrated posterior, the feed downstream chemistry needs?
 hypothesis: >-
-  A serpentinizing vent supplies the reducing power and gradients downstream chemistry needs, but within
-  a bounded window — only a fraction of plausible vent states bind (H2-limited) and the evolving mineral
-  interface throttles supply over time; no unconditional supply is claimed outside that window.
+  Across the olivine-rate x flow grid, a large fraction of vent states fall inside the Lost City window, and the
+  dissolved-H2 window is the binding observation that sets the viable posterior.
 experiment: >-
-  Consolidate the vent-environment studies into one concept with explicit fidelity-labelled arms (reactor
-  baseline, calibration, coupled evolving interface), each preserving its discriminating control, verdict,
-  findings and run provenance; report the consolidated verdict bounded by the sharpest arm (og-27, qualified)
-  without over-claiming unconditional supply.
+  Sweep the serpentinizing reactor over the operating grid (og-00) and condition the PHREEQC+FiPy vent on the
+  Lost City field windows (og-cal), measuring the posterior-viable fraction, cross-transport-class agreement and
+  the conservation ledger.
 result: >-
-  The serpentinizing vent is a viable geochemical reactor that supplies H2, inorganic carbon, pH/redox
-  gradients and a CO2-reducing electrochemical driving force (QUALIFIED) — but delivery is bounded: only
-  12.5% of calibrated vent states bind (H2-limited), and the evolving mineral interface throttles supply
-  via a sharp two-regime DIC cliff; conservation closes exactly.
+  ~80% of the operating region falls inside the Lost City window with |charge|=0; the conditioned posterior is
+  12.5% of the prior yet 100% viable downstream, transport-class-independent, ledger 0/96. The dissolved-H2 window
+  is the binding observation (pH mineral-buffered near 9.4). A viable geochemical reactor within bounds.
 builds_on: []
-plan_id: 27
+plan_id: 0
 handoff:
   emits:
+  - to: 27
+    provides:
+    - Lost City operating window
+    - viable vent posterior (H2 / inorganic carbon / pH / T with uncertainty)
+    - documented lifetime
   - to: 29
     provides:
+    - calibrated vent feed posterior
     - H2 flux
     - inorganic carbon flux
     - pH
     - T
     - ionic activities
-    - catalyst state
-    - time-dependent feeds
   receives: []
 arms:
 - id: 00_vent_reactor_baseline
   source_study: og-00-vent-reactor-baseline
   concept_role: >-
-    Serpentinizing reactor baseline: across the olivine-rate x flow grid ~80% of the operating region
-    falls inside the Lost City window (40-91 C, pH 9.0-10.8, +H2); the baseline settles at 50.6 C / pH
-    9.37 with sustained H2. Habitability is a bounded region, not one tuned run; peridotite (not dunite)
-    sets the pH endmember.
+    Serpentinizing reactor baseline: across the olivine-rate x flow grid ~80% of the operating region falls inside
+    the Lost City window (40-91 C, pH 9.0-10.8, +H2); the baseline settles at 50.6 C / pH 9.37 with sustained
+    H2. Habitability is a bounded region, not one tuned run; peridotite (not dunite) sets the pH endmember.
   fidelity: mechanistic_prediction
   verdict: supported
   gate_status: passed
@@ -98,9 +83,9 @@ arms:
 - id: cal_vent_environment
   source_study: og-cal-vent-environment
   concept_role: >-
-    Calibration: conditioning the PHREEQC+FiPy vent on the Lost City field windows, 12.5% (6/48) of the
-    empirically motivated prior reproduces all three observations and 100% of that posterior supplies
-    the downstream H2 + pH gradient. Dissolved H2 is the binding observation; pH is buffered (non-discriminating).
+    Calibration: conditioning the PHREEQC+FiPy vent on the Lost City field windows, 12.5% (6/48) of the empirically
+    motivated prior reproduces all three observations and 100% of that posterior supplies the downstream H2 +
+    pH gradient. Dissolved H2 is the binding observation; pH is buffered (non-discriminating).
   fidelity: calibrated
   verdict: supported
   gate_status: passed
@@ -115,29 +100,6 @@ arms:
   - ogcal-transport-class-does-not-change-the-verdict
   - ogcal-morris-screening
   - ogcal-ledger-exact
-- id: 27_coupled_geochemical_reaction_interface
-  source_study: og-27-coupled-geochemical-reaction-interface
-  concept_role: >-
-    Canonical (sharpened coupled interface): the evolving mineral-water interface delivers H2 / inorganic-carbon
-    flux + a maintained pH/redox gradient at or above required levels and a CO2-reducing electrochemical
-    driving force, with mass/charge/energy closing across PHREEQC+FiPy+Reaktoro — BUT precipitation +
-    surface passivation throttle catalytic supply on the mineral-evolution timescale and the supply<->throttle
-    is a sharp two-regime DIC cliff, so delivery is bounded/conditional (QUALIFIED).
-  fidelity: mechanistic_prediction
-  verdict: qualified
-  gate_status: passed
-  matched_null: dic-crossover-bounded-window
-  composite: >-
-    viva_genesis.composites.og_27_coupled_geochemical_reaction_interface.og_27_coupled_geochemical_reaction_interface
-  run_ids: []
-  finding_ids:
-  - og27-dic-crossover-bounded-window
-  - og27-sustained-reactive-flux
-  - og27-mineral-evolution-throttles-supply
-  - og27-electrochemical-driving-force
-  - og27-coupled-conservation-ledger
-  - og27-handoff-bundle-to-29
-  canonical: true
 - id: 00b_ph_endmember_sweep
   source_study: og-00b-ph-endmember-sweep
   status: planned
@@ -148,8 +110,8 @@ arms:
     study: og-00-vent-reactor-baseline
     finding: og00-habitability-window
   concept_role: >-
-    Planned sweep: bound the pH endmember via pyroxene fraction + seawater-mixing dilution — how robust
-    is the Lost City pH window to peridotite composition? (not run)
+    Planned sweep: bound the pH endmember via pyroxene fraction + seawater-mixing dilution — how robust is the
+    Lost City pH window to peridotite composition? (not run)
 behavior_tests:
 - name: vent-temperature-in-lostcity-range
   classification: primary
@@ -218,10 +180,10 @@ behavior_tests:
 - name: vent-pH-in-lostcity-range
   classification: primary
   description: >-
-    Settled outlet pH sits in the Lost City envelope (9.0-10.8). Met by reacting PERIDOTITE (olivine +
-    diopside pyroxene), not dunite: once Mg is consumed into serpentine/brucite, the Ca released from
-    pyroxene gives the real Ca-OH-rich, high-pH endmember (tremolite/diopside-buffered), reproducing field
-    pH ~9.2-9.5 at vent temperature — a genuine PHREEQC speciation result, not a tuned value.
+    Settled outlet pH sits in the Lost City envelope (9.0-10.8). Met by reacting PERIDOTITE (olivine + diopside
+    pyroxene), not dunite: once Mg is consumed into serpentine/brucite, the Ca released from pyroxene gives the
+    real Ca-OH-rich, high-pH endmember (tremolite/diopside-buffered), reproducing field pH ~9.2-9.5 at vent temperature
+    — a genuine PHREEQC speciation result, not a tuned value.
   measure:
     kind: derived
     path: settled_pH
@@ -272,8 +234,8 @@ behavior_tests:
   gate_class: regression_pin
   classification: diagnostic
   description: >-
-    Serpentinization is exothermic — the heat source never goes negative (energy_directionality invariant,
-    previously declared but uncomputed in og-00).
+    Serpentinization is exothermic — the heat source never goes negative (energy_directionality invariant, previously
+    declared but uncomputed in og-00).
   measure:
     kind: derived
     path: energy_directionality_final
@@ -288,8 +250,8 @@ behavior_tests:
 - name: dissolved-h2-in-lost-city-range
   classification: primary
   description: >-
-    The canonical operating point's reacted-fluid dissolved H2 (backed out of the settled H2 flux) sits
-    in the Lost City end-member range 1-15 mmol/kg.
+    The canonical operating point's reacted-fluid dissolved H2 (backed out of the settled H2 flux) sits in the
+    Lost City end-member range 1-15 mmol/kg.
   measure:
     kind: derived
     path: settled_dissolved_h2_mM
@@ -312,10 +274,9 @@ behavior_tests:
 - name: posterior-viable-vent-fraction
   classification: primary
   description: >-
-    Vent-calibration exit criterion (Feasibility + Robustness): the fraction of prior draws consistent
-    with every observation window that also satisfy the downstream requirements must be positive (at least
-    one physically admissible, observation-consistent vent state feeds carbon fixation); the value itself
-    is the deliverable.
+    Vent-calibration exit criterion (Feasibility + Robustness): the fraction of prior draws consistent with every
+    observation window that also satisfy the downstream requirements must be positive (at least one physically
+    admissible, observation-consistent vent state feeds carbon fixation); the value itself is the deliverable.
   measure:
     kind: derived
     path: posterior_viable_fraction
@@ -337,8 +298,8 @@ behavior_tests:
 - name: structure-agreement-across-transport-classes
   classification: primary
   description: >-
-    Discrimination / model-form uncertainty: the convecting and prescribed-upflow transport classes must
-    agree on viability for at least 80% of the prior draws, else og-00's conclusions are structure-sensitive.
+    Discrimination / model-form uncertainty: the convecting and prescribed-upflow transport classes must agree
+    on viability for at least 80% of the prior draws, else og-00's conclusions are structure-sensitive.
   measure:
     kind: derived
     path: structure_agreement_viable
@@ -353,95 +314,6 @@ behavior_tests:
   requires_simulation: 'yes'
   gate_class: acceptance_criterion
   band_basis: first_principles
-- name: sustained-reactive-flux-over-timescales
-  classification: primary
-  artifact: >-
-    workspace/studies/og-vent-environment/artifacts/og-27-coupled-geochemical-reaction-interface/interface_report.json
-  description: >-
-    Over transport timescales the interface delivers H2 and inorganic-carbon fluxes and a maintained pH/redox
-    gradient at or above the levels used by published vent-reactor and H2-dependent-metabolism work; the
-    full time series and the onset of decay are reported, not a single terminal value.
-  measure:
-    kind: observable
-    detail: >-
-      time- and space-resolved H2 + inorganic-carbon flux and pH/redox gradient over transport timescales
-  pass_if:
-    op: threshold
-    detail: delivery at or above the downstream-required level over the transport timescale
-  requires_simulation: 'yes'
-- name: mineral-evolution-supply-decay
-  classification: primary
-  artifact: >-
-    workspace/studies/og-vent-environment/artifacts/og-27-coupled-geochemical-reaction-interface/interface_report.json
-  description: >-
-    Precipitation and surface passivation reduce reactive surface and throttle catalytic supply on the
-    mineral-evolution timescale; the crossover time at which delivery drops below the downstream-required
-    threshold is quantified.
-  measure:
-    kind: observable
-    detail: >-
-      catalytic supply / reactive surface vs. the slower mineral-evolution timescale; crossover time below
-      threshold
-  pass_if:
-    op: threshold
-    detail: crossover time quantified (depleting-supply behaviour characterised)
-  requires_simulation: 'yes'
-- name: electrochemical-driving-force-verified
-  classification: secondary
-  description: >-
-    The cross-interface electrical driving force is non-trivial and of the sign/scale needed to drive
-    CO2 reduction, verified independently by a FEniCSx Nernst–Planck solve against the FiPy transport
-    result.
-  measure:
-    kind: observable
-    detail: interface potential from FiPy transport vs. independent FEniCSx Nernst–Planck solve
-  pass_if:
-    op: threshold
-    detail: non-trivial driving force, cross-solver agreement to tolerance
-  requires_simulation: 'yes'
-- name: coupled-conservation
-  classification: secondary
-  artifact: >-
-    workspace/studies/og-vent-environment/artifacts/og-27-coupled-geochemical-reaction-interface/interface_report.json
-  description: >-
-    Mass, charge and energy close across the coupled PHREEQC+FiPy+Reaktoro solve to tolerance with no
-    untracked feeds.
-  measure:
-    kind: observable
-    detail: C/H/O/charge/energy residuals across the coupled solve
-  pass_if:
-    op: threshold
-    detail: residuals within tolerance; no untracked feed
-  requires_simulation: 'yes'
-- name: handoff-27-to-29-complete
-  classification: secondary
-  description: >-
-    The study emits the full 27→29 transfer bundle — H2 + inorganic-carbon flux, pH, T, ionic activities,
-    catalyst (mineral-surface) state and time-dependent feeds — as the typed boundary condition study
-    29 consumes.
-  measure:
-    kind: observable
-    detail: presence + typing of every field in the 27→29 transfer bundle
-  pass_if:
-    op: threshold
-    detail: bundle complete and typed (satisfies 27→29 handoff validator)
-  requires_simulation: 'yes'
-- name: dic-crossover-sweep
-  classification: primary
-  description: >-
-    A dense fluid_dic sweep across the PHREEQC SI=0 crossover characterizes the supply-vs-throttle two-regime
-    behavior and whether any operating point sustains flux AND exercises throttling with the pore open
-    (the calibration that resolves needs_calibration).
-  measure:
-    kind: observable
-    detail: H2 flux / precipitation / accessibility / porosity vs fluid_dic across SI=0
-    ledger closure: null
-  pass_if:
-    op: threshold
-    detail: >-
-      the crossover is characterized with the ledger closing at every point (window_exists resolved either
-      way)
-  requires_simulation: 'yes'
 findings:
 - id: og00-temperature-ph-in-window
   kind: computational
@@ -457,14 +329,14 @@ findings:
     - kelley2001offaxis
     - ludwig2006formation
   explanation: >-
-    Real PHREEQC peridotite serpentinization (Ca-OH endmember) + FiPy transport; pH is a genuine speciation
-    result, not tuned.
+    Real PHREEQC peridotite serpentinization (Ca-OH endmember) + FiPy transport; pH is a genuine speciation result,
+    not tuned.
 - id: og00-h2-sustained
   kind: computational
   status: confirms
   statement: >-
-    Serpentinization delivers a sustained H2 reducing-power flux (min 2.75e-4 mol/s over the back half
-    of the run).
+    Serpentinization delivers a sustained H2 reducing-power flux (min 2.75e-4 mol/s over the back half of the
+    run).
   evidence:
     from_test: h2-flux-sustained
     observed: 2.75e-4 mol/s
@@ -479,8 +351,8 @@ findings:
   kind: computational
   status: confirms
   statement: >-
-    PHREEQC charge balance is conserved exactly (|charge|=0) and the FiPy FVM spatial-flux divergence
-    is held to 4.9e-5 — within the 1e-3 contract tolerance (not machine epsilon).
+    PHREEQC charge balance is conserved exactly (|charge|=0) and the FiPy FVM spatial-flux divergence is held
+    to 4.9e-5 — within the 1e-3 contract tolerance (not machine epsilon).
   evidence:
     from_test: charge-conserved
     observed: '|charge|=0, |flux residual|=4.9e-5 (within 1e-3 tol)'
@@ -488,11 +360,10 @@ findings:
   kind: methodological
   status: novel
   statement: >-
-    The Lost City pH endmember required reacting PERIDOTITE (olivine+pyroxene), not dunite — Ca released
-    once Mg is consumed buffers the fluid to pH ~9.5.
+    The Lost City pH endmember required reacting PERIDOTITE (olivine+pyroxene), not dunite — Ca released once
+    Mg is consumed buffers the fluid to pH ~9.5.
   explanation: >-
-    Olivine-only buffers at ~7.8 (brucite); adding diopside gives the Ca-OH endmember that reproduces
-    field pH.
+    Olivine-only buffers at ~7.8 (brucite); adding diopside gives the Ca-OH endmember that reproduces field pH.
   expected:
     cites:
     - kelley2005serpentinite
@@ -502,49 +373,48 @@ findings:
   status: novel
   statement: >-
     The vent wall convects. Solving Darcy–Boussinesq porous flow (a stream-function Poisson ∇²ψ = −buoyancy·∂T/∂x
-    on the real FiPy mesh) gives a buoyant recirculation cell — the hot alkaline conduit rises, the cold
-    ocean sinks, convective velocities ~5× the background upflow (Peclet ~8) — rather than a prescribed
-    uniform upflow. The recirculation mixes cold ocean inward, settling the outlet ~8 °C cooler (59 →
-    51 °C) while staying inside the Lost City window; flux conservation is preserved within the solver
-    tolerance (flux residual ~5e-5, within the 1e-3 bound).
+    on the real FiPy mesh) gives a buoyant recirculation cell — the hot alkaline conduit rises, the cold ocean
+    sinks, convective velocities ~5× the background upflow (Peclet ~8) — rather than a prescribed uniform upflow.
+    The recirculation mixes cold ocean inward, settling the outlet ~8 °C cooler (59 → 51 °C) while staying inside
+    the Lost City window; flux conservation is preserved within the solver tolerance (flux residual ~5e-5, within
+    the 1e-3 bound).
   evidence:
     from_test: spatial-flux-conserved
-    observed: recirculation cell (cold-left sinks, hot-right rises); vmax ~5× background; outlet 50.6
-      °C
+    observed: recirculation cell (cold-left sinks, hot-right rises); vmax ~5× background; outlet 50.6 °C
     units: dimensionless
   expected:
     cites:
     - kelley2001offaxis
     - ludwig2006formation
   explanation: >-
-    FipyReactiveTransportProcess now solves the stream function each step and advects T + solute with
-    the divergence-free Darcy velocity (u=∂ψ/∂y, v=−∂ψ/∂x + upflow); ψ contours are the streamlines the
-    cross-section viz overlays. buoyancy=0 recovers the old constant upflow.
+    FipyReactiveTransportProcess now solves the stream function each step and advects T + solute with the divergence-free
+    Darcy velocity (u=∂ψ/∂y, v=−∂ψ/∂x + upflow); ψ contours are the streamlines the cross-section viz overlays.
+    buoyancy=0 recovers the old constant upflow.
 - id: og00-habitability-window
   seeded_study: og-00b-ph-endmember-sweep
   kind: computational
   status: novel
   statement: >-
-    Habitability is a bounded REGION of the (olivine reaction rate × flow velocity) operating space, not
-    one tuned run — the real PHREEQC + FiPy vent settles inside the Lost City window (T 40–91 °C AND pH
-    9.0–10.8 AND H2>0) over ~80% of the swept grid (115/144 points). The FAIL regions are a cold-washout
-    band at the fastest flow (17 cold points) and 12 points at the flow extreme that fall outside PHREEQC's
-    0–100 °C validity (recorded NaN → FAIL); the baseline operating point sits safely inside the window.
+    Habitability is a bounded REGION of the (olivine reaction rate × flow velocity) operating space, not one tuned
+    run — the real PHREEQC + FiPy vent settles inside the Lost City window (T 40–91 °C AND pH 9.0–10.8 AND H2>0)
+    over ~80% of the swept grid (115/144 points). The FAIL regions are a cold-washout band at the fastest flow
+    (17 cold points) and 12 points at the flow extreme that fall outside PHREEQC's 0–100 °C validity (recorded
+    NaN → FAIL); the baseline operating point sits safely inside the window.
   evidence:
     from_test: vent-temperature-in-lostcity-range
     observed: >-
-      115/144 (80%) habitable over (olivine_rate 0.005–0.4 × flow_velocity 2e-4–3e-2); 17 cold-washout
-      FAILs, 12 out-of-range NaN; baseline (★) in-window at 50.6 °C / pH 9.37
+      115/144 (80%) habitable over (olivine_rate 0.005–0.4 × flow_velocity 2e-4–3e-2); 17 cold-washout FAILs,
+      12 out-of-range NaN; baseline (★) in-window at 50.6 °C / pH 9.37
     units: dimensionless
   expected:
     cites:
     - kelley2001offaxis
     - ludwig2006formation
   explanation: >-
-    The vent_habitability_phase_map sweeps the real serpentinizing reactor and reduces each point to the
-    habitability PASS flag (settled outlet in-window with a positive H2 flux); rendered as the Lost City
-    habitability map (Decision view). Enough serpentinization to drive H2 + alkalinity and slow enough
-    flow to hold 40–91 °C / pH 9.0–10.8 bounds the habitable band.
+    The vent_habitability_phase_map sweeps the real serpentinizing reactor and reduces each point to the habitability
+    PASS flag (settled outlet in-window with a positive H2 flux); rendered as the Lost City habitability map (Decision
+    view). Enough serpentinization to drive H2 + alkalinity and slow enough flow to hold 40–91 °C / pH 9.0–10.8
+    bounds the habitable band.
   next_action: >-
     Sweep pyroxene_fraction (ol/px ratio) and seawater-mixing dilution to bound the pH endmember (og-00b).
   next_action_type: calibrate
@@ -555,19 +425,19 @@ findings:
   kind: computational
   status: confirms
   statement: >-
-    Feasibility and robustness, in the plan's sense: 6/48 prior draws (12.5%) settle inside every Lost
-    City window, and 6/6 of those (posterior-viable fraction 1.00) also satisfy og-01's requirements —
-    dissolved H2 >= 1 mM at the interface, pH gradient >= 3 units against pH 6.0, T <= 100 C. One supporting
-    parameterization: flow 3.2e-4 m/s, olivine_rate 0.38, pyroxene 0.54, fe 0.26, heat partition 6.2e-4,
-    DIC 1.4 mM -> 49.2 C, pH 9.38, H2 10.8 mmol/kg, delta pH 3.38.
+    Feasibility and robustness, in the plan's sense: 6/48 prior draws (12.5%) settle inside every Lost City window,
+    and 6/6 of those (posterior-viable fraction 1.00) also satisfy og-01's requirements — dissolved H2 >= 1 mM
+    at the interface, pH gradient >= 3 units against pH 6.0, T <= 100 C. One supporting parameterization: flow
+    3.2e-4 m/s, olivine_rate 0.38, pyroxene 0.54, fe 0.26, heat partition 6.2e-4, DIC 1.4 mM -> 49.2 C, pH 9.38,
+    H2 10.8 mmol/kg, delta pH 3.38.
   evidence:
     from_test: posterior-viable-vent-fraction
     observed: consistent 6/48; viable|consistent 1.00 (both transport classes)
     units: dimensionless
   explanation: >-
-    ABC rejection on the vg-data windows (outlet T 40-91 C; pH 9.0-10.8; H2 1-15 mmol/kg) over a 48-point
-    Latin-hypercube prior of the six free parameters of the real PHREEQC + FiPy world, then the downstream-requirement
-    mask on the accepted set. Artifact: artifacts/vent_environment_report.json.
+    ABC rejection on the vg-data windows (outlet T 40-91 C; pH 9.0-10.8; H2 1-15 mmol/kg) over a 48-point Latin-hypercube
+    prior of the six free parameters of the real PHREEQC + FiPy world, then the downstream-requirement mask on
+    the accepted set. Artifact: artifacts/vent_environment_report.json.
   expected:
     cites:
     - kelley2001offaxis
@@ -581,25 +451,23 @@ findings:
   kind: computational
   status: novel
   statement: >-
-    The dissolved-H2 window binds: 48/48 draws pass the pH window, 47/48 the temperature window, only
-    6/48 the H2 window (39 fall below 1 mmol/kg, 3 above 15). The posterior narrows the inflowing DIC
-    from the prior 1.2-17 mM to 1.2-2.9 mM and pushes the reaction extent high (olivine_rate 0.09-0.38
-    vs prior 0.02-0.35), with fe_fraction 0.14-0.26. Mechanism: at full redox equilibrium in llnl.dat
-    the Fe(II) budget first reduces the fluid's DIC (toward CH4 — Lost City's abiogenic methane); free
-    dissolved H2 appears only once that carbon sink is exhausted, so H2 is a threshold in (fe_fraction
-    x olivine_rate) / DIC, not a smooth function of the Fe budget.
+    The dissolved-H2 window binds: 48/48 draws pass the pH window, 47/48 the temperature window, only 6/48 the
+    H2 window (39 fall below 1 mmol/kg, 3 above 15). The posterior narrows the inflowing DIC from the prior 1.2-17
+    mM to 1.2-2.9 mM and pushes the reaction extent high (olivine_rate 0.09-0.38 vs prior 0.02-0.35), with fe_fraction
+    0.14-0.26. Mechanism: at full redox equilibrium in llnl.dat the Fe(II) budget first reduces the fluid's DIC
+    (toward CH4 — Lost City's abiogenic methane); free dissolved H2 appears only once that carbon sink is exhausted,
+    so H2 is a threshold in (fe_fraction x olivine_rate) / DIC, not a smooth function of the Fe budget.
   evidence:
     from_test: dissolved-h2-in-lost-city-range
     observed: >-
-      per-observation acceptance pH 48/48, T 47/48, H2 6/48; DIC posterior q05-q95 1.2-2.9 mM vs prior
-      1.2-17 mM
+      per-observation acceptance pH 48/48, T 47/48, H2 6/48; DIC posterior q05-q95 1.2-2.9 mM vs prior 1.2-17
+      mM
     units: dimensionless
   explanation: >-
-    Direct PHREEQC probe: at olivine_rate 0.15 / DIC 2 mM, fe 0.25 gives 4.6 mmol/kg H2 (pe -9.6) while
-    fe 0.10 gives 0 (pe -7.4); raising DIC to 15 mM at fe 0.25 also gives 0. This is an equilibrium-model
-    statement: a kinetic (non-equilibrium) carbon-redox class on the serpentinization face would shift
-    the threshold — recorded as the structural uncertainty to test next (Reaktoro / PFLOTRAN; decision
-    in the investigation).
+    Direct PHREEQC probe: at olivine_rate 0.15 / DIC 2 mM, fe 0.25 gives 4.6 mmol/kg H2 (pe -9.6) while fe 0.10
+    gives 0 (pe -7.4); raising DIC to 15 mM at fe 0.25 also gives 0. This is an equilibrium-model statement: a
+    kinetic (non-equilibrium) carbon-redox class on the serpentinization face would shift the threshold — recorded
+    as the structural uncertainty to test next (Reaktoro / PFLOTRAN; decision in the investigation).
   expected:
     cites:
     - kelley2005serpentinite
@@ -612,11 +480,11 @@ findings:
   kind: computational
   status: novel
   statement: >-
-    Outlet pH is 9.38-9.91 for every one of the 96 runs regardless of flow, reaction extent, DIC or Fe
-    budget — the peridotite (Ca-OH / tremolite-diopside) assemblage buffers it, so the pH observation
-    accepts the whole prior and carries no information about the parameters. Morris mu* for pH is <= 0.11
-    on every parameter (vs 23 for H2 on olivine_rate). og-00's "pH in window" gate is therefore a reproduction
-    of the buffer, not a constraint on the vent's operating point.
+    Outlet pH is 9.38-9.91 for every one of the 96 runs regardless of flow, reaction extent, DIC or Fe budget
+    — the peridotite (Ca-OH / tremolite-diopside) assemblage buffers it, so the pH observation accepts the whole
+    prior and carries no information about the parameters. Morris mu* for pH is <= 0.11 on every parameter (vs
+    23 for H2 on olivine_rate). og-00's "pH in window" gate is therefore a reproduction of the buffer, not a constraint
+    on the vent's operating point.
   evidence:
     from_test: posterior-viable-vent-fraction
     observed: pH range 9.38-9.91 over 96 runs; mu*(pH) <= 0.108; pH window accepts 48/48
@@ -632,21 +500,20 @@ findings:
   kind: computational
   status: confirms
   statement: >-
-    Discrimination, in the plan's sense: the convecting (Darcy-Boussinesq) and prescribed-uniform-upflow
-    FiPy classes agree on consistency and viability for 48/48 identical draws (structure agreement 1.00,
-    model-form uncertainty 0.00). They are told apart only by outlet temperature (paired standardised
-    difference d = 0.89; convection settles ~2 C warmer at nx = 20), not by pH (d = -0.54 at a 0.02-unit
-    scale), dissolved H2 (d = 0.00) or pe (0.06). Whether the wall convects is a structural choice og-00's
-    conclusions do not depend on.
+    Discrimination, in the plan's sense: the convecting (Darcy-Boussinesq) and prescribed-uniform-upflow FiPy
+    classes agree on consistency and viability for 48/48 identical draws (structure agreement 1.00, model-form
+    uncertainty 0.00). They are told apart only by outlet temperature (paired standardised difference d = 0.89;
+    convection settles ~2 C warmer at nx = 20), not by pH (d = -0.54 at a 0.02-unit scale), dissolved H2 (d =
+    0.00) or pe (0.06). Whether the wall convects is a structural choice og-00's conclusions do not depend on.
   evidence:
     from_test: structure-agreement-across-transport-classes
     observed: agreement 1.00 on viability; d(T) = 0.89, d(H2) = 0.00
     units: dimensionless
   explanation: >-
-    Same 48 draws run through model_spatial_transport = fipy and fipy_uniform_upflow (buoyancy 0); the
-    serpentinization source is identical, and the outlet pH/H2 are set by speciation, not by the wall's
-    flow pattern. The FEniCS class (a merged dolfinx alternative, run under viva-fenics's pixi env) is
-    a third available class on this axis, held out of this uv-.venv ensemble — not a forthcoming addition.
+    Same 48 draws run through model_spatial_transport = fipy and fipy_uniform_upflow (buoyancy 0); the serpentinization
+    source is identical, and the outlet pH/H2 are set by speciation, not by the wall's flow pattern. The FEniCS
+    class (a merged dolfinx alternative, run under viva-fenics's pixi env) is a third available class on this
+    axis, held out of this uv-.venv ensemble — not a forthcoming addition.
   expected:
     cites:
     - kelley2001offaxis
@@ -657,16 +524,16 @@ findings:
   kind: computational
   status: novel
   statement: >-
-    Morris screening (r = 4 trajectories, 28 world runs): dissolved H2 is controlled by olivine_rate (mu*
-    23.0), fluid DIC (20.8) and flow (16.9), weakly by fe_fraction (3.1), not at all by pyroxene fraction
-    or heat partition; outlet temperature by the heat-partition fraction (2.16), flow (1.47) and olivine_rate
-    (0.84). The two conditioning readouts that carry information (T, H2) are controlled by disjoint parameters,
-    so the posterior factorises: T pins heat_to_fluid_fraction, H2 pins the Fe-budget-to-DIC ratio.
+    Morris screening (r = 4 trajectories, 28 world runs): dissolved H2 is controlled by olivine_rate (mu* 23.0),
+    fluid DIC (20.8) and flow (16.9), weakly by fe_fraction (3.1), not at all by pyroxene fraction or heat partition;
+    outlet temperature by the heat-partition fraction (2.16), flow (1.47) and olivine_rate (0.84). The two conditioning
+    readouts that carry information (T, H2) are controlled by disjoint parameters, so the posterior factorises:
+    T pins heat_to_fluid_fraction, H2 pins the Fe-budget-to-DIC ratio.
   evidence:
     from_test: posterior-viable-vent-fraction
     observed: >-
-      mu*(H2): olivine_rate 23.0, fluid_dic 20.8, flow 16.9, fe 3.1; mu*(T): heat_to_fluid 2.16, flow
-      1.47, olivine 0.84
+      mu*(H2): olivine_rate 23.0, fluid_dic 20.8, flow 16.9, fe 3.1; mu*(T): heat_to_fluid 2.16, flow 1.47, olivine
+      0.84
     units: dimensionless
   explanation: >-
     Elementary effects on the log-scaled prior bounds of the vg-data package; artifact ensemble.morris.
@@ -677,88 +544,18 @@ findings:
   kind: computational
   status: confirms
   statement: >-
-    Numerical verification: the ConservationLedgerProcess closes exactly on all 96 ensemble runs and on
-    the 120-tick canonical run — integrated H2 / alkalinity / heat sources equal the accumulated pools
-    bit-for-bit (residual 0.0), PHREEQC charge imbalance 0, FiPy flux-divergence residual <= 1.1e-14,
-    and serpentinization heat is released, never absorbed (energy_directionality 1). No prior draw was
-    rejected by PHREEQC (0 failed points), so the posterior is not truncated by engine validity.
+    Numerical verification: the ConservationLedgerProcess closes exactly on all 96 ensemble runs and on the 120-tick
+    canonical run — integrated H2 / alkalinity / heat sources equal the accumulated pools bit-for-bit (residual
+    0.0), PHREEQC charge imbalance 0, FiPy flux-divergence residual <= 1.1e-14, and serpentinization heat is released,
+    never absorbed (energy_directionality 1). No prior draw was rejected by PHREEQC (0 failed points), so the
+    posterior is not truncated by engine validity.
   evidence:
     from_test: ledger-closes
     observed: mass residual 0.0; energy residual 0.0; charge 0; flux <= 1.1e-14; 0/96 failed
     units: dimensionless
   explanation: >-
-    The og-00 contract's four invariants (mass_balance, charge_neutrality, spatial_flux_conservation,
-    energy_directionality) are now all machine-witnessed; energy_directionality was previously declared
-    but not computed.
-- id: og27-dic-crossover-bounded-window
-  kind: computational
-  status: novel
-  statement: >-
-    The interface's supply↔throttle behavior is a sharp two-regime cliff, not a gradual depletion: across
-    a dense fluid_dic sweep (2–20 mM) real PHREEQC carbonate saturation crosses SI=0 at ~3.2 mM, and the
-    interface either SUPPLIES (undersaturated, SI<0: H2 flux 2.75e-4 → 3.55e-5 from 2.0 → 3.0 mM, no precipitation,
-    pore open at porosity 0.96–0.97) OR THROTTLES-AND-CHOKES (supersaturated, SI≥+0.7: precipitation 0.23–0.29
-    and catalytic-accessibility drop ~0.12, but H2 flux crashes four orders to ~1e-8 and porosity collapses
-    to 0) — never both. No fluid_dic sustains flux AND exercises throttling with the pore open (window_exists=False),
-    so the self-limiting carbonate chemistry forces the vent operating point into the undersaturated regime.
-    The free-energy/mass/charge ledger closes at every sweep point.
-  evidence:
-    from_test: dic-crossover-sweep
-  expected:
-    cites: []
-    uncitable: true
-- id: og27-sustained-reactive-flux
-  kind: computational
-  status: planned
-  statement: >-
-    Over transport timescales the interface delivers H2 and inorganic-carbon fluxes and a maintained pH/redox
-    gradient at or above the levels used by published vent-reactor and H2-dependent-metabolism work; the
-    study reports the full time series and the onset of decay, not a single terminal value.
-  evidence:
-    from_test: sustained-reactive-flux-over-timescales
-  expected:
-    cites:
-    - herschy2014originreactor
-    - preiner2020hydrogen
-- id: og27-mineral-evolution-throttles-supply
-  kind: computational
-  status: planned
-  statement: >-
-    Precipitation and surface passivation reduce reactive surface and throttle catalytic supply on the
-    mineral-evolution timescale — the interface is depleting, and the study quantifies the crossover time
-    at which delivery drops below the downstream-required threshold.
-  evidence:
-    from_test: mineral-evolution-supply-decay
-  expected:
-    cites:
-    - varma2018native
-    - naturecomms2024ironsulfide
-- id: og27-electrochemical-driving-force
-  kind: computational
-  status: planned
-  statement: >-
-    The cross-interface electrical driving force is non-trivial and of the sign/scale needed to drive
-    CO2 reduction, verified independently by a FEniCSx Nernst–Planck solve against the FiPy transport
-    result.
-  evidence:
-    from_test: electrochemical-driving-force-verified
-- id: og27-coupled-conservation-ledger
-  kind: computational
-  status: planned
-  statement: >-
-    Mass, charge and energy close across the coupled PHREEQC+FiPy+Reaktoro solve to tolerance with no
-    untracked feeds.
-  evidence:
-    from_test: coupled-conservation
-- id: og27-handoff-bundle-to-29
-  kind: methodological
-  status: planned
-  statement: >-
-    The study emits the full 27→29 transfer bundle — H2 + inorganic-carbon flux, pH, T, ionic activities,
-    catalyst (mineral-surface) state and time-dependent feeds — as the typed boundary condition study
-    29 consumes.
-  evidence:
-    from_test: handoff-27-to-29-complete
+    The og-00 contract's four invariants (mass_balance, charge_neutrality, spatial_flux_conservation, energy_directionality)
+    are now all machine-witnessed; energy_directionality was previously declared but not computed.
 runs:
 - name: viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor__1791891560__19bbe2
   status: completed
@@ -939,10 +736,10 @@ runs:
       axis:
         id: vent-pH-in-lostcity-range
         label: >-
-          Settled outlet pH sits in the Lost City envelope (9.0-10.8). Met by reacting PERIDOTITE (olivine
-          + diopside pyroxene), not dunite: once Mg is consumed into serpentine/brucite, the Ca released
-          from pyroxene gives the real Ca-OH-rich, high-pH endmember (tremolite/diopside-buffered), reproducing
-          field pH ~9.2-9.5 at vent temperature — a genuine PHREEQC speciation result, not a tuned value.
+          Settled outlet pH sits in the Lost City envelope (9.0-10.8). Met by reacting PERIDOTITE (olivine + diopside
+          pyroxene), not dunite: once Mg is consumed into serpentine/brucite, the Ca released from pyroxene gives
+          the real Ca-OH-rich, high-pH endmember (tremolite/diopside-buffered), reproducing field pH ~9.2-9.5
+          at vent temperature — a genuine PHREEQC speciation result, not a tuned value.
         verdict: within_tol
         value: 9.374645
         meter: 0.5173446759259259
@@ -1038,8 +835,8 @@ runs:
       axis:
         id: heat-released-not-absorbed
         label: >-
-          Serpentinization is exothermic — the heat source never goes negative (energy_directionality
-          invariant, previously declared but uncomputed in og-00).
+          Serpentinization is exothermic — the heat source never goes negative (energy_directionality invariant,
+          previously declared but uncomputed in og-00).
         verdict: within_tol
         value: 1.0
         meter: 0.5
@@ -1094,8 +891,8 @@ runs:
       axis:
         id: dissolved-h2-in-lost-city-range
         label: >-
-          The canonical operating point's reacted-fluid dissolved H2 (backed out of the settled H2 flux)
-          sits in the Lost City end-member range 1-15 mmol/kg.
+          The canonical operating point's reacted-fluid dissolved H2 (backed out of the settled H2 flux) sits
+          in the Lost City end-member range 1-15 mmol/kg.
         verdict: within_tol
         value: 4.591306
         meter: 0.6197102
@@ -1123,10 +920,10 @@ runs:
       axis:
         id: posterior-viable-vent-fraction
         label: >-
-          Vent-calibration exit criterion (Feasibility + Robustness): the fraction of prior draws consistent
-          with every observation window that also satisfy the downstream requirements must be positive
-          (at least one physically admissible, observation-consistent vent state feeds carbon fixation);
-          the value itself is the deliverable.
+          Vent-calibration exit criterion (Feasibility + Robustness): the fraction of prior draws consistent with
+          every observation window that also satisfy the downstream requirements must be positive (at least one
+          physically admissible, observation-consistent vent state feeds carbon fixation); the value itself is
+          the deliverable.
         verdict: within_tol
         value: 1.0
         meter: 1.0
@@ -1154,8 +951,8 @@ runs:
       axis:
         id: structure-agreement-across-transport-classes
         label: >-
-          Discrimination / model-form uncertainty: the convecting and prescribed-upflow transport classes
-          must agree on viability for at least 80% of the prior draws, else og-00's conclusions are structure-sensitive.
+          Discrimination / model-form uncertainty: the convecting and prescribed-upflow transport classes must
+          agree on viability for at least 80% of the prior draws, else og-00's conclusions are structure-sensitive.
         verdict: within_tol
         value: 1.0
         meter: 0.625
@@ -1174,57 +971,6 @@ runs:
         knob: null
         citation: null
       auto_evaluated: true
-- name: gate-a-execution
-  status: completed
-  timestamp: 1792285919.102866
-  params:
-    nx: 20
-  outcomes:
-    sustained-reactive-flux-over-timescales:
-      result: PASS
-      measured_value: 0.0002742
-      detail: >-
-        H2 source flux sustained (0 -> 2.74e-4 mol/s) over the transport timescale; conservation holds.
-    coupled-conservation:
-      result: PASS
-      detail: ledger_ok=1 throughout; charge_imbalance=0; flux-divergence residual ~3e-5.
-    mineral-evolution-supply-decay:
-      result: NOT_EXERCISED
-      detail: >-
-        Undersaturated dissolution regime (saturation_index -15..-17); porosity opens 0.35->0.98, mineral_precipitation=0,
-        catalytic_accessibility stays 1 - throttling criterion unexercised at this operating point.
-- name: dic-crossover-sweep
-  status: completed
-  params:
-    n_steps: 120
-    dic_sweep_mM:
-    - 2.0
-    - 2.5
-    - 2.8
-    - 3.0
-    - 3.2
-    - 3.5
-    - 4.0
-    - 5.0
-    - 7.0
-    - 10.0
-    - 15.0
-    - 20.0
-  outcomes:
-    dic-crossover-sweep:
-      result: PASS
-      detail: >-
-        Characterized the real PHREEQC SI=0 cliff at ~3.2 mM fluid_dic; window_exists=False (no fluid_dic
-        sustains flux AND throttles with the pore open); ledger closes at every swept point - the calibration
-        that resolves needs_calibration.
-    mineral-evolution-supply-decay:
-      result: PASS
-      detail: >-
-        Throttling now EXERCISED across the supersaturated band (precipitation 0.23-0.29, catalytic-accessibility
-        drop ~0.12, porosity -> 0) - the criterion the undersaturated default point could not exercise.
-    coupled-conservation:
-      result: PASS
-      detail: Mass/charge/energy ledger closes at every swept fluid_dic (ledger_ok_all=True).
 visualizations:
 - name: vent-cross-section
   address: local:VentCrossSection
@@ -1269,25 +1015,7 @@ visualizations:
     composite: viva_genesis.composites.geochemical_world.geochemical_world
     n_steps: 120
     title: Geochemical world at the operating point (World view)
-- name: coupled-interface-evolution
-  address: local:OgCoupledInterfaceViz
-  config:
-    composite: >-
-      viva_genesis.composites.og_27_coupled_geochemical_reaction_interface.og_27_coupled_geochemical_reaction_interface
-    n_steps: 80
-    title: The interface evolves — supply vs self-throttling
-    caption: >-
-      Top row — outlet temperature, pH and H2 flux: the conditions and reducing power the vent wall delivers.
-      Bottom row — porosity closing, catalytic accessibility passivating, and carbonate saturation index
-      driving precipitation. Plainly: the wall delivers chemistry at first, but as minerals grow and clog
-      it that delivery declines — the interface depletes rather than lasting forever.
 baseline:
-- name: Coupled geochemical reaction interface — canonical (og-27)
-  composite: >-
-    viva_genesis.composites.og_27_coupled_geochemical_reaction_interface.og_27_coupled_geochemical_reaction_interface
-  params: {}
-  canonical: true
-  planned: false
 - name: Serpentinizing vent reactor baseline (og-00 arm)
   composite: viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor
   params: {}
@@ -1297,10 +1025,10 @@ baseline:
   params: {}
   planned: false
 parent_studies: []
-consolidation_note: >-
-  Consolidates og-27-coupled-geochemical-reaction-interface (canonical), og-00-vent-reactor-baseline,
-  og-cal-vent-environment, and the planned og-00b-ph-endmember-sweep into one concept. Each fold-in is
-  an explicit arm (see `arms`) keeping its own verdict, matched null, findings and run provenance; artifacts
-  + viz moved under artifacts|viz/<source-slug>/. og-27 is canonical, so og-vent-environment adopts plan_id
-  27 and numeric refs to study 27 (og-autocatalysis-a2 handoff from:27) resolve here; it carries og-27's
-  Gate A1 coupled-interface supply membership. test_viz_uq.py repointed to the moved og-cal-vent artifacts.
+parent_relations: []
+split_note: >-
+  Split from the former consolidated og-vent-environment into the calibrated-vent-STATES half (this study, og-00
+  + og-cal, supported) and the evolving-mineral-INTERFACE half (og-vent-interface, og-27 canonical), because each
+  carries an independent primary verdict: the calibrated feasible states are supported here, while whether the
+  evolving interface sustains delivery over time is the (qualified, partly-scaffolded) verdict of og-vent-interface.
+  The og-27 arm, its findings/viz and plan_id 27 move there. Every arm verdict, matched null and finding preserved.

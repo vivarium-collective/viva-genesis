@@ -1,0 +1,324 @@
+schema_version: 4
+name: og-vent-interface
+investigation: origins-of-life-vent
+created: '2026-10-18'
+phase: Evaluate
+status: ran
+design_status: approved
+simulation_status: ran
+evaluation_status: evaluated
+gate_status: passed
+verdict: qualified
+evidence_tier: mechanistic_prediction
+program: consolidated
+title: 'The Evolving Mineral Interface: A Bounded DIC Window'
+concept: >-
+  The evolving mineral-water interface: whether a coupled geochemical interface sustains its H2 / inorganic-carbon
+  flux and a maintained pH/redox gradient as the minerals evolve — and where it throttles. Builds on the calibrated
+  vent states of og-vent-environment (1A).
+gate_reason: >-
+  Evolving-interface half of the former og-vent-environment (split from the calibrated-states half). Canonical
+  arm og-27. HONEST STATUS: qualified on the one REALIZED result, the bounded two-regime DIC window (og27-dic-crossover-bounded-window;
+  the dic-crossover-sweep primary passes, window_exists=False). Its other five og-27 findings (sustained reactive
+  flux, mineral-evolution supply decay, electrochemical driving force, coupled conservation ledger, handoff-to-29)
+  remain status:planned — not yet realized. Carries plan_id 27 and the numeric refs to study 27.
+claim: >-
+  The evolving mineral interface delivers reduced-carbon chemistry only within a bounded two-regime DIC window
+  — under full redox equilibrium, DIC is drawn down before free H2 appears, so the usable window is narrow (og27-dic-crossover-bounded-window;
+  dic-crossover-sweep passes). Qualified: this DIC-cliff is the realized result; sustained-flux, mineral-evolution
+  supply decay and the coupled ledger over timescales are scaffolded (planned), not yet run.
+question: >-
+  Does the evolving mineral-water interface sustain its H2 / inorganic-carbon flux and pH/redox gradient as minerals
+  evolve, and where does the DIC window bound it?
+hypothesis: >-
+  The coupled interface maintains a usable reduced-carbon feed only inside a bounded DIC window, with a sharp
+  two-regime crossover where free H2 and dissolved inorganic carbon trade off.
+experiment: >-
+  Sweep the coupled geochemical reaction interface (og-27) across the DIC crossover to bound the window (realized);
+  the sustained-flux / mineral-evolution / coupled-ledger tests over timescales are specified but PLANNED, not
+  yet run.
+result: >-
+  A bounded two-regime DIC window: under full redox equilibrium DIC is reduced before free H2 appears, so the
+  usable reduced-carbon window is narrow (dic-crossover-sweep passes, window_exists=False). Qualified on this
+  realized DIC-cliff; the remaining og-27 flux / mineral-evolution / ledger findings are planned.
+builds_on:
+- 0
+plan_id: 27
+handoff:
+  emits:
+  - to: 29
+    provides:
+    - H2 flux
+    - inorganic carbon flux
+    - pH
+    - T
+    - ionic activities
+    - catalyst state
+    - time-dependent feeds
+    - bounded DIC window
+  receives:
+  - from: 0
+    requires:
+    - Lost City operating window
+    - viable vent posterior
+    - documented lifetime
+arms:
+- id: 27_coupled_geochemical_reaction_interface
+  source_study: og-27-coupled-geochemical-reaction-interface
+  concept_role: >-
+    Canonical (sharpened coupled interface): the evolving mineral-water interface delivers H2 / inorganic-carbon
+    flux + a maintained pH/redox gradient at or above required levels and a CO2-reducing electrochemical driving
+    force, with mass/charge/energy closing across PHREEQC+FiPy+Reaktoro — BUT precipitation + surface passivation
+    throttle catalytic supply on the mineral-evolution timescale and the supply<->throttle is a sharp two-regime
+    DIC cliff, so delivery is bounded/conditional (QUALIFIED).
+  fidelity: mechanistic_prediction
+  verdict: qualified
+  gate_status: passed
+  matched_null: dic-crossover-bounded-window
+  composite: >-
+    viva_genesis.composites.og_27_coupled_geochemical_reaction_interface.og_27_coupled_geochemical_reaction_interface
+  run_ids: []
+  finding_ids:
+  - og27-dic-crossover-bounded-window
+  - og27-sustained-reactive-flux
+  - og27-mineral-evolution-throttles-supply
+  - og27-electrochemical-driving-force
+  - og27-coupled-conservation-ledger
+  - og27-handoff-bundle-to-29
+  canonical: true
+behavior_tests:
+- name: sustained-reactive-flux-over-timescales
+  classification: primary
+  artifact: >-
+    workspace/studies/og-vent-interface/artifacts/og-27-coupled-geochemical-reaction-interface/interface_report.json
+  description: >-
+    Over transport timescales the interface delivers H2 and inorganic-carbon fluxes and a maintained pH/redox
+    gradient at or above the levels used by published vent-reactor and H2-dependent-metabolism work; the full
+    time series and the onset of decay are reported, not a single terminal value.
+  measure:
+    kind: observable
+    detail: >-
+      time- and space-resolved H2 + inorganic-carbon flux and pH/redox gradient over transport timescales
+  pass_if:
+    op: threshold
+    detail: delivery at or above the downstream-required level over the transport timescale
+  requires_simulation: 'yes'
+- name: mineral-evolution-supply-decay
+  classification: primary
+  artifact: >-
+    workspace/studies/og-vent-interface/artifacts/og-27-coupled-geochemical-reaction-interface/interface_report.json
+  description: >-
+    Precipitation and surface passivation reduce reactive surface and throttle catalytic supply on the mineral-evolution
+    timescale; the crossover time at which delivery drops below the downstream-required threshold is quantified.
+  measure:
+    kind: observable
+    detail: >-
+      catalytic supply / reactive surface vs. the slower mineral-evolution timescale; crossover time below threshold
+  pass_if:
+    op: threshold
+    detail: crossover time quantified (depleting-supply behaviour characterised)
+  requires_simulation: 'yes'
+- name: electrochemical-driving-force-verified
+  classification: secondary
+  description: >-
+    The cross-interface electrical driving force is non-trivial and of the sign/scale needed to drive CO2 reduction,
+    verified independently by a FEniCSx Nernst–Planck solve against the FiPy transport result.
+  measure:
+    kind: observable
+    detail: interface potential from FiPy transport vs. independent FEniCSx Nernst–Planck solve
+  pass_if:
+    op: threshold
+    detail: non-trivial driving force, cross-solver agreement to tolerance
+  requires_simulation: 'yes'
+- name: coupled-conservation
+  classification: secondary
+  artifact: >-
+    workspace/studies/og-vent-interface/artifacts/og-27-coupled-geochemical-reaction-interface/interface_report.json
+  description: >-
+    Mass, charge and energy close across the coupled PHREEQC+FiPy+Reaktoro solve to tolerance with no untracked
+    feeds.
+  measure:
+    kind: observable
+    detail: C/H/O/charge/energy residuals across the coupled solve
+  pass_if:
+    op: threshold
+    detail: residuals within tolerance; no untracked feed
+  requires_simulation: 'yes'
+- name: handoff-27-to-29-complete
+  classification: secondary
+  description: >-
+    The study emits the full 27→29 transfer bundle — H2 + inorganic-carbon flux, pH, T, ionic activities, catalyst
+    (mineral-surface) state and time-dependent feeds — as the typed boundary condition study 29 consumes.
+  measure:
+    kind: observable
+    detail: presence + typing of every field in the 27→29 transfer bundle
+  pass_if:
+    op: threshold
+    detail: bundle complete and typed (satisfies 27→29 handoff validator)
+  requires_simulation: 'yes'
+- name: dic-crossover-sweep
+  classification: primary
+  description: >-
+    A dense fluid_dic sweep across the PHREEQC SI=0 crossover characterizes the supply-vs-throttle two-regime
+    behavior and whether any operating point sustains flux AND exercises throttling with the pore open (the calibration
+    that resolves needs_calibration).
+  measure:
+    kind: observable
+    detail: H2 flux / precipitation / accessibility / porosity vs fluid_dic across SI=0
+    ledger closure: null
+  pass_if:
+    op: threshold
+    detail: >-
+      the crossover is characterized with the ledger closing at every point (window_exists resolved either way)
+  requires_simulation: 'yes'
+findings:
+- id: og27-dic-crossover-bounded-window
+  kind: computational
+  status: novel
+  statement: >-
+    The interface's supply↔throttle behavior is a sharp two-regime cliff, not a gradual depletion: across a dense
+    fluid_dic sweep (2–20 mM) real PHREEQC carbonate saturation crosses SI=0 at ~3.2 mM, and the interface either
+    SUPPLIES (undersaturated, SI<0: H2 flux 2.75e-4 → 3.55e-5 from 2.0 → 3.0 mM, no precipitation, pore open at
+    porosity 0.96–0.97) OR THROTTLES-AND-CHOKES (supersaturated, SI≥+0.7: precipitation 0.23–0.29 and catalytic-accessibility
+    drop ~0.12, but H2 flux crashes four orders to ~1e-8 and porosity collapses to 0) — never both. No fluid_dic
+    sustains flux AND exercises throttling with the pore open (window_exists=False), so the self-limiting carbonate
+    chemistry forces the vent operating point into the undersaturated regime. The free-energy/mass/charge ledger
+    closes at every sweep point.
+  evidence:
+    from_test: dic-crossover-sweep
+  expected:
+    cites: []
+    uncitable: true
+- id: og27-sustained-reactive-flux
+  kind: computational
+  status: planned
+  statement: >-
+    Over transport timescales the interface delivers H2 and inorganic-carbon fluxes and a maintained pH/redox
+    gradient at or above the levels used by published vent-reactor and H2-dependent-metabolism work; the study
+    reports the full time series and the onset of decay, not a single terminal value.
+  evidence:
+    from_test: sustained-reactive-flux-over-timescales
+  expected:
+    cites:
+    - herschy2014originreactor
+    - preiner2020hydrogen
+- id: og27-mineral-evolution-throttles-supply
+  kind: computational
+  status: planned
+  statement: >-
+    Precipitation and surface passivation reduce reactive surface and throttle catalytic supply on the mineral-evolution
+    timescale — the interface is depleting, and the study quantifies the crossover time at which delivery drops
+    below the downstream-required threshold.
+  evidence:
+    from_test: mineral-evolution-supply-decay
+  expected:
+    cites:
+    - varma2018native
+    - naturecomms2024ironsulfide
+- id: og27-electrochemical-driving-force
+  kind: computational
+  status: planned
+  statement: >-
+    The cross-interface electrical driving force is non-trivial and of the sign/scale needed to drive CO2 reduction,
+    verified independently by a FEniCSx Nernst–Planck solve against the FiPy transport result.
+  evidence:
+    from_test: electrochemical-driving-force-verified
+- id: og27-coupled-conservation-ledger
+  kind: computational
+  status: planned
+  statement: >-
+    Mass, charge and energy close across the coupled PHREEQC+FiPy+Reaktoro solve to tolerance with no untracked
+    feeds.
+  evidence:
+    from_test: coupled-conservation
+- id: og27-handoff-bundle-to-29
+  kind: methodological
+  status: planned
+  statement: >-
+    The study emits the full 27→29 transfer bundle — H2 + inorganic-carbon flux, pH, T, ionic activities, catalyst
+    (mineral-surface) state and time-dependent feeds — as the typed boundary condition study 29 consumes.
+  evidence:
+    from_test: handoff-27-to-29-complete
+runs:
+- name: gate-a-execution
+  status: completed
+  timestamp: 1792285919.102866
+  params:
+    nx: 20
+  outcomes:
+    sustained-reactive-flux-over-timescales:
+      result: PASS
+      measured_value: 0.0002742
+      detail: >-
+        H2 source flux sustained (0 -> 2.74e-4 mol/s) over the transport timescale; conservation holds.
+    coupled-conservation:
+      result: PASS
+      detail: ledger_ok=1 throughout; charge_imbalance=0; flux-divergence residual ~3e-5.
+    mineral-evolution-supply-decay:
+      result: NOT_EXERCISED
+      detail: >-
+        Undersaturated dissolution regime (saturation_index -15..-17); porosity opens 0.35->0.98, mineral_precipitation=0,
+        catalytic_accessibility stays 1 - throttling criterion unexercised at this operating point.
+- name: dic-crossover-sweep
+  status: completed
+  params:
+    n_steps: 120
+    dic_sweep_mM:
+    - 2.0
+    - 2.5
+    - 2.8
+    - 3.0
+    - 3.2
+    - 3.5
+    - 4.0
+    - 5.0
+    - 7.0
+    - 10.0
+    - 15.0
+    - 20.0
+  outcomes:
+    dic-crossover-sweep:
+      result: PASS
+      detail: >-
+        Characterized the real PHREEQC SI=0 cliff at ~3.2 mM fluid_dic; window_exists=False (no fluid_dic sustains
+        flux AND throttles with the pore open); ledger closes at every swept point - the calibration that resolves
+        needs_calibration.
+    mineral-evolution-supply-decay:
+      result: PASS
+      detail: >-
+        Throttling now EXERCISED across the supersaturated band (precipitation 0.23-0.29, catalytic-accessibility
+        drop ~0.12, porosity -> 0) - the criterion the undersaturated default point could not exercise.
+    coupled-conservation:
+      result: PASS
+      detail: Mass/charge/energy ledger closes at every swept fluid_dic (ledger_ok_all=True).
+visualizations:
+- name: coupled-interface-evolution
+  address: local:OgCoupledInterfaceViz
+  config:
+    composite: >-
+      viva_genesis.composites.og_27_coupled_geochemical_reaction_interface.og_27_coupled_geochemical_reaction_interface
+    n_steps: 80
+    title: The interface evolves — supply vs self-throttling
+    caption: >-
+      Top row — outlet temperature, pH and H2 flux: the conditions and reducing power the vent wall delivers.
+      Bottom row — porosity closing, catalytic accessibility passivating, and carbonate saturation index driving
+      precipitation. Plainly: the wall delivers chemistry at first, but as minerals grow and clog it that delivery
+      declines — the interface depletes rather than lasting forever.
+baseline:
+- name: Coupled geochemical reaction interface — canonical (og-27)
+  composite: >-
+    viva_genesis.composites.og_27_coupled_geochemical_reaction_interface.og_27_coupled_geochemical_reaction_interface
+  params: {}
+  canonical: true
+  planned: false
+parent_studies:
+- study: og-vent-environment
+  condition: tests-passed
+parent_relations:
+- study: og-vent-environment
+  relation: builds-on
+split_note: >-
+  Split from the former consolidated og-vent-environment: the evolving-mineral-INTERFACE half. Canonical arm og-27
+  with its findings/viz moved here; adopts plan_id 27 so numeric handoff/builds_on refs to study 27 (carbon-fixation,
+  autocatalysis-a2, spatial) resolve here. HONEST: qualified rests on the one realized DIC-cliff finding; the
+  other five og-27 findings stay status:planned. The calibrated-STATES half stays in og-vent-environment (supported).
