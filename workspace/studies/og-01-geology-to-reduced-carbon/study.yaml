@@ -511,7 +511,7 @@ pipeline_gate:
     evaluated_by: code
     diverges_from_authored: false
   prerequisites:
-  - study: og-00-vent-reactor-baseline
+  - study: og-vent-environment
     condition: tests-passed
 runs:
 - name: viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation__1791922499__eeba3d

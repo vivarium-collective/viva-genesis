@@ -348,7 +348,7 @@ executive:
       verdict may not advance until it carries a TransitionReport whose decision-discipline audit is
       clean — and re-label the fourteen earlier studies (every member study except the already-
       tier-labelled og-cal) with their tier language?'
-    context: 'This is done for the vent calibration (og-cal-vent-environment): the Lost-City-conditioned vent ensemble reports the posterior-viable fraction, the
+    context: 'This is done for the vent calibration (og-vent-environment): the Lost-City-conditioned vent ensemble reports the posterior-viable fraction, the
       cross-class agreement and the discriminating readouts, with the ledger clean. The remaining studies
       currently report gate PASS/FAIL on swept grids; under the standard most of their claims are
       mechanistic predictions or conceptual demonstrations (guidelines.scientific_standard.
@@ -450,10 +450,10 @@ guidelines:
       mechanistic_prediction: a parameterized model makes a new quantitative prediction -> "predicts under stated assumptions"
       conceptual_demonstration: a reduced model shows an organizational principle is possible -> "demonstrates in a coarse-grained model"
     tier_reading_of_current_studies:
-      reproduction: [og-00-vent-reactor-baseline, og-01-geology-to-reduced-carbon (Preiner/Hudson yields), og-cal-vent-environment (conditioning step)]
+      reproduction: [og-01-geology-to-reduced-carbon (Preiner/Hudson yields)]
       mechanistic_prediction: [og-01-geology-to-reduced-carbon (Tutolo collapse), og-network-persistence,
         og-spatial-concentration, og-self-compartmentation, og-res-nitrogen-assimilation,
-        og-res-phosphorus-availability, og-energetics, og-heredity, og-independence, og-growth-division, og-cal-vent-environment (posterior prediction),
+        og-res-phosphorus-availability, og-energetics, og-heredity, og-independence, og-growth-division, og-vent-environment (posterior prediction),
         og-01-cal-electrochemistry (mechanism map; the Altair current-window check is at reproduction tier)]
       conceptual_demonstration: [og-07-ecology-before-luca, og-07-alt-real-metabolite-exchange]
       null_control: [og-adv-generic-nonequilibrium]
@@ -487,7 +487,7 @@ guidelines:
   - phase: 1
     name: Environmental calibration
     status: built-and-run
-    studies: [og-00-vent-reactor-baseline, og-cal-vent-environment]
+    studies: [og-vent-environment]
     component: geochemical_world behind the serpentinization + spatial_transport faces, with ConservationLedgerProcess
     data_package: vent_environment (Lost City windows; MARHYS 4.0 pending)
     exit_criterion: posterior probability of viable vent states; validated mass/charge/energy ledger
@@ -693,8 +693,12 @@ inputs:
   - name: Model Upgrade plan — integration architecture (three-quantity standard, canonical interfaces + model class as axis, vg-data, UQ layer, nine-phase roadmap)
     path: references/model-upgrade-integration.md
 at_a_glance:
-- study: og-00-vent-reactor-baseline
-  role: The vent a cell would form in — validated geochemical/spatial testbed (no origin claim yet)
+- study: og-vent-environment
+  role: The vent environment a cell would form in — the serpentinizing reactor (settles in the Lost City
+    window over ~80% of the grid), its calibration (12.5% of plausible vent states bind, H2-limited), and the
+    sharpened coupled interface that supplies H2 / inorganic carbon / pH-redox gradients + a CO2-reducing
+    electrochemical driving force but throttles on a bounded two-regime DIC window; qualified — a viable
+    geochemical reactor within bounds (no origin claim; the testbed downstream chemistry draws on).
 - study: og-01-geology-to-reduced-carbon
   role: The cell's first carbon — H2-driven CO2 reduction; reproduce lab benchmarks; map the flux 
     region
@@ -739,9 +743,6 @@ at_a_glance:
     vs starve)
 - study: og-growth-alt-physical-reproduction
   role: Physical reproduction — a growing, dividing individual builds a multi-generation lineage in the agents map
-- study: og-cal-vent-environment
-  role: 'Vent calibration: what fraction of vent states consistent with observation also supply what
-    downstream chemistry needs — posterior, cross-class agreement, discriminating readouts, exact ledger'
 - study: og-01-cal-electrochemistry
   role: 'Carbon-fixation mechanism map: the vent wall as a galvanic cell — which limitation (thermodynamic,
     electrical, catalytic, transport) stops carbon fixation where, and whether the empirical and
@@ -753,7 +754,7 @@ at_a_glance:
     vanishing without sharing, sustained by oxaloacetate crossing between them, before any cell is complete; it
     needs a dicarboxylate permeability above ~3e-9 m/s; C/N/P ledger over agents + field closed on every run'
 studies:
-- og-00-vent-reactor-baseline
+- og-vent-environment
 - og-01-geology-to-reduced-carbon
 - og-network-persistence
 - og-spatial-concentration
@@ -764,13 +765,10 @@ studies:
 - og-res-nitrogen-assimilation
 - og-res-phosphorus-availability
 - og-growth-division
-- og-cal-vent-environment
 - og-01-cal-electrochemistry
 - og-growth-alt-physical-reproduction
 - og-07-alt-real-metabolite-exchange
-- og-00b-ph-endmember-sweep
 - og-01-cal-dx-label-disagreement
-- og-27-coupled-geochemical-reaction-interface
 - og-autocatalysis-a2
 - og-self-compartmentation
 - og-33-chemically-coupled-growth-and-division
@@ -779,7 +777,7 @@ studies:
 - mem-m4-growth-division-propensity
 - og-ev-competing-environments
 acceptance_criteria:
-- study: og-00-vent-reactor-baseline
+- study: og-vent-environment
   behavior: vent-pH-in-lostcity-range
 - study: og-01-geology-to-reduced-carbon
   behavior: net-carbon-flux-nonzero-region
@@ -811,7 +809,7 @@ acceptance_criteria:
   behavior: boundary-forms-from-chemistry
 - study: og-growth-alt-physical-reproduction
   behavior: lineage-reaches-three-generations
-- study: og-cal-vent-environment
+- study: og-vent-environment
   behavior: posterior-viable-vent-fraction
 - study: og-01-cal-electrochemistry
   behavior: failure-mode-attributed
@@ -963,7 +961,7 @@ proposed_inputs:
       H2, major/minor elements, carbon species, isotopes). DOI landing page to be recorded on attach."
     proposed_by: agent
     proposed_at: '2026-10-14'
-    related_study: og-cal-vent-environment
+    related_study: og-vent-environment
     rationale: "The vent-calibration conditioning set (priority upgrade A): environmental priors over
       T, pH, H2, fluid chemistry and fluid/rock ratio across ultramafic-hosted systems. The current vg-data
       package vent_environment conditions on the Lost City windows only and marks marhys_conditioning pending."
@@ -1002,7 +1000,7 @@ proposed_inputs:
       aqueous kinetics and chemistry-dependent material properties."
     proposed_by: agent
     proposed_at: '2026-10-14'
-    related_study: og-cal-vent-environment
+    related_study: og-vent-environment
     rationale: "Vent-calibration follow-up: a second geochemical backend on the serpentinization face (beside PHREEQC and
       the planned Reaktoro class) with dynamic porosity/permeability feedback — the plan's 'does the reactor
       poison or seal itself?' question (MineralEvolutionProcess, reactor-stays-open gate)."
@@ -1052,7 +1050,7 @@ plan_gates:
     name: Network persistence
     extends: null
     member_studies:
-      - og-27-coupled-geochemical-reaction-interface
+      - og-vent-environment
       - og-network-persistence
     pending_studies:
       # Evidence-expansion sub-program (PLANNED challenge studies; honest-bar — they test whether

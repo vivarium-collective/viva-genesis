@@ -7,7 +7,7 @@ from pathlib import Path
 
 import pytest
 
-_ART = Path(__file__).resolve().parents[1] / "workspace" / "studies" / "og-cal-vent-environment" / "artifacts"
+_ART = Path(__file__).resolve().parents[1] / "workspace" / "studies" / "og-vent-environment" / "artifacts" / "og-cal-vent-environment"
 
 
 def test_vent_environment_posterior_figure_renders():

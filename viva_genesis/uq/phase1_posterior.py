@@ -18,8 +18,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-_ENSEMBLE = "workspace/studies/og-cal-vent-environment/artifacts/vent_environment_ensemble.json"
-_REPORT = "workspace/studies/og-cal-vent-environment/artifacts/vent_environment_report.json"
+_ENSEMBLE = "workspace/studies/og-vent-environment/artifacts/og-cal-vent-environment/vent_environment_ensemble.json"
+_REPORT = "workspace/studies/og-vent-environment/artifacts/og-cal-vent-environment/vent_environment_report.json"
 HEADLINE_CLASS = "serpentinization=phreeqc+spatial_transport=fipy"
 
 
