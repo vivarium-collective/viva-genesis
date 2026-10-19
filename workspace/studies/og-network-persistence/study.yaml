@@ -1243,7 +1243,7 @@ baseline:
   params: {}
   planned: false
 parent_studies:
-- study: og-01-geology-to-reduced-carbon
+- study: og-carbon-fixation
   condition: tests-passed
 consolidation_note: >-
   Consolidates og-02-reduced-carbon-to-protometabolism (canonical), og-02-alt-reaction-universe, and og-28-prebiotic-reaction-atlas
