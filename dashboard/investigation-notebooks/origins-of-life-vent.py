@@ -5104,6 +5104,139 @@ _save_viz('og-32-first-self-maintaining-protocell', 'self-maintaining-protocell'
 # | matched-null-equal-feeds _(primary)_ | kind=observable detail=external feed ledger - membrane vs ablation feeds held equal | op threshold detail input fluxes equal across arms |
 # | self-maintenance-windowed _(secondary)_ | kind=observable detail=k_deg boundary sweep + composition (short/long) sweep | op threshold detail a real upper k_deg boundary is bracketed |
 
+# ## Study: Fatty-Acid Vesicle Stability (`og-32b-fatty-acid-vesicle-stability`)
+#
+# **Question.** Do real single-chain fatty-acid amphiphiles self-assemble into and hold a STABLE closed bilayer vesicle (the protocell boundary) under vent conditions, across what chain-length window (C10-C16), and does the matched null - the same amphiphile with fully-ionised, charged-only heads - fail by micellising, as fatty-acid vesicle physics predicts?
+#
+# **Objective.** Build real Martini 3 fatty-acid vesicles (C10/C12/C14/C16, protonated + charged-only null) with the viva-openmm fatty-acid defs + vesicle builder, run short membrane-barostat CG-MD, and measure bilayer-shell retention (inner-leaflet / water-lumen presence vs single-surface collapse) across independent seeds to locate the stability window and the destabilising corner.
+#
+# **Hypothesis.** Protonated / mixed-protonation fatty-acid heads form stable closed bilayer vesicles across the C10-C16 chain-length axis; fully-charged heads (and the shortest chains, highest curvature + strongest headgroup repulsion) destabilise toward micelles. The stabilising trend should strengthen with chain length.
+#
+# **Claim.** Real single-chain fatty-acid vesicles hold a closed bilayer shell across the C10-C16 chain-length axis on a short-MD stability trend, while the matched fully-charged null destabilises toward a micelle at the short-chain corner - a real-amphiphile boundary, replacing og-32's phospholipid stand-in (verdict qualified; the converged chain-length/charge window is the GPU gold-standard follow-up).
+
+# ### Design — originally proposed
+#
+# _The mechanisms and methods proposed when this study was designed; the model **actually built** (and the tools it uses) is shown below. These may differ as the design was realized._
+#
+# **Proposed mechanisms**
+#
+# - Fatty-acid vesicle stability is set by headgroup protonation plus chain length - protonated (neutral, H-bonding) heads pack into a bilayer; fully-ionised heads repel and favour high-curvature micelles; shorter chains raise curvature and lower the bilayer-forming threshold.
+#
+# **Proposed models / methods**
+#
+# - Real Martini 3 coarse-grained MD of a built fatty-acid vesicle (viva-openmm OpenMMMartiniProcess + build_vesicle + MonteCarloMembraneBarostat), measuring end-state bilayer-shell retention across seeds.
+#
+# **Key assumptions**
+#
+# - The matched null is the SAME fatty acid with fully-ionised charged-only heads (only protonation differs), so a stability difference is attributable to headgroup charge / chain length, not composition.
+# - Stability is judged by retention of a populated inner leaflet + water lumen (a closed bilayer), not outer-shell coherence alone (a micelle also has a coherent outer surface).
+# - The amphiphile is the real single-chain fatty acid (viva-openmm Martini 3 defs), replacing og-32's DLPC/DPPC phospholipid stand-in.
+# - The result is a SHORT-MD stability trend across >= 3 seeds, not a converged micellisation equilibrium; the converged window is the GPU gold-standard follow-up.
+# - pH is fixed-charge (protonated OR charged per arm), not dynamic titration.
+
+# ### Parameters
+#
+# | simulation | composite | steps | params |
+# | --- | --- | --- | --- |
+# | `Gate-C protocell boundary informed by the real fatty-acid vesicle MD` | `viva_genesis.composites.og_32_first_self_maintaining_protocell.og_32_first_self_maintaining_protocell` | 0 | membrane=True, composition=long_di-C16 |
+
+# ### The model & its parameters
+#
+# Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
+
+# **The model — `viva_genesis.composites.og_32_first_self_maintaining_protocell.og_32_first_self_maintaining_protocell`**
+#
+# Full Gate C (Option B, MD-INFORMED not PMF-resolved): couples the sustained A1 carbon-fixing network (Gate-B pore) to an endogenous membrane whose permeability is INFORMED BY short Martini CG-MD of the amphiphile composition (bilayer thickness: DLPC/di-C12 2.325 nm vs DPPC/di-C16 2.870 nm). A solubility-diffusion relation (proposed_input) maps thickness->permeability->retention (thicker long-chain membrane retains more); retention lowers effective washout (k_wash*(1-retention)) at feeds held EQUAL to the ablation. membrane=False is the matched no-endogenous-membrane control (permeability open, retention 0). Metabolism = sustained A1 network, NOT autocatalytic (A2 refuted). Full PMF-resolved permeability is Option A (study og-32a, budgeted follow-on).
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_og_32_first_self_maintaining_protocell_og_32_first_self_maintaining_protocell = {
+    'membrane'   : True,   # Endogenous membrane (True) vs matched no-membrane ablation (False)
+    'composition': 'long_di-C16',   # MD amphiphile composition (long_di-C16 = aggregation-competent pool)
+    'base_CO2'   : 0.001,   # Bulk precursor CO2 (molar) — equal across arms
+    'base_H2'    : 0.001,   # Bulk precursor H2 (molar) — equal across arms
+    'porosity'   : 0.88,   # Gate-B pore porosity (0.88 = demo pore)
+    'k_wash'     : 0.05,   # Base CSTR washout (1/s) before retention
+    'max_carbons': 4,   # Carbon cap of the reaction universe
+}
+
+# ### Typed contract (declared interface)
+#
+# _The bigraph-schema typed ports + conservation predicates this study's composite must satisfy (audited in the workbench §Contract panel). Declared design — independent of whether a run exists yet._
+#
+# **Inputs**
+#
+# | port | type | units | bounds |
+# | --- | --- | --- | --- |
+# | `chain_length` | integer | carbons | >= 10 |
+# | `protonation_state` | string | dimensionless |  |
+#
+# **Outputs**
+#
+# | port | type | units | bounds |
+# | --- | --- | --- | --- |
+# | `shell_integrity` | float | dimensionless | >= 0.0 |
+# | `inner_leaflet_fraction` | float | dimensionless | >= 0.0 |
+# | `head_radial_cv` | float | dimensionless | >= 0.0 |
+# | `vesicle_verdict` | string | dimensionless |  |
+#
+# **Conditions**
+#
+# - `matched_null_same_amphiphile` (invariant): `the null is the SAME fatty acid with fully-ionised (charged-only SQ5n) heads - identical chain, only the protonation differs, so a stability difference is attributable to headgroup charge/chain, not composition`
+# - `real_fatty_acid_not_phospholipid_standin` (invariant): `the amphiphile is the real single-chain fatty acid (viva-openmm Martini 3 defs), not og-32's DLPC/DPPC phospholipid stand-in`
+# - `bilayer_vs_micelle_by_inner_leaflet` (invariant): `stability is judged by retention of a populated INNER leaflet + water lumen (a closed bilayer), not by outer-shell coherence alone (a micelle also has a coherent outer surface)`
+# - `multi_seed_verdict` (invariant): `each arm's verdict is taken on the MEAN of >= 3 independent MD replicates with the spread reported, not a single trajectory`
+
+# ### Run
+#
+# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
+
+# === Study: og-32b-fatty-acid-vesicle-stability ===
+STUDY = 'og-32b-fatty-acid-vesicle-stability'
+STUDY_DIR = REPO / 'workspace/studies' / STUDY
+STUDY_YAML = str(STUDY_DIR / "study.yaml")
+RUNS_DB = str(STUDY_DIR / "runs.db")
+
+# This study has no *recorded* runs yet. RERUN builds its declared
+# composite(s) live and runs them; a composite whose module processes
+# are not implemented yet reports the error instead of crashing.
+STEPS_Gate_C_protocell_boundary_informed_by_the_real_fatty_acid_vesicle_MD = 100
+INTERVAL_Gate_C_protocell_boundary_informed_by_the_real_fatty_acid_vesicle_MD = 1.0
+
+if RERUN:
+    from process_bigraph import Composite
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_og_32_first_self_maintaining_protocell_og_32_first_self_maintaining_protocell if 'ov_viva_genesis_composites_og_32_first_self_maintaining_protocell_og_32_first_self_maintaining_protocell' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_og_32_first_self_maintaining_protocell_og_32_first_self_maintaining_protocell = materialize_composite('viva_genesis.composites.og_32_first_self_maintaining_protocell.og_32_first_self_maintaining_protocell', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_og_32_first_self_maintaining_protocell_og_32_first_self_maintaining_protocell['state']}, core=core)
+            _comp.run(STEPS_Gate_C_protocell_boundary_informed_by_the_real_fatty_acid_vesicle_MD)
+        print('ran', 'Gate-C protocell boundary informed by the real fatty-acid vesicle MD', f'(viva_genesis.composites.og_32_first_self_maintaining_protocell.og_32_first_self_maintaining_protocell) for', STEPS_Gate_C_protocell_boundary_informed_by_the_real_fatty_acid_vesicle_MD, 'steps')
+    except Exception as _e:
+        print(f"Gate-C protocell boundary informed by the real fatty-acid vesicle MD not runnable yet: {type(_e).__name__}: {_e}")
+else:
+    print("RERUN=False — not re-simulating.")
+
+# ### Visualizations
+#
+# _Results are shown by the figures below, produced by the run above._
+
+# **fatty-acid-vesicle-stability**
+
+# fatty-acid-vesicle-stability
+_save_viz('og-32b-fatty-acid-vesicle-stability', 'fatty-acid-vesicle-stability', _render_one('local:OgFattyAcidVesicleStabilityViz', {'title': 'Fatty-acid vesicles hold a bilayer across the chain window; the charged null micellises', 'report_json': 'workspace/studies/og-32b-fatty-acid-vesicle-stability/artifacts/vesicle_stability.json'}, RUNS_DB, STUDY_YAML))
+
+# ### Acceptance criteria
+#
+# _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
+#
+# | test | measures | passes if |
+# | --- | --- | --- |
+# | protonated-vesicle-stable _(primary)_ | kind=observable detail=mean inner_leaflet_fraction + head_radial_cv across seeds per chain=None | op threshold detail inner_leaflet_fraction mean >= 0.20 AND head_radial_cv mean <= 0.35 for all protonated chains |
+# | charged-null-destabilises _(primary)_ | kind=observable detail=charged-null head_radial_cv + inner_leaflet vs the protonated arm at the same chain=None | op threshold detail at least the shortest charged chain micellises (cv mean > 0.35 or inner leaflet lost) |
+# | real-fatty-acid-not-standin _(primary)_ | kind=observable detail=vesicle built from martini_v3.0.0_fatty_acids_v1.itp FAnn/FAnnM run in martini_openmm=None | op threshold detail real fatty-acid vesicle builds + integrates (finite energy) under the membrane barostat |
+# | multi-seed-robust _(secondary)_ | kind=observable detail=per-arm n_seeds n_stable_seeds=None and the std of each metric=None | op threshold detail at least 3 seeds per arm with reported mean +/- std |
+
 # ## Study: Chemically Coupled Growth and Division (`og-33-chemically-coupled-growth-and-division`)
 #
 # **Question.** Can a self-maintaining protocell grow and divide as a consequence of its own chemistry - membrane area and content increasing from metabolism until a physical instability splits it - rather than by an imposed division rule, and are the daughters viable?
