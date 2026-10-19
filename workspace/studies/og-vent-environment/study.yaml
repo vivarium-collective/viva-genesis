@@ -316,6 +316,8 @@ behavior_tests:
   band_basis: first_principles
 findings:
 - id: og00-temperature-ph-in-window
+  evidence_basis: predicted
+  evidence_basis_note: "The forward PHREEQC+FiPy reactor baseline settles inside the Lost City window - a prediction, distinct from the calibrated posterior findings."
   kind: computational
   status: confirms
   statement: >-
@@ -419,6 +421,8 @@ findings:
     Sweep pyroxene_fraction (ol/px ratio) and seawater-mixing dilution to bound the pH endmember (og-00b).
   next_action_type: calibrate
 - id: ogcal-posterior-viable-fraction
+  evidence_basis: calibrated
+  evidence_basis_note: "A Bayesian posterior fitted to the Lost City T/pH/H2 field windows."
   provenance:
     run_ids:
     - viva_genesis.composites.geochemical_world.geochemical_world__1792035577__f4b955
@@ -445,6 +449,8 @@ findings:
     - ludwig2006formation
     - proskurowski2008abiogenic
 - id: ogcal-h2-is-the-binding-observation
+  evidence_basis: calibrated
+  evidence_basis_note: "The DIC posterior is narrowed by conditioning on the Lost City H2 window."
   provenance:
     run_ids:
     - viva_genesis.composites.geochemical_world.geochemical_world__1792035577__f4b955

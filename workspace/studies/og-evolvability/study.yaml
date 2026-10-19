@@ -158,6 +158,8 @@ behavior_tests:
   requires_simulation: 'yes'
 findings:
 - id: og34-heritable-fitness-or-none
+  evidence_basis: predicted
+  evidence_basis_note: "The selectable-heredity signal over 8 seeds x 40 generations is the evolutionary model's outcome vs the vasas-2010 null."
   kind: computational
   status: confirms
   statement: >-

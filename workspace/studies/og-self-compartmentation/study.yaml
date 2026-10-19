@@ -550,6 +550,8 @@ behavior_tests:
   requires_simulation: 'yes'
 findings:
 - id: og04-mixed-amphiphile-window
+  evidence_basis: calibrated
+  evidence_basis_note: "Mixed-amphiphile vesicle viability where a single fatty acid fails reproduces the experimental window at vent pH / seawater ionic strength."
   provenance:
     run_ids:
     - >-
@@ -648,6 +650,8 @@ findings:
   cites:
   - jordan2019promotion
 - id: og31-membrane-pays-on-persistence
+  evidence_basis: predicted
+  evidence_basis_note: "The persistence benefit is a model output at the Jordan-2019-calibrated retention 0.905 / access 0.997."
   kind: computational
   status: confirms
   statement: >-
@@ -748,6 +752,8 @@ findings:
   evidence:
     from_test: beats-ablation-flux-or-persistence
 - id: og32b-protonated-vesicles-stable-across-window
+  evidence_basis: predicted
+  evidence_basis_note: "Bilayer stability across the protonation window is a real Martini-3 CG-MD result (3 seeds/arm)."
   kind: computational
   status: confirms
   statement: >-

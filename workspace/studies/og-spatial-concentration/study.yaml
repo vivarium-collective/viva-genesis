@@ -206,6 +206,8 @@ behavior_tests:
   band_basis: machine_precision
 findings:
 - id: og03-baaske-enrichment
+  evidence_basis: predicted
+  evidence_basis_note: "The accumulation Peclet from the FVM transport model clears the independent Baaske-2007 regime; it is not fit to it."
   provenance:
     run_ids:
     - >-

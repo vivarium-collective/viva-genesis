@@ -642,6 +642,8 @@ findings:
     the carrier bond, discharges it to endergonic work under load, and bleeds it by first-order hydrolysis;
     the steady charge is the balance of charging against the two drains.
 - id: ogenergy-stored-work-fraction
+  evidence_basis: predicted
+  evidence_basis_note: "Stored-work fraction comes from the closed free-energy ledger, not fit to a target."
   provenance:
     run_ids:
     - viva_genesis.composites.proto_energetics.proto_energetics__1792351385__122918
@@ -734,6 +736,8 @@ findings:
     Below a pump-efficiency threshold the internal-pump flux cannot beat its cost against the lost external
     coupling, so no strategy clears the survival floor.
 - id: og05-survival-phase-map
+  evidence_basis: predicted
+  evidence_basis_note: "The survival region is a model output; the Sojo eta~=0.30 cost line is the external anchor it is compared against."
   provenance:
     run_ids:
     - >-

@@ -308,6 +308,8 @@ findings:
     cites:
     - naturecomms2024ironsulfide
 - id: og-rtca-vent-h2-washout
+  evidence_basis: predicted
+  evidence_basis_note: "The rTCA washout under vent H2 is the model's own outcome across the x1-x50 sweep, not fit to a target."
   kind: computational
   status: contradicts
   statement: >-
@@ -332,6 +334,8 @@ findings:
   evidence:
     from_test: rtca-topology-net-turn
 - id: og-rtca-topology-specific-permissive-limit
+  evidence_basis: extrapolated
+  evidence_basis_note: "Meets the self-amplification bar only in a labelled permissive counterfactual that lowers the carboxylation barrier - outside the modeled vent regime."
   kind: computational
   status: novel
   statement: >-

@@ -539,6 +539,8 @@ behavior_tests:
   band_basis: machine_precision
 findings:
 - id: og36-community-beats-best-single
+  evidence_basis: predicted
+  evidence_basis_note: "Cross-feeding community output at equal shared feed is an SSA model result, not fit."
   kind: computational
   status: confirms
   statement: >-
@@ -584,6 +586,8 @@ findings:
   evidence:
     from_test: community-not-more-robust-than-monoculture
 - id: og07-connectivity-builds-robustness
+  evidence_basis: predicted
+  evidence_basis_note: "Connected-vs-isolated robustness gain across 8 seeds is a model outcome."
   provenance:
     run_ids:
     - >-
