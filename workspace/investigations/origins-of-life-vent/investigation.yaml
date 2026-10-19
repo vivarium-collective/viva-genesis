@@ -452,9 +452,9 @@ guidelines:
     tier_reading_of_current_studies:
       reproduction: [og-01-geology-to-reduced-carbon (Preiner/Hudson yields)]
       mechanistic_prediction: [og-01-geology-to-reduced-carbon (Tutolo collapse), og-network-persistence,
-        og-spatial-concentration, og-self-compartmentation, og-nutrient-bottlenecks, og-energetics, og-heredity, og-independence, og-reproduction, og-vent-environment (posterior prediction),
+        og-spatial-concentration, og-self-compartmentation, og-nutrient-bottlenecks, og-energetics, og-heredity, og-independence, og-reproduction, og-ecology, og-vent-environment (posterior prediction),
         og-01-cal-electrochemistry (mechanism map; the Altair current-window check is at reproduction tier)]
-      conceptual_demonstration: [og-07-ecology-before-luca, og-07-alt-real-metabolite-exchange]
+      conceptual_demonstration: []
       null_control: [og-adv-generic-nonequilibrium]
     decision_discipline:
     - Do not move a headline conclusion forward if it depends on a numerically unvalidated regime.
@@ -563,7 +563,7 @@ guidelines:
   - phase: 8
     name: Biochemical ecology
     status: built-and-run
-    studies: [og-07-ecology-before-luca, og-07-alt-real-metabolite-exchange]
+    studies: [og-ecology]
     component: proto_ecology face with reaction_universe | null_network classes (the reaction universe inside every agent, masked to a lineage rule repertoire — fixer / reducer / condenser / generalist — integrated by the agent's own libRoadRunner instance); SpatialCouplingStep pointing agents at fixed cells of the og-03 enrichment field and firing the uptake / secretion / pore-diffusion / feed-washout rules of a BigraphicalReactiveSystem (every firing counted, cross-lineage flux published); EcologyReducerStep recomputing og-07's gate names from the agents (held vs produced product classes, cell completeness); EcologyElementLedgerProcess (C / N / P over agents + field)
     data_package: cnp_resources (23 parameters; 0 measured, 2 calibrated — the vent-calibration carbon feed — 7 inferred, 7 extrapolated, 7 hypothetical; the dicarboxylate permeability is the swept, hypothetical Decision axis) + reaction_universe
     exit_criterion: emergent cross-feeding, division of labor and robustness from flux and permeability, not symbolic capability transfer
@@ -727,8 +727,8 @@ at_a_glance:
     fidelities as arms: competing inheritance modules (need not presume RNA; compositional/hybrid escape the
     Eigen length catastrophe), the information-per-cost frontier of six mechanisms, and a reproducible
     selectable fitness difference (parent-offspring correlation +0.949 vs a no-inheritance control); qualified
-- study: og-07-ecology-before-luca
-  role: Before LUCA — population-level emergence vs single-lineage reconstruction
+- study: og-ecology
+  role: 'Protocell ecology — a cross-feeding community out-produces the best single lineage (margin causally cross-feeding) and community function precedes cell completeness; studied as arms (og-36 stochastic community-vs-single, og-07 metacommunity, og-07-alt real metabolite exchange)'
 - study: og-independence
   role: 'Escape and progressive independence from the vent — the minimum innovation set off-gradient, then a graded, attributed map of which innovation internalizes which support, bounded by an honest negative on joint sufficiency across model structures'
 - study: og-adv-generic-nonequilibrium
@@ -741,12 +741,6 @@ at_a_glance:
   role: 'Carbon-fixation mechanism map: the vent wall as a galvanic cell — which limitation (thermodynamic,
     electrical, catalytic, transport) stops carbon fixation where, and whether the empirical and
     Butler-Volmer classes agree on it; charge + electron ledger'
-- study: og-07-alt-real-metabolite-exchange
-  role: 'Biochemical ecology: the reaction universe inside every protocell, masked to a lineage
-    repertoire, coupled only by matter crossing membranes into an og-03-shaped pore — a community of a
-    carboxylating and a hydrogenating lineage holds the reductive C4 branch (malate) that neither performs alone,
-    vanishing without sharing, sustained by oxaloacetate crossing between them, before any cell is complete; it
-    needs a dicarboxylate permeability above ~3e-9 m/s; C/N/P ledger over agents + field closed on every run'
 studies:
 - og-vent-environment
 - og-01-geology-to-reduced-carbon
@@ -754,16 +748,14 @@ studies:
 - og-spatial-concentration
 - og-energetics
 - og-heredity
-- og-07-ecology-before-luca
 - og-adv-generic-nonequilibrium
 - og-nutrient-bottlenecks
 - og-01-cal-electrochemistry
-- og-07-alt-real-metabolite-exchange
 - og-01-cal-dx-label-disagreement
 - og-autocatalysis-a2
 - og-self-compartmentation
 - og-reproduction
-- og-36-stochastic-protocell-ecology
+- og-ecology
 - og-independence
 - mem-m4-growth-division-propensity
 - og-ev-competing-environments
@@ -782,7 +774,7 @@ acceptance_criteria:
   behavior: reduced-gradient-dependence
 - study: og-heredity
   behavior: inheritance-beats-noninheritance
-- study: og-07-ecology-before-luca
+- study: og-ecology
   behavior: cross-feeding-robustness
 - study: og-independence
   behavior: survival-off-gradient
@@ -810,7 +802,7 @@ acceptance_criteria:
   behavior: internalization-pays
 - study: og-heredity
   behavior: ancestry-predicts-phenotype
-- study: og-07-alt-real-metabolite-exchange
+- study: og-ecology
   behavior: community-function-precedes-cell-completeness
 - study: og-independence
   behavior: minimum-sufficient-innovation-set
@@ -1004,7 +996,7 @@ proposed_inputs:
       Template-directed synthesis of a genetic polymer in a model protocell. Nature 454:122-125."
     proposed_by: agent
     proposed_at: '2026-10-15'
-    related_study: og-07-alt-real-metabolite-exchange
+    related_study: og-ecology
     rationale: "Ecology-stage membrane permeabilities: the measured passage of charged solutes (activated
       nucleotides, ~1e-11-1e-10 m/s) through fatty-acid vesicles is the only anchor for the
       cnp_resources permeability classes (p_monoacid, p_diacid); the community-function emergence boundary
@@ -1018,7 +1010,7 @@ proposed_inputs:
       to the composition of plankton. James Johnstone Memorial Volume, 176-192."
     proposed_by: agent
     proposed_at: '2026-10-15'
-    related_study: og-07-alt-real-metabolite-exchange
+    related_study: og-ecology
     rationale: "The C:N:P demand ratios (cn_demand, cp_demand) in cnp_resources are hypothetical placeholders;
       a Redfield-type stoichiometric anchor would turn the community's C:N:P supply readout into a gate once
       N/P-bearing rules enter the reaction universe."
@@ -1123,7 +1115,7 @@ plan_gates:
     optional: true
     member_studies:
       - og-energetics
-      - og-36-stochastic-protocell-ecology
+      - og-ecology
       - og-independence
     pending_studies: []
     criterion: >-
