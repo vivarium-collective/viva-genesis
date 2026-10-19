@@ -452,8 +452,7 @@ guidelines:
     tier_reading_of_current_studies:
       reproduction: [og-01-geology-to-reduced-carbon (Preiner/Hudson yields)]
       mechanistic_prediction: [og-01-geology-to-reduced-carbon (Tutolo collapse), og-network-persistence,
-        og-spatial-concentration, og-self-compartmentation, og-res-nitrogen-assimilation,
-        og-res-phosphorus-availability, og-energetics, og-heredity, og-independence, og-growth-division, og-vent-environment (posterior prediction),
+        og-spatial-concentration, og-self-compartmentation, og-nutrient-bottlenecks, og-energetics, og-heredity, og-independence, og-growth-division, og-vent-environment (posterior prediction),
         og-01-cal-electrochemistry (mechanism map; the Altair current-window check is at reproduction tier)]
       conceptual_demonstration: [og-07-ecology-before-luca, og-07-alt-real-metabolite-exchange]
       null_control: [og-adv-generic-nonequilibrium]
@@ -734,10 +733,8 @@ at_a_glance:
   role: 'Escape and progressive independence from the vent — the minimum innovation set off-gradient, then a graded, attributed map of which innovation internalizes which support, bounded by an honest negative on joint sufficiency across model structures'
 - study: og-adv-generic-nonequilibrium
   role: 'Adversarial control: the gates must reject generic non-vent chemistry'
-- study: og-res-nitrogen-assimilation
-  role: 'The first nitrogen — reduced-N keeps pace with carbon, or limits first'
-- study: og-res-phosphorus-availability
-  role: Phosphorus — can the pore co-concentrate P with C and N, or does it precipitate first?
+- study: og-nutrient-bottlenecks
+  role: 'Nutrient bottlenecks — reduced nitrogen keeps pace with carbon and reactive phosphorus co-concentrates in the pore (or limits first), studied as nitrogen + phosphorus arms'
 - study: og-growth-division
   role: Growth and division — metabolism changes the compartment's physical fate (grow->divide vs lyse
     vs starve)
@@ -762,8 +759,7 @@ studies:
 - og-heredity
 - og-07-ecology-before-luca
 - og-adv-generic-nonequilibrium
-- og-res-nitrogen-assimilation
-- og-res-phosphorus-availability
+- og-nutrient-bottlenecks
 - og-growth-division
 - og-01-cal-electrochemistry
 - og-growth-alt-physical-reproduction
@@ -797,9 +793,9 @@ acceptance_criteria:
   behavior: survival-off-gradient
 - study: og-adv-generic-nonequilibrium
   behavior: gates-reject-generic
-- study: og-res-nitrogen-assimilation
+- study: og-nutrient-bottlenecks
   behavior: nitrogen-keeps-pace-with-carbon
-- study: og-res-phosphorus-availability
+- study: og-nutrient-bottlenecks
   behavior: reactive-p-available
 - study: og-energetics
   behavior: currency-maintained
@@ -871,7 +867,7 @@ proposed_inputs:
       (Environmental Science & Technology, 2024). Full bibliographic details pending."
     proposed_by: agent
     proposed_at: '2026-10-13'
-    related_study: og-res-nitrogen-assimilation
+    related_study: og-nutrient-bottlenecks
     rationale: "og-res models FeS-catalysed dissimilatory reduction of nitrate through nitrite to ammonium
       as the dominant reduced-nitrogen source; this is the primary provenance for that route. Cited in the
       stage's plan but absent from references/papers.bib on this branch, so the findings currently cite the
@@ -886,7 +882,7 @@ proposed_inputs:
       2025). Full bibliographic details pending."
     proposed_by: agent
     proposed_at: '2026-10-13'
-    related_study: og-res-nitrogen-assimilation
+    related_study: og-nutrient-bottlenecks
     rationale: "Supports the stage's premise that abiotic reduced nitrogen (NH4+) can be produced at vent
       conditions fast enough to matter for a C:N budget. Cited in the stage's plan but absent from
       references/papers.bib on this branch."
@@ -900,7 +896,7 @@ proposed_inputs:
     doi: 10.1038/s41467-023-37770-9
     proposed_by: agent
     proposed_at: '2026-10-13'
-    related_study: og-res-phosphorus-availability
+    related_study: og-nutrient-bottlenecks
     rationale: "Primary enrichment-plan reference (§6) for the phosphorus-bottleneck framing — dissolved
       phosphate availability vs mineral precipitation/adsorption at the vent, which og-res-phosphorus models
       as the reactive-P-vs-precipitation competition."
@@ -914,7 +910,7 @@ proposed_inputs:
     doi: 10.1038/s41467-025-57110-3
     proposed_by: agent
     proposed_at: '2026-10-13'
-    related_study: og-res-phosphorus-availability
+    related_study: og-nutrient-bottlenecks
     rationale: "Enrichment-plan reference (§6) for the activation of phosphate to reactive/usable phosphorus
       — the condensation/activation route og-res-phosphorus models (phosphate -> polyphosphate -> reactive-P)
       before precipitation removes it."
