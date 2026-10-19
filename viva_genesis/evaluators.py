@@ -1138,6 +1138,10 @@ def register_derived_scalars(registry: dict) -> None:
     registry["settled_aggregation_competent"] = _settled_aggregation_competent
     registry["settled_amphiphile_total"] = _settled_amphiphile_total
     registry["settled_synth_acetate"] = _settled_synth_acetate
+    # NEW D — og-evolvable-lineages (evolvability given a granted individual)
+    registry["final_mean_composition"] = _final_mean_composition
+    registry["final_parent_offspring_r"] = _final_parent_offspring_r
+    registry["heritable_variance_ratio"] = _heritable_variance_ratio
 
 
 # --- NEW A: og-precursor-pool derived scalars ------------------------------
@@ -1220,3 +1224,26 @@ def _settled_amphiphile_total(reader, test: dict, ws_root: Any) -> float:
 def _settled_synth_acetate(reader, test: dict, ws_root: Any) -> float:
     """Settled acetate (C2) the reaction network delivers to amphiphile synthesis (molar)."""
     return _settled_mean(reader, "acetate", frac=0.2)
+
+
+# --- NEW D: og-evolvable-lineages derived scalars --------------------------
+
+def _final_mean_composition(reader, test: dict, ws_root: Any) -> float:
+    """Final-generation population mean composition (the selected trait)."""
+    return _settled_mean(reader, "mean_composition", frac=0.15)
+
+
+def _final_parent_offspring_r(reader, test: dict, ws_root: Any) -> float:
+    """Final-generation parent-offspring fitness correlation (heritability)."""
+    return _settled_mean(reader, "parent_offspring_fitness_correlation", frac=0.15)
+
+
+def _heritable_variance_ratio(reader, test: dict, ws_root: Any) -> float:
+    """Heritable-fitness-variance ratio final/initial. < 1 means the variance declines
+    as the population converges to the optimum -> BOUNDED fixed-trait selection (not
+    open-ended, where variance would be sustained/regenerated)."""
+    vals = _values(reader, "heritable_fitness_variance")
+    n = max(1, int(round(len(vals) * 0.2)))
+    first = sum(vals[:n]) / n
+    last = sum(vals[-n:]) / n
+    return last / first if first > 0 else 0.0

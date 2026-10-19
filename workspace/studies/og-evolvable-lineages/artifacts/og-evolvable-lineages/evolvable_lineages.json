@@ -1,0 +1,42 @@
+{
+  "study": "og-evolvable-lineages",
+  "premise": "Conditional on a GRANTED individual: C (og-self-maintaining-individual) refuted endogenous closure, so the protocell/membrane is granted and fitness is grounded at B's favorable S_T corner regime; evolvability is NOT claimed for a free individual.",
+  "static_ensemble": {
+    "full": {
+      "shift_mean": 0.5058991784229301,
+      "shift_std": 0.02525388177495843,
+      "parent_offspring_r_mean": 0.9145550929170765,
+      "var_ratio_mean": 0.38670188650841075
+    },
+    "no_inheritance_null": {
+      "shift_mean": 0.0011182829147824646,
+      "shift_std": 0.011299443193394,
+      "parent_offspring_r_mean": -0.06961364462474834,
+      "var_ratio_mean": 0.9875902503420381
+    },
+    "shared_feed_null": {
+      "shift_mean": 0.05578130220923316,
+      "shift_std": 0.09084719472183812,
+      "parent_offspring_r_mean": 0.0,
+      "var_ratio_mean": 0.0
+    },
+    "n_seeds": 5,
+    "generations": 40
+  },
+  "response_above_nulls": {
+    "full_shift": 0.5058991784229301,
+    "exceeds_no_inheritance": true,
+    "exceeds_shared_feed": true
+  },
+  "changed_environment": {
+    "full_retrack": -0.485673885781147,
+    "null_retrack": 0.002807662981052894,
+    "adapts_above_null": true
+  },
+  "open_ended_vs_bounded": {
+    "heritable_variance_ratio_full": 0.38670188650841075,
+    "trait_space": "fixed scalar composition c in [0,1], single fitness optimum",
+    "bounded": true,
+    "note": "Heritable variance DECLINES as the population converges to the optimum and the trait space is a fixed scalar -> BOUNDED fixed-trait selection, NOT open-ended novelty. The changed-environment adaptation is re-tracking within the same fixed trait space, not new organization."
+  }
+}
