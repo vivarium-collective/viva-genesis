@@ -1492,7 +1492,7 @@ baseline:
 parent_studies:
 - study: og-self-compartmentation
   condition: tests-passed
-- study: og-heredity
+- study: og-evolvability
   condition: tests-passed
 consolidation_note: >-
   Consolidates og-36-stochastic-protocell-ecology (canonical, plan_id 36), og-07-ecology-before-luca and

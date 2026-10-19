@@ -1166,7 +1166,7 @@ baseline:
   params: {}
   planned: false
 parent_studies:
-- study: og-vent-environment
+- study: og-vent-interface
   condition: tests-passed
 consolidation_note: >-
   Consolidates og-01-geology-to-reduced-carbon (canonical, supported) and og-01-cal-electrochemistry (refuted

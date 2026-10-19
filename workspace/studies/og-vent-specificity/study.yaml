@@ -248,7 +248,7 @@ parent_studies:
   condition: tests-passed
 - study: og-network-persistence
   condition: tests-passed
-- study: og-spatial-concentration
+- study: og-network-rescue
   condition: tests-passed
 parent_relations:
 - study: og-vent-environment
@@ -257,7 +257,7 @@ parent_relations:
   relation: tests
 - study: og-network-persistence
   relation: tests
-- study: og-spatial-concentration
+- study: og-network-rescue
   relation: tests
 consolidation_note: >-
   Consolidates og-adv-generic-nonequilibrium (canonical, the adversarial null control) and the planned

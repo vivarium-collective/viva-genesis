@@ -11,79 +11,60 @@ gate_status: passed
 verdict: supported
 evidence_tier: mechanistic_prediction
 program: consolidated
-title: 'Spatial Concentration: Does a Pore Make an Individual?'
+title: 'Spatial Concentration: Does a Pore Enrich a Dilute Feed?'
 concept: >-
-  Spatial individuation of the protometabolism: whether vent pore physics concentrates a dilute feed enough
-  to ignite the reaction network and form a persistent, localized individual rather than washing into the
-  ocean — one concept studied at several fidelities (thermophoretic concentration physics, full-network
-  pore ignition) as arms.
+  Multisolute physical enrichment: whether a serpentinite pore concentrates a dilute vent feed above the dilution/retention
+  threshold by thermophoresis, adsorption and advection — and whether the chemically-necessary multi-solute set
+  co-localizes or FRACTIONATES. Transport physics, kept distinct from whether that enrichment ignites the reaction
+  network (og-network-rescue, 4B).
 gate_reason: >-
-  Gate B (does spatial concentration make an individual). Consolidates the campaign's concentration/individuation
-  line into one concept with explicit fidelity-labelled arms: the thermophoretic concentration physics
-  (og-03) and the full-network pore ignition (og-30, canonical) — each judged against its own matched
-  well-mixed null with feeds held equal. Headline (og-30, canonical): at identical vent-posterior feeds
-  a concentrating mineral pore IGNITES the network (net carbon flux +4.5e-4, 17 persistent species) while
-  a matched well-mixed, non-concentrating control stays dark — spatial concentration is load-bearing,
-  SUPPORTED. Guardrail: the pore benefit is a BOUNDED porosity window, not a broad swath, and network_connected
-  is a brittle proxy near threshold. og-30 both meets Gate B and resolves Gate A1's open feed-plausibility
-  question — the pore explains how the A1 carbon-fixing network persists at vent feeds.
+  Multisolute-enrichment half of the former og-spatial-concentration (split from the network-rescue half, og-network-rescue).
+  Canonical arm og-03: long tight pores cross the concentration/retention threshold (Baaske regime cleared, accumulation
+  Peclet 18.4) while open pores wash through; the eight-solute set fractionates (Soret-driven) rather than co-localizing.
+  Supported: a pore enriches a dilute feed, within bounds. Whether that enrichment ignites the network is og-network-rescue.
 claim: >-
-  Across fidelities, vent pore physics concentrates a dilute feed into a persistent localized individual
-  and ignites the reaction network. Resolving diffusion, thermophoresis, adsorption, surface catalysis
-  and advection, a bounded serpentinite pore clears the Baaske-2007 extreme-accumulation regime (accumulation
-  Peclet 18.4) and localizes a persistent individual vs a well-mixed control (og-03, supported). At identical
-  vent-posterior feeds the concentrating pore ignites the full network — net carbon flux +4.5e-4, 17 persistent
-  species — while a matched well-mixed, non-concentrating control stays dark (og-30, canonical, supported);
-  the C6 network og-29 found needs ~20x well-mixed feed ignites directly in the pore at base feed. The
-  pore benefit is a bounded porosity window, and network_connected is a brittle proxy near threshold. og-30
-  both meets Gate B and resolves Gate A1's feed-plausibility. Consolidated headline: supported — spatial
-  concentration makes the individual and rescues ignition. Every matched null and arm verdict is preserved.
+  A serpentinite pore concentrates a dilute vent feed above the dilution/retention threshold (Baaske regime cleared,
+  accumulation Peclet 18.4) while an open-pore control washes through; but the chemically-necessary eight-solute
+  set fractionates (Soret-driven, co-localization index ~0.18) rather than co-localizing — a candidate spatial
+  incompatibility. Supported, bounded.
 question: >-
-  Can vent pore physics concentrate a dilute vent feed enough to form a persistent localized individual
-  and ignite the reaction network productively — more than a matched well-mixed, non-concentrating control
-  at identical feeds?
+  Does a serpentinite pore concentrate a dilute vent feed above the dilution/retention threshold, and does the
+  chemically-necessary multi-solute set co-localize or fractionate?
 hypothesis: >-
-  Bounded-geometry pore physics (thermophoresis + adsorption + advection) concentrates a dilute feed enough
-  to retain a persistent individual and ignite the network, within a bounded porosity window; no individuation
-  or ignition is claimed where a matched well-mixed control matches it.
+  Thermophoretic/adsorptive enrichment in a long tight pore crosses the Baaske concentration threshold against
+  washout, though strongly- and weakly-thermophoretic solutes separate rather than concentrating together.
 experiment: >-
-  Consolidate the spatial-concentration studies into one concept with explicit fidelity-labelled arms
-  (concentration physics, full-network pore ignition), each preserving its matched well-mixed null, verdict,
-  findings and run provenance; report the consolidated verdict (supported) with the bounded-porosity-window
-  guardrail.
+  Resolve diffusion, thermophoresis, adsorption and advection for every reactant in a bounded serpentinite pore
+  vs an open-pore control (og-03), and map multi-solute co-localization across the Soret contrast.
 result: >-
-  Vent pore physics concentrates a dilute feed into a persistent localized individual (Baaske regime cleared,
-  accumulation Peclet 18.4) and ignites the full reaction network (net carbon flux +4.5e-4, 17 persistent
-  species) where a matched well-mixed control stays dark (SUPPORTED); the benefit is a bounded porosity
-  window, and og-30 also resolves Gate A1's feed-plausibility.
+  The pore crosses the concentration/retention threshold (Baaske cleared, Peclet 18.4) where an open pore does
+  not; the eight-solute mixture fractionates (coloc index ~0.18 strong-Soret), so concentrating one tracer is
+  not concentrating the set a protocell needs together.
 builds_on:
-- 27
 - 29
-plan_id: 30
+plan_id: 3
 handoff:
   emits:
-  - to: 32
+  - to: 30
     provides:
-    - precursor concentrations
-    - T
-    - pH
+    - enriched precursor concentrations
+    - enrichment fold / accumulation Peclet
     - residence time
-    - competing sinks
+    - co-localization index
   receives:
   - from: 29
     requires:
-    - active reactions
     - molecular species
     - concentrations
-    - competing degradation routes
+    - competing sinks
 arms:
 - id: 03_dilution_to_localized_individuals
   source_study: og-03-dilution-to-localized-individuals
   concept_role: >-
-    Concentration physics: resolving diffusion, thermophoresis, adsorption, surface catalysis and advection
-    for every actual reactant, a bounded serpentinite pore clears the Baaske-2007 extreme-accumulation
-    regime (accumulation Peclet 18.4) and localizes a persistent individual vs a well-mixed control —
-    a bounded porosity x length region, not a single favourable pair.
+    Concentration physics: resolving diffusion, thermophoresis, adsorption, surface catalysis and advection for
+    every actual reactant, a bounded serpentinite pore clears the Baaske-2007 extreme-accumulation regime (accumulation
+    Peclet 18.4) and localizes a persistent individual vs a well-mixed control — a bounded porosity x length region,
+    not a single favourable pair.
   fidelity: mechanistic_prediction
   verdict: supported
   gate_status: passed
@@ -95,28 +76,6 @@ arms:
   finding_ids:
   - og03-baaske-enrichment
   - og03-individual-threshold
-- id: 30_spatially_integrated_protometabolism
-  source_study: og-30-spatially-integrated-protometabolism
-  concept_role: >-
-    Canonical: at identical vent-posterior feeds (CO2/H2 = 1e-3) a concentrating mineral pore IGNITES
-    the full network (net carbon flux +4.5e-4, 17 persistent species) while a matched well-mixed, non-concentrating
-    control stays dark; the C6 network og-29 found needs ~20x well-mixed feed ignites directly in the
-    pore at base feed. Also resolves Gate A1 feed-plausibility. Benefit is a BOUNDED porosity window;
-    network_connected is a brittle proxy near threshold.
-  fidelity: mechanistic_prediction
-  verdict: supported
-  gate_status: passed
-  matched_null: productive-flux-beats-wellmixed-and-nonconcentrating
-  composite: >-
-    viva_genesis.composites.og_30_spatially_integrated_protometabolism.og_30_spatially_integrated_protometabolism
-  run_ids: []
-  finding_ids:
-  - og30-pore-ignites-vs-control
-  - og30-c6-confirmation
-  - og30-enrichment-bridges-ignition-gap
-  - og30-connectivity-metric-brittle
-  - og30-resolves-a1-feed-plausibility
-  canonical: true
 - id: ev_pore_transport_benchmark
   source_study: og-ev-pore-transport-benchmark
   status: planned
@@ -125,19 +84,18 @@ arms:
   note: proposed challenge study, not run
   seeded_from: {}
   concept_role: >-
-    Planned benchmark: validate the pore transport/concentration solver against an independent transport
-    reference — does the enrichment hold under a cross-checked solver? (not run)
+    Planned benchmark: validate the pore transport/concentration solver against an independent transport reference
+    — does the enrichment hold under a cross-checked solver? (not run)
 behavior_tests:
 - name: thermophoretic-enrichment-reproduces-baaske
   classification: primary
   description: >-
-    The thermophoretic trap concentrates the dilute feed. The reduced accumulation column reaches the
-    Baaske-2007 extreme figure (~10^8-fold, Pe_acc ≈ 18.4) in the favorable pore, but that sits ABOVE
-    the demonstrated solver-convergence range: the resolved dolfinx FEM saturates (~10^2-fold) past Pe_acc
-    ≈ 13 (spatial-transport-solver-comparison), so the >10^6 figure is a flow-through reduced-column exp(Pe)
-    extrapolation / closed-cell figure, not a resolved result. Per "no acceptance gate outside demonstrated
-    convergence" the magnitude is REPORTED here, not gated as a pass; localization within the resolvable
-    range (Pe_acc ≲ 13) is the gated claim (see enrichment-resolved-within-convergence).
+    The thermophoretic trap concentrates the dilute feed. The reduced accumulation column reaches the Baaske-2007
+    extreme figure (~10^8-fold, Pe_acc ≈ 18.4) in the favorable pore, but that sits ABOVE the demonstrated solver-convergence
+    range: the resolved dolfinx FEM saturates (~10^2-fold) past Pe_acc ≈ 13 (spatial-transport-solver-comparison),
+    so the >10^6 figure is a flow-through reduced-column exp(Pe) extrapolation / closed-cell figure, not a resolved
+    result. Per "no acceptance gate outside demonstrated convergence" the magnitude is REPORTED here, not gated
+    as a pass; localization within the resolvable range (Pe_acc ≲ 13) is the gated claim (see enrichment-resolved-within-convergence).
   measure:
     kind: derived
     path: settled_accumulation_peclet
@@ -145,8 +103,8 @@ behavior_tests:
   pass_if:
     op: arms_reported
     detail: >-
-      reduced-column Pe_acc ≈ 18.4 (~10^8-fold) reported as the closed-cell/reduced-model figure; the
-      resolved FEM does not confirm it past the convergence-verified Pe_acc ≈ 13
+      reduced-column Pe_acc ≈ 18.4 (~10^8-fold) reported as the closed-cell/reduced-model figure; the resolved
+      FEM does not confirm it past the convergence-verified Pe_acc ≈ 13
   units: dimensionless
   requires_simulation: 'yes'
   cites:
@@ -157,9 +115,9 @@ behavior_tests:
   classification: diagnostic
   description: >-
     Within the FEM-trustworthy / convergence-verified Péclet range (Pe_acc ≲ 13, spatial-transport-solver-comparison),
-    the resolved thermophoretic field DOES concentrate the feed above its inflow — a bounded individual
-    forms. This is the honest, solver-agnostic localization claim (both FiPy and dolfinx agree in this
-    range); the far larger reduced-column figure above Pe_acc ≈ 13 is reported separately (thermophoretic-enrichment-reproduces-baaske),
+    the resolved thermophoretic field DOES concentrate the feed above its inflow — a bounded individual forms.
+    This is the honest, solver-agnostic localization claim (both FiPy and dolfinx agree in this range); the far
+    larger reduced-column figure above Pe_acc ≈ 13 is reported separately (thermophoretic-enrichment-reproduces-baaske),
     not gated.
   measure:
     kind: derived
@@ -181,9 +139,9 @@ behavior_tests:
   classification: primary
   description: >-
     A net-accumulation region exists where the trap concentrates enough that synthesis outruns hydrolysis/leakage.
-    The ≥10^6-fold figure is the reduced-model (closed-cell) extrapolation; the gated claim is the resolved
-    net-accumulation within the convergence-verified Péclet range (Pe_acc ≲ 13, spatial-transport-solver-comparison),
-    so the magnitude is REPORTED, not gated on the un-converged ≥10^6 value.
+    The ≥10^6-fold figure is the reduced-model (closed-cell) extrapolation; the gated claim is the resolved net-accumulation
+    within the convergence-verified Péclet range (Pe_acc ≲ 13, spatial-transport-solver-comparison), so the magnitude
+    is REPORTED, not gated on the un-converged ≥10^6 value.
   measure:
     kind: derived
     path: log10_enrichment
@@ -191,8 +149,8 @@ behavior_tests:
   pass_if:
     op: arms_reported
     detail: >-
-      reduced-column ≥10^6-fold reported as the closed-cell figure; net accumulation within demonstrated
-      convergence is the gated claim (enrichment-resolved-within-convergence)
+      reduced-column ≥10^6-fold reported as the closed-cell figure; net accumulation within demonstrated convergence
+      is the gated claim (enrichment-resolved-within-convergence)
   units: dimensionless
   requires_simulation: 'yes'
   cites:
@@ -202,8 +160,8 @@ behavior_tests:
 - name: open-pore-control-does-not-concentrate
   classification: primary
   description: >-
-    An open pore (porosity → 1) lets the dilute feed wash through — no individual forms (enrichment ~1).
-    The washout-wins region mapped by the control.
+    An open pore (porosity → 1) lets the dilute feed wash through — no individual forms (enrichment ~1). The washout-wins
+    region mapped by the control.
   measure:
     kind: cross_run
     detail: favorable enrichment vs open-pore control
@@ -219,8 +177,8 @@ behavior_tests:
   gate_class: regression_pin
   classification: diagnostic
   description: >-
-    Enrichment is exponential in pore length (Baaske's geometry threshold) — a 10× shorter pore drops
-    far below the favorable accumulation.
+    Enrichment is exponential in pore length (Baaske's geometry threshold) — a 10× shorter pore drops far below
+    the favorable accumulation.
   measure:
     kind: cross_run
     detail: favorable vs 10× shorter pore
@@ -246,56 +204,6 @@ behavior_tests:
   units: dimensionless
   requires_simulation: 'yes'
   band_basis: machine_precision
-- name: receives-29-handoff-bundle
-  classification: secondary
-  description: >-
-    Study 30 receives the full 29→30 bundle — active reactions, molecular species, actual concentrations
-    and competing degradation routes — as typed inputs, verified complete before the spatial run.
-  measure:
-    kind: observable
-    detail: completeness + typing of the 29→30 bundle checked against 29's emitted bundle
-  pass_if:
-    op: threshold
-    detail: bundle received complete and typed
-  requires_simulation: 'yes'
-- name: colocalization-residence-measured
-  classification: primary
-  description: >-
-    Reactive transport with thermophoresis and adsorption produces measurable co-localization of intermediates
-    and increased residence time in the pore, reported as time- and space-resolved fields, not a terminal
-    snapshot.
-  measure:
-    kind: observable
-    detail: co-localization + residence time as time/space-resolved fields
-  pass_if:
-    op: threshold
-    detail: measurable co-localization and residence increase reported
-  requires_simulation: 'yes'
-- name: productive-flux-beats-wellmixed-and-nonconcentrating
-  classification: primary
-  description: >-
-    Productive network flux (and persistence) in the pore EXCEEDS both a matched well-mixed control and
-    a matched nonconcentrating control with chemical input fluxes held equal; flux not separable from
-    the controls is reported as "pores do not help," not tuned away. This is the Gate B arm.
-  measure:
-    kind: observable
-    detail: pore productive flux + persistence vs. matched well-mixed and nonconcentrating controls
-  pass_if:
-    op: threshold
-    detail: pore flux exceeds BOTH matched controls (else reported as no benefit)
-  requires_simulation: 'yes'
-- name: spatial-flux-conservation-and-cross-solver
-  classification: secondary
-  description: >-
-    Mass and charge close across the spatial reactive-transport solve (divergence of flux equals source
-    minus sink) with no untracked feed; the cross-solver comparison agrees to tolerance.
-  measure:
-    kind: observable
-    detail: flux-divergence residual vs. source−sink; cross-solver agreement
-  pass_if:
-    op: threshold
-    detail: conservation within tolerance; cross-solver agreement to tolerance
-  requires_simulation: 'yes'
 findings:
 - id: og03-baaske-enrichment
   provenance:
@@ -306,10 +214,10 @@ findings:
   status: confirms
   statement: >-
     A favorable serpentinite pore (5 mm × 0.1 mm, ΔT 30 K, convective flow) clears the Baaske-2007 extreme-accumulation
-    regime at accumulation Péclet 18.4 from the real thermophoretic + convective transport, with FVM flux
-    conserved to machine epsilon. The corresponding fold-enrichment (reduced-model exp(Pe) ≈ 1e6–1e7,
-    nominally ~9.6×10⁷) is an extrapolation whose magnitude is solver-sensitive above Pe ≈ 13 — the graded
-    quantity is the Péclet, not the precise fold.
+    regime at accumulation Péclet 18.4 from the real thermophoretic + convective transport, with FVM flux conserved
+    to machine epsilon. The corresponding fold-enrichment (reduced-model exp(Pe) ≈ 1e6–1e7, nominally ~9.6×10⁷)
+    is an extrapolation whose magnitude is solver-sensitive above Pe ≈ 13 — the graded quantity is the Péclet,
+    not the precise fold.
   evidence:
     from_test: thermophoretic-enrichment-reproduces-baaske
     observed: favorable Pe_acc 18.4 (reduced-model fold-estimate ~1e6–1e7); FVM residual ~2e-14
@@ -319,10 +227,10 @@ findings:
     - baaske2007extreme
     - mast2010thermal
   explanation: >-
-    ThermophoreticTrapProcess solves the steady accumulation column; the Péclet is the resolved readout,
-    while the fold-enrichment = exp(beta·L) is a reduced-model extrapolation. A FiPy↔FEniCS head-to-head
-    cross-check finds the two solvers diverge by up to ~5.6 decades at Pe ≳ 13, so the extreme fold-magnitude
-    is not treated as a precise resolved result.
+    ThermophoreticTrapProcess solves the steady accumulation column; the Péclet is the resolved readout, while
+    the fold-enrichment = exp(beta·L) is a reduced-model extrapolation. A FiPy↔FEniCS head-to-head cross-check
+    finds the two solvers diverge by up to ~5.6 decades at Pe ≳ 13, so the extreme fold-magnitude is not treated
+    as a precise resolved result.
 - id: og03-individual-threshold
   provenance:
     run_ids:
@@ -331,13 +239,12 @@ findings:
   kind: computational
   status: novel
   statement: >-
-    The native pore-localization phase map (porosity × pore length) resolves localization as a bounded
-    region, not a single favourable/open pair: the real trap localizes above the frontier (Péclet ≈ 18,
-    reduced-model fold ≥ 1e6) at 25/144 grid points (~17%), enrichment rising with pore length, while
-    an open pore (porosity→1) and a 10× shorter pore wash the feed through (no localization). The map
-    is native to og-03's own trap readouts — it no longer borrows og-02's feed/washout axes. Localization
-    (an individual forms vs washes through) is robust; the precise fold-magnitude in the high-Péclet interior
-    is solver-sensitive (see limitations).
+    The native pore-localization phase map (porosity × pore length) resolves localization as a bounded region,
+    not a single favourable/open pair: the real trap localizes above the frontier (Péclet ≈ 18, reduced-model
+    fold ≥ 1e6) at 25/144 grid points (~17%), enrichment rising with pore length, while an open pore (porosity→1)
+    and a 10× shorter pore wash the feed through (no localization). The map is native to og-03's own trap readouts
+    — it no longer borrows og-02's feed/washout axes. Localization (an individual forms vs washes through) is
+    robust; the precise fold-magnitude in the high-Péclet interior is solver-sensitive (see limitations).
   evidence:
     from_test: open-pore-control-does-not-concentrate
     observed: >-
@@ -348,72 +255,10 @@ findings:
     cites:
     - baaske2007extreme
   explanation: >-
-    Enrichment rises with pore length and vanishes with confinement/openness — the dilution/localization
-    boundary the campaign sought, read from the real FiPy accumulation solve and rendered as the pore-localization
-    map (Decision view). The frontier LOCATION is robust; the fold-values deep in the high-Péclet interior
-    are a reduced-model extrapolation.
-- id: og30-pore-ignites-vs-control
-  kind: computational
-  status: confirms
-  statement: >-
-    At identical vent-posterior feeds (CO2/H2 = 1e-3), the concentrating pore ignites the network (net
-    carbon flux +4.5e-4; connected; 17 persistent species) while the matched well-mixed nonconcentrating
-    control does not (flux ~0; not connected) - spatial concentration is the only difference, so the pore
-    causes the productive flux.
-  evidence:
-    from_test: productive-flux-beats-wellmixed-and-nonconcentrating
-- id: og30-c6-confirmation
-  kind: computational
-  status: confirms
-  statement: >-
-    The C6 network - the one og-29 found ignites only at ~20x well-mixed feed - ignites directly in the
-    demo pore at the vent-posterior base feed (porosity 0.88, pore-local 0.023 M), net carbon flux +4.49e-4,
-    connected, 22 persistent species, while the matched well-mixed C6 control stays dead (flux +1.5e-9,
-    not connected). C6 shows the same bounded-window behavior as C4 - a tight pore (porosity 0.70, pore-local
-    2.63 M) gives higher flux (+0.072) but the connectivity metric still degrades (network_connected =
-    0), so there is no flux-washout upper bound; the bound above is physically-implausible feeds plus
-    connectivity-metric degradation, not flux loss.
-  evidence:
-    from_test: productive-flux-beats-wellmixed-and-nonconcentrating
-- id: og30-enrichment-bridges-ignition-gap
-  kind: computational
-  status: partial
-  statement: >-
-    A porosity sweep shows the pore's benefit is a bounded window, not a broad swath. Net carbon flux
-    rises monotonically with confinement (no flux washout in the C4 network, even at extreme feeds), but
-    the connectivity-defined ignition (og-29's network_connected metric) occupies a bounded, somewhat
-    brittle porosity band (~0.80-0.90; pore-local ~0.01-0.2 M) - below it enrichment is sub-threshold,
-    and above it the pore-local feeds become physically implausible (porosity 0.70 implies 2.6 M, 0.60
-    implies 36 M) while the connectivity metric itself degrades, flipping 1/0/1 across adjacent porosities
-    at similar high flux. So ignition is met in a specific pore-geometry window, not robustly across geometry.
-  evidence:
-    from_test: colocalization-residence-measured
-  expected:
-    cites:
-    - baaske2007extreme
-    - mast2010thermal
-- id: og30-connectivity-metric-brittle
-  kind: methodological
-  status: novel
-  statement: >-
-    network_connected (og-29's ignition metric) is a BRITTLE proxy near threshold - at high feed the network
-    stays carbon-fixing (flux high and monotone in enrichment) but loses broad connectivity (connected
-    flips to 0), the same signal og-29 recorded as "washout" at x50 well-mixed, now seen to be connectivity-breadth
-    loss rather than flux loss, consistent across C4/C6 and well-mixed/pore. This is a methodological
-    caveat on the ignition metric only; it does NOT touch og-29's formose refutation, which rests on the
-    thermodynamic mechanism and the coefficient-free seed-independence discriminator, not on connectivity.
-  evidence:
-    from_test: colocalization-residence-measured
-- id: og30-resolves-a1-feed-plausibility
-  kind: methodological
-  status: confirms
-  statement: >-
-    og-30 both meets Gate B's own criterion (pore flux far exceeds the matched control) and resolves Gate
-    A's open A1 feed-plausibility question: the ~20x well-mixed ignition gap is bridged by pore enrichment
-    within the physical pore window, so a carbon-fixing network persists at vent-realistic feeds inside
-    a pore (demonstrated on C4 and confirmed directly on C6).
-  evidence:
-    from_test: productive-flux-beats-wellmixed-and-nonconcentrating
+    Enrichment rises with pore length and vanishes with confinement/openness — the dilution/localization boundary
+    the campaign sought, read from the real FiPy accumulation solve and rendered as the pore-localization map
+    (Decision view). The frontier LOCATION is robust; the fold-values deep in the high-Péclet interior are a reduced-model
+    extrapolation.
 runs:
 - name: >-
     viva_genesis.composites.thermophoretic_concentration.thermophoretic_concentration__1791944471__df60ba
@@ -500,8 +345,7 @@ runs:
       evaluated_by: code
       operator: cross_run
       detail: >-
-        favorable=9.55e+07 vs 10x shorter pore=6.28e+00 (>=100x less => enrichment is exponential in pore
-        length)
+        favorable=9.55e+07 vs 10x shorter pore=6.28e+00 (>=100x less => enrichment is exponential in pore length)
     spatial-flux-conserved:
       result: PASS
       measured_value: 0.0
@@ -529,50 +373,12 @@ runs:
         knob: null
         citation: null
       auto_evaluated: true
-- id: gate-b-concentration-rescues-ignition
-  composite: >-
-    viva_genesis.composites.og_30_spatially_integrated_protometabolism.og_30_spatially_integrated_protometabolism
-  params:
-    base_CO2: 0.001
-    base_H2: 0.001
-    porosity: 0.88
-    k_wash: 0.05
-    max_carbons: 4
-    c6_confirm: true
-  artifact: artifacts/gate_b_spatial.json
-  outcomes:
-    productive-flux-beats-wellmixed-and-nonconcentrating:
-      result: PASS
-      measured_value: 0.00045
-      detail: >-
-        At the vent-posterior base feed (CO2/H2 1e-3, held equal) the concentrating pore (porosity 0.88,
-        enrichment ~23x, pore-local ~0.023 M) ignites the network (net_carbon_flux +4.5e-4, connected,
-        17 persistent species) while the matched well-mixed nonconcentrating control does not (flux ~0,
-        not connected). Confirmed on C6 (ignites in the demo pore; control dead).
-    colocalization-residence-measured:
-      result: PASS
-      detail: >-
-        The thermophoretic trap's co-localization (enrichment) is resolved across an empirical porosity
-        sweep: connected-ignition occupies a bounded band (~0.80-0.90, pore-local ~0.01-0.2 M) - sub-threshold
-        enrichment below, physically-implausible feeds + connectivity-metric degradation above. Net carbon
-        flux is monotone in enrichment (no flux washout); a bounded window, not robust-across-geometry.
-    a1-feed-plausibility-resolved-in-pore:
-      result: PASS
-      detail: >-
-        The ~20x well-mixed ignition gap (og-29) is bridged at a modest physical pore (porosity 0.88),
-        so A1's persistence firms up: a carbon-fixing network persists at vent-realistic feeds in a pore,
-        within the bounded geometry window.
 visualizations:
 - name: thermophoretic-trap
   address: local:ThermophoreticTrapViz
   config:
     composite: viva_genesis.composites.thermophoretic_concentration.thermophoretic_concentration
     title: The thermal trap concentrates an individual
-- name: pore-ignition-coupling
-  address: local:PoreIgnitionCoupling
-  config:
-    title: Localization lifts the feed across the ignition threshold (Mechanism view)
-    grid_json: workspace/studies/og-network-persistence/artifacts/protometabolism_gain_grid.json
 - name: pore-localization-map
   address: local:PoreLocalizationMap
   config:
@@ -594,31 +400,7 @@ visualizations:
   address: local:ThermophoreticTrap3D
   config:
     title: Inside the pore — the accumulation column in 3-D (World view)
-- name: spatial-protometabolism-pore-vs-control
-  address: local:OgSpatialProtometabolismViz
-  config:
-    composite: >-
-      viva_genesis.composites.og_30_spatially_integrated_protometabolism.og_30_spatially_integrated_protometabolism
-    n_steps: 120
-    title: Does the pore help? Enrichment, residence, and flux vs control
-    caption: >-
-      Thermophoretic enrichment factor and residence time in the structured pore, then net productive
-      carbon flux in the pore against a matched well-mixed control at identical feeds. Plainly: the pore
-      gathers and holds the ingredients — but the real test is whether that makes more product than a
-      stirred pot, shown in the third panel.
 baseline:
-- name: Spatially integrated protometabolism in a concentrating pore — canonical (og-30)
-  composite: >-
-    viva_genesis.composites.og_30_spatially_integrated_protometabolism.og_30_spatially_integrated_protometabolism
-  params: {}
-  canonical: true
-  planned: false
-- name: Matched well-mixed, non-concentrating null (og-30) — stays dark at equal feed
-  composite: >-
-    viva_genesis.composites.og_30_spatially_integrated_protometabolism.og_30_spatially_integrated_protometabolism
-  params:
-    concentrating: false
-  planned: false
 - name: Thermophoretic concentration physics (og-03 arm)
   composite: viva_genesis.composites.thermophoretic_concentration.thermophoretic_concentration
   params: {}
@@ -626,10 +408,12 @@ baseline:
 parent_studies:
 - study: og-network-persistence
   condition: tests-passed
-consolidation_note: >-
-  Consolidates og-30-spatially-integrated-protometabolism (canonical) and og-03-dilution-to-localized-individuals
-  into one concept, plus the planned og-ev-pore-transport-benchmark arm. Each fold-in is an explicit arm
-  (see `arms`) keeping its own verdict, matched null, findings and run provenance; artifacts + viz moved
-  under artifacts|viz/<source-slug>/. og-30 is canonical, so og-spatial-concentration adopts plan_id 30
-  and numeric refs to study 30 (og-31 handoff from:30, og-autocatalysis-a2 / og-network-persistence emits
-  to:30) resolve here. Resolves Gate A1 feed-plausibility in addition to earning Gate B.
+parent_relations:
+- study: og-network-persistence
+  relation: builds-on
+split_note: >-
+  Split from the former consolidated og-spatial-concentration into the multisolute-ENRICHMENT half (this study,
+  transport physics, og-03) and the network-RESCUE half (og-network-rescue, og-30 canonical), because each carries
+  an independent primary verdict: enrichment is supported here (a pore concentrates a dilute feed; the set fractionates),
+  while whether that enrichment ignites the reaction network is the supported verdict of og-network-rescue. The
+  og-30 arm, its findings/viz and plan_id 30 move there. Every arm verdict, matched null and finding preserved.
