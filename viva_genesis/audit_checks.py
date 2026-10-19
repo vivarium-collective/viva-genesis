@@ -574,3 +574,39 @@ def check_vacuous_inferred_coverage(
                             f"kind: methodological, or back the chemistry claim with a substantive "
                             f"measurement)")
     return errors
+
+
+def check_arm_resource_refs(
+    studies: Dict[str, dict],
+    resource_ids: Set[str],
+) -> List[str]:
+    """Every study-arm ``resource:`` ref must resolve to a registered Resource id.
+
+    A consolidated study's ``arms[]`` may carry a ``resource:`` pointer (a bare id,
+    or a list of ids) into the workspace's Resource layer
+    (``viva_genesis/data/vg_data/structured_resources.yaml`` ``resources[].id``).
+    This closes the same "points at something that isn't there" class as
+    :func:`check_dangling_edge_targets`, for the Resource layer: a demoted/renamed
+    Resource or a typo'd id would otherwise sail through. ``resource_ids`` is the
+    set of registered ``resources[].id`` values; fail-loud on any unresolved ref.
+    An empty ``resource_ids`` (registry missing/unreadable) skips the check rather
+    than false-fail — resolution of the registry is the lint's responsibility.
+    """
+    if not resource_ids:
+        return []
+    errors: List[str] = []
+    for slug, spec in sorted(studies.items()):
+        for arm in spec.get("arms") or []:
+            if not isinstance(arm, dict):
+                continue
+            ref = arm.get("resource")
+            if not ref:
+                continue
+            refs = ref if isinstance(ref, list) else [ref]
+            for r in refs:
+                if isinstance(r, str) and r and r not in resource_ids:
+                    errors.append(
+                        f"study {slug}: arm '{arm.get('id', r)}' resource ref '{r}' is not a registered "
+                        f"id in structured_resources.yaml (renamed/demoted? repoint to the real "
+                        f"Resource id, or register it)")
+    return errors
