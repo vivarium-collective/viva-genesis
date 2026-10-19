@@ -737,11 +737,12 @@ inputs:
     path: references/model-upgrade-integration.md
 at_a_glance:
 - study: og-vent-environment
-  role: The vent environment a cell would form in — the serpentinizing reactor (settles in the Lost City
-    window over ~80% of the grid), its calibration (12.5% of plausible vent states bind, H2-limited), and the
-    sharpened coupled interface that supplies H2 / inorganic carbon / pH-redox gradients + a CO2-reducing
-    electrochemical driving force but throttles on a bounded two-regime DIC window; qualified — a viable
-    geochemical reactor within bounds (no origin claim; the testbed downstream chemistry draws on).
+  role: >-
+    The calibrated vent environment a cell would form in — the serpentinizing reactor settles in the Lost
+    City window over ~80% of the grid, and conditioning (12.5% of plausible states bind, H2-limited) leaves
+    a posterior 100% viable downstream, transport-class-independent (ledger 0/96); supported — a bounded,
+    calibrated feed (no origin claim). The evolving mineral interface that delivers it over time is the
+    separate og-vent-interface.
 - study: og-carbon-fixation
   role: The cell's first carbon — H2-driven CO2 reduction reproduces the Preiner yield hierarchy and sustains
     net organic-carbon flux in a bounded pH/H2 region, controls collapsing (supported); the explicit
@@ -757,11 +758,12 @@ at_a_glance:
     element-unbalanced. A provenance-gated reaction atlas supplies the balanced reactions both arms draw on.
     Endogenous autocatalysis (A2) is the separate og-autocatalysis line.
 - study: og-spatial-concentration
-  role: Spatial concentration & individuation — long tight pores cross the concentration/retention
-    threshold (Baaske regime cleared, accumulation Peclet 18.4) while open pores wash the feed through, and
-    at equal vent feed the concentrating pore ignites the full network (net carbon flux +4.5e-4, 17 persistent
-    species) vs a matched well-mixed control that stays dark; the benefit is a bounded porosity window. Also
-    resolves network persistence (A1) feed-plausibility.
+  role: >-
+    Multisolute spatial enrichment — long tight pores cross the concentration/retention threshold (Baaske
+    cleared, accumulation Peclet 18.4) while open pores wash the feed through, but the eight-solute set
+    fractionates (Soret-driven, co-localization index ~0.18) rather than co-localizing; supported transport
+    physics within a bounded window. Whether that enrichment ignites the reaction network is the separate
+    og-network-rescue.
 - study: og-self-compartmentation
   role: 'Self-compartmentation — from a self-made amphiphile boundary (retention without isolation) to the first self-maintaining protocell whose membrane pays on persistence, with real fatty-acid vesicle MD replacing the phospholipid stand-in; studied at several fidelities as arms'
 - study: og-energetics
@@ -770,10 +772,10 @@ at_a_glance:
     arms (the carrier buys dip-persistence, not more total throughput)
 - study: og-heredity
   role: >-
-    Heredity — an inherited chemical difference transmitted and selectable, studied at several
-    fidelities as arms: competing inheritance modules (need not presume RNA; compositional/hybrid escape the
-    Eigen length catastrophe), the information-per-cost frontier of six mechanisms, and a reproducible
-    selectable fitness difference (parent-offspring correlation +0.949 vs a no-inheritance control); qualified
+    Chemical inheritance — a heritable chemical difference transmitted at feasible cost, need not presume
+    RNA: competing inheritance modules graded head-to-head (compositional/hybrid escape the Eigen length
+    catastrophe) and an information-per-cost frontier of six mechanisms; supported. Whether that inherited
+    difference is selectable is the separate og-evolvability.
 - study: og-ecology
   role: 'Protocell ecology — a cross-feeding community out-produces the best single lineage (margin causally cross-feeding) and community function precedes cell completeness; studied as arms (og-36 stochastic community-vs-single, og-07 metacommunity, og-07-alt real metabolite exchange)'
 - study: og-independence
@@ -784,6 +786,24 @@ at_a_glance:
   role: 'Nutrient bottlenecks — reduced nitrogen keeps pace with carbon and reactive phosphorus co-concentrates in the pore (or limits first), studied as nitrogen + phosphorus arms'
 - study: og-reproduction
   role: 'Reproduction — metabolism-coupled growth to a measured-geometry division with viable daughters, building a multi-generation lineage; studied at several fidelities as arms (og-33 coupled growth+division, og-growth-division fate, og-growth-alt physical reproduction)'
+- study: og-evolvability
+  role: >-
+    Evolvability & selection — a daughter-inherited chemical difference produces a reproducible, selectable
+    fitness difference (parent-offspring correlation +0.949 vs a no-inheritance control) and the population
+    shifts under selection rather than drifting; qualified. The Gate-D selectable-fitness result, split from
+    og-heredity (which carries the inheritance half).
+- study: og-network-rescue
+  role: >-
+    Reaction-network rescue — at equal vent feed a concentrating pore ignites the full carbon-fixing network
+    (net carbon flux +4.5e-4, 17 persistent species) while a matched well-mixed, nonconcentrating control
+    stays dark; supported (Gate B). Split from og-spatial-concentration (the enrichment half); also resolves
+    network persistence (A1) feed-plausibility.
+- study: og-vent-interface
+  role: >-
+    The evolving mineral interface — the coupled geochemical interface delivers reduced-carbon chemistry only
+    within a bounded two-regime DIC window (under full redox equilibrium DIC draws down before free H2 appears);
+    qualified on the realized DIC-cliff, with its sustained-flux / mineral-evolution / coupled-ledger findings
+    still planned. Split from og-vent-environment (the calibrated-states half).
 studies:
 - og-vent-environment
 - og-carbon-fixation
@@ -799,6 +819,9 @@ studies:
 - og-ecology
 - og-independence
 - mem-m4-growth-division-propensity
+- og-evolvability
+- og-network-rescue
+- og-vent-interface
 acceptance_criteria:
 - study: og-vent-environment
   behavior: vent-pH-in-lostcity-range
@@ -846,6 +869,12 @@ acceptance_criteria:
   behavior: community-function-precedes-cell-completeness
 - study: og-independence
   behavior: minimum-sufficient-innovation-set
+- study: og-evolvability
+  behavior: inherited-difference-reproducible-fitness
+- study: og-network-rescue
+  behavior: productive-flux-beats-wellmixed-and-nonconcentrating
+- study: og-vent-interface
+  behavior: dic-crossover-sweep
 expert_docs:
 - Origins-of-Life Simulation Campaign
 - Origins-of-Life Computational Methods Atlas
@@ -1112,9 +1141,11 @@ plan_gates:
     name: Spatial organization
     extends: A1
     member_studies:
-      - og-spatial-concentration
+      - og-network-rescue
     pending_studies:
       # Evidence-expansion discriminator (PLANNED; EXTENDS Gate B, does not change its verdict).
+      # Gate B's criterion_finding og30-pore-ignites-vs-control lives in og-network-rescue (the
+      # network-rescue split of og-spatial-concentration); the enrichment half stays og-spatial-concentration.
     criterion_findings:
       - og30-pore-ignites-vs-control
     criterion: >-
@@ -1142,10 +1173,12 @@ plan_gates:
     extends: C
     member_studies:
       - og-reproduction
-      - og-heredity
+      - og-evolvability
     pending_studies:
+      # Gate D's criterion (reproducible selectable fitness difference) lives in og-evolvability (the
+      # evolvability split of og-heredity); og-heredity holds the chemical-inheritance half that feeds it.
       # Membrane-MD sub-program (PLANNED). Division PROPENSITY only (geometry/curvature/barrier) —
-      # explicitly NOT heritable division (og-33/og-heredity remain the gate-earning lines). See
+      # explicitly NOT heritable division (og-33/og-evolvability remain the gate-earning lines). See
       # membrane-md-studies-m1-m5-designs.md.
       - {slug: mem-m4-growth-division-propensity, title: Growth, shape change & division propensity, scaffolded: true, planned: true, program: membrane-md}
     criterion: >-
@@ -1184,7 +1217,8 @@ plan_acts:
       documented reactor lifetime.
     member_studies:
       - og-vent-environment
-    gates: []                     # vent feasibility feeds gate A1; no distinct campaign gate of its own
+      - og-vent-interface
+    gates: []                     # vent feasibility (1A) feeds gate A1; the evolving interface (1B) feeds carbon/network; no distinct campaign gate of its own
     upstream_state_consumed: []   # root act — draws on geochemical priors (inputs), not an upstream act
   - act: II
     name: Chemical organization
@@ -1197,14 +1231,20 @@ plan_acts:
       - og-carbon-fixation
       - og-network-persistence
       - og-spatial-concentration
-    gates: [A1, B]                # A1 network persistence (roster also carries og-vent-environment); B spatial
+      - og-network-rescue
+    gates: [A1, B]                # A1 network persistence; B spatial (rests on og-network-rescue, which holds og30-pore-ignites-vs-control)
     off_spine_gates: [A2]         # endogenous autocatalysis — tested and refuted, never a spine prerequisite
     upstream_state_consumed:
       - from: og-vent-environment
         relation: builds-on
         provides: >-
           the calibrated vent feed posterior (dissolved inorganic carbon and H2 with uncertainty),
-          pH, temperature, H2 flux, and the documented reactor lifetime
+          pH, temperature, and the documented reactor lifetime
+      - from: og-vent-interface
+        relation: builds-on
+        provides: >-
+          the time-dependent H2 / inorganic-carbon flux and maintained pH/redox gradient delivered by the
+          evolving mineral interface, within its bounded DIC window
   - act: III
     name: Chemical individuality
     primary_question: >-
@@ -1217,7 +1257,7 @@ plan_acts:
       - og-nutrient-bottlenecks
     gates: [C]
     upstream_state_consumed:
-      - from: og-spatial-concentration
+      - from: og-network-rescue
         relation: builds-on
         provides: >-
           the pore-concentrated, carbon-fixing persistent network at the calibrated setting (species
@@ -1231,6 +1271,7 @@ plan_acts:
     member_studies:
       - og-reproduction
       - og-heredity
+      - og-evolvability
     gates: [D]
     pending_studies:
       - {slug: mem-m4-growth-division-propensity, title: Growth, shape change & division propensity, scaffolded: true, planned: true, program: membrane-md}
@@ -1254,7 +1295,7 @@ plan_acts:
       - og-vent-specificity
     gates: [E]
     upstream_state_consumed:
-      - from: og-heredity
+      - from: og-evolvability
         relation: builds-on
         provides: >-
           the reproducing, inheriting lineage (division geometry, the inherited compositional trait and

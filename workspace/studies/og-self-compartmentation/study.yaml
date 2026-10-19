@@ -1146,7 +1146,7 @@ baseline:
   params: {}
   planned: false
 parent_studies:
-- study: og-spatial-concentration
+- study: og-network-rescue
   condition: tests-passed
 - study: og-autocatalysis-a2
   condition: ran

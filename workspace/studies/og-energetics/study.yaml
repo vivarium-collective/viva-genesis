@@ -1670,7 +1670,7 @@ baseline:
 parent_studies:
 - study: og-self-compartmentation
   condition: tests-passed
-- study: og-heredity
+- study: og-evolvability
   condition: tests-passed
 consolidation_note: >-
   Consolidates og-energy-proto-energetics, og-05-environmental-to-internal-bioenergetics, og-05b-collapse-rate-sweep

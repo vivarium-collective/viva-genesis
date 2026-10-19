@@ -1389,7 +1389,7 @@ baseline:
   params: {}
   planned: false
 parent_studies:
-- study: og-heredity
+- study: og-evolvability
   condition: tests-passed
 - study: og-energetics
   condition: tests-passed
