@@ -13,13 +13,12 @@ evidence_tier: mechanistic_prediction
 program: consolidated
 title: 'Network Persistence: Does the Carbon-Fixing Network Sustain Itself?'
 concept: >-
-  Persistence of the prebiotic carbon-fixing network: whether a balanced reaction network, fed the calibrated
-  vent state and subject to washout, sustains net carbon throughput as a connected system — one concept
-  studied at several fidelities (curated minimal network, rule-generated open universe, provenance-gated
-  atlas) as arms.
+  Whether a balanced prebiotic carbon-fixing network, fed the calibrated vent state and subject to washout,
+  sustains net carbon throughput as a connected system — studied at several fidelities (curated minimal
+  network, rule-generated open universe, provenance-gated atlas) as arms.
 gate_reason: >-
-  Gate A1 (does the carbon-fixing network persist). Consolidates the campaign's network-persistence line
-  into one concept with explicit fidelity-labelled arms: a curated minimal network (og-02, canonical),
+  Gate A1 (does the carbon-fixing network persist). Consolidates the network-persistence line
+  into one concept with fidelity-labelled arms: a curated minimal network (og-02, canonical),
   a rule-generated open universe under real thermodynamics (og-02-alt), and the provenance-gated reaction
   atlas that supplies both (og-28) — each judged against its own matched null with input fluxes held equal
   and the ledger closing. Headline (og-02, canonical): the network SUSTAINS net carbon throughput (~9e-4

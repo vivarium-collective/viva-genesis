@@ -16,9 +16,9 @@ concept: >-
   Bioenergetics of the protocell: whether a primitive system captures geochemical free energy, internalizes
   it under selection, and couples a chemical carrier — one concept, studied at several fidelities as arms.
 gate_reason: >-
-  Gate E (optional extension), energy. This study consolidates the campaign's proto-energetics line into
-  one concept with explicit arms at different fidelities (the og-00..08 scaffold arc and the og-27..37
-  sharpened arc as arms of the same question): can a primitive chemical system capture geochemical free
+  Gate E (optional extension), energy. Consolidates the campaign's proto-energetics line into one concept
+  with explicit arms at different fidelities (the og-00..08 scaffold arc and the og-27..37 sharpened arc
+  as arms of the same question): can a primitive chemical system capture geochemical free
   energy, internalize it under selection, and couple a specified carrier to do endergonic work — each
   arm judged against its own matched null with input fluxes held equal, the ledger closing with no hidden
   inflow. Headline is bounded by the sharpest arm (og-35): the carrier pays on DIP-PERSISTENCE, not total
@@ -33,8 +33,7 @@ claim: >-
   and membrane-leak-dependent (5-class alt arm, supported, classes agree ~46%); and a specified thioester
   carrier does useful work through a gradient dip where gradient-only starves but does NOT improve total
   useful work (sharpened Gate-E arm, og-35, qualified). The consolidated headline is bounded by that sharpest
-  arm: qualified, dip-persistence not throughput. Every matched null and every arm verdict is preserved
-  explicitly.
+  arm: qualified, dip-persistence not throughput. Every matched null and every arm verdict is preserved.
 question: >-
   Can a primitive chemical system capture geochemical free energy, internalize it under selection, and
   couple a specified carrier to perform endergonic work — and does any of it improve total throughput,
@@ -749,8 +748,8 @@ findings:
     (pump catalyst efficiency × gradient floor) Decision map survives at 185/196 points (~94%), with the
     low-floor / low-efficiency corner going extinct. The Sojo cost line (η ≈ 0.30 — where internal pumping
     clears its maintenance cost plus the survival floor) marks the internalize-or-die boundary, and internalization
-    (pump fraction > 0.5) fills the efficient interior where the lineage truly OWNS its energy rather
-    than riding the residual external gradient.
+    (pump fraction > 0.5) fills the efficient interior where the lineage OWNS its energy rather than riding
+    the residual external gradient.
   evidence:
     from_test: selection-internalizes-gradient-generation
     observed: >-

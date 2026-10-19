@@ -20,14 +20,14 @@ concept: >-
 gate_reason: >-
   Null control (vent specificity). Consolidates the adversarial control (og-adv, canonical) and the planned
   competing-environments falsification (og-ev-competing-environments). Headline (og-adv, canonical): running
-  the real og-01/02/03 composites with the vent's characteristic features ABLATED — no sustained H2, no
-  Fe/Ni/S catalytic interface, no pore concentration — makes them FAIL all five discriminating gates (carbon
-  flux, formate yield, protometabolic throughput, thermophoretic Peclet, enrichment), while the vent PASSES
-  each. So the campaign's gates are VENT-SPECIFIC detectors, not generic non-equilibrium detectors: the
-  generic-nonequilibrium null hypothesis is REFUTED (correctly rejected by every gate). This refutation
-  is the DESIRED result of an adversarial control — it certifies the gates discriminate the vent rather
+  the real og-01/02/03 composites with the vent's characteristic features ablated — no sustained H2, no
+  Fe/Ni/S catalytic interface, no pore concentration — makes them fail all five discriminating gates (carbon
+  flux, formate yield, protometabolic throughput, thermophoretic Peclet, enrichment), while the vent passes
+  each. The campaign's gates are therefore vent-specific detectors, not generic non-equilibrium detectors:
+  the generic-nonequilibrium null hypothesis is REFUTED (correctly rejected by every gate). This refutation
+  is the desired result of an adversarial control — it certifies the gates discriminate the vent rather
   than any drive, and gate_status=passed because the control works as designed. Building it also exposed
-  + fixed a latent control-integrity bug (catalyst_active=0 silently swallowed by process-bigraph is_empty).
+  and fixed a latent control-integrity bug (catalyst_active=0 silently swallowed by process-bigraph is_empty).
   og-ev-competing-environments (planned) extends the falsification to competing origin environments.
 claim: >-
   The campaign's discriminating gates are specific to the serpentinizing alkaline vent, not to generic
@@ -36,7 +36,7 @@ claim: >-
   yield, protometabolic throughput, thermophoretic Peclet, enrichment) while the vent passes each — the
   generic-nonequilibrium null is refuted by every gate (og-adv, canonical; verdict=refuted = null correctly
   rejected, gate_status=passed = the control discriminates). A planned competing-environments study extends
-  the falsification. Consolidated: the gates detect THIS vent, not any drive — specificity demonstrated
+  the falsification. Consolidated: the gates detect this vent, not any drive — specificity demonstrated
   via a refuted-by-design null. Every matched null and arm verdict kept.
 question: >-
   Do the campaign's discriminating gates detect the serpentinizing alkaline vent specifically, or would
@@ -52,7 +52,7 @@ experiment: >-
 result: >-
   The campaign's gates are vent-specific — ablating the vent's features makes the real composites fail
   all five gates while the vent passes, so the generic-nonequilibrium null is refuted (correctly rejected)
-  and specificity is demonstrated. A latent catalyst_active=0 control-integrity bug was found + fixed
+  and specificity is demonstrated. A latent catalyst_active=0 control-integrity bug was found and fixed
   building the control.
 builds_on: []
 handoff:
@@ -63,11 +63,11 @@ arms:
   source_study: og-adv-generic-nonequilibrium
   concept_role: >-
     Canonical (adversarial null control): run the real og-01/02/03 composites with the vent's characteristic
-    features ABLATED — no sustained H2, no Fe/Ni/S catalytic interface, no pore concentration — and they
-    FAIL all five discriminating gates (carbon flux, formate yield, protometabolic throughput, thermophoretic
-    Peclet, enrichment) while the vent PASSES each. So the gates are vent-SPECIFIC detectors, not generic
+    features ablated — no sustained H2, no Fe/Ni/S catalytic interface, no pore concentration — and they
+    fail all five discriminating gates (carbon flux, formate yield, protometabolic throughput, thermophoretic
+    Peclet, enrichment) while the vent passes each. The gates are therefore vent-specific detectors, not generic
     non-equilibrium detectors: the generic-nonequilibrium null is REFUTED (correctly rejected). verdict=refuted
-    is the DESIRED result of an adversarial control. (Building it exposed + fixed a latent control-integrity
+    is the desired result of an adversarial control. (Building it exposed and fixed a latent control-integrity
     bug: catalyst_active=0 silently swallowed by process-bigraph is_empty.)
   fidelity: mechanistic_prediction
   verdict: refuted
@@ -171,7 +171,7 @@ findings:
   statement: >-
     Building the control exposed a latent control-integrity bug — catalyst_active=0 was silently swallowed
     by process-bigraph's is_empty(Float, 0.0) and refilled with the default, so the no-catalyst control
-    (here AND in og-01's cross-run gate) secretly ran WITH full catalyst. Clamping to 1e-6 honors the
+    (here and in og-01's cross-run gate) secretly ran with full catalyst. Clamping to 1e-6 honors the
     control; og-01's gates still pass (9/9 + both cross-run) with the now-truthful control.
   evidence:
     observed: >-

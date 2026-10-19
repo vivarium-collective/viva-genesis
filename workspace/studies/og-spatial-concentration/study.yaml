@@ -13,9 +13,9 @@ evidence_tier: mechanistic_prediction
 program: consolidated
 title: 'Spatial Concentration: Does a Pore Make an Individual?'
 concept: >-
-  Spatial individuation of the protometabolism: whether vent pore physics concentrates a dilute feed strongly
-  enough to ignite the reaction network and form a persistent, localized individual rather than washing
-  into the ocean — one concept studied at several fidelities (thermophoretic concentration physics, full-network
+  Spatial individuation of the protometabolism: whether vent pore physics concentrates a dilute feed enough
+  to ignite the reaction network and form a persistent, localized individual rather than washing into the
+  ocean — one concept studied at several fidelities (thermophoretic concentration physics, full-network
   pore ignition) as arms.
 gate_reason: >-
   Gate B (does spatial concentration make an individual). Consolidates the campaign's concentration/individuation
@@ -24,10 +24,9 @@ gate_reason: >-
   well-mixed null with feeds held equal. Headline (og-30, canonical): at identical vent-posterior feeds
   a concentrating mineral pore IGNITES the network (net carbon flux +4.5e-4, 17 persistent species) while
   a matched well-mixed, non-concentrating control stays dark — spatial concentration is load-bearing,
-  SUPPORTED. Guardrail (kept explicit): the pore benefit is a BOUNDED porosity window, not a broad swath,
-  and network_connected is a brittle proxy near threshold. og-30 does double duty — it meets Gate B and
-  resolves Gate A1's open feed-plausibility question (the pore explains how the A1 carbon-fixing network
-  persists at vent feeds).
+  SUPPORTED. Guardrail: the pore benefit is a BOUNDED porosity window, not a broad swath, and network_connected
+  is a brittle proxy near threshold. og-30 both meets Gate B and resolves Gate A1's open feed-plausibility
+  question — the pore explains how the A1 carbon-fixing network persists at vent feeds.
 claim: >-
   Across fidelities, vent pore physics concentrates a dilute feed into a persistent localized individual
   and ignites the reaction network. Resolving diffusion, thermophoresis, adsorption, surface catalysis
@@ -36,14 +35,13 @@ claim: >-
   vent-posterior feeds the concentrating pore ignites the full network — net carbon flux +4.5e-4, 17 persistent
   species — while a matched well-mixed, non-concentrating control stays dark (og-30, canonical, supported);
   the C6 network og-29 found needs ~20x well-mixed feed ignites directly in the pore at base feed. The
-  pore benefit is a bounded porosity window, and network_connected is a brittle proxy near threshold (both
-  kept honest). og-30 does double duty: it meets Gate B and resolves Gate A1's feed-plausibility. Consolidated
-  headline: supported — spatial concentration makes the individual and rescues ignition. Every matched
-  null and arm verdict kept.
+  pore benefit is a bounded porosity window, and network_connected is a brittle proxy near threshold. og-30
+  both meets Gate B and resolves Gate A1's feed-plausibility. Consolidated headline: supported — spatial
+  concentration makes the individual and rescues ignition. Every matched null and arm verdict is preserved.
 question: >-
-  Can vent pore physics concentrate a dilute vent feed strongly enough to form a persistent localized
-  individual and ignite the reaction network productively — more than a matched well-mixed, non-concentrating
-  control at identical feeds?
+  Can vent pore physics concentrate a dilute vent feed enough to form a persistent localized individual
+  and ignite the reaction network productively — more than a matched well-mixed, non-concentrating control
+  at identical feeds?
 hypothesis: >-
   Bounded-geometry pore physics (thermophoresis + adsorption + advection) concentrates a dilute feed enough
   to retain a persistent individual and ignite the network, within a bounded porosity window; no individuation
@@ -412,10 +410,10 @@ findings:
   kind: methodological
   status: confirms
   statement: >-
-    This does double duty - it meets Gate B's own criterion (pore flux far exceeds the matched control)
-    and resolves Gate A's open A1 feed-plausibility question: the ~20x well-mixed ignition gap is bridged
-    by pore enrichment within the physical pore window, so a carbon-fixing network persists at vent-realistic
-    feeds inside a pore (demonstrated on C4 and confirmed directly on C6).
+    og-30 both meets Gate B's own criterion (pore flux far exceeds the matched control) and resolves Gate
+    A's open A1 feed-plausibility question: the ~20x well-mixed ignition gap is bridged by pore enrichment
+    within the physical pore window, so a carbon-fixing network persists at vent-realistic feeds inside
+    a pore (demonstrated on C4 and confirmed directly on C6).
   evidence:
     from_test: productive-flux-beats-wellmixed-and-nonconcentrating
 runs:
@@ -632,8 +630,8 @@ parent_studies:
   condition: tests-passed
 consolidation_note: >-
   Consolidates og-30-spatially-integrated-protometabolism (canonical) and og-03-dilution-to-localized-individuals
-  into one concept, plus the planned og-ev-pore-transport-benchmark as a planned arm. Each fold-in is
-  an explicit arm (see `arms`) keeping its own verdict, matched null, findings and run provenance; artifacts
-  + viz moved under artifacts|viz/<source-slug>/. og-30 is canonical, so og-spatial-concentration adopts
-  plan_id 30 and numeric refs to study 30 (og-31 handoff from:30, og-autocatalysis-a2 / og-network-persistence
-  emits to:30) resolve here. Resolves Gate A1 feed-plausibility in addition to earning Gate B.
+  into one concept, plus the planned og-ev-pore-transport-benchmark arm. Each fold-in is an explicit arm
+  (see `arms`) keeping its own verdict, matched null, findings and run provenance; artifacts + viz moved
+  under artifacts|viz/<source-slug>/. og-30 is canonical, so og-spatial-concentration adopts plan_id 30
+  and numeric refs to study 30 (og-31 handoff from:30, og-autocatalysis-a2 / og-network-persistence emits
+  to:30) resolve here. Resolves Gate A1 feed-plausibility in addition to earning Gate B.

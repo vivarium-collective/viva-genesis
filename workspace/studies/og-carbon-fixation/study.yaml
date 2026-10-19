@@ -13,11 +13,11 @@ evidence_tier: mechanistic_prediction
 program: consolidated
 title: 'Carbon Fixation: Does H2 Reduce CO2 at the Vent?'
 concept: >-
-  The first carbon: whether H2-driven CO2 reduction over Fe/Ni/S catalysts produces reduced organic carbon
-  reproducing lab benchmarks at the vent — one concept studied at several fidelities (hydrothermal carbon-fixation
-  yields, explicit electrochemical-interface limitation attribution) as arms.
+  Whether H2-driven CO2 reduction over Fe/Ni/S catalysts produces reduced organic carbon that reproduces
+  lab benchmarks at the vent — studied at several fidelities (hydrothermal carbon-fixation yields, explicit
+  electrochemical-interface limitation attribution) as arms.
 gate_reason: >-
-  Gate A (carbon). Consolidates the campaign's carbon-fixation line into one concept with explicit fidelity-labelled
+  Gate A (carbon). Consolidates the carbon-fixation line into one concept with fidelity-labelled
   arms: hydrothermal carbon fixation (og-01, canonical) and the explicit electrochemical-interface limitation
   attribution (og-01-cal-electrochemistry). Headline (og-01, canonical): H2-driven CO2 reduction reproduces
   the Preiner-2020 yield hierarchy (formate ~200 mM >> acetate ~100 uM >> pyruvate ~10 uM), sustains net

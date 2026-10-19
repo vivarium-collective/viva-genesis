@@ -25,15 +25,16 @@ lead: >-
   scenario and the 2026 unfavorable reassessment head to head rather than assuming either. Every
   stage is a coupled Vivarium composite of genuine simulators (PHREEQC, FiPy, eQuilibrator,
   libRoadRunner, with a FEniCS/dolfinx FEM solver under pixi as a high-fidelity cross-check) under
-  explicit conservation contracts. Twenty-three studies build and run on real simulators. A
-  fourteen-stage arc from vent geochemistry through carbon fixation, protometabolism,
-  individuality, compartmentation, internalized bioenergetics and heredity to ecology, escape, and
-  the nitrogen/phosphorus/energy/growth bottlenecks passes its pre-stated gates, with an
-  adversarial vent-ablated control rejected by every discriminating gate. The sharper findings
-  come from re-grounding each stage on higher-fidelity
-  model classes, which returns three honest negatives: carbon fixation's limiting step is
-  structure-sensitive, no autocatalysis emerges at vent conditions without a one-carbon
-  feed, and og-08's {pump, importer, heredity} set is not jointly sufficient
+  explicit conservation contracts. Thirteen consolidated studies — each gathering the campaign's
+  run arms (36 in all) at several fidelities — build and run on real simulators. A staged arc of
+  six gates, from vent geochemistry and network persistence through endogenous autocatalysis,
+  spatial individuation, self-compartmentation, reproduction and heredity, to the optional
+  energy, ecology and graded-autonomy extensions and the nitrogen/phosphorus/energy/growth
+  bottlenecks, passes its pre-stated gates, with an adversarial vent-ablated control rejected by
+  every discriminating gate. The sharper results come from re-grounding each stage on
+  higher-fidelity model classes, which returns three honest negatives: carbon fixation's limiting
+  step is structure-sensitive, no autocatalysis emerges at vent conditions without a one-carbon
+  feed, and og-independence's {pump, importer, heredity} set is not jointly sufficient
   off-gradient.
 executive:
   what_is_this: A staged, falsifiable Vivarium campaign testing the alkaline-vent theory for the
@@ -179,9 +180,9 @@ executive:
     heredity attachment thresholds, membrane permeabilities) - decisions, not unrun science.
   verdict_status: complete
   verdict_detail: >-
-    Twenty-three studies, the fourteen-stage arc (the geochemistry-to-heredity stages, the nitrogen / phosphorus /
-    energy / growth bottleneck modules, an adversarial control) plus nine
-    calibration and -alt studies spanning every stage, wired into a DAG and all run. Each runs a
+    Thirteen consolidated studies — the geochemistry-to-heredity arc, the nitrogen / phosphorus /
+    energy / growth bottleneck modules, and an adversarial control — gather 36 run arms (the former
+    calibration and -alt studies now folded as fidelities) across six gates, wired into a DAG and all run. Each runs a
     coupled Vivarium composite of real tools (PHREEQC + FiPy; eQuilibrator; libRoadRunner; a FiPy
     thermal trap; amphiphile self-assembly; bioenergetic internalization; an agent-based heredity
     lineage; a pore metacommunity; an osmotic growth/division compartment; a Butler-Volmer

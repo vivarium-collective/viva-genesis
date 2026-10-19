@@ -13,6 +13,9 @@ study_type: exploratory
 proposed: true
 title: Growth, shape change & division propensity (membrane-MD M4)
 program: membrane-md
+parent_studies:
+- study: og-self-compartmentation
+  condition: tests-passed
 design_ref: workspace/references/membrane-md-studies-m1-m5-designs.md
 honest_caveat: >-
   MD tests candidate prebiotic compositions; it does NOT by itself demonstrate endogenous

@@ -13,35 +13,34 @@ evidence_tier: mechanistic_prediction
 program: consolidated
 title: 'The Vent Environment: A Bounded but Viable Geochemical Reactor'
 concept: >-
-  The geochemical environment of the vent: whether a serpentinizing Lost City-type vent is a viable reactor
-  that supplies the H2, inorganic carbon, pH/redox gradients and electrochemical driving force downstream
-  chemistry needs — and within what bounds — one concept studied at several fidelities (reactor baseline,
-  calibration of viable states, coupled evolving interface) as arms.
+  Whether a serpentinizing Lost City-type vent is a viable reactor — one that supplies the H2, inorganic
+  carbon, pH/redox gradients and electrochemical driving force downstream chemistry needs, and within what
+  bounds — studied at several fidelities (reactor baseline, calibration of viable states, coupled evolving
+  interface) as arms.
 gate_reason: >-
   Gate A foundation (the vent environment; carries og-27's A1-relevant coupled-interface supply role).
-  Consolidates the campaign's vent-environment line into one concept with explicit fidelity-labelled arms:
-  the serpentinizing reactor baseline (og-00), the calibration of which vent states feed downstream chemistry
-  (og-cal, calibrated tier), and the sharpened coupled geochemical interface (og-27, canonical) — each
-  judged against its own discriminating control with conservation closing. Headline (og-27, canonical):
-  the evolving mineral-water interface supplies H2 / inorganic carbon / pH-redox gradients and a CO2-reducing
-  electrochemical driving force with a closing ledger — BUT delivery is BOUNDED and CONDITIONAL: the supply<->throttle
-  behavior is a sharp two-regime DIC cliff (not gradual depletion), mineral precipitation/passivation
-  throttles catalytic supply on the evolution timescale, and only 12.5% (6/48) of the calibrated prior
-  reproduces all Lost City observations (dissolved H2 is the binding one). So QUALIFIED — a viable vent
-  reactor within a bounded window, not unconditionally.
+  Consolidates the vent-environment line into one concept with fidelity-labelled arms — the serpentinizing
+  reactor baseline (og-00), the calibration of which vent states feed downstream chemistry (og-cal, calibrated),
+  and the sharpened coupled geochemical interface (og-27, canonical) — each judged against its own discriminating
+  control with conservation closing. Headline (og-27, canonical): the evolving mineral-water interface
+  supplies H2, inorganic carbon, pH/redox gradients and a CO2-reducing electrochemical driving force with
+  a closing ledger, but delivery is BOUNDED and CONDITIONAL — the supply<->throttle behavior is a sharp
+  two-regime DIC cliff, not gradual depletion; mineral precipitation/passivation throttles catalytic supply
+  on the evolution timescale; and only 12.5% (6/48) of the calibrated prior reproduces all Lost City observations
+  (dissolved H2 is the binding one). QUALIFIED — a viable vent reactor within a bounded window, not unconditionally.
 claim: >-
   Across fidelities the vent environment is a viable but bounded geochemical reactor. The serpentinizing
   reactor settles inside the Lost City window (50.6 C, pH 9.37, sustained H2) over ~80% of the operating
-  grid — habitability is a bounded region, not one tuned run (og-00, supported). Conditioning on the Lost
-  City field windows, 12.5% (6/48) of the empirically motivated prior reproduces all three observations
+  grid — habitability is a bounded region, not one tuned run (og-00, supported). Conditioned on the Lost
+  City field windows, 12.5% (6/48) of the empirically motivated prior reproduces all three observations,
   and 100% of that posterior supplies the H2 + pH gradient downstream carbon fixation needs; dissolved
   H2 is the binding observation, pH is buffered and non-discriminating (og-cal, supported, calibrated).
-  The sharpened coupled interface delivers H2 / inorganic-carbon flux + a maintained pH/redox gradient
-  at or above required levels and a CO2-reducing electrochemical driving force, with mass/charge/energy
-  closing across PHREEQC+FiPy+Reaktoro — but precipitation and passivation throttle supply on the mineral-evolution
-  timescale and the supply<->throttle is a sharp two-regime DIC cliff, so delivery is bounded (og-27,
-  canonical, qualified). Consolidated headline: qualified — a viable vent reactor within a bounded window,
-  supplying downstream chemistry conditionally. Every matched null and arm verdict kept.
+  The sharpened coupled interface delivers H2 / inorganic-carbon flux, a maintained pH/redox gradient at
+  or above required levels, and a CO2-reducing electrochemical driving force, with mass/charge/energy closing
+  across PHREEQC+FiPy+Reaktoro — but precipitation and passivation throttle supply on the mineral-evolution
+  timescale and the supply<->throttle is a sharp two-regime DIC cliff, so delivery is bounded (og-27, canonical,
+  qualified). Consolidated headline — qualified: a viable vent reactor within a bounded window, supplying
+  downstream chemistry conditionally. Every matched null and arm verdict kept.
 question: >-
   Is a serpentinizing Lost City-type vent a viable geochemical reactor that supplies the H2, inorganic
   carbon, pH/redox gradients and electrochemical driving force downstream chemistry needs — and within

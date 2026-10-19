@@ -22,33 +22,33 @@ concept: >-
   fatty-acid vesicle Martini MD replacing the phospholipid stand-in (og-32b), with the membrane-MD sub-program
   (mem-m1/2/3/5) and the composition-overlap discriminator (og-ev) as planned arms.
 gate_reason: >-
-  Gate C (self-compartmentation / self-maintaining protocell). This consolidates the campaign's boundary->protocell
-  line into one concept with explicit fidelity-labelled arms, each judged against its OWN matched null
-  with input fluxes held equal: boundary assembly (og-04, supported), the endogenous boundary (og-04-alt,
-  supported), the Gate-C membrane benefit (og-31, qualified — pays on persistence not throughput), the
-  integrated first self-maintaining protocell (og-32, canonical, qualified), and the live fatty-acid vesicle
-  MD that replaces og-32's phospholipid stand-in (og-32b, qualified). Headline is bounded by the most-caveated
-  honest arm: QUALIFIED — a self-maintaining protocell with a self-made boundary whose membrane pays on
-  persistence (not throughput), within windows, on a short-MD stability trend. Each arm keeps its own
-  verdict and matched null (see arms). The membrane-MD sub-program (mem-m1/m2/m3/m5) and the chemistry->membrane
-  composition-overlap discriminator (og-ev) are carried as planned arms; the gold-standard PMF permeability
-  (og-32a) is tracked as a GPU-gated follow-up.
+  Gate C (self-compartmentation / self-maintaining protocell). Consolidates the campaign's boundary-to-protocell
+  line into one concept with fidelity-labelled arms, each judged against its own matched null with input
+  fluxes held equal: boundary assembly (og-04, supported), the endogenous boundary (og-04-alt, supported),
+  the Gate-C membrane benefit (og-31, qualified — pays on persistence, not throughput), the integrated
+  first self-maintaining protocell (og-32, canonical, qualified), and the live fatty-acid vesicle MD that
+  replaces og-32's phospholipid stand-in (og-32b, qualified). The headline is bounded by the most-caveated
+  arm — qualified: a self-maintaining protocell with a self-made boundary whose membrane pays on persistence
+  (not throughput), within windows, on a short-MD stability trend. Each arm keeps its own verdict and matched
+  null (see arms). The membrane-MD sub-program (mem-m1/m2/m3/m5) and the chemistry-to-membrane composition-overlap
+  discriminator (og-ev) are carried as planned arms; the gold-standard PMF permeability (og-32a) is tracked
+  as a GPU-gated follow-up.
 claim: >-
-  A vent-born system acquires a self-made boundary and self-maintains as a protocell, with the membrane
-  buying persistence rather than raw throughput. Mixed fatty-acid/alcohol amphiphiles assemble into protocell
+  A vent-born system acquires a self-made boundary and self-maintains as a protocell, the membrane buying
+  persistence rather than raw throughput. Mixed fatty-acid/alcohol amphiphiles assemble into protocell
   boundaries in a vent window, giving individuality (retention) without full isolation and beating single-amphiphile
   controls (og-04, supported); a boundary also forms endogenously from the system's own carbon chemistry
-  with a closed matter ledger (og-04-alt, supported); protometabolism-produced encapsulation PAYS against
-  a matched equal-feed null on persistence and an access window but NOT on throughput, and the benefit
+  with a closed matter ledger (og-04-alt, supported); protometabolism-produced encapsulation pays against
+  a matched equal-feed null on persistence and an access window but not on throughput, and the benefit
   is windowed (og-31, qualified); the integrated compartment self-maintains its membrane integrity and
   beats a matched ablation with MD-informed permeability (og-32, canonical, qualified); and real fatty-acid
   Martini-3 vesicles are stable across C10-C16 while a fully-charged null micellises at the short+charged
   corner, replacing og-32's phospholipid stand-in with a real amphiphile (og-32b, qualified — a short-MD
   fixed-charge stability trend, with the titratable/PMF gold standard tracked as og-32a). Headline verdict
-  qualified. Every matched null and every arm verdict is preserved explicitly.
+  qualified. Every matched null and arm verdict is preserved.
 question: >-
   How does a vent-born chemical system acquire a self-made boundary and become a self-maintaining protocell
-  — do amphiphiles assemble a retaining-but-not-isolating boundary, does encapsulation PAY against a matched
+  — do amphiphiles assemble a retaining-but-not-isolating boundary, does encapsulation pay against a matched
   equal-feed null, does the integrated compartment self-maintain and beat a matched ablation, and are
   real fatty-acid vesicles stable — each against its own matched null with input fluxes held equal?
 hypothesis: >-
@@ -124,9 +124,9 @@ arms:
 - id: 31_protometabolism_to_amphiphiles
   source_study: og-31-protometabolism-to-amphiphiles
   concept_role: >-
-    Gate-C membrane benefit: does protometabolism-produced amphiphile encapsulation PAY against a matched
+    Gate-C membrane benefit: does protometabolism-produced amphiphile encapsulation pay against a matched
     equal-feed null — on persistence, access window, or throughput? Realized: qualified — the membrane
-    pays on PERSISTENCE (and an access window), NOT throughput; benefit is windowed; the connectivity
+    pays on persistence (and an access window), not throughput; benefit is windowed; the connectivity
     proxy is brittle at high TOC.
   fidelity: mechanistic_prediction
   verdict: qualified
@@ -165,7 +165,7 @@ arms:
     Sharpened live-MD arm — replaces og-32's DLPC/DPPC phospholipid stand-in with real fatty-acid Martini
     3 vesicle MD: are protonated fatty-acid vesicles stable across C10-C16, and does a fully-charged null
     micellise? Realized: qualified — protonated vesicles stable across the window (multi-seed), the charged-only
-    null micellises at the short+charged corner; a short-MD stability TREND (fixed-charge, not titratable),
+    null micellises at the short+charged corner; a short-MD stability trend (fixed-charge, not titratable),
     gold-standard PMF tracked as og-32a.
   fidelity: mechanistic_prediction
   verdict: qualified
@@ -600,10 +600,10 @@ findings:
   kind: computational
   status: novel
   statement: >-
-    Sweeping permeability (via temperature) traces the compartment through THREE regimes on the retention-access
+    Sweeping permeability (via temperature) traces the compartment through three regimes on the retention-access
     plane — too closed (retains but starves; low T), a viable window (individuality + access, peak ret×acc
     ≈ 0.92 at ~310 K), and too open (leaks; high T) before the membrane destabilizes entirely. Orthogonally,
-    the viable SALT ceiling rises with co-surfactant fraction: the feasibility map marks a viable region
+    the viable salt ceiling rises with co-surfactant fraction: the feasibility map marks a viable region
     (individuality > 0.1) at 63/256 points (~25%) — vesicles survive at seawater salt (0.35 M) and beyond
     only with enough co-surfactant — the Jordan mixed-amphiphile advantage as a bounded 2-D region, not
     a single point.
@@ -706,12 +706,12 @@ findings:
   kind: computational
   status: confirms
   statement: >-
-    At equal feeds vs the no-endogenous-membrane ablation, the compartment SELF-MAINTAINS in the measurable
+    At equal feeds vs the no-endogenous-membrane ablation, the compartment self-maintains in the measurable
     form (verdict qualified). (i) Integrity: net amphiphile production 3.48e-5 >= degradation 1.0e-7 (eta_amph
     0.10, k_deg 1e-4/s, M_req 1e-3 M) - maintained. (ii) Benefit: the membrane beats the ablation on persistence
-    (standing organic carbon 1.77e-2 vs 8.96e-3, 1.98x) but NOT on throughput (net carbon flux 0.79x,
+    (standing organic carbon 1.77e-2 vs 8.96e-3, 1.98x) but not on throughput (net carbon flux 0.79x,
     feed-limited) - so the benefit is retention, not faster chemistry, exactly as og-31 found under the
-    reduced coupling. Self-maintaining = integrity AND benefit = true; qualified because the benefit is
+    reduced coupling. Self-maintaining = integrity and benefit = true; qualified because the benefit is
     persistence-only and the coupling is MD-informed, not PMF-resolved. Guardrail: the metabolism is the
     sustained A1 carbon-fixing network, not autocatalytic.
   evidence:
@@ -724,7 +724,7 @@ findings:
   kind: computational
   status: confirms
   statement: >-
-    Membrane permeability is informed by REAL short Martini 3 CG-MD of the amphiphile composition, not
+    Membrane permeability is informed by real short Martini 3 CG-MD of the amphiphile composition, not
     a free parameter: the long di-C16 bilayer (thickness 2.870 nm) is thicker than the short di-C12 one
     (2.325 nm), and a published solubility-diffusion structure->permeability relation (a labelled proposed_input)
     maps that to lower permeability (0.256 vs 1.0 rel.) and higher retention (0.661 vs 0.333); retention
@@ -772,7 +772,7 @@ findings:
     the short-chain corner: C10 charged disperses in all 3/3 seeds (head_radial_cv 0.433 +/- 0.009, above
     the 0.35 threshold), the control that should fail. The charge effect is chain-length-gated within
     this short window: C14 charged still holds a coherent shell (cv 0.296 +/- 0.009, 3/3 stable), i.e.
-    charge-driven micellisation of the LONGER chains is slower than ~0.8 ns CPU-MD resolves. So the destabilising
+    charge-driven micellisation of the longer chains is slower than ~0.8 ns CPU-MD resolves. So the destabilising
     corner is short chain + fully charged, exactly where fatty-acid physics (highest curvature + strongest
     headgroup repulsion) predicts the vesicle-forming threshold is crossed; the converged charge/chain
     boundary is the GPU gold-standard follow-up.
@@ -782,11 +782,11 @@ findings:
   kind: methodological
   status: confirms
   statement: >-
-    This study replaces og-32's DLPC/DPPC phospholipid planar-bilayer STAND-IN with the real protocell
-    amphiphile: a closed bilayer VESICLE of single-chain fatty acids built + integrated in martini_openmm
+    This study replaces og-32's DLPC/DPPC phospholipid planar-bilayer stand-in with the real protocell
+    amphiphile: a closed bilayer vesicle of single-chain fatty acids built + integrated in martini_openmm
     (Martini 3 fatty-acid defs FAnn/FAnnM + vesicle builder + semi-isotropic membrane barostat, finite
     energy). The Gate-C boundary is now the actual amphiphile, judged by a bilayer-vs-micelle discriminator
-    (inner-leaflet / lumen retention) over >= 3 seeds. Verdict qualified: a SHORT-MD stability TREND,
+    (inner-leaflet / lumen retention) over >= 3 seeds. Verdict qualified: a short-MD stability trend,
     not a converged micellisation equilibrium or a permeability PMF - those are the GPU gold-standard
     follow-ups (og-32c self-assembly, og-32a PMF). The SP2/SQ5n head is a tracked Martini-3 building-block
     proposed_input; the C1 tails are authoritative.
@@ -1128,7 +1128,7 @@ consolidation_note: >-
   Consolidates og-04-mineral-compartments-to-protocells, og-04-alt-endogenous-boundary, og-31-protometabolism-to-amphiphiles,
   og-32-first-self-maintaining-protocell (canonical keystone, plan_id 32) and og-32b-fatty-acid-vesicle-stability
   into the one Gate-C self-compartmentation concept, with mem-m1/m2/m3/m5 (membrane-MD sub-program) and
-  og-ev-chemistry-membrane-overlap (B4 discriminator) folded as PLANNED arms. Each ran fold-in is an explicit
+  og-ev-chemistry-membrane-overlap (B4 discriminator) folded as planned arms. Each ran fold-in is an explicit
   arm (see `arms`) keeping its own verdict, matched null, findings and run provenance; artifacts + viz
   moved under {artifacts,viz}/<source-slug>/. og-32b replaces og-32's DLPC/DPPC phospholipid stand-in
   with real fatty-acid Martini-3 vesicle MD; the membrane-vs-ablation and charged-null matched nulls are
