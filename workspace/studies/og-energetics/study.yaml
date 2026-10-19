@@ -53,6 +53,7 @@ builds_on:
 - 5
 - 32
 - 34
+plan_id: 35   # takes the canonical arm's (og-35) plan slot so the 34->35->37 handoff chain resolves to this consolidated study
 handoff:
   emits:
   - to: 37
