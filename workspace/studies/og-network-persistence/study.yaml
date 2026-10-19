@@ -680,9 +680,11 @@ findings:
   kind: computational
   status: novel
   statement: >-
-    An apparent autocatalytic gain peaks at 29.5 (graded; settling as CO₂ limits) via a curated, element-lumped
-    reductive-TCA turn, and a no-CO₂ control collapses it to 0 — the gain is feed-driven and the motif
-    is an imposed lumped stoichiometry, NOT genuine endogenous self-amplification. The campaign's dedicated
+    INVALIDATED (element-unbalanced curated motif): an apparent autocatalytic gain peaks at 29.5 (graded;
+    settling as CO₂ limits) via a curated, element-lumped reductive-TCA turn whose lumped step is NOT
+    mass-balanced (it creates 4 C/cycle), so the gain is an artifact; a no-CO₂ control collapses it to 0 —
+    the gain is feed-driven and the motif is an imposed, element-unbalanced lumped stoichiometry, NOT genuine
+    endogenous self-amplification. The campaign's dedicated
     discriminator (og-29, Gate A2) tests self-amplification against a degree-preserving matched null with
     a seed-independence test and refutes it; this finding therefore records an apparent, feed-driven gain,
     superseded on the self-amplification question by og-29.

@@ -29,8 +29,9 @@ gate_reason: >-
   is network PERSISTENCE (A1), not self-amplification (A2). Each arm keeps its own verdict and matched
   null (see arms).
 claim: >-
-  Endogenous self-amplifying autocatalysis is refuted under vent conditions across both representable
-  routes, each against its own matched null. The linear-C6 formose arm (og-29) is thermodynamically refuted
+  Both tested routes fail under modeled vent conditions — endogenous self-amplifying autocatalysis is
+  refuted across both representable routes, each against its own matched null. This is a limitation of the
+  modeled vent redox environment, NOT a universal impossibility (see the beyond-vent counterfactual below). The linear-C6 formose arm (og-29) is thermodynamically refuted
   and seed-independent: the canonical doubling step (r409, 2 glycolaldehyde <-> threose) runs toward condensation
   (dG0 -16.4 kJ/mol) at vent feeds, so the splitting direction carries no net flux (gain 0, motifs 0 across
   x1-x50) and production is feed-driven, not self-amplified. The branched reductive-TCA arm (og-rtca)

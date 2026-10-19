@@ -14,9 +14,13 @@ program: consolidated
 title: 'Vent Specificity: Are the Gates Vent-Specific or Generic?'
 concept: >-
   Specificity of the origin scenario: whether the campaign's discriminating gates detect the serpentinizing
-  alkaline vent specifically, or would pass for any generic non-equilibrium drive — tested by an adversarial
-  control that ablates the vent's characteristic features, plus a planned competing-environments falsification.
-  A null control: a REFUTED generic null is the desired, positive result.
+  alkaline vent specifically, or would pass for any generic non-equilibrium drive — tested as a common
+  CROSS-STUDY ABLATION MATRIX (the real og-01/02/03 composites run with each vent feature ablated: no
+  sustained H2, no Fe/Ni/S interface, no pore concentration), plus a PLANNED competing-environments
+  falsification. A null control: a REFUTED generic null is the desired, positive result. Important bound:
+  the ablation matrix shows the gates reject a feature-stripped generic drive, but GENUINE vent specificity
+  requires positive, realistic ALTERNATIVE-ENVIRONMENT models — which are planned, not yet run — so
+  specificity is demonstrated against ablation, not yet against competing origin environments.
 gate_reason: >-
   Null control (vent specificity). Consolidates the adversarial control (og-adv, canonical) and the planned
   competing-environments falsification (og-ev-competing-environments). Headline (og-adv, canonical): running

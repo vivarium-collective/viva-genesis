@@ -1,0 +1,67 @@
+schema_version: 4
+name: og-precursor-pool
+investigation: origins-of-life-vent
+created: '2026-10-19'
+phase: Design
+status: planned
+execution_status: proposed
+design_status: drafted
+simulation_status: not_run
+evaluation_status: not_started
+gate_status: not_started
+study_type: exploratory
+proposed: true
+title: NEW A — Geochemical Carbon to a Functional Precursor Pool
+program: bridge-study
+parent_studies:
+- study: og-carbon-fixation
+  condition: tests-passed
+- study: og-vent-interface
+  condition: tests-passed
+parent_relations:
+- study: og-carbon-fixation
+  relation: builds-on
+- study: og-vent-interface
+  relation: builds-on
+honest_caveat: >-
+  PLANNED bridge node - specifies a functional-precursor-pool study that targets the gap between bulk carbon flux
+  (og-carbon-fixation, supported) and the precursor set downstream chemistry actually needs. Not built or run;
+  the owner scopes the build separately.
+question: >-
+  Does the vent's reduced-carbon chemistry deliver a functional PRECURSOR POOL (not just bulk organic flux) that
+  the reaction-network and amphiphile studies can consume?
+hypothesis: >-
+  Atom-resolved balanced reaction sets under provenance-tiered kinetics turn the calibrated vent feed into defensible
+  precursor yield vectors, with energy/electron budgets closing and the no-H2 / no-catalyst / no-gradient controls
+  collapsing the pool.
+experiment: >-
+  Build atom-resolved balanced reaction sets with provenance-tiered kinetics, virtual 13C tracing and energy/electron
+  budgets on experimentally defensible feed activities; deliver precursor yield vectors consumed by the network
+  and amphiphile studies. PLANNED - not built or run this pass.
+primary_output: >-
+  Precursor yield vectors (per species, with uncertainty), closed energy/electron budgets, 13C provenance traces,
+  and withheld-calibration product predictions.
+upstream_state_consumed:
+- from: og-vent-interface
+  provides: >-
+    the time-dependent calibrated vent feed (H2 / inorganic carbon flux, pH/redox gradient) within the bounded
+    DIC window
+- from: og-carbon-fixation
+  provides: >-
+    the H2-driven CO2-reduction yield hierarchy and catalytic-interface rates the balanced reaction sets are anchored
+    to
+proposed_controls:
+- no H2
+- no catalyst
+- no gradient
+- withheld-calibration product predictions
+proposed_acceptance_criteria:
+- >-
+  Precursor yield vectors are delivered per species with uncertainty and a closed energy/electron budget.
+- Every control (no H2 / no catalyst / no gradient) collapses the functional pool.
+- Yields are reported against withheld-calibration predictions, not fitted to the same data.
+literature_anchors:
+- preiner2020hydrogen
+- muchowska2019synthesis
+baseline: []
+visualizations: []

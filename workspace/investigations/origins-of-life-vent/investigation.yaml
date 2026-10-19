@@ -804,6 +804,26 @@ at_a_glance:
     within a bounded two-regime DIC window (under full redox equilibrium DIC draws down before free H2 appears);
     qualified on the realized DIC-cliff, with its sustained-flux / mineral-evolution / coupled-ledger findings
     still planned. Split from og-vent-environment (the calibrated-states half).
+- study: og-precursor-pool
+  role: >-
+    NEW A (PLANNED bridge) — geochemical carbon to a functional precursor POOL (not just bulk flux): atom-
+    resolved balanced reaction sets, provenance-tiered kinetics, 13C tracing and closed energy/electron
+    budgets delivering precursor yield vectors the network/amphiphile studies consume. Not built or run.
+- study: og-operating-window
+  role: >-
+    NEW B (PLANNED bridge) — joint operating-window feasibility: propagate the calibrated vent posterior
+    through network/pore/membrane regimes, distinguishing simultaneous overlap from transport-connected
+    microenvironments; overlap volume is not an origin-of-life probability. Not built or run.
+- study: og-self-maintaining-individual
+  role: >-
+    NEW C (PLANNED bridge) — the campaign's central OPEN target: does chemistry make a boundary that in turn
+    sustains the chemistry (reciprocal maintenance), surviving ablation of each coupling direction without a
+    built-in production/retention gain? Not built or run.
+- study: og-evolvable-lineages
+  role: >-
+    NEW D (PLANNED bridge) — evolvable lineages: stochastic chemical partition into mechanically defensible
+    daughters, heritable phenotype + fitness-from-chemistry across generations and adaptation to change vs
+    no-inheritance / shared-feed nulls — open-ended novelty beyond the modeled trait space. Not built or run.
 studies:
 - og-vent-environment
 - og-carbon-fixation
@@ -822,6 +842,10 @@ studies:
 - og-evolvability
 - og-network-rescue
 - og-vent-interface
+- og-precursor-pool
+- og-operating-window
+- og-self-maintaining-individual
+- og-evolvable-lineages
 acceptance_criteria:
 - study: og-vent-environment
   behavior: vent-pH-in-lostcity-range
@@ -1234,6 +1258,8 @@ plan_acts:
       - og-network-rescue
     gates: [A1, B]                # A1 network persistence; B spatial (rests on og-network-rescue, which holds og30-pore-ignites-vs-control)
     off_spine_gates: [A2]         # endogenous autocatalysis — tested and refuted, never a spine prerequisite
+    pending_studies:              # PLANNED bridge node (strengthening plan §5 NEW A); not built or run
+      - og-precursor-pool
     upstream_state_consumed:
       - from: og-vent-environment
         relation: builds-on
@@ -1256,6 +1282,9 @@ plan_acts:
       - og-self-compartmentation
       - og-nutrient-bottlenecks
     gates: [C]
+    pending_studies:              # PLANNED bridge nodes (strengthening plan §5 NEW B, NEW C); not built or run
+      - og-operating-window
+      - og-self-maintaining-individual
     upstream_state_consumed:
       - from: og-network-rescue
         relation: builds-on
@@ -1275,6 +1304,7 @@ plan_acts:
     gates: [D]
     pending_studies:
       - {slug: mem-m4-growth-division-propensity, title: Growth, shape change & division propensity, scaffolded: true, planned: true, program: membrane-md}
+      - og-evolvable-lineages   # PLANNED bridge node (strengthening plan §5 NEW D); not built or run
     upstream_state_consumed:
       - from: og-self-compartmentation
         relation: builds-on
