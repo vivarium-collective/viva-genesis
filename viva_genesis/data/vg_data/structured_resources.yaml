@@ -133,27 +133,28 @@ resources:
 - id: pedersen2025lipidome
   type: paper-reference
   name: "Pedersen et al. 2025 — the Martini 3 lipidome"
-  summary: The Martini 3 lipidome parameter set.
-  authors: "Pedersen KB, et al."
+  summary: The Martini 3 lipidome — expanded and refined lipid parameters improving phase behavior.
+  authors: "Pedersen KB, et al. (senior author Marrink SJ)"
   year: 2025
-  title: "The Martini 3 lipidome"
-  venue: "(venue to confirm)"
+  title: "The Martini 3 Lipidome: Expanded and Refined Parameters Improve Lipid Phase Behavior"
+  venue: "ACS Central Science 11(9):1598-1610 (2025); preprint ChemRxiv 2024 (2024-8bjrr)"
+  doi: "10.1021/acscentsci.5c00755"
   tags: [martini, lipid, force-field]
-  in_papers_bib: false
-  needs_verification: true   # confirm authors/venue/doi from the Martini research notes
+  bibtex_key: pedersen2025lipidome
+  in_papers_bib: true   # full author list in workspace/references/papers.bib
 
 - id: maccallum2023martiniopenmm
   type: paper-reference
-  name: "MacCallum et al. — martini_openmm"
-  summary: Running Martini coarse-grained simulations under OpenMM (the viva-openmm path).
-  authors: "MacCallum JL, et al."
-  year: 2023
-  title: "martini_openmm: running the Martini force field in OpenMM"
-  venue: "(tool / venue to confirm)"
+  name: "martini_openmm (MacCallum Lab) — software"
+  summary: Running Martini coarse-grained simulations under OpenMM (the viva-openmm path). Software, not a journal paper.
+  kind: software
+  authors: "MacCallum Lab (J. L. MacCallum et al.)"
+  title: "martini_openmm"
+  venue: "Software (GitHub; no formal publication) — cite with the pinned commit/version"
   url: "https://github.com/maccallumlab/martini_openmm"
-  tags: [martini, openmm, tool]
+  version: "commit 216e62b26c4ee6cea7ed21e20ec84fffe97a101c (with OpenMM 8.6.1)"
+  tags: [martini, openmm, software, tool]
   in_papers_bib: false
-  needs_verification: true   # confirm whether a formal paper citation exists vs the tool repo
 
 - id: monnard2002membrane
   type: paper-reference
