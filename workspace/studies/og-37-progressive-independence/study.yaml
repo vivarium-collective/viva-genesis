@@ -320,7 +320,7 @@ artifacts:
   description: Gate E progressive independence — per-support one-at-a-time withdrawal, causal attribution, all-at-once confound, pump-affordability sweep, verdict (qualified).
 parent_studies:
 - {study: og-08-escape-from-the-vent, condition: tests-passed}
-- {study: og-34-chemical-heredity-and-selection, condition: tests-passed}
+- {study: og-heredity, condition: tests-passed}
 - {study: og-energetics, condition: tests-passed}
 - {study: og-36-stochastic-protocell-ecology, condition: tests-passed}
 key_assumptions:
