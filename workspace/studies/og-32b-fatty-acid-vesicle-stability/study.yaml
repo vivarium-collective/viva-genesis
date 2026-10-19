@@ -223,9 +223,14 @@ visualizations:
     report_json: workspace/studies/og-32b-fatty-acid-vesicle-stability/artifacts/vesicle_stability.json
   rendered: workspace/studies/og-32b-fatty-acid-vesicle-stability/viz/fatty-acid-vesicle-stability.html
 baseline:
-- name: Fatty-acid vesicle MD (real amphiphile, protonated C10-C16 + charged-only null)
+# MD-evidence study: the CANONICAL run is the viva-openmm fatty-acid vesicle MD
+# (sims/run_fatty_acid_vesicle_stability.py), NOT an og_32 composite tick - see
+# model_approach + runs[].description. The composite ref is og-32's Gate-C protocell
+# that this real-amphiphile MD provides the membrane evidence for; params are limited
+# to genuine declared composite params (no annotations stashed here).
+- name: Gate-C protocell boundary informed by the real fatty-acid vesicle MD
   composite: viva_genesis.composites.og_32_first_self_maintaining_protocell.og_32_first_self_maintaining_protocell
-  params: {membrane: true, composition: long_di-C16, note: MD-evidence study; the canonical run is the viva-openmm fatty-acid vesicle MD (sims/run_fatty_acid_vesicle_stability.py), not a composite tick - see model_approach}
+  params: {membrane: true, composition: long_di-C16}
   planned: false
 runs:
 - id: fatty-acid-vesicle-stability-sweep
@@ -244,7 +249,7 @@ artifacts:
 - path: workspace/studies/og-32b-fatty-acid-vesicle-stability/artifacts/vesicle_stability.json
   description: Multi-seed fatty-acid vesicle stability sweep (C10-C16 protonated + charged-only null); per-arm bilayer-shell retention with seed spread + verdict.
 parent_studies:
-- {study: og-32-first-self-maintaining-protocell, condition: tests-passed, relation: supports}
+- {study: og-32-first-self-maintaining-protocell, condition: tests-passed}
 key_assumptions:
 - The matched null is the SAME fatty acid with fully-ionised charged-only heads (only protonation differs), so a stability difference is attributable to headgroup charge / chain length, not composition.
 - Stability is judged by retention of a populated inner leaflet + water lumen (a closed bilayer), not outer-shell coherence alone (a micelle also has a coherent outer surface).
