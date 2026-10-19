@@ -454,3 +454,40 @@ def test_vacuous_no_runs_no_zero_pass_is_clean():
             "findings": [{"id": "f", "kind": "computational", "status": "novel",
                           "evidence": {"from_test": "inferred-tier-x"}}]}
     assert check_vacuous_inferred_coverage({"s": spec}) == []
+
+
+# --------------------------------------------------------------------------- #
+# check_arm_resource_refs — study-arm resource: must resolve to a registered id
+# --------------------------------------------------------------------------- #
+from viva_genesis.audit_checks import check_arm_resource_refs  # noqa: E402
+
+
+def test_arm_resource_ref_resolved_is_clean():
+    # The #153 shape: an arm points at a registered Resource id.
+    studies = {"og-network-persistence": {"arms": [
+        {"id": "28_prebiotic_reaction_atlas", "resource": "prebiotic-reaction-atlas"}]}}
+    assert check_arm_resource_refs(studies, {"prebiotic-reaction-atlas", "pathway-formose"}) == []
+
+
+def test_arm_resource_ref_dangling_is_flagged():
+    studies = {"s": {"arms": [{"id": "a1", "resource": "renamed-or-typod-atlas"}]}}
+    errs = check_arm_resource_refs(studies, {"prebiotic-reaction-atlas"})
+    assert len(errs) == 1
+    assert "renamed-or-typod-atlas" in errs[0] and "a1" in errs[0] and "structured_resources" in errs[0]
+
+
+def test_arm_resource_ref_list_each_checked():
+    studies = {"s": {"arms": [{"id": "a1", "resource": ["prebiotic-reaction-atlas", "ghost-resource"]}]}}
+    errs = check_arm_resource_refs(studies, {"prebiotic-reaction-atlas"})
+    assert len(errs) == 1 and "ghost-resource" in errs[0]
+
+
+def test_arm_without_resource_is_clean():
+    studies = {"s": {"arms": [{"id": "a1", "source_study": "og-28"}]}}
+    assert check_arm_resource_refs(studies, {"prebiotic-reaction-atlas"}) == []
+
+
+def test_arm_resource_ref_empty_registry_skips():
+    # Registry unreadable/empty -> skip rather than false-fail every ref.
+    studies = {"s": {"arms": [{"id": "a1", "resource": "anything"}]}}
+    assert check_arm_resource_refs(studies, set()) == []

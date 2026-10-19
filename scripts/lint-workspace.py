@@ -377,6 +377,7 @@ def main() -> None:
             check_evidence_basis_enum,
             check_evidence_basis_coverage,
             check_vacuous_inferred_coverage,
+            check_arm_resource_refs,
         )
     except Exception as _e:  # viva_genesis not importable here — warn, don't fail
         print(f"LINT WARNING: audit checks skipped ({_e})", file=sys.stderr)
@@ -437,6 +438,23 @@ def main() -> None:
         _audit_errors += [f"dangling-edge-target: {e}"
                           for e in check_dangling_edge_targets(
                               studies_by_dir, _all_slugs, _all_plan_ids, _EDGE_TARGET_ALLOWLIST)]
+
+        # A3 — study-arm `resource:` refs must resolve to a registered Resource id
+        # in viva_genesis/data/vg_data/structured_resources.yaml (resources[].id).
+        # Same fail-loud "points at something that isn't there" class as the edge
+        # check, for the Resource layer (#153 introduced arm resource refs).
+        _resource_ids: set = set()
+        _sr_path = WS_ROOT / "viva_genesis" / "data" / "vg_data" / "structured_resources.yaml"
+        if _sr_path.exists():
+            try:
+                _sr = yaml.safe_load(_sr_path.read_text()) or {}
+                _resource_ids = {r.get("id") for r in (_sr.get("resources") or [])
+                                 if isinstance(r, dict) and r.get("id")}
+            except Exception as _exc:
+                print(f"LINT WARNING: arm-resource-ref check skipped — could not read "
+                      f"structured_resources.yaml ({_exc})", file=sys.stderr)
+        _audit_errors += [f"arm-resource-ref: {e}"
+                          for e in check_arm_resource_refs(studies_by_dir, _resource_ids)]
 
         # B — committed artifacts must exist for ran/passed studies. Artifact paths
         # are workspace-root-relative; run store_paths are study-dir-relative and
