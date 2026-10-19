@@ -2933,13 +2933,40 @@ _save_viz('og-precursor-pool', 'precursor-pool-yield-vectors', _render_one('', {
 # | functional-pool-reaches-consumable _(diagnostic)_ | kind=derived path=settled_functional_pool_carbon detail=settled functional (C>=2) pool carbon | op >= value 1e-06 detail functional pool at a consumable (~uM) concentration |
 # | c2-c1-hierarchy-matches-preiner-batch _(diagnostic)_ | kind=derived path=settled_pool_c2_c1_ratio detail=predicted C2:C1 hierarchy ratio | op >= value 0.0001 detail C2:C1 reaches Preiner's batch hierarchy |
 
-# ## Study: NEW B — Joint Operating-Window Feasibility (`og-operating-window`)
+# ## Study: NEW B — Joint Operating-Window Feasibility (the rescue test) (`og-operating-window`)
 #
 # **Question.** Do the vent, pore, and membrane regimes share a SIMULTANEOUS operating window, or only a transport-connected sequence of microenvironments?
 #
 # **Hypothesis.** Propagating the calibrated vent posterior through the network, pore and membrane regimes leaves a nonempty overlap only under transport coupling; where the successful conditions do not overlap, an explicit spatial/temporal transfer is required and transport survival must be tested.
+#
+# **Claim.** The downstream pore-enrichment + membrane-retention machinery CAN rescue A's nM functional pool to a consumable (~uM) concentration, but only in a narrow corner at the upper edge of defensible small-molecule thermophoresis (S_T ~1e-2/K ceiling + high thermal gradient + high DIC together; overlap volume ~0.11 of the defensible grid, 0.42 overall). The canonical mid-point does not clear it. The rescue hinges on the Soret coefficient of the C2-C3 precursors (the dominant parameter by Morris), so measuring S_T(C2-C3) at the vent gradient is the discriminating experiment.
 
 # ### Parameters
+#
+# | simulation | composite | steps | params |
+# | --- | --- | --- | --- |
+# | `Operating window — canonical (A's pool, real pore + real membrane, defensible mid Soret)` | `viva_genesis.composites.operating_window.og_operating_window` | 0 | feed_CO2=0.002, delta_T=30.0, soret_coeff=0.005, membrane=True |
+# | `Transport-decoupled null — membrane off (no retention)` | `viva_genesis.composites.operating_window.og_operating_window` | 0 | membrane=False |
+
+# ### The model & its parameters
+#
+# Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
+
+# **The model — `viva_genesis.composites.operating_window.og_operating_window`**
+#
+# NEW B: A's real precursor-pool reactor (membrane-reduced washout from the real ProtocellAssembly retention) coupled to the real FiPy thermophoretic trap (enrichment at the cell's thermal gradient + Soret coefficient). The sweep asks whether product-pool enrichment x membrane retention lifts the nM functional pool to a consumable ~uM concentration. soret_coeff is the pivotal swept parameter (small-molecule, NOT the large-biomolecule default).
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_operating_window_og_operating_window = {
+    'feed_CO2'     : 0.002,   # Inorganic-carbon feed (M), og-vent-interface DIC window 2-20 mM
+    'delta_T'      : 30.0,   # Thermal gradient across the pore (K) driving the Soret trap
+    'soret_coeff'  : 0.005,   # Small-molecule Soret coeff (1/K) — SWEPT; default is a mid small-molecule value, NOT the 0.10 large-biomolecule value
+    'membrane'     : True,   # Real membrane retention on (True) vs transport-decoupled null (False, retention 0)
+    'mix_fraction' : 0.4,   # Co-surfactant fraction for the ProtocellAssembly membrane
+    'flow_velocity': 0.0001,   # Convective flow through the pore (m/s); 0 = no-trap control
+    'porosity'     : 0.3,   # Pore openness (0-1)
+}
 
 # ### Run
 #
@@ -2951,13 +2978,56 @@ STUDY_DIR = REPO / 'workspace/studies' / STUDY
 STUDY_YAML = str(STUDY_DIR / "study.yaml")
 RUNS_DB = str(STUDY_DIR / "runs.db")
 
-print("No baseline composite declared for this study — nothing to build.")
+# This study has no *recorded* runs yet. RERUN builds its declared
+# composite(s) live and runs them; a composite whose module processes
+# are not implemented yet reports the error instead of crashing.
+STEPS_Operating_window_canonical_A_s_pool_real_pore_real_membrane_defensible_mid_Soret = 100
+INTERVAL_Operating_window_canonical_A_s_pool_real_pore_real_membrane_defensible_mid_Soret = 1.0
+STEPS_Transport_decoupled_null_membrane_off_no_retention = 100
+INTERVAL_Transport_decoupled_null_membrane_off_no_retention = 1.0
 
-# ### Literature anchors
+if RERUN:
+    from process_bigraph import Composite
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_operating_window_og_operating_window if 'ov_viva_genesis_composites_operating_window_og_operating_window' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_operating_window_og_operating_window = materialize_composite('viva_genesis.composites.operating_window.og_operating_window', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_operating_window_og_operating_window['state']}, core=core)
+            _comp.run(STEPS_Operating_window_canonical_A_s_pool_real_pore_real_membrane_defensible_mid_Soret)
+        print('ran', "Operating window — canonical (A's pool, real pore + real membrane, defensible mid Soret)", f'(viva_genesis.composites.operating_window.og_operating_window) for', STEPS_Operating_window_canonical_A_s_pool_real_pore_real_membrane_defensible_mid_Soret, 'steps')
+    except Exception as _e:
+        print(f"Operating window — canonical (A's pool, real pore + real membrane, defensible mid Soret) not runnable yet: {type(_e).__name__}: {_e}")
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_operating_window_og_operating_window if 'ov_viva_genesis_composites_operating_window_og_operating_window' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_operating_window_og_operating_window = materialize_composite('viva_genesis.composites.operating_window.og_operating_window', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_operating_window_og_operating_window['state']}, core=core)
+            _comp.run(STEPS_Transport_decoupled_null_membrane_off_no_retention)
+        print('ran', 'Transport-decoupled null — membrane off (no retention)', f'(viva_genesis.composites.operating_window.og_operating_window) for', STEPS_Transport_decoupled_null_membrane_off_no_retention, 'steps')
+    except Exception as _e:
+        print(f"Transport-decoupled null — membrane off (no retention) not runnable yet: {type(_e).__name__}: {_e}")
+else:
+    print("RERUN=False — not re-simulating.")
+
+# ### Visualizations
 #
-# | expectation | model observable | source | status |
-# | --- | --- | --- | --- |
-# | sojo2016origin | | | |
+# _Results are shown by the figures below, produced by the run above._
+
+# **operating-window-phase-map**
+
+# operating-window-phase-map
+_save_viz('og-operating-window', 'operating-window-phase-map', _render_one('', {}, RUNS_DB, STUDY_YAML))
+
+# ### Acceptance criteria
+#
+# _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
+#
+# | test | measures | passes if |
+# | --- | --- | --- |
+# | pore-trap-enrichment-real _(primary)_ | kind=derived path=settled_ow_enrichment_factor detail=solved FiPy base/top enrichment factor | op > value 1.0 detail real trap enriches (>1) at the defensible operating point |
+# | membrane-retention-real _(supporting)_ | kind=derived path=settled_ow_retention detail=membrane retention fraction | op range low 0.5 high 0.99 detail viable retention (chemistry held, still permeable) |
+# | rescue-requires-both-levers _(primary)_ | kind=cross_run detail=both-levers vs pore-only vs membrane-only enriched pool | op controls_absent detail both levers needed; each single regime is lower |
+# | operating-window-reaches-consumable _(diagnostic)_ | kind=derived path=settled_ow_enriched_pool detail=product-pool-enriched, membrane-retained functional pool | op >= value 1e-06 detail enriched+retained pool reaches consumable (~uM) |
 
 # ## Study: NEW C — Self-Maintaining Chemical Individuality (`og-self-maintaining-individual`)
 #
