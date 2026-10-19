@@ -2787,8 +2787,63 @@ _save_viz('og-vent-interface', 'coupled-interface-evolution', _render_one('local
 # **Question.** Does the vent's reduced-carbon chemistry deliver a functional PRECURSOR POOL (not just bulk organic flux) that the reaction-network and amphiphile studies can consume?
 #
 # **Hypothesis.** Atom-resolved balanced reaction sets under provenance-tiered kinetics turn the calibrated vent feed into defensible precursor yield vectors, with energy/electron budgets closing and the no-H2 / no-catalyst / no-gradient controls collapsing the pool.
+#
+# **Claim.** The vent's reduced-carbon chemistry delivers a de-novo, atom-balanced, budget-closed functional precursor pool whose controls all collapse it - but within the defensible DIC window the functional C2+ precursors are thermodynamically bounded to sub-micromolar, orders below what downstream chemistry can consume. QUALIFIED.
 
 # ### Parameters
+#
+# | simulation | composite | steps | params |
+# | --- | --- | --- | --- |
+# | `Functional precursor pool — canonical, calibrated vent feed (DIC window)` | `viva_genesis.composites.precursor_pool.precursor_pool` | 0 | feed_CO2=0.002, feed_H2=0.0108, ammonium_availability=0.00013 |
+# | `Control — no H2 (reductant removed); the functional pool collapses` | `viva_genesis.composites.precursor_pool.precursor_pool_no_h2` | 0 | — |
+# | `Control — no catalyst (mineral + base sites = 0); the pool collapses` | `viva_genesis.composites.precursor_pool.precursor_pool_no_catalyst` | 0 | — |
+# | `Control — no gradient (no sustained vent resupply, k_feed = 0); the pool collapses` | `viva_genesis.composites.precursor_pool.precursor_pool_no_gradient` | 0 | — |
+
+# ### The model & its parameters
+#
+# Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
+
+# **The model — `viva_genesis.composites.precursor_pool.precursor_pool`**
+#
+# NEW A canonical: the real C1-C3 rule-generated reaction-universe CSTR (libRoadRunner, atom-resolved, eQuilibrator dG') under the upstream-calibrated vent feed (DIC window 2-20 mM CO2, dissolved H2), read out as functional precursor yield vectors with de-novo carbon-source attribution (NOT isotope 13C) and a degree-of-reduction electron budget. Delivers the precursor state the downstream network + amphiphile studies consume.
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_precursor_pool_precursor_pool = {
+    'feed_CO2'             : 0.002,   # Inorganic-carbon feed (M) in the og-vent-interface DIC window 2-20 mM
+    'feed_H2'              : 0.0108,   # Dissolved-H2 feed (M) from og-carbon-fixation's bounded region
+    'ammonium_availability': 0.00013,   # Reduced-N (ammonium) availability (M) from og-nutrient-bottlenecks, for C:N
+}
+
+# **The model — `viva_genesis.composites.precursor_pool.precursor_pool_no_h2`**
+#
+# NEW A control: reductant removed (feed_H2 = 0). The functional pool must collapse.
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_precursor_pool_precursor_pool_no_h2 = {
+    'feed_CO2': 0.002,   # Inorganic-carbon feed (M)
+}
+
+# **The model — `viva_genesis.composites.precursor_pool.precursor_pool_no_catalyst`**
+#
+# NEW A control: mineral + base catalyst sites = 0. The functional pool must collapse.
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_precursor_pool_precursor_pool_no_catalyst = {
+    'feed_CO2': 0.002,   # Inorganic-carbon feed (M)
+}
+
+# **The model — `viva_genesis.composites.precursor_pool.precursor_pool_no_gradient`**
+#
+# NEW A control: no sustained vent resupply (k_feed = 0) - the disequilibrium the pH/redox gradient maintains is off. The pool must collapse.
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_precursor_pool_precursor_pool_no_gradient = {
+    'feed_CO2': 0.002,   # Inorganic-carbon feed (M)
+}
 
 # ### Run
 #
@@ -2800,14 +2855,83 @@ STUDY_DIR = REPO / 'workspace/studies' / STUDY
 STUDY_YAML = str(STUDY_DIR / "study.yaml")
 RUNS_DB = str(STUDY_DIR / "runs.db")
 
-print("No baseline composite declared for this study — nothing to build.")
+# This study has no *recorded* runs yet. RERUN builds its declared
+# composite(s) live and runs them; a composite whose module processes
+# are not implemented yet reports the error instead of crashing.
+STEPS_Functional_precursor_pool_canonical_calibrated_vent_feed_DIC_window = 100
+INTERVAL_Functional_precursor_pool_canonical_calibrated_vent_feed_DIC_window = 1.0
+STEPS_Control_no_H2_reductant_removed_the_functional_pool_collapses = 100
+INTERVAL_Control_no_H2_reductant_removed_the_functional_pool_collapses = 1.0
+STEPS_Control_no_catalyst_mineral_base_sites_0_the_pool_collapses = 100
+INTERVAL_Control_no_catalyst_mineral_base_sites_0_the_pool_collapses = 1.0
+STEPS_Control_no_gradient_no_sustained_vent_resupply_k_feed_0_the_pool_collapses = 100
+INTERVAL_Control_no_gradient_no_sustained_vent_resupply_k_feed_0_the_pool_collapses = 1.0
 
-# ### Literature anchors
+if RERUN:
+    from process_bigraph import Composite
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_precursor_pool_precursor_pool if 'ov_viva_genesis_composites_precursor_pool_precursor_pool' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_precursor_pool_precursor_pool = materialize_composite('viva_genesis.composites.precursor_pool.precursor_pool', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_precursor_pool_precursor_pool['state']}, core=core)
+            _comp.run(STEPS_Functional_precursor_pool_canonical_calibrated_vent_feed_DIC_window)
+        print('ran', 'Functional precursor pool — canonical, calibrated vent feed (DIC window)', f'(viva_genesis.composites.precursor_pool.precursor_pool) for', STEPS_Functional_precursor_pool_canonical_calibrated_vent_feed_DIC_window, 'steps')
+    except Exception as _e:
+        print(f"Functional precursor pool — canonical, calibrated vent feed (DIC window) not runnable yet: {type(_e).__name__}: {_e}")
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_precursor_pool_precursor_pool_no_h2 if 'ov_viva_genesis_composites_precursor_pool_precursor_pool_no_h2' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_precursor_pool_precursor_pool_no_h2 = materialize_composite('viva_genesis.composites.precursor_pool.precursor_pool_no_h2', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_precursor_pool_precursor_pool_no_h2['state']}, core=core)
+            _comp.run(STEPS_Control_no_H2_reductant_removed_the_functional_pool_collapses)
+        print('ran', 'Control — no H2 (reductant removed); the functional pool collapses', f'(viva_genesis.composites.precursor_pool.precursor_pool_no_h2) for', STEPS_Control_no_H2_reductant_removed_the_functional_pool_collapses, 'steps')
+    except Exception as _e:
+        print(f"Control — no H2 (reductant removed); the functional pool collapses not runnable yet: {type(_e).__name__}: {_e}")
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_precursor_pool_precursor_pool_no_catalyst if 'ov_viva_genesis_composites_precursor_pool_precursor_pool_no_catalyst' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_precursor_pool_precursor_pool_no_catalyst = materialize_composite('viva_genesis.composites.precursor_pool.precursor_pool_no_catalyst', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_precursor_pool_precursor_pool_no_catalyst['state']}, core=core)
+            _comp.run(STEPS_Control_no_catalyst_mineral_base_sites_0_the_pool_collapses)
+        print('ran', 'Control — no catalyst (mineral + base sites = 0); the pool collapses', f'(viva_genesis.composites.precursor_pool.precursor_pool_no_catalyst) for', STEPS_Control_no_catalyst_mineral_base_sites_0_the_pool_collapses, 'steps')
+    except Exception as _e:
+        print(f"Control — no catalyst (mineral + base sites = 0); the pool collapses not runnable yet: {type(_e).__name__}: {_e}")
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_precursor_pool_precursor_pool_no_gradient if 'ov_viva_genesis_composites_precursor_pool_precursor_pool_no_gradient' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_precursor_pool_precursor_pool_no_gradient = materialize_composite('viva_genesis.composites.precursor_pool.precursor_pool_no_gradient', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_precursor_pool_precursor_pool_no_gradient['state']}, core=core)
+            _comp.run(STEPS_Control_no_gradient_no_sustained_vent_resupply_k_feed_0_the_pool_collapses)
+        print('ran', 'Control — no gradient (no sustained vent resupply, k_feed = 0); the pool collapses', f'(viva_genesis.composites.precursor_pool.precursor_pool_no_gradient) for', STEPS_Control_no_gradient_no_sustained_vent_resupply_k_feed_0_the_pool_collapses, 'steps')
+    except Exception as _e:
+        print(f"Control — no gradient (no sustained vent resupply, k_feed = 0); the pool collapses not runnable yet: {type(_e).__name__}: {_e}")
+else:
+    print("RERUN=False — not re-simulating.")
+
+# ### Visualizations
 #
-# | expectation | model observable | source | status |
-# | --- | --- | --- | --- |
-# | preiner2020hydrogen | | | |
-# | muchowska2019synthesis | | | |
+# _Results are shown by the figures below, produced by the run above._
+
+# **precursor-pool-yield-vectors**
+
+# precursor-pool-yield-vectors
+_save_viz('og-precursor-pool', 'precursor-pool-yield-vectors', _render_one('', {}, RUNS_DB, STUDY_YAML))
+
+# ### Acceptance criteria
+#
+# _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
+#
+# | test | measures | passes if |
+# | --- | --- | --- |
+# | atom-balance-exact _(primary)_ | kind=derived path=pool_element_residual_max detail=worst-case |element residual| | op <= value 1e-09 detail atom balance exact |
+# | carbon-budget-closes _(primary)_ | kind=derived path=pool_carbon_residual_max detail=worst-case carbon-balance residual | op <= value 1e-06 detail carbon budget closes to integrator tolerance |
+# | electron-budget-closes _(primary)_ | kind=derived path=pool_electron_budget_residual_max detail=worst-case electron-budget residual | op <= value 1e-06 detail electron budget closes |
+# | pool-assembled-de-novo _(primary)_ | kind=derived path=settled_pool_cofixed_fraction detail=carbon-weighted de-novo CO2-fixed fraction of the functional pool | op >= value 0.99 detail functional pool is >=99% de-novo CO2-fixed |
+# | cn-in-viable-band _(supporting)_ | kind=derived path=settled_pool_cn_ratio detail=settled C:N of the fixed carbon vs ammonium | op range low 1.0 high 8.0 detail C:N in the viable 1-8 band |
+# | formate-c1-feedstock-present _(supporting)_ | kind=derived path=settled_pool_formate_mM detail=settled formate (C1 feedstock) | op range low 0.1 high 5.0 detail formate present at the 2 mM DIC lower bound |
+# | controls-collapse-functional-pool _(primary)_ | kind=cross_run detail=canonical functional pool vs no-H2 / no-catalyst / no-gradient | op controls_absent detail functional pool present canonically, collapses in every control |
+# | functional-pool-reaches-consumable _(diagnostic)_ | kind=derived path=settled_functional_pool_carbon detail=settled functional (C>=2) pool carbon | op >= value 1e-06 detail functional pool at a consumable (~uM) concentration |
+# | c2-c1-hierarchy-matches-preiner-batch _(diagnostic)_ | kind=derived path=settled_pool_c2_c1_ratio detail=predicted C2:C1 hierarchy ratio | op >= value 0.0001 detail C2:C1 reaches Preiner's batch hierarchy |
 
 # ## Study: NEW B — Joint Operating-Window Feasibility (`og-operating-window`)
 #
