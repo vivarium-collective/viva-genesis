@@ -233,7 +233,7 @@ class OgChemicalHeredityViz(Visualization):
     config_schema = {
         "title": {"_type": "string", "_default": ""},
         "report_json": {"_type": "string",
-                        "_default": "workspace/studies/og-34-chemical-heredity-and-selection/artifacts/gate_d_heredity.json"},
+                        "_default": "workspace/studies/og-heredity/artifacts/og-34-chemical-heredity-and-selection/gate_d_heredity.json"},
     }
 
     def inputs(self):
@@ -334,7 +334,7 @@ class OgEnergyCouplingViz(Visualization):
     config_schema = {
         "title": {"_type": "string", "_default": ""},
         "report_json": {"_type": "string",
-                        "_default": "workspace/studies/og-35-chemical-energy-coupling/artifacts/gate_e_energy.json"},
+                        "_default": "workspace/studies/og-energetics/artifacts/og-35-chemical-energy-coupling/gate_e_energy.json"},
     }
 
     def inputs(self):
