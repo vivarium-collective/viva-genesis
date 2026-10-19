@@ -559,15 +559,14 @@ findings:
   status: confirms
   statement: >-
     The community function is productivity, NOT robustness. Under low-count demographic noise the community
-    is ~2x more variable than the rock-stable monoculture (CV 0.085 vs 0.037) and loses a lineage in ~12%
-    of runs, and a system-size (Omega) sweep shows this divergence from the deterministic mean-field GROWING
-    as counts fall (Omega 0.7: 31% extinction, 20% margin erosion; Omega >= 2: effectively deterministic).
-    The mean-field misses the lineage loss entirely. So the ecology RAISES productivity (the campaign's
-    first throughput win) but PAYS in robustness - the COUNTERPOINT to Gate B (pore), Gate C (membrane)
-    and Gate E/35 (energy carrier), each of which bought persistence/robustness but NOT throughput. Across
-    all four gates robustness is the consistently hard-won / traded axis. A community that were simply
-    more robust AND more productive would be a cleaner met; buying one by spending the other is the honest
-    qualified.
+    is ~2x more variable than the monoculture (CV 0.085 vs 0.037) and loses a lineage in ~12% of runs,
+    and a system-size (Omega) sweep shows this divergence from the deterministic mean-field GROWING as
+    counts fall (Omega 0.7: 31% extinction, 20% margin erosion; Omega >= 2: effectively deterministic);
+    the mean-field misses the lineage loss entirely. So the ecology RAISES productivity but PAYS in robustness
+    — the COUNTERPOINT to Gate B (pore), Gate C (membrane) and Gate E/35 (energy carrier), each of which
+    bought persistence/robustness but NOT throughput. Across all four gates robustness is the consistently
+    traded axis. A community that were both more robust and more productive would be a cleaner result;
+    buying one by spending the other is the honest qualified verdict.
   evidence:
     from_test: stochastic-materially-changes-low-count
   expected:

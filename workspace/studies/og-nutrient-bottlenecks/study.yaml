@@ -15,24 +15,23 @@ program: consolidated
 title: 'Nutrient Bottlenecks: Nitrogen and Phosphorus Keep Pace with Carbon'
 concept: >-
   Whether the two non-carbon nutrient bottlenecks clear at the vent — reduced nitrogen (ammonium) keeping
-  pace with carbon fixation, and reactive phosphorus co-concentrating with carbon — one concept (Gate
-  A1, nutrient supply), studied as two arms (nitrogen, phosphorus), each judged against its own matched
-  null.
+  pace with carbon fixation, and reactive phosphorus co-concentrating with carbon. One concept (Gate
+  A1, nutrient supply), two arms (nitrogen and phosphorus), each judged against its own matched null.
 gate_reason: >-
-  Gate A1 nutrient supply. This consolidates the two resource-bottleneck studies into one concept with
+  Gate A1, nutrient supply. Consolidates the two resource-bottleneck studies into one concept with
   explicit arms, each judged against its own matched null with input fluxes held equal: the nitrogen bottleneck
   (og-res-nitrogen, canonical) and the phosphorus bottleneck (og-res-phosphorus). Both arms are supported,
   so the consolidated verdict is SUPPORTED — reduced nitrogen and reactive phosphorus are both available
-  and keep pace with / co-concentrate with carbon at the vent, each beating its matched null (feature-ablation
-  for nitrogen, open-pore no-enrichment for phosphorus). Each arm keeps its own verdict and matched null
-  (see arms).
+  at the vent, nitrogen keeping pace with carbon and phosphorus co-concentrating with it, each beating its
+  matched null (feature-ablation for nitrogen, open-pore no-enrichment for phosphorus). Each arm keeps its
+  own verdict and matched null (see arms).
 claim: >-
-  Neither of the two non-carbon nutrient bottlenecks blocks the vent pathway. Reduced nitrogen is produced
-  as ammonium that is sustained and keeps pace with carbon fixation (setting a viable C:N), with the feature-ablation
-  null producing none and nitrogen mass conserved (nitrogen arm, supported). Reactive phosphorus is available
-  and co-concentrates with carbon in the pore, with an open-pore no-enrichment control showing no enrichment
-  and P mass conserved (phosphorus arm, supported). Headline verdict supported; every matched null and
-  every arm verdict is preserved explicitly.
+  Neither non-carbon nutrient bottleneck blocks the vent pathway. Ammonium is produced and sustained,
+  keeping pace with carbon fixation (a viable C:N), while the feature-ablation null produces none and
+  nitrogen mass is conserved (nitrogen arm, supported). Reactive phosphorus is available and co-concentrates
+  with carbon in the pore, while an open-pore no-enrichment control shows no enrichment and P mass is
+  conserved (phosphorus arm, supported). Headline verdict supported; every matched null and arm verdict
+  is preserved explicitly.
 question: >-
   Do the two non-carbon nutrient bottlenecks clear at the vent — does reduced nitrogen (ammonium) keep
   pace with carbon fixation, and does reactive phosphorus co-concentrate with carbon rather than precipitate
@@ -353,10 +352,9 @@ findings:
   kind: computational
   status: confirms
   statement: >-
-    In the favorable thermal-gradient pore, reactive-P formation outpaces the precipitation/adsorption
-    loss — net reactive-P availability settles positive (~+1.8e-6 mol/s) and reactive P accumulates to
-    ~94% of the supplied phosphorus while only ~6% precipitates. A bounded local window exists where reactive
-    P is produced faster than it is lost.
+    In the favorable thermal-gradient pore, reactive-P formation outpaces precipitation/adsorption
+    loss — net reactive-P availability settles positive (~+1.8e-6 mol/s), reactive P accumulating to
+    ~94% of the supplied phosphorus while only ~6% precipitates.
   evidence:
     from_test: reactive-p-available
     observed: ~+1.8e-6 mol/s net availability; reactive P ~94% of supply; ~6% precipitated
@@ -376,7 +374,7 @@ findings:
   kind: computational
   status: novel
   statement: >-
-    The SAME real og-03 thermophoretic pore that lifts a dilute carbon feed across the ignition threshold
+    The same real og-03 thermophoretic pore that lifts a dilute carbon feed across the ignition threshold
     (species-agnostic Soret + convection trap) co-concentrates phosphate: at the pore's enrichment the
     P reactive-availability is positive and the enrichment exceeds the carbon co-concentration floor (~10×).
     C and P co-concentrate in one pore regime — reported as an overlap boundary, not a fitted target.

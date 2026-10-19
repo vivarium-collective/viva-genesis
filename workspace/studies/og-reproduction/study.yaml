@@ -20,11 +20,11 @@ concept: >-
   fidelities as arms: the coupled growth+division gate (og-33), the growth->division fate model (og-growth-division),
   and physical multi-generation reproduction (og-growth-alt).
 gate_reason: >-
-  Gate D (reproduction). This consolidates the growth/division line into one concept with explicit arms,
+  Gate D (reproduction). Consolidates the growth/division line into one concept with explicit arms,
   each judged against its own matched null with input fluxes held equal: the coupled growth+division gate
   (og-33, canonical), the growth->division-vs-lysis/starvation fate model (og-growth-division), and physical
-  multi-generation reproduction (og-growth-alt). Headline is bounded by the most-caveated arm: QUALIFIED
-  — metabolism grows the compartment to a measured-geometry division with viable daughters and a multi-generation
+  multi-generation reproduction (og-growth-alt). The headline is bounded by the most-caveated arm — qualified:
+  metabolism grows the compartment to a measured-geometry division with viable daughters and a multi-generation
   lineage, beating the decoupled/imposed null, on a coarse-grained geometry/budget abstraction. Each arm
   keeps its own verdict and matched null (see arms).
 claim: >-
@@ -316,9 +316,9 @@ findings:
   status: confirms
   statement: >-
     At equal feeds vs the matched nulls, the protocell grows from its own metabolic amphiphile production
-    and divides at a measured area-doubling budding geometry with no imposed event. Division RATE scales
+    and divides at a measured area-doubling budding geometry with no imposed event. Division rate scales
     with metabolic flux in the coupled arm (0.0125 -> 0.0500 as net carbon flux 3.36e-4 -> 1.16e-3; slope
-    > 0) while the growth-decoupled null is flux-INDEPENDENT (slope ~ 0) and the imposed-division null
+    > 0) while the growth-decoupled null is flux-independent (slope ~ 0) and the imposed-division null
     divides on a timer (rate ~0.044) regardless of geometry. So growth/division is metabolism-driven and
     beats both matched nulls - qualified (met on the measured-geometry first cut, Option B). Guardrail:
     growth is funded by the sustained A1 carbon-fixing network, not autocatalysis.
@@ -345,7 +345,7 @@ findings:
   kind: methodological
   status: confirms
   statement: >-
-    Division is triggered at a MEASURED area-doubling budding geometry (division_ratio 2.0; a proposed_input
+    Division is triggered at a measured area-doubling budding geometry (division_ratio 2.0; a proposed_input
     grounded in the hanczyc/budin growth-division geometries), not a tuned event - the coupled and growth-decoupled
     arms both use the geometry, and only the imposed-division control divides on a timer. Full coarse-grained
     membrane mechanics (viva-md-membrane) is the gold-standard follow-on (og-33a) that would re-test division
@@ -383,7 +383,7 @@ findings:
   kind: computational
   status: novel
   statement: >-
-    Sustained net growth leading to division occupies a BOUNDED band of (network throughput × membrane
+    Sustained net growth leading to division occupies a bounded band of (network throughput × membrane
     permeability) — about a quarter of the swept grid — flanked by starvation where the membrane is too
     permeable (the product leaks out so the osmotic pressure never builds and nothing grows) and by lysis
     where it is too impermeable (the product is trapped, the pressure spikes past the burst tension and
