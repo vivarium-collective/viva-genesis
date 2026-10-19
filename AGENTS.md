@@ -87,3 +87,35 @@ tracked artifact), commits on the branch, and opens a PR. **Never auto-
 merges.** Reviewer clicks merge in the GitHub UI.
 
 See `/viva-investigation close --help` for details.
+
+## Consolidation conventions (one-concept, many-arms studies)
+
+When folding several studies into one consolidated `og-<concept>` study (an explicit
+`arms:` list, headline bounded by the most-caveated arm), follow these rules — each
+was a real hole the consolidation wave hit and now has a guard:
+
+1. **Quote `role:`/prose scalars in `investigation.yaml`.** A multi-line *plain*
+   scalar containing `": "` (colon-space) is read by YAML as a mapping indicator, so
+   the whole file fails `yaml.safe_load`. An unparseable `investigation.yaml` makes
+   the dashboard drop the investigation AND silently skips the gate-member-in-roster
+   audit. Block-scalar (`>-` / `|`) **or** single-quote any `role:`/prose scalar that
+   contains `: ` — either parses. Enforced by `scripts/lint-workspace.py` (hard-fail
+   on parse) + `tests/test_workspace_integrity.py`.
+
+2. **On a fold, repoint EVERY hardcoded artifact path — source AND tests, not just
+   `study.yaml`.** A fold `git mv`s `artifacts/`+`viz/` into
+   `og-<concept>/{artifacts,viz}/<source-slug>/`. The audit lint only checks
+   `study.yaml` refs + run provenance, so a path left at the pre-fold location in
+   `viva_genesis/` source (a viz `_default`, an evaluator constant) or in a `tests/`
+   file fails only at runtime / in the full suite. Grep both for the folded slug's
+   artifact paths and repoint. Enforced by the `stale-source-artifact-path` lint
+   check + `test_workspace_integrity.py` (source) — tests that read a folded study's
+   artifact/sims path must be repointed by hand.
+
+3. **Preserve numeric handoff by adopting the canonical arm's `plan_id`** when any
+   other study references it numerically (`builds_on` / `handoff from:`/`to:`), so
+   those edges keep resolving after the fold.
+
+4. **Run the FULL not-slow `pytest` suite + `scripts/lint-workspace.py` before every
+   consolidation PR** — not just the lint. Tests read committed artifacts (and
+   sometimes sims) by path; the lint does not cover that.

@@ -487,8 +487,8 @@ def _mechanism_map_ledger_all_ok(reader, test: dict, ws_root: Any) -> float:
     return 1.0 if all(pc["ledger"]["all_ok"] for pc in att["per_class"].values()) else 0.0
 # --- open_chemical_network / Phase-3 reaction universe (og-02-alt-reaction-universe) ----
 
-_OG02ALT_ENRICHMENT = "workspace/studies/og-02-alt-reaction-universe/artifacts/motif_enrichment.json"
-_OG02ALT_VERIFICATION = "workspace/studies/og-02-alt-reaction-universe/artifacts/reaction_universe_verification.json"
+_OG02ALT_ENRICHMENT = "workspace/studies/og-network-persistence/artifacts/og-02-alt-reaction-universe/motif_enrichment.json"
+_OG02ALT_VERIFICATION = "workspace/studies/og-network-persistence/artifacts/og-02-alt-reaction-universe/reaction_universe_verification.json"
 
 
 def _network_ledger_ok_final(reader, test: dict, ws_root: Any) -> float:
@@ -610,7 +610,7 @@ def _partition_residual_peak(reader, test, ws_root):
 
 # --- protocell_energetics / Phase-6 energy coupling (og-energy-alt-internalization-threshold) ----
 
-_OGENERGYALT_REPORT = "workspace/studies/og-energy-alt-internalization-threshold/artifacts/internalization_threshold_report.json"
+_OGENERGYALT_REPORT = "workspace/studies/og-energetics/artifacts/og-energy-alt-internalization-threshold/internalization_threshold_report.json"
 
 
 def _free_energy_ledger_ok_final(reader, test: dict, ws_root: Any) -> float:
@@ -687,7 +687,7 @@ def _threshold_map_ledger_all_ok(reader, test: dict, ws_root: Any) -> float:
     return 1.0 if all(pc["ledger"]["all_ok"] for pc in att["per_class"].values()) else 0.0
 # --- competing_heredity / Phase-7 (og-06-alt-information-per-cost) --------------
 
-_OG06ALT_FRONTIER = "workspace/studies/og-06-alt-information-per-cost/artifacts/information_frontier.json"
+_OG06ALT_FRONTIER = "workspace/studies/og-heredity/artifacts/og-06-alt-information-per-cost/information_frontier.json"
 
 
 def _heritable_bits_final(reader, test: dict, ws_root: Any) -> float:

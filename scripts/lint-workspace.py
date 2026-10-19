@@ -455,7 +455,15 @@ def main() -> None:
         for _inv_path in sorted((_dir("investigations")).glob("*/investigation.yaml")):
             try:
                 _inv = yaml.safe_load(_inv_path.read_text()) or {}
-            except Exception:
+            except Exception as _exc:
+                # HARD-FAIL: an unparseable investigation.yaml silently skipped the
+                # gate-member-in-roster check for the whole consolidation wave. A
+                # skipped check is worse than no check. Most common cause: a
+                # multi-line plain `role:`/prose scalar containing ": " (colon-space),
+                # which YAML reads as a mapping indicator — quote such scalars.
+                _audit_errors.append(
+                    f"investigation-parse: {_inv_path.relative_to(WS_ROOT)} is not valid YAML "
+                    f"({_exc}) — quote any multi-line role/prose scalar containing ': '")
                 continue
             if _inv.get("plan_gates"):
                 _roster = set(_inv.get("studies") or [])
@@ -528,6 +536,27 @@ def main() -> None:
         }
         _audit_errors += [f"used-import-undeclared: {e}"
                           for e in check_used_imports_declared(_used_pkgs, _declared_pkgs)]
+
+        # I — every workspace artifact/viz path hardcoded in viva_genesis/ source
+        # must resolve on disk. A consolidation fold git-mv's artifacts into the
+        # consolidated study dir; a source reader left at the pre-fold path then
+        # fails only at RUNTIME (a dashboard viz / an evaluator read), which neither
+        # the audit lint nor pytest covers. This catches that class deterministically
+        # from the same source scan as H. Matches both full ".../X.json|.html" paths
+        # and split-literal ".../artifacts/<slug>/" directory prefixes.
+        _path_re = re.compile(r"workspace/studies/[A-Za-z0-9_./-]+")
+        for _rel, _src in _srcs:
+            for _tok in _path_re.findall(_src):
+                if _tok.endswith((".json", ".html")):
+                    if not (WS_ROOT / _tok).is_file():
+                        _audit_errors.append(
+                            f"stale-source-artifact-path: {_rel} references '{_tok}' "
+                            f"which is not a file on disk (a fold moved it? repoint the source path)")
+                elif _tok.endswith("/") and ("/artifacts/" in _tok or "/viz/" in _tok):
+                    if not (WS_ROOT / _tok).is_dir():
+                        _audit_errors.append(
+                            f"stale-source-artifact-path: {_rel} references directory '{_tok}' "
+                            f"which does not exist (a fold moved it? repoint the source path)")
 
         # E/F — WARN only (don't fail): knife-edge margins + missing units.
         for _w in check_knife_edge_margins(studies_by_dir):
