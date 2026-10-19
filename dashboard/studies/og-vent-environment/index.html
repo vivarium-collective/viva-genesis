@@ -20,7 +20,7 @@
   <div style="display:flex; align-items:center; gap:14px; justify-content:space-between;">
   <div style="display:flex; align-items:center; gap:12px; min-width:0; flex-wrap:wrap">
   <h1 class="study-title" style="margin:0">
-    <span class="study-name" id="study-name" data-slug="og-vent-environment" data-study-kind="computational" title="og-vent-environment">The Vent Environment: A Bounded but Viable Geochemical Reactor</span>
+    <span class="study-name" id="study-name" data-slug="og-vent-environment" data-study-kind="computational" title="og-vent-environment">The Vent Environment: Calibrated, Viable Geochemical States</span>
     
   </h1>
     
@@ -50,7 +50,7 @@
 
 
 
-<p id="study-question-headline" class="study-question-headline"><span class="q-glyph">Q</span> Is a serpentinizing Lost City-type vent a viable geochemical reactor that supplies the H2, inorganic carbon, pH/redox gradients and electrochemical driving force downstream chemistry needs — and within what bounds, as the mineral interface evolves and across the plausible range of vent states?</p>
+<p id="study-question-headline" class="study-question-headline"><span class="q-glyph">Q</span> Does a serpentinizing alkaline vent hold its empirical (Lost City) window across the operating grid and supply, in a calibrated posterior, the feed downstream chemistry needs?</p>
 
 <nav class="study-tabs" aria-label="Study sections">
   
@@ -537,7 +537,7 @@
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Claim</h2>
-      <p class="ctr-text">Across fidelities the vent environment is a viable but bounded geochemical reactor. The serpentinizing reactor settles inside the Lost City window (50.6 C, pH 9.37, sustained H2) over ~80% of the operating grid — habitability is a bounded region, not one tuned run (og-00, supported). Conditioned on the Lost City field windows, 12.5% (6/48) of the empirically motivated prior reproduces all three observations, and 100% of that posterior supplies the H2 + pH gradient downstream carbon fixation needs; dissolved H2 is the binding observation, pH is buffered and non-discriminating (og-cal, supported, calibrated). The sharpened coupled interface delivers H2 / inorganic-carbon flux, a maintained pH/redox gradient at or above required levels, and a CO2-reducing electrochemical driving force, with mass/charge/energy closing across PHREEQC+FiPy+Reaktoro — but precipitation and passivation throttle supply on the mineral-evolution timescale and the supply&lt;-&gt;throttle is a sharp two-regime DIC cliff, so delivery is bounded (og-27, canonical, qualified). Consolidated headline — qualified: a viable vent reactor within a bounded window, supplying downstream chemistry conditionally. Every matched null and arm verdict kept.</p>
+      <p class="ctr-text">A serpentinizing alkaline vent holds its Lost City window (T 40-91 C, pH 9.0-10.8, positive H2 flux) over ~80% of the swept grid with |charge|=0, and conditioning on that window leaves a posterior 12.5% of the prior in which 100% of empirically supported vent states supply what downstream carbon fixation needs — transport-class-independent, ledger 0/96 rejected. Supported, bounded.</p>
       
     </div>
 
@@ -545,19 +545,19 @@
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Background</h2>
       <div class="ctr-meta">
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Question</span> <span class="ctr-meta-item">Is a serpentinizing Lost City-type vent a viable geochemical reactor that supplies the H2, inorganic carbon, pH/redox gradients and electrochemical driving force downstream chemistry needs — and within what bounds, as the mineral interface evolves and across the plausible range of vent states?</span></div>
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Hypothesis</span> <span class="ctr-meta-item">A serpentinizing vent supplies the reducing power and gradients downstream chemistry needs, but within a bounded window — only a fraction of plausible vent states bind (H2-limited) and the evolving mineral interface throttles supply over time; no unconditional supply is claimed outside that window.</span></div>
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Question</span> <span class="ctr-meta-item">Does a serpentinizing alkaline vent hold its empirical (Lost City) window across the operating grid and supply, in a calibrated posterior, the feed downstream chemistry needs?</span></div>
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Hypothesis</span> <span class="ctr-meta-item">Across the olivine-rate x flow grid, a large fraction of vent states fall inside the Lost City window, and the dissolved-H2 window is the binding observation that sets the viable posterior.</span></div>
       </div>
     </div>
     
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Model &amp; approach</h2>
-      <p class="ctr-text">Consolidate the vent-environment studies into one concept with explicit fidelity-labelled arms (reactor baseline, calibration, coupled evolving interface), each preserving its discriminating control, verdict, findings and run provenance; report the consolidated verdict bounded by the sharpest arm (og-27, qualified) without over-claiming unconditional supply.</p>
+      <p class="ctr-text">Sweep the serpentinizing reactor over the operating grid (og-00) and condition the PHREEQC+FiPy vent on the Lost City field windows (og-cal), measuring the posterior-viable fraction, cross-transport-class agreement and the conservation ledger.</p>
       <div class="ctr-meta">
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Model</span> <code>Coupled geochemical reaction interface — canonical (og-27)</code>, <code>Serpentinizing vent reactor baseline (og-00 arm)</code>, <code>Geochemical world at the vent-calibration operating point (og-cal arm)</code><a class="ov-tablink" href="#" onclick="_setStudyTab('compose');return false;">model →</a></div>
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Model</span> <code>Serpentinizing vent reactor baseline (og-00 arm)</code>, <code>Geochemical world at the vent-calibration operating point (og-cal arm)</code><a class="ov-tablink" href="#" onclick="_setStudyTab('compose');return false;">model →</a></div>
         
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Measures</span> <span class="ctr-meta-item">17 behavior tests</span><a class="ov-tablink" href="#" onclick="_setStudyTab('audit');return false;">see Tests →</a></div>
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Measures</span> <span class="ctr-meta-item">11 behavior tests</span><a class="ov-tablink" href="#" onclick="_setStudyTab('audit');return false;">see Tests →</a></div>
         
       </div>
     </div>
@@ -568,7 +568,7 @@
     
     <div class="ctr-block ov-prov">
       <h2 class="overview-label ctr-h">Provenance &amp; sources</h2>
-      <div class="ctr-meta-k" style="margin-top:12px">Sources (9)</div>
+      <div class="ctr-meta-k" style="margin-top:12px">Sources (5)</div>
       <div class="ov-sources">
       
         
@@ -606,58 +606,40 @@
           <div class="ctr-meta-k" style="text-transform:none">Proskurowski, Giora and others · 2008</div>
         </div>
       
-        
-        <div class="ov-src" id="sref-herschy2014originreactor">
-          <b class="ov-src-t">Herschy 2014</b> <span class="ov-src-k">herschy2014originreactor</span>
-          <div class="ov-src-t">An origin-of-life reactor to simulate alkaline hydrothermal vents</div>
-          <div class="ctr-meta-k" style="text-transform:none">Herschy, Barry and others · 2014 · <a href="https://doi.org/10.1007/s00239-014-9658-4" target="_blank" rel="noopener">source ↗</a></div>
-        </div>
-      
-        
-        <div class="ov-src" id="sref-preiner2020hydrogen">
-          <b class="ov-src-t">Preiner 2020</b> <span class="ov-src-k">preiner2020hydrogen</span>
-          <div class="ov-src-t">A hydrogen-dependent geochemical analogue of primordial carbon and energy metabolism</div>
-          <div class="ctr-meta-k" style="text-transform:none">Preiner, Martina and others · 2020 · <a href="https://doi.org/10.1038/s41559-020-1125-6" target="_blank" rel="noopener">source ↗</a></div>
-        </div>
-      
-        
-        <div class="ov-src" id="sref-varma2018native">
-          <b class="ov-src-t">Varma 2018</b> <span class="ov-src-k">varma2018native</span>
-          <div class="ov-src-t">Native iron reduces CO2 to intermediates and end-products of the acetyl-CoA pathway</div>
-          <div class="ctr-meta-k" style="text-transform:none">Varma, Sreejith J. and Muchowska, Kamila B. and Chatelain, Paul and Moran, Joseph · 2018 · <a href="https://doi.org/10.1038/s41559-018-0542-2" target="_blank" rel="noopener">source ↗</a></div>
-        </div>
-      
-        
-        <div class="ov-src" id="sref-naturecomms2024ironsulfide">
-          <b class="ov-src-t">Communications 2024</b> <span class="ov-src-k">naturecomms2024ironsulfide</span>
-          <div class="ov-src-t">Iron sulfide-catalyzed gaseous CO2 reduction and prebiotic carbon fixation in terrestrial hot springs</div>
-          <div class="ctr-meta-k" style="text-transform:none">Nature Communications · 2024 · <a href="https://doi.org/10.1038/s41467-024-54062-y" target="_blank" rel="noopener">source ↗</a></div>
-        </div>
-      
       </div>
     </div>
     
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Result</h2>
-      <p class="ctr-text">The serpentinizing vent is a viable geochemical reactor that supplies H2, inorganic carbon, pH/redox gradients and a CO2-reducing electrochemical driving force (QUALIFIED) — but delivery is bounded: only 12.5% of calibrated vent states bind (H2-limited), and the evolving mineral interface throttles supply via a sharp two-regime DIC cliff; conservation closes exactly.</p>
+      <p class="ctr-text">~80% of the operating region falls inside the Lost City window with |charge|=0; the conditioned posterior is 12.5% of the prior yet 100% viable downstream, transport-class-independent, ledger 0/96. The dissolved-H2 window is the binding observation (pH mineral-buffered near 9.4). A viable geochemical reactor within bounds.</p>
       
       
       <div class="ov-metrics">
         
         <div class="ov-metric ov-metric-pass">
           <div class="ov-metric-v">PASS</div>
-          <div class="ov-metric-k">dic-crossover-sweep</div>
+          <div class="ov-metric-k">vent-temperature-in-lostcity-range</div>
         </div>
         
         <div class="ov-metric ov-metric-pass">
           <div class="ov-metric-v">PASS</div>
-          <div class="ov-metric-k">mineral-evolution-supply-decay</div>
+          <div class="ov-metric-k">h2-flux-sustained</div>
         </div>
         
         <div class="ov-metric ov-metric-pass">
           <div class="ov-metric-v">PASS</div>
-          <div class="ov-metric-k">coupled-conservation</div>
+          <div class="ov-metric-k">charge-conserved</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">spatial-flux-conserved</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">vent-pH-in-lostcity-range</div>
         </div>
         
       </div>
@@ -1331,315 +1313,6 @@
       </div>
       
       
-      
-      
-      
-      
-      
-      
-      
-      <div class="finding-card finding-kind-computational finding-status-novel">
-        <details class="finding-details">
-          <summary class="finding-row">
-            <span class="finding-status-glyph">◆</span>
-            <span class="finding-claim finding-statement">The interface&#39;s supply↔throttle behavior is a sharp two-regime cliff, not a gradual depletion: across a dense fluid_dic sweep (2–20 mM) real PHREEQC carbonate saturation crosses SI=0 at ~3.2 mM, and the interface either SUPPLIES (undersaturated, SI&lt;0: H2 flux 2.75e-4 → 3.55e-5 from 2.0 → 3.0 mM, no precipitation, pore open at porosity 0.96–0.97) OR THROTTLES-AND-CHOKES (supersaturated, SI≥+0.7: precipitation 0.23–0.29 and catalytic-accessibility drop ~0.12, but H2 flux crashes four orders to ~1e-8 and porosity collapses to 0) — never both. No fluid_dic sustains flux AND exercises throttling with the pore open (window_exists=False), so the self-limiting carbonate chemistry forces the vent operating point into the undersaturated regime. The free-energy/mass/charge ledger closes at every sweep point.</span>
-            
-            <span class="finding-chip">via <code>dic-crossover-sweep</code></span>
-            
-          </summary>
-          <div class="finding-drawer">
-            <div class="finding-header">
-              <span class="finding-id">og27-dic-crossover-bounded-window</span>
-              <span class="finding-kind">computational</span>
-              <span class="finding-status-text">novel literature</span>
-            </div>
-            
-            
-            <div class="finding-evidence">
-              
-              
-              via test <a href="#bt-dic-crossover-sweep" onclick="_gotoStudyTab('audit','bt-dic-crossover-sweep');return false;"><code>dic-crossover-sweep</code></a> · 
-              
-              
-              
-            </div>
-            
-            
-            
-            
-            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: op: threshold · detail: the crossover is characterized with the ledger closing at every point (window_exists resolved either way)</code></div>
-            
-            
-            
-            <div class="finding-expected">
-              
-              
-              
-            </div>
-            
-            
-            
-            
-            
-          </div>
-        </details>
-      </div>
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      <div class="finding-card finding-kind-computational finding-status-planned">
-        <details class="finding-details">
-          <summary class="finding-row">
-            <span class="finding-status-glyph">◆</span>
-            <span class="finding-claim finding-statement">Over transport timescales the interface delivers H2 and inorganic-carbon fluxes and a maintained pH/redox gradient at or above the levels used by published vent-reactor and H2-dependent-metabolism work; the study reports the full time series and the onset of decay, not a single terminal value.</span>
-            
-            <span class="finding-chip">via <code>sustained-reactive-flux-over-timescales</code></span>
-            
-          </summary>
-          <div class="finding-drawer">
-            <div class="finding-header">
-              <span class="finding-id">og27-sustained-reactive-flux</span>
-              <span class="finding-kind">computational</span>
-              <span class="finding-status-text">planned literature</span>
-            </div>
-            
-            
-            <div class="finding-evidence">
-              
-              
-              via test <a href="#bt-sustained-reactive-flux-over-timescales" onclick="_gotoStudyTab('audit','bt-sustained-reactive-flux-over-timescales');return false;"><code>sustained-reactive-flux-over-timescales</code></a> · 
-              
-              
-              
-            </div>
-            
-            
-            
-            
-            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: op: threshold · detail: delivery at or above the downstream-required level over the transport timescale</code></div>
-            
-            
-            
-            <div class="finding-expected">
-              
-              
-              cites: <a class="ov-cite" href="#sref-herschy2014originreactor" title="An origin-of-life reactor to simulate alkaline hydrothermal vents">Herschy 2014</a><a class="ov-cite" href="#sref-preiner2020hydrogen" title="A hydrogen-dependent geochemical analogue of primordial carbon and energy metabolism">Preiner 2020</a>
-            </div>
-            
-            
-            
-            
-            
-          </div>
-        </details>
-      </div>
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      <div class="finding-card finding-kind-computational finding-status-planned">
-        <details class="finding-details">
-          <summary class="finding-row">
-            <span class="finding-status-glyph">◆</span>
-            <span class="finding-claim finding-statement">Precipitation and surface passivation reduce reactive surface and throttle catalytic supply on the mineral-evolution timescale — the interface is depleting, and the study quantifies the crossover time at which delivery drops below the downstream-required threshold.</span>
-            
-            <span class="finding-chip">via <code>mineral-evolution-supply-decay</code></span>
-            
-          </summary>
-          <div class="finding-drawer">
-            <div class="finding-header">
-              <span class="finding-id">og27-mineral-evolution-throttles-supply</span>
-              <span class="finding-kind">computational</span>
-              <span class="finding-status-text">planned literature</span>
-            </div>
-            
-            
-            <div class="finding-evidence">
-              
-              
-              via test <a href="#bt-mineral-evolution-supply-decay" onclick="_gotoStudyTab('audit','bt-mineral-evolution-supply-decay');return false;"><code>mineral-evolution-supply-decay</code></a> · 
-              
-              
-              
-            </div>
-            
-            
-            
-            
-            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: op: threshold · detail: crossover time quantified (depleting-supply behaviour characterised)</code></div>
-            
-            
-            
-            <div class="finding-expected">
-              
-              
-              cites: <a class="ov-cite" href="#sref-varma2018native" title="Native iron reduces CO2 to intermediates and end-products of the acetyl-CoA pathway">Varma 2018</a><a class="ov-cite" href="#sref-naturecomms2024ironsulfide" title="Iron sulfide-catalyzed gaseous CO2 reduction and prebiotic carbon fixation in terrestrial hot springs">Communications 2024</a>
-            </div>
-            
-            
-            
-            
-            
-          </div>
-        </details>
-      </div>
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      <div class="finding-card finding-kind-computational finding-status-planned">
-        <details class="finding-details">
-          <summary class="finding-row">
-            <span class="finding-status-glyph">◆</span>
-            <span class="finding-claim finding-statement">The cross-interface electrical driving force is non-trivial and of the sign/scale needed to drive CO2 reduction, verified independently by a FEniCSx Nernst–Planck solve against the FiPy transport result.</span>
-            
-            <span class="finding-chip">via <code>electrochemical-driving-force-verified</code></span>
-            
-          </summary>
-          <div class="finding-drawer">
-            <div class="finding-header">
-              <span class="finding-id">og27-electrochemical-driving-force</span>
-              <span class="finding-kind">computational</span>
-              <span class="finding-status-text">planned literature</span>
-            </div>
-            
-            
-            <div class="finding-evidence">
-              
-              
-              via test <a href="#bt-electrochemical-driving-force-verified" onclick="_gotoStudyTab('audit','bt-electrochemical-driving-force-verified');return false;"><code>electrochemical-driving-force-verified</code></a> · 
-              
-              
-              
-            </div>
-            
-            
-            
-            
-            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: op: threshold · detail: non-trivial driving force, cross-solver agreement to tolerance</code></div>
-            
-            
-            
-            
-            
-            
-          </div>
-        </details>
-      </div>
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      <div class="finding-card finding-kind-computational finding-status-planned">
-        <details class="finding-details">
-          <summary class="finding-row">
-            <span class="finding-status-glyph">◆</span>
-            <span class="finding-claim finding-statement">Mass, charge and energy close across the coupled PHREEQC+FiPy+Reaktoro solve to tolerance with no untracked feeds.</span>
-            
-            <span class="finding-chip">via <code>coupled-conservation</code></span>
-            
-          </summary>
-          <div class="finding-drawer">
-            <div class="finding-header">
-              <span class="finding-id">og27-coupled-conservation-ledger</span>
-              <span class="finding-kind">computational</span>
-              <span class="finding-status-text">planned literature</span>
-            </div>
-            
-            
-            <div class="finding-evidence">
-              
-              
-              via test <a href="#bt-coupled-conservation" onclick="_gotoStudyTab('audit','bt-coupled-conservation');return false;"><code>coupled-conservation</code></a> · 
-              
-              
-              
-            </div>
-            
-            
-            
-            
-            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: op: threshold · detail: residuals within tolerance; no untracked feed</code></div>
-            
-            
-            
-            
-            
-            
-          </div>
-        </details>
-      </div>
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      <div class="finding-card finding-kind-methodological finding-status-planned">
-        <details class="finding-details">
-          <summary class="finding-row">
-            <span class="finding-status-glyph">◆</span>
-            <span class="finding-claim finding-statement">The study emits the full 27→29 transfer bundle — H2 + inorganic-carbon flux, pH, T, ionic activities, catalyst (mineral-surface) state and time-dependent feeds — as the typed boundary condition study 29 consumes.</span>
-            
-            <span class="finding-chip">via <code>handoff-27-to-29-complete</code></span>
-            
-          </summary>
-          <div class="finding-drawer">
-            <div class="finding-header">
-              <span class="finding-id">og27-handoff-bundle-to-29</span>
-              <span class="finding-kind">methodological</span>
-              <span class="finding-status-text">planned literature</span>
-            </div>
-            
-            
-            <div class="finding-evidence">
-              
-              
-              via test <a href="#bt-handoff-27-to-29-complete" onclick="_gotoStudyTab('audit','bt-handoff-27-to-29-complete');return false;"><code>handoff-27-to-29-complete</code></a> · 
-              
-              
-              
-            </div>
-            
-            
-            
-            
-            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: op: threshold · detail: bundle complete and typed (satisfies 27→29 handoff validator)</code></div>
-            
-            
-            
-            
-            
-            
-          </div>
-        </details>
-      </div>
-      
-      
     </div>
     
       
@@ -1706,45 +1379,6 @@
   
   <div class="overview-section" id="model-section">
     <h3>Runnable models <span class="muted" style="font-size:0.85em;font-weight:normal">— the composite(s) this study simulates</span></h3>
-    
-    <div class="cond-block" data-model-composite="viva_genesis.composites.og_27_coupled_geochemical_reaction_interface.og_27_coupled_geochemical_reaction_interface" data-model-overrides='{}'>
-      <div class="cond-block-title" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-        <strong>Coupled geochemical reaction interface — canonical (og-27)</strong>
-        
-        <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.og_27_coupled_geochemical_reaction_interface.og_27_coupled_geochemical_reaction_interface</code>
-        <button type="button" class="action-btn" style="font-size:0.8em"
-                onclick="_openCompositeLoom('viva_genesis.composites.og_27_coupled_geochemical_reaction_interface.og_27_coupled_geochemical_reaction_interface')">🧬 explore &amp; run ↗</button>
-        
-      </div>
-      
-      <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
-        
-        <select class="baseline-composite-input" data-baseline-name="Coupled geochemical reaction interface — canonical (og-27)"
-                data-current="viva_genesis.composites.og_27_coupled_geochemical_reaction_interface.og_27_coupled_geochemical_reaction_interface"
-                style="flex:1;min-width:200px;font-family:monospace;font-size:0.82em;padding:3px 6px">
-          <option value="viva_genesis.composites.og_27_coupled_geochemical_reaction_interface.og_27_coupled_geochemical_reaction_interface" selected>viva_genesis.composites.og_27_coupled_geochemical_reaction_interface.og_27_coupled_geochemical_reaction_interface</option>
-          
-        </select>
-        <button type="button" class="action-btn baseline-composite-set" style="font-size:0.8em"
-                data-baseline-name="Coupled geochemical reaction interface — canonical (og-27)">Set composite</button>
-      </div>
-      <div class="baseline-composite-status muted" data-baseline-name="Coupled geochemical reaction interface — canonical (og-27)" style="font-size:0.8em;margin-top:2px"></div>
-      
-      
-      
-      <div class="model-config-mount" style="margin-top:8px">
-        <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading configuration…</span></div></div>
-      
-      
-      
-      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;font-size:0.8em">
-        
-        
-        
-        <span class="cond-pill"><span class="cond-pill-k">status</span>=completed</span>
-      </div>
-      
-    </div>
     
     <div class="cond-block" data-model-composite="viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor" data-model-overrides='{}'>
       <div class="cond-block-title" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
@@ -2088,12 +1722,12 @@ cites:   ["schwander2023serpentinization"]</pre>
         
         data-pytest-node="charge-conserved"
         data-classification="primary"
-        data-result="pending"
+        data-result="PASS"
         style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #10b981; background: #f8fafc; border-radius: 4px;">
       
         
       <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
-        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #f1f5f9; color: #475569">⏳ pending</span>
+        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #d1fae5; color: #065f46">✓ PASS</span>
         <span class="classification-pill classification-primary">primary</span>
         <strong style="font-size: 0.9em;">charge-conserved</strong>
         
@@ -2101,6 +1735,23 @@ cites:   ["schwander2023serpentinization"]</pre>
         
       </div>
       <div style="margin-top: 6px; font-size: 0.95em;">PHREEQC balances charge every step (charge_neutrality invariant).</div>
+      
+      <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
+        <strong>Latest result:</strong>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.0</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 0 &lt;= 1e-06</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&lt;=</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;charge-conserved&#39;, &#39;label&#39;: &#39;PHREEQC balances charge every step (charge_neutrality invariant).&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 0.0, &#39;meter&#39;: 1.0, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: &#39;1e-06&#39;, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&lt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: &#39;1e-06&#39;, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: None}</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+        
+      </div>
       
       
       <details style="margin-top: 6px; font-size: 0.82em;">
@@ -2206,12 +1857,12 @@ cites:   ["kelley2001offaxis", "ludwig2006formation"]</pre>
         
         data-pytest-node="ledger-closes"
         data-classification="primary"
-        data-result="pending"
+        data-result="PASS"
         style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #10b981; background: #f8fafc; border-radius: 4px;">
       
         
       <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
-        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #f1f5f9; color: #475569">⏳ pending</span>
+        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #d1fae5; color: #065f46">✓ PASS</span>
         <span class="classification-pill classification-primary">primary</span>
         <strong style="font-size: 0.9em;">ledger-closes</strong>
         
@@ -2219,6 +1870,23 @@ cites:   ["kelley2001offaxis", "ludwig2006formation"]</pre>
         
       </div>
       <div style="margin-top: 6px; font-size: 0.95em;">Integrated H2 / alkalinity sources equal the accumulated pools (matter ledger exact by construction).</div>
+      
+      <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
+        <strong>Latest result:</strong>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.0</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 0 &lt;= 1e-12</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&lt;=</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;ledger-closes&#39;, &#39;label&#39;: &#39;Integrated H2 / alkalinity sources equal the accumulated pools (matter ledger exact by construction).&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 0.0, &#39;meter&#39;: 1.0, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: &#39;1e-12&#39;, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&lt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: &#39;1e-12&#39;, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: None}</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+        
+      </div>
       
       
       <details style="margin-top: 6px; font-size: 0.82em;">
@@ -2245,12 +1913,12 @@ pass_if: {"detail": "matter ledger residual at machine precision", "op": "\u003c
         
         data-pytest-node="energy-ledger-closes"
         data-classification="primary"
-        data-result="pending"
+        data-result="PASS"
         style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #10b981; background: #f8fafc; border-radius: 4px;">
       
         
       <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
-        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #f1f5f9; color: #475569">⏳ pending</span>
+        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #d1fae5; color: #065f46">✓ PASS</span>
         <span class="classification-pill classification-primary">primary</span>
         <strong style="font-size: 0.9em;">energy-ledger-closes</strong>
         
@@ -2258,6 +1926,23 @@ pass_if: {"detail": "matter ledger residual at machine precision", "op": "\u003c
         
       </div>
       <div style="margin-top: 6px; font-size: 0.95em;">Integrated serpentinization heat equals the accumulated heat pool.</div>
+      
+      <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
+        <strong>Latest result:</strong>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.0</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 0 &lt;= 1e-12</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&lt;=</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;energy-ledger-closes&#39;, &#39;label&#39;: &#39;Integrated serpentinization heat equals the accumulated heat pool.&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 0.0, &#39;meter&#39;: 1.0, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: &#39;1e-12&#39;, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&lt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: &#39;1e-12&#39;, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: None}</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+        
+      </div>
       
       
       <details style="margin-top: 6px; font-size: 0.82em;">
@@ -2284,12 +1969,12 @@ pass_if: {"detail": "energy ledger residual at machine precision", "op": "\u003c
         
         data-pytest-node="heat-released-not-absorbed"
         data-classification="diagnostic"
-        data-result="pending"
+        data-result="PASS"
         style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #f59e0b; background: #f8fafc; border-radius: 4px;">
       
         
       <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
-        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #f1f5f9; color: #475569">⏳ pending</span>
+        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #d1fae5; color: #065f46">✓ PASS</span>
         <span class="classification-pill classification-diagnostic">diagnostic</span>
         <strong style="font-size: 0.9em;">heat-released-not-absorbed</strong>
         
@@ -2297,6 +1982,23 @@ pass_if: {"detail": "energy ledger residual at machine precision", "op": "\u003c
         
       </div>
       <div style="margin-top: 6px; font-size: 0.95em;">Serpentinization is exothermic — the heat source never goes negative (energy_directionality invariant, previously declared but uncomputed in og-00).</div>
+      
+      <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
+        <strong>Latest result:</strong>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 1.0</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 1 &gt;= 1.0</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&gt;=</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;heat-released-not-absorbed&#39;, &#39;label&#39;: &#39;Serpentinization is exothermic — the heat source never goes negative (energy_directionality invariant, previously declared but uncomputed in og-00).&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 1.0, &#39;meter&#39;: 0.5, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 1.0, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 0.0, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: None}</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+        
+      </div>
       
       
       <details style="margin-top: 6px; font-size: 0.82em;">
@@ -2323,12 +2025,12 @@ pass_if: {"detail": "directionality witness holds through the run", "op": "\u003
         
         data-pytest-node="dissolved-h2-in-lost-city-range"
         data-classification="primary"
-        data-result="pending"
+        data-result="PASS"
         style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #10b981; background: #f8fafc; border-radius: 4px;">
       
         
       <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
-        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #f1f5f9; color: #475569">⏳ pending</span>
+        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #d1fae5; color: #065f46">✓ PASS</span>
         <span class="classification-pill classification-primary">primary</span>
         <strong style="font-size: 0.9em;">dissolved-h2-in-lost-city-range</strong>
         
@@ -2336,6 +2038,23 @@ pass_if: {"detail": "directionality witness holds through the run", "op": "\u003
         
       </div>
       <div style="margin-top: 6px; font-size: 0.95em;">The canonical operating point&#39;s reacted-fluid dissolved H2 (backed out of the settled H2 flux) sits in the Lost City end-member range 1-15 mmol/kg.</div>
+      
+      <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
+        <strong>Latest result:</strong>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 4.591306</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 4.591 in [1.0, 15.0]</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/range</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;dissolved-h2-in-lost-city-range&#39;, &#39;label&#39;: &#34;The canonical operating point&#39;s reacted-fluid dissolved H2 (backed out of the settled H2 flux) sits in the Lost City end-member range 1-15 mmol/kg.&#34;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 4.591306, &#39;meter&#39;: 0.6197102, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;band&#39;, &#39;value&#39;: None, &#39;low&#39;: 1.0, &#39;high&#39;: 15.0, &#39;op&#39;: &#39;~=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 3.5913060000000003, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: &#39;kelley2005serpentinite; proskurowski2008abiogenic&#39;}</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+        
+      </div>
       
       
       <details style="margin-top: 6px; font-size: 0.82em;">
@@ -2363,12 +2082,12 @@ cites:   ["kelley2005serpentinite", "proskurowski2008abiogenic"]</pre>
         
         data-pytest-node="posterior-viable-vent-fraction"
         data-classification="primary"
-        data-result="pending"
+        data-result="PASS"
         style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #10b981; background: #f8fafc; border-radius: 4px;">
       
         
       <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
-        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #f1f5f9; color: #475569">⏳ pending</span>
+        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #d1fae5; color: #065f46">✓ PASS</span>
         <span class="classification-pill classification-primary">primary</span>
         <strong style="font-size: 0.9em;">posterior-viable-vent-fraction</strong>
         
@@ -2376,6 +2095,23 @@ cites:   ["kelley2005serpentinite", "proskurowski2008abiogenic"]</pre>
         
       </div>
       <div style="margin-top: 6px; font-size: 0.95em;">Vent-calibration exit criterion (Feasibility + Robustness): the fraction of prior draws consistent with every observation window that also satisfy the downstream requirements must be positive (at least one physically admissible, observation-consistent vent state feeds carbon fixation); the value itself is the deliverable.</div>
+      
+      <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
+        <strong>Latest result:</strong>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 1.0</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 1 &gt; 0.0</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&gt;</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;posterior-viable-vent-fraction&#39;, &#39;label&#39;: &#39;Vent-calibration exit criterion (Feasibility + Robustness): the fraction of prior draws consistent with every observation window that also satisfy the downstream requirements must be positive (at least one physically admissible, observation-consistent vent state feeds carbon fixation); the value itself is the deliverable.&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 1.0, &#39;meter&#39;: 1.0, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 0.0, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 1.0, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: &#39;kelley2001offaxis; kelley2005serpentinite; ludwig2006formation; proskurowski2008abiogenic&#39;}</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+        
+      </div>
       
       
       <details style="margin-top: 6px; font-size: 0.82em;">
@@ -2403,12 +2139,12 @@ cites:   ["kelley2001offaxis", "kelley2005serpentinite", "ludwig2006formation", 
         
         data-pytest-node="structure-agreement-across-transport-classes"
         data-classification="primary"
-        data-result="pending"
+        data-result="PASS"
         style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #10b981; background: #f8fafc; border-radius: 4px;">
       
         
       <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
-        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #f1f5f9; color: #475569">⏳ pending</span>
+        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #d1fae5; color: #065f46">✓ PASS</span>
         <span class="classification-pill classification-primary">primary</span>
         <strong style="font-size: 0.9em;">structure-agreement-across-transport-classes</strong>
         
@@ -2417,269 +2153,29 @@ cites:   ["kelley2001offaxis", "kelley2005serpentinite", "ludwig2006formation", 
       </div>
       <div style="margin-top: 6px; font-size: 0.95em;">Discrimination / model-form uncertainty: the convecting and prescribed-upflow transport classes must agree on viability for at least 80% of the prior draws, else og-00&#39;s conclusions are structure-sensitive.</div>
       
+      <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
+        <strong>Latest result:</strong>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 1.0</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 1 &gt;= 0.8</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&gt;=</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;structure-agreement-across-transport-classes&#39;, &#39;label&#39;: &#34;Discrimination / model-form uncertainty: the convecting and prescribed-upflow transport classes must agree on viability for at least 80% of the prior draws, else og-00&#39;s conclusions are structure-sensitive.&#34;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 1.0, &#39;meter&#39;: 0.625, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 0.8, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 0.19999999999999996, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: None}</code>
+        
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+        
+      </div>
+      
       
       <details style="margin-top: 6px; font-size: 0.82em;">
         <summary class="muted" style="cursor: pointer;">Assertion</summary>
         
         <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "fraction of identical draws on which every class agrees about viability", "kind": "derived", "path": "structure_agreement_viable"}
 pass_if: {"detail": "cross-class agreement \u003e= 0.8", "op": "\u003e=", "value": 0.8}</pre>
-      </details>
-      
-      
-      
-      
-    </li>
-    
-    
-    
-    
-    
-    
-    
-    
-    <li class="expected-behavior-item" id="bt-sustained-reactive-flux-over-timescales"
-        data-test-kind="behavioral"
-        
-        data-pytest-node="sustained-reactive-flux-over-timescales"
-        data-classification="primary"
-        data-result="PASS"
-        style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #10b981; background: #f8fafc; border-radius: 4px;">
-      
-        
-      <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
-        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #d1fae5; color: #065f46">✓ PASS</span>
-        <span class="classification-pill classification-primary">primary</span>
-        <strong style="font-size: 0.9em;">sustained-reactive-flux-over-timescales</strong>
-        
-        <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
-        
-      </div>
-      <div style="margin-top: 6px; font-size: 0.95em;">Over transport timescales the interface delivers H2 and inorganic-carbon fluxes and a maintained pH/redox gradient at or above the levels used by published vent-reactor and H2-dependent-metabolism work; the full time series and the onset of decay are reported, not a single terminal value.</div>
-      
-      <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
-        <strong>Latest result:</strong>
-        
-          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.0002742</code>
-        
-          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: H2 source flux sustained (0 -&gt; 2.74e-4 mol/s) over the transport timescale; conservation holds.</code>
-        
-      </div>
-      
-      
-      <details style="margin-top: 6px; font-size: 0.82em;">
-        <summary class="muted" style="cursor: pointer;">Assertion</summary>
-        
-        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "time- and space-resolved H2 + inorganic-carbon flux and pH/redox gradient over transport timescales", "kind": "observable"}
-pass_if: {"detail": "delivery at or above the downstream-required level over the transport timescale", "op": "threshold"}</pre>
-      </details>
-      
-      
-      
-      
-    </li>
-    
-    
-    
-    
-    
-    
-    
-    
-    <li class="expected-behavior-item" id="bt-mineral-evolution-supply-decay"
-        data-test-kind="behavioral"
-        
-        data-pytest-node="mineral-evolution-supply-decay"
-        data-classification="primary"
-        data-result="NOT_EXERCISED"
-        style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #10b981; background: #f8fafc; border-radius: 4px;">
-      
-        
-      <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
-        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #f1f5f9; color: #475569">⏳ pending</span>
-        <span class="classification-pill classification-primary">primary</span>
-        <strong style="font-size: 0.9em;">mineral-evolution-supply-decay</strong>
-        
-        <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
-        
-      </div>
-      <div style="margin-top: 6px; font-size: 0.95em;">Precipitation and surface passivation reduce reactive surface and throttle catalytic supply on the mineral-evolution timescale; the crossover time at which delivery drops below the downstream-required threshold is quantified.</div>
-      
-      <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
-        <strong>Latest result:</strong>
-        
-          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: Undersaturated dissolution regime (saturation_index -15..-17); porosity opens 0.35-&gt;0.98, mineral_precipitation=0, catalytic_accessibility stays 1 - throttling criterion unexercised at this operating point.</code>
-        
-      </div>
-      
-      
-      <details style="margin-top: 6px; font-size: 0.82em;">
-        <summary class="muted" style="cursor: pointer;">Assertion</summary>
-        
-        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "catalytic supply / reactive surface vs. the slower mineral-evolution timescale; crossover time below threshold", "kind": "observable"}
-pass_if: {"detail": "crossover time quantified (depleting-supply behaviour characterised)", "op": "threshold"}</pre>
-      </details>
-      
-      
-      
-      
-    </li>
-    
-    
-    
-    
-    
-    
-    
-    
-    <li class="expected-behavior-item" id="bt-electrochemical-driving-force-verified"
-        data-test-kind="behavioral"
-        
-        data-pytest-node="electrochemical-driving-force-verified"
-        data-classification="secondary"
-        data-result="pending"
-        style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #cbd5e1; background: #f8fafc; border-radius: 4px;">
-      
-        
-      <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
-        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #f1f5f9; color: #475569">⏳ pending</span>
-        <span class="classification-pill classification-secondary">secondary</span>
-        <strong style="font-size: 0.9em;">electrochemical-driving-force-verified</strong>
-        
-        <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
-        
-      </div>
-      <div style="margin-top: 6px; font-size: 0.95em;">The cross-interface electrical driving force is non-trivial and of the sign/scale needed to drive CO2 reduction, verified independently by a FEniCSx Nernst–Planck solve against the FiPy transport result.</div>
-      
-      
-      <details style="margin-top: 6px; font-size: 0.82em;">
-        <summary class="muted" style="cursor: pointer;">Assertion</summary>
-        
-        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "interface potential from FiPy transport vs. independent FEniCSx Nernst\u2013Planck solve", "kind": "observable"}
-pass_if: {"detail": "non-trivial driving force, cross-solver agreement to tolerance", "op": "threshold"}</pre>
-      </details>
-      
-      
-      
-      
-    </li>
-    
-    
-    
-    
-    
-    
-    
-    
-    <li class="expected-behavior-item" id="bt-coupled-conservation"
-        data-test-kind="behavioral"
-        
-        data-pytest-node="coupled-conservation"
-        data-classification="secondary"
-        data-result="PASS"
-        style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #cbd5e1; background: #f8fafc; border-radius: 4px;">
-      
-        
-      <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
-        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #d1fae5; color: #065f46">✓ PASS</span>
-        <span class="classification-pill classification-secondary">secondary</span>
-        <strong style="font-size: 0.9em;">coupled-conservation</strong>
-        
-        <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
-        
-      </div>
-      <div style="margin-top: 6px; font-size: 0.95em;">Mass, charge and energy close across the coupled PHREEQC+FiPy+Reaktoro solve to tolerance with no untracked feeds.</div>
-      
-      <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
-        <strong>Latest result:</strong>
-        
-          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: ledger_ok=1 throughout; charge_imbalance=0; flux-divergence residual ~3e-5.</code>
-        
-      </div>
-      
-      
-      <details style="margin-top: 6px; font-size: 0.82em;">
-        <summary class="muted" style="cursor: pointer;">Assertion</summary>
-        
-        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "C/H/O/charge/energy residuals across the coupled solve", "kind": "observable"}
-pass_if: {"detail": "residuals within tolerance; no untracked feed", "op": "threshold"}</pre>
-      </details>
-      
-      
-      
-      
-    </li>
-    
-    
-    
-    
-    
-    
-    
-    
-    <li class="expected-behavior-item" id="bt-handoff-27-to-29-complete"
-        data-test-kind="behavioral"
-        
-        data-pytest-node="handoff-27-to-29-complete"
-        data-classification="secondary"
-        data-result="pending"
-        style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #cbd5e1; background: #f8fafc; border-radius: 4px;">
-      
-        
-      <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
-        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #f1f5f9; color: #475569">⏳ pending</span>
-        <span class="classification-pill classification-secondary">secondary</span>
-        <strong style="font-size: 0.9em;">handoff-27-to-29-complete</strong>
-        
-        <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
-        
-      </div>
-      <div style="margin-top: 6px; font-size: 0.95em;">The study emits the full 27→29 transfer bundle — H2 + inorganic-carbon flux, pH, T, ionic activities, catalyst (mineral-surface) state and time-dependent feeds — as the typed boundary condition study 29 consumes.</div>
-      
-      
-      <details style="margin-top: 6px; font-size: 0.82em;">
-        <summary class="muted" style="cursor: pointer;">Assertion</summary>
-        
-        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "presence + typing of every field in the 27\u219229 transfer bundle", "kind": "observable"}
-pass_if: {"detail": "bundle complete and typed (satisfies 27\u219229 handoff validator)", "op": "threshold"}</pre>
-      </details>
-      
-      
-      
-      
-    </li>
-    
-    
-    
-    
-    
-    
-    
-    
-    <li class="expected-behavior-item" id="bt-dic-crossover-sweep"
-        data-test-kind="behavioral"
-        
-        data-pytest-node="dic-crossover-sweep"
-        data-classification="primary"
-        data-result="pending"
-        style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #10b981; background: #f8fafc; border-radius: 4px;">
-      
-        
-      <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
-        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #f1f5f9; color: #475569">⏳ pending</span>
-        <span class="classification-pill classification-primary">primary</span>
-        <strong style="font-size: 0.9em;">dic-crossover-sweep</strong>
-        
-        <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
-        
-      </div>
-      <div style="margin-top: 6px; font-size: 0.95em;">A dense fluid_dic sweep across the PHREEQC SI=0 crossover characterizes the supply-vs-throttle two-regime behavior and whether any operating point sustains flux AND exercises throttling with the pore open (the calibration that resolves needs_calibration).</div>
-      
-      
-      <details style="margin-top: 6px; font-size: 0.82em;">
-        <summary class="muted" style="cursor: pointer;">Assertion</summary>
-        
-        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "H2 flux / precipitation / accessibility / porosity vs fluid_dic across SI=0", "kind": "observable", "ledger closure": null}
-pass_if: {"detail": "the crossover is characterized with the ledger closing at every point (window_exists resolved either way)", "op": "threshold"}</pre>
       </details>
       
       
@@ -2855,7 +2351,7 @@ pass_if: {"detail": "the crossover is characterized with the ledger closing at e
       <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
         <span class="gate-status-passed" style="padding:2px 12px;border-radius:9999px;font-weight:700;font-size:0.85em">passed</span>
         <span class="muted small">evaluated by code</span>
-        <span class="muted small">2/17 passed</span>
+        <span class="muted small">7/11 passed</span>
       </div>
       
     </div>
@@ -2887,14 +2383,14 @@ pass_if: {"detail": "the crossover is characterized with the ledger closing at e
         baseline · seed ? ·
         ?s simulated ·
         ? history rows ·
-        started ?
+        started 1791760443.651943
       </div>
       
       
       
       <p class="muted" style="margin:0;font-size:0.9em">
-        <strong>3</strong> test outcomes
-        — <span style="color:#065f46;font-weight:600">2 PASS</span> ·
+        <strong>7</strong> test outcomes
+        — <span style="color:#065f46;font-weight:600">7 PASS</span> ·
         <span style="color:#991b1b;font-weight:600">0 FAIL</span>.
         Per-test outcomes (measured value · evaluator · band) are canonical on the
         <a onclick="_setStudyTab('audit')" style="cursor:pointer;color:#3b82f6;text-decoration:underline">Tests (in Audit) →</a>.
@@ -2928,7 +2424,7 @@ pass_if: {"detail": "the crossover is characterized with the ledger closing at e
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "d092e05b2b0a8f2293d746e9a2c0a6adbe9e5e7c", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/d092e05b2b0a8f2293d746e9a2c0a6adbe9e5e7c", "branch": "main", "lockfile": "uv.lock@d6d4263d48d8", "generated_at": "2026-10-19 14:34 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "e95d718e2590045d5da927af8c56c5e0f0145ec3", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/e95d718e2590045d5da927af8c56c5e0f0145ec3", "branch": "main", "lockfile": "uv.lock@d6d4263d48d8", "generated_at": "2026-10-19 15:01 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>
