@@ -1,0 +1,69 @@
+schema_version: 4
+name: og-evolvable-lineages
+investigation: origins-of-life-vent
+created: '2026-10-19'
+phase: Design
+status: planned
+execution_status: proposed
+design_status: drafted
+simulation_status: not_run
+evaluation_status: not_started
+gate_status: not_started
+study_type: exploratory
+proposed: true
+title: NEW D — Evolvable Lineages
+program: bridge-study
+parent_studies:
+- study: og-evolvability
+  condition: tests-passed
+- study: og-reproduction
+  condition: tests-passed
+- study: og-self-maintaining-individual
+  condition: tests-passed
+parent_relations:
+- study: og-evolvability
+  relation: builds-on
+- study: og-reproduction
+  relation: builds-on
+- study: og-self-maintaining-individual
+  relation: builds-on
+honest_caveat: >-
+  PLANNED bridge node - extends og-evolvability (selectable fitness on a modeled trait space) toward open-ended
+  chemical evolvability, the other OPEN transition the §9 synthesis names. Not built or run; depends on NEW C.
+question: >-
+  Do mechanically defensible daughters carry heritable chemical variation that produces a multi-generation, open-ended
+  EVOLUTIONARY response - beyond a fixed trait space?
+hypothesis: >-
+  Stochastic chemical partition and variation at division produce heritable phenotype differences whose fitness,
+  emerging from chemical persistence or division, drives a multi-generation response and adaptation to changed
+  environments beyond a no-inheritance / shared-feed null.
+experiment: >-
+  Carry stochastic chemical partition and variation into mechanically defensible daughters; measure heritable
+  phenotype, fitness from chemical persistence or division, multi-generation response, and adaptation to changed
+  environments, against no-inheritance / shared-feed nulls. PLANNED.
+primary_output: >-
+  Heritable-phenotype variance, fitness-from-chemistry estimates, multi-generation response curves, and adaptation-to-change
+  vs the no-inheritance / shared-feed nulls.
+upstream_state_consumed:
+- from: og-evolvability
+  provides: >-
+    the selectable inherited difference + population-shift-under-selection result (plan_id 34) being extended
+    to open-ended novelty
+- from: og-reproduction
+  provides: the mechanically defensible division geometry producing viable daughters
+- from: og-self-maintaining-individual
+  provides: the self-maintaining individual that must divide (NEW C)
+proposed_controls:
+- no-inheritance null
+- shared-feed null
+- changed-environment adaptation test
+proposed_acceptance_criteria:
+- Heritable phenotype and fitness-from-chemistry are measured across multiple generations.
+- >-
+  Adaptation to a changed environment is tested against no-inheritance and shared-feed nulls.
+- >-
+  Open-ended novelty (beyond the fixed trait space) is distinguished from fixed-trait selection.
+literature_anchors:
+- vasas2010lack
+baseline: []
+visualizations: []

@@ -1,0 +1,71 @@
+schema_version: 4
+name: og-self-maintaining-individual
+investigation: origins-of-life-vent
+created: '2026-10-19'
+phase: Design
+status: planned
+execution_status: proposed
+design_status: drafted
+simulation_status: not_run
+evaluation_status: not_started
+gate_status: not_started
+study_type: exploratory
+proposed: true
+title: NEW C — Self-Maintaining Chemical Individuality
+program: bridge-study
+parent_studies:
+- study: og-self-compartmentation
+  condition: tests-passed
+- study: og-network-rescue
+  condition: tests-passed
+- study: og-precursor-pool
+  condition: tests-passed
+parent_relations:
+- study: og-self-compartmentation
+  relation: builds-on
+- study: og-network-rescue
+  relation: builds-on
+- study: og-precursor-pool
+  relation: builds-on
+honest_caveat: >-
+  PLANNED bridge node - this is the campaign's central OPEN target (the chemistry-to-self-maintaining-individual
+  transition the §9 synthesis names as unresolved). Not built or run; depends on NEW A.
+question: >-
+  Does the coupled chemistry-and-boundary system MAINTAIN ITSELF - chemistry making the boundary that in turn
+  sustains the chemistry - under perturbation, without a built-in production or retention gain?
+hypothesis: >-
+  Coupling explicit amphiphile precursor flux, synthesis, membrane composition, permeability, nutrient influx,
+  product retention and decay yields reciprocal maintenance that survives relevant perturbations only when neither
+  direction of the coupling is assumed.
+experiment: >-
+  Couple amphiphile precursor flux -> synthesis -> membrane composition -> permeability -> nutrient influx ->
+  product retention -> decay; ablate chemistry->membrane, membrane->chemistry and external feed SEPARATELY; claim
+  individuality only if reciprocal maintenance survives without a built-in effective production/retention gain.
+  PLANNED - the open reciprocal-coupling target.
+primary_output: >-
+  Reciprocal-maintenance survival under each ablation, the perturbation range over which it holds, and an explicit
+  check that no effective production/retention gain is built in.
+upstream_state_consumed:
+- from: og-self-compartmentation
+  provides: >-
+    the self-maintaining membrane (composition -> permeability -> retention) and its integrity window
+- from: og-network-rescue
+  provides: the pore-concentrated carbon-fixing network being bounded
+- from: og-precursor-pool
+  provides: the functional amphiphile-precursor yield vectors (NEW A)
+proposed_controls:
+- ablate chemistry->membrane
+- ablate membrane->chemistry
+- ablate external feed
+- no built-in effective production or retention gain
+proposed_acceptance_criteria:
+- >-
+  Reciprocal maintenance is tested under all three ablations (chemistry->membrane, membrane->chemistry, external
+  feed).
+- Individuality is claimed ONLY if maintenance survives relevant perturbations.
+- An explicit check confirms no effective production/retention gain is built in.
+literature_anchors:
+- sojo2016origin
+- jordan2019promotion
+baseline: []
+visualizations: []

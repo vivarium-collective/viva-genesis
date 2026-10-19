@@ -1,0 +1,66 @@
+schema_version: 4
+name: og-operating-window
+investigation: origins-of-life-vent
+created: '2026-10-19'
+phase: Design
+status: planned
+execution_status: proposed
+design_status: drafted
+simulation_status: not_run
+evaluation_status: not_started
+gate_status: not_started
+study_type: exploratory
+proposed: true
+title: NEW B — Joint Operating-Window Feasibility
+program: bridge-study
+parent_studies:
+- study: og-vent-interface
+  condition: tests-passed
+- study: og-network-rescue
+  condition: tests-passed
+- study: og-self-compartmentation
+  condition: tests-passed
+parent_relations:
+- study: og-vent-interface
+  relation: builds-on
+- study: og-network-rescue
+  relation: builds-on
+- study: og-self-compartmentation
+  relation: builds-on
+honest_caveat: >-
+  PLANNED bridge node - specifies a joint C/pore/membrane operating-window study. Not built or run. Guardrail
+  carried from the plan: do not call model-ensemble frequency an origin-of-life probability.
+question: >-
+  Do the vent, pore, and membrane regimes share a SIMULTANEOUS operating window, or only a transport-connected
+  sequence of microenvironments?
+hypothesis: >-
+  Propagating the calibrated vent posterior through the network, pore and membrane regimes leaves a nonempty overlap
+  only under transport coupling; where the successful conditions do not overlap, an explicit spatial/temporal
+  transfer is required and transport survival must be tested.
+experiment: >-
+  Propagate the calibrated vent posterior through network, pore and membrane regimes; distinguish simultaneous
+  overlap from transport-connected sequential microenvironments; deliver overlap volume, failure reasons, parameter
+  sensitivity and the most informative discriminating experiment. PLANNED.
+primary_output: >-
+  Overlap volume (with uncertainty), failure reasons per regime, parameter-sensitivity ranking, and the single
+  most informative discriminating experiment.
+upstream_state_consumed:
+- from: og-vent-interface
+  provides: the calibrated vent posterior (feed + uncertainty) to propagate
+- from: og-network-rescue
+  provides: the pore-concentration window and the network-ignition regime
+- from: og-self-compartmentation
+  provides: the membrane integrity / permeability-retention window
+proposed_controls:
+- single-regime baselines
+- transport-decoupled null (no spatial/temporal transfer)
+- report overlap as a volume, NOT as an origin-of-life probability
+proposed_acceptance_criteria:
+- Overlap volume is reported with uncertainty and per-regime failure reasons.
+- >-
+  Simultaneous overlap is distinguished from transport-connected sequential microenvironments.
+- Model-ensemble frequency is NOT reported as an origin-of-life probability.
+literature_anchors:
+- sojo2016origin
+baseline: []
+visualizations: []
