@@ -87,6 +87,7 @@ handoff:
 arms:
 - id: 28_prebiotic_reaction_atlas
   source_study: og-28-prebiotic-reaction-atlas
+  resource: prebiotic-reaction-atlas
   concept_role: >-
     Substrate: a versioned, provenance-tracked reaction atlas — each reaction mass/charge-balanced, confidence-tiered
     (measured/inferred/hypothetical), with a zero-leakage write gate — supplies the balanced reactions
