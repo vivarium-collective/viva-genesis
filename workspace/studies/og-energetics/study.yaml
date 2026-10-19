@@ -44,10 +44,15 @@ hypothesis: >-
   useful work through gradient dips and surviving gradient loss — but do not net more total useful work,
   because stores time-shift and leak and activation is gated at the carrier bond. No net benefit is claimed
   where an arm's ledger does not close without a hidden inflow.
-objective: >-
+experiment: >-
   Consolidate the proto-energetics studies into one concept with explicit fidelity-labelled arms, each
   preserving its matched null, verdict, findings and run provenance; report the consolidated verdict bounded
   by the sharpest arm (og-35, qualified) without over-claiming past it.
+result: >-
+  Across fidelities the protocell's energetics buy robustness/persistence, not raw throughput: a carrier
+  captures free energy into a transferable store (ledger closing), internalization pays under a Sojo
+  constraint, which coupling chemistry pays is structure-sensitive, and the carrier does useful work through
+  a gradient dip but does NOT net more total work — QUALIFIED, bounded by the og-35 arm.
 builds_on:
 - 12
 - 5

@@ -356,13 +356,14 @@ executive:
       the remaining stages in the recorded order (electrochemistry first) or re-order around the publication scope.'
   - question: 'Proto-energetics: replace og-05''s population-mean internalization readout (mean active-pump fraction of
       the surviving population) with the per-individual autonomy internal / (internal + external) power that
-      the energy_coupling face defines — i.e. re-point og-05''s gates (reduced-gradient-dependence,
-      final_internalization) at autonomy?'
+      the energy_coupling face defines — i.e. re-point og-energetics''s gates (the og-05 arm:
+      reduced-gradient-dependence, final_internalization) at autonomy?'
     context: 'BioenergeticSelectionProcess now publishes both from the same per-strategy power terms
-      (internalization 0.95 vs autonomy 0.99 at og-05''s collapsed gradient), and og-energy-alt-internalization-
-      threshold grades autonomy per individual for five coupling classes. Autonomy is the quantity og-08''s
-      off-gradient persistence and the integrated-autonomy lattice share; switching og-05''s gates re-grades a
-      passing study on a monotone-related but different observable. Default taken: added beside, not switched.'
+      (internalization 0.95 vs autonomy 0.99 at the og-05 arm''s collapsed gradient), and the og-energy-alt
+      internalization-threshold arm grades autonomy per individual for five coupling classes. Autonomy is the
+      quantity og-08''s off-gradient persistence and the integrated-autonomy lattice share; switching
+      og-energetics''s gates re-grades a passing study on a monotone-related but different observable. Default
+      taken: added beside, not switched.'
   - question: 'Attach the MARHYS 4.0 hydrothermal-fluid compilation (PANGAEA) as a workspace dataset so the
       vent-calibration conditioning set becomes the ultramafic-vent population rather than Lost City alone — and
       which Hadean-ocean prior (DIC, pH, T) should replace the modern-seawater proxy the audit flags?'
