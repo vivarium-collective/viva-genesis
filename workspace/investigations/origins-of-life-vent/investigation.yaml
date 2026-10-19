@@ -454,7 +454,7 @@ guidelines:
       mechanistic_prediction: [og-carbon-fixation (Tutolo collapse; electrochemical limitation-attribution refuted), og-network-persistence,
         og-spatial-concentration, og-self-compartmentation, og-nutrient-bottlenecks, og-energetics, og-heredity, og-independence, og-reproduction, og-ecology, og-vent-environment (posterior prediction)]
       conceptual_demonstration: []
-      null_control: [og-adv-generic-nonequilibrium]
+      null_control: [og-vent-specificity]
     decision_discipline:
     - Do not move a headline conclusion forward if it depends on a numerically unvalidated regime.
     - Do not call a mechanism necessary until it survives alternative model structures.
@@ -571,7 +571,7 @@ guidelines:
   - phase: 9
     name: Integrated autonomy
     status: built-and-run
-    studies: [og-independence, og-adv-generic-nonequilibrium]
+    studies: [og-independence, og-vent-specificity]
     component: integrated_autonomy_world — one persistent world assembled from the merged faces around a single lineage (the reduced serpentinization class under the conservation ledger, the Butler-Volmer interface under the charge ledger, a localization class as the transport law, the reaction universe inside the cell under the network + C/N/P ledgers, an energy_coupling class as the storage model under the free-energy ledger, a boundary class x permeability anchor as the permeability assumption, a heredity class as the lineage's machinery under the information ledger, a maintenance law, a population dividing / starving by the boundary/division rewrites under the rewrite ledger); AblationStep withdrawing the gradient, the mineral access and the feed to their ocean floors; ActiveUptakeRule (the importer as a regulated, budgeted, costed exchange rule); AutonomyBudgetStep (the co-limited budget + the autonomy decomposition); StructuralEventLogStep; uq.robust_innovation (the structural ensemble, the persistence rule, the innovation lattice, the TransitionReport)
     data_package: integrated_autonomy (the vent-calibration posterior carried as distributions over its six viable draws + every integrated-autonomy hypothetical; 32 parameters, 5 calibrated, 20 hypothetical) over all earlier packages
     exit_criterion: the intersection of innovations required across model structures, with the continuous autonomy fraction decomposed by function
@@ -733,7 +733,7 @@ at_a_glance:
   role: 'Protocell ecology — a cross-feeding community out-produces the best single lineage (margin causally cross-feeding) and community function precedes cell completeness; studied as arms (og-36 stochastic community-vs-single, og-07 metacommunity, og-07-alt real metabolite exchange)'
 - study: og-independence
   role: 'Escape and progressive independence from the vent — the minimum innovation set off-gradient, then a graded, attributed map of which innovation internalizes which support, bounded by an honest negative on joint sufficiency across model structures'
-- study: og-adv-generic-nonequilibrium
+- study: og-vent-specificity
   role: 'Adversarial control: the gates must reject generic non-vent chemistry'
 - study: og-nutrient-bottlenecks
   role: 'Nutrient bottlenecks — reduced nitrogen keeps pace with carbon and reactive phosphorus co-concentrates in the pore (or limits first), studied as nitrogen + phosphorus arms'
@@ -746,7 +746,7 @@ studies:
 - og-spatial-concentration
 - og-energetics
 - og-heredity
-- og-adv-generic-nonequilibrium
+- og-vent-specificity
 - og-nutrient-bottlenecks
 - og-autocatalysis-a2
 - og-self-compartmentation
@@ -754,7 +754,6 @@ studies:
 - og-ecology
 - og-independence
 - mem-m4-growth-division-propensity
-- og-ev-competing-environments
 acceptance_criteria:
 - study: og-vent-environment
   behavior: vent-pH-in-lostcity-range
@@ -774,7 +773,7 @@ acceptance_criteria:
   behavior: cross-feeding-robustness
 - study: og-independence
   behavior: survival-off-gradient
-- study: og-adv-generic-nonequilibrium
+- study: og-vent-specificity
   behavior: gates-reject-generic
 - study: og-nutrient-bottlenecks
   behavior: nitrogen-keeps-pace-with-carbon
@@ -1035,7 +1034,6 @@ plan_gates:
       # Evidence-expansion sub-program (PLANNED challenge studies; honest-bar — they test whether
       # the A1 conclusions SURVIVE harder scrutiny, a negative being a meaningful result). These
       # EXTEND Gate A1; they do not contribute to its verdict (which rests on the member_studies).
-      - {slug: og-ev-competing-environments, title: Competing origin environments (cross-cutting falsification), scaffolded: true, planned: true, program: evidence-expansion, cross_cutting: true}
     # No matched-null clause here — persistence is the criterion; the autocatalysis
     # matched-null arm lives on the A2 branch below.
     criterion: >-
