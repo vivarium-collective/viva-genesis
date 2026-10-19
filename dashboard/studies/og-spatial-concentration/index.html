@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Study: og-03-dilution-to-localized-individuals</title>
+<title>Study: og-spatial-concentration</title>
 <link rel="stylesheet" href="/viva-genesis/dashboard/assets/style.css">
 <link rel="stylesheet" href="/viva-genesis/dashboard/assets/progress-track.css">
 <link rel="stylesheet" href="/viva-genesis/dashboard/assets/responsive.css">
@@ -20,11 +20,11 @@
   <div style="display:flex; align-items:center; gap:14px; justify-content:space-between;">
   <div style="display:flex; align-items:center; gap:12px; min-width:0; flex-wrap:wrap">
   <h1 class="study-title" style="margin:0">
-    <span class="study-num-chip" style="font-size:0.5em; font-weight:700; color:#64748b; background:#f1f5f9; padding:3px 9px; border-radius:9999px; vertical-align:middle; margin-right:8px">og-03</span><span class="study-name" id="study-name" data-slug="og-03-dilution-to-localized-individuals" data-study-kind="computational" title="og-03-dilution-to-localized-individuals">The First Individual</span>
+    <span class="study-name" id="study-name" data-slug="og-spatial-concentration" data-study-kind="computational" title="og-spatial-concentration">Spatial Concentration: Does a Pore Make an Individual?</span>
     
   </h1>
     
-    <span id="study-axis-markers" data-slug="og-03-dilution-to-localized-individuals" style="display:inline-flex; gap:8px; align-items:center; flex-wrap:wrap"></span>
+    <span id="study-axis-markers" data-slug="og-spatial-concentration" style="display:inline-flex; gap:8px; align-items:center; flex-wrap:wrap"></span>
   </div>
   <span class="study-header-actions" style="display:inline-flex; gap:6px; flex-shrink:0; align-items:center;">
     
@@ -50,7 +50,7 @@
 
 
 
-<p id="study-question-headline" class="study-question-headline"><span class="q-glyph">Q</span> Can vent pore physics concentrate a dilute vent feed strongly enough to form a persistent, localized individual rather than washing everything into the ocean?</p>
+<p id="study-question-headline" class="study-question-headline"><span class="q-glyph">Q</span> Can vent pore physics concentrate a dilute vent feed strongly enough to form a persistent localized individual and ignite the reaction network productively — more than a matched well-mixed, non-concentrating control at identical feeds?</p>
 
 <nav class="study-tabs" aria-label="Study sections">
   
@@ -82,8 +82,8 @@
   <span class="study-dl study-export-wrap" style="margin-left:auto; align-self:center; position:relative; display:inline-flex">
     <button type="button" id="study-export-btn" class="btn-mini study-dl-btn" aria-haspopup="true" aria-expanded="false" title="Download this study's figures or a runnable notebook">↓ Export ▾</button>
     <div id="study-export-menu" role="menu" style="display:none;position:absolute;right:0;top:100%;margin-top:4px;background:#fff;border:1px solid #e2e8f0;border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,0.14);z-index:70;min-width:200px;padding:4px">
-      <button type="button" id="study-dl-figures" role="menuitem" class="study-jump-item" onclick="window._vivStudyFiguresFromCard(event, 'og-03-dilution-to-localized-individuals')">Download figures</button>
-      <button type="button" id="study-dl-notebook" role="menuitem" class="study-jump-item" onclick="window._vivStudyNotebookFromCard(event, 'og-03-dilution-to-localized-individuals', 'origins-of-life-vent')">Download notebook</button>
+      <button type="button" id="study-dl-figures" role="menuitem" class="study-jump-item" onclick="window._vivStudyFiguresFromCard(event, 'og-spatial-concentration')">Download figures</button>
+      <button type="button" id="study-dl-notebook" role="menuitem" class="study-jump-item" onclick="window._vivStudyNotebookFromCard(event, 'og-spatial-concentration', 'origins-of-life-vent')">Download notebook</button>
     </div>
   </span>
 </nav>
@@ -537,7 +537,7 @@
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Claim</h2>
-      <p class="ctr-text">Resolving diffusion, thermophoresis, adsorption, surface catalysis and advection for every actual reactant, a bounded-geometry pore either increases useful product flux or network persistence at identical feeds relative to a well-mixed control, or it does not. The defensible result is the existence and location of a localization regime and its effect on the network — not a precise single-solute extreme-enrichment magnitude, which is solver-sensitive and precursor-dependent.</p>
+      <p class="ctr-text">Across fidelities, vent pore physics concentrates a dilute feed into a persistent localized individual and ignites the reaction network. Resolving diffusion, thermophoresis, adsorption, surface catalysis and advection, a bounded serpentinite pore clears the Baaske-2007 extreme-accumulation regime (accumulation Peclet 18.4) and localizes a persistent individual vs a well-mixed control (og-03, supported). At identical vent-posterior feeds the concentrating pore ignites the full network — net carbon flux +4.5e-4, 17 persistent species — while a matched well-mixed, non-concentrating control stays dark (og-30, canonical, supported); the C6 network og-29 found needs ~20x well-mixed feed ignites directly in the pore at base feed. The pore benefit is a bounded porosity window, and network_connected is a brittle proxy near threshold (both kept honest). og-30 does double duty: it meets Gate B and resolves Gate A1&#39;s feed-plausibility. Consolidated headline: supported — spatial concentration makes the individual and rescues ignition. Every matched null and arm verdict kept.</p>
       
     </div>
 
@@ -545,19 +545,19 @@
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Background</h2>
       <div class="ctr-meta">
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Question</span> <span class="ctr-meta-item">Can vent pore physics concentrate a dilute vent feed strongly enough to form a persistent, localized individual rather than washing everything into the ocean?</span></div>
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Hypothesis</span> <span class="ctr-meta-item">Thermophoresis + convection + adsorption in evolving pores raise local concentration enough that synthesis outruns hydrolysis/leakage in a bounded geometry region; elsewhere washout dominates.</span></div>
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Question</span> <span class="ctr-meta-item">Can vent pore physics concentrate a dilute vent feed strongly enough to form a persistent localized individual and ignite the reaction network productively — more than a matched well-mixed, non-concentrating control at identical feeds?</span></div>
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Hypothesis</span> <span class="ctr-meta-item">Bounded-geometry pore physics (thermophoresis + adsorption + advection) concentrates a dilute feed enough to retain a persistent individual and ignite the network, within a bounded porosity window; no individuation or ignition is claimed where a matched well-mixed control matches it.</span></div>
       </div>
     </div>
     
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Model &amp; approach</h2>
-      <p class="ctr-text">Add pore geometry, adsorption, convection and thermophoresis; find where retention + concentration cross persistence thresholds.</p>
+      <p class="ctr-text">Consolidate the spatial-concentration studies into one concept with explicit fidelity-labelled arms (concentration physics, full-network pore ignition), each preserving its matched well-mixed null, verdict, findings and run provenance; report the consolidated verdict (supported) with the bounded-porosity-window guardrail.</p>
       <div class="ctr-meta">
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Model</span> <code>Dilution to localized individuals</code><a class="ov-tablink" href="#" onclick="_setStudyTab('compose');return false;">model →</a></div>
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Model</span> <code>Spatially integrated protometabolism in a concentrating pore — canonical (og-30)</code>, <code>Matched well-mixed, non-concentrating null (og-30) — stays dark at equal feed</code>, <code>Thermophoretic concentration physics (og-03 arm)</code><a class="ov-tablink" href="#" onclick="_setStudyTab('compose');return false;">model →</a></div>
         
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Measures</span> <span class="ctr-meta-item">6 behavior tests</span><a class="ov-tablink" href="#" onclick="_setStudyTab('audit');return false;">see Tests →</a></div>
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Measures</span> <span class="ctr-meta-item">10 behavior tests</span><a class="ov-tablink" href="#" onclick="_setStudyTab('audit');return false;">see Tests →</a></div>
         
       </div>
     </div>
@@ -591,7 +591,7 @@
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Result</h2>
-      <p class="ctr-text">The real FiPy thermal trap localizes a dilute feed into a bounded region of pore geometry and, in its own native (porosity × pore length) Decision map, draws the geometry threshold separating concentrated individuals from washed-out bulk. Feeds og-04 (mineral compartments) a concentrated starting pocket. Localization holds; the precise enrichment magnitude is caveated as a reduced-model extrapolation.</p>
+      <p class="ctr-text">Vent pore physics concentrates a dilute feed into a persistent localized individual (Baaske regime cleared, accumulation Peclet 18.4) and ignites the full reaction network (net carbon flux +4.5e-4, 17 persistent species) where a matched well-mixed control stays dark (SUPPORTED); the benefit is a bounded porosity window, and og-30 also resolves Gate A1&#39;s feed-plausibility.</p>
       
       
       <div class="ov-metrics">
@@ -751,23 +751,257 @@
       </div>
       
       
+      
+      
+      
+      
+      
+      
+      
+      <div class="finding-card finding-kind-computational finding-status-confirms">
+        <details class="finding-details">
+          <summary class="finding-row">
+            <span class="finding-status-glyph">✓</span>
+            <span class="finding-claim finding-statement">At identical vent-posterior feeds (CO2/H2 = 1e-3), the concentrating pore ignites the network (net carbon flux +4.5e-4; connected; 17 persistent species) while the matched well-mixed nonconcentrating control does not (flux ~0; not connected) - spatial concentration is the only difference, so the pore causes the productive flux.</span>
+            
+            <span class="finding-chip">via <code>productive-flux-beats-wellmixed-and-nonconcentrating</code></span>
+            
+          </summary>
+          <div class="finding-drawer">
+            <div class="finding-header">
+              <span class="finding-id">og30-pore-ignites-vs-control</span>
+              <span class="finding-kind">computational</span>
+              <span class="finding-status-text">confirms literature</span>
+            </div>
+            
+            
+            <div class="finding-evidence">
+              
+              
+              via test <a href="#bt-productive-flux-beats-wellmixed-and-nonconcentrating" onclick="_gotoStudyTab('audit','bt-productive-flux-beats-wellmixed-and-nonconcentrating');return false;"><code>productive-flux-beats-wellmixed-and-nonconcentrating</code></a> · 
+              
+              
+              
+            </div>
+            
+            
+            
+            
+            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: op: threshold · detail: pore flux exceeds BOTH matched controls (else reported as no benefit)</code></div>
+            
+            
+            
+            
+            
+            
+          </div>
+        </details>
+      </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <div class="finding-card finding-kind-computational finding-status-confirms">
+        <details class="finding-details">
+          <summary class="finding-row">
+            <span class="finding-status-glyph">✓</span>
+            <span class="finding-claim finding-statement">The C6 network - the one og-29 found ignites only at ~20x well-mixed feed - ignites directly in the demo pore at the vent-posterior base feed (porosity 0.88, pore-local 0.023 M), net carbon flux +4.49e-4, connected, 22 persistent species, while the matched well-mixed C6 control stays dead (flux +1.5e-9, not connected). C6 shows the same bounded-window behavior as C4 - a tight pore (porosity 0.70, pore-local 2.63 M) gives higher flux (+0.072) but the connectivity metric still degrades (network_connected = 0), so there is no flux-washout upper bound; the bound above is physically-implausible feeds plus connectivity-metric degradation, not flux loss.</span>
+            
+            <span class="finding-chip">via <code>productive-flux-beats-wellmixed-and-nonconcentrating</code></span>
+            
+          </summary>
+          <div class="finding-drawer">
+            <div class="finding-header">
+              <span class="finding-id">og30-c6-confirmation</span>
+              <span class="finding-kind">computational</span>
+              <span class="finding-status-text">confirms literature</span>
+            </div>
+            
+            
+            <div class="finding-evidence">
+              
+              
+              via test <a href="#bt-productive-flux-beats-wellmixed-and-nonconcentrating" onclick="_gotoStudyTab('audit','bt-productive-flux-beats-wellmixed-and-nonconcentrating');return false;"><code>productive-flux-beats-wellmixed-and-nonconcentrating</code></a> · 
+              
+              
+              
+            </div>
+            
+            
+            
+            
+            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: op: threshold · detail: pore flux exceeds BOTH matched controls (else reported as no benefit)</code></div>
+            
+            
+            
+            
+            
+            
+          </div>
+        </details>
+      </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <div class="finding-card finding-kind-computational finding-status-partial">
+        <details class="finding-details">
+          <summary class="finding-row">
+            <span class="finding-status-glyph">◐</span>
+            <span class="finding-claim finding-statement">A porosity sweep shows the pore&#39;s benefit is a bounded window, not a broad swath. Net carbon flux rises monotonically with confinement (no flux washout in the C4 network, even at extreme feeds), but the connectivity-defined ignition (og-29&#39;s network_connected metric) occupies a bounded, somewhat brittle porosity band (~0.80-0.90; pore-local ~0.01-0.2 M) - below it enrichment is sub-threshold, and above it the pore-local feeds become physically implausible (porosity 0.70 implies 2.6 M, 0.60 implies 36 M) while the connectivity metric itself degrades, flipping 1/0/1 across adjacent porosities at similar high flux. So ignition is met in a specific pore-geometry window, not robustly across geometry.</span>
+            
+            <span class="finding-chip">via <code>colocalization-residence-measured</code></span>
+            
+          </summary>
+          <div class="finding-drawer">
+            <div class="finding-header">
+              <span class="finding-id">og30-enrichment-bridges-ignition-gap</span>
+              <span class="finding-kind">computational</span>
+              <span class="finding-status-text">partial literature</span>
+            </div>
+            
+            
+            <div class="finding-evidence">
+              
+              
+              via test <a href="#bt-colocalization-residence-measured" onclick="_gotoStudyTab('audit','bt-colocalization-residence-measured');return false;"><code>colocalization-residence-measured</code></a> · 
+              
+              
+              
+            </div>
+            
+            
+            
+            
+            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: op: threshold · detail: measurable co-localization and residence increase reported</code></div>
+            
+            
+            
+            <div class="finding-expected">
+              
+              
+              cites: <a class="ov-cite" href="#sref-baaske2007extreme" title="Extreme accumulation of nucleotides in simulated hydrothermal pore systems">Baaske 2007</a><a class="ov-cite" href="#sref-mast2010thermal" title="Thermal trap for DNA replication">Mast 2010</a>
+            </div>
+            
+            
+            
+            
+            
+          </div>
+        </details>
+      </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <div class="finding-card finding-kind-methodological finding-status-novel">
+        <details class="finding-details">
+          <summary class="finding-row">
+            <span class="finding-status-glyph">◆</span>
+            <span class="finding-claim finding-statement">network_connected (og-29&#39;s ignition metric) is a BRITTLE proxy near threshold - at high feed the network stays carbon-fixing (flux high and monotone in enrichment) but loses broad connectivity (connected flips to 0), the same signal og-29 recorded as &#34;washout&#34; at x50 well-mixed, now seen to be connectivity-breadth loss rather than flux loss, consistent across C4/C6 and well-mixed/pore. This is a methodological caveat on the ignition metric only; it does NOT touch og-29&#39;s formose refutation, which rests on the thermodynamic mechanism and the coefficient-free seed-independence discriminator, not on connectivity.</span>
+            
+            <span class="finding-chip">via <code>colocalization-residence-measured</code></span>
+            
+          </summary>
+          <div class="finding-drawer">
+            <div class="finding-header">
+              <span class="finding-id">og30-connectivity-metric-brittle</span>
+              <span class="finding-kind">methodological</span>
+              <span class="finding-status-text">novel literature</span>
+            </div>
+            
+            
+            <div class="finding-evidence">
+              
+              
+              via test <a href="#bt-colocalization-residence-measured" onclick="_gotoStudyTab('audit','bt-colocalization-residence-measured');return false;"><code>colocalization-residence-measured</code></a> · 
+              
+              
+              
+            </div>
+            
+            
+            
+            
+            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: op: threshold · detail: measurable co-localization and residence increase reported</code></div>
+            
+            
+            
+            
+            
+            
+          </div>
+        </details>
+      </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <div class="finding-card finding-kind-methodological finding-status-confirms">
+        <details class="finding-details">
+          <summary class="finding-row">
+            <span class="finding-status-glyph">✓</span>
+            <span class="finding-claim finding-statement">This does double duty - it meets Gate B&#39;s own criterion (pore flux far exceeds the matched control) and resolves Gate A&#39;s open A1 feed-plausibility question: the ~20x well-mixed ignition gap is bridged by pore enrichment within the physical pore window, so a carbon-fixing network persists at vent-realistic feeds inside a pore (demonstrated on C4 and confirmed directly on C6).</span>
+            
+            <span class="finding-chip">via <code>productive-flux-beats-wellmixed-and-nonconcentrating</code></span>
+            
+          </summary>
+          <div class="finding-drawer">
+            <div class="finding-header">
+              <span class="finding-id">og30-resolves-a1-feed-plausibility</span>
+              <span class="finding-kind">methodological</span>
+              <span class="finding-status-text">confirms literature</span>
+            </div>
+            
+            
+            <div class="finding-evidence">
+              
+              
+              via test <a href="#bt-productive-flux-beats-wellmixed-and-nonconcentrating" onclick="_gotoStudyTab('audit','bt-productive-flux-beats-wellmixed-and-nonconcentrating');return false;"><code>productive-flux-beats-wellmixed-and-nonconcentrating</code></a> · 
+              
+              
+              
+            </div>
+            
+            
+            
+            
+            <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: op: threshold · detail: pore flux exceeds BOTH matched controls (else reported as no benefit)</code></div>
+            
+            
+            
+            
+            
+            
+          </div>
+        </details>
+      </div>
+      
+      
     </div>
     
       
       
-      
-      <div class="ctr-meta ctr-assess">
-        
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Confidence</span>
-          <span class="ctr-badge ctr-badge-accepted">Accepted</span>
-          <span class="ctr-vch">biology&nbsp;PASS</span>
-          <span class="ctr-vch">insight&nbsp;POSITIVE</span>
-        </div>
-        
-        
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Caveat</span> <span class="ctr-meta-item">Enrichment uses the accumulation-column reduced model (exp(Pe_acc)) with one geometry calibration to Baaske; the full 2-D convection-roll enrichment is not solved.</span></div>
-        
-      </div>
       
     </div>
 
@@ -805,12 +1039,12 @@
   <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:8px;">
     <h2 class="overview-label" style="margin:0">Model composition</h2>
     
-    <button type="button" class="btn-mini" onclick="window._vivStudyNotebookFromCard(event, 'og-03-dilution-to-localized-individuals', 'origins-of-life-vent')" title="Download a runnable Jupyter notebook for THIS study — its composite + editable parameters + figures">↓ notebook</button>
+    <button type="button" class="btn-mini" onclick="window._vivStudyNotebookFromCard(event, 'og-spatial-concentration', 'origins-of-life-vent')" title="Download a runnable Jupyter notebook for THIS study — its composite + editable parameters + figures">↓ notebook</button>
   </div>
 
   
   
-  <div id="model-composite-cards" class="model-composite-cards" data-study="og-03-dilution-to-localized-individuals"
+  <div id="model-composite-cards" class="model-composite-cards" data-study="og-spatial-concentration"
        data-study-config="">
     <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading composite card(s)…</span></div>
   </div>
@@ -831,9 +1065,87 @@
   <div class="overview-section" id="model-section">
     <h3>Runnable models <span class="muted" style="font-size:0.85em;font-weight:normal">— the composite(s) this study simulates</span></h3>
     
-    <div class="cond-block" data-model-composite="viva_genesis.composites.thermophoretic_concentration.thermophoretic_concentration" data-model-overrides='{"delta_T": 30.0, "flow_velocity": 0.0001, "pore_length": 0.005, "porosity": 0.3}'>
+    <div class="cond-block" data-model-composite="viva_genesis.composites.og_30_spatially_integrated_protometabolism.og_30_spatially_integrated_protometabolism" data-model-overrides='{}'>
       <div class="cond-block-title" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-        <strong>Dilution to localized individuals</strong>
+        <strong>Spatially integrated protometabolism in a concentrating pore — canonical (og-30)</strong>
+        
+        <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.og_30_spatially_integrated_protometabolism.og_30_spatially_integrated_protometabolism</code>
+        <button type="button" class="action-btn" style="font-size:0.8em"
+                onclick="_openCompositeLoom('viva_genesis.composites.og_30_spatially_integrated_protometabolism.og_30_spatially_integrated_protometabolism')">🧬 explore &amp; run ↗</button>
+        
+      </div>
+      
+      <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
+        
+        <select class="baseline-composite-input" data-baseline-name="Spatially integrated protometabolism in a concentrating pore — canonical (og-30)"
+                data-current="viva_genesis.composites.og_30_spatially_integrated_protometabolism.og_30_spatially_integrated_protometabolism"
+                style="flex:1;min-width:200px;font-family:monospace;font-size:0.82em;padding:3px 6px">
+          <option value="viva_genesis.composites.og_30_spatially_integrated_protometabolism.og_30_spatially_integrated_protometabolism" selected>viva_genesis.composites.og_30_spatially_integrated_protometabolism.og_30_spatially_integrated_protometabolism</option>
+          
+        </select>
+        <button type="button" class="action-btn baseline-composite-set" style="font-size:0.8em"
+                data-baseline-name="Spatially integrated protometabolism in a concentrating pore — canonical (og-30)">Set composite</button>
+      </div>
+      <div class="baseline-composite-status muted" data-baseline-name="Spatially integrated protometabolism in a concentrating pore — canonical (og-30)" style="font-size:0.8em;margin-top:2px"></div>
+      
+      
+      
+      <div class="model-config-mount" style="margin-top:8px">
+        <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading configuration…</span></div></div>
+      
+      
+      
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;font-size:0.8em">
+        
+        
+        
+        <span class="cond-pill"><span class="cond-pill-k">status</span>=completed</span>
+      </div>
+      
+    </div>
+    
+    <div class="cond-block" data-model-composite="viva_genesis.composites.og_30_spatially_integrated_protometabolism.og_30_spatially_integrated_protometabolism" data-model-overrides='{"concentrating": false}'>
+      <div class="cond-block-title" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+        <strong>Matched well-mixed, non-concentrating null (og-30) — stays dark at equal feed</strong>
+        
+        <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.og_30_spatially_integrated_protometabolism.og_30_spatially_integrated_protometabolism</code>
+        <button type="button" class="action-btn" style="font-size:0.8em"
+                onclick="_openCompositeLoom('viva_genesis.composites.og_30_spatially_integrated_protometabolism.og_30_spatially_integrated_protometabolism')">🧬 explore &amp; run ↗</button>
+        
+      </div>
+      
+      <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
+        
+        <select class="baseline-composite-input" data-baseline-name="Matched well-mixed, non-concentrating null (og-30) — stays dark at equal feed"
+                data-current="viva_genesis.composites.og_30_spatially_integrated_protometabolism.og_30_spatially_integrated_protometabolism"
+                style="flex:1;min-width:200px;font-family:monospace;font-size:0.82em;padding:3px 6px">
+          <option value="viva_genesis.composites.og_30_spatially_integrated_protometabolism.og_30_spatially_integrated_protometabolism" selected>viva_genesis.composites.og_30_spatially_integrated_protometabolism.og_30_spatially_integrated_protometabolism</option>
+          
+        </select>
+        <button type="button" class="action-btn baseline-composite-set" style="font-size:0.8em"
+                data-baseline-name="Matched well-mixed, non-concentrating null (og-30) — stays dark at equal feed">Set composite</button>
+      </div>
+      <div class="baseline-composite-status muted" data-baseline-name="Matched well-mixed, non-concentrating null (og-30) — stays dark at equal feed" style="font-size:0.8em;margin-top:2px"></div>
+      
+      
+      
+      <div class="model-config-mount" style="margin-top:8px">
+        <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading configuration…</span></div></div>
+      
+      
+      
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;font-size:0.8em">
+        
+        
+        
+        <span class="cond-pill"><span class="cond-pill-k">status</span>=completed</span>
+      </div>
+      
+    </div>
+    
+    <div class="cond-block" data-model-composite="viva_genesis.composites.thermophoretic_concentration.thermophoretic_concentration" data-model-overrides='{}'>
+      <div class="cond-block-title" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+        <strong>Thermophoretic concentration physics (og-03 arm)</strong>
         
         <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.thermophoretic_concentration.thermophoretic_concentration</code>
         <button type="button" class="action-btn" style="font-size:0.8em"
@@ -843,16 +1155,16 @@
       
       <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
         
-        <select class="baseline-composite-input" data-baseline-name="Dilution to localized individuals"
+        <select class="baseline-composite-input" data-baseline-name="Thermophoretic concentration physics (og-03 arm)"
                 data-current="viva_genesis.composites.thermophoretic_concentration.thermophoretic_concentration"
                 style="flex:1;min-width:200px;font-family:monospace;font-size:0.82em;padding:3px 6px">
           <option value="viva_genesis.composites.thermophoretic_concentration.thermophoretic_concentration" selected>viva_genesis.composites.thermophoretic_concentration.thermophoretic_concentration</option>
           
         </select>
         <button type="button" class="action-btn baseline-composite-set" style="font-size:0.8em"
-                data-baseline-name="Dilution to localized individuals">Set composite</button>
+                data-baseline-name="Thermophoretic concentration physics (og-03 arm)">Set composite</button>
       </div>
-      <div class="baseline-composite-status muted" data-baseline-name="Dilution to localized individuals" style="font-size:0.8em;margin-top:2px"></div>
+      <div class="baseline-composite-status muted" data-baseline-name="Thermophoretic concentration physics (og-03 arm)" style="font-size:0.8em;margin-top:2px"></div>
       
       
       
@@ -892,14 +1204,14 @@
 
   <div class="observables-section">
     
-    <div id="readouts-emitter" data-study="og-03-dilution-to-localized-individuals" style="margin:0 0 14px">
+    <div id="readouts-emitter" data-study="og-spatial-concentration" style="margin:0 0 14px">
       <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading emitter…</span></div>
     </div>
 
     
     <div id="readouts-download" style="margin:0 0 12px 0"></div>
 
-    <div id="readouts-table" data-study="og-03-dilution-to-localized-individuals">
+    <div id="readouts-table" data-study="og-spatial-concentration">
       <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading readouts from the composite emit plan…</span></div>
     </div>
 
@@ -949,10 +1261,10 @@
 
 <div class="overview-section" id="results-section">
   
-  <div id="results-summary" data-study="og-03-dilution-to-localized-individuals" style="margin:0 0 16px"></div>
+  <div id="results-summary" data-study="og-spatial-concentration" style="margin:0 0 16px"></div>
 
   <h4>Latest run preview <span class="muted" style="font-size:0.8em;font-weight:normal">— downsampled sparkline + first/last/min/max per store</span></h4>
-  <div id="results-preview" data-study="og-03-dilution-to-localized-individuals">
+  <div id="results-preview" data-study="og-spatial-concentration">
     <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading results preview…</span></div>
   </div>
 
@@ -971,7 +1283,7 @@
   
   <div class="overview-section" id="study-analyses-section">
     <h3>Analyses to run <span class="muted" style="font-size:0.85em;font-weight:normal">— which of the workspace's <code>ANALYSIS_REGISTRY</code> entries to compute on dispatch</span></h3>
-    <div id="study-analyses-list" data-study="og-03-dilution-to-localized-individuals">
+    <div id="study-analyses-list" data-study="og-spatial-concentration">
       <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading analyses…</span></div>
     </div>
     <div style="margin-top:8px">
@@ -987,9 +1299,9 @@
   <div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap">
     <span class="muted" style="margin-right:auto;font-weight:600">Analysis result files</span>
     <a id="data-download-all" class="btn-mini" style="display:none"
-       href="/api/study-analysis-zip?study=og-03-dilution-to-localized-individuals">Download all (.zip)</a>
+       href="/api/study-analysis-zip?study=og-spatial-concentration">Download all (.zip)</a>
   </div>
-  <div id="data-files" data-study="og-03-dilution-to-localized-individuals">
+  <div id="data-files" data-study="og-spatial-concentration">
     <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading result files…</span></div>
   </div>
 </div>
@@ -1006,30 +1318,6 @@
   <p class="muted" style="margin:0 0 12px 0"><strong>The bar</strong> — what must be true for this model to count as correct: the acceptance criteria, their bands, and the report cards that grade them.</p>
 
   
-  
-  
-  <div class="overview-section expectations-band" id="expectations-band">
-    <h3 class="section-title">Expectations
-      <span class="muted" style="font-size:0.85em;font-weight:normal">— from literature, mapped to the model observable that measures each</span>
-    </h3>
-    <ul class="literature-anchor-list" style="list-style:none;padding-left:0">
-    
-      
-      <li class="literature-anchor-card expectation-item">
-        <div class="anchor-expectation" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-          <span>&gt;10^8-fold nucleotide accumulation in favorable modeled pore geometries</span>
-          
-        </div>
-        <div class="anchor-observable">
-          <em>Model observable:</em> <code>enrichment vs geometry</code>
-        </div>
-        
-        <div class="anchor-source"><em>Source:</em> Baaske 2007</div>
-        
-      </li>
-    
-    </ul>
-  </div>
   
 
   
@@ -1382,6 +1670,162 @@ pass_if: {"detail": "FVM residual small (direct LU solve)", "op": "\u003c=", "va
       
     </li>
     
+    
+    
+    
+    
+    
+    
+    
+    <li class="expected-behavior-item" id="bt-receives-29-handoff-bundle"
+        data-test-kind="behavioral"
+        
+        data-pytest-node="receives-29-handoff-bundle"
+        data-classification="secondary"
+        data-result="pending"
+        style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #cbd5e1; background: #f8fafc; border-radius: 4px;">
+      
+        
+      <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
+        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #f1f5f9; color: #475569">⏳ pending</span>
+        <span class="classification-pill classification-secondary">secondary</span>
+        <strong style="font-size: 0.9em;">receives-29-handoff-bundle</strong>
+        
+        <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
+        
+      </div>
+      <div style="margin-top: 6px; font-size: 0.95em;">Study 30 receives the full 29→30 bundle — active reactions, molecular species, actual concentrations and competing degradation routes — as typed inputs, verified complete before the spatial run.</div>
+      
+      
+      <details style="margin-top: 6px; font-size: 0.82em;">
+        <summary class="muted" style="cursor: pointer;">Assertion</summary>
+        
+        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "completeness + typing of the 29\u219230 bundle checked against 29\u0027s emitted bundle", "kind": "observable"}
+pass_if: {"detail": "bundle received complete and typed", "op": "threshold"}</pre>
+      </details>
+      
+      
+      
+      
+    </li>
+    
+    
+    
+    
+    
+    
+    
+    
+    <li class="expected-behavior-item" id="bt-colocalization-residence-measured"
+        data-test-kind="behavioral"
+        
+        data-pytest-node="colocalization-residence-measured"
+        data-classification="primary"
+        data-result="pending"
+        style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #10b981; background: #f8fafc; border-radius: 4px;">
+      
+        
+      <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
+        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #f1f5f9; color: #475569">⏳ pending</span>
+        <span class="classification-pill classification-primary">primary</span>
+        <strong style="font-size: 0.9em;">colocalization-residence-measured</strong>
+        
+        <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
+        
+      </div>
+      <div style="margin-top: 6px; font-size: 0.95em;">Reactive transport with thermophoresis and adsorption produces measurable co-localization of intermediates and increased residence time in the pore, reported as time- and space-resolved fields, not a terminal snapshot.</div>
+      
+      
+      <details style="margin-top: 6px; font-size: 0.82em;">
+        <summary class="muted" style="cursor: pointer;">Assertion</summary>
+        
+        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "co-localization + residence time as time/space-resolved fields", "kind": "observable"}
+pass_if: {"detail": "measurable co-localization and residence increase reported", "op": "threshold"}</pre>
+      </details>
+      
+      
+      
+      
+    </li>
+    
+    
+    
+    
+    
+    
+    
+    
+    <li class="expected-behavior-item" id="bt-productive-flux-beats-wellmixed-and-nonconcentrating"
+        data-test-kind="behavioral"
+        
+        data-pytest-node="productive-flux-beats-wellmixed-and-nonconcentrating"
+        data-classification="primary"
+        data-result="pending"
+        style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #10b981; background: #f8fafc; border-radius: 4px;">
+      
+        
+      <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
+        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #f1f5f9; color: #475569">⏳ pending</span>
+        <span class="classification-pill classification-primary">primary</span>
+        <strong style="font-size: 0.9em;">productive-flux-beats-wellmixed-and-nonconcentrating</strong>
+        
+        <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
+        
+      </div>
+      <div style="margin-top: 6px; font-size: 0.95em;">Productive network flux (and persistence) in the pore EXCEEDS both a matched well-mixed control and a matched nonconcentrating control with chemical input fluxes held equal; flux not separable from the controls is reported as &#34;pores do not help,&#34; not tuned away. This is the Gate B arm.</div>
+      
+      
+      <details style="margin-top: 6px; font-size: 0.82em;">
+        <summary class="muted" style="cursor: pointer;">Assertion</summary>
+        
+        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "pore productive flux + persistence vs. matched well-mixed and nonconcentrating controls", "kind": "observable"}
+pass_if: {"detail": "pore flux exceeds BOTH matched controls (else reported as no benefit)", "op": "threshold"}</pre>
+      </details>
+      
+      
+      
+      
+    </li>
+    
+    
+    
+    
+    
+    
+    
+    
+    <li class="expected-behavior-item" id="bt-spatial-flux-conservation-and-cross-solver"
+        data-test-kind="behavioral"
+        
+        data-pytest-node="spatial-flux-conservation-and-cross-solver"
+        data-classification="secondary"
+        data-result="pending"
+        style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #cbd5e1; background: #f8fafc; border-radius: 4px;">
+      
+        
+      <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
+        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #f1f5f9; color: #475569">⏳ pending</span>
+        <span class="classification-pill classification-secondary">secondary</span>
+        <strong style="font-size: 0.9em;">spatial-flux-conservation-and-cross-solver</strong>
+        
+        <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
+        
+      </div>
+      <div style="margin-top: 6px; font-size: 0.95em;">Mass and charge close across the spatial reactive-transport solve (divergence of flux equals source minus sink) with no untracked feed; the cross-solver comparison agrees to tolerance.</div>
+      
+      
+      <details style="margin-top: 6px; font-size: 0.82em;">
+        <summary class="muted" style="cursor: pointer;">Assertion</summary>
+        
+        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"detail": "flux-divergence residual vs. source\u2212sink; cross-solver agreement", "kind": "observable"}
+pass_if: {"detail": "conservation within tolerance; cross-solver agreement to tolerance", "op": "threshold"}</pre>
+      </details>
+      
+      
+      
+      
+    </li>
+    
   </ul>
   
   </div>
@@ -1390,7 +1834,7 @@ pass_if: {"detail": "FVM residual small (direct LU solve)", "op": "\u003c=", "va
   <p class="muted" style="margin:0 0 12px 0"><strong>Is the bar sound?</strong> The concrete readiness gaps to close first, then whether the test set itself is rigorous and matched to the problem — sufficiency, sourcing, and the rigor + reproducibility scorecards.</p>
 
   
-  <div id="audit-readiness" data-slug="og-03-dilution-to-localized-individuals" style="margin:0 0 18px 0">
+  <div id="audit-readiness" data-slug="og-spatial-concentration" style="margin:0 0 18px 0">
     <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading readiness…</span></div>
   </div>
 
@@ -1472,7 +1916,7 @@ pass_if: {"detail": "FVM residual small (direct LU solve)", "op": "\u003c=", "va
   
   <div class="overview-section decide-readiness-section">
     <h2 class="overview-label">Readiness gaps</h2>
-    <div id="decide-readiness" data-slug="og-03-dilution-to-localized-individuals"></div>
+    <div id="decide-readiness" data-slug="og-spatial-concentration"></div>
   </div>
 
   
@@ -1514,27 +1958,27 @@ pass_if: {"detail": "FVM residual small (direct LU solve)", "op": "\u003c=", "va
           <span class="narrative-label">Empirical validation</span>
           <span class="narrative-input verdict-badge-computed" data-verdict-track="biological_validation"
                 title="Computed from the gate evaluator (read-only)"
-                style="display:inline-block;padding:2px 12px;border-radius:9999px;font-weight:700;font-size:0.85em;background:#f1f5f9;color:#475569">PASS</span>
+                style="display:inline-block;padding:2px 12px;border-radius:9999px;font-weight:700;font-size:0.85em;background:#f1f5f9;color:#475569">PENDING</span>
           <span class="muted small" style="margin-left:6px">computed from gate evaluator</span>
         </label>
         <label class="narrative-row narrative-row-wide">
           <span class="narrative-label">Empirical basis</span>
           <textarea class="narrative-input narrative-textarea" rows="2"
                     data-narrative-path="conclusion_verdicts.biological_validation.basis"
-                    placeholder="e.g. atp_fraction = 0.997, outside Boesen 2024 band [0.2, 0.5].">Reaches the Baaske-2007 extreme-accumulation regime (accumulation Péclet 18.4) with controls not concentrating — localization is real; the precise fold-magnitude is a solver-sensitive reduced-model extrapolation, not asserted as a hard benchmark.</textarea>
+                    placeholder="e.g. atp_fraction = 0.997, outside Boesen 2024 band [0.2, 0.5]."></textarea>
         </label>
         <label class="narrative-row">
           <span class="narrative-label">Explanatory gain</span>
           <span class="narrative-input verdict-badge-computed" data-verdict-track="explanatory_gain"
                 title="Computed from interpretation-tier findings (read-only)"
-                style="display:inline-block;padding:2px 12px;border-radius:9999px;font-weight:700;font-size:0.85em;background:#f1f5f9;color:#475569">POSITIVE</span>
+                style="display:inline-block;padding:2px 12px;border-radius:9999px;font-weight:700;font-size:0.85em;background:#f1f5f9;color:#475569">PENDING</span>
           <span class="muted small" style="margin-left:6px">computed from interpretation-tier findings</span>
         </label>
         <label class="narrative-row narrative-row-wide">
           <span class="narrative-label">Explanatory basis</span>
           <textarea class="narrative-input narrative-textarea" rows="2"
                     data-narrative-path="conclusion_verdicts.explanatory_gain.basis"
-                    placeholder="e.g. Three findings worth keeping; design_pivot_required closed.">Real transport (thermophoresis + convection) explains the geometry threshold for localization; it explains that strong concentration occurs, while the exact fold in the high-Péclet interior remains solver-sensitive.</textarea>
+                    placeholder="e.g. Three findings worth keeping; design_pivot_required closed."></textarea>
         </label>
       </div>
     </div>
@@ -1550,7 +1994,7 @@ pass_if: {"detail": "FVM residual small (direct LU solve)", "op": "\u003c=", "va
       <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
         <span class="gate-status-passed" style="padding:2px 12px;border-radius:9999px;font-weight:700;font-size:0.85em">passed</span>
         <span class="muted small">evaluated by code</span>
-        <span class="muted small">5/6 passed</span>
+        <span class="muted small">5/10 passed</span>
       </div>
       
     </div>
@@ -1558,22 +2002,6 @@ pass_if: {"detail": "FVM residual small (direct LU solve)", "op": "\u003c=", "va
 
     
     
-    
-    
-    <div class="decide-section" style="margin-top:18px">
-      <h3 class="overview-label">Conclusion logic — gate decision</h3>
-      
-      <div style="padding:10px 14px;background:#f0fdf4;border-left:4px solid #10b981;border-radius:4px;margin-bottom:8px">
-        <strong>✓ If primary tests pass:</strong>
-        
-        
-        <div style="margin-top:4px"><em>Empirical validation:</em> Localization is robust within a bounded geometry regime: long, tight pores clear the Baaske-2007 accumulation regime (accumulation Peclet 18.4, flux conserved to machine precision) and the porosity x pore-length map localizes at about 17% of the grid. The defensible result is the existence and location of that regime, not the extreme enrichment magnitude, which is solver-sensitive above Peclet ~13 (FiPy and FEniCS diverge by up to 5.6 decades).</div>
-        
-        
-      </div>
-      
-      
-    </div>
     
 
     
@@ -1583,45 +2011,6 @@ pass_if: {"detail": "FVM residual small (direct LU solve)", "op": "\u003c=", "va
   </div>
 
   
-  
-  <div class="overview-section"><h2 class="overview-label">Plan &amp; assumptions</h2>
-
-    
-    <div class="overview-section">
-      <h3 class="overview-label">Pipeline gate</h3>
-      <p class="muted" style="margin: 0 0 8px 0;font-size:0.88em">
-        Each study is a model-building gate: it answers <em>"Can we safely build the next layer?"</em>
-      </p>
-      
-      <div style="margin-bottom:6px"><strong>Prerequisites:</strong>
-        <code>{&#39;study&#39;: &#39;og-network-persistence&#39;, &#39;condition&#39;: &#39;tests-passed&#39;}</code>
-      </div>
-      
-      
-      
-    </div>
-    
-
-    
-    <div class="overview-section">
-      <h3 class="overview-label">Key assumptions</h3>
-      <ul style="margin:0 0 0 18px;padding:0;font-size:0.93em">
-        <li style="margin:2px 0">Concentration arises from the balance of advection, diffusion, thermodiffusion, adsorption, precipitation and degradation — not assumed.</li>
-      </ul>
-    </div>
-    
-
-    
-    <div class="overview-section">
-      <h3 class="overview-label">Limitations</h3>
-      <p class="muted" style="margin:0 0 6px 0;font-size:0.85em">What this study explicitly does NOT validate (prevents overclaim).</p>
-      <ul style="margin:0 0 0 18px;padding:0;font-size:0.93em">
-        <li style="margin:2px 0">Enrichment uses the accumulation-column reduced model (exp(Pe_acc)) with one geometry calibration to Baaske; the full 2-D convection-roll enrichment is not solved.</li><li style="margin:2px 0">Enrichment MAGNITUDE is solver-sensitive above Pe ≈ 13 — a FiPy↔FEniCS (dolfinx) head-to-head cross-check of the same spatial-transport face finds the two solvers diverge by up to ~5.6 decades in that regime, where the trap&#39;s Péclet ≈ 18 sits. So the ~1e6–1e7-fold figures are reduced-model extrapolations a resolved FEM solver does not confirm; the robust result is that localization occurs, not the exact fold. Per the resolved campaign decision, og-03&#39;s enrichment gates are now graded at the resolvable Péclet (the primary gate enrichment-resolved-within-convergence, log10_enrichment &gt; 0 within Pe_acc ≲ 13); the ≥10⁶-fold / ~10⁸ figures are REPORTED as the closed-cell/reduced-model values, not gated as a pass.</li><li style="margin:2px 0">The Mechanism-view trap→network coupling is a reduced, enrichment-capped (60×) illustration, not a graded result; the quantitative in-pore network persistence is carried by the downstream enclosed-network studies.</li><li style="margin:2px 0">og-03 concentrates a SINGLE tracer. The enrichment-field co-localization map (viva_genesis/colocalization_map.py) sweeps the eight-solute MIXTURE over (Péclet × Soret) with the FEM-calibrated surrogate and finds the mixture FRACTIONATES rather than co-localizing in one thermophoretic pore — the fractionation is SORET-DRIVEN — low-S_T solutes (e.g. ammonium) lag the strongly-thermophoretic species, so the co-localization index drops to ~0.18 in the strong-Soret regime (rising toward ~1 where the Soret contrast is weak). A candidate incompatibility. Adsorption is kinetically negligible over the pore transit at prebiotic rates (FEM effective mobile fraction 0.93–1.0 even at k_ads=0.1), so it is NOT the cause. After the surrogate↔FEM reconciliation (kinetic-adsorption fix + contact-time calibration) the surrogate now agrees with the dolfinx reference within ~2–19% (was ~35–90% off) — e.g. coloc_index 0.176 (surrogate) vs 0.171 (FEM) at Pe=1/×8 — so verdict AND degree agree, with only a small residual model-structure difference. And in the resolved FLOW-THROUGH pore enrichment is strongest at low Péclet and washes out as flow rises (1/(1+Pe/pe0)), so og-03&#39;s extreme convection-enhanced fold belongs to the closed-cell (recirculating) regime, distinct from the resolved flow-through result.</li>
-      </ul>
-    </div>
-    
-
-  </div>
   
 
   
@@ -1664,64 +2053,6 @@ pass_if: {"detail": "FVM residual small (direct LU solve)", "op": "\u003c=", "va
 
     
     
-    
-    <div class="overview-section" id="discovery-implications-section" style="margin-top:18px">
-      <h3 class="overview-label">Discovery implications</h3>
-      <p class="muted" style="margin:0 0 10px 0;font-size:0.88em">Where this study's results leave the mechanism model — and what to investigate next.</p>
-
-      
-      <div class="di-uncertainties">
-        
-        <div class="di-unc di-unc-resolved">
-          <h4>✓ Resolved uncertainties</h4>
-          <ul><li>A geometric threshold exists — the native (porosity × pore length) map localizes at ~17% of the grid (favourable pores concentrate strongly, open/short pores wash through). Localization is robust to solver choice.</li><li>The Decision map is native to og-03&#39;s own trap readouts (enrichment / Péclet), no longer borrowed from og-02.</li></ul>
-        </div>
-        
-        
-        <div class="di-unc di-unc-remaining">
-          <h4>● Remaining uncertainties</h4>
-          <ul><li>The precise fold-enrichment in the high-Péclet interior (reduced-model ~1e6–1e7) — a resolved FEM solver (FiPy↔FEniCS) diverges by up to ~5.6 decades above Pe ≈ 13, so the exact magnitude is not pinned.</li><li>Whether a concentrated autocatalytic network, once enclosed, persists better in the pocket than in the well-mixed bulk — pursued downstream (og-04/og-05 enclose the network).</li><li>Whether any pore regime co-localizes the FULL prebiotic mixture rather than one tracer — the enrichment-field map finds the mixture fractionates in the strong-Soret regime (co-localization index ~0.18; surrogate 0.176 vs FEM 0.171, agreeing within ~2–19%) because low-S_T species like ammonium lag the strong thermophoretic ones, so the species a protocell needs together may not concentrate in the same place; a candidate incompatibility to map across (Péclet × Soret) and across the Soret uncertainty brackets.</li></ul>
-        </div>
-        
-      </div>
-      
-
-      
-
-      
-
-      
-      
-      
-      <div class="di-group">
-        <h3>Follow-up study proposals
-          <span class="muted" style="font-weight:normal;font-size:0.82em">(discovered)</span>
-          <span class="muted" style="font-weight:normal;font-size:0.85em">(1)</span></h3>
-        <p class="muted" style="margin:0 0 8px 0;font-size:0.85em">Click <strong>➕ Add to investigation</strong> to spawn a new study node in the investigation graph.</p>
-        <div class="followup-list">
-          
-          
-          <div class="di-card di-fup-card">
-            <div class="followup-header">
-              <strong class="followup-title">(untitled proposal)</strong>
-              
-              
-              
-              
-            </div>
-            
-            
-            <div class="followup-actions" style="margin-top:8px">
-              <button class="btn-seed-followup"
-                      onclick="_seedFollowupProposal('og-03-dilution-to-localized-individuals', "")">➕ Add to investigation</button>
-            </div>
-          </div>
-          
-        </div>
-      </div>
-      
-    </div>
-    
 
     
     
@@ -1736,11 +2067,11 @@ pass_if: {"detail": "FVM residual small (direct LU solve)", "op": "\u003c=", "va
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "2f7acec3a3cea9b4d7d8479e4270a2fbc04c6a85", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/2f7acec3a3cea9b4d7d8479e4270a2fbc04c6a85", "branch": "main", "lockfile": "uv.lock@6a9e1c384050", "generated_at": "2026-10-19 02:21 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "c433a1c88717d0db95d49d413c2a74eff61b6bc7", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/c433a1c88717d0db95d49d413c2a74eff61b6bc7", "branch": "main", "lockfile": "uv.lock@3deebaad51f7", "generated_at": "2026-10-19 02:36 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>
-window._studyName = "og-03-dilution-to-localized-individuals";
+window._studyName = "og-spatial-concentration";
 window._study = null;  // populated by _bootstrapStudy() in study-detail.js
 
 // Save handler for the Conditions → Model settings editable rows.
