@@ -256,3 +256,201 @@ def test_multiple_undeclared_are_each_flagged_sorted():
     errs = check_used_imports_declared(used, declared_packages=set())
     assert len(errs) == 2
     assert "viva_alpha" in errs[0] and "viva_zeta" in errs[1]   # sorted
+
+
+# --------------------------------------------------------------------------- #
+# Batch 3 — §6.2 calibration-vs-prediction tagging (evidence_basis)
+# --------------------------------------------------------------------------- #
+from viva_genesis.audit_checks import (  # noqa: E402
+    check_evidence_basis_enum,
+    check_evidence_basis_coverage,
+    EVIDENCE_BASIS_VALUES,
+)
+
+
+def test_evidence_basis_enum_accepts_the_three_values():
+    for v in EVIDENCE_BASIS_VALUES:
+        spec = {"findings": [{"id": "F", "evidence_basis": v}]}
+        assert check_evidence_basis_enum({"s": spec}) == []
+
+
+def test_evidence_basis_enum_bad_value_on_finding_hard_fails():
+    spec = {"findings": [{"id": "F1", "evidence_basis": "calibratd"}]}  # typo
+    errs = check_evidence_basis_enum({"s": spec})
+    assert len(errs) == 1
+    assert "F1" in errs[0] and "calibratd" in errs[0] and "findings" in errs[0]
+
+
+def test_evidence_basis_enum_bad_value_on_behavior_test_hard_fails():
+    spec = {"behavior_tests": [{"name": "t1", "evidence_basis": "measured"}]}
+    errs = check_evidence_basis_enum({"s": spec})
+    assert len(errs) == 1 and "t1" in errs[0] and "behavior_tests" in errs[0]
+
+
+def test_evidence_basis_enum_absent_is_clean():
+    # Absence is NOT an enum error — coverage (WARN) handles absence separately.
+    spec = {"findings": [{"id": "F", "evidence": {"observed": "x"}}]}
+    assert check_evidence_basis_enum({"s": spec}) == []
+
+
+def test_evidence_basis_coverage_decided_verdict_untagged_warns():
+    spec = {"verdict": "supported", "status": "complete",
+            "findings": [{"id": "F", "statement": "x"}],
+            "behavior_tests": [{"name": "t"}]}
+    warns = check_evidence_basis_coverage({"s": spec})
+    assert len(warns) == 1 and "supported" in warns[0] and "evidence_basis" in warns[0]
+
+
+def test_evidence_basis_coverage_one_tag_anywhere_is_enough():
+    # A single tagged entry (on a finding OR a behavior_test) clears the study.
+    spec = {"verdict": "qualified", "status": "complete",
+            "findings": [{"id": "F", "evidence_basis": "calibrated"}],
+            "behavior_tests": [{"name": "t"}]}
+    assert check_evidence_basis_coverage({"s": spec}) == []
+    spec2 = {"verdict": "qualified",
+             "findings": [{"id": "F"}],
+             "behavior_tests": [{"name": "t", "evidence_basis": "predicted"}]}
+    assert check_evidence_basis_coverage({"s": spec2}) == []
+
+
+def test_evidence_basis_coverage_planned_study_excluded():
+    # A planned scaffold has no numbers to tag yet — never warned.
+    spec = {"verdict": "supported", "status": "planned",
+            "findings": [{"id": "F"}]}
+    assert check_evidence_basis_coverage({"s": spec}) == []
+
+
+def test_evidence_basis_coverage_no_verdict_excluded():
+    # No decided verdict -> nothing feeds a verdict -> no coverage expectation.
+    spec = {"status": "complete", "findings": [{"id": "F"}]}
+    assert check_evidence_basis_coverage({"s": spec}) == []
+
+
+# --------------------------------------------------------------------------- #
+# Batch 3 — §6.6 avoid vacuous gates (inferred-tier coverage honesty)
+# --------------------------------------------------------------------------- #
+from viva_genesis.audit_checks import check_vacuous_inferred_coverage  # noqa: E402
+
+
+def _atlas_study(finding_status, finding_kind="methodological",
+                 test_name="inferred-tier-has-thermo-and-rate-basis",
+                 description="the inferred tier extends connectivity ...",
+                 measure_detail="fraction of inferred-tier reactions carrying a basis"):
+    """og-network-persistence-shaped: an inferred-tier gate PASSING at 0, with a
+    finding derived from it whose status/kind we vary."""
+    return {
+        "behavior_tests": [
+            {"name": test_name, "classification": "primary",
+             "description": description,
+             "measure": {"kind": "observable", "detail": measure_detail}},
+        ],
+        "runs": [{"name": "r", "outcomes": {
+            test_name: {"result": "PASS", "measured_value": 0,
+                        "detail": "0 inferred-tier reactions; vacuously satisfied"}}}],
+        "findings": [
+            {"id": "f-inferred", "kind": finding_kind, "status": finding_status,
+             "evidence": {"from_test": test_name}},
+        ],
+    }
+
+
+def test_vacuous_honest_planned_finding_is_clean():
+    # The current-main honest state: the zero-count gate's finding is planned.
+    assert check_vacuous_inferred_coverage({"s": _atlas_study("planned")}) == []
+
+
+def test_vacuous_delivered_inferred_finding_hard_fails():
+    # Flip the finding to a delivered status with the tier still empty -> vacuous.
+    errs = check_vacuous_inferred_coverage({"s": _atlas_study("novel")})
+    assert len(errs) == 1
+    assert "f-inferred" in errs[0] and "inferred-tier coverage" in errs[0] and "vacuous" in errs[0]
+
+
+def test_vacuous_nonzero_measured_value_is_clean():
+    # A real inferred tier (measured_value > 0) earns coverage — delivered is fine.
+    spec = _atlas_study("novel")
+    spec["runs"][0]["outcomes"]["inferred-tier-has-thermo-and-rate-basis"]["measured_value"] = 1.0
+    assert check_vacuous_inferred_coverage({"s": spec}) == []
+
+
+def test_vacuous_non_inferred_zero_pass_is_clean():
+    # A zero-count pass on a test that is NOT an inferred-tier coverage gate is
+    # not this check's concern (e.g. a legitimate "0 division failures").
+    spec = _atlas_study("novel", test_name="no-division-failures",
+                        description="division succeeds every cycle",
+                        measure_detail="count of division failures")
+    assert check_vacuous_inferred_coverage({"s": spec}) == []
+
+
+# A write-gate-backed computational finding + the artifact/report plumbing rule
+# (b) now requires. The by-construction signal is balance_violations_held > 0.
+_WG_ART = "workspace/datasets/prebiotic-reaction-atlas/atlas_coverage_report.json"
+
+
+def _writegate_study():
+    return {
+        "behavior_tests": [
+            {"name": "atlas-write-gate-zero-leakage", "classification": "primary",
+             "artifact": _WG_ART,
+             "measure": {"kind": "observable",
+                         "detail": "count of unbalanced / unsourced records admitted (target 0)"}},
+        ],
+        "runs": [{"name": "r", "outcomes": {
+            "atlas-write-gate-zero-leakage": {"result": "PASS", "measured_value": 0}}}],
+        "findings": [
+            {"id": "f-chem", "kind": "computational", "status": "novel",
+             "evidence": {"from_test": "atlas-write-gate-zero-leakage"}},
+        ],
+    }
+
+
+def test_bookkeeping_gate_with_held_violations_hard_fails():
+    # Report shows a violation held out -> the clean pass is by construction.
+    spec = _writegate_study()
+    reports = {_WG_ART: {"balance_violations_held": 1, "accepted_balance_violations": 0}}
+    errs = check_vacuous_inferred_coverage({"s": spec}, reports)
+    assert len(errs) == 1
+    assert "f-chem" in errs[0] and "by-construction" in errs[0] and "methodological" in errs[0]
+
+
+def test_bookkeeping_gate_no_held_violations_is_clean():
+    # Nothing held out -> the atlas is balanced on the full set -> genuine, clean.
+    spec = _writegate_study()
+    reports = {_WG_ART: {"balance_violations_held": 0}}
+    assert check_vacuous_inferred_coverage({"s": spec}, reports) == []
+
+
+def test_bookkeeping_gate_no_report_is_clean():
+    # No coverage report for the gate (e.g. a real ledger-closes residual == 0)
+    # -> rule (b) has no by-construction signal -> never fires. This is the
+    # og-vent-environment `ledger-closes` false-positive the re-key eliminated.
+    spec = {
+        "behavior_tests": [
+            {"name": "ledger-closes",
+             "measure": {"detail": "mass-balance residual of the closed ledger"}},
+        ],
+        "runs": [{"name": "r", "outcomes": {
+            "ledger-closes": {"result": "PASS", "measured_value": 0}}}],
+        "findings": [
+            {"id": "ogcal-ledger-exact", "kind": "computational", "status": "novel",
+             "evidence": {"from_test": "ledger-closes"}},
+        ],
+    }
+    assert check_vacuous_inferred_coverage({"s": spec}, {}) == []
+
+
+def test_bookkeeping_gate_as_methodological_is_clean():
+    # The honest framing: the zero-leakage gate's finding is methodological (a
+    # bookkeeping deliverable), not a chemistry result -> clean even with held-out.
+    spec = _writegate_study()
+    spec["findings"][0]["kind"] = "methodological"
+    reports = {_WG_ART: {"balance_violations_held": 1}}
+    assert check_vacuous_inferred_coverage({"s": spec}, reports) == []
+
+
+def test_vacuous_no_runs_no_zero_pass_is_clean():
+    # No run outcomes -> no zero-count pass to credit -> inert.
+    spec = {"behavior_tests": [{"name": "inferred-tier-x"}],
+            "findings": [{"id": "f", "kind": "computational", "status": "novel",
+                          "evidence": {"from_test": "inferred-tier-x"}}]}
+    assert check_vacuous_inferred_coverage({"s": spec}) == []

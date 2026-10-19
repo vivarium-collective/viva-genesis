@@ -17,6 +17,7 @@ Checks here map to real failures hit in the origins-of-life-vent build:
 from __future__ import annotations
 
 import ast
+import re
 from typing import Callable, Dict, Iterable, List, Set, Tuple
 
 _PASSED_TOKENS = {"passed", "complete", "completed", "ran", "evaluated", "done"}
@@ -389,4 +390,187 @@ def check_dangling_edge_targets(
             if n != own_plan and n not in all_plan_ids and f"plan:{n}" not in allow:
                 errors.append(f"study {slug}: {kind} target plan_id {n} is not claimed by any current "
                               f"study (folded/never-scaffolded? repoint, remove, scaffold, or allowlist)")
+    return errors
+
+
+# --------------------------------------------------------------------------- #
+# Batch 3 — §6 audit-contract hardening (calibration-vs-prediction tagging).
+# --------------------------------------------------------------------------- #
+# A verdict-feeding fitted number (a yield / rate law / parameter) carries an
+# `evidence_basis` tag saying whether it was fit to the reference data
+# (``calibrated``), validated against held-out / independent data (``predicted``),
+# or applied outside the fitted regime (``extrapolated``). Field shape locked with
+# genesis-writer: a BARE STRING enum on a ``findings[]`` entry (primary home) or a
+# ``behavior_tests[]`` entry; optional free-text sibling ``evidence_basis_note``
+# (ignored here). This is a DIFFERENT axis from ``band_basis`` (the provenance of
+# an acceptance *threshold*) — the two coexist; neither reads the other.
+EVIDENCE_BASIS_VALUES = frozenset({"calibrated", "predicted", "extrapolated"})
+
+
+def check_evidence_basis_enum(studies: Dict[str, dict]) -> List[str]:
+    """§6.2 (hard-fail) — any ``evidence_basis`` *value present* on a finding or
+    behavior_test must be one of :data:`EVIDENCE_BASIS_VALUES`.
+
+    An out-of-enum value (a typo, an invented tag) is an authoring error, never a
+    valid incremental-rollout state, so it fails loud — distinct from the coverage
+    WARN below, which tolerates *absence* while tagging lands study by study.
+    """
+    errors: List[str] = []
+    for slug, spec in sorted(studies.items()):
+        for coll in ("findings", "behavior_tests"):
+            for e in spec.get(coll) or []:
+                if not isinstance(e, dict) or "evidence_basis" not in e:
+                    continue
+                v = e.get("evidence_basis")
+                if v not in EVIDENCE_BASIS_VALUES:
+                    ident = e.get("id") or e.get("name") or "?"
+                    errors.append(
+                        f"study {slug}: {coll} '{ident}' evidence_basis={v!r} is not one of "
+                        f"{sorted(EVIDENCE_BASIS_VALUES)} (calibrated|predicted|extrapolated)")
+    return errors
+
+
+def check_evidence_basis_coverage(studies: Dict[str, dict]) -> List[str]:
+    """§6.2 (WARN) — a study with a decided verdict carries ZERO ``evidence_basis``
+    tags, so its verdict-feeding fitted numbers are untagged.
+
+    Study-level coverage, not per-finding: there is no reliable per-entry marker
+    for "this number is a fitted quantity feeding the verdict", and inferring it
+    from prose false-fires — so the check warns once per study only when the study
+    has a decided verdict (truthy top-level ``verdict`` and ``status`` not
+    ``planned`` — the planned scaffolds have no numbers to tag yet) AND not a
+    single finding or behavior_test carries ``evidence_basis``. That stays
+    false-alarm-free and lets the tagging land incrementally.
+    """
+    warnings: List[str] = []
+    for slug, spec in sorted(studies.items()):
+        verdict = str(spec.get("verdict") or "").strip()
+        status = str(spec.get("status") or "").strip().lower()
+        if not verdict or status == "planned":
+            continue
+        tagged = any(
+            isinstance(e, dict) and e.get("evidence_basis")
+            for coll in ("findings", "behavior_tests")
+            for e in (spec.get(coll) or [])
+        )
+        if not tagged:
+            warnings.append(
+                f"study {slug}: verdict {verdict!r} is decided but no finding/behavior_test carries an "
+                f"`evidence_basis` tag (calibrated|predicted|extrapolated) — verdict-feeding fitted "
+                f"numbers are untagged (fit-vs-held-out invisible)")
+    return warnings
+
+
+# --------------------------------------------------------------------------- #
+# Batch 3 — §6.6 avoid vacuous gates (inferred-tier coverage honesty).
+# --------------------------------------------------------------------------- #
+# "Zero inferred reactions cannot count as substantive inferred-tier coverage;
+# balance-by-construction tests are bookkeeping witnesses, not chemistry
+# validation." The vacuous-gate signature (og-network-persistence / the reaction
+# atlas): a gate PASSES with a ZERO count — `inferred-tier-has-thermo-and-rate-
+# basis` is "vacuously satisfied" because there are 0 inferred reactions, and the
+# `atlas-write-gate-zero-leakage` gate passes because unbalanced records are held
+# out *by construction*. Neither is substantive coverage.
+#
+# The honest escape valve — which current main already uses — is to keep the
+# derived finding ``status: planned`` (a bookkeeping gate's finding ``kind:
+# methodological``) while the tier is empty. This check is therefore a FORWARD
+# GUARD: it is inert while the study is honest, and fails loud the moment a
+# *delivered* finding credits a zero-count gate as real coverage. A gate earns
+# inferred-tier coverage only from real inferred reactions.
+_INFERRED_TIER_RE = re.compile(r"inferred[-_ ]?tier", re.I)
+# Atlas write-gate / provenance-leakage bookkeeping language — deliberately NOT
+# the bare word "balance" (which would catch legitimate energy/mass-balance
+# physics residuals that close to a real 0); only the "atlas write gate that
+# admits/rejects records" vocabulary that marks a construction witness.
+_BOOKKEEPING_GATE_RE = re.compile(
+    r"zero[-_ ]?leakage|unsourced|write[-_ ]?gate|records? admitted", re.I)
+# Finding statuses that mean "not yet delivered" — honestly pending, so a
+# zero-count backing gate is fine (nothing is being credited yet).
+_NOT_DELIVERED_STATUSES = frozenset({"planned", "proposed", "pending", "deferred", ""})
+
+
+def _zero_count_pass_tests(spec: dict) -> Set[str]:
+    """Behavior_test names that PASSED with a numeric ``measured_value`` of 0 in
+    some run (a vacuous / by-construction zero-count pass). Booleans excluded."""
+    out: Set[str] = set()
+    for r in spec.get("runs") or []:
+        for tname, oc in (r.get("outcomes") or {}).items():
+            if not isinstance(oc, dict):
+                continue
+            mv = oc.get("measured_value")
+            if (str(oc.get("result") or "").strip().upper() == "PASS"
+                    and isinstance(mv, (int, float)) and not isinstance(mv, bool) and mv == 0):
+                out.add(tname)
+    return out
+
+
+def check_vacuous_inferred_coverage(
+    studies: Dict[str, dict],
+    coverage_reports: Dict[str, dict] | None = None,
+) -> List[str]:
+    """§6.6 (hard-fail) — a DELIVERED finding must not credit a vacuous gate as
+    substantive coverage. Two vacuous-credit shapes:
+
+    (a) inferred-tier coverage from zero inferred reactions — a delivered finding
+        backed by an *inferred-tier* gate that PASSED with ``measured_value == 0``.
+        A coverage *count* of 0 is unambiguously vacuous (unlike a residual that
+        closes to a real 0), so this is keyed study-locally.
+    (b) a balance-by-construction write-gate counted as chemistry validation — a
+        delivered ``kind: computational`` (quantitative chemistry) finding backed
+        by an atlas write-gate whose clean pass is achieved *by holding records
+        out at write time*. The authoritative "by construction" signal is the
+        gate's own coverage report: ``balance_violations_held > 0`` (violations
+        exist but were excluded). ``coverage_reports`` maps a behavior_test
+        ``artifact`` path -> the report's ``headline`` dict. Without that
+        held-out signal (b) never fires — so a ledger/residual that genuinely
+        closes to 0 (no held-out violations, no such report) is NOT flagged.
+
+    Keyed on ``study.yaml`` (+ the optional coverage reports the lint resolves),
+    unit-testable like the other checks. The honest fixes: keep the finding
+    ``status: planned`` until the tier has real reactions, or (for (b)) frame the
+    write-gate's finding as ``kind: methodological`` rather than a chemistry result.
+    """
+    coverage_reports = coverage_reports or {}
+    errors: List[str] = []
+    for slug, spec in sorted(studies.items()):
+        tests = {t.get("name"): t for t in (spec.get("behavior_tests") or [])
+                 if isinstance(t, dict) and t.get("name")}
+        zero_pass = _zero_count_pass_tests(spec)
+        if not zero_pass:
+            continue
+        for fn in spec.get("findings") or []:
+            if not isinstance(fn, dict):
+                continue
+            if str(fn.get("status") or "").strip().lower() in _NOT_DELIVERED_STATUSES:
+                continue  # honestly not-yet-delivered — nothing credited
+            ev = fn.get("evidence") or {}
+            ft = ev.get("from_test")
+            fts = ev.get("from_tests") or ([ft] if ft else [])
+            kind = str(fn.get("kind") or "").strip().lower()
+            for tname in fts:
+                if tname not in zero_pass:
+                    continue
+                t = tests.get(tname) or {}
+                hay = " ".join(str(x) for x in (
+                    tname, t.get("description"), (t.get("measure") or {}).get("detail"),
+                    (t.get("pass_if") or {}).get("detail")) if x)
+                if _INFERRED_TIER_RE.search(hay):
+                    errors.append(
+                        f"study {slug}: delivered finding '{fn.get('id')}' (status "
+                        f"{fn.get('status')!r}) credits inferred-tier coverage to gate '{tname}', "
+                        f"which PASSED with 0 (zero inferred reactions) — inferred-tier coverage must "
+                        f"come from real inferred reactions, not a vacuous zero-count pass (keep the "
+                        f"finding status: planned until the inferred tier is populated)")
+                elif kind == "computational" and _BOOKKEEPING_GATE_RE.search(hay):
+                    head = coverage_reports.get(t.get("artifact")) or {}
+                    held = head.get("balance_violations_held")
+                    if isinstance(held, (int, float)) and not isinstance(held, bool) and held > 0:
+                        errors.append(
+                            f"study {slug}: delivered computational finding '{fn.get('id')}' rests on "
+                            f"balance-by-construction gate '{tname}' — its clean pass holds "
+                            f"{held:g} balance violation(s) out of the accepted set at write time, so it "
+                            f"is a bookkeeping witness, not chemistry validation (frame this finding as "
+                            f"kind: methodological, or back the chemistry claim with a substantive "
+                            f"measurement)")
     return errors
