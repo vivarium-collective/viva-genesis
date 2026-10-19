@@ -692,7 +692,7 @@ parent_relations:
   relation: alternative-to
 - study: og-adv-generic-nonequilibrium
   relation: builds-on
-- study: og-energy-alt-internalization-threshold
+- study: og-energetics
   relation: builds-on
 - study: og-06-alt-information-per-cost
   relation: builds-on
