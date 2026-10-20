@@ -1,0 +1,102 @@
+{
+  "study": "og-evolvable-lineages",
+  "sweep": "parent-offspring fitness correlation vs selection strength \u00d7 population size (seeds = uncertainty bands)",
+  "axes": {
+    "fitness_exponent": [
+      1.0,
+      2.0,
+      4.0
+    ],
+    "n_pop": [
+      30,
+      120,
+      480
+    ],
+    "seeds": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ]
+  },
+  "grid": [
+    {
+      "fitness_exponent": 1.0,
+      "n_pop": 30,
+      "mean": 0.9630842638374945,
+      "std": 0.02736913865470211,
+      "n": 8
+    },
+    {
+      "fitness_exponent": 1.0,
+      "n_pop": 120,
+      "mean": 0.963181252941337,
+      "std": 0.016082842671809157,
+      "n": 8
+    },
+    {
+      "fitness_exponent": 1.0,
+      "n_pop": 480,
+      "mean": 0.9643684191741442,
+      "std": 0.009309813985071254,
+      "n": 8
+    },
+    {
+      "fitness_exponent": 2.0,
+      "n_pop": 30,
+      "mean": 0.8769768647722019,
+      "std": 0.10801498842560253,
+      "n": 8
+    },
+    {
+      "fitness_exponent": 2.0,
+      "n_pop": 120,
+      "mean": 0.9058149914102562,
+      "std": 0.025083284933329203,
+      "n": 8
+    },
+    {
+      "fitness_exponent": 2.0,
+      "n_pop": 480,
+      "mean": 0.9011358037251246,
+      "std": 0.012640012967620814,
+      "n": 8
+    },
+    {
+      "fitness_exponent": 4.0,
+      "n_pop": 30,
+      "mean": 0.8256919651953166,
+      "std": 0.10523334753857196,
+      "n": 8
+    },
+    {
+      "fitness_exponent": 4.0,
+      "n_pop": 120,
+      "mean": 0.8620808297818288,
+      "std": 0.03130311832524359,
+      "n": 8
+    },
+    {
+      "fitness_exponent": 4.0,
+      "n_pop": 480,
+      "mean": 0.8504190056065354,
+      "std": 0.01800420210688301,
+      "n": 8
+    }
+  ],
+  "canonical_inheritance": {
+    "mean": 0.9058149914102562,
+    "std": 0.025083284933329203,
+    "n": 8
+  },
+  "no_inheritance_null": {
+    "mean": -0.0467045080522382,
+    "std": 0.07385154789358395,
+    "n": 8
+  },
+  "verdict": "inherited composition produces a selectable parent-offspring fitness correlation 0.906 \u00b1 0.025 at the canonical point vs -0.047 \u00b1 0.074 for the no-inheritance (shuffle) null; sensitivity to selection strength + population size reported with replicate bands."
+}
