@@ -716,7 +716,7 @@ visualizations:
     n_steps: 120
     title: Phosphorus bottleneck — P-species trajectories (World view)
 - name: phosphorus-mechanism
-  display: mechanism
+  display: supplement
   address: local:PhosphorusMechanismViz
   config:
     composite: viva_genesis.composites.phosphorus_availability.phosphorus_availability
