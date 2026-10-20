@@ -346,7 +346,7 @@ else:
 #
 # _Results are shown by the figures below, produced by the run above._
 
-# **vent-cross-section**
+# **vent-habitability-map**
 
 def _save_viz(study, slug, html):
     d = REPO / 'reports/notebooks/figures' / study
@@ -356,23 +356,23 @@ def _save_viz(study, slug, html):
     print('  wrote', out)
 
 
+# vent-habitability-map
+_save_viz('og-vent-environment', 'vent-habitability-map', _render_one('local:VentHabitabilityMap', {'grid_json': 'workspace/studies/og-vent-environment/artifacts/og-00-vent-reactor-baseline/vent_habitability_grid.json', 'title': 'The Lost City habitability window (Decision view)'}, RUNS_DB, STUDY_YAML))
+
+# **vent-cross-section**
+
 # vent-cross-section
 _save_viz('og-vent-environment', 'vent-cross-section', _render_one('local:VentCrossSection', {'composite': 'viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor', 'n_steps': 60, 'title': 'Real 2-D vent cross-section (FiPy)', 'max_frames': 20}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor if 'ov_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor' in dir() else None)))
 
 # **vent-reactor-timeseries**
 
 # vent-reactor-timeseries
-_save_viz('og-vent-environment', 'vent-reactor-timeseries', _render_one('local:VentReactorTimeseries', {'composite': 'viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor', 'n_steps': 120, 'title': 'Real vent reactor (PHREEQC + FiPy)'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor if 'ov_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor' in dir() else None)))
+_save_viz('og-vent-environment', 'vent-reactor-timeseries', _render_one('local:VentReactorTimeseries', {'composite': 'viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor', 'n_steps': 120, 'title': 'Real vent reactor (PHREEQC + FiPy) — diagnostic'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor if 'ov_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor' in dir() else None)))
 
-# **vent-serpentinization-engine**
+# **vent-reactor-conservation-qa**
 
-# vent-serpentinization-engine
-_save_viz('og-vent-environment', 'vent-serpentinization-engine', _render_one('local:VentSerpentinizationEngine', {'n_steps': 120, 'nx': 40, 'title': 'The serpentinization engine (Mechanism view)'}, RUNS_DB, STUDY_YAML))
-
-# **vent-habitability-map**
-
-# vent-habitability-map
-_save_viz('og-vent-environment', 'vent-habitability-map', _render_one('local:VentHabitabilityMap', {'grid_json': 'workspace/studies/og-vent-environment/artifacts/og-00-vent-reactor-baseline/vent_habitability_grid.json', 'title': 'The Lost City habitability window (Decision view)'}, RUNS_DB, STUDY_YAML))
+# vent-reactor-conservation-qa
+_save_viz('og-vent-environment', 'vent-reactor-conservation-qa', _render_one('local:VentReactorConservationQA', {'composite': 'viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor', 'n_steps': 120, 'title': 'Vent reactor conservation (QA appendix)'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor if 'ov_viva_genesis_composites_vent_reactor_serpentinizing_vent_reactor' in dir() else None)))
 
 # **vent-wall-3d**
 
@@ -523,15 +523,10 @@ else:
 #
 # _Results are shown by the figures below, produced by the run above._
 
-# **electrochemistry-mechanism-map**
+# **carbon-fixation-phase-map**
 
-# electrochemistry-mechanism-map
-_save_viz('og-carbon-fixation', 'electrochemistry-mechanism-map', _render_one('local:ElectrochemistryMechanismMap', {'title': 'The vent wall as a galvanic cell — an honest negative', 'mechanism_map_json': 'workspace/studies/og-carbon-fixation/artifacts/og-01-cal-electrochemistry/electrochemistry_mechanism_map.json', 'report_json': 'workspace/studies/og-carbon-fixation/artifacts/og-01-cal-electrochemistry/electrochemistry_report.json'}, RUNS_DB, STUDY_YAML))
-
-# **electrochemistry-polarization**
-
-# electrochemistry-polarization
-_save_viz('og-carbon-fixation', 'electrochemistry-polarization', _render_one('local:ElectrochemistryPolarization', {'title': 'Vent wall as a galvanic cell at the nominal point (Mechanism view)'}, RUNS_DB, STUDY_YAML))
+# carbon-fixation-phase-map
+_save_viz('og-carbon-fixation', 'carbon-fixation-phase-map', _render_one('local:CarbonFixationPhaseMap', {'title': 'The carbon-fixation landscape (Decision view)', 'grid_json': 'workspace/studies/og-carbon-fixation/artifacts/og-01-geology-to-reduced-carbon/carbon_fixation_phase_grid.json'}, RUNS_DB, STUDY_YAML))
 
 # **proton-gradient-profile**
 
@@ -541,12 +536,17 @@ _save_viz('og-carbon-fixation', 'proton-gradient-profile', _render_one('local:Pr
 # **carbon-fixation-timeseries**
 
 # carbon-fixation-timeseries
-_save_viz('og-carbon-fixation', 'carbon-fixation-timeseries', _render_one('local:CarbonFixationViz', {'composite': 'viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation', 'n_steps': 120, 'title': 'Geology to reduced carbon (eQuilibrator + FiPy)'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_carbon_fixation_hydrothermal_carbon_fixation if 'ov_viva_genesis_composites_carbon_fixation_hydrothermal_carbon_fixation' in dir() else None)))
+_save_viz('og-carbon-fixation', 'carbon-fixation-timeseries', _render_one('local:CarbonFixationViz', {'composite': 'viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation', 'n_steps': 120, 'title': 'Geology to reduced carbon (eQuilibrator + FiPy) — supporting'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_carbon_fixation_hydrothermal_carbon_fixation if 'ov_viva_genesis_composites_carbon_fixation_hydrothermal_carbon_fixation' in dir() else None)))
 
-# **carbon-fixation-phase-map**
+# **electrochemistry-mechanism-map**
 
-# carbon-fixation-phase-map
-_save_viz('og-carbon-fixation', 'carbon-fixation-phase-map', _render_one('local:CarbonFixationPhaseMap', {'title': 'The carbon-fixation landscape (Decision view)', 'grid_json': 'workspace/studies/og-carbon-fixation/artifacts/og-01-geology-to-reduced-carbon/carbon_fixation_phase_grid.json'}, RUNS_DB, STUDY_YAML))
+# electrochemistry-mechanism-map
+_save_viz('og-carbon-fixation', 'electrochemistry-mechanism-map', _render_one('local:ElectrochemistryMechanismMap', {'title': 'The vent wall as a galvanic cell — an honest negative', 'mechanism_map_json': 'workspace/studies/og-carbon-fixation/artifacts/og-01-cal-electrochemistry/electrochemistry_mechanism_map.json', 'report_json': 'workspace/studies/og-carbon-fixation/artifacts/og-01-cal-electrochemistry/electrochemistry_report.json'}, RUNS_DB, STUDY_YAML))
+
+# **electrochemistry-polarization**
+
+# electrochemistry-polarization
+_save_viz('og-carbon-fixation', 'electrochemistry-polarization', _render_one('local:ElectrochemistryPolarization', {'title': 'Vent wall as a galvanic cell at the nominal point (Mechanism view)'}, RUNS_DB, STUDY_YAML))
 
 # ### Acceptance criteria
 #
@@ -702,20 +702,20 @@ _save_viz('og-network-persistence', 'reaction-universe-enrichment', _render_one(
 # reaction-universe-subnetwork
 _save_viz('og-network-persistence', 'reaction-universe-subnetwork', _render_one('local:ReactionUniverseSubnetwork', {'title': 'The persistent subnetwork and its post-hoc formose cycle (Mechanism view)', 'report_json': 'workspace/studies/og-network-persistence/artifacts/og-02-alt-reaction-universe/motif_enrichment.json', 'arm': 'formose_feed'}, RUNS_DB, STUDY_YAML))
 
-# **protometabolic-network**
+# **protometabolism-gain-phase-map**
 
-# protometabolic-network
-_save_viz('og-network-persistence', 'protometabolic-network', _render_one('local:ProtometabolicNetwork', {'composite': 'viva_genesis.composites.protometabolism.protometabolic_network', 'n_steps': 60, 'title': 'The protometabolic network igniting'}, RUNS_DB, STUDY_YAML))
+# protometabolism-gain-phase-map
+_save_viz('og-network-persistence', 'protometabolism-gain-phase-map', _render_one('local:ProtometabolismGainPhaseMap', {'title': 'The protometabolic persistence landscape (Decision view)', 'grid_json': 'workspace/studies/og-network-persistence/artifacts/og-02-reduced-carbon-to-protometabolism/protometabolism_gain_grid.json'}, RUNS_DB, STUDY_YAML))
 
 # **protometabolism-network**
 
 # protometabolism-network
-_save_viz('og-network-persistence', 'protometabolism-network', _render_one('local:ProtometabolismViz', {'composite': 'viva_genesis.composites.protometabolism.protometabolic_network', 'n_steps': 120, 'title': 'Protometabolic network (libRoadRunner)'}, RUNS_DB, STUDY_YAML))
+_save_viz('og-network-persistence', 'protometabolism-network', _render_one('local:ProtometabolismViz', {'composite': 'viva_genesis.composites.protometabolism.protometabolic_network', 'n_steps': 120, 'title': 'Protometabolic network (libRoadRunner) — timeseries'}, RUNS_DB, STUDY_YAML))
 
-# **protometabolism-gain-phase-map**
+# **protometabolic-network**
 
-# protometabolism-gain-phase-map
-_save_viz('og-network-persistence', 'protometabolism-gain-phase-map', _render_one('local:ProtometabolismGainPhaseMap', {'title': 'The protometabolic ignition landscape (Decision view)', 'grid_json': 'workspace/studies/og-network-persistence/artifacts/og-02-reduced-carbon-to-protometabolism/protometabolism_gain_grid.json'}, RUNS_DB, STUDY_YAML))
+# protometabolic-network
+_save_viz('og-network-persistence', 'protometabolic-network', _render_one('local:ProtometabolicNetwork', {'composite': 'viva_genesis.composites.protometabolism.protometabolic_network', 'n_steps': 60, 'title': 'The protometabolic network — flux-weighted topology'}, RUNS_DB, STUDY_YAML))
 
 # ### Acceptance criteria
 #
