@@ -1601,6 +1601,7 @@ visualizations:
   config:
     title: Proto-energetics — the energy-provenance ledger (Mechanism view)
 - name: proto-energetics-map
+  display: primary
   address: local:ProtoEnergeticsMap
   config:
     composite: viva_genesis.composites.proto_energetics.proto_energetics

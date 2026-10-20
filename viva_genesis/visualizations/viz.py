@@ -1020,6 +1020,12 @@ class ThermophoreticTrapViz(Visualization):
             stat.add_vline(x=thr, line=dict(color=teal, dash="dash"), row=1, col=2)
             stat.add_annotation(x=thr, y=0.3, text="localization<br>onset", showarrow=False,
                                 font=dict(size=9, color=teal), row=1, col=2)
+        # the unconfined / well-mixed reference: enrichment = 1 (log10 = 0) — the open
+        # pore washes the feed through, so enrichment above this line is real localization.
+        stat.add_hline(y=0.0, line=dict(color=rust, width=1.6, dash="dot"), row=1, col=2)
+        stat.add_annotation(x=min(por), y=0.0, yshift=10, xanchor="left", showarrow=False,
+                            text="unconfined / well-mixed baseline (enrichment = 1)",
+                            font=dict(size=9, color=rust), row=1, col=2)
         stat.update_xaxes(title_text="log10 concentration (fold)", row=1, col=1, showgrid=True, gridcolor=S.GRID)
         stat.update_yaxes(title_text="height up the pore (mm)", row=1, col=1, showgrid=True, gridcolor=S.GRID)
         stat.update_xaxes(title_text="porosity (open → confined)", autorange="reversed", row=1, col=2,
@@ -1067,13 +1073,19 @@ class ThermophoreticTrapViz(Visualization):
         inner = (f"<div style='display:flex;justify-content:center'>{s_html}</div>"
                  f"<div style='display:flex;justify-content:center;margin-top:8px'>{a_html}</div>")
         cap = (
-            "The real FiPy thermal trap (thermophoresis + convection, Baaske 2007) concentrates the "
-            "dilute feed exponentially up a confined pore (left); as the pore closes, enrichment crosses "
-            "the localization onset and an open pore just washes the feed through. <b>Localization is "
-            "real and bounded</b> — the amber band marks where the reduced <i>exp(Pe)</i> column climbs "
-            "past what a resolved FEM confirms, so the extreme folds are a reduced-model extrapolation. "
-            "The resolved Decision view is the FiPy&harr;FEM solver-sensitivity figure; see "
-            "<code>workspace/references/spatial-transport-solver-comparison.md</code>."
+            "Coupled thermophoresis and convection concentrate dissolved feed within a favorable pore "
+            "relative to an unconfined reference. Left: the physical concentration c(z), dense at the hot "
+            "base, dilute at the cold feed end. Right: enrichment vs porosity against the well-mixed "
+            "baseline (enrichment = 1, red dotted) &mdash; the open pore washes through, the confined pore "
+            "localizes. <b>Physical parameters / boundary conditions</b>: Soret coefficient S_T = 0.10 K"
+            "<sup>&minus;1</sup>, solute diffusivity D = 1&times;10<sup>&minus;10</sup> m²/s, cross-pore "
+            f"&Delta;T = {dT:.0f} K, convective flow v = {flow:.0e} m/s, pore {L*1e3:.1f} mm &times; 0.1 mm "
+            "(hot concentrated base / cold dilute feed; open-pore control → enrichment ≈ 1). "
+            "<b>Localization is real and bounded</b> — the amber band marks where the reduced <i>exp(Pe)</i> "
+            "column climbs past what a resolved FEM confirms, so the extreme folds are a reduced-model "
+            "extrapolation. The full porosity &times; pore-length sweep is the pore-localization frontier "
+            "(Decision view); the resolved bound is the supplementary FiPy&harr;FEM solver diagnostic. "
+            "This is an enrichment claim only — not reaction-network ignition (the primary figure)."
         )
         return S.frame(inner, title=(self.config.get("title") or "The thermal trap concentrates an individual"),
                        phase="Campaign III", view="World", tier="mechanistic_prediction",
@@ -1337,6 +1349,8 @@ class ProtocellWindowViz(Visualization):
         "title": {"_type": "string", "_default": "Campaign IV — the protocell window broadens (mixed amphiphiles)"},
         "n_grid": {"_type": "integer", "_default": 40},
         "n_frames": {"_type": "integer", "_default": 16},
+        "md_json": {"_type": "string", "_default": ""},
+        "vesicle_json": {"_type": "string", "_default": ""},
     }
 
     def inputs(self):
@@ -1344,6 +1358,56 @@ class ProtocellWindowViz(Visualization):
 
     def outputs(self):
         return {"html": "string"}
+
+    def _calibration_table(self) -> str:
+        """A small Martini-MD calibration table from the committed real CG-MD artifacts
+        (og-32 bilayer observables, og-32b vesicle stability) — the phenomenological
+        window above is calibrated against these, not a substitute for them. Returns
+        "" if neither artifact is configured / found."""
+        import json
+
+        from .viz_uq import _resolve
+        rows = []
+        mdp = _resolve(str(self.config.get("md_json", "") or ""))
+        if mdp:
+            try:
+                with open(mdp) as f:
+                    md = json.load(f)
+                for name, d in (md.get("results") or {}).items():
+                    rows.append((f"{name} bilayer ({d.get('composition', '')})",
+                                 f"thickness {d.get('bilayer_thickness_nm', float('nan')):.2f} nm, "
+                                 f"area/lipid {d.get('area_per_lipid_nm2', float('nan')):.2f} nm²"))
+            except Exception:
+                pass
+        vzp = _resolve(str(self.config.get("vesicle_json", "") or ""))
+        if vzp:
+            try:
+                with open(vzp) as f:
+                    vz = json.load(f)
+                win = (vz.get("headline") or {}).get("stable_chain_window")
+                for arm in (vz.get("arms") or []):
+                    if arm.get("protonated") and arm.get("chain") in (win or []):
+                        rows.append((f"{arm.get('label', 'vesicle')} (CG-MD vesicle)",
+                                     f"shell integrity {arm.get('shell_integrity', float('nan')):.2f}, "
+                                     f"inner-leaflet {arm.get('inner_leaflet_fraction', float('nan')):.2f}"))
+                if win:
+                    rows.append(("stable protonated chain window",
+                                 "C" + "–C".join(str(c) for c in (win[0], win[-1]))))
+            except Exception:
+                pass
+        if not rows:
+            return ""
+        trs = "".join(
+            f"<tr><td style='padding:3px 10px;border-top:1px solid #e2e8f0'>{k}</td>"
+            f"<td style='padding:3px 10px;border-top:1px solid #e2e8f0;color:#334155'>{v}</td></tr>"
+            for k, v in rows)
+        return (
+            "<div style='max-width:760px;margin:10px auto 0;font-size:12px'>"
+            "<div style='font-weight:600;color:#1e293b;margin-bottom:2px'>Real Martini-3 CG-MD calibration "
+            "(committed og-32 / og-32b)</div>"
+            "<table style='border-collapse:collapse;width:100%'>" + trs + "</table>"
+            "<div style='color:#64748b;font-size:11px;margin-top:3px'>The phenomenological window above is "
+            "sanity-checked against these real coarse-grained MD observables; it does not replace them.</div></div>")
 
     def update(self, state=None):
         import numpy as np
@@ -1428,19 +1492,25 @@ class ProtocellWindowViz(Visualization):
                        for f in frames])])
 
         cap_text = (
-            "<b>Organic boundaries without isolation</b> — the coarse-grained protocell model "
-            "(Jordan 2019). Colour is the individuality × access product (retains chemistry AND "
-            "stays permeable). A single fatty acid is viable only in a narrow corner; adding a "
-            "co-surfactant (mixed amphiphiles) <b>broadens the window</b> to the alkaline, salty "
-            "vent point (★) — the boundary enhances persistence without cutting the system off "
-            "from the gradient.")
+            "Within the evaluated pH–salinity grid, mixed-amphiphile parameterizations retain a larger "
+            "modeled viable domain than single-fatty-acid membranes. Both panels share IDENTICAL pH "
+            "(6–11) and ionic-strength (0–0.9 M) axes. Colour is the modeled individuality × access "
+            f"product; a cell counts as viable when it exceeds 0.1. <b>Window fractions</b>: the single "
+            f"fatty acid is viable in ≈ {single_area:.0f}% of the grid (the feedback-cited ~7% case), the "
+            f"mixed amphiphile in ≈ {mixed_area:.0f}% (the ~23% case) — the window broadens to the "
+            "alkaline, salty vent point (★). These fractions are <b>grid-dependent</b>: they are the "
+            "share of THIS pH × ionic grid (bounds and resolution set the denominator), so read them as a "
+            "relative single-vs-mixed contrast, not an absolute probability. This is a phenomenological "
+            "coarse-grained model (Jordan 2019) — a modeled viable domain, <b>not observed physical "
+            "vesicle formation</b>; the real Martini-MD calibration is tabulated below.")
         s_html = stat.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
         a_html = anim.to_html(full_html=False, include_plotlyjs=False, config={"displayModeBar": False})
         inner = (f"<div style='display:flex;justify-content:center'>{s_html}</div>"
-                 "<div style='display:flex;justify-content:center;margin-top:8px'>" + a_html + "</div>")
+                 "<div style='display:flex;justify-content:center;margin-top:8px'>" + a_html + "</div>"
+                 + self._calibration_table())
         return S.frame(inner, title=(self.config.get("title")
-                                     or "The protocell window broadens — mixed amphiphiles"),
-                       phase="Campaign IV", view="Mechanism", tier="mechanistic_prediction",
+                                     or "The protocell window — single-fatty-acid vs mixed-amphiphile"),
+                       phase="Campaign IV", view="Decision", tier="mechanistic_prediction",
                        caption_text=cap_text, caption_prefix="How to read", tone="neutral", max_width=940)
 
 class BioenergeticInternalizationViz(Visualization):
@@ -1695,12 +1765,17 @@ class HeredityErrorThresholdViz(Visualization):
                        for j in range(1, n)])])
 
         cap_text = (
-            "<b>Heredity above the error threshold</b> — the real libRoadRunner quasispecies "
-            "replicator (Eigen). Longer, higher-fidelity polymers retain functional information "
-            "(teal) up to the error threshold; beyond it, errors win and information is lost. "
-            "RNA-like clears the threshold and wins the head-to-head over the cheaper peptide "
-            "module; both beat non-inheritance, while a sub-threshold module suffers the "
-            "error catastrophe.")
+            "Modeled lineage advantage declines when copying error and polymer length drive "
+            "inherited-state retention below the specified threshold. The two axes are kept distinct: "
+            "<b>left</b> is inherited-state retention over per-site fidelity × polymer length (the Eigen "
+            "error-threshold landscape, retention = C/(C+E)); <b>right</b> is the resulting lineage "
+            "fitness, a separate downstream readout. The dashed Eigen assumption is that a sequence of "
+            "length L persists only while per-site error (1−fidelity) &lesssim; 1/L (the cost of "
+            "replication rises with L). Model classes are distinguished — RNA-like (templated, high "
+            "fidelity), peptide (templated, lower fidelity), low-fidelity and non-heritable (abstract "
+            "controls): RNA-like clears the threshold, peptide clears it more cheaply, and the "
+            "sub-threshold / non-heritable classes suffer the error catastrophe. These are modeled "
+            "quasispecies replicators (libRoadRunner), not an experimentally established threshold.")
         s_html = stat.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
         a_html = anim.to_html(full_html=False, include_plotlyjs=False, config={"displayModeBar": False})
         inner = (f"<div style='display:flex;justify-content:center'>{s_html}</div>"
@@ -1784,9 +1859,11 @@ class NitrogenAssimilationViz(Visualization):
             inner, title=(self.config.get("title") or "Reduced-nitrogen assimilation (FeS)"),
             phase="Nitrogen", view="World", tier="mechanistic_prediction", caption_prefix="How to read",
             caption_text=(
-                "The real reduced-nitrogen reactor — nitrogen moving down the reduction chain "
-                "(NO₃⁻ → NO₂⁻ → NH₄⁺ → amino-acid precursor) on the FeS catalyst, the standing "
-                "reduced-N pool, and the ammonium-production rate as the first fixed nitrogen appears."))
+                "Modeled. The reduced-nitrogen reactor — nitrogen moving down the reduction chain "
+                "(NO₃⁻ → NO₂⁻ → NH₄⁺ → amino-acid precursor) on the FeS catalyst as source→product "
+                "conversion, the standing reduced-N pool, and the ammonium-production rate. Standing pools "
+                "alone do not establish a sufficient nitrogen FLUX (the keeps-pace test is the phase map), "
+                "and the nitrate feed is a supplied parameter, not an early-Earth abundance claim."))
 
 
 class NitrogenCarbonBalanceViz(Visualization):
@@ -1958,9 +2035,11 @@ class PhosphorusSpeciationViz(Visualization):
             inner, title=(self.config.get("title") or "Phosphorus bottleneck — P-species trajectories"),
             phase="Phosphorus", view="World", tier="mechanistic_prediction", caption_prefix="How to read",
             caption_text=(
-                "The real libRoadRunner phosphorus-speciation network in the favourable thermal-gradient "
+                "Modeled. The libRoadRunner phosphorus-speciation network in the favourable thermal-gradient "
                 "pore — dissolved phosphate, condensed polyphosphate, reactive (activated) P, and the "
-                "mineral-bound sink; reactive P accumulates while only a small fraction precipitates."))
+                "mineral-bound sink partition a conserved total-P pool (mass-conserving). Reactive P "
+                "accumulates while only a small fraction precipitates. The condensed-polyphosphate pool is a "
+                "modeled kinetic partition, not demonstrated prebiotic polyphosphate chemistry."))
 
 
 class PhosphorusMechanismViz(Visualization):
@@ -2158,11 +2237,16 @@ class ProtoEnergeticsWorldViz(Visualization):
                        for f in frames])])
 
         cap_text = (
-            "<b>An energy currency before modern pumping</b> — a real free-energy-ledger composite. "
-            "An exergonic geochemical drive charges a transferable carrier (teal) that is discharged "
-            "to do endergonic work under load (amber) and bled by hydrolysis (red). The store reaches "
-            "a steady charge it holds against the drain — a spendable currency. With no coupling or a "
-            "drive too weak to clear the carrier bond, the pool never charges (the ablations).")
+            "<b>An energy currency before modern pumping (modeled)</b> — a closed free-energy-ledger "
+            "composite (input = useful work + stored + dissipated; ledger residual ~1e-16 kJ/L, so mass "
+            "and energy are conserved). An exergonic geochemical drive charges a transferable carrier (teal), "
+            "discharged to do endergonic work under load (amber) and bled by hydrolysis (red). At the "
+            "canonical operating point the pool settles at a final charged fraction ~0.39 and ~47% of the "
+            "tapped free energy is captured as transferable work — these are that single operating point, "
+            "not universal (the phase map shows how both fall off across drive × coupling). With no coupling, "
+            "or a drive too weak to clear the carrier bond, the pool never charges (the no-coupling and "
+            "no-drive ablations). This is modeled energy-currency bookkeeping — a carrier charged and spent — "
+            "NOT a demonstration of biochemical energy autonomy.")
         s_html = stat.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
         a_html = anim.to_html(full_html=False, include_plotlyjs=False, config={"displayModeBar": False})
         inner = (f"<div style='display:flex;justify-content:center'>{s_html}</div>"
@@ -2242,10 +2326,13 @@ class OsmoticGrowthWorld(Visualization):
             inner, title=(self.config.get("title") or "Growth & division — volume, concentration, division events"),
             phase="Growth & division", view="World", tier="mechanistic_prediction", caption_prefix="How to read",
             caption_text=(
-                "The favourable (matched) compartment's physical trajectory — the volume growing under "
-                "the osmotic load its metabolism generates, the internal osmolyte concentration (the "
+                "Modeled. The favourable (matched) compartment's physical trajectory — the volume growing "
+                "under the osmotic load its metabolism generates, the internal osmolyte concentration (the "
                 "osmotic drive) drawn down at every division (dotted lines) as volume and contents halve, "
-                "and the cumulative divisions. Metabolism changes the compartment's physical fate."))
+                "and the cumulative divisions. A division here is a MODEL-IMPOSED fission rule fired when "
+                "the compartment crosses an osmotic/size threshold — NOT emergent mechanical scission, and "
+                "not evidence of physical reproduction, heredity or autonomy. Metabolism changes the "
+                "compartment's modeled physical fate."))
 
 
 class OsmoticCouplingMechanism(Visualization):
@@ -2336,7 +2423,8 @@ class OsmoticCouplingMechanism(Visualization):
             phase="Growth & division", view="Mechanism", tier="mechanistic_prediction",
             caption_prefix="How to read",
             caption_text=(
-                "Left: in the matched regime the product accumulates, that raises the osmotic pressure, "
-                "and the pressure draws water in to grow the volume (sawtooth = division). Right: too "
-                "permeable leaks the product so the pressure never builds (starve); too impermeable "
-                "traps it so the pressure spikes past the burst tension (lyse)."))
+                "Modeled. Left: in the matched regime the product accumulates, that raises the osmotic "
+                "pressure, and the pressure draws water in to grow the volume (sawtooth = a MODEL-IMPOSED "
+                "division rule at a size/pressure threshold, not mechanical scission). Right: too permeable "
+                "leaks the product so the pressure never builds (starve); too impermeable traps it so the "
+                "pressure spikes past the burst tension (lyse)."))
