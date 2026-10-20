@@ -1703,6 +1703,12 @@ class NitrogenAssimilationViz(Visualization):
         fig.add_scatter(x=t, y=no2, mode="lines", line=dict(color=amber, width=2), name="NO₂⁻", row=1, col=1)
         fig.add_scatter(x=t, y=nh4, mode="lines", line=dict(color=teal, width=2.5), name="NH₄⁺", row=1, col=1)
         fig.add_scatter(x=t, y=amino, mode="lines", line=dict(color=violet, width=2, dash="dot"), name="amino precursor", row=1, col=1)
+        # Source -> product conservation: the sum of the tracked N pools (a flat line = the
+        # reduction redistributes N among pools without net loss/gain, so a rising reduced-N
+        # pool is conversion, not creation).
+        total_n = [a + b + c + d for a, b, c, d in zip(no3, no2, nh4, amino)]
+        fig.add_scatter(x=t, y=total_n, mode="lines", line=dict(color=ink, width=1.4, dash="dot"),
+                        name="Σ tracked N pools (conservation check)", row=1, col=1)
         fig.add_scatter(x=t, y=reduced, mode="lines", line=dict(color=teal, width=2.5),
                         fill="tozeroy", fillcolor="rgba(13,148,136,0.12)", name="reduced N (NH₄⁺+precursor)", row=1, col=2)
         fig.add_scatter(x=t, y=prod, mode="lines", line=dict(color=ink, width=2.5), row=1, col=3)
@@ -1876,10 +1882,19 @@ class PhosphorusSpeciationViz(Visualization):
             rows=1, cols=2, horizontal_spacing=0.1,
             subplot_titles=("P-species pools (µM)", "Precipitated (mineral-bound) fraction"),
         )
-        fig.add_scatter(x=t, y=reactivep, mode="lines", line=dict(color=teal, width=3), name="reactive P", row=1, col=1)
-        fig.add_scatter(x=t, y=phosphate, mode="lines", line=dict(color=slate, width=2), name="phosphate", row=1, col=1)
-        fig.add_scatter(x=t, y=polyp, mode="lines", line=dict(color=amber, width=2, dash="dash"), name="polyphosphate", row=1, col=1)
-        fig.add_scatter(x=t, y=mineralp, mode="lines", line=dict(color=rust, width=2, dash="dot"), name="mineral-bound P", row=1, col=1)
+        # Mass-conserving stacked species: the four P pools stack to the total, so the stack
+        # height is the conserved total-P budget and each band is that species' share of it.
+        fig.add_scatter(x=t, y=phosphate, mode="lines", line=dict(width=0.5, color=slate),
+                        stackgroup="p", name="phosphate", row=1, col=1)
+        fig.add_scatter(x=t, y=polyp, mode="lines", line=dict(width=0.5, color=amber),
+                        stackgroup="p", name="polyphosphate", row=1, col=1)
+        fig.add_scatter(x=t, y=reactivep, mode="lines", line=dict(width=0.5, color=teal),
+                        stackgroup="p", name="reactive P", row=1, col=1)
+        fig.add_scatter(x=t, y=mineralp, mode="lines", line=dict(width=0.5, color=rust),
+                        stackgroup="p", name="mineral-bound P", row=1, col=1)
+        total_p = [a + b + c + d for a, b, c, d in zip(phosphate, polyp, reactivep, mineralp)]
+        fig.add_scatter(x=t, y=total_p, mode="lines", line=dict(color=ink, width=1.6, dash="dot"),
+                        name="total P (conserved)", row=1, col=1)
         fig.add_scatter(x=t, y=precipf, mode="lines", line=dict(color=rust, width=2.5), showlegend=False, row=1, col=2)
 
         fig.update_xaxes(title_text=tlabel, showgrid=True, gridcolor="#eef2f7")
@@ -2143,43 +2158,70 @@ class OsmoticGrowthWorld(Visualization):
         from ..core import build_core
         from ..composites.osmotic_growth_division import osmotic_growth_division
         core = build_core()
-        doc = osmotic_growth_division(
-            core, network_throughput=float(self.config["network_throughput"]),
-            membrane_permeability=float(self.config["membrane_permeability"]))
-        sim = Composite({"state": doc}, core=core)
-        sim.run(float(self.config["n_steps"]))
-        rows = gather_emitter_results(sim)[("emitter",)]
-        return {"html": self._figure(rows)}
 
-    def _figure(self, rows) -> str:
+        def _run(nt):
+            doc = osmotic_growth_division(
+                core, network_throughput=float(nt),
+                membrane_permeability=float(self.config["membrane_permeability"]))
+            sim = Composite({"state": doc}, core=core)
+            sim.run(float(self.config["n_steps"]))
+            return gather_emitter_results(sim)[("emitter",)]
+
+        rows = _run(self.config["network_throughput"])
+        abl = _run(1e-30)   # matched no-metabolism / no-osmolyte-production control
+        return {"html": self._figure(rows, abl)}
+
+    def _figure(self, rows, abl=None) -> str:
+        import math
         from plotly.subplots import make_subplots
         from ..composites.osmotic_growth_division import osmotic_growth_division
 
-        def col(k):
-            return [r.get(k) for r in rows]
+        def col(src, k):
+            return [r.get(k) for r in src]
+
+        # Spherical-equivalent S:V from the modeled volume (0-D osmotic model has no
+        # resolved shape, so this assumes a sphere): S:V = 3/r, r = (3V/4π)^(1/3), in µm⁻¹.
+        def _sv(vL):
+            vm3 = max(vL or 0.0, 1e-30) * 1e-3
+            r = (3.0 * vm3 / (4.0 * math.pi)) ** (1.0 / 3.0)
+            return (3.0 / r) / 1e6
 
         t, tlabel = S.real_time([r.get("global_time", i) for i, r in enumerate(rows)],
                                 osmotic_growth_division)
-        vol = [v * 1e18 for v in col("volume")]               # aL (1e-18 L)
-        conc = [v * 1e3 for v in col("internal_concentration")]  # mM
-        div_count = col("division_count")
-        events = [t[i] for i, e in enumerate(col("division_event")) if e]
+        vol = [v * 1e18 for v in col(rows, "volume")]               # aL (1e-18 L)
+        conc = [v * 1e3 for v in col(rows, "internal_concentration")]  # mM
+        sv = [_sv(v) for v in col(rows, "volume")]
+        div_count = col(rows, "division_count")
+        events = [t[i] for i, e in enumerate(col(rows, "division_event")) if e]
 
         ink, teal, amber, slate = "#1e293b", "#0d9488", "#d97706", "#64748b"
         fig = make_subplots(
-            rows=1, cols=3, horizontal_spacing=0.08,
+            rows=1, cols=4, horizontal_spacing=0.06,
             subplot_titles=("Compartment volume (aL)", "Internal osmolyte (mM)",
-                            "Cumulative divisions"))
-        fig.add_scatter(x=t, y=vol, mode="lines", line=dict(color=teal, width=2.5), name="volume", row=1, col=1)
+                            "Surface-to-volume (µm⁻¹, spherical-equiv)", "Cumulative divisions"))
+        fig.add_scatter(x=t, y=vol, mode="lines", line=dict(color=teal, width=2.5), name="active metabolism", row=1, col=1)
         for e in events:
             fig.add_vline(x=e, line=dict(color=amber, width=1, dash="dot"), row=1, col=1)
         fig.add_scatter(x=t, y=conc, mode="lines", line=dict(color=ink, width=2.5), name="c_in", row=1, col=2)
+        fig.add_scatter(x=t, y=sv, mode="lines", line=dict(color=slate, width=2.5), name="S:V", row=1, col=3)
         fig.add_scatter(x=t, y=div_count, mode="lines", line=dict(color=amber, width=2.5, shape="hv"),
-                        name="divisions", row=1, col=3)
+                        name="divisions", row=1, col=4)
+        # Matched no-metabolism control (network throughput ≈ 0): no osmolyte production,
+        # so no osmotic growth and no division — the compartment holds its founder state.
+        if abl:
+            t2 = [r.get("global_time", i) for i, r in enumerate(abl)]
+            fig.add_scatter(x=t2, y=[v * 1e18 for v in col(abl, "volume")], mode="lines",
+                            line=dict(color=slate, width=2, dash="dash"), name="no metabolism (control)", row=1, col=1)
+            fig.add_scatter(x=t2, y=[_sv(v) for v in col(abl, "volume")], mode="lines",
+                            line=dict(color=slate, width=1.5, dash="dash"), showlegend=False, row=1, col=3)
+            fig.add_scatter(x=t2, y=col(abl, "division_count"), mode="lines",
+                            line=dict(color=slate, width=2, dash="dash", shape="hv"), showlegend=False, row=1, col=4)
         fig.update_xaxes(title_text=tlabel, showgrid=True, gridcolor="#eef2f7")
         fig.update_yaxes(showgrid=True, gridcolor="#eef2f7")
         fig.update_layout(**S.base_layout(
-            height=380, showlegend=False, margin=dict(l=60, r=30, t=46, b=60)))
+            height=380, width=1180, showlegend=True,
+            legend=dict(orientation="h", y=-0.22, x=0.5, xanchor="center", font=dict(size=9)),
+            margin=dict(l=55, r=25, t=46, b=66)))
         inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
         return S.frame(
             inner, title=(self.config.get("title") or "Growth & division — volume, concentration, division events"),
@@ -2190,8 +2232,11 @@ class OsmoticGrowthWorld(Visualization):
                 "osmotic drive) drawn down at every division (dotted lines) as volume and contents halve, "
                 "and the cumulative divisions. A division here is a MODEL-IMPOSED fission rule fired when "
                 "the compartment crosses an osmotic/size threshold — NOT emergent mechanical scission, and "
-                "not evidence of physical reproduction, heredity or autonomy. Metabolism changes the "
-                "compartment's modeled physical fate."))
+                "not evidence of physical reproduction, heredity or autonomy. The third panel is the "
+                "spherical-equivalent surface-to-volume ratio (the 0-D osmotic model has no resolved "
+                "shape); the dashed grey arm is a matched no-metabolism control (network throughput ≈ 0) "
+                "that makes no osmolyte and so never grows or divides. Metabolism changes the compartment's "
+                "modeled physical fate."))
 
 
 class OsmoticCouplingMechanism(Visualization):
