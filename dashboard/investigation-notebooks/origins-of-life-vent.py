@@ -558,6 +558,11 @@ _save_viz('og-carbon-fixation', 'electrochemistry-polarization', _render_one('lo
 # yields-obs-vs-pred-control
 _save_viz('og-carbon-fixation', 'yields-obs-vs-pred-control', _render_one('local:CarbonFixationMassBalanceViz', {'report_json': 'workspace/studies/og-carbon-fixation/artifacts/og-01-geology-to-reduced-carbon/carbon_massbalance_control.json', 'title': 'Yields reproduce Preiner/Hudson (catalyst-gated); the gradient bites the pmf'}, RUNS_DB, STUDY_YAML))
 
+# **carbonfix-pde**
+
+# carbonfix-pde
+_save_viz('og-carbon-fixation', 'carbonfix-pde', _render_one('local:CarbonFixationPdeFieldViz', {'report_json': 'workspace/studies/og-carbon-fixation/artifacts/og-01-cal-electrochemistry/carbonfix_pde_fields.json', 'title': 'Reaction–diffusion at the vent-wall carbon-fixation interface'}, RUNS_DB, STUDY_YAML))
+
 # ### Acceptance criteria
 #
 # _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
