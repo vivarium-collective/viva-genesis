@@ -1264,6 +1264,7 @@ visualizations:
     composite: viva_genesis.composites.heredity_module_comparison.heredity_module_comparison
     title: The error threshold — inherited-state retention vs lineage fitness (Decision view)
 - name: heredity-information-frontier
+  display: supplement
   address: local:HeredityInformationFrontier
   config:
     title: >-
@@ -1272,6 +1273,7 @@ visualizations:
     report_json: >-
       workspace/studies/og-heredity/artifacts/og-06-alt-information-per-cost/information_frontier.json
 - name: heredity-attachment-map
+  display: supplement
   address: local:HeredityAttachmentMap
   config:
     title: Where heredity is attached, and the transition to templated heredity (Mechanism view)
