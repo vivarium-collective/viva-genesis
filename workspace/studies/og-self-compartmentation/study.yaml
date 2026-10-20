@@ -1050,10 +1050,15 @@ visualizations:
     pH: 9.0
     title: The compartment and the gradient (World view)
 - name: protocell-window
+  display: primary
   address: local:ProtocellWindowViz
   config:
     composite: viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell
-    title: The protocell window broadens — mixed amphiphiles (Mechanism view)
+    md_json: >-
+      workspace/studies/og-self-compartmentation/artifacts/og-32-first-self-maintaining-protocell/md_bilayer_observables.json
+    vesicle_json: >-
+      workspace/studies/og-self-compartmentation/artifacts/og-32b-fatty-acid-vesicle-stability/vesicle_stability.json
+    title: The protocell window — single-fatty-acid vs mixed-amphiphile (Decision view)
 - name: protocell-retention-access
   address: local:ProtocellPhaseMap
   config:
@@ -1086,7 +1091,6 @@ visualizations:
       the real OpenMM run where the membrane extra is installed; otherwise the figure shows a note that
       the engine is unavailable.
 - name: self-maintaining-protocell
-  display: primary
   address: local:OgSelfMaintainingProtocellViz
   config:
     title: The first self-maintaining protocell holds its pool

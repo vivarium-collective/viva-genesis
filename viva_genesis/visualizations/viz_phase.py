@@ -324,6 +324,109 @@ class PoreIgnitionCoupling(Visualization):
                                              title=self.config["title"])}
 
 
+def pore_ignition_threshold_figure(demo: dict, meta: dict, *, title=None) -> str:
+    """og-spatial-concentration PRIMARY: the enrichment→ignition BRIDGE, read from the
+    committed og-30 matched pore-vs-control artifact (``gate_b_spatial.json`` →
+    ``ignition_demo``). Both arms are fed IDENTICAL input chemistry (base feed held
+    equal); the structured pore's thermophoretic enrichment lifts the pore-LOCAL feed
+    above the network's amplification threshold, so the coupled reaction network
+    ignites in the pore but not in the matched well-mixed control. Endpoint values
+    (net productive carbon flux, enrichment, persistent species) from the real
+    composite runs — NOT a re-simulation at page load."""
+    import plotly.graph_objects as go
+    from plotly.subplots import make_subplots
+
+    pore, ctrl = demo.get("pore", {}), demo.get("control", {})
+    base_feed = float(meta.get("demo_base_feed", pore.get("feed_CO2", 0.0)))
+    enr = float(pore.get("enrichment", 1.0))
+    pore_flux = float(pore.get("net_carbon_flux", 0.0))
+    ctrl_flux = float(ctrl.get("net_carbon_flux", 0.0))
+    pore_feed = float(pore.get("feed_CO2", base_feed))
+    thr = 1.0e-6  # ignition metric: net_carbon_flux > 1e-6 AND network_connected
+    pore_conn = bool(pore.get("network_connected"))
+    ctrl_conn = bool(ctrl.get("network_connected"))
+
+    fig = make_subplots(rows=1, cols=2, horizontal_spacing=0.17,
+                        subplot_titles=("Net productive carbon flux (ignition metric)",
+                                        "What differs: pore-local feed under equal input"))
+    # --- left: net carbon flux, pore vs matched well-mixed control, with threshold ---
+    arms = ["inside the pore", "well-mixed control"]
+    fluxes = [pore_flux, ctrl_flux]
+    cols = [_TEAL, _SLATE]
+    fig.add_trace(go.Bar(x=arms, y=fluxes, marker_color=cols, width=0.55,
+                         text=[f"{pore_flux:+.2e}<br>{'connected' if pore_conn else 'not connected'}",
+                               f"{ctrl_flux:+.2e}<br>{'connected' if ctrl_conn else 'not connected'}"],
+                         textposition="outside", textfont=dict(size=10), showlegend=False,
+                         hoverinfo="skip"), row=1, col=1)
+    fig.add_hline(y=thr, line=dict(color=_RUST, width=1.8, dash="dash"), row=1, col=1)
+    fig.add_annotation(x=1.4, y=thr, text=f"ignition threshold<br>(flux &gt; {thr:.0e} AND connected)",
+                       showarrow=False, yshift=16, xanchor="right",
+                       font=dict(size=9, color=_RUST), row=1, col=1)
+    fig.add_hline(y=0.0, line=dict(color="#94a3b8", width=1), row=1, col=1)
+    fig.update_yaxes(title_text="net productive carbon flux (mol-C / s)", row=1, col=1)
+    # --- right: the single thing that differs — the pore-local feed (equal base feed) ---
+    feed_arms = ["base feed<br>(held equal)", "well-mixed<br>control feed", f"pore-local feed<br>(&times;{enr:.0f})"]
+    feeds = [base_feed, float(ctrl.get("feed_CO2", base_feed)), pore_feed]
+    fig.add_trace(go.Bar(x=feed_arms, y=feeds, marker_color=[_INK, _SLATE, _TEAL], width=0.6,
+                         text=[f"{base_feed:.1e} M", f"{float(ctrl.get('feed_CO2', base_feed)):.1e} M",
+                               f"{pore_feed:.1e} M"], textposition="outside",
+                         textfont=dict(size=10), showlegend=False, hoverinfo="skip"), row=1, col=2)
+    fig.update_yaxes(title_text="CO₂ feed into the network (M)", type="log", row=1, col=2)
+    fig.update_layout(**S.base_layout(height=450, width=960, margin=dict(t=48, b=60, l=72, r=20),
+                                      showlegend=False))
+    cap = (
+        "Pore-local enrichment shifts the coupled reaction network across its modeled amplification "
+        "threshold, unlike the matched well-mixed control. Both arms receive IDENTICAL input chemistry "
+        f"(base feed {base_feed:.0e} M, held equal); the only difference is that the structured pore's "
+        f"thermophoretic enrichment (&times;{enr:.0f}, from the FiPy transport solve) raises the "
+        f"pore-LOCAL feed to {pore_feed:.1e} M, which carries the network's net carbon flux above the "
+        "ignition metric while the stirred control stays sub-threshold and disconnected. "
+        "<b>Two distinct claims, kept separate:</b> that a pore ENRICHES a dilute feed is the "
+        "concentration-physics verdict of THIS study; that enrichment IGNITES the reaction network "
+        "(and the bounded porosity window over which it does) is the verdict of og-network-rescue, "
+        "whose committed og-30 artifact this panel reads. The causal transfer is explicit: pore "
+        "concentration from FiPy sets the kinetic network's feed — it adds no new reactions."
+    )
+    inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    return S.frame(inner, title=(title or "Pore enrichment carries the network across its ignition threshold"),
+                   subtitle="matched pore vs well-mixed control at equal input chemistry (committed og-30 endpoints)",
+                   phase="Campaign III", view="Decision", tier="mechanistic_prediction",
+                   caption_text=cap, caption_prefix="How to read", tone="caution")
+
+
+class PoreIgnitionThresholdViz(Visualization):
+    """og-spatial-concentration PRIMARY (the enrichment→ignition bridge): reads the
+    committed matched pore-vs-well-mixed control artifact from og-network-rescue's
+    og-30 arm (``report_json`` → ``ignition_demo``) and shows the pore crossing the
+    network's ignition threshold under EQUAL input chemistry while the control does
+    not. Reads committed endpoints — no simulation at page load. The full ignition
+    verdict and its bounded geometry window are og-network-rescue's result; here the
+    figure makes the causal payoff of enrichment explicit."""
+
+    config_schema = {
+        "title": {"_type": "string", "_default": ""},
+        "report_json": {"_type": "string", "_default": ""},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        path = _resolve_grid_path(str(self.config.get("report_json", "") or ""))
+        if not path:
+            return {"html": "<p>matched pore-vs-control artifact (og-30 gate_b_spatial.json) not found.</p>"}
+        with open(path) as f:
+            blob = json.load(f)
+        demo = blob.get("ignition_demo", {})
+        meta = blob.get("meta", {})
+        if not demo:
+            return {"html": "<p>artifact has no ignition_demo block.</p>"}
+        return {"html": pore_ignition_threshold_figure(demo, meta, title=self.config["title"])}
+
+
 def protocell_decision_figure(arc, feas, *, title=None) -> str:
     """og-04 Decision view: (left) the retention-access plane — the compartment sweeps
     from too-closed through a viable window to too-open as permeability rises; (right)
@@ -333,40 +436,54 @@ def protocell_decision_figure(arc, feas, *, title=None) -> str:
     import plotly.graph_objects as go
     from plotly.subplots import make_subplots
 
-    acc = arc.surfaces["access"]
-    ret = arc.surfaces["retention"]
-    ind = arc.surfaces["individuality"]
-    ipk = int(np.argmax(ind))
-
     fig = make_subplots(rows=1, cols=2, horizontal_spacing=0.18,
-                        subplot_titles=("Retention vs access (permeability rising with T)",
+                        subplot_titles=("Access ↔ retention tradeoff (Pareto; stability coded)",
                                         "Viable salt ceiling rises with mixed amphiphiles"))
-    # --- left: retention-access plane with 3 regimes ---
-    fig.add_shape(type="rect", x0=0.0, x1=0.55, y0=0.55, y1=1.02, line=dict(width=0),
-                  fillcolor="rgba(100,116,139,0.10)", row=1, col=1)
-    fig.add_shape(type="rect", x0=0.55, x1=1.02, y0=0.0, y1=0.55, line=dict(width=0),
-                  fillcolor="rgba(185,28,28,0.08)", row=1, col=1)
-    fig.add_shape(type="rect", x0=0.55, x1=1.02, y0=0.55, y1=1.02, line=dict(width=0),
-                  fillcolor="rgba(13,148,136,0.12)", row=1, col=1)
-    fig.add_trace(go.Scatter(x=acc, y=ret, mode="lines+markers",
-                             marker=dict(size=7, color=ind, colorscale="Viridis", cmin=0,
-                                         cmax=float(np.nanmax(ind)) or 1.0,
-                                         colorbar=dict(title="individ.<br>ret×acc", len=0.9, x=0.44,
-                                                       thickness=9, title_font=dict(size=10),
-                                                       tickfont=dict(size=9)),
-                                         line=dict(width=0.5, color="#334155")),
-                             line=dict(color="#cbd5e1", width=1), showlegend=False,
-                             hovertext=[f"T={t:.0f}K" for t in arc.axes["temperature"]], hoverinfo="text"), row=1, col=1)
-    fig.add_trace(go.Scatter(x=[acc[ipk]], y=[ret[ipk]], mode="markers+text", text=["viable<br>optimum"],
-                             textposition="bottom left", textfont=dict(size=9, color=_INK),
-                             marker=dict(symbol="star", size=16, color=_AMBER, line=dict(width=1.1, color=_INK)),
-                             showlegend=False), row=1, col=1)
-    for x, y, t, col in [(0.26, 0.9, "too closed<br>(starves)", _SLATE),
-                         (0.8, 0.28, "too open<br>(leaks)", _RUST),
-                         (0.8, 0.9, "viable", _TEAL)]:
-        fig.add_annotation(x=x, y=y, text=t, showarrow=False, font=dict(size=10, color=col), row=1, col=1)
-    fig.update_xaxes(title_text="access (gradient import)", range=[0, 1.02], row=1, col=1)
-    fig.update_yaxes(title_text="retention (chemistry held)", range=[0, 1.02], row=1, col=1)
+    # --- left: the access↔retention Pareto scatter, every (composition × salt) grid
+    # point from the feasibility sweep. x = substrate permeability (access), y = product
+    # retention; colour = co-surfactant fraction (membrane composition); filled = meets
+    # the modeled stability criterion (individuality > threshold), open = fails it. The
+    # feasible region (ret × acc > threshold) is shaded, so the tradeoff is explicit:
+    # permeability and retention pull against each other and only a subset also stays stable.
+    f_acc = np.asarray(feas.surfaces["access"], float).ravel()
+    f_ret = np.asarray(feas.surfaces["retention"], float).ravel()
+    f_ind = np.asarray(feas.surfaces["individuality"], float).ravel()
+    _mix_ax = np.asarray(feas.axes["mix_fraction"], float)
+    _salt_ax = np.asarray(feas.axes["ionic_strength"], float)
+    MIXg, SALTg = np.meshgrid(_mix_ax, _salt_ax, indexing="ij")
+    f_mix = MIXg.ravel()
+    f_salt = SALTg.ravel()
+    _pass = float(feas.meta.get("viable_threshold", 0.1))
+    # shaded feasible region: retention × access > threshold (the stability hyperbola)
+    _xs = np.linspace(max(_pass, 1e-3), 1.0, 120)
+    _yhyp = np.clip(_pass / _xs, 0.0, 1.02)
+    fig.add_trace(go.Scatter(x=np.r_[_xs, _xs[::-1]], y=np.r_[_yhyp, np.full_like(_xs, 1.02)[::-1]],
+                             fill="toself", fillcolor="rgba(13,148,136,0.10)", mode="lines",
+                             line=dict(width=0), hoverinfo="skip", showlegend=False), row=1, col=1)
+    fig.add_trace(go.Scatter(x=_xs, y=_yhyp, mode="lines", line=dict(color=_TEAL, width=1.6, dash="dash"),
+                             hoverinfo="skip", showlegend=False), row=1, col=1)
+    _stable = f_ind > _pass
+    for _msk, _sym, _lbl in ((_stable, "circle", "meets stability"),
+                             (~_stable, "circle-open", "fails stability")):
+        if not _msk.any():
+            continue
+        fig.add_trace(go.Scatter(
+            x=f_acc[_msk], y=f_ret[_msk], mode="markers", name=_lbl,
+            marker=dict(size=7, symbol=_sym, color=f_mix[_msk], colorscale="Viridis",
+                        cmin=float(_mix_ax.min()), cmax=float(_mix_ax.max()),
+                        colorbar=dict(title="co-surfactant<br>fraction", len=0.9, x=0.44,
+                                      thickness=9, title_font=dict(size=10), tickfont=dict(size=9)),
+                        line=dict(width=0.8, color="#334155")),
+            hovertext=[f"mix {m:.2f}, salt {s:.2f} M<br>indiv {i:.2f}"
+                       for m, s, i in zip(f_mix[_msk], f_salt[_msk], f_ind[_msk])],
+            hoverinfo="text"), row=1, col=1)
+    fig.add_annotation(x=0.98, y=1.0, text=f"feasible<br>(ret×acc > {_pass:g})", showarrow=False,
+                       xanchor="right", font=dict(size=9, color=_TEAL), row=1, col=1)
+    for x, y, t, col in [(0.22, 0.92, "single FA<br>(tight, starves)", _SLATE),
+                         (0.92, 0.25, "too open<br>(leaks)", _RUST)]:
+        fig.add_annotation(x=x, y=y, text=t, showarrow=False, font=dict(size=9, color=col), row=1, col=1)
+    fig.update_xaxes(title_text="substrate permeability / access", range=[0, 1.02], row=1, col=1)
+    fig.update_yaxes(title_text="internal-product retention", range=[0, 1.02], row=1, col=1)
     # --- right: feasibility map ---
     mix = feas.axes["mix_fraction"]
     salt = feas.axes["ionic_strength"]
@@ -391,13 +508,21 @@ def protocell_decision_figure(arc, feas, *, title=None) -> str:
     fig.update_xaxes(title_text="ionic strength (M)", row=1, col=2)
     fig.update_yaxes(title_text="co-surfactant fraction", row=1, col=2)
 
-    fig.update_layout(**S.base_layout(height=450, width=960, margin=dict(t=48, b=60, l=70, r=20),
-                                      showlegend=False))
-    cap = ("A membrane is useful only in the viable window &mdash; permeable enough to import the "
-           "gradient, tight enough to hold its chemistry. Mixed amphiphiles lift the salt ceiling so "
-           "vesicles survive at seawater salt (Jordan 2019).")
+    fig.update_layout(**S.base_layout(height=450, width=960, margin=dict(t=48, b=72, l=70, r=20),
+                                      showlegend=True,
+                                      legend=dict(orientation="h", y=-0.2, x=0.22, xanchor="center",
+                                                  font=dict(size=9))))
+    cap = ("Membrane compositions trade substrate access against internal-product retention; only a subset "
+           "also meets stability criteria. Left: each point is a (composition × salinity) grid cell from the "
+           "phenomenological protocell model — x is substrate permeability (access), y is product retention, "
+           "colour is co-surfactant fraction (composition). Filled markers meet the modeled stability "
+           f"criterion (individuality = retention × access > {_pass:g}); open markers fail it; the feasible "
+           "region is shaded. Right: the viable salt ceiling rises with mixed amphiphiles (Jordan 2019). "
+           "<b>These are modeled permeability / retention proxies, not observed vesicles</b> — the figure "
+           "does not assert physical vesicle formation; the real Martini-MD bilayer/vesicle calibration is "
+           "in the protocell-window figure and the og-32 / og-32b MD figures.")
     inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
-    return S.frame(inner, title=(title or "A boundary that retains without isolating"),
+    return S.frame(inner, title=(title or "Access ↔ retention: a Pareto tradeoff, stability coded"),
                    phase="Campaign IV", view="Decision", tier="mechanistic_prediction",
                    caption_text=cap, caption_prefix="How to read", tone="neutral")
 
@@ -701,13 +826,22 @@ def heredity_lineage_figure(tree, herit_pairs, phase, *, title=None) -> str:
     fig.update_layout(**S.base_layout(
         height=620, margin=dict(l=60, r=70, t=50, b=55),
         legend=dict(orientation="h", y=1.02, x=0.56, font=dict(size=10))))
-    cap = ("All three views at once. <b>World</b>: individuals inherit a chemical phenotype φ at fission "
-           "into a real lineage tree. <b>Mechanism</b>: the template (RNA-like) module holds function only "
-           "above the Eigen error threshold (white line); the non-heritable control loses the parent&harr;"
-           "offspring correlation (flat cloud) and collapses. <b>Decision</b>: compositional / hybrid "
-           "heredity persist at ANY length &mdash; heredity need not presume a long, high-fidelity template.")
+    cap = ("Across simulated generations, offspring chemical state retains parent-state information in the "
+           "heritable regime relative to a randomized-inheritance control. These are ACTUAL sampled "
+           "lineages from the agent-based model, not a decorative schematic. <b>World</b>: the real lineage "
+           "tree, each node an individual coloured by its chemical phenotype φ (colour encodes φ, not an "
+           "arbitrary line style); tree edges trace parent→offspring descent. <b>Mechanism</b>: offspring φ "
+           "vs parent φ, with <b>h</b> = the ordinary-least-squares slope of offspring φ regressed on "
+           "parent φ (realized heritability): h ≈ 1 is faithful inheritance, h ≈ 0 is none, and <b>h &gt; 1 "
+           "does NOT mean more-than-perfect inheritance</b> — it is slope inflation from selection plus "
+           "finite-sample noise when parent φ has little spread, and should be read as 'strongly heritable, "
+           "slope poorly constrained'. The <b>non-heritable control randomizes inheritance</b> (offspring φ "
+           "drawn independently of the parent) — the required control for the parent-state-retention claim: "
+           "it collapses to a flat cloud (h ≈ 0). <b>Decision</b>: the Eigen error-threshold map; "
+           "compositional / hybrid heredity persist at ANY length, so heredity need not presume a long, "
+           "high-fidelity template.")
     inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
-    return S.frame(inner, title=(title or "Heredity as an inherited lineage"),
+    return S.frame(inner, title=(title or "Heredity as an inherited lineage (sampled lineages, not a schematic)"),
                    phase="Campaign VI", view="Decision", tier="conceptual_demonstration",
                    caption_text=cap, caption_prefix="How to read", tone="neutral", max_width=1100)
 
@@ -1896,13 +2030,16 @@ def localization_figure(res, *, title=None) -> str:
                                       showlegend=False))
 
     cap = (
-        "A dilute vent feed localizes where the accumulation Péclet crosses the frontier (white dashed, "
-        f"Pe &asymp; {pe_thr:.0f}) &mdash; the <b>graded quantity is the Péclet, not the precise fold</b>. "
-        "A long, tight pore traps; an open / short pore washes through. The reduced trap's fold-enrichment "
-        "(left) rises steeply with length, but the teal dotted line marks the resolvable Péclet "
-        f"(&asymp; {pe_resolvable:.0f}): beyond it the favourable trap (&starf;) sits in the solver-sensitive "
-        "region where the reduced column over-extrapolates the resolved FEM. Localization is robust; the "
-        "extreme fold is not. See the FiPy&harr;FEM solver-sensitivity Decision view."
+        "A bounded pore-length &times; porosity region yields strong concentration enrichment under the "
+        "chosen flow and thermal-gradient assumptions. A dilute vent feed localizes where the accumulation "
+        f"Péclet crosses the frontier (white dashed, Pe &asymp; {pe_thr:.0f}) &mdash; the <b>graded quantity "
+        "is the Péclet, not the precise fold</b>; a long, tight pore traps, an open / short pore washes "
+        f"through. The teal dotted line marks the resolvable Péclet (&asymp; {pe_resolvable:.0f}): beyond it "
+        "the favourable trap (&starf;) sits in the solver-sensitive region where the reduced column "
+        "over-extrapolates the resolved FEM, so localization is robust but the extreme fold is not (see the "
+        "supplementary FiPy&harr;FEM solver-sensitivity diagnostic). <b>This is an ENRICHMENT claim only</b> "
+        "&mdash; physical concentration of the feed. Whether that enrichment IGNITES the reaction network is "
+        "a separate claim, shown in the primary pore-ignition figure and owned by og-network-rescue."
     )
     inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
     return S.frame(inner, title=(title or "The pore-localization frontier (keyed on Péclet)"),
@@ -2114,14 +2251,19 @@ def protocell_boundary_figure(rows, *, title=None) -> str:
     fig.update_layout(**S.base_layout(
         height=440, width=960, margin=dict(t=48, b=56, l=40, r=20),
         legend=dict(orientation="h", y=-0.16, x=0.5, xanchor="center", font=dict(size=9))))
-    cap = ("A viable boundary at the operating point ({:.0f} vesicles): the membrane (grey) holds internal "
-           "chemistry (teal, retention {:.2f}) while staying permeable enough to import the external "
-           "gradient (amber arrows, access {:.2f}). Individuality = retention &times; access = {:.2f} "
-           "&mdash; a boundary that retains WITHOUT isolating.").format(viable, retention, access, individ)
+    cap = ("<b>Schematic of the proposed transport tradeoff: an amphiphile boundary must admit geochemical "
+           "substrates while retaining internally generated products.</b> The drawn cross-section (ring + "
+           "lumen) and the smooth radial concentration profiles are <b>hypothetical illustrations</b> of the "
+           "concept, not resolved spatial fields. Only the scalar annotations are modeled quantities from "
+           "the phenomenological protocell model at this operating point: retention {:.2f}, access {:.2f}, "
+           "individuality = retention &times; access = {:.2f} ({:.0f} viable-compartment units). It depicts "
+           "a boundary that would retain WITHOUT isolating — it does not assert physical vesicle "
+           "formation.").format(retention, access, individ, viable)
     inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
-    return S.frame(inner, title=(title or "The compartment and the gradient"),
-                   phase="Campaign IV", view="World", tier="mechanistic_prediction",
-                   caption_text=cap, caption_prefix="How to read", tone="neutral")
+    return S.frame(inner, title=(title or "The compartment and the gradient — a conceptual schematic"),
+                   subtitle="SCHEMATIC: hypothetical cross-section + radial profiles, annotated with modeled scalars",
+                   phase="Campaign IV", view="World", tier="conceptual_demonstration",
+                   caption_text=cap, caption_prefix="How to read", tone="caution")
 
 
 class ProtocellBoundaryWorld(Visualization):
