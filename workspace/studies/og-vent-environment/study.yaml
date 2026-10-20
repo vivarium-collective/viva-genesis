@@ -13,7 +13,14 @@ primary_limitation: "The Lost City window holds over ~80% of the grid, but calib
 key_assumptions:
 - "The vent is a serpentinizing peridotite (olivine+pyroxene) endmember (Ca buffers the fluid to pH ~9.5)"
 - "Habitability is a bounded olivine-rate x flow-velocity region, not one tuned run"
-- "The posterior is conditioned on the Lost City T/pH/H2 field windows"
+- "The posterior is conditioned on the Lost City T/pH/H2 field windows — a CONDITIONAL SELECTION of the
+  sampled domain, NOT a new experimental validation of viability (so the posterior figure is demoted from the
+  lead to a mechanism view; the habitability map leads)"
+- "FUTURE SIMULATION (requested, not yet built): an early/intermediate/steady PDE cross-section montage of
+  T/pH/H2/DIC with velocity-vector and flux overlays + a matched open-flow control. The existing VentCrossSection
+  already renders the real settled 2-D field; the time-resolved+control enhancement is blocked on a PHREEQC
+  solver-robustness fix (the LLNL database errors 'Temperature out of range' on the repeated transient
+  extraction; needs a wider-range DB or a transient temperature clamp) — flagged, not chased now"
 - "Grid-convergence control: outlet observables (T, pH, H2) converge to <1% of the finest mesh (nx=160) by
   nx=40 - the study's resolution is resolved, not under-meshed - with PHREEQC charge balance exact (|imbalance|
   0) across nx {20,40,80,120,160}, and the converged outlet (T ~50 C, mineral-buffered pH ~9.4, positive H2)
@@ -1010,7 +1017,7 @@ visualizations:
     n_steps: 120
     title: Real vent reactor (PHREEQC + FiPy) — diagnostic
 - name: vent-reactor-conservation-qa
-  display: qa
+  display: supplement
   address: local:VentReactorConservationQA
   config:
     composite: viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor
@@ -1022,7 +1029,7 @@ visualizations:
   config:
     title: The vent wall in 3-D — the across-wall thermal gradient (World view)
 - name: vent-environment-posterior
-  display: primary
+  display: mechanism
   address: local:VentEnvironmentPosterior
   config:
     title: Lost-City-conditioned vent posterior (Decision view)
