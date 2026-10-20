@@ -2678,7 +2678,7 @@ else:
 # **pore-ignition-coupling**
 
 # pore-ignition-coupling
-_save_viz('og-network-rescue', 'pore-ignition-coupling', _render_one('local:PoreIgnitionCoupling', {'title': 'Localization lifts the feed across the ignition threshold (Mechanism view)', 'grid_json': 'workspace/studies/og-network-persistence/artifacts/protometabolism_gain_grid.json'}, RUNS_DB, STUDY_YAML))
+_save_viz('og-network-rescue', 'pore-ignition-coupling', _render_one('local:PoreIgnitionCoupling', {'title': 'Localization lifts the feed across the ignition threshold (Mechanism view)', 'grid_json': 'workspace/studies/og-network-persistence/artifacts/og-02-reduced-carbon-to-protometabolism/protometabolism_gain_grid.json'}, RUNS_DB, STUDY_YAML))
 
 # **spatial-protometabolism-pore-vs-control**
 
