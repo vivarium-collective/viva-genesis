@@ -411,13 +411,21 @@ baseline:
   composite: viva_genesis.composites.precursor_pool.precursor_pool_no_gradient
   planned: false
 visualizations:
-- name: precursor-pool-yield-vectors
+- name: precursor-pool-ledger
   display: primary
+  address: local:PrecursorPoolLedgerViz
+  config:
+    report_json: >-
+      workspace/studies/og-precursor-pool/artifacts/og-precursor-pool/precursor_yield_vectors.json
+    title: Budgets close, but the functional C2+ pool is orders below C1
+- name: precursor-pool-yield-vectors
+  display: supplement
   kind: plotly
   path: viz/og-precursor-pool/precursor_yield_vectors.html
   description: >-
-    Functional precursor yield vectors (per-species molar, log scale) with the de-novo CO2-fixed fraction and the
-    consumable-concentration threshold, plus the DIC-window sweep showing the thermodynamic C2+ ceiling.
+    Supplementary per-species detail behind the lead ledger figure: functional precursor yield vectors
+    (per-species molar, log scale) with the de-novo CO2-fixed fraction and the consumable-concentration
+    threshold, plus the DIC-window sweep showing the thermodynamic C2+ ceiling.
 runs:
 - name: viva_genesis.composites.precursor_pool.precursor_pool__1792442307__e38925
   status: completed
