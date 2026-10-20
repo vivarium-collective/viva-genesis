@@ -1379,6 +1379,7 @@ visualizations:
       required by no driver, and the hard dependency is the geological gradient. No new simulation — the
       lattice.nodes / lattice_rich.nodes and per_driver_withdrawal data were already committed.
 - name: robust-innovation-lattice
+  display: supplement
   address: local:RobustInnovationLattice
   config:
     title: Is og-08's escape set sufficient? An honest negative (Decision view)
