@@ -2947,6 +2947,11 @@ else:
 #
 # _Results are shown by the figures below, produced by the run above._
 
+# **precursor-pool-ledger**
+
+# precursor-pool-ledger
+_save_viz('og-precursor-pool', 'precursor-pool-ledger', _render_one('local:PrecursorPoolLedgerViz', {'report_json': 'workspace/studies/og-precursor-pool/artifacts/og-precursor-pool/precursor_yield_vectors.json', 'title': 'Budgets close, but the functional C2+ pool is orders below C1'}, RUNS_DB, STUDY_YAML))
+
 # **precursor-pool-yield-vectors**
 
 # precursor-pool-yield-vectors
