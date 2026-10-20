@@ -261,6 +261,12 @@ visualizations:
       in the pore against a matched well-mixed control at identical feeds. Plainly: the pore gathers and holds
       the ingredients — but the real test is whether that makes more product than a stirred pot, shown in the
       third panel.
+- name: networkrescue-pde
+  display: mechanism
+  address: local:NetworkRescueFieldViz
+  config:
+    report_json: workspace/studies/og-network-rescue/artifacts/og-30-spatially-integrated-protometabolism/networkrescue_fields.json
+    title: 'Spatial concentration ignites the network — pore field vs dead well-mixed control (PDE field view)'
 baseline:
 - name: Spatially integrated protometabolism in a concentrating pore — canonical (og-30)
   composite: >-
