@@ -1718,9 +1718,11 @@ class NitrogenAssimilationViz(Visualization):
             inner, title=(self.config.get("title") or "Reduced-nitrogen assimilation (FeS)"),
             phase="Nitrogen", view="World", tier="mechanistic_prediction", caption_prefix="How to read",
             caption_text=(
-                "The real reduced-nitrogen reactor — nitrogen moving down the reduction chain "
-                "(NO₃⁻ → NO₂⁻ → NH₄⁺ → amino-acid precursor) on the FeS catalyst, the standing "
-                "reduced-N pool, and the ammonium-production rate as the first fixed nitrogen appears."))
+                "Modeled. The reduced-nitrogen reactor — nitrogen moving down the reduction chain "
+                "(NO₃⁻ → NO₂⁻ → NH₄⁺ → amino-acid precursor) on the FeS catalyst as source→product "
+                "conversion, the standing reduced-N pool, and the ammonium-production rate. Standing pools "
+                "alone do not establish a sufficient nitrogen FLUX (the keeps-pace test is the phase map), "
+                "and the nitrate feed is a supplied parameter, not an early-Earth abundance claim."))
 
 
 class NitrogenCarbonBalanceViz(Visualization):
@@ -1892,9 +1894,11 @@ class PhosphorusSpeciationViz(Visualization):
             inner, title=(self.config.get("title") or "Phosphorus bottleneck — P-species trajectories"),
             phase="Phosphorus", view="World", tier="mechanistic_prediction", caption_prefix="How to read",
             caption_text=(
-                "The real libRoadRunner phosphorus-speciation network in the favourable thermal-gradient "
+                "Modeled. The libRoadRunner phosphorus-speciation network in the favourable thermal-gradient "
                 "pore — dissolved phosphate, condensed polyphosphate, reactive (activated) P, and the "
-                "mineral-bound sink; reactive P accumulates while only a small fraction precipitates."))
+                "mineral-bound sink partition a conserved total-P pool (mass-conserving). Reactive P "
+                "accumulates while only a small fraction precipitates. The condensed-polyphosphate pool is a "
+                "modeled kinetic partition, not demonstrated prebiotic polyphosphate chemistry."))
 
 
 class PhosphorusMechanismViz(Visualization):
@@ -2092,11 +2096,16 @@ class ProtoEnergeticsWorldViz(Visualization):
                        for f in frames])])
 
         cap_text = (
-            "<b>An energy currency before modern pumping</b> — a real free-energy-ledger composite. "
-            "An exergonic geochemical drive charges a transferable carrier (teal) that is discharged "
-            "to do endergonic work under load (amber) and bled by hydrolysis (red). The store reaches "
-            "a steady charge it holds against the drain — a spendable currency. With no coupling or a "
-            "drive too weak to clear the carrier bond, the pool never charges (the ablations).")
+            "<b>An energy currency before modern pumping (modeled)</b> — a closed free-energy-ledger "
+            "composite (input = useful work + stored + dissipated; ledger residual ~1e-16 kJ/L, so mass "
+            "and energy are conserved). An exergonic geochemical drive charges a transferable carrier (teal), "
+            "discharged to do endergonic work under load (amber) and bled by hydrolysis (red). At the "
+            "canonical operating point the pool settles at a final charged fraction ~0.39 and ~47% of the "
+            "tapped free energy is captured as transferable work — these are that single operating point, "
+            "not universal (the phase map shows how both fall off across drive × coupling). With no coupling, "
+            "or a drive too weak to clear the carrier bond, the pool never charges (the no-coupling and "
+            "no-drive ablations). This is modeled energy-currency bookkeeping — a carrier charged and spent — "
+            "NOT a demonstration of biochemical energy autonomy.")
         s_html = stat.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
         a_html = anim.to_html(full_html=False, include_plotlyjs=False, config={"displayModeBar": False})
         inner = (f"<div style='display:flex;justify-content:center'>{s_html}</div>"
@@ -2176,10 +2185,13 @@ class OsmoticGrowthWorld(Visualization):
             inner, title=(self.config.get("title") or "Growth & division — volume, concentration, division events"),
             phase="Growth & division", view="World", tier="mechanistic_prediction", caption_prefix="How to read",
             caption_text=(
-                "The favourable (matched) compartment's physical trajectory — the volume growing under "
-                "the osmotic load its metabolism generates, the internal osmolyte concentration (the "
+                "Modeled. The favourable (matched) compartment's physical trajectory — the volume growing "
+                "under the osmotic load its metabolism generates, the internal osmolyte concentration (the "
                 "osmotic drive) drawn down at every division (dotted lines) as volume and contents halve, "
-                "and the cumulative divisions. Metabolism changes the compartment's physical fate."))
+                "and the cumulative divisions. A division here is a MODEL-IMPOSED fission rule fired when "
+                "the compartment crosses an osmotic/size threshold — NOT emergent mechanical scission, and "
+                "not evidence of physical reproduction, heredity or autonomy. Metabolism changes the "
+                "compartment's modeled physical fate."))
 
 
 class OsmoticCouplingMechanism(Visualization):
@@ -2270,7 +2282,8 @@ class OsmoticCouplingMechanism(Visualization):
             phase="Growth & division", view="Mechanism", tier="mechanistic_prediction",
             caption_prefix="How to read",
             caption_text=(
-                "Left: in the matched regime the product accumulates, that raises the osmotic pressure, "
-                "and the pressure draws water in to grow the volume (sawtooth = division). Right: too "
-                "permeable leaks the product so the pressure never builds (starve); too impermeable "
-                "traps it so the pressure spikes past the burst tension (lyse)."))
+                "Modeled. Left: in the matched regime the product accumulates, that raises the osmotic "
+                "pressure, and the pressure draws water in to grow the volume (sawtooth = a MODEL-IMPOSED "
+                "division rule at a size/pressure threshold, not mechanical scission). Right: too permeable "
+                "leaks the product so the pressure never builds (starve); too impermeable traps it so the "
+                "pressure spikes past the burst tension (lyse)."))
