@@ -18,9 +18,9 @@ version: '1'
 description: >-
   Structured scientific resources for the workbench Resources tab: lipid structures (the
   single-chain fatty acids and Martini phospholipid stand-ins behind Gate C), reaction
-  pathways (surfacing the generated Phase-3 reaction universe with its thermodynamics and
-  honesty notes), paper references (the Martini/coarse-grained-MD set plus campaign
-  citations), and the imported simulation engines. Each entry carries its citations.
+  pathways (surfacing the generated rule-generated reaction universe with its thermodynamics
+  and honesty notes), paper references (the Martini/coarse-grained-MD set plus the chemistry
+  and thermodynamics citations), and the imported simulation engines. Each entry carries its citations.
 # The QA rule (PDF §4) governing every evidence-dataset entry; the Resources tab shows it once.
 evidence_dataset_qa_rule: >-
   No inferred rate constants from endpoint yields without a stated kinetic model; out-of-domain
@@ -389,7 +389,7 @@ resources:
   chain_length: 12
   headgroup: phosphocholine
   charge_state: "zwitterionic (phosphate- / choline+); net neutral"
-  role: "bilayer stand-in (short di-C12) for the composition->permeability->retention CG-MD (og-32)"
+  role: "bilayer stand-in (short di-C12) for the composition->permeability->retention CG-MD (og-self-compartmentation)"
   martini: {version: "Martini 3", model: standard, bead_mapping: ["NC3 (choline)", "PO4 (phosphate)", "GL1/GL2 (glycerol)", "C1 x2 per tail"], source_itp: "martini_v3 lipidome (DLPC)"}
   notes: "This is a PHOSPHATIDYLCHOLINE Martini stand-in, NOT a fatty acid. Used as the short-chain bilayer in the Gate C MD: di-C12 gives bilayer thickness ~2.325 nm (vs DPPC di-C16 ~2.870 nm)."
   references: [souza2021martini3, pedersen2025lipidome, marrink2003vesicle]
@@ -405,9 +405,9 @@ resources:
   chain_length: 16
   headgroup: phosphocholine
   charge_state: "zwitterionic (phosphate- / choline+); net neutral"
-  role: "bilayer stand-in (long di-C16) for the composition->permeability->retention CG-MD (og-32)"
+  role: "bilayer stand-in (long di-C16) for the composition->permeability->retention CG-MD (og-self-compartmentation)"
   martini: {version: "Martini 3", model: standard, bead_mapping: ["NC3 (choline)", "PO4 (phosphate)", "GL1/GL2 (glycerol)", "C1 x3-4 per tail"], source_itp: "martini_v3 lipidome (DPPC)"}
-  notes: "PHOSPHATIDYLCHOLINE Martini stand-in, NOT a fatty acid. Long di-C16 gives a thicker bilayer (~2.870 nm) -> lower permeability (0.256) -> higher retention (0.661): composition sets permeability sets retention (og-32)."
+  notes: "PHOSPHATIDYLCHOLINE Martini stand-in, NOT a fatty acid. Long di-C16 gives a thicker bilayer (~2.870 nm) -> lower permeability (0.256) -> higher retention (0.661): composition sets permeability sets retention (og-self-compartmentation)."
   references: [souza2021martini3, pedersen2025lipidome, marrink2003vesicle]
 
 - id: lipid-pope
@@ -433,15 +433,16 @@ resources:
 # ============================================================================
 - id: pathway-reaction-universe
   type: reaction-pathway
-  name: "The Phase-3 reaction universe"
-  summary: The generated open C/H/O chemical network behind the campaign — rule-generated reactions with eQuilibrator thermodynamics.
+  name: "Rule-generated prebiotic C/H/O reaction universe"
+  summary: The generated open C/H/O chemical network the network studies draw on — rule-generated reactions with eQuilibrator thermodynamics.
   pathway: reaction_universe
   description: >-
     A Wołos-2020-style rule-generated open chemical network over linear C/H/O skeletons (C1-C3
     feedstock, products capped at C6), with eQuilibrator component-contribution transformed dG'
-    at the Phase-1 posterior vent condition, catalyst-class requirements, and degradation/washout.
-  role_in_campaign: "the shared chemistry Gates A/B build on (og-28 prebiotic reaction atlas operates on it)"
-  campaign_tie: "og-28 (reaction atlas coverage + zero-leakage gate); feeds og-29 (A2) and og-30 (Gate B)"
+    at the modeled alkaline-vent condition (pH 9.38, I 0.25 M, 322 K), catalyst-class
+    requirements, and degradation/washout.
+  role_in_campaign: "the shared chemistry the network-persistence and autocatalysis studies build on"
+  campaign_tie: "supplies the reaction set behind og-network-persistence (its reaction-atlas arm) and the networks tested in og-autocatalysis-a2 and og-network-rescue"
   data_source:
     package: reaction_universe
     path: viva_genesis/data/vg_data/reaction_universe.yaml
@@ -450,7 +451,20 @@ resources:
     n_species: 1021
     n_reactions: 5515
     max_carbons: 6
-    rule_families: [reduce_carbonyl, deoxygenate, reduce_carboxyl, cannizzaro, aldol, isomerize, carboxylate_reductive, decarboxylate_alpha, carboxylate_alpha, formose_initiation, co2_reduction]
+    # Per-rule-family reaction counts from universe_summary.rule_counts in reaction_universe.yaml;
+    # the 11 non-zero families sum to the 5515 total (decarboxylate_beta resolves to 0 and is omitted).
+    rule_families:
+    - {name: reduce_carbonyl, n_reactions: 1629}
+    - {name: deoxygenate, n_reactions: 1628}
+    - {name: reduce_carboxyl, n_reactions: 485}
+    - {name: cannizzaro, n_reactions: 485}
+    - {name: aldol, n_reactions: 434}
+    - {name: isomerize, n_reactions: 424}
+    - {name: carboxylate_reductive, n_reactions: 161}
+    - {name: decarboxylate_alpha, n_reactions: 161}
+    - {name: carboxylate_alpha, n_reactions: 106}
+    - {name: formose_initiation, n_reactions: 1}
+    - {name: co2_reduction, n_reactions: 1}
     catalyst_classes: {mineral: 4010, base: 1344, none: 161}
     energetic_span_kj_mol: {min: -120.4, max: 45.8, mean: -53.7}
     thermo: {p_h: 9.38, ionic_strength_M: 0.25, temperature_K: 322.35, engine: "eQuilibrator component contribution (Noor 2013), transformed dG'° (Beber 2022)"}
@@ -467,10 +481,10 @@ resources:
   summary: >-
     The shared balanced-chemistry asset the network studies draw on — a versioned candidate-reaction
     network, each reaction mass/charge-balanced and confidence-tiered (measured / inferred / hypothetical)
-    behind a zero-leakage write gate. Demoted from an og-28 study figure to a reproducible Resource.
+    behind a zero-leakage write gate. Demoted from a study figure to a reproducible Resource.
   version: '1'
-  role_in_campaign: "the balanced-reaction / provenance layer studies 27-37 draw on (the og-28 -> og-29 handoff bundle: canonical species, balanced stoichiometry, rate forms, parameter bounds, confidence tags)"
-  campaign_tie: "og-28 (reaction-atlas coverage + zero-leakage gate); feeds og-29 (A2) and og-30 (Gate B)"
+  role_in_campaign: "the balanced-reaction / provenance layer the network studies draw on (canonical species, balanced stoichiometry, rate forms, parameter bounds, confidence tags)"
+  campaign_tie: "the reaction-atlas arm of og-network-persistence (coverage + zero-leakage gate); the balanced reactions it supplies feed og-autocatalysis-a2 and og-network-rescue"
   data_source:
     package: viva_reaction_atlas
     home: workspace/datasets/prebiotic-reaction-atlas/
@@ -502,8 +516,8 @@ resources:
     Formaldehyde/glycolaldehyde aldol chemistry toward sugars; the canonical autocatalytic
     doubling is the glycolaldehyde-to-threose aldol. In the generated universe this is the
     aldol / formose_initiation / cannizzaro rule families over linear skeletons.
-  role_in_campaign: "A2 endogenous autocatalysis route (off-spine)"
-  campaign_tie: "og-29 (Gate A2, refuted): on a coefficient-free discriminator production is seed-independent (feed-driven, not self-amplified); the keystone doubling is condensation-favored so its splitting direction carries no net flux"
+  role_in_campaign: "an endogenous-autocatalysis route (off-spine)"
+  campaign_tie: "the rule-generated formose arm of og-autocatalysis-a2 (Gate A2, refuted): on a coefficient-free discriminator production is seed-independent (feed-driven, not self-amplified); the keystone doubling is condensation-favored so its splitting direction carries no net flux"
   data_source:
     package: reaction_universe
     path: viva_genesis/data/vg_data/reaction_universe.yaml
@@ -526,8 +540,8 @@ resources:
     co2_reduction to formate. In the generated universe these are the carboxylate_reductive /
     carboxylate_alpha / co2_reduction rule families; the reductive direction is uphill at vent
     concentrations and its rate follows by detailed balance from the downhill oxidative-decarboxylation.
-  role_in_campaign: "A1 carbon-fixing chemistry; the rTCA-type steps tested for A2 autocatalysis"
-  campaign_tie: "og-rtca (Gate A2, refuted): a seeded reductive-TCA cycle washes out under vent H2 because the reductive carboxylations run uphill (the same reason real rTCA uses ferredoxin, not H2); the FULL branched rTCA cannot close in this linear-skeleton universe (honesty_note) and is tested in og-rtca's own composite"
+  role_in_campaign: "carbon-fixing chemistry; the rTCA-type steps tested for endogenous autocatalysis"
+  campaign_tie: "the branched reductive-TCA arm of og-autocatalysis-a2 (Gate A2, refuted): a seeded reductive-TCA cycle washes out under vent H2 because the reductive carboxylations run uphill (the same reason real rTCA uses ferredoxin, not H2); the FULL branched rTCA cannot close in this linear-skeleton universe (honesty_note) and is tested in that arm's own composite"
   data_source:
     package: reaction_universe
     path: viva_genesis/data/vg_data/reaction_universe.yaml
@@ -552,7 +566,7 @@ resources:
     well-mixed system the six-carbon network ignites only at ~20x the vent-posterior feed; a
     concentrating mineral pore closes that gap.
   role_in_campaign: "Gate A1 (network persistence, qualified) and Gate B (spatial rescue, met)"
-  campaign_tie: "og-29 (the network needs ~20x well-mixed feed) + og-30 (a pore at porosity ~0.88 ignites it at the vent-posterior feed: net carbon flux +4.49e-4, connected, where a matched well-mixed control stays dead); persists within a bounded porosity window ~0.80-0.90"
+  campaign_tie: "og-autocatalysis-a2 finds the network needs ~20x well-mixed feed; og-network-rescue shows a pore at porosity ~0.88 ignites it at the vent-posterior feed (net carbon flux +4.49e-4, connected, where a matched well-mixed control stays dead); persists within a bounded porosity window ~0.80-0.90"
   data_source:
     package: reaction_universe
     path: viva_genesis/data/vg_data/reaction_universe.yaml
@@ -572,12 +586,12 @@ resources:
     amphiphiles (C10-C16) from the campaign's own reduced-carbon products (acetate + formate), rather
     than from an injected amphiphile pool.
   role_in_campaign: "Gate C self-compartmentation (the 'makes a membrane' chemistry)"
-  campaign_tie: "og-31 AmphiphileSynthesisProcess (the boundary forms from acetate+formate-derived amphiphile; ablating synthesis gives no boundary) + og-32 (composition sets permeability sets retention)"
+  campaign_tie: "og-self-compartmentation: the AmphiphileSynthesisProcess arm forms the boundary from acetate+formate-derived amphiphile (ablating synthesis gives no boundary), and composition sets permeability sets retention in the MD-informed arm"
   data_source:
     package: null
-    note: "NOT in reaction_universe — this is og-31's separate AmphiphileSynthesisProcess composite; recorded here as the pathway view."
+    note: "NOT in reaction_universe — this is og-self-compartmentation's separate AmphiphileSynthesisProcess composite; recorded here as the pathway view."
   honesty_notes:
-  - "Modeled in og-31/og-32 as an explicit synthesis composite, not part of the generated reaction_universe."
+  - "Modeled in og-self-compartmentation as an explicit synthesis composite, not part of the generated reaction_universe."
   references: [jordan2019promotion, hanczyc2003experimental, budin2012concentration, monnard2002membrane]
 
 # ============================================================================
