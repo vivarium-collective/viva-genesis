@@ -548,6 +548,11 @@ _save_viz('og-carbon-fixation', 'electrochemistry-mechanism-map', _render_one('l
 # electrochemistry-polarization
 _save_viz('og-carbon-fixation', 'electrochemistry-polarization', _render_one('local:ElectrochemistryPolarization', {'title': 'Vent wall as a galvanic cell at the nominal point (Mechanism view)'}, RUNS_DB, STUDY_YAML))
 
+# **yields-obs-vs-pred-control**
+
+# yields-obs-vs-pred-control
+_save_viz('og-carbon-fixation', 'yields-obs-vs-pred-control', _render_one('local:CarbonFixationMassBalanceViz', {'report_json': 'workspace/studies/og-carbon-fixation/artifacts/og-01-geology-to-reduced-carbon/carbon_massbalance_control.json', 'title': 'Yields reproduce Preiner/Hudson (catalyst-gated); the gradient bites the pmf'}, RUNS_DB, STUDY_YAML))
+
 # ### Acceptance criteria
 #
 # _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
