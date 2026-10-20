@@ -104,33 +104,6 @@ expert_docs:
       standards, the stage→engine map, model-hierarchy tiers, integration
       contracts and a 12-month roadmap. Source for
       workspace/references/computational-resources.md.
-  - name: Full Modeling Plan
-    path: workspace/references/expert/viva-genesis-full-modeling-plan.pdf
-    sha256: b966481221f38bc6b6cd6413b2fe216a897f91c44c1ee6585bb50fc639c76140
-    contributor: agmon.eran@gmail.com
-    description: >-
-      Process-bigraph architecture plan (13 Oct 2026): do not start with a cell —
-      build a geological world in which biological organization emerges and the
-      Process Bigraph itself restructures (localization, boundary formation,
-      growth/division, extinction, conditional heredity, ecology). Stages 0–VIII
-      with model classes per stage, cross-cutting C-N-P + proto-energetics, nine
-      reusable composites, canonical biological schemas, model substitution as
-      experiment, experimental-design rules and the section-18 implementation
-      order. Source for workspace/references/full-modeling-plan-integration.md.
-
-  - name: Model Upgrade and Implementation Plan
-    path: workspace/references/expert/viva-genesis-model-upgrade-and-implementation-plan.pdf
-    sha256: 455d8c84880f299b5621524a5e3dd3252c6e7b21ab3d3f75920f93a1c7c9b786
-    contributor: agmon.eran@gmail.com
-    description: >-
-      Roadmap (14 Oct 2026) for replacing assumption-driven stages with calibrated
-      mechanistic model families: the three-quantity standard (feasibility /
-      robustness / discrimination) + evidence tiers, serious model upgrades per
-      stage (priority upgrades A-H), cross-cutting UQ methods, the Process
-      Bigraph principle (canonical interfaces; model class as a categorical
-      factor; one persistent world with structural rewrites), the vg-data
-      provenance layer, the nine-phase implementation roadmap and the vg-*
-      deliverables. Source for workspace/references/model-upgrade-integration.md.
 
 # Baseline run length used by the dashboard's "Run" flow (study_runs falls back
 # to 5 ticks otherwise — too few for the Campaign-0 reactor to settle into the
