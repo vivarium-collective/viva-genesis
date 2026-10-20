@@ -1455,21 +1455,39 @@ visualizations:
   rendered: >-
     workspace/studies/og-ecology/viz/og-36-stochastic-protocell-ecology/stochastic-ecology.html
 - name: ecology-three-view
+  display: mechanism
   address: local:EcologyMetacommunityThreeView
   config:
     composite: viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity
     grid_json: >-
       workspace/studies/og-ecology/artifacts/og-07-ecology-before-luca/ecology_robustness_grid.json
-    title: Campaign VII — ecology before LUCA
+    title: Connected vs disconnected compartments (matched diversity & budgets)
+    caption: >-
+      Exchange among heterogeneous pore compartments can increase functional redundancy, subject to
+      cross-feeding and parasite-load tradeoffs. Reduced to the one mechanistic comparison — connected
+      vs disconnected compartments at matched inter-compartment diversity and equal resource budgets.
+      Functional breadth, functional redundancy and parasite load are distinct measures with distinct
+      units; robustness is not inferred from richness alone.
 - name: metacommunity-phase-map
+  display: primary
   address: local:MetacommunityPhaseMap
   config:
     composite: viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity
     grid_json: >-
       workspace/studies/og-ecology/artifacts/og-07-ecology-before-luca/metacommunity_robustness_grid.json
-    title: Where cross-feeding robustness emerges
+    parasite_grid_json: >-
+      workspace/studies/og-ecology/artifacts/og-07-ecology-before-luca/ecology_robustness_grid.json
+    replicates_json: >-
+      workspace/studies/og-ecology/artifacts/og-36-stochastic-protocell-ecology/gate_e_ecology.json
+    title: Robustness gain over the isolated baseline
+    caption: >-
+      Robustness gain over isolated compartments occupies a restricted exchange-rate ×
+      inter-compartment-diversity region. The claim is the gain over a matched isolated baseline, not
+      richness: robustness here is functional redundancy, distinct in units from functional breadth and
+      parasite load. The parasite regime is shown explicitly (gain erodes as parasite load rises), the
+      modeled transfer is metabolite cross-feeding (with a horizontal channel), not heritable material,
+      and replicate variation across stochastic seeds is included.
 - name: community-function-map
-  display: primary
   address: local:CommunityFunctionMap
   config:
     title: Where a function no lineage can perform emerges (Decision view)
