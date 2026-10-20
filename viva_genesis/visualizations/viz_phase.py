@@ -492,10 +492,12 @@ def bioenergetic_provenance_figure(fav, weak, *, title=None) -> str:
     fig.update_layout(**S.base_layout(
         height=450, width=960, margin=dict(t=48, b=60, l=70, r=60),
         legend=dict(orientation="h", y=-0.18, x=0.5, xanchor="center", font=dict(size=9))))
-    cap = ("As the geochemical gradient collapses, selection shifts the useful free energy from external "
-           "(amber) to internally pumped (teal). The efficient pump internalizes and survives; the weak "
-           "pump cannot beat its cost and collapses &mdash; the gradient becomes a resource, not the "
-           "scaffold.")
+    cap = ("Modeled. As the geochemical gradient collapses, the useful free energy shifts from external "
+           "(amber) to internally pumped (teal) &mdash; an additive budget in consistent units against a "
+           "matched weak-pump control. The efficient pump internalizes and the modeled lineage persists; "
+           "the weak pump cannot beat its maintenance cost and collapses &mdash; the gradient becomes a "
+           "resource, not the scaffold. This is persistence of modeled replicators, not a demonstration of "
+           "biochemical energy autonomy.")
     inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
     return S.frame(inner, title=(title or "Energy provenance — external to internal"),
                    phase="Campaign V", view="Mechanism", tier="conceptual_demonstration",
@@ -1179,11 +1181,13 @@ def nitrogen_assimilation_phase_figure(res, *, title=None) -> str:
 
     fig.update_layout(**S.base_layout(height=450, width=960, margin=dict(t=48, b=60, l=75, r=20),
                                       showlegend=False))
-    cap = ("Reduced nitrogen keeps pace with carbon only where the nitrate feed is sufficient AND the FeS "
-           "catalyst is active (dashed = keeps-pace boundary, "
+    cap = ("Modeled. Reduced nitrogen keeps pace with carbon only where the (supplied) nitrate feed is "
+           "sufficient AND the FeS catalyst is active (dashed = keeps-pace boundary, "
            f"C:N = {thr:.0f}). Above the feed/activity frontier the C:N supply ratio blows up and nitrogen "
            "&mdash; not carbon or energy &mdash; becomes limiting first. The no-FeS / no-H2 controls sit "
-           "off-scale at zero production.")
+           "off-scale at zero production. The nitrate feed is a model parameter, not a claim that nitrate "
+           "was abundant in the relevant early-Earth setting, and a matched C:N supply ratio is not by "
+           "itself sufficient reduced-N flux.")
     inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
     return S.frame(inner, title=(title or "Nitrogen as a limiting resource"),
                    phase="Resource limitation", view="Decision", tier="mechanistic_prediction",
@@ -1272,10 +1276,12 @@ def phosphorus_availability_figure(res, *, title=None) -> str:
 
     fig.update_layout(**S.base_layout(height=450, width=960, margin=dict(t=48, b=60, l=70, r=20),
                                       showlegend=False))
-    cap = ("Reactive P is available only in a bounded region &mdash; enough pore enrichment that "
+    cap = ("Modeled. Reactive P is available only in a bounded region &mdash; enough pore enrichment that "
            "condensation/activation outpace precipitation. Dashed = availability threshold (production = "
            "loss); dotted amber = the enrichment at which the same og-03 pore co-concentrates carbon. "
-           "PASS = right of both; left of the dashed line phosphate precipitates before it is useful.")
+           "PASS = right of both; left of the dashed line phosphate precipitates before it is useful. The "
+           "condensed/activated-P pathway is a modeled kinetic partition, not demonstrated prebiotic "
+           "polyphosphate chemistry.")
     inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
     return S.frame(inner, title=(title or "The phosphorus bottleneck — reactive-P availability landscape"),
                    phase="Resource limitation", view="Decision", tier="mechanistic_prediction",
@@ -1379,11 +1385,15 @@ def energy_phase_figure(res, *, title=None) -> str:
 
     fig.update_layout(**S.base_layout(height=450, width=960, margin=dict(t=48, b=60, l=75, r=20),
                                       showlegend=False))
-    cap = ("A pre-ATP carrier is only a currency where the geochemical drive clears the carrier bond "
-           "(red dotted gate) AND the coupling is efficient enough to hold it charged against load + "
-           "hydrolysis (dashed = viability boundary). Right: the fraction of geochemical free energy that "
-           "becomes transferable usable work &mdash; the rest is dissipated. No-coupling / no-drive "
-           "controls sit at zero (ablations).")
+    cap = ("Modeled. A pre-ATP carrier is only a currency where the geochemical drive clears the carrier "
+           "bond (red dotted gate) AND the coupling is efficient enough to hold it charged against load + "
+           "hydrolysis (dashed = viability boundary). The amber star is the canonical operating point "
+           "(final charged fraction ~0.39; ~47% of tapped free energy captured as transferable work by a "
+           "closed destination ledger); the surrounding field is the SWEPT drive × coupling range, so those "
+           "point values are specific to that operating point, not universal (charged fraction spans 0 to "
+           "~0.6 across the grid). Right: the fraction of geochemical free energy that becomes transferable "
+           "usable work &mdash; the rest is dissipated. No-coupling / no-drive controls sit at zero (the "
+           "grid-edge ablations).")
     inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
     return S.frame(inner, title=(title or "Proto-energetics — capturing free energy into a transferable currency"),
                    phase="Proto-energetics", view="Decision", tier="mechanistic_prediction",
@@ -1478,11 +1488,12 @@ def energy_provenance_figure(rows, *, title=None) -> str:
     fig.update_layout(**S.base_layout(
         height=450, width=960, margin=dict(t=48, b=60, l=70, r=60),
         legend=dict(orientation="h", y=-0.18, x=0.5, xanchor="center", font=dict(size=9))))
-    cap = ("Every kilojoule of tapped geochemical free energy is accounted: a bounded fraction is captured "
-           "as transferable currency (teal &mdash; delivered work plus the pool still charged), the rest "
-           "dissipated (uncoupled drive, discharge loss, hydrolysis). Right: input = work + stored + "
-           "dissipated, held to machine precision &mdash; free-energy accounting is the stage's "
-           "conservation invariant.")
+    cap = ("Modeled, at the canonical operating point. Every kilojoule of tapped geochemical free energy is "
+           "accounted: a bounded fraction (~47% here) is captured as transferable currency (teal &mdash; "
+           "delivered work plus the pool still charged), the rest dissipated (uncoupled drive, discharge "
+           "loss, hydrolysis). Right: input = work + stored + dissipated, held to machine precision &mdash; "
+           "free-energy accounting is the stage's conservation invariant. This is energy-currency "
+           "bookkeeping, not a demonstration of biochemical energy autonomy.")
     inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
     return S.frame(inner, title=(title or "Proto-energetics — the energy-provenance ledger"),
                    phase="Proto-energetics", view="Mechanism", tier="mechanistic_prediction",
@@ -1579,12 +1590,13 @@ def growth_division_phase_figure(res, *, title=None) -> str:
 
     fig.update_layout(**S.base_layout(height=460, width=980, margin=dict(t=48, b=62, l=78, r=20),
                                       showlegend=False))
-    cap = ("A protocell's chemistry changes its physical fate: product accumulation &rarr; osmotic "
-           "pressure &rarr; solvent influx &rarr; volume growth &rarr; division. Sustained net growth "
-           f"leading to DIVISION is a BOUNDED viable band ({viable_frac * 100:.0f}% of the grid, dashed "
-           "boundary) &mdash; too permeable starves (the product leaks before the osmotic pressure can "
-           "build), too impermeable lyses (the pressure bursts the membrane). Physical selection without "
-           "an abstract fitness score.")
+    cap = ("Modeled. A protocell's chemistry changes its physical fate: product accumulation &rarr; osmotic "
+           "pressure &rarr; solvent influx &rarr; volume growth &rarr; a MODEL-IMPOSED division rule (a "
+           "fission event fired at an osmotic/size threshold, NOT emergent mechanical scission). Sustained "
+           f"net growth reaching that DIVISION threshold is a BOUNDED viable band ({viable_frac * 100:.0f}% "
+           "of the grid, dashed boundary) &mdash; too permeable starves (the product leaks before the "
+           "osmotic pressure can build), too impermeable lyses (the pressure bursts the membrane). A "
+           "threshold crossing is not physical reproduction, heredity or autonomy.")
     inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
     return S.frame(inner, title=(title or "Metabolism → growth & division — the viable band"),
                    phase="Growth & division", view="Decision", tier="mechanistic_prediction",
@@ -2227,11 +2239,12 @@ def bioenergetic_survival_figure(res, *, title=None) -> str:
 
     fig.update_layout(**S.base_layout(height=450, width=960, margin=dict(t=48, b=60, l=72, r=20),
                                       showlegend=False))
-    cap = ("As the external gradient collapses to its floor, a lineage persists either by riding a floor "
-           "that never falls too far OR by internalizing &mdash; but internalizing only pays above the "
-           f"Sojo cost line (η≈{eff_sojo:.2f}, red). The low-floor / low-efficiency corner goes extinct. "
-           "Right: only an efficient pump truly OWNS its energy (white dashed = internalization > 0.5), "
-           "independent of the floor.")
+    cap = ("Modeled. As the external gradient collapses to its floor, a lineage persists either by riding a "
+           "floor that never falls too far OR by internalizing &mdash; but internalizing only pays above "
+           f"the Sojo cost line (η≈{eff_sojo:.2f}, red). The low-floor / low-efficiency corner (the "
+           "effectively no-pump / no-gradient control at the grid edges) goes extinct. Right: only an "
+           "efficient pump truly OWNS its energy (white dashed = internalization > 0.5), independent of the "
+           "floor. This maps survival of MODELED replicators, not demonstrated biochemical energy autonomy.")
     inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
     return S.frame(inner, title=(title or "Survival off the collapsing gradient"),
                    phase="Campaign V", view="Decision", tier="conceptual_demonstration",
