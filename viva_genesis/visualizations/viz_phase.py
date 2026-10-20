@@ -3727,3 +3727,71 @@ class SelfMaintainingDeficitViz(Visualization):
                 "Real AmphiphileChainExtensionProcess output, external feeds held equal across arms; endogenous "
                 "chemistry→membrane self-maintenance is not demonstrated (the broader individuality-emergence "
                 "question stays open)."))}
+
+
+class OperatingWindowRegimeViz(Visualization):
+    """og-operating-window regime-marked view, read from ``report_json``
+    (operating_window.json). Best enriched+retained pool vs the Soret coefficient, with
+    the consumable threshold and the defensible/extrapolated regime boundary — so the
+    narrow qualifying corner does not read as a broad rescue."""
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "The operating window is a narrow corner at the defensible Soret edge"},
+        "report_json": {"_type": "string", "_default": ""},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        import plotly.graph_objects as go
+        path = _resolve_grid_path(str(self.config.get("report_json", "") or ""))
+        if not path:
+            return {"html": S.frame("<p>No artifact found.</p>", title=self.config["title"])}
+        with open(path) as f:
+            blob = json.load(f)
+        soret = blob["axes"]["soret_coeff"]
+        es = blob["enriched_surface_M"]
+        best = [max(max(row) for row in plane) for plane in es]   # best over ΔT × feed per soret
+        thr = blob.get("consumable_threshold_M", 1e-6)
+        s_def = blob.get("defensible_soret_max", 0.01)
+        vol_all = blob.get("overlap_volume_all")
+        vol_def = blob.get("overlap_volume_defensible")
+        colors = [_TEAL if s <= s_def else _SLATE for s in soret]
+
+        fig = go.Figure()
+        # defensible / extrapolated shading
+        fig.add_vrect(x0=min(soret), x1=s_def, fillcolor="rgba(13,148,136,0.07)", line_width=0,
+                      annotation_text="defensible (C2–C3 small molecule)", annotation_position="top left")
+        fig.add_vrect(x0=s_def, x1=max(soret), fillcolor="rgba(100,116,139,0.10)", line_width=0,
+                      annotation_text="extrapolated (large-biomolecule scale)", annotation_position="top right")
+        fig.add_trace(go.Scatter(x=soret, y=best, mode="lines+markers",
+                                 marker=dict(size=11, color=colors, line=dict(width=1, color=_INK)),
+                                 line=dict(color=_INK, width=1.5), showlegend=False,
+                                 text=[f"{v:.2g} M" for v in best], textposition="top center"))
+        fig.add_hline(y=thr, line=dict(color=_RUST, width=2, dash="dash"),
+                      annotation_text=f"consumable threshold {thr:g} M", annotation_position="bottom right")
+        fig.add_vline(x=s_def, line=dict(color=_INK, width=1.4, dash="dot"))
+        fig.update_xaxes(type="log", title_text="Soret coefficient S_T (per K) — the dominant, unmeasured parameter")
+        fig.update_yaxes(type="log", title_text="best enriched + retained pool (M)")
+        fig.update_layout(**S.base_layout(height=450, margin=dict(l=70, r=30, t=54, b=66)))
+        inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+        pct_all = f"{(vol_all or 0)*100:.0f}%" if vol_all is not None else "?"
+        pct_def = f"{(vol_def or 0)*100:.0f}%" if vol_def is not None else "?"
+        return {"html": S.frame(
+            inner, title=self.config["title"],
+            phase="Operating window", view="Decisive result", tier="mechanistic_prediction",
+            caption_prefix="How to read", tone="caution",
+            caption_text=(
+                "Best enriched + retained functional pool (max over the ΔT × feed sweep) vs the Soret coefficient "
+                "S_T. The pool clears the consumable threshold (red dashed, 1e-6 M) ONLY at the upper defensible "
+                f"edge (S_T ≈ {s_def:g}/K → ~6.3e-6 M); below it the pool is short (~4–7e-7 M). The large apparent "
+                "rescue at S_T = 0.03–0.1/K sits in the EXTRAPOLATED regime (grey) — a large-biomolecule Soret "
+                "scale that is NOT defensible for C2–C3 precursors. So the simultaneous window is a NARROW corner, "
+                f"not a broad rescue: it covers only {pct_def} of the defensible Soret range vs {pct_all} of the "
+                "full swept space. S_T is the dominant parameter (Morris rank) and is UNMEASURED for C2–C3 at the "
+                "vent — the discriminating experiment is to measure it; whether S_T(C2–C3) reaches ~1e-2/K decides "
+                "the rescue. Verdict: qualified (a window exists, but hinges on this unmeasured quantity)."))}
