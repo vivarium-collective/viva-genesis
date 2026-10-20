@@ -1,0 +1,49 @@
+{
+  "study": "og-spatial-concentration",
+  "control": "transport-attribution matched nulls (\u0394T / flow / open-pore)",
+  "description": "Favourable thermal trap vs three matched nulls, every other parameter held equal. Attributes which transport term the localized enrichment depends on.",
+  "arms": {
+    "favorable": {
+      "params": {},
+      "enrichment_factor": 95534691.3789123,
+      "accumulation_peclet": 18.375000000000004,
+      "residence_time": 50.0
+    },
+    "gradient_off": {
+      "params": {
+        "delta_T": 1e-09
+      },
+      "enrichment_factor": 1.0000000006125,
+      "accumulation_peclet": 6.125000000000001e-10,
+      "residence_time": 50.0
+    },
+    "flow_off": {
+      "params": {
+        "flow_velocity": 1e-09
+      },
+      "enrichment_factor": 1.0001837668830653,
+      "accumulation_peclet": 0.00018375000000000002,
+      "residence_time": 5000000.0
+    },
+    "open_pore": {
+      "params": {
+        "porosity": 0.99
+      },
+      "enrichment_factor": 1.3001764681684915,
+      "accumulation_peclet": 0.2625000000000003,
+      "residence_time": 50.0
+    }
+  },
+  "enrichment_collapse_ratio": {
+    "gradient_off": 1.0467401801155905e-08,
+    "flow_off": 1.0469325356546233e-08,
+    "open_pore": 1.360946949639159e-08
+  },
+  "collapses_enrichment": {
+    "gradient_off": true,
+    "flow_off": true,
+    "open_pore": true
+  },
+  "attribution": "enrichment collapses under each of: gradient_off, flow_off, open_pore",
+  "note": "The accumulation P\u00e9clet (hence the enrichment) depends on all three transport terms \u2014 the thermal gradient (\u0394T), the convective flow, and the pore confinement (porosity): each off-null collapses enrichment ~10\u2078\u00d7 \u2192 ~1. Consistent with og-spatial-concentration's P\u00e9clet-gated framing; gate/verdict unchanged. (Off-nulls use epsilon 1e-9, not 0.0 \u2014 a bare 0.0 is backfilled to the default by the pbg is_empty rule and silently reproduces the favourable arm.)"
+}

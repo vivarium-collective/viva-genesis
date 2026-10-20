@@ -1,0 +1,27 @@
+{
+  "study": "og-energetics",
+  "control": "uncoupled-pump matched null (catalyst_efficiency\u22480 vs 1.0)",
+  "description": "Favourable efficient pump vs an uncoupled pump (near-zero coupling efficiency), every other parameter held equal, over a declining external gradient. Isolates that the internalization / autonomy benefit requires COUPLING, not the carrier's mere presence.",
+  "arms": {
+    "favorable": {
+      "catalyst_efficiency": 1.0,
+      "survivors": 0.9999988734815326,
+      "autonomy": 0.9930784484192473,
+      "internalization": 0.9496731213648765,
+      "free_energy_flux": 6.771501965532794e-19,
+      "lineage_fitness": 0.6771501965532793
+    },
+    "uncoupled": {
+      "catalyst_efficiency": 1e-06,
+      "survivors": 0.0,
+      "autonomy": 1.4796706298656034e-08,
+      "internalization": 0.010738805438684853,
+      "free_energy_flux": 3.3117235220442745e-20,
+      "lineage_fitness": 0.03311723522044274
+    }
+  },
+  "collapses": true,
+  "verdict": "uncoupled pump collapses (cannot internalize) \u2192 the benefit requires coupling",
+  "note_is_empty": "catalyst_efficiency=0.0 is backfilled to the default (1.0) by the pbg is_empty(0.0) rule, so the uncoupled control uses eff=1e-6; a bare 0.0 would silently reproduce the favourable arm.",
+  "note_first_law": "The formal first-law / free-energy ledger closure (in + E0 - work - dissipated = E(t), residual ~1e-16) is demonstrated by the proto-energetics arm's FreeEnergyLedgerProcess; here free_energy_flux is the internalized-power readout that collapses with the pump uncoupled."
+}

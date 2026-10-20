@@ -1,0 +1,38 @@
+{
+  "study": "og-network-persistence",
+  "control": "no-catalyst / no-feed matched nulls + post-transient gain check",
+  "window": "steady-state = last third of a 120-step run (post-transient)",
+  "arms": {
+    "favorable": {
+      "params": {},
+      "ss_net_carbon_flux": 0.0008970668767663843,
+      "ss_autocatalytic_gain": 2.9944206520921495,
+      "final_network_connected": 1.0
+    },
+    "no_catalyst": {
+      "params": {
+        "k_rtca": 1e-09
+      },
+      "ss_net_carbon_flux": 7.049252388793804e-06,
+      "ss_autocatalytic_gain": 3.6107299913134776e-11,
+      "final_network_connected": 1.0
+    },
+    "no_feed": {
+      "params": {
+        "feed_CO2": 1e-09,
+        "feed_pyruvate": 1e-09
+      },
+      "ss_net_carbon_flux": 3.3034235217901775e-16,
+      "ss_autocatalytic_gain": 1.4545441782591675e-05,
+      "final_network_connected": 1.0
+    }
+  },
+  "post_transient_gain_gt1": true,
+  "net_flux_persists": true,
+  "controls_collapse": {
+    "no_catalyst": true,
+    "no_feed": true
+  },
+  "note_is_empty": "Nulls use epsilon (1e-9), not 0.0: k_rtca=0.0 / feed=0.0 are backfilled to defaults by the pbg is_empty rule and would silently reproduce the favourable arm (verified).",
+  "verdict": "A1 confirmed feed/catalyst-driven: favourable sustains steady-state gain>1 and net carbon flux (~9e-4); removing the catalyst (k_rtca\u21920) drops the gain to ~0, and removing the feed (\u21920) drops the net flux to ~0 \u2014 both matched nulls collapse, so the sustained throughput genuinely requires both catalyst and feed. No gate change (A1 'met' stands)."
+}

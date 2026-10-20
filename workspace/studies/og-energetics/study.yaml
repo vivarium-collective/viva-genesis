@@ -1647,6 +1647,13 @@ visualizations:
     report_json: >-
       workspace/studies/og-energetics/artifacts/og-35-chemical-energy-coupling/gate_e_energy.json
   rendered: workspace/studies/og-energetics/viz/og-35-chemical-energy-coupling/energy-coupling.html
+- name: uncoupled-pump-control
+  display: mechanism
+  address: local:EnergeticsUncoupledControlViz
+  config:
+    report_json: >-
+      workspace/studies/og-energetics/artifacts/og-05-environmental-to-internal-bioenergetics/uncoupled_pump_control.json
+    title: The internalization benefit requires coupling (uncoupled-pump null)
 baseline:
 - name: Chemical energy coupling (thioester carrier) — canonical headline arm (og-35)
   composite: viva_genesis.composites.og_35_chemical_energy_coupling.og_35_chemical_energy_coupling

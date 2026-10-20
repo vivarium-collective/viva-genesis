@@ -3308,3 +3308,160 @@ class PoreColocalizationMap(Visualization):
                 peclets=tuple(np.geomspace(1.0, 32.0, n_pe)),
                 soret_scales=tuple(np.geomspace(0.5, 8.0, n_s)))
         return {"html": colocalization_figure(res, title=self.config["title"])}
+
+
+class PoreTransportAttributionViz(Visualization):
+    """og-spatial-concentration transport-attribution control — the favourable thermal
+    trap vs matched nulls (ΔT=0, flow=0, open-pore), read from ``report_json``
+    (gradient_off_control.json). Enrichment collapses ONLY for the open-pore null: the
+    reduced-model accumulation Péclet is set by pore confinement, not ΔT or flow."""
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "What drives the localized enrichment? (transport attribution)"},
+        "report_json": {"_type": "string", "_default": ""},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        import plotly.graph_objects as go
+        path = _resolve_grid_path(str(self.config.get("report_json", "") or ""))
+        if not path:
+            return {"html": S.frame("<p>No control artifact found.</p>", title=self.config["title"])}
+        with open(path) as f:
+            blob = json.load(f)
+        arms = blob["arms"]
+        collapses = blob.get("collapses_enrichment", {})
+        order = ["favorable", "gradient_off", "flow_off", "open_pore"]
+        labels = {"favorable": "favourable<br>trap", "gradient_off": "ΔT = 0<br>(gradient off)",
+                  "flow_off": "flow = 0<br>(no convection)", "open_pore": "open pore<br>(porosity≈1)"}
+        present = [k for k in order if k in arms]
+        xs = [labels[k] for k in present]
+        ys = [arms[k].get("enrichment_factor") or 0.0 for k in present]
+        colors = [_TEAL if k == "favorable" else (_RUST if collapses.get(k) else _SLATE) for k in present]
+        fig = go.Figure(go.Bar(x=xs, y=ys, marker_color=colors,
+                               text=[f"{v:.3g}×" for v in ys], textposition="outside"))
+        fig.update_yaxes(type="log", title_text="enrichment factor (×, log)", showgrid=True, gridcolor="#eef2f7")
+        fig.update_layout(**S.base_layout(height=430, showlegend=False, margin=dict(l=72, r=28, t=42, b=76)))
+        inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+        return {"html": S.frame(
+            inner, title=self.config["title"],
+            phase="Spatial organization", view="Control", tier="mechanistic_prediction",
+            caption_prefix="How to read", tone="neutral",
+            caption_text=(
+                "Matched-null transport attribution for the localized enrichment, every other parameter held "
+                "equal on the real FiPy ThermophoreticTrapProcess. Enrichment collapses (~10⁸× → ~1) under EACH "
+                "off-null — thermal-gradient-off (ΔT→0), no-convection (flow→0) and open-pore (porosity≈1) — so "
+                "the accumulation Péclet, hence the localized enrichment, depends on all three transport terms: "
+                "the thermal gradient, the convective flow, and the pore confinement. Any one removed destroys "
+                "the trap. Consistent with the study's Péclet-gated framing; gate/verdict unchanged. Method note: "
+                "the off-nulls use a near-zero epsilon (1e-9), not 0.0 — a bare 0.0 is backfilled to the "
+                "parameter default (the pbg is_empty rule) and would silently reproduce the favourable arm."))}
+
+
+class NetworkControlViz(Visualization):
+    """og-network-persistence no-catalyst / no-feed matched-null control, read from
+    ``report_json`` (network_controls.json). Steady-state net carbon flux collapses when
+    the catalyst (k_rtca→0) or the feed (→0) is removed — A1's sustained throughput is
+    genuinely feed/catalyst-driven."""
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "Sustained throughput requires feed + catalyst (matched nulls)"},
+        "report_json": {"_type": "string", "_default": ""},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        import plotly.graph_objects as go
+        path = _resolve_grid_path(str(self.config.get("report_json", "") or ""))
+        if not path:
+            return {"html": S.frame("<p>No control artifact found.</p>", title=self.config["title"])}
+        with open(path) as f:
+            blob = json.load(f)
+        arms = blob["arms"]
+        collapse = blob.get("controls_collapse", {})
+        order = ["favorable", "no_catalyst", "no_feed"]
+        labels = {"favorable": "favourable", "no_catalyst": "no catalyst<br>(k_rtca→0)", "no_feed": "no feed<br>(→0)"}
+        present = [k for k in order if k in arms]
+        xs = [labels[k] for k in present]
+        ys = [max(arms[k].get("ss_net_carbon_flux") or 0.0, 1e-18) for k in present]
+        colors = [_TEAL if k == "favorable" else (_RUST if collapse.get(k) else _SLATE) for k in present]
+        gains = [arms[k].get("ss_autocatalytic_gain") for k in present]
+        fig = go.Figure(go.Bar(x=xs, y=ys, marker_color=colors,
+                               text=[f"gain {g:.2g}" if g is not None else "" for g in gains],
+                               textposition="outside"))
+        fig.update_yaxes(type="log", title_text="steady-state net carbon flux (mol/s, log)",
+                         showgrid=True, gridcolor="#eef2f7")
+        fig.update_layout(**S.base_layout(height=420, showlegend=False, margin=dict(l=78, r=28, t=42, b=64)))
+        inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+        return {"html": S.frame(
+            inner, title=self.config["title"],
+            phase="Network persistence", view="Control", tier="mechanistic_prediction",
+            caption_prefix="How to read", tone="neutral",
+            caption_text=(
+                "Matched nulls on the real libRoadRunner protometabolic CSTR, steady-state (post-transient, "
+                "last third of a 120-step run), every other parameter held equal. The favourable network sustains "
+                "net carbon flux (~9e-4 mol/s) with autocatalytic gain ~3; removing the catalyst (k_rtca→0) drops "
+                "the gain to ~0 and removing the feed (→0) drops the net flux to ~0 — both nulls collapse, so A1's "
+                "sustained throughput genuinely requires both the catalyst and the feed (it is not a source-driven "
+                "transient). Method note: the off-nulls use epsilon (1e-9), not 0.0 — a bare 0.0 is backfilled to "
+                "the parameter default (pbg is_empty rule) and would reproduce the favourable arm."))}
+
+
+class EnergeticsUncoupledControlViz(Visualization):
+    """og-energetics uncoupled-pump matched-null control, read from ``report_json``
+    (uncoupled_pump_control.json). Survivors and autonomy collapse when the pump is
+    uncoupled (catalyst_efficiency→0) — the internalization benefit requires coupling."""
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "The internalization benefit requires coupling (uncoupled-pump null)"},
+        "report_json": {"_type": "string", "_default": ""},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        import plotly.graph_objects as go
+        path = _resolve_grid_path(str(self.config.get("report_json", "") or ""))
+        if not path:
+            return {"html": S.frame("<p>No control artifact found.</p>", title=self.config["title"])}
+        with open(path) as f:
+            blob = json.load(f)
+        arms = blob["arms"]
+        fav, unc = arms.get("favorable", {}), arms.get("uncoupled", {})
+        metrics = [("survivors", "survivors"), ("autonomy", "autonomy"), ("internalization", "internalization")]
+        xs = [m[1] for m in metrics]
+        fig = go.Figure()
+        fig.add_bar(x=xs, y=[fav.get(m[0]) or 0.0 for m in metrics], name="favourable (coupled)", marker_color=_TEAL)
+        fig.add_bar(x=xs, y=[unc.get(m[0]) or 0.0 for m in metrics], name="uncoupled pump", marker_color=_RUST)
+        fig.update_yaxes(title_text="fraction", range=[0, 1.05], showgrid=True, gridcolor="#eef2f7")
+        fig.update_layout(**S.base_layout(height=420, barmode="group",
+                                          legend=dict(orientation="h", y=-0.18, x=0.5, xanchor="center"),
+                                          margin=dict(l=60, r=28, t=42, b=66)))
+        inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+        return {"html": S.frame(
+            inner, title=self.config["title"],
+            phase="Energy", view="Control", tier="mechanistic_prediction",
+            caption_prefix="How to read", tone="neutral",
+            caption_text=(
+                "Matched null on the real bioenergetic-internalization selection loop over a declining external "
+                "gradient, every other parameter held equal. The favourable efficient pump internalizes gradient "
+                "generation and persists (survivors ~1, autonomy ~0.99); an UNCOUPLED pump (near-zero coupling "
+                "efficiency) cannot internalize and the lineage collapses (survivors 0, autonomy ~0) — so the "
+                "internalization/autonomy benefit requires COUPLING, not the carrier's mere presence. The formal "
+                "first-law free-energy ledger (in + E0 − work − dissipated = E(t), residual ~1e-16) is closed by "
+                "the proto-energetics arm. Method note: the uncoupled arm uses catalyst_efficiency=1e-6, not 0.0 "
+                "(a bare 0.0 is backfilled to the default by the pbg is_empty rule)."))}
