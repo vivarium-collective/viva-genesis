@@ -10884,17 +10884,10 @@
     // Headline.
     if (headline) H.push('<h2 class="inv-brief-q">' + _invInline(headline) + '</h2>');
 
-    // (The verdict moved out of the header into its own canonical tab below, so
-    // the long status paragraph no longer pushes the rest of the page down.)
-
-    // Introduction — the full what_is_this rendered as markdown prose.
-    if (whatIs) H.push('<div class="inv-brief-prose inv-brief-intro">' + _renderInvLeadMarkdown(whatIs) + '</div>');
-
-    // Meta — the driving question + hypothesis, one muted line each.
-    var _meta = [];
-    if (q) _meta.push('<span class="inv-brief-meta-item"><em>Question</em> ' + _invInline(oneline(q)) + '</span>');
-    if (hyp) _meta.push('<span class="inv-brief-meta-item"><em>Hypothesis</em> ' + _invInline(hyp) + '</span>');
-    if (_meta.length) H.push('<div class="inv-brief-meta">' + _meta.join('') + '</div>');
+    // Front stays lean — just the headline — so the investigation graph sits high
+    // on the page. The overview, verdict, background (with the question/hypothesis
+    // + evidence folded in), plan and decisions all live behind the tab strip
+    // below; only the short Overview tab shows on load.
 
     // Canonical section set — a FIXED, ordered list of tabs so every
     // investigation renders the SAME shape (reproducible across the workspace),
@@ -10920,32 +10913,13 @@
 
     var tabs = [];
 
-    // 1. Verdict — the campaign's current answer (executive.verdict). First tab
-    // so the answer is what opens; the colored VS pill is kept for status.
-    if (verdict)
-      tabs.push({ id:'verdict', label:'Verdict', badge: vs ? vs.toUpperCase() : '',
-        html: '<div class="inv-brief-verdict-tab inv-vs-' + vsClass + '">' +
-          '<span class="inv-vs-pill">' + _esc(vs.toUpperCase()) + '</span>' +
-          '<div class="inv-brief-verdict-text">' + _invInline(verdict) + '</div></div>' });
-
-    // 2. Background — the lead intro (falls back to description).
-    if (leadProse)
-      tabs.push({ id:'background', label:'Background', html:
-        '<div class="inv-brief-prose">' + _renderInvLeadMarkdown(leadProse) + '</div>' });
-
-    // 3. Biology — the plain-English mechanism narrative (biological_story).
-    if (bio)
-      tabs.push({ id:'biology', label:'Biology', html:
-        '<div class="inv-brief-prose">' + _renderInvLeadMarkdown(bio) + '</div>' });
-
-    // 4. Hypothesis & evidence — the structured argument (scientific_argument
-    // main_claim + key_claims as CITED claims), with the competing interpretive
-    // frameworks FOLDED IN as a trailing note rather than a separate, usually
-    // thin tab. Citation chips resolve from references/papers.bib.
+    // Structured-argument (evidence) body — now folded INTO Background rather than
+    // its own tab (scientific_argument main_claim + key_claims as cited claims +
+    // competing frameworks). Citation chips resolve from references/papers.bib.
     var kclaims    = Array.isArray(d.key_claims) ? d.key_claims : [];
     var sciArg     = d.scientific_argument || {};
     var frameworks = Array.isArray(d.competing_frameworks) ? d.competing_frameworks : [];
-    if (kclaims.length || sciArg.main_claim || frameworks.length) {
+    function _evidenceBody() {
       var evBody = '';
       if (sciArg.main_claim)
         evBody += '<p class="inv-brief-prose" style="font-weight:600;margin:0 0 10px">' +
@@ -10967,8 +10941,53 @@
             return '<li><strong>' + _escInv(f.name || '') + '</strong>' +
               (f.relation ? ' <span class="muted">— ' + _escInv(f.relation) + '</span>' : '') + '</li>';
           }).join('') + '</ul></div>';
-      tabs.push({ id: 'evidence', label: 'Hypothesis & evidence', html: evBody });
+      return evBody;
     }
+
+    // 1. Overview — the lean landing tab (DEFAULT): a one-paragraph what-is-this +
+    // the verdict in brief (status pill + opening sentence). Deliberately short so
+    // the investigation graph sits high on the page; depth lives in the tabs below.
+    var whatIsLede = whatIs ? whatIs.split(/\n\s*\n/)[0].trim() : '';
+    var ovParts = [];
+    if (whatIsLede)
+      ovParts.push('<div class="inv-brief-prose inv-brief-overview-lede">' +
+        _renderInvLeadMarkdown(whatIsLede) + '</div>');
+    if (verdict)
+      ovParts.push('<div class="inv-brief-overview-verdict inv-vs-' + vsClass + '" ' +
+        'style="margin-top:10px;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap">' +
+        '<span class="inv-vs-pill">' + _esc(vs.toUpperCase()) + '</span> ' +
+        '<span class="inv-brief-overview-verdict-text" style="color:#475569">' +
+        _invInline(headlineOf(verdict)) + '</span></div>');
+    if (ovParts.length)
+      tabs.push({ id:'overview', label:'Overview', html: ovParts.join('') });
+
+    // 2. Verdict — the full campaign answer (executive.verdict); behind a click.
+    if (verdict)
+      tabs.push({ id:'verdict', label:'Verdict', badge: vs ? vs.toUpperCase() : '',
+        html: '<div class="inv-brief-verdict-tab inv-vs-' + vsClass + '">' +
+          '<span class="inv-vs-pill">' + _esc(vs.toUpperCase()) + '</span>' +
+          '<div class="inv-brief-verdict-text">' + _invInline(verdict) + '</div></div>' });
+
+    // 3. Background — the lead intro, the driving Question + Hypothesis, and the
+    // structured argument (Hypothesis & evidence folded in here per the owner).
+    var bgParts = [];
+    if (leadProse)
+      bgParts.push('<div class="inv-brief-prose">' + _renderInvLeadMarkdown(leadProse) + '</div>');
+    var _bgMeta = [];
+    if (q) _bgMeta.push('<span class="inv-brief-meta-item"><em>Question</em> ' + _invInline(oneline(q)) + '</span>');
+    if (hyp) _bgMeta.push('<span class="inv-brief-meta-item"><em>Hypothesis</em> ' + _invInline(hyp) + '</span>');
+    if (_bgMeta.length) bgParts.push('<div class="inv-brief-meta">' + _bgMeta.join('') + '</div>');
+    var _evBody = _evidenceBody();
+    if (_evBody)
+      bgParts.push('<div class="inv-brief-evidence">' +
+        '<div class="inv-brief-frameworks-label">Hypothesis &amp; evidence</div>' + _evBody + '</div>');
+    if (bgParts.length)
+      tabs.push({ id:'background', label:'Background', html: bgParts.join('') });
+
+    // 4. Biology — the plain-English mechanism narrative (biological_story).
+    if (bio)
+      tabs.push({ id:'biology', label:'Biology', html:
+        '<div class="inv-brief-prose">' + _renderInvLeadMarkdown(bio) + '</div>' });
 
     // 5. How to read — evaluator tips (string prose or a list of tips).
     if (hasHowto)
@@ -11007,12 +11026,8 @@
         badge: _nDec ? (_nDec + ' needed') : 'all clear', attention: _nDec > 0 });
     }
 
-    // Lead with the argument, not the verdict wall: make "Hypothesis & evidence" the
-    // default (first/active) tab; Verdict stays available, just not the landing.
-    var _evIdx = -1;
-    for (var _ti = 0; _ti < tabs.length; _ti++) { if (tabs[_ti].id === 'evidence') { _evIdx = _ti; break; } }
-    if (_evIdx > 0) tabs.unshift(tabs.splice(_evIdx, 1)[0]);
-
+    // Overview is pushed first, so it is the default (active) tab via the i===0
+    // rule below; every other tab (Verdict, Background, …) is reached by a click.
     if (tabs.length) {
       H.push('<div class="inv-brief-tabs" role="tablist">' + tabs.map(function(t, i) {
         var _cls = 'inv-brief-tab' + (i === 0 ? ' active' : '') + (t.attention ? ' inv-brief-tab-attn' : '');
@@ -13299,6 +13314,23 @@
   }
   window._aigZoomBy = _aigZoomBy;
   window._aigFit = _aigFit;
+  // Fill to screen (toolbar ⤢ Fit): fit the WHOLE graph to the viewport in both
+  // dimensions and CENTRE it — the on-demand "re-fit + centre now" control. Unlike
+  // the passive auto-fill, it runs even after the user has taken over the view.
+  function _aigFillToScreen() {
+    var shell = document.getElementById('investigation-dag-shell');
+    if (!shell) return;
+    try { _aigCloseCardPopout(); } catch (_e) { /* ignore */ }
+    var cw = parseFloat(shell.dataset.canvasW) || 1, ch = parseFloat(shell.dataset.canvasH) || 1;
+    var z = Math.min((shell.clientWidth - 16) / cw, (shell.clientHeight - 16) / ch);
+    aigZoom = Math.max(0.3, Math.min(2, z || 1));
+    _applyAigZoom();
+    // Centre the now-fully-visible graph in the viewport.
+    shell.scrollLeft = Math.max(0, (cw * aigZoom - shell.clientWidth) / 2);
+    shell.scrollTop  = Math.max(0, (ch * aigZoom - shell.clientHeight) / 2);
+    try { _aigSyncZoomUI(aigBand, aigZoom); } catch (_e) { /* ignore */ }
+  }
+  window._aigFillToScreen = _aigFillToScreen;
   window._aigFullscreen = _aigFullscreen;
   window._aigExpand = _aigExpand;
 
@@ -13434,6 +13466,7 @@
   }, true);
   // Drag anywhere on the shell background to pan (card clicks still work).
   document.addEventListener('pointerdown', function (e) {
+    if (e.pointerType === 'touch') return;   // touch pan + pinch is owned by _aigWireTouch
     var shell = e.target.closest && e.target.closest('#investigation-dag-shell');
     if (!shell || (e.target.closest && e.target.closest('.iset-dag-node'))) return;
     var sx = e.clientX, sy = e.clientY, sl = shell.scrollLeft, st0 = shell.scrollTop, moved = false;
@@ -13443,6 +13476,9 @@
       document.removeEventListener('pointermove', mv);
       document.removeEventListener('pointerup', up);
       shell.style.cursor = '';
+      // A real pan means the user now owns the view — stop auto-fit from snapping
+      // it back to the fit on the next re-render / resize / poll.
+      if (moved) { try { window._aigMarkUserZoomed(); } catch (_e) { /* ignore */ } }
     }
     document.addEventListener('pointermove', mv);
     document.addEventListener('pointerup', up);
@@ -13538,6 +13574,54 @@
   window._aigWireWheelZoom = _aigWireWheelZoom;
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', _aigWireWheelZoom);
   else _aigWireWheelZoom();
+
+  // Touch: one-finger PAN + two-finger PINCH-zoom on the graph shell, so the
+  // investigation graph is navigable on a phone. touch-action:none on the shell
+  // (template) keeps these gestures from scrolling / zooming the PAGE instead; the
+  // mouse/pen pan path (pointerdown above) ignores touch so the two never fight.
+  // Both gestures mark the view user-owned, so auto-fit won't snap it back.
+  function _aigWireTouch() {
+    var shell = document.getElementById('investigation-dag-shell');
+    if (!shell || shell._aigTouchWired) return;
+    shell._aigTouchWired = true;
+    var mode = 0, sx = 0, sy = 0, sl = 0, st = 0, startDist = 1, startZoom = 1;
+    function dist(t) {
+      var dx = t[0].clientX - t[1].clientX, dy = t[0].clientY - t[1].clientY;
+      return Math.sqrt(dx * dx + dy * dy);
+    }
+    shell.addEventListener('touchstart', function (e) {
+      if (e.target.closest && e.target.closest('.iset-dag-node')) return;   // let node taps through
+      if (e.touches.length === 1) {
+        mode = 1; sx = e.touches[0].clientX; sy = e.touches[0].clientY; sl = shell.scrollLeft; st = shell.scrollTop;
+      } else if (e.touches.length >= 2) {
+        mode = 2; startDist = dist(e.touches) || 1; startZoom = aigZoom;
+      }
+    }, { passive: true });
+    shell.addEventListener('touchmove', function (e) {
+      if (mode === 1 && e.touches.length === 1) {
+        e.preventDefault();
+        shell.scrollLeft = sl - (e.touches[0].clientX - sx);
+        shell.scrollTop  = st - (e.touches[0].clientY - sy);
+      } else if (mode === 2 && e.touches.length >= 2) {
+        e.preventDefault();
+        aigZoom = Math.max(0.3, Math.min(2, startZoom * (dist(e.touches) / startDist)));
+        _applyAigZoom();
+        try { _aigSyncZoomUI(aigBand, aigZoom); } catch (_e) { /* ignore */ }
+      }
+    }, { passive: false });
+    function end(e) {
+      if (mode) { try { window._aigMarkUserZoomed(); } catch (_e) { /* ignore */ } }
+      if (!e.touches || e.touches.length === 0) { mode = 0; }
+      else if (e.touches.length === 1) {
+        mode = 1; sx = e.touches[0].clientX; sy = e.touches[0].clientY; sl = shell.scrollLeft; st = shell.scrollTop;
+      }
+    }
+    shell.addEventListener('touchend', end, { passive: true });
+    shell.addEventListener('touchcancel', end, { passive: true });
+  }
+  window._aigWireTouch = _aigWireTouch;
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', _aigWireTouch);
+  else _aigWireTouch();
 
   function _setAigBand(b) {
     var nb = Math.max(0, Math.min(2, b | 0));
