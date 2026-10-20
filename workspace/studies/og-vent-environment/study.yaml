@@ -14,6 +14,10 @@ key_assumptions:
 - "The vent is a serpentinizing peridotite (olivine+pyroxene) endmember (Ca buffers the fluid to pH ~9.5)"
 - "Habitability is a bounded olivine-rate x flow-velocity region, not one tuned run"
 - "The posterior is conditioned on the Lost City T/pH/H2 field windows"
+- "Grid-convergence control: outlet observables (T, pH, H2) converge to <1% of the finest mesh (nx=160) by
+  nx=40 - the study's resolution is resolved, not under-meshed - with PHREEQC charge balance exact (|imbalance|
+  0) across nx {20,40,80,120,160}, and the converged outlet (T ~50 C, mineral-buffered pH ~9.4, positive H2)
+  inside the Lost City literature windows (Kelley/Proskurowski/Seyfried)."
 evidence_tier: mechanistic_prediction
 program: consolidated
 title: 'The Vent Environment: Does It Supply a Viable Feed?'
@@ -1032,6 +1036,13 @@ visualizations:
     composite: viva_genesis.composites.geochemical_world.geochemical_world
     n_steps: 120
     title: Geochemical world at the operating point (World view)
+- name: grid-convergence-control
+  display: mechanism
+  address: local:VentGridConvergenceViz
+  config:
+    report_json: >-
+      workspace/studies/og-vent-environment/artifacts/og-00-vent-reactor-baseline/grid_convergence_control.json
+    title: The vent reactor is grid-converged at nx=40, in the Lost City window
 baseline:
 - name: Serpentinizing vent reactor baseline (og-00 arm)
   composite: viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor

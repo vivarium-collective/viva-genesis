@@ -1,0 +1,131 @@
+{
+  "study": "og-vent-environment",
+  "control": "grid-convergence (nx sweep) + PHREEQC-vs-literature speciation",
+  "nx_grid": [
+    20,
+    40,
+    80,
+    120,
+    160
+  ],
+  "arms": [
+    {
+      "nx": 20,
+      "temperature_K": 324.99638266265504,
+      "temperature_C": 51.84638266265506,
+      "pH": 9.349278203881482,
+      "porosity": 0.17849184950167649,
+      "H2": 0.016533822471645962,
+      "alkalinity": 0.0007089836307633652,
+      "charge_imbalance": 0.0,
+      "flux_divergence_residual": 2.9162593482323435e-05
+    },
+    {
+      "nx": 40,
+      "temperature_K": 323.7413780225538,
+      "temperature_C": 50.59137802255384,
+      "pH": 9.383073574292382,
+      "porosity": 0.17821184729848216,
+      "H2": 0.016577936937641428,
+      "alkalinity": 0.0007109580008216195,
+      "charge_imbalance": 0.0,
+      "flux_divergence_residual": 4.9147275242069556e-05
+    },
+    {
+      "nx": 80,
+      "temperature_K": 323.46949624931017,
+      "temperature_C": 50.31949624931019,
+      "pH": 9.391196575188902,
+      "porosity": 0.17814339095824547,
+      "H2": 0.016587480615784647,
+      "alkalinity": 0.0007114340451028952,
+      "charge_imbalance": 0.0,
+      "flux_divergence_residual": 5.93265075683926e-05
+    },
+    {
+      "nx": 120,
+      "temperature_K": 323.42182475185336,
+      "temperature_C": 50.27182475185339,
+      "pH": 9.392605072487656,
+      "porosity": 0.17813054333719738,
+      "H2": 0.016589075510484518,
+      "alkalinity": 0.0007115203028543759,
+      "charge_imbalance": 0.0,
+      "flux_divergence_residual": 6.830242234340845e-05
+    },
+    {
+      "nx": 160,
+      "temperature_K": 323.33632793746125,
+      "temperature_C": 50.18632793746127,
+      "pH": 9.394701625712779,
+      "porosity": 0.17812246333407097,
+      "H2": 0.01659105761389028,
+      "alkalinity": 0.0007116033242380089,
+      "charge_imbalance": 0.0,
+      "flux_divergence_residual": 7.283938194413992e-05
+    }
+  ],
+  "convergence_rel_to_finest": {
+    "20": {
+      "temperature_C": 0.033077828034408764,
+      "pH": 0.004835004201408075,
+      "porosity": 0.002073776438363777,
+      "H2": 0.0034497585130680037,
+      "alkalinity": 0.003681395779662681
+    },
+    "40": {
+      "temperature_C": 0.008070924925954218,
+      "pH": 0.0012377243986729145,
+      "porosity": 0.0005018118587521859,
+      "H2": 0.0007908282012033463,
+      "alkalinity": 0.0009068583498825883
+    },
+    "80": {
+      "temperature_C": 0.002653477895710255,
+      "pH": 0.00037308800891388015,
+      "porosity": 0.00011749008958653215,
+      "H2": 0.00021559795577105406,
+      "alkalinity": 0.0002378841263775745
+    },
+    "120": {
+      "temperature_C": 0.0017035877679406183,
+      "pH": 0.00022316336469742977,
+      "porosity": 4.5362067058635334e-05,
+      "H2": 0.00011946817688733348,
+      "alkalinity": 0.0001166680660492176
+    },
+    "160": {
+      "temperature_C": 0.0,
+      "pH": 0.0,
+      "porosity": 0.0,
+      "H2": 0.0,
+      "alkalinity": 0.0
+    }
+  },
+  "nx40_converged_under_1pct": true,
+  "max_charge_imbalance_over_sweep": 0.0,
+  "lostcity_literature_check": {
+    "windows": {
+      "temperature_C": [
+        40.0,
+        91.0
+      ],
+      "pH": [
+        9.0,
+        11.0
+      ],
+      "H2_positive": true
+    },
+    "converged_outlet": {
+      "temperature_C": 50.18632793746127,
+      "pH": 9.394701625712779,
+      "H2": 0.01659105761389028
+    },
+    "in_window": {
+      "temperature_C": true,
+      "pH": true,
+      "H2_positive": true
+    }
+  },
+  "verdict": "nx=40 IS converged (<1% of nx=160 on every outlet observable); outlet speciation in the Lost City literature windows; charge balance held (max |imbalance| 0.00e+00)."
+}
