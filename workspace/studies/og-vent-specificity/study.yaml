@@ -39,14 +39,16 @@ gate_reason: >-
   and fixed a latent control-integrity bug (catalyst_active=0 silently swallowed by process-bigraph is_empty).
   og-ev-competing-environments (planned) extends the falsification to competing origin environments.
 claim: >-
-  The campaign's discriminating gates are specific to the serpentinizing alkaline vent, not to generic
-  non-equilibrium. Run with the vent's characteristic features ablated (no sustained H2, no Fe/Ni/S catalyst,
-  no pore concentration), the same real og-01/02/03 composites fail all five gates (carbon flux, formate
-  yield, protometabolic throughput, thermophoretic Peclet, enrichment) while the vent passes each — the
+  A generic drive stripped of ALL THREE vent features at once (no sustained H2, no Fe/Ni/S catalyst, no
+  pore concentration) fails all five discriminating gates on the same real og-01/02/03 composites while the
+  vent passes each — so the campaign's gates are NOT merely generic non-equilibrium detectors; the
   generic-nonequilibrium null is refuted by every gate (og-adv, canonical; verdict=refuted = null correctly
-  rejected, gate_status=passed = the control discriminates). A planned competing-environments study extends
-  the falsification. Consolidated: the gates detect this vent, not any drive — specificity demonstrated
-  via a refuted-by-design null. Every matched null and arm verdict kept.
+  rejected, gate_status=passed = the control discriminates). This is a LUMPED, all-feature-ablated contrast:
+  it does not attribute the rejection to any single feature, and full vent-specificity — against competing
+  realistic alternative environments — is NOT yet demonstrated (the H2 × Fe/Ni/S × pore-gradient 3-way
+  factorial and the competing-environments study are planned, not run). Consolidated: specificity is
+  demonstrated against a feature-ablated null, not yet against competing origin environments. Every matched
+  null and arm verdict kept.
 question: >-
   Do the campaign's discriminating gates detect the serpentinizing alkaline vent specifically, or would
   any generic non-equilibrium drive pass them?
@@ -59,10 +61,12 @@ experiment: >-
   canonical) and the planned competing-environments falsification as arms, preserving the refuted-by-design
   null verdict; report that the gates discriminate the vent (generic null refuted).
 result: >-
-  The campaign's gates are vent-specific — ablating the vent's features makes the real composites fail
-  all five gates while the vent passes, so the generic-nonequilibrium null is refuted (correctly rejected)
-  and specificity is demonstrated. A latent catalyst_active=0 control-integrity bug was found and fixed
-  building the control.
+  Ablating all three vent features at once makes the real composites fail all five gates while the vent
+  passes, so the generic-nonequilibrium null is refuted (correctly rejected) — the gates are not merely
+  generic-drive detectors. This is a lumped, all-feature-ablated contrast: specificity is demonstrated
+  against ablation, NOT yet against competing realistic environments (the H2 × Fe/Ni/S × pore-gradient
+  3-way factorial and the competing-environments study are planned, not run). A latent catalyst_active=0
+  control-integrity bug was found and fixed building the control.
 builds_on: []
 handoff:
   emits: []
