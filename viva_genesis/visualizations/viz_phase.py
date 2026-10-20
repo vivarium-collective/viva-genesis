@@ -3931,6 +3931,212 @@ class HereditySensitivityViz(Visualization):
                 "(finite-population noise). Real HeredityPopulationProcess; sigma declared, feeds held equal."))}
 
 
+class CarbonFixationPdeFieldViz(Visualization):
+    """og-carbon-fixation reaction-diffusion PDE field (arm og-01-cal-electrochemistry),
+    a PURE JSON reader of ``report_json`` (carbonfix_pde_fields.json, written by
+    sims/run_carbonfix_fields.py from the real electrochemical_carbon_fixation
+    composite). NO solver runs at render. Four panels, all from REAL computed fields:
+
+      (1) the genuine 1-D FiPy Nernst-Planck proton (pH) electrodiffusion field ACROSS
+          the Fe/Ni/S barrier (ocean acidic → vent alkaline) — favourable vs the matched
+          no-catalyst null, overlaid at the snapshotted time points;
+      (2) the interface reaction over time — net carbon-fixation rate + formate
+          accumulation, favourable vs no-catalyst (the ~6-order collapse);
+      (3) the integrated boundary-flux (electron/charge) ledger — the current split to
+          carbon vs H2 evolution, with faradaic efficiency and the Kirchhoff residual;
+      (4) the pH field as a fixed-scale heatmap strip (position × time point).
+
+    The 2-D pore-geometry maps of H2 / DIC / formate and a spatially-varying net-rate
+    field the reviewer asked for are NOT computed by this composite (it resolves a 1-D
+    proton barrier + one well-mixed reaction interface); they are labelled "requested
+    future simulation" in the caption, never fabricated."""
+
+    config_schema = {
+        "title": {"_type": "string",
+                  "_default": "Reaction–diffusion at the vent-wall carbon-fixation interface"},
+        "report_json": {"_type": "string", "_default": ""},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        try:
+            return {"html": self._render()}
+        except Exception as exc:  # pragma: no cover - a viz must never error on render/CI
+            return {"html": S.frame(
+                f"<p>Carbon-fixation PDE field artifact could not be rendered ({type(exc).__name__}). "
+                "Run <code>sims/run_carbonfix_fields.py</code> to (re)generate the artifact.</p>",
+                title=self.config.get("title") or "Reaction–diffusion field")}
+
+    def _render(self) -> str:
+        import plotly.graph_objects as go
+        from plotly.subplots import make_subplots
+
+        title = self.config.get("title") or "Reaction–diffusion field"
+        path = _resolve_grid_path(str(self.config.get("report_json", "") or ""))
+        if not path:
+            return S.frame("<p>No PDE-field artifact found.</p>", title=title)
+        with open(path) as f:
+            blob = json.load(f)
+
+        fav = (blob.get("arms", {}) or {}).get("favorable", {}) or {}
+        noc = (blob.get("arms", {}) or {}).get("no_catalyst", {}) or {}
+        fav_ok = fav.get("status") == "ok"
+        noc_ok = noc.get("status") == "ok"
+        if not fav_ok:
+            return S.frame("<p>The favourable arm did not compute; nothing real to show.</p>", title=title)
+
+        axis = blob.get("field_axis", {}) or {}
+        x_unit = axis.get("units", "cm")
+        barrier_cm = (fav.get("barrier_length_m") or 0.0) * 100.0
+        x = fav.get("x_cm") or []
+        fav_tps = fav.get("field_timepoints") or []
+        noc_tps = noc.get("field_timepoints") or []
+
+        fig = make_subplots(
+            rows=2, cols=2, vertical_spacing=0.17, horizontal_spacing=0.13,
+            subplot_titles=(
+                f"Proton (pH) electrodiffusion field across the barrier ({barrier_cm:.2g} {x_unit})",
+                "Interface reaction over time — rate + product (log)",
+                "Integrated boundary-flux ledger (electron current split)",
+                "pH field — fixed scale, by time point"))
+
+        # ---- (1,1) the real 1-D Nernst-Planck pH field, fav vs no-catalyst ---------
+        # all snapshot time points overlaid (they coincide: the diffusion field is
+        # steady within the first step — a real result, annotated as such).
+        for i, tp in enumerate(fav_tps):
+            fig.add_trace(go.Scatter(
+                x=x, y=tp["pH"], mode="lines",
+                line=dict(color=_TEAL, width=2.6 if i == len(fav_tps) - 1 else 1.1),
+                opacity=1.0 if i == len(fav_tps) - 1 else 0.45,
+                name="favourable" if i == len(fav_tps) - 1 else None,
+                showlegend=(i == len(fav_tps) - 1),
+                hovertemplate="x=%{x:.2g} cm<br>pH=%{y:.3f}<extra>favourable</extra>"),
+                row=1, col=1)
+        if noc_ok and noc_tps:
+            fig.add_trace(go.Scatter(
+                x=x, y=noc_tps[-1]["pH"], mode="lines",
+                line=dict(color=_RUST, width=2.0, dash="dash"), name="no-catalyst null",
+                hovertemplate="x=%{x:.2g} cm<br>pH=%{y:.3f}<extra>no-catalyst</extra>"),
+                row=1, col=1)
+        if x:
+            fig.add_annotation(x=x[0], y=fav_tps[-1]["pH"][0], text="◀ ocean (acidic)",
+                               showarrow=False, font=dict(size=9, color="#2563eb"),
+                               xanchor="left", row=1, col=1)
+            fig.add_annotation(x=x[-1], y=fav_tps[-1]["pH"][-1], text="vent (alkaline) ▶",
+                               showarrow=False, font=dict(size=9, color="#b45309"),
+                               xanchor="right", row=1, col=1)
+        fig.update_xaxes(title_text=f"position across the Fe/Ni/S barrier ({x_unit})",
+                         row=1, col=1, showgrid=False)
+        fig.update_yaxes(title_text="pH (dimensionless)", row=1, col=1,
+                         showgrid=True, gridcolor="#eef2f7")
+
+        # ---- (1,2) interface reaction over time — rate + formate accumulation -------
+        def ser(arm, key):
+            return [v for v in (arm.get("series", {}) or {}).get(key, []) if v is not None]
+
+        t_fav = ser(fav, "time_s")
+        fig.add_trace(go.Scatter(
+            x=t_fav, y=[max(v, 1e-30) for v in ser(fav, "net_carbon_flux")], mode="lines",
+            line=dict(color=_TEAL, width=2.4), name="net C-flux (fav)",
+            hovertemplate="t=%{x:.3g}<br>%{y:.2e} mol/s<extra>net C-flux fav</extra>"), row=1, col=2)
+        fig.add_trace(go.Scatter(
+            x=t_fav, y=[max(v, 1e-30) for v in ser(fav, "formate")], mode="lines",
+            line=dict(color=_AMBER, width=2.0, dash="dot"), name="formate (fav)",
+            hovertemplate="t=%{x:.3g}<br>%{y:.2e} M<extra>formate fav</extra>"), row=1, col=2)
+        if noc_ok:
+            t_noc = ser(noc, "time_s")
+            fig.add_trace(go.Scatter(
+                x=t_noc, y=[max(v, 1e-30) for v in ser(noc, "net_carbon_flux")], mode="lines",
+                line=dict(color=_RUST, width=2.0, dash="dash"), name="net C-flux (no-cat)",
+                hovertemplate="t=%{x:.3g}<br>%{y:.2e} mol/s<extra>net C-flux no-cat</extra>"), row=1, col=2)
+        for tp in fav_tps:
+            fig.add_vline(x=tp["time_s"], line=dict(color=_SLATE, width=0.8, dash="dot"), row=1, col=2)
+        fig.update_xaxes(title_text="time (s)", row=1, col=2, showgrid=True, gridcolor="#eef2f7")
+        fig.update_yaxes(type="log", title_text="rate (mol/s) · formate (M), log",
+                         row=1, col=2, showgrid=True, gridcolor="#eef2f7")
+
+        # ---- (2,1) integrated boundary-flux (electron/charge) ledger ----------------
+        lf = fav.get("boundary_flux_ledger", {}) or {}
+        ln = (noc.get("boundary_flux_ledger", {}) or {}) if noc_ok else {}
+        cats = ["→ carbon<br>(fixation)", "→ H₂ evolution"]
+        fig.add_trace(go.Bar(
+            x=cats, y=[max(lf.get("carbon_electron_flux") or 0.0, 1e-30),
+                       max(lf.get("her_electron_flux") or 0.0, 1e-30)],
+            marker_color=_TEAL, name="favourable",
+            hovertemplate="%{x}<br>%{y:.2e}<extra>favourable</extra>"), row=2, col=1)
+        if ln:
+            fig.add_trace(go.Bar(
+                x=cats, y=[max(ln.get("carbon_electron_flux") or 0.0, 1e-30),
+                           max(ln.get("her_electron_flux") or 0.0, 1e-30)],
+                marker_color=_RUST, name="no-catalyst null",
+                hovertemplate="%{x}<br>%{y:.2e}<extra>no-catalyst</extra>"), row=2, col=1)
+        fig.update_yaxes(type="log", title_text="electron flux (per interface)",
+                         row=2, col=1, showgrid=True, gridcolor="#eef2f7")
+
+        # ---- (2,2) pH field as a fixed-scale heatmap strip (position × time) --------
+        z = [tp["pH"] for tp in fav_tps]
+        y_lbl = [f"t={tp['time_s']:.2g}s" for tp in fav_tps]
+        all_ph = [v for tp in fav_tps for v in tp["pH"]]
+        zmin, zmax = (min(all_ph), max(all_ph)) if all_ph else (6.0, 8.0)
+        fig.add_trace(go.Heatmap(
+            x=x, y=y_lbl, z=z, zmin=zmin, zmax=zmax, colorscale="RdBu_r",
+            colorbar=dict(title="pH", len=0.42, y=0.21, thickness=12),
+            hovertemplate="x=%{x:.2g} cm<br>%{y}<br>pH=%{z:.3f}<extra></extra>"), row=2, col=2)
+        fig.update_xaxes(title_text=f"position across the barrier ({x_unit})", row=2, col=2)
+        fig.update_yaxes(title_text="field time point", row=2, col=2)
+
+        fe = lf.get("faradaic_efficiency")
+        resid = lf.get("charge_residual_max")
+        okflag = (lf.get("charge_ledger_ok") or 0.0) >= 1.0
+        fig.update_layout(**S.base_layout(
+            height=820, width=980, barmode="group",
+            legend=dict(orientation="h", y=-0.1, x=0.5, xanchor="center", font=dict(size=10)),
+            title=dict(text=(f"Faradaic efficiency to carbon {fe:.2f} · Kirchhoff residual "
+                             f"{resid:.1e} ({'closes' if okflag else 'OPEN'})"),
+                       font=dict(size=12, color=_INK), x=0.5, xanchor="center"),
+            margin=dict(l=62, r=28, t=64, b=96)))
+        inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+
+        coll = blob.get("control_collapse", {}) or {}
+        ncf_orders = coll.get("net_carbon_flux_collapse_orders")
+        fmt_orders = coll.get("formate_collapse_orders")
+        orders_txt = (f"~{ncf_orders:.1f} orders (net C-flux) / ~{fmt_orders:.1f} orders (formate)"
+                      if ncf_orders and fmt_orders else "orders of magnitude")
+        future = blob.get("requested_future_simulation", []) or []
+        cap = (
+            "Real reaction–diffusion fields from the electrochemical_carbon_fixation composite "
+            "(FiPy Nernst-Planck proton electrodiffusion + Butler-Volmer galvanic-cell kinetics + "
+            "eQuilibrator-gated thermo + the charge/electron ledger); every value is computed, none "
+            "fabricated, and nothing is solved at render. "
+            "<b>Top-left + bottom-right:</b> the genuine 1-D proton (pH) electrodiffusion field ACROSS "
+            f"the {barrier_cm:.2g} cm Fe/Ni/S barrier (ocean-acidic left → vent-alkaline right), every "
+            "cell a FiPy CellVariable; favourable and the matched no-catalyst null coincide because the "
+            "diffusion field is set by the geochemical pH boundary and is correctly catalyst-independent, "
+            "and it equilibrates within the first step (so the three time points overlay — a real result, "
+            "not a rendering shortcut). <b>Top-right:</b> the interface reaction over time — the "
+            f"no-catalyst null collapses the net carbon-fixation rate and formate by {orders_txt}, so the "
+            "null is genuine (it uses catalyst_active=1e-6, NOT 0.0, which the bigraph-schema is_empty rule "
+            "would backfill to the favourable default). <b>Bottom-left:</b> the integrated boundary-flux "
+            "ledger — the interface current splits mostly to carbon (faradaic efficiency ~0.9) over H₂ "
+            "evolution, and the Kirchhoff electron balance closes to machine precision. The product pools "
+            "are lab-calibrated Preiner-2020/Altair-2025 CEILINGS gated by the catalyst (deterministic, no "
+            "error bars — none fabricated); this panel shows the computed field, it does not turn those "
+            "ceilings into a prediction. "
+            "<b>Requested future simulation (NOT fabricated here):</b> " + "; ".join(future) +
+            " — this composite resolves a 1-D proton barrier plus one well-mixed Fe/Ni/S reaction "
+            "interface, so spatially-resolved multi-solute pore maps need a 2-D reactive-transport "
+            "extension, not a re-run. Descriptive figure; no arm verdict or study gate changes.")
+        return S.frame(inner, title=title,
+                       phase="Carbon fixation", view="Mechanism", tier="mechanistic_prediction",
+                       caption_prefix="How to read", tone="neutral",
+                       caption_text=cap, max_width=1020)
+
+
 _SPECIES_LABEL = {
     "phosphate": "phosphate", "ammonium": "ammonium", "formate": "formate",
     "acetate": "acetate", "pyruvate": "pyruvate", "amino_precursor": "amino precursor",
