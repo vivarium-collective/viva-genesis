@@ -37,8 +37,9 @@ lead: >-
   that in turn sustains that chemistry — stays open. The sharpest results come from re-grounding each
   act on higher-fidelity model classes, which returns three honest negatives: carbon fixation's
   limiting step is structure-sensitive, no autocatalysis emerges at vent conditions without a
-  one-carbon feed, and og-independence's {pump, importer, heredity} set is not jointly sufficient
-  off-gradient.
+  one-carbon feed, and og-independence's {pump, importer, heredity} set is advantageous but
+  driver-specific — not a jointly-necessary irreducible unit (only pump+heredity interact; the importer is
+  required by no driver; the gradient is the hard dependency).
 executive:
   what_is_this: >-
     A staged, falsifiable Vivarium campaign mapping where the geology-to-cells path at a
@@ -150,9 +151,10 @@ executive:
     gradient (a hard dependency: the full set rescues its withdrawal in only ~4.2% of structures),
     while mineral access and feed are freely/borderline survivable and the importer is never
     individually required. The adversarial vent-ablated control is rejected by every discriminating
-    gate (min margin 1.8 decades) while the vent passes all five, so the gates are vent-specific rather
-    than generic (og-vent-specificity); genuine specificity also wants positive alternative-environment
-    models (planned). Exit condition met as a robustness/productivity frontier and a graded
+    gate (min margin 1.8 decades) while the vent passes all five — consistent with vent-specific rather than
+    generic gates, but a bounded claim: the all-negative generic control removes H2, catalyst and pore at once,
+    so it is not clean evidence of vent specificity; the proper 3-way factorial and positive
+    alternative-environment models are pending (og-vent-specificity, future work). Exit condition met as a robustness/productivity frontier and a graded
     support-withdrawal analysis - explicitly not an assumed vent escape, and the Hadean-ocean H2/organic
     floor that would turn the off-gradient map into a prediction remains an open expert prior.
   verdict: >-
@@ -182,22 +184,27 @@ executive:
     (parent-offspring fitness correlation +0.949 vs a no-inheritance control, og-heredity), both against matched nulls
     at equal feeds. The optional Act V extension has run, all three qualified: an energy carrier buys
     dip-persistence not more total work (og-energetics), a cross-feeding community buys productivity ~1.9x but pays in
-    robustness (og-ecology, the counterpoint), and a budget leave-one-out maps a conditional, coarse-budget
-    independence with heredity the irreducible substrate - an affordability map, not a demonstrated escape
-    (og-independence). The earlier,
+    robustness (og-ecology, the counterpoint), and a 2³ epistasis analysis maps a driver-specific affordability:
+    the {pump, importer, heredity} set is advantageous but not a jointly-necessary irreducible unit (only
+    pump+heredity interact positively, the importer is required by no driver, and the gradient is the hard
+    dependency) - an affordability map, not a demonstrated escape (og-independence). The earlier,
     lower-fidelity arc stands as the scaffold these sharpened: a Lost City vent (og-vent-environment) holding its window over
     ~80% of the swept grid with exact charge balance; H2-driven carbon fixation benchmarked against Preiner and
     Hudson (og-carbon-fixation); thermophoretic individuality, amphiphile compartments, internalized bioenergetics bounded
     by the Sojo cost, heredity that need not presume RNA, metacommunity robustness, and the {pump, importer,
     heredity} escape set (og-network-persistence through og-independence), plus the nitrogen, phosphorus, energy-currency and
-    growth/division modules. An adversarial vent-ablated control is rejected by every discriminating gate, so
-    the gates are vent-specific rather than generic. Three honest negatives are the sharpest of these: carbon
+    growth/division modules. An adversarial vent-ablated control is rejected by every discriminating gate — consistent with
+    vent-specific rather than generic gates, though bounded: the all-negative control removes H2, catalyst and pore
+    at once, so it is not clean specificity evidence, and the proper 3-way factorial is pending. Three honest
+    negatives are the sharpest of these: carbon
     fixation runs but which limitation stops it is structure-sensitive (the Butler-Volmer and empirical classes
     agree on the label only 47% of the time against an 80% gate, so the mechanism map, not a pass, is the
     result; charge/electron ledger exact on 750 runs); the eight-solute mixture fractionates rather than
     co-localizing in one thermophoretic pore (concentrating one tracer is not concentrating the set a protocell
     needs together); and og-independence's {pump, importer, heredity}, re-asked inside one persistent world across 24
-    model structures, is not jointly sufficient (recorded as a hypothesis generator). The vent calibration
+    model structures, is advantageous but driver-specific — not a jointly-necessary irreducible unit (only
+    pump+heredity interact positively; the importer is required by no driver; the gradient, not the triple, is the
+    hard dependency). The vent calibration
     anchors the arc: conditioning on the Lost City windows leaves a posterior in which 100% of the empirically
     supported vent states supply what carbon fixation needs, transport-class-independent, with the ledger exact
     (0 of 96 points rejected). So the campaign's result is a mechanism map and an honestly-advanced spine whose
@@ -232,8 +239,10 @@ executive:
     gain ~29.5 in its earlier reduced model - superseded under vent conditions by og-autocatalysis-a2's
     higher-fidelity refutation (Gate A2: autocatalysis refuted for both representable routes);
     og-heredity's compositional / hybrid heredity is seed-robust (0.878 +/- 0.005, 5/5
-    graded seeds); og-independence's escape set is irreducible (full set survives 1.0, any single knockout
-    0); og-vent-environment's Lost-City-conditioned posterior is 12.5% of the prior yet 100% viable downstream
+    graded seeds); og-independence's {pump, importer, heredity} set is advantageous but driver-specific, not a
+    jointly-necessary irreducible unit (only pump+heredity interact positively, the importer is required by no driver,
+    the gradient the hard dependency — its withdrawal rescued by the full set in only ~4.2% of structures);
+    og-vent-environment's Lost-City-conditioned posterior is 12.5% of the prior yet 100% viable downstream
     and transport-class-independent (ledger 0/96 rejected). og-carbon-fixation builds the vent wall as a
     Butler-Volmer cell in the Altair-2025 current window (7 of 8 gates pass, ledger exact on 750
     runs) but its attribution gate fails at label agreement 0.47. The adversarial control is
@@ -734,7 +743,7 @@ at_a_glance:
 - study: og-ecology
   role: 'Protocell ecology — a cross-feeding community out-produces the best single lineage (margin causally cross-feeding) and community function precedes cell completeness; studied as arms (og-36 stochastic community-vs-single, og-07 metacommunity, og-07-alt real metabolite exchange)'
 - study: og-independence
-  role: 'Escape and progressive independence from the vent — the minimum innovation set off-gradient, then a graded, attributed map of which innovation internalizes which support, bounded by an honest negative on joint sufficiency across model structures'
+  role: 'Escape and progressive independence from the vent — the minimum innovation set off-gradient, then a graded, attributed map of which innovation internalizes which support; a 2³ epistasis analysis shows the {pump, importer, heredity} set is advantageous but driver-specific, not a jointly-necessary irreducible unit (only pump+heredity interact; the importer is required by no driver; the gradient is the hard dependency)'
 - study: og-vent-specificity
   role: 'Adversarial control: the gates must reject generic non-vent chemistry'
 - study: og-nutrient-bottlenecks

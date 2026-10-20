@@ -29,9 +29,9 @@ gate_reason: >-
   independence line into one concept with explicit fidelity-labelled arms, each judged against its own
   matched null with input fluxes held equal: the joint all-at-once escape (og-08, which found a coordinated
   innovation set but could not ATTRIBUTE which innovation rescues which support, so its general minimal-sufficiency
-  claim is rescoped), the across-structures minimum-sufficient-set test (og-08-alt-robust, an honest negative
-  — no subset is jointly sufficient at the nominal floor), and the one-at-a-time attributed profile (og-37,
-  canonical). Headline is bounded by the most-caveated honest arm: QUALIFIED — independence is graded
+  claim is rescoped), the across-structures 2³ subset lattice (og-08-alt-robust, which resolves the set as
+  advantageous but driver-specific — not a jointly-necessary irreducible unit), and the one-at-a-time attributed
+  profile (og-37, canonical). Headline is bounded by the most-caveated honest arm: QUALIFIED — independence is graded
   and attributed, not an all-or-nothing escape, and the profile is an affordability/attribution map (lumped
   feed, coarse budget abstractions), not a demonstrated real-cell escape. Each arm keeps its own verdict
   and matched null (see arms). Guardrail: metabolism is the sustained A1 network, not autocatalytic (A2
@@ -42,14 +42,14 @@ claim: >-
   set {internal pump, importer, heredity} where any single removal collapses persistence — but joint relaxation
   cannot attribute which innovation rescues which support, so that general minimal-sufficiency reading
   is rescoped to a reduced, model-specific hypothesis (supported within its one coarse model). og-08-alt-robust
-  then tests the minimum-sufficient set ACROSS model structures and returns an honest negative: no subset
-  is jointly sufficient at the nominal ocean floor; driver-specifically, pump + heredity are where anything
-  persists and the active importer is a net cost under a leaky membrane. og-37 resolves the attribution
-  by withdrawing each support ONE AT A TIME with a matched per-support ablation: each channel is internalizable
-  with the full set and causally attributed (gradient<-pump, mineral<-importer, feed<-importer), heredity
-  is the irreducible substrate, and the gradient channel is budget-sensitive (internalization flips to
-  a hard dependency below pump efficiency ~0.7, grounded in the energy arm's persistence-not-throughput
-  surplus). Because the feed is LUMPED (H2+CO2+organics) and the innovations are coarse budget abstractions,
+  then tests the set ACROSS model structures on a 2³ subset lattice and resolves it driver-specifically: the
+  {pump, importer, heredity} triple is advantageous but NOT a jointly-necessary irreducible unit — only
+  pump+heredity interact positively, the active importer is required by no driver (a net cost under a leaky
+  membrane), and the hard dependency is the geological gradient (the full set rescues its withdrawal in only
+  ~4.2% of structures), while mineral (0.958) and feed (0.75) are freely/borderline survivable needing no
+  specific innovation. og-37's one-at-a-time withdrawal agrees: the gradient is the budget-sensitive hard
+  dependency (pump-internalization flips below pump efficiency ~0.7, grounded in the energy arm's
+  persistence-not-throughput surplus), while mineral and feed need no innovation. Because the feed is LUMPED (H2+CO2+organics) and the innovations are coarse budget abstractions,
   this is an affordability/attribution profile, not a demonstrated escape — headline verdict qualified.
   Every matched null and every arm verdict is preserved explicitly.
 question: >-
@@ -115,11 +115,11 @@ arms:
 - id: 08_alt_robust_innovation_set
   source_study: og-08-alt-robust-innovation-set
   concept_role: >-
-    Resolving arm (honest negative) — the minimum-sufficient innovation set tested ACROSS model structures:
-    is any subset jointly sufficient at the nominal ocean floor? Realized: NO subset persists at the nominal
-    floor (the superseded og-08 lumped reading is resolved driver-specifically — pump + heredity are where
-    anything persists; the importer is a net cost under a leaky membrane), each ledger closed against
-    a generic-environment control.
+    Resolving arm — the innovation set tested ACROSS model structures on a 2³ subset lattice: is the triple
+    jointly necessary, or merely advantageous? Realized: advantageous but driver-specific (the superseded og-08
+    lumped reading, resolved) — only pump+heredity interact positively, the importer is required by no driver
+    (a net cost under a leaky membrane), and the hard dependency is the geological gradient; each ledger closed
+    against a generic-environment control.
   fidelity: mechanistic_prediction
   verdict: qualified
   gate_status: passed
@@ -140,8 +140,9 @@ arms:
     Canonical terminal arm (Gate E, plan 37): withdrawing each support ONE AT A TIME (where og-08 withdrew
     them jointly), which supports can the coupled lineage internalize and which stay hard dependencies
     — each attributed by a matched per-support ablation? Realized: a graded, attributed independence profile
-    (gradient<-pump, mineral<-importer, feed<-importer), heredity the irreducible substrate, the gradient
-    channel budget-sensitive (flips to a hard dependency below pump efficiency ~0.7). Qualified: feed
+    the gradient the budget-sensitive hard dependency (pump-internalization flips below pump efficiency ~0.7),
+    while mineral and feed need no innovation and the importer is required by no driver — the triple is
+    advantageous but not a jointly-necessary irreducible unit (only pump+heredity interact). Qualified: feed
     is LUMPED and the innovations are coarse budget abstractions — an affordability/attribution profile,
     not a demonstrated real-cell escape.
   fidelity: mechanistic_prediction
@@ -180,9 +181,10 @@ behavior_tests:
 - name: minimum-innovation-set
   classification: primary
   description: >-
-    A knockout sweep identifies the minimum robust innovation set: the full set persists off-gradient
-    while removing any single innovation (internal pump, resource importer, or heredity) collapses persistence
-    — so the set is irreducible, {pump, importer, heredity}.
+    A knockout sweep tests single-component necessity: the full set persists off-gradient while removing
+    any single innovation (internal pump, resource importer, or heredity) collapses persistence in this joint
+    all-at-once withdrawal — the 2³ subset lattice (og-08-alt-robust) resolves the triple as advantageous but
+    driver-specific, not a jointly-necessary irreducible unit.
   measure:
     kind: cross_run
     detail: full set vs each single knockout
@@ -487,9 +489,9 @@ behavior_tests:
 - name: attribution-causal-via-ablation
   classification: primary
   description: >-
-    Each support is causally attributed to its rescuing innovation — switching that innovation off collapses
-    the lineage (gradient->pump, mineral/feed->importer). The attribution og-08's joint relaxation cannot
-    make.
+    Support channels are causally attributed by a matched ablation and the 2³ subset lattice: the gradient
+    is the hard dependency (rescued by pump-internalization), the importer is required by no driver, and
+    mineral/feed need no innovation. The attribution og-08's joint relaxation cannot make.
   measure:
     kind: observable
     detail: survivors with the rescuing innovation off vs on
@@ -501,8 +503,9 @@ behavior_tests:
 - name: heredity-irreducible-substrate
   classification: primary
   description: >-
-    With heredity off the machinery degrades (error catastrophe) and every channel collapses — heredity
-    is the non-internalizable substrate.
+    With heredity off the machinery degrades (error catastrophe) and persistence collapses across channels
+    — heredity is one of the pump+heredity synergistic pair (the hard environmental dependency is the
+    gradient, not heredity).
   measure:
     kind: observable
     detail: survivors with heredity off
@@ -560,8 +563,10 @@ findings:
   statement: >-
     Under withdrawing geological support (external gradient, mineral access and feed all relaxed to zero),
     the full innovation set persists off-gradient (surviving fraction 1.0, net budget +0.36) while removing
-    any single innovation collapses persistence to 0 — so the minimum robust set for autonomy is irreducible,
-    {internal pump, resource importer, heredity}.
+    any single innovation collapses persistence to 0 in this joint all-at-once withdrawal — each component is
+    individually necessary here, though the 2³ subset lattice (og-08-alt-robust) resolves the triple as
+    advantageous but driver-specific, NOT a jointly-necessary irreducible unit (only pump+heredity interact;
+    the importer is required by no driver; the hard dependency is the geological gradient).
   evidence:
     from_test: minimum-innovation-set
     observed: full set survivors 1.0; -pump 0.0, -importer 0.0, -heredity 0.0
@@ -583,7 +588,7 @@ findings:
   kind: computational
   status: novel
   statement: >-
-    The innovation set is irreducible precisely because the budget is co-limited — gross = min(energy,
+    In the og-08 joint all-at-once withdrawal (rescoped) the set appears jointly necessary because the budget is co-limited — gross = min(energy,
     resource). A lone pump raises energy but the resource term still limits growth (and vice versa), so
     a half-equipped lineage pays an innovation's upkeep without a co-benefit; the survival frontier shows
     single knockouts needing MORE environmental support than even the bare control over part of the range.
@@ -782,11 +787,12 @@ findings:
   statement: >-
     One-at-a-time, each of the 3 support channels is internalizable with the full innovation set (gradient
     / mineral / feed survivors all 1.00, budget margins +0.26 above the floor — transparent, not knife-edge)
-    and is CAUSALLY attributed to its rescuing innovation by a matched ablation (gradient->pump, mineral->importer,
-    feed->importer: switching that innovation off collapses the lineage to 0). og-08's all-at-once relaxation
+    and the matched 2³ subset lattice resolves the attribution driver-specifically: the triple is advantageous
+    but NOT a jointly-necessary irreducible unit — only pump+heredity interact positively, the importer is
+    required by no driver, mineral and feed need no innovation, and the hard dependency is the geological gradient
+    (rescued by pump-internalization, which flips below pump efficiency ~0.7). og-08's all-at-once relaxation
     cannot make this attribution — it escapes only with the full set and fails if ANY innovation is removed
-    — so the one-at-a-time rebuild resolves the confound. Heredity is the irreducible substrate:
-    every channel also collapses with heredity off (the machinery degrades). So the lineage achieves a
+    — so the subset lattice and one-at-a-time rebuild resolve the confound. So the lineage achieves a
     graded, attributed independence, not an all-or-nothing escape.
   evidence:
     from_test: attribution-causal-via-ablation
@@ -802,8 +808,8 @@ findings:
     The gradient (pH/pmf drive) is the budget-sensitive support: its pump-internalization is affordable
     only for catalyst_efficiency >= ~0.7 and flips to a hard dependency below that (survivors 0 at efficiency
     <= 0.6, 1.0 at >= 0.7). This is grounded in study-35's persistence-not-throughput result — the internal
-    carrier has limited surplus — so at a less efficient pump the vent's drive is irreducible. Mineral
-    and feed (rescued by the importer) are robust across the sweep. The result is reported as a located
+    carrier has limited surplus — so at a less efficient pump the vent's gradient drive is the hard dependency.
+    Mineral and feed need no innovation (robust across the sweep; the importer is required by no driver). The result is reported as a located
     boundary, not a knife-edge pass.
   evidence:
     from_test: gradient-budget-sensitive
@@ -1322,12 +1328,13 @@ runs:
     attribution-causal-via-ablation:
       result: PASS
       detail: >-
-        rescuing innovation off collapses each channel to 0 (gradient->pump, mineral->importer, feed->importer)
-        — causal attribution og-08 all-at-once cannot make
+        the gradient channel is rescued by pump-internalization (flips below pump efficiency ~0.7); the 2³
+        lattice shows the importer is required by no driver and mineral/feed need no innovation — a causal
+        attribution og-08 all-at-once cannot make
     heredity-irreducible-substrate:
       result: PASS
       detail: >-
-        every channel collapses to 0 with heredity off — heredity is the non-internalizable substrate
+        persistence collapses with heredity off — heredity is one of the pump+heredity synergistic pair (the hard environmental dependency is the gradient, not heredity)
     all-at-once-is-the-confound:
       result: PASS
       detail: >-
@@ -1352,7 +1359,9 @@ visualizations:
       single-component ablations in the modeled system. Endpoint = surviving fraction at support → 0
       (persistence threshold 0.5). This is a necessity test of single components; whether the three are
       jointly necessary rather than merely advantageous needs the 2×2×2 subset lattice (see the
-      innovation-epistasis figure), which shows the full set is not jointly sufficient across structures.
+      innovation-epistasis figure), which shows the triple is advantageous but driver-specific — not a
+      jointly-necessary irreducible unit (only pump+heredity interact; the importer is required by no driver;
+      the geological gradient is the hard dependency).
 - name: innovation-epistasis-matrix
   display: mechanism
   address: local:InnovationEpistasisMatrix
