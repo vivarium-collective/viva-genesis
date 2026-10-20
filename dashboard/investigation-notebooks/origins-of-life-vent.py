@@ -1490,6 +1490,11 @@ _save_viz('og-nutrient-bottlenecks', 'phosphorus-mechanism', _render_one('local:
 # phosphorus-availability-map
 _save_viz('og-nutrient-bottlenecks', 'phosphorus-availability-map', _render_one('local:PhosphorusAvailabilityMap', {'title': 'The phosphorus bottleneck — reactive-P availability landscape (Decision view)', 'grid_json': 'workspace/studies/og-nutrient-bottlenecks/artifacts/og-res-phosphorus-availability/phosphorus_availability_grid.json'}, RUNS_DB, STUDY_YAML))
 
+# **phosphorus-sensitivity-sweep**
+
+# phosphorus-sensitivity-sweep
+_save_viz('og-nutrient-bottlenecks', 'phosphorus-sensitivity-sweep', _render_one('local:PhosphorusSensitivityViz', {'report_json': 'workspace/studies/og-nutrient-bottlenecks/artifacts/og-res-phosphorus-availability/phosphorus_sensitivity.json', 'title': 'Reactive-P availability across the mineral sink × pore concentration'}, RUNS_DB, STUDY_YAML))
+
 # ### Acceptance criteria
 #
 # _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
