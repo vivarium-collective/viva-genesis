@@ -1,0 +1,66 @@
+{
+  "study": "og-carbon-fixation",
+  "control": "obs-vs-pred yields + carbon partition + gradient (pmf) effect",
+  "arms": {
+    "favorable": {
+      "formate": 0.19999999999847012,
+      "acetate": 9.999999999927619e-05,
+      "pyruvate": 9.99999999992762e-06,
+      "pmf": 0.4266012355072759,
+      "current_density": 0.008746032304370138,
+      "delta_pH": 3.5,
+      "net_carbon_flux": 3.7376632675998617e-13
+    },
+    "no_catalyst": {
+      "formate": 4.638882807444609e-06,
+      "acetate": 2.3194414576227544e-09,
+      "pyruvate": 2.3194414576227515e-10,
+      "pmf": 0.4266012355072759,
+      "current_density": 0.008746032304370138,
+      "delta_pH": 3.5,
+      "net_carbon_flux": 3.9357322127709013e-08
+    },
+    "tutolo": {
+      "formate": 0.19999026524118083,
+      "acetate": 9.999522300618018e-05,
+      "pyruvate": 9.999522300617971e-06,
+      "pmf": 0.04266012355072758,
+      "current_density": 0.0001288018152209614,
+      "delta_pH": 0.35000000000000003,
+      "net_carbon_flux": 8.592165265673368e-07
+    }
+  },
+  "obs_vs_pred_preiner_hudson": {
+    "formate": {
+      "observed": 0.19999999999847012,
+      "predicted_preiner_hudson": 0.2,
+      "ratio": 0.9999999999923506
+    },
+    "acetate": {
+      "observed": 9.999999999927619e-05,
+      "predicted_preiner_hudson": 0.0001,
+      "ratio": 0.9999999999927619
+    },
+    "pyruvate": {
+      "observed": 9.99999999992762e-06,
+      "predicted_preiner_hudson": 1e-05,
+      "ratio": 0.9999999999927619
+    }
+  },
+  "product_carbon_partition": {
+    "formate": 0.9988513209808715,
+    "acetate": 0.0009988513209812824,
+    "pyruvate": 0.00014982769814719235
+  },
+  "catalyst_gates_yield": true,
+  "pmf_mV": {
+    "favorable": 426.60123550727593,
+    "tutolo": 42.66012355072758
+  },
+  "notes": {
+    "ceilings": "product concentrations are lab-calibrated Preiner-2020 yield ceilings \u2014 invariant to CO2/H2/gradient_efficiency, gated only by catalyst presence; NO error bars (deterministic ceilings, none fabricated).",
+    "balance": "the carbon 'balance' is the product-carbon PARTITION among species, not a strict CO2-feed -> products conservation (yields are ceilings, not feed-stoichiometric).",
+    "gradient": "the Tutolo-2026 gradient_efficiency effect lives in the pmf (~427 -> ~43 mV), not the product concentrations."
+  },
+  "verdict": "yields reproduce the Preiner/Hudson hierarchy (catalyst-gated); the usable gradient (pmf) collapses under the Tutolo arm \u2014 both as og-carbon-fixation already claims; no gate change."
+}

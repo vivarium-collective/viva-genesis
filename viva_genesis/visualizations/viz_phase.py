@@ -3465,3 +3465,68 @@ class EnergeticsUncoupledControlViz(Visualization):
                 "first-law free-energy ledger (in + E0 − work − dissipated = E(t), residual ~1e-16) is closed by "
                 "the proto-energetics arm. Method note: the uncoupled arm uses catalyst_efficiency=1e-6, not 0.0 "
                 "(a bare 0.0 is backfilled to the default by the pbg is_empty rule)."))}
+
+
+class CarbonFixationMassBalanceViz(Visualization):
+    """og-carbon-fixation observed-vs-predicted yields (Preiner/Hudson) + catalyst gating
+    (left) and the usable-gradient pmf favourable vs Tutolo (right), read from
+    ``report_json`` (carbon_massbalance_control.json)."""
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "Yields reproduce Preiner/Hudson (catalyst-gated); the gradient bites the pmf"},
+        "report_json": {"_type": "string", "_default": ""},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        import plotly.graph_objects as go
+        from plotly.subplots import make_subplots
+        path = _resolve_grid_path(str(self.config.get("report_json", "") or ""))
+        if not path:
+            return {"html": S.frame("<p>No control artifact found.</p>", title=self.config["title"])}
+        with open(path) as f:
+            blob = json.load(f)
+        ovp = blob["obs_vs_pred_preiner_hudson"]
+        species = ["formate", "acetate", "pyruvate"]
+        obs = [ovp[s]["observed"] for s in species]
+        pred = [ovp[s]["predicted_preiner_hudson"] for s in species]
+        nocat = [blob["arms"]["no_catalyst"].get(s) or 1e-18 for s in species]
+        pmf = blob.get("pmf_mV", {})
+
+        fig = make_subplots(rows=1, cols=2, horizontal_spacing=0.16,
+                            subplot_titles=("Observed vs predicted yields (M, log)",
+                                            "Usable gradient — pmf (mV)"))
+        fig.add_bar(x=species, y=obs, name="observed", marker_color=_TEAL, row=1, col=1)
+        fig.add_bar(x=species, y=nocat, name="no catalyst", marker_color=_RUST, row=1, col=1)
+        fig.add_trace(go.Scatter(x=species, y=pred, mode="markers", name="Preiner/Hudson (predicted)",
+                                 marker=dict(symbol="line-ew", size=22, line=dict(width=3, color=_INK))),
+                      row=1, col=1)
+        fig.update_yaxes(type="log", title_text="concentration (M)", row=1, col=1, showgrid=True, gridcolor="#eef2f7")
+        fig.add_bar(x=["favourable<br>(geff=1.0)", "Tutolo-2026<br>(geff=0.1)"],
+                    y=[pmf.get("favorable"), pmf.get("tutolo")], marker_color=[_TEAL, _AMBER],
+                    showlegend=False, text=[f"{pmf.get('favorable'):.0f}", f"{pmf.get('tutolo'):.0f}"],
+                    textposition="outside", row=1, col=2)
+        fig.update_yaxes(title_text="pmf (mV)", row=1, col=2, showgrid=True, gridcolor="#eef2f7")
+        fig.update_layout(**S.base_layout(height=440, barmode="group",
+                                          legend=dict(orientation="h", y=-0.2, x=0.0, font=dict(size=10)),
+                                          margin=dict(l=62, r=28, t=52, b=72)))
+        inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+        return {"html": S.frame(
+            inner, title=self.config["title"],
+            phase="Carbon fixation", view="Control", tier="mechanistic_prediction",
+            caption_prefix="How to read", tone="neutral",
+            caption_text=(
+                "Left: the favourable arm's product yields (teal) land exactly on the Preiner-2020 / Hudson "
+                "reference hierarchy (black ticks) — formate ~200 mM ≫ acetate ~100 µM ≫ pyruvate ~10 µM — and "
+                "the no-catalyst null (rust) collapses them, so the yields are catalyst-gated. These are lab-"
+                "calibrated yield CEILINGS: deterministic and invariant to CO₂/H₂/gradient, so there are no error "
+                "bars (none fabricated), and the carbon 'balance' is the product-carbon partition (formate "
+                "dominates ~99.9%), not a strict CO₂-feed→products conservation. Right: the usable gradient (pmf) "
+                "is where the Tutolo-2026 reassessment bites — ~427 mV favourable → ~43 mV at gradient_efficiency "
+                "0.1 — NOT the product concentrations. Both reproduce og-carbon-fixation's existing claims; no "
+                "gate change. (Nulls rely on the composite's internal clamp of catalyst_active 0→1e-6.)"))}
