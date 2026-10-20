@@ -452,7 +452,7 @@ visualizations:
       + lower-dilution counterfactual, and topology-specifically (the matched null stays off). So the
       vent negative is a redox / residence-time limitation, not a limitation of the rTCA wiring.
 - name: rtca-mechanism
-  display: mechanism
+  display: supplement
   address: local:OgRtcaMechanismViz
   config:
     title: Reductive-TCA mechanism — uphill at the vent, topology-capable beyond it

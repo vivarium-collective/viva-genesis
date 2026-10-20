@@ -1597,6 +1597,7 @@ visualizations:
     composite: viva_genesis.composites.proto_energetics.proto_energetics
     title: Proto-energetics — charging and spending the currency (World view)
 - name: proto-energetics-provenance
+  display: supplement
   address: local:ProtoEnergeticsProvenanceViz
   config:
     title: Proto-energetics — the energy-provenance ledger (Mechanism view)
@@ -1614,6 +1615,7 @@ visualizations:
     composite: viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization
     title: Selection internalizes the gradient
 - name: bioenergetic-provenance
+  display: supplement
   address: local:BioenergeticProvenanceViz
   config:
     title: Energy provenance — external to internal (Mechanism view)
@@ -1625,6 +1627,7 @@ visualizations:
       workspace/studies/og-energetics/artifacts/og-05-environmental-to-internal-bioenergetics/bioenergetic_survival_grid.json
     title: Survival off the collapsing gradient (Decision view)
 - name: internalization-threshold-map
+  display: supplement
   address: local:InternalizationThresholdMap
   config:
     title: Where internalization pays, per energy-coupling class (Decision view)
