@@ -763,16 +763,22 @@ class HeredityLineageTree(Visualization):
                                                 title=self.config["title"])}
 
 
-def metacommunity_phase_figure(res, *, title=None) -> str:
-    """og-07 Decision view: where cross-feeding robustness EMERGES. **Left**: the
-    metacommunity-robustness landscape over (cross-feeding exchange_rate × inter-
-    compartment diversity) with the emergence boundary (robustness == threshold) and
-    the operating point; robustness rises only in the high-diversity, sufficient-
-    exchange corner. **Right**: the connected-vs-isolated contrast — the redundancy
-    GAIN (connected minus the isolated counterfactual) that connectivity builds, with
-    the LUCA-overlap boundary contour overlaid (reported, not targeted). ``res`` is a
-    SweepResult / grid view with ``robustness``, ``isolated_robustness``,
-    ``capability_diversity`` and ``luca_overlap`` surfaces."""
+def metacommunity_phase_figure(res, *, parasite=None, replicates=None, title=None) -> str:
+    """og-07 Decision view (PRIMARY): the robustness GAIN over an isolated baseline.
+
+    **(1,1)** the metacommunity-robustness landscape over (cross-feeding exchange_rate ×
+    inter-compartment diversity) with the emergence boundary (robustness == threshold) —
+    the FULL parameter range is shown, including the low-exchange / low-diversity corner
+    where robustness never emerges. **(1,2)** the primary claim: the redundancy GAIN
+    (connected minus the matched isolated counterfactual) with the LUCA-overlap boundary
+    contour overlaid (reported, not targeted). When ``parasite`` and ``replicates`` are
+    supplied the figure becomes 2×2 and adds **(2,1)** the parasite regime — robustness
+    gain over (exchange_rate × parasite_load), so the heritable-cost axis is explicit —
+    and **(2,2)** the replicate variation of the canonical community-vs-best-single
+    productivity margin (mean ± s.d. over stochastic seeds). ``res`` carries
+    ``robustness`` / ``isolated_robustness`` / ``luca_overlap`` over (exchange × diversity);
+    ``parasite`` carries the same over (exchange × parasite_load); ``replicates`` is the
+    og-36 ``gate_e_ecology.json`` stochastic block."""
     import numpy as np
     import plotly.graph_objects as go
     from plotly.subplots import make_subplots
@@ -786,24 +792,35 @@ def metacommunity_phase_figure(res, *, title=None) -> str:
     thr = float(res.meta.get("robust_emerge_threshold", 0.5))
     op_ex, op_div = 0.3, 0.75                                        # canonical operating point
 
-    fig = make_subplots(rows=1, cols=2, horizontal_spacing=0.13, shared_yaxes=True,
-                        subplot_titles=("Where cross-feeding robustness emerges",
-                                        "Connectivity builds redundancy (connected − isolated)"))
-    # --- left: robustness landscape + emergence boundary ---
+    expanded = parasite is not None or replicates is not None
+    if expanded:
+        fig = make_subplots(
+            rows=2, cols=2, horizontal_spacing=0.14, vertical_spacing=0.17,
+            subplot_titles=("Robustness (functional redundancy) — full range",
+                            "Robustness GAIN over the isolated baseline (connected − isolated)",
+                            "Parasite regime — gain over (exchange × parasite load)",
+                            "Replicate variation — community vs best single lineage"))
+    else:
+        fig = make_subplots(rows=1, cols=2, horizontal_spacing=0.13, shared_yaxes=True,
+                            subplot_titles=("Robustness (functional redundancy) — full range",
+                                            "Robustness GAIN over the isolated baseline"))
+    # --- (1,1): robustness landscape + emergence boundary (full range incl. failures) ---
     fig.add_trace(go.Contour(x=div, y=ex, z=rob, colorscale="Viridis", ncontours=14,
                              zmin=0.0, zmax=1.0,
-                             colorbar=dict(title="robustness<br>(redundancy)", len=0.9, x=0.44),
+                             colorbar=dict(title="robustness<br>(redundancy)", len=0.43 if expanded else 0.9,
+                                           x=0.44, y=0.79 if expanded else 0.5),
                              contours=dict(showlabels=True, labelfont=dict(size=9, color="white")),
                              line=dict(width=0.4, color="rgba(255,255,255,0.3)")), row=1, col=1)
     fig.add_trace(go.Contour(x=div, y=ex, z=rob, showscale=False,
                              contours=dict(start=thr, end=thr, coloring="lines"),
                              line=dict(color="#f8fafc", width=2.4, dash="dash"),
                              hoverinfo="skip"), row=1, col=1)
-    # --- right: the connected-vs-isolated redundancy gain (diverging), + LUCA boundary ---
+    # --- (1,2): the connected-vs-isolated redundancy gain (diverging), + LUCA boundary ---
     gmax = max(float(np.nanmax(np.abs(gain))), 0.1)
     fig.add_trace(go.Heatmap(x=div, y=ex, z=gain, colorscale="RdBu", zmid=0.0,
                              zmin=-gmax, zmax=gmax,
-                             colorbar=dict(title="robustness<br>gain", len=0.9),
+                             colorbar=dict(title="robustness<br>gain", len=0.43 if expanded else 0.9,
+                                           x=1.0, y=0.79 if expanded else 0.5),
                              hovertemplate="div=%{x:.2f}, exch=%{y:.2f}<br>gain=%{z:.2f}<extra></extra>"), row=1, col=2)
     fig.add_trace(go.Contour(x=div, y=ex, z=luca, showscale=False, ncontours=6,
                              contours=dict(coloring="lines", showlabels=True,
@@ -818,17 +835,70 @@ def metacommunity_phase_figure(res, *, title=None) -> str:
         fig.update_xaxes(title_text="inter-compartment diversity", row=1, col=c)
     fig.update_yaxes(title_text="cross-feeding exchange rate", row=1, col=1)
 
-    fig.update_layout(**S.base_layout(height=450, width=960, margin=dict(t=48, b=60, l=70, r=20),
-                                      showlegend=False))
-    cap = ("A connected metacommunity develops functional redundancy a single compartment cannot &mdash; "
-           "but only where diversity gives cross-feeding something to share AND exchange spreads it "
-           "(dashed = emergence boundary). Right: the redundancy gain over the isolated counterfactual; "
-           "black contours = overlap with the anaerobic LUCA reconstruction, a reported boundary, not a "
-           "target.")
+    # --- (2,1): the parasite regime — gain over (exchange × parasite_load) ---
+    if parasite is not None:
+        pex = np.asarray(parasite.axes["exchange_rate"], float)
+        pl = np.asarray(parasite.axes["parasite_load"], float)
+        prob = np.asarray(parasite.surfaces["robustness"], float)        # [exchange, parasite_load]
+        piso = np.asarray(parasite.surfaces.get("isolated_robustness", np.zeros_like(prob)), float)
+        pgain = prob - piso
+        pmax = max(float(np.nanmax(np.abs(pgain))), 0.1)
+        fig.add_trace(go.Heatmap(x=pl, y=pex, z=pgain, colorscale="RdBu", zmid=0.0,
+                                 zmin=-pmax, zmax=pmax,
+                                 colorbar=dict(title="robustness<br>gain", len=0.43, x=0.44, y=0.2),
+                                 hovertemplate="parasite=%{x:.2f}, exch=%{y:.2f}<br>gain=%{z:.2f}<extra></extra>"),
+                      row=2, col=1)
+        fig.update_xaxes(title_text="parasite load (heritable drain)", row=2, col=1)
+        fig.update_yaxes(title_text="cross-feeding exchange rate", row=2, col=1)
+
+    # --- (2,2): replicate variation of the canonical productivity margin ---
+    if replicates is not None:
+        sto = replicates.get("stochastic", {}) if isinstance(replicates, dict) else {}
+        comm = sto.get("community", {})
+        best = sto.get("best_single", {})
+        c_mean, c_sd = float(comm.get("mean", 0.0)), float(comm.get("sd", 0.0))
+        b_mean, b_sd = float(best.get("mean", 0.0)), float(best.get("sd", 0.0))
+        nseeds = int((replicates.get("meta", {}) or {}).get("n_seeds", 0))
+        frac_pos = sto.get("frac_seeds_positive")
+        ext = comm.get("extinction_frac")
+        fig.add_trace(go.Bar(
+            x=["community", "best single lineage"], y=[c_mean, b_mean],
+            error_y=dict(type="data", array=[c_sd, b_sd], visible=True, color=_INK, thickness=1.4),
+            marker_color=[_TEAL, _SLATE], showlegend=False,
+            text=[f"{c_mean:.0f}±{c_sd:.0f}", f"{b_mean:.0f}±{b_sd:.0f}"], textposition="outside",
+            hovertemplate="%{x}: %{y:.0f}<extra></extra>"), row=2, col=2)
+        fig.update_yaxes(title_text=f"cumulative productivity<br>(mean ± s.d., {nseeds} seeds)", row=2, col=2)
+        sub = []
+        if frac_pos is not None:
+            sub.append(f"margin &gt; 0 in {float(frac_pos)*100:.0f}% of seeds")
+        if ext is not None:
+            sub.append(f"community extinction in {float(ext)*100:.0f}% of seeds")
+        if sub:
+            fig.add_annotation(x=0.5, y=1.02, xref="x4 domain", yref="y4 domain", xanchor="center",
+                               yanchor="bottom", showarrow=False, font=dict(size=9, color=_SLATE),
+                               text=" · ".join(sub))
+
+    if expanded:
+        fig.update_layout(**S.base_layout(height=860, width=980, margin=dict(t=56, b=60, l=75, r=30),
+                                          showlegend=False))
+    else:
+        fig.update_layout(**S.base_layout(height=450, width=960, margin=dict(t=48, b=60, l=70, r=20),
+                                          showlegend=False))
+    cap = ("The primary claim is the robustness GAIN over a matched isolated baseline (top-right, "
+           "connected &minus; isolated), <b>not</b> richness: &lsquo;robustness&rsquo; here is functional "
+           "redundancy (shared-function coverage), a distinct quantity from species richness, functional "
+           "breadth, or parasite load, each of which carries its own units. The modeled transfer is "
+           "metabolite / nutrient cross-feeding (with a horizontal-transfer channel), not transmission of "
+           "heritable genomes. Gain is positive only in a restricted high-diversity, sufficient-exchange "
+           "region (top panels); it erodes as parasite load rises (bottom-left), and across stochastic "
+           "replicates the community&rsquo;s productivity margin is positive but more variable than the "
+           "best single lineage (bottom-right). Black contours = anaerobic-LUCA reconstruction overlap, a "
+           "reported boundary, not a target.")
     inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
-    return S.frame(inner, title=(title or "Where cross-feeding robustness emerges"),
+    frame_kw = {"max_width": 1100} if expanded else {}
+    return S.frame(inner, title=(title or "Robustness gain over the isolated baseline"),
                    phase="Campaign VII", view="Decision", tier="conceptual_demonstration",
-                   caption_text=cap, caption_prefix="How to read", tone="neutral")
+                   caption_text=cap, caption_prefix="How to read", tone="neutral", **frame_kw)
 
 
 class MetacommunityPhaseMap(Visualization):
@@ -840,6 +910,8 @@ class MetacommunityPhaseMap(Visualization):
     config_schema = {
         "title": {"_type": "string", "_default": "Campaign VII — where cross-feeding robustness emerges"},
         "grid_json": {"_type": "string", "_default": ""},
+        "parasite_grid_json": {"_type": "string", "_default": ""},
+        "replicates_json": {"_type": "string", "_default": ""},
         "n_grid": {"_type": "integer", "_default": 12},
         "n_steps": {"_type": "integer", "_default": 40},
     }
@@ -862,7 +934,20 @@ class MetacommunityPhaseMap(Visualization):
             res = metacommunity_robustness_phase_map(
                 exchange_rate=(0.02, 0.8, n), diversity=(0.05, 1.0, n),
                 n_steps=int(self.config["n_steps"]), n_jobs=1)
-        return {"html": metacommunity_phase_figure(res, title=self.config["title"])}
+        # Optional replot panels: the parasite-load regime grid + the stochastic
+        # replicate block (committed artifacts; nothing recomputed here).
+        parasite = None
+        p_resolved = _resolve_grid_path(str(self.config.get("parasite_grid_json", "") or ""))
+        if p_resolved:
+            with open(p_resolved) as f:
+                parasite = _ResultView(*_grid_from_json(json.load(f)))
+        replicates = None
+        r_resolved = _resolve_grid_path(str(self.config.get("replicates_json", "") or ""))
+        if r_resolved:
+            with open(r_resolved) as f:
+                replicates = json.load(f)
+        return {"html": metacommunity_phase_figure(res, parasite=parasite, replicates=replicates,
+                                                    title=self.config["title"])}
 
 
 class _ResultView:
@@ -954,10 +1039,15 @@ def off_gradient_phase_figure(phase, trajectories, *, title=None) -> str:
     fig.update_layout(**S.base_layout(
         height=460, width=980, margin=dict(t=48, b=60, l=75, r=20),
         legend=dict(orientation="h", y=-0.2, x=0.74, xanchor="center", font=dict(size=9))))
-    cap = ("As the geological reactor's support is withdrawn, only the full innovation set &mdash; "
-           "internal pump + resource importer + heredity &mdash; persists off-gradient. The budget is "
-           "co-limited (energy AND resources), so each single knockout collapses: the minimum robust set "
-           "for autonomy is irreducible.")
+    cap = ("Endpoint = surviving fraction once geological support is fully withdrawn (support &rarr; 0, "
+           f"persistence threshold {thr:.2f}, dotted). Under this controlled withdrawal the FULL innovation "
+           "set &mdash; internal pump + resource importer + heredity &mdash; persists longer and to a lower "
+           "support floor than each single-component ablation (&minus;pump / &minus;importer / &minus;heredity) "
+           "in the modeled system. This is a NECESSITY test of single components: it shows each is advantageous "
+           "at the margin, but on its own it CANNOT establish that the three are <i>jointly</i> necessary rather "
+           "than merely advantageous &mdash; that question needs the full 2&times;2&times;2 subset lattice "
+           "(see the innovation-epistasis figure), where the full set is in fact not jointly sufficient across "
+           "model structures.")
     inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
     return S.frame(inner, title=(title or "The survival frontier off the gradient"),
                    phase="Campaign VIII", view="Decision", tier="conceptual_demonstration",
@@ -1075,14 +1165,19 @@ def vent_specificity_figure(res, gate_rows=None, *, title=None) -> str:
         height=470, width=980 if have_bars else 560, margin=dict(t=48, b=60, l=80, r=30),
         showlegend=have_bars,
         legend=dict(orientation="h", y=1.12, x=0.72)))
-    cap = ("The gates pass only in the vent corner (sustained H₂ AND a Fe/Ni/S catalytic interface). "
-           "Generic non-vent chemistry sits below every threshold &mdash; the discriminating gates REJECT "
-           "this non-vent control, so they measure the vent mechanism, not generic nonequilibrium "
-           "chemistry.")
+    cap = ("Carbon-fixation gate margins depend jointly on dissolved-H₂ availability and Fe/Ni/S catalyst "
+           "activity; the generic-control condition fails the prespecified threshold everywhere in the "
+           "evaluated range (the full range is shown, including the failing low-H₂ / no-catalyst corner). "
+           "<b>Inferential limit:</b> this all-negative &lsquo;generic&rsquo; control removes H₂, the Fe/Ni/S "
+           "catalyst AND the pore gradient all at once, so a single lumped failure is NOT evidence that the "
+           "vent is specifically required &mdash; it cannot attribute the failure to any one ingredient. "
+           "Vent-specificity therefore remains a bounded, hedged claim until a proper factorial ablation "
+           "(H₂ on/off × Fe/Ni/S on/off × pore-gradient on/off, with effect sizes and interactions) is run; "
+           "the present grid varies only two of these and lumps the rest into one corner.")
     inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
     return S.frame(inner, title=(title or "Vent-specificity of the gates"),
                    phase="Adversarial control", view="Decision", tier="null_control",
-                   caption_text=cap, caption_prefix="How to read", tone="neutral")
+                   caption_text=cap, caption_prefix="How to read", tone="caution")
 
 
 class VentSpecificityMap(Visualization):
@@ -2403,14 +2498,17 @@ def ecology_metacommunity_figure(world, mech, phase, *, title=None) -> str:
 
     fig.update_layout(**S.base_layout(height=640, margin=dict(l=40, r=80, t=50, b=60),
                                       showlegend=False))
-    cap = ("All three views at once. Connectivity, not complexity, makes a population robust. <b>World</b>: "
-           "cross-feeding + horizontal transfer across a pore network. <b>Mechanism</b>: redundant coverage "
-           "climbs from the isolated floor (0.42) to 0.71 and approaches the anaerobic-LUCA overlap "
-           "boundary. <b>Decision</b>: robustness emerges only in the well-connected, low-parasite corner "
-           "(dashed = emergence boundary).")
+    cap = ("The one mechanistic comparison that matters here is <b>connected vs disconnected compartments</b> "
+           "at MATCHED inter-compartment diversity and equal resource budgets (Mechanism panel): the connected "
+           "metacommunity&rsquo;s functional redundancy climbs from the isolated floor across the emergence "
+           "threshold as the cross-feeding exchange rate rises. Read the quantities separately &mdash; functional "
+           "breadth (World node colour), functional redundancy / robustness (Mechanism &amp; Decision), and "
+           "parasite load (Decision axis) are distinct measures with distinct units; robustness is NOT inferred "
+           "from richness alone. The modeled transfer is metabolite cross-feeding plus a horizontal channel, not "
+           "transmission of heritable genomes. The anaerobic-LUCA overlap is a reported boundary, not a target.")
     inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
-    return S.frame(inner, title=(title or "Ecology before LUCA"),
-                   phase="Campaign VII", view="Decision", tier="conceptual_demonstration",
+    return S.frame(inner, title=(title or "Connected vs disconnected compartments (matched diversity & budgets)"),
+                   phase="Campaign VII", view="Mechanism", tier="conceptual_demonstration",
                    caption_text=cap, caption_prefix="How to read", tone="neutral", max_width=1100)
 
 
@@ -2679,6 +2777,41 @@ def advcontrol_trajectory_panel(fig, trajectories, *, row, col, gate_mM=50.0):
     return fig
 
 
+def vent_specificity_matched_figure(trajectories, *, gate_mM=50.0, title=None) -> str:
+    """og-adv reduced FIG 1 — the matched-condition control comparison ONLY: the SAME
+    real carbon-fixation composite run under vent-like vs generic nonequilibrium boundary
+    conditions, formate (mM, log) over time against the og-01 formate gate. The redundant
+    gate-margin bars and the (H₂ × catalyst) parameter contour live on the primary
+    vent-specificity map / the appendix, not here."""
+    import plotly.graph_objects as go
+    from plotly.subplots import make_subplots
+
+    fig = make_subplots(rows=1, cols=1, subplot_titles=(
+        "Matched conditions — vent-like vs generic nonequilibrium boundary",))
+    advcontrol_trajectory_panel(fig, trajectories, row=1, col=1, gate_mM=gate_mM)
+    _tlab = ((trajectories or {}).get("vent", {}).get("t_label")
+             or (trajectories or {}).get("generic", {}).get("t_label") or "time (steps)")
+    fig.add_annotation(x=0.5, y=0.97, xref="x domain", yref="y domain", xanchor="center",
+                       text=f"og-01 formate gate ({gate_mM:.0f} mM)", showarrow=False,
+                       font=dict(size=9, color=_INK))
+    fig.update_xaxes(title_text=_tlab, row=1, col=1)
+    fig.update_yaxes(type="log", title_text="formate (mM)", row=1, col=1)
+    fig.update_layout(**S.base_layout(height=440, width=720, margin=dict(t=48, b=60, l=75, r=30),
+                                      legend=dict(orientation="h", y=-0.2, x=0.5, xanchor="center",
+                                                  font=dict(size=9))))
+    cap = ("Matched simulations compare carbon production and gate outcomes under vent-like versus generic "
+           "nonequilibrium boundary conditions (the identical composite, vent features on vs off). The "
+           "generic control holds carbon production near zero while the vent climbs past the og-01 formate "
+           "gate. <b>Inferential limit:</b> the generic condition removes H₂, the Fe/Ni/S catalyst and the "
+           "pore gradient simultaneously, so this matched comparison is a lumped contrast, not an attribution "
+           "to any single ingredient &mdash; it cannot by itself establish vent-specificity without a "
+           "factorial ablation.")
+    inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    return S.frame(inner, title=(title or "Matched-condition control: vent vs generic"),
+                   phase="Adversarial control", view="World", tier="null_control",
+                   caption_text=cap, caption_prefix="How to read", tone="caution")
+
+
 def vent_specificity_threeview_figure(res, trajectories, gate_rows=None, *, title=None) -> str:
     """og-adv complete three-view figure. **World** (top-left): formate (mM, log) over
     time — the vent is productive (→ 200 mM) while the generic control stays flat at ≈0
@@ -2759,14 +2892,18 @@ def vent_specificity_threeview_figure(res, trajectories, gate_rows=None, *, titl
         height=680, margin=dict(l=70, r=40, t=50, b=110), barmode="group",
         legend=dict(orientation="h", y=-0.12, x=0.5, xanchor="center", font=dict(size=9))))
     cap = ("All three views at once. The SAME real composites with no sustained H₂, no Fe/Ni/S catalyst "
-           "and no pore concentration are REJECTED by every discriminating gate, where the vent passes all "
-           "five. <b>World</b>: vent is productive, the generic control is not. <b>Mechanism</b>: every "
-           "gate rejects the generic control. <b>Decision</b>: the gate PASS region is the vent corner "
-           "&mdash; a PASS certifies the vent mechanism, not generic nonequilibrium chemistry.")
+           "and no pore concentration fail every discriminating gate, where the vent passes all five. "
+           "<b>World</b>: vent is productive, the generic control is not. <b>Mechanism</b>: every gate "
+           "rejects the generic control. <b>Decision</b>: the gate PASS region is the vent corner. "
+           "<b>Inferential limit:</b> the generic control removes H₂, the Fe/Ni/S catalyst and the pore "
+           "gradient all at once, so this lumped all-negative control shows only that the combined vent "
+           "ingredients are jointly sufficient &mdash; it does NOT attribute the failure to any single "
+           "ingredient, and vent-specificity stays a bounded claim pending a factorial (H₂ × Fe/Ni/S × "
+           "pore) ablation.")
     inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
     return S.frame(inner, title=(title or "Vent-specificity of the gates"),
                    phase="Adversarial control", view="Decision", tier="null_control",
-                   caption_text=cap, caption_prefix="How to read", tone="neutral", max_width=1100)
+                   caption_text=cap, caption_prefix="How to read", tone="caution", max_width=1100)
 
 
 class VentSpecificityThreeView(Visualization):
@@ -2782,6 +2919,7 @@ class VentSpecificityThreeView(Visualization):
         "n_grid": {"_type": "integer", "_default": 12},
         "n_steps": {"_type": "integer", "_default": 40},
         "traj_steps": {"_type": "integer", "_default": 50},
+        "matched_only": {"_type": "boolean", "_default": False},
     }
 
     def inputs(self):
@@ -2798,17 +2936,20 @@ class VentSpecificityThreeView(Visualization):
         from process_bigraph import Composite, gather_emitter_results
 
         core = build_core()
+        matched_only = bool(self.config.get("matched_only", False))
         resolved = _resolve_grid_path(str(self.config.get("grid_json", "") or ""))
         gate_rows = None
-        if resolved:
-            with open(resolved) as f:
-                blob = json.load(f)
-            res = _ResultView(*_grid_from_json(blob))
-            gate_rows = res.meta.get("gate_rows")
-        else:
-            n = int(self.config["n_grid"])
-            res = vent_specificity_map(h2=(1.0e-9, 2.0e-2, n), catalyst_active=(0.0, 1.0, n),
-                                       n_steps=int(self.config["n_steps"]), n_jobs=1)
+        res = None
+        if not matched_only:
+            if resolved:
+                with open(resolved) as f:
+                    blob = json.load(f)
+                res = _ResultView(*_grid_from_json(blob))
+                gate_rows = res.meta.get("gate_rows")
+            else:
+                n = int(self.config["n_grid"])
+                res = vent_specificity_map(h2=(1.0e-9, 2.0e-2, n), catalyst_active=(0.0, 1.0, n),
+                                           n_steps=int(self.config["n_steps"]), n_jobs=1)
 
         # World trajectories: the real carbon-fixation composite, vent vs generic.
         tsteps = int(self.config["traj_steps"])
@@ -2823,6 +2964,8 @@ class VentSpecificityThreeView(Visualization):
             return {"t": t, "formate_mM": form, "t_label": t_label}
         trajectories = {"vent": _traj(VENT_PARAMS["carbon"]),
                         "generic": _traj(GENERIC_PARAMS["carbon"])}
+        if matched_only:
+            return {"html": vent_specificity_matched_figure(trajectories, title=self.config["title"])}
         return {"html": vent_specificity_threeview_figure(res, trajectories, gate_rows=gate_rows,
                                                           title=self.config["title"])}
 

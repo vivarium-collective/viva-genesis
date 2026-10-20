@@ -1339,13 +1339,6 @@ runs:
         gradient internalization flips at pump efficiency ~0.7 (survivors 0 for eff <= 0.6, 1.0 for eff
         >= 0.7) — located boundary, grounded in study-35
 visualizations:
-- name: escape-three-view
-  address: local:EscapeOffGradientThreeView
-  config:
-    composite: viva_genesis.composites.off_gradient_persistence.off_gradient_persistence
-    grid_json: >-
-      workspace/studies/og-independence/artifacts/og-08-escape-from-the-vent/off_gradient_grid.json
-    title: Campaign VIII — escape from the vent
 - name: off-gradient-survival-frontier
   display: primary
   address: local:OffGradientPhaseMap
@@ -1354,6 +1347,28 @@ visualizations:
     grid_json: >-
       workspace/studies/og-independence/artifacts/og-08-escape-from-the-vent/off_gradient_grid.json
     title: The survival frontier off the gradient
+    caption: >-
+      Under controlled withdrawal of geological support, the full innovation set persists longer than
+      single-component ablations in the modeled system. Endpoint = surviving fraction at support → 0
+      (persistence threshold 0.5). This is a necessity test of single components; whether the three are
+      jointly necessary rather than merely advantageous needs the 2×2×2 subset lattice (see the
+      innovation-epistasis figure), which shows the full set is not jointly sufficient across structures.
+- name: innovation-epistasis-matrix
+  display: mechanism
+  address: local:InnovationEpistasisMatrix
+  config:
+    title: Innovation epistasis — is the escape set jointly necessary?
+    report_json: >-
+      workspace/studies/og-independence/artifacts/og-08-alt-robust-innovation-set/robust_innovation_set.json
+    per_driver_json: >-
+      workspace/studies/og-independence/artifacts/og-08-alt-robust-innovation-set/per_driver_withdrawal.json
+    caption: >-
+      REPLOT of the committed 2×2×2 subset lattice (plus per-driver one-at-a-time withdrawal), reframing
+      og-08 as the decisive question: is {pump, importer, heredity} jointly necessary, or merely
+      advantageous? The factorial and pairwise-epistasis matrix show the full triple is not jointly
+      sufficient across sampled structures; only pump+heredity interact positively, the importer is
+      required by no driver, and the hard dependency is the geological gradient. No new simulation — the
+      lattice.nodes / lattice_rich.nodes and per_driver_withdrawal data were already committed.
 - name: robust-innovation-lattice
   address: local:RobustInnovationLattice
   config:

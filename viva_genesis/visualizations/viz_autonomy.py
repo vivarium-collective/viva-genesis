@@ -229,6 +229,125 @@ def ablation_trace_figure(rep: dict, *, title: str = "") -> str:
                    caption_text=cap, caption_prefix="How to read", tone="neutral", max_width=1100)
 
 
+_INNOV = ["pump", "importer", "heredity"]
+_SUBSET_ORDER = ["none", "pump", "importer", "heredity",
+                 "pump+importer", "pump+heredity", "importer+heredity", "pump+importer+heredity"]
+
+
+def innovation_epistasis_figure(rep: dict, per_driver: dict | None = None, *, title: str = "") -> str:
+    """og-08 factorial / epistasis REPLOT built from the committed lattice.
+
+    **Left**: the full 2×2×2 factorial — the off-gradient persistence fraction of each of
+    the eight innovation subsets (∅, the three singles, the three pairs, the triple),
+    coloured by how many innovations it carries. **Middle**: the pairwise epistasis matrix
+    over {pump, importer, heredity} — the diagonal is each innovation's main effect
+    f(single)−f(∅); each off-diagonal cell is the two-way interaction
+    f(A+B)−f(A)−f(B)+f(∅) (red = positive synergy, blue = negative / redundant). **Right**
+    (when ``per_driver`` is given): the per-driver attribution — full-set persistence when
+    only that geological driver is withdrawn, with the required innovations annotated.
+    Renders from ``robust_innovation_set.json`` (``lattice_rich`` if present, else
+    ``lattice``) + ``per_driver_withdrawal.json``; nothing is recomputed."""
+    import plotly.graph_objects as go
+    from plotly.subplots import make_subplots
+
+    lat = rep.get("lattice_rich") or rep.get("lattice") or {}
+    nodes = lat.get("nodes", {})
+
+    def frac(label):
+        d = nodes.get(label, {})
+        return float(d.get("persistence_fraction", 0.0) or 0.0)
+
+    f0 = frac("none")
+    has_pd = bool(per_driver and per_driver.get("full_set_persistence_fraction_by_driver"))
+    ncols = 3 if has_pd else 2
+    widths = [0.4, 0.3, 0.3] if has_pd else [0.56, 0.44]
+    titles = ["2×2×2 factorial — subset persistence fraction",
+              "Pairwise epistasis (two-way interaction)"]
+    if has_pd:
+        titles.append("Per-driver attribution (one-at-a-time)")
+    fig = make_subplots(rows=1, cols=ncols, column_widths=widths, horizontal_spacing=0.12,
+                        subplot_titles=titles)
+
+    # --- Left: the factorial persistence bars ----------------------------------
+    order_color = {0: _SLATE, 1: _AMBER, 2: _VIOLET, 3: _TEAL}
+    xs = [s.replace("+", "+<br>") for s in _SUBSET_ORDER]
+    ys = [frac(s) for s in _SUBSET_ORDER]
+    norder = [0 if s == "none" else len(s.split("+")) for s in _SUBSET_ORDER]
+    ntext = [f"{nodes.get(s, {}).get('n_persist', 0)}/{nodes.get(s, {}).get('n', 0)}" for s in _SUBSET_ORDER]
+    fig.add_trace(go.Bar(x=xs, y=ys, marker_color=[order_color[o] for o in norder],
+                         text=ntext, textposition="outside", showlegend=False,
+                         hovertemplate="%{x}: persists in %{y:.3f} of structures<extra></extra>"),
+                  row=1, col=1)
+    fig.update_yaxes(title_text="persistence fraction", range=[0, max(max(ys) * 1.25, 0.1)], row=1, col=1)
+    fig.update_xaxes(tickfont=dict(size=8.5), row=1, col=1)
+
+    # --- Middle: the pairwise epistasis matrix ---------------------------------
+    def label_of(a, b=None):
+        inns = [a] + ([b] if b else [])
+        for s in _SUBSET_ORDER:
+            if set(s.split("+")) == set(inns):
+                return s
+        return "+".join(inns)
+    Z = []
+    for i, a in enumerate(_INNOV):
+        row = []
+        for j, b in enumerate(_INNOV):
+            if i == j:
+                row.append(frac(label_of(a)) - f0)                      # main effect
+            else:
+                fab = frac(label_of(a, b))
+                row.append(fab - frac(label_of(a)) - frac(label_of(b)) + f0)  # 2-way interaction
+        Z.append(row)
+    zmax = max((abs(v) for r in Z for v in r), default=0.1) or 0.1
+    fig.add_trace(go.Heatmap(
+        x=_INNOV, y=_INNOV, z=Z, colorscale="RdBu", zmid=0.0, zmin=-zmax, zmax=zmax,
+        text=[[f"{v:+.3f}" for v in r] for r in Z], texttemplate="%{text}",
+        textfont=dict(size=11), colorbar=dict(title="effect /<br>interaction", len=0.9,
+                                              x=(0.63 if has_pd else 1.0)),
+        hovertemplate="%{y} × %{x}: %{z:+.3f}<extra></extra>"), row=1, col=2)
+    fig.update_yaxes(autorange="reversed", row=1, col=2)
+
+    # --- Right: per-driver attribution -----------------------------------------
+    if has_pd:
+        pdf = per_driver["full_set_persistence_fraction_by_driver"]
+        reqd = per_driver.get("required_by_driver", {})
+        surv = per_driver.get("survivability_by_driver", {})
+        drivers = list(pdf.keys())
+        dvals = [float(pdf[d]) for d in drivers]
+        dtext = []
+        for d in drivers:
+            req = reqd.get(d) or []
+            dtext.append((("req: " + "+".join(req)) if req else "req: none")
+                         + f"<br>{str(surv.get(d, '')).replace('_', ' ')}")
+        fig.add_trace(go.Bar(x=drivers, y=dvals, marker_color=_RUST, text=dtext,
+                             textposition="outside", showlegend=False,
+                             hovertemplate="%{x}: full set persists in %{y:.2f}<extra></extra>"),
+                      row=1, col=3)
+        fig.update_yaxes(title_text="full-set persistence", range=[0, 1.18], row=1, col=3)
+
+    fig.update_layout(**S.base_layout(height=470, margin=dict(t=56, b=70),
+                                      legend=dict(orientation="h", y=-0.2, x=0.0, font=dict(size=9))))
+    inter = lat.get("required_intersection") or []
+    full_frac = frac("pump+importer+heredity")
+    cap = (
+        "A REPLOT of the committed 2×2×2 subset lattice, reframed as the decisive question: is {pump, importer, "
+        "heredity} JOINTLY NECESSARY, or merely advantageous? The factorial (left) and the epistasis matrix "
+        f"(middle) say it is not jointly sufficient here &mdash; the full triple persists in only {full_frac:.2f} "
+        "of sampled model structures, and the only subset with any persistence is pump+heredity (a positive "
+        "pump×heredity interaction), while the importer contributes no positive interaction and is in the "
+        f"required set of no driver. The set required in EVERY viable structure is {{{', '.join(inter) or '—'}}}. "
+        + ("Per-driver withdrawal (right) resolves the original lumped collapse: the hard dependency is the "
+           "geological gradient (full set rescues it in ~4% of structures, and only pump+heredity are required "
+           "there), while mineral access and feed are differentially survivable and require no specific "
+           "innovation. " if has_pd else "")
+        + "So the escape set is advantageous and driver-specific, NOT a jointly-necessary irreducible unit."
+    )
+    inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+    return S.frame(inner, title=(title or "Innovation epistasis — is the escape set jointly necessary?"),
+                   phase="Phase 9", view="Decision", tier="conceptual_demonstration",
+                   caption_text=cap, caption_prefix="How to read", tone="caution", max_width=1100)
+
+
 class _ArtifactViz(Visualization):
     config_schema = {
         "title": {"_type": "string", "_default": ""},
@@ -269,4 +388,29 @@ class AutonomyAblationTrace(_ArtifactViz):
         return {"html": ablation_trace_figure(rep, title=self.config["title"])}
 
 
-__all__ = ["RobustInnovationLattice", "AutonomyAblationTrace", "lattice_figure", "ablation_trace_figure"]
+class InnovationEpistasisMatrix(_ArtifactViz):
+    """Phase-9 Decision REPLOT: the 2×2×2 factorial + pairwise epistasis matrix over
+    {pump, importer, heredity}, plus the per-driver attribution. Built entirely from the
+    committed ``robust_innovation_set.json`` (``lattice`` / ``lattice_rich``) and, when
+    configured, ``per_driver_withdrawal.json`` — nothing is recomputed."""
+
+    config_schema = {
+        "title": {"_type": "string", "_default": ""},
+        "report_json": {"_type": "string", "_default": ""},
+        "per_driver_json": {"_type": "string", "_default": ""},
+    }
+
+    def update(self, state=None):
+        rep = self._load()
+        if rep is None:
+            return {"html": "<p>robust_innovation_set.json not found — run sims/compute_robust_innovation_set.py first.</p>"}
+        per_driver = None
+        pd_path = _resolve(str(self.config.get("per_driver_json", "") or ""))
+        if pd_path:
+            with open(pd_path) as f:
+                per_driver = json.load(f)
+        return {"html": innovation_epistasis_figure(rep, per_driver, title=self.config["title"])}
+
+
+__all__ = ["RobustInnovationLattice", "AutonomyAblationTrace", "InnovationEpistasisMatrix",
+           "lattice_figure", "ablation_trace_figure", "innovation_epistasis_figure"]
