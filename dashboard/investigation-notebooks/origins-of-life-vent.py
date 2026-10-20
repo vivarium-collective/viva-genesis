@@ -3254,6 +3254,11 @@ else:
 # evolvable-lineages-response
 _save_viz('og-evolvable-lineages', 'evolvable-lineages-response', _render_one('', {}, RUNS_DB, STUDY_YAML))
 
+# **heredity-sensitivity**
+
+# heredity-sensitivity
+_save_viz('og-evolvable-lineages', 'heredity-sensitivity', _render_one('local:HereditySensitivityViz', {'report_json': 'workspace/studies/og-evolvable-lineages/artifacts/og-evolvable-lineages/heredity_sensitivity.json', 'title': 'Selectable heredity is robust across selection × population size (replicate bands)'}, RUNS_DB, STUDY_YAML))
+
 # ### Acceptance criteria
 #
 # _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
