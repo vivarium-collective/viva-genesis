@@ -1143,6 +1143,7 @@ plan_gates:
     member_studies:
       - og-vent-environment
       - og-network-persistence
+      - og-precursor-pool
     pending_studies:
       # Evidence-expansion sub-program (PLANNED challenge studies; honest-bar — they test whether
       # the A1 conclusions SURVIVE harder scrutiny, a negative being a meaningful result). These
@@ -1202,19 +1203,39 @@ plan_gates:
       Metabolism makes its own membrane and benefits from it — the compartmented system must
       beat a matched ablation (no endogenous membrane) with chemical input fluxes held equal.
     status: pending
+  - id: C2
+    name: Reciprocal self-maintenance (endogenous closure)
+    extends: C
+    off_spine: true
+    member_studies:
+      - og-operating-window
+      - og-self-maintaining-individual
+    # The harder criterion beyond C's membrane-benefit: does the chemistry build AND keep its
+    # own boundary without a built-in gain? og-operating-window establishes the narrow (qualified)
+    # pore + membrane rescue of the precursor pool; og-self-maintaining-individual shows the
+    # reciprocal loop still does not close endogenously (refuted). This is the central open
+    # transition. Off-spine — never a prerequisite: D (reproduction) extends C, not C2, so C2's
+    # refutation records the open transition without blocking the reproduction/heredity spine.
+    criterion: >-
+      The coupled chemistry-and-boundary loop closes endogenously — a membrane is sustained
+      because the chemistry's own amphiphile pool clears its critical aggregation concentration,
+      without a built-in production/retention gain — beating the no-gain construction and each
+      single-direction ablation with chemical input fluxes held equal.
+    status: pending
   - id: D
     name: Reproduction & heredity
     extends: C
     member_studies:
       - og-reproduction
       - og-evolvability
+      - og-evolvable-lineages
     pending_studies:
       # Gate D's criterion (reproducible selectable fitness difference) lives in og-evolvability (the
       # evolvability split of og-heredity); og-heredity holds the chemical-inheritance half that feeds it.
       # Membrane-MD sub-program (PLANNED). Division PROPENSITY only (geometry/curvature/barrier) —
       # explicitly NOT heritable division (og-33/og-evolvability remain the gate-earning lines). See
       # membrane-md-studies-m1-m5-designs.md.
-      - {slug: mem-m4-growth-division-propensity, title: Growth, shape change & division propensity, scaffolded: true, planned: true, program: membrane-md}
+      - {slug: mem-m4-growth-division-propensity, title: 'Membrane Division: Can a Vesicle Grow and Divide?', scaffolded: true, planned: true, program: membrane-md}
     criterion: >-
       Viable daughters inherit functional traits that influence fitness — an inherited
       functional difference must produce a reproducible fitness difference versus a matched
@@ -1266,10 +1287,9 @@ plan_acts:
       - og-network-persistence
       - og-spatial-concentration
       - og-network-rescue
+      - og-precursor-pool
     gates: [A1, B]                # A1 network persistence; B spatial (rests on og-network-rescue, which holds og30-pore-ignites-vs-control)
     off_spine_gates: [A2]         # endogenous autocatalysis — tested and refuted, never a spine prerequisite
-    pending_studies:              # additive study extending this act; the gate verdict rests on the member_studies
-      - og-precursor-pool
     upstream_state_consumed:
       - from: og-vent-environment
         relation: builds-on
@@ -1291,10 +1311,10 @@ plan_acts:
     member_studies:
       - og-self-compartmentation
       - og-nutrient-bottlenecks
-    gates: [C]
-    pending_studies:              # additive studies extending this act; the gate verdict rests on the member_studies
       - og-operating-window
       - og-self-maintaining-individual
+    gates: [C]
+    off_spine_gates: [C2]         # reciprocal self-maintenance — tested and refuted (endogenous closure fails); never a spine prerequisite
     upstream_state_consumed:
       - from: og-network-rescue
         relation: builds-on
@@ -1311,10 +1331,10 @@ plan_acts:
       - og-reproduction
       - og-heredity
       - og-evolvability
+      - og-evolvable-lineages
     gates: [D]
     pending_studies:
-      - {slug: mem-m4-growth-division-propensity, title: Growth, shape change & division propensity, scaffolded: true, planned: true, program: membrane-md}
-      - og-evolvable-lineages   # additive study extending this act; the gate verdict rests on the member_studies
+      - {slug: mem-m4-growth-division-propensity, title: 'Membrane Division: Can a Vesicle Grow and Divide?', scaffolded: true, planned: true, program: membrane-md}
     upstream_state_consumed:
       - from: og-self-compartmentation
         relation: builds-on
