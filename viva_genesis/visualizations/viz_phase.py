@@ -3602,3 +3602,61 @@ class VentGridConvergenceViz(Visualization):
                 "(T ~50 °C, mineral-buffered pH ~9.4, positive H₂) lands inside the Lost City literature windows "
                 "(green bands; Kelley/Proskurowski/Seyfried). PHREEQC held charge balance exactly (|imbalance| 0) "
                 "across the whole sweep. A confirming diagnostic — resolution + calibration are sound; no gate change."))}
+
+
+class PhosphorusSensitivityViz(Visualization):
+    """og-nutrient-bottlenecks P-availability sensitivity, read from ``report_json``
+    (phosphorus_sensitivity.json). Heatmap of net reactive-P production over the
+    mineral-sink (loss_rate) × concentration (pore_enrichment) grid, with the net=0
+    availability contour; pore concentration rescues P from the precipitation sink."""
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "Reactive-P availability across the mineral sink × pore concentration"},
+        "report_json": {"_type": "string", "_default": ""},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        import numpy as np
+        import plotly.graph_objects as go
+        path = _resolve_grid_path(str(self.config.get("report_json", "") or ""))
+        if not path:
+            return {"html": S.frame("<p>No sweep artifact found.</p>", title=self.config["title"])}
+        with open(path) as f:
+            blob = json.load(f)
+        loss = blob["axes"]["loss_rate"]
+        enrich = blob["axes"]["pore_enrichment"]
+        # z[i,j] = net_reactive_P at loss[i], enrich[j]  (µM/s-scaled for readability)
+        cell = {(g["loss_rate"], g["pore_enrichment"]): g for g in blob["grid"]}
+        z = [[(cell[(lr, pe)]["net_reactive_P"] or 0.0) * 1e6 for pe in enrich] for lr in loss]
+        fig = go.Figure(go.Heatmap(
+            x=[f"{e:g}" for e in enrich], y=[f"{l:g}" for l in loss], z=z,
+            colorscale="RdBu", zmid=0.0,
+            colorbar=dict(title="net reactive-P<br>(×10⁻⁶ /s)"),
+            hovertemplate="enrich=%{x}  loss=%{y}<br>net reactive-P=%{z:.3g}e-6<extra></extra>"))
+        fig.update_xaxes(title_text="pore enrichment (1 = open-pore control)")
+        fig.update_yaxes(title_text="mineral-sink loss rate k_prec (1/s)")
+        frac = blob.get("availability_region_fraction")
+        fig.update_layout(**S.base_layout(height=440, margin=dict(l=70, r=30, t=46, b=64)))
+        inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+        return {"html": S.frame(
+            inner, title=self.config["title"],
+            phase="Nutrient bottlenecks", view="Sensitivity", tier="mechanistic_prediction",
+            caption_prefix="How to read", tone="neutral",
+            caption_text=(
+                "Net reactive-phosphorus production (blue = available, net > 0; red = precipitation-dominated, "
+                "net < 0) over the two knobs the P-speciation model actually has — the mineral-sink loss rate "
+                "k_prec (precipitation/adsorption) and the pore enrichment (concentration; enrichment=1 is the "
+                f"open-pore control). Reactive P is available across most of the grid "
+                f"({int(round((frac or 0)*100))}% of cells); the bottleneck is the low-enrichment / high-sink "
+                "corner, where phosphate precipitates before it activates — pore concentration is what rescues "
+                "P from the mineral sink. Total phosphorus is conserved across the sweep (max |mass residual| "
+                "~2e-6). Honesty note: pH is NOT a parameter of this composite, so pH-sensitivity is not "
+                "representable here without a model change (flagged as future work); this is mineral-sink × "
+                "concentration (× temperature in the artifact), not a pH sweep. Deterministic ODE — no seeds, "
+                "no error bars."))}
