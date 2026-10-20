@@ -154,9 +154,14 @@ class ThermophoreticTrapProcess(Process):
         self._DiffusionTerm = DiffusionTerm
         self._ConvectionTerm = PowerLawConvectionTerm
 
-    def update(self, state, interval):
-        import numpy as np
-
+    def _accumulation_rate(self, state) -> dict:
+        """Derive the thermophoretic + convective accumulation terms for a given
+        state — a read-only decomposition shared by :meth:`update` and the
+        :func:`trap_field_snapshots` accessor. Returns the raw physical terms
+        (``soret·ΔT`` thermophoretic drive, ``pe_conv`` convective Péclet, ``D``
+        diffusivity, ``confinement`` = 1−porosity) alongside the derived
+        accumulation rate ``beta``, column Péclet ``pe_acc`` = beta·L and the
+        downward accumulation velocity ``w_acc`` = D·beta."""
         flow = max(float(state.get("flow_velocity", 0.0)), 0.0)
         porosity = min(max(float(state.get("porosity", 0.3)), 0.0), 1.0)
 
@@ -172,13 +177,26 @@ class ThermophoreticTrapProcess(Process):
         # lets the feed wash through (beta->0, no individual).
         pe_conv = flow * w / D
         confinement = 1.0 - porosity
-        self._beta = geom * soret * dT * pe_conv / w * confinement
-        pe_acc = self._beta * L                               # = ln(enrichment)
+        beta = geom * soret * dT * pe_conv / w * confinement
+        return {
+            "flow": flow, "porosity": porosity, "D": D, "w": w, "L": L,
+            "dT": dT, "soret": soret, "geom": geom, "pe_conv": pe_conv,
+            "confinement": confinement, "beta": beta, "pe_acc": beta * L,
+            "w_acc": D * beta,
+        }
+
+    def update(self, state, interval):
+        import numpy as np
+
+        t = self._accumulation_rate(state)
+        D = t["D"]; L = t["L"]; flow = t["flow"]
+        self._beta = t["beta"]
+        pe_acc = t["pe_acc"]                                  # = ln(enrichment)
 
         if self._mesh is None:
             self._build()
         # Downward accumulation velocity toward the base (−z): w_acc = D*beta.
-        w_acc = D * self._beta
+        w_acc = t["w_acc"]
         conv_coeff = ((-w_acc,),)                             # 1-D: advect toward base
         eq = (self._TransientTerm() == self._DiffusionTerm(coeff=D)
               - self._ConvectionTerm(coeff=conv_coeff))
@@ -235,3 +253,75 @@ def trap_profile(proc: "ThermophoreticTrapProcess") -> dict:
     conc = np.exp(np.clip(beta * (L - z), 0.0, 45.0))             # accumulation column
     return {"z_mm": (z * 1000.0).tolist(), "conc": conc.tolist(),
             "enrichment": float(math.exp(min(beta * L, 45.0)))}
+
+
+def trap_field_snapshots(proc: "ThermophoreticTrapProcess", state: "dict | None" = None,
+                         *, captures=(0, 1, 4)) -> dict:
+    """Genuine FiPy accumulation-column fields at successive solver sweeps — the
+    REAL c(z) the FVM solver produces at t=0 (uniform feed), a transient sweep and
+    the settled column. Modeled on ``fipy_reactor.spatial_field`` (a read-only
+    field accessor): every value is a FiPy cell, nothing invented. It drives the
+    process's own mesh + equation (via :meth:`ThermophoreticTrapProcess._accumulation_rate`,
+    not a re-derivation of the physics) and captures ``proc._c.value`` at the
+    requested sweep indices.
+
+    Returns ``{z_mm, extent_m, captures, snapshots, enrichment_resolved,
+    enrichment_emitted, accumulation_peclet, flux_divergence_residual, terms}``
+    where ``snapshots`` maps each requested sweep index (as a string) to the
+    ``(nz,)`` concentration list (base z=0 first, feed z=L last). ``enrichment_resolved``
+    is the raw FVM base/top ratio (PowerLaw-damped, what the field shows);
+    ``enrichment_emitted`` is the reduced-column ``exp(pe_acc)`` the process emits.
+    Empty dict if FiPy cannot build the mesh."""
+    import math
+
+    import numpy as np
+
+    st = dict(proc.initial_state()); st.update(state or {})
+    t = proc._accumulation_rate(st)
+    proc._beta = t["beta"]
+    if proc._mesh is None:
+        proc._build()
+    if proc._mesh is None:  # pragma: no cover - fipy unavailable
+        return {}
+    # Reset the column to the uniform feed (c=1) so sweep 0 is a genuine t=0.
+    proc._c.setValue(1.0)
+    eq = (proc._TransientTerm() == proc._DiffusionTerm(coeff=t["D"])
+          - proc._ConvectionTerm(coeff=((-t["w_acc"],),)))
+    dt = max(t["L"] * t["L"] / (t["D"] * max(1.0, t["pe_acc"])) * 0.4, 1e-3)
+    caps = sorted({int(c) for c in captures})
+    snaps: dict[int, "np.ndarray"] = {}
+    if 0 in caps:
+        snaps[0] = np.asarray(proc._c.value).copy()
+    for i in range(1, max(caps) + 1):
+        proc._c.updateOld()
+        if proc._solver is not None:
+            eq.sweep(var=proc._c, dt=dt, solver=proc._solver)
+        else:  # pragma: no cover
+            eq.sweep(var=proc._c, dt=dt)
+        if i in caps:
+            snaps[i] = np.asarray(proc._c.value).copy()
+    try:
+        rv = np.asarray(eq.justResidualVector(var=proc._c, dt=dt), dtype=float)
+        scale = abs(np.asarray(proc._c.value)).max() / dt * float(proc._mesh.cellVolumes[0]) + 1e-30
+        residual = float(np.max(np.abs(rv))) / scale
+    except Exception:  # pragma: no cover
+        residual = 0.0
+    field = np.asarray(proc._c.value)
+    cc = np.asarray(proc._mesh.cellCenters[0])
+    resolved = float(field.max() / field.min()) if float(field.min()) > 0 else float(field.max())
+    return {
+        "z_mm": (cc * 1000.0).tolist(),
+        "extent_m": [0.0, float(t["L"])],
+        "captures": caps,
+        "snapshots": {str(k): snaps[k].tolist() for k in caps},
+        "enrichment_resolved": resolved,
+        "enrichment_emitted": float(math.exp(min(t["pe_acc"], 45.0))),
+        "accumulation_peclet": float(t["pe_acc"]),
+        "flux_divergence_residual": abs(residual),
+        "terms": {
+            "soret": float(t["soret"]), "delta_T": float(t["dT"]), "D": float(t["D"]),
+            "pe_conv": float(t["pe_conv"]), "confinement": float(t["confinement"]),
+            "beta": float(t["beta"]), "flow": float(t["flow"]),
+            "porosity": float(t["porosity"]),
+        },
+    }

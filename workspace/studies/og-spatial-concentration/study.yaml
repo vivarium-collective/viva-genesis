@@ -428,6 +428,13 @@ visualizations:
     report_json: >-
       workspace/studies/og-spatial-concentration/artifacts/og-03-dilution-to-localized-individuals/gradient_off_control.json
     title: What drives the localized enrichment? (transport attribution)
+- name: spatial-pde
+  display: mechanism
+  address: local:SpatialPDEFieldGrid
+  config:
+    report_json: >-
+      workspace/studies/og-spatial-concentration/artifacts/og-03-dilution-to-localized-individuals/spatial_pde_fields.json
+    title: 'The eight-solute pore fields: real FiPy PDE snapshots, pore vs open-pore'
 baseline:
 - name: Thermophoretic concentration physics (og-03 arm)
   composite: viva_genesis.composites.thermophoretic_concentration.thermophoretic_concentration
