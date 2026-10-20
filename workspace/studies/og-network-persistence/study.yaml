@@ -1186,6 +1186,7 @@ runs:
       auto_evaluated: true
 visualizations:
 - name: reaction-atlas-coverage
+  display: supplement
   address: local:OgReactionAtlasCoverageViz
   config:
     composite: viva_genesis.composites.og_28_prebiotic_reaction_atlas.og_28_prebiotic_reaction_atlas
@@ -1198,12 +1199,14 @@ visualizations:
       atlas connects, how sure we are of each part, and proof that nothing unbalanced or unsourced got
       in.
 - name: reaction-universe-enrichment
+  display: supplement
   address: local:ReactionUniverseEnrichment
   config:
     title: Motif enrichment vs matched nulls, and where motifs ignite (Decision view)
     report_json: >-
       workspace/studies/og-network-persistence/artifacts/og-02-alt-reaction-universe/motif_enrichment.json
 - name: reaction-universe-subnetwork
+  display: supplement
   address: local:ReactionUniverseSubnetwork
   config:
     title: The persistent subnetwork and its post-hoc formose cycle (Mechanism view)
@@ -1218,6 +1221,7 @@ visualizations:
     grid_json: >-
       workspace/studies/og-network-persistence/artifacts/og-02-reduced-carbon-to-protometabolism/protometabolism_gain_grid.json
 - name: protometabolism-network
+  display: supplement
   address: local:ProtometabolismViz
   config:
     composite: viva_genesis.composites.protometabolism.protometabolic_network
