@@ -1126,6 +1126,27 @@ runs:
       operator: cross_run
       detail: favorable pmf=427 mV vs Tutolo-2026 pmf=43 mV => usable gradient COLLAPSES at in-situ T/P
 visualizations:
+- name: carbon-fixation-phase-map
+  display: primary
+  address: local:CarbonFixationPhaseMap
+  config:
+    title: The carbon-fixation landscape (Decision view)
+    grid_json: >-
+      workspace/studies/og-carbon-fixation/artifacts/og-01-geology-to-reduced-carbon/carbon_fixation_phase_grid.json
+- name: proton-gradient-profile
+  display: mechanism
+  address: local:ProtonGradientProfile
+  config:
+    composite: viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation
+    n_steps: 80
+    title: Proton gradient → reduced carbon
+- name: carbon-fixation-timeseries
+  display: supporting
+  address: local:CarbonFixationViz
+  config:
+    composite: viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation
+    n_steps: 120
+    title: Geology to reduced carbon (eQuilibrator + FiPy) — supporting
 - name: electrochemistry-mechanism-map
   display: mechanism
   address: local:ElectrochemistryMechanismMap
@@ -1139,25 +1160,6 @@ visualizations:
   address: local:ElectrochemistryPolarization
   config:
     title: Vent wall as a galvanic cell at the nominal point (Mechanism view)
-- name: proton-gradient-profile
-  address: local:ProtonGradientProfile
-  config:
-    composite: viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation
-    n_steps: 80
-    title: Proton gradient → reduced carbon
-- name: carbon-fixation-timeseries
-  address: local:CarbonFixationViz
-  config:
-    composite: viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation
-    n_steps: 120
-    title: Geology to reduced carbon (eQuilibrator + FiPy)
-- name: carbon-fixation-phase-map
-  display: primary
-  address: local:CarbonFixationPhaseMap
-  config:
-    title: The carbon-fixation landscape (Decision view)
-    grid_json: >-
-      workspace/studies/og-carbon-fixation/artifacts/og-01-geology-to-reduced-carbon/carbon_fixation_phase_grid.json
 baseline:
 - name: Hydrothermal carbon fixation — favorable, canonical (og-01)
   composite: viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation
