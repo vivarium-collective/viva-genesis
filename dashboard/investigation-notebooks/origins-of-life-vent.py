@@ -807,6 +807,11 @@ else:
 #
 # _Results are shown by the figures below, produced by the run above._
 
+# **pore-ignition-coupling**
+
+# pore-ignition-coupling
+_save_viz('og-spatial-concentration', 'pore-ignition-coupling', _render_one('local:PoreIgnitionThresholdViz', {'report_json': 'workspace/studies/og-network-rescue/artifacts/og-30-spatially-integrated-protometabolism/gate_b_spatial.json', 'title': 'Pore enrichment carries the network across its ignition threshold (Decision view)'}, RUNS_DB, STUDY_YAML))
+
 # **thermophoretic-trap**
 
 # thermophoretic-trap
@@ -820,7 +825,7 @@ _save_viz('og-spatial-concentration', 'pore-localization-map', _render_one('loca
 # **pore-enrichment-solver-sensitivity**
 
 # pore-enrichment-solver-sensitivity
-_save_viz('og-spatial-concentration', 'pore-enrichment-solver-sensitivity', _render_one('local:PoreEnrichmentSolverSensitivity', {'comparison_json': 'workspace/references/spatial-transport-solver-comparison.json', 'title': 'Enrichment is bounded: reduced column vs resolved FEM (Decision view)'}, RUNS_DB, STUDY_YAML))
+_save_viz('og-spatial-concentration', 'pore-enrichment-solver-sensitivity', _render_one('local:PoreEnrichmentSolverSensitivity', {'comparison_json': 'workspace/references/spatial-transport-solver-comparison.json', 'title': 'Enrichment is bounded: reduced column vs resolved FEM (supplementary solver diagnostic)'}, RUNS_DB, STUDY_YAML))
 
 # **multisolute-colocalization-map**
 
@@ -1198,7 +1203,7 @@ _save_viz('og-heredity', 'heredity-lineage-tree', _render_one('local:HeredityLin
 # **heredity-error-threshold**
 
 # heredity-error-threshold
-_save_viz('og-heredity', 'heredity-error-threshold', _render_one('local:HeredityErrorThresholdViz', {'composite': 'viva_genesis.composites.heredity_module_comparison.heredity_module_comparison', 'title': 'Heredity above the error threshold'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_heredity_module_comparison_heredity_module_comparison if 'ov_viva_genesis_composites_heredity_module_comparison_heredity_module_comparison' in dir() else None)))
+_save_viz('og-heredity', 'heredity-error-threshold', _render_one('local:HeredityErrorThresholdViz', {'composite': 'viva_genesis.composites.heredity_module_comparison.heredity_module_comparison', 'title': 'The error threshold — inherited-state retention vs lineage fitness (Decision view)'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_heredity_module_comparison_heredity_module_comparison if 'ov_viva_genesis_composites_heredity_module_comparison_heredity_module_comparison' in dir() else None)))
 
 # **heredity-information-frontier**
 
@@ -1788,7 +1793,7 @@ _save_viz('og-self-compartmentation', 'protocell-boundary-world', _render_one('l
 # **protocell-window**
 
 # protocell-window
-_save_viz('og-self-compartmentation', 'protocell-window', _render_one('local:ProtocellWindowViz', {'composite': 'viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell', 'title': 'The protocell window broadens — mixed amphiphiles (Mechanism view)'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_mixed_amphiphile_protocell_mixed_amphiphile_protocell if 'ov_viva_genesis_composites_mixed_amphiphile_protocell_mixed_amphiphile_protocell' in dir() else None)))
+_save_viz('og-self-compartmentation', 'protocell-window', _render_one('local:ProtocellWindowViz', {'composite': 'viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell', 'md_json': 'workspace/studies/og-self-compartmentation/artifacts/og-32-first-self-maintaining-protocell/md_bilayer_observables.json', 'vesicle_json': 'workspace/studies/og-self-compartmentation/artifacts/og-32b-fatty-acid-vesicle-stability/vesicle_stability.json', 'title': 'The protocell window — single-fatty-acid vs mixed-amphiphile (Decision view)'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_mixed_amphiphile_protocell_mixed_amphiphile_protocell if 'ov_viva_genesis_composites_mixed_amphiphile_protocell_mixed_amphiphile_protocell' in dir() else None)))
 
 # **protocell-retention-access**
 
