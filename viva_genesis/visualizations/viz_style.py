@@ -316,6 +316,8 @@ VIEWS = {
     "World": {"color": SLATE, "long": "the physical world the study runs in"},
     "Mechanism": {"color": AMBER, "long": "the mechanism at the operating point"},
     "Decision": {"color": TEAL, "long": "the swept phase map the verdict rests on"},
+    "Supporting": {"color": SLATE, "long": "a supporting diagnostic, not a primary claim-bearing figure"},
+    "QA": {"color": SLATE, "long": "numerical quality-assurance (conservation / solver residuals vs tolerance); not a science claim"},
 }
 
 # Figure tone — sets the header accent.  "negative" is the honest-negative treatment

@@ -59,34 +59,59 @@ def _grid_from_json(blob: dict):
 
 
 def carbon_fixation_phase_figure(fav, tut=None, *, title=None) -> str:
-    """Two-panel decision figure for og-01: sustained carbon throughput over
-    (vent pH × dissolved H₂), favourable vs the Tutolo-2026 gradient collapse,
-    on shared axes and a shared colour scale. ``fav``/``tut`` are SweepResults."""
+    """Two-panel PRIMARY decision figure for og-01: SUSTAINED reduced-carbon throughput
+    over (vent pH × dissolved H₂), favourable vs the Tutolo-2026 gradient collapse, on
+    shared axes and a shared colour scale. The colour is the sustained throughput; the
+    white contour is the feasible boundary (throughput > 0), hatched cells are
+    zero/infeasible flux, and the bold teal contour marks where flux is SUSTAINED (held
+    over most of the run) rather than merely a transient thermodynamic possibility.
+    ``fav``/``tut`` are SweepResults."""
     import plotly.graph_objects as go
     from plotly.subplots import make_subplots
 
     ph = fav.axes["ph_vent"]
     h2 = fav.axes["h2"]
+    eps = 1e-6                                               # feasible-flux floor (mol-C/s)
     # surface is indexed [ph, h2]; Contour wants z[y=h2][x=ph] → transpose, ×1e3.
     z_fav = (fav.surfaces["sustained_throughput"] * 1e3).T
-    panels = [("Favourable parameterization\n(sustained gradient)", z_fav)]
+    sf_fav = np.asarray(fav.surfaces.get("sustained_frac", np.zeros_like(fav.surfaces["sustained_throughput"]))).T
+    tp_fav = np.asarray(fav.surfaces["sustained_throughput"]).T
+    panels = [("Favourable parameterization\n(sustained gradient)", z_fav, tp_fav, sf_fav)]
     if tut is not None:
         z_tut = (tut.surfaces["sustained_throughput"] * 1e3).T
-        panels.append(("Tutolo-2026 in-situ collapse\n(gradient efficiency 0.1)", z_tut))
+        sf_tut = np.asarray(tut.surfaces.get("sustained_frac", np.zeros_like(tut.surfaces["sustained_throughput"]))).T
+        tp_tut = np.asarray(tut.surfaces["sustained_throughput"]).T
+        panels.append(("Tutolo-2026 in-situ collapse\n(gradient efficiency 0.1)", z_tut, tp_tut, sf_tut))
 
     zmax = max(float(np.nanmax(p[1])) for p in panels)
     fig = make_subplots(rows=1, cols=len(panels),
                         subplot_titles=[p[0].replace("\n", "<br>") for p in panels],
                         horizontal_spacing=0.12, shared_yaxes=True)
 
-    for i, (_, z) in enumerate(panels, start=1):
+    for i, (_, z, tp, sf) in enumerate(panels, start=1):
         fig.add_trace(go.Contour(
             x=ph, y=h2, z=z, zmin=0.0, zmax=zmax,
             colorscale="Viridis", showscale=(i == len(panels)),
-            colorbar=dict(title="sustained<br>throughput<br>(10⁻³ mol-C/s)", len=0.9),
+            colorbar=dict(title="sustained<br>throughput<br>(10⁻³ mol-C s⁻¹)", len=0.9),
             contours=dict(showlabels=True, labelfont=dict(size=10, color="white")),
             line=dict(width=0.5, color="rgba(255,255,255,0.35)"),
         ), row=1, col=i)
+        # feasible boundary: throughput > eps (any positive net carbon flux).
+        fig.add_trace(go.Contour(x=ph, y=h2, z=tp, showscale=False,
+                                 contours=dict(start=eps, end=eps, coloring="lines"),
+                                 line=dict(color="#f8fafc", width=1.8),
+                                 hoverinfo="skip"), row=1, col=i)
+        # SUSTAINED-vs-thermodynamic-possibility: teal contour where flux is held over
+        # ≥ half the run (sustained_frac ≥ 0.5), not a transient feasibility blip.
+        fig.add_trace(go.Contour(x=ph, y=h2, z=sf, showscale=False,
+                                 contours=dict(start=0.5, end=0.5, coloring="lines"),
+                                 line=dict(color=_TEAL, width=2.6, dash="dash"),
+                                 hoverinfo="skip"), row=1, col=i)
+        # zero / infeasible-flux region explicitly marked (ΔG′ ≥ 0, or no gradient/H₂).
+        zero = np.where(tp <= eps, 1.0, np.nan)
+        fig.add_trace(go.Heatmap(x=ph, y=h2, z=zero, showscale=False,
+                                 colorscale=[[0, "rgba(100,116,139,0.33)"], [1, "rgba(100,116,139,0.33)"]],
+                                 hoverinfo="skip"), row=1, col=i)
         # favourable operating point (Preiner-style): pH 9.5, H2 5 mM.
         fig.add_trace(go.Scatter(
             x=[9.5], y=[5.0e-3], mode="markers+text", text=["favourable<br>operating point"],
@@ -98,11 +123,17 @@ def carbon_fixation_phase_figure(fav, tut=None, *, title=None) -> str:
                          row=1, col=i)
         fig.update_xaxes(title_text="vent pH (alkaline side; ocean = 6.0)", row=1, col=i)
 
-    fig.update_layout(**S.base_layout(height=440, width=460 * len(panels),
-                                      margin=dict(t=48, b=60, l=70, r=20), showlegend=False))
-    cap = ("Where geological free energy sustains reduced-carbon production (open-flow vent "
-           "reactor). Dark = productive region fails; the no-gradient / no-catalyst / no-H₂ "
-           "controls sit off-scale at zero.")
+    fig.update_layout(**S.base_layout(height=460, width=470 * len(panels),
+                                      margin=dict(t=54, b=70, l=70, r=20), showlegend=False))
+    cap = ("<b>Sustained modeled carbon throughput occupies a restricted dissolved-H₂ × vent-pH "
+           "regime, conditional on catalyst activity and gradient maintenance.</b> Colour is the "
+           "modeled sustained reduced-carbon throughput (open-flow vent reactor); the white contour is "
+           "the feasible boundary (any positive net flux) and the teal dashed contour is where flux is "
+           "SUSTAINED over ≥ half the run &mdash; distinct from a merely thermodynamically possible "
+           "transient. Grey-shaded cells are zero / infeasible flux (ΔG′ ≥ 0, or a no-gradient / "
+           "no-catalyst / no-H₂ control). The Tutolo-2026 collapse (right) contracts the sustained "
+           "region on the same axes. Limit: a modeled landscape, not an experimental reproduction; "
+           "replicate/parameter uncertainty bands and lab-regime overlays are not yet attached.")
     inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
     return S.frame(inner, title=(title or "The carbon-fixation landscape"),
                    phase="Campaign I", view="Decision", tier="mechanistic_prediction",
@@ -110,35 +141,56 @@ def carbon_fixation_phase_figure(fav, tut=None, *, title=None) -> str:
 
 
 def protometabolism_gain_figure(res, *, title=None) -> str:
-    """og-02 Decision view: the protometabolic ignition landscape — settled OAA hub
-    pool + net throughput over (washout × feed CO₂), with the autocatalytic
-    threshold (gain=1) overlaid. ``res`` is a SweepResult / grid view."""
+    """og-02 Decision view (PRIMARY): the protometabolic persistence landscape over
+    (washout × feed CO₂). **Left:** the settled amplification gain (dimensionless) with
+    the gain=1 line — a NECESSARY but not sufficient condition, NOT by itself evidence of
+    autocatalysis. **Right:** net carbon throughput with the washout boundary (flux → 0).
+    The bold teal contour on both panels is the COMBINED gate — gain > 1 AND positive
+    sustained net flux — the only region where amplification and sustained throughput
+    coexist. OAA abundance alone is deliberately NOT the colour of the decision panels.
+    ``res`` is a SweepResult / grid view with ``gain`` and ``net_flux`` surfaces."""
     import numpy as np
     import plotly.graph_objects as go
     from plotly.subplots import make_subplots
 
     feed = res.axes["feed_CO2"]
     wash = res.axes["k_wash"]
-    oaa = res.surfaces["oaa_pool"] * 1e3            # mM, indexed [feed, wash] → z[y=feed][x=wash]
-    net = res.surfaces["net_flux"] * 1e3            # 10⁻³ mol-C/s
-    gain = res.surfaces["gain"]
-    z_oaa = np.log10(np.clip(oaa, 1e-4, None))
+    net = res.surfaces["net_flux"] * 1e3            # 10⁻³ mol-C/s, indexed [feed, wash]
+    net_raw = np.asarray(res.surfaces["net_flux"])
+    gain = np.asarray(res.surfaces["gain"])
+    eps = 1e-6                                       # positive-sustained-flux floor
+    # combined gate: gain > 1 AND net flux > 0 (sustained throughput). Encode as a field
+    # that is 1 inside the gate, so its 0.5 contour is the combined-gate boundary.
+    combined = np.where((gain > 1.0) & (net_raw > eps), 1.0, 0.0)
 
     fig = make_subplots(rows=1, cols=2, shared_yaxes=True, horizontal_spacing=0.12,
-                        subplot_titles=("Autocatalytic hub (OAA, mM — log)",
-                                        "Net carbon throughput (10⁻³ mol-C/s)"))
-    fig.add_trace(go.Contour(x=wash, y=feed, z=z_oaa, colorscale="Viridis", ncontours=14,
-                             colorbar=dict(title="log₁₀<br>OAA (mM)", len=0.9, x=0.44),
-                             contours=dict(showlabels=True, labelfont=dict(size=9, color="white")),
-                             line=dict(width=0.4, color="rgba(255,255,255,0.3)")), row=1, col=1)
+                        subplot_titles=("Settled amplification gain (dimensionless)",
+                                        "Net carbon throughput (10⁻³ mol-C s⁻¹)"))
+    # LEFT: gain itself (not OAA abundance), diverging about the gain=1 threshold.
+    gmax = float(np.nanmax(np.abs(gain - 1.0))) or 1.0
+    fig.add_trace(go.Contour(x=wash, y=feed, z=gain, colorscale="RdBu_r", ncontours=16,
+                             zmid=1.0, zmin=1.0 - gmax, zmax=1.0 + gmax,
+                             colorbar=dict(title="gain<br>(dimensionless)", len=0.9, x=0.44),
+                             contours=dict(showlabels=True, labelfont=dict(size=9, color="#1e293b")),
+                             line=dict(width=0.4, color="rgba(100,116,139,0.3)")), row=1, col=1)
+    # gain = 1 line (necessary, not sufficient).
+    fig.add_trace(go.Contour(x=wash, y=feed, z=gain, showscale=False,
+                             contours=dict(start=1, end=1, coloring="lines"),
+                             line=dict(color="#1e293b", width=1.6, dash="dot"),
+                             hoverinfo="skip"), row=1, col=1)
+    # RIGHT: net throughput + washout boundary (flux → 0).
     fig.add_trace(go.Contour(x=wash, y=feed, z=net, colorscale="Inferno", ncontours=14, showscale=True,
-                             colorbar=dict(title="net flux (mol/s)", len=0.9),
+                             colorbar=dict(title="net flux<br>(10⁻³ mol-C s⁻¹)", len=0.9),
                              line=dict(width=0.4, color="rgba(255,255,255,0.3)")), row=1, col=2)
-    # autocatalytic threshold (gain = 1) on both panels.
+    fig.add_trace(go.Contour(x=wash, y=feed, z=net_raw, showscale=False,
+                             contours=dict(start=eps, end=eps, coloring="lines"),
+                             line=dict(color="#f8fafc", width=1.8),
+                             hoverinfo="skip"), row=1, col=2)
+    # the COMBINED gate boundary (gain>1 AND sustained flux>0) on both panels.
     for c in (1, 2):
-        fig.add_trace(go.Contour(x=wash, y=feed, z=gain, showscale=False,
-                                 contours=dict(start=1, end=1, coloring="lines"),
-                                 line=dict(color="#f8fafc", width=2.2, dash="dash"),
+        fig.add_trace(go.Contour(x=wash, y=feed, z=combined, showscale=False,
+                                 contours=dict(start=0.5, end=0.5, coloring="lines"),
+                                 line=dict(color=_TEAL, width=2.8, dash="dash"),
                                  hoverinfo="skip"), row=1, col=c)
         fig.add_trace(go.Scatter(x=[0.05], y=[2.0e-3], mode="markers+text",
                                  text=["operating<br>point"], textposition="top center",
@@ -148,13 +200,18 @@ def protometabolism_gain_figure(res, *, title=None) -> str:
         fig.update_xaxes(type="log", title_text="washout / dilution k_wash (1/s)", row=1, col=c)
     fig.update_yaxes(type="log", title_text="feed CO₂ (M)", row=1, col=1)
 
-    fig.update_layout(**S.base_layout(height=450, width=940, margin=dict(t=48, b=60, l=70, r=20),
+    fig.update_layout(**S.base_layout(height=450, width=940, margin=dict(t=54, b=60, l=70, r=20),
                                       showlegend=False))
-    cap = ("The rTCA network ignites in a bounded region &mdash; enough geological CO₂ in, "
-           "slow enough washout. Dashed line = the autocatalytic threshold (gain=1); beyond it "
-           "the loop cannot outpace dilution and the hub washes out.")
+    cap = ("<b>Autocatalytic gain and sustained throughput coexist only in a bounded CO₂-feed × "
+           "washout window.</b> Left colour is the settled amplification GAIN (the gain=1 dotted line is "
+           "necessary, not sufficient); right colour is net carbon throughput, with the white washout "
+           "boundary where flux → 0. The teal dashed contour on both panels is the COMBINED gate &mdash; "
+           "gain &gt; 1 AND positive sustained net flux &mdash; and OAA abundance is deliberately NOT the "
+           "decision colour, since a transient OAA rise is not by itself self-sustaining autocatalysis. "
+           "Limit: gain here is the settled amplification; whether it persists after the transient (rather "
+           "than being carried by source terms) is tracked as the separate og-autocatalysis line.")
     inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
-    return S.frame(inner, title=(title or "The protometabolic ignition landscape"),
+    return S.frame(inner, title=(title or "The protometabolic persistence landscape"),
                    phase="Campaign II", view="Decision", tier="mechanistic_prediction",
                    caption_text=cap, caption_prefix="How to read", tone="neutral")
 
@@ -1629,12 +1686,16 @@ class GrowthDivisionMap(Visualization):
 # og-00 — vent reactor baseline : the Lost City habitability window + the engine
 # ----------------------------------------------------------------------------
 def vent_habitability_figure(res, *, title=None) -> str:
-    """og-00 Decision view: the Lost City habitability window over (olivine reaction
-    rate × flow velocity). **Left:** settled outlet temperature (°C) with the Lost City
-    T-window edges (40 / 91 °C) dashed and the too-hot FAIL region shaded; **right:**
-    settled outlet pH with the pH-window edges (9.0 / 10.8). The bold teal contour on
-    BOTH panels is the combined habitability PASS boundary (inside the T AND pH window
-    with a positive H₂ flux). ``res`` is the vent_habitability_phase_map SweepResult."""
+    """og-00 Decision view (PRIMARY): the Lost City habitability window over (olivine
+    reaction rate × flow velocity). Three panels show the three prespecified habitability
+    criteria, each a MODEL OUTPUT tested against a field window: settled outlet
+    temperature (40–91 °C), settled outlet pH (9.0–10.8) and the serpentinization H₂
+    source flux (> 0). The bold teal contour on every panel is the COMBINED habitability
+    PASS boundary (all three criteria met simultaneously); inside it a bounded regime is
+    habitable, outside one or more constraints fail. Grey ✕ cells are simulations that
+    failed / fell outside PHREEQC validity and are MASKED (not painted as a value); small
+    grey dots mark the actual swept parameter samples. ``res`` is the
+    vent_habitability_phase_map SweepResult."""
     import numpy as np
     import plotly.graph_objects as go
     from plotly.subplots import make_subplots
@@ -1643,64 +1704,99 @@ def vent_habitability_figure(res, *, title=None) -> str:
     flow = np.asarray(res.axes["flow_velocity"], float)      # x (log)
     T = np.asarray(res.surfaces["temperature_C"], float)     # [olivine, flow]
     pH = np.asarray(res.surfaces["pH"], float)
+    h2 = np.asarray(res.surfaces.get("h2_flux", np.full_like(T, np.nan)), float)
     hab = np.nan_to_num(np.asarray(res.surfaces["habitable"], float), nan=0.0)
     win = res.meta.get("window", {})
     t_lo, t_hi = win.get("T_C", [40.0, 91.0])
     ph_lo, ph_hi = win.get("pH", [9.0, 10.8])
     op = res.meta.get("operating_point", {})
     op_o = float(op.get("olivine_rate", 0.15)); op_f = float(op.get("flow_velocity", 1.0e-3))
-    # over-heated / out-of-range points (NaN) read as "too hot" and "fail-pH".
-    t_cap = max(float(np.nanmax(T)) if np.isfinite(np.nanmax(T)) else 120.0, t_hi + 40.0)
-    T_disp = np.where(np.isnan(T), t_cap, T)
-    pH_disp = np.where(np.isnan(pH), ph_lo - 2.0, pH)
 
-    fig = make_subplots(rows=1, cols=2, shared_yaxes=True, horizontal_spacing=0.12,
-                        subplot_titles=("Settled outlet temperature (°C)",
-                                        "Settled outlet pH"))
-    # --- left: temperature landscape + T-window edges + PASS boundary ---
-    fig.add_trace(go.Contour(x=flow, y=olv, z=T_disp, colorscale="Inferno", ncontours=16,
-                             colorbar=dict(title="outlet T<br>(°C)", len=0.9, x=0.44),
-                             contours=dict(showlabels=True, labelfont=dict(size=9, color="white")),
+    # MASK failed / out-of-range simulations instead of painting them as extreme real
+    # values: a NaN in any settled field means PHREEQC fell outside 0–100 °C validity or
+    # the point washed out. Those cells are left blank on the surfaces and overlaid with a
+    # grey ✕, so a reader never mistakes a masked failure for a measured extreme.
+    failed = ~np.isfinite(T) | ~np.isfinite(pH)
+    T_m = np.where(failed, np.nan, T)
+    pH_m = np.where(failed, np.nan, pH)
+    h2_m = np.where(failed, np.nan, h2)
+    # H₂ flux on a log colour scale (positive is the "reducing-power present" criterion).
+    h2_pos = np.where(np.isfinite(h2_m) & (h2_m > 0), h2_m, np.nan)
+    z_h2 = np.log10(np.clip(h2_pos, 1e-12, None))
+    FF, OO = np.meshgrid(flow, olv)                          # sample-grid coordinates
+    fx, oy = FF.ravel(), OO.ravel()
+    ff_fail, oo_fail = FF[failed], OO[failed]
+
+    fig = make_subplots(rows=1, cols=3, shared_yaxes=True, horizontal_spacing=0.085,
+                        subplot_titles=("Criterion 1 — settled outlet T (°C)<br>window 40–91 °C",
+                                        "Criterion 2 — settled outlet pH<br>window 9.0–10.8 (dimensionless)",
+                                        "Criterion 3 — serpentinization H₂<br>source flux (mol s⁻¹, log) > 0"))
+    # --- panel 1: temperature, window edges ---
+    fig.add_trace(go.Contour(x=flow, y=olv, z=T_m, colorscale="Inferno", ncontours=16, connectgaps=False,
+                             colorbar=dict(title="outlet T<br>(°C)", len=0.86, x=0.283, thickness=10),
+                             contours=dict(showlabels=True, labelfont=dict(size=8, color="white")),
                              line=dict(width=0.4, color="rgba(255,255,255,0.25)")), row=1, col=1)
     for edge in (t_lo, t_hi):
-        fig.add_trace(go.Contour(x=flow, y=olv, z=T_disp, showscale=False,
+        fig.add_trace(go.Contour(x=flow, y=olv, z=T_m, showscale=False, connectgaps=False,
                                  contours=dict(start=edge, end=edge, coloring="lines"),
                                  line=dict(color="#e2e8f0", width=1.6, dash="dot"),
                                  hoverinfo="skip"), row=1, col=1)
-    # --- right: pH landscape + pH-window edges ---
-    fig.add_trace(go.Contour(x=flow, y=olv, z=pH_disp, colorscale="Viridis", ncontours=16,
-                             colorbar=dict(title="outlet<br>pH", len=0.9),
-                             contours=dict(showlabels=True, labelfont=dict(size=9, color="white")),
+    # --- panel 2: pH, window edges ---
+    fig.add_trace(go.Contour(x=flow, y=olv, z=pH_m, colorscale="Viridis", ncontours=16, connectgaps=False,
+                             colorbar=dict(title="outlet pH<br>(dimensionless)", len=0.86, x=0.638, thickness=10),
+                             contours=dict(showlabels=True, labelfont=dict(size=8, color="white")),
                              line=dict(width=0.4, color="rgba(255,255,255,0.25)")), row=1, col=2)
     for edge in (ph_lo, ph_hi):
-        fig.add_trace(go.Contour(x=flow, y=olv, z=pH_disp, showscale=False,
+        fig.add_trace(go.Contour(x=flow, y=olv, z=pH_m, showscale=False, connectgaps=False,
                                  contours=dict(start=edge, end=edge, coloring="lines"),
                                  line=dict(color="#e2e8f0", width=1.6, dash="dot"),
                                  hoverinfo="skip"), row=1, col=2)
-    # the combined habitability PASS boundary + operating point on both panels.
-    for c in (1, 2):
+    # --- panel 3: H₂ source flux (the binding constraint), log colour, >0 criterion ---
+    fig.add_trace(go.Contour(x=flow, y=olv, z=z_h2, colorscale="Cividis", ncontours=14, connectgaps=False,
+                             colorbar=dict(title="log₁₀ H₂ flux<br>(mol s⁻¹)", len=0.86, x=0.995, thickness=10),
+                             contours=dict(showlabels=True, labelfont=dict(size=8, color="white")),
+                             line=dict(width=0.4, color="rgba(255,255,255,0.25)")), row=1, col=3)
+
+    # combined PASS boundary + swept-sample dots + masked-failure ✕ + baseline ★, all panels.
+    for c in (1, 2, 3):
         fig.add_trace(go.Contour(x=flow, y=olv, z=hab, showscale=False,
                                  contours=dict(start=0.5, end=0.5, coloring="lines"),
                                  line=dict(color=_TEAL, width=2.8, dash="dash"),
                                  hoverinfo="skip"), row=1, col=c)
+        fig.add_trace(go.Scatter(x=fx, y=oy, mode="markers", marker=dict(symbol="circle",
+                                 size=2.6, color="rgba(226,232,240,0.55)"), hoverinfo="skip",
+                                 showlegend=False), row=1, col=c)
+        if ff_fail.size:
+            fig.add_trace(go.Scatter(x=ff_fail.ravel(), y=oo_fail.ravel(), mode="markers",
+                                     marker=dict(symbol="x", size=6, color="#94a3b8",
+                                                 line=dict(width=1.0, color="#475569")),
+                                     name="failed / out-of-range (masked)",
+                                     hovertext="simulation failed / outside PHREEQC validity",
+                                     hoverinfo="text", showlegend=(c == 1)), row=1, col=c)
         fig.add_trace(go.Scatter(x=[op_f], y=[op_o], mode="markers+text",
                                  text=["baseline<br>(51 °C, pH 9.4)"], textposition="top center",
-                                 textfont=dict(size=9, color=_INK),
-                                 marker=dict(symbol="star", size=15, color=_AMBER,
+                                 textfont=dict(size=8, color=_INK),
+                                 marker=dict(symbol="star", size=14, color=_AMBER,
                                              line=dict(width=1.2, color=_INK)), showlegend=False), row=1, col=c)
         fig.update_xaxes(type="log", title_text="flow velocity (m/s)", row=1, col=c)
     fig.update_yaxes(title_text="olivine reaction rate (mol/step)", row=1, col=1)
 
-    fig.update_layout(**S.base_layout(height=450, width=960, margin=dict(t=48, b=60, l=72, r=20),
-                                      showlegend=False))
-    cap = ("The real PHREEQC + FiPy vent settles inside the Lost City field window (teal dashed = "
-           "habitability PASS) only in a bounded band: enough serpentinization to drive H₂ + alkalinity, "
-           "slow enough flow to hold 40&ndash;91 °C / pH 9.0&ndash;10.8. Too fast flushes it cold; too "
-           "much reaction at low flow over-heats past the window &mdash; the baseline (&starf;) sits "
-           "safely inside.")
+    fig.update_layout(**S.base_layout(
+        height=470, width=1180, margin=dict(t=66, b=66, l=66, r=16), showlegend=True,
+        legend=dict(orientation="h", y=-0.22, x=0.5, xanchor="center", font=dict(size=10))))
+    cap = ("<b>A bounded olivine-reaction-rate × flow regime simultaneously satisfies prespecified "
+           "reactor habitability criteria; outside this region one or more constraints fail.</b> "
+           "Measured quantities are the three settled outlet model OUTPUTS &mdash; temperature, pH and "
+           "serpentinization H₂ source flux &mdash; each tested against a Lost City field window "
+           "(40&ndash;91 °C; pH 9.0&ndash;10.8; H₂ flux &gt; 0). The teal dashed contour is the combined "
+           "PASS boundary (all three met); grey ✕ are masked failed/out-of-range simulations, grey dots the "
+           "actual swept samples, ★ the baseline operating point. Domain: olivine rate 0.005&ndash;0.4 mol/step "
+           "× flow 2&times;10⁻⁴&ndash;3&times;10⁻² m/s. Limit: a geochemical-endmember reactor habitability "
+           "map, not a flow-resolved field or an origin-of-life claim; per-parameter uncertainty is reported "
+           "separately in the calibration arm.")
     inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
     return S.frame(inner, title=(title or "The Lost City habitability window"),
-                   phase="Campaign 0", view="Decision", tier="reproduction",
+                   phase="Campaign 0", view="Decision", tier="mechanistic_prediction",
                    caption_text=cap, caption_prefix="How to read", tone="neutral")
 
 
