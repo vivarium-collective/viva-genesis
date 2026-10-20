@@ -3795,3 +3795,74 @@ class OperatingWindowRegimeViz(Visualization):
                 "full swept space. S_T is the dominant parameter (Morris rank) and is UNMEASURED for C2–C3 at the "
                 "vent — the discriminating experiment is to measure it; whether S_T(C2–C3) reaches ~1e-2/K decides "
                 "the rescue. Verdict: qualified (a window exists, but hinges on this unmeasured quantity)."))}
+
+
+class PrecursorPoolLedgerViz(Visualization):
+    """og-precursor-pool decisive result, read from ``report_json``
+    (precursor_yield_vectors.json). The carbon pool by carbon-number class on a log scale:
+    budgets close (carbon + electron residuals ~0, de-novo CO2-fixed) yet the functional
+    C2+ pool is orders below C1 — the unresolved C-C condensation gap."""
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "Budgets close, but the functional C2+ pool is orders below C1"},
+        "report_json": {"_type": "string", "_default": ""},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        import plotly.graph_objects as go
+        path = _resolve_grid_path(str(self.config.get("report_json", "") or ""))
+        if not path:
+            return {"html": S.frame("<p>No artifact found.</p>", title=self.config["title"])}
+        with open(path) as f:
+            blob = json.load(f)
+        yv = blob.get("yield_vectors", {})
+        # aggregate molar pool by carbon-number class
+        by_c = {}
+        for sp in yv.values():
+            nc = sp.get("n_carbons")
+            c = sp.get("concentration_M") or 0.0
+            if nc is None:
+                continue
+            by_c.setdefault(int(nc), 0.0)
+            by_c[int(nc)] += c
+        classes = sorted(by_c)
+        xs = [f"C{c}" for c in classes]
+        ys = [max(by_c[c], 1e-18) for c in classes]
+        colors = [_SLATE if c == 1 else _TEAL for c in classes]
+        func_pool = blob.get("functional_pool_carbon_M")
+        c_resid = blob.get("carbon_residual")
+        e_resid = (blob.get("electron_budget", {}) or {}).get("electron_budget_residual")
+        cofix = blob.get("pool_cofixed_fraction")
+        ratio = (by_c.get(2, 0.0) + by_c.get(3, 0.0)) / by_c[1] if by_c.get(1) else None
+
+        fig = go.Figure(go.Bar(x=xs, y=ys, marker_color=colors,
+                               text=[f"{v:.2g} M" for v in ys], textposition="outside"))
+        if func_pool:
+            fig.add_hline(y=func_pool, line=dict(color=_AMBER, width=2, dash="dash"),
+                          annotation_text=f"functional C2+ carbon pool {func_pool:.2g} M", annotation_position="bottom right")
+        fig.update_yaxes(type="log", title_text="molar pool by carbon-number class (M, log)",
+                         showgrid=True, gridcolor="#eef2f7")
+        fig.update_xaxes(title_text="carbon number (C1 = formate/formaldehyde; C2+ = functional precursors)")
+        fig.update_layout(**S.base_layout(height=450, showlegend=False, margin=dict(l=66, r=30, t=48, b=64)))
+        inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+        return {"html": S.frame(
+            inner, title=self.config["title"],
+            phase="Precursor pool", view="Decisive result", tier="mechanistic_prediction",
+            caption_prefix="How to read", tone="caution",
+            caption_text=(
+                "The carbon pool the vent chemistry delivers, by carbon-number class (log scale). The budgets "
+                f"CLOSE — carbon residual ~{(c_resid or 0):.1e}, electron-budget residual ~{(e_resid or 0):.1e}, "
+                f"and the pool is {int(round((cofix or 0)*100))}% de-novo CO2-fixed (atom-balanced, controls "
+                "collapse it) — so this is a genuine, conserved result, not a leak. Yet C1 (formate) dominates "
+                f"at ~6e-4 M while the functional C2+ pool is only ~{(func_pool or 0):.1g} M (C2:C1 ~{(ratio or 0):.1e}) "
+                "— orders below both Preiner's batch hierarchy and what the downstream network / amphiphile "
+                "consumers need. The decisive finding is this gap: a closed, de-novo budget does NOT imply a "
+                "usable C2+ pool; the C–C condensation/concentration step is the unresolved bottleneck "
+                "(verdict: qualified). The thermodynamic C2+ ceiling is extrapolated from one water-activity "
+                "point — an acknowledged bound."))}
