@@ -3048,6 +3048,11 @@ else:
 #
 # _Results are shown by the figures below, produced by the run above._
 
+# **operating-window-regimes**
+
+# operating-window-regimes
+_save_viz('og-operating-window', 'operating-window-regimes', _render_one('local:OperatingWindowRegimeViz', {'report_json': 'workspace/studies/og-operating-window/artifacts/og-operating-window/operating_window.json', 'title': 'The operating window is a narrow corner at the defensible Soret edge'}, RUNS_DB, STUDY_YAML))
+
 # **operating-window-phase-map**
 
 # operating-window-phase-map
