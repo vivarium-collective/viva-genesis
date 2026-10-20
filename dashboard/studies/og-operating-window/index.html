@@ -20,7 +20,7 @@
   <div style="display:flex; align-items:center; gap:14px; justify-content:space-between;">
   <div style="display:flex; align-items:center; gap:12px; min-width:0; flex-wrap:wrap">
   <h1 class="study-title" style="margin:0">
-    <span class="study-name" id="study-name" data-slug="og-operating-window" data-study-kind="computational" title="og-operating-window">NEW B — Joint Operating-Window Feasibility (the rescue test)</span>
+    <span class="study-name" id="study-name" data-slug="og-operating-window" data-study-kind="computational" title="og-operating-window">Operating Window: Can Pore and Membrane Concentration Rescue the Pool?</span>
     
   </h1>
     
@@ -50,7 +50,7 @@
 
 
 
-<p id="study-question-headline" class="study-question-headline"><span class="q-glyph">Q</span> Do the vent, pore, and membrane regimes share a SIMULTANEOUS operating window, or only a transport-connected sequence of microenvironments?</p>
+<p id="study-question-headline" class="study-question-headline"><span class="q-glyph">Q</span> Do the vent, pore, and membrane regimes share a simultaneous operating window, or only a transport-connected sequence of microenvironments?</p>
 
 <nav class="study-tabs" aria-label="Study sections">
   
@@ -530,7 +530,7 @@
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Claim</h2>
-      <p class="ctr-text">The downstream pore-enrichment + membrane-retention machinery CAN rescue A&#39;s nM functional pool to a consumable (~uM) concentration, but only in a narrow corner at the upper edge of defensible small-molecule thermophoresis (S_T ~1e-2/K ceiling + high thermal gradient + high DIC together; overlap volume ~0.11 of the defensible grid, 0.42 overall). The canonical mid-point does not clear it. The rescue hinges on the Soret coefficient of the C2-C3 precursors (the dominant parameter by Morris), so measuring S_T(C2-C3) at the vent gradient is the discriminating experiment.</p>
+      <p class="ctr-text">The downstream pore-enrichment + membrane-retention machinery can rescue og-precursor-pool&#39;s nanomolar functional pool to a consumable (~uM) concentration, but only in a narrow corner at the upper edge of defensible small-molecule thermophoresis (S_T ~1e-2/K ceiling + high thermal gradient + high DIC together; overlap volume ~0.11 of the defensible grid, 0.42 overall). The canonical mid-point does not clear it. The rescue hinges on the Soret coefficient of the C2-C3 precursors (the dominant parameter by Morris), so measuring S_T(C2-C3) at the vent gradient is the discriminating experiment.</p>
       
     </div>
 
@@ -538,7 +538,7 @@
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Background</h2>
       <div class="ctr-meta">
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Question</span> <span class="ctr-meta-item">Do the vent, pore, and membrane regimes share a SIMULTANEOUS operating window, or only a transport-connected sequence of microenvironments?</span></div>
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Question</span> <span class="ctr-meta-item">Do the vent, pore, and membrane regimes share a simultaneous operating window, or only a transport-connected sequence of microenvironments?</span></div>
         <div class="ctr-meta-row"><span class="ctr-meta-k">Hypothesis</span> <span class="ctr-meta-item">Propagating the calibrated vent posterior through the network, pore and membrane regimes leaves a nonempty overlap only under transport coupling; where the successful conditions do not overlap, an explicit spatial/temporal transfer is required and transport survival must be tested.</span></div>
       </div>
     </div>
@@ -546,9 +546,9 @@
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Model &amp; approach</h2>
-      <p class="ctr-text">Propagate A&#39;s real precursor yield vectors through the real FiPy thermophoretic pore (product-pool enrichment at swept small-molecule Soret) and the real ProtocellAssembly membrane (retention -&gt; reduced washout); sweep (soret x delta_T x DIC); report the overlap volume reaching a consumable pool, per-regime failure reasons, the Morris parameter-sensitivity ranking, and the single most informative discriminating experiment.</p>
+      <p class="ctr-text">Propagate og-precursor-pool&#39;s real precursor yield vectors through the real FiPy thermophoretic pore (product-pool enrichment at swept small-molecule Soret) and the real ProtocellAssembly membrane (retention -&gt; reduced washout); sweep (soret x delta_T x DIC); report the overlap volume reaching a consumable pool, per-regime failure reasons, the Morris parameter-sensitivity ranking, and the single most informative discriminating experiment.</p>
       <div class="ctr-meta">
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Model</span> <code>Operating window — canonical (A&#39;s pool, real pore + real membrane, defensible mid Soret)</code>, <code>Transport-decoupled null — membrane off (no retention)</code><a class="ov-tablink" href="#" onclick="_setStudyTab('compose');return false;">model →</a></div>
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Model</span> <code>Operating window — canonical (the precursor pool, real pore + real membrane, defensible mid Soret)</code>, <code>Transport-decoupled null — membrane off (no retention)</code><a class="ov-tablink" href="#" onclick="_setStudyTab('compose');return false;">model →</a></div>
         
         <div class="ctr-meta-row"><span class="ctr-meta-k">Measures</span> <span class="ctr-meta-item">4 behavior tests</span><a class="ov-tablink" href="#" onclick="_setStudyTab('audit');return false;">see Tests →</a></div>
         
@@ -683,7 +683,7 @@
         <details class="finding-details">
           <summary class="finding-row">
             <span class="finding-status-glyph">✓</span>
-            <span class="finding-claim finding-statement">The real membrane retains chemistry at the Jordan-2019 vent level (retention ~0.905, access ~0.997, viable), lifting A&#39;s functional pool ~30x (from ~4e-10 to ~1.2e-8 M C) via reduced effective washout.</span>
+            <span class="finding-claim finding-statement">The real membrane retains chemistry at the Jordan-2019 vent level (retention ~0.905, access ~0.997, viable), lifting the functional pool ~30x (from ~4e-10 to ~1.2e-8 M C) via reduced effective washout.</span>
             
             <span class="finding-chip">via <code>membrane-retention-real</code></span>
             
@@ -712,7 +712,7 @@
             
             
             
-            <div class="finding-explanation"><em>Why:</em> k_wash_eff = k_wash*(1-retention); lower washout raises the steady-state pool, but only ~1.5 orders - far short of the ~4 orders A&#39;s nM pool needs to reach uM.</div>
+            <div class="finding-explanation"><em>Why:</em> k_wash_eff = k_wash*(1-retention); lower washout raises the steady-state pool, but only ~1.5 orders - far short of the ~4 orders the nanomolar pool needs to reach uM.</div>
             
             
           </div>
@@ -731,7 +731,7 @@
         <details class="finding-details">
           <summary class="finding-row">
             <span class="finding-status-glyph">◆</span>
-            <span class="finding-claim finding-statement">A simultaneous operating window exists but is NARROW: the enriched+retained functional pool reaches the consumable ~uM threshold in ~11% of the defensible-Soret grid (42% of the full grid), only at the favorable corner - S_T at the 1e-2/K small-molecule ceiling WITH high thermal gradient (~50 K) and high DIC (~20 mM). The canonical mid-point (S_T 5e-3, dT 30 K, 2 mM) stays at ~3e-8 M, sub-consumable.</span>
+            <span class="finding-claim finding-statement">A simultaneous operating window exists but is narrow: the enriched+retained functional pool reaches the consumable ~uM threshold in ~11% of the defensible-Soret grid (42% of the full grid), only at the favorable corner - S_T at the 1e-2/K small-molecule ceiling with a high thermal gradient (~50 K) and high DIC (~20 mM). The canonical mid-point (S_T 5e-3, dT 30 K, 2 mM) stays at ~3e-8 M, sub-consumable.</span>
             
             <span class="finding-chip">via <code>operating-window-reaches-consumable</code></span>
             
@@ -834,7 +834,7 @@
         <details class="finding-details">
           <summary class="finding-row">
             <span class="finding-status-glyph">✓</span>
-            <span class="finding-claim finding-statement">Both regimes contribute: the enriched+retained pool exceeds pore-only (no membrane) and membrane-only (no gradient) at the canonical point; the transport-decoupled null (no membrane) is lower still. Neither lever alone suffices - the narrow window needs the pore gradient AND membrane retention together.</span>
+            <span class="finding-claim finding-statement">Both regimes contribute: the enriched+retained pool exceeds pore-only (no membrane) and membrane-only (no gradient) at the canonical point; the transport-decoupled null (no membrane) is lower still. Neither lever alone suffices - the narrow window needs the pore gradient and membrane retention together.</span>
             
             <span class="finding-chip">via <code>rescue-requires-both-levers</code></span>
             
@@ -951,7 +951,7 @@
     
     <div class="cond-block" data-model-composite="viva_genesis.composites.operating_window.og_operating_window" data-model-overrides='{"delta_T": 30.0, "feed_CO2": 0.002, "membrane": true, "soret_coeff": 0.005}'>
       <div class="cond-block-title" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-        <strong>Operating window — canonical (A&#39;s pool, real pore + real membrane, defensible mid Soret)</strong>
+        <strong>Operating window — canonical (the precursor pool, real pore + real membrane, defensible mid Soret)</strong>
         
         <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.operating_window.og_operating_window</code>
         <button type="button" class="action-btn" style="font-size:0.8em"
@@ -961,16 +961,16 @@
       
       <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
         
-        <select class="baseline-composite-input" data-baseline-name="Operating window — canonical (A&#39;s pool, real pore + real membrane, defensible mid Soret)"
+        <select class="baseline-composite-input" data-baseline-name="Operating window — canonical (the precursor pool, real pore + real membrane, defensible mid Soret)"
                 data-current="viva_genesis.composites.operating_window.og_operating_window"
                 style="flex:1;min-width:200px;font-family:monospace;font-size:0.82em;padding:3px 6px">
           <option value="viva_genesis.composites.operating_window.og_operating_window" selected>viva_genesis.composites.operating_window.og_operating_window</option>
           
         </select>
         <button type="button" class="action-btn baseline-composite-set" style="font-size:0.8em"
-                data-baseline-name="Operating window — canonical (A&#39;s pool, real pore + real membrane, defensible mid Soret)">Set composite</button>
+                data-baseline-name="Operating window — canonical (the precursor pool, real pore + real membrane, defensible mid Soret)">Set composite</button>
       </div>
-      <div class="baseline-composite-status muted" data-baseline-name="Operating window — canonical (A&#39;s pool, real pore + real membrane, defensible mid Soret)" style="font-size:0.8em;margin-top:2px"></div>
+      <div class="baseline-composite-status muted" data-baseline-name="Operating window — canonical (the precursor pool, real pore + real membrane, defensible mid Soret)" style="font-size:0.8em;margin-top:2px"></div>
       
       
       
@@ -1388,7 +1388,7 @@ pass_if: {"detail": "both levers needed; each single regime is lower", "op": "co
         <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
         
       </div>
-      <div style="margin-top: 6px; font-size: 0.95em;">DIAGNOSTIC (the refutation): at a defensible small-molecule Soret, does the enriched + retained functional pool reach a downstream-consumable ~uM concentration? It does NOT - this FAIL is the quantitative backbone of the REFUTED rescue verdict.</div>
+      <div style="margin-top: 6px; font-size: 0.95em;">DIAGNOSTIC (the qualifying test): at a defensible small-molecule Soret, does the enriched + retained functional pool reach a downstream-consumable ~uM concentration? It does not - this FAIL is the quantitative backbone of the qualified rescue verdict.</div>
       
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
@@ -1614,7 +1614,7 @@ pass_if: {"detail": "enriched+retained pool reaches consumable (~uM)", "op": "\u
     <div class="overview-section">
       <h3 class="overview-label">Key assumptions</h3>
       <ul style="margin:0 0 0 18px;padding:0;font-size:0.93em">
-        <li style="margin:2px 0">Soret coefficient of the small C2-C3 precursors is NOT independently sourced; it is SWEPT as the pivotal uncertain parameter over the small-molecule range [1e-3, 1e-1]/K. The trap&#39;s 0.10/K default is the large-biomolecule value (Baaske&#39;s 10^8); using it for small precursors would falsely rescue the pool, so it is never pinned. The S_T -&gt; enrichment framework is Baaske-2007 / Mast-Braun-2010; the small-molecule endpoints are the swept range, and measuring S_T(C2-C3) is the discriminating experiment.</li><li style="margin:2px 0">Product-pool enrichment: the thermophoretic trap concentrates the functional precursor pool by its solved enrichment factor at a single representative aggregate small-molecule S_T. Per-species Soret fractionation (different precursors enrich differently - see og-spatial-concentration) is not resolved here.</li><li style="margin:2px 0">Membrane retention is the real ProtocellAssembly (Jordan-2019-calibrated) retention, applied as an effective washout reduction k_wash*(1-retention) on A&#39;s reactor; CO2 is never enriched past its DIC solubility (a physical ceiling, not a free knob).</li><li style="margin:2px 0">Overlap is reported as a VOLUME (fraction of the defensible parameter space reaching a consumable pool) with per-regime failure reasons - NEVER as an origin-of-life probability.</li>
+        <li style="margin:2px 0">Soret coefficient of the small C2-C3 precursors is not independently sourced; it is swept as the pivotal uncertain parameter over the small-molecule range [1e-3, 1e-1]/K. The trap&#39;s 0.10/K default is the large-biomolecule value (Baaske&#39;s 10^8); using it for small precursors would falsely rescue the pool, so it is never pinned. The S_T -&gt; enrichment framework is Baaske-2007 / Mast-Braun-2010; the small-molecule endpoints are the swept range, and measuring S_T(C2-C3) is the discriminating experiment.</li><li style="margin:2px 0">Product-pool enrichment: the thermophoretic trap concentrates the functional precursor pool by its solved enrichment factor at a single representative aggregate small-molecule S_T. Per-species Soret fractionation (different precursors enrich differently - see og-spatial-concentration) is not resolved here.</li><li style="margin:2px 0">Membrane retention is the real ProtocellAssembly (Jordan-2019-calibrated) retention, applied as an effective washout reduction k_wash*(1-retention) on og-precursor-pool&#39;s reactor; CO2 is never enriched past its DIC solubility (a physical ceiling, not a free knob).</li><li style="margin:2px 0">Overlap is reported as a volume (fraction of the defensible parameter space reaching a consumable pool) with per-regime failure reasons - never as an origin-of-life probability.</li>
       </ul>
     </div>
     
@@ -1678,7 +1678,7 @@ pass_if: {"detail": "enriched+retained pool reaches consumable (~uM)", "op": "\u
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "a515d871bbf28be88d00c5688a2c899658a1a1bc", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/a515d871bbf28be88d00c5688a2c899658a1a1bc", "branch": "main", "lockfile": "uv.lock@08c285d62921", "generated_at": "2026-10-20 00:33 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "f335b23080db7ca49536487d66dd7b3c3e4c019e", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/f335b23080db7ca49536487d66dd7b3c3e4c019e", "branch": "main", "lockfile": "uv.lock@cd159e46ad7c", "generated_at": "2026-10-20 01:10 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>

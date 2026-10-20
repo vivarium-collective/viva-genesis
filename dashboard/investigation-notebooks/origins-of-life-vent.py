@@ -252,7 +252,7 @@ def _render_one(address, config, runs_db, study_yaml, overrides=None):
         return _p.read_text(encoding='utf-8', errors='replace')
     return f'<p style="color:#6b7280">unsupported figure type: {address}</p>'
 
-# ## Study: The Vent Environment: Calibrated, Viable Geochemical States (`og-vent-environment`)
+# ## Study: The Vent Environment: Does It Supply a Viable Feed? (`og-vent-environment`)
 #
 # **Question.** Does a serpentinizing alkaline vent hold its empirical (Lost City) window across the operating grid and supply, in a calibrated posterior, the feed downstream chemistry needs?
 #
@@ -845,7 +845,7 @@ _save_viz('og-spatial-concentration', 'pore-accumulation-3d', _render_one('local
 # | enrichment-exponential-in-pore-length _(diagnostic)_ | kind=cross_run detail=favorable vs 10× shorter pore | op arms_reported detail short pore enriches ≥100× less than the favorable pore |
 # | spatial-flux-conserved _(diagnostic)_ | kind=derived path=max_abs_trap_flux_residual detail=max |FVM flux-divergence residual| | op <= value 0.01 detail FVM residual small (direct LU solve) |
 
-# ## Study: Proto-Energetics: Capture, Internalization, and Carrier Coupling (`og-energetics`)
+# ## Study: Proto-Energetics: Can a System Capture and Couple Free Energy? (`og-energetics`)
 #
 # **Question.** Can a primitive chemical system capture geochemical free energy, internalize it under selection, and couple a specified carrier to perform endergonic work — and does any of it improve total throughput, or only persistence/robustness — each tested against a matched null with a closing ledger?
 #
@@ -1336,13 +1336,13 @@ _save_viz('og-vent-specificity', 'vent-specificity-map', _render_one('local:Vent
 # | gates-reject-generic _(primary)_ | kind=observable detail=run og-01/02/03 gates on the generic control; each measured value below its threshold | op controls_absent detail all five gates reject generic (net flux / formate / throughput / Péclet / enrichment below threshold) |
 # | vent-specificity-demonstrated _(primary)_ | kind=observable detail=vent vs generic on identical gates | op arms_reported detail vent passes 5/5 where the control fails 5/5 |
 
-# ## Study: Nutrient Bottlenecks: Joint C/N/P Feasibility (`og-nutrient-bottlenecks`)
+# ## Study: Nutrient Bottlenecks: Are Nitrogen and Phosphorus Available with Carbon? (`og-nutrient-bottlenecks`)
 #
 # **Question.** Do the two non-carbon nutrient bottlenecks clear at the vent — does reduced nitrogen (ammonium) keep pace with carbon fixation, and does reactive phosphorus co-concentrate with carbon rather than precipitate — each against its own matched null with input fluxes held equal?
 #
 # **Hypothesis.** A vent system produces reduced nitrogen that keeps pace with carbon (a viable C:N) and co-concentrates reactive phosphorus with carbon in the pore; each is demonstrated only where it beats a matched null (feature ablation / open-pore no-enrichment), and any shortfall is reported as a limiting bottleneck rather than tuned to a pass.
 #
-# **Claim.** Each non-carbon nutrient bottleneck clears individually: ammonium is produced and sustained, keeping pace with carbon fixation (a viable C:N) while the feature-ablation null produces none and nitrogen mass is conserved (nitrogen arm, supported); reactive phosphorus is available and co-concentrates with carbon in the pore while an open-pore no-enrichment control shows none and P mass is conserved (phosphorus arm, supported). Qualified overall: these are separate concentration successes, NOT a joint C/N/P feasibility — whether C, N and P are available together in compatible chemical forms and the same physical regime is the harder, open bar carried by the planned NEW A (precursor pool) and NEW B (operating window). Every matched null and arm verdict preserved.
+# **Claim.** Each non-carbon nutrient bottleneck clears individually: ammonium is produced and sustained, keeping pace with carbon fixation (a viable C:N) while the feature-ablation null produces none and nitrogen mass is conserved (nitrogen arm, supported); reactive phosphorus is available and co-concentrates with carbon in the pore while an open-pore no-enrichment control shows none and P mass is conserved (phosphorus arm, supported). Qualified overall: these are separate concentration successes, not a joint C/N/P feasibility — whether C, N and P are available together in compatible chemical forms and the same physical regime is the harder, open bar carried by og-precursor-pool and og-operating-window. Every matched null and arm verdict preserved.
 
 # ### Parameters
 #
@@ -1477,7 +1477,7 @@ _save_viz('og-nutrient-bottlenecks', 'phosphorus-availability-map', _render_one(
 # | open-pore-no-enrichment-control _(primary)_ | kind=cross_run detail=favorable enriched pore vs open-pore / no-gradient control | op controls_absent detail reactive-P availability collapses (net <= 0 ~fully precipitated) without enrichment None |
 # | p-mass-conserved _(diagnostic)_ | kind=derived path=phosphorus_p_mass_residual detail=max |total P - supplied| / supplied | op <= value 1e-06 detail P-mass residual small (P-atom-conserving network) |
 
-# ## Study: Endogenous Autocatalysis (A2): Formose and Reductive-TCA Routes (`og-autocatalysis-a2`)
+# ## Study: Endogenous Autocatalysis: Does a Self-Amplifying Cycle Form? (`og-autocatalysis-a2`)
 #
 # **Question.** Can vent-fed chemistry spontaneously form a balanced, self-amplifying autocatalytic cycle that beats a matched null with equal input fluxes — across the two representable routes (rule-generated linear-C6 formose chemistry, and the curated branched reductive-TCA cycle) — or does it only fix carbon (persistence, A1) without self-amplifying (A2)?
 #
@@ -1621,7 +1621,7 @@ _save_viz('og-autocatalysis-a2', 'rtca-mechanism', _render_one('local:OgRtcaMech
 # | rtca-permissive-limit-topology-specific |  |  |
 # | gate-a-a2-branched-resolved |  |  |
 
-# ## Study: Self-Compartmentation: From Boundary to Self-Maintaining Protocell (`og-self-compartmentation`)
+# ## Study: Self-Compartmentation: Does Metabolism Build Its Own Boundary? (`og-self-compartmentation`)
 #
 # **Question.** How does a vent-born chemical system acquire a self-made boundary and become a self-maintaining protocell — do amphiphiles assemble a retaining-but-not-isolating boundary, does encapsulation pay against a matched equal-feed null, does the integrated compartment self-maintain and beat a matched ablation, and are real fatty-acid vesicles stable — each against its own matched null with input fluxes held equal?
 #
@@ -1869,7 +1869,7 @@ _save_viz('og-self-compartmentation', 'bilayer-3d-structure-static', _render_one
 # | real-fatty-acid-not-standin _(primary)_ | kind=observable detail=vesicle built from martini_v3.0.0_fatty_acids_v1.itp FAnn/FAnnM run in martini_openmm=None | op threshold detail real fatty-acid vesicle builds + integrates (finite energy) under the membrane barostat |
 # | multi-seed-robust _(secondary)_ | kind=observable detail=per-arm n_seeds n_stable_seeds=None and the std of each metric=None | op threshold detail at least 3 seeds per arm with reported mean +/- std |
 
-# ## Study: Reproduction: Coupled Growth and Division into a Lineage (`og-reproduction`)
+# ## Study: Reproduction: Can Growth and Division Build a Lineage? (`og-reproduction`)
 #
 # **Question.** How does a self-maintaining protocell reproduce — does metabolism drive growth to a measured-geometry division with viable daughters (not lysis or starvation), building a multi-generation lineage, each against its own matched null with input fluxes held equal?
 #
@@ -2033,7 +2033,7 @@ _save_viz('og-reproduction', 'physical-reproduction-lineage', _render_one('local
 # | lineage-reaches-three-generations _(primary)_ | kind=derived path=peak_generation detail=deepest generation the lineage REACHES (peak over the run, not the time-mean); from artifacts/physical_reproduction_report.json | op >= value 3.0 detail a >=3-generation lineage forms (peak reaches generation 5) |
 # | division-conserves-volume _(primary)_ | kind=derived path=partition_residual_peak detail=worst (max) |mother - sum(daughters)| over every _divide; from artifacts/physical_reproduction_report.json | op <= value 1e-09 detail partition residual ~ 0 at every division (conserving split) |
 
-# ## Study: Protocell Ecology: Community Function Before the Complete Cell (`og-ecology`)
+# ## Study: Protocell Ecology: Does Community Function Precede the Cell? (`og-ecology`)
 #
 # **Question.** Is protocell-era chemistry ecological before it is cellular — does a cross-feeding community out-produce the best single lineage (margin causally cross-feeding), does community function precede cell completeness and vanish without exchange — each against its own matched null with input fluxes held equal?
 #
@@ -2243,7 +2243,7 @@ _save_viz('og-ecology', 'metabolite-exchange-map', _render_one('local:Metabolite
 # | segregated-placement-keeps-function _(supporting)_ | kind=derived path=segregated_n_community_only detail=community-only classes in the segregated arm | op >= value 1.0 detail function kept |
 # | map-ledgers-close _(diagnostic)_ | kind=derived path=map_ledgers_all_ok detail=1 when all runs within tolerance | op >= value 1.0 detail all runs within tolerance |
 
-# ## Study: Escape and Progressive Independence from the Vent (`og-independence`)
+# ## Study: Independence from the Vent: Can a Lineage Escape Its Cradle? (`og-independence`)
 #
 # **Question.** How independent of its geological cradle can a vent-born protocell lineage become — what minimum innovation set lets it persist as external support is withdrawn, which supports can it internalize vs which remain hard dependencies, and is any apparent independence causally attributable to a specific innovation against a matched ablation with input fluxes held equal?
 #
@@ -2467,7 +2467,7 @@ _save_viz('og-independence', 'autonomy-ablation-trace', _render_one('local:Auton
 # | gradient-budget-sensitive _(primary)_ | kind=observable detail=catalyst_efficiency sweep of the gradient-channel internalization | op threshold detail the gradient verdict flips within the swept efficiency range (a located boundary) |
 # | terminal-emits-nothing _(secondary)_ | kind=observable detail=handoff.emits is empty | op threshold detail emits empty |
 
-# ## Study: Growth, shape change & division propensity (membrane-MD M4) (`mem-m4-growth-division-propensity`)
+# ## Study: Membrane Division: Can a Vesicle Grow and Divide? (`mem-m4-growth-division-propensity`)
 #
 # **Question.** Can supplied amphiphiles insert into, reshape, and expand a vesicle - and what is its propensity to divide?
 #
@@ -2696,7 +2696,7 @@ _save_viz('og-network-rescue', 'spatial-protometabolism-pore-vs-control', _rende
 # | productive-flux-beats-wellmixed-and-nonconcentrating _(primary)_ | kind=observable detail=pore productive flux + persistence vs. matched well-mixed and nonconcentrating controls | op threshold detail pore flux exceeds BOTH matched controls (else reported as no benefit) |
 # | spatial-flux-conservation-and-cross-solver _(secondary)_ | kind=observable detail=flux-divergence residual vs. source−sink; cross-solver agreement | op threshold detail conservation within tolerance; cross-solver agreement to tolerance |
 
-# ## Study: The Evolving Mineral Interface: A Bounded DIC Window (`og-vent-interface`)
+# ## Study: The Mineral Interface: Does It Sustain Flux Within a DIC Window? (`og-vent-interface`)
 #
 # **Question.** Does the evolving mineral-water interface sustain its H2 / inorganic-carbon flux and pH/redox gradient as minerals evolve, and where does the DIC window bound it?
 #
@@ -2782,13 +2782,13 @@ _save_viz('og-vent-interface', 'coupled-interface-evolution', _render_one('local
 # | handoff-27-to-29-complete _(secondary)_ | kind=observable detail=presence + typing of every field in the 27→29 transfer bundle | op threshold detail bundle complete and typed (satisfies 27→29 handoff validator) |
 # | dic-crossover-sweep _(primary)_ | kind=observable detail=H2 flux / precipitation / accessibility / porosity vs fluid_dic across SI=0 ledger closure=None | op threshold detail the crossover is characterized with the ledger closing at every point (window_exists resolved either way) |
 
-# ## Study: NEW A — Geochemical Carbon to a Functional Precursor Pool (`og-precursor-pool`)
+# ## Study: Precursor Pool: Can Vent Chemistry Build a Functional Pool? (`og-precursor-pool`)
 #
-# **Question.** Does the vent's reduced-carbon chemistry deliver a functional PRECURSOR POOL (not just bulk organic flux) that the reaction-network and amphiphile studies can consume?
+# **Question.** Does the vent's reduced-carbon chemistry deliver a functional precursor pool (not just bulk organic flux) that the reaction-network and amphiphile studies can consume?
 #
 # **Hypothesis.** Atom-resolved balanced reaction sets under provenance-tiered kinetics turn the calibrated vent feed into defensible precursor yield vectors, with energy/electron budgets closing and the no-H2 / no-catalyst / no-gradient controls collapsing the pool.
 #
-# **Claim.** The vent's reduced-carbon chemistry delivers a de-novo, atom-balanced, budget-closed functional precursor pool whose controls all collapse it - but within the defensible DIC window the functional C2+ precursors are thermodynamically bounded to sub-micromolar, orders below what downstream chemistry can consume. QUALIFIED.
+# **Claim.** The vent's reduced-carbon chemistry delivers a de-novo, atom-balanced, budget-closed functional precursor pool whose controls all collapse it - but within the defensible DIC window the functional C2+ precursors are thermodynamically bounded to sub-micromolar, orders below what downstream chemistry can consume. Qualified.
 
 # ### Parameters
 #
@@ -2933,19 +2933,19 @@ _save_viz('og-precursor-pool', 'precursor-pool-yield-vectors', _render_one('', {
 # | functional-pool-reaches-consumable _(diagnostic)_ | kind=derived path=settled_functional_pool_carbon detail=settled functional (C>=2) pool carbon | op >= value 1e-06 detail functional pool at a consumable (~uM) concentration |
 # | c2-c1-hierarchy-matches-preiner-batch _(diagnostic)_ | kind=derived path=settled_pool_c2_c1_ratio detail=predicted C2:C1 hierarchy ratio | op >= value 0.0001 detail C2:C1 reaches Preiner's batch hierarchy |
 
-# ## Study: NEW B — Joint Operating-Window Feasibility (the rescue test) (`og-operating-window`)
+# ## Study: Operating Window: Can Pore and Membrane Concentration Rescue the Pool? (`og-operating-window`)
 #
-# **Question.** Do the vent, pore, and membrane regimes share a SIMULTANEOUS operating window, or only a transport-connected sequence of microenvironments?
+# **Question.** Do the vent, pore, and membrane regimes share a simultaneous operating window, or only a transport-connected sequence of microenvironments?
 #
 # **Hypothesis.** Propagating the calibrated vent posterior through the network, pore and membrane regimes leaves a nonempty overlap only under transport coupling; where the successful conditions do not overlap, an explicit spatial/temporal transfer is required and transport survival must be tested.
 #
-# **Claim.** The downstream pore-enrichment + membrane-retention machinery CAN rescue A's nM functional pool to a consumable (~uM) concentration, but only in a narrow corner at the upper edge of defensible small-molecule thermophoresis (S_T ~1e-2/K ceiling + high thermal gradient + high DIC together; overlap volume ~0.11 of the defensible grid, 0.42 overall). The canonical mid-point does not clear it. The rescue hinges on the Soret coefficient of the C2-C3 precursors (the dominant parameter by Morris), so measuring S_T(C2-C3) at the vent gradient is the discriminating experiment.
+# **Claim.** The downstream pore-enrichment + membrane-retention machinery can rescue og-precursor-pool's nanomolar functional pool to a consumable (~uM) concentration, but only in a narrow corner at the upper edge of defensible small-molecule thermophoresis (S_T ~1e-2/K ceiling + high thermal gradient + high DIC together; overlap volume ~0.11 of the defensible grid, 0.42 overall). The canonical mid-point does not clear it. The rescue hinges on the Soret coefficient of the C2-C3 precursors (the dominant parameter by Morris), so measuring S_T(C2-C3) at the vent gradient is the discriminating experiment.
 
 # ### Parameters
 #
 # | simulation | composite | steps | params |
 # | --- | --- | --- | --- |
-# | `Operating window — canonical (A's pool, real pore + real membrane, defensible mid Soret)` | `viva_genesis.composites.operating_window.og_operating_window` | 0 | feed_CO2=0.002, delta_T=30.0, soret_coeff=0.005, membrane=True |
+# | `Operating window — canonical (the precursor pool, real pore + real membrane, defensible mid Soret)` | `viva_genesis.composites.operating_window.og_operating_window` | 0 | feed_CO2=0.002, delta_T=30.0, soret_coeff=0.005, membrane=True |
 # | `Transport-decoupled null — membrane off (no retention)` | `viva_genesis.composites.operating_window.og_operating_window` | 0 | membrane=False |
 
 # ### The model & its parameters
@@ -2981,8 +2981,8 @@ RUNS_DB = str(STUDY_DIR / "runs.db")
 # This study has no *recorded* runs yet. RERUN builds its declared
 # composite(s) live and runs them; a composite whose module processes
 # are not implemented yet reports the error instead of crashing.
-STEPS_Operating_window_canonical_A_s_pool_real_pore_real_membrane_defensible_mid_Soret = 100
-INTERVAL_Operating_window_canonical_A_s_pool_real_pore_real_membrane_defensible_mid_Soret = 1.0
+STEPS_Operating_window_canonical_the_precursor_pool_real_pore_real_membrane_defensible_mid_Soret = 100
+INTERVAL_Operating_window_canonical_the_precursor_pool_real_pore_real_membrane_defensible_mid_Soret = 1.0
 STEPS_Transport_decoupled_null_membrane_off_no_retention = 100
 INTERVAL_Transport_decoupled_null_membrane_off_no_retention = 1.0
 
@@ -2993,10 +2993,10 @@ if RERUN:
             _ov = ov_viva_genesis_composites_operating_window_og_operating_window if 'ov_viva_genesis_composites_operating_window_og_operating_window' in dir() else None  # edits from the panel cell, if any
             spec_viva_genesis_composites_operating_window_og_operating_window = materialize_composite('viva_genesis.composites.operating_window.og_operating_window', _ov)
             _comp = Composite({'state': spec_viva_genesis_composites_operating_window_og_operating_window['state']}, core=core)
-            _comp.run(STEPS_Operating_window_canonical_A_s_pool_real_pore_real_membrane_defensible_mid_Soret)
-        print('ran', "Operating window — canonical (A's pool, real pore + real membrane, defensible mid Soret)", f'(viva_genesis.composites.operating_window.og_operating_window) for', STEPS_Operating_window_canonical_A_s_pool_real_pore_real_membrane_defensible_mid_Soret, 'steps')
+            _comp.run(STEPS_Operating_window_canonical_the_precursor_pool_real_pore_real_membrane_defensible_mid_Soret)
+        print('ran', 'Operating window — canonical (the precursor pool, real pore + real membrane, defensible mid Soret)', f'(viva_genesis.composites.operating_window.og_operating_window) for', STEPS_Operating_window_canonical_the_precursor_pool_real_pore_real_membrane_defensible_mid_Soret, 'steps')
     except Exception as _e:
-        print(f"Operating window — canonical (A's pool, real pore + real membrane, defensible mid Soret) not runnable yet: {type(_e).__name__}: {_e}")
+        print(f"Operating window — canonical (the precursor pool, real pore + real membrane, defensible mid Soret) not runnable yet: {type(_e).__name__}: {_e}")
     try:
         with quiet():  # keep per-step stdout out of the notebook
             _ov = ov_viva_genesis_composites_operating_window_og_operating_window if 'ov_viva_genesis_composites_operating_window_og_operating_window' in dir() else None  # edits from the panel cell, if any
@@ -3029,19 +3029,19 @@ _save_viz('og-operating-window', 'operating-window-phase-map', _render_one('', {
 # | rescue-requires-both-levers _(primary)_ | kind=cross_run detail=both-levers vs pore-only vs membrane-only enriched pool | op controls_absent detail both levers needed; each single regime is lower |
 # | operating-window-reaches-consumable _(diagnostic)_ | kind=derived path=settled_ow_enriched_pool detail=product-pool-enriched, membrane-retained functional pool | op >= value 1e-06 detail enriched+retained pool reaches consumable (~uM) |
 
-# ## Study: NEW C — Self-Maintaining Chemical Individuality (`og-self-maintaining-individual`)
+# ## Study: Self-Maintaining Individuality: Does the Chemistry–Boundary Loop Close? (`og-self-maintaining-individual`)
 #
-# **Question.** Does the coupled chemistry-and-boundary system MAINTAIN ITSELF - chemistry making the boundary that in turn sustains the chemistry - under perturbation, without a built-in production or retention gain?
+# **Question.** Does the coupled chemistry-and-boundary system maintain itself - chemistry making the boundary that in turn sustains the chemistry - under perturbation, without a built-in production or retention gain?
 #
 # **Hypothesis.** Coupling explicit amphiphile precursor flux, synthesis, membrane composition, permeability, nutrient influx, product retention and decay yields reciprocal maintenance that survives relevant perturbations only when neither direction of the coupling is assumed.
 #
-# **Claim.** The coupled chemistry-and-boundary system does NOT maintain itself endogenously under defensible vent conditions: the chemistry's acetate (even at B's favorable corner) yields an amphiphile pool ~4 orders below its CAC at the corner and ~7 orders below at the canonical point, so no membrane forms without assuming it, and reciprocal maintenance fails to close without a built-in retention gain - across all three ablations. SCOPED REFUTED of endogenous closure; the broader individuality-emergence question stays open (§9).
+# **Claim.** The coupled chemistry-and-boundary system does not maintain itself endogenously under defensible vent conditions: the chemistry's acetate (even at og-operating-window's favorable corner) yields an amphiphile pool ~4 orders below its CAC at the corner and ~7 orders below at the canonical point, so no membrane forms without assuming it, and reciprocal maintenance fails to close without a built-in retention gain - across all three ablations. A scoped refutation of endogenous closure; the broader individuality-emergence question stays open (§9).
 
 # ### Parameters
 #
 # | simulation | composite | steps | params |
 # | --- | --- | --- | --- |
-# | `Self-maintaining individual — canonical reciprocal loop (A's pool, real synthesis, aggregation-gated membrane)` | `viva_genesis.composites.self_maintaining.og_self_maintaining_individual` | 0 | feed_CO2=0.002, k_wash_eff=0.05 |
+# | `Self-maintaining individual — canonical reciprocal loop (the precursor pool, real synthesis, aggregation-gated membrane)` | `viva_genesis.composites.self_maintaining.og_self_maintaining_individual` | 0 | feed_CO2=0.002, k_wash_eff=0.05 |
 
 # ### The model & its parameters
 #
@@ -3071,8 +3071,8 @@ RUNS_DB = str(STUDY_DIR / "runs.db")
 # This study has no *recorded* runs yet. RERUN builds its declared
 # composite(s) live and runs them; a composite whose module processes
 # are not implemented yet reports the error instead of crashing.
-STEPS_Self_maintaining_individual_canonical_reciprocal_loop_A_s_pool_real_synthesis_aggregation_gated_membrane = 100
-INTERVAL_Self_maintaining_individual_canonical_reciprocal_loop_A_s_pool_real_synthesis_aggregation_gated_membrane = 1.0
+STEPS_Self_maintaining_individual_canonical_reciprocal_loop_the_precursor_pool_real_synthesis_aggregation_gated_membrane = 100
+INTERVAL_Self_maintaining_individual_canonical_reciprocal_loop_the_precursor_pool_real_synthesis_aggregation_gated_membrane = 1.0
 
 if RERUN:
     from process_bigraph import Composite
@@ -3081,10 +3081,10 @@ if RERUN:
             _ov = ov_viva_genesis_composites_self_maintaining_og_self_maintaining_individual if 'ov_viva_genesis_composites_self_maintaining_og_self_maintaining_individual' in dir() else None  # edits from the panel cell, if any
             spec_viva_genesis_composites_self_maintaining_og_self_maintaining_individual = materialize_composite('viva_genesis.composites.self_maintaining.og_self_maintaining_individual', _ov)
             _comp = Composite({'state': spec_viva_genesis_composites_self_maintaining_og_self_maintaining_individual['state']}, core=core)
-            _comp.run(STEPS_Self_maintaining_individual_canonical_reciprocal_loop_A_s_pool_real_synthesis_aggregation_gated_membrane)
-        print('ran', "Self-maintaining individual — canonical reciprocal loop (A's pool, real synthesis, aggregation-gated membrane)", f'(viva_genesis.composites.self_maintaining.og_self_maintaining_individual) for', STEPS_Self_maintaining_individual_canonical_reciprocal_loop_A_s_pool_real_synthesis_aggregation_gated_membrane, 'steps')
+            _comp.run(STEPS_Self_maintaining_individual_canonical_reciprocal_loop_the_precursor_pool_real_synthesis_aggregation_gated_membrane)
+        print('ran', 'Self-maintaining individual — canonical reciprocal loop (the precursor pool, real synthesis, aggregation-gated membrane)', f'(viva_genesis.composites.self_maintaining.og_self_maintaining_individual) for', STEPS_Self_maintaining_individual_canonical_reciprocal_loop_the_precursor_pool_real_synthesis_aggregation_gated_membrane, 'steps')
     except Exception as _e:
-        print(f"Self-maintaining individual — canonical reciprocal loop (A's pool, real synthesis, aggregation-gated membrane) not runnable yet: {type(_e).__name__}: {_e}")
+        print(f"Self-maintaining individual — canonical reciprocal loop (the precursor pool, real synthesis, aggregation-gated membrane) not runnable yet: {type(_e).__name__}: {_e}")
 else:
     print("RERUN=False — not re-simulating.")
 
@@ -3105,15 +3105,15 @@ _save_viz('og-self-maintaining-individual', 'self-maintaining-closure-map', _ren
 # | --- | --- | --- |
 # | acetate-delivered-to-synthesis _(supporting)_ | kind=derived path=settled_synth_acetate detail=settled acetate delivered to synthesis | op > value 0.0 detail the network delivers acetate to synthesis |
 # | amphiphiles-aggregation-competent _(primary)_ | kind=derived path=settled_aggregation_competent detail=long-chain amphiphile pool / CAC | op >= value 1.0 detail amphiphile pool clears CAC (a membrane can form endogenously) |
-# | reciprocal-maintenance-closes-endogenously _(primary)_ | kind=cross_run detail=endogenous closure (no built-in gain) at canonical + B-corner, vs the three ablations and the gain comparison | op controls_absent detail reciprocal maintenance closes endogenously without a built-in gain |
+# | reciprocal-maintenance-closes-endogenously _(primary)_ | kind=cross_run detail=endogenous closure (no built-in gain) at canonical + the operating-window corner, vs the three ablations and the gain comparison | op controls_absent detail reciprocal maintenance closes endogenously without a built-in gain |
 
-# ## Study: NEW D — Evolvable Lineages (`og-evolvable-lineages`)
+# ## Study: Evolvable Lineages: Can a Granted Individual Evolve? (`og-evolvable-lineages`)
 #
-# **Question.** Do mechanically defensible daughters carry heritable chemical variation that produces a multi-generation, open-ended EVOLUTIONARY response - beyond a fixed trait space?
+# **Question.** Do mechanically defensible daughters carry heritable chemical variation that produces a multi-generation, open-ended evolutionary response - beyond a fixed trait space?
 #
 # **Hypothesis.** Stochastic chemical partition and variation at division produce heritable phenotype differences whose fitness, emerging from chemical persistence or division, drives a multi-generation response and adaptation to changed environments beyond a no-inheritance / shared-feed null.
 #
-# **Claim.** GIVEN a granted individual, stochastic partition + variation produce real heritable, selectable adaptation that shifts the population strongly above BOTH matched nulls (no-inheritance and shared-feed) and re-tracks a changed environment - but it is BOUNDED fixed-trait selection (heritable variance declines as it converges; the trait space is a fixed scalar), NOT open-ended novelty. Combined with C: the individuality bottleneck is the binding one; given an individual, evolvability works but is bounded. QUALIFIED.
+# **Claim.** Given a granted individual, stochastic partition + variation produce real heritable, selectable adaptation that shifts the population strongly above both matched nulls (no-inheritance and shared-feed) and re-tracks a changed environment - but it is bounded fixed-trait selection (heritable variance declines as it converges; the trait space is a fixed scalar), not open-ended novelty. Combined with og-self-maintaining-individual: the individuality bottleneck is the binding one; given an individual, evolvability works but is bounded. Qualified.
 
 # ### Parameters
 #
