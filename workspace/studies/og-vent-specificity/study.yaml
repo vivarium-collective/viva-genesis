@@ -226,9 +226,16 @@ visualizations:
 - name: vent-specificity-three-view
   address: local:VentSpecificityThreeView
   config:
-    title: Adversarial control — vent-specificity of the gates
+    title: 'Matched-condition control: vent vs generic'
+    matched_only: true
     grid_json: >-
       workspace/studies/og-vent-specificity/artifacts/og-adv-generic-nonequilibrium/vent_specificity_grid.json
+    caption: >-
+      Matched simulations compare carbon-production and gate outcomes under vent-like versus generic
+      nonequilibrium boundary conditions. Reduced to the matched-condition control comparison only; the
+      redundant gate-margin bars and the parameter contour are on the primary vent-specificity map /
+      appendix. The generic control removes H2, the Fe/Ni/S catalyst and the pore gradient at once, so
+      this is a lumped contrast, not an attribution to any single ingredient.
 - name: vent-specificity-map
   display: primary
   address: local:VentSpecificityMap
@@ -236,6 +243,13 @@ visualizations:
     title: Adversarial control — vent-specificity of the gates
     grid_json: >-
       workspace/studies/og-vent-specificity/artifacts/og-adv-generic-nonequilibrium/vent_specificity_grid.json
+    caption: >-
+      Carbon-fixation gate margins depend jointly on H2 availability and catalyst activity;
+      generic-control conditions fail the prespecified threshold in the evaluated range (the full range,
+      including failures, is shown). Inferential limit: an all-negative generic control that removes H2,
+      catalyst and pore geometry simultaneously is NOT evidence of vent specificity — it cannot attribute
+      the failure to any one ingredient. Vent-specificity stays a bounded, hedged claim until a factorial
+      ablation (H2 × Fe/Ni/S × pore-gradient, with effect sizes and interactions) is run.
 baseline:
 - name: >-
     Generic non-vent adversarial control (ablated: no sustained H2 / no Fe-Ni-S catalyst / no pore) —

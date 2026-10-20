@@ -1210,25 +1210,26 @@ visualizations:
     report_json: >-
       workspace/studies/og-network-persistence/artifacts/og-02-alt-reaction-universe/motif_enrichment.json
     arm: formose_feed
-- name: protometabolic-network
+- name: protometabolism-gain-phase-map
   display: primary
-  address: local:ProtometabolicNetwork
+  address: local:ProtometabolismGainPhaseMap
   config:
-    composite: viva_genesis.composites.protometabolism.protometabolic_network
-    n_steps: 60
-    title: The protometabolic network igniting
+    title: The protometabolic persistence landscape (Decision view)
+    grid_json: >-
+      workspace/studies/og-network-persistence/artifacts/og-02-reduced-carbon-to-protometabolism/protometabolism_gain_grid.json
 - name: protometabolism-network
   address: local:ProtometabolismViz
   config:
     composite: viva_genesis.composites.protometabolism.protometabolic_network
     n_steps: 120
-    title: Protometabolic network (libRoadRunner)
-- name: protometabolism-gain-phase-map
-  address: local:ProtometabolismGainPhaseMap
+    title: Protometabolic network (libRoadRunner) — timeseries
+- name: protometabolic-network
+  display: mechanism
+  address: local:ProtometabolicNetwork
   config:
-    title: The protometabolic ignition landscape (Decision view)
-    grid_json: >-
-      workspace/studies/og-network-persistence/artifacts/og-02-reduced-carbon-to-protometabolism/protometabolism_gain_grid.json
+    composite: viva_genesis.composites.protometabolism.protometabolic_network
+    n_steps: 60
+    title: The protometabolic network — flux-weighted topology
 baseline:
 - name: Curated minimal carbon-fixing network — canonical (og-02)
   composite: viva_genesis.composites.open_chemical_network.open_chemical_network
