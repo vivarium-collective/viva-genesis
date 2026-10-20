@@ -1078,16 +1078,6 @@
   </div>
   </div>
 
-  
-  <details class="model-advanced" style="margin-top:18px">
-    <summary style="cursor:pointer;font-weight:600;color:#475569">Advanced — build provenance</summary>
-    <div style="margin-top:12px">
-
-  <p class="muted" style="margin:0 0 12px 0"><strong>How the model was built</strong> — the <code>/viva-model-build</code> loop trajectory (draft, frozen tests, iteration edits, result) and the agent's notes, when it was built that way.</p>
-
-  <div id="build-loop-state"><div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading loop provenance…</span></div></div>
-    </div>
-  </details>
 </section>
 
 
@@ -1171,10 +1161,13 @@
 
 
 <section class="study-tab-panel" data-kind="audit" id="panel-audit" hidden>
-  <div class="overview-section" id="audit-tests-section">
-    <h3>Tests — the bar</h3>
 
-  <p class="muted" style="margin:0 0 12px 0"><strong>The bar</strong> — what must be true for this model to count as correct: the acceptance criteria, their bands, and the report cards that grade them.</p>
+  
+  <div id="audit-readiness" data-slug="og-vent-interface" style="margin:0 0 18px 0">
+    <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading readiness…</span></div>
+  </div>
+
+  <div class="overview-section" id="audit-tests-section">
 
   
   
@@ -1475,13 +1468,6 @@ pass_if: {"detail": "the crossover is characterized with the ledger closing at e
   </div>
   </div>
 
-  <p class="muted" style="margin:0 0 12px 0"><strong>Is the bar sound?</strong> The concrete readiness gaps to close first, then whether the test set itself is rigorous and matched to the problem — sufficiency, sourcing, and the rigor + reproducibility scorecards.</p>
-
-  
-  <div id="audit-readiness" data-slug="og-vent-interface" style="margin:0 0 18px 0">
-    <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading readiness…</span></div>
-  </div>
-
   <div class="checks-band">
     <div class="check-group check-group-sufficiency" id="audit-sufficiency" data-check-group="sufficiency">
       <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading sufficiency checks…</span></div>
@@ -1558,10 +1544,6 @@ pass_if: {"detail": "the crossover is characterized with the ledger closing at e
   
 
   
-  <div class="overview-section decide-readiness-section">
-    <h2 class="overview-label">Readiness gaps</h2>
-    <div id="decide-readiness" data-slug="og-vent-interface"></div>
-  </div>
 
   
   
@@ -1728,7 +1710,7 @@ pass_if: {"detail": "the crossover is characterized with the ledger closing at e
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "4bf3f32019f569f65110927b60449b6d497cfa4a", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/4bf3f32019f569f65110927b60449b6d497cfa4a", "branch": "main", "lockfile": "uv.lock@d648672ff81c", "generated_at": "2026-10-20 20:52 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "4bf3f32019f569f65110927b60449b6d497cfa4a", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/4bf3f32019f569f65110927b60449b6d497cfa4a", "branch": "main", "lockfile": "uv.lock@9da6f99e3fa0", "generated_at": "2026-10-20 21:50 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>
