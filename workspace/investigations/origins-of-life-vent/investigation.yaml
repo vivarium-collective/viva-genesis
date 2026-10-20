@@ -441,14 +441,9 @@ scientific_argument:
     Pe=1/×8). Reported as a candidate incompatibility, not a passed gate — concentration of one tracer is
     not concentration of the set a protocell needs together.
   - The stages currently run as separate composites with hand-carried parameters and a division
-    counter rather than one persistent world whose bigraph restructures; until the Full Modeling
-    Plan architecture lands (references/full-modeling-plan-integration.md), "a boundary forms" and
+    counter rather than one persistent world whose bigraph restructures, so "a boundary forms" and
     "an individual divides" are scalar readouts, not changes in the composition itself.
 guidelines:
-  architecture_reference: references/full-modeling-plan-integration.md
-  # The higher-fidelity re-grounding design supersedes the above as the
-  # campaign's build target; the older doc stays the detailed rewrite/layer design.
-  upgrade_reference: references/model-upgrade-integration.md
   scientific_standard:
     source: the transition standard (feasibility, robustness, discrimination), section 1
     three_quantities:
