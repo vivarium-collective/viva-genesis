@@ -19,7 +19,7 @@ evidence_tier: mechanistic_prediction
 program: consolidated
 off_spine: true
 plan_id: 29
-title: 'Endogenous Autocatalysis (A2): Formose and Reductive-TCA Routes'
+title: 'Endogenous Autocatalysis: Does a Self-Amplifying Cycle Form?'
 concept: >-
   Can vent-fed chemistry spontaneously form a balanced, self-amplifying autocatalytic cycle that beats
   a matched null with equal input fluxes — one concept (Gate-A keystone A2), studied at the two representable

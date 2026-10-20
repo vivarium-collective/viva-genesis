@@ -62,8 +62,8 @@ def main() -> int:
     retrack = ce["full_retrack"]
     fig.update_layout(
         template="plotly_white",
-        title=dict(text="NEW D — evolvability GIVEN an individual: real heritable selection above both nulls, "
-                        f"adapts to change (re-track {retrack:+.2f}), but BOUNDED (variance ratio {ratio:.2f} < 1) — QUALIFIED",
+        title=dict(text="Evolvability given an individual: real heritable selection above both nulls, "
+                        f"adapts to change (re-track {retrack:+.2f}), but bounded (variance ratio {ratio:.2f} < 1) — qualified",
                    x=0.5, xanchor="center", font=dict(size=13)),
         font=dict(size=12), margin=dict(l=70, r=40, t=90, b=70),
         height=520, width=1040, paper_bgcolor="white", plot_bgcolor="white",

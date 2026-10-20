@@ -10,8 +10,8 @@ simulation_status: ran
 evaluation_status: evaluated
 gate_status: passed
 study_type: exploratory
-title: NEW A — Geochemical Carbon to a Functional Precursor Pool
-program: bridge-study
+title: 'Precursor Pool: Can Vent Chemistry Build a Functional Pool?'
+program: transition-arc
 verdict: qualified
 confidence: Accepted
 evidence_tier: mechanistic_prediction
@@ -37,9 +37,9 @@ key_assumptions:
 claim: >-
   The vent's reduced-carbon chemistry delivers a de-novo, atom-balanced, budget-closed functional precursor pool
   whose controls all collapse it - but within the defensible DIC window the functional C2+ precursors are
-  thermodynamically bounded to sub-micromolar, orders below what downstream chemistry can consume. QUALIFIED.
+  thermodynamically bounded to sub-micromolar, orders below what downstream chemistry can consume. Qualified.
 question: >-
-  Does the vent's reduced-carbon chemistry deliver a functional PRECURSOR POOL (not just bulk organic flux) that
+  Does the vent's reduced-carbon chemistry deliver a functional precursor pool (not just bulk organic flux) that
   the reaction-network and amphiphile studies can consume?
 hypothesis: >-
   Atom-resolved balanced reaction sets under provenance-tiered kinetics turn the calibrated vent feed into defensible
@@ -97,7 +97,7 @@ arms:
 - id: precursor_pool_canonical
   canonical: true
   concept_role: >-
-    The bridge: geochemical carbon (calibrated vent feed) to a functional precursor pool, on the real C1-C3
+    Geochemical carbon (the calibrated vent feed) to a functional precursor pool, on the real C1-C3
     reaction-universe engine.
   fidelity: real
   verdict: qualified
@@ -337,7 +337,7 @@ findings:
     units: molar
   explanation: >-
     The pool is delivered de novo with closed budgets, but C-C condensation leaves the functional C2+ precursors far
-    too dilute to be functional - the real concentration gap the bridge exposes.
+    too dilute to be functional - the real concentration gap this study exposes.
 - id: ogpp-thermodynamic-ceiling
   evidence_basis: extrapolated
   evidence_basis_note: >-

@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
-"""Canonical run + evolvability ensemble for og-evolvable-lineages (NEW D) — the
-last bridge (evolution synthesis), GIVEN a granted individual.
+"""Canonical run + evolvability ensemble for og-evolvable-lineages — evolution
+synthesis, given a granted individual.
 
-C refuted endogenous closure, so the self-maintaining individual D needs does not
-form endogenously. D therefore tests evolvability CONDITIONAL ON A GRANTED INDIVIDUAL
-(the protocell/membrane is assumed; fitness is grounded at B's favorable corner
-regime). Given an individual, does stochastic partition + variation produce heritable,
-selectable organization across generations ABOVE two matched nulls - and is it
-OPEN-ENDED or merely BOUNDED fixed-trait selection?
+og-self-maintaining-individual refuted endogenous closure, so the self-maintaining
+individual this study needs does not form endogenously. This study therefore tests
+evolvability conditional on a granted individual (the protocell/membrane is assumed;
+fitness is grounded at og-operating-window's favorable corner regime). Given an
+individual, does stochastic partition + variation produce heritable, selectable
+organization across generations above two matched nulls - and is it open-ended or
+merely bounded fixed-trait selection?
 
 Pipeline (reusing the real HeredityPopulationProcess, driven directly so the
 population state carries across a mid-run environment change):
@@ -16,7 +17,7 @@ population state carries across a mid-run environment change):
   2. Changed environment: flip the favored composition mid-run (swap retention_lo/hi)
      -> does the inheriting population re-track above the no-inheritance null?
   3. Open-ended-vs-bounded: heritable variance ratio (final/initial) + the fixed
-     scalar trait space -> BOUNDED, not open-ended.
+     scalar trait space -> bounded, not open-ended.
   4. Artifact + canonical graded composite run + cross-run grading.
 
 Framing-agnostic: reports the full result (response above BOTH nulls, heritability,

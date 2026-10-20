@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Render the committed interactive viz for og-self-maintaining-individual from the
-closure artifact: the cascading A->B->C concentration gap (acetate vs the
-CAC-clearance threshold) and the aggregation-competence of every condition against
-the competent=1 line (none clear it endogenously). Reproducible: reads only the JSON.
+closure artifact: the cascading concentration gap (acetate vs the CAC-clearance
+threshold) and the aggregation-competence of every condition against the competent=1
+line (none clear it endogenously). Reproducible: reads only the JSON.
 """
 from __future__ import annotations
 
@@ -27,7 +27,7 @@ def main() -> int:
     ace_need = a["acetate_for_cac_clearance_M"]
 
     # Panel 1: cascade gap — acetate the membrane sees vs the CAC-clearance threshold.
-    stages = ["A pool<br>(canonical)", "B corner<br>(enriched)", "needed for<br>membrane (CAC)"]
+    stages = ["precursor pool<br>(canonical)", "operating-window<br>corner (enriched)", "needed for<br>membrane (CAC)"]
     vals = [casc["A_acetate_canonical_M"], casc["B_corner_acetate_fed_M"], ace_need]
     colors = [C_FAIL, C_FAIL, C_THRESH]
 
@@ -35,13 +35,13 @@ def main() -> int:
     conds = a["conditions"]
     order = ["canonical:full_no_gain", "b_corner:full_no_gain", "b_corner:full_built_in_gain",
              "b_corner:ablate_chem_to_mem", "b_corner:ablate_mem_to_chem", "b_corner:ablate_external_feed"]
-    labels = ["canonical (full)", "B-corner (full)", "B-corner (built-in gain)",
-              "B-corner ablate chem→mem", "B-corner ablate mem→chem", "B-corner ablate feed"]
+    labels = ["canonical (full)", "operating-window corner (full)", "operating-window corner (built-in gain)",
+              "operating-window corner ablate chem→mem", "operating-window corner ablate mem→chem", "operating-window corner ablate feed"]
     comp = [max(conds[k]["aggregation_competent"], 1e-12) for k in order]
 
     fig = make_subplots(
         rows=1, cols=2, column_widths=[0.42, 0.58], horizontal_spacing=0.18,
-        subplot_titles=("Cascading A→B→C concentration gap",
+        subplot_titles=("Cascading concentration gap",
                         "Aggregation competence by condition (none clear CAC)"),
         specs=[[{"type": "bar"}, {"type": "bar"}]],
     )
@@ -70,8 +70,8 @@ def main() -> int:
     closed_b = a["closes_without_built_in_gain"]["b_corner"]
     fig.update_layout(
         template="plotly_white",
-        title=dict(text="NEW C — reciprocal maintenance does NOT close endogenously "
-                        f"(canonical={closed_c}, B-corner={closed_b}); the nM gap cascades ~4 orders (REFUTED, scoped)",
+        title=dict(text="Reciprocal maintenance does not close endogenously "
+                        f"(canonical={closed_c}, operating-window corner={closed_b}); the nM gap cascades ~4 orders (refuted, scoped)",
                    x=0.5, xanchor="center", font=dict(size=13.5)),
         font=dict(size=12), margin=dict(l=160, r=40, t=90, b=70),
         height=520, width=1060, paper_bgcolor="white", plot_bgcolor="white",

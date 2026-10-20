@@ -90,8 +90,8 @@ def main() -> int:
 
     fig.update_layout(
         template="plotly_white",
-        title=dict(text="NEW A — a de-novo precursor pool, thermodynamically bounded "
-                        "sub-&#181;M within the defensible DIC window (QUALIFIED)",
+        title=dict(text="A de-novo precursor pool, thermodynamically bounded "
+                        "sub-&#181;M within the defensible DIC window (qualified)",
                    x=0.5, xanchor="center", font=dict(size=15)),
         font=dict(size=12),
         legend=dict(orientation="h", y=-0.18, x=0.5, xanchor="center"),

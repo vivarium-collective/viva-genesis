@@ -1,4 +1,4 @@
-"""NEW A — og-precursor-pool: the functional precursor pool on the real C1-C3
+"""og-precursor-pool: the functional precursor pool on the real C1-C3
 reaction-universe engine.
 
 Covers the model functions (degree of reduction, carbon-source attribution,

@@ -1,4 +1,4 @@
-"""NEW D — og-evolvable-lineages: evolvability given a granted individual.
+"""og-evolvable-lineages: evolvability given a granted individual.
 
 Covers: real heritable selection shifts composition above both matched nulls
 (no-inheritance and shared-feed), it adapts to a changed environment, and it is

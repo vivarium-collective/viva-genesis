@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""Canonical run for og-precursor-pool (NEW A) — geochemical carbon to a
-functional precursor pool, on the REAL C1-C3 reaction-universe engine.
+"""Canonical run for og-precursor-pool — geochemical carbon to a
+functional precursor pool, on the real C1-C3 reaction-universe engine.
 
 Runs the canonical composite (``precursor_pool``) as the canonical run: persists
 an isolated sqlite store and auto-grades the single-run derived behavior tests via

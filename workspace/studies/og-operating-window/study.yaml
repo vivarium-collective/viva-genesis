@@ -10,8 +10,8 @@ simulation_status: ran
 evaluation_status: evaluated
 gate_status: passed
 study_type: exploratory
-title: NEW B — Joint Operating-Window Feasibility (the rescue test)
-program: bridge-study
+title: 'Operating Window: Can Pore and Membrane Concentration Rescue the Pool?'
+program: transition-arc
 verdict: qualified
 confidence: Investigating
 evidence_tier: mechanistic_prediction
@@ -22,7 +22,7 @@ primary_limitation: >-
   Whether C2-C3 organics actually reach S_T ~1e-2 at the vent is the unmeasured quantity the verdict hinges on.
 key_assumptions:
 - >-
-  Soret coefficient of the small C2-C3 precursors is NOT independently sourced; it is SWEPT as the pivotal
+  Soret coefficient of the small C2-C3 precursors is not independently sourced; it is swept as the pivotal
   uncertain parameter over the small-molecule range [1e-3, 1e-1]/K. The trap's 0.10/K default is the
   large-biomolecule value (Baaske's 10^8); using it for small precursors would falsely rescue the pool, so it is
   never pinned. The S_T -> enrichment framework is Baaske-2007 / Mast-Braun-2010; the small-molecule endpoints are
@@ -33,26 +33,26 @@ key_assumptions:
   (different precursors enrich differently - see og-spatial-concentration) is not resolved here.
 - >-
   Membrane retention is the real ProtocellAssembly (Jordan-2019-calibrated) retention, applied as an effective
-  washout reduction k_wash*(1-retention) on A's reactor; CO2 is never enriched past its DIC solubility (a physical
+  washout reduction k_wash*(1-retention) on og-precursor-pool's reactor; CO2 is never enriched past its DIC solubility (a physical
   ceiling, not a free knob).
 - >-
-  Overlap is reported as a VOLUME (fraction of the defensible parameter space reaching a consumable pool) with
-  per-regime failure reasons - NEVER as an origin-of-life probability.
+  Overlap is reported as a volume (fraction of the defensible parameter space reaching a consumable pool) with
+  per-regime failure reasons - never as an origin-of-life probability.
 claim: >-
-  The downstream pore-enrichment + membrane-retention machinery CAN rescue A's nM functional pool to a consumable
-  (~uM) concentration, but only in a narrow corner at the upper edge of defensible small-molecule thermophoresis
-  (S_T ~1e-2/K ceiling + high thermal gradient + high DIC together; overlap volume ~0.11 of the defensible grid, 0.42
-  overall). The canonical mid-point does not clear it. The rescue hinges on the Soret coefficient of the C2-C3
-  precursors (the dominant parameter by Morris), so measuring S_T(C2-C3) at the vent gradient is the discriminating experiment.
+  The downstream pore-enrichment + membrane-retention machinery can rescue og-precursor-pool's nanomolar functional
+  pool to a consumable (~uM) concentration, but only in a narrow corner at the upper edge of defensible small-molecule
+  thermophoresis (S_T ~1e-2/K ceiling + high thermal gradient + high DIC together; overlap volume ~0.11 of the
+  defensible grid, 0.42 overall). The canonical mid-point does not clear it. The rescue hinges on the Soret coefficient
+  of the C2-C3 precursors (the dominant parameter by Morris), so measuring S_T(C2-C3) at the vent gradient is the discriminating experiment.
 question: >-
-  Do the vent, pore, and membrane regimes share a SIMULTANEOUS operating window, or only a transport-connected
+  Do the vent, pore, and membrane regimes share a simultaneous operating window, or only a transport-connected
   sequence of microenvironments?
 hypothesis: >-
   Propagating the calibrated vent posterior through the network, pore and membrane regimes leaves a nonempty overlap
   only under transport coupling; where the successful conditions do not overlap, an explicit spatial/temporal
   transfer is required and transport survival must be tested.
 experiment: >-
-  Propagate A's real precursor yield vectors through the real FiPy thermophoretic pore (product-pool enrichment at
+  Propagate og-precursor-pool's real precursor yield vectors through the real FiPy thermophoretic pore (product-pool enrichment at
   swept small-molecule Soret) and the real ProtocellAssembly membrane (retention -> reduced washout); sweep
   (soret x delta_T x DIC); report the overlap volume reaching a consumable pool, per-regime failure reasons, the
   Morris parameter-sensitivity ranking, and the single most informative discriminating experiment.
@@ -76,8 +76,8 @@ parent_relations:
 upstream_state_consumed:
 - from: og-precursor-pool
   provides: >-
-    the real functional precursor yield vectors (NEW A) - the ~nM C2-C3 pool this study tries to rescue - consumed
-    via A's PrecursorPoolProcess run under membrane-reduced washout
+    the real functional precursor yield vectors from og-precursor-pool - the ~nM C2-C3 pool this study tries to
+    rescue - consumed via its PrecursorPoolProcess run under membrane-reduced washout
 - from: og-vent-interface
   provides: the calibrated vent posterior (feed + DIC window) to propagate
 - from: og-self-compartmentation
@@ -90,7 +90,7 @@ arms:
 - id: operating_window_canonical
   canonical: true
   concept_role: >-
-    The rescue test: A's real nM precursor pool propagated through the real pore (FiPy Soret trap) + real membrane
+    og-precursor-pool's real nM precursor pool propagated through the real pore (FiPy Soret trap) + real membrane
     (ProtocellAssembly retention), swept over the defensible operating-window parameters.
   fidelity: real
   verdict: qualified
@@ -153,9 +153,9 @@ behavior_tests:
   classification: diagnostic
   gate_class: regression_pin
   description: >-
-    DIAGNOSTIC (the refutation): at a defensible small-molecule Soret, does the enriched + retained functional pool
-    reach a downstream-consumable ~uM concentration? It does NOT - this FAIL is the quantitative backbone of the
-    REFUTED rescue verdict.
+    DIAGNOSTIC (the qualifying test): at a defensible small-molecule Soret, does the enriched + retained functional
+    pool reach a downstream-consumable ~uM concentration? It does not - this FAIL is the quantitative backbone of the
+    qualified rescue verdict.
   measure:
     kind: derived
     path: settled_ow_enriched_pool
@@ -194,14 +194,14 @@ findings:
   status: confirms
   statement: >-
     The real membrane retains chemistry at the Jordan-2019 vent level (retention ~0.905, access ~0.997, viable),
-    lifting A's functional pool ~30x (from ~4e-10 to ~1.2e-8 M C) via reduced effective washout.
+    lifting the functional pool ~30x (from ~4e-10 to ~1.2e-8 M C) via reduced effective washout.
   evidence:
     from_test: membrane-retention-real
     observed: retention ~0.905, pool 3.9e-10 -> 1.2e-8 M
     units: dimensionless
   explanation: >-
     k_wash_eff = k_wash*(1-retention); lower washout raises the steady-state pool, but only ~1.5 orders - far short
-    of the ~4 orders A's nM pool needs to reach uM.
+    of the ~4 orders the nanomolar pool needs to reach uM.
 - id: ogow-narrow-window
   evidence_basis: predicted
   evidence_basis_note: >-
@@ -210,9 +210,9 @@ findings:
   kind: computational
   status: novel
   statement: >-
-    A simultaneous operating window exists but is NARROW: the enriched+retained functional pool reaches the consumable
+    A simultaneous operating window exists but is narrow: the enriched+retained functional pool reaches the consumable
     ~uM threshold in ~11% of the defensible-Soret grid (42% of the full grid), only at the favorable corner - S_T at
-    the 1e-2/K small-molecule ceiling WITH high thermal gradient (~50 K) and high DIC (~20 mM). The canonical
+    the 1e-2/K small-molecule ceiling with a high thermal gradient (~50 K) and high DIC (~20 mM). The canonical
     mid-point (S_T 5e-3, dT 30 K, 2 mM) stays at ~3e-8 M, sub-consumable.
   evidence:
     from_test: operating-window-reaches-consumable
@@ -249,7 +249,7 @@ findings:
   statement: >-
     Both regimes contribute: the enriched+retained pool exceeds pore-only (no membrane) and membrane-only
     (no gradient) at the canonical point; the transport-decoupled null (no membrane) is lower still. Neither lever
-    alone suffices - the narrow window needs the pore gradient AND membrane retention together.
+    alone suffices - the narrow window needs the pore gradient and membrane retention together.
   evidence:
     from_test: rescue-requires-both-levers
     observed: both-levers ~2.9e-8 M > pore-only and > membrane-only (canonical, defensible mid Soret)
@@ -258,7 +258,7 @@ findings:
     Removing the pore gradient or the membrane each lowers the pool; both are necessary for the corner window, so the
     rescue is a genuinely joint pore+membrane effect, not either regime alone.
 baseline:
-- name: Operating window — canonical (A's pool, real pore + real membrane, defensible mid Soret)
+- name: Operating window — canonical (the precursor pool, real pore + real membrane, defensible mid Soret)
   composite: viva_genesis.composites.operating_window.og_operating_window
   canonical: true
   planned: false

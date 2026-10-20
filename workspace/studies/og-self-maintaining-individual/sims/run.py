@@ -1,20 +1,20 @@
 #!/usr/bin/env python3
 """Canonical run + reciprocal-maintenance closure analysis for
-og-self-maintaining-individual (NEW C) — the campaign's central OPEN target.
+og-self-maintaining-individual — the campaign's central open target.
 
-Does the coupled chemistry-and-boundary system MAINTAIN ITSELF without a built-in
+Does the coupled chemistry-and-boundary system maintain itself without a built-in
 production/retention gain? The reciprocal loop is a fixed point:
 
-    retention -> k_wash_eff -> A's acetate -> chain-extension -> aggregation_competent
+    retention -> k_wash_eff -> acetate -> chain-extension -> aggregation_competent
     -> gated retention -> ...
 
-solved to self-consistency by driving the real processes (A's PrecursorPoolProcess,
-AmphiphileChainExtensionProcess) directly. The loop CLOSES only if a membrane is
-sustained (retention > 0, i.e. the chemistry's amphiphile pool clears CAC) WITHOUT
-assuming it. Reported framing-agnostic: closes yes/no, by how many orders, WITH vs
-WITHOUT the built-in gain, at the canonical point AND B's favorable S_T corner,
+solved to self-consistency by driving the real processes (og-precursor-pool's PrecursorPoolProcess,
+AmphiphileChainExtensionProcess) directly. The loop closes only if a membrane is
+sustained (retention > 0, i.e. the chemistry's amphiphile pool clears CAC) without
+assuming it. Reported framing-agnostic: closes yes/no, by how many orders, with vs
+without the built-in gain, at the canonical point and og-operating-window's favorable S_T corner,
 across all three ablations (chemistry->membrane, membrane->chemistry, external feed).
-Headline: the quantified cascading A->B->C concentration gap.
+Headline: the quantified cascading concentration gap across the precursor-pool -> operating-window -> self-maintenance chain.
 """
 from __future__ import annotations
 
