@@ -717,6 +717,11 @@ _save_viz('og-network-persistence', 'protometabolism-network', _render_one('loca
 # protometabolic-network
 _save_viz('og-network-persistence', 'protometabolic-network', _render_one('local:ProtometabolicNetwork', {'composite': 'viva_genesis.composites.protometabolism.protometabolic_network', 'n_steps': 60, 'title': 'The protometabolic network — flux-weighted topology'}, RUNS_DB, STUDY_YAML))
 
+# **sustained-throughput-control**
+
+# sustained-throughput-control
+_save_viz('og-network-persistence', 'sustained-throughput-control', _render_one('local:NetworkControlViz', {'report_json': 'workspace/studies/og-network-persistence/artifacts/og-02-reduced-carbon-to-protometabolism/network_controls.json', 'title': 'Sustained throughput requires feed + catalyst (matched nulls)'}, RUNS_DB, STUDY_YAML))
+
 # ### Acceptance criteria
 #
 # _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
@@ -836,6 +841,11 @@ _save_viz('og-spatial-concentration', 'multisolute-colocalization-map', _render_
 
 # pore-accumulation-3d
 _save_viz('og-spatial-concentration', 'pore-accumulation-3d', _render_one('local:ThermophoreticTrap3D', {'title': 'Inside the pore — the accumulation column in 3-D (World view)'}, RUNS_DB, STUDY_YAML))
+
+# **transport-attribution-control**
+
+# transport-attribution-control
+_save_viz('og-spatial-concentration', 'transport-attribution-control', _render_one('local:PoreTransportAttributionViz', {'report_json': 'workspace/studies/og-spatial-concentration/artifacts/og-03-dilution-to-localized-individuals/gradient_off_control.json', 'title': 'What drives the localized enrichment? (transport attribution)'}, RUNS_DB, STUDY_YAML))
 
 # ### Acceptance criteria
 #
@@ -1063,6 +1073,11 @@ _save_viz('og-energetics', 'protocell-energy-budget', _render_one('local:Protoce
 
 # energy-coupling
 _save_viz('og-energetics', 'energy-coupling', _render_one('local:OgEnergyCouplingViz', {'title': 'The carrier buys gradient-dip resilience, not throughput', 'report_json': 'workspace/studies/og-energetics/artifacts/og-35-chemical-energy-coupling/gate_e_energy.json'}, RUNS_DB, STUDY_YAML))
+
+# **uncoupled-pump-control**
+
+# uncoupled-pump-control
+_save_viz('og-energetics', 'uncoupled-pump-control', _render_one('local:EnergeticsUncoupledControlViz', {'report_json': 'workspace/studies/og-energetics/artifacts/og-05-environmental-to-internal-bioenergetics/uncoupled_pump_control.json', 'title': 'The internalization benefit requires coupling (uncoupled-pump null)'}, RUNS_DB, STUDY_YAML))
 
 # ### Acceptance criteria
 #
