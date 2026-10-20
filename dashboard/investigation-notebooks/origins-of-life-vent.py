@@ -1828,7 +1828,7 @@ else:
 # **protocell-boundary-world**
 
 # protocell-boundary-world
-_save_viz('og-self-compartmentation', 'protocell-boundary-world', _render_one('local:ProtocellBoundaryWorld', {'mix_fraction': 0.4, 'ionic_strength': 0.35, 'pH': 9.0, 'title': 'The compartment and the gradient (World view)'}, RUNS_DB, STUDY_YAML))
+_save_viz('og-self-compartmentation', 'protocell-boundary-world', _render_one('local:ProtocellBoundaryWorld', {'mix_fraction': 0.4, 'ionic_strength': 0.35, 'pH': 9.0, 'title': 'The compartment and the gradient (World view) — SCHEMATIC, not MD data', 'caption': 'SCHEMATIC illustration, not MD-trajectory output: the vesicle cross-section geometry is an illustrative render driven by the measured retention / access / individuality values — the cross-section itself is not a molecular-dynamics configuration. Demoted to supplement; the real-MD vesicle 3D (og-32b) and the quantitative stability map are the leads.'}, RUNS_DB, STUDY_YAML))
 
 # **protocell-window**
 
@@ -1843,7 +1843,7 @@ _save_viz('og-self-compartmentation', 'protocell-retention-access', _render_one(
 # **protocell-vesicle-3d**
 
 # protocell-vesicle-3d
-_save_viz('og-self-compartmentation', 'protocell-vesicle-3d', _render_one('local:ProtocellVesicle3D', {'title': 'The protocell in 3-D — a boundary that retains without isolating (World view)'}, RUNS_DB, STUDY_YAML))
+_save_viz('og-self-compartmentation', 'protocell-vesicle-3d', _render_one('local:ProtocellVesicle3D', {'title': 'The protocell in 3-D — a boundary that retains without isolating (World view) — SCHEMATIC, not MD data', 'caption': 'SCHEMATIC illustration, not MD-trajectory output: the vesicle geometry is an illustrative 3-D render; only retention / access / individuality are measured. Demoted to supplement as a redundant vesicle-3D panel — the real Martini-3 CG-MD fatty-acid vesicle 3D (og-32b) is the retained primary 3D.'}, RUNS_DB, STUDY_YAML))
 
 # **endogenous-boundary-formation**
 
@@ -2729,6 +2729,11 @@ _save_viz('og-network-rescue', 'pore-ignition-coupling', _render_one('local:Pore
 
 # spatial-protometabolism-pore-vs-control
 _save_viz('og-network-rescue', 'spatial-protometabolism-pore-vs-control', _render_one('local:OgSpatialProtometabolismViz', {'composite': 'viva_genesis.composites.og_30_spatially_integrated_protometabolism.og_30_spatially_integrated_protometabolism', 'n_steps': 120, 'title': 'Does the pore help? Enrichment, residence, and flux vs control', 'caption': 'Thermophoretic enrichment factor and residence time in the structured pore, then net productive carbon flux in the pore against a matched well-mixed control at identical feeds. Plainly: the pore gathers and holds the ingredients — but the real test is whether that makes more product than a stirred pot, shown in the third panel.'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_og_30_spatially_integrated_protometabolism_og_30_spatially_integrated_protometabolism if 'ov_viva_genesis_composites_og_30_spatially_integrated_protometabolism_og_30_spatially_integrated_protometabolism' in dir() else None)))
+
+# **networkrescue-pde**
+
+# networkrescue-pde
+_save_viz('og-network-rescue', 'networkrescue-pde', _render_one('local:NetworkRescueFieldViz', {'report_json': 'workspace/studies/og-network-rescue/artifacts/og-30-spatially-integrated-protometabolism/networkrescue_fields.json', 'title': 'Spatial concentration ignites the network — pore field vs dead well-mixed control (PDE field view)'}, RUNS_DB, STUDY_YAML))
 
 # ### Acceptance criteria
 #
