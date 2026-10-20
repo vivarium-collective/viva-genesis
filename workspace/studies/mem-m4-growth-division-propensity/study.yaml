@@ -11,7 +11,7 @@ evaluation_status: not_started
 gate_status: not_started
 study_type: exploratory
 proposed: true
-title: Growth, shape change & division propensity (membrane-MD M4)
+title: 'Membrane Division: Can a Vesicle Grow and Divide?'
 program: membrane-md
 parent_studies:
 - study: og-self-compartmentation

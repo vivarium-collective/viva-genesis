@@ -18,13 +18,13 @@ key_assumptions:
 evidence_tier: mechanistic_prediction
 program: consolidated
 plan_id: 38
-title: 'Nutrient Bottlenecks: Joint C/N/P Feasibility'
+title: 'Nutrient Bottlenecks: Are Nitrogen and Phosphorus Available with Carbon?'
 concept: >-
   Whether carbon, nitrogen and phosphorus are available JOINTLY at the vent — not just each non-carbon
   bottleneck clearing on its own, but N and P available in COMPATIBLE chemical forms and the SAME physical
   regime a protocell needs them together with carbon. Two arms (nitrogen and phosphorus) each clear their
   individual bottleneck against a matched null; the sharpened, harder requirement is joint C/N/P
-  co-feasibility, carried by the planned precursor-pool (NEW A) and operating-window (NEW B) bridges.
+  co-feasibility, taken up by og-precursor-pool and og-operating-window.
 gate_reason: >-
   Joint C/N/P precursor-feasibility (Act III nutrient availability). Two arms, each judged against its own
   matched null with input fluxes held equal: the nitrogen bottleneck (og-res-nitrogen, canonical) and the
@@ -33,15 +33,15 @@ gate_reason: >-
   for nitrogen, open-pore no-enrichment for phosphorus). QUALIFIED, not supported: individual clearance is
   necessary but not sufficient — these are separate concentration successes, not a demonstration that C, N
   and P are jointly available in compatible chemical forms in the same physical regime. That joint bar is
-  the sharpened requirement og-precursor-pool (NEW A) and og-operating-window (NEW B) are scaffolded to test.
+  the sharpened requirement og-precursor-pool and og-operating-window take up.
 claim: >-
   Each non-carbon nutrient bottleneck clears individually: ammonium is produced and sustained, keeping pace
   with carbon fixation (a viable C:N) while the feature-ablation null produces none and nitrogen mass is
   conserved (nitrogen arm, supported); reactive phosphorus is available and co-concentrates with carbon in
   the pore while an open-pore no-enrichment control shows none and P mass is conserved (phosphorus arm,
-  supported). Qualified overall: these are separate concentration successes, NOT a joint C/N/P feasibility
+  supported). Qualified overall: these are separate concentration successes, not a joint C/N/P feasibility
   — whether C, N and P are available together in compatible chemical forms and the same physical regime is
-  the harder, open bar carried by the planned NEW A (precursor pool) and NEW B (operating window). Every
+  the harder, open bar carried by og-precursor-pool and og-operating-window. Every
   matched null and arm verdict preserved.
 question: >-
   Do the two non-carbon nutrient bottlenecks clear at the vent — does reduced nitrogen (ammonium) keep

@@ -1,4 +1,4 @@
-"""NEW C — og-self-maintaining-individual: the reciprocal-maintenance loop.
+"""og-self-maintaining-individual: the reciprocal-maintenance loop.
 
 Covers the no-built-in-gain construction (retention gated on the chemistry's actual
 aggregation competence), the coupled A->synthesis composite, and the central result:

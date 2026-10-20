@@ -10,51 +10,51 @@ simulation_status: ran
 evaluation_status: evaluated
 gate_status: passed
 study_type: exploratory
-title: NEW D — Evolvable Lineages
-program: bridge-study
+title: 'Evolvable Lineages: Can a Granted Individual Evolve?'
+program: transition-arc
 verdict: qualified
 confidence: Accepted
 evidence_tier: mechanistic_prediction
 primary_limitation: >-
-  Evolvability here is BOUNDED fixed-trait selection, not open-ended novelty: the inherited trait is a fixed scalar
+  Evolvability here is bounded fixed-trait selection, not open-ended novelty: the inherited trait is a fixed scalar
   network-composition c in [0,1] with a single fitness optimum, so heritable variance declines as the population
-  converges and a changed environment is re-tracked WITHIN the same fixed trait space. And the whole result is
-  conditional on a GRANTED individual - C refuted endogenous closure, so this does not claim an individual forms.
+  converges and a changed environment is re-tracked within the same fixed trait space. And the whole result is
+  conditional on a granted individual - og-self-maintaining-individual refuted endogenous closure, so this does not claim an individual forms.
 key_assumptions:
 - >-
-  GRANTED-INDIVIDUAL premise (front and centre): C (og-self-maintaining-individual) refuted endogenous reciprocal
-  closure, so the self-maintaining individual D needs does not form endogenously under defensible conditions. D
-  therefore GRANTS the protocell/membrane as an explicit assumption and grounds fitness at B's favorable S_T corner
-  regime; evolvability is NOT claimed for an individual that forms for free.
+  Granted-individual premise (front and centre): og-self-maintaining-individual refuted endogenous reciprocal
+  closure, so the self-maintaining individual this study needs does not form endogenously under defensible conditions.
+  This study therefore grants the protocell/membrane as an explicit assumption and grounds fitness at
+  og-operating-window's favorable S_T corner regime; evolvability is not claimed for an individual that forms for free.
 - >-
-  The inherited trait is a FIXED SCALAR composition c in [0,1] (compositional / GARD-style inheritance) mapping
+  The inherited trait is a fixed scalar composition c in [0,1] (compositional / GARD-style inheritance) mapping
   monotonically to a single fitness optimum. Open-endedness would require a novelty-generating (unbounded) trait
   space, which this model does not provide - so a bounded fixed-trait result cannot be read as open-ended evolvability.
 - >-
-  Two MATCHED nulls isolate the signal: the no-inheritance null (inheritance=False; daughters reset to the common
-  composition, breaking heredity) and the shared-feed null (a FLAT fitness landscape, retention_lo == retention_hi,
-  removing the fitness differential while leaving heredity intact). A real response must beat BOTH.
+  Two matched nulls isolate the signal: the no-inheritance null (inheritance=False; daughters reset to the common
+  composition, breaking heredity) and the shared-feed null (a flat fitness landscape, retention_lo == retention_hi,
+  removing the fitness differential while leaving heredity intact). A real response must beat both.
 - >-
-  Fitness is GROUNDED in the real composition -> membrane retention (study-32 MD endpoints 0.333/0.661) -> standing
+  Fitness is grounded in the real composition -> membrane retention (study-32 MD endpoints 0.333/0.661) -> standing
   pool -> division-rate coupling, never a toy fitness function; sigma is a declared heritable variance, not tuned to
   force a shift; division is the og-reproduction mechanically-defensible split (reused), not a relabeled threshold.
 claim: >-
-  GIVEN a granted individual, stochastic partition + variation produce real heritable, selectable adaptation that
-  shifts the population strongly above BOTH matched nulls (no-inheritance and shared-feed) and re-tracks a changed
-  environment - but it is BOUNDED fixed-trait selection (heritable variance declines as it converges; the trait
-  space is a fixed scalar), NOT open-ended novelty. Combined with C: the individuality bottleneck is the binding one;
-  given an individual, evolvability works but is bounded. QUALIFIED.
+  Given a granted individual, stochastic partition + variation produce real heritable, selectable adaptation that
+  shifts the population strongly above both matched nulls (no-inheritance and shared-feed) and re-tracks a changed
+  environment - but it is bounded fixed-trait selection (heritable variance declines as it converges; the trait
+  space is a fixed scalar), not open-ended novelty. Combined with og-self-maintaining-individual: the individuality
+  bottleneck is the binding one; given an individual, evolvability works but is bounded. Qualified.
 question: >-
   Do mechanically defensible daughters carry heritable chemical variation that produces a multi-generation, open-ended
-  EVOLUTIONARY response - beyond a fixed trait space?
+  evolutionary response - beyond a fixed trait space?
 hypothesis: >-
   Stochastic chemical partition and variation at division produce heritable phenotype differences whose fitness,
   emerging from chemical persistence or division, drives a multi-generation response and adaptation to changed
   environments beyond a no-inheritance / shared-feed null.
 experiment: >-
-  GIVEN a granted individual, run a population of og-reproduction-dividing protocells under grounded selection on an
+  Given a granted individual, run a population of og-reproduction-dividing protocells under grounded selection on an
   inherited composition trait (fitness from composition -> retention -> division rate); measure the multi-generation
-  response and changed-environment adaptation against TWO matched nulls (no-inheritance, shared-feed), and test
+  response and changed-environment adaptation against two matched nulls (no-inheritance, shared-feed), and test
   whether the response is open-ended or bounded fixed-trait (heritable-variance trajectory + the fixed trait space).
 primary_output: >-
   Heritable-phenotype variance (+ trajectory), fitness-from-chemistry, multi-generation response curves, and
@@ -75,7 +75,7 @@ parent_relations:
   relation: builds-on
 upstream_state_consumed:
 - from: og-self-maintaining-individual
-  provides: the (granted) self-maintaining individual that must divide (NEW C; its endogenous closure refuted)
+  provides: the (granted) self-maintaining individual that must divide (from og-self-maintaining-individual; its endogenous closure refuted)
 - from: og-reproduction
   provides: the mechanically defensible division geometry producing viable daughters
 - from: og-evolvability
@@ -176,8 +176,8 @@ findings:
   kind: computational
   status: confirms
   statement: >-
-    GIVEN a granted individual, heritable selection is REAL: the population mean composition shifts strongly (~0.38
-    -> ~0.91, shift ~0.5 over seeds) with parent-offspring fitness correlation ~0.9, far above BOTH the no-inheritance
+    Given a granted individual, heritable selection is real: the population mean composition shifts strongly (~0.38
+    -> ~0.91, shift ~0.5 over seeds) with parent-offspring fitness correlation ~0.9, far above both the no-inheritance
     null (shift ~0) and the shared-feed null (drift ~0). Not a Vasas washout - the compositional inheritance carries
     selectable variance.
   evidence:
@@ -194,7 +194,7 @@ findings:
   kind: computational
   status: confirms
   statement: >-
-    The inheriting population ADAPTS to a changed environment: when the favored composition is flipped mid-run, the
+    The inheriting population adapts to a changed environment: when the favored composition is flipped mid-run, the
     population re-tracks toward the new optimum, well above the no-inheritance null - multi-generation adaptation to
     change is real given an individual.
   evidence:
@@ -211,7 +211,7 @@ findings:
   kind: computational
   status: novel
   statement: >-
-    The evolvability is BOUNDED fixed-trait selection, NOT open-ended: heritable variance declines (ratio final/initial
+    The evolvability is bounded fixed-trait selection, not open-ended: heritable variance declines (ratio final/initial
     < 1) as the population converges to the single optimum, and the trait is a fixed scalar - the changed-environment
     adaptation is re-tracking within the same fixed trait space, not new organization. Vasas-2010-consistent for the
     compositional regime: real selection, but no open-ended novelty.
@@ -230,17 +230,17 @@ findings:
   kind: computational
   status: novel
   statement: >-
-    Arc synthesis (A->B->C->D): given an individual, evolvability WORKS but is BOUNDED; and C showed the individual
-    does not form endogenously. So the binding bottleneck of the chemistry-to-life transition here is INDIVIDUALITY,
-    not evolvability - a clean close to the physical-bridge arc, with both §9 open transitions resolved as
+    Synthesis across the arc: given an individual, evolvability works but is bounded; and og-self-maintaining-individual
+    showed the individual does not form endogenously. So the binding bottleneck of the chemistry-to-life transition
+    here is individuality, not evolvability - a clean close to the arc, with both §9 open transitions resolved as
     quantified-conditional rather than demonstrated.
   evidence:
     from_test: heritable-selection-above-both-nulls
-    observed: evolvability present-but-bounded (D) while endogenous individuality refuted (C)
+    observed: evolvability present-but-bounded (og-evolvable-lineages) while endogenous individuality refuted (og-self-maintaining-individual)
     units: dimensionless
   explanation: >-
-    D isolates evolvability from individuality by granting the individual; evolvability clears its bar (bounded) while
-    individuality (C) does not, locating the hard step at individuality.
+    This study isolates evolvability from individuality by granting the individual; evolvability clears its bar
+    (bounded) while individuality (og-self-maintaining-individual) does not, locating the hard step at individuality.
 baseline:
 - name: Evolvable lineages — canonical (granted individual, grounded selection, static environment)
   composite: viva_genesis.composites.evolvable_lineages.og_evolvable_lineages

@@ -10,55 +10,55 @@ simulation_status: ran
 evaluation_status: evaluated
 gate_status: failed
 study_type: exploratory
-title: NEW C — Self-Maintaining Chemical Individuality
-program: bridge-study
+title: 'Self-Maintaining Individuality: Does the Chemistry–Boundary Loop Close?'
+program: transition-arc
 verdict: refuted
 confidence: Refuted
 evidence_tier: mechanistic_prediction
 primary_limitation: >-
-  The refutation is SCOPED: reciprocal self-maintenance does not close ENDOGENOUSLY under defensible vent conditions
+  The refutation is scoped: reciprocal self-maintenance does not close endogenously under defensible vent conditions
   without a built-in production/retention gain. The broader "can a chemical individual emerge at all" question stays
-  OPEN per §9 - this is not a claim of universal impossibility, only that this coupled chemistry+boundary loop, fed
-  the real A pool (even at B's favorable corner), cannot build and keep its own membrane without assuming it.
+  open per §9 - this is not a claim of universal impossibility, only that this coupled chemistry+boundary loop, fed
+  the real precursor pool (even at og-operating-window's favorable corner), cannot build and keep its own membrane without assuming it.
 key_assumptions:
 - >-
-  No built-in gain (the defining constraint): membrane retention is GATED on the chemistry's ACTUAL
+  No built-in gain (the defining constraint): membrane retention is gated on the chemistry's actual
   aggregation_competent (long-chain amphiphile pool / CAC). A membrane (retention > 0) exists only when the pool
   clears CAC; the earned value (when competent) is og_32's MD-informed long-chain retention, never assumed. Pinning
   retention at ~0.9 regardless of CAC clearance is the false closure this study forbids, surfaced explicitly.
 - >-
-  Conditional on B: run and reported at BOTH the canonical point AND B's favorable S_T corner (the only regime where
-  B found the precursor pool consumable: S_T ~1e-2/K ceiling + high dT + high DIC + pore enrichment), so C is not
-  evaluated as if the pool were given.
+  Conditional on og-operating-window: run and reported at both the canonical point and the operating window's favorable
+  S_T corner (the only regime where it found the precursor pool consumable: S_T ~1e-2/K ceiling + high dT + high DIC +
+  pore enrichment), so this study is not evaluated as if the pool were given.
 - >-
   Amphiphile synthesis is the real AmphiphileChainExtensionProcess (explicit C2 fatty-acid elongation, CAC falls
-  with chain length) at its default kinetics; the C2 feed is A's actual acetate output, never inflated.
+  with chain length) at its default kinetics; the C2 feed is og-precursor-pool's actual acetate output, never inflated.
 - >-
   Decay is real (amphiphile hydrolysis k_degrade + metabolite washout); external feeds held equal across arms
   (matched-null standard).
 claim: >-
-  The coupled chemistry-and-boundary system does NOT maintain itself endogenously under defensible vent conditions:
-  the chemistry's acetate (even at B's favorable corner) yields an amphiphile pool ~4 orders below its CAC at the
-  corner and ~7 orders below at the canonical point, so no membrane forms without assuming it, and reciprocal
-  maintenance fails to close without a built-in retention gain - across all three ablations. SCOPED REFUTED of
-  endogenous closure; the broader individuality-emergence question stays open (§9).
+  The coupled chemistry-and-boundary system does not maintain itself endogenously under defensible vent conditions:
+  the chemistry's acetate (even at og-operating-window's favorable corner) yields an amphiphile pool ~4 orders below
+  its CAC at the corner and ~7 orders below at the canonical point, so no membrane forms without assuming it, and
+  reciprocal maintenance fails to close without a built-in retention gain - across all three ablations. A scoped
+  refutation of endogenous closure; the broader individuality-emergence question stays open (§9).
 question: >-
-  Does the coupled chemistry-and-boundary system MAINTAIN ITSELF - chemistry making the boundary that in turn
+  Does the coupled chemistry-and-boundary system maintain itself - chemistry making the boundary that in turn
   sustains the chemistry - under perturbation, without a built-in production or retention gain?
 hypothesis: >-
   Coupling explicit amphiphile precursor flux, synthesis, membrane composition, permeability, nutrient influx,
   product retention and decay yields reciprocal maintenance that survives relevant perturbations only when neither
   direction of the coupling is assumed.
 experiment: >-
-  Couple A's real precursor pool (acetate) -> real fatty-acid chain-extension -> aggregation-gated membrane
-  retention -> reduced washout -> back to the chemistry, solved as a reciprocal fixed point; ablate
-  chemistry->membrane, membrane->chemistry and external feed SEPARATELY; compare WITH vs WITHOUT the built-in
-  retention gain; run at the canonical point AND B's favorable corner. Claim individuality only if maintenance
-  survives without a built-in gain.
+  Couple og-precursor-pool's real precursor pool (acetate) -> real fatty-acid chain-extension -> aggregation-gated
+  membrane retention -> reduced washout -> back to the chemistry, solved as a reciprocal fixed point; ablate
+  chemistry->membrane, membrane->chemistry and external feed separately; compare with vs without the built-in
+  retention gain; run at the canonical point and og-operating-window's favorable corner. Claim individuality only if
+  maintenance survives without a built-in gain.
 primary_output: >-
   Whether reciprocal maintenance closes (yes/no) without a built-in gain, by how many orders the amphiphile pool
-  falls short of CAC, at the canonical point AND B's corner, across all three ablations, with the built-in-gain
-  comparison - and the quantified cascading A->B->C concentration gap.
+  falls short of CAC, at the canonical point and og-operating-window's corner, across all three ablations, with the
+  built-in-gain comparison - and the quantified cascading precursor-pool → operating-window → self-maintenance concentration gap.
 parent_studies:
 - study: og-precursor-pool
   condition: tests-passed
@@ -75,9 +75,9 @@ parent_relations:
   relation: builds-on
 upstream_state_consumed:
 - from: og-precursor-pool
-  provides: the functional amphiphile-precursor yield vectors (NEW A) - the acetate the chemistry delivers to synthesis
+  provides: the functional amphiphile-precursor yield vectors from og-precursor-pool - the acetate the chemistry delivers to synthesis
 - from: og-operating-window
-  provides: the narrow S_T-conditional corner (NEW B) where the precursor pool is consumable - C's favorable premise
+  provides: the narrow S_T-conditional corner from og-operating-window where the precursor pool is consumable - this study's favorable premise
 - from: og-self-compartmentation
   provides: the real membrane machinery (ProtocellAssembly / chain-extension synthesis, permeability, retention)
 proposed_controls:
@@ -89,8 +89,8 @@ arms:
 - id: self_maintaining_canonical
   canonical: true
   concept_role: >-
-    The reciprocal-maintenance loop: A's real pool -> fatty-acid synthesis -> aggregation-gated membrane -> reduced
-    washout -> chemistry, solved as a fixed point, at the canonical point and B's corner, across three ablations.
+    The reciprocal-maintenance loop: og-precursor-pool's real pool -> fatty-acid synthesis -> aggregation-gated membrane -> reduced
+    washout -> chemistry, solved as a fixed point, at the canonical point and og-operating-window's corner, across three ablations.
   fidelity: real
   verdict: refuted
   gate_status: failed
@@ -101,7 +101,7 @@ behavior_tests:
   classification: supporting
   gate_class: acceptance_criterion
   description: >-
-    The chemistry->membrane arrow carries signal: A's reaction network delivers nonzero acetate (C2) to the
+    The chemistry->membrane arrow carries signal: og-precursor-pool's reaction network delivers nonzero acetate (C2) to the
     fatty-acid chain-extension synthesis.
   measure:
     kind: derived
@@ -119,7 +119,7 @@ behavior_tests:
   gate_class: acceptance_criterion
   description: >-
     Does the amphiphile pool the chemistry actually produces clear its critical aggregation concentration
-    (aggregation_competent >= 1) so a membrane can form WITHOUT assuming it? It does NOT - this is the no-built-in-gain
+    (aggregation_competent >= 1) so a membrane can form without assuming it? It does not - this is the no-built-in-gain
     witness and the core of the refutation.
   measure:
     kind: derived
@@ -138,12 +138,12 @@ behavior_tests:
   classification: primary
   gate_class: acceptance_criterion
   description: >-
-    Cross-run: does the reciprocal loop close (a membrane is sustained, retention > 0, WITHOUT a built-in gain) at
-    the canonical point AND B's corner, and do all three ablations fail to close? Graded by sims/run.py. Closure
-    FAILS (no endogenous membrane); the ablations and the with/without-gain comparison confirm it.
+    Cross-run: does the reciprocal loop close (a membrane is sustained, retention > 0, without a built-in gain) at
+    the canonical point and og-operating-window's corner, and do all three ablations fail to close? Graded by
+    sims/run.py. Closure fails (no endogenous membrane); the ablations and the with/without-gain comparison confirm it.
   measure:
     kind: cross_run
-    detail: endogenous closure (no built-in gain) at canonical + B-corner, vs the three ablations and the gain comparison
+    detail: endogenous closure (no built-in gain) at canonical + the operating-window corner, vs the three ablations and the gain comparison
   pass_if:
     op: controls_absent
     detail: reciprocal maintenance closes endogenously without a built-in gain
@@ -153,20 +153,20 @@ findings:
 - id: ogc-acetate-delivered
   evidence_basis: predicted
   evidence_basis_note: >-
-    The acetate the network delivers to synthesis is a model output of A's real reactor (not fit); it is nonzero but
+    The acetate the network delivers to synthesis is a model output of og-precursor-pool's real reactor (not fit); it is nonzero but
     far too dilute to build a membrane.
   kind: computational
   status: confirms
   statement: >-
-    The chemistry->membrane arrow carries real signal: A's network delivers acetate (C2) to the fatty-acid
-    chain-extension (~1e-11 M canonical, ~1.4e-8 M enriched at B's corner) - so the coupling exists; it is the
+    The chemistry->membrane arrow carries real signal: og-precursor-pool's network delivers acetate (C2) to the fatty-acid
+    chain-extension (~1e-11 M canonical, ~1.4e-8 M enriched at og-operating-window's corner) - so the coupling exists; it is the
     concentration that fails.
   evidence:
     from_test: acetate-delivered-to-synthesis
-    observed: settled acetate ~1e-11 M (canonical); ~1.4e-8 M (B corner, enriched+retained)
+    observed: settled acetate ~1e-11 M (canonical); ~1.4e-8 M (operating-window corner, enriched+retained)
     units: molar
   explanation: >-
-    Acetate is A's C2 product; the chain-extension elongates it to long-chain fatty acids - the real
+    Acetate is og-precursor-pool's C2 product; the chain-extension elongates it to long-chain fatty acids - the real
     chemistry->membrane path, present but thin.
 - id: ogc-no-membrane
   evidence_basis: predicted
@@ -176,9 +176,9 @@ findings:
   kind: computational
   status: novel
   statement: >-
-    The amphiphile pool the chemistry produces does NOT clear its CAC: aggregation_competent ~9e-8 at the canonical
-    point and well below 1 even at B's corner, so no membrane forms without assuming one. The long-chain FRACTION is
-    fine (~0.95) - it is a pure concentration failure, the same nM gap cascading from A.
+    The amphiphile pool the chemistry produces does not clear its CAC: aggregation_competent ~9e-8 at the canonical
+    point and well below 1 even at og-operating-window's corner, so no membrane forms without assuming one. The
+    long-chain fraction is fine (~0.95) - it is a pure concentration failure, the same nM gap cascading from the precursor pool.
   evidence:
     from_test: amphiphiles-aggregation-competent
     observed: aggregation_competent ~9e-8 (canonical, FAIL vs 1); amphiphile pool ~1e-9 M vs CAC 5e-3 M
@@ -194,13 +194,13 @@ findings:
   kind: computational
   status: novel
   statement: >-
-    Reciprocal self-maintenance does NOT close endogenously without a built-in gain, at the canonical point OR B's
-    corner, and all three ablations also fail to close. With the built-in gain the loop "closes" only because
+    Reciprocal self-maintenance does not close endogenously without a built-in gain, at the canonical point or
+    og-operating-window's corner, and all three ablations also fail to close. With the built-in gain the loop "closes" only because
     retention is forced to the long-chain value regardless of CAC - a membrane is never physically present - which is
     exactly the false closure the no-built-in-gain constraint forbids.
   evidence:
     from_test: reciprocal-maintenance-closes-endogenously
-    observed: closes(no gain) = False at canonical and B-corner; all 3 ablations fail; with-gain closure is assumed-only
+    observed: closes(no gain) = False at canonical and the operating-window corner; all 3 ablations fail; with-gain closure is assumed-only
     units: dimensionless
   expected:
     cites:
@@ -211,24 +211,26 @@ findings:
 - id: ogc-cascade
   evidence_basis: extrapolated
   evidence_basis_note: >-
-    The cascading gap is extrapolated across the A->B->C chain from each study's model outputs and the CAC-clearance
-    threshold; it is the headline quantification, not a fitted value.
+    The cascading gap is extrapolated across the precursor-pool → operating-window → self-maintenance chain from each
+    study's model outputs and the CAC-clearance threshold; it is the headline quantification, not a fitted value.
   kind: computational
   status: novel
   statement: >-
-    The precursor concentration gap cascades A->B->C and is quantified: A's acetate (9.6e-12 M) is ~6.9 orders below
-    the CAC-clearance threshold (7.6e-5 M) at the canonical point; B's best corner lifts the acetate the membrane
-    sees to 6.7e-9 M, still ~4.1 orders short; neither closes the loop. The central chemistry-to-individual
-    transition is OPEN, bounded here by a ~4-order concentration shortfall even at the most favorable defensible corner.
+    The precursor concentration gap cascades across the precursor-pool → operating-window → self-maintenance chain and
+    is quantified: og-precursor-pool's acetate (9.6e-12 M) is ~6.9 orders below the CAC-clearance threshold (7.6e-5 M)
+    at the canonical point; og-operating-window's best corner lifts the acetate the membrane sees to 6.7e-9 M, still
+    ~4.1 orders short; neither closes the loop. The central chemistry-to-individual transition is open, bounded here by
+    a ~4-order concentration shortfall even at the most favorable defensible corner.
   evidence:
     from_test: amphiphiles-aggregation-competent
-    observed: orders short of CAC ~6.9 (canonical), ~4.1 (B corner); acetate needed for CAC clearance ~7.6e-5 M
+    observed: orders short of CAC ~6.9 (canonical), ~4.1 (operating-window corner); acetate needed for CAC clearance ~7.6e-5 M
     units: dimensionless
   explanation: >-
-    Each bridge narrows but does not close the gap: thermodynamic ceiling (A) -> narrow S_T-conditional enrichment
-    (B) -> still sub-CAC amphiphile synthesis (C). The shortfall is the concrete, quantified open problem.
+    Each step narrows but does not close the gap: the thermodynamic ceiling (og-precursor-pool) -> narrow
+    S_T-conditional enrichment (og-operating-window) -> still sub-CAC amphiphile synthesis (this study). The shortfall
+    is the concrete, quantified open problem.
 baseline:
-- name: Self-maintaining individual — canonical reciprocal loop (A's pool, real synthesis, aggregation-gated membrane)
+- name: Self-maintaining individual — canonical reciprocal loop (the precursor pool, real synthesis, aggregation-gated membrane)
   composite: viva_genesis.composites.self_maintaining.og_self_maintaining_individual
   canonical: true
   planned: false
@@ -241,8 +243,9 @@ visualizations:
   kind: plotly
   path: viz/og-self-maintaining-individual/self_maintaining.html
   description: >-
-    The reciprocal-maintenance result: the cascading A->B->C concentration gap (acetate vs CAC-clearance threshold) at
-    the canonical point and B's corner, and the closure outcome across the three ablations and the built-in-gain comparison.
+    The reciprocal-maintenance result: the cascading precursor-pool → operating-window → self-maintenance concentration
+    gap (acetate vs CAC-clearance threshold) at the canonical point and og-operating-window's corner, and the closure
+    outcome across the three ablations and the built-in-gain comparison.
 runs:
 - name: viva_genesis.composites.self_maintaining.og_self_maintaining_individual__1792447870__355c4e
   status: completed
@@ -262,7 +265,7 @@ runs:
       evaluated_by: code
       axis:
         id: acetate-delivered-to-synthesis
-        label: "The chemistry->membrane arrow carries signal: A's reaction network delivers nonzero acetate (C2) to the fatty-acid chain-extension synthesis."
+        label: "The chemistry->membrane arrow carries signal: og-precursor-pool's reaction network delivers nonzero acetate (C2) to the fatty-acid chain-extension synthesis."
         verdict: mismatch
         value: 0.0
         meter: 0.5
@@ -313,4 +316,4 @@ runs:
       measured_value: 4.055
       evaluated_by: code
       operator: cross_run
-      detail: 'endogenous closure (no built-in gain): canonical closed=False (~6.9 orders short of CAC), B-corner closed=False (~4.1 orders short); all three ablations fail to close; with-gain closure is assumed-only (membrane_real=False)'
+      detail: 'endogenous closure (no built-in gain): canonical closed=False (~6.9 orders short of CAC), operating-window corner closed=False (~4.1 orders short); all three ablations fail to close; with-gain closure is assumed-only (membrane_real=False)'

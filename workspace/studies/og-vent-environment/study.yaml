@@ -16,7 +16,7 @@ key_assumptions:
 - "The posterior is conditioned on the Lost City T/pH/H2 field windows"
 evidence_tier: mechanistic_prediction
 program: consolidated
-title: 'The Vent Environment: Calibrated, Viable Geochemical States'
+title: 'The Vent Environment: Does It Supply a Viable Feed?'
 concept: >-
   Calibrated vent states: whether a serpentinizing alkaline vent holds its empirical (Lost City) window across
   the operating grid and, conditioned on that window, leaves a posterior in which the dissolved-H2 / inorganic-carbon

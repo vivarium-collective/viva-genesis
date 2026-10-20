@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Canonical run + operating-window sweep for og-operating-window (NEW B).
+"""Canonical run + operating-window sweep for og-operating-window.
 
-The honest rescue test for A's thin precursor pool: does product-pool enrichment
+The honest rescue test for og-precursor-pool's thin precursor pool: does product-pool enrichment
 (real FiPy thermophoretic trap) x membrane retention (real ProtocellAssembly) lift
-A's nM functional pool to a consumable (~uM) concentration, and over what volume of
+og-precursor-pool's nM functional pool to a consumable (~uM) concentration, and over what volume of
 the defensible parameter space?
 
 Pipeline:

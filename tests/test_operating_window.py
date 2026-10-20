@@ -1,4 +1,4 @@
-"""NEW B — og-operating-window: the honest rescue test for A's thin precursor pool.
+"""og-operating-window: the honest rescue test for og-precursor-pool's thin precursor pool.
 
 Covers the real pore (FiPy Soret trap) + membrane (ProtocellAssembly retention)
 coupling onto A's reactor: enrichment is real (>1 with a gradient, ~1 without),

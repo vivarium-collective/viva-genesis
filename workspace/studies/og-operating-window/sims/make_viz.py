@@ -74,8 +74,8 @@ def main() -> int:
     cross = art["soret_crossover_per_K"]
     fig.update_layout(
         template="plotly_white",
-        title=dict(text=f"NEW B — narrow rescue window: uM reached in ~{ov*100:.0f}% of the "
-                        f"defensible grid, only at S_T&#8805;{cross:.0e}/K + high dT + high DIC (QUALIFIED)",
+        title=dict(text=f"Narrow rescue window: uM reached in ~{ov*100:.0f}% of the "
+                        f"defensible grid, only at S_T&#8805;{cross:.0e}/K + high dT + high DIC (qualified)",
                    x=0.5, xanchor="center", font=dict(size=14)),
         font=dict(size=12), margin=dict(l=80, r=40, t=90, b=70),
         height=520, width=1040, paper_bgcolor="white", plot_bgcolor="white",
