@@ -17,7 +17,7 @@ if _os.environ.get("PYTHONUTF8") != "1":
     _os.execv(_sys.executable, [_sys.executable, *_sys.argv])
 
 
-# # Origins-of-life vent campaign
+# # The Hydrothermal Vent Hypothesis
 #
 # _Investigation `origins-of-life-vent` — coder reproduction notebook._
 #
