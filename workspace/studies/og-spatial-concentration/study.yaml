@@ -381,23 +381,30 @@ runs:
         citation: null
       auto_evaluated: true
 visualizations:
+- name: pore-ignition-coupling
+  display: primary
+  address: local:PoreIgnitionThresholdViz
+  config:
+    report_json: >-
+      workspace/studies/og-network-rescue/artifacts/og-30-spatially-integrated-protometabolism/gate_b_spatial.json
+    title: Pore enrichment carries the network across its ignition threshold (Decision view)
 - name: thermophoretic-trap
   address: local:ThermophoreticTrapViz
   config:
     composite: viva_genesis.composites.thermophoretic_concentration.thermophoretic_concentration
     title: The thermal trap concentrates an individual
 - name: pore-localization-map
-  display: primary
   address: local:PoreLocalizationMap
   config:
     grid_json: >-
       workspace/studies/og-spatial-concentration/artifacts/og-03-dilution-to-localized-individuals/pore_localization_grid.json
     title: The pore-localization frontier (Decision view)
 - name: pore-enrichment-solver-sensitivity
+  display: supplement
   address: local:PoreEnrichmentSolverSensitivity
   config:
     comparison_json: workspace/references/spatial-transport-solver-comparison.json
-    title: 'Enrichment is bounded: reduced column vs resolved FEM (Decision view)'
+    title: 'Enrichment is bounded: reduced column vs resolved FEM (supplementary solver diagnostic)'
 - name: multisolute-colocalization-map
   address: local:PoreColocalizationMap
   config:
