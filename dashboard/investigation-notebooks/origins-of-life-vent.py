@@ -862,6 +862,11 @@ _save_viz('og-spatial-concentration', 'pore-accumulation-3d', _render_one('local
 # transport-attribution-control
 _save_viz('og-spatial-concentration', 'transport-attribution-control', _render_one('local:PoreTransportAttributionViz', {'report_json': 'workspace/studies/og-spatial-concentration/artifacts/og-03-dilution-to-localized-individuals/gradient_off_control.json', 'title': 'What drives the localized enrichment? (transport attribution)'}, RUNS_DB, STUDY_YAML))
 
+# **spatial-pde**
+
+# spatial-pde
+_save_viz('og-spatial-concentration', 'spatial-pde', _render_one('local:SpatialPDEFieldGrid', {'report_json': 'workspace/studies/og-spatial-concentration/artifacts/og-03-dilution-to-localized-individuals/spatial_pde_fields.json', 'title': 'The eight-solute pore fields: real FiPy PDE snapshots, pore vs open-pore'}, RUNS_DB, STUDY_YAML))
+
 # ### Acceptance criteria
 #
 # _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
