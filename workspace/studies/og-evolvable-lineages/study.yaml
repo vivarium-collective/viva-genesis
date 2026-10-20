@@ -268,6 +268,13 @@ visualizations:
   description: >-
     The selection response over generations (full vs the no-inheritance and shared-feed nulls), the heritable-variance
     trajectory (declining = bounded), and the changed-environment re-tracking.
+- name: heredity-sensitivity
+  display: mechanism
+  address: local:HereditySensitivityViz
+  config:
+    report_json: >-
+      workspace/studies/og-evolvable-lineages/artifacts/og-evolvable-lineages/heredity_sensitivity.json
+    title: Selectable heredity is robust across selection × population size (replicate bands)
 runs:
 - name: viva_genesis.composites.evolvable_lineages.og_evolvable_lineages__1792450951__c59a83
   status: completed
