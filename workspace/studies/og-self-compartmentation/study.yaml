@@ -15,6 +15,9 @@ key_assumptions:
 - "Boundaries are mixed single-chain amphiphiles at vent pH / seawater ionic strength"
 - "Permeability is MD-informed (Martini-3 CG-MD) for the cohesion arm; reduced-coupling (retention/access) for the persistence arm"
 - "Self-maintenance is scored against a no-endogenous-membrane ablation at equal feeds"
+- "Fixed protonation ≠ dynamic pH: the CG-MD arms (og-32, og-32b) fix a protonation state per arm (protonated vs fully-charged) rather than modelling a titratable/dynamic-pH membrane; the converged charge/chain boundary is the GPU PMF follow-up (og-32a)."
+- "Exogenous amphiphile assembly ≠ endogenous membrane production: the og-04 mixed-amphiphile assembly arm supplies amphiphiles exogenously and does NOT demonstrate endogenous membrane synthesis (see the refuted og-self-maintaining-individual); only the og-04-alt arm tests a boundary built from the system's own carbon chemistry."
+- "Requested future simulation (deferred — needs the pbg_openmm MARTINI env): a real coarse-grained MARTINI assembly/stability montage (initial dispersed → aggregate → vesicle → disrupted across pH / protonation / ionic strength, reporting bilayer thickness, area-per-lipid, aggregation number and leakage plus a CAC/CMC feasibility line) is requested but not yet run."
 evidence_tier: mechanistic_prediction
 program: consolidated
 plan_id: 32
@@ -1043,12 +1046,18 @@ runs:
         with tight spread
 visualizations:
 - name: protocell-boundary-world
+  display: supplement
   address: local:ProtocellBoundaryWorld
   config:
     mix_fraction: 0.4
     ionic_strength: 0.35
     pH: 9.0
-    title: The compartment and the gradient (World view)
+    title: "The compartment and the gradient (World view) — SCHEMATIC, not MD data"
+    caption: >-
+      SCHEMATIC illustration, not MD-trajectory output: the vesicle cross-section geometry is an
+      illustrative render driven by the measured retention / access / individuality values — the
+      cross-section itself is not a molecular-dynamics configuration. Demoted to supplement; the
+      real-MD vesicle 3D (og-32b) and the quantitative stability map are the leads.
 - name: protocell-window
   display: primary
   address: local:ProtocellWindowViz
@@ -1066,9 +1075,15 @@ visualizations:
       workspace/studies/og-self-compartmentation/artifacts/og-04-mineral-compartments-to-protocells/protocell_grid.json
     title: A boundary that retains without isolating (Decision view)
 - name: protocell-vesicle-3d
+  display: supplement
   address: local:ProtocellVesicle3D
   config:
-    title: The protocell in 3-D — a boundary that retains without isolating (World view)
+    title: "The protocell in 3-D — a boundary that retains without isolating (World view) — SCHEMATIC, not MD data"
+    caption: >-
+      SCHEMATIC illustration, not MD-trajectory output: the vesicle geometry is an illustrative 3-D
+      render; only retention / access / individuality are measured. Demoted to supplement as a
+      redundant vesicle-3D panel — the real Martini-3 CG-MD fatty-acid vesicle 3D (og-32b) is the
+      retained primary 3D.
 - name: endogenous-boundary-formation
   display: mechanism
   address: local:EndogenousBoundaryViz
@@ -1101,6 +1116,7 @@ visualizations:
   rendered: >-
     workspace/studies/og-self-compartmentation/viz/og-32-first-self-maintaining-protocell/self-maintaining-protocell.html
 - name: fatty-acid-vesicle-stability
+  display: primary
   address: local:OgFattyAcidVesicleStabilityViz
   config:
     title: Fatty-acid vesicles hold a bilayer across the chain window; the charged null micellises
@@ -1109,6 +1125,7 @@ visualizations:
   rendered: >-
     workspace/studies/og-self-compartmentation/viz/og-32b-fatty-acid-vesicle-stability/fatty-acid-vesicle-stability.html
 - name: fatty-acid-vesicle-3d-structure
+  display: primary
   config:
     title: >-
       Fatty-acid vesicle — real Martini 3 CG-MD 3D structure (og-32b): C14 protonated, closed bilayer
@@ -1116,6 +1133,7 @@ visualizations:
   rendered: >-
     workspace/studies/og-self-compartmentation/viz/og-32b-fatty-acid-vesicle-stability/vesicle-3d-structure.html
 - name: bilayer-3d-structure
+  display: supplement
   config:
     title: >-
       Phospholipid bilayer patch — real Martini 3 CG-MD 3D structure (og-32, DPPC stand-in), coloured
@@ -1123,6 +1141,7 @@ visualizations:
   rendered: >-
     workspace/studies/og-self-compartmentation/viz/og-32-first-self-maintaining-protocell/bilayer-3d-structure.html
 - name: fatty-acid-vesicle-3d-structure-static
+  display: supplement
   config:
     title: >-
       Fatty-acid vesicle — Martini 3 CG-MD equatorial cross-section (static render): outer-leaflet heads
@@ -1131,6 +1150,7 @@ visualizations:
   rendered: >-
     workspace/studies/og-self-compartmentation/viz/og-32b-fatty-acid-vesicle-stability/vesicle-3d.png
 - name: bilayer-3d-structure-static
+  display: supplement
   config:
     title: >-
       Phospholipid bilayer patch — Martini 3 CG-MD side view (static render): upper-leaflet heads (teal),
