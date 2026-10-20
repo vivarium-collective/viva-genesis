@@ -389,6 +389,11 @@ _save_viz('og-vent-environment', 'vent-environment-posterior', _render_one('loca
 # vent-reactor-timeseries
 _save_viz('og-vent-environment', 'vent-reactor-timeseries', _render_one('local:VentReactorTimeseries', {'composite': 'viva_genesis.composites.geochemical_world.geochemical_world', 'n_steps': 120, 'title': 'Geochemical world at the operating point (World view)'}, RUNS_DB, STUDY_YAML, overrides=(ov_viva_genesis_composites_geochemical_world_geochemical_world if 'ov_viva_genesis_composites_geochemical_world_geochemical_world' in dir() else None)))
 
+# **grid-convergence-control**
+
+# grid-convergence-control
+_save_viz('og-vent-environment', 'grid-convergence-control', _render_one('local:VentGridConvergenceViz', {'report_json': 'workspace/studies/og-vent-environment/artifacts/og-00-vent-reactor-baseline/grid_convergence_control.json', 'title': 'The vent reactor is grid-converged at nx=40, in the Lost City window'}, RUNS_DB, STUDY_YAML))
+
 # ### Acceptance criteria
 #
 # _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
