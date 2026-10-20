@@ -1258,12 +1258,12 @@ visualizations:
       workspace/studies/og-heredity/artifacts/og-06-chemistry-to-heredity/heredity_error_threshold_grid.json
     title: Heredity as an inherited lineage
 - name: heredity-error-threshold
+  display: primary
   address: local:HeredityErrorThresholdViz
   config:
     composite: viva_genesis.composites.heredity_module_comparison.heredity_module_comparison
-    title: Heredity above the error threshold
+    title: The error threshold — inherited-state retention vs lineage fitness (Decision view)
 - name: heredity-information-frontier
-  display: primary
   address: local:HeredityInformationFrontier
   config:
     title: >-

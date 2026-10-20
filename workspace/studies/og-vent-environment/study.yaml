@@ -983,7 +983,15 @@ runs:
         citation: null
       auto_evaluated: true
 visualizations:
+- name: vent-habitability-map
+  display: primary
+  address: local:VentHabitabilityMap
+  config:
+    grid_json: >-
+      workspace/studies/og-vent-environment/artifacts/og-00-vent-reactor-baseline/vent_habitability_grid.json
+    title: The Lost City habitability window (Decision view)
 - name: vent-cross-section
+  display: mechanism
   address: local:VentCrossSection
   config:
     composite: viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor
@@ -991,25 +999,21 @@ visualizations:
     title: Real 2-D vent cross-section (FiPy)
     max_frames: 20
 - name: vent-reactor-timeseries
+  display: supporting
   address: local:VentReactorTimeseries
   config:
     composite: viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor
     n_steps: 120
-    title: Real vent reactor (PHREEQC + FiPy)
-- name: vent-serpentinization-engine
-  display: mechanism
-  address: local:VentSerpentinizationEngine
+    title: Real vent reactor (PHREEQC + FiPy) — diagnostic
+- name: vent-reactor-conservation-qa
+  display: qa
+  address: local:VentReactorConservationQA
   config:
+    composite: viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor
     n_steps: 120
-    nx: 40
-    title: The serpentinization engine (Mechanism view)
-- name: vent-habitability-map
-  address: local:VentHabitabilityMap
-  config:
-    grid_json: >-
-      workspace/studies/og-vent-environment/artifacts/og-00-vent-reactor-baseline/vent_habitability_grid.json
-    title: The Lost City habitability window (Decision view)
+    title: Vent reactor conservation (QA appendix)
 - name: vent-wall-3d
+  display: supporting
   address: local:VentChimney3D
   config:
     title: The vent wall in 3-D — the across-wall thermal gradient (World view)
