@@ -1,7 +1,7 @@
 {
   "mode": "snapshot",
   "smsApiBase": "",
-  "repo": "https://github.com/vivarium-collective/viva-genesis.git",
-  "commit": "881a54da6c85c5afa6f9d41d6b3d536bf1c39ca8",
+  "repo": "https://github.com/vivarium-collective/viva-genesis",
+  "commit": "4bf3f32019f569f65110927b60449b6d497cfa4a",
   "generated_from_ref": "main"
 }
