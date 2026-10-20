@@ -1,0 +1,262 @@
+{
+  "study": "og-nutrient-bottlenecks",
+  "sweep": "phosphorus availability \u2014 mineral-sink (loss_rate) \u00d7 concentration (pore_enrichment) \u00d7 temperature",
+  "axes": {
+    "loss_rate": [
+      0.02,
+      0.04,
+      0.08,
+      0.16,
+      0.32
+    ],
+    "pore_enrichment": [
+      1.0,
+      10.0,
+      30.0,
+      60.0,
+      100.0
+    ],
+    "temperature_K": [
+      313.15,
+      333.15,
+      353.15,
+      373.15
+    ]
+  },
+  "grid": [
+    {
+      "loss_rate": 0.02,
+      "pore_enrichment": 1.0,
+      "net_reactive_P": -3.683561620242684e-07,
+      "reactive_P": 6.322051387795862e-06,
+      "precipitated_fraction": 0.7044004409509843,
+      "p_mass_residual": 3.7900089425342565e-10
+    },
+    {
+      "loss_rate": 0.02,
+      "pore_enrichment": 10.0,
+      "net_reactive_P": 1.5681793997940944e-06,
+      "reactive_P": 8.554023867742338e-05,
+      "precipitated_fraction": 0.09994464299274443,
+      "p_mass_residual": 2.0718592579147942e-06
+    },
+    {
+      "loss_rate": 0.02,
+      "pore_enrichment": 30.0,
+      "net_reactive_P": 1.9420059976967382e-06,
+      "reactive_P": 9.805633189020343e-05,
+      "precipitated_fraction": 0.012706050871909354,
+      "p_mass_residual": 5.217561904985284e-07
+    },
+    {
+      "loss_rate": 0.02,
+      "pore_enrichment": 60.0,
+      "net_reactive_P": 1.9845977152686245e-06,
+      "reactive_P": 9.947359463612513e-05,
+      "precipitated_fraction": 0.003220980308990256,
+      "p_mass_residual": 5.1069863534489515e-08
+    },
+    {
+      "loss_rate": 0.02,
+      "pore_enrichment": 100.0,
+      "net_reactive_P": 1.9941136106576073e-06,
+      "reactive_P": 9.979379408716728e-05,
+      "precipitated_fraction": 0.0011631013494403696,
+      "p_mass_residual": 1.0592094872908814e-06
+    },
+    {
+      "loss_rate": 0.04,
+      "pore_enrichment": 1.0,
+      "net_reactive_P": -2.989998162130746e-07,
+      "reactive_P": 3.5077312822693006e-06,
+      "precipitated_fraction": 0.8811004806869156,
+      "p_mass_residual": 4.609087227549005e-09
+    },
+    {
+      "loss_rate": 0.04,
+      "pore_enrichment": 10.0,
+      "net_reactive_P": 1.3041359826795385e-06,
+      "reactive_P": 7.765257511910186e-05,
+      "precipitated_fraction": 0.18427687470141474,
+      "p_mass_residual": 2.05152128398829e-06
+    },
+    {
+      "loss_rate": 0.04,
+      "pore_enrichment": 30.0,
+      "net_reactive_P": 1.898907350121141e-06,
+      "reactive_P": 9.682399379359043e-05,
+      "precipitated_fraction": 0.025141832056190135,
+      "p_mass_residual": 5.200657370301332e-07
+    },
+    {
+      "loss_rate": 0.04,
+      "pore_enrichment": 60.0,
+      "net_reactive_P": 1.9733776280680055e-06,
+      "reactive_P": 9.915411918518319e-05,
+      "precipitated_fraction": 0.006424456846530393,
+      "p_mass_residual": 5.017939026536605e-08
+    },
+    {
+      "loss_rate": 0.04,
+      "pore_enrichment": 100.0,
+      "net_reactive_P": 1.9900381889486376e-06,
+      "reactive_P": 9.967785139209638e-05,
+      "precipitated_fraction": 0.0023239164020715224,
+      "p_mass_residual": 1.0588956180803116e-06
+    },
+    {
+      "loss_rate": 0.08,
+      "pore_enrichment": 1.0,
+      "net_reactive_P": -2.1537193532785544e-07,
+      "reactive_P": 1.6449986564919052e-06,
+      "precipitated_fraction": 0.955000432032361,
+      "p_mass_residual": 1.1061808207705331e-08
+    },
+    {
+      "loss_rate": 0.08,
+      "pore_enrichment": 10.0,
+      "net_reactive_P": 9.144180965077309e-07,
+      "reactive_P": 6.512375617852651e-05,
+      "precipitated_fraction": 0.3178429250177699,
+      "p_mass_residual": 7.82420055665551e-07
+    },
+    {
+      "loss_rate": 0.08,
+      "pore_enrichment": 30.0,
+      "net_reactive_P": 1.8161588185149041e-06,
+      "reactive_P": 9.443648463069708e-05,
+      "precipitated_fraction": 0.04923339875045144,
+      "p_mass_residual": 5.163220212164345e-07
+    },
+    {
+      "loss_rate": 0.08,
+      "pore_enrichment": 60.0,
+      "net_reactive_P": 1.9511701998746115e-06,
+      "reactive_P": 9.852035099574641e-05,
+      "precipitated_fraction": 0.012779415245402036,
+      "p_mass_residual": 4.840506671161503e-08
+    },
+    {
+      "loss_rate": 0.08,
+      "pore_enrichment": 100.0,
+      "net_reactive_P": 1.981918023871322e-06,
+      "reactive_P": 9.944664847696953e-05,
+      "precipitated_fraction": 0.00463871209642259,
+      "p_mass_residual": 1.0582527933925175e-06
+    },
+    {
+      "loss_rate": 0.16,
+      "pore_enrichment": 1.0,
+      "net_reactive_P": -2.0225157315977634e-07,
+      "reactive_P": 7.643233070233146e-07,
+      "precipitated_fraction": 0.9792959302319749,
+      "p_mass_residual": 4.791004561393447e-09
+    },
+    {
+      "loss_rate": 0.16,
+      "pore_enrichment": 10.0,
+      "net_reactive_P": 4.59919617097429e-07,
+      "reactive_P": 4.8421498529127094e-05,
+      "precipitated_fraction": 0.4950447006391537,
+      "p_mass_residual": 8.212173669764396e-07
+    },
+    {
+      "loss_rate": 0.16,
+      "pore_enrichment": 30.0,
+      "net_reactive_P": 1.6634131668593377e-06,
+      "reactive_P": 8.995030110291154e-05,
+      "precipitated_fraction": 0.09449729050342717,
+      "p_mass_residual": 5.09092109424571e-07
+    },
+    {
+      "loss_rate": 0.16,
+      "pore_enrichment": 60.0,
+      "net_reactive_P": 1.9076675743714975e-06,
+      "reactive_P": 9.727319152222304e-05,
+      "precipitated_fraction": 0.025284905693913843,
+      "p_mass_residual": 4.4882263866823785e-08
+    },
+    {
+      "loss_rate": 0.16,
+      "pore_enrichment": 100.0,
+      "net_reactive_P": 1.9657995040080593e-06,
+      "reactive_P": 9.898695550636171e-05,
+      "precipitated_fraction": 0.009241136498971394,
+      "p_mass_residual": 1.056925561611008e-06
+    },
+    {
+      "loss_rate": 0.32,
+      "pore_enrichment": 1.0,
+      "net_reactive_P": -2.006461116655211e-07,
+      "reactive_P": 3.6782239173109554e-07,
+      "precipitated_fraction": 0.9899238843461102,
+      "p_mass_residual": 6.071750361606038e-10
+    },
+    {
+      "loss_rate": 0.32,
+      "pore_enrichment": 10.0,
+      "net_reactive_P": 8.425879971753397e-08,
+      "reactive_P": 3.104327810664415e-05,
+      "precipitated_fraction": 0.6781323717991566,
+      "p_mass_residual": 1.89836882257227e-06
+    },
+    {
+      "loss_rate": 0.32,
+      "pore_enrichment": 30.0,
+      "net_reactive_P": 1.4017226714990047e-06,
+      "reactive_P": 8.19939438878186e-05,
+      "precipitated_fraction": 0.17475843500263682,
+      "p_mass_residual": 1.0250062734348808e-07
+    },
+    {
+      "loss_rate": 0.32,
+      "pore_enrichment": 60.0,
+      "net_reactive_P": 1.8241670054686247e-06,
+      "reactive_P": 9.485764738087488e-05,
+      "precipitated_fraction": 0.04950560875311153,
+      "p_mass_residual": 3.793402305598756e-08
+    },
+    {
+      "loss_rate": 0.32,
+      "pore_enrichment": 100.0,
+      "net_reactive_P": 1.934042587825808e-06,
+      "reactive_P": 9.807828665430024e-05,
+      "precipitated_fraction": 0.01833866291065966,
+      "p_mass_residual": 1.0541941892182067e-06
+    }
+  ],
+  "temperature_line": [
+    {
+      "temperature": 313.15,
+      "net_reactive_P": 1.7086430666241449e-06,
+      "reactive_P": 9.112686271251163e-05,
+      "precipitated_fraction": 0.07865005521970862,
+      "p_mass_residual": 1.320567606817851e-07
+    },
+    {
+      "temperature": 333.15,
+      "net_reactive_P": 1.8161588185149041e-06,
+      "reactive_P": 9.443648463069708e-05,
+      "precipitated_fraction": 0.04923339875045144,
+      "p_mass_residual": 5.163220212164345e-07
+    },
+    {
+      "temperature": 353.15,
+      "net_reactive_P": 1.8857181365573555e-06,
+      "reactive_P": 9.655515513858938e-05,
+      "precipitated_fraction": 0.03045324192685766,
+      "p_mass_residual": 5.287509357220985e-07
+    },
+    {
+      "temperature": 373.15,
+      "net_reactive_P": 1.9296257646693724e-06,
+      "reactive_P": 9.788384058951657e-05,
+      "precipitated_fraction": 0.01869534273705814,
+      "p_mass_residual": 5.13571224257511e-07
+    }
+  ],
+  "availability_region_fraction": 0.8,
+  "max_p_mass_residual": 2.0718592579147942e-06,
+  "pH_note": "pH is NOT a parameter of this P-speciation composite, so pH-sensitivity is not representable without a model change (flagged as owner future-work); the sweep covers the knobs the model actually has: mineral-sink loss_rate \u00d7 pore_enrichment \u00d7 temperature.",
+  "verdict": "reactive P is available (net production > 0) in 20/25 of the mineral-sink \u00d7 concentration grid; total-P conserved (max |residual| 2.07e-06)."
+}
