@@ -238,14 +238,21 @@ baseline:
     feed_CO2: 2.0e-3
     k_wash_eff: 0.05
 visualizations:
-- name: self-maintaining-closure-map
+- name: amphiphile-deficit
   display: primary
+  address: local:SelfMaintainingDeficitViz
+  config:
+    report_json: >-
+      workspace/studies/og-self-maintaining-individual/artifacts/og-self-maintaining-individual/self_maintaining.json
+    title: Endogenous self-maintenance does not close — the amphiphile deficit
+- name: self-maintaining-closure-map
+  display: supplement
   kind: plotly
   path: viz/og-self-maintaining-individual/self_maintaining.html
   description: >-
-    The reciprocal-maintenance result: the cascading precursor-pool → operating-window → self-maintenance concentration
-    gap (acetate vs CAC-clearance threshold) at the canonical point and og-operating-window's corner, and the closure
-    outcome across the three ablations and the built-in-gain comparison.
+    Supplementary detail behind the lead deficit figure: the cascading precursor-pool → operating-window →
+    self-maintenance concentration gap (acetate vs CAC-clearance threshold) at the canonical point and
+    og-operating-window's corner, and the closure outcome across the three ablations and the built-in-gain comparison.
 runs:
 - name: viva_genesis.composites.self_maintaining.og_self_maintaining_individual__1792447870__355c4e
   status: completed

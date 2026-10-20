@@ -3660,3 +3660,70 @@ class PhosphorusSensitivityViz(Visualization):
                 "representable here without a model change (flagged as future work); this is mineral-sink × "
                 "concentration (× temperature in the artifact), not a pH sweep. Deterministic ODE — no seeds, "
                 "no error bars."))}
+
+
+class SelfMaintainingDeficitViz(Visualization):
+    """og-self-maintaining-individual central negative result, read from ``report_json``
+    (self_maintaining.json). Quantifies how many orders the endogenously-produced
+    amphiphile pool falls short of its CAC across conditions — endogenous closure is
+    refuted; even the most generous arm is orders short, and the chemistry→membrane
+    ablation locates the broken edge."""
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "Endogenous self-maintenance does not close — the amphiphile deficit"},
+        "report_json": {"_type": "string", "_default": ""},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        import plotly.graph_objects as go
+        path = _resolve_grid_path(str(self.config.get("report_json", "") or ""))
+        if not path:
+            return {"html": S.frame("<p>No artifact found.</p>", title=self.config["title"])}
+        with open(path) as f:
+            blob = json.load(f)
+        conds = blob.get("conditions", {})
+
+        def od(key):
+            return (conds.get(key, {}) or {}).get("orders_short_of_cac")
+
+        # headline bars: the two corners × (no-gain, built-in-gain rescue control) + the broken-edge ablation
+        bars = [
+            ("canonical<br>no gain", od("canonical:full_no_gain"), _TEAL),
+            ("canonical<br>+built-in gain", od("canonical:full_built_in_gain"), _AMBER),
+            ("favourable corner<br>no gain", od("b_corner:full_no_gain"), _TEAL),
+            ("favourable corner<br>+built-in gain", od("b_corner:full_built_in_gain"), _AMBER),
+            ("chem→mem<br>ablated", od("canonical:ablate_chem_to_mem"), _RUST),
+        ]
+        bars = [(lbl, v, c) for lbl, v, c in bars if v is not None]
+        fig = go.Figure(go.Bar(
+            x=[b[0] for b in bars], y=[b[1] for b in bars], marker_color=[b[2] for b in bars],
+            text=[f"{b[1]:.1f}" for b in bars], textposition="outside"))
+        fig.add_hline(y=0.0, line=dict(color=_INK, width=2),
+                      annotation_text="CAC cleared → membrane can form (closure)", annotation_position="top left")
+        fig.update_yaxes(title_text="orders of magnitude the amphiphile pool is SHORT of CAC",
+                         showgrid=True, gridcolor="#eef2f7", rangemode="tozero")
+        fig.update_layout(**S.base_layout(height=450, showlegend=False, margin=dict(l=66, r=28, t=48, b=84)))
+        inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+        return {"html": S.frame(
+            inner, title=self.config["title"],
+            phase="Chemical individuality", view="Decisive result", tier="mechanistic_prediction",
+            caption_prefix="How to read", tone="caution",
+            caption_text=(
+                "The central negative result (verdict: refuted). Each bar is how many orders of magnitude the "
+                "amphiphile pool the chemistry ACTUALLY produces falls short of its critical aggregation "
+                "concentration — the y=0 line is where a membrane could form (closure). Endogenous closure fails "
+                "in EVERY condition: ~6.9 orders short at the canonical point, and even the most generous arm — "
+                "the favourable operating-window corner WITH a built-in production/retention gain (a rescue "
+                "control, not endogenous closure) — is still ~3 orders short and forms no real membrane "
+                "(retention is earned but membrane_real stays False; a 0.905 retention 'if earned' is the false "
+                "closure this study forbids). Ablating the chemistry→membrane edge drops the pool ~25.9 orders, "
+                "locating the broken edge: the chemistry simply does not deliver enough long-chain amphiphile. "
+                "Real AmphiphileChainExtensionProcess output, external feeds held equal across arms; endogenous "
+                "chemistry→membrane self-maintenance is not demonstrated (the broader individuality-emergence "
+                "question stays open)."))}
