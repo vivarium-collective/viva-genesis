@@ -3127,6 +3127,11 @@ else:
 #
 # _Results are shown by the figures below, produced by the run above._
 
+# **amphiphile-deficit**
+
+# amphiphile-deficit
+_save_viz('og-self-maintaining-individual', 'amphiphile-deficit', _render_one('local:SelfMaintainingDeficitViz', {'report_json': 'workspace/studies/og-self-maintaining-individual/artifacts/og-self-maintaining-individual/self_maintaining.json', 'title': 'Endogenous self-maintenance does not close — the amphiphile deficit'}, RUNS_DB, STUDY_YAML))
+
 # **self-maintaining-closure-map**
 
 # self-maintaining-closure-map
