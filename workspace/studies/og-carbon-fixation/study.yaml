@@ -1172,6 +1172,13 @@ visualizations:
     report_json: >-
       workspace/studies/og-carbon-fixation/artifacts/og-01-geology-to-reduced-carbon/carbon_massbalance_control.json
     title: Yields reproduce Preiner/Hudson (catalyst-gated); the gradient bites the pmf
+- name: carbonfix-pde
+  display: mechanism
+  address: local:CarbonFixationPdeFieldViz
+  config:
+    report_json: >-
+      workspace/studies/og-carbon-fixation/artifacts/og-01-cal-electrochemistry/carbonfix_pde_fields.json
+    title: Reaction–diffusion at the vent-wall carbon-fixation interface
 baseline:
 - name: Hydrothermal carbon fixation — favorable, canonical (og-01)
   composite: viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation
