@@ -15,7 +15,8 @@ import numpy as np
 from process_bigraph.visualization import Visualization
 
 from . import viz_style as S
-from .viz_style import INK as _INK, TEAL as _TEAL, AMBER as _AMBER, SLATE as _SLATE, RUST as _RUST
+from .viz_style import (INK as _INK, TEAL as _TEAL, AMBER as _AMBER, SLATE as _SLATE,
+                        RUST as _RUST, VIOLET as _VIOLET)
 
 
 def sweep_to_json(res) -> str:
@@ -3929,3 +3930,190 @@ class HereditySensitivityViz(Visualization):
                 "LOWERS the correlation (heritable variance is eroded faster as the population converges — a "
                 "bounded fixed-trait response, not open-ended), and larger populations tighten the bands "
                 "(finite-population noise). Real HeredityPopulationProcess; sigma declared, feeds held equal."))}
+
+
+class NetworkRescueFieldViz(Visualization):
+    """og-network-rescue (Gate B) Tier-1 spatial-field figure, read from
+    ``report_json`` (networkrescue_fields.json). Pure JSON reader — NO solver at
+    render time. Four panels of REAL computed fields: (1) the FiPy accumulation-
+    column concentration field c(z) in the concentrating pore vs the matched well-
+    mixed/open control, with the ignition-front and connectivity-front contours;
+    (2) the local reaction-rate field (the real libRoadRunner reaction universe
+    evaluated at the local concentration), pore vs control, with the ignition
+    threshold; (3) the synchronized whole-pore net-carbon-flux trajectories; (4)
+    the trap mesh-convergence check. Spatial concentration is the causal difference
+    that ignites the network where the dead well-mixed control stays dark."""
+
+    config_schema = {
+        "title": {"_type": "string",
+                  "_default": "Spatial concentration ignites the network — pore field vs dead well-mixed control"},
+        "report_json": {"_type": "string", "_default": ""},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        import numpy as np
+        import plotly.graph_objects as go
+        from plotly.subplots import make_subplots
+
+        path = _resolve_grid_path(str(self.config.get("report_json", "") or ""))
+        if not path:
+            return {"html": S.frame("<p>No field artifact found.</p>", title=self.config["title"])}
+        with open(path) as f:
+            blob = json.load(f)
+
+        field = blob["field"]
+        rate = blob["rate_field"]
+        thr = blob["threshold"]
+        integ = blob["integral"]
+        tblock = blob["time"]
+        mesh = blob["mesh_convergence"]
+        summ = blob["summary"]
+
+        pf, cf = field["pore"], field["control"]
+        z_field = np.asarray(pf["z_mm"], float)
+        # connectivity front: shallowest z (highest in column) still network_connected=1
+        rz = np.asarray(rate["z_mm"], float)
+        conn = np.asarray(rate["pore"]["network_connected"], float)
+        conn_front = float(rz[conn > 0.5].max()) if (conn > 0.5).any() else None
+        ign_front = thr.get("pore_z_cross_mm")
+
+        fig = make_subplots(
+            rows=2, cols=2, horizontal_spacing=0.14, vertical_spacing=0.14,
+            subplot_titles=(
+                "1 · Concentration field c(z) — FiPy accumulation column",
+                "2 · Local reaction-rate field (net carbon flux)",
+                "3 · Synchronized whole-pore flux(t)",
+                "4 · Trap mesh-convergence check"),
+        )
+
+        # --- Panel 1: concentration field, two columns (control | pore) --------- #
+        zmax = max(max(pf["conc_rel"]), max(cf["conc_rel"]))
+        Z = np.column_stack([np.asarray(cf["conc_rel"], float),
+                             np.asarray(pf["conc_rel"], float)])   # [z, arm]
+        fig.add_trace(go.Heatmap(
+            z=Z, x=["well-mixed<br>control", "concentrating<br>pore"], y=z_field,
+            colorscale="YlOrRd", zmin=1.0, zmax=zmax,
+            colorbar=dict(title="c(z)/c_top<br>(×)", len=0.42, y=0.79, x=0.455, thickness=12),
+            hovertemplate="%{x}<br>z=%{y:.2f} mm<br>enrichment=%{z:.3g}×<extra></extra>"),
+            row=1, col=1)
+        # ignition-front (net-flux) + connectivity-front contours on the pore column
+        if ign_front is not None:
+            fig.add_trace(go.Scatter(
+                x=["concentrating<br>pore"], y=[ign_front], mode="markers+text",
+                marker=dict(symbol="triangle-left", size=13, color=_INK),
+                text=["ignition front (flux>1e-6)"], textposition="middle left",
+                textfont=dict(size=9, color=_INK), showlegend=False,
+                hovertext=f"ignition front z={ign_front:.2f} mm"), row=1, col=1)
+        if conn_front is not None:
+            fig.add_trace(go.Scatter(
+                x=["concentrating<br>pore"], y=[conn_front], mode="markers+text",
+                marker=dict(symbol="triangle-left", size=13, color=_VIOLET),
+                text=["connectivity front (brittle)"], textposition="middle left",
+                textfont=dict(size=9, color=_VIOLET), showlegend=False,
+                hovertext=f"network_connected front z={conn_front:.2f} mm"), row=1, col=1)
+        fig.update_yaxes(title_text="z (mm): base → feed/top", autorange="reversed", row=1, col=1)
+
+        # --- Panel 2: local reaction-rate field (flux vs z), pore vs control ---- #
+        floor = 1e-10
+        pore_flux = np.clip(np.asarray(rate["pore"]["net_carbon_flux"], float), floor, None)
+        ctrl_flux = np.clip(np.abs(np.asarray(rate["control"]["net_carbon_flux"], float)), floor, None)
+        fig.add_trace(go.Scatter(
+            x=pore_flux, y=rz, mode="lines+markers", name="concentrating pore",
+            line=dict(color=_RUST, width=2.4),
+            marker=dict(size=7, color=[_RUST if c > 0.5 else "#f1a9a0" for c in conn],
+                        line=dict(width=1, color=_RUST)),
+            hovertemplate="z=%{y:.2f} mm<br>flux=%{x:.3g}<extra>pore</extra>"), row=1, col=2)
+        fig.add_trace(go.Scatter(
+            x=ctrl_flux, y=rz, mode="lines+markers", name="well-mixed control",
+            line=dict(color=_SLATE, width=2.0, dash="dash"), marker=dict(size=5, color=_SLATE),
+            hovertemplate="z=%{y:.2f} mm<br>|flux|=%{x:.3g}<extra>control</extra>"), row=1, col=2)
+        fig.add_vline(x=thr["ignition_flux"], line=dict(color=_INK, width=1.3, dash="dot"), row=1, col=2)
+        fig.add_annotation(x=np.log10(thr["ignition_flux"]), y=rz.max(), xref="x2", yref="y2",
+                           text="ignition<br>1e-6", showarrow=False, font=dict(size=9, color=_INK),
+                           xanchor="left", yanchor="top")
+        fig.update_xaxes(type="log", title_text="net carbon flux (mol/s, log)", row=1, col=2)
+        fig.update_yaxes(title_text="z (mm): base → top", autorange="reversed", row=1, col=2)
+
+        # --- Panel 3: synchronized whole-pore flux(t) --------------------------- #
+        step = np.asarray(tblock["step"], float)
+        pt = np.asarray(tblock["pore_flux_t"], float)
+        ct = np.asarray(tblock["control_flux_t"], float)
+        fig.add_trace(go.Scatter(x=step, y=pt, mode="lines", name="pore flux(t)",
+                                 line=dict(color=_RUST, width=2.4), showlegend=False,
+                                 hovertemplate="step %{x:.0f}<br>flux=%{y:.3g}<extra>pore</extra>"),
+                      row=2, col=1)
+        fig.add_trace(go.Scatter(x=step, y=ct, mode="lines", name="control flux(t)",
+                                 line=dict(color=_SLATE, width=2.0, dash="dash"), showlegend=False,
+                                 hovertemplate="step %{x:.0f}<br>flux=%{y:.3g}<extra>control</extra>"),
+                      row=2, col=1)
+        fig.add_hline(y=0.0, line=dict(color=_SLATE, width=1.0), row=2, col=1)
+        fig.update_xaxes(title_text="step (synchronized time points)", row=2, col=1)
+        fig.update_yaxes(title_text="net carbon flux (mol/s)", row=2, col=1,
+                         showgrid=True, gridcolor="#eef2f7")
+
+        # --- Panel 4: trap mesh-convergence ------------------------------------- #
+        nz = np.asarray(mesh["nz"], float)
+        resid = np.clip(np.asarray(mesh["flux_divergence_residual"], float), 1e-18, None)
+        relenr = np.clip(np.asarray(mesh["enrichment_rel_to_finest"], float), 1e-18, None)
+        fig.add_trace(go.Scatter(x=nz, y=relenr, mode="lines+markers", name="|Δ enrichment|",
+                                 line=dict(color=_TEAL, width=2.2),
+                                 hovertemplate="nz=%{x:.0f}<br>|Δ|=%{y:.2g}<extra>enrichment</extra>"),
+                      row=2, col=2)
+        fig.add_trace(go.Scatter(x=nz, y=resid, mode="lines+markers", name="FVM residual",
+                                 line=dict(color=_AMBER, width=2.2),
+                                 hovertemplate="nz=%{x:.0f}<br>residual=%{y:.2g}<extra>FVM</extra>"),
+                      row=2, col=2)
+        fig.add_hline(y=0.01, line=dict(color=_SLATE, width=1.1, dash="dot"), row=2, col=2)
+        fig.update_xaxes(title_text="mesh resolution nz", type="log", row=2, col=2)
+        fig.update_yaxes(title_text="relative / residual (log)", type="log", row=2, col=2,
+                         showgrid=True, gridcolor="#eef2f7")
+
+        fig.update_layout(**S.base_layout(
+            height=820, showlegend=True,
+            legend=dict(orientation="h", y=-0.08, x=0.5, xanchor="center", font=dict(size=10)),
+            margin=dict(l=66, r=28, t=56, b=70)))
+        for ann in fig.layout.annotations[:4]:
+            ann.font.size = 12
+        inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+
+        enr = summ["pore"]["enrichment"]
+        pflux = summ["pore"]["net_carbon_flux"]
+        cflux = summ["control"]["net_carbon_flux"]
+        pint = integ["pore_total_net_carbon"]
+        cint = integ["control_total_net_carbon"]
+        resid_max = max(mesh["flux_divergence_residual"])
+        cap = (
+            "Real computed fields from the og-30 spatially-integrated-protometabolism composite "
+            "(FiPy thermophoretic trap + libRoadRunner reaction universe); NO fabricated arrays, no solver "
+            "at render. The ONLY difference between the two arms is spatial concentration — the base CO₂/H₂ "
+            f"feed is held EQUAL ({summ['feeds_held_equal_base']:g} M). "
+            "Panel 1: the genuine FiPy accumulation-column solve gives the concentration field c(z) along a "
+            f"5 mm pore — the concentrating pore (porosity {blob['meta']['porosity_pore']}) climbs to "
+            f"~{enr:.1f}× at the trapped base while the matched well-mixed / open-pore control stays flat (~1×, "
+            "confinement set to epsilon 1e-9, not 0.0 — avoiding the pbg is_empty backfill). Black triangle = the "
+            "net-flux ignition front (flux>1e-6); violet triangle = the network_connected front, which sits "
+            "higher and is the study's acknowledged BRITTLE connectivity proxy near threshold. Panel 2: the local "
+            "reaction-rate field — the real reaction universe evaluated at the local concentration c(z) (a local-"
+            f"equilibrium reaction-rate map) — ignites along most of the pore (net flux up to {pflux:.2g} mol/s) "
+            f"while the control is dead everywhere (flux {cflux:.2g}, below the dotted 1e-6 line). Panel 3: the "
+            "synchronized whole-pore flux(t) over the 120-step run — the pore rises to a sustained productive flux, "
+            f"the control never leaves zero. Spatially integrated net carbon production: pore {pint:.2g} vs control "
+            f"{cint:.2g} mol/s·m. Panel 4: the trap solve is mesh-converged — the enrichment is identical across "
+            f"nz=20–320 (|Δ| well under the 1% line) and the FVM balance residual stays at machine epsilon "
+            f"(max |residual| ~{resid_max:.1g}), the spatial-flux-conservation witness. Framing: this is "
+            "persistence/ignition driven by localization at vent-realistic feeds, NOT autocatalytic self-"
+            "amplification; benefit is a bounded porosity window, and connectivity is brittle near threshold "
+            "(gate/verdict unchanged). REQUESTED FUTURE SIMULATION (not computed, never fabricated): a fully "
+            "space-resolved 2-D/3-D TRANSIENT reaction-diffusion solve with the reaction terms coupled inside the "
+            "PDE and time-lapse 2-D field snapshots — the trap here is 1-D steady and the network is well-mixed "
+            "0-D sampled along the solved field.")
+        return {"html": S.frame(
+            inner, title=self.config["title"],
+            phase="Spatial organization", view="Mechanism", tier="mechanistic_prediction",
+            caption_prefix="How to read", tone="neutral", caption_text=cap, max_width=1100)}
