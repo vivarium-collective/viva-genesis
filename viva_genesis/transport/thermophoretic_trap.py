@@ -34,6 +34,8 @@ import math
 
 from process_bigraph import Process
 
+from bigraph_schema.contract import ProcessContract, narrow_condition
+
 _K = {"_type": "float", "_units": "kelvin"}
 _MPS = {"_type": "float", "_units": "meter/second"}
 _DIMLESS = {"_type": "float", "_units": "dimensionless"}
@@ -49,7 +51,7 @@ class ThermophoreticTrapProcess(Process):
     enrichment factor (read from the solved profile), the residence time and the
     FVM balance residual (overwrite sensors — the current state of the trap)."""
 
-    contract = {
+    contract = ProcessContract(**{
         "summary": "Real 1-D FiPy accumulation column for the Baaske thermal trap: thermophoresis + convection concentrate a dilute feed, enrichment exponential in pore length.",
         "description": (
             "Derives the accumulation velocity from the pore's thermophoretic (Soret) and "
@@ -87,7 +89,18 @@ class ThermophoreticTrapProcess(Process):
             "D": "solute diffusivity (m^2/s)", "beta": "accumulation rate (1/m)", "geom": "trap-efficiency calibration",
         },
         "references": ["baaske2007extreme", "mast2010thermal", "schwander2023serpentinization"],
-    }
+    })
+    # Validity conditions, checked against the auto-filled face (from interface())
+    # at resolve time. The face carries the units: temperature in K, flow_velocity
+    # in meter/second, residence_time in second, the rest dimensionless.
+    contract = narrow_condition(contract, "pre", "inputs.temperature > 0",
+                                name="positive absolute temperature")
+    contract = narrow_condition(contract, "pre", "inputs.porosity >= 0",
+                                name="non-negative porosity")
+    contract = narrow_condition(contract, "post", "outputs.residence_time >= 0",
+                                name="non-negative residence time")
+    contract = narrow_condition(contract, "post", "outputs.enrichment_factor >= 0",
+                                name="non-negative enrichment factor")
 
     config_schema = {
         "nz": {"_type": "integer", "_default": 80},

@@ -14,6 +14,8 @@ import math
 
 from process_bigraph import Process
 
+from bigraph_schema.contract import ProcessContract, narrow_condition
+
 _K = {"_type": "float", "_units": "kelvin"}
 _W = {"_type": "float", "_units": "watt"}
 _MOLAR = {"_type": "float", "_units": "molar"}
@@ -29,7 +31,7 @@ class VentReactorReproductionProcess(Process):
     additively and a sibling process could also contribute).
     """
 
-    contract = {
+    contract = ProcessContract(**{
         "summary": "Reduced vent-ocean mixing reactor (clean-room stand-in, NOT FiPy): relaxes T / pH / porosity toward Lost City-like field targets.",
         "description": (
             "Deliberately reduced well-mixed reactor reproduction for Campaign 0 - the real model is "
@@ -66,7 +68,18 @@ class VentReactorReproductionProcess(Process):
             "porosity_target": "precipitation-set porosity", "k_porosity": "porosity relaxation rate",
         },
         "references": ["kelley2001offaxis", "ludwig2006formation"],
-    }
+    })
+    # Validity preconditions, checked against the auto-filled face (interface())
+    # at resolve time. The face carries the units: temperature K, H2/alkalinity
+    # molar, heat W, pH/porosity dimensionless.
+    contract = narrow_condition(contract, "pre", "inputs.temperature > 0",
+                                name="positive absolute temperature")
+    contract = narrow_condition(contract, "pre", "inputs.porosity >= 0",
+                                name="non-negative porosity")
+    contract = narrow_condition(contract, "pre", "inputs.H2 >= 0",
+                                name="non-negative H2 concentration")
+    contract = narrow_condition(contract, "pre", "inputs.alkalinity >= 0",
+                                name="non-negative alkalinity")
 
     config_schema = {
         "t_target": {"_type": "float", "_default": 340.0},    # K (~67 C), Lost City mid-window
