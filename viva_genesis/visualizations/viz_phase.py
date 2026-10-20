@@ -3866,3 +3866,66 @@ class PrecursorPoolLedgerViz(Visualization):
                 "usable C2+ pool; the C–C condensation/concentration step is the unresolved bottleneck "
                 "(verdict: qualified). The thermodynamic C2+ ceiling is extrapolated from one water-activity "
                 "point — an acknowledged bound."))}
+
+
+class HereditySensitivityViz(Visualization):
+    """og-evolvable-lineages heredity sensitivity, read from ``report_json``
+    (heredity_sensitivity.json). Parent-offspring fitness correlation vs selection
+    strength × population size, with replicate-seed uncertainty bands, against the
+    no-inheritance (shuffle) null."""
+
+    config_schema = {
+        "title": {"_type": "string", "_default": "Selectable heredity is robust across selection × population size (replicate bands)"},
+        "report_json": {"_type": "string", "_default": ""},
+    }
+
+    def inputs(self):
+        return {}
+
+    def outputs(self):
+        return {"html": "string"}
+
+    def update(self, state=None):
+        import plotly.graph_objects as go
+        path = _resolve_grid_path(str(self.config.get("report_json", "") or ""))
+        if not path:
+            return {"html": S.frame("<p>No sweep artifact found.</p>", title=self.config["title"])}
+        with open(path) as f:
+            blob = json.load(f)
+        grid = blob["grid"]
+        pops = sorted({g["n_pop"] for g in grid})
+        sels = sorted({g["fitness_exponent"] for g in grid})
+        palette = [_TEAL, _AMBER, _SLATE, _RUST]
+        fig = go.Figure()
+        for i, npop in enumerate(pops):
+            rows = sorted((g for g in grid if g["n_pop"] == npop), key=lambda g: g["fitness_exponent"])
+            fig.add_trace(go.Scatter(
+                x=[r["fitness_exponent"] for r in rows], y=[r["mean"] for r in rows],
+                error_y=dict(type="data", array=[r["std"] for r in rows], visible=True),
+                mode="lines+markers", name=f"n_pop={npop}",
+                line=dict(color=palette[i % len(palette)], width=2.2)))
+        null = blob.get("no_inheritance_null") or {}
+        if null:
+            nm, ns = null.get("mean", 0.0), null.get("std", 0.0)
+            fig.add_hrect(y0=nm - ns, y1=nm + ns, fillcolor="rgba(185,28,28,0.10)", line_width=0)
+            fig.add_hline(y=nm, line=dict(color=_RUST, width=1.6, dash="dash"),
+                          annotation_text=f"no-inheritance (shuffle) null {nm:.2f}±{ns:.2f}", annotation_position="bottom left")
+        fig.update_xaxes(title_text="selection strength (fitness_exponent)", tickvals=sels)
+        fig.update_yaxes(title_text="parent–offspring fitness correlation", range=[-0.2, 1.05],
+                         showgrid=True, gridcolor="#eef2f7")
+        fig.update_layout(**S.base_layout(height=440, legend=dict(orientation="h", y=-0.2, x=0.0),
+                                          margin=dict(l=64, r=28, t=48, b=64)))
+        inner = fig.to_html(full_html=False, include_plotlyjs="cdn", config={"displayModeBar": False})
+        return {"html": S.frame(
+            inner, title=self.config["title"],
+            phase="Heredity", view="Sensitivity", tier="mechanistic_prediction",
+            caption_prefix="How to read", tone="neutral",
+            caption_text=(
+                "Parent–offspring fitness correlation (the selectable-heredity readout) vs selection strength, "
+                "one line per population size, error bars = ±1 std over 8 replicate seeds (Wright-Fisher is "
+                "stochastic). Inherited composition produces a strong, selectable correlation (~0.85–0.96) across "
+                "the whole grid, far above the no-inheritance SHUFFLE null (red, ~0) where daughters are reset to "
+                "the common composition — so the signal is inheritance, not drift. Stronger selection modestly "
+                "LOWERS the correlation (heritable variance is eroded faster as the population converges — a "
+                "bounded fixed-trait response, not open-ended), and larger populations tighten the bands "
+                "(finite-population noise). Real HeredityPopulationProcess; sigma declared, feeds held equal."))}
