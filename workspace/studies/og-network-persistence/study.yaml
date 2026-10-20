@@ -1230,6 +1230,13 @@ visualizations:
     composite: viva_genesis.composites.protometabolism.protometabolic_network
     n_steps: 60
     title: The protometabolic network — flux-weighted topology
+- name: sustained-throughput-control
+  display: mechanism
+  address: local:NetworkControlViz
+  config:
+    report_json: >-
+      workspace/studies/og-network-persistence/artifacts/og-02-reduced-carbon-to-protometabolism/network_controls.json
+    title: Sustained throughput requires feed + catalyst (matched nulls)
 baseline:
 - name: Curated minimal carbon-fixing network — canonical (og-02)
   composite: viva_genesis.composites.open_chemical_network.open_chemical_network
