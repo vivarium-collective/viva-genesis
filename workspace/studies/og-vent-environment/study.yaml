@@ -13,18 +13,9 @@ primary_limitation: "The Lost City window holds over ~80% of the grid, but calib
 key_assumptions:
 - "The vent is a serpentinizing peridotite (olivine+pyroxene) endmember (Ca buffers the fluid to pH ~9.5)"
 - "Habitability is a bounded olivine-rate x flow-velocity region, not one tuned run"
-- "The posterior is conditioned on the Lost City T/pH/H2 field windows — a CONDITIONAL SELECTION of the
-  sampled domain, NOT a new experimental validation of viability (so the posterior figure is demoted from the
-  lead to a mechanism view; the habitability map leads)"
-- "FUTURE SIMULATION (requested, not yet built): an early/intermediate/steady PDE cross-section montage of
-  T/pH/H2/DIC with velocity-vector and flux overlays + a matched open-flow control. The existing VentCrossSection
-  already renders the real settled 2-D field; the time-resolved+control enhancement is blocked on a PHREEQC
-  solver-robustness fix (the LLNL database errors 'Temperature out of range' on the repeated transient
-  extraction; needs a wider-range DB or a transient temperature clamp) — flagged, not chased now"
-- "Grid-convergence control: outlet observables (T, pH, H2) converge to <1% of the finest mesh (nx=160) by
-  nx=40 - the study's resolution is resolved, not under-meshed - with PHREEQC charge balance exact (|imbalance|
-  0) across nx {20,40,80,120,160}, and the converged outlet (T ~50 C, mineral-buffered pH ~9.4, positive H2)
-  inside the Lost City literature windows (Kelley/Proskurowski/Seyfried)."
+- "The posterior is conditioned on the Lost City T/pH/H2 field windows — a CONDITIONAL SELECTION of the sampled domain, NOT a new experimental validation of viability (so the posterior figure is demoted from the lead to a mechanism view; the habitability map leads)"
+- "FUTURE SIMULATION (requested, not yet built): an early/intermediate/steady PDE cross-section montage of T/pH/H2/DIC with velocity-vector and flux overlays + a matched open-flow control. The existing VentCrossSection already renders the real settled 2-D field; the time-resolved+control enhancement is blocked on a PHREEQC solver-robustness fix (the LLNL database errors 'Temperature out of range' on the repeated transient extraction; needs a wider-range DB or a transient temperature clamp) — flagged, not chased now"
+- "Grid-convergence control: outlet observables (T, pH, H2) converge to <1% of the finest mesh (nx=160) by nx=40 - the study's resolution is resolved, not under-meshed - with PHREEQC charge balance exact (|imbalance| 0) across nx {20,40,80,120,160}, and the converged outlet (T ~50 C, mineral-buffered pH ~9.4, positive H2) inside the Lost City literature windows (Kelley/Proskurowski/Seyfried)."
 evidence_tier: mechanistic_prediction
 program: consolidated
 title: 'The Vent Environment: Does It Supply a Viable Feed?'
@@ -1050,15 +1041,6 @@ visualizations:
     report_json: >-
       workspace/studies/og-vent-environment/artifacts/og-00-vent-reactor-baseline/grid_convergence_control.json
     title: The vent reactor is grid-converged at nx=40, in the Lost City window
-baseline:
-- name: Serpentinizing vent reactor baseline (og-00 arm)
-  composite: viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor
-  params: {}
-  planned: false
-- name: Geochemical world at the vent-calibration operating point (og-cal arm)
-  composite: viva_genesis.composites.geochemical_world.geochemical_world
-  params: {}
-  planned: false
 parent_studies: []
 parent_relations: []
 split_note: >-
@@ -1067,3 +1049,14 @@ split_note: >-
   carries an independent primary verdict: the calibrated feasible states are supported here, while whether the
   evolving interface sustains delivery over time is the (qualified, partly-scaffolded) verdict of og-vent-interface.
   The og-27 arm, its findings/viz and plan_id 27 move there. Every arm verdict, matched null and finding preserved.
+conditions:
+  baseline:
+  - name: Serpentinizing vent reactor baseline (og-00 arm)
+    composite: viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor
+    params: {}
+    planned: false
+  - name: Geochemical world at the vent-calibration operating point (og-cal arm)
+    composite: viva_genesis.composites.geochemical_world.geochemical_world
+    params: {}
+    planned: false
+  model_settings: []

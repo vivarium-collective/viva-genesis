@@ -1157,31 +1157,6 @@ visualizations:
       lower-leaflet heads (amber), tails forming the hydrophobic core. Print-friendly companion for the PDF.
   rendered: >-
     workspace/studies/og-self-compartmentation/viz/og-32-first-self-maintaining-protocell/bilayer-3d.png
-baseline:
-- name: >-
-    First self-maintaining protocell (integrated, MD-informed) — canonical keystone arm (og-32)
-  composite: >-
-    viva_genesis.composites.og_32_first_self_maintaining_protocell.og_32_first_self_maintaining_protocell
-  params: {}
-  canonical: true
-  planned: false
-- name: Gate-C membrane benefit vs matched equal-feed null — og-31 arm
-  composite: viva_genesis.composites.og_31_membrane_benefit.og_31_membrane_benefit
-  params: {}
-  planned: false
-- name: Mixed-amphiphile boundary assembly — og-04 foundation arm
-  composite: viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell
-  params: {}
-  planned: false
-- name: Endogenous boundary from the system's own chemistry — og-04-alt arm
-  composite: viva_genesis.composites.og_17_amphiphile_chain_extension.og_17_amphiphile_chain_extension
-  params: {}
-  planned: false
-- name: Real fatty-acid vesicle Martini MD (protonated vs charged null) — og-32b live-MD arm
-  composite: >-
-    viva_genesis.composites.og_32_first_self_maintaining_protocell.og_32_first_self_maintaining_protocell
-  params: {}
-  planned: false
 parent_studies:
 - study: og-network-rescue
   condition: tests-passed
@@ -1201,3 +1176,30 @@ consolidation_note: >-
   as is the per-driver membrane-MD sharpening. Numeric builds_on uses plan 2 (og-network-persistence)
   for the reaction-network dependency (was 28) and plan 29 (og-autocatalysis-a2). The og-28 parent repoints
   to og-network-persistence when that consolidation (#6) lands.
+conditions:
+  baseline:
+  - name: >-
+      First self-maintaining protocell (integrated, MD-informed) — canonical keystone arm (og-32)
+    composite: >-
+      viva_genesis.composites.og_32_first_self_maintaining_protocell.og_32_first_self_maintaining_protocell
+    params: {}
+    canonical: true
+    planned: false
+  - name: Gate-C membrane benefit vs matched equal-feed null — og-31 arm
+    composite: viva_genesis.composites.og_31_membrane_benefit.og_31_membrane_benefit
+    params: {}
+    planned: false
+  - name: Mixed-amphiphile boundary assembly — og-04 foundation arm
+    composite: viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell
+    params: {}
+    planned: false
+  - name: Endogenous boundary from the system's own chemistry — og-04-alt arm
+    composite: viva_genesis.composites.og_17_amphiphile_chain_extension.og_17_amphiphile_chain_extension
+    params: {}
+    planned: false
+  - name: Real fatty-acid vesicle Martini MD (protonated vs charged null) — og-32b live-MD arm
+    composite: >-
+      viva_genesis.composites.og_32_first_self_maintaining_protocell.og_32_first_self_maintaining_protocell
+    params: {}
+    planned: false
+  model_settings: []

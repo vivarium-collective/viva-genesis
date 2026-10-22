@@ -661,21 +661,6 @@ visualizations:
   address: local:PhysicalReproductionViz
   config:
     title: A multi-generation lineage in the agents map
-baseline:
-- name: Chemically coupled growth and division — canonical arm (og-33)
-  composite: >-
-    viva_genesis.composites.og_33_chemically_coupled_growth_and_division.og_33_chemically_coupled_growth_and_division
-  params: {}
-  canonical: true
-  planned: false
-- name: Growth->division fate (vs no-throughput ablation) — og-growth-division arm
-  composite: viva_genesis.composites.osmotic_growth_division.osmotic_growth_division
-  params: {}
-  planned: false
-- name: Physical reproduction to a multi-generation lineage — og-growth-alt arm
-  composite: viva_genesis.composites.physical_reproduction.physical_reproduction
-  params: {}
-  planned: false
 parent_studies:
 - study: og-self-compartmentation
   condition: tests-passed
@@ -686,3 +671,20 @@ consolidation_note: >-
   + viz moved under {artifacts,viz}/<source-slug>/. builds_on [32] = og-self-compartmentation (og-33 built
   on og-31+og-32, both folded there); handoff emits to:34 = og-heredity (which adopted plan_id 34). The
   og-33 slug ref in og-heredity's parent_studies is repointed to og-reproduction.
+conditions:
+  baseline:
+  - name: Chemically coupled growth and division — canonical arm (og-33)
+    composite: >-
+      viva_genesis.composites.og_33_chemically_coupled_growth_and_division.og_33_chemically_coupled_growth_and_division
+    params: {}
+    canonical: true
+    planned: false
+  - name: Growth->division fate (vs no-throughput ablation) — og-growth-division arm
+    composite: viva_genesis.composites.osmotic_growth_division.osmotic_growth_division
+    params: {}
+    planned: false
+  - name: Physical reproduction to a multi-generation lineage — og-growth-alt arm
+    composite: viva_genesis.composites.physical_reproduction.physical_reproduction
+    params: {}
+    planned: false
+  model_settings: []

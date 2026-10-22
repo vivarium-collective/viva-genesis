@@ -235,20 +235,6 @@ visualizations:
       workspace/studies/og-evolvability/artifacts/og-34-chemical-heredity-and-selection/gate_d_heredity.json
   rendered: >-
     workspace/studies/og-evolvability/viz/og-34-chemical-heredity-and-selection/chemical-heredity-selection.html
-baseline:
-- name: Chemical heredity & selection — inheritance arm (canonical, og-34)
-  composite: >-
-    viva_genesis.composites.og_34_chemical_heredity_and_selection.og_34_chemical_heredity_and_selection
-  params:
-    inheritance: true
-  canonical: true
-  planned: false
-- name: No-inheritance matched null (og-34)
-  composite: >-
-    viva_genesis.composites.og_34_chemical_heredity_and_selection.og_34_chemical_heredity_and_selection
-  params:
-    inheritance: false
-  planned: false
 parent_studies:
 - study: og-heredity
   condition: tests-passed
@@ -264,3 +250,19 @@ split_note: >-
   Gate D) with its runs/findings/viz moved here; adopts plan_id 34 so the numeric handoff/builds_on refs from
   studies 35/36/37 (and the receive from 33) resolve here. The chemical-INHERITANCE half stays in og-heredity
   (supported). Every arm verdict, matched null and finding preserved.
+conditions:
+  baseline:
+  - name: Chemical heredity & selection — inheritance arm (canonical, og-34)
+    composite: >-
+      viva_genesis.composites.og_34_chemical_heredity_and_selection.og_34_chemical_heredity_and_selection
+    params:
+      inheritance: true
+    canonical: true
+    planned: false
+  - name: No-inheritance matched null (og-34)
+    composite: >-
+      viva_genesis.composites.og_34_chemical_heredity_and_selection.og_34_chemical_heredity_and_selection
+    params:
+      inheritance: false
+    planned: false
+  model_settings: []

@@ -41,22 +41,24 @@ first_cut_forthcoming: >-
   A lightweight amphiphile-insertion / area-growth MD on a preassembled vesicle (planned, not
   yet scaffolded or named). Soft forward-reference only; hardened later.
 extends: og-self-compartmentation (the mem-m1 amphiphile-assembly, mem-m2 permeability/retention, mem-m3 stability arms — folded there)
-baseline:
-- name: No-supply control (no amphiphile added)
-  planned: true
-  params: {supply: none}
-- name: Composition-matched supply
-  planned: true
-  params: {supply: composition_matched}
-- name: Multiple vesicle sizes
-  planned: true
-  params: {vesicle_size: [small, medium, large]}
-- name: Matched osmotic conditions
-  planned: true
-  params: {osmotic: matched}
 proposed_acceptance_criteria:
 - Insertion/area-growth/curvature are measured for supplied vs no-supply at identical feeds across vesicle sizes.
 - A division-propensity bound (toward or away from a division-competent geometry) is reported either way.
 - The result is reported as a propensity, explicitly NOT as evidence of heredity (og-33 metabolism-driven division and og-34 heredity remain the gate-earning lines).
 literature_anchors: [hanczyc2003experimental, budin2012concentration, marrink2003vesicle]
 visualizations: []
+conditions:
+  baseline:
+  - name: No-supply control (no amphiphile added)
+    planned: true
+    params: {supply: none}
+  - name: Composition-matched supply
+    planned: true
+    params: {supply: composition_matched}
+  - name: Multiple vesicle sizes
+    planned: true
+    params: {vesicle_size: [small, medium, large]}
+  - name: Matched osmotic conditions
+    planned: true
+    params: {osmotic: matched}
+  model_settings: []

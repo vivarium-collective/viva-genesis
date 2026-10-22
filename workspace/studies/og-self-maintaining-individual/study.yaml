@@ -229,14 +229,6 @@ findings:
     Each step narrows but does not close the gap: the thermodynamic ceiling (og-precursor-pool) -> narrow
     S_T-conditional enrichment (og-operating-window) -> still sub-CAC amphiphile synthesis (this study). The shortfall
     is the concrete, quantified open problem.
-baseline:
-- name: Self-maintaining individual — canonical reciprocal loop (the precursor pool, real synthesis, aggregation-gated membrane)
-  composite: viva_genesis.composites.self_maintaining.og_self_maintaining_individual
-  canonical: true
-  planned: false
-  params:
-    feed_CO2: 2.0e-3
-    k_wash_eff: 0.05
 visualizations:
 - name: amphiphile-deficit
   display: primary
@@ -276,20 +268,20 @@ runs:
         verdict: mismatch
         value: 0.0
         meter: 0.5
-        detail:
+        detail: null
         expected:
           kind: value
           value: 0.0
-          low:
-          high:
+          low: null
+          high: null
           op: '>'
           tol: 0.05
-          statement:
+          statement: null
         margin: 0.0
         severity: hard
-        units:
-        knob:
-        citation:
+        units: null
+        knob: null
+        citation: null
       auto_evaluated: true
     amphiphiles-aggregation-competent:
       result: FAIL
@@ -303,19 +295,19 @@ runs:
         verdict: mismatch
         value: 0.0
         meter: 0.0
-        detail:
+        detail: null
         expected:
           kind: value
           value: 1.0
-          low:
-          high:
+          low: null
+          high: null
           op: '>='
           tol: 0.05
-          statement:
+          statement: null
         margin: -1.0
         severity: hard
-        units:
-        knob:
+        units: null
+        knob: null
         citation: jordan2019promotion
       auto_evaluated: true
     reciprocal-maintenance-closes-endogenously:
@@ -324,3 +316,13 @@ runs:
       evaluated_by: code
       operator: cross_run
       detail: 'endogenous closure (no built-in gain): canonical closed=False (~6.9 orders short of CAC), operating-window corner closed=False (~4.1 orders short); all three ablations fail to close; with-gain closure is assumed-only (membrane_real=False)'
+conditions:
+  baseline:
+    name: Self-maintaining individual — canonical reciprocal loop (the precursor pool, real synthesis, aggregation-gated membrane)
+    composite: viva_genesis.composites.self_maintaining.og_self_maintaining_individual
+    canonical: true
+    planned: false
+    params:
+      feed_CO2: 2.0e-3
+      k_wash_eff: 0.05
+  model_settings: []

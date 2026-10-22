@@ -257,21 +257,6 @@ findings:
   explanation: >-
     Removing the pore gradient or the membrane each lowers the pool; both are necessary for the corner window, so the
     rescue is a genuinely joint pore+membrane effect, not either regime alone.
-baseline:
-- name: Operating window — canonical (the precursor pool, real pore + real membrane, defensible mid Soret)
-  composite: viva_genesis.composites.operating_window.og_operating_window
-  canonical: true
-  planned: false
-  params:
-    feed_CO2: 2.0e-3
-    delta_T: 30.0
-    soret_coeff: 5.0e-3
-    membrane: true
-- name: Transport-decoupled null — membrane off (no retention)
-  composite: viva_genesis.composites.operating_window.og_operating_window
-  planned: false
-  params:
-    membrane: false
 visualizations:
 - name: operating-window-regimes
   display: primary
@@ -311,19 +296,19 @@ runs:
         verdict: within_tol
         value: 2.506156
         meter: 1.0
-        detail:
+        detail: null
         expected:
           kind: value
           value: 1.0
-          low:
-          high:
+          low: null
+          high: null
           op: '>'
           tol: 0.05
-          statement:
+          statement: null
         margin: 1.5061559999999998
         severity: hard
-        units:
-        knob:
+        units: null
+        knob: null
         citation: baaske2007extreme
       auto_evaluated: true
     membrane-retention-real:
@@ -338,20 +323,20 @@ runs:
         verdict: within_tol
         value: 0.905388
         meter: 0.5427333333333333
-        detail:
+        detail: null
         expected:
           kind: band
-          value:
+          value: null
           low: 0.5
           high: 0.99
           op: ~=
           tol: 0.05
-          statement:
+          statement: null
         margin: 0.08461200000000002
         severity: hard
-        units:
-        knob:
-        citation:
+        units: null
+        knob: null
+        citation: null
       auto_evaluated: true
     rescue-requires-both-levers:
       result: PASS
@@ -371,18 +356,35 @@ runs:
         verdict: mismatch
         value: 0.0
         meter: 0.0
-        detail:
+        detail: null
         expected:
           kind: value
           value: 1e-06
-          low:
-          high:
+          low: null
+          high: null
           op: '>='
           tol: 0.05
-          statement:
+          statement: null
         margin: -1e-06
         severity: hard
-        units:
-        knob:
-        citation:
+        units: null
+        knob: null
+        citation: null
       auto_evaluated: true
+conditions:
+  baseline:
+  - name: Operating window — canonical (the precursor pool, real pore + real membrane, defensible mid Soret)
+    composite: viva_genesis.composites.operating_window.og_operating_window
+    canonical: true
+    planned: false
+    params:
+      feed_CO2: 2.0e-3
+      delta_T: 30.0
+      soret_coeff: 5.0e-3
+      membrane: true
+  - name: Transport-decoupled null — membrane off (no retention)
+    composite: viva_genesis.composites.operating_window.og_operating_window
+    planned: false
+    params:
+      membrane: false
+  model_settings: []

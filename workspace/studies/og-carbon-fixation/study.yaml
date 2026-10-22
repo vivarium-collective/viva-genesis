@@ -14,11 +14,7 @@ key_assumptions:
 - "Carbon fixation is H2-driven CO2 reduction over Fe/Ni/S catalysts"
 - "Absolute yields are anchored to the Preiner-2020 hierarchy"
 - "Feasibility is gated by real eQuilibrator delta-G' (fixation stops where delta-G' >= 0)"
-- "Obs-vs-pred control: the favourable product yields land exactly on the Preiner-2020/Hudson hierarchy (formate
-  ~200 mM >> acetate ~100 uM >> pyruvate ~10 uM) and collapse under the no-catalyst null, so they are catalyst-
-  gated calibrated CEILINGS - deterministic (no error bars) and invariant to CO2/H2/gradient_efficiency. The
-  carbon 'balance' is therefore the product-carbon partition (formate ~99.9%), not a strict CO2-feed conservation;
-  the Tutolo-2026 gradient_efficiency effect lives in the pmf (~427 -> ~43 mV), not the product concentrations."
+- "Obs-vs-pred control: the favourable product yields land exactly on the Preiner-2020/Hudson hierarchy (formate ~200 mM >> acetate ~100 uM >> pyruvate ~10 uM) and collapse under the no-catalyst null, so they are catalyst- gated calibrated CEILINGS - deterministic (no error bars) and invariant to CO2/H2/gradient_efficiency. The carbon 'balance' is therefore the product-carbon partition (formate ~99.9%), not a strict CO2-feed conservation; the Tutolo-2026 gradient_efficiency effect lives in the pmf (~427 -> ~43 mV), not the product concentrations."
 evidence_tier: mechanistic_prediction
 program: consolidated
 title: 'Carbon Fixation: Does H2 Reduce CO2 at the Vent?'
@@ -633,8 +629,7 @@ findings:
     The gradient does work and is consumed, not merely correlated with reduction.
   evidence:
     from_test: chemiosmotic-backpressure-loads-gradient
-    observed: pmf open-circuit 427 mV sags to ~250 mV (charge 0.60) at peak fixation, recovers to 427
-      mV
+    observed: pmf open-circuit 427 mV sags to ~250 mV (charge 0.60) at peak fixation, recovers to 427 mV
     units: dimensionless
   expected:
     cites:
@@ -1179,26 +1174,6 @@ visualizations:
     report_json: >-
       workspace/studies/og-carbon-fixation/artifacts/og-01-cal-electrochemistry/carbonfix_pde_fields.json
     title: Reaction–diffusion at the vent-wall carbon-fixation interface
-baseline:
-- name: Hydrothermal carbon fixation — favorable, canonical (og-01)
-  composite: viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation
-  params:
-    gradient_efficiency: 1.0
-    catalyst_active: 1.0
-  canonical: true
-  planned: false
-- name: No-gradient / no-H2 / no-catalyst matched null (og-01) — formate collapses <1 mM
-  composite: viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation
-  params:
-    gradient_efficiency: 0.0
-    catalyst_active: 0.0
-    h2: 0.0
-  planned: false
-- name: >-
-    Explicit electrochemical interface — Butler-Volmer + empirical classes (og-01-cal arm, refuted)
-  composite: viva_genesis.composites.electrochemical_interface.electrochemical_carbon_fixation
-  params: {}
-  planned: false
 parent_studies:
 - study: og-vent-interface
   condition: tests-passed
@@ -1213,3 +1188,25 @@ consolidation_note: >-
   limitation-attribution question, not the consolidated headline claim) so the PASS gate rests on og-01's
   primaries — the refutation is preserved loudly in the arm verdict + findings, not smoothed. Source path
   evaluators.py:428 (_OGCAL_ELECTRO_REPORT) + test refs repointed to the moved og-01-cal artifacts.
+conditions:
+  baseline:
+  - name: Hydrothermal carbon fixation — favorable, canonical (og-01)
+    composite: viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation
+    params:
+      gradient_efficiency: 1.0
+      catalyst_active: 1.0
+    canonical: true
+    planned: false
+  - name: No-gradient / no-H2 / no-catalyst matched null (og-01) — formate collapses <1 mM
+    composite: viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation
+    params:
+      gradient_efficiency: 0.0
+      catalyst_active: 0.0
+      h2: 0.0
+    planned: false
+  - name: >-
+      Explicit electrochemical interface — Butler-Volmer + empirical classes (og-01-cal arm, refuted)
+    composite: viva_genesis.composites.electrochemical_interface.electrochemical_carbon_fixation
+    params: {}
+    planned: false
+  model_settings: []

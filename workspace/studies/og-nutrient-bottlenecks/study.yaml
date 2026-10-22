@@ -15,11 +15,7 @@ key_assumptions:
 - "Reduced nitrogen is FeS-mediated nitrate -> nitrite -> ammonium reduction with an H2 reductant"
 - "Reactive-P availability uses the same og-03 thermophoretic pore"
 - "Each bottleneck is scored against a feature-ablation null with mass conserved by construction"
-- "P-sensitivity sweep: reactive-P availability (net production > 0) holds across most of the mineral-sink
-  (loss_rate) × pore-enrichment grid; the bottleneck is the low-enrichment/high-sink corner (precipitation
-  dominates), so pore concentration rescues P from the mineral sink; total P conserved (|residual| ~2e-6).
-  pH is NOT a parameter of this composite, so pH-sensitivity is not representable without a model change
-  (flagged owner future-work) - the sweep is mineral-sink × concentration × temperature, not pH."
+- "P-sensitivity sweep: reactive-P availability (net production > 0) holds across most of the mineral-sink (loss_rate) × pore-enrichment grid; the bottleneck is the low-enrichment/high-sink corner (precipitation dominates), so pore concentration rescues P from the mineral sink; total P conserved (|residual| ~2e-6). pH is NOT a parameter of this composite, so pH-sensitivity is not representable without a model change (flagged owner future-work) - the sweep is mineral-sink × concentration × temperature, not pH."
 evidence_tier: mechanistic_prediction
 program: consolidated
 plan_id: 38
@@ -735,16 +731,6 @@ visualizations:
     report_json: >-
       workspace/studies/og-nutrient-bottlenecks/artifacts/og-res-phosphorus-availability/phosphorus_sensitivity.json
     title: Reactive-P availability across the mineral sink × pore concentration
-baseline:
-- name: Reduced-nitrogen reactor (ammonium, C:N balance) — canonical arm (og-res-nitrogen)
-  composite: viva_genesis.composites.nitrogen_assimilation.reduced_nitrogen_reactor
-  params: {}
-  canonical: true
-  planned: false
-- name: Phosphorus availability (reactive-P co-concentration) — og-res-phosphorus arm
-  composite: viva_genesis.composites.phosphorus_availability.phosphorus_availability
-  params: {}
-  planned: false
 parent_studies:
 - study: og-network-persistence
   condition: tests-passed
@@ -754,3 +740,15 @@ consolidation_note: >-
   matched null, findings and run provenance; artifacts + viz moved under {artifacts,viz}/<source-slug>/.
   Both arms supported; the carbon-network dependency (nitrogen/phosphorus keep pace with carbon) is the
   og-network-persistence A1 network.
+conditions:
+  baseline:
+  - name: Reduced-nitrogen reactor (ammonium, C:N balance) — canonical arm (og-res-nitrogen)
+    composite: viva_genesis.composites.nitrogen_assimilation.reduced_nitrogen_reactor
+    params: {}
+    canonical: true
+    planned: false
+  - name: Phosphorus availability (reactive-P co-concentration) — og-res-phosphorus arm
+    composite: viva_genesis.composites.phosphorus_availability.phosphorus_availability
+    params: {}
+    planned: false
+  model_settings: []

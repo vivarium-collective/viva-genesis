@@ -1501,22 +1501,6 @@ visualizations:
       / World view)
     report_json: >-
       workspace/studies/og-ecology/artifacts/og-07-alt-real-metabolite-exchange/community_function_map.json
-baseline:
-- name: >-
-    Stochastic protocell ecology (community vs best single, matched null) — canonical arm (og-36)
-  composite: >-
-    viva_genesis.composites.og_36_stochastic_protocell_ecology.og_36_stochastic_protocell_ecology
-  params: {}
-  canonical: true
-  planned: false
-- name: Cross-feeding metacommunity (connected vs isolated) — og-07 arm
-  composite: viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity
-  params: {}
-  planned: false
-- name: Real metabolite-exchange community (function before cell completeness) — og-07-alt arm
-  composite: viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community
-  params: {}
-  planned: false
 parent_studies:
 - study: og-self-compartmentation
   condition: tests-passed
@@ -1530,3 +1514,21 @@ consolidation_note: >-
   (og-36 built on og-07 (internal, folded) + og-32 + og-34). handoff emits to:37 = og-independence (the
   progressive-independence consolidation). og-07-alt's community-function-map sims script is preserved
   under sims/ because tests/test_proto_ecology_face.py exercises it.
+conditions:
+  baseline:
+  - name: >-
+      Stochastic protocell ecology (community vs best single, matched null) — canonical arm (og-36)
+    composite: >-
+      viva_genesis.composites.og_36_stochastic_protocell_ecology.og_36_stochastic_protocell_ecology
+    params: {}
+    canonical: true
+    planned: false
+  - name: Cross-feeding metacommunity (connected vs isolated) — og-07 arm
+    composite: viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity
+    params: {}
+    planned: false
+  - name: Real metabolite-exchange community (function before cell completeness) — og-07-alt arm
+    composite: viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community
+    params: {}
+    planned: false
+  model_settings: []

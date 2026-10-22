@@ -241,25 +241,6 @@ findings:
   explanation: >-
     This study isolates evolvability from individuality by granting the individual; evolvability clears its bar
     (bounded) while individuality (og-self-maintaining-individual) does not, locating the hard step at individuality.
-baseline:
-- name: Evolvable lineages — canonical (granted individual, grounded selection, static environment)
-  composite: viva_genesis.composites.evolvable_lineages.og_evolvable_lineages
-  canonical: true
-  planned: false
-  params:
-    inheritance: true
-    seed: 7
-- name: No-inheritance null (daughters reset to common composition)
-  composite: viva_genesis.composites.evolvable_lineages.og_evolvable_lineages
-  planned: false
-  params:
-    inheritance: false
-- name: Shared-feed null (flat fitness landscape, no fitness differential)
-  composite: viva_genesis.composites.evolvable_lineages.og_evolvable_lineages
-  planned: false
-  params:
-    retention_lo: 0.5
-    retention_hi: 0.5
 visualizations:
 - name: evolvable-lineages-response
   display: primary
@@ -298,20 +279,20 @@ runs:
         verdict: within_tol
         value: 0.937962
         meter: 0.7816350000000001
-        detail:
+        detail: null
         expected:
           kind: value
           value: 0.6
-          low:
-          high:
+          low: null
+          high: null
           op: '>='
           tol: 0.05
-          statement:
+          statement: null
         margin: 0.337962
         severity: hard
-        units:
-        knob:
-        citation:
+        units: null
+        knob: null
+        citation: null
       auto_evaluated: true
     parent-offspring-heritability:
       result: PASS
@@ -325,19 +306,19 @@ runs:
         verdict: within_tol
         value: 0.907192
         meter: 0.907192
-        detail:
+        detail: null
         expected:
           kind: value
           value: 0.5
-          low:
-          high:
+          low: null
+          high: null
           op: '>='
           tol: 0.05
-          statement:
+          statement: null
         margin: 0.407192
         severity: hard
-        units:
-        knob:
+        units: null
+        knob: null
         citation: jordan2019promotion
       auto_evaluated: true
     heritable-selection-above-both-nulls:
@@ -358,18 +339,39 @@ runs:
         verdict: mismatch
         value: 0.469754
         meter: 0.234877
-        detail:
+        detail: null
         expected:
           kind: value
           value: 1.0
-          low:
-          high:
+          low: null
+          high: null
           op: '>='
           tol: 0.05
-          statement:
+          statement: null
         margin: -0.530246
         severity: hard
-        units:
-        knob:
+        units: null
+        knob: null
         citation: vasas2010lack
       auto_evaluated: true
+conditions:
+  baseline:
+  - name: Evolvable lineages — canonical (granted individual, grounded selection, static environment)
+    composite: viva_genesis.composites.evolvable_lineages.og_evolvable_lineages
+    canonical: true
+    planned: false
+    params:
+      inheritance: true
+      seed: 7
+  - name: No-inheritance null (daughters reset to common composition)
+    composite: viva_genesis.composites.evolvable_lineages.og_evolvable_lineages
+    planned: false
+    params:
+      inheritance: false
+  - name: Shared-feed null (flat fitness landscape, no fitness differential)
+    composite: viva_genesis.composites.evolvable_lineages.og_evolvable_lineages
+    planned: false
+    params:
+      retention_lo: 0.5
+      retention_hi: 0.5
+  model_settings: []

@@ -267,19 +267,6 @@ visualizations:
   config:
     report_json: workspace/studies/og-network-rescue/artifacts/og-30-spatially-integrated-protometabolism/networkrescue_fields.json
     title: 'Spatial concentration ignites the network — pore field vs dead well-mixed control (PDE field view)'
-baseline:
-- name: Spatially integrated protometabolism in a concentrating pore — canonical (og-30)
-  composite: >-
-    viva_genesis.composites.og_30_spatially_integrated_protometabolism.og_30_spatially_integrated_protometabolism
-  params: {}
-  canonical: true
-  planned: false
-- name: Matched well-mixed, non-concentrating null (og-30) — stays dark at equal feed
-  composite: >-
-    viva_genesis.composites.og_30_spatially_integrated_protometabolism.og_30_spatially_integrated_protometabolism
-  params:
-    concentrating: false
-  planned: false
 parent_studies:
 - study: og-spatial-concentration
   condition: tests-passed
@@ -295,3 +282,18 @@ split_note: >-
   B pore-ignition) with its findings/viz moved here; adopts plan_id 30 so numeric handoff/builds_on refs to study
   30 (self-compartmentation, network-persistence) resolve here. The multisolute-ENRICHMENT half stays in og-spatial-concentration.
   Every arm verdict, matched null and finding preserved.
+conditions:
+  baseline:
+  - name: Spatially integrated protometabolism in a concentrating pore — canonical (og-30)
+    composite: >-
+      viva_genesis.composites.og_30_spatially_integrated_protometabolism.og_30_spatially_integrated_protometabolism
+    params: {}
+    canonical: true
+    planned: false
+  - name: Matched well-mixed, non-concentrating null (og-30) — stays dark at equal feed
+    composite: >-
+      viva_genesis.composites.og_30_spatially_integrated_protometabolism.og_30_spatially_integrated_protometabolism
+    params:
+      concentrating: false
+    planned: false
+  model_settings: []

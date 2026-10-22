@@ -312,13 +312,6 @@ visualizations:
       Bottom row — porosity closing, catalytic accessibility passivating, and carbonate saturation index driving
       precipitation. Plainly: the wall delivers chemistry at first, but as minerals grow and clog it that delivery
       declines — the interface depletes rather than lasting forever.
-baseline:
-- name: Coupled geochemical reaction interface — canonical (og-27)
-  composite: >-
-    viva_genesis.composites.og_27_coupled_geochemical_reaction_interface.og_27_coupled_geochemical_reaction_interface
-  params: {}
-  canonical: true
-  planned: false
 parent_studies:
 - study: og-vent-environment
   condition: tests-passed
@@ -330,3 +323,12 @@ split_note: >-
   with its findings/viz moved here; adopts plan_id 27 so numeric handoff/builds_on refs to study 27 (carbon-fixation,
   autocatalysis-a2, spatial) resolve here. HONEST: qualified rests on the one realized DIC-cliff finding; the
   other five og-27 findings stay status:planned. The calibrated-STATES half stays in og-vent-environment (supported).
+conditions:
+  baseline:
+    name: Coupled geochemical reaction interface — canonical (og-27)
+    composite: >-
+      viva_genesis.composites.og_27_coupled_geochemical_reaction_interface.og_27_coupled_geochemical_reaction_interface
+    params: {}
+    canonical: true
+    planned: false
+  model_settings: []

@@ -1391,36 +1391,6 @@ visualizations:
     title: The integrated world through the ablation (Mechanism view)
     report_json: >-
       workspace/studies/og-independence/artifacts/og-08-alt-robust-innovation-set/robust_innovation_set.json
-baseline:
-- name: >-
-    Progressive independence (all-at-once, full innovation set) — canonical headline arm (og-37)
-  composite: viva_genesis.composites.og_37_progressive_independence.og_37_progressive_independence
-  params:
-    withdraw: all
-    has_pump: 1.0
-    has_importer: 1.0
-    has_heredity: 1.0
-    catalyst_efficiency: 1.0
-  canonical: true
-  planned: false
-- name: One-at-a-time per-channel withdrawal (the attribution novelty) — og-37
-  composite: viva_genesis.composites.og_37_progressive_independence.og_37_progressive_independence
-  params:
-    withdraw: gradient
-    has_pump: 1.0
-    has_importer: 1.0
-    has_heredity: 1.0
-    catalyst_efficiency: 1.0
-  planned: false
-- name: Escape from the vent (joint all-at-once relaxation) — og-08 foundation arm
-  composite: viva_genesis.composites.off_gradient_persistence.off_gradient_persistence
-  params: {}
-  planned: false
-- name: >-
-    Integrated autonomy — minimum-sufficient set across structures (honest negative) — og-08-alt-robust
-  composite: viva_genesis.composites.integrated_autonomy.integrated_autonomy_world
-  params: {}
-  planned: false
 parent_studies:
 - study: og-evolvability
   condition: tests-passed
@@ -1438,3 +1408,35 @@ consolidation_note: >-
   + combinatorial-withdrawal model (og-37a) and the importer-cost subset study (og-08-alt-dx) stay tracked
   as follow-ups. The heredity parent is og-heredity (the heredity consolidation #5, which adopted plan_id
   34 — the numeric handoff receives:from:34 therefore still resolves).
+conditions:
+  baseline:
+  - name: >-
+      Progressive independence (all-at-once, full innovation set) — canonical headline arm (og-37)
+    composite: viva_genesis.composites.og_37_progressive_independence.og_37_progressive_independence
+    params:
+      withdraw: all
+      has_pump: 1.0
+      has_importer: 1.0
+      has_heredity: 1.0
+      catalyst_efficiency: 1.0
+    canonical: true
+    planned: false
+  - name: One-at-a-time per-channel withdrawal (the attribution novelty) — og-37
+    composite: viva_genesis.composites.og_37_progressive_independence.og_37_progressive_independence
+    params:
+      withdraw: gradient
+      has_pump: 1.0
+      has_importer: 1.0
+      has_heredity: 1.0
+      catalyst_efficiency: 1.0
+    planned: false
+  - name: Escape from the vent (joint all-at-once relaxation) — og-08 foundation arm
+    composite: viva_genesis.composites.off_gradient_persistence.off_gradient_persistence
+    params: {}
+    planned: false
+  - name: >-
+      Integrated autonomy — minimum-sufficient set across structures (honest negative) — og-08-alt-robust
+    composite: viva_genesis.composites.integrated_autonomy.integrated_autonomy_world
+    params: {}
+    planned: false
+  model_settings: []
