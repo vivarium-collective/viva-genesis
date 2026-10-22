@@ -1657,38 +1657,6 @@ visualizations:
     report_json: >-
       workspace/studies/og-energetics/artifacts/og-05-environmental-to-internal-bioenergetics/uncoupled_pump_control.json
     title: The internalization benefit requires coupling (uncoupled-pump null)
-baseline:
-- name: Chemical energy coupling (thioester carrier) — canonical headline arm (og-35)
-  composite: viva_genesis.composites.og_35_chemical_energy_coupling.og_35_chemical_energy_coupling
-  params:
-    carrier: true
-    g_drive: 50.0
-    decline_rate: 0.4
-    load: 30.0
-    bond_energy_kjmol: 31.5
-  canonical: true
-  planned: false
-- name: Gradient-only null (no carrier store, equal drive/load) — og-35 matched null
-  composite: viva_genesis.composites.og_35_chemical_energy_coupling.og_35_chemical_energy_coupling
-  params:
-    carrier: false
-    g_drive: 50.0
-    decline_rate: 0.4
-    load: 30.0
-    bond_energy_kjmol: 31.5
-  planned: false
-- name: Proto-energetics carrier capture (og-energy-proto arm)
-  composite: viva_genesis.composites.proto_energetics.proto_energetics
-  params: {}
-  planned: false
-- name: Bioenergetic internalization under selection (og-05 arm)
-  composite: viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization
-  params: {}
-  planned: false
-- name: Internalization-threshold 5-class sweep (og-energy-alt arm)
-  composite: viva_genesis.composites.protocell_energetics.protocell_energetics
-  params: {}
-  planned: false
 parent_studies:
 - study: og-self-compartmentation
   condition: tests-passed
@@ -1700,3 +1668,37 @@ consolidation_note: >-
   Each fold-in is an explicit arm (see `arms`) keeping its own verdict, matched null, findings and run
   provenance; artifacts moved under artifacts/<source-slug>/. Follow-up og-35a (alternative-carrier /
   microkinetic) stays tracked.
+conditions:
+  baseline:
+  - name: Chemical energy coupling (thioester carrier) — canonical headline arm (og-35)
+    composite: viva_genesis.composites.og_35_chemical_energy_coupling.og_35_chemical_energy_coupling
+    params:
+      carrier: true
+      g_drive: 50.0
+      decline_rate: 0.4
+      load: 30.0
+      bond_energy_kjmol: 31.5
+    canonical: true
+    planned: false
+  - name: Gradient-only null (no carrier store, equal drive/load) — og-35 matched null
+    composite: viva_genesis.composites.og_35_chemical_energy_coupling.og_35_chemical_energy_coupling
+    params:
+      carrier: false
+      g_drive: 50.0
+      decline_rate: 0.4
+      load: 30.0
+      bond_energy_kjmol: 31.5
+    planned: false
+  - name: Proto-energetics carrier capture (og-energy-proto arm)
+    composite: viva_genesis.composites.proto_energetics.proto_energetics
+    params: {}
+    planned: false
+  - name: Bioenergetic internalization under selection (og-05 arm)
+    composite: viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization
+    params: {}
+    planned: false
+  - name: Internalization-threshold 5-class sweep (og-energy-alt arm)
+    composite: viva_genesis.composites.protocell_energetics.protocell_energetics
+    params: {}
+    planned: false
+  model_settings: []

@@ -14,12 +14,7 @@ key_assumptions:
 - "Concentration is a serpentinite pore (Soret + convection) vs an open-pore washout control"
 - "The Baaske-2007 extreme-accumulation regime is the benchmark"
 - "Localization is resolved as a bounded porosity x pore-length region"
-- "Transport attribution (control): the accumulation Peclet - hence the localized enrichment - depends on ALL
-  three transport terms (thermal gradient delta_T, convective flow, pore confinement/porosity); each matched
-  off-null (ΔT->0, flow->0, open-pore) collapses enrichment ~1e8x -> ~1, so any one removed destroys the trap.
-  Consistent with the Peclet-gated framing; gate unchanged. Method note: off-nulls use epsilon (1e-9), not 0.0
-  - a bare 0.0 is backfilled to the parameter default by the pbg is_empty rule and silently reproduces the
-  favourable arm."
+- "Transport attribution (control): the accumulation Peclet - hence the localized enrichment - depends on ALL three transport terms (thermal gradient delta_T, convective flow, pore confinement/porosity); each matched off-null (ΔT->0, flow->0, open-pore) collapses enrichment ~1e8x -> ~1, so any one removed destroys the trap. Consistent with the Peclet-gated framing; gate unchanged. Method note: off-nulls use epsilon (1e-9), not 0.0 - a bare 0.0 is backfilled to the parameter default by the pbg is_empty rule and silently reproduces the favourable arm."
 evidence_tier: mechanistic_prediction
 program: consolidated
 title: 'Spatial Concentration: Does a Pore Enrich a Dilute Feed?'
@@ -435,11 +430,6 @@ visualizations:
     report_json: >-
       workspace/studies/og-spatial-concentration/artifacts/og-03-dilution-to-localized-individuals/spatial_pde_fields.json
     title: 'The eight-solute pore fields: real FiPy PDE snapshots, pore vs open-pore'
-baseline:
-- name: Thermophoretic concentration physics (og-03 arm)
-  composite: viva_genesis.composites.thermophoretic_concentration.thermophoretic_concentration
-  params: {}
-  planned: false
 parent_studies:
 - study: og-network-persistence
   condition: tests-passed
@@ -452,3 +442,10 @@ split_note: >-
   an independent primary verdict: enrichment is supported here (a pore concentrates a dilute feed; the set fractionates),
   while whether that enrichment ignites the reaction network is the supported verdict of og-network-rescue. The
   og-30 arm, its findings/viz and plan_id 30 move there. Every arm verdict, matched null and finding preserved.
+conditions:
+  baseline:
+    name: Thermophoretic concentration physics (og-03 arm)
+    composite: viva_genesis.composites.thermophoretic_concentration.thermophoretic_concentration
+    params: {}
+    planned: false
+  model_settings: []

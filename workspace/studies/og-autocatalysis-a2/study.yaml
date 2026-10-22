@@ -459,30 +459,6 @@ visualizations:
     artifact_json: >-
       workspace/studies/og-autocatalysis-a2/artifacts/og-rtca-autocatalysis/rtca_discriminator.json
   rendered: workspace/studies/og-autocatalysis-a2/viz/og-rtca-autocatalysis/rtca-mechanism.html
-baseline:
-- name: Endogenous autocatalysis — formose keystone arm (og-29, canonical)
-  composite: viva_genesis.composites.og_29_endogenous_autocatalysis.og_29_endogenous_autocatalysis
-  params: {}
-  canonical: true
-  planned: false
-- name: Reductive-TCA autocatalysis (vent-fed) — branched-v2 arm (og-rtca)
-  composite: viva_genesis.composites.og_rtca_autocatalysis.og_rtca_autocatalysis
-  params:
-    supply_H2: 0.02
-    supply_CO2: 0.04
-    k_wash: 0.02
-    matched_null: false
-    carboxylation_drive_kj: 0.0
-  planned: false
-- name: Reductive-TCA degree-preserving matched null (equal feeds) — og-rtca matched null
-  composite: viva_genesis.composites.og_rtca_autocatalysis.og_rtca_autocatalysis
-  params:
-    supply_H2: 0.02
-    supply_CO2: 0.04
-    k_wash: 0.02
-    matched_null: true
-    carboxylation_drive_kj: 0.0
-  planned: false
 parent_studies:
 - study: og-network-persistence
   condition: tests-passed
@@ -498,3 +474,29 @@ consolidation_note: >-
   OFF-SPINE: the refuted A2 verdict does not gate B/C/D. The topology-capable rTCA result under a labelled
   stronger-reductant counterfactual is recorded as a beyond-vent follow-up basis (e.g. the og-12 thioester/ferredoxin-surrogate
   route), explicitly outside current vent scope.
+conditions:
+  baseline:
+  - name: Endogenous autocatalysis — formose keystone arm (og-29, canonical)
+    composite: viva_genesis.composites.og_29_endogenous_autocatalysis.og_29_endogenous_autocatalysis
+    params: {}
+    canonical: true
+    planned: false
+  - name: Reductive-TCA autocatalysis (vent-fed) — branched-v2 arm (og-rtca)
+    composite: viva_genesis.composites.og_rtca_autocatalysis.og_rtca_autocatalysis
+    params:
+      supply_H2: 0.02
+      supply_CO2: 0.04
+      k_wash: 0.02
+      matched_null: false
+      carboxylation_drive_kj: 0.0
+    planned: false
+  - name: Reductive-TCA degree-preserving matched null (equal feeds) — og-rtca matched null
+    composite: viva_genesis.composites.og_rtca_autocatalysis.og_rtca_autocatalysis
+    params:
+      supply_H2: 0.02
+      supply_CO2: 0.04
+      k_wash: 0.02
+      matched_null: true
+      carboxylation_drive_kj: 0.0
+    planned: false
+  model_settings: []

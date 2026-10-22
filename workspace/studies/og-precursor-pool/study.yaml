@@ -392,24 +392,6 @@ findings:
   explanation: >-
     At the thin fixed-carbon level the upstream ammonium availability sets a viable C:N, so nitrogen is not the binding
     constraint on the pool - the C2+ carbon concentration is.
-baseline:
-- name: Functional precursor pool — canonical, calibrated vent feed (DIC window)
-  composite: viva_genesis.composites.precursor_pool.precursor_pool
-  canonical: true
-  planned: false
-  params:
-    feed_CO2: 2.0e-3
-    feed_H2: 1.08e-2
-    ammonium_availability: 1.3e-4
-- name: Control — no H2 (reductant removed); the functional pool collapses
-  composite: viva_genesis.composites.precursor_pool.precursor_pool_no_h2
-  planned: false
-- name: Control — no catalyst (mineral + base sites = 0); the pool collapses
-  composite: viva_genesis.composites.precursor_pool.precursor_pool_no_catalyst
-  planned: false
-- name: Control — no gradient (no sustained vent resupply, k_feed = 0); the pool collapses
-  composite: viva_genesis.composites.precursor_pool.precursor_pool_no_gradient
-  planned: false
 visualizations:
 - name: precursor-pool-ledger
   display: primary
@@ -449,19 +431,19 @@ runs:
         verdict: within_tol
         value: 0.0
         meter: 1.0
-        detail:
+        detail: null
         expected:
           kind: value
           value: 1e-09
-          low:
-          high:
+          low: null
+          high: null
           op: <=
           tol: 0.05
-          statement:
+          statement: null
         margin: 1e-09
         severity: hard
-        units:
-        knob:
+        units: null
+        knob: null
         citation: wolos2020synthetic
       auto_evaluated: true
     carbon-budget-closes:
@@ -476,20 +458,20 @@ runs:
         verdict: within_tol
         value: 0.0
         meter: 1.0
-        detail:
+        detail: null
         expected:
           kind: value
           value: 1e-06
-          low:
-          high:
+          low: null
+          high: null
           op: <=
           tol: 0.05
-          statement:
+          statement: null
         margin: 1e-06
         severity: hard
-        units:
-        knob:
-        citation:
+        units: null
+        knob: null
+        citation: null
       auto_evaluated: true
     electron-budget-closes:
       result: PASS
@@ -503,19 +485,19 @@ runs:
         verdict: within_tol
         value: 0.0
         meter: 1.0
-        detail:
+        detail: null
         expected:
           kind: value
           value: 1e-06
-          low:
-          high:
+          low: null
+          high: null
           op: <=
           tol: 0.05
-          statement:
+          statement: null
         margin: 1e-06
         severity: hard
-        units:
-        knob:
+        units: null
+        knob: null
         citation: noor2013consistent
       auto_evaluated: true
     pool-assembled-de-novo:
@@ -530,20 +512,20 @@ runs:
         verdict: within_tol
         value: 1.0
         meter: 0.5050505050505051
-        detail:
+        detail: null
         expected:
           kind: value
           value: 0.99
-          low:
-          high:
+          low: null
+          high: null
           op: '>='
           tol: 0.05
-          statement:
+          statement: null
         margin: 0.010000000000000009
         severity: hard
-        units:
-        knob:
-        citation:
+        units: null
+        knob: null
+        citation: null
       auto_evaluated: true
     cn-in-viable-band:
       result: PASS
@@ -557,20 +539,20 @@ runs:
         verdict: within_tol
         value: 4.871287
         meter: 0.6955445625000001
-        detail:
+        detail: null
         expected:
           kind: band
-          value:
+          value: null
           low: 1.0
           high: 8.0
           op: ~=
           tol: 0.05
-          statement:
+          statement: null
         margin: 3.1287130000000003
         severity: hard
-        units:
-        knob:
-        citation:
+        units: null
+        knob: null
+        citation: null
       auto_evaluated: true
     formate-c1-feedstock-present:
       result: PASS
@@ -584,19 +566,19 @@ runs:
         verdict: within_tol
         value: 0.633267
         meter: 0.5533267
-        detail:
+        detail: null
         expected:
           kind: band
-          value:
+          value: null
           low: 0.1
           high: 5.0
           op: ~=
           tol: 0.05
-          statement:
+          statement: null
         margin: 0.533267
         severity: hard
-        units:
-        knob:
+        units: null
+        knob: null
         citation: preiner2020hydrogen
       auto_evaluated: true
     controls-collapse-functional-pool:
@@ -617,20 +599,20 @@ runs:
         verdict: mismatch
         value: 0.0
         meter: 0.0
-        detail:
+        detail: null
         expected:
           kind: value
           value: 1e-06
-          low:
-          high:
+          low: null
+          high: null
           op: '>='
           tol: 0.05
-          statement:
+          statement: null
         margin: -1e-06
         severity: hard
-        units:
-        knob:
-        citation:
+        units: null
+        knob: null
+        citation: null
       auto_evaluated: true
     c2-c1-hierarchy-matches-preiner-batch:
       result: FAIL
@@ -644,18 +626,38 @@ runs:
         verdict: mismatch
         value: 0.0
         meter: 0.0
-        detail:
+        detail: null
         expected:
           kind: value
           value: 0.0001
-          low:
-          high:
+          low: null
+          high: null
           op: '>='
           tol: 0.05
-          statement:
+          statement: null
         margin: -0.0001
         severity: hard
-        units:
-        knob:
+        units: null
+        knob: null
         citation: preiner2020hydrogen
       auto_evaluated: true
+conditions:
+  baseline:
+  - name: Functional precursor pool — canonical, calibrated vent feed (DIC window)
+    composite: viva_genesis.composites.precursor_pool.precursor_pool
+    canonical: true
+    planned: false
+    params:
+      feed_CO2: 2.0e-3
+      feed_H2: 1.08e-2
+      ammonium_availability: 1.3e-4
+  - name: Control — no H2 (reductant removed); the functional pool collapses
+    composite: viva_genesis.composites.precursor_pool.precursor_pool_no_h2
+    planned: false
+  - name: Control — no catalyst (mineral + base sites = 0); the pool collapses
+    composite: viva_genesis.composites.precursor_pool.precursor_pool_no_catalyst
+    planned: false
+  - name: Control — no gradient (no sustained vent resupply, k_feed = 0); the pool collapses
+    composite: viva_genesis.composites.precursor_pool.precursor_pool_no_gradient
+    planned: false
+  model_settings: []

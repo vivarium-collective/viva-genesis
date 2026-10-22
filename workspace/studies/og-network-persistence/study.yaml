@@ -1241,28 +1241,6 @@ visualizations:
     report_json: >-
       workspace/studies/og-network-persistence/artifacts/og-02-reduced-carbon-to-protometabolism/network_controls.json
     title: Sustained throughput requires feed + catalyst (matched nulls)
-baseline:
-- name: Curated minimal carbon-fixing network — canonical (og-02)
-  composite: viva_genesis.composites.open_chemical_network.open_chemical_network
-  params:
-    model_proto_metabolism: curated_rtca
-  canonical: true
-  planned: false
-- name: No-CO2-feed matched null (og-02) — network collapses without the carbon source
-  composite: viva_genesis.composites.open_chemical_network.open_chemical_network
-  params:
-    model_proto_metabolism: curated_rtca
-    feed_CO2: 0.0
-  planned: false
-- name: Rule-generated open chemical universe at the vent posterior (og-02-alt arm)
-  composite: viva_genesis.composites.open_chemical_network.open_chemical_network
-  params:
-    model_proto_metabolism: reaction_universe
-  planned: false
-- name: Provenance-gated reaction atlas (og-28 arm)
-  composite: viva_genesis.composites.og_28_prebiotic_reaction_atlas.og_28_prebiotic_reaction_atlas
-  params: {}
-  planned: false
 parent_studies:
 - study: og-carbon-fixation
   condition: tests-passed
@@ -1275,3 +1253,27 @@ consolidation_note: >-
   are repointed 28->2 when those studies fold into og-autocatalysis-a2 (#4) and og-self-compartmentation
   (#3). Planned challenge arms og-ev-kinetic-uq and og-ev-timevarying-forcing stay tracked. Endogenous
   autocatalysis (A2) is the separate og-autocatalysis line (refuted at vent feed).
+conditions:
+  baseline:
+  - name: Curated minimal carbon-fixing network — canonical (og-02)
+    composite: viva_genesis.composites.open_chemical_network.open_chemical_network
+    params:
+      model_proto_metabolism: curated_rtca
+    canonical: true
+    planned: false
+  - name: No-CO2-feed matched null (og-02) — network collapses without the carbon source
+    composite: viva_genesis.composites.open_chemical_network.open_chemical_network
+    params:
+      model_proto_metabolism: curated_rtca
+      feed_CO2: 0.0
+    planned: false
+  - name: Rule-generated open chemical universe at the vent posterior (og-02-alt arm)
+    composite: viva_genesis.composites.open_chemical_network.open_chemical_network
+    params:
+      model_proto_metabolism: reaction_universe
+    planned: false
+  - name: Provenance-gated reaction atlas (og-28 arm)
+    composite: viva_genesis.composites.og_28_prebiotic_reaction_atlas.og_28_prebiotic_reaction_atlas
+    params: {}
+    planned: false
+  model_settings: []

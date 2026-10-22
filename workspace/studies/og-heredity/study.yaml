@@ -1279,15 +1279,6 @@ visualizations:
     title: Where heredity is attached, and the transition to templated heredity (Mechanism view)
     report_json: >-
       workspace/studies/og-heredity/artifacts/og-06-alt-information-per-cost/information_frontier.json
-baseline:
-- name: Competing inheritance modules (og-06 arm)
-  composite: viva_genesis.composites.heredity_module_comparison.heredity_module_comparison
-  params: {}
-  planned: false
-- name: Information-per-cost frontier, six mechanisms (og-06-alt arm)
-  composite: viva_genesis.composites.competing_heredity.competing_heredity
-  params: {}
-  planned: false
 parent_studies:
 - study: og-self-compartmentation
   condition: tests-passed
@@ -1301,3 +1292,14 @@ split_note: >-
   is the qualified verdict of og-evolvability. Arms og-06 (canonical) + og-06-alt stay here with their run provenance;
   the og-34 arm, its runs/findings/viz and plan_id 34 move to og-evolvability. Every arm verdict, matched null
   and finding preserved.
+conditions:
+  baseline:
+  - name: Competing inheritance modules (og-06 arm)
+    composite: viva_genesis.composites.heredity_module_comparison.heredity_module_comparison
+    params: {}
+    planned: false
+  - name: Information-per-cost frontier, six mechanisms (og-06-alt arm)
+    composite: viva_genesis.composites.competing_heredity.competing_heredity
+    params: {}
+    planned: false
+  model_settings: []

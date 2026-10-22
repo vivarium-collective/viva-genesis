@@ -254,23 +254,6 @@ visualizations:
       catalyst and pore geometry simultaneously is NOT evidence of vent specificity — it cannot attribute
       the failure to any one ingredient. Vent-specificity stays a bounded, hedged claim until a factorial
       ablation (H2 × Fe/Ni/S × pore-gradient, with effect sizes and interactions) is run.
-baseline:
-- name: >-
-    Generic non-vent adversarial control (ablated: no sustained H2 / no Fe-Ni-S catalyst / no pore) —
-    canonical (og-adv), fails all five gates
-  composite: viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation
-  params:
-    gradient_efficiency: 0.0
-    catalyst_active: 0.0
-    h2: 0.0
-  canonical: true
-  planned: false
-- name: Vent reference (characteristic features present) — passes all five gates
-  composite: viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation
-  params:
-    gradient_efficiency: 1.0
-    catalyst_active: 1.0
-  planned: false
 parent_studies:
 - study: og-vent-environment
   condition: tests-passed
@@ -297,3 +280,22 @@ consolidation_note: >-
   fold-in is an explicit arm; artifacts + viz moved under artifacts|viz/<source-slug>/. No plan_id (the
   control carries no numbered plan slot and nothing references it numerically). Folding og-ev-competing-environments
   as a planned arm clears one planned-stub dashboard WARN.
+conditions:
+  baseline:
+  - name: >-
+      Generic non-vent adversarial control (ablated: no sustained H2 / no Fe-Ni-S catalyst / no pore) —
+      canonical (og-adv), fails all five gates
+    composite: viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation
+    params:
+      gradient_efficiency: 0.0
+      catalyst_active: 0.0
+      h2: 0.0
+    canonical: true
+    planned: false
+  - name: Vent reference (characteristic features present) — passes all five gates
+    composite: viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation
+    params:
+      gradient_efficiency: 1.0
+      catalyst_active: 1.0
+    planned: false
+  model_settings: []
