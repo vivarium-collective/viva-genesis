@@ -204,6 +204,19 @@
 .figure-media-frame{display:block;width:100%;border:0;background:#fff}
 .figure-media-frame--native{height:auto;min-height:320px}  /* JS (_autosizeNativeFrames) grows this to the figure's full content height */
 .figure-media-frame--embed{min-height:200px}
+/* Explore-module launch card: a deeper interactive module (Corpus Explorer, 3D
+   viewers, …) is linked out full-size rather than squeezed into an iframe. */
+.explore-module-card{display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:14px 18px;border:1px solid #c7d2fe;background:linear-gradient(0deg,#f5f7ff,#fff)}
+.explore-module-main{min-width:0}
+.explore-module-badge{display:inline-block;font-size:0.68rem;font-weight:700;letter-spacing:0.04em;
+  text-transform:uppercase;color:#4338ca;background:#e0e7ff;border-radius:9999px;padding:2px 9px;margin-right:8px}
+.explore-module-launch{flex:none;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;
+  text-decoration:none;font-weight:600;font-size:0.9rem;color:#fff;background:#4f46e5;
+  border-radius:7px;padding:9px 16px;transition:background .12s}
+.explore-module-launch:hover{background:#4338ca}
+:root[data-theme="dark"] .explore-module-card{border-color:#3730a3;background:linear-gradient(0deg,#1e1b4b,var(--surface))}
+:root[data-theme="dark"] .explore-module-badge{color:#c7d2fe;background:#312e81}
 /* SVGs/PNGs scale to fit their card; preserves aspect ratio so a 1400×484
    chart shrinks instead of overflowing horizontally + clipping. */
 .figure-card svg,.figure-card img.chart-img{display:block;width:100%;max-width:100%;height:auto}
@@ -548,7 +561,7 @@
       <h2 class="overview-label ctr-h">Model &amp; approach</h2>
       <p class="ctr-text">Propagate og-precursor-pool&#39;s real precursor yield vectors through the real FiPy thermophoretic pore (product-pool enrichment at swept small-molecule Soret) and the real ProtocellAssembly membrane (retention -&gt; reduced washout); sweep (soret x delta_T x DIC); report the overlap volume reaching a consumable pool, per-regime failure reasons, the Morris parameter-sensitivity ranking, and the single most informative discriminating experiment.</p>
       <div class="ctr-meta">
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Model</span> <code>Operating window — canonical (the precursor pool, real pore + real membrane, defensible mid Soret)</code>, <code>Transport-decoupled null — membrane off (no retention)</code><a class="ov-tablink" href="#" onclick="_setStudyTab('compose');return false;">model →</a></div>
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Model</span> <code>og-operating-window</code><a class="ov-tablink" href="#" onclick="_setStudyTab('compose');return false;">model →</a></div>
         
         <div class="ctr-meta-row"><span class="ctr-meta-k">Measures</span> <span class="ctr-meta-item">4 behavior tests</span><a class="ov-tablink" href="#" onclick="_setStudyTab('audit');return false;">see Tests →</a></div>
         
@@ -951,7 +964,7 @@
     
     <div class="cond-block" data-model-composite="viva_genesis.composites.operating_window.og_operating_window" data-model-overrides='{"delta_T": 30.0, "feed_CO2": 0.002, "membrane": true, "soret_coeff": 0.005}'>
       <div class="cond-block-title" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-        <strong>Operating window — canonical (the precursor pool, real pore + real membrane, defensible mid Soret)</strong>
+        <strong>og-operating-window</strong>
         
         <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.operating_window.og_operating_window</code>
         <button type="button" class="action-btn" style="font-size:0.8em"
@@ -961,16 +974,16 @@
       
       <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
         
-        <select class="baseline-composite-input" data-baseline-name="Operating window — canonical (the precursor pool, real pore + real membrane, defensible mid Soret)"
+        <select class="baseline-composite-input" data-baseline-name="og-operating-window"
                 data-current="viva_genesis.composites.operating_window.og_operating_window"
                 style="flex:1;min-width:200px;font-family:monospace;font-size:0.82em;padding:3px 6px">
           <option value="viva_genesis.composites.operating_window.og_operating_window" selected>viva_genesis.composites.operating_window.og_operating_window</option>
           
         </select>
         <button type="button" class="action-btn baseline-composite-set" style="font-size:0.8em"
-                data-baseline-name="Operating window — canonical (the precursor pool, real pore + real membrane, defensible mid Soret)">Set composite</button>
+                data-baseline-name="og-operating-window">Set composite</button>
       </div>
-      <div class="baseline-composite-status muted" data-baseline-name="Operating window — canonical (the precursor pool, real pore + real membrane, defensible mid Soret)" style="font-size:0.8em;margin-top:2px"></div>
+      <div class="baseline-composite-status muted" data-baseline-name="og-operating-window" style="font-size:0.8em;margin-top:2px"></div>
       
       
       
@@ -988,34 +1001,16 @@
       
     </div>
     
-    <div class="cond-block" data-model-composite="viva_genesis.composites.operating_window.og_operating_window" data-model-overrides='{"membrane": false}'>
+    
+    
+    <div class="cond-block" data-model-composite="" data-model-overrides='{}'>
       <div class="cond-block-title" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-        <strong>Transport-decoupled null — membrane off (no retention)</strong>
-        
-        <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.operating_window.og_operating_window</code>
-        <button type="button" class="action-btn" style="font-size:0.8em"
-                onclick="_openCompositeLoom('viva_genesis.composites.operating_window.og_operating_window')">🧬 explore &amp; run ↗</button>
-        
+        <strong>baseline</strong>
+        <span class="muted">no composite declared</span>
       </div>
-      
-      <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
-        
-        <select class="baseline-composite-input" data-baseline-name="Transport-decoupled null — membrane off (no retention)"
-                data-current="viva_genesis.composites.operating_window.og_operating_window"
-                style="flex:1;min-width:200px;font-family:monospace;font-size:0.82em;padding:3px 6px">
-          <option value="viva_genesis.composites.operating_window.og_operating_window" selected>viva_genesis.composites.operating_window.og_operating_window</option>
-          
-        </select>
-        <button type="button" class="action-btn baseline-composite-set" style="font-size:0.8em"
-                data-baseline-name="Transport-decoupled null — membrane off (no retention)">Set composite</button>
-      </div>
-      <div class="baseline-composite-status muted" data-baseline-name="Transport-decoupled null — membrane off (no retention)" style="font-size:0.8em;margin-top:2px"></div>
-      
-      
       
       <div class="model-config-mount" style="margin-top:8px">
         <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading configuration…</span></div></div>
-      
       
       
       <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;font-size:0.8em">
@@ -1026,7 +1021,6 @@
       </div>
       
     </div>
-    
     
   </div>
   
@@ -1221,17 +1215,20 @@
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 2.506156</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 2.506 &gt; 1.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&gt;</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;pore-trap-enrichment-real&#39;, &#39;label&#39;: &#39;The real FiPy thermophoretic trap produces a genuine enrichment factor (&gt;1) at the canonical thermal gradient and a defensible small-molecule Soret coefficient; a no-gradient control gives ~1.&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 2.506156, &#39;meter&#39;: 1.0, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 1.0, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 1.5061559999999998, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: &#39;baaske2007extreme&#39;}</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+          
         
       </div>
       
@@ -1278,17 +1275,20 @@ cites:   ["baaske2007extreme"]</pre>
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.905388</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 0.9054 in [0.5, 0.99]</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/range</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;membrane-retention-real&#39;, &#39;label&#39;: &#39;The real ProtocellAssembly membrane retains internal chemistry at a viable level (Jordan-2019-calibrated vent retention ~0.9) while staying permeable (access &gt; 0).&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 0.905388, &#39;meter&#39;: 0.5427333333333333, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;band&#39;, &#39;value&#39;: None, &#39;low&#39;: 0.5, &#39;high&#39;: 0.99, &#39;op&#39;: &#39;~=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 0.08461200000000002, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: None}</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+          
         
       </div>
       
@@ -1334,13 +1334,16 @@ pass_if: {"detail": "viable retention (chemistry held, still permeable)", "high"
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 2.885e-08</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: cross_run</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: both-levers enriched=2.89e-08 M &gt; pore-only(no-membrane)=9.75e-10 and &gt; membrane-only(no-gradient)=1.15e-08 =&gt; each lever contributes, yet both together stay &lt; 1e-06 M at defensible Soret</code>
+          
         
       </div>
       
@@ -1386,17 +1389,20 @@ pass_if: {"detail": "both levers needed; each single regime is lower", "op": "co
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 2.61e-08 &gt;= 1e-06</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&gt;=</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;operating-window-reaches-consumable&#39;, &#39;label&#39;: &#39;DIAGNOSTIC (the refutation): at a defensible small-molecule Soret, does the enriched + retained functional pool reach a downstream-consumable ~uM concentration? It does NOT - this FAIL is the quantitative backbone of the REFUTED rescue verdict.&#39;, &#39;verdict&#39;: &#39;mismatch&#39;, &#39;value&#39;: 0.0, &#39;meter&#39;: 0.0, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: &#39;1e-06&#39;, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: &#39;-1e-06&#39;, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: None}</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+          
         
       </div>
       
@@ -1660,7 +1666,7 @@ pass_if: {"detail": "enriched+retained pool reaches consumable (~uM)", "op": "\u
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "4bf3f32019f569f65110927b60449b6d497cfa4a", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/4bf3f32019f569f65110927b60449b6d497cfa4a", "branch": "main", "lockfile": "uv.lock@594fc1873c7c", "generated_at": "2026-10-20 23:15 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "6f55a5bd4733ea375f86564885b112f6bde5a6f2", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/6f55a5bd4733ea375f86564885b112f6bde5a6f2", "branch": "main", "lockfile": "uv.lock@9a2cdc436317", "generated_at": "2026-10-22 14:06 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>

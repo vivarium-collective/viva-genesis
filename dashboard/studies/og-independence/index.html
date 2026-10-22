@@ -204,6 +204,19 @@
 .figure-media-frame{display:block;width:100%;border:0;background:#fff}
 .figure-media-frame--native{height:auto;min-height:320px}  /* JS (_autosizeNativeFrames) grows this to the figure's full content height */
 .figure-media-frame--embed{min-height:200px}
+/* Explore-module launch card: a deeper interactive module (Corpus Explorer, 3D
+   viewers, …) is linked out full-size rather than squeezed into an iframe. */
+.explore-module-card{display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:14px 18px;border:1px solid #c7d2fe;background:linear-gradient(0deg,#f5f7ff,#fff)}
+.explore-module-main{min-width:0}
+.explore-module-badge{display:inline-block;font-size:0.68rem;font-weight:700;letter-spacing:0.04em;
+  text-transform:uppercase;color:#4338ca;background:#e0e7ff;border-radius:9999px;padding:2px 9px;margin-right:8px}
+.explore-module-launch{flex:none;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;
+  text-decoration:none;font-weight:600;font-size:0.9rem;color:#fff;background:#4f46e5;
+  border-radius:7px;padding:9px 16px;transition:background .12s}
+.explore-module-launch:hover{background:#4338ca}
+:root[data-theme="dark"] .explore-module-card{border-color:#3730a3;background:linear-gradient(0deg,#1e1b4b,var(--surface))}
+:root[data-theme="dark"] .explore-module-badge{color:#c7d2fe;background:#312e81}
 /* SVGs/PNGs scale to fit their card; preserves aspect ratio so a 1400×484
    chart shrinks instead of overflowing horizontally + clipping. */
 .figure-card svg,.figure-card img.chart-img{display:block;width:100%;max-width:100%;height:auto}
@@ -548,7 +561,7 @@
       <h2 class="overview-label ctr-h">Model &amp; approach</h2>
       <p class="ctr-text">Relax environmental support by ablation sweeps and determine the minimum innovation set for autonomy (og-08, joint); test minimum-sufficiency across model structures against a generic-environment control (og-08-alt-robust); and reuse og-08&#39;s validated co-limited off-gradient budget to withdraw each support ONE AT A TIME with matched per-support ablations, attributing each internalizable support to a specific innovation and reporting the honest profile with its lumped-feed and coarse-abstraction limits (og-37).</p>
       <div class="ctr-meta">
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Model</span> <code>Progressive independence (all-at-once, full innovation set) — canonical headline arm (og-37)</code>, <code>One-at-a-time per-channel withdrawal (the attribution novelty) — og-37</code>, <code>Escape from the vent (joint all-at-once relaxation) — og-08 foundation arm</code>, <code>Integrated autonomy — minimum-sufficient set across structures (honest negative) — og-08-alt-robust</code><a class="ov-tablink" href="#" onclick="_setStudyTab('compose');return false;">model →</a></div>
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Model</span> <code>og-independence</code><a class="ov-tablink" href="#" onclick="_setStudyTab('compose');return false;">model →</a></div>
         
         <div class="ctr-meta-row"><span class="ctr-meta-k">Measures</span> <span class="ctr-meta-item">24 behavior tests</span><a class="ov-tablink" href="#" onclick="_setStudyTab('audit');return false;">see Tests →</a></div>
         
@@ -1426,7 +1439,7 @@
     
     <div class="cond-block" data-model-composite="viva_genesis.composites.og_37_progressive_independence.og_37_progressive_independence" data-model-overrides='{"catalyst_efficiency": 1.0, "has_heredity": 1.0, "has_importer": 1.0, "has_pump": 1.0, "withdraw": "all"}'>
       <div class="cond-block-title" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-        <strong>Progressive independence (all-at-once, full innovation set) — canonical headline arm (og-37)</strong>
+        <strong>og-independence</strong>
         
         <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.og_37_progressive_independence.og_37_progressive_independence</code>
         <button type="button" class="action-btn" style="font-size:0.8em"
@@ -1436,16 +1449,16 @@
       
       <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
         
-        <select class="baseline-composite-input" data-baseline-name="Progressive independence (all-at-once, full innovation set) — canonical headline arm (og-37)"
+        <select class="baseline-composite-input" data-baseline-name="og-independence"
                 data-current="viva_genesis.composites.og_37_progressive_independence.og_37_progressive_independence"
                 style="flex:1;min-width:200px;font-family:monospace;font-size:0.82em;padding:3px 6px">
           <option value="viva_genesis.composites.og_37_progressive_independence.og_37_progressive_independence" selected>viva_genesis.composites.og_37_progressive_independence.og_37_progressive_independence</option>
           
         </select>
         <button type="button" class="action-btn baseline-composite-set" style="font-size:0.8em"
-                data-baseline-name="Progressive independence (all-at-once, full innovation set) — canonical headline arm (og-37)">Set composite</button>
+                data-baseline-name="og-independence">Set composite</button>
       </div>
-      <div class="baseline-composite-status muted" data-baseline-name="Progressive independence (all-at-once, full innovation set) — canonical headline arm (og-37)" style="font-size:0.8em;margin-top:2px"></div>
+      <div class="baseline-composite-status muted" data-baseline-name="og-independence" style="font-size:0.8em;margin-top:2px"></div>
       
       
       
@@ -1463,34 +1476,16 @@
       
     </div>
     
-    <div class="cond-block" data-model-composite="viva_genesis.composites.og_37_progressive_independence.og_37_progressive_independence" data-model-overrides='{"catalyst_efficiency": 1.0, "has_heredity": 1.0, "has_importer": 1.0, "has_pump": 1.0, "withdraw": "gradient"}'>
+    
+    
+    <div class="cond-block" data-model-composite="" data-model-overrides='{}'>
       <div class="cond-block-title" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-        <strong>One-at-a-time per-channel withdrawal (the attribution novelty) — og-37</strong>
-        
-        <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.og_37_progressive_independence.og_37_progressive_independence</code>
-        <button type="button" class="action-btn" style="font-size:0.8em"
-                onclick="_openCompositeLoom('viva_genesis.composites.og_37_progressive_independence.og_37_progressive_independence')">🧬 explore &amp; run ↗</button>
-        
+        <strong>baseline</strong>
+        <span class="muted">no composite declared</span>
       </div>
-      
-      <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
-        
-        <select class="baseline-composite-input" data-baseline-name="One-at-a-time per-channel withdrawal (the attribution novelty) — og-37"
-                data-current="viva_genesis.composites.og_37_progressive_independence.og_37_progressive_independence"
-                style="flex:1;min-width:200px;font-family:monospace;font-size:0.82em;padding:3px 6px">
-          <option value="viva_genesis.composites.og_37_progressive_independence.og_37_progressive_independence" selected>viva_genesis.composites.og_37_progressive_independence.og_37_progressive_independence</option>
-          
-        </select>
-        <button type="button" class="action-btn baseline-composite-set" style="font-size:0.8em"
-                data-baseline-name="One-at-a-time per-channel withdrawal (the attribution novelty) — og-37">Set composite</button>
-      </div>
-      <div class="baseline-composite-status muted" data-baseline-name="One-at-a-time per-channel withdrawal (the attribution novelty) — og-37" style="font-size:0.8em;margin-top:2px"></div>
-      
-      
       
       <div class="model-config-mount" style="margin-top:8px">
         <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading configuration…</span></div></div>
-      
       
       
       <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;font-size:0.8em">
@@ -1501,85 +1496,6 @@
       </div>
       
     </div>
-    
-    <div class="cond-block" data-model-composite="viva_genesis.composites.off_gradient_persistence.off_gradient_persistence" data-model-overrides='{}'>
-      <div class="cond-block-title" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-        <strong>Escape from the vent (joint all-at-once relaxation) — og-08 foundation arm</strong>
-        
-        <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.off_gradient_persistence.off_gradient_persistence</code>
-        <button type="button" class="action-btn" style="font-size:0.8em"
-                onclick="_openCompositeLoom('viva_genesis.composites.off_gradient_persistence.off_gradient_persistence')">🧬 explore &amp; run ↗</button>
-        
-      </div>
-      
-      <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
-        
-        <select class="baseline-composite-input" data-baseline-name="Escape from the vent (joint all-at-once relaxation) — og-08 foundation arm"
-                data-current="viva_genesis.composites.off_gradient_persistence.off_gradient_persistence"
-                style="flex:1;min-width:200px;font-family:monospace;font-size:0.82em;padding:3px 6px">
-          <option value="viva_genesis.composites.off_gradient_persistence.off_gradient_persistence" selected>viva_genesis.composites.off_gradient_persistence.off_gradient_persistence</option>
-          
-        </select>
-        <button type="button" class="action-btn baseline-composite-set" style="font-size:0.8em"
-                data-baseline-name="Escape from the vent (joint all-at-once relaxation) — og-08 foundation arm">Set composite</button>
-      </div>
-      <div class="baseline-composite-status muted" data-baseline-name="Escape from the vent (joint all-at-once relaxation) — og-08 foundation arm" style="font-size:0.8em;margin-top:2px"></div>
-      
-      
-      
-      <div class="model-config-mount" style="margin-top:8px">
-        <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading configuration…</span></div></div>
-      
-      
-      
-      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;font-size:0.8em">
-        
-        
-        
-        <span class="cond-pill"><span class="cond-pill-k">status</span>=completed</span>
-      </div>
-      
-    </div>
-    
-    <div class="cond-block" data-model-composite="viva_genesis.composites.integrated_autonomy.integrated_autonomy_world" data-model-overrides='{}'>
-      <div class="cond-block-title" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-        <strong>Integrated autonomy — minimum-sufficient set across structures (honest negative) — og-08-alt-robust</strong>
-        
-        <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.integrated_autonomy.integrated_autonomy_world</code>
-        <button type="button" class="action-btn" style="font-size:0.8em"
-                onclick="_openCompositeLoom('viva_genesis.composites.integrated_autonomy.integrated_autonomy_world')">🧬 explore &amp; run ↗</button>
-        
-      </div>
-      
-      <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
-        
-        <select class="baseline-composite-input" data-baseline-name="Integrated autonomy — minimum-sufficient set across structures (honest negative) — og-08-alt-robust"
-                data-current="viva_genesis.composites.integrated_autonomy.integrated_autonomy_world"
-                style="flex:1;min-width:200px;font-family:monospace;font-size:0.82em;padding:3px 6px">
-          <option value="viva_genesis.composites.integrated_autonomy.integrated_autonomy_world" selected>viva_genesis.composites.integrated_autonomy.integrated_autonomy_world</option>
-          
-        </select>
-        <button type="button" class="action-btn baseline-composite-set" style="font-size:0.8em"
-                data-baseline-name="Integrated autonomy — minimum-sufficient set across structures (honest negative) — og-08-alt-robust">Set composite</button>
-      </div>
-      <div class="baseline-composite-status muted" data-baseline-name="Integrated autonomy — minimum-sufficient set across structures (honest negative) — og-08-alt-robust" style="font-size:0.8em;margin-top:2px"></div>
-      
-      
-      
-      <div class="model-config-mount" style="margin-top:8px">
-        <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading configuration…</span></div></div>
-      
-      
-      
-      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;font-size:0.8em">
-        
-        
-        
-        <span class="cond-pill"><span class="cond-pill-k">status</span>=completed</span>
-      </div>
-      
-    </div>
-    
     
   </div>
   
@@ -1854,17 +1770,20 @@ cites:   ["martin2007origin"]</pre>
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 1.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 1 &gt;= 1.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&gt;=</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;every-ledger-closes-over-the-integrated-world&#39;, &#39;label&#39;: &#39;On the canonical run the seven ledgers — conservation (geology), charge (interface), network and ecology (the cell and its pore), free energy (the storage class), information (the inheritance class) and rewrite (the population) — all report ok on the final tick.&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 1.0, &#39;meter&#39;: 0.5, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 1.0, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 0.0, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: None}</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+          
         
       </div>
       
@@ -1910,17 +1829,20 @@ pass_if: {"detail": "every ledger within tolerance", "op": "\u003e=", "value": 1
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 1.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 1 &gt;= 1.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&gt;=</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;ablation-withdraws-every-driver&#39;, &#39;label&#39;: &#39;The AblationStep completed its schedule on the canonical run (phase 2 — every driver at its floor).&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 1.0, &#39;meter&#39;: 0.5, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 1.0, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 0.0, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: None}</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+          
         
       </div>
       
@@ -1966,17 +1888,20 @@ pass_if: {"detail": "withdrawal complete", "op": "\u003e=", "value": 1.0}</pre>
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 13.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 13 &gt;= 3.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&gt;=</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;structural-events-logged&#39;, &#39;label&#39;: &#34;The structural-event log recorded the world&#39;s events (assembly, ablation phases, machinery held / lost, store charged / collapsed, budget sign changes, divisions, extinctions).&#34;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 13.0, &#39;meter&#39;: 1.0, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 3.0, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 10.0, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: None}</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+          
         
       </div>
       
@@ -2022,17 +1947,20 @@ pass_if: {"detail": "events recorded", "op": "\u003e=", "value": 3.0}</pre>
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 0 &gt;= 0.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&gt;=</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;autonomy-decomposed-off-gradient&#39;, &#39;label&#39;: &#39;Recorded: the work-weighted autonomy of the canonical full-set lineage over the final 15 % of the run (every driver at its floor).&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 0.0, &#39;meter&#39;: 0.5, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 0.0, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 0.0, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: None}</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+          
         
       </div>
       
@@ -2078,17 +2006,20 @@ pass_if: {"detail": "informative readout", "op": "\u003e=", "value": 0.0}</pre>
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: -0.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: -5.1e-18 &gt; -1.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&gt;</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;net-work-budget-off-gradient&#39;, &#39;label&#39;: &#34;Recorded: the canonical full-set lineage&#39;s settled net work budget off-gradient (the persistence rule&#39;s energy term).&#34;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: -0.0, &#39;meter&#39;: 1.0, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: -1.0, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 1.0, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: None}</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+          
         
       </div>
       
@@ -2134,17 +2065,20 @@ pass_if: {"detail": "informative readout", "op": "\u003e", "value": -1.0}</pre>
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 0 &gt;= 1.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&gt;=</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;minimum-sufficient-innovation-set&#39;, &#39;label&#39;: &#39;Integrated-autonomy exit gate (pre-registered): at the nominal ocean floor (1e-2) the lattice resolves — the full set persists off-gradient under at least half the sampled model structures AND the intersection of the required innovations over the structures where some subset persists is non-empty.&#39;, &#39;verdict&#39;: &#39;mismatch&#39;, &#39;value&#39;: 0.0, &#39;meter&#39;: 0.0, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 1.0, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: -1.0, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: &#39;martin2007origin; sojo2014bioenergetic; lane2012origin&#39;}</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+          
         
       </div>
       
@@ -2191,17 +2125,20 @@ cites:   ["martin2007origin", "sojo2014bioenergetic", "lane2012origin"]</pre>
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 0 &gt;= 1.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&gt;=</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;minimum-sufficient-innovation-set-rich-ocean&#39;, &#39;label&#39;: &#39;The same lattice gate at the rich ocean floor (1e-1).&#39;, &#39;verdict&#39;: &#39;mismatch&#39;, &#39;value&#39;: 0.0, &#39;meter&#39;: 0.0, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 1.0, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: -1.0, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: None}</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+          
         
       </div>
       
@@ -2247,17 +2184,20 @@ pass_if: {"detail": "lattice resolved", "op": "\u003e=", "value": 1.0}</pre>
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 0 &gt;= 0.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&gt;=</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;full-set-persistence-across-structures&#39;, &#39;label&#39;: &#39;Recorded: the fraction of sampled structures under which the full set persists off-gradient at the nominal floor (the robustness quantity).&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 0.0, &#39;meter&#39;: 0.5, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 0.0, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 0.0, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: None}</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+          
         
       </div>
       
@@ -2303,17 +2243,20 @@ pass_if: {"detail": "informative readout", "op": "\u003e=", "value": 0.0}</pre>
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 0 &gt;= 0.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&gt;=</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;robust-required-intersection&#39;, &#39;label&#39;: &#39;Recorded: the number of innovations required in EVERY viable structure at the nominal floor (the intersection of the required sets).&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 0.0, &#39;meter&#39;: 0.5, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 0.0, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 0.0, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: None}</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+          
         
       </div>
       
@@ -2359,17 +2302,20 @@ pass_if: {"detail": "informative readout", "op": "\u003e=", "value": 0.0}</pre>
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 0 &gt;= 0.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&gt;=</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;og08-hypothesis-reproduced&#39;, &#39;label&#39;: &#34;Recorded, not gated: 1 when the intersection of the required sets at the rich floor is exactly og-08&#39;s {pump, importer, heredity} — the hypothesis the generator proposed.&#34;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 0.0, &#39;meter&#39;: 0.5, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 0.0, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 0.0, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: None}</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+          
         
       </div>
       
@@ -2415,17 +2361,20 @@ pass_if: {"detail": "informative readout", "op": "\u003e=", "value": 0.0}</pre>
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 1.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 1 &gt;= 1.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&gt;=</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;generic-environment-rejected&#39;, &#39;label&#39;: &#39;The og-adv reject control — the full set with every driver at its floor from t = 0 and no pore concentration — persists under at most a quarter of the structures and under less than half as many as the full set at the rich floor.&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 1.0, &#39;meter&#39;: 0.5, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 1.0, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 0.0, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: None}</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+          
         
       </div>
       
@@ -2471,17 +2420,20 @@ pass_if: {"detail": "control rejected", "op": "\u003e=", "value": 1.0}</pre>
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 1.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 1 &gt;= 1.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&gt;=</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;ensemble-ledgers-close&#39;, &#39;label&#39;: &#34;Every one of the seven ledgers reports ok on every one of the ensemble&#39;s runs.&#34;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 1.0, &#39;meter&#39;: 0.5, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 1.0, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 0.0, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: None}</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+          
         
       </div>
       
@@ -2527,17 +2479,20 @@ pass_if: {"detail": "all runs within tolerance", "op": "\u003e=", "value": 1.0}<
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.99335</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 0.9934 &gt;= 0.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&gt;=</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;autonomy-of-the-persisting-lineages&#39;, &#39;label&#39;: &#39;Recorded: the mean work-weighted autonomy of every run (any innovation subset) that persists at the rich floor — the fraction of essential work and material the surviving lineages supply internally.&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 0.99335, &#39;meter&#39;: 0.996675, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 0.0, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 0.99335, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: None}</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+          
         
       </div>
       
@@ -2583,11 +2538,14 @@ pass_if: {"detail": "informative readout", "op": "\u003e=", "value": 0.0}</pre>
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: agent</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">note: derived-scalar computer &#39;lattice_lowest_floor_majority_persists&#39; error: lowest_floor_majority_persists: no value in the artifact (undefined for this ensemble)</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+          
         
       </div>
       
@@ -3163,7 +3121,7 @@ pass_if: {"detail": "emits empty", "op": "threshold"}</pre>
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "4bf3f32019f569f65110927b60449b6d497cfa4a", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/4bf3f32019f569f65110927b60449b6d497cfa4a", "branch": "main", "lockfile": "uv.lock@594fc1873c7c", "generated_at": "2026-10-20 23:15 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "6f55a5bd4733ea375f86564885b112f6bde5a6f2", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/6f55a5bd4733ea375f86564885b112f6bde5a6f2", "branch": "main", "lockfile": "uv.lock@9a2cdc436317", "generated_at": "2026-10-22 14:06 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>

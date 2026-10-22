@@ -204,6 +204,19 @@
 .figure-media-frame{display:block;width:100%;border:0;background:#fff}
 .figure-media-frame--native{height:auto;min-height:320px}  /* JS (_autosizeNativeFrames) grows this to the figure's full content height */
 .figure-media-frame--embed{min-height:200px}
+/* Explore-module launch card: a deeper interactive module (Corpus Explorer, 3D
+   viewers, …) is linked out full-size rather than squeezed into an iframe. */
+.explore-module-card{display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:14px 18px;border:1px solid #c7d2fe;background:linear-gradient(0deg,#f5f7ff,#fff)}
+.explore-module-main{min-width:0}
+.explore-module-badge{display:inline-block;font-size:0.68rem;font-weight:700;letter-spacing:0.04em;
+  text-transform:uppercase;color:#4338ca;background:#e0e7ff;border-radius:9999px;padding:2px 9px;margin-right:8px}
+.explore-module-launch{flex:none;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;
+  text-decoration:none;font-weight:600;font-size:0.9rem;color:#fff;background:#4f46e5;
+  border-radius:7px;padding:9px 16px;transition:background .12s}
+.explore-module-launch:hover{background:#4338ca}
+:root[data-theme="dark"] .explore-module-card{border-color:#3730a3;background:linear-gradient(0deg,#1e1b4b,var(--surface))}
+:root[data-theme="dark"] .explore-module-badge{color:#c7d2fe;background:#312e81}
 /* SVGs/PNGs scale to fit their card; preserves aspect ratio so a 1400×484
    chart shrinks instead of overflowing horizontally + clipping. */
 .figure-card svg,.figure-card img.chart-img{display:block;width:100%;max-width:100%;height:auto}
@@ -548,7 +561,7 @@
       <h2 class="overview-label ctr-h">Model &amp; approach</h2>
       <p class="ctr-text">Given a granted individual, run a population of og-reproduction-dividing protocells under grounded selection on an inherited composition trait (fitness from composition -&gt; retention -&gt; division rate); measure the multi-generation response and changed-environment adaptation against two matched nulls (no-inheritance, shared-feed), and test whether the response is open-ended or bounded fixed-trait (heritable-variance trajectory + the fixed trait space).</p>
       <div class="ctr-meta">
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Model</span> <code>Evolvable lineages — canonical (granted individual, grounded selection, static environment)</code>, <code>No-inheritance null (daughters reset to common composition)</code>, <code>Shared-feed null (flat fitness landscape, no fitness differential)</code><a class="ov-tablink" href="#" onclick="_setStudyTab('compose');return false;">model →</a></div>
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Model</span> <code>og-evolvable-lineages</code><a class="ov-tablink" href="#" onclick="_setStudyTab('compose');return false;">model →</a></div>
         
         <div class="ctr-meta-row"><span class="ctr-meta-k">Measures</span> <span class="ctr-meta-item">4 behavior tests</span><a class="ov-tablink" href="#" onclick="_setStudyTab('audit');return false;">see Tests →</a></div>
         
@@ -896,7 +909,7 @@
     
     <div class="cond-block" data-model-composite="viva_genesis.composites.evolvable_lineages.og_evolvable_lineages" data-model-overrides='{"inheritance": true, "seed": 7}'>
       <div class="cond-block-title" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-        <strong>Evolvable lineages — canonical (granted individual, grounded selection, static environment)</strong>
+        <strong>og-evolvable-lineages</strong>
         
         <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.evolvable_lineages.og_evolvable_lineages</code>
         <button type="button" class="action-btn" style="font-size:0.8em"
@@ -906,16 +919,16 @@
       
       <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
         
-        <select class="baseline-composite-input" data-baseline-name="Evolvable lineages — canonical (granted individual, grounded selection, static environment)"
+        <select class="baseline-composite-input" data-baseline-name="og-evolvable-lineages"
                 data-current="viva_genesis.composites.evolvable_lineages.og_evolvable_lineages"
                 style="flex:1;min-width:200px;font-family:monospace;font-size:0.82em;padding:3px 6px">
           <option value="viva_genesis.composites.evolvable_lineages.og_evolvable_lineages" selected>viva_genesis.composites.evolvable_lineages.og_evolvable_lineages</option>
           
         </select>
         <button type="button" class="action-btn baseline-composite-set" style="font-size:0.8em"
-                data-baseline-name="Evolvable lineages — canonical (granted individual, grounded selection, static environment)">Set composite</button>
+                data-baseline-name="og-evolvable-lineages">Set composite</button>
       </div>
-      <div class="baseline-composite-status muted" data-baseline-name="Evolvable lineages — canonical (granted individual, grounded selection, static environment)" style="font-size:0.8em;margin-top:2px"></div>
+      <div class="baseline-composite-status muted" data-baseline-name="og-evolvable-lineages" style="font-size:0.8em;margin-top:2px"></div>
       
       
       
@@ -933,34 +946,16 @@
       
     </div>
     
-    <div class="cond-block" data-model-composite="viva_genesis.composites.evolvable_lineages.og_evolvable_lineages" data-model-overrides='{"inheritance": false}'>
+    
+    
+    <div class="cond-block" data-model-composite="" data-model-overrides='{}'>
       <div class="cond-block-title" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-        <strong>No-inheritance null (daughters reset to common composition)</strong>
-        
-        <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.evolvable_lineages.og_evolvable_lineages</code>
-        <button type="button" class="action-btn" style="font-size:0.8em"
-                onclick="_openCompositeLoom('viva_genesis.composites.evolvable_lineages.og_evolvable_lineages')">🧬 explore &amp; run ↗</button>
-        
+        <strong>baseline</strong>
+        <span class="muted">no composite declared</span>
       </div>
-      
-      <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
-        
-        <select class="baseline-composite-input" data-baseline-name="No-inheritance null (daughters reset to common composition)"
-                data-current="viva_genesis.composites.evolvable_lineages.og_evolvable_lineages"
-                style="flex:1;min-width:200px;font-family:monospace;font-size:0.82em;padding:3px 6px">
-          <option value="viva_genesis.composites.evolvable_lineages.og_evolvable_lineages" selected>viva_genesis.composites.evolvable_lineages.og_evolvable_lineages</option>
-          
-        </select>
-        <button type="button" class="action-btn baseline-composite-set" style="font-size:0.8em"
-                data-baseline-name="No-inheritance null (daughters reset to common composition)">Set composite</button>
-      </div>
-      <div class="baseline-composite-status muted" data-baseline-name="No-inheritance null (daughters reset to common composition)" style="font-size:0.8em;margin-top:2px"></div>
-      
-      
       
       <div class="model-config-mount" style="margin-top:8px">
         <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading configuration…</span></div></div>
-      
       
       
       <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;font-size:0.8em">
@@ -971,46 +966,6 @@
       </div>
       
     </div>
-    
-    <div class="cond-block" data-model-composite="viva_genesis.composites.evolvable_lineages.og_evolvable_lineages" data-model-overrides='{"retention_hi": 0.5, "retention_lo": 0.5}'>
-      <div class="cond-block-title" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-        <strong>Shared-feed null (flat fitness landscape, no fitness differential)</strong>
-        
-        <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.evolvable_lineages.og_evolvable_lineages</code>
-        <button type="button" class="action-btn" style="font-size:0.8em"
-                onclick="_openCompositeLoom('viva_genesis.composites.evolvable_lineages.og_evolvable_lineages')">🧬 explore &amp; run ↗</button>
-        
-      </div>
-      
-      <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
-        
-        <select class="baseline-composite-input" data-baseline-name="Shared-feed null (flat fitness landscape, no fitness differential)"
-                data-current="viva_genesis.composites.evolvable_lineages.og_evolvable_lineages"
-                style="flex:1;min-width:200px;font-family:monospace;font-size:0.82em;padding:3px 6px">
-          <option value="viva_genesis.composites.evolvable_lineages.og_evolvable_lineages" selected>viva_genesis.composites.evolvable_lineages.og_evolvable_lineages</option>
-          
-        </select>
-        <button type="button" class="action-btn baseline-composite-set" style="font-size:0.8em"
-                data-baseline-name="Shared-feed null (flat fitness landscape, no fitness differential)">Set composite</button>
-      </div>
-      <div class="baseline-composite-status muted" data-baseline-name="Shared-feed null (flat fitness landscape, no fitness differential)" style="font-size:0.8em;margin-top:2px"></div>
-      
-      
-      
-      <div class="model-config-mount" style="margin-top:8px">
-        <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading configuration…</span></div></div>
-      
-      
-      
-      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;font-size:0.8em">
-        
-        
-        
-        <span class="cond-pill"><span class="cond-pill-k">status</span>=completed</span>
-      </div>
-      
-    </div>
-    
     
   </div>
   
@@ -1205,17 +1160,20 @@
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.937962</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 0.938 &gt;= 0.6</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&gt;=</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;selection-shifts-composition&#39;, &#39;label&#39;: &#39;Grounded selection shifts the population mean composition well above its starting value over generations (the inherited trait responds to selection via the real composition -&gt; retention -&gt; division-rate fitness).&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 0.937962, &#39;meter&#39;: 0.7816350000000001, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 0.6, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 0.337962, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: None}</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+          
         
       </div>
       
@@ -1261,17 +1219,20 @@ pass_if: {"detail": "composition selected well above the ~0.4 start", "op": "\u0
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.907192</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 0.9072 &gt;= 0.5</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&gt;=</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;parent-offspring-heritability&#39;, &#39;label&#39;: &#39;Offspring fitness is heritable: the parent-offspring fitness correlation is high under inheritance (and near 0 in the no-inheritance null, confirmed cross-run).&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 0.907192, &#39;meter&#39;: 0.907192, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 0.5, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 0.407192, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: &#39;jordan2019promotion&#39;}</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+          
         
       </div>
       
@@ -1318,13 +1279,16 @@ cites:   ["jordan2019promotion"]</pre>
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.506</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: cross_run</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: full composition shift=0.506 exceeds BOTH the no-inheritance null (0.001) and the shared-feed null (0.056); parent-offspring r=0.915 -&gt; heritable selection is real above both nulls</code>
+          
         
       </div>
       
@@ -1370,17 +1334,20 @@ pass_if: {"detail": "response present under inheritance+selection, absent in bot
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.469754</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 0.4698 &gt;= 1.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&gt;=</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;heritable-variance-sustained&#39;, &#39;label&#39;: &#39;DIAGNOSTIC (the open-ended-vs-bounded test): is heritable variance SUSTAINED/regenerated across generations (open-ended) rather than consumed as the population converges? It is NOT - the variance ratio final/initial &lt; 1 and the trait space is a fixed scalar, so this is BOUNDED fixed-trait selection, not open-ended novelty.&#39;, &#39;verdict&#39;: &#39;mismatch&#39;, &#39;value&#39;: 0.469754, &#39;meter&#39;: 0.234877, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 1.0, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: -0.530246, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: &#39;vasas2010lack&#39;}</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+          
         
       </div>
       
@@ -1645,7 +1612,7 @@ cites:   ["vasas2010lack"]</pre>
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "4bf3f32019f569f65110927b60449b6d497cfa4a", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/4bf3f32019f569f65110927b60449b6d497cfa4a", "branch": "main", "lockfile": "uv.lock@594fc1873c7c", "generated_at": "2026-10-20 23:15 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "6f55a5bd4733ea375f86564885b112f6bde5a6f2", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/6f55a5bd4733ea375f86564885b112f6bde5a6f2", "branch": "main", "lockfile": "uv.lock@9a2cdc436317", "generated_at": "2026-10-22 14:06 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>

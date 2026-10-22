@@ -204,6 +204,19 @@
 .figure-media-frame{display:block;width:100%;border:0;background:#fff}
 .figure-media-frame--native{height:auto;min-height:320px}  /* JS (_autosizeNativeFrames) grows this to the figure's full content height */
 .figure-media-frame--embed{min-height:200px}
+/* Explore-module launch card: a deeper interactive module (Corpus Explorer, 3D
+   viewers, …) is linked out full-size rather than squeezed into an iframe. */
+.explore-module-card{display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:14px 18px;border:1px solid #c7d2fe;background:linear-gradient(0deg,#f5f7ff,#fff)}
+.explore-module-main{min-width:0}
+.explore-module-badge{display:inline-block;font-size:0.68rem;font-weight:700;letter-spacing:0.04em;
+  text-transform:uppercase;color:#4338ca;background:#e0e7ff;border-radius:9999px;padding:2px 9px;margin-right:8px}
+.explore-module-launch{flex:none;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;
+  text-decoration:none;font-weight:600;font-size:0.9rem;color:#fff;background:#4f46e5;
+  border-radius:7px;padding:9px 16px;transition:background .12s}
+.explore-module-launch:hover{background:#4338ca}
+:root[data-theme="dark"] .explore-module-card{border-color:#3730a3;background:linear-gradient(0deg,#1e1b4b,var(--surface))}
+:root[data-theme="dark"] .explore-module-badge{color:#c7d2fe;background:#312e81}
 /* SVGs/PNGs scale to fit their card; preserves aspect ratio so a 1400×484
    chart shrinks instead of overflowing horizontally + clipping. */
 .figure-card svg,.figure-card img.chart-img{display:block;width:100%;max-width:100%;height:auto}
@@ -548,7 +561,7 @@
       <h2 class="overview-label ctr-h">Model &amp; approach</h2>
       <p class="ctr-text">Run the stochastic community-vs-best-single composite against a matched equal-feed null (og-36), the connected-vs-isolated metacommunity (og-07), and the real metabolite-exchange community against a no-exchange/count-only null (og-07-alt) — reporting each arm&#39;s verdict + matched null with element ledgers closed and the stochastic / robustness caveats stated plainly.</p>
       <div class="ctr-meta">
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Model</span> <code>Stochastic protocell ecology (community vs best single, matched null) — canonical arm (og-36)</code>, <code>Cross-feeding metacommunity (connected vs isolated) — og-07 arm</code>, <code>Real metabolite-exchange community (function before cell completeness) — og-07-alt arm</code><a class="ov-tablink" href="#" onclick="_setStudyTab('compose');return false;">model →</a></div>
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Model</span> <code>og-ecology</code><a class="ov-tablink" href="#" onclick="_setStudyTab('compose');return false;">model →</a></div>
         
         <div class="ctr-meta-row"><span class="ctr-meta-k">Measures</span> <span class="ctr-meta-item">25 behavior tests</span><a class="ov-tablink" href="#" onclick="_setStudyTab('audit');return false;">see Tests →</a></div>
         
@@ -1462,7 +1475,7 @@
     
     <div class="cond-block" data-model-composite="viva_genesis.composites.og_36_stochastic_protocell_ecology.og_36_stochastic_protocell_ecology" data-model-overrides='{}'>
       <div class="cond-block-title" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-        <strong>Stochastic protocell ecology (community vs best single, matched null) — canonical arm (og-36)</strong>
+        <strong>og-ecology</strong>
         
         <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.og_36_stochastic_protocell_ecology.og_36_stochastic_protocell_ecology</code>
         <button type="button" class="action-btn" style="font-size:0.8em"
@@ -1472,16 +1485,16 @@
       
       <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
         
-        <select class="baseline-composite-input" data-baseline-name="Stochastic protocell ecology (community vs best single, matched null) — canonical arm (og-36)"
+        <select class="baseline-composite-input" data-baseline-name="og-ecology"
                 data-current="viva_genesis.composites.og_36_stochastic_protocell_ecology.og_36_stochastic_protocell_ecology"
                 style="flex:1;min-width:200px;font-family:monospace;font-size:0.82em;padding:3px 6px">
           <option value="viva_genesis.composites.og_36_stochastic_protocell_ecology.og_36_stochastic_protocell_ecology" selected>viva_genesis.composites.og_36_stochastic_protocell_ecology.og_36_stochastic_protocell_ecology</option>
           
         </select>
         <button type="button" class="action-btn baseline-composite-set" style="font-size:0.8em"
-                data-baseline-name="Stochastic protocell ecology (community vs best single, matched null) — canonical arm (og-36)">Set composite</button>
+                data-baseline-name="og-ecology">Set composite</button>
       </div>
-      <div class="baseline-composite-status muted" data-baseline-name="Stochastic protocell ecology (community vs best single, matched null) — canonical arm (og-36)" style="font-size:0.8em;margin-top:2px"></div>
+      <div class="baseline-composite-status muted" data-baseline-name="og-ecology" style="font-size:0.8em;margin-top:2px"></div>
       
       
       
@@ -1499,34 +1512,16 @@
       
     </div>
     
-    <div class="cond-block" data-model-composite="viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity" data-model-overrides='{}'>
+    
+    
+    <div class="cond-block" data-model-composite="" data-model-overrides='{}'>
       <div class="cond-block-title" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-        <strong>Cross-feeding metacommunity (connected vs isolated) — og-07 arm</strong>
-        
-        <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity</code>
-        <button type="button" class="action-btn" style="font-size:0.8em"
-                onclick="_openCompositeLoom('viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity')">🧬 explore &amp; run ↗</button>
-        
+        <strong>baseline</strong>
+        <span class="muted">no composite declared</span>
       </div>
-      
-      <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
-        
-        <select class="baseline-composite-input" data-baseline-name="Cross-feeding metacommunity (connected vs isolated) — og-07 arm"
-                data-current="viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity"
-                style="flex:1;min-width:200px;font-family:monospace;font-size:0.82em;padding:3px 6px">
-          <option value="viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity" selected>viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity</option>
-          
-        </select>
-        <button type="button" class="action-btn baseline-composite-set" style="font-size:0.8em"
-                data-baseline-name="Cross-feeding metacommunity (connected vs isolated) — og-07 arm">Set composite</button>
-      </div>
-      <div class="baseline-composite-status muted" data-baseline-name="Cross-feeding metacommunity (connected vs isolated) — og-07 arm" style="font-size:0.8em;margin-top:2px"></div>
-      
-      
       
       <div class="model-config-mount" style="margin-top:8px">
         <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading configuration…</span></div></div>
-      
       
       
       <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;font-size:0.8em">
@@ -1537,46 +1532,6 @@
       </div>
       
     </div>
-    
-    <div class="cond-block" data-model-composite="viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community" data-model-overrides='{}'>
-      <div class="cond-block-title" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-        <strong>Real metabolite-exchange community (function before cell completeness) — og-07-alt arm</strong>
-        
-        <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community</code>
-        <button type="button" class="action-btn" style="font-size:0.8em"
-                onclick="_openCompositeLoom('viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community')">🧬 explore &amp; run ↗</button>
-        
-      </div>
-      
-      <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
-        
-        <select class="baseline-composite-input" data-baseline-name="Real metabolite-exchange community (function before cell completeness) — og-07-alt arm"
-                data-current="viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community"
-                style="flex:1;min-width:200px;font-family:monospace;font-size:0.82em;padding:3px 6px">
-          <option value="viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community" selected>viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community</option>
-          
-        </select>
-        <button type="button" class="action-btn baseline-composite-set" style="font-size:0.8em"
-                data-baseline-name="Real metabolite-exchange community (function before cell completeness) — og-07-alt arm">Set composite</button>
-      </div>
-      <div class="baseline-composite-status muted" data-baseline-name="Real metabolite-exchange community (function before cell completeness) — og-07-alt arm" style="font-size:0.8em;margin-top:2px"></div>
-      
-      
-      
-      <div class="model-config-mount" style="margin-top:8px">
-        <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading configuration…</span></div></div>
-      
-      
-      
-      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;font-size:0.8em">
-        
-        
-        
-        <span class="cond-pill"><span class="cond-pill-k">status</span>=completed</span>
-      </div>
-      
-    </div>
-    
     
   </div>
   
@@ -2083,17 +2038,20 @@ pass_if: {"detail": "handoff available", "op": "threshold"}</pre>
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.477376</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 0.4774 &gt; 0.3</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&gt;</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;cross-feeding-robustness&#39;, &#39;label&#39;: &#34;og-07&#39;s gate name, recomputed from real agents: settled fraction of product classes held by &gt;= 2 agents (vocabulary of 28 classes, many unreachable at vent feed; reported, not graded at og-07&#39;s 0.5).&#34;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 0.477376, &#39;meter&#39;: 0.7956266666666667, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 0.3, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 0.17737600000000003, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: None}</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+          
         
       </div>
       
@@ -2139,17 +2097,20 @@ pass_if: {"detail": "a majority of capabilities are redundantly covered (robust 
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.071429</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 0.07143 &gt; 0.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&gt;</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;connected-beats-isolated&#39;, &#39;label&#39;: &#34;og-07&#39;s gate name on the real community: metacommunity robustness of the shared community exceeds the private (no-sharing) arm&#39;s.&#34;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 0.071429, &#39;meter&#39;: 0.5357145, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 0.0, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 0.071429, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: None}</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+          
         
       </div>
       
@@ -2195,17 +2156,20 @@ pass_if: {"detail": "connected robustness strictly higher than isolated on every
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.786454</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 0.7865 &gt;= 0.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&gt;=</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;luca-capability-overlap&#39;, &#39;label&#39;: &#34;og-07&#39;s LUCA-core overlap read off the chemistry (H2 oxidation, CO2 fixation, FeS-type catalysis, acetate; ion pumping unreachable, ceiling 0.8). Reported as a boundary, not a target.&#34;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 0.786454, &#39;meter&#39;: 0.893227, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 0.0, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 0.786454, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: &#39;weiss2016physiology; moody2024nature&#39;}</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+          
         
       </div>
       
@@ -2252,17 +2216,20 @@ cites:   ["weiss2016physiology", "moody2024nature"]</pre>
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 1.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 1 &gt;= 1.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&gt;=</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;cross-system-element-ledger-closes&#39;, &#39;label&#39;: &#39;The EcologyElementLedgerProcess closes C / N / P over every agent and field cell against pore inflow, washout and tar on the canonical run (C within 1e-4 — CVODE tolerance; N, P within 1e-9).&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 1.0, &#39;meter&#39;: 0.5, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 1.0, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 0.0, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: None}</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+          
         
       </div>
       
@@ -2308,17 +2275,20 @@ pass_if: {"detail": "every residual within tolerance", "op": "\u003e=", "value":
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 1.58e-11 &lt;= 0.0001</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&lt;=</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;carbon-residual-at-integrator-tolerance&#39;, &#39;label&#39;: &#34;Recorded: worst-case carbon residual of the cross-system ledger (the agents&#39; CVODE tolerance, ~1e-9).&#34;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 0.0, &#39;meter&#39;: 1.0, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 0.0001, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&lt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 0.0001, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: None}</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+          
         
       </div>
       
@@ -2364,17 +2334,20 @@ pass_if: {"detail": "integrator tolerance", "op": "\u003c=", "value": 0.0001}</p
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 466668.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 4.667e+05 &gt; 1000.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&gt;</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;exchange-rules-fire&#39;, &#39;label&#39;: &#34;The reactive system&#39;s rules (uptake, secretion, pore diffusion, feed / washout) fired on the canonical run — the firing count is a witness, not a diagnostic.&#34;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 466668.0, &#39;meter&#39;: 1.0, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 1000.0, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 465668.0, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: None}</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+          
         
       </div>
       
@@ -2420,17 +2393,20 @@ pass_if: {"detail": "rules fired", "op": "\u003e", "value": 1000.0}</pre>
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 4.006e-22 &gt; 0.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&gt;</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;metabolites-cross-between-lineages&#39;, &#39;label&#39;: &#39;Moles secreted by one lineage and taken up by the other in the same tick accumulate on the canonical run (real metabolite flux between lineages).&#39;, &#39;verdict&#39;: &#39;mismatch&#39;, &#39;value&#39;: 0.0, &#39;meter&#39;: 0.5, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 0.0, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 0.0, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: None}</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+          
         
       </div>
       
@@ -2476,17 +2452,20 @@ pass_if: {"detail": "non-zero cross-lineage flux", "op": "\u003e", "value": 0.0}
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.933333</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 0.9333 &lt; 1.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&lt;</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;no-cell-complete&#39;, &#39;label&#39;: &#39;On the final tick of the canonical run no agent holds the whole community union (max completeness &lt; 1).&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 0.933333, &#39;meter&#39;: 0.5333335, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 1.0, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&lt;&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 0.06666700000000003, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: None}</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+          
         
       </div>
       
@@ -2532,17 +2511,20 @@ pass_if: {"detail": "no complete cell", "op": "\u003c", "value": 1.0}</pre>
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 1.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 1 &gt;= 1.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&gt;=</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;community-function-precedes-cell-completeness&#39;, &#39;label&#39;: &#39;Ecology exit gate: at least one product class is held in the community (settled max concentration &gt;= 1 nM) that neither monoculture holds or produces, while no cell in the community is complete. Declared after the exploratory permeability scan was visible and evaluated on the deterministic committed artifact.&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 1.0, &#39;meter&#39;: 0.5, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 1.0, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 0.0, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: &#39;wolos2020synthetic; weiss2016physiology&#39;}</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+          
         
       </div>
       
@@ -2589,17 +2571,20 @@ cites:   ["wolos2020synthetic", "weiss2016physiology"]</pre>
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 1.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 1 &gt;= 1.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&gt;=</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;community-function-vanishes-without-exchange&#39;, &#39;label&#39;: &#39;Every community-only class is absent (&lt; 1 nM) in the private arm, where each agent exchanges only with its own copy of the background.&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 1.0, &#39;meter&#39;: 0.5, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 1.0, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 0.0, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: None}</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+          
         
       </div>
       
@@ -2645,17 +2630,20 @@ pass_if: {"detail": "vanishes without sharing", "op": "\u003e=", "value": 1.0}</
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 1.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 1 &gt;= 1.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&gt;=</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;community-function-flux-sustained&#39;, &#39;label&#39;: &#34;Each community-only class vanishes without sharing AND a precursor its producing lineage cannot make in monoculture (from the universe&#39;s stoichiometry) crosses between the lineages with a non-zero flux — real metabolite flux, not symbolic transfer.&#34;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 1.0, &#39;meter&#39;: 0.5, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 1.0, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 0.0, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: None}</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+          
         
       </div>
       
@@ -2701,17 +2689,20 @@ pass_if: {"detail": "flux-sustained", "op": "\u003e=", "value": 1.0}</pre>
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.933333</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 0.9333 &lt; 1.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&lt;</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;community-max-cell-completeness&#39;, &#39;label&#39;: &#39;In the community at the canonical point the best agent holds less than the whole union (the function precedes cell completeness).&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 0.933333, &#39;meter&#39;: 0.5333335, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 1.0, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&lt;&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 0.06666700000000003, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: None}</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+          
         
       </div>
       
@@ -2757,17 +2748,20 @@ pass_if: {"detail": "no complete cell", "op": "\u003c", "value": 1.0}</pre>
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.047025</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 0.04702 &gt;= 0.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&gt;=</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;community-vs-complete-cell&#39;, &#39;label&#39;: &#34;Recorded: the community&#39;s level of its community-only class over the generalist (complete-cell) arm&#39;s level.&#34;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 0.047025, &#39;meter&#39;: 0.5235125, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 0.0, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 0.047025, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: None}</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+          
         
       </div>
       
@@ -2813,17 +2807,20 @@ pass_if: {"detail": "informative readout", "op": "\u003e=", "value": 0.0}</pre>
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 3e-09 &lt;= 1e-07</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&lt;=</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;emergence-boundary-resolved&#39;, &#39;label&#39;: &#39;Recorded: the lowest diacid permeability at the nominal residence (100 s) at which the community-only function emerges; a boundary exists inside the swept decade range.&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 0.0, &#39;meter&#39;: 1.0, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: &#39;1e-07&#39;, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&lt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: &#39;1e-07&#39;, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: &#39;jordan2019promotion; mast2010thermal&#39;}</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+          
         
       </div>
       
@@ -2870,17 +2867,20 @@ cites:   ["jordan2019promotion", "mast2010thermal"]</pre>
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 1.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 1 &gt;= 0.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&gt;=</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;null-community-only-count&#39;, &#39;label&#39;: &#39;Recorded: the maximum number of community-only classes the rewired null universe yields over two seeds (how much of the split is the partition rather than the chemistry).&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 1.0, &#39;meter&#39;: 1.0, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 0.0, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 1.0, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: &#39;maslov2002specificity&#39;}</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+          
         
       </div>
       
@@ -2927,17 +2927,20 @@ cites:   ["maslov2002specificity"]</pre>
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 1.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 1 &gt;= 1.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&gt;=</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;segregated-placement-keeps-function&#39;, &#39;label&#39;: &#39;With the lineages in separate blocks of the pore the community-only function is still present (pore diffusion carries the intermediate).&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 1.0, &#39;meter&#39;: 0.5, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 1.0, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 0.0, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: None}</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+          
         
       </div>
       
@@ -2983,17 +2986,20 @@ pass_if: {"detail": "function kept", "op": "\u003e=", "value": 1.0}</pre>
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 1.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 1 &gt;= 1.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&gt;=</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;map-ledgers-close&#39;, &#39;label&#39;: &#39;The C / N / P ledger stayed within tolerance on every one of the 98 arm / map runs.&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 1.0, &#39;meter&#39;: 0.5, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 1.0, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 0.0, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: None}</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+          
         
       </div>
       
@@ -3257,7 +3263,7 @@ pass_if: {"detail": "all runs within tolerance", "op": "\u003e=", "value": 1.0}<
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "4bf3f32019f569f65110927b60449b6d497cfa4a", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/4bf3f32019f569f65110927b60449b6d497cfa4a", "branch": "main", "lockfile": "uv.lock@594fc1873c7c", "generated_at": "2026-10-20 23:15 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "6f55a5bd4733ea375f86564885b112f6bde5a6f2", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/6f55a5bd4733ea375f86564885b112f6bde5a6f2", "branch": "main", "lockfile": "uv.lock@9a2cdc436317", "generated_at": "2026-10-22 14:06 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>

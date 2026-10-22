@@ -204,6 +204,19 @@
 .figure-media-frame{display:block;width:100%;border:0;background:#fff}
 .figure-media-frame--native{height:auto;min-height:320px}  /* JS (_autosizeNativeFrames) grows this to the figure's full content height */
 .figure-media-frame--embed{min-height:200px}
+/* Explore-module launch card: a deeper interactive module (Corpus Explorer, 3D
+   viewers, …) is linked out full-size rather than squeezed into an iframe. */
+.explore-module-card{display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:14px 18px;border:1px solid #c7d2fe;background:linear-gradient(0deg,#f5f7ff,#fff)}
+.explore-module-main{min-width:0}
+.explore-module-badge{display:inline-block;font-size:0.68rem;font-weight:700;letter-spacing:0.04em;
+  text-transform:uppercase;color:#4338ca;background:#e0e7ff;border-radius:9999px;padding:2px 9px;margin-right:8px}
+.explore-module-launch{flex:none;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;
+  text-decoration:none;font-weight:600;font-size:0.9rem;color:#fff;background:#4f46e5;
+  border-radius:7px;padding:9px 16px;transition:background .12s}
+.explore-module-launch:hover{background:#4338ca}
+:root[data-theme="dark"] .explore-module-card{border-color:#3730a3;background:linear-gradient(0deg,#1e1b4b,var(--surface))}
+:root[data-theme="dark"] .explore-module-badge{color:#c7d2fe;background:#312e81}
 /* SVGs/PNGs scale to fit their card; preserves aspect ratio so a 1400×484
    chart shrinks instead of overflowing horizontally + clipping. */
 .figure-card svg,.figure-card img.chart-img{display:block;width:100%;max-width:100%;height:auto}
@@ -548,7 +561,7 @@
       <h2 class="overview-label ctr-h">Model &amp; approach</h2>
       <p class="ctr-text">Sweep the serpentinizing reactor over the operating grid (og-00) and condition the PHREEQC+FiPy vent on the Lost City field windows (og-cal), measuring the posterior-viable fraction, cross-transport-class agreement and the conservation ledger.</p>
       <div class="ctr-meta">
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Model</span> <code>Serpentinizing vent reactor baseline (og-00 arm)</code>, <code>Geochemical world at the vent-calibration operating point (og-cal arm)</code><a class="ov-tablink" href="#" onclick="_setStudyTab('compose');return false;">model →</a></div>
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Model</span> <code>og-vent-environment</code><a class="ov-tablink" href="#" onclick="_setStudyTab('compose');return false;">model →</a></div>
         
         <div class="ctr-meta-row"><span class="ctr-meta-k">Measures</span> <span class="ctr-meta-item">11 behavior tests</span><a class="ov-tablink" href="#" onclick="_setStudyTab('audit');return false;">see Tests →</a></div>
         
@@ -1375,7 +1388,7 @@
     
     <div class="cond-block" data-model-composite="viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor" data-model-overrides='{}'>
       <div class="cond-block-title" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-        <strong>Serpentinizing vent reactor baseline (og-00 arm)</strong>
+        <strong>og-vent-environment</strong>
         
         <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor</code>
         <button type="button" class="action-btn" style="font-size:0.8em"
@@ -1385,16 +1398,16 @@
       
       <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
         
-        <select class="baseline-composite-input" data-baseline-name="Serpentinizing vent reactor baseline (og-00 arm)"
+        <select class="baseline-composite-input" data-baseline-name="og-vent-environment"
                 data-current="viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor"
                 style="flex:1;min-width:200px;font-family:monospace;font-size:0.82em;padding:3px 6px">
           <option value="viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor" selected>viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor</option>
           
         </select>
         <button type="button" class="action-btn baseline-composite-set" style="font-size:0.8em"
-                data-baseline-name="Serpentinizing vent reactor baseline (og-00 arm)">Set composite</button>
+                data-baseline-name="og-vent-environment">Set composite</button>
       </div>
-      <div class="baseline-composite-status muted" data-baseline-name="Serpentinizing vent reactor baseline (og-00 arm)" style="font-size:0.8em;margin-top:2px"></div>
+      <div class="baseline-composite-status muted" data-baseline-name="og-vent-environment" style="font-size:0.8em;margin-top:2px"></div>
       
       
       
@@ -1412,34 +1425,16 @@
       
     </div>
     
-    <div class="cond-block" data-model-composite="viva_genesis.composites.geochemical_world.geochemical_world" data-model-overrides='{}'>
+    
+    
+    <div class="cond-block" data-model-composite="" data-model-overrides='{}'>
       <div class="cond-block-title" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-        <strong>Geochemical world at the vent-calibration operating point (og-cal arm)</strong>
-        
-        <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.geochemical_world.geochemical_world</code>
-        <button type="button" class="action-btn" style="font-size:0.8em"
-                onclick="_openCompositeLoom('viva_genesis.composites.geochemical_world.geochemical_world')">🧬 explore &amp; run ↗</button>
-        
+        <strong>baseline</strong>
+        <span class="muted">no composite declared</span>
       </div>
-      
-      <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
-        
-        <select class="baseline-composite-input" data-baseline-name="Geochemical world at the vent-calibration operating point (og-cal arm)"
-                data-current="viva_genesis.composites.geochemical_world.geochemical_world"
-                style="flex:1;min-width:200px;font-family:monospace;font-size:0.82em;padding:3px 6px">
-          <option value="viva_genesis.composites.geochemical_world.geochemical_world" selected>viva_genesis.composites.geochemical_world.geochemical_world</option>
-          
-        </select>
-        <button type="button" class="action-btn baseline-composite-set" style="font-size:0.8em"
-                data-baseline-name="Geochemical world at the vent-calibration operating point (og-cal arm)">Set composite</button>
-      </div>
-      <div class="baseline-composite-status muted" data-baseline-name="Geochemical world at the vent-calibration operating point (og-cal arm)" style="font-size:0.8em;margin-top:2px"></div>
-      
-      
       
       <div class="model-config-mount" style="margin-top:8px">
         <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading configuration…</span></div></div>
-      
       
       
       <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;font-size:0.8em">
@@ -1450,7 +1445,6 @@
       </div>
       
     </div>
-    
     
   </div>
   
@@ -1725,17 +1719,20 @@ cites:   ["schwander2023serpentinization"]</pre>
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 0 &lt;= 1e-06</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&lt;=</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;charge-conserved&#39;, &#39;label&#39;: &#39;PHREEQC balances charge every step (charge_neutrality invariant).&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 0.0, &#39;meter&#39;: 1.0, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: &#39;1e-06&#39;, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&lt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: &#39;1e-06&#39;, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: None}</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+          
         
       </div>
       
@@ -1860,17 +1857,20 @@ cites:   ["kelley2001offaxis", "ludwig2006formation"]</pre>
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 0 &lt;= 1e-12</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&lt;=</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;ledger-closes&#39;, &#39;label&#39;: &#39;Integrated H2 / alkalinity sources equal the accumulated pools (matter ledger exact by construction).&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 0.0, &#39;meter&#39;: 1.0, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: &#39;1e-12&#39;, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&lt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: &#39;1e-12&#39;, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: None}</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+          
         
       </div>
       
@@ -1916,17 +1916,20 @@ pass_if: {"detail": "matter ledger residual at machine precision", "op": "\u003c
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 0 &lt;= 1e-12</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&lt;=</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;energy-ledger-closes&#39;, &#39;label&#39;: &#39;Integrated serpentinization heat equals the accumulated heat pool.&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 0.0, &#39;meter&#39;: 1.0, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: &#39;1e-12&#39;, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&lt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: &#39;1e-12&#39;, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: None}</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+          
         
       </div>
       
@@ -1972,17 +1975,20 @@ pass_if: {"detail": "energy ledger residual at machine precision", "op": "\u003c
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 1.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 1 &gt;= 1.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&gt;=</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;heat-released-not-absorbed&#39;, &#39;label&#39;: &#39;Serpentinization is exothermic — the heat source never goes negative (energy_directionality invariant, previously declared but uncomputed in og-00).&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 1.0, &#39;meter&#39;: 0.5, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 1.0, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 0.0, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: None}</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+          
         
       </div>
       
@@ -2028,17 +2034,20 @@ pass_if: {"detail": "directionality witness holds through the run", "op": "\u003
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 4.591306</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 4.591 in [1.0, 15.0]</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/range</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;dissolved-h2-in-lost-city-range&#39;, &#39;label&#39;: &#34;The canonical operating point&#39;s reacted-fluid dissolved H2 (backed out of the settled H2 flux) sits in the Lost City end-member range 1-15 mmol/kg.&#34;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 4.591306, &#39;meter&#39;: 0.6197102, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;band&#39;, &#39;value&#39;: None, &#39;low&#39;: 1.0, &#39;high&#39;: 15.0, &#39;op&#39;: &#39;~=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 3.5913060000000003, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: &#39;kelley2005serpentinite; proskurowski2008abiogenic&#39;}</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+          
         
       </div>
       
@@ -2085,17 +2094,20 @@ cites:   ["kelley2005serpentinite", "proskurowski2008abiogenic"]</pre>
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 1.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 1 &gt; 0.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&gt;</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;posterior-viable-vent-fraction&#39;, &#39;label&#39;: &#39;Vent-calibration exit criterion (Feasibility + Robustness): the fraction of prior draws consistent with every observation window that also satisfy the downstream requirements must be positive (at least one physically admissible, observation-consistent vent state feeds carbon fixation); the value itself is the deliverable.&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 1.0, &#39;meter&#39;: 1.0, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 0.0, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 1.0, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: &#39;kelley2001offaxis; kelley2005serpentinite; ludwig2006formation; proskurowski2008abiogenic&#39;}</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+          
         
       </div>
       
@@ -2142,17 +2154,20 @@ cites:   ["kelley2001offaxis", "kelley2005serpentinite", "ludwig2006formation", 
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 1.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 1 &gt;= 0.8</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&gt;=</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;structure-agreement-across-transport-classes&#39;, &#39;label&#39;: &#34;Discrimination / model-form uncertainty: the convecting and prescribed-upflow transport classes must agree on viability for at least 80% of the prior draws, else og-00&#39;s conclusions are structure-sensitive.&#34;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 1.0, &#39;meter&#39;: 0.625, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 0.8, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 0.19999999999999996, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: None}</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+          
         
       </div>
       
@@ -2416,7 +2431,7 @@ pass_if: {"detail": "cross-class agreement \u003e= 0.8", "op": "\u003e=", "value
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "4bf3f32019f569f65110927b60449b6d497cfa4a", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/4bf3f32019f569f65110927b60449b6d497cfa4a", "branch": "main", "lockfile": "uv.lock@594fc1873c7c", "generated_at": "2026-10-20 23:15 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "6f55a5bd4733ea375f86564885b112f6bde5a6f2", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/6f55a5bd4733ea375f86564885b112f6bde5a6f2", "branch": "main", "lockfile": "uv.lock@9a2cdc436317", "generated_at": "2026-10-22 14:06 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>

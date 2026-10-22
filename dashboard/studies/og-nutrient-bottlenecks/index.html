@@ -204,6 +204,19 @@
 .figure-media-frame{display:block;width:100%;border:0;background:#fff}
 .figure-media-frame--native{height:auto;min-height:320px}  /* JS (_autosizeNativeFrames) grows this to the figure's full content height */
 .figure-media-frame--embed{min-height:200px}
+/* Explore-module launch card: a deeper interactive module (Corpus Explorer, 3D
+   viewers, …) is linked out full-size rather than squeezed into an iframe. */
+.explore-module-card{display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:14px 18px;border:1px solid #c7d2fe;background:linear-gradient(0deg,#f5f7ff,#fff)}
+.explore-module-main{min-width:0}
+.explore-module-badge{display:inline-block;font-size:0.68rem;font-weight:700;letter-spacing:0.04em;
+  text-transform:uppercase;color:#4338ca;background:#e0e7ff;border-radius:9999px;padding:2px 9px;margin-right:8px}
+.explore-module-launch{flex:none;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;
+  text-decoration:none;font-weight:600;font-size:0.9rem;color:#fff;background:#4f46e5;
+  border-radius:7px;padding:9px 16px;transition:background .12s}
+.explore-module-launch:hover{background:#4338ca}
+:root[data-theme="dark"] .explore-module-card{border-color:#3730a3;background:linear-gradient(0deg,#1e1b4b,var(--surface))}
+:root[data-theme="dark"] .explore-module-badge{color:#c7d2fe;background:#312e81}
 /* SVGs/PNGs scale to fit their card; preserves aspect ratio so a 1400×484
    chart shrinks instead of overflowing horizontally + clipping. */
 .figure-card svg,.figure-card img.chart-img{display:block;width:100%;max-width:100%;height:auto}
@@ -548,7 +561,7 @@
       <h2 class="overview-label ctr-h">Model &amp; approach</h2>
       <p class="ctr-text">Run the reduced-nitrogen reactor and the phosphorus-availability pore model, measure ammonium production / C:N balance (nitrogen) and reactive-P availability / carbon co-concentration (phosphorus) against their matched nulls with input fluxes held equal, and report each arm&#39;s verdict + matched null with mass conservation checked.</p>
       <div class="ctr-meta">
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Model</span> <code>Reduced-nitrogen reactor (ammonium, C:N balance) — canonical arm (og-res-nitrogen)</code>, <code>Phosphorus availability (reactive-P co-concentration) — og-res-phosphorus arm</code><a class="ov-tablink" href="#" onclick="_setStudyTab('compose');return false;">model →</a></div>
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Model</span> <code>og-nutrient-bottlenecks</code><a class="ov-tablink" href="#" onclick="_setStudyTab('compose');return false;">model →</a></div>
         
         <div class="ctr-meta-row"><span class="ctr-meta-k">Measures</span> <span class="ctr-meta-item">10 behavior tests</span><a class="ov-tablink" href="#" onclick="_setStudyTab('audit');return false;">see Tests →</a></div>
         
@@ -1253,7 +1266,7 @@
     
     <div class="cond-block" data-model-composite="viva_genesis.composites.nitrogen_assimilation.reduced_nitrogen_reactor" data-model-overrides='{}'>
       <div class="cond-block-title" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-        <strong>Reduced-nitrogen reactor (ammonium, C:N balance) — canonical arm (og-res-nitrogen)</strong>
+        <strong>og-nutrient-bottlenecks</strong>
         
         <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.nitrogen_assimilation.reduced_nitrogen_reactor</code>
         <button type="button" class="action-btn" style="font-size:0.8em"
@@ -1263,16 +1276,16 @@
       
       <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
         
-        <select class="baseline-composite-input" data-baseline-name="Reduced-nitrogen reactor (ammonium, C:N balance) — canonical arm (og-res-nitrogen)"
+        <select class="baseline-composite-input" data-baseline-name="og-nutrient-bottlenecks"
                 data-current="viva_genesis.composites.nitrogen_assimilation.reduced_nitrogen_reactor"
                 style="flex:1;min-width:200px;font-family:monospace;font-size:0.82em;padding:3px 6px">
           <option value="viva_genesis.composites.nitrogen_assimilation.reduced_nitrogen_reactor" selected>viva_genesis.composites.nitrogen_assimilation.reduced_nitrogen_reactor</option>
           
         </select>
         <button type="button" class="action-btn baseline-composite-set" style="font-size:0.8em"
-                data-baseline-name="Reduced-nitrogen reactor (ammonium, C:N balance) — canonical arm (og-res-nitrogen)">Set composite</button>
+                data-baseline-name="og-nutrient-bottlenecks">Set composite</button>
       </div>
-      <div class="baseline-composite-status muted" data-baseline-name="Reduced-nitrogen reactor (ammonium, C:N balance) — canonical arm (og-res-nitrogen)" style="font-size:0.8em;margin-top:2px"></div>
+      <div class="baseline-composite-status muted" data-baseline-name="og-nutrient-bottlenecks" style="font-size:0.8em;margin-top:2px"></div>
       
       
       
@@ -1290,34 +1303,16 @@
       
     </div>
     
-    <div class="cond-block" data-model-composite="viva_genesis.composites.phosphorus_availability.phosphorus_availability" data-model-overrides='{}'>
+    
+    
+    <div class="cond-block" data-model-composite="" data-model-overrides='{}'>
       <div class="cond-block-title" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-        <strong>Phosphorus availability (reactive-P co-concentration) — og-res-phosphorus arm</strong>
-        
-        <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.phosphorus_availability.phosphorus_availability</code>
-        <button type="button" class="action-btn" style="font-size:0.8em"
-                onclick="_openCompositeLoom('viva_genesis.composites.phosphorus_availability.phosphorus_availability')">🧬 explore &amp; run ↗</button>
-        
+        <strong>baseline</strong>
+        <span class="muted">no composite declared</span>
       </div>
-      
-      <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
-        
-        <select class="baseline-composite-input" data-baseline-name="Phosphorus availability (reactive-P co-concentration) — og-res-phosphorus arm"
-                data-current="viva_genesis.composites.phosphorus_availability.phosphorus_availability"
-                style="flex:1;min-width:200px;font-family:monospace;font-size:0.82em;padding:3px 6px">
-          <option value="viva_genesis.composites.phosphorus_availability.phosphorus_availability" selected>viva_genesis.composites.phosphorus_availability.phosphorus_availability</option>
-          
-        </select>
-        <button type="button" class="action-btn baseline-composite-set" style="font-size:0.8em"
-                data-baseline-name="Phosphorus availability (reactive-P co-concentration) — og-res-phosphorus arm">Set composite</button>
-      </div>
-      <div class="baseline-composite-status muted" data-baseline-name="Phosphorus availability (reactive-P co-concentration) — og-res-phosphorus arm" style="font-size:0.8em;margin-top:2px"></div>
-      
-      
       
       <div class="model-config-mount" style="margin-top:8px">
         <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading configuration…</span></div></div>
-      
       
       
       <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;font-size:0.8em">
@@ -1328,7 +1323,6 @@
       </div>
       
     </div>
-    
     
   </div>
   
@@ -1761,17 +1755,20 @@ cites:   ["dorr2003prebiotic"]</pre>
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 2e-06</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 1.801e-06 &gt; 0.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&gt;</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;reactive-p-available&#39;, &#39;label&#39;: &#39;Reactive-P production outpaces precipitation/adsorption loss — net reactive-P availability settles positive in the favorable (enriched) pore (a window where reactive P is produced faster than it is lost).&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: &#39;2e-06&#39;, &#39;meter&#39;: 0.500001, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 0.0, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: &#39;2e-06&#39;, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: &#39;pasek2017schreibersite&#39;}</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+          
         
       </div>
       
@@ -1818,13 +1815,16 @@ cites:   ["pasek2017schreibersite"]</pre>
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 23.336</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: cross_run</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: the real og-03 thermophoretic pore enriches ~23× (&gt;= carbon co-concentration floor 10×): the SAME pore regime concentrates carbon (og-03) AND phosphate; P reactive-availability at that enrichment is positive — P and C co-concentrate [arms_reported, overlap=yes]</code>
+          
         
       </div>
       
@@ -1871,13 +1871,16 @@ cites:   ["baaske2007extreme", "mast2010thermal"]</pre>
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: -1.99416e-07</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: cross_run</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: favorable net availability=1.80e-06 mol/s (precipitated 6%) vs open-pore/no-gradient control net=-1.99e-07 mol/s (precipitated 96%) — without enrichment precipitation wins, reactive-P availability collapses</code>
+          
         
       </div>
       
@@ -1924,17 +1927,20 @@ cites:   ["pasek2017schreibersite"]</pre>
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 1e-06</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 5.163e-07 &lt;= 1e-06</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&lt;=</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;p-mass-conserved&#39;, &#39;label&#39;: &#39;The closed P-speciation network conserves total phosphorus (|total P - supplied| / supplied ~ machine epsilon).&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: &#39;1e-06&#39;, &#39;meter&#39;: 0.5, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: &#39;1e-06&#39;, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&lt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 0.0, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: None}</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+          
         
       </div>
       
@@ -2198,7 +2204,7 @@ pass_if: {"detail": "P-mass residual small (P-atom-conserving network)", "op": "
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "4bf3f32019f569f65110927b60449b6d497cfa4a", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/4bf3f32019f569f65110927b60449b6d497cfa4a", "branch": "main", "lockfile": "uv.lock@594fc1873c7c", "generated_at": "2026-10-20 23:15 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "6f55a5bd4733ea375f86564885b112f6bde5a6f2", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/6f55a5bd4733ea375f86564885b112f6bde5a6f2", "branch": "main", "lockfile": "uv.lock@9a2cdc436317", "generated_at": "2026-10-22 14:06 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>

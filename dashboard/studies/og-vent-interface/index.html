@@ -204,6 +204,19 @@
 .figure-media-frame{display:block;width:100%;border:0;background:#fff}
 .figure-media-frame--native{height:auto;min-height:320px}  /* JS (_autosizeNativeFrames) grows this to the figure's full content height */
 .figure-media-frame--embed{min-height:200px}
+/* Explore-module launch card: a deeper interactive module (Corpus Explorer, 3D
+   viewers, …) is linked out full-size rather than squeezed into an iframe. */
+.explore-module-card{display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:14px 18px;border:1px solid #c7d2fe;background:linear-gradient(0deg,#f5f7ff,#fff)}
+.explore-module-main{min-width:0}
+.explore-module-badge{display:inline-block;font-size:0.68rem;font-weight:700;letter-spacing:0.04em;
+  text-transform:uppercase;color:#4338ca;background:#e0e7ff;border-radius:9999px;padding:2px 9px;margin-right:8px}
+.explore-module-launch{flex:none;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;
+  text-decoration:none;font-weight:600;font-size:0.9rem;color:#fff;background:#4f46e5;
+  border-radius:7px;padding:9px 16px;transition:background .12s}
+.explore-module-launch:hover{background:#4338ca}
+:root[data-theme="dark"] .explore-module-card{border-color:#3730a3;background:linear-gradient(0deg,#1e1b4b,var(--surface))}
+:root[data-theme="dark"] .explore-module-badge{color:#c7d2fe;background:#312e81}
 /* SVGs/PNGs scale to fit their card; preserves aspect ratio so a 1400×484
    chart shrinks instead of overflowing horizontally + clipping. */
 .figure-card svg,.figure-card img.chart-img{display:block;width:100%;max-width:100%;height:auto}
@@ -548,7 +561,7 @@
       <h2 class="overview-label ctr-h">Model &amp; approach</h2>
       <p class="ctr-text">Sweep the coupled geochemical reaction interface (og-27) across the DIC crossover to bound the window (realized); the sustained-flux / mineral-evolution / coupled-ledger tests over timescales are specified but PLANNED, not yet run.</p>
       <div class="ctr-meta">
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Model</span> <code>Coupled geochemical reaction interface — canonical (og-27)</code><a class="ov-tablink" href="#" onclick="_setStudyTab('compose');return false;">model →</a></div>
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Model</span> <code>og-vent-interface</code><a class="ov-tablink" href="#" onclick="_setStudyTab('compose');return false;">model →</a></div>
         
         <div class="ctr-meta-row"><span class="ctr-meta-k">Measures</span> <span class="ctr-meta-item">6 behavior tests</span><a class="ov-tablink" href="#" onclick="_setStudyTab('audit');return false;">see Tests →</a></div>
         
@@ -1004,7 +1017,7 @@
     
     <div class="cond-block" data-model-composite="viva_genesis.composites.og_27_coupled_geochemical_reaction_interface.og_27_coupled_geochemical_reaction_interface" data-model-overrides='{}'>
       <div class="cond-block-title" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-        <strong>Coupled geochemical reaction interface — canonical (og-27)</strong>
+        <strong>og-vent-interface</strong>
         
         <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.og_27_coupled_geochemical_reaction_interface.og_27_coupled_geochemical_reaction_interface</code>
         <button type="button" class="action-btn" style="font-size:0.8em"
@@ -1014,16 +1027,22 @@
       
       <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
         
-        <select class="baseline-composite-input" data-baseline-name="Coupled geochemical reaction interface — canonical (og-27)"
+        <select class="baseline-composite-input" data-baseline-name="og-vent-interface"
                 data-current="viva_genesis.composites.og_27_coupled_geochemical_reaction_interface.og_27_coupled_geochemical_reaction_interface"
                 style="flex:1;min-width:200px;font-family:monospace;font-size:0.82em;padding:3px 6px">
           <option value="viva_genesis.composites.og_27_coupled_geochemical_reaction_interface.og_27_coupled_geochemical_reaction_interface" selected>viva_genesis.composites.og_27_coupled_geochemical_reaction_interface.og_27_coupled_geochemical_reaction_interface</option>
           
         </select>
         <button type="button" class="action-btn baseline-composite-set" style="font-size:0.8em"
-                data-baseline-name="Coupled geochemical reaction interface — canonical (og-27)">Set composite</button>
+                data-baseline-name="og-vent-interface">Set composite</button>
       </div>
-      <div class="baseline-composite-status muted" data-baseline-name="Coupled geochemical reaction interface — canonical (og-27)" style="font-size:0.8em;margin-top:2px"></div>
+      <div class="baseline-composite-status muted" data-baseline-name="og-vent-interface" style="font-size:0.8em;margin-top:2px"></div>
+      
+      
+      
+      
+      
+      
       
       
       
@@ -1235,9 +1254,12 @@
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
-          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.0002742</code>
         
+          
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.0002742</code>
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: H2 source flux sustained (0 -&gt; 2.74e-4 mol/s) over the transport timescale; conservation holds.</code>
+          
         
       </div>
       
@@ -1283,7 +1305,10 @@ pass_if: {"detail": "delivery at or above the downstream-required level over the
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: Undersaturated dissolution regime (saturation_index -15..-17); porosity opens 0.35-&gt;0.98, mineral_precipitation=0, catalytic_accessibility stays 1 - throttling criterion unexercised at this operating point.</code>
+          
         
       </div>
       
@@ -1368,7 +1393,10 @@ pass_if: {"detail": "non-trivial driving force, cross-solver agreement to tolera
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: ledger_ok=1 throughout; charge_imbalance=0; flux-divergence residual ~3e-5.</code>
+          
         
       </div>
       
@@ -1710,7 +1738,7 @@ pass_if: {"detail": "the crossover is characterized with the ledger closing at e
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "4bf3f32019f569f65110927b60449b6d497cfa4a", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/4bf3f32019f569f65110927b60449b6d497cfa4a", "branch": "main", "lockfile": "uv.lock@594fc1873c7c", "generated_at": "2026-10-20 23:15 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "6f55a5bd4733ea375f86564885b112f6bde5a6f2", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/6f55a5bd4733ea375f86564885b112f6bde5a6f2", "branch": "main", "lockfile": "uv.lock@9a2cdc436317", "generated_at": "2026-10-22 14:06 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>

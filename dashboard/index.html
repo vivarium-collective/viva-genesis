@@ -835,15 +835,8 @@ a.viv-bs-commit:hover { text-decoration: underline; }
           <small>workbench</small>
         </div>
       </a>
-      <!-- Global search — a magnifier next to the collapse toggle; opens the
-           pop-out search window across studies, catalog, registry, runs and
-           resources (see search-palette.js; ⌘K / Ctrl-K also opens it). -->
-      <button class="viv-rail-toggle viv-rail-search-btn" id="viv-rail-search-btn" type="button" aria-label="Search the workbench" title="Search everything (⌘K)" onclick="(window._vivOpenGlobalSearch||_vivToggleRailSearch)()">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="viv-rail-toggle-svg">
-          <circle cx="11" cy="11" r="7"/>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-        </svg>
-      </button>
+      <!-- Global search moved to a "Search" nav tab above Resources (see below);
+           the header now holds only the collapse toggle. ⌘K still opens search. -->
       <!-- Rail collapse/expand toggle. Lives in the header so, when collapsed, it
            can overlay the logo and reveal on hover (see .viv-rail-collapsed CSS). -->
       <button class="viv-rail-toggle" id="viv-rail-toggle" type="button" aria-label="Collapse sidebar" title="Collapse sidebar" onclick="_vivToggleRail()">
@@ -915,6 +908,21 @@ a.viv-bs-commit:hover { text-decoration: underline; }
 
     <!-- Primary nav -->
     <nav class="viv-rail-section" role="tablist">
+      <!-- Search: opens the global search palette (studies, catalog, registry,
+           runs, resources). Not a page — an action styled as a nav tab, so it
+           carries no data-page and never takes the active state. ⌘K also opens
+           it. Moved here from the header magnifier. -->
+      <a href="#" id="rail-search" class="viv-rail-link viv-rail-search-link" role="button"
+         title="Search everything (⌘K)" aria-label="Search the workbench"
+         onclick="event.preventDefault();(window._vivOpenGlobalSearch||_vivToggleRailSearch)();return false;">
+        <span class="viv-rail-link-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="viv-rail-link-svg">
+            <circle cx="11" cy="11" r="7"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </span>
+        <span class="viv-rail-link-label">Search</span>
+      </a>
       <!-- Resources: the workspace's source material. A single tab with two
            sub-tabs — "Datasets & references" (the /api/inputs datasets,
            references and expert docs) and "Scientific resources" (the curated
@@ -995,7 +1003,7 @@ a.viv-bs-commit:hover { text-decoration: underline; }
             <circle cx="19" cy="10" r="1.05" fill="currentColor" stroke="none"/>
           </svg>
         </span>
-        <span class="viv-rail-link-label">Analysis</span>
+        <span class="viv-rail-link-label">Explore</span>
       </a>
       <!-- AI: toggles the docked chat panel on the right (docs/ai-chat.md). Not a page,
            and deliberately NOT a .menu-link (so page switches don't clear its state).
@@ -1164,7 +1172,7 @@ a.viv-bs-commit:hover { text-decoration: underline; }
           <li><strong>Studies</strong> — organize runs into investigations that pose a question and gate on an
             expected result.</li>
           <li><strong>Runs</strong> — every simulation you've launched, with its results and artifacts.</li>
-          <li><strong>Analysis</strong> — tools and viewers matched to what your runs produced.</li>
+          <li><strong>Explore</strong> — deeper interactive analysis &amp; visualization modules matched to what your runs produced.</li>
         </ul>
         <p class="about-fineprint">Tip: start on <strong>Catalog → Composites</strong>, open
           <code>ecoli_baseline</code> (or any composite), set <strong>Steps</strong>, and hit <strong>▶ Run</strong>.</p>
@@ -2680,7 +2688,7 @@ Nothing on <code id="pr-base-display-2">main</code> changes until someone presse
      DataSource global that renderers call to fetch narrative data.
      local-server mode (default) fetches from the same-origin /api/* endpoints.
      Hosted mode (sub-projects #2/#3) will set a different config here. -->
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "4bf3f32019f569f65110927b60449b6d497cfa4a", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/4bf3f32019f569f65110927b60449b6d497cfa4a", "branch": "main", "lockfile": "uv.lock@594fc1873c7c", "generated_at": "2026-10-20 23:15 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "6f55a5bd4733ea375f86564885b112f6bde5a6f2", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/6f55a5bd4733ea375f86564885b112f6bde5a6f2", "branch": "main", "lockfile": "uv.lock@9a2cdc436317", "generated_at": "2026-10-22 14:06 UTC"} };</script>
 <!-- Derive the global URL prefix from the (possibly publish-injected) config.
      Many renderers prefix workspace-root-absolute links (/studies/, /api/)
      with window.__BASE_PATH__ so they resolve when the read-only bundle is

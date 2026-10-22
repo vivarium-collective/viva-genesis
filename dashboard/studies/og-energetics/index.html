@@ -204,6 +204,19 @@
 .figure-media-frame{display:block;width:100%;border:0;background:#fff}
 .figure-media-frame--native{height:auto;min-height:320px}  /* JS (_autosizeNativeFrames) grows this to the figure's full content height */
 .figure-media-frame--embed{min-height:200px}
+/* Explore-module launch card: a deeper interactive module (Corpus Explorer, 3D
+   viewers, …) is linked out full-size rather than squeezed into an iframe. */
+.explore-module-card{display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:14px 18px;border:1px solid #c7d2fe;background:linear-gradient(0deg,#f5f7ff,#fff)}
+.explore-module-main{min-width:0}
+.explore-module-badge{display:inline-block;font-size:0.68rem;font-weight:700;letter-spacing:0.04em;
+  text-transform:uppercase;color:#4338ca;background:#e0e7ff;border-radius:9999px;padding:2px 9px;margin-right:8px}
+.explore-module-launch{flex:none;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;
+  text-decoration:none;font-weight:600;font-size:0.9rem;color:#fff;background:#4f46e5;
+  border-radius:7px;padding:9px 16px;transition:background .12s}
+.explore-module-launch:hover{background:#4338ca}
+:root[data-theme="dark"] .explore-module-card{border-color:#3730a3;background:linear-gradient(0deg,#1e1b4b,var(--surface))}
+:root[data-theme="dark"] .explore-module-badge{color:#c7d2fe;background:#312e81}
 /* SVGs/PNGs scale to fit their card; preserves aspect ratio so a 1400×484
    chart shrinks instead of overflowing horizontally + clipping. */
 .figure-card svg,.figure-card img.chart-img{display:block;width:100%;max-width:100%;height:auto}
@@ -548,7 +561,7 @@
       <h2 class="overview-label ctr-h">Model &amp; approach</h2>
       <p class="ctr-text">Consolidate the proto-energetics studies into one concept with explicit fidelity-labelled arms, each preserving its matched null, verdict, findings and run provenance; report the consolidated verdict bounded by the sharpest arm (og-35, qualified) without over-claiming past it.</p>
       <div class="ctr-meta">
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Model</span> <code>Chemical energy coupling (thioester carrier) — canonical headline arm (og-35)</code>, <code>Gradient-only null (no carrier store, equal drive/load) — og-35 matched null</code>, <code>Proto-energetics carrier capture (og-energy-proto arm)</code>, <code>Bioenergetic internalization under selection (og-05 arm)</code>, <code>Internalization-threshold 5-class sweep (og-energy-alt arm)</code><a class="ov-tablink" href="#" onclick="_setStudyTab('compose');return false;">model →</a></div>
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Model</span> <code>og-energetics</code><a class="ov-tablink" href="#" onclick="_setStudyTab('compose');return false;">model →</a></div>
         
         <div class="ctr-meta-row"><span class="ctr-meta-k">Measures</span> <span class="ctr-meta-item">26 behavior tests</span><a class="ov-tablink" href="#" onclick="_setStudyTab('audit');return false;">see Tests →</a></div>
         
@@ -1672,7 +1685,7 @@
     
     <div class="cond-block" data-model-composite="viva_genesis.composites.og_35_chemical_energy_coupling.og_35_chemical_energy_coupling" data-model-overrides='{"bond_energy_kjmol": 31.5, "carrier": true, "decline_rate": 0.4, "g_drive": 50.0, "load": 30.0}'>
       <div class="cond-block-title" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-        <strong>Chemical energy coupling (thioester carrier) — canonical headline arm (og-35)</strong>
+        <strong>og-energetics</strong>
         
         <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.og_35_chemical_energy_coupling.og_35_chemical_energy_coupling</code>
         <button type="button" class="action-btn" style="font-size:0.8em"
@@ -1682,16 +1695,16 @@
       
       <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
         
-        <select class="baseline-composite-input" data-baseline-name="Chemical energy coupling (thioester carrier) — canonical headline arm (og-35)"
+        <select class="baseline-composite-input" data-baseline-name="og-energetics"
                 data-current="viva_genesis.composites.og_35_chemical_energy_coupling.og_35_chemical_energy_coupling"
                 style="flex:1;min-width:200px;font-family:monospace;font-size:0.82em;padding:3px 6px">
           <option value="viva_genesis.composites.og_35_chemical_energy_coupling.og_35_chemical_energy_coupling" selected>viva_genesis.composites.og_35_chemical_energy_coupling.og_35_chemical_energy_coupling</option>
           
         </select>
         <button type="button" class="action-btn baseline-composite-set" style="font-size:0.8em"
-                data-baseline-name="Chemical energy coupling (thioester carrier) — canonical headline arm (og-35)">Set composite</button>
+                data-baseline-name="og-energetics">Set composite</button>
       </div>
-      <div class="baseline-composite-status muted" data-baseline-name="Chemical energy coupling (thioester carrier) — canonical headline arm (og-35)" style="font-size:0.8em;margin-top:2px"></div>
+      <div class="baseline-composite-status muted" data-baseline-name="og-energetics" style="font-size:0.8em;margin-top:2px"></div>
       
       
       
@@ -1709,34 +1722,16 @@
       
     </div>
     
-    <div class="cond-block" data-model-composite="viva_genesis.composites.og_35_chemical_energy_coupling.og_35_chemical_energy_coupling" data-model-overrides='{"bond_energy_kjmol": 31.5, "carrier": false, "decline_rate": 0.4, "g_drive": 50.0, "load": 30.0}'>
+    
+    
+    <div class="cond-block" data-model-composite="" data-model-overrides='{}'>
       <div class="cond-block-title" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-        <strong>Gradient-only null (no carrier store, equal drive/load) — og-35 matched null</strong>
-        
-        <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.og_35_chemical_energy_coupling.og_35_chemical_energy_coupling</code>
-        <button type="button" class="action-btn" style="font-size:0.8em"
-                onclick="_openCompositeLoom('viva_genesis.composites.og_35_chemical_energy_coupling.og_35_chemical_energy_coupling')">🧬 explore &amp; run ↗</button>
-        
+        <strong>baseline</strong>
+        <span class="muted">no composite declared</span>
       </div>
-      
-      <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
-        
-        <select class="baseline-composite-input" data-baseline-name="Gradient-only null (no carrier store, equal drive/load) — og-35 matched null"
-                data-current="viva_genesis.composites.og_35_chemical_energy_coupling.og_35_chemical_energy_coupling"
-                style="flex:1;min-width:200px;font-family:monospace;font-size:0.82em;padding:3px 6px">
-          <option value="viva_genesis.composites.og_35_chemical_energy_coupling.og_35_chemical_energy_coupling" selected>viva_genesis.composites.og_35_chemical_energy_coupling.og_35_chemical_energy_coupling</option>
-          
-        </select>
-        <button type="button" class="action-btn baseline-composite-set" style="font-size:0.8em"
-                data-baseline-name="Gradient-only null (no carrier store, equal drive/load) — og-35 matched null">Set composite</button>
-      </div>
-      <div class="baseline-composite-status muted" data-baseline-name="Gradient-only null (no carrier store, equal drive/load) — og-35 matched null" style="font-size:0.8em;margin-top:2px"></div>
-      
-      
       
       <div class="model-config-mount" style="margin-top:8px">
         <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading configuration…</span></div></div>
-      
       
       
       <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;font-size:0.8em">
@@ -1747,124 +1742,6 @@
       </div>
       
     </div>
-    
-    <div class="cond-block" data-model-composite="viva_genesis.composites.proto_energetics.proto_energetics" data-model-overrides='{}'>
-      <div class="cond-block-title" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-        <strong>Proto-energetics carrier capture (og-energy-proto arm)</strong>
-        
-        <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.proto_energetics.proto_energetics</code>
-        <button type="button" class="action-btn" style="font-size:0.8em"
-                onclick="_openCompositeLoom('viva_genesis.composites.proto_energetics.proto_energetics')">🧬 explore &amp; run ↗</button>
-        
-      </div>
-      
-      <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
-        
-        <select class="baseline-composite-input" data-baseline-name="Proto-energetics carrier capture (og-energy-proto arm)"
-                data-current="viva_genesis.composites.proto_energetics.proto_energetics"
-                style="flex:1;min-width:200px;font-family:monospace;font-size:0.82em;padding:3px 6px">
-          <option value="viva_genesis.composites.proto_energetics.proto_energetics" selected>viva_genesis.composites.proto_energetics.proto_energetics</option>
-          
-        </select>
-        <button type="button" class="action-btn baseline-composite-set" style="font-size:0.8em"
-                data-baseline-name="Proto-energetics carrier capture (og-energy-proto arm)">Set composite</button>
-      </div>
-      <div class="baseline-composite-status muted" data-baseline-name="Proto-energetics carrier capture (og-energy-proto arm)" style="font-size:0.8em;margin-top:2px"></div>
-      
-      
-      
-      <div class="model-config-mount" style="margin-top:8px">
-        <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading configuration…</span></div></div>
-      
-      
-      
-      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;font-size:0.8em">
-        
-        
-        
-        <span class="cond-pill"><span class="cond-pill-k">status</span>=completed</span>
-      </div>
-      
-    </div>
-    
-    <div class="cond-block" data-model-composite="viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization" data-model-overrides='{}'>
-      <div class="cond-block-title" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-        <strong>Bioenergetic internalization under selection (og-05 arm)</strong>
-        
-        <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization</code>
-        <button type="button" class="action-btn" style="font-size:0.8em"
-                onclick="_openCompositeLoom('viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization')">🧬 explore &amp; run ↗</button>
-        
-      </div>
-      
-      <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
-        
-        <select class="baseline-composite-input" data-baseline-name="Bioenergetic internalization under selection (og-05 arm)"
-                data-current="viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization"
-                style="flex:1;min-width:200px;font-family:monospace;font-size:0.82em;padding:3px 6px">
-          <option value="viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization" selected>viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization</option>
-          
-        </select>
-        <button type="button" class="action-btn baseline-composite-set" style="font-size:0.8em"
-                data-baseline-name="Bioenergetic internalization under selection (og-05 arm)">Set composite</button>
-      </div>
-      <div class="baseline-composite-status muted" data-baseline-name="Bioenergetic internalization under selection (og-05 arm)" style="font-size:0.8em;margin-top:2px"></div>
-      
-      
-      
-      <div class="model-config-mount" style="margin-top:8px">
-        <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading configuration…</span></div></div>
-      
-      
-      
-      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;font-size:0.8em">
-        
-        
-        
-        <span class="cond-pill"><span class="cond-pill-k">status</span>=completed</span>
-      </div>
-      
-    </div>
-    
-    <div class="cond-block" data-model-composite="viva_genesis.composites.protocell_energetics.protocell_energetics" data-model-overrides='{}'>
-      <div class="cond-block-title" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-        <strong>Internalization-threshold 5-class sweep (og-energy-alt arm)</strong>
-        
-        <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.protocell_energetics.protocell_energetics</code>
-        <button type="button" class="action-btn" style="font-size:0.8em"
-                onclick="_openCompositeLoom('viva_genesis.composites.protocell_energetics.protocell_energetics')">🧬 explore &amp; run ↗</button>
-        
-      </div>
-      
-      <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
-        
-        <select class="baseline-composite-input" data-baseline-name="Internalization-threshold 5-class sweep (og-energy-alt arm)"
-                data-current="viva_genesis.composites.protocell_energetics.protocell_energetics"
-                style="flex:1;min-width:200px;font-family:monospace;font-size:0.82em;padding:3px 6px">
-          <option value="viva_genesis.composites.protocell_energetics.protocell_energetics" selected>viva_genesis.composites.protocell_energetics.protocell_energetics</option>
-          
-        </select>
-        <button type="button" class="action-btn baseline-composite-set" style="font-size:0.8em"
-                data-baseline-name="Internalization-threshold 5-class sweep (og-energy-alt arm)">Set composite</button>
-      </div>
-      <div class="baseline-composite-status muted" data-baseline-name="Internalization-threshold 5-class sweep (og-energy-alt arm)" style="font-size:0.8em;margin-top:2px"></div>
-      
-      
-      
-      <div class="model-config-mount" style="margin-top:8px">
-        <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading configuration…</span></div></div>
-      
-      
-      
-      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;font-size:0.8em">
-        
-        
-        
-        <span class="cond-pill"><span class="cond-pill-k">status</span>=completed</span>
-      </div>
-      
-    </div>
-    
     
   </div>
   
@@ -2059,17 +1936,20 @@
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.390244</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 0.3902 &gt;= 0.25</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&gt;=</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;currency-maintained&#39;, &#39;label&#39;: &#39;The carrier stays charged under continuous endergonic load — a transferable currency is MAINTAINED above threshold, not merely charged transiently.&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 0.390244, &#39;meter&#39;: 0.780488, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 0.25, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 0.14024399999999998, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: &#39;buckel2013energy; lane2010chemiosmotic&#39;}</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+          
         
       </div>
       
@@ -2116,17 +1996,20 @@ cites:   ["buckel2013energy", "lane2010chemiosmotic"]</pre>
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.472557</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 0.4726 &gt;= 0.3</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&gt;=</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;captures-free-energy&#39;, &#39;label&#39;: &#39;A substantial fraction of the input geochemical free energy is captured as transferable usable work (stored-work fraction), not just dissipated.&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 0.472557, &#39;meter&#39;: 0.787595, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 0.3, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: 0.17255700000000002, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: &#39;buckel2013energy&#39;}</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+          
         
       </div>
       
@@ -2173,13 +2056,16 @@ cites:   ["buckel2013energy"]</pre>
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: cross_run</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: favourable charged fraction=0.390 vs no-coupling=0.000 / no-drive=0.000 (both ablations collapse =&gt; the currency needs BOTH the coupling and a drive that clears the carrier bond)</code>
+          
         
       </div>
       
@@ -2226,17 +2112,20 @@ cites:   ["buckel2013energy", "lane2010chemiosmotic"]</pre>
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: -0.0</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: -8.463e-17 &lt;= 1e-09</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived/&lt;=</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;free-energy-conserved&#39;, &#39;label&#39;: &#39;Free-energy accounting is a contract invariant — input = useful work + stored + dissipated, held to machine precision every tick.&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: -0.0, &#39;meter&#39;: 1.0, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: &#39;1e-09&#39;, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&lt;=&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None}, &#39;margin&#39;: &#39;1e-09&#39;, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: &#39;buckel2013energy&#39;}</code>
-        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+          
         
       </div>
       
@@ -3367,7 +3256,7 @@ pass_if: {"detail": "handoff available", "op": "threshold"}</pre>
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "4bf3f32019f569f65110927b60449b6d497cfa4a", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/4bf3f32019f569f65110927b60449b6d497cfa4a", "branch": "main", "lockfile": "uv.lock@594fc1873c7c", "generated_at": "2026-10-20 23:15 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "6f55a5bd4733ea375f86564885b112f6bde5a6f2", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/6f55a5bd4733ea375f86564885b112f6bde5a6f2", "branch": "main", "lockfile": "uv.lock@9a2cdc436317", "generated_at": "2026-10-22 14:06 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>

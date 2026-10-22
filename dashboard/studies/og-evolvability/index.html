@@ -204,6 +204,19 @@
 .figure-media-frame{display:block;width:100%;border:0;background:#fff}
 .figure-media-frame--native{height:auto;min-height:320px}  /* JS (_autosizeNativeFrames) grows this to the figure's full content height */
 .figure-media-frame--embed{min-height:200px}
+/* Explore-module launch card: a deeper interactive module (Corpus Explorer, 3D
+   viewers, …) is linked out full-size rather than squeezed into an iframe. */
+.explore-module-card{display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:14px 18px;border:1px solid #c7d2fe;background:linear-gradient(0deg,#f5f7ff,#fff)}
+.explore-module-main{min-width:0}
+.explore-module-badge{display:inline-block;font-size:0.68rem;font-weight:700;letter-spacing:0.04em;
+  text-transform:uppercase;color:#4338ca;background:#e0e7ff;border-radius:9999px;padding:2px 9px;margin-right:8px}
+.explore-module-launch{flex:none;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;
+  text-decoration:none;font-weight:600;font-size:0.9rem;color:#fff;background:#4f46e5;
+  border-radius:7px;padding:9px 16px;transition:background .12s}
+.explore-module-launch:hover{background:#4338ca}
+:root[data-theme="dark"] .explore-module-card{border-color:#3730a3;background:linear-gradient(0deg,#1e1b4b,var(--surface))}
+:root[data-theme="dark"] .explore-module-badge{color:#c7d2fe;background:#312e81}
 /* SVGs/PNGs scale to fit their card; preserves aspect ratio so a 1400×484
    chart shrinks instead of overflowing horizontally + clipping. */
 .figure-card svg,.figure-card img.chart-img{display:block;width:100%;max-width:100%;height:auto}
@@ -548,7 +561,7 @@
       <h2 class="overview-label ctr-h">Model &amp; approach</h2>
       <p class="ctr-text">Run the sharpened Gate-D composite (og-34): measure parent-offspring fitness correlation and the population shift under selection against a matched no-inheritance null (daughters reset to a common composition), preserving the og-34 run provenance and findings.</p>
       <div class="ctr-meta">
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Model</span> <code>Chemical heredity &amp; selection — inheritance arm (canonical, og-34)</code>, <code>No-inheritance matched null (og-34)</code><a class="ov-tablink" href="#" onclick="_setStudyTab('compose');return false;">model →</a></div>
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Model</span> <code>og-evolvability</code><a class="ov-tablink" href="#" onclick="_setStudyTab('compose');return false;">model →</a></div>
         
         <div class="ctr-meta-row"><span class="ctr-meta-k">Measures</span> <span class="ctr-meta-item">5 behavior tests</span><a class="ov-tablink" href="#" onclick="_setStudyTab('audit');return false;">see Tests →</a></div>
         
@@ -853,7 +866,7 @@
     
     <div class="cond-block" data-model-composite="viva_genesis.composites.og_34_chemical_heredity_and_selection.og_34_chemical_heredity_and_selection" data-model-overrides='{"inheritance": true}'>
       <div class="cond-block-title" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-        <strong>Chemical heredity &amp; selection — inheritance arm (canonical, og-34)</strong>
+        <strong>og-evolvability</strong>
         
         <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.og_34_chemical_heredity_and_selection.og_34_chemical_heredity_and_selection</code>
         <button type="button" class="action-btn" style="font-size:0.8em"
@@ -863,16 +876,16 @@
       
       <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
         
-        <select class="baseline-composite-input" data-baseline-name="Chemical heredity &amp; selection — inheritance arm (canonical, og-34)"
+        <select class="baseline-composite-input" data-baseline-name="og-evolvability"
                 data-current="viva_genesis.composites.og_34_chemical_heredity_and_selection.og_34_chemical_heredity_and_selection"
                 style="flex:1;min-width:200px;font-family:monospace;font-size:0.82em;padding:3px 6px">
           <option value="viva_genesis.composites.og_34_chemical_heredity_and_selection.og_34_chemical_heredity_and_selection" selected>viva_genesis.composites.og_34_chemical_heredity_and_selection.og_34_chemical_heredity_and_selection</option>
           
         </select>
         <button type="button" class="action-btn baseline-composite-set" style="font-size:0.8em"
-                data-baseline-name="Chemical heredity &amp; selection — inheritance arm (canonical, og-34)">Set composite</button>
+                data-baseline-name="og-evolvability">Set composite</button>
       </div>
-      <div class="baseline-composite-status muted" data-baseline-name="Chemical heredity &amp; selection — inheritance arm (canonical, og-34)" style="font-size:0.8em;margin-top:2px"></div>
+      <div class="baseline-composite-status muted" data-baseline-name="og-evolvability" style="font-size:0.8em;margin-top:2px"></div>
       
       
       
@@ -890,34 +903,16 @@
       
     </div>
     
-    <div class="cond-block" data-model-composite="viva_genesis.composites.og_34_chemical_heredity_and_selection.og_34_chemical_heredity_and_selection" data-model-overrides='{"inheritance": false}'>
+    
+    
+    <div class="cond-block" data-model-composite="" data-model-overrides='{}'>
       <div class="cond-block-title" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-        <strong>No-inheritance matched null (og-34)</strong>
-        
-        <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.og_34_chemical_heredity_and_selection.og_34_chemical_heredity_and_selection</code>
-        <button type="button" class="action-btn" style="font-size:0.8em"
-                onclick="_openCompositeLoom('viva_genesis.composites.og_34_chemical_heredity_and_selection.og_34_chemical_heredity_and_selection')">🧬 explore &amp; run ↗</button>
-        
+        <strong>baseline</strong>
+        <span class="muted">no composite declared</span>
       </div>
-      
-      <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
-        
-        <select class="baseline-composite-input" data-baseline-name="No-inheritance matched null (og-34)"
-                data-current="viva_genesis.composites.og_34_chemical_heredity_and_selection.og_34_chemical_heredity_and_selection"
-                style="flex:1;min-width:200px;font-family:monospace;font-size:0.82em;padding:3px 6px">
-          <option value="viva_genesis.composites.og_34_chemical_heredity_and_selection.og_34_chemical_heredity_and_selection" selected>viva_genesis.composites.og_34_chemical_heredity_and_selection.og_34_chemical_heredity_and_selection</option>
-          
-        </select>
-        <button type="button" class="action-btn baseline-composite-set" style="font-size:0.8em"
-                data-baseline-name="No-inheritance matched null (og-34)">Set composite</button>
-      </div>
-      <div class="baseline-composite-status muted" data-baseline-name="No-inheritance matched null (og-34)" style="font-size:0.8em;margin-top:2px"></div>
-      
-      
       
       <div class="model-config-mount" style="margin-top:8px">
         <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading configuration…</span></div></div>
-      
       
       
       <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;font-size:0.8em">
@@ -928,7 +923,6 @@
       </div>
       
     </div>
-    
     
   </div>
   
@@ -1162,7 +1156,10 @@ pass_if: {"detail": "population runs on the study-33 division substrate", "op": 
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: parent-offspring fitness correlation +0.949 vs null -0.018 (permutation p=0.0001)</code>
+          
         
       </div>
       
@@ -1208,7 +1205,10 @@ pass_if: {"detail": "correlation above the null (perm p \u003c 0.05)", "op": "th
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: population composition shift +0.551 vs null drift -0.004 (permutation p=0.0002); vasas-2010 caveat tested (sigma=0.03, not tuned)</code>
+          
         
       </div>
       
@@ -1254,7 +1254,10 @@ pass_if: {"detail": "the population shifts above the null (perm p \u003c 0.05)",
       <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
         <strong>Latest result:</strong>
         
+        
+          
           <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: no-inheritance null shows correlation ~0 and drift ~0 at equal feeds</code>
+          
         
       </div>
       
@@ -1557,7 +1560,7 @@ pass_if: {"detail": "heritable-population handoff available", "op": "threshold"}
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "4bf3f32019f569f65110927b60449b6d497cfa4a", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/4bf3f32019f569f65110927b60449b6d497cfa4a", "branch": "main", "lockfile": "uv.lock@594fc1873c7c", "generated_at": "2026-10-20 23:15 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/dashboard", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "6f55a5bd4733ea375f86564885b112f6bde5a6f2", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/6f55a5bd4733ea375f86564885b112f6bde5a6f2", "branch": "main", "lockfile": "uv.lock@9a2cdc436317", "generated_at": "2026-10-22 14:06 UTC"} };</script>
 <script src="/viva-genesis/dashboard/assets/data-source.js"></script>
 <script src="/viva-genesis/dashboard/assets/toast.js"></script>
 <script>
