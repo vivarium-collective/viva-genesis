@@ -13,11 +13,6 @@
 **[Open the read-only workbench](https://vivarium-collective.github.io/viva-genesis/workbench/)** to browse every composite, study, and result in your browser — or run it locally (below).
 <!-- END:dashboard -->
 
-<!-- BEGIN dashboard -->
-> ## 📊 [**Live dashboard →**](https://vivarium-collective.github.io/viva-genesis/dashboard/)
-> Browse every investigation & study interactively, or read the [published investigation reports](https://vivarium-collective.github.io/viva-genesis/). Auto-published from `main` on every merge.
-<!-- END dashboard -->
-
 **An origins-of-life hydrothermal-vent simulation campaign, built on [Vivarium](https://github.com/vivarium-collective) / process-bigraph.**
 
 It treats the origin of cells not as one event but as a chain of coupled,
