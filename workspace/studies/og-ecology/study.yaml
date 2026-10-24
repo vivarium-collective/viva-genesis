@@ -561,6 +561,13 @@ findings:
     cites:
     - weiss2016physiology
     - moody2024nature
+  provenance:
+    run_ids:
+    - >-
+      viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity__1791924854__16b7a0
+    - >-
+      viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1792076282__f47040
+    basis: study canonical run — the acceptance gate passed and was evaluated against this run; its per-gate value is not surfaced in the run outcomes summary, so provenance is recorded at study-run granularity.
 - id: og36-productivity-not-robustness
   kind: computational
   status: confirms
@@ -579,6 +586,13 @@ findings:
   expected:
     cites:
     - moody2024nature
+  provenance:
+    run_ids:
+    - >-
+      viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity__1791924854__16b7a0
+    - >-
+      viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1792076282__f47040
+    basis: study canonical run — the acceptance gate passed and was evaluated against this run; its per-gate value is not surfaced in the run outcomes summary, so provenance is recorded at study-run granularity.
 - id: og36-scope-option-b
   kind: methodological
   status: confirms
@@ -590,6 +604,13 @@ findings:
     - are the gold-standard follow-on (og-36a).
   evidence:
     from_test: community-not-more-robust-than-monoculture
+  provenance:
+    run_ids:
+    - >-
+      viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity__1791924854__16b7a0
+    - >-
+      viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1792076282__f47040
+    basis: study canonical run — the acceptance gate passed and was evaluated against this run; its per-gate value is not surfaced in the run outcomes summary, so provenance is recorded at study-run granularity.
 - id: og07-connectivity-builds-robustness
   evidence_basis: predicted
   evidence_basis_note: "Connected-vs-isolated robustness gain across 8 seeds is a model outcome."
@@ -1539,12 +1560,10 @@ preregistered:
     cross-feeding-robustness:
       op: '>'
       value: 0.5
-      detail: a majority of capabilities are redundantly covered (robust to a single-compartment
-        loss)
+      detail: a majority of capabilities are redundantly covered (robust to a single-compartment loss)
     connected-beats-isolated:
       op: arms_reported
-      detail: connected robustness strictly higher than isolated on every seed (measured
-        min gain reported)
+      detail: connected robustness strictly higher than isolated on every seed (measured min gain reported)
     cross-system-element-ledger-closes:
       op: '>='
       value: 1.0
@@ -1561,8 +1580,4 @@ preregistered:
       op: '>='
       value: 1.0
       detail: flux-sustained
-  basis: 'Thresholds are the investigation''s pre-stated plan-gate / acceptance criteria,
-    recorded verbatim from each acceptance_criterion gate''s pass_if: conservation
-    laws (ledger closure to numerical precision), literature-anchored ranges (Lost
-    City pH/T/H2; Preiner yields; Baaske enrichment), directional priors, and matched-null
-    / arms methodology requirements. Not fitted to results. No registered_at claimed.'
+  basis: 'Thresholds are the investigation''s pre-stated plan-gate / acceptance criteria, recorded verbatim from each acceptance_criterion gate''s pass_if: conservation laws (ledger closure to numerical precision), literature-anchored ranges (Lost City pH/T/H2; Preiner yields; Baaske enrichment), directional priors, and matched-null / arms methodology requirements. Not fitted to results. No registered_at claimed.'

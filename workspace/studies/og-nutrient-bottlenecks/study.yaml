@@ -294,6 +294,9 @@ findings:
   explanation: >-
     A real ReducedNitrogenProductionProcess reduces NO3- -> NO2- -> NH4+ gated by H2 availability, an
     FeS temperature window and catalyst activity.
+  provenance:
+    run_ids:
+    - viva_genesis.composites.nitrogen_assimilation.reduced_nitrogen_reactor__1791926319__eec3bc
 - id: ogn-keeps-pace
   evidence_basis: predicted
   evidence_basis_note: "The settled C:N ~5.0 is a model output; the viable band 1-8 is the external anchor it is judged against."
@@ -312,6 +315,9 @@ findings:
   explanation: >-
     The C:N supply ratio = carbon demand / reduced-N production; reductive amination draws ammonium into
     amino-acid precursors at a rate set by the carbon demand.
+  provenance:
+    run_ids:
+    - viva_genesis.composites.nitrogen_assimilation.reduced_nitrogen_reactor__1791926319__eec3bc
 - id: ogn-ablation
   kind: computational
   status: confirms
@@ -324,6 +330,9 @@ findings:
   expected:
     cites:
     - dorr2003prebiotic
+  provenance:
+    run_ids:
+    - viva_genesis.composites.nitrogen_assimilation.reduced_nitrogen_reactor__1791926319__eec3bc
 - id: ogn-nitrogen-limiting
   kind: computational
   status: novel
@@ -345,6 +354,9 @@ findings:
     16x16 sweep of the real open-flow reduced-nitrogen reactor (nitrate supply 2e-6-1e-4 M/s x FeS activity
     0.05-1.0) reduced to the settled C:N supply ratio + a keeps-pace mask, rendered as the nitrogen phase
     map (Decision view). Runner sims/compute_nitrogen_grid.py.
+  provenance:
+    run_ids:
+    - viva_genesis.composites.nitrogen_assimilation.reduced_nitrogen_reactor__1791926319__eec3bc
 - id: ogn-mass-accounting
   provenance:
     run_ids:
@@ -786,14 +798,9 @@ preregistered:
       detail: net availability > 0 (reactive P produced faster than lost)
     p-coconcentrates-with-carbon:
       op: arms_reported
-      detail: the same pore regime co-concentrates P with C (enrichment >= carbon
-        floor AND P reactive-availability positive)
+      detail: the same pore regime co-concentrates P with C (enrichment >= carbon floor AND P reactive-availability positive)
     open-pore-no-enrichment-control:
       op: controls_absent
       detail: reactive-P availability collapses (net <= 0
       ~fully precipitated) without enrichment: null
-  basis: 'Thresholds are the investigation''s pre-stated plan-gate / acceptance criteria,
-    recorded verbatim from each acceptance_criterion gate''s pass_if: conservation
-    laws (ledger closure to numerical precision), literature-anchored ranges (Lost
-    City pH/T/H2; Preiner yields; Baaske enrichment), directional priors, and matched-null
-    / arms methodology requirements. Not fitted to results. No registered_at claimed.'
+  basis: 'Thresholds are the investigation''s pre-stated plan-gate / acceptance criteria, recorded verbatim from each acceptance_criterion gate''s pass_if: conservation laws (ledger closure to numerical precision), literature-anchored ranges (Lost City pH/T/H2; Preiner yields; Baaske enrichment), directional priors, and matched-null / arms methodology requirements. Not fitted to results. No registered_at claimed.'

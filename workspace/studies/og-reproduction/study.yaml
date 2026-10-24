@@ -333,6 +333,12 @@ findings:
     cites:
     - hanczyc2003experimental
     - budin2012concentration
+  provenance:
+    run_ids:
+    - >-
+      viva_genesis.composites.osmotic_growth_division.osmotic_growth_division__1791927288__76353a
+    - viva_genesis.composites.physical_reproduction.physical_reproduction__1792073784__efd05b
+    basis: study canonical run — the acceptance gate passed and was evaluated against this run; its per-gate value is not surfaced in the run outcomes summary, so provenance is recorded at study-run granularity.
 - id: og33-daughters-viable
   kind: computational
   status: confirms
@@ -346,6 +352,12 @@ findings:
     cites:
     - zhu2012photochemically
     - natchem2023osmoticgrowth
+  provenance:
+    run_ids:
+    - >-
+      viva_genesis.composites.osmotic_growth_division.osmotic_growth_division__1791927288__76353a
+    - viva_genesis.composites.physical_reproduction.physical_reproduction__1792073784__efd05b
+    basis: study canonical run — the acceptance gate passed and was evaluated against this run; its per-gate value is not surfaced in the run outcomes summary, so provenance is recorded at study-run granularity.
 - id: og33-division-geometry-measured
   evidence_basis: calibrated
   evidence_basis_note: "The area-doubling division_ratio 2.0 is a proposed input grounded in the hanczyc/budin growth-division literature."
@@ -359,6 +371,12 @@ findings:
     under resolved membrane physics rather than a measured geometric criterion.
   evidence:
     from_test: division-at-measured-geometry
+  provenance:
+    run_ids:
+    - >-
+      viva_genesis.composites.osmotic_growth_division.osmotic_growth_division__1791927288__76353a
+    - viva_genesis.composites.physical_reproduction.physical_reproduction__1792073784__efd05b
+    basis: study canonical run — the acceptance gate passed and was evaluated against this run; its per-gate value is not surfaced in the run outcomes summary, so provenance is recorded at study-run granularity.
 - id: oggd-metabolism-changes-physical-fate
   evidence_basis: predicted
   evidence_basis_note: "Osmotically-driven growth and the 8 divisions are the coupled model's outcome."
@@ -695,21 +713,18 @@ preregistered:
     net-growth-to-division:
       op: '>'
       value: 0.0
-      detail: the compartment divides (>0) in the matched throughput/permeability
-        regime
+      detail: the compartment divides (>0) in the matched throughput/permeability regime
     mass-conserved-across-division:
       op: <
       value: 1.0e-18
-      detail: mass conserved across the growth/division cycle (residual below a negligible
-        mole tolerance)
+      detail: mass conserved across the growth/division cycle (residual below a negligible mole tolerance)
     division-not-lysis-or-starvation:
       op: arms_reported
       detail: matched divides; too permeable = starve (no division
       no growth); too impermeable = lyse (viable band is bounded): null
     ablation-no-throughput-no-growth:
       op: controls_absent
-      detail: favorable divides; zero-throughput ablation shows no division and no
-        net growth
+      detail: favorable divides; zero-throughput ablation shows no division and no net growth
     lineage-reaches-three-generations:
       op: '>='
       value: 3.0
@@ -718,8 +733,4 @@ preregistered:
       op: <=
       value: 1.0e-09
       detail: partition residual ~ 0 at every division (conserving split)
-  basis: 'Thresholds are the investigation''s pre-stated plan-gate / acceptance criteria,
-    recorded verbatim from each acceptance_criterion gate''s pass_if: conservation
-    laws (ledger closure to numerical precision), literature-anchored ranges (Lost
-    City pH/T/H2; Preiner yields; Baaske enrichment), directional priors, and matched-null
-    / arms methodology requirements. Not fitted to results. No registered_at claimed.'
+  basis: 'Thresholds are the investigation''s pre-stated plan-gate / acceptance criteria, recorded verbatim from each acceptance_criterion gate''s pass_if: conservation laws (ledger closure to numerical precision), literature-anchored ranges (Lost City pH/T/H2; Preiner yields; Baaske enrichment), directional priors, and matched-null / arms methodology requirements. Not fitted to results. No registered_at claimed.'

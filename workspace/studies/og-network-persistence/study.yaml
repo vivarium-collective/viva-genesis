@@ -497,6 +497,9 @@ findings:
     model recorded — no inferred reaction is promoted without that explicit basis.
   evidence:
     from_test: inferred-tier-has-thermo-and-rate-basis
+  provenance:
+    run_ids:
+    - gate-a-execution
 - id: og28-balance-and-provenance-gate
   kind: methodological
   status: planned
@@ -506,6 +509,9 @@ findings:
     core deliverable.
   evidence:
     from_test: atlas-write-gate-zero-leakage
+  provenance:
+    run_ids:
+    - gate-a-execution
 - id: og28-energy-coupling-anchors
   kind: methodological
   status: planned
@@ -528,6 +534,9 @@ findings:
     parameter bounds and confidence tags — as the typed reaction set study 29 consumes.
   evidence:
     from_test: handoff-28-to-29-complete
+  provenance:
+    run_ids:
+    - gate-a-execution
 - id: og02alt-no-motif-at-phase1-feed
   provenance:
     run_ids:
@@ -684,6 +693,9 @@ findings:
     cites:
     - muchowska2019synthesis
     - muchowska2017metals
+  provenance:
+    run_ids:
+    - viva_genesis.composites.protometabolism.protometabolic_network__1792351383__20bdb6
 - id: og02-autocatalysis
   kind: computational
   status: novel
@@ -707,6 +719,9 @@ findings:
     The reductive-TCA turn OAA+2CO2->2OAA+acetate doubles its own entry molecule per turn; the autocatalytic
     stoichiometry is a curated lumped reaction, so what is EMERGENT is that it sustains ignition under
     continuous feed + washout (a no-CO2 control collapses gain to 0), not the motif itself.
+  provenance:
+    run_ids:
+    - viva_genesis.composites.protometabolism.protometabolic_network__1792351383__20bdb6
 - id: og02-network-closure
   provenance:
     run_ids:
@@ -739,6 +754,9 @@ findings:
     16×16 sweep of the real libRoadRunner composite reduced to the settled OAA pool, net throughput and
     gain; rendered as the ignition phase map (Decision view). Runner sims/compute_gain_grid.py. Per-reaction
     fluxes are now read live from the engine (getReactionRates) so the network view is flux-weighted.
+  provenance:
+    run_ids:
+    - viva_genesis.composites.protometabolism.protometabolic_network__1792351383__20bdb6
 runs:
 - name: gate-a-execution
   status: completed
@@ -1310,8 +1328,4 @@ preregistered:
       op: '>='
       value: 1.0
       detail: connected network (not one-offs)
-  basis: 'Thresholds are the investigation''s pre-stated plan-gate / acceptance criteria,
-    recorded verbatim from each acceptance_criterion gate''s pass_if: conservation
-    laws (ledger closure to numerical precision), literature-anchored ranges (Lost
-    City pH/T/H2; Preiner yields; Baaske enrichment), directional priors, and matched-null
-    / arms methodology requirements. Not fitted to results. No registered_at claimed.'
+  basis: 'Thresholds are the investigation''s pre-stated plan-gate / acceptance criteria, recorded verbatim from each acceptance_criterion gate''s pass_if: conservation laws (ledger closure to numerical precision), literature-anchored ranges (Lost City pH/T/H2; Preiner yields; Baaske enrichment), directional priors, and matched-null / arms methodology requirements. Not fitted to results. No registered_at claimed.'

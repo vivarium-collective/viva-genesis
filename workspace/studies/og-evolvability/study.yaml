@@ -180,6 +180,9 @@ findings:
     cites:
     - segre2000compositional
     - vasas2010lack
+  provenance:
+    run_ids:
+    - gate-d-heredity-selection
 - id: og34-population-shifts-under-selection
   kind: computational
   status: confirms
@@ -195,6 +198,9 @@ findings:
     cites:
     - eigen1971selforganization
     - blokhuis2020universal
+  provenance:
+    run_ids:
+    - gate-d-heredity-selection
 - id: og34-inheritance-scope
   kind: methodological
   status: confirms
@@ -206,6 +212,9 @@ findings:
     low-variance in other regimes.
   evidence:
     from_test: inherited-difference-reproducible-fitness
+  provenance:
+    run_ids:
+    - gate-d-heredity-selection
 runs:
 - id: gate-d-heredity-selection
   composite: >-

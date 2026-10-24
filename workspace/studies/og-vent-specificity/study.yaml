@@ -159,6 +159,9 @@ findings:
     The vent features are PARAMETERS on the same real composites, so the control is a parameterization
     of the vent models, not a hand-tuned mock. No dissolved H2 → no CO2 reduction; no Fe/Ni/S interface
     → no abiotic carbon fixation; an open pore → no thermophoretic concentration.
+  provenance:
+    run_ids:
+    - viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation__1791923061__6216cd
 - id: ogadv-vent-specificity
   provenance:
     run_ids:
@@ -182,7 +185,7 @@ findings:
     run_ids:
     - viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation__1791923061__6216cd
   kind: methodological
-  status: novel
+  status: caveat
   statement: >-
     Building the control exposed a latent control-integrity bug — catalyst_active=0 was silently swallowed
     by process-bigraph's is_empty(Float, 0.0) and refilled with the default, so the no-catalyst control
@@ -305,13 +308,8 @@ preregistered:
   thresholds:
     gates-reject-generic:
       op: controls_absent
-      detail: all five gates reject generic (net flux / formate / throughput / Péclet
-        / enrichment below threshold)
+      detail: all five gates reject generic (net flux / formate / throughput / Péclet / enrichment below threshold)
     vent-specificity-demonstrated:
       op: arms_reported
       detail: vent passes 5/5 where the control fails 5/5
-  basis: 'Thresholds are the investigation''s pre-stated plan-gate / acceptance criteria,
-    recorded verbatim from each acceptance_criterion gate''s pass_if: conservation
-    laws (ledger closure to numerical precision), literature-anchored ranges (Lost
-    City pH/T/H2; Preiner yields; Baaske enrichment), directional priors, and matched-null
-    / arms methodology requirements. Not fitted to results. No registered_at claimed.'
+  basis: 'Thresholds are the investigation''s pre-stated plan-gate / acceptance criteria, recorded verbatim from each acceptance_criterion gate''s pass_if: conservation laws (ledger closure to numerical precision), literature-anchored ranges (Lost City pH/T/H2; Preiner yields; Baaske enrichment), directional priors, and matched-null / arms methodology requirements. Not fitted to results. No registered_at claimed.'

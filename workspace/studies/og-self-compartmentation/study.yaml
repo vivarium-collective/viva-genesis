@@ -635,7 +635,7 @@ findings:
     - >-
       viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791944482__977ceb
   kind: methodological
-  status: novel
+  status: caveat
   statement: >-
     The parameter sweep exposed that an exact mix_fraction=0.0 is swallowed by process-bigraph's is_empty(Float,
     0.0) and refilled with the default (0.4), which would silently turn the single-fatty-acid control
@@ -673,6 +673,12 @@ findings:
   expected:
     cites:
     - jordan2019promotion
+  provenance:
+    run_ids:
+    - >-
+      viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791944482__977ceb
+    - viva_genesis.composites.endogenous_boundary.endogenous_boundary__1792350382__6fe7d7
+    basis: study canonical run — the acceptance gate passed and was evaluated against this run; its per-gate value is not surfaced in the run outcomes summary, so provenance is recorded at study-run granularity.
 - id: og31-throughput-not-improved
   kind: computational
   status: contradicts
@@ -704,6 +710,12 @@ findings:
     coupling (to-build).
   evidence:
     from_test: membrane-benefit-persistence
+  provenance:
+    run_ids:
+    - >-
+      viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791944482__977ceb
+    - viva_genesis.composites.endogenous_boundary.endogenous_boundary__1792350382__6fe7d7
+    basis: study canonical run — the acceptance gate passed and was evaluated against this run; its per-gate value is not surfaced in the run outcomes summary, so provenance is recorded at study-run granularity.
 - id: og31-connectivity-brittle-highTOC
   kind: methodological
   status: novel
@@ -713,6 +725,12 @@ findings:
     is based on the standing metabolite pool (TOC), not connectivity.
   evidence:
     from_test: membrane-benefit-access-window
+  provenance:
+    run_ids:
+    - >-
+      viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791944482__977ceb
+    - viva_genesis.composites.endogenous_boundary.endogenous_boundary__1792350382__6fe7d7
+    basis: study canonical run — the acceptance gate passed and was evaluated against this run; its per-gate value is not surfaced in the run outcomes summary, so provenance is recorded at study-run granularity.
 - id: og32-self-maintains-or-net-cost
   kind: computational
   status: confirms
@@ -731,6 +749,12 @@ findings:
     cites:
     - natchem2023osmoticgrowth
     - hanczyc2003experimental
+  provenance:
+    run_ids:
+    - >-
+      viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791944482__977ceb
+    - viva_genesis.composites.endogenous_boundary.endogenous_boundary__1792350382__6fe7d7
+    basis: study canonical run — the acceptance gate passed and was evaluated against this run; its per-gate value is not surfaced in the run outcomes summary, so provenance is recorded at study-run granularity.
 - id: og32-md-informed-permeability
   kind: computational
   status: confirms
@@ -745,6 +769,12 @@ findings:
     reduced-coupling proxy.
   evidence:
     from_test: permeability-md-informed
+  provenance:
+    run_ids:
+    - >-
+      viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791944482__977ceb
+    - viva_genesis.composites.endogenous_boundary.endogenous_boundary__1792350382__6fe7d7
+    basis: study canonical run — the acceptance gate passed and was evaluated against this run; its per-gate value is not surfaced in the run outcomes summary, so provenance is recorded at study-run granularity.
 - id: og32-gate-c-advance-over-og31
   kind: methodological
   status: confirms
@@ -759,6 +789,12 @@ findings:
     that would re-test the verdict under a structurally-resolved permeability.
   evidence:
     from_test: beats-ablation-flux-or-persistence
+  provenance:
+    run_ids:
+    - >-
+      viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791944482__977ceb
+    - viva_genesis.composites.endogenous_boundary.endogenous_boundary__1792350382__6fe7d7
+    basis: study canonical run — the acceptance gate passed and was evaluated against this run; its per-gate value is not surfaced in the run outcomes summary, so provenance is recorded at study-run granularity.
 - id: og32b-protonated-vesicles-stable-across-window
   evidence_basis: predicted
   evidence_basis_note: "Bilayer stability across the protonation window is a real Martini-3 CG-MD result (3 seeds/arm)."
@@ -777,6 +813,12 @@ findings:
     cites:
     - janke2014oleic
     - pedersen2025lipidome
+  provenance:
+    run_ids:
+    - >-
+      viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791944482__977ceb
+    - viva_genesis.composites.endogenous_boundary.endogenous_boundary__1792350382__6fe7d7
+    basis: study canonical run — the acceptance gate passed and was evaluated against this run; its per-gate value is not surfaced in the run outcomes summary, so provenance is recorded at study-run granularity.
 - id: og32b-charged-null-micellises-short-corner
   kind: computational
   status: confirms
@@ -791,6 +833,12 @@ findings:
     boundary is the GPU gold-standard follow-up.
   evidence:
     from_test: charged-null-destabilises
+  provenance:
+    run_ids:
+    - >-
+      viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791944482__977ceb
+    - viva_genesis.composites.endogenous_boundary.endogenous_boundary__1792350382__6fe7d7
+    basis: study canonical run — the acceptance gate passed and was evaluated against this run; its per-gate value is not surfaced in the run outcomes summary, so provenance is recorded at study-run granularity.
 - id: og32b-real-amphiphile-replaces-standin
   kind: methodological
   status: confirms
@@ -805,6 +853,12 @@ findings:
     proposed_input; the C1 tails are authoritative.
   evidence:
     from_test: real-fatty-acid-not-standin
+  provenance:
+    run_ids:
+    - >-
+      viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791944482__977ceb
+    - viva_genesis.composites.endogenous_boundary.endogenous_boundary__1792350382__6fe7d7
+    basis: study canonical run — the acceptance gate passed and was evaluated against this run; its per-gate value is not surfaced in the run outcomes summary, so provenance is recorded at study-run granularity.
 runs:
 - name: >-
     viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791944482__977ceb
@@ -1214,22 +1268,16 @@ preregistered:
     retention-without-isolation:
       op: '>='
       value: 0.3
-      detail: both retention and access nonzero (a non-empty individuality-vs-access
-        region)
+      detail: both retention and access nonzero (a non-empty individuality-vs-access region)
     mixed-amphiphile-advantage-over-single:
       op: controls_absent
       detail: mixed forms vesicles; single fatty acid does not at the same salt
     boundary-forms-from-chemistry:
       op: '>='
       value: 1.0
-      detail: boundary caused by the endogenous chemistry — forms in the favorable
-        arm, not in the synthesis-ablated control
+      detail: boundary caused by the endogenous chemistry — forms in the favorable arm, not in the synthesis-ablated control
     rewrite-conserves-matter:
       op: '>='
       value: 1.0
       detail: rewrite_residual_max == 0 at every structural rewrite
-  basis: 'Thresholds are the investigation''s pre-stated plan-gate / acceptance criteria,
-    recorded verbatim from each acceptance_criterion gate''s pass_if: conservation
-    laws (ledger closure to numerical precision), literature-anchored ranges (Lost
-    City pH/T/H2; Preiner yields; Baaske enrichment), directional priors, and matched-null
-    / arms methodology requirements. Not fitted to results. No registered_at claimed.'
+  basis: 'Thresholds are the investigation''s pre-stated plan-gate / acceptance criteria, recorded verbatim from each acceptance_criterion gate''s pass_if: conservation laws (ledger closure to numerical precision), literature-anchored ranges (Lost City pH/T/H2; Preiner yields; Baaske enrichment), directional priors, and matched-null / arms methodology requirements. Not fitted to results. No registered_at claimed.'

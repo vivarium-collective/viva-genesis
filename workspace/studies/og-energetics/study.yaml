@@ -970,6 +970,13 @@ findings:
     - huber1997activated
     - buckel2013energy
     - natcomm2025phosphateactivation
+  provenance:
+    run_ids:
+    - viva_genesis.composites.proto_energetics.proto_energetics__1792351385__122918
+    - >-
+      viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization__1791944483__bef477
+    - viva_genesis.composites.protocell_energetics.protocell_energetics__1792071305__11504a
+    basis: study canonical run — the acceptance gate passed and was evaluated against this run; its per-gate value is not surfaced in the run outcomes summary, so provenance is recorded at study-run granularity.
 - id: og35-energy-ledger-closes
   kind: computational
   status: confirms
@@ -983,6 +990,13 @@ findings:
   expected:
     cites:
     - sojo2014bioenergetic
+  provenance:
+    run_ids:
+    - viva_genesis.composites.proto_energetics.proto_energetics__1792351385__122918
+    - >-
+      viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization__1791944483__bef477
+    - viva_genesis.composites.protocell_energetics.protocell_energetics__1792071305__11504a
+    basis: study canonical run — the acceptance gate passed and was evaluated against this run; its per-gate value is not surfaced in the run outcomes summary, so provenance is recorded at study-run granularity.
 - id: og35-carrier-scope
   kind: methodological
   status: confirms
@@ -995,6 +1009,13 @@ findings:
     cycle.
   evidence:
     from_test: carrier-pays-on-dip-persistence
+  provenance:
+    run_ids:
+    - viva_genesis.composites.proto_energetics.proto_energetics__1792351385__122918
+    - >-
+      viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization__1791944483__bef477
+    - viva_genesis.composites.protocell_energetics.protocell_energetics__1792071305__11504a
+    basis: study canonical run — the acceptance gate passed and was evaluated against this run; its per-gate value is not surfaced in the run outcomes summary, so provenance is recorded at study-run granularity.
 runs:
 - name: viva_genesis.composites.proto_energetics.proto_energetics__1792351385__122918
   status: completed
@@ -1709,30 +1730,25 @@ preregistered:
     currency-maintained:
       op: '>='
       value: 0.25
-      detail: the currency is maintained (charged fraction >= 0.25) against discharge
-        + hydrolysis
+      detail: the currency is maintained (charged fraction >= 0.25) against discharge + hydrolysis
     captures-free-energy:
       op: '>='
       value: 0.3
-      detail: capture into transferable currency exceeds 30% of the tapped geochemical
-        free energy
+      detail: capture into transferable currency exceeds 30% of the tapped geochemical free energy
     ablation-no-coupling-or-drive-collapses:
       op: controls_absent
-      detail: both ablations collapse (charged fraction ~0) where the favourable arm
-        maintains the currency
+      detail: both ablations collapse (charged fraction ~0) where the favourable arm maintains the currency
     selection-internalizes-gradient-generation:
       op: '>='
       value: 0.6
-      detail: the population internalizes (pump fraction >= 0.6) as the external gradient
-        falls
+      detail: the population internalizes (pump fraction >= 0.6) as the external gradient falls
     reduced-gradient-dependence:
       op: '>='
       value: 0.5
       detail: internalizing lineage persists (survivors >= 0.5) at the collapsed gradient
     sojo-constraint-weak-pump-collapses:
       op: controls_absent
-      detail: the weak-pump control collapses (survivors ~0) where the efficient pump
-        persists
+      detail: the weak-pump control collapses (survivors ~0) where the efficient pump persists
     free-energy-ledger-closes:
       op: '>='
       value: 1.0
@@ -1749,8 +1765,4 @@ preregistered:
       op: <=
       value: 1.0
       detail: a finite threshold inside 0..1
-  basis: 'Thresholds are the investigation''s pre-stated plan-gate / acceptance criteria,
-    recorded verbatim from each acceptance_criterion gate''s pass_if: conservation
-    laws (ledger closure to numerical precision), literature-anchored ranges (Lost
-    City pH/T/H2; Preiner yields; Baaske enrichment), directional priors, and matched-null
-    / arms methodology requirements. Not fitted to results. No registered_at claimed.'
+  basis: 'Thresholds are the investigation''s pre-stated plan-gate / acceptance criteria, recorded verbatim from each acceptance_criterion gate''s pass_if: conservation laws (ledger closure to numerical precision), literature-anchored ranges (Lost City pH/T/H2; Preiner yields; Baaske enrichment), directional priors, and matched-null / arms methodology requirements. Not fitted to results. No registered_at claimed.'

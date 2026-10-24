@@ -155,6 +155,9 @@ findings:
     flux.
   evidence:
     from_test: productive-flux-beats-wellmixed-and-nonconcentrating
+  provenance:
+    run_ids:
+    - gate-b-concentration-rescues-ignition
 - id: og30-c6-confirmation
   kind: computational
   status: confirms
@@ -168,6 +171,9 @@ findings:
     loss.
   evidence:
     from_test: productive-flux-beats-wellmixed-and-nonconcentrating
+  provenance:
+    run_ids:
+    - gate-b-concentration-rescues-ignition
 - id: og30-enrichment-bridges-ignition-gap
   kind: computational
   status: partial
@@ -197,6 +203,9 @@ findings:
     the coefficient-free seed-independence discriminator, not on connectivity.
   evidence:
     from_test: colocalization-residence-measured
+  provenance:
+    run_ids:
+    - gate-b-concentration-rescues-ignition
 - id: og30-resolves-a1-feed-plausibility
   kind: methodological
   status: confirms
@@ -207,6 +216,9 @@ findings:
     on C4 and confirmed directly on C6).
   evidence:
     from_test: productive-flux-beats-wellmixed-and-nonconcentrating
+  provenance:
+    run_ids:
+    - gate-b-concentration-rescues-ignition
 runs:
 - id: gate-b-concentration-rescues-ignition
   composite: >-
