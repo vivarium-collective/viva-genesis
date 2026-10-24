@@ -9,6 +9,7 @@ simulation_status: ran
 evaluation_status: evaluated
 gate_status: passed
 verdict: qualified
+confidence: Investigating
 primary_limitation: "Reduced-carbon chemistry is delivered only within a narrow two-regime DIC window - under full redox equilibrium DIC is drawn down before free H2 appears; the DIC-cliff is the one realized finding, the rest of the interface budget still planned."
 key_assumptions:
 - "The interface is solved under full redox equilibrium (real PHREEQC)"
