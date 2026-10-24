@@ -299,3 +299,19 @@ conditions:
       catalyst_active: 1.0
     planned: false
   model_settings: []
+
+# --- preregistration thresholds (investigation plan-gates, recorded verbatim) ---
+preregistered:
+  thresholds:
+    gates-reject-generic:
+      op: controls_absent
+      detail: all five gates reject generic (net flux / formate / throughput / Péclet
+        / enrichment below threshold)
+    vent-specificity-demonstrated:
+      op: arms_reported
+      detail: vent passes 5/5 where the control fails 5/5
+  basis: 'Thresholds are the investigation''s pre-stated plan-gate / acceptance criteria,
+    recorded verbatim from each acceptance_criterion gate''s pass_if: conservation
+    laws (ledger closure to numerical precision), literature-anchored ranges (Lost
+    City pH/T/H2; Preiner yields; Baaske enrichment), directional priors, and matched-null
+    / arms methodology requirements. Not fitted to results. No registered_at claimed.'

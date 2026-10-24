@@ -752,3 +752,48 @@ conditions:
     params: {}
     planned: false
   model_settings: []
+
+# --- preregistration thresholds (investigation plan-gates, recorded verbatim) ---
+preregistered:
+  thresholds:
+    ammonium-production-sustained:
+      op: '>'
+      value: 100.0
+      detail: settled NH4+ > 100 uM (a sustained reduced-N pool)
+    reduced-nitrogen-source-exists:
+      op: '>'
+      value: 1.0e-06
+      detail: peak NH4+ production > 0 (viable reduced-N source)
+    nitrogen-keeps-pace-with-carbon:
+      op: range
+      low: 1.0
+      high: 8.0
+      detail: C:N in the viable keeps-pace band (near Redfield)
+    nitrogen-mass-conserved:
+      op: <=
+      value: 1.0e-09
+      detail: max |nitrogen-mass residual| at machine precision
+    feature-ablation-no-ammonium:
+      op: controls_absent
+      detail: ammonium present with FeS+H2
+      <1 uM in every control: null
+    nitrogen-supply-sets-cn:
+      op: arms_reported
+      detail: report both arms; flag where nitrogen becomes limiting first
+    reactive-p-available:
+      op: '>'
+      value: 0.0
+      detail: net availability > 0 (reactive P produced faster than lost)
+    p-coconcentrates-with-carbon:
+      op: arms_reported
+      detail: the same pore regime co-concentrates P with C (enrichment >= carbon
+        floor AND P reactive-availability positive)
+    open-pore-no-enrichment-control:
+      op: controls_absent
+      detail: reactive-P availability collapses (net <= 0
+      ~fully precipitated) without enrichment: null
+  basis: 'Thresholds are the investigation''s pre-stated plan-gate / acceptance criteria,
+    recorded verbatim from each acceptance_criterion gate''s pass_if: conservation
+    laws (ledger closure to numerical precision), literature-anchored ranges (Lost
+    City pH/T/H2; Preiner yields; Baaske enrichment), directional priors, and matched-null
+    / arms methodology requirements. Not fitted to results. No registered_at claimed.'

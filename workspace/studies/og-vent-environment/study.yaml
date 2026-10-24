@@ -1060,3 +1060,55 @@ conditions:
     params: {}
     planned: false
   model_settings: []
+
+# --- preregistration thresholds (investigation plan-gates, recorded verbatim) ---
+preregistered:
+  thresholds:
+    vent-temperature-in-lostcity-range:
+      op: range
+      low: 40.0
+      high: 91.0
+      detail: settled T in [40, 91] C
+    h2-flux-sustained:
+      op: '>'
+      value: 1.0e-09
+      detail: min sustained H2 flux > 0
+    charge-conserved:
+      op: <=
+      value: 1.0e-06
+      detail: '|charge imbalance| < 1e-6 throughout'
+    spatial-flux-conserved:
+      op: <=
+      value: 0.001
+      detail: max |flux divergence residual| < 1e-3 (direct LU solve ~ machine eps)
+    vent-pH-in-lostcity-range:
+      op: range
+      low: 9.0
+      high: 10.8
+      detail: settled pH in [9.0, 10.8]
+    ledger-closes:
+      op: <=
+      value: 1.0e-12
+      detail: matter ledger residual at machine precision
+    energy-ledger-closes:
+      op: <=
+      value: 1.0e-12
+      detail: energy ledger residual at machine precision
+    dissolved-h2-in-lost-city-range:
+      op: range
+      low: 1.0
+      high: 15.0
+      detail: dissolved H2 in [1, 15] mmol/kg
+    posterior-viable-vent-fraction:
+      op: '>'
+      value: 0.0
+      detail: posterior-viable fraction > 0
+    structure-agreement-across-transport-classes:
+      op: '>='
+      value: 0.8
+      detail: cross-class agreement >= 0.8
+  basis: 'Thresholds are the investigation''s pre-stated plan-gate / acceptance criteria,
+    recorded verbatim from each acceptance_criterion gate''s pass_if: conservation
+    laws (ledger closure to numerical precision), literature-anchored ranges (Lost
+    City pH/T/H2; Preiner yields; Baaske enrichment), directional priors, and matched-null
+    / arms methodology requirements. Not fitted to results. No registered_at claimed.'

@@ -1203,3 +1203,33 @@ conditions:
     params: {}
     planned: false
   model_settings: []
+
+# --- preregistration thresholds (investigation plan-gates, recorded verbatim) ---
+preregistered:
+  thresholds:
+    vesicles-form-in-window:
+      op: '>'
+      value: 0.0
+      detail: vesicles form (>0) in the mixed-amphiphile window
+    retention-without-isolation:
+      op: '>='
+      value: 0.3
+      detail: both retention and access nonzero (a non-empty individuality-vs-access
+        region)
+    mixed-amphiphile-advantage-over-single:
+      op: controls_absent
+      detail: mixed forms vesicles; single fatty acid does not at the same salt
+    boundary-forms-from-chemistry:
+      op: '>='
+      value: 1.0
+      detail: boundary caused by the endogenous chemistry — forms in the favorable
+        arm, not in the synthesis-ablated control
+    rewrite-conserves-matter:
+      op: '>='
+      value: 1.0
+      detail: rewrite_residual_max == 0 at every structural rewrite
+  basis: 'Thresholds are the investigation''s pre-stated plan-gate / acceptance criteria,
+    recorded verbatim from each acceptance_criterion gate''s pass_if: conservation
+    laws (ledger closure to numerical precision), literature-anchored ranges (Lost
+    City pH/T/H2; Preiner yields; Baaske enrichment), directional priors, and matched-null
+    / arms methodology requirements. Not fitted to results. No registered_at claimed.'

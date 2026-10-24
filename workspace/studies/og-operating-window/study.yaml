@@ -388,3 +388,24 @@ conditions:
     params:
       membrane: false
   model_settings: []
+
+# --- preregistration thresholds (investigation plan-gates, recorded verbatim) ---
+preregistered:
+  thresholds:
+    pore-trap-enrichment-real:
+      op: '>'
+      value: 1.0
+      detail: real trap enriches (>1) at the defensible operating point
+    membrane-retention-real:
+      op: range
+      low: 0.5
+      high: 0.99
+      detail: viable retention (chemistry held, still permeable)
+    rescue-requires-both-levers:
+      op: controls_absent
+      detail: both levers needed; each single regime is lower
+  basis: 'Thresholds are the investigation''s pre-stated plan-gate / acceptance criteria,
+    recorded verbatim from each acceptance_criterion gate''s pass_if: conservation
+    laws (ledger closure to numerical precision), literature-anchored ranges (Lost
+    City pH/T/H2; Preiner yields; Baaske enrichment), directional priors, and matched-null
+    / arms methodology requirements. Not fitted to results. No registered_at claimed.'

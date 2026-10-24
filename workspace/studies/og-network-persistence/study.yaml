@@ -1277,3 +1277,41 @@ conditions:
     params: {}
     planned: false
   model_settings: []
+
+# --- preregistration thresholds (investigation plan-gates, recorded verbatim) ---
+preregistered:
+  thresholds:
+    network-ledger-closes:
+      op: '>='
+      value: 1.0
+      detail: every ledger witness within tolerance
+    persistent-network-at-phase1-feed:
+      op: '>='
+      value: 10.0
+      detail: '>= 10 persistent species'
+    motifs-emerge-not-imposed:
+      op: <=
+      value: 0.05
+      detail: enrichment p <= 0.05 (with >= 1 motif
+      see motif-present-formose-arm): null
+    motif-present-formose-arm:
+      op: '>='
+      value: 1.0
+      detail: '>= 1 persistent motif'
+    sustained-carbon-throughput:
+      op: '>'
+      value: 1.0e-06
+      detail: net throughput > 0 (no imposed accumulation)
+    autocatalytic-gain-present:
+      op: '>='
+      value: 1.0
+      detail: '>= 1 reinforcing/autocatalytic motif'
+    network-closure-vs-oneoff:
+      op: '>='
+      value: 1.0
+      detail: connected network (not one-offs)
+  basis: 'Thresholds are the investigation''s pre-stated plan-gate / acceptance criteria,
+    recorded verbatim from each acceptance_criterion gate''s pass_if: conservation
+    laws (ledger closure to numerical precision), literature-anchored ranges (Lost
+    City pH/T/H2; Preiner yields; Baaske enrichment), directional priors, and matched-null
+    / arms methodology requirements. Not fitted to results. No registered_at claimed.'

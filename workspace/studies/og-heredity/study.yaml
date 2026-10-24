@@ -1303,3 +1303,44 @@ conditions:
     params: {}
     planned: false
   model_settings: []
+
+# --- preregistration thresholds (investigation plan-gates, recorded verbatim) ---
+preregistered:
+  thresholds:
+    inheritance-beats-noninheritance:
+      op: '>'
+      value: 0.1
+      detail: inheriting lineage fitness net-positive (and beats the non-heritable
+        control)
+    information-retained-above-error-threshold:
+      op: '>='
+      value: 0.4
+      detail: functional information retained (above the error threshold)
+    heredity-modules-compared:
+      op: arms_reported
+      detail: both modules viable; RNA-like ranks above peptide
+    heredity-lineage-compositional-persists:
+      op: arms_reported
+      detail: compositional persistence above threshold and above the non-heritable
+        control (realized heritability separates them)
+    information-ledger-closes:
+      op: <=
+      value: 1.0e-09
+      detail: energy audit at float round-off
+    mi-estimator-converged:
+      op: '>='
+      value: 1.0
+      detail: converged
+    ancestry-predicts-phenotype:
+      op: '>='
+      value: 4.0
+      detail: '>= 4 of 6 classes'
+    information-per-cost-frontier-resolved:
+      op: '>='
+      value: 1.0
+      detail: '>= 1 decade'
+  basis: 'Thresholds are the investigation''s pre-stated plan-gate / acceptance criteria,
+    recorded verbatim from each acceptance_criterion gate''s pass_if: conservation
+    laws (ledger closure to numerical precision), literature-anchored ranges (Lost
+    City pH/T/H2; Preiner yields; Baaske enrichment), directional priors, and matched-null
+    / arms methodology requirements. Not fitted to results. No registered_at claimed.'

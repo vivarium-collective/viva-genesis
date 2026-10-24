@@ -326,3 +326,23 @@ conditions:
       feed_CO2: 2.0e-3
       k_wash_eff: 0.05
   model_settings: []
+
+# --- preregistration thresholds (investigation plan-gates, recorded verbatim) ---
+preregistered:
+  thresholds:
+    acetate-delivered-to-synthesis:
+      op: '>'
+      value: 0.0
+      detail: the network delivers acetate to synthesis
+    amphiphiles-aggregation-competent:
+      op: '>='
+      value: 1.0
+      detail: amphiphile pool clears CAC (a membrane can form endogenously)
+    reciprocal-maintenance-closes-endogenously:
+      op: controls_absent
+      detail: reciprocal maintenance closes endogenously without a built-in gain
+  basis: 'Thresholds are the investigation''s pre-stated plan-gate / acceptance criteria,
+    recorded verbatim from each acceptance_criterion gate''s pass_if: conservation
+    laws (ledger closure to numerical precision), literature-anchored ranges (Lost
+    City pH/T/H2; Preiner yields; Baaske enrichment), directional priors, and matched-null
+    / arms methodology requirements. Not fitted to results. No registered_at claimed.'

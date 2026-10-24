@@ -1532,3 +1532,37 @@ conditions:
     params: {}
     planned: false
   model_settings: []
+
+# --- preregistration thresholds (investigation plan-gates, recorded verbatim) ---
+preregistered:
+  thresholds:
+    cross-feeding-robustness:
+      op: '>'
+      value: 0.5
+      detail: a majority of capabilities are redundantly covered (robust to a single-compartment
+        loss)
+    connected-beats-isolated:
+      op: arms_reported
+      detail: connected robustness strictly higher than isolated on every seed (measured
+        min gain reported)
+    cross-system-element-ledger-closes:
+      op: '>='
+      value: 1.0
+      detail: every residual within tolerance
+    community-function-precedes-cell-completeness:
+      op: '>='
+      value: 1.0
+      detail: '>= 1 community-only class'
+    community-function-vanishes-without-exchange:
+      op: '>='
+      value: 1.0
+      detail: vanishes without sharing
+    community-function-flux-sustained:
+      op: '>='
+      value: 1.0
+      detail: flux-sustained
+  basis: 'Thresholds are the investigation''s pre-stated plan-gate / acceptance criteria,
+    recorded verbatim from each acceptance_criterion gate''s pass_if: conservation
+    laws (ledger closure to numerical precision), literature-anchored ranges (Lost
+    City pH/T/H2; Preiner yields; Baaske enrichment), directional priors, and matched-null
+    / arms methodology requirements. Not fitted to results. No registered_at claimed.'
