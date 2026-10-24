@@ -253,6 +253,8 @@ runs:
         The ~20x well-mixed ignition gap (og-29) is bridged at a modest physical pore (porosity 0.88), so A1's
         persistence firms up: a carbon-fixing network persists at vent-realistic feeds in a pore, within the bounded
         geometry window.
+  status: completed
+  run_id: gate-b-concentration-rescues-ignition
 visualizations:
 - name: pore-ignition-coupling
   display: mechanism
