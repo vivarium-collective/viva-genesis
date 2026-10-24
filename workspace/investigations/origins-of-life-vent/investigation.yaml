@@ -820,6 +820,32 @@ studies:
 - og-operating-window
 - og-self-maintaining-individual
 - og-evolvable-lineages
+graph_structure:
+  evidence_spine:
+  - og-vent-environment
+  - og-carbon-fixation
+  - og-network-persistence
+  - og-spatial-concentration
+  - og-network-rescue
+  mechanistic_branches:
+    refuted:
+    - og-autocatalysis-a2
+    - og-self-maintaining-individual
+    - og-vent-specificity
+    unresolved:
+    - og-precursor-pool
+    - og-operating-window
+    - og-self-compartmentation
+    - og-vent-interface
+    - og-energetics
+    - og-nutrient-bottlenecks
+    - og-heredity
+    - og-reproduction
+    - og-evolvability
+    - og-evolvable-lineages
+    - og-ecology
+    - og-independence
+    - mem-m4-growth-division-propensity
 acceptance_criteria:
 - study: og-vent-environment
   behavior: vent-pH-in-lostcity-range

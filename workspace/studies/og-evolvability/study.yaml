@@ -9,6 +9,7 @@ simulation_status: ran
 evaluation_status: evaluated
 gate_status: passed
 verdict: qualified
+confidence: Accepted
 primary_limitation: "Selective chemical heredity is demonstrated only over the modeled 8-seed x 40-generation regime, with heredity carried by inherited network composition (Option B, compositional/GARD-style); the vasas-2010 evolvability caveat is tested, not waved away."
 key_assumptions:
 - "Heredity is compositional (inherited network composition), not a sequence template"
