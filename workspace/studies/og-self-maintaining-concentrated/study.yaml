@@ -154,7 +154,40 @@ findings:
       unfavorable-vent reassessment) is where the pore could close the loop. CAVEAT: the
       absolute salinity threshold is calibration-dependent (no measured decanoate S_T(I) was
       found); robust are the 1/I suppression direction and its strong tilt toward low salinity.
-      The decisive next step: real charged-single-chain-amphiphile Soret vs ionic strength.
+  - id: ogsmc-salinity-grounded-robust
+    kind: literature
+    evidence_basis: measured
+    statement: >-
+      GROUNDING (follow-up): the S_T(I) relation was re-anchored to measured thermophoresis
+      data - a small-ion floor S_T0 ~2e-3 K-1 (NaCl/KCl; Di Lecce and Bresme PCCP 2025), a
+      single-chain-surfactant magnitude ~0.08 K-1 at I=0.01 M (SDS micelles; Piazza and Guarino
+      PRL 2002, Vigolo et al. Langmuir 2010), and the measured Debye-length scaling. The
+      marine-vent exclusion is ROBUST: it holds under BOTH the steep Piazza-Guarino SDS law
+      (S_T proportional to lambda_D^2, the closest single-chain analog) and the gentlest
+      defensible Duhr-Braun flat-double-layer law (proportional to lambda_D) - closing only at
+      freshwater (I <= ~0.01-0.03 M) and leaving the marine vent (I ~0.5-0.7 M) short by 6-7
+      orders in both. The prior ad-hoc lambda_D^2 scaling coincides with the measured SDS law,
+      so grounding STRENGTHENS rather than overturns the freshwater-favored conclusion. Charge
+      screening at seawater salinity is the physical cause; the only soft spot is the exact
+      closure boundary (I~0.01 vs 0.03), which still rides on the SDS-class magnitude anchor
+      (no decanoate/oleate Soret-vs-salinity datum exists). Implication: the compartmentation
+      step favors a low-salinity (terrestrial/freshwater-geothermal; cf. Mulkidjanian) setting
+      over the marine alkaline vent - the investigation's central marine-vs-terrestrial debate.
+  - id: ogsmc-gas-bubble-magnitude-limited
+    kind: computational
+    evidence_basis: measured
+    statement: >-
+      ALTERNATIVE MECHANISM (follow-up): a heated gas-bubble / interface accumulator grounded
+      in Morasch et al. (Nat Chem 2019; ~700-fold at dT 20 K rising to a ~4000-fold ceiling at
+      dT 40 K, within minutes) was built and coupled to the same loop. It does NOT close the
+      gap: at the canonical point conc aggregation_competent reaches only ~3.8e-4 (dT 40 K), and
+      even at the favorable corner ~0.06 - short by >1 order, because the bubble has a HARD
+      measured ~4000x ceiling unlike the trap's unbounded exponential (>1e8). The matched
+      non-concentrating control confirms the enrichment is the sole mover. The gas bubble's real
+      advantages are speed (minutes vs hours) and direct encapsulation (~18x inside vesicles),
+      not raw magnitude; Morasch's own reading - fast interface capture SEEDING a slow exponential
+      trap (the two are complementary and combinable) - is the promising combined mechanism to
+      test next.
 
 preregistered:
   thresholds:
