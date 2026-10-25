@@ -247,19 +247,11 @@ findings:
 - id: og-a2-spatial-concentration-cannot-close
   kind: computational
   status: confirms
-  statement: >-
-    Connect-and-close test (Phase-2 discovery cycle): coupling the real FiPy thermophoretic
-    trap's spatial concentration to the A2 test does NOT recast the refutation, unlike the
-    sibling self-maintenance study. Concentrating the CO2/H2 feed raises net carbon flux ~200x
-    for the favorable network AND its degree-matched null in lockstep (margin over the null
-    stays ~0, slightly negative: -9e-8 at x50; autocatalytic_gain 0 throughout), so the formose
-    route gains throughput without a self-amplifying cycle. For the branched rTCA route, even
-    x50 enrichment + 10x residence leaves the seeded cycle washing out, because concentration's
-    mass-action push (RT*ln(50) ~ 11 kJ/mol) is below the uphill reductive carboxylations
-    (+18/+31 kJ/mol dG0). The A2 refutation is a property of topology and reductant
-    thermodynamics, not dilution - spatial concentration, which closes the self-maintenance CAC
-    threshold gap (in freshwater), cannot close a thermodynamic/topological barrier. Composite:
-    viva_genesis.composites.autocatalysis_concentrated.
+  statement: 'Connect-and-close test (Phase-2 discovery cycle): coupling the real FiPy thermophoretic trap''s spatial concentration to the A2 test does NOT recast the refutation, unlike the sibling self-maintenance study. Concentrating the CO2/H2 feed raises net carbon flux ~200x for the favorable network AND its degree-matched null in lockstep (margin over the null stays ~0, slightly negative: -9e-8 at x50; autocatalytic_gain 0 throughout), so the formose route gains throughput without a self-amplifying cycle. For the branched rTCA route, even x50 enrichment + 10x residence leaves the seeded cycle washing out, because concentration''s mass-action push (RT*ln(50) ~ 11 kJ/mol) is below the uphill reductive carboxylations (+18/+31 kJ/mol dG0). The A2 refutation is a property of topology and reductant thermodynamics, not dilution - spatial concentration, which closes the self-maintenance CAC threshold gap (in freshwater), cannot close a thermodynamic/topological barrier. Composite: viva_genesis.composites.autocatalysis_concentrated.'
+- id: ogaa2-adjudicate-persistence-challenge
+  kind: computational
+  evidence_basis: measured
+  statement: 'Adjudication of the og-network-persistence -> og-autocatalysis-a2 challenge edge (discovery crank, synthesize op): the two results are CONCORDANT, not conflicting. og-network-persistence (supported) shows the carbon-fixing network persists under EXTERNAL DRIVE (vent feed + washout) - explicitly ''driven, not autocatalytic self-amplification''; og-autocatalysis-a2 (refuted) shows endogenous self-amplifying autocatalysis fails on both representable routes against matched nulls. Together they state one coherent claim - the prebiotic network is a DRIVEN dissipative system, not a self-amplifying one - so refuting autocatalysis does not threaten persistence, and persistence does not require autocatalysis. The challenge resolves as a joint justification (driven-persistence AND no-endogenous-autocatalysis), not a defeat.'
 runs:
 - name: gate-a-c6-ignition-sweep
   status: completed

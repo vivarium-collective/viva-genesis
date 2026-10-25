@@ -144,3 +144,61 @@ most important finding about the engine (below).
 - Open synthesis this surfaced (a *good* new frontier item the engine should raise, but
   doesn't yet): the chemistry↔compartmentation environment tension → model a
   transitional/coupled scenario (vent-freshwater mixing zone or freshening excursion).
+
+---
+
+## Cycle 3 — 2026-10-25 (adjudicate the persistence↔autocatalysis challenge)
+
+Run on the **engine fixed in Cycle 2's follow-up** (viva-superpowers PR #360:
+*acceptance criteria track the named behavior, not the verdict sign*). That fix moved
+the frontier: the false `og-vent-specificity` item is gone (`unaddressed criteria
+1 → 0`), and the crank advanced to the real next priority.
+
+### Crank state (before)
+`closure: OPEN` — unaddressed criteria **0**, open gaps 9, open challenges 3, frontier 34.
+**Next action:** `[synthesize] open_challenge on claim:og-autocatalysis-a2` (priority 80)
+— edge `claim:og-network-persistence --refutes--> claim:og-autocatalysis-a2` unadjudicated.
+
+### Action taken (the synthesize)
+Adjudicated the challenge. The two claims are **concordant, not conflicting**:
+`og-network-persistence` (supported) — the carbon-fixing network persists under
+*external drive* (vent feed + washout), explicitly "driven, not autocatalytic
+self-amplification"; `og-autocatalysis-a2` (refuted) — endogenous self-amplifying
+autocatalysis fails on both representable routes. Together they state one coherent
+claim: **the prebiotic network is a driven dissipative system, not a self-amplifying
+one.** Refuting autocatalysis does not threaten persistence; persistence does not
+require autocatalysis. The challenge resolves as a *joint justification*, not a defeat.
+Recorded as a finding `ogaa2-adjudicate-persistence-challenge` on og-autocatalysis-a2.
+
+### Crank state (after)
+**Unchanged** — still `[synthesize] open_challenge on claim:og-autocatalysis-a2`,
+frontier 34. The adjudication did not close the item.
+
+### Observation (the systemic pattern, now confirmed)
+`frontier()` raises an `open_challenge` for **every** argument edge of `type ==
+"challenge"` and checks **no adjudication state** — so the `synthesize` op it
+recommends has no way to discharge the item, exactly as `branch` could not discharge
+an acceptance criterion before PR #360. This is the **same loop-not-closed defect,
+systemic across op kinds**: the knowledge-clock transition I_{n+1}=T(aₙ,Iₙ,δₙ) ignores
+the action aₙ for `synthesize` and `narrative_gap` just as it did for `branch`. PR #360
+closed it for one kind (acceptance ← behavior outcome); the others remain.
+
+### Opportunity to improve discovery (next PR candidate)
+**A uniform "resolution" representation, generalizing PR #360 to every op kind.** Each
+frontier item kind needs a discharged-state the frontier checks:
+- `open_challenge` → **adjudicated**: an authored justification/synthesis edge (or a
+  `resolved: true` flag on the challenge edge, or re-typing `refutes`→`qualifies`/
+  `concordant` once adjudicated) that `frontier()` consults before raising the item.
+- `narrative_gap` → **bridged**: a completed bridging study (a `tests`/`builds-on`
+  child closing the gap) marks the gap addressed — the child→parent *discharge* edge
+  this log first flagged in Cycle 2.
+The crank already recommends `branch`/`synthesize`; it must recognize the artifact each
+op produces. Until then, a human re-reads the frontier each cycle and the closure count
+understates real progress.
+
+### Scientific state after Cycle 3
+- og-autocatalysis-a2 carries the adjudication: persistence (driven) and the autocatalysis
+  refutation are concordant — one coherent "driven dissipative network" claim.
+- The three `open_challenge`s (og-autocatalysis-a2, og-self-maintaining-concentrated,
+  og-vent-specificity) are all real adjudication work the engine can't yet close; the
+  next engine PR (uniform resolution) is the highest-leverage discovery improvement.
