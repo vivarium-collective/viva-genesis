@@ -2,11 +2,6 @@ schema_version: 4
 name: og-network-rescue
 investigation: origins-of-life-vent
 created: '2026-10-18'
-phase: Evaluate
-status: ran
-design_status: approved
-simulation_status: ran
-evaluation_status: evaluated
 gate_status: passed
 verdict: supported
 primary_limitation: "The pore's ignition benefit is a bounded window, not a broad swath; network_connected is a brittle proxy near threshold (reads 0 at high feed while the network stays carbon-fixing)."
@@ -311,3 +306,4 @@ conditions:
       concentrating: false
     planned: false
   model_settings: []
+execution_status: completed

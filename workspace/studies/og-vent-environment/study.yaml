@@ -2,11 +2,6 @@ schema_version: 4
 name: og-vent-environment
 investigation: origins-of-life-vent
 created: '2026-10-18'
-phase: Evaluate
-status: ran
-design_status: approved
-simulation_status: ran
-evaluation_status: evaluated
 gate_status: passed
 verdict: supported
 primary_limitation: "The Lost City window holds over ~80% of the grid, but calibration narrows it to a posterior 12.5% of the prior, with dissolved H2 the single binding observation (only 6/48 draws pass the H2 window)."
@@ -1125,3 +1120,4 @@ preregistered:
       value: 0.8
       detail: cross-class agreement >= 0.8
   basis: 'Thresholds are the investigation''s pre-stated plan-gate / acceptance criteria, recorded verbatim from each acceptance_criterion gate''s pass_if: conservation laws (ledger closure to numerical precision), literature-anchored ranges (Lost City pH/T/H2; Preiner yields; Baaske enrichment), directional priors, and matched-null / arms methodology requirements. Not fitted to results. No registered_at claimed.'
+execution_status: completed

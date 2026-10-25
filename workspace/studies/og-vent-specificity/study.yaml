@@ -2,11 +2,6 @@ schema_version: 4
 name: og-vent-specificity
 investigation: origins-of-life-vent
 created: '2026-10-18'
-phase: Evaluate
-status: ran
-design_status: approved
-simulation_status: ran
-evaluation_status: evaluated
 gate_status: passed
 verdict: refuted
 primary_limitation: "The gates certify vent-specificity by rejecting a generic non-equilibrium control (not the vent mechanism's sufficiency); building the control exposed and fixed a latent catalyst_active=0 is_empty bug."
@@ -313,3 +308,4 @@ preregistered:
       op: arms_reported
       detail: vent passes 5/5 where the control fails 5/5
   basis: 'Thresholds are the investigation''s pre-stated plan-gate / acceptance criteria, recorded verbatim from each acceptance_criterion gate''s pass_if: conservation laws (ledger closure to numerical precision), literature-anchored ranges (Lost City pH/T/H2; Preiner yields; Baaske enrichment), directional priors, and matched-null / arms methodology requirements. Not fitted to results. No registered_at claimed.'
+execution_status: completed

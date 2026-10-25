@@ -2,11 +2,6 @@ schema_version: 4
 name: og-autocatalysis-a2
 investigation: origins-of-life-vent
 created: '2026-10-18'
-phase: Evaluate
-status: ran
-design_status: approved
-simulation_status: ran
-evaluation_status: evaluated
 gate_status: failed
 confidence: Refuted
 verdict: refuted
@@ -500,3 +495,4 @@ conditions:
       carboxylation_drive_kj: 0.0
     planned: false
   model_settings: []
+execution_status: completed

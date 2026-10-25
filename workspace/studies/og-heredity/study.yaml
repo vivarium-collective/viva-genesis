@@ -2,11 +2,6 @@ schema_version: 4
 name: og-heredity
 investigation: origins-of-life-vent
 created: '2026-10-18'
-phase: Evaluate
-status: ran
-design_status: approved
-simulation_status: ran
-evaluation_status: evaluated
 gate_status: passed
 verdict: supported
 primary_limitation: "The 'heredity need not presume RNA' result survives only as a class-substitution result in one currency (bits per joule); just one input parameter is measured (R18 ribozyme 96.7% per-site fidelity), the rest inferred/extrapolated."
@@ -1310,8 +1305,7 @@ preregistered:
     inheritance-beats-noninheritance:
       op: '>'
       value: 0.1
-      detail: inheriting lineage fitness net-positive (and beats the non-heritable
-        control)
+      detail: inheriting lineage fitness net-positive (and beats the non-heritable control)
     information-retained-above-error-threshold:
       op: '>='
       value: 0.4
@@ -1321,8 +1315,7 @@ preregistered:
       detail: both modules viable; RNA-like ranks above peptide
     heredity-lineage-compositional-persists:
       op: arms_reported
-      detail: compositional persistence above threshold and above the non-heritable
-        control (realized heritability separates them)
+      detail: compositional persistence above threshold and above the non-heritable control (realized heritability separates them)
     information-ledger-closes:
       op: <=
       value: 1.0e-09
@@ -1339,8 +1332,5 @@ preregistered:
       op: '>='
       value: 1.0
       detail: '>= 1 decade'
-  basis: 'Thresholds are the investigation''s pre-stated plan-gate / acceptance criteria,
-    recorded verbatim from each acceptance_criterion gate''s pass_if: conservation
-    laws (ledger closure to numerical precision), literature-anchored ranges (Lost
-    City pH/T/H2; Preiner yields; Baaske enrichment), directional priors, and matched-null
-    / arms methodology requirements. Not fitted to results. No registered_at claimed.'
+  basis: 'Thresholds are the investigation''s pre-stated plan-gate / acceptance criteria, recorded verbatim from each acceptance_criterion gate''s pass_if: conservation laws (ledger closure to numerical precision), literature-anchored ranges (Lost City pH/T/H2; Preiner yields; Baaske enrichment), directional priors, and matched-null / arms methodology requirements. Not fitted to results. No registered_at claimed.'
+execution_status: completed

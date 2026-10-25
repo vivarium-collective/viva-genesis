@@ -2,11 +2,6 @@ schema_version: 4
 name: og-vent-interface
 investigation: origins-of-life-vent
 created: '2026-10-18'
-phase: Evaluate
-status: ran
-design_status: approved
-simulation_status: ran
-evaluation_status: evaluated
 gate_status: passed
 verdict: qualified
 primary_limitation: "Reduced-carbon chemistry is delivered only within a narrow two-regime DIC window - under full redox equilibrium DIC is drawn down before free H2 appears; the DIC-cliff is the one realized finding, the rest of the interface budget still planned."
@@ -332,3 +327,4 @@ conditions:
     canonical: true
     planned: false
   model_settings: []
+execution_status: completed

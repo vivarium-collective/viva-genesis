@@ -2,11 +2,6 @@ schema_version: 4
 name: og-evolvability
 investigation: origins-of-life-vent
 created: '2026-10-18'
-phase: Evaluate
-status: ran
-design_status: approved
-simulation_status: ran
-evaluation_status: evaluated
 gate_status: passed
 verdict: qualified
 primary_limitation: "Selective chemical heredity is demonstrated only over the modeled 8-seed x 40-generation regime, with heredity carried by inherited network composition (Option B, compositional/GARD-style); the vasas-2010 evolvability caveat is tested, not waved away."
@@ -277,3 +272,4 @@ conditions:
       inheritance: false
     planned: false
   model_settings: []
+execution_status: completed

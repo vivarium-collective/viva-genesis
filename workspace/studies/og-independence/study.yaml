@@ -2,11 +2,6 @@ schema_version: 4
 name: og-independence
 investigation: origins-of-life-vent
 created: '2026-10-18'
-phase: Evaluate
-status: ran
-design_status: approved
-simulation_status: ran
-evaluation_status: evaluated
 gate_status: passed
 confidence: Accepted
 verdict: qualified
@@ -1450,8 +1445,7 @@ preregistered:
       detail: a lineage persists off-gradient (surviving fraction >= 0.5)
     minimum-innovation-set:
       op: arms_reported
-      detail: full set persists off-gradient and every single knockout collapses (each
-        innovation is necessary)
+      detail: full set persists off-gradient and every single knockout collapses (each innovation is necessary)
     every-ledger-closes-over-the-integrated-world:
       op: '>='
       value: 1.0
@@ -1468,8 +1462,5 @@ preregistered:
       op: '>='
       value: 1.0
       detail: all runs within tolerance
-  basis: 'Thresholds are the investigation''s pre-stated plan-gate / acceptance criteria,
-    recorded verbatim from each acceptance_criterion gate''s pass_if: conservation
-    laws (ledger closure to numerical precision), literature-anchored ranges (Lost
-    City pH/T/H2; Preiner yields; Baaske enrichment), directional priors, and matched-null
-    / arms methodology requirements. Not fitted to results. No registered_at claimed.'
+  basis: 'Thresholds are the investigation''s pre-stated plan-gate / acceptance criteria, recorded verbatim from each acceptance_criterion gate''s pass_if: conservation laws (ledger closure to numerical precision), literature-anchored ranges (Lost City pH/T/H2; Preiner yields; Baaske enrichment), directional priors, and matched-null / arms methodology requirements. Not fitted to results. No registered_at claimed.'
+execution_status: completed

@@ -2,12 +2,7 @@ schema_version: 4
 name: mem-m4-growth-division-propensity
 investigation: origins-of-life-vent
 created: '2026-10-18'
-phase: Design
-status: planned
 execution_status: proposed
-design_status: drafted
-simulation_status: not_run
-evaluation_status: not_started
 gate_status: not_started
 study_type: exploratory
 proposed: true
