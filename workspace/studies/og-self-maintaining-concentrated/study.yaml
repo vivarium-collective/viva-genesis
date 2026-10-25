@@ -139,6 +139,22 @@ findings:
       has, however, concentrated lipid precursors above the critical vesicle concentration
       experimentally (Budin 2009), and heated gas-bubble interfaces concentrate lipids faster
       still (Matreux 2021) - a stronger mechanism to test next.
+  - id: ogsmc-salinity-gates-closure
+    kind: computational
+    evidence_basis: predicted
+    statement: >-
+      Follow-up model (#2): with an ionic-strength-dependent amphiphile Soret
+      S_T(I) = S_T0 + A*lambda_D(I)^2 (charged-surfactant 1/I suppression; Debye length
+      lambda_D = 0.304/sqrt(I) nm), closure is gated by SALINITY. Calibrated so a near-
+      maximal self-associating amphiphile reaches S_T 0.10 at I=0.01 M: the loop closes in
+      freshwater (I <= ~0.01-0.03 M; S_T 0.10-0.30; enrichment 1e12-1e19) but NOT at marine
+      vent salinity (I >= 0.1 M; S_T ~0.011-0.019; enrichment ~24-190; 6 orders short). So
+      the refutation STANDS for the primary marine alkaline-vent hypothesis, while a low-
+      salinity terrestrial/freshwater-geothermal setting (cf. Mulkidjanian; the 2026
+      unfavorable-vent reassessment) is where the pore could close the loop. CAVEAT: the
+      absolute salinity threshold is calibration-dependent (no measured decanoate S_T(I) was
+      found); robust are the 1/I suppression direction and its strong tilt toward low salinity.
+      The decisive next step: real charged-single-chain-amphiphile Soret vs ionic strength.
 
 preregistered:
   thresholds:
