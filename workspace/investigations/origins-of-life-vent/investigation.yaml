@@ -745,7 +745,7 @@ plan_acts:
     relation: builds-on
     provides: the reproducing, inheriting lineage (division geometry, the inherited compositional trait and its selectable fitness difference, the multi-generation lineage)
 knowledge_cycle:
-  generated_at: '2026-10-25T17:58:17+00:00'
+  generated_at: '2026-10-25T18:35:34+00:00'
   verdicts:
     og-vent-environment:
       verdict: supported
@@ -896,6 +896,7 @@ knowledge_cycle:
       - og-rtca-topology-autocatalytic-by-construction
       - og-rtca-topology-specific-permissive-limit
       - og-rtca-resolves-gate-a-a2-branched
+      - og-a2-spatial-concentration-cannot-close
       progress: completed
     og-self-compartmentation:
       verdict: qualified
@@ -1061,6 +1062,9 @@ knowledge_cycle:
       - ogsmc-closes-favorable
       - ogsmc-conservative-shortfall
       - ogsmc-soret-suppressed-at-vent
+      - ogsmc-salinity-gates-closure
+      - ogsmc-salinity-grounded-robust
+      - ogsmc-gas-bubble-magnitude-limited
       progress: completed
     og-evolvable-lineages:
       verdict: qualified
@@ -2661,6 +2665,7 @@ knowledge_cycle:
       - og-rtca-topology-autocatalytic-by-construction
       - og-rtca-topology-specific-permissive-limit
       - og-rtca-resolves-gate-a-a2-branched
+      - og-a2-spatial-concentration-cannot-close
       - gate-a-c6-ignition-sweep
       - receives-27-handoff-bundle
       - receives-28-handoff-bundle
@@ -4013,6 +4018,9 @@ knowledge_cycle:
       - ogsmc-closes-favorable
       - ogsmc-conservative-shortfall
       - ogsmc-soret-suppressed-at-vent
+      - ogsmc-salinity-gates-closure
+      - ogsmc-salinity-grounded-robust
+      - ogsmc-gas-bubble-magnitude-limited
       - concentrated-sweep
       - control-reproduces-refutation
       - closes-under-favorable-trapping
