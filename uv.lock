@@ -2879,8 +2879,8 @@ name = "rrplugins"
 version = "2.11.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "matplotlib" },
-    { name = "numpy" },
+    { name = "matplotlib", marker = "sys_platform == 'win32'" },
+    { name = "numpy", marker = "sys_platform == 'win32'" },
 ]
 wheels = [
     { url = "https://files.pythonhosted.org/packages/36/1f/1cfaf9b9135ba26ab48131a57f3719a8bf8734c62e175e9c2c1fe9113c50/rrplugins-2.11.0-cp312-cp312-win_amd64.whl", hash = "sha256:a94c14e8e7c440e80ff32164fbef630d5c4a9fadcdf1982d2902b7b3500ace9a", size = 15883988, upload-time = "2026-10-21T20:53:15.553Z" },
@@ -3467,7 +3467,7 @@ dependencies = [
 [[package]]
 name = "viva-superpowers"
 version = "0.24.0"
-source = { git = "https://github.com/vivarium-collective/viva-superpowers.git?branch=main#43d4cf6e6b67343b767213727802160bfb228abc" }
+source = { git = "https://github.com/vivarium-collective/viva-superpowers.git?branch=main#f67ff2b1004021fb9542d2c479961c1d83de00b5" }
 dependencies = [
     { name = "bigraph-schema" },
     { name = "click" },
@@ -3513,7 +3513,7 @@ dependencies = [
 [[package]]
 name = "vivarium-workbench"
 version = "0.4.1"
-source = { git = "https://github.com/vivarium-collective/vivarium-workbench.git?branch=main#eb03bb121460a546e4d1cba0afe661d380d664e7" }
+source = { git = "https://github.com/vivarium-collective/vivarium-workbench.git?branch=main#8717ae9cdd7c4971b7205613df381ae53a791275" }
 dependencies = [
     { name = "bigraph-schema" },
     { name = "boto3" },
