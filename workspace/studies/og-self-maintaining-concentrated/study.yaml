@@ -66,6 +66,18 @@ arms:
     fidelity: real
     claim: 'The connected pore-concentrated loop closes CAC under favorable trapping but not at conservative Soret.'
 
+conditions:
+  baseline:
+    name: 'Pore-concentrated reciprocal loop (real precursor pool, fatty-acid synthesis, FiPy thermophoretic trap, aggregation re-judged at the trap base)'
+    composite: viva_genesis.composites.self_maintaining_concentrated.og_self_maintaining_concentrated
+    canonical: true
+    planned: false
+    params:
+      feed_CO2: 0.002
+      delta_T: 30.0
+      soret_coeff: 0.05
+  model_settings: []
+
 behavior_tests:
   - name: control-reproduces-refutation
     classification: supporting
