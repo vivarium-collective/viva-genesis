@@ -388,6 +388,7 @@ studies:
 - og-precursor-pool
 - og-operating-window
 - og-self-maintaining-individual
+- og-self-maintaining-concentrated
 - og-evolvable-lineages
 acceptance_criteria:
 - study: og-vent-environment
@@ -744,7 +745,7 @@ plan_acts:
     relation: builds-on
     provides: the reproducing, inheriting lineage (division geometry, the inherited compositional trait and its selectable fitness difference, the multi-generation lineage)
 knowledge_cycle:
-  generated_at: '2026-10-25T16:59:28+00:00'
+  generated_at: '2026-10-25T17:58:17+00:00'
   verdicts:
     og-vent-environment:
       verdict: supported
@@ -1050,6 +1051,17 @@ knowledge_cycle:
       - ogc-no-endogenous-closure
       - ogc-cascade
       progress: completed
+    og-self-maintaining-concentrated:
+      verdict: qualified
+      verdict_source: authored
+      diverges: true
+      rationale: Authored verdict recorded in study.yaml.
+      evidence_refs:
+      - ogsmc-reproduces-refutation
+      - ogsmc-closes-favorable
+      - ogsmc-conservative-shortfall
+      - ogsmc-soret-suppressed-at-vent
+      progress: completed
     og-evolvable-lineages:
       verdict: qualified
       verdict_source: authored
@@ -1199,6 +1211,13 @@ knowledge_cycle:
       question: Does the coupled chemistry-and-boundary system maintain itself - chemistry making the boundary that in turn sustains the chemistry - under perturbation, without a built-in production or retention gain?
       study_refs:
       - og-self-maintaining-individual
+      synthesis: null
+      org_state: exploring
+      derived: true
+    og-self-maintaining-concentrated:
+      question: Does coupling the supported spatial-concentration mechanism (the vent pore's thermophoretic trap) to the refuted self-maintenance loop close the 4-7 order amphiphile/CAC gap - and at what pore geometry and amphiphile Soret coefficient?
+      study_refs:
+      - og-self-maintaining-concentrated
       synthesis: null
       org_state: exploring
       derived: true
@@ -2405,7 +2424,7 @@ knowledge_cycle:
             detail: vent passes 5/5 where the control fails 5/5
           cites:
           - sutherland2017opinion
-      evidence_refs: &id021
+      evidence_refs: &id022
       - ogadv-gates-reject-generic
       - ogadv-vent-specificity
       - ogadv-catalyst-control-integrity
@@ -3931,7 +3950,7 @@ knowledge_cycle:
           pass_if:
             op: controls_absent
             detail: reciprocal maintenance closes endogenously without a built-in gain
-      evidence_refs: &id019
+      evidence_refs: &id020
       - ogc-acetate-delivered
       - ogc-no-membrane
       - ogc-no-endogenous-closure
@@ -3962,6 +3981,58 @@ knowledge_cycle:
       rebuttals:
       - ablate-chem-to-mem-and-mem-to-chem-and-feed
       arm_of: claim:og-self-maintaining-individual
+      derived: true
+    claim:og-self-maintaining-concentrated:
+      proposition: 'Reciprocal chemistry-boundary self-maintenance can close spatially: coupling the vent pore''s real thermophoretic (Baaske) trap to the refuted loop lifts the amphiphile pool across its CAC and earns a membrane without a built-in gain - but only at near-maximal trapping (S_T >= ~0.07, dT >= ~45 K). At conservative vent Soret it does not close, so the refutation is re-cast as a quantified conditional, not overturned.'
+      proposition_stub: false
+      verdict: qualified
+      verdict_source: authored
+      diverges: true
+      scope: Closure is conditional on the amphiphile Soret coefficient. The loop closes only at near-maximal thermophoretic trapping (S_T >= ~0.07 and dT >= ~45 K, or S_T >= 0.10 at dT 30 K; enrichment ~1e4-1e8). For a charged single-chain amphiphile (decanoate above its pKa) at vent ionic strength the Soret is expected to be suppressed (surfactant S_T decreases ~inversely with ionic strength), so the closing regime is favorable-but- contested, not a conservative vent default. The matched non-concentrating control stays 7 orders below CAC (no built-in gain).
+      qualifiers:
+        confidence: medium
+        evidence_tier: model
+      hypothesis: The amphiphile pool the chemistry produces is dilute in bulk but is the species a serpentinite pore most strongly traps; re-judging its aggregation competence at the trap base, rather than in bulk, closes the reciprocal loop at defensible vent gradients.
+      warrants:
+        thresholds:
+          aggregation_competent_clears_cac: 1.0
+          closing_soret_at_dT30: 0.1
+        primary_tests:
+        - name: closes-under-favorable-trapping
+          pass_if:
+            op: '>='
+            value: 1.0
+            detail: 'at S_T 0.10 and dT 30 K the trap enrichment (~1e8) clears CAC: the mechanism can close the loop'
+        - name: closes-at-conservative-vent-soret
+          pass_if:
+            op: '>='
+            value: 1.0
+            detail: at a conservative S_T (0.05, dT 30 K) the loop should still close - it does NOT, so closure is conditional
+      evidence_refs: &id019
+      - ogsmc-reproduces-refutation
+      - ogsmc-closes-favorable
+      - ogsmc-conservative-shortfall
+      - ogsmc-soret-suppressed-at-vent
+      - concentrated-sweep
+      - control-reproduces-refutation
+      - closes-under-favorable-trapping
+      - closes-at-conservative-vent-soret
+      - matched-null-does-not-close
+      - Whether aggregation_competent_concentrated clears CAC (>=1), the Soret x dT closure boundary, the enrichment delivered vs needed, and the control (enrichment 1) shortfall.
+      rebuttals:
+      - 'Matched non-concentrating control (concentrating=False -> enrichment forced to 1): the no-built-in-gain witness.'
+      derived: true
+    claim:og-self-maintaining-concentrated:concentrated_canonical:
+      proposition: The connected pore-concentrated loop closes CAC under favorable trapping but not at conservative Soret.
+      proposition_stub: false
+      verdict: unassessed
+      scope: Closure is conditional on the amphiphile Soret coefficient. The loop closes only at near-maximal thermophoretic trapping (S_T >= ~0.07 and dT >= ~45 K, or S_T >= 0.10 at dT 30 K; enrichment ~1e4-1e8). For a charged single-chain amphiphile (decanoate above its pKa) at vent ionic strength the Soret is expected to be suppressed (surfactant S_T decreases ~inversely with ionic strength), so the closing regime is favorable-but- contested, not a conservative vent default. The matched non-concentrating control stays 7 orders below CAC (no built-in gain).
+      qualifiers:
+        fidelity: real
+      evidence_refs:
+      - viva_genesis.composites.self_maintaining_concentrated.og_self_maintaining_concentrated
+      rebuttals: []
+      arm_of: claim:og-self-maintaining-concentrated
       derived: true
     claim:og-evolvable-lineages:
       proposition: 'Given a granted individual, stochastic partition + variation produce real heritable, selectable adaptation that shifts the population strongly above both matched nulls (no-inheritance and shared-feed) and re-tracks a changed environment - but it is bounded fixed-trait selection (heritable variance declines as it converges; the trait space is a fixed scalar), not open-ended novelty. Combined with og-self-maintaining-individual: the individuality bottleneck is the binding one; given an individual, evolvability works but is bounded. Qualified.'
@@ -3998,7 +4069,7 @@ knowledge_cycle:
           pass_if:
             op: controls_absent
             detail: response present under inheritance+selection, absent in both matched nulls
-      evidence_refs: &id020
+      evidence_refs: &id021
       - ogel-selection-real
       - ogel-adapts-to-change
       - ogel-bounded-not-open-ended
@@ -4286,6 +4357,11 @@ knowledge_cycle:
     type: synthesis
     relation: arm
     derived: true
+  - from: claim:og-self-maintaining-concentrated:concentrated_canonical
+    to: claim:og-self-maintaining-concentrated
+    type: synthesis
+    relation: arm
+    derived: true
   - from: claim:og-evolvable-lineages:evolvable_lineages_canonical
     to: claim:og-evolvable-lineages
     type: synthesis
@@ -4472,6 +4548,16 @@ knowledge_cycle:
     relation: builds-on
     derived: true
   - from: claim:og-self-maintaining-individual
+    to: claim:og-self-maintaining-concentrated
+    type: challenge
+    relation: tests
+    derived: true
+  - from: claim:og-spatial-concentration
+    to: claim:og-self-maintaining-concentrated
+    type: prerequisite
+    relation: builds-on
+    derived: true
+  - from: claim:og-self-maintaining-individual
     to: claim:og-evolvable-lineages
     type: prerequisite
     relation: builds-on
@@ -4585,25 +4671,31 @@ knowledge_cycle:
       verdict: qualified
       evidence_refs: *id018
       order: 17
+    - claim_id: claim:og-self-maintaining-concentrated
+      proposition: 'Reciprocal chemistry-boundary self-maintenance can close spatially: coupling the vent pore''s real thermophoretic (Baaske) trap to the refuted loop lifts the amphiphile pool across its CAC and earns a membrane without a built-in gain - but only at near-maximal trapping (S_T >= ~0.07, dT >= ~45 K). At conservative vent Soret it does not close, so the refutation is re-cast as a quantified conditional, not overturned.'
+      verdict: qualified
+      evidence_refs: *id019
+      order: 18
     - claim_id: claim:og-self-maintaining-individual
       proposition: 'The coupled chemistry-and-boundary system does not maintain itself endogenously under defensible vent conditions: the chemistry''s acetate (even at og-operating-window''s favorable corner) yields an amphiphile pool ~4 orders below its CAC at the corner and ~7 orders below at the canonical point, so no membrane forms without assuming it, and reciprocal maintenance fails to close without a built-in retention gain - across all three ablations. A scoped refutation of endogenous closure; the broader individuality-emergence question stays open (§9).'
       verdict: refuted
-      evidence_refs: *id019
-      order: 18
+      evidence_refs: *id020
+      order: 19
     - claim_id: claim:og-evolvable-lineages
       proposition: 'Given a granted individual, stochastic partition + variation produce real heritable, selectable adaptation that shifts the population strongly above both matched nulls (no-inheritance and shared-feed) and re-tracks a changed environment - but it is bounded fixed-trait selection (heritable variance declines as it converges; the trait space is a fixed scalar), not open-ended novelty. Combined with og-self-maintaining-individual: the individuality bottleneck is the binding one; given an individual, evolvability works but is bounded. Qualified.'
       verdict: qualified
-      evidence_refs: *id020
-      order: 19
+      evidence_refs: *id021
+      order: 20
     - claim_id: claim:og-vent-specificity
       proposition: 'A generic drive stripped of ALL THREE vent features at once (no sustained H2, no Fe/Ni/S catalyst, no pore concentration) fails all five discriminating gates on the same real og-01/02/03 composites while the vent passes each — so the campaign''s gates are NOT merely generic non-equilibrium detectors; the generic-nonequilibrium null is refuted by every gate (og-adv, canonical; verdict=refuted = null correctly rejected, gate_status=passed = the control discriminates). This is a LUMPED, all-feature-ablated contrast: it does not attribute the rejection to any single feature, and full vent-specificity — against competing realistic alternative environments — is NOT yet demonstrated (the H2 × Fe/Ni/S × pore-gradient 3-way factorial and the competing-environments study are planned, not run). Consolidated: specificity is demonstrated against a feature-ablated null, not yet against competing origin environments. Every matched null and arm verdict kept.'
       verdict: refuted
-      evidence_refs: *id021
-      order: 20
+      evidence_refs: *id022
+      order: 21
     limitations:
     - single-regime baselines (pore-only, membrane-only)
     - transport-decoupled null (membrane off; no-gradient trap)
     - report overlap as a volume, NOT as an origin-of-life probability
+    - 'Matched non-concentrating control (concentrating=False -> enrichment forced to 1): the no-built-in-gain witness.'
     - ablate chemistry->membrane (no synthesis feedback)
     - ablate membrane->chemistry (retention does not reduce washout)
     - ablate external feed
@@ -4687,18 +4779,30 @@ knowledge_cycle:
         supported); a compartment internalizes electrochemical work under selection and pays for it within a Sojo-bounded survival region (internalization arm, supported); which coupling chemistry pays is structure-sensitive and membrane-leak-dependent (5-class alt arm, supported, classes agree ~46%); and a specified thioester carrier does useful work through a gradient dip where gradient-only starves but does NOT improve total useful work (sharpened Gate-E arm, og-35, qualified). The consolidated headline is bounded by that sharpest arm: qualified, dip-persistence not throughput. Every matched null and every arm verdict is preserved.” without a supporting or prerequisite link. Design a study that supplies the missing evidence or rules out the leap.'
       parent_study: og-energetics
   - from: claim:og-independence
-    to: claim:og-self-maintaining-individual
+    to: claim:og-self-maintaining-concentrated
     verdict_escalation: false
     reason: 'unsupported transition: no support/prerequisite path'
     missing_evidence: 'evidence linking “A vent-born protocell lineage reaches GRADED, attributed independence, not an all-or-nothing (and not a free) escape. og-08 withdrew gradient + mineral + feed JOINTLY and found a coordinated innovation set {internal pump, importer, heredity} where any single removal collapses persistence — but joint relaxation cannot attribute which innovation rescues which support, so that general minimal-sufficiency reading is rescoped to a reduced, model-specific hypothesis (supported within its one coarse model). og-08-alt-robust then tests the set ACROSS model structures on a 2³ subset lattice and resolves it driver-specifically: the {pump, importer, heredity} triple is advantageous but NOT a jointly-necessary irreducible unit — only pump+heredity interact positively, the active importer is required by no driver (a net cost under a leaky membrane), and the hard dependency is the geological gradient (the full set rescues its withdrawal in only ~4.2% of structures),
-      while mineral (0.958) and feed (0.75) are freely/borderline survivable needing no specific innovation. og-37''s one-at-a-time withdrawal agrees: the gradient is the budget-sensitive hard dependency (pump-internalization flips below pump efficiency ~0.7, grounded in the energy arm''s persistence-not-throughput surplus), while mineral and feed need no innovation. Because the feed is LUMPED (H2+CO2+organics) and the innovations are coarse budget abstractions, this is an affordability/attribution profile, not a demonstrated escape — headline verdict qualified. Every matched null and every arm verdict is preserved explicitly.” to “The coupled chemistry-and-boundary system does not maintain itself endogenously under defensible vent conditions: the chemistry''s acetate (even at og-operating-window''s favorable corner) yields an amphiphile pool ~4 orders below its CAC at the corner and ~7 orders below at the canonical point, so no membrane forms without assuming it, and reciprocal maintenance
-      fails to close without a built-in retention gain - across all three ablations. A scoped refutation of endogenous closure; the broader individuality-emergence question stays open (§9).”'
+      while mineral (0.958) and feed (0.75) are freely/borderline survivable needing no specific innovation. og-37''s one-at-a-time withdrawal agrees: the gradient is the budget-sensitive hard dependency (pump-internalization flips below pump efficiency ~0.7, grounded in the energy arm''s persistence-not-throughput surplus), while mineral and feed need no innovation. Because the feed is LUMPED (H2+CO2+organics) and the innovations are coarse budget abstractions, this is an affordability/attribution profile, not a demonstrated escape — headline verdict qualified. Every matched null and every arm verdict is preserved explicitly.” to “Reciprocal chemistry-boundary self-maintenance can close spatially: coupling the vent pore''s real thermophoretic (Baaske) trap to the refuted loop lifts the amphiphile pool across its CAC and earns a membrane without a built-in gain - but only at near-maximal trapping (S_T >= ~0.07, dT >= ~45 K). At conservative vent Soret it does not close, so the refutation
+      is re-cast as a quantified conditional, not overturned.”'
+    followup:
+      id: discriminate-og-self-maintaining-concentrated
+      title: 'Discriminate: Reciprocal chemistry-boundary self-maintenance can close spa…'
+      motivation: 'The narrative moves from “A vent-born protocell lineage reaches GRADED, attributed independence, not an all-or-nothing (and not a free) escape. og-08 withdrew gradient + mineral + feed JOINTLY and found a coordinated innovation set {internal pump, importer, heredity} where any single removal collapses persistence — but joint relaxation cannot attribute which innovation rescues which support, so that general minimal-sufficiency reading is rescoped to a reduced, model-specific hypothesis (supported within its one coarse model). og-08-alt-robust then tests the set ACROSS model structures on a 2³ subset lattice and resolves it driver-specifically: the {pump, importer, heredity} triple is advantageous but NOT a jointly-necessary irreducible unit — only pump+heredity interact positively, the active importer is required by no driver (a net cost under a leaky membrane), and the hard dependency is the geological gradient (the full set rescues its withdrawal in only ~4.2% of structures),
+        while mineral (0.958) and feed (0.75) are freely/borderline survivable needing no specific innovation. og-37''s one-at-a-time withdrawal agrees: the gradient is the budget-sensitive hard dependency (pump-internalization flips below pump efficiency ~0.7, grounded in the energy arm''s persistence-not-throughput surplus), while mineral and feed need no innovation. Because the feed is LUMPED (H2+CO2+organics) and the innovations are coarse budget abstractions, this is an affordability/attribution profile, not a demonstrated escape — headline verdict qualified. Every matched null and every arm verdict is preserved explicitly.” to “Reciprocal chemistry-boundary self-maintenance can close spatially: coupling the vent pore''s real thermophoretic (Baaske) trap to the refuted loop lifts the amphiphile pool across its CAC and earns a membrane without a built-in gain - but only at near-maximal trapping (S_T >= ~0.07, dT >= ~45 K). At conservative vent Soret it does not close, so the refutation
+        is re-cast as a quantified conditional, not overturned.” without a supporting or prerequisite link. Design a study that supplies the missing evidence or rules out the leap.'
+      parent_study: og-self-maintaining-concentrated
+  - from: claim:og-self-maintaining-concentrated
+    to: claim:og-self-maintaining-individual
+    verdict_escalation: false
+    reason: 'unsupported transition: no support/prerequisite path'
+    missing_evidence: 'evidence linking “Reciprocal chemistry-boundary self-maintenance can close spatially: coupling the vent pore''s real thermophoretic (Baaske) trap to the refuted loop lifts the amphiphile pool across its CAC and earns a membrane without a built-in gain - but only at near-maximal trapping (S_T >= ~0.07, dT >= ~45 K). At conservative vent Soret it does not close, so the refutation is re-cast as a quantified conditional, not overturned.” to “The coupled chemistry-and-boundary system does not maintain itself endogenously under defensible vent conditions: the chemistry''s acetate (even at og-operating-window''s favorable corner) yields an amphiphile pool ~4 orders below its CAC at the corner and ~7 orders below at the canonical point, so no membrane forms without assuming it, and reciprocal maintenance fails to close without a built-in retention gain - across all three ablations. A scoped refutation of endogenous closure; the broader individuality-emergence question stays
+      open (§9).”'
     followup:
       id: discriminate-og-self-maintaining-individual
       title: 'Discriminate: The coupled chemistry-and-boundary system does not maintain …'
-      motivation: 'The narrative moves from “A vent-born protocell lineage reaches GRADED, attributed independence, not an all-or-nothing (and not a free) escape. og-08 withdrew gradient + mineral + feed JOINTLY and found a coordinated innovation set {internal pump, importer, heredity} where any single removal collapses persistence — but joint relaxation cannot attribute which innovation rescues which support, so that general minimal-sufficiency reading is rescoped to a reduced, model-specific hypothesis (supported within its one coarse model). og-08-alt-robust then tests the set ACROSS model structures on a 2³ subset lattice and resolves it driver-specifically: the {pump, importer, heredity} triple is advantageous but NOT a jointly-necessary irreducible unit — only pump+heredity interact positively, the active importer is required by no driver (a net cost under a leaky membrane), and the hard dependency is the geological gradient (the full set rescues its withdrawal in only ~4.2% of structures),
-        while mineral (0.958) and feed (0.75) are freely/borderline survivable needing no specific innovation. og-37''s one-at-a-time withdrawal agrees: the gradient is the budget-sensitive hard dependency (pump-internalization flips below pump efficiency ~0.7, grounded in the energy arm''s persistence-not-throughput surplus), while mineral and feed need no innovation. Because the feed is LUMPED (H2+CO2+organics) and the innovations are coarse budget abstractions, this is an affordability/attribution profile, not a demonstrated escape — headline verdict qualified. Every matched null and every arm verdict is preserved explicitly.” to “The coupled chemistry-and-boundary system does not maintain itself endogenously under defensible vent conditions: the chemistry''s acetate (even at og-operating-window''s favorable corner) yields an amphiphile pool ~4 orders below its CAC at the corner and ~7 orders below at the canonical point, so no membrane forms without assuming it, and reciprocal maintenance
-        fails to close without a built-in retention gain - across all three ablations. A scoped refutation of endogenous closure; the broader individuality-emergence question stays open (§9).” without a supporting or prerequisite link. Design a study that supplies the missing evidence or rules out the leap.'
+      motivation: 'The narrative moves from “Reciprocal chemistry-boundary self-maintenance can close spatially: coupling the vent pore''s real thermophoretic (Baaske) trap to the refuted loop lifts the amphiphile pool across its CAC and earns a membrane without a built-in gain - but only at near-maximal trapping (S_T >= ~0.07, dT >= ~45 K). At conservative vent Soret it does not close, so the refutation is re-cast as a quantified conditional, not overturned.” to “The coupled chemistry-and-boundary system does not maintain itself endogenously under defensible vent conditions: the chemistry''s acetate (even at og-operating-window''s favorable corner) yields an amphiphile pool ~4 orders below its CAC at the corner and ~7 orders below at the canonical point, so no membrane forms without assuming it, and reciprocal maintenance fails to close without a built-in retention gain - across all three ablations. A scoped refutation of endogenous closure; the broader individuality-emergence question
+        stays open (§9).” without a supporting or prerequisite link. Design a study that supplies the missing evidence or rules out the leap.'
       parent_study: og-self-maintaining-individual
   - from: claim:og-evolvable-lineages
     to: claim:og-vent-specificity
@@ -4886,13 +4990,20 @@ knowledge_cycle:
     - claim:og-ecology
     - claim:og-energetics
   - kind: narrative_gap
-    title: 'Unsupported transition: og-independence → og-self-maintaining-individual'
+    title: 'Unsupported transition: og-independence → og-self-maintaining-concentrated'
     detail: 'evidence linking “A vent-born protocell lineage reaches GRADED, attributed independence, not an all-or-nothing (and not a free) escape. og-08 withdrew gradient + mineral + feed JOINTLY and found a coordinated innovation set {internal pump, importer, heredity} where any single removal collapses persistence — but joint relaxation cannot attribute which innovation rescues which support, so that general minimal-sufficiency reading is rescoped to a reduced, model-specific hypothesis (supported within its one coarse model). og-08-alt-robust then tests the set ACROSS model structures on a 2³ subset lattice and resolves it driver-specifically: the {pump, importer, heredity} triple is advantageous but NOT a jointly-necessary irreducible unit — only pump+heredity interact positively, the active importer is required by no driver (a net cost under a leaky membrane), and the hard dependency is the geological gradient (the full set rescues its withdrawal in only ~4.2% of structures), while
-      mineral (0.958) and feed (0.75) are freely/borderline survivable needing no specific innovation. og-37''s one-at-a-time withdrawal agrees: the gradient is the budget-sensitive hard dependency (pump-internalization flips below pump efficiency ~0.7, grounded in the energy arm''s persistence-not-throughput surplus), while mineral and feed need no innovation. Because the feed is LUMPED (H2+CO2+organics) and the innovations are coarse budget abstractions, this is an affordability/attribution profile, not a demonstrated escape — headline verdict qualified. Every matched null and every arm verdict is preserved explicitly.” to “The coupled chemistry-and-boundary system does not maintain itself endogenously under defensible vent conditions: the chemistry''s acetate (even at og-operating-window''s favorable corner) yields an amphiphile pool ~4 orders below its CAC at the corner and ~7 orders below at the canonical point, so no membrane forms without assuming it, and reciprocal maintenance fails
-      to close without a built-in retention gain - across all three ablations. A scoped refutation of endogenous closure; the broader individuality-emergence question stays open (§9).”'
-    action: seed discriminate-og-self-maintaining-individual
+      mineral (0.958) and feed (0.75) are freely/borderline survivable needing no specific innovation. og-37''s one-at-a-time withdrawal agrees: the gradient is the budget-sensitive hard dependency (pump-internalization flips below pump efficiency ~0.7, grounded in the energy arm''s persistence-not-throughput surplus), while mineral and feed need no innovation. Because the feed is LUMPED (H2+CO2+organics) and the innovations are coarse budget abstractions, this is an affordability/attribution profile, not a demonstrated escape — headline verdict qualified. Every matched null and every arm verdict is preserved explicitly.” to “Reciprocal chemistry-boundary self-maintenance can close spatially: coupling the vent pore''s real thermophoretic (Baaske) trap to the refuted loop lifts the amphiphile pool across its CAC and earns a membrane without a built-in gain - but only at near-maximal trapping (S_T >= ~0.07, dT >= ~45 K). At conservative vent Soret it does not close, so the refutation is re-cast
+      as a quantified conditional, not overturned.”'
+    action: seed discriminate-og-self-maintaining-concentrated
     refs:
     - claim:og-independence
+    - claim:og-self-maintaining-concentrated
+  - kind: narrative_gap
+    title: 'Unsupported transition: og-self-maintaining-concentrated → og-self-maintaining-individual'
+    detail: 'evidence linking “Reciprocal chemistry-boundary self-maintenance can close spatially: coupling the vent pore''s real thermophoretic (Baaske) trap to the refuted loop lifts the amphiphile pool across its CAC and earns a membrane without a built-in gain - but only at near-maximal trapping (S_T >= ~0.07, dT >= ~45 K). At conservative vent Soret it does not close, so the refutation is re-cast as a quantified conditional, not overturned.” to “The coupled chemistry-and-boundary system does not maintain itself endogenously under defensible vent conditions: the chemistry''s acetate (even at og-operating-window''s favorable corner) yields an amphiphile pool ~4 orders below its CAC at the corner and ~7 orders below at the canonical point, so no membrane forms without assuming it, and reciprocal maintenance fails to close without a built-in retention gain - across all three ablations. A scoped refutation of endogenous closure; the broader individuality-emergence question stays open (§9).”'
+    action: seed discriminate-og-self-maintaining-individual
+    refs:
+    - claim:og-self-maintaining-concentrated
     - claim:og-self-maintaining-individual
   - kind: narrative_gap
     title: 'Unsupported transition: og-evolvable-lineages → og-vent-specificity'
@@ -4976,6 +5087,12 @@ knowledge_cycle:
     action: reconcile
     refs:
     - claim:og-operating-window
+  - kind: divergence
+    title: 'Reciprocal chemistry-boundary self-maintenance can close spatially: coupling the vent pore''s real thermophoretic (Baaske) trap to the refuted loop lifts the amphiphile pool across its CAC and earns a membrane without a built-in gain - but only at near-maximal trapping (S_T >= ~0.07, dT >= ~45 K). At conservative vent Soret it does not close, so the refutation is re-cast as a quantified conditional, not overturned.'
+    detail: Authored verdict diverges from the coded roll-up.
+    action: reconcile
+    refs:
+    - claim:og-self-maintaining-concentrated
   - kind: divergence
     title: 'Given a granted individual, stochastic partition + variation produce real heritable, selectable adaptation that shifts the population strongly above both matched nulls (no-inheritance and shared-feed) and re-tracks a changed environment - but it is bounded fixed-trait selection (heritable variance declines as it converges; the trait space is a fixed scalar), not open-ended novelty. Combined with og-self-maintaining-individual: the individuality bottleneck is the binding one; given an individual, evolvability works but is bounded. Qualified.'
     detail: Authored verdict diverges from the coded roll-up.

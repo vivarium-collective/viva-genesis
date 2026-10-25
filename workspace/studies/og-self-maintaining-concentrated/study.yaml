@@ -1,0 +1,171 @@
+schema_version: 4
+name: og-self-maintaining-concentrated
+investigation: origins-of-life-vent
+created: '2026-10-25'
+execution_status: completed
+gate_status: needs_calibration
+study_type: mechanism
+title: 'Self-Maintenance Under Pore Concentration: Does Thermophoresis Close the Loop?'
+program: >-
+  Phase-2 discovery cycle. Connects the narrative's supported spatial-concentration
+  step (og-spatial-concentration, the vent pore's thermophoretic Baaske trap) to its
+  refuted self-maintenance step (og-self-maintaining-individual), in one multiscale
+  composite, to test whether the pore closes the amphiphile/CAC gap the refutation found.
+
+verdict: qualified
+confidence: medium
+evidence_tier: model
+primary_limitation: >-
+  Closure is conditional on the amphiphile Soret coefficient. The loop closes only at
+  near-maximal thermophoretic trapping (S_T >= ~0.07 and dT >= ~45 K, or S_T >= 0.10 at
+  dT 30 K; enrichment ~1e4-1e8). For a charged single-chain amphiphile (decanoate above
+  its pKa) at vent ionic strength the Soret is expected to be suppressed (surfactant S_T
+  decreases ~inversely with ionic strength), so the closing regime is favorable-but-
+  contested, not a conservative vent default. The matched non-concentrating control stays
+  7 orders below CAC (no built-in gain).
+
+key_assumptions:
+  - 'The thermophoretic trap enrichment is applied once to the synthesised amphiphile pool (conservative; not compounded through the nonlinear synthesis).'
+  - 'The amphiphile Soret coefficient is a swept input; the closing regime assumes strong self-association (premicellar aggregates) that vent high-salt conditions may suppress.'
+
+claim: >-
+  Reciprocal chemistry-boundary self-maintenance can close spatially: coupling the vent
+  pore's real thermophoretic (Baaske) trap to the refuted loop lifts the amphiphile pool
+  across its CAC and earns a membrane without a built-in gain - but only at near-maximal
+  trapping (S_T >= ~0.07, dT >= ~45 K). At conservative vent Soret it does not close, so
+  the refutation is re-cast as a quantified conditional, not overturned.
+
+question: >-
+  Does coupling the supported spatial-concentration mechanism (the vent pore's
+  thermophoretic trap) to the refuted self-maintenance loop close the 4-7 order
+  amphiphile/CAC gap - and at what pore geometry and amphiphile Soret coefficient?
+
+hypothesis: >-
+  The amphiphile pool the chemistry produces is dilute in bulk but is the species a
+  serpentinite pore most strongly traps; re-judging its aggregation competence at the
+  trap base, rather than in bulk, closes the reciprocal loop at defensible vent gradients.
+
+experiment: >-
+  Build one multiscale composite (og_self_maintaining_concentrated): the real
+  precursor-pool reactor feeds acetate to the real fatty-acid chain-extension (base,
+  well-mixed aggregation competence); the real FiPy ThermophoreticTrapProcess solves the
+  pore accumulation column (enrichment read from the solved base/top ratio); the pool is
+  re-judged at the trap base. Sweep Soret coefficient and cross-pore dT; compare against
+  the matched concentrating=False control.
+
+primary_output: >-
+  Whether aggregation_competent_concentrated clears CAC (>=1), the Soret x dT closure
+  boundary, the enrichment delivered vs needed, and the control (enrichment 1) shortfall.
+
+proposed_controls:
+  - 'Matched non-concentrating control (concentrating=False -> enrichment forced to 1): the no-built-in-gain witness.'
+
+arms:
+  - id: concentrated_canonical
+    composite: viva_genesis.composites.self_maintaining_concentrated.og_self_maintaining_concentrated
+    fidelity: real
+    claim: 'The connected pore-concentrated loop closes CAC under favorable trapping but not at conservative Soret.'
+
+behavior_tests:
+  - name: control-reproduces-refutation
+    classification: supporting
+    measure:
+      kind: derived
+      path: aggregation_competent_base
+    pass_if:
+      op: '<'
+      value: 1.0
+      detail: 'with no concentration the amphiphile pool stays below CAC (the refuted shortfall, reproduced)'
+  - name: closes-under-favorable-trapping
+    classification: primary
+    measure:
+      kind: derived
+      path: aggregation_competent_concentrated
+    pass_if:
+      op: '>='
+      value: 1.0
+      detail: 'at S_T 0.10 and dT 30 K the trap enrichment (~1e8) clears CAC: the mechanism can close the loop'
+  - name: closes-at-conservative-vent-soret
+    classification: primary
+    measure:
+      kind: derived
+      path: aggregation_competent_concentrated
+    pass_if:
+      op: '>='
+      value: 1.0
+      detail: 'at a conservative S_T (0.05, dT 30 K) the loop should still close - it does NOT, so closure is conditional'
+  - name: matched-null-does-not-close
+    classification: supporting
+    measure:
+      kind: derived
+      path: aggregation_competent_concentrated
+    pass_if:
+      op: '<'
+      value: 1.0
+      detail: 'the concentrating=False control stays sub-CAC at the same geometry: the pore, not an assumed membrane, is the mechanism'
+
+findings:
+  - id: ogsmc-reproduces-refutation
+    kind: computational
+    evidence_basis: measured
+    statement: >-
+      The control (no concentration) reproduces og-self-maintaining-individual exactly:
+      base aggregation_competent 9.46e-8, matching the documented ~9e-8 canonical shortfall.
+      The connected model inherits the refutation before adding the pore.
+  - id: ogsmc-closes-favorable
+    kind: computational
+    evidence_basis: measured
+    statement: >-
+      Coupling the real FiPy Baaske trap closes the loop at near-maximal trapping: S_T 0.10,
+      dT 30 K, 5 mm column -> enrichment ~9.6e7 -> aggregation_competent_concentrated 8.98
+      (clears CAC). Closure boundary: S_T >= 0.07 with dT >= 45 K, or S_T >= 0.10 at dT 30 K.
+  - id: ogsmc-conservative-shortfall
+    kind: computational
+    evidence_basis: measured
+    statement: >-
+      At a conservative Soret (0.05) the loop does not close at any realistic dT up to 45 K
+      (conc aggregation_competent ~0.09). The chemistry's base pool cannot be pushed above
+      ~1.6e-5 by feed alone (precursor/degradation limited), so the minimum enrichment needed
+      is ~6e4 even at the best feed.
+  - id: ogsmc-soret-suppressed-at-vent
+    kind: literature
+    evidence_basis: predicted
+    statement: >-
+      The closing Soret regime is contested at vent conditions: surfactant/micelle Soret
+      coefficients decrease strongly with ionic strength (Vigolo 2010; interacting-micelle
+      Soret), and decanoate above its pKa is anionic, so a seawater pore likely suppresses
+      S_T below the closing band. Premicellar aggregation of C8-C12 fatty acids (Kanicky 2003)
+      raises effective size modestly but probably not to S_T 0.10. A thermal diffusion column
+      has, however, concentrated lipid precursors above the critical vesicle concentration
+      experimentally (Budin 2009), and heated gas-bubble interfaces concentrate lipids faster
+      still (Matreux 2021) - a stronger mechanism to test next.
+
+preregistered:
+  thresholds:
+    aggregation_competent_clears_cac: 1.0
+    closing_soret_at_dT30: 0.10
+
+runs:
+  - name: concentrated-sweep
+    status: completed
+    timestamp: 1792600000.0
+    composite: viva_genesis.composites.self_maintaining_concentrated.og_self_maintaining_concentrated
+    note: 'Soret x dT sweep + matched control; see tests/test_self_maintaining_concentrated.py'
+    outcomes:
+      control-reproduces-refutation:
+        result: PASS
+      closes-under-favorable-trapping:
+        result: PASS
+      closes-at-conservative-vent-soret:
+        result: FAIL
+      matched-null-does-not-close:
+        result: PASS
+
+pipeline_gate:
+  prerequisites:
+    - study: og-self-maintaining-individual
+      condition: tests-passed
+      relation: tests
+    - study: og-spatial-concentration
+      condition: tests-passed
+      relation: builds-on
