@@ -244,6 +244,22 @@ findings:
   statement: With the formose result, this resolves Gate A's A2 (endogenous autocatalysis) for the branched route - self-amplification is refuted under vent conditions, mechanistically, for both representable routes - and records the topology-capable finding as the basis for a possible stronger-reductant / beyond-vent follow-up, outside current vent scope.
   evidence:
     from_test: gate-a-a2-branched-resolved
+- id: og-a2-spatial-concentration-cannot-close
+  kind: computational
+  status: confirms
+  statement: >-
+    Connect-and-close test (Phase-2 discovery cycle): coupling the real FiPy thermophoretic
+    trap's spatial concentration to the A2 test does NOT recast the refutation, unlike the
+    sibling self-maintenance study. Concentrating the CO2/H2 feed raises net carbon flux ~200x
+    for the favorable network AND its degree-matched null in lockstep (margin over the null
+    stays ~0, slightly negative: -9e-8 at x50; autocatalytic_gain 0 throughout), so the formose
+    route gains throughput without a self-amplifying cycle. For the branched rTCA route, even
+    x50 enrichment + 10x residence leaves the seeded cycle washing out, because concentration's
+    mass-action push (RT*ln(50) ~ 11 kJ/mol) is below the uphill reductive carboxylations
+    (+18/+31 kJ/mol dG0). The A2 refutation is a property of topology and reductant
+    thermodynamics, not dilution - spatial concentration, which closes the self-maintenance CAC
+    threshold gap (in freshwater), cannot close a thermodynamic/topological barrier. Composite:
+    viva_genesis.composites.autocatalysis_concentrated.
 runs:
 - name: gate-a-c6-ignition-sweep
   status: completed
