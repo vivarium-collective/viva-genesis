@@ -1888,34 +1888,34 @@ cites:   ["preiner2020hydrogen"]</pre>
     <h2 class="overview-label">Plan &amp; lifecycle</h2>
     <div class="status-stepper">
       
-      <span class="status-step set gate-status-passed">
+      <span class="status-step  gate-status-not-assessed gate-current">
         <span class="dot"></span>1 · Plan
-        <span class="step-val">approved</span>
         
+        <span class="gate-current-tag">you are here</span>
       </span>
       
       <span class="status-step set gate-status-passed">
         <span class="dot"></span>2 · Execution
-        <span class="step-val">ran</span>
+        
         
       </span>
       
       <span class="status-step set gate-status-passed">
         <span class="dot"></span>3 · Evidence
-        <span class="step-val">evaluated</span>
+        
         
       </span>
       
       <span class="status-step set gate-status-passed">
         <span class="dot"></span>4 · Quality
-        <span class="step-val">evaluated</span>
+        
         
       </span>
       
-      <span class="status-step  gate-status-blocked gate-current">
+      <span class="status-step  gate-status-blocked">
         <span class="dot"></span>5 · Decision
         <span class="step-val">passed</span>
-        <span class="gate-current-tag">you are here</span>
+        
       </span>
       
       <span class="status-step  gate-status-not-assessed">
@@ -2030,6 +2030,20 @@ cites:   ["preiner2020hydrogen"]</pre>
   <div class="overview-section"><h2 class="overview-label">Plan &amp; assumptions</h2>
 
     
+    <div class="overview-section">
+      <h3 class="overview-label">Pipeline gate</h3>
+      <p class="muted" style="margin: 0 0 8px 0;font-size:0.88em">
+        Each study is a model-building gate: it answers <em>"Can we safely build the next layer?"</em>
+      </p>
+      
+      <div style="margin-bottom:6px"><strong>Prerequisites:</strong>
+        <code>{&#39;study&#39;: &#39;og-carbon-fixation&#39;, &#39;condition&#39;: &#39;tests-passed&#39;, &#39;relation&#39;: &#39;builds-on&#39;, &#39;provides&#39;: &#39;the H2-driven CO2-reduction yield hierarchy and catalytic-interface rates the balanced reaction sets are anchored to&#39;}</code> · <code>{&#39;study&#39;: &#39;og-vent-interface&#39;, &#39;condition&#39;: &#39;tests-passed&#39;, &#39;relation&#39;: &#39;builds-on&#39;, &#39;provides&#39;: &#39;the time-dependent calibrated vent feed (H2 / inorganic carbon flux, pH/redox gradient) within the bounded DIC window&#39;}</code> · <code>{&#39;study&#39;: &#39;og-nutrient-bottlenecks&#39;, &#39;condition&#39;: &#39;tests-passed&#39;, &#39;relation&#39;: &#39;builds-on&#39;, &#39;provides&#39;: &#39;the joint non-carbon precursor feasibility - reduced-nitrogen (ammonium) availability keeping pace with carbon fixation at a viable C:N and reactive-phosphorus availability co-concentrating with carbon in the thermophoretic pore, each in compatible chemical forms under the pore / thermal-gradient physical regime&#39;}</code>
+      </div>
+      
+      
+      
+    </div>
+    
 
     
     <div class="overview-section">
@@ -2099,7 +2113,7 @@ cites:   ["preiner2020hydrogen"]</pre>
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/workbench", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "e62d295e453b379616ace9bddd3803651fab7642", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/e62d295e453b379616ace9bddd3803651fab7642", "branch": "main", "lockfile": "uv.lock@168a46a01504", "generated_at": "2026-10-25 18:57 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/workbench", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/harden/origins-of-life-vent", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "c496861eb8cf6f2cc9e34c605035fbf1079b57d4", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/c496861eb8cf6f2cc9e34c605035fbf1079b57d4", "branch": "harden/origins-of-life-vent", "lockfile": "uv.lock@7ce5f191ef23", "generated_at": "2026-10-25 21:41 UTC"} };</script>
 <script src="/viva-genesis/workbench/assets/data-source.js"></script>
 <script src="/viva-genesis/workbench/assets/toast.js"></script>
 <script>
