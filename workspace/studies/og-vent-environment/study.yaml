@@ -43,7 +43,6 @@ result: >-
   ~80% of the operating region falls inside the Lost City window with |charge|=0; the conditioned posterior is
   12.5% of the prior yet 100% viable downstream, transport-class-independent, ledger 0/96. The dissolved-H2 window
   is the binding observation (pH mineral-buffered near 9.4). A viable geochemical reactor within bounds.
-builds_on: []
 plan_id: 0
 handoff:
   emits:
@@ -1054,7 +1053,6 @@ visualizations:
       workspace/studies/og-vent-environment/artifacts/og-00-vent-reactor-baseline/grid_convergence_control.json
     title: The vent reactor is grid-converged at nx=40, in the Lost City window
 parent_studies: []
-parent_relations: []
 split_note: >-
   Split from the former consolidated og-vent-environment into the calibrated-vent-STATES half (this study, og-00
   + og-cal, supported) and the evolving-mineral-INTERFACE half (og-vent-interface, og-27 canonical), because each

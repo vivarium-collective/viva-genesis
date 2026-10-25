@@ -62,8 +62,6 @@ result: >-
   — no self-amplifying motif emerges under real thermodynamics at the vent feed (apparent gains are element-unbalanced
   artifacts), so endogenous autocatalysis is refuted at vent feed and tracked as the og-autocatalysis
   line.
-builds_on:
-- 1
 plan_id: 2
 handoff:
   emits:

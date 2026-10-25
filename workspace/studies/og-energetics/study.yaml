@@ -52,9 +52,6 @@ result: >-
   captures free energy into a transferable store (ledger closing), internalization pays under a Sojo
   constraint, which coupling chemistry pays is structure-sensitive, and the carrier does useful work through
   a gradient dip but does NOT net more total work — QUALIFIED, bounded by the og-35 arm.
-builds_on:
-- 32
-- 34
 plan_id: 35   # takes the canonical arm's (og-35) plan slot so the 34->35->37 handoff chain resolves to this consolidated study
 handoff:
   emits:

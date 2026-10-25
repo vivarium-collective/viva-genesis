@@ -57,25 +57,17 @@ primary_output: >-
 parent_studies:
 - study: og-precursor-pool
   condition: tests-passed
-- study: og-vent-interface
-  condition: tests-passed
-- study: og-self-compartmentation
-  condition: tests-passed
-parent_relations:
-- study: og-precursor-pool
   relation: builds-on
-- study: og-vent-interface
-  relation: builds-on
-- study: og-self-compartmentation
-  relation: builds-on
-upstream_state_consumed:
-- from: og-precursor-pool
   provides: >-
     the real functional precursor yield vectors from og-precursor-pool - the ~nM C2-C3 pool this study tries to
     rescue - consumed via its PrecursorPoolProcess run under membrane-reduced washout
-- from: og-vent-interface
+- study: og-vent-interface
+  condition: tests-passed
+  relation: builds-on
   provides: the calibrated vent posterior (feed + DIC window) to propagate
-- from: og-self-compartmentation
+- study: og-self-compartmentation
+  condition: tests-passed
+  relation: builds-on
   provides: the membrane integrity / permeability-retention window (ProtocellAssembly)
 proposed_controls:
 - single-regime baselines (pore-only, membrane-only)

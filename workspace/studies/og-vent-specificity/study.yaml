@@ -62,7 +62,6 @@ result: >-
   against ablation, NOT yet against competing realistic environments (the H2 × Fe/Ni/S × pore-gradient
   3-way factorial and the competing-environments study are planned, not run). A latent catalyst_active=0
   control-integrity bug was found and fixed building the control.
-builds_on: []
 handoff:
   emits: []
   receives: []
@@ -255,20 +254,15 @@ visualizations:
 parent_studies:
 - study: og-vent-environment
   condition: tests-passed
-- study: og-carbon-fixation
-  condition: tests-passed
-- study: og-network-persistence
-  condition: tests-passed
-- study: og-network-rescue
-  condition: tests-passed
-parent_relations:
-- study: og-vent-environment
   relation: alternative-to
 - study: og-carbon-fixation
+  condition: tests-passed
   relation: tests
 - study: og-network-persistence
+  condition: tests-passed
   relation: tests
 - study: og-network-rescue
+  condition: tests-passed
   relation: tests
 consolidation_note: >-
   Consolidates og-adv-generic-nonequilibrium (canonical, the adversarial null control) and the planned

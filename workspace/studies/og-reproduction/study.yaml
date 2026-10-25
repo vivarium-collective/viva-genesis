@@ -48,8 +48,6 @@ experiment: >-
   fate model against a no-throughput ablation (og-growth-division), and the physical reproduction model
   to a multi-generation lineage (og-growth-alt) — reporting each arm's verdict + matched null with mass/volume
   conservation checked, and labelling the coarse-grained limits.
-builds_on:
-- 32
 handoff:
   emits:
   - to: 34

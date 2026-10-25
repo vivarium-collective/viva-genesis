@@ -57,23 +57,15 @@ primary_output: >-
 parent_studies:
 - study: og-precursor-pool
   condition: tests-passed
-- study: og-operating-window
-  condition: tests-passed
-- study: og-self-compartmentation
-  condition: tests-passed
-parent_relations:
-- study: og-precursor-pool
   relation: builds-on
-- study: og-operating-window
-  relation: builds-on
-- study: og-self-compartmentation
-  relation: builds-on
-upstream_state_consumed:
-- from: og-precursor-pool
   provides: the functional amphiphile-precursor yield vectors from og-precursor-pool - the acetate the chemistry delivers to synthesis
-- from: og-operating-window
+- study: og-operating-window
+  condition: tests-passed
+  relation: builds-on
   provides: the narrow S_T-conditional corner from og-operating-window where the precursor pool is consumable - this study's favorable premise
-- from: og-self-compartmentation
+- study: og-self-compartmentation
+  condition: tests-passed
+  relation: builds-on
   provides: the real membrane machinery (ProtocellAssembly / chain-extension synthesis, permeability, retention)
 proposed_controls:
 - ablate chemistry->membrane (no synthesis feedback)

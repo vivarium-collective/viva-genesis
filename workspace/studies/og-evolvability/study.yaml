@@ -42,9 +42,6 @@ result: >-
   Parent-offspring fitness correlation +0.949 vs a no-inheritance control and a population shift +0.551 vs drift
   -0.004 (perm p ~ 1e-4): the inherited difference is selectable and the population evolves. Qualified: shown
   on the modeled trait space; open-ended novelty is not.
-builds_on:
-- 6
-- 33
 plan_id: 34
 handoff:
   emits:
@@ -244,12 +241,9 @@ visualizations:
 parent_studies:
 - study: og-heredity
   condition: tests-passed
-- study: og-reproduction
-  condition: tests-passed
-parent_relations:
-- study: og-heredity
   relation: builds-on
 - study: og-reproduction
+  condition: tests-passed
   relation: builds-on
 split_note: >-
   Split from the former consolidated og-heredity: the EVOLVABILITY half. Canonical arm og-34 (selectable-fitness

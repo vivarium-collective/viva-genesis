@@ -41,8 +41,6 @@ result: >-
   The pore crosses the concentration/retention threshold (Baaske cleared, Peclet 18.4) where an open pore does
   not; the eight-solute mixture fractionates (coloc index ~0.18 strong-Soret), so concentrating one tracer is
   not concentrating the set a protocell needs together.
-builds_on:
-- 29
 plan_id: 3
 handoff:
   emits:
@@ -428,8 +426,6 @@ visualizations:
 parent_studies:
 - study: og-network-persistence
   condition: tests-passed
-parent_relations:
-- study: og-network-persistence
   relation: builds-on
 split_note: >-
   Split from the former consolidated og-spatial-concentration into the multisolute-ENRICHMENT half (this study,

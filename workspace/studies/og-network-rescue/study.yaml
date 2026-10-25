@@ -39,9 +39,6 @@ result: >-
   The concentrating pore ignites the network (flux +4.5e-4, 17 persistent species) while the matched well-mixed
   control stays dead; confirmed on the six-carbon network, within a bounded porosity window. Localization makes
   the network productive.
-builds_on:
-- 3
-- 29
 plan_id: 30
 handoff:
   emits:
@@ -279,12 +276,9 @@ visualizations:
 parent_studies:
 - study: og-spatial-concentration
   condition: tests-passed
-- study: og-network-persistence
-  condition: tests-passed
-parent_relations:
-- study: og-spatial-concentration
   relation: builds-on
 - study: og-network-persistence
+  condition: tests-passed
   relation: builds-on
 split_note: >-
   Split from the former consolidated og-spatial-concentration: the network-RESCUE half. Canonical arm og-30 (Gate

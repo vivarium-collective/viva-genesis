@@ -51,27 +51,19 @@ primary_output: >-
 parent_studies:
 - study: og-carbon-fixation
   condition: tests-passed
-- study: og-vent-interface
-  condition: tests-passed
-- study: og-nutrient-bottlenecks
-  condition: tests-passed
-parent_relations:
-- study: og-carbon-fixation
   relation: builds-on
-- study: og-vent-interface
-  relation: builds-on
-- study: og-nutrient-bottlenecks
-  relation: builds-on
-upstream_state_consumed:
-- from: og-vent-interface
-  provides: >-
-    the time-dependent calibrated vent feed (H2 / inorganic carbon flux, pH/redox gradient) within the bounded
-    DIC window
-- from: og-carbon-fixation
   provides: >-
     the H2-driven CO2-reduction yield hierarchy and catalytic-interface rates the balanced reaction sets are anchored
     to
-- from: og-nutrient-bottlenecks
+- study: og-vent-interface
+  condition: tests-passed
+  relation: builds-on
+  provides: >-
+    the time-dependent calibrated vent feed (H2 / inorganic carbon flux, pH/redox gradient) within the bounded
+    DIC window
+- study: og-nutrient-bottlenecks
+  condition: tests-passed
+  relation: builds-on
   provides: >-
     the joint non-carbon precursor feasibility - reduced-nitrogen (ammonium) availability keeping pace with carbon
     fixation at a viable C:N and reactive-phosphorus availability co-concentrating with carbon in the thermophoretic

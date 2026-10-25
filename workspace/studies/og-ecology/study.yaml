@@ -50,9 +50,6 @@ experiment: >-
   connected-vs-isolated metacommunity (og-07), and the real metabolite-exchange community against a no-exchange/count-only
   null (og-07-alt) — reporting each arm's verdict + matched null with element ledgers closed and the stochastic
   / robustness caveats stated plainly.
-builds_on:
-- 32
-- 34
 handoff:
   emits:
   - to: 37

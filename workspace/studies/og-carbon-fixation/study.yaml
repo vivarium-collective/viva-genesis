@@ -62,7 +62,6 @@ result: >-
   attribution of which limitation stops fixation is structure-sensitive — the two electrochemistry classes
   agree only 47% (< 80% gate), so that secondary attribution question is refuted (og-01-cal) and tracked
   for diagnosis (og-01-cal-dx).
-builds_on: []
 plan_id: 1
 handoff:
   emits:

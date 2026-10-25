@@ -45,8 +45,6 @@ result: >-
   Inheritance beats the non-heritable control and compositional/hybrid modules escape the Eigen length catastrophe
   (og-06); the information-per-cost frontier shows heredity need not presume RNA and attachment is budget-conditional
   (og-06-alt). A heritable chemical difference is transmitted at feasible cost.
-builds_on:
-- 32
 plan_id: 6
 handoff:
   emits:
@@ -1277,8 +1275,6 @@ visualizations:
 parent_studies:
 - study: og-self-compartmentation
   condition: tests-passed
-parent_relations:
-- study: og-self-compartmentation
   relation: builds-on
 split_note: >-
   Split from the former consolidated og-heredity into the chemical-INHERITANCE half (this study) and the EVOLVABILITY

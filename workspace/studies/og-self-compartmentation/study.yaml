@@ -68,10 +68,6 @@ experiment: >-
   (og-32b) — reporting each arm's verdict and matched null, and labelling the fixed-charge / short-MD
   / coarse-grained limits, with the membrane-MD sub-program and the PMF gold standard tracked as planned/GPU-gated
   follow-ups.
-builds_on:
-- 2
-- 29
-- 30
 handoff:
   emits:
   - to: 33

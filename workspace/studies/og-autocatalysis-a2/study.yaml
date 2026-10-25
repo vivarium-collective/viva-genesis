@@ -61,7 +61,6 @@ experiment: >-
   with input fluxes held equal, and report either genuine self-amplification with its critical dilution
   or a clean mechanistic negative that names the gap — honestly, without tuning a pass, and keeping each
   route's verdict and matched null explicit.
-builds_on: []
 handoff:
   emits:
   - to: 30
@@ -457,11 +456,9 @@ visualizations:
 parent_studies:
 - study: og-network-persistence
   condition: tests-passed
+  relation: refutes
 - study: og-vent-interface
   condition: tests-passed
-parent_relations:
-- study: og-network-persistence
-  relation: refutes
 consolidation_note: >-
   Consolidates og-29-endogenous-autocatalysis (canonical keystone, plan_id 29) and og-rtca-autocatalysis
   into one Gate-A2 autocatalysis concept. Each fold-in is an explicit arm (see `arms`) keeping its

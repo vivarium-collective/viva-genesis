@@ -57,23 +57,15 @@ primary_output: >-
 parent_studies:
 - study: og-self-maintaining-individual
   condition: tests-passed
-- study: og-reproduction
-  condition: tests-passed
-- study: og-evolvability
-  condition: tests-passed
-parent_relations:
-- study: og-self-maintaining-individual
   relation: builds-on
-- study: og-reproduction
-  relation: builds-on
-- study: og-evolvability
-  relation: builds-on
-upstream_state_consumed:
-- from: og-self-maintaining-individual
   provides: the (granted) self-maintaining individual that must divide (from og-self-maintaining-individual; its endogenous closure refuted)
-- from: og-reproduction
+- study: og-reproduction
+  condition: tests-passed
+  relation: builds-on
   provides: the mechanically defensible division geometry producing viable daughters
-- from: og-evolvability
+- study: og-evolvability
+  condition: tests-passed
+  relation: builds-on
   provides: the selectable inherited difference + population-shift-under-selection result being extended toward open-endedness
 proposed_controls:
 - no-inheritance null (inheritance=False)

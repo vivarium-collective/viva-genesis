@@ -65,10 +65,6 @@ experiment: >-
   ONE AT A TIME with matched per-support ablations, attributing each internalizable support to a specific
   innovation and reporting the honest profile with its lumped-feed and coarse-abstraction limits (og-37).
 plan_id: 37
-builds_on:
-- 34
-- 35
-- 36
 handoff:
   emits: []
   receives:

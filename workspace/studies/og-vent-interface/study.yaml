@@ -41,8 +41,6 @@ result: >-
   A bounded two-regime DIC window: under full redox equilibrium DIC is reduced before free H2 appears, so the
   usable reduced-carbon window is narrow (dic-crossover-sweep passes, window_exists=False). Qualified on this
   realized DIC-cliff; the remaining og-27 flux / mineral-evolution / ledger findings are planned.
-builds_on:
-- 0
 plan_id: 27
 handoff:
   emits:
@@ -310,8 +308,6 @@ visualizations:
 parent_studies:
 - study: og-vent-environment
   condition: tests-passed
-parent_relations:
-- study: og-vent-environment
   relation: builds-on
 split_note: >-
   Split from the former consolidated og-vent-environment: the evolving-mineral-INTERFACE half. Canonical arm og-27
