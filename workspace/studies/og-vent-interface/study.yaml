@@ -305,10 +305,6 @@ visualizations:
       Bottom row — porosity closing, catalytic accessibility passivating, and carbonate saturation index driving
       precipitation. Plainly: the wall delivers chemistry at first, but as minerals grow and clog it that delivery
       declines — the interface depletes rather than lasting forever.
-parent_studies:
-- study: og-vent-environment
-  condition: tests-passed
-  relation: builds-on
 split_note: >-
   Split from the former consolidated og-vent-environment: the evolving-mineral-INTERFACE half. Canonical arm og-27
   with its findings/viz moved here; adopts plan_id 27 so numeric handoff/builds_on refs to study 27 (carbon-fixation,
@@ -324,3 +320,8 @@ conditions:
     planned: false
   model_settings: []
 execution_status: completed
+pipeline_gate:
+  prerequisites:
+  - study: og-vent-environment
+    condition: tests-passed
+    relation: builds-on

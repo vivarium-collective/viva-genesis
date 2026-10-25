@@ -273,13 +273,6 @@ visualizations:
   config:
     report_json: workspace/studies/og-network-rescue/artifacts/og-30-spatially-integrated-protometabolism/networkrescue_fields.json
     title: 'Spatial concentration ignites the network — pore field vs dead well-mixed control (PDE field view)'
-parent_studies:
-- study: og-spatial-concentration
-  condition: tests-passed
-  relation: builds-on
-- study: og-network-persistence
-  condition: tests-passed
-  relation: builds-on
 split_note: >-
   Split from the former consolidated og-spatial-concentration: the network-RESCUE half. Canonical arm og-30 (Gate
   B pore-ignition) with its findings/viz moved here; adopts plan_id 30 so numeric handoff/builds_on refs to study
@@ -301,3 +294,11 @@ conditions:
     planned: false
   model_settings: []
 execution_status: completed
+pipeline_gate:
+  prerequisites:
+  - study: og-spatial-concentration
+    condition: tests-passed
+    relation: builds-on
+  - study: og-network-persistence
+    condition: tests-passed
+    relation: builds-on

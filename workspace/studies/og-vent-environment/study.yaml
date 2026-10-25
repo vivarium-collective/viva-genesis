@@ -1052,7 +1052,6 @@ visualizations:
     report_json: >-
       workspace/studies/og-vent-environment/artifacts/og-00-vent-reactor-baseline/grid_convergence_control.json
     title: The vent reactor is grid-converged at nx=40, in the Lost City window
-parent_studies: []
 split_note: >-
   Split from the former consolidated og-vent-environment into the calibrated-vent-STATES half (this study, og-00
   + og-cal, supported) and the evolving-mineral-INTERFACE half (og-vent-interface, og-27 canonical), because each

@@ -1670,11 +1670,6 @@ visualizations:
     report_json: >-
       workspace/studies/og-energetics/artifacts/og-05-environmental-to-internal-bioenergetics/uncoupled_pump_control.json
     title: The internalization benefit requires coupling (uncoupled-pump null)
-parent_studies:
-- study: og-self-compartmentation
-  condition: tests-passed
-- study: og-evolvability
-  condition: tests-passed
 consolidation_note: >-
   Consolidates og-energy-proto-energetics, og-05-environmental-to-internal-bioenergetics, og-05b-collapse-rate-sweep
   (planned), og-energy-alt-internalization-threshold, and og-35-chemical-energy-coupling into one concept.
@@ -1759,3 +1754,9 @@ preregistered:
       detail: a finite threshold inside 0..1
   basis: 'Thresholds are the investigation''s pre-stated plan-gate / acceptance criteria, recorded verbatim from each acceptance_criterion gate''s pass_if: conservation laws (ledger closure to numerical precision), literature-anchored ranges (Lost City pH/T/H2; Preiner yields; Baaske enrichment), directional priors, and matched-null / arms methodology requirements. Not fitted to results. No registered_at claimed.'
 execution_status: completed
+pipeline_gate:
+  prerequisites:
+  - study: og-self-compartmentation
+    condition: tests-passed
+  - study: og-evolvability
+    condition: tests-passed

@@ -251,19 +251,6 @@ visualizations:
       catalyst and pore geometry simultaneously is NOT evidence of vent specificity — it cannot attribute
       the failure to any one ingredient. Vent-specificity stays a bounded, hedged claim until a factorial
       ablation (H2 × Fe/Ni/S × pore-gradient, with effect sizes and interactions) is run.
-parent_studies:
-- study: og-vent-environment
-  condition: tests-passed
-  relation: alternative-to
-- study: og-carbon-fixation
-  condition: tests-passed
-  relation: tests
-- study: og-network-persistence
-  condition: tests-passed
-  relation: tests
-- study: og-network-rescue
-  condition: tests-passed
-  relation: tests
 consolidation_note: >-
   Consolidates og-adv-generic-nonequilibrium (canonical, the adversarial null control) and the planned
   og-ev-competing-environments into one concept. og-adv is an adversarial null control: its verdict=refuted
@@ -303,3 +290,17 @@ preregistered:
       detail: vent passes 5/5 where the control fails 5/5
   basis: 'Thresholds are the investigation''s pre-stated plan-gate / acceptance criteria, recorded verbatim from each acceptance_criterion gate''s pass_if: conservation laws (ledger closure to numerical precision), literature-anchored ranges (Lost City pH/T/H2; Preiner yields; Baaske enrichment), directional priors, and matched-null / arms methodology requirements. Not fitted to results. No registered_at claimed.'
 execution_status: completed
+pipeline_gate:
+  prerequisites:
+  - study: og-vent-environment
+    condition: tests-passed
+    relation: alternative-to
+  - study: og-carbon-fixation
+    condition: tests-passed
+    relation: tests
+  - study: og-network-persistence
+    condition: tests-passed
+    relation: tests
+  - study: og-network-rescue
+    condition: tests-passed
+    relation: tests

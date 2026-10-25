@@ -48,26 +48,6 @@ experiment: >-
 primary_output: >-
   Precursor yield vectors (per species, molar, with de-novo CO2-fixed fraction), a closed carbon + electron budget,
   carbon-source-attribution traces, and the withheld-calibration C2+ prediction.
-parent_studies:
-- study: og-carbon-fixation
-  condition: tests-passed
-  relation: builds-on
-  provides: >-
-    the H2-driven CO2-reduction yield hierarchy and catalytic-interface rates the balanced reaction sets are anchored
-    to
-- study: og-vent-interface
-  condition: tests-passed
-  relation: builds-on
-  provides: >-
-    the time-dependent calibrated vent feed (H2 / inorganic carbon flux, pH/redox gradient) within the bounded
-    DIC window
-- study: og-nutrient-bottlenecks
-  condition: tests-passed
-  relation: builds-on
-  provides: >-
-    the joint non-carbon precursor feasibility - reduced-nitrogen (ammonium) availability keeping pace with carbon
-    fixation at a viable C:N and reactive-phosphorus availability co-concentrating with carbon in the thermophoretic
-    pore, each in compatible chemical forms under the pore / thermal-gradient physical regime
 handoff:
   emits:
   - to: downstream
@@ -682,3 +662,24 @@ preregistered:
       op: controls_absent
       detail: functional pool present canonically, collapses in every control
   basis: 'Thresholds are the investigation''s pre-stated plan-gate / acceptance criteria, recorded verbatim from each acceptance_criterion gate''s pass_if: conservation laws (ledger closure to numerical precision), literature-anchored ranges (Lost City pH/T/H2; Preiner yields; Baaske enrichment), directional priors, and matched-null / arms methodology requirements. Not fitted to results. No registered_at claimed.'
+pipeline_gate:
+  prerequisites:
+  - study: og-carbon-fixation
+    condition: tests-passed
+    relation: builds-on
+    provides: >-
+      the H2-driven CO2-reduction yield hierarchy and catalytic-interface rates the balanced reaction sets are anchored
+      to
+  - study: og-vent-interface
+    condition: tests-passed
+    relation: builds-on
+    provides: >-
+      the time-dependent calibrated vent feed (H2 / inorganic carbon flux, pH/redox gradient) within the bounded
+      DIC window
+  - study: og-nutrient-bottlenecks
+    condition: tests-passed
+    relation: builds-on
+    provides: >-
+      the joint non-carbon precursor feasibility - reduced-nitrogen (ammonium) availability keeping pace with carbon
+      fixation at a viable C:N and reactive-phosphorus availability co-concentrating with carbon in the thermophoretic
+      pore, each in compatible chemical forms under the pore / thermal-gradient physical regime

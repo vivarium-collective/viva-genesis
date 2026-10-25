@@ -238,13 +238,6 @@ visualizations:
       workspace/studies/og-evolvability/artifacts/og-34-chemical-heredity-and-selection/gate_d_heredity.json
   rendered: >-
     workspace/studies/og-evolvability/viz/og-34-chemical-heredity-and-selection/chemical-heredity-selection.html
-parent_studies:
-- study: og-heredity
-  condition: tests-passed
-  relation: builds-on
-- study: og-reproduction
-  condition: tests-passed
-  relation: builds-on
 split_note: >-
   Split from the former consolidated og-heredity: the EVOLVABILITY half. Canonical arm og-34 (selectable-fitness
   Gate D) with its runs/findings/viz moved here; adopts plan_id 34 so the numeric handoff/builds_on refs from
@@ -267,3 +260,11 @@ conditions:
     planned: false
   model_settings: []
 execution_status: completed
+pipeline_gate:
+  prerequisites:
+  - study: og-heredity
+    condition: tests-passed
+    relation: builds-on
+  - study: og-reproduction
+    condition: tests-passed
+    relation: builds-on

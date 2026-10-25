@@ -1514,11 +1514,6 @@ visualizations:
       / World view)
     report_json: >-
       workspace/studies/og-ecology/artifacts/og-07-alt-real-metabolite-exchange/community_function_map.json
-parent_studies:
-- study: og-self-compartmentation
-  condition: tests-passed
-- study: og-evolvability
-  condition: tests-passed
 consolidation_note: >-
   Consolidates og-36-stochastic-protocell-ecology (canonical, plan_id 36), og-07-ecology-before-luca and
   og-07-alt-real-metabolite-exchange into the one Gate-E ecology concept. Each fold-in is an explicit
@@ -1574,3 +1569,9 @@ preregistered:
       detail: flux-sustained
   basis: 'Thresholds are the investigation''s pre-stated plan-gate / acceptance criteria, recorded verbatim from each acceptance_criterion gate''s pass_if: conservation laws (ledger closure to numerical precision), literature-anchored ranges (Lost City pH/T/H2; Preiner yields; Baaske enrichment), directional priors, and matched-null / arms methodology requirements. Not fitted to results. No registered_at claimed.'
 execution_status: completed
+pipeline_gate:
+  prerequisites:
+  - study: og-self-compartmentation
+    condition: tests-passed
+  - study: og-evolvability
+    condition: tests-passed

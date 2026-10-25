@@ -54,19 +54,6 @@ primary_output: >-
   Whether reciprocal maintenance closes (yes/no) without a built-in gain, by how many orders the amphiphile pool
   falls short of CAC, at the canonical point and og-operating-window's corner, across all three ablations, with the
   built-in-gain comparison - and the quantified cascading precursor-pool → operating-window → self-maintenance concentration gap.
-parent_studies:
-- study: og-precursor-pool
-  condition: tests-passed
-  relation: builds-on
-  provides: the functional amphiphile-precursor yield vectors from og-precursor-pool - the acetate the chemistry delivers to synthesis
-- study: og-operating-window
-  condition: tests-passed
-  relation: builds-on
-  provides: the narrow S_T-conditional corner from og-operating-window where the precursor pool is consumable - this study's favorable premise
-- study: og-self-compartmentation
-  condition: tests-passed
-  relation: builds-on
-  provides: the real membrane machinery (ProtocellAssembly / chain-extension synthesis, permeability, retention)
 proposed_controls:
 - ablate chemistry->membrane (no synthesis feedback)
 - ablate membrane->chemistry (retention does not reduce washout)
@@ -329,3 +316,17 @@ preregistered:
       op: controls_absent
       detail: reciprocal maintenance closes endogenously without a built-in gain
   basis: 'Thresholds are the investigation''s pre-stated plan-gate / acceptance criteria, recorded verbatim from each acceptance_criterion gate''s pass_if: conservation laws (ledger closure to numerical precision), literature-anchored ranges (Lost City pH/T/H2; Preiner yields; Baaske enrichment), directional priors, and matched-null / arms methodology requirements. Not fitted to results. No registered_at claimed.'
+pipeline_gate:
+  prerequisites:
+  - study: og-precursor-pool
+    condition: tests-passed
+    relation: builds-on
+    provides: the functional amphiphile-precursor yield vectors from og-precursor-pool - the acetate the chemistry delivers to synthesis
+  - study: og-operating-window
+    condition: tests-passed
+    relation: builds-on
+    provides: the narrow S_T-conditional corner from og-operating-window where the precursor pool is consumable - this study's favorable premise
+  - study: og-self-compartmentation
+    condition: tests-passed
+    relation: builds-on
+    provides: the real membrane machinery (ProtocellAssembly / chain-extension synthesis, permeability, retention)

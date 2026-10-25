@@ -1252,9 +1252,6 @@ visualizations:
     report_json: >-
       workspace/studies/og-network-persistence/artifacts/og-02-reduced-carbon-to-protometabolism/network_controls.json
     title: Sustained throughput requires feed + catalyst (matched nulls)
-parent_studies:
-- study: og-carbon-fixation
-  condition: tests-passed
 consolidation_note: >-
   Consolidates og-02-reduced-carbon-to-protometabolism (canonical), og-02-alt-reaction-universe, and og-28-prebiotic-reaction-atlas
   into one concept. Each fold-in is an explicit arm (see `arms`) keeping its own verdict, matched null,
@@ -1323,3 +1320,7 @@ preregistered:
       detail: connected network (not one-offs)
   basis: 'Thresholds are the investigation''s pre-stated plan-gate / acceptance criteria, recorded verbatim from each acceptance_criterion gate''s pass_if: conservation laws (ledger closure to numerical precision), literature-anchored ranges (Lost City pH/T/H2; Preiner yields; Baaske enrichment), directional priors, and matched-null / arms methodology requirements. Not fitted to results. No registered_at claimed.'
 execution_status: completed
+pipeline_gate:
+  prerequisites:
+  - study: og-carbon-fixation
+    condition: tests-passed

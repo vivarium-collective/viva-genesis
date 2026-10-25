@@ -54,19 +54,6 @@ experiment: >-
 primary_output: >-
   Heritable-phenotype variance (+ trajectory), fitness-from-chemistry, multi-generation response curves, and
   adaptation-to-change vs the no-inheritance / shared-feed nulls - plus the explicit open-ended-vs-bounded verdict.
-parent_studies:
-- study: og-self-maintaining-individual
-  condition: tests-passed
-  relation: builds-on
-  provides: the (granted) self-maintaining individual that must divide (from og-self-maintaining-individual; its endogenous closure refuted)
-- study: og-reproduction
-  condition: tests-passed
-  relation: builds-on
-  provides: the mechanically defensible division geometry producing viable daughters
-- study: og-evolvability
-  condition: tests-passed
-  relation: builds-on
-  provides: the selectable inherited difference + population-shift-under-selection result being extended toward open-endedness
 proposed_controls:
 - no-inheritance null (inheritance=False)
 - shared-feed null (flat fitness landscape, fitness differential removed)
@@ -378,3 +365,17 @@ preregistered:
       op: controls_absent
       detail: response present under inheritance+selection, absent in both matched nulls
   basis: 'Thresholds are the investigation''s pre-stated plan-gate / acceptance criteria, recorded verbatim from each acceptance_criterion gate''s pass_if: conservation laws (ledger closure to numerical precision), literature-anchored ranges (Lost City pH/T/H2; Preiner yields; Baaske enrichment), directional priors, and matched-null / arms methodology requirements. Not fitted to results. No registered_at claimed.'
+pipeline_gate:
+  prerequisites:
+  - study: og-self-maintaining-individual
+    condition: tests-passed
+    relation: builds-on
+    provides: the (granted) self-maintaining individual that must divide (from og-self-maintaining-individual; its endogenous closure refuted)
+  - study: og-reproduction
+    condition: tests-passed
+    relation: builds-on
+    provides: the mechanically defensible division geometry producing viable daughters
+  - study: og-evolvability
+    condition: tests-passed
+    relation: builds-on
+    provides: the selectable inherited difference + population-shift-under-selection result being extended toward open-endedness

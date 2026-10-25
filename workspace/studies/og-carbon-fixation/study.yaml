@@ -1186,9 +1186,6 @@ visualizations:
     report_json: >-
       workspace/studies/og-carbon-fixation/artifacts/og-01-cal-electrochemistry/carbonfix_pde_fields.json
     title: Reaction–diffusion at the vent-wall carbon-fixation interface
-parent_studies:
-- study: og-vent-interface
-  condition: tests-passed
 consolidation_note: >-
   Consolidates og-01-geology-to-reduced-carbon (canonical, supported) and og-01-cal-electrochemistry (refuted
   on a SECONDARY question) into one concept, plus planned og-01-cal-dx-label-disagreement. Each fold-in
@@ -1292,3 +1289,7 @@ preregistered:
       detail: report both arms; flag if the Tutolo pmf collapses
   basis: 'Thresholds are the investigation''s pre-stated plan-gate / acceptance criteria, recorded verbatim from each acceptance_criterion gate''s pass_if: conservation laws (ledger closure to numerical precision), literature-anchored ranges (Lost City pH/T/H2; Preiner yields; Baaske enrichment), directional priors, and matched-null / arms methodology requirements. Not fitted to results. No registered_at claimed.'
 execution_status: completed
+pipeline_gate:
+  prerequisites:
+  - study: og-vent-interface
+    condition: tests-passed

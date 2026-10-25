@@ -672,9 +672,6 @@ visualizations:
   address: local:PhysicalReproductionViz
   config:
     title: A multi-generation lineage in the agents map
-parent_studies:
-- study: og-self-compartmentation
-  condition: tests-passed
 consolidation_note: >-
   Consolidates og-33-chemically-coupled-growth-and-division (canonical, plan_id 33), og-growth-division
   and og-growth-alt-physical-reproduction into the one Gate-D reproduction concept. Each fold-in is an
@@ -728,3 +725,7 @@ preregistered:
       detail: partition residual ~ 0 at every division (conserving split)
   basis: 'Thresholds are the investigation''s pre-stated plan-gate / acceptance criteria, recorded verbatim from each acceptance_criterion gate''s pass_if: conservation laws (ledger closure to numerical precision), literature-anchored ranges (Lost City pH/T/H2; Preiner yields; Baaske enrichment), directional priors, and matched-null / arms methodology requirements. Not fitted to results. No registered_at claimed.'
 execution_status: completed
+pipeline_gate:
+  prerequisites:
+  - study: og-self-compartmentation
+    condition: tests-passed

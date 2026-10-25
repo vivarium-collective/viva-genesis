@@ -1272,10 +1272,6 @@ visualizations:
     title: Where heredity is attached, and the transition to templated heredity (Mechanism view)
     report_json: >-
       workspace/studies/og-heredity/artifacts/og-06-alt-information-per-cost/information_frontier.json
-parent_studies:
-- study: og-self-compartmentation
-  condition: tests-passed
-  relation: builds-on
 split_note: >-
   Split from the former consolidated og-heredity into the chemical-INHERITANCE half (this study) and the EVOLVABILITY
   half (og-evolvability), because each carries an independent primary verdict: inheritance is supported here (a
@@ -1330,3 +1326,8 @@ preregistered:
       detail: '>= 1 decade'
   basis: 'Thresholds are the investigation''s pre-stated plan-gate / acceptance criteria, recorded verbatim from each acceptance_criterion gate''s pass_if: conservation laws (ledger closure to numerical precision), literature-anchored ranges (Lost City pH/T/H2; Preiner yields; Baaske enrichment), directional priors, and matched-null / arms methodology requirements. Not fitted to results. No registered_at claimed.'
 execution_status: completed
+pipeline_gate:
+  prerequisites:
+  - study: og-self-compartmentation
+    condition: tests-passed
+    relation: builds-on

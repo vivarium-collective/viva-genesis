@@ -54,21 +54,6 @@ experiment: >-
 primary_output: >-
   Overlap volume (fraction of the defensible parameter space reaching a consumable ~uM functional pool), per-regime
   failure reasons, the parameter-sensitivity ranking, and the single most informative discriminating experiment.
-parent_studies:
-- study: og-precursor-pool
-  condition: tests-passed
-  relation: builds-on
-  provides: >-
-    the real functional precursor yield vectors from og-precursor-pool - the ~nM C2-C3 pool this study tries to
-    rescue - consumed via its PrecursorPoolProcess run under membrane-reduced washout
-- study: og-vent-interface
-  condition: tests-passed
-  relation: builds-on
-  provides: the calibrated vent posterior (feed + DIC window) to propagate
-- study: og-self-compartmentation
-  condition: tests-passed
-  relation: builds-on
-  provides: the membrane integrity / permeability-retention window (ProtocellAssembly)
 proposed_controls:
 - single-regime baselines (pore-only, membrane-only)
 - transport-decoupled null (membrane off; no-gradient trap)
@@ -392,3 +377,19 @@ preregistered:
       op: controls_absent
       detail: both levers needed; each single regime is lower
   basis: 'Thresholds are the investigation''s pre-stated plan-gate / acceptance criteria, recorded verbatim from each acceptance_criterion gate''s pass_if: conservation laws (ledger closure to numerical precision), literature-anchored ranges (Lost City pH/T/H2; Preiner yields; Baaske enrichment), directional priors, and matched-null / arms methodology requirements. Not fitted to results. No registered_at claimed.'
+pipeline_gate:
+  prerequisites:
+  - study: og-precursor-pool
+    condition: tests-passed
+    relation: builds-on
+    provides: >-
+      the real functional precursor yield vectors from og-precursor-pool - the ~nM C2-C3 pool this study tries to
+      rescue - consumed via its PrecursorPoolProcess run under membrane-reduced washout
+  - study: og-vent-interface
+    condition: tests-passed
+    relation: builds-on
+    provides: the calibrated vent posterior (feed + DIC window) to propagate
+  - study: og-self-compartmentation
+    condition: tests-passed
+    relation: builds-on
+    provides: the membrane integrity / permeability-retention window (ProtocellAssembly)

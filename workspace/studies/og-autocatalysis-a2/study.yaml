@@ -453,12 +453,6 @@ visualizations:
     artifact_json: >-
       workspace/studies/og-autocatalysis-a2/artifacts/og-rtca-autocatalysis/rtca_discriminator.json
   rendered: workspace/studies/og-autocatalysis-a2/viz/og-rtca-autocatalysis/rtca-mechanism.html
-parent_studies:
-- study: og-network-persistence
-  condition: tests-passed
-  relation: refutes
-- study: og-vent-interface
-  condition: tests-passed
 consolidation_note: >-
   Consolidates og-29-endogenous-autocatalysis (canonical keystone, plan_id 29) and og-rtca-autocatalysis
   into one Gate-A2 autocatalysis concept. Each fold-in is an explicit arm (see `arms`) keeping its
@@ -493,3 +487,10 @@ conditions:
     planned: false
   model_settings: []
 execution_status: completed
+pipeline_gate:
+  prerequisites:
+  - study: og-network-persistence
+    condition: tests-passed
+    relation: refutes
+  - study: og-vent-interface
+    condition: tests-passed
