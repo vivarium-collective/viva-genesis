@@ -36,6 +36,7 @@ from .fipy_reactor import (  # noqa: E402,F401
 )
 from .thermophoretic_trap import ThermophoreticTrapProcess  # noqa: E402,F401
 from .pore_enriched_feed import PoreEnrichedFeedProcess  # noqa: E402,F401
+from .amphiphile_trap_concentration import AmphiphileTrapConcentrationProcess  # noqa: E402,F401
 from .vent_reactor import VentReactorReproductionProcess  # noqa: E402,F401
 # FEniCS/dolfinx spatial-transport models (full modeling plan section 4.5): the
 # high-fidelity twins behind the same spatial_transport face, now IMPORTED from
@@ -52,6 +53,7 @@ from .fenics_reactor import SurrogateThermophoreticTrapProcess  # noqa: E402,F40
 
 __all__ = [
     "PoreEnrichedFeedProcess",
+    "AmphiphileTrapConcentrationProcess",
     "FipyReactiveTransportProcess",
     "FipyUniformUpflowTransportProcess",
     "ThermophoreticTrapProcess",
