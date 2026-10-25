@@ -5,62 +5,26 @@ created: '2026-10-18'
 gate_status: passed
 confidence: Accepted
 verdict: qualified
-primary_limitation: "Each non-carbon bottleneck clears only individually (N and P tested separately); joint C/N/P feasibility and precursor co-availability are not yet demonstrated together."
+primary_limitation: Each non-carbon bottleneck clears only individually (N and P tested separately); joint C/N/P feasibility and precursor co-availability are not yet demonstrated together.
 key_assumptions:
-- "Reduced nitrogen is FeS-mediated nitrate -> nitrite -> ammonium reduction with an H2 reductant"
-- "Reactive-P availability uses the same og-03 thermophoretic pore"
-- "Each bottleneck is scored against a feature-ablation null with mass conserved by construction"
-- "P-sensitivity sweep: reactive-P availability (net production > 0) holds across most of the mineral-sink (loss_rate) × pore-enrichment grid; the bottleneck is the low-enrichment/high-sink corner (precipitation dominates), so pore concentration rescues P from the mineral sink; total P conserved (|residual| ~2e-6). pH is NOT a parameter of this composite, so pH-sensitivity is not representable without a model change (flagged owner future-work) - the sweep is mineral-sink × concentration × temperature, not pH."
+- Reduced nitrogen is FeS-mediated nitrate -> nitrite -> ammonium reduction with an H2 reductant
+- Reactive-P availability uses the same og-03 thermophoretic pore
+- Each bottleneck is scored against a feature-ablation null with mass conserved by construction
+- 'P-sensitivity sweep: reactive-P availability (net production > 0) holds across most of the mineral-sink (loss_rate) × pore-enrichment grid; the bottleneck is the low-enrichment/high-sink corner (precipitation dominates), so pore concentration rescues P from the mineral sink; total P conserved (|residual| ~2e-6). pH is NOT a parameter of this composite, so pH-sensitivity is not representable without a model change (flagged owner future-work) - the sweep is mineral-sink × concentration × temperature, not pH.'
 evidence_tier: mechanistic_prediction
 program: consolidated
 plan_id: 38
 title: 'Nutrient Bottlenecks: Are Nitrogen and Phosphorus Available with Carbon?'
-concept: >-
-  Whether carbon, nitrogen and phosphorus are available JOINTLY at the vent — not just each non-carbon
-  bottleneck clearing on its own, but N and P available in COMPATIBLE chemical forms and the SAME physical
-  regime a protocell needs them together with carbon. Two arms (nitrogen and phosphorus) each clear their
-  individual bottleneck against a matched null; the sharpened, harder requirement is joint C/N/P
-  co-feasibility, taken up by og-precursor-pool and og-operating-window.
-gate_reason: >-
-  Joint C/N/P precursor-feasibility (Act III nutrient availability). Two arms, each judged against its own
-  matched null with input fluxes held equal: the nitrogen bottleneck (og-res-nitrogen, canonical) and the
-  phosphorus bottleneck (og-res-phosphorus). Each arm is supported individually — reduced nitrogen keeps
-  pace with carbon and reactive phosphorus co-concentrates, each beating its matched null (feature-ablation
-  for nitrogen, open-pore no-enrichment for phosphorus). QUALIFIED, not supported: individual clearance is
-  necessary but not sufficient — these are separate concentration successes, not a demonstration that C, N
-  and P are jointly available in compatible chemical forms in the same physical regime. That joint bar is
-  the sharpened requirement og-precursor-pool and og-operating-window take up.
-claim: >-
-  Each non-carbon nutrient bottleneck clears individually: ammonium is produced and sustained, keeping pace
-  with carbon fixation (a viable C:N) while the feature-ablation null produces none and nitrogen mass is
-  conserved (nitrogen arm, supported); reactive phosphorus is available and co-concentrates with carbon in
-  the pore while an open-pore no-enrichment control shows none and P mass is conserved (phosphorus arm,
-  supported). Qualified overall: these are separate concentration successes, not a joint C/N/P feasibility
-  — whether C, N and P are available together in compatible chemical forms and the same physical regime is
-  the harder, open bar carried by og-precursor-pool and og-operating-window. Every
-  matched null and arm verdict preserved.
-question: >-
-  Do the two non-carbon nutrient bottlenecks clear at the vent — does reduced nitrogen (ammonium) keep
-  pace with carbon fixation, and does reactive phosphorus co-concentrate with carbon rather than precipitate
-  — each against its own matched null with input fluxes held equal?
-hypothesis: >-
-  A vent system produces reduced nitrogen that keeps pace with carbon (a viable C:N) and co-concentrates
-  reactive phosphorus with carbon in the pore; each is demonstrated only where it beats a matched null
-  (feature ablation / open-pore no-enrichment), and any shortfall is reported as a limiting bottleneck
-  rather than tuned to a pass.
-experiment: >-
-  Run the reduced-nitrogen reactor and the phosphorus-availability pore model, measure ammonium production
-  / C:N balance (nitrogen) and reactive-P availability / carbon co-concentration (phosphorus) against
-  their matched nulls with input fluxes held equal, and report each arm's verdict + matched null with
-  mass conservation checked.
+concept: Whether carbon, nitrogen and phosphorus are available JOINTLY at the vent — not just each non-carbon bottleneck clearing on its own, but N and P available in COMPATIBLE chemical forms and the SAME physical regime a protocell needs them together with carbon. Two arms (nitrogen and phosphorus) each clear their individual bottleneck against a matched null; the sharpened, harder requirement is joint C/N/P co-feasibility, taken up by og-precursor-pool and og-operating-window.
+gate_reason: 'Joint C/N/P precursor-feasibility (Act III nutrient availability). Two arms, each judged against its own matched null with input fluxes held equal: the nitrogen bottleneck (og-res-nitrogen, canonical) and the phosphorus bottleneck (og-res-phosphorus). Each arm is supported individually — reduced nitrogen keeps pace with carbon and reactive phosphorus co-concentrates, each beating its matched null (feature-ablation for nitrogen, open-pore no-enrichment for phosphorus). QUALIFIED, not supported: individual clearance is necessary but not sufficient — these are separate concentration successes, not a demonstration that C, N and P are jointly available in compatible chemical forms in the same physical regime. That joint bar is the sharpened requirement og-precursor-pool and og-operating-window take up.'
+claim: 'Each non-carbon nutrient bottleneck clears individually: ammonium is produced and sustained, keeping pace with carbon fixation (a viable C:N) while the feature-ablation null produces none and nitrogen mass is conserved (nitrogen arm, supported); reactive phosphorus is available and co-concentrates with carbon in the pore while an open-pore no-enrichment control shows none and P mass is conserved (phosphorus arm, supported). Qualified overall: these are separate concentration successes, not a joint C/N/P feasibility — whether C, N and P are available together in compatible chemical forms and the same physical regime is the harder, open bar carried by og-precursor-pool and og-operating-window. Every matched null and arm verdict preserved.'
+question: Do the two non-carbon nutrient bottlenecks clear at the vent — does reduced nitrogen (ammonium) keep pace with carbon fixation, and does reactive phosphorus co-concentrate with carbon rather than precipitate — each against its own matched null with input fluxes held equal?
+hypothesis: A vent system produces reduced nitrogen that keeps pace with carbon (a viable C:N) and co-concentrates reactive phosphorus with carbon in the pore; each is demonstrated only where it beats a matched null (feature ablation / open-pore no-enrichment), and any shortfall is reported as a limiting bottleneck rather than tuned to a pass.
+experiment: Run the reduced-nitrogen reactor and the phosphorus-availability pore model, measure ammonium production / C:N balance (nitrogen) and reactive-P availability / carbon co-concentration (phosphorus) against their matched nulls with input fluxes held equal, and report each arm's verdict + matched null with mass conservation checked.
 arms:
 - id: res_nitrogen_assimilation
   source_study: og-res-nitrogen-assimilation
-  concept_role: >-
-    Canonical arm — the nitrogen bottleneck: does a vent system produce reduced nitrogen (ammonium) that
-    keeps pace with carbon fixation (sets a viable C:N), against a feature-ablation null that produces
-    none? Realized: supported — ammonium is produced and sustained, keeps pace with carbon, mass-conserved;
-    the no-fixation ablation makes none.
+  concept_role: 'Canonical arm — the nitrogen bottleneck: does a vent system produce reduced nitrogen (ammonium) that keeps pace with carbon fixation (sets a viable C:N), against a feature-ablation null that produces none? Realized: supported — ammonium is produced and sustained, keeps pace with carbon, mass-conserved; the no-fixation ablation makes none.'
   fidelity: mechanistic_prediction
   verdict: supported
   gate_status: passed
@@ -77,18 +41,14 @@ arms:
   canonical: true
 - id: res_phosphorus_availability
   source_study: og-res-phosphorus-availability
-  concept_role: >-
-    The phosphorus bottleneck: is reactive phosphorus available and does it co-concentrate with carbon
-    in the pore, against an open-pore no-enrichment control? Realized: supported — reactive P is available
-    and co-concentrates with carbon; the open-pore control shows no enrichment; P mass-conserved.
+  concept_role: 'The phosphorus bottleneck: is reactive phosphorus available and does it co-concentrate with carbon in the pore, against an open-pore no-enrichment control? Realized: supported — reactive P is available and co-concentrates with carbon; the open-pore control shows no enrichment; P mass-conserved.'
   fidelity: mechanistic_prediction
   verdict: supported
   gate_status: passed
   matched_null: open-pore-no-enrichment-control
   composite: viva_genesis.composites.phosphorus_availability.phosphorus_availability
   run_ids:
-  - >-
-    viva_genesis.composites.phosphorus_availability.phosphorus_availability__1791926628__6912fc
+  - viva_genesis.composites.phosphorus_availability.phosphorus_availability__1791926628__6912fc
   finding_ids:
   - ogres-reactive-p-available
   - ogres-p-coconcentrates-with-carbon
@@ -131,8 +91,7 @@ behavior_tests:
   band_basis: first_principles
 - name: nitrogen-keeps-pace-with-carbon
   classification: primary
-  description: >-
-    The settled C:N supply ratio sits in the viable (near-Redfield) band — reduced N keeps pace with carbon.
+  description: The settled C:N supply ratio sits in the viable (near-Redfield) band — reduced N keeps pace with carbon.
   measure:
     kind: derived
     path: cn_supply_ratio_settled
@@ -165,10 +124,7 @@ behavior_tests:
   band_basis: first_principles
 - name: feature-ablation-no-ammonium
   classification: primary
-  description: >-
-    Ammonium is present with FeS + H2 and ABSENT in each control (no FeS / no H2). Cross-run — graded
-    by sims/run.py, which runs the two controls and checks ammonium collapses to <1 uM in each (each feature
-    is necessary, not correlated).
+  description: Ammonium is present with FeS + H2 and ABSENT in each control (no FeS / no H2). Cross-run — graded by sims/run.py, which runs the two controls and checks ammonium collapses to <1 uM in each (each feature is necessary, not correlated).
   measure:
     kind: cross_run
     detail: favourable ammonium vs no-FeS / no-H2
@@ -183,10 +139,7 @@ behavior_tests:
   gate_class: acceptance_criterion
 - name: nitrogen-supply-sets-cn
   classification: diagnostic
-  description: >-
-    DISCRIMINATING: does the nitrate supply decide whether reduced N keeps pace? Cross-run — sims/run.py
-    compares the favourable arm (C:N keeps pace, <=8) with a scarce-nitrate arm (C:N > 8, nitrogen limiting)
-    and reports the keeps-pace boundary.
+  description: 'DISCRIMINATING: does the nitrate supply decide whether reduced N keeps pace? Cross-run — sims/run.py compares the favourable arm (C:N keeps pace, <=8) with a scarce-nitrate arm (C:N > 8, nitrogen limiting) and reports the keeps-pace boundary.'
   measure:
     kind: cross_run
     detail: favourable C:N vs scarce-nitrate C:N
@@ -200,10 +153,7 @@ behavior_tests:
   gate_class: acceptance_criterion
 - name: reactive-p-available
   classification: primary
-  description: >-
-    Reactive-P production outpaces precipitation/adsorption loss — net reactive-P availability settles
-    positive in the favorable (enriched) pore (a window where reactive P is produced faster than it is
-    lost).
+  description: Reactive-P production outpaces precipitation/adsorption loss — net reactive-P availability settles positive in the favorable (enriched) pore (a window where reactive P is produced faster than it is lost).
   measure:
     kind: derived
     path: phosphorus_net_reactive_availability
@@ -220,18 +170,13 @@ behavior_tests:
   band_basis: first_principles
 - name: p-coconcentrates-with-carbon
   classification: primary
-  description: >-
-    The real og-03 thermophoretic pore enriches phosphate alongside carbon (species-agnostic Soret+convection
-    trap) — overlap reported as a boundary, not a fitted target.
+  description: The real og-03 thermophoretic pore enriches phosphate alongside carbon (species-agnostic Soret+convection trap) — overlap reported as a boundary, not a fitted target.
   measure:
     kind: cross_run
-    detail: >-
-      og-03 pore enrichment vs the carbon co-concentration floor; P reactive-availability at that enrichment
+    detail: og-03 pore enrichment vs the carbon co-concentration floor; P reactive-availability at that enrichment
   pass_if:
     op: arms_reported
-    detail: >-
-      the same pore regime co-concentrates P with C (enrichment >= carbon floor AND P reactive-availability
-      positive)
+    detail: the same pore regime co-concentrates P with C (enrichment >= carbon floor AND P reactive-availability positive)
   units: dimensionless
   requires_simulation: 'yes'
   cites:
@@ -240,9 +185,7 @@ behavior_tests:
   gate_class: acceptance_criterion
 - name: open-pore-no-enrichment-control
   classification: primary
-  description: >-
-    An open pore / no thermal gradient (enrichment = 1) lets precipitation win — reactive-P availability
-    collapses (net < 0, phosphate precipitates before it is useful). The feature ablation.
+  description: An open pore / no thermal gradient (enrichment = 1) lets precipitation win — reactive-P availability collapses (net < 0, phosphate precipitates before it is useful). The feature ablation.
   measure:
     kind: cross_run
     detail: favorable enriched pore vs open-pore / no-gradient control
@@ -258,9 +201,7 @@ behavior_tests:
 - name: p-mass-conserved
   gate_class: regression_pin
   classification: diagnostic
-  description: >-
-    The closed P-speciation network conserves total phosphorus (|total P - supplied| / supplied ~ machine
-    epsilon).
+  description: The closed P-speciation network conserves total phosphorus (|total P - supplied| / supplied ~ machine epsilon).
   measure:
     kind: derived
     path: phosphorus_p_mass_residual
@@ -276,9 +217,7 @@ findings:
 - id: ogn-ammonium-produced
   kind: computational
   status: confirms
-  statement: >-
-    FeS-mediated reduction of nitrate through nitrite sustains a standing ammonium pool (~1.0 mM) with
-    an H2 reductant at ~80 C, the first reduced nitrogen the chemistry needs.
+  statement: FeS-mediated reduction of nitrate through nitrite sustains a standing ammonium pool (~1.0 mM) with an H2 reductant at ~80 C, the first reduced nitrogen the chemistry needs.
   evidence:
     from_test: ammonium-production-sustained
     observed: settled NH4+ ~1.0 mM; peak production ~4.2e-5 mol/s
@@ -286,20 +225,16 @@ findings:
     cites:
     - dorr2003prebiotic
     - huber1997activated
-  explanation: >-
-    A real ReducedNitrogenProductionProcess reduces NO3- -> NO2- -> NH4+ gated by H2 availability, an
-    FeS temperature window and catalyst activity.
+  explanation: A real ReducedNitrogenProductionProcess reduces NO3- -> NO2- -> NH4+ gated by H2 availability, an FeS temperature window and catalyst activity.
   provenance:
     run_ids:
     - viva_genesis.composites.nitrogen_assimilation.reduced_nitrogen_reactor__1791926319__eec3bc
 - id: ogn-keeps-pace
   evidence_basis: predicted
-  evidence_basis_note: "The settled C:N ~5.0 is a model output; the viable band 1-8 is the external anchor it is judged against."
+  evidence_basis_note: The settled C:N ~5.0 is a model output; the viable band 1-8 is the external anchor it is judged against.
   kind: computational
   status: novel
-  statement: >-
-    At the favourable operating point reduced-N production keeps pace with the carbon-fixation demand
-    — the C:N supply ratio settles at ~5.0, within the viable (near-Redfield) band.
+  statement: At the favourable operating point reduced-N production keeps pace with the carbon-fixation demand — the C:N supply ratio settles at ~5.0, within the viable (near-Redfield) band.
   evidence:
     from_test: nitrogen-keeps-pace-with-carbon
     observed: settled C:N supply ratio ~5.0 (viable band 1-8)
@@ -307,18 +242,14 @@ findings:
   expected:
     cites:
     - varma2018native
-  explanation: >-
-    The C:N supply ratio = carbon demand / reduced-N production; reductive amination draws ammonium into
-    amino-acid precursors at a rate set by the carbon demand.
+  explanation: The C:N supply ratio = carbon demand / reduced-N production; reductive amination draws ammonium into amino-acid precursors at a rate set by the carbon demand.
   provenance:
     run_ids:
     - viva_genesis.composites.nitrogen_assimilation.reduced_nitrogen_reactor__1791926319__eec3bc
 - id: ogn-ablation
   kind: computational
   status: confirms
-  statement: >-
-    Ammonium is present only with BOTH an active FeS catalyst and an H2 reductant — it collapses to <1
-    µM when either is removed (each is necessary, not merely correlated).
+  statement: Ammonium is present only with BOTH an active FeS catalyst and an H2 reductant — it collapses to <1 µM when either is removed (each is necessary, not merely correlated).
   evidence:
     from_test: feature-ablation-no-ammonium
     observed: favourable NH4+ ~1.0 mM; no-FeS and no-H2 controls <1 µM
@@ -331,24 +262,15 @@ findings:
 - id: ogn-nitrogen-limiting
   kind: computational
   status: novel
-  statement: >-
-    A parameter sweep over (nitrate supply x FeS activity) maps where reduced N keeps pace with carbon
-    versus where nitrogen becomes limiting FIRST. Reduced N keeps pace only where the nitrate feed is
-    sufficient AND the mineral is active; starving the feed drives the settled C:N supply ratio from ~5
-    to ~47 (nitrogen limiting), so the decision is a bounded region, not a representative run.
+  statement: A parameter sweep over (nitrate supply x FeS activity) maps where reduced N keeps pace with carbon versus where nitrogen becomes limiting FIRST. Reduced N keeps pace only where the nitrate feed is sufficient AND the mineral is active; starving the feed drives the settled C:N supply ratio from ~5 to ~47 (nitrogen limiting), so the decision is a bounded region, not a representative run.
   evidence:
     from_test: nitrogen-supply-sets-cn
-    observed: >-
-      favourable C:N ~5.0 (keeps pace) vs scarce-nitrate C:N ~47 (limiting); keeps-pace boundary at C:N
-      = 8
+    observed: favourable C:N ~5.0 (keeps pace) vs scarce-nitrate C:N ~47 (limiting); keeps-pace boundary at C:N = 8
     units: dimensionless
   expected:
     cites:
     - dorr2003prebiotic
-  explanation: >-
-    16x16 sweep of the real open-flow reduced-nitrogen reactor (nitrate supply 2e-6-1e-4 M/s x FeS activity
-    0.05-1.0) reduced to the settled C:N supply ratio + a keeps-pace mask, rendered as the nitrogen phase
-    map (Decision view). Runner sims/compute_nitrogen_grid.py.
+  explanation: 16x16 sweep of the real open-flow reduced-nitrogen reactor (nitrate supply 2e-6-1e-4 M/s x FeS activity 0.05-1.0) reduced to the settled C:N supply ratio + a keeps-pace mask, rendered as the nitrogen phase map (Decision view). Runner sims/compute_nitrogen_grid.py.
   provenance:
     run_ids:
     - viva_genesis.composites.nitrogen_assimilation.reduced_nitrogen_reactor__1791926319__eec3bc
@@ -358,59 +280,40 @@ findings:
     - viva_genesis.composites.nitrogen_assimilation.reduced_nitrogen_reactor__1791926319__eec3bc
   kind: methodological
   status: confirms
-  statement: >-
-    Nitrogen mass is conserved by construction — every internal reaction conserves N atoms, so the per-step
-    accounting residual stays at ~1e-20 M (the matter-accounting invariant).
+  statement: Nitrogen mass is conserved by construction — every internal reaction conserves N atoms, so the per-step accounting residual stays at ~1e-20 M (the matter-accounting invariant).
   evidence:
     from_test: nitrogen-mass-conserved
     observed: max |n_mass_residual| ~1e-20 M over the run
     units: molar
 - id: ogres-reactive-p-available
   evidence_basis: predicted
-  evidence_basis_note: "Net reactive-P availability is a model output vs the open-pore no-enrichment control."
+  evidence_basis_note: Net reactive-P availability is a model output vs the open-pore no-enrichment control.
   provenance:
     run_ids:
-    - >-
-      viva_genesis.composites.phosphorus_availability.phosphorus_availability__1791926628__6912fc
+    - viva_genesis.composites.phosphorus_availability.phosphorus_availability__1791926628__6912fc
   kind: computational
   status: confirms
-  statement: >-
-    In the favorable thermal-gradient pore, reactive-P formation outpaces precipitation/adsorption
-    loss — net reactive-P availability settles positive (~+1.8e-6 mol/s), reactive P accumulating to
-    ~94% of the supplied phosphorus while only ~6% precipitates.
+  statement: In the favorable thermal-gradient pore, reactive-P formation outpaces precipitation/adsorption loss — net reactive-P availability settles positive (~+1.8e-6 mol/s), reactive P accumulating to ~94% of the supplied phosphorus while only ~6% precipitates.
   evidence:
     from_test: reactive-p-available
     observed: ~+1.8e-6 mol/s net availability; reactive P ~94% of supply; ~6% precipitated
     units: mole/second
-  explanation: >-
-    Real libRoadRunner ODE P-speciation network: enrichment enters condensation as enr^2 and activation
-    as enr, while precipitation is first-order in phosphate, so a concentrated pore tips phosphate's fate
-    toward the reactive route.
+  explanation: 'Real libRoadRunner ODE P-speciation network: enrichment enters condensation as enr^2 and activation as enr, while precipitation is first-order in phosphate, so a concentrated pore tips phosphate''s fate toward the reactive route.'
   expected:
     cites:
     - pasek2017schreibersite
 - id: ogres-p-coconcentrates-with-carbon
   provenance:
     run_ids:
-    - >-
-      viva_genesis.composites.phosphorus_availability.phosphorus_availability__1791926628__6912fc
+    - viva_genesis.composites.phosphorus_availability.phosphorus_availability__1791926628__6912fc
   kind: computational
   status: novel
-  statement: >-
-    The same real og-03 thermophoretic pore that lifts a dilute carbon feed across the ignition threshold
-    (species-agnostic Soret + convection trap) co-concentrates phosphate: at the pore's enrichment the
-    P reactive-availability is positive and the enrichment exceeds the carbon co-concentration floor (~10×).
-    C and P co-concentrate in one pore regime — reported as an overlap boundary, not a fitted target.
+  statement: 'The same real og-03 thermophoretic pore that lifts a dilute carbon feed across the ignition threshold (species-agnostic Soret + convection trap) co-concentrates phosphate: at the pore''s enrichment the P reactive-availability is positive and the enrichment exceeds the carbon co-concentration floor (~10×). C and P co-concentrate in one pore regime — reported as an overlap boundary, not a fitted target.'
   evidence:
     from_test: p-coconcentrates-with-carbon
-    observed: >-
-      og-03 pore enrichment >> 10× carbon co-concentration floor; P reactive-availability positive at
-      that enrichment
+    observed: og-03 pore enrichment >> 10× carbon co-concentration floor; P reactive-availability positive at that enrichment
     units: dimensionless
-  explanation: >-
-    The thermophoretic trap enrichment depends on the Soret coefficient and pore geometry, not on the
-    solute identity, so the pore that concentrates carbon concentrates phosphate; coupling it to the P-speciation
-    network shows reactive P becomes available in the same regime.
+  explanation: The thermophoretic trap enrichment depends on the Soret coefficient and pore geometry, not on the solute identity, so the pore that concentrates carbon concentrates phosphate; coupling it to the P-speciation network shows reactive P becomes available in the same regime.
   expected:
     cites:
     - baaske2007extreme
@@ -418,47 +321,30 @@ findings:
 - id: ogres-precipitation-ablation
   provenance:
     run_ids:
-    - >-
-      viva_genesis.composites.phosphorus_availability.phosphorus_availability__1791926628__6912fc
+    - viva_genesis.composites.phosphorus_availability.phosphorus_availability__1791926628__6912fc
   kind: computational
   status: novel
-  statement: >-
-    The feature ablation is decisive — an open pore / no thermal gradient (enrichment = 1) collapses reactive-P
-    availability: net availability goes negative and ~96% of phosphorus precipitates to the mineral sink.
-    Phosphate precipitates/adsorbs before it is chemically useful unless the pore concentrates it first.
+  statement: 'The feature ablation is decisive — an open pore / no thermal gradient (enrichment = 1) collapses reactive-P availability: net availability goes negative and ~96% of phosphorus precipitates to the mineral sink. Phosphate precipitates/adsorbs before it is chemically useful unless the pore concentrates it first.'
   evidence:
     from_test: open-pore-no-enrichment-control
     observed: favorable net ~+1.8e-6 (6% precipitated) vs open-pore net < 0 (~96% precipitated)
     units: mole/second
-  explanation: >-
-    Without enrichment the condensation/activation fluxes (enr-gated) fall below the first-order precipitation
-    loss, so phosphate drains into mineral-bound P — the phosphorus bottleneck made explicit.
+  explanation: Without enrichment the condensation/activation fluxes (enr-gated) fall below the first-order precipitation loss, so phosphate drains into mineral-bound P — the phosphorus bottleneck made explicit.
   expected:
     cites:
     - pasek2017schreibersite
 - id: ogres-availability-landscape
   provenance:
     run_ids:
-    - >-
-      viva_genesis.composites.phosphorus_availability.phosphorus_availability__1791926628__6912fc
+    - viva_genesis.composites.phosphorus_availability.phosphorus_availability__1791926628__6912fc
   kind: computational
   status: novel
-  statement: >-
-    A 16×16 sweep over (phosphate source × pore/thermal enrichment) maps where reactive P is available,
-    not just that it is at one point. Reactive-P availability is bounded by the net-availability threshold
-    (production = loss) on the enrichment axis; the PASS region is where that threshold is crossed AND
-    the enrichment co-concentrates carbon (right of the ~10× carbon floor). Below the threshold phosphate
-    precipitates before it is useful.
+  statement: A 16×16 sweep over (phosphate source × pore/thermal enrichment) maps where reactive P is available, not just that it is at one point. Reactive-P availability is bounded by the net-availability threshold (production = loss) on the enrichment axis; the PASS region is where that threshold is crossed AND the enrichment co-concentrates carbon (right of the ~10× carbon floor). Below the threshold phosphate precipitates before it is useful.
   evidence:
     from_test: reactive-p-available
-    observed: >-
-      reactive-P pool ranges ~0 to ~1 mM across the (source × enrichment) plane (~94% of supply, ~94 µM,
-      at the favorable 1e-4 M point); availability bounded by net=0 and the carbon co-concentration floor
+    observed: reactive-P pool ranges ~0 to ~1 mM across the (source × enrichment) plane (~94% of supply, ~94 µM, at the favorable 1e-4 M point); availability bounded by net=0 and the carbon co-concentration floor
     units: molar
-  explanation: >-
-    16×16 sweep of the real libRoadRunner composite reduced to the settled reactive-P pool, net availability
-    and precipitated fraction; rendered as the reactive-P availability phase map (Decision view). Runner
-    sims/compute_phosphorus_availability_grid.py.
+  explanation: 16×16 sweep of the real libRoadRunner composite reduced to the settled reactive-P pool, net availability and precipitated fraction; rendered as the reactive-P availability phase map (Decision view). Runner sims/compute_phosphorus_availability_grid.py.
   expected:
     cites:
     - baaske2007extreme
@@ -471,10 +357,8 @@ runs:
   canonical: true
   emitter:
     kind: sqlite
-    store: >-
-      canonical-runs/viva_genesis.composites.nitrogen_assimilation.reduced_nitrogen_reactor__1791926319__eec3bc/run.db
-  store_path: >-
-    canonical-runs/viva_genesis.composites.nitrogen_assimilation.reduced_nitrogen_reactor__1791926319__eec3bc/run.db
+    store: canonical-runs/viva_genesis.composites.nitrogen_assimilation.reduced_nitrogen_reactor__1791926319__eec3bc/run.db
+  store_path: canonical-runs/viva_genesis.composites.nitrogen_assimilation.reduced_nitrogen_reactor__1791926319__eec3bc/run.db
   params: '{}'
   outcomes:
     ammonium-production-sustained:
@@ -539,9 +423,7 @@ runs:
       evaluated_by: code
       axis:
         id: nitrogen-keeps-pace-with-carbon
-        label: >-
-          The settled C:N supply ratio sits in the viable (near-Redfield) band — reduced N keeps pace
-          with carbon.
+        label: The settled C:N supply ratio sits in the viable (near-Redfield) band — reduced N keeps pace with carbon.
         verdict: within_tol
         value: 4.968188
         meter: 0.68948825
@@ -592,28 +474,21 @@ runs:
       measured_value: 993.34
       evaluated_by: code
       operator: cross_run
-      detail: >-
-        favourable NH4+=993.3 µM; controls no-FeS=0.000, no-H2=0.000 µM (all <1 => FeS + H2 are each necessary
-        for ammonium)
+      detail: favourable NH4+=993.3 µM; controls no-FeS=0.000, no-H2=0.000 µM (all <1 => FeS + H2 are each necessary for ammonium)
     nitrogen-supply-sets-cn:
       result: PASS
       measured_value: 4.97
       evaluated_by: code
       operator: cross_run
-      detail: >-
-        favourable C:N=5.0 (keeps pace, <=8) vs N-limited feed C:N=46.8 (>8 => nitrogen limiting) => nitrate
-        supply sets whether reduced N keeps pace with carbon
-- name: >-
-    viva_genesis.composites.phosphorus_availability.phosphorus_availability__1791926628__6912fc
+      detail: favourable C:N=5.0 (keeps pace, <=8) vs N-limited feed C:N=46.8 (>8 => nitrogen limiting) => nitrate supply sets whether reduced N keeps pace with carbon
+- name: viva_genesis.composites.phosphorus_availability.phosphorus_availability__1791926628__6912fc
   status: completed
   timestamp: 1791926630.266499
   canonical: true
   emitter:
     kind: sqlite
-    store: >-
-      canonical-runs/viva_genesis.composites.phosphorus_availability.phosphorus_availability__1791926628__6912fc/run.db
-  store_path: >-
-    canonical-runs/viva_genesis.composites.phosphorus_availability.phosphorus_availability__1791926628__6912fc/run.db
+    store: canonical-runs/viva_genesis.composites.phosphorus_availability.phosphorus_availability__1791926628__6912fc/run.db
+  store_path: canonical-runs/viva_genesis.composites.phosphorus_availability.phosphorus_availability__1791926628__6912fc/run.db
   params: '{}'
   outcomes:
     reactive-p-available:
@@ -624,10 +499,7 @@ runs:
       evaluated_by: code
       axis:
         id: reactive-p-available
-        label: >-
-          Reactive-P production outpaces precipitation/adsorption loss — net reactive-P availability settles
-          positive in the favorable (enriched) pore (a window where reactive P is produced faster than
-          it is lost).
+        label: Reactive-P production outpaces precipitation/adsorption loss — net reactive-P availability settles positive in the favorable (enriched) pore (a window where reactive P is produced faster than it is lost).
         verdict: within_tol
         value: 2e-06
         meter: 0.500001
@@ -651,18 +523,13 @@ runs:
       measured_value: 23.336
       evaluated_by: code
       operator: cross_run
-      detail: >-
-        the real og-03 thermophoretic pore enriches ~23× (>= carbon co-concentration floor 10×): the SAME
-        pore regime concentrates carbon (og-03) AND phosphate; P reactive-availability at that enrichment
-        is positive — P and C co-concentrate [arms_reported, overlap=yes]
+      detail: 'the real og-03 thermophoretic pore enriches ~23× (>= carbon co-concentration floor 10×): the SAME pore regime concentrates carbon (og-03) AND phosphate; P reactive-availability at that enrichment is positive — P and C co-concentrate [arms_reported, overlap=yes]'
     open-pore-no-enrichment-control:
       result: PASS
       measured_value: -1.99416e-07
       evaluated_by: code
       operator: cross_run
-      detail: >-
-        favorable net availability=1.80e-06 mol/s (precipitated 6%) vs open-pore/no-gradient control net=-1.99e-07
-        mol/s (precipitated 96%) — without enrichment precipitation wins, reactive-P availability collapses
+      detail: favorable net availability=1.80e-06 mol/s (precipitated 6%) vs open-pore/no-gradient control net=-1.99e-07 mol/s (precipitated 96%) — without enrichment precipitation wins, reactive-P availability collapses
     p-mass-conserved:
       result: PASS
       measured_value: 1e-06
@@ -671,9 +538,7 @@ runs:
       evaluated_by: code
       axis:
         id: p-mass-conserved
-        label: >-
-          The closed P-speciation network conserves total phosphorus (|total P - supplied| / supplied
-          ~ machine epsilon).
+        label: The closed P-speciation network conserves total phosphorus (|total P - supplied| / supplied ~ machine epsilon).
         verdict: within_tol
         value: 1e-06
         meter: 0.5
@@ -710,8 +575,7 @@ visualizations:
   address: local:NitrogenAssimilationPhaseMap
   config:
     title: Nitrogen as a limiting resource (Decision view)
-    grid_json: >-
-      workspace/studies/og-nutrient-bottlenecks/artifacts/og-res-nitrogen-assimilation/nitrogen_assimilation_phase_grid.json
+    grid_json: workspace/studies/og-nutrient-bottlenecks/artifacts/og-res-nitrogen-assimilation/nitrogen_assimilation_phase_grid.json
 - name: phosphorus-speciation
   address: local:PhosphorusSpeciationViz
   config:
@@ -729,21 +593,14 @@ visualizations:
   address: local:PhosphorusAvailabilityMap
   config:
     title: The phosphorus bottleneck — reactive-P availability landscape (Decision view)
-    grid_json: >-
-      workspace/studies/og-nutrient-bottlenecks/artifacts/og-res-phosphorus-availability/phosphorus_availability_grid.json
+    grid_json: workspace/studies/og-nutrient-bottlenecks/artifacts/og-res-phosphorus-availability/phosphorus_availability_grid.json
 - name: phosphorus-sensitivity-sweep
   display: mechanism
   address: local:PhosphorusSensitivityViz
   config:
-    report_json: >-
-      workspace/studies/og-nutrient-bottlenecks/artifacts/og-res-phosphorus-availability/phosphorus_sensitivity.json
+    report_json: workspace/studies/og-nutrient-bottlenecks/artifacts/og-res-phosphorus-availability/phosphorus_sensitivity.json
     title: Reactive-P availability across the mineral sink × pore concentration
-consolidation_note: >-
-  Consolidates og-res-nitrogen-assimilation (canonical) and og-res-phosphorus-availability into the one
-  Gate-A1 nutrient-bottleneck concept. Each fold-in is an explicit arm (see `arms`) keeping its own verdict,
-  matched null, findings and run provenance; artifacts + viz moved under {artifacts,viz}/<source-slug>/.
-  Both arms supported; the carbon-network dependency (nitrogen/phosphorus keep pace with carbon) is the
-  og-network-persistence A1 network.
+consolidation_note: Consolidates og-res-nitrogen-assimilation (canonical) and og-res-phosphorus-availability into the one Gate-A1 nutrient-bottleneck concept. Each fold-in is an explicit arm (see `arms`) keeping its own verdict, matched null, findings and run provenance; artifacts + viz moved under {artifacts,viz}/<source-slug>/. Both arms supported; the carbon-network dependency (nitrogen/phosphorus keep pace with carbon) is the og-network-persistence A1 network.
 conditions:
   baseline:
   - name: Reduced-nitrogen reactor (ammonium, C:N balance) — canonical arm (og-res-nitrogen)
@@ -756,8 +613,6 @@ conditions:
     params: {}
     planned: false
   model_settings: []
-
-# --- preregistration thresholds (investigation plan-gates, recorded verbatim) ---
 preregistered:
   thresholds:
     ammonium-production-sustained:
@@ -801,3 +656,4 @@ pipeline_gate:
   prerequisites:
   - study: og-network-persistence
     condition: tests-passed
+    relation: builds-on
