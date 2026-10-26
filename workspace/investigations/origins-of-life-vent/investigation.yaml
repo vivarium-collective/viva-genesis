@@ -5107,3 +5107,8 @@ knowledge_cycle:
     action: reconcile
     refs:
     - claim:og-evolvable-lineages
+resolutions:
+- kind: open_challenge
+  target: claim:og-autocatalysis-a2
+  rationale: 'Adjudicated concordant: persistence is driven (og-network-persistence, supported), endogenous autocatalysis refuted (og-autocatalysis-a2) — one driven-dissipative-network claim, not a defeat.'
+  by: og-autocatalysis-a2#ogaa2-adjudicate-persistence-challenge
