@@ -4,9 +4,7 @@ Every submodule here is imported for its side effect — the
 ``@composite_generator`` decorators fire on package import, registering each
 generator in the process-bigraph registry. Discovery is by a package glob (not a
 hand-maintained ``from . import X`` list): dropping a new ``*.py`` composite in
-this directory registers it automatically, with no manual append. (That manual
-append block used to be a merge-conflict magnet — every spine/rescope PR edited
-the same anchor.)
+this directory registers it automatically, with no manual append.
 
 ``__all__`` is the submodule list, built the same way. Composite references
 resolve by their full ``viva_genesis.composites.<module>.<generator>`` id via the
