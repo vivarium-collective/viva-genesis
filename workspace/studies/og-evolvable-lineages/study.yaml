@@ -2,12 +2,7 @@ schema_version: 4
 name: og-evolvable-lineages
 investigation: origins-of-life-vent
 created: '2026-10-19'
-phase: Evaluate
-status: ran
 execution_status: completed
-design_status: approved
-simulation_status: ran
-evaluation_status: evaluated
 gate_status: passed
 study_type: exploratory
 title: 'Evolvable Lineages: Can a Granted Individual Evolve?'
@@ -59,27 +54,6 @@ experiment: >-
 primary_output: >-
   Heritable-phenotype variance (+ trajectory), fitness-from-chemistry, multi-generation response curves, and
   adaptation-to-change vs the no-inheritance / shared-feed nulls - plus the explicit open-ended-vs-bounded verdict.
-parent_studies:
-- study: og-self-maintaining-individual
-  condition: tests-passed
-- study: og-reproduction
-  condition: tests-passed
-- study: og-evolvability
-  condition: tests-passed
-parent_relations:
-- study: og-self-maintaining-individual
-  relation: builds-on
-- study: og-reproduction
-  relation: builds-on
-- study: og-evolvability
-  relation: builds-on
-upstream_state_consumed:
-- from: og-self-maintaining-individual
-  provides: the (granted) self-maintaining individual that must divide (from og-self-maintaining-individual; its endogenous closure refuted)
-- from: og-reproduction
-  provides: the mechanically defensible division geometry producing viable daughters
-- from: og-evolvability
-  provides: the selectable inherited difference + population-shift-under-selection result being extended toward open-endedness
 proposed_controls:
 - no-inheritance null (inheritance=False)
 - shared-feed null (flat fitness landscape, fitness differential removed)
@@ -375,3 +349,33 @@ conditions:
       retention_lo: 0.5
       retention_hi: 0.5
   model_settings: []
+
+# --- preregistration thresholds (investigation plan-gates, recorded verbatim) ---
+preregistered:
+  thresholds:
+    selection-shifts-composition:
+      op: '>='
+      value: 0.6
+      detail: composition selected well above the ~0.4 start
+    parent-offspring-heritability:
+      op: '>='
+      value: 0.5
+      detail: fitness is substantially heritable
+    heritable-selection-above-both-nulls:
+      op: controls_absent
+      detail: response present under inheritance+selection, absent in both matched nulls
+  basis: 'Thresholds are the investigation''s pre-stated plan-gate / acceptance criteria, recorded verbatim from each acceptance_criterion gate''s pass_if: conservation laws (ledger closure to numerical precision), literature-anchored ranges (Lost City pH/T/H2; Preiner yields; Baaske enrichment), directional priors, and matched-null / arms methodology requirements. Not fitted to results. No registered_at claimed.'
+pipeline_gate:
+  prerequisites:
+  - study: og-self-maintaining-individual
+    condition: tests-passed
+    relation: builds-on
+    provides: the (granted) self-maintaining individual that must divide (from og-self-maintaining-individual; its endogenous closure refuted)
+  - study: og-reproduction
+    condition: tests-passed
+    relation: builds-on
+    provides: the mechanically defensible division geometry producing viable daughters
+  - study: og-evolvability
+    condition: tests-passed
+    relation: builds-on
+    provides: the selectable inherited difference + population-shift-under-selection result being extended toward open-endedness

@@ -2,12 +2,7 @@ schema_version: 4
 name: og-operating-window
 investigation: origins-of-life-vent
 created: '2026-10-19'
-phase: Evaluate
-status: ran
 execution_status: completed
-design_status: approved
-simulation_status: ran
-evaluation_status: evaluated
 gate_status: passed
 study_type: exploratory
 title: 'Operating Window: Can Pore and Membrane Concentration Rescue the Pool?'
@@ -59,29 +54,6 @@ experiment: >-
 primary_output: >-
   Overlap volume (fraction of the defensible parameter space reaching a consumable ~uM functional pool), per-regime
   failure reasons, the parameter-sensitivity ranking, and the single most informative discriminating experiment.
-parent_studies:
-- study: og-precursor-pool
-  condition: tests-passed
-- study: og-vent-interface
-  condition: tests-passed
-- study: og-self-compartmentation
-  condition: tests-passed
-parent_relations:
-- study: og-precursor-pool
-  relation: builds-on
-- study: og-vent-interface
-  relation: builds-on
-- study: og-self-compartmentation
-  relation: builds-on
-upstream_state_consumed:
-- from: og-precursor-pool
-  provides: >-
-    the real functional precursor yield vectors from og-precursor-pool - the ~nM C2-C3 pool this study tries to
-    rescue - consumed via its PrecursorPoolProcess run under membrane-reduced washout
-- from: og-vent-interface
-  provides: the calibrated vent posterior (feed + DIC window) to propagate
-- from: og-self-compartmentation
-  provides: the membrane integrity / permeability-retention window (ProtocellAssembly)
 proposed_controls:
 - single-regime baselines (pore-only, membrane-only)
 - transport-decoupled null (membrane off; no-gradient trap)
@@ -388,3 +360,36 @@ conditions:
     params:
       membrane: false
   model_settings: []
+
+# --- preregistration thresholds (investigation plan-gates, recorded verbatim) ---
+preregistered:
+  thresholds:
+    pore-trap-enrichment-real:
+      op: '>'
+      value: 1.0
+      detail: real trap enriches (>1) at the defensible operating point
+    membrane-retention-real:
+      op: range
+      low: 0.5
+      high: 0.99
+      detail: viable retention (chemistry held, still permeable)
+    rescue-requires-both-levers:
+      op: controls_absent
+      detail: both levers needed; each single regime is lower
+  basis: 'Thresholds are the investigation''s pre-stated plan-gate / acceptance criteria, recorded verbatim from each acceptance_criterion gate''s pass_if: conservation laws (ledger closure to numerical precision), literature-anchored ranges (Lost City pH/T/H2; Preiner yields; Baaske enrichment), directional priors, and matched-null / arms methodology requirements. Not fitted to results. No registered_at claimed.'
+pipeline_gate:
+  prerequisites:
+  - study: og-precursor-pool
+    condition: tests-passed
+    relation: builds-on
+    provides: >-
+      the real functional precursor yield vectors from og-precursor-pool - the ~nM C2-C3 pool this study tries to
+      rescue - consumed via its PrecursorPoolProcess run under membrane-reduced washout
+  - study: og-vent-interface
+    condition: tests-passed
+    relation: builds-on
+    provides: the calibrated vent posterior (feed + DIC window) to propagate
+  - study: og-self-compartmentation
+    condition: tests-passed
+    relation: builds-on
+    provides: the membrane integrity / permeability-retention window (ProtocellAssembly)

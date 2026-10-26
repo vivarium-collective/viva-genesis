@@ -2,11 +2,6 @@ schema_version: 4
 name: og-spatial-concentration
 investigation: origins-of-life-vent
 created: '2026-10-18'
-phase: Evaluate
-status: ran
-design_status: approved
-simulation_status: ran
-evaluation_status: evaluated
 gate_status: passed
 verdict: supported
 primary_limitation: "The pore clears the Baaske accumulation regime but the chemically-necessary eight-solute set fractionates (Soret-driven, co-localization index ~0.18) rather than co-localizing - a candidate downstream bottleneck."
@@ -46,8 +41,6 @@ result: >-
   The pore crosses the concentration/retention threshold (Baaske cleared, Peclet 18.4) where an open pore does
   not; the eight-solute mixture fractionates (coloc index ~0.18 strong-Soret), so concentrating one tracer is
   not concentrating the set a protocell needs together.
-builds_on:
-- 29
 plan_id: 3
 handoff:
   emits:
@@ -430,12 +423,6 @@ visualizations:
     report_json: >-
       workspace/studies/og-spatial-concentration/artifacts/og-03-dilution-to-localized-individuals/spatial_pde_fields.json
     title: 'The eight-solute pore fields: real FiPy PDE snapshots, pore vs open-pore'
-parent_studies:
-- study: og-network-persistence
-  condition: tests-passed
-parent_relations:
-- study: og-network-persistence
-  relation: builds-on
 split_note: >-
   Split from the former consolidated og-spatial-concentration into the multisolute-ENRICHMENT half (this study,
   transport physics, og-03) and the network-RESCUE half (og-network-rescue, og-30 canonical), because each carries
@@ -449,3 +436,27 @@ conditions:
     params: {}
     planned: false
   model_settings: []
+
+# --- preregistration thresholds (investigation plan-gates, recorded verbatim) ---
+preregistered:
+  thresholds:
+    thermophoretic-enrichment-reproduces-baaske:
+      op: arms_reported
+      detail: reduced-column Pe_acc ≈ 18.4 (~10^8-fold) reported as the closed-cell/reduced-model figure; the resolved FEM does not confirm it past the convergence-verified Pe_acc ≈ 13
+    enrichment-resolved-within-convergence:
+      op: '>'
+      value: 0.0
+      detail: log10_enrichment > 0 (the resolved trap concentrates above inflow within Pe_acc ≲ 13)
+    retention-beats-destruction:
+      op: arms_reported
+      detail: reduced-column ≥10^6-fold reported as the closed-cell figure; net accumulation within demonstrated convergence is the gated claim (enrichment-resolved-within-convergence)
+    open-pore-control-does-not-concentrate:
+      op: controls_absent
+      detail: enrichment collapses to ~1 in the open-pore control
+  basis: 'Thresholds are the investigation''s pre-stated plan-gate / acceptance criteria, recorded verbatim from each acceptance_criterion gate''s pass_if: conservation laws (ledger closure to numerical precision), literature-anchored ranges (Lost City pH/T/H2; Preiner yields; Baaske enrichment), directional priors, and matched-null / arms methodology requirements. Not fitted to results. No registered_at claimed.'
+execution_status: completed
+pipeline_gate:
+  prerequisites:
+  - study: og-network-persistence
+    condition: tests-passed
+    relation: builds-on

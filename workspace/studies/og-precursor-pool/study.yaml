@@ -2,12 +2,7 @@ schema_version: 4
 name: og-precursor-pool
 investigation: origins-of-life-vent
 created: '2026-10-19'
-phase: Evaluate
-status: ran
 execution_status: completed
-design_status: approved
-simulation_status: ran
-evaluation_status: evaluated
 gate_status: passed
 study_type: exploratory
 title: 'Precursor Pool: Can Vent Chemistry Build a Functional Pool?'
@@ -53,34 +48,6 @@ experiment: >-
 primary_output: >-
   Precursor yield vectors (per species, molar, with de-novo CO2-fixed fraction), a closed carbon + electron budget,
   carbon-source-attribution traces, and the withheld-calibration C2+ prediction.
-parent_studies:
-- study: og-carbon-fixation
-  condition: tests-passed
-- study: og-vent-interface
-  condition: tests-passed
-- study: og-nutrient-bottlenecks
-  condition: tests-passed
-parent_relations:
-- study: og-carbon-fixation
-  relation: builds-on
-- study: og-vent-interface
-  relation: builds-on
-- study: og-nutrient-bottlenecks
-  relation: builds-on
-upstream_state_consumed:
-- from: og-vent-interface
-  provides: >-
-    the time-dependent calibrated vent feed (H2 / inorganic carbon flux, pH/redox gradient) within the bounded
-    DIC window
-- from: og-carbon-fixation
-  provides: >-
-    the H2-driven CO2-reduction yield hierarchy and catalytic-interface rates the balanced reaction sets are anchored
-    to
-- from: og-nutrient-bottlenecks
-  provides: >-
-    the joint non-carbon precursor feasibility - reduced-nitrogen (ammonium) availability keeping pace with carbon
-    fixation at a viable C:N and reactive-phosphorus availability co-concentrating with carbon in the thermophoretic
-    pore, each in compatible chemical forms under the pore / thermal-gradient physical regime
 handoff:
   emits:
   - to: downstream
@@ -661,3 +628,58 @@ conditions:
     composite: viva_genesis.composites.precursor_pool.precursor_pool_no_gradient
     planned: false
   model_settings: []
+
+# --- preregistration thresholds (investigation plan-gates, recorded verbatim) ---
+preregistered:
+  thresholds:
+    atom-balance-exact:
+      op: <=
+      value: 1.0e-09
+      detail: atom balance exact
+    carbon-budget-closes:
+      op: <=
+      value: 1.0e-06
+      detail: carbon budget closes to integrator tolerance
+    electron-budget-closes:
+      op: <=
+      value: 1.0e-06
+      detail: electron budget closes
+    pool-assembled-de-novo:
+      op: '>='
+      value: 0.99
+      detail: functional pool is >=99% de-novo CO2-fixed
+    cn-in-viable-band:
+      op: range
+      low: 1.0
+      high: 8.0
+      detail: C:N in the viable 1-8 band
+    formate-c1-feedstock-present:
+      op: range
+      low: 0.1
+      high: 5.0
+      detail: formate present at the 2 mM DIC lower bound
+    controls-collapse-functional-pool:
+      op: controls_absent
+      detail: functional pool present canonically, collapses in every control
+  basis: 'Thresholds are the investigation''s pre-stated plan-gate / acceptance criteria, recorded verbatim from each acceptance_criterion gate''s pass_if: conservation laws (ledger closure to numerical precision), literature-anchored ranges (Lost City pH/T/H2; Preiner yields; Baaske enrichment), directional priors, and matched-null / arms methodology requirements. Not fitted to results. No registered_at claimed.'
+pipeline_gate:
+  prerequisites:
+  - study: og-carbon-fixation
+    condition: tests-passed
+    relation: builds-on
+    provides: >-
+      the H2-driven CO2-reduction yield hierarchy and catalytic-interface rates the balanced reaction sets are anchored
+      to
+  - study: og-vent-interface
+    condition: tests-passed
+    relation: builds-on
+    provides: >-
+      the time-dependent calibrated vent feed (H2 / inorganic carbon flux, pH/redox gradient) within the bounded
+      DIC window
+  - study: og-nutrient-bottlenecks
+    condition: tests-passed
+    relation: builds-on
+    provides: >-
+      the joint non-carbon precursor feasibility - reduced-nitrogen (ammonium) availability keeping pace with carbon
+      fixation at a viable C:N and reactive-phosphorus availability co-concentrating with carbon in the thermophoretic
+      pore, each in compatible chemical forms under the pore / thermal-gradient physical regime

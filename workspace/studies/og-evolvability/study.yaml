@@ -2,11 +2,6 @@ schema_version: 4
 name: og-evolvability
 investigation: origins-of-life-vent
 created: '2026-10-18'
-phase: Evaluate
-status: ran
-design_status: approved
-simulation_status: ran
-evaluation_status: evaluated
 gate_status: passed
 verdict: qualified
 primary_limitation: "Selective chemical heredity is demonstrated only over the modeled 8-seed x 40-generation regime, with heredity carried by inherited network composition (Option B, compositional/GARD-style); the vasas-2010 evolvability caveat is tested, not waved away."
@@ -47,9 +42,6 @@ result: >-
   Parent-offspring fitness correlation +0.949 vs a no-inheritance control and a population shift +0.551 vs drift
   -0.004 (perm p ~ 1e-4): the inherited difference is selectable and the population evolves. Qualified: shown
   on the modeled trait space; open-ended novelty is not.
-builds_on:
-- 6
-- 33
 plan_id: 34
 handoff:
   emits:
@@ -180,6 +172,9 @@ findings:
     cites:
     - segre2000compositional
     - vasas2010lack
+  provenance:
+    run_ids:
+    - gate-d-heredity-selection
 - id: og34-population-shifts-under-selection
   kind: computational
   status: confirms
@@ -195,6 +190,9 @@ findings:
     cites:
     - eigen1971selforganization
     - blokhuis2020universal
+  provenance:
+    run_ids:
+    - gate-d-heredity-selection
 - id: og34-inheritance-scope
   kind: methodological
   status: confirms
@@ -206,6 +204,9 @@ findings:
     low-variance in other regimes.
   evidence:
     from_test: inherited-difference-reproducible-fitness
+  provenance:
+    run_ids:
+    - gate-d-heredity-selection
 runs:
 - id: gate-d-heredity-selection
   composite: >-
@@ -225,6 +226,8 @@ runs:
     matched-null-no-inheritance:
       result: PASS
       detail: no-inheritance null shows correlation ~0 and drift ~0 at equal feeds
+  status: completed
+  run_id: gate-d-heredity-selection
 visualizations:
 - name: chemical-heredity-selection
   display: primary
@@ -235,16 +238,6 @@ visualizations:
       workspace/studies/og-evolvability/artifacts/og-34-chemical-heredity-and-selection/gate_d_heredity.json
   rendered: >-
     workspace/studies/og-evolvability/viz/og-34-chemical-heredity-and-selection/chemical-heredity-selection.html
-parent_studies:
-- study: og-heredity
-  condition: tests-passed
-- study: og-reproduction
-  condition: tests-passed
-parent_relations:
-- study: og-heredity
-  relation: builds-on
-- study: og-reproduction
-  relation: builds-on
 split_note: >-
   Split from the former consolidated og-heredity: the EVOLVABILITY half. Canonical arm og-34 (selectable-fitness
   Gate D) with its runs/findings/viz moved here; adopts plan_id 34 so the numeric handoff/builds_on refs from
@@ -266,3 +259,12 @@ conditions:
       inheritance: false
     planned: false
   model_settings: []
+execution_status: completed
+pipeline_gate:
+  prerequisites:
+  - study: og-heredity
+    condition: tests-passed
+    relation: builds-on
+  - study: og-reproduction
+    condition: tests-passed
+    relation: builds-on

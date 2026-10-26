@@ -2,12 +2,7 @@ schema_version: 4
 name: og-self-maintaining-individual
 investigation: origins-of-life-vent
 created: '2026-10-19'
-phase: Evaluate
-status: ran
 execution_status: completed
-design_status: approved
-simulation_status: ran
-evaluation_status: evaluated
 gate_status: failed
 study_type: exploratory
 title: 'Self-Maintaining Individuality: Does the Chemistry–Boundary Loop Close?'
@@ -59,27 +54,6 @@ primary_output: >-
   Whether reciprocal maintenance closes (yes/no) without a built-in gain, by how many orders the amphiphile pool
   falls short of CAC, at the canonical point and og-operating-window's corner, across all three ablations, with the
   built-in-gain comparison - and the quantified cascading precursor-pool → operating-window → self-maintenance concentration gap.
-parent_studies:
-- study: og-precursor-pool
-  condition: tests-passed
-- study: og-operating-window
-  condition: tests-passed
-- study: og-self-compartmentation
-  condition: tests-passed
-parent_relations:
-- study: og-precursor-pool
-  relation: builds-on
-- study: og-operating-window
-  relation: builds-on
-- study: og-self-compartmentation
-  relation: builds-on
-upstream_state_consumed:
-- from: og-precursor-pool
-  provides: the functional amphiphile-precursor yield vectors from og-precursor-pool - the acetate the chemistry delivers to synthesis
-- from: og-operating-window
-  provides: the narrow S_T-conditional corner from og-operating-window where the precursor pool is consumable - this study's favorable premise
-- from: og-self-compartmentation
-  provides: the real membrane machinery (ProtocellAssembly / chain-extension synthesis, permeability, retention)
 proposed_controls:
 - ablate chemistry->membrane (no synthesis feedback)
 - ablate membrane->chemistry (retention does not reduce washout)
@@ -326,3 +300,33 @@ conditions:
       feed_CO2: 2.0e-3
       k_wash_eff: 0.05
   model_settings: []
+
+# --- preregistration thresholds (investigation plan-gates, recorded verbatim) ---
+preregistered:
+  thresholds:
+    acetate-delivered-to-synthesis:
+      op: '>'
+      value: 0.0
+      detail: the network delivers acetate to synthesis
+    amphiphiles-aggregation-competent:
+      op: '>='
+      value: 1.0
+      detail: amphiphile pool clears CAC (a membrane can form endogenously)
+    reciprocal-maintenance-closes-endogenously:
+      op: controls_absent
+      detail: reciprocal maintenance closes endogenously without a built-in gain
+  basis: 'Thresholds are the investigation''s pre-stated plan-gate / acceptance criteria, recorded verbatim from each acceptance_criterion gate''s pass_if: conservation laws (ledger closure to numerical precision), literature-anchored ranges (Lost City pH/T/H2; Preiner yields; Baaske enrichment), directional priors, and matched-null / arms methodology requirements. Not fitted to results. No registered_at claimed.'
+pipeline_gate:
+  prerequisites:
+  - study: og-precursor-pool
+    condition: tests-passed
+    relation: builds-on
+    provides: the functional amphiphile-precursor yield vectors from og-precursor-pool - the acetate the chemistry delivers to synthesis
+  - study: og-operating-window
+    condition: tests-passed
+    relation: builds-on
+    provides: the narrow S_T-conditional corner from og-operating-window where the precursor pool is consumable - this study's favorable premise
+  - study: og-self-compartmentation
+    condition: tests-passed
+    relation: builds-on
+    provides: the real membrane machinery (ProtocellAssembly / chain-extension synthesis, permeability, retention)

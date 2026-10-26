@@ -2,11 +2,6 @@ schema_version: 4
 name: og-vent-interface
 investigation: origins-of-life-vent
 created: '2026-10-18'
-phase: Evaluate
-status: ran
-design_status: approved
-simulation_status: ran
-evaluation_status: evaluated
 gate_status: passed
 verdict: qualified
 primary_limitation: "Reduced-carbon chemistry is delivered only within a narrow two-regime DIC window - under full redox equilibrium DIC is drawn down before free H2 appears; the DIC-cliff is the one realized finding, the rest of the interface budget still planned."
@@ -46,8 +41,6 @@ result: >-
   A bounded two-regime DIC window: under full redox equilibrium DIC is reduced before free H2 appears, so the
   usable reduced-carbon window is narrow (dic-crossover-sweep passes, window_exists=False). Qualified on this
   realized DIC-cliff; the remaining og-27 flux / mineral-evolution / ledger findings are planned.
-builds_on:
-- 0
 plan_id: 27
 handoff:
   emits:
@@ -312,12 +305,6 @@ visualizations:
       Bottom row — porosity closing, catalytic accessibility passivating, and carbonate saturation index driving
       precipitation. Plainly: the wall delivers chemistry at first, but as minerals grow and clog it that delivery
       declines — the interface depletes rather than lasting forever.
-parent_studies:
-- study: og-vent-environment
-  condition: tests-passed
-parent_relations:
-- study: og-vent-environment
-  relation: builds-on
 split_note: >-
   Split from the former consolidated og-vent-environment: the evolving-mineral-INTERFACE half. Canonical arm og-27
   with its findings/viz moved here; adopts plan_id 27 so numeric handoff/builds_on refs to study 27 (carbon-fixation,
@@ -332,3 +319,9 @@ conditions:
     canonical: true
     planned: false
   model_settings: []
+execution_status: completed
+pipeline_gate:
+  prerequisites:
+  - study: og-vent-environment
+    condition: tests-passed
+    relation: builds-on

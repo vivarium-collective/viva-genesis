@@ -2,81 +2,29 @@ schema_version: 4
 name: og-self-compartmentation
 investigation: origins-of-life-vent
 created: '2026-10-18'
-phase: Evaluate
-status: ran
-design_status: approved
-simulation_status: ran
-evaluation_status: evaluated
 gate_status: passed
 confidence: Accepted
 verdict: qualified
-primary_limitation: "The membrane buys persistence, not throughput (net flux ~0.6x the ablation), and the self-maintenance result is a reduced-coupling (retention/access) model, explicitly not the MD-resolved permeability PMF."
+primary_limitation: The membrane buys persistence, not throughput (net flux ~0.6x the ablation), and the self-maintenance result is a reduced-coupling (retention/access) model, explicitly not the MD-resolved permeability PMF.
 key_assumptions:
-- "Boundaries are mixed single-chain amphiphiles at vent pH / seawater ionic strength"
-- "Permeability is MD-informed (Martini-3 CG-MD) for the cohesion arm; reduced-coupling (retention/access) for the persistence arm"
-- "Self-maintenance is scored against a no-endogenous-membrane ablation at equal feeds"
-- "Fixed protonation ≠ dynamic pH: the CG-MD arms (og-32, og-32b) fix a protonation state per arm (protonated vs fully-charged) rather than modelling a titratable/dynamic-pH membrane; the converged charge/chain boundary is the GPU PMF follow-up (og-32a)."
-- "Exogenous amphiphile assembly ≠ endogenous membrane production: the og-04 mixed-amphiphile assembly arm supplies amphiphiles exogenously and does NOT demonstrate endogenous membrane synthesis (see the refuted og-self-maintaining-individual); only the og-04-alt arm tests a boundary built from the system's own carbon chemistry."
-- "Requested future simulation (deferred — needs the pbg_openmm MARTINI env): a real coarse-grained MARTINI assembly/stability montage (initial dispersed → aggregate → vesicle → disrupted across pH / protonation / ionic strength, reporting bilayer thickness, area-per-lipid, aggregation number and leakage plus a CAC/CMC feasibility line) is requested but not yet run."
+- Boundaries are mixed single-chain amphiphiles at vent pH / seawater ionic strength
+- Permeability is MD-informed (Martini-3 CG-MD) for the cohesion arm; reduced-coupling (retention/access) for the persistence arm
+- Self-maintenance is scored against a no-endogenous-membrane ablation at equal feeds
+- 'Fixed protonation ≠ dynamic pH: the CG-MD arms (og-32, og-32b) fix a protonation state per arm (protonated vs fully-charged) rather than modelling a titratable/dynamic-pH membrane; the converged charge/chain boundary is the GPU PMF follow-up (og-32a).'
+- 'Exogenous amphiphile assembly ≠ endogenous membrane production: the og-04 mixed-amphiphile assembly arm supplies amphiphiles exogenously and does NOT demonstrate endogenous membrane synthesis (see the refuted og-self-maintaining-individual); only the og-04-alt arm tests a boundary built from the system''s own carbon chemistry.'
+- 'Requested future simulation (deferred — needs the pbg_openmm MARTINI env): a real coarse-grained MARTINI assembly/stability montage (initial dispersed → aggregate → vesicle → disrupted across pH / protonation / ionic strength, reporting bilayer thickness, area-per-lipid, aggregation number and leakage plus a CAC/CMC feasibility line) is requested but not yet run.'
 evidence_tier: mechanistic_prediction
 program: consolidated
 plan_id: 32
 title: 'Self-Compartmentation: Does Metabolism Build Its Own Boundary?'
-concept: >-
-  How a vent-born chemical system acquires a self-made boundary and becomes a self-maintaining protocell
-  — one concept (Gate C), studied at several fidelities as arms: amphiphile boundary assembly (og-04),
-  an endogenous boundary from the system's own chemistry (og-04-alt), the membrane-benefit test against
-  a matched null (og-31), the integrated first self-maintaining protocell (og-32, canonical), and real
-  fatty-acid vesicle Martini MD replacing the phospholipid stand-in (og-32b), with the membrane-MD sub-program
-  (mem-m1/2/3/5) and the composition-overlap discriminator (og-ev) as planned arms.
-gate_reason: >-
-  Gate C (self-compartmentation / self-maintaining protocell). Consolidates the campaign's boundary-to-protocell
-  line into one concept with fidelity-labelled arms, each judged against its own matched null with input
-  fluxes held equal: boundary assembly (og-04, supported), the endogenous boundary (og-04-alt, supported),
-  the Gate-C membrane benefit (og-31, qualified — pays on persistence, not throughput), the integrated
-  first self-maintaining protocell (og-32, canonical, qualified), and the live fatty-acid vesicle MD that
-  replaces og-32's phospholipid stand-in (og-32b, qualified). The headline is bounded by the most-caveated
-  arm — qualified: a self-maintaining protocell with a self-made boundary whose membrane pays on persistence
-  (not throughput), within windows, on a short-MD stability trend. Each arm keeps its own verdict and matched
-  null (see arms). The membrane-MD sub-program (mem-m1/m2/m3/m5) and the chemistry-to-membrane composition-overlap
-  discriminator (og-ev) are carried as planned arms; the gold-standard PMF permeability (og-32a) is tracked
-  as a GPU-gated follow-up.
-claim: >-
-  A vent-born system acquires a self-made boundary and self-maintains as a protocell, the membrane buying
-  persistence rather than raw throughput. Mixed fatty-acid/alcohol amphiphiles assemble into protocell
-  boundaries in a vent window, giving individuality (retention) without full isolation and beating single-amphiphile
-  controls (og-04, supported); a boundary also forms endogenously from the system's own carbon chemistry
-  with a closed matter ledger (og-04-alt, supported); protometabolism-produced encapsulation pays against
-  a matched equal-feed null on persistence and an access window but not on throughput, and the benefit
-  is windowed (og-31, qualified); the integrated compartment self-maintains its membrane integrity and
-  beats a matched ablation with MD-informed permeability (og-32, canonical, qualified); and real fatty-acid
-  Martini-3 vesicles are stable across C10-C16 while a fully-charged null micellises at the short+charged
-  corner, replacing og-32's phospholipid stand-in with a real amphiphile (og-32b, qualified — a short-MD
-  fixed-charge stability trend, with the titratable/PMF gold standard tracked as og-32a). Headline verdict
-  qualified. Every matched null and arm verdict is preserved.
-question: >-
-  How does a vent-born chemical system acquire a self-made boundary and become a self-maintaining protocell
-  — do amphiphiles assemble a retaining-but-not-isolating boundary, does encapsulation pay against a matched
-  equal-feed null, does the integrated compartment self-maintain and beat a matched ablation, and are
-  real fatty-acid vesicles stable — each against its own matched null with input fluxes held equal?
-hypothesis: >-
-  Mixed amphiphiles assemble protocell boundaries in a bounded vent window (retention without isolation);
-  encapsulation pays on persistence/robustness rather than throughput; the integrated compartment self-maintains
-  and beats a matched ablation; and real fatty-acid vesicles are stable where protonated and micellise
-  where fully charged. Where an arm does not beat its matched null, or stability is only a short-MD trend,
-  that is reported honestly rather than tuned to a pass.
-experiment: >-
-  Assemble amphiphile and endogenous boundaries and measure the retention/access window (og-04, og-04-alt);
-  test the membrane benefit against a matched equal-feed null on persistence/access/throughput (og-31);
-  run the integrated self-maintaining protocell with MD-informed permeability against a matched ablation
-  (og-32); and run real fatty-acid vesicle Martini-3 MD (multi-seed) with a fully-charged matched null
-  (og-32b) — reporting each arm's verdict and matched null, and labelling the fixed-charge / short-MD
-  / coarse-grained limits, with the membrane-MD sub-program and the PMF gold standard tracked as planned/GPU-gated
-  follow-ups.
-builds_on:
-- 2
-- 29
-- 30
+concept: 'How a vent-born chemical system acquires a self-made boundary and becomes a self-maintaining protocell — one concept (Gate C), studied at several fidelities as arms: amphiphile boundary assembly (og-04), an endogenous boundary from the system''s own chemistry (og-04-alt), the membrane-benefit test against a matched null (og-31), the integrated first self-maintaining protocell (og-32, canonical), and real fatty-acid vesicle Martini MD replacing the phospholipid stand-in (og-32b), with the membrane-MD sub-program (mem-m1/2/3/5) and the composition-overlap discriminator (og-ev) as planned arms.'
+gate_reason: 'Gate C (self-compartmentation / self-maintaining protocell). Consolidates the campaign''s boundary-to-protocell line into one concept with fidelity-labelled arms, each judged against its own matched null with input fluxes held equal: boundary assembly (og-04, supported), the endogenous boundary (og-04-alt, supported), the Gate-C membrane benefit (og-31, qualified — pays on persistence, not throughput), the integrated first self-maintaining protocell (og-32, canonical, qualified), and the live fatty-acid vesicle MD that replaces og-32''s phospholipid stand-in (og-32b, qualified). The headline is bounded by the most-caveated arm — qualified: a self-maintaining protocell with a self-made boundary whose membrane pays on persistence (not throughput), within windows, on a short-MD stability trend. Each arm keeps its own verdict and matched null (see arms). The membrane-MD sub-program (mem-m1/m2/m3/m5) and the chemistry-to-membrane composition-overlap discriminator (og-ev) are carried
+  as planned arms; the gold-standard PMF permeability (og-32a) is tracked as a GPU-gated follow-up.'
+claim: A vent-born system acquires a self-made boundary and self-maintains as a protocell, the membrane buying persistence rather than raw throughput. Mixed fatty-acid/alcohol amphiphiles assemble into protocell boundaries in a vent window, giving individuality (retention) without full isolation and beating single-amphiphile controls (og-04, supported); a boundary also forms endogenously from the system's own carbon chemistry with a closed matter ledger (og-04-alt, supported); protometabolism-produced encapsulation pays against a matched equal-feed null on persistence and an access window but not on throughput, and the benefit is windowed (og-31, qualified); the integrated compartment self-maintains its membrane integrity and beats a matched ablation with MD-informed permeability (og-32, canonical, qualified); and real fatty-acid Martini-3 vesicles are stable across C10-C16 while a fully-charged null micellises at the short+charged corner, replacing og-32's phospholipid stand-in with a real
+  amphiphile (og-32b, qualified — a short-MD fixed-charge stability trend, with the titratable/PMF gold standard tracked as og-32a). Headline verdict qualified. Every matched null and arm verdict is preserved.
+question: How does a vent-born chemical system acquire a self-made boundary and become a self-maintaining protocell — do amphiphiles assemble a retaining-but-not-isolating boundary, does encapsulation pay against a matched equal-feed null, does the integrated compartment self-maintain and beat a matched ablation, and are real fatty-acid vesicles stable — each against its own matched null with input fluxes held equal?
+hypothesis: Mixed amphiphiles assemble protocell boundaries in a bounded vent window (retention without isolation); encapsulation pays on persistence/robustness rather than throughput; the integrated compartment self-maintains and beats a matched ablation; and real fatty-acid vesicles are stable where protonated and micellise where fully charged. Where an arm does not beat its matched null, or stability is only a short-MD trend, that is reported honestly rather than tuned to a pass.
+experiment: Assemble amphiphile and endogenous boundaries and measure the retention/access window (og-04, og-04-alt); test the membrane benefit against a matched equal-feed null on persistence/access/throughput (og-31); run the integrated self-maintaining protocell with MD-informed permeability against a matched ablation (og-32); and run real fatty-acid vesicle Martini-3 MD (multi-seed) with a fully-charged matched null (og-32b) — reporting each arm's verdict and matched null, and labelling the fixed-charge / short-MD / coarse-grained limits, with the membrane-MD sub-program and the PMF gold standard tracked as planned/GPU-gated follow-ups.
 handoff:
   emits:
   - to: 33
@@ -96,18 +44,14 @@ handoff:
 arms:
 - id: 04_mineral_compartments_to_protocells
   source_study: og-04-mineral-compartments-to-protocells
-  concept_role: >-
-    Foundation — the first boundary: do mixed fatty-acid/alcohol amphiphiles assemble into protocell boundaries
-    in a vent window, giving individuality (retention) without full isolation? Realized: supported — a
-    mixed-amphiphile assembly window with a retention/access plane; mixtures beat single-amphiphile controls.
+  concept_role: 'Foundation — the first boundary: do mixed fatty-acid/alcohol amphiphiles assemble into protocell boundaries in a vent window, giving individuality (retention) without full isolation? Realized: supported — a mixed-amphiphile assembly window with a retention/access plane; mixtures beat single-amphiphile controls.'
   fidelity: mechanistic_prediction
   verdict: supported
   gate_status: passed
   matched_null: mixed-amphiphile-advantage-over-single
   composite: viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell
   run_ids:
-  - >-
-    viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791944482__977ceb
+  - viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791944482__977ceb
   finding_ids:
   - og04-mixed-amphiphile-window
   - og04-individuality-without-isolation
@@ -115,10 +59,7 @@ arms:
   - og04-mix-fraction-gotcha
 - id: 04_alt_endogenous_boundary
   source_study: og-04-alt-endogenous-boundary
-  concept_role: >-
-    Alt boundary — endogenous: can a protocell boundary be built from the campaign's OWN carbon chemistry
-    (not an exogenous amphiphile feed), conserving matter? Realized: supported — an endogenous boundary
-    forms with a closed rewrite/matter ledger.
+  concept_role: 'Alt boundary — endogenous: can a protocell boundary be built from the campaign''s OWN carbon chemistry (not an exogenous amphiphile feed), conserving matter? Realized: supported — an endogenous boundary forms with a closed rewrite/matter ledger.'
   fidelity: mechanistic_prediction
   verdict: supported
   gate_status: passed
@@ -130,11 +71,7 @@ arms:
   - endogenous-boundary-forms
 - id: 31_protometabolism_to_amphiphiles
   source_study: og-31-protometabolism-to-amphiphiles
-  concept_role: >-
-    Gate-C membrane benefit: does protometabolism-produced amphiphile encapsulation pay against a matched
-    equal-feed null — on persistence, access window, or throughput? Realized: qualified — the membrane
-    pays on persistence (and an access window), not throughput; benefit is windowed; the connectivity
-    proxy is brittle at high TOC.
+  concept_role: 'Gate-C membrane benefit: does protometabolism-produced amphiphile encapsulation pay against a matched equal-feed null — on persistence, access window, or throughput? Realized: qualified — the membrane pays on persistence (and an access window), not throughput; benefit is windowed; the connectivity proxy is brittle at high TOC.'
   fidelity: mechanistic_prediction
   verdict: qualified
   gate_status: passed
@@ -149,17 +86,12 @@ arms:
   - og31-connectivity-brittle-highTOC
 - id: 32_first_self_maintaining_protocell
   source_study: og-32-first-self-maintaining-protocell
-  concept_role: >-
-    Canonical Gate-C keystone — the first self-maintaining protocell: does the integrated compartment
-    self-maintain its membrane integrity and beat a matched ablation (flux or persistence), with MD-informed
-    permeability? Realized: qualified — self-maintains and beats ablation within a window; permeability
-    is MD-informed; the advance over og-31 is the integrated self-maintenance.
+  concept_role: 'Canonical Gate-C keystone — the first self-maintaining protocell: does the integrated compartment self-maintain its membrane integrity and beat a matched ablation (flux or persistence), with MD-informed permeability? Realized: qualified — self-maintains and beats ablation within a window; permeability is MD-informed; the advance over og-31 is the integrated self-maintenance.'
   fidelity: mechanistic_prediction
   verdict: qualified
   gate_status: passed
   matched_null: beats-ablation-flux-or-persistence
-  composite: >-
-    viva_genesis.composites.og_32_first_self_maintaining_protocell.og_32_first_self_maintaining_protocell
+  composite: viva_genesis.composites.og_32_first_self_maintaining_protocell.og_32_first_self_maintaining_protocell
   run_ids: []
   finding_ids:
   - og32-self-maintains-or-net-cost
@@ -168,18 +100,12 @@ arms:
   canonical: true
 - id: 32b_fatty_acid_vesicle_stability
   source_study: og-32b-fatty-acid-vesicle-stability
-  concept_role: >-
-    Sharpened live-MD arm — replaces og-32's DLPC/DPPC phospholipid stand-in with real fatty-acid Martini
-    3 vesicle MD: are protonated fatty-acid vesicles stable across C10-C16, and does a fully-charged null
-    micellise? Realized: qualified — protonated vesicles stable across the window (multi-seed), the charged-only
-    null micellises at the short+charged corner; a short-MD stability trend (fixed-charge, not titratable),
-    gold-standard PMF tracked as og-32a.
+  concept_role: 'Sharpened live-MD arm — replaces og-32''s DLPC/DPPC phospholipid stand-in with real fatty-acid Martini 3 vesicle MD: are protonated fatty-acid vesicles stable across C10-C16, and does a fully-charged null micellise? Realized: qualified — protonated vesicles stable across the window (multi-seed), the charged-only null micellises at the short+charged corner; a short-MD stability trend (fixed-charge, not titratable), gold-standard PMF tracked as og-32a.'
   fidelity: mechanistic_prediction
   verdict: qualified
   gate_status: passed
   matched_null: charged-null-destabilises
-  composite: >-
-    viva_genesis.composites.og_32_first_self_maintaining_protocell.og_32_first_self_maintaining_protocell
+  composite: viva_genesis.composites.og_32_first_self_maintaining_protocell.og_32_first_self_maintaining_protocell
   run_ids: []
   finding_ids:
   - og32b-protonated-vesicles-stable-across-window
@@ -187,8 +113,7 @@ arms:
   - og32b-real-amphiphile-replaces-standin
 - id: mem_m1_amphiphile_assembly
   source_study: mem-m1-amphiphile-assembly
-  concept_role: >-
-    Planned membrane-MD arm (M1): amphiphile self-assembly into a bilayer/vesicle at CG resolution.
+  concept_role: 'Planned membrane-MD arm (M1): amphiphile self-assembly into a bilayer/vesicle at CG resolution.'
   status: planned
   fidelity: null
   verdict: null
@@ -212,8 +137,7 @@ arms:
   note: scaffolded / planned membrane-MD arm, not run
 - id: mem_m5_functional_membrane_window
   source_study: mem-m5-functional-membrane-window
-  concept_role: >-
-    Planned membrane-MD arm (M5): the functional membrane window (assembly + retention + stability jointly).
+  concept_role: 'Planned membrane-MD arm (M5): the functional membrane window (assembly + retention + stability jointly).'
   status: planned
   fidelity: null
   verdict: null
@@ -221,8 +145,7 @@ arms:
   note: scaffolded / planned membrane-MD arm, not run
 - id: ev_chemistry_membrane_overlap
   source_study: og-ev-chemistry-membrane-overlap
-  concept_role: >-
-    Planned evidence-expansion arm (B4): chemistry->membrane composition-overlap discriminator.
+  concept_role: 'Planned evidence-expansion arm (B4): chemistry->membrane composition-overlap discriminator.'
   status: planned
   fidelity: null
   verdict: null
@@ -231,9 +154,7 @@ arms:
 behavior_tests:
 - name: vesicles-form-in-window
   classification: primary
-  description: >-
-    Mixed single-chain amphiphiles form viable vesicles in the alkaline / seawater-salt window (the broadened
-    Jordan-2019 stability map).
+  description: Mixed single-chain amphiphiles form viable vesicles in the alkaline / seawater-salt window (the broadened Jordan-2019 stability map).
   measure:
     kind: derived
     path: settled_viable_compartments
@@ -249,9 +170,7 @@ behavior_tests:
   gate_class: acceptance_criterion
 - name: retention-without-isolation
   classification: primary
-  description: >-
-    Compartments retain internal chemistry AND keep external-gradient access — individuality without isolation
-    (retention × access > 0).
+  description: Compartments retain internal chemistry AND keep external-gradient access — individuality without isolation (retention × access > 0).
   measure:
     kind: derived
     path: settled_individuality_access
@@ -269,9 +188,7 @@ behavior_tests:
   band_basis: first_principles
 - name: mixed-amphiphile-advantage-over-single
   classification: primary
-  description: >-
-    Discriminating (Jordan 2019): at seawater salt the mixed amphiphiles form vesicles where a single
-    fatty acid fails — the mixed-amphiphile tolerance advantage.
+  description: 'Discriminating (Jordan 2019): at seawater salt the mixed amphiphiles form vesicles where a single fatty acid fails — the mixed-amphiphile tolerance advantage.'
   measure:
     kind: cross_run
     detail: favorable (mixed) viable vs single-fatty-acid control
@@ -286,9 +203,7 @@ behavior_tests:
 - name: membrane-transition-robust
   gate_class: regression_pin
   classification: diagnostic
-  description: >-
-    Discriminating: extreme salt / acidic pH destroy the membranes — a bounded survival region exists,
-    not an always-on membrane.
+  description: 'Discriminating: extreme salt / acidic pH destroy the membranes — a bounded survival region exists, not an always-on membrane.'
   measure:
     kind: cross_run
     detail: favorable vs extreme-salt and acidic controls
@@ -301,23 +216,16 @@ behavior_tests:
   - jordan2019promotion
 - name: boundary-forms-from-chemistry
   classification: primary
-  description: >-
-    A new individual appears in the agents map (0 -> >=1) when amphiphile is synthesised from acetate+formate
-    and clears cac; with synthesis ablated (k_synth -> 0) the amphiphile stays below cac and NO individual
-    forms.
+  description: A new individual appears in the agents map (0 -> >=1) when amphiphile is synthesised from acetate+formate and clears cac; with synthesis ablated (k_synth -> 0) the amphiphile stays below cac and NO individual forms.
   measure:
     kind: derived
     path: boundary_forms_from_chemistry
-    detail: >-
-      favorable forms individuals (n_agents>=1) AND synthesis-ablated forms none; from artifacts/endogenous_boundary_report.json
-  artifact: >-
-    workspace/studies/og-self-compartmentation/artifacts/og-04-alt-endogenous-boundary/endogenous_boundary_report.json
+    detail: favorable forms individuals (n_agents>=1) AND synthesis-ablated forms none; from artifacts/endogenous_boundary_report.json
+  artifact: workspace/studies/og-self-compartmentation/artifacts/og-04-alt-endogenous-boundary/endogenous_boundary_report.json
   pass_if:
     op: '>='
     value: 1.0
-    detail: >-
-      boundary caused by the endogenous chemistry — forms in the favorable arm, not in the synthesis-ablated
-      control
+    detail: boundary caused by the endogenous chemistry — forms in the favorable arm, not in the synthesis-ablated control
   units: dimensionless
   requires_simulation: 'yes'
   cites:
@@ -326,16 +234,12 @@ behavior_tests:
   band_basis: first_principles
 - name: rewrite-conserves-matter
   classification: primary
-  description: >-
-    Every _add boundary-formation rewrite conserves matter — the parcel withdrawn from the localized pool
-    exactly equals the new individual's internal amounts (rewrite_ok).
+  description: Every _add boundary-formation rewrite conserves matter — the parcel withdrawn from the localized pool exactly equals the new individual's internal amounts (rewrite_ok).
   measure:
     kind: derived
     path: endogenous_rewrite_conservation_ok
-    detail: >-
-      min over steps of the RewriteLedger conservation flag; from artifacts/endogenous_boundary_report.json
-  artifact: >-
-    workspace/studies/og-self-compartmentation/artifacts/og-04-alt-endogenous-boundary/endogenous_boundary_report.json
+    detail: min over steps of the RewriteLedger conservation flag; from artifacts/endogenous_boundary_report.json
+  artifact: workspace/studies/og-self-compartmentation/artifacts/og-04-alt-endogenous-boundary/endogenous_boundary_report.json
   pass_if:
     op: '>='
     value: 1.0
@@ -346,9 +250,7 @@ behavior_tests:
   band_basis: machine_precision
 - name: receives-30-handoff-bundle
   classification: secondary
-  description: >-
-    Study 31 receives the full 30→31 bundle — spatially local precursor concentrations, T, pH, residence
-    time and competing sinks — as typed inputs, verified complete before the amphiphile chemistry.
+  description: Study 31 receives the full 30→31 bundle — spatially local precursor concentrations, T, pH, residence time and competing sinks — as typed inputs, verified complete before the amphiphile chemistry.
   measure:
     kind: observable
     detail: completeness + typing of the 30→31 bundle checked against 30's emitted bundle
@@ -358,39 +260,27 @@ behavior_tests:
   requires_simulation: 'yes'
 - name: no-untracked-amphiphile-feed
   classification: secondary
-  description: >-
-    Every amphiphile in the model is produced from the study-30 product pool via explicit chain-extension/headgroup
-    chemistry; no exogenous amphiphile is fed, and hydrolysis/dilution losses are tracked.
+  description: Every amphiphile in the model is produced from the study-30 product pool via explicit chain-extension/headgroup chemistry; no exogenous amphiphile is fed, and hydrolysis/dilution losses are tracked.
   measure:
     kind: observable
-    detail: >-
-      amphiphile mass ledger — fraction traceable to the study-30 pool (target 1.0); exogenous feed (target
-      0)
+    detail: amphiphile mass ledger — fraction traceable to the study-30 pool (target 1.0); exogenous feed (target 0)
   pass_if:
     op: threshold
     detail: no untracked amphiphile feed; losses tracked
   requires_simulation: 'yes'
 - name: reaches-measured-assembly-window
   classification: secondary
-  description: >-
-    The modeled chain-length/headgroup distribution either reaches the experimentally measured critical
-    aggregation concentration and a stable phase window, or it falls short; the finding reports which,
-    with the distributions, concentrations and losses. (The "makes a membrane" half — demonstrated by
-    og-31's Martini-MD cohesion composite; secondary to this PR's benefit test.)
+  description: The modeled chain-length/headgroup distribution either reaches the experimentally measured critical aggregation concentration and a stable phase window, or it falls short; the finding reports which, with the distributions, concentrations and losses. (The "makes a membrane" half — demonstrated by og-31's Martini-MD cohesion composite; secondary to this PR's benefit test.)
   measure:
     kind: observable
-    detail: >-
-      endogenous amphiphile concentration + chain-length/headgroup distribution vs. measured CAC + phase
-      window
+    detail: endogenous amphiphile concentration + chain-length/headgroup distribution vs. measured CAC + phase window
   pass_if:
     op: threshold
     detail: concentration reaches the measured assembly window (else a reported shortfall)
   requires_simulation: 'yes'
 - name: handoff-31-to-32-complete
   classification: secondary
-  description: >-
-    The study emits the 31→32 transfer bundle — structure-resolved amphiphile pools with composition-dependent
-    assembly and permeability — as the typed input study 32 consumes.
+  description: The study emits the 31→32 transfer bundle — structure-resolved amphiphile pools with composition-dependent assembly and permeability — as the typed input study 32 consumes.
   measure:
     kind: observable
     detail: presence + typing of every field in the 31→32 transfer bundle
@@ -400,11 +290,7 @@ behavior_tests:
   requires_simulation: 'yes'
 - name: membrane-benefit-persistence
   classification: primary
-  description: >-
-    On the Gate-B pore-concentrated network, an endogenous membrane (reduced retention/access coupling,
-    Jordan-2019 vent-calibrated) raises the standing metabolite pool (total organic carbon) above a matched
-    no-endogenous-membrane ablation at equal external feed — the membrane pays for itself on persistence
-    (the Gate C benefit criterion, retention branch).
+  description: On the Gate-B pore-concentrated network, an endogenous membrane (reduced retention/access coupling, Jordan-2019 vent-calibrated) raises the standing metabolite pool (total organic carbon) above a matched no-endogenous-membrane ablation at equal external feed — the membrane pays for itself on persistence (the Gate C benefit criterion, retention branch).
   measure:
     kind: observable
     detail: total_organic_carbon(membrane) vs total_organic_carbon(ablation), equal feed
@@ -414,23 +300,17 @@ behavior_tests:
   requires_simulation: 'yes'
 - name: membrane-benefit-access-window
   classification: primary
-  description: >-
-    The persistence benefit is located as a window in membrane access — it holds for access down to ~0.45
-    and inverts below (a too-tight membrane starves the feed; the retained pool drops below the open system).
-    The vent-calibrated access sits inside the window.
+  description: The persistence benefit is located as a window in membrane access — it holds for access down to ~0.45 and inverts below (a too-tight membrane starves the feed; the retained pool drops below the open system). The vent-calibrated access sits inside the window.
   measure:
     kind: observable
     detail: membrane TOC vs ablation across an access sweep; locate the inversion boundary
   pass_if:
     op: threshold
-    detail: >-
-      a bounded access window where membrane TOC exceeds ablation, with a located failure boundary
+    detail: a bounded access window where membrane TOC exceeds ablation, with a located failure boundary
   requires_simulation: 'yes'
 - name: membrane-benefit-throughput
   classification: secondary
-  description: >-
-    Net carbon-fixation flux (throughput) under the membrane vs the ablation — expected to be flat/lower
-    (feed-limited), not improved. Reported to make the persistence-vs-throughput split explicit.
+  description: Net carbon-fixation flux (throughput) under the membrane vs the ablation — expected to be flat/lower (feed-limited), not improved. Reported to make the persistence-vs-throughput split explicit.
   measure:
     kind: observable
     detail: net_carbon_flux(membrane) vs net_carbon_flux(ablation)
@@ -440,10 +320,7 @@ behavior_tests:
   requires_simulation: 'yes'
 - name: permeability-md-informed
   classification: primary
-  description: >-
-    Membrane permeability is informed by short molecular dynamics of the amphiphile composition (real
-    Martini CG-MD bilayer thickness) rather than a free parameter - the longer-chain bilayer is thicker,
-    mapping to lower permeability and higher retention.
+  description: Membrane permeability is informed by short molecular dynamics of the amphiphile composition (real Martini CG-MD bilayer thickness) rather than a free parameter - the longer-chain bilayer is thicker, mapping to lower permeability and higher retention.
   measure:
     kind: observable
     detail: MD thickness (long 2.870 nm vs short 2.325 nm) -> permeability -> retention
@@ -454,9 +331,7 @@ behavior_tests:
   requires_simulation: 'yes'
 - name: self-maintenance-membrane-integrity
   classification: primary
-  description: >-
-    Net amphiphile production matches or exceeds degradation at input fluxes held equal to the ablation
-    - the metabolism rebuilds its own membrane at least as fast as it degrades (integrity half).
+  description: Net amphiphile production matches or exceeds degradation at input fluxes held equal to the ablation - the metabolism rebuilds its own membrane at least as fast as it degrades (integrity half).
   measure:
     kind: observable
     detail: net membrane_integrity = eta_amph*productive_flux - k_deg*M_req
@@ -466,9 +341,7 @@ behavior_tests:
   requires_simulation: 'yes'
 - name: beats-ablation-flux-or-persistence
   classification: primary
-  description: >-
-    The compartmented system exceeds the matched no-endogenous-membrane ablation on productive flux OR
-    persistence (standing metabolite pool) at input fluxes held equal - the benefit half of self-maintenance.
+  description: The compartmented system exceeds the matched no-endogenous-membrane ablation on productive flux OR persistence (standing metabolite pool) at input fluxes held equal - the benefit half of self-maintenance.
   measure:
     kind: observable
     detail: productive_flux + standing pool
@@ -480,9 +353,7 @@ behavior_tests:
   requires_simulation: 'yes'
 - name: matched-null-equal-feeds
   classification: primary
-  description: >-
-    The no-endogenous-membrane ablation (permeability open, retention 0) is fed exactly the same external
-    fluxes, so any Gate C benefit is a margin over the control, not more input.
+  description: The no-endogenous-membrane ablation (permeability open, retention 0) is fed exactly the same external fluxes, so any Gate C benefit is a margin over the control, not more input.
   measure:
     kind: observable
     detail: external feed ledger - membrane vs ablation feeds held equal
@@ -492,9 +363,7 @@ behavior_tests:
   requires_simulation: 'yes'
 - name: self-maintenance-windowed
   classification: secondary
-  description: >-
-    The self-maintenance result is windowed, not a single favorable point - integrity holds only up to
-    a located degradation-rate boundary, and the persistence benefit tracks the MD composition.
+  description: The self-maintenance result is windowed, not a single favorable point - integrity holds only up to a located degradation-rate boundary, and the persistence benefit tracks the MD composition.
   measure:
     kind: observable
     detail: k_deg boundary sweep + composition (short/long) sweep
@@ -504,23 +373,18 @@ behavior_tests:
   requires_simulation: 'yes'
 - name: protonated-vesicle-stable
   classification: primary
-  description: >-
-    Protonated fatty-acid vesicles retain a closed bilayer shell (populated inner leaflet + coherent head
-    shell) across the C10-C16 chain-length window, over independent MD seeds.
+  description: Protonated fatty-acid vesicles retain a closed bilayer shell (populated inner leaflet + coherent head shell) across the C10-C16 chain-length window, over independent MD seeds.
   measure:
     kind: observable
     detail: mean inner_leaflet_fraction + head_radial_cv across seeds
     per chain: null
   pass_if:
     op: threshold
-    detail: >-
-      inner_leaflet_fraction mean >= 0.20 AND head_radial_cv mean <= 0.35 for all protonated chains
+    detail: inner_leaflet_fraction mean >= 0.20 AND head_radial_cv mean <= 0.35 for all protonated chains
   requires_simulation: 'yes'
 - name: charged-null-destabilises
   classification: primary
-  description: >-
-    The matched charged-only null (same chain, fully-ionised SQ5n heads) destabilises toward a micelle
-    at the short-chain corner - the control that should FAIL the bilayer criterion.
+  description: The matched charged-only null (same chain, fully-ionised SQ5n heads) destabilises toward a micelle at the short-chain corner - the control that should FAIL the bilayer criterion.
   measure:
     kind: observable
     detail: charged-null head_radial_cv + inner_leaflet
@@ -531,9 +395,7 @@ behavior_tests:
   requires_simulation: 'yes'
 - name: real-fatty-acid-not-standin
   classification: primary
-  description: >-
-    The amphiphile is the real single-chain fatty acid (viva-openmm Martini 3 fatty-acid defs + vesicle
-    builder), replacing og-32's DLPC/DPPC phospholipid planar-bilayer stand-in.
+  description: The amphiphile is the real single-chain fatty acid (viva-openmm Martini 3 fatty-acid defs + vesicle builder), replacing og-32's DLPC/DPPC phospholipid planar-bilayer stand-in.
   measure:
     kind: observable
     detail: vesicle built from martini_v3.0.0_fatty_acids_v1.itp FAnn/FAnnM
@@ -544,9 +406,7 @@ behavior_tests:
   requires_simulation: 'yes'
 - name: multi-seed-robust
   classification: secondary
-  description: >-
-    Each arm's verdict is taken on the mean of >= 3 independent MD replicates with the spread reported,
-    not a single trajectory - so a near-threshold arm is not a coin-flip.
+  description: Each arm's verdict is taken on the mean of >= 3 independent MD replicates with the spread reported, not a single trajectory - so a near-threshold arm is not a coin-flip.
   measure:
     kind: observable
     detail: per-arm n_seeds
@@ -559,17 +419,13 @@ behavior_tests:
 findings:
 - id: og04-mixed-amphiphile-window
   evidence_basis: calibrated
-  evidence_basis_note: "Mixed-amphiphile vesicle viability where a single fatty acid fails reproduces the experimental window at vent pH / seawater ionic strength."
+  evidence_basis_note: Mixed-amphiphile vesicle viability where a single fatty acid fails reproduces the experimental window at vent pH / seawater ionic strength.
   provenance:
     run_ids:
-    - >-
-      viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791944482__977ceb
+    - viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791944482__977ceb
   kind: computational
   status: confirms
-  statement: >-
-    Mixed single-chain amphiphiles form viable vesicles at alkaline vent pH and seawater ionic strength,
-    where a single fatty acid does not — reproducing the Jordan-2019 broadening of the pH / salt / divalent
-    stability window.
+  statement: Mixed single-chain amphiphiles form viable vesicles at alkaline vent pH and seawater ionic strength, where a single fatty acid does not — reproducing the Jordan-2019 broadening of the pH / salt / divalent stability window.
   evidence:
     from_test: vesicles-form-in-window
     observed: mixed viable ~8000; single-fatty-acid viable 0 at 0.35 M salt
@@ -577,20 +433,14 @@ findings:
   expected:
     cites:
     - jordan2019promotion
-  explanation: >-
-    ProtocellAssemblyProcess broadens the pH window + salt/divalent tolerance with the co-surfactant fraction
-    (coarse-grained, Jordan-calibrated).
+  explanation: ProtocellAssemblyProcess broadens the pH window + salt/divalent tolerance with the co-surfactant fraction (coarse-grained, Jordan-calibrated).
 - id: og04-individuality-without-isolation
   provenance:
     run_ids:
-    - >-
-      viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791944482__977ceb
+    - viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791944482__977ceb
   kind: computational
   status: novel
-  statement: >-
-    The viable compartments retain internal chemistry (retention 0.91) while staying permeable to the
-    external gradient (access 1.0) — a non-empty individuality-without-isolation region (product ≈ 0.90),
-    the key requirement for a protocell that does not cut itself off from geochemical energy.
+  statement: The viable compartments retain internal chemistry (retention 0.91) while staying permeable to the external gradient (access 1.0) — a non-empty individuality-without-isolation region (product ≈ 0.90), the key requirement for a protocell that does not cut itself off from geochemical energy.
   evidence:
     from_test: retention-without-isolation
     observed: retention 0.91 × access 1.0 ≈ 0.90
@@ -598,225 +448,177 @@ findings:
     cites:
     - jordan2019promotion
     - sutherland2017opinion
-  explanation: >-
-    Selective permeability — low effective permeability to large/charged internal metabolites, higher
-    to small external resources.
+  explanation: Selective permeability — low effective permeability to large/charged internal metabolites, higher to small external resources.
 - id: og04-retention-access-plane
   provenance:
     run_ids:
-    - >-
-      viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791944482__977ceb
+    - viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791944482__977ceb
   kind: computational
   status: novel
-  statement: >-
-    Sweeping permeability (via temperature) traces the compartment through three regimes on the retention-access
-    plane — too closed (retains but starves; low T), a viable window (individuality + access, peak ret×acc
-    ≈ 0.92 at ~310 K), and too open (leaks; high T) before the membrane destabilizes entirely. Orthogonally,
-    the viable salt ceiling rises with co-surfactant fraction: the feasibility map marks a viable region
-    (individuality > 0.1) at 63/256 points (~25%) — vesicles survive at seawater salt (0.35 M) and beyond
-    only with enough co-surfactant — the Jordan mixed-amphiphile advantage as a bounded 2-D region, not
-    a single point.
+  statement: 'Sweeping permeability (via temperature) traces the compartment through three regimes on the retention-access plane — too closed (retains but starves; low T), a viable window (individuality + access, peak ret×acc ≈ 0.92 at ~310 K), and too open (leaks; high T) before the membrane destabilizes entirely. Orthogonally, the viable salt ceiling rises with co-surfactant fraction: the feasibility map marks a viable region (individuality > 0.1) at 63/256 points (~25%) — vesicles survive at seawater salt (0.35 M) and beyond only with enough co-surfactant — the Jordan mixed-amphiphile advantage as a bounded 2-D region, not a single point.'
   evidence:
     from_test: mixed-amphiphile-advantage-over-single
-    observed: >-
-      retention 0.97→0 and access rising to 1.00 then falling to 0 across 285–360 K; feasibility viable
-      (individ>0.1) at 63/256 points, viable salt ceiling rising with mix_fraction
+    observed: retention 0.97→0 and access rising to 1.00 then falling to 0 across 285–360 K; feasibility viable (individ>0.1) at 63/256 points, viable salt ceiling rising with mix_fraction
     units: dimensionless
   expected:
     cites:
     - jordan2019promotion
     - sutherland2017opinion
-  explanation: >-
-    Temperature sweep → retention-access arc; (mix × ionic strength) sweep → salt-tolerance feasibility
-    map; rendered as the retention-access Decision view.
+  explanation: Temperature sweep → retention-access arc; (mix × ionic strength) sweep → salt-tolerance feasibility map; rendered as the retention-access Decision view.
 - id: og04-mix-fraction-gotcha
   provenance:
     run_ids:
-    - >-
-      viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791944482__977ceb
+    - viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791944482__977ceb
   kind: methodological
-  status: novel
-  statement: >-
-    The parameter sweep exposed that an exact mix_fraction=0.0 is swallowed by process-bigraph's is_empty(Float,
-    0.0) and refilled with the default (0.4), which would silently turn the single-fatty-acid control
-    into a mixed-amphiphile run. The composite now clamps 0.0 to a negligible 1e-6 and reads mix_fraction
-    via a state input, so the control is honored. (The study runner had already dodged it with 0.001.)
-  explanation: >-
-    A sweep axis starting at exactly 0.0 revealed the gotcha; the fix hardens the composite for any caller
-    passing 0.0.
+  status: caveat
+  statement: The parameter sweep exposed that an exact mix_fraction=0.0 is swallowed by process-bigraph's is_empty(Float, 0.0) and refilled with the default (0.4), which would silently turn the single-fatty-acid control into a mixed-amphiphile run. The composite now clamps 0.0 to a negligible 1e-6 and reads mix_fraction via a state input, so the control is honored. (The study runner had already dodged it with 0.001.)
+  explanation: A sweep axis starting at exactly 0.0 revealed the gotcha; the fix hardens the composite for any caller passing 0.0.
 - id: endogenous-boundary-forms
   provenance:
     run_ids:
     - viva_genesis.composites.endogenous_boundary.endogenous_boundary__1792350382__6fe7d7
   kind: computational
   status: confirms
-  statement: >-
-    The boundary forms from acetate+formate-derived amphiphile; with synthesis ablated it does not — boundary
-    formation is caused by the endogenous chemistry.
+  statement: The boundary forms from acetate+formate-derived amphiphile; with synthesis ablated it does not — boundary formation is caused by the endogenous chemistry.
   evidence:
     from_test: boundary-forms-from-chemistry
   cites:
   - jordan2019promotion
 - id: og31-membrane-pays-on-persistence
   evidence_basis: predicted
-  evidence_basis_note: "The persistence benefit is a model output at the Jordan-2019-calibrated retention 0.905 / access 0.997."
+  evidence_basis_note: The persistence benefit is a model output at the Jordan-2019-calibrated retention 0.905 / access 0.997.
   kind: computational
   status: confirms
-  statement: >-
-    Under the reduced-coupling model, at the Jordan-2019 vent-calibrated retention 0.905 / access 0.997,
-    an endogenous membrane raises the standing metabolite pool (TOC) to about 2.9x the no-membrane ablation
-    on the Gate-B pore-concentrated carbon-fixing network - the membrane pays for itself on persistence.
-    Guardrail: this network is the sustained A1 carbon-fixing metabolism, not autocatalytic (A2 is refuted),
-    so this is "a persisting network makes a membrane that pays for itself," not autocatalysis.
+  statement: 'Under the reduced-coupling model, at the Jordan-2019 vent-calibrated retention 0.905 / access 0.997, an endogenous membrane raises the standing metabolite pool (TOC) to about 2.9x the no-membrane ablation on the Gate-B pore-concentrated carbon-fixing network - the membrane pays for itself on persistence. Guardrail: this network is the sustained A1 carbon-fixing metabolism, not autocatalytic (A2 is refuted), so this is "a persisting network makes a membrane that pays for itself," not autocatalysis.'
   evidence:
     from_test: membrane-benefit-persistence
   expected:
     cites:
     - jordan2019promotion
+  provenance:
+    run_ids:
+    - viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791944482__977ceb
+    - viva_genesis.composites.endogenous_boundary.endogenous_boundary__1792350382__6fe7d7
+    basis: study canonical run — the acceptance gate passed and was evaluated against this run; its per-gate value is not surfaced in the run outcomes summary, so provenance is recorded at study-run granularity.
 - id: og31-throughput-not-improved
   kind: computational
   status: contradicts
-  statement: >-
-    Net carbon-fixation flux under the membrane is about 0.6x the ablation - lower, not higher. Throughput
-    is feed-limited, so reduced washout grows the standing pool, not the fixation rate; the benefit is
-    on persistence, not throughput, and is reported as such. (The physically-expected result, not a shortfall:
-    compartmentalization buys retention/concentration, not faster chemistry.)
+  statement: 'Net carbon-fixation flux under the membrane is about 0.6x the ablation - lower, not higher. Throughput is feed-limited, so reduced washout grows the standing pool, not the fixation rate; the benefit is on persistence, not throughput, and is reported as such. (The physically-expected result, not a shortfall: compartmentalization buys retention/concentration, not faster chemistry.)'
   evidence:
     from_test: membrane-benefit-throughput
 - id: og31-persistence-benefit-windowed
   kind: computational
   status: partial
-  statement: >-
-    The persistence benefit is windowed - it holds for membrane access down to about 0.45 and inverts
-    below ~0.45, where a too-tight membrane starves the feed and the retained pool drops below the open
-    system. The failure boundary is located and the vent-calibrated access (0.997) sits inside the window
-    (mirrors Gate B's windowed discipline).
+  statement: The persistence benefit is windowed - it holds for membrane access down to about 0.45 and inverts below ~0.45, where a too-tight membrane starves the feed and the retained pool drops below the open system. The failure boundary is located and the vent-calibrated access (0.997) sits inside the window (mirrors Gate B's windowed discipline).
   evidence:
     from_test: membrane-benefit-access-window
 - id: og31-reduced-coupling-scope
   kind: methodological
   status: novel
-  statement: >-
-    This is a reduced-coupling membrane model (retention/access), explicitly NOT the MD-resolved permeability
-    PMF. It is the "benefits from it" half of Gate C and complements og-31's Martini-MD cohesion (the
-    "makes a membrane" half). The structurally-resolved coupling (amphiphile composition to permeability
-    to retention) and thus full Gate C requires study 32 (First Self-Maintaining Protocell) plus the viva-md-membrane
-    coupling (to-build).
+  statement: This is a reduced-coupling membrane model (retention/access), explicitly NOT the MD-resolved permeability PMF. It is the "benefits from it" half of Gate C and complements og-31's Martini-MD cohesion (the "makes a membrane" half). The structurally-resolved coupling (amphiphile composition to permeability to retention) and thus full Gate C requires study 32 (First Self-Maintaining Protocell) plus the viva-md-membrane coupling (to-build).
   evidence:
     from_test: membrane-benefit-persistence
+  provenance:
+    run_ids:
+    - viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791944482__977ceb
+    - viva_genesis.composites.endogenous_boundary.endogenous_boundary__1792350382__6fe7d7
+    basis: study canonical run — the acceptance gate passed and was evaluated against this run; its per-gate value is not surfaced in the run outcomes summary, so provenance is recorded at study-run granularity.
 - id: og31-connectivity-brittle-highTOC
   kind: methodological
   status: novel
-  statement: >-
-    As in Gate B, the network_connected proxy is brittle at high standing pool - membrane connectivity
-    reads 0 at high TOC accumulation. This is flagged and does not change the persistence result, which
-    is based on the standing metabolite pool (TOC), not connectivity.
+  statement: As in Gate B, the network_connected proxy is brittle at high standing pool - membrane connectivity reads 0 at high TOC accumulation. This is flagged and does not change the persistence result, which is based on the standing metabolite pool (TOC), not connectivity.
   evidence:
     from_test: membrane-benefit-access-window
+  provenance:
+    run_ids:
+    - viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791944482__977ceb
+    - viva_genesis.composites.endogenous_boundary.endogenous_boundary__1792350382__6fe7d7
+    basis: study canonical run — the acceptance gate passed and was evaluated against this run; its per-gate value is not surfaced in the run outcomes summary, so provenance is recorded at study-run granularity.
 - id: og32-self-maintains-or-net-cost
   kind: computational
   status: confirms
-  statement: >-
-    At equal feeds vs the no-endogenous-membrane ablation, the compartment self-maintains in the measurable
-    form (verdict qualified). (i) Integrity: net amphiphile production 3.48e-5 >= degradation 1.0e-7 (eta_amph
-    0.10, k_deg 1e-4/s, M_req 1e-3 M) - maintained. (ii) Benefit: the membrane beats the ablation on persistence
-    (standing organic carbon 1.77e-2 vs 8.96e-3, 1.98x) but not on throughput (net carbon flux 0.79x,
-    feed-limited) - so the benefit is retention, not faster chemistry, exactly as og-31 found under the
-    reduced coupling. Self-maintaining = integrity and benefit = true; qualified because the benefit is
-    persistence-only and the coupling is MD-informed, not PMF-resolved. Guardrail: the metabolism is the
-    sustained A1 carbon-fixing network, not autocatalytic.
+  statement: 'At equal feeds vs the no-endogenous-membrane ablation, the compartment self-maintains in the measurable form (verdict qualified). (i) Integrity: net amphiphile production 3.48e-5 >= degradation 1.0e-7 (eta_amph 0.10, k_deg 1e-4/s, M_req 1e-3 M) - maintained. (ii) Benefit: the membrane beats the ablation on persistence (standing organic carbon 1.77e-2 vs 8.96e-3, 1.98x) but not on throughput (net carbon flux 0.79x, feed-limited) - so the benefit is retention, not faster chemistry, exactly as og-31 found under the reduced coupling. Self-maintaining = integrity and benefit = true; qualified because the benefit is persistence-only and the coupling is MD-informed, not PMF-resolved. Guardrail: the metabolism is the sustained A1 carbon-fixing network, not autocatalytic.'
   evidence:
     from_test: self-maintenance-membrane-integrity
   expected:
     cites:
     - natchem2023osmoticgrowth
     - hanczyc2003experimental
+  provenance:
+    run_ids:
+    - viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791944482__977ceb
+    - viva_genesis.composites.endogenous_boundary.endogenous_boundary__1792350382__6fe7d7
+    basis: study canonical run — the acceptance gate passed and was evaluated against this run; its per-gate value is not surfaced in the run outcomes summary, so provenance is recorded at study-run granularity.
 - id: og32-md-informed-permeability
   kind: computational
   status: confirms
-  statement: >-
-    Membrane permeability is informed by real short Martini 3 CG-MD of the amphiphile composition, not
-    a free parameter: the long di-C16 bilayer (thickness 2.870 nm) is thicker than the short di-C12 one
-    (2.325 nm), and a published solubility-diffusion structure->permeability relation (a labelled proposed_input)
-    maps that to lower permeability (0.256 vs 1.0 rel.) and higher retention (0.661 vs 0.333); retention
-    lowers effective washout and raises the standing pool, so composition informs permeability informs
-    retention. This is an MD-informed structural proxy, NOT a PMF-resolved permeability (Option A, study
-    og-32a). It tightens the composition->permeability->retention chain that og-31 approximated with a
-    reduced-coupling proxy.
+  statement: 'Membrane permeability is informed by real short Martini 3 CG-MD of the amphiphile composition, not a free parameter: the long di-C16 bilayer (thickness 2.870 nm) is thicker than the short di-C12 one (2.325 nm), and a published solubility-diffusion structure->permeability relation (a labelled proposed_input) maps that to lower permeability (0.256 vs 1.0 rel.) and higher retention (0.661 vs 0.333); retention lowers effective washout and raises the standing pool, so composition informs permeability informs retention. This is an MD-informed structural proxy, NOT a PMF-resolved permeability (Option A, study og-32a). It tightens the composition->permeability->retention chain that og-31 approximated with a reduced-coupling proxy.'
   evidence:
     from_test: permeability-md-informed
+  provenance:
+    run_ids:
+    - viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791944482__977ceb
+    - viva_genesis.composites.endogenous_boundary.endogenous_boundary__1792350382__6fe7d7
+    basis: study canonical run — the acceptance gate passed and was evaluated against this run; its per-gate value is not surfaced in the run outcomes summary, so provenance is recorded at study-run granularity.
 - id: og32-gate-c-advance-over-og31
   kind: methodological
   status: confirms
-  statement: >-
-    Study 32 takes full Gate C on an MD-informed first cut (Option B): composition-informed permeability->retention
-    with the measurable self-maintenance criterion (integrity + persistence benefit over the matched ablation),
-    verdict qualified - advancing og-31's partial, reduced-coupling result by deriving retention from
-    a real MD observable rather than a free knob. The matched-null is the no-endogenous-membrane ablation
-    at equal feeds; self-maintenance is the measurable criterion, not strict autopoietic closure. The
-    result is windowed (integrity holds up to k_deg <= ~0.01/s; the persistence benefit tracks the MD
-    composition). The PMF-resolved permeability (Option A, og-32a) is the gold-standard budgeted follow-up
-    that would re-test the verdict under a structurally-resolved permeability.
+  statement: 'Study 32 takes full Gate C on an MD-informed first cut (Option B): composition-informed permeability->retention with the measurable self-maintenance criterion (integrity + persistence benefit over the matched ablation), verdict qualified - advancing og-31''s partial, reduced-coupling result by deriving retention from a real MD observable rather than a free knob. The matched-null is the no-endogenous-membrane ablation at equal feeds; self-maintenance is the measurable criterion, not strict autopoietic closure. The result is windowed (integrity holds up to k_deg <= ~0.01/s; the persistence benefit tracks the MD composition). The PMF-resolved permeability (Option A, og-32a) is the gold-standard budgeted follow-up that would re-test the verdict under a structurally-resolved permeability.'
   evidence:
     from_test: beats-ablation-flux-or-persistence
+  provenance:
+    run_ids:
+    - viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791944482__977ceb
+    - viva_genesis.composites.endogenous_boundary.endogenous_boundary__1792350382__6fe7d7
+    basis: study canonical run — the acceptance gate passed and was evaluated against this run; its per-gate value is not surfaced in the run outcomes summary, so provenance is recorded at study-run granularity.
 - id: og32b-protonated-vesicles-stable-across-window
   evidence_basis: predicted
-  evidence_basis_note: "Bilayer stability across the protonation window is a real Martini-3 CG-MD result (3 seeds/arm)."
+  evidence_basis_note: Bilayer stability across the protonation window is a real Martini-3 CG-MD result (3 seeds/arm).
   kind: computational
   status: confirms
-  statement: >-
-    Real single-chain fatty-acid vesicles (viva-openmm Martini 3, ~1054 lipids, 3 independent MD seeds/arm)
-    hold a closed bilayer across the entire protonated C10-C16 chain window: every chain keeps a populated
-    inner leaflet (inner_leaflet_fraction 0.39-0.41, well above the 0.20 bilayer threshold) and a coherent,
-    non-dispersed head shell (head_radial_cv 0.227-0.247, well below the 0.35 micelle threshold), with
-    all 3/3 seeds stable at each chain and tight spread (std <= 0.01). So the protocell boundary forms
-    and holds for the real amphiphile across the chain-length axis on this short-MD stability trend.
+  statement: 'Real single-chain fatty-acid vesicles (viva-openmm Martini 3, ~1054 lipids, 3 independent MD seeds/arm) hold a closed bilayer across the entire protonated C10-C16 chain window: every chain keeps a populated inner leaflet (inner_leaflet_fraction 0.39-0.41, well above the 0.20 bilayer threshold) and a coherent, non-dispersed head shell (head_radial_cv 0.227-0.247, well below the 0.35 micelle threshold), with all 3/3 seeds stable at each chain and tight spread (std <= 0.01). So the protocell boundary forms and holds for the real amphiphile across the chain-length axis on this short-MD stability trend.'
   evidence:
     from_test: protonated-vesicle-stable
   expected:
     cites:
     - janke2014oleic
     - pedersen2025lipidome
+  provenance:
+    run_ids:
+    - viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791944482__977ceb
+    - viva_genesis.composites.endogenous_boundary.endogenous_boundary__1792350382__6fe7d7
+    basis: study canonical run — the acceptance gate passed and was evaluated against this run; its per-gate value is not surfaced in the run outcomes summary, so provenance is recorded at study-run granularity.
 - id: og32b-charged-null-micellises-short-corner
   kind: computational
   status: confirms
-  statement: >-
-    The matched null - the SAME fatty acid with fully-ionised charged-only (SQ5n) heads - micellises at
-    the short-chain corner: C10 charged disperses in all 3/3 seeds (head_radial_cv 0.433 +/- 0.009, above
-    the 0.35 threshold), the control that should fail. The charge effect is chain-length-gated within
-    this short window: C14 charged still holds a coherent shell (cv 0.296 +/- 0.009, 3/3 stable), i.e.
-    charge-driven micellisation of the longer chains is slower than ~0.8 ns CPU-MD resolves. So the destabilising
-    corner is short chain + fully charged, exactly where fatty-acid physics (highest curvature + strongest
-    headgroup repulsion) predicts the vesicle-forming threshold is crossed; the converged charge/chain
-    boundary is the GPU gold-standard follow-up.
+  statement: 'The matched null - the SAME fatty acid with fully-ionised charged-only (SQ5n) heads - micellises at the short-chain corner: C10 charged disperses in all 3/3 seeds (head_radial_cv 0.433 +/- 0.009, above the 0.35 threshold), the control that should fail. The charge effect is chain-length-gated within this short window: C14 charged still holds a coherent shell (cv 0.296 +/- 0.009, 3/3 stable), i.e. charge-driven micellisation of the longer chains is slower than ~0.8 ns CPU-MD resolves. So the destabilising corner is short chain + fully charged, exactly where fatty-acid physics (highest curvature + strongest headgroup repulsion) predicts the vesicle-forming threshold is crossed; the converged charge/chain boundary is the GPU gold-standard follow-up.'
   evidence:
     from_test: charged-null-destabilises
+  provenance:
+    run_ids:
+    - viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791944482__977ceb
+    - viva_genesis.composites.endogenous_boundary.endogenous_boundary__1792350382__6fe7d7
+    basis: study canonical run — the acceptance gate passed and was evaluated against this run; its per-gate value is not surfaced in the run outcomes summary, so provenance is recorded at study-run granularity.
 - id: og32b-real-amphiphile-replaces-standin
   kind: methodological
   status: confirms
-  statement: >-
-    This study replaces og-32's DLPC/DPPC phospholipid planar-bilayer stand-in with the real protocell
-    amphiphile: a closed bilayer vesicle of single-chain fatty acids built + integrated in martini_openmm
-    (Martini 3 fatty-acid defs FAnn/FAnnM + vesicle builder + semi-isotropic membrane barostat, finite
-    energy). The Gate-C boundary is now the actual amphiphile, judged by a bilayer-vs-micelle discriminator
-    (inner-leaflet / lumen retention) over >= 3 seeds. Verdict qualified: a short-MD stability trend,
-    not a converged micellisation equilibrium or a permeability PMF - those are the GPU gold-standard
-    follow-ups (og-32c self-assembly, og-32a PMF). The SP2/SQ5n head is a tracked Martini-3 building-block
-    proposed_input; the C1 tails are authoritative.
+  statement: 'This study replaces og-32''s DLPC/DPPC phospholipid planar-bilayer stand-in with the real protocell amphiphile: a closed bilayer vesicle of single-chain fatty acids built + integrated in martini_openmm (Martini 3 fatty-acid defs FAnn/FAnnM + vesicle builder + semi-isotropic membrane barostat, finite energy). The Gate-C boundary is now the actual amphiphile, judged by a bilayer-vs-micelle discriminator (inner-leaflet / lumen retention) over >= 3 seeds. Verdict qualified: a short-MD stability trend, not a converged micellisation equilibrium or a permeability PMF - those are the GPU gold-standard follow-ups (og-32c self-assembly, og-32a PMF). The SP2/SQ5n head is a tracked Martini-3 building-block proposed_input; the C1 tails are authoritative.'
   evidence:
     from_test: real-fatty-acid-not-standin
+  provenance:
+    run_ids:
+    - viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791944482__977ceb
+    - viva_genesis.composites.endogenous_boundary.endogenous_boundary__1792350382__6fe7d7
+    basis: study canonical run — the acceptance gate passed and was evaluated against this run; its per-gate value is not surfaced in the run outcomes summary, so provenance is recorded at study-run granularity.
 runs:
-- name: >-
-    viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791944482__977ceb
+- name: viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791944482__977ceb
   status: completed
   timestamp: 1791944483.107282
   canonical: true
   emitter:
     kind: sqlite
-    store: >-
-      canonical-runs/viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791944482__977ceb/run.db
-  store_path: >-
-    canonical-runs/viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791944482__977ceb/run.db
+    store: canonical-runs/viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791944482__977ceb/run.db
+  store_path: canonical-runs/viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791944482__977ceb/run.db
   params: '{}'
   outcomes:
     vesicles-form-in-window:
@@ -827,9 +629,7 @@ runs:
       evaluated_by: code
       axis:
         id: vesicles-form-in-window
-        label: >-
-          Mixed single-chain amphiphiles form viable vesicles in the alkaline / seawater-salt window (the
-          broadened Jordan-2019 stability map).
+        label: Mixed single-chain amphiphiles form viable vesicles in the alkaline / seawater-salt window (the broadened Jordan-2019 stability map).
         verdict: within_tol
         value: 8000.0
         meter: 1.0
@@ -856,9 +656,7 @@ runs:
       evaluated_by: code
       axis:
         id: retention-without-isolation
-        label: >-
-          Compartments retain internal chemistry AND keep external-gradient access — individuality without
-          isolation (retention × access > 0).
+        label: Compartments retain internal chemistry AND keep external-gradient access — individuality without isolation (retention × access > 0).
         verdict: within_tol
         value: 0.902992
         meter: 1.0
@@ -882,27 +680,21 @@ runs:
       measured_value: 0
       evaluated_by: code
       operator: cross_run
-      detail: >-
-        mixed amphiphiles viable=8000 vs single fatty acid viable=0 at seawater salt (mixed forms vesicles
-        where single fails => Jordan advantage)
+      detail: mixed amphiphiles viable=8000 vs single fatty acid viable=0 at seawater salt (mixed forms vesicles where single fails => Jordan advantage)
     membrane-transition-robust:
       result: PASS
       measured_value: 0
       evaluated_by: code
       operator: cross_run
-      detail: >-
-        favorable viable=8000; extreme-salt viable=0, acidic viable=0 (controls abolish vesicles => bounded
-        survival region)
+      detail: favorable viable=8000; extreme-salt viable=0, acidic viable=0 (controls abolish vesicles => bounded survival region)
 - name: viva_genesis.composites.endogenous_boundary.endogenous_boundary__1792350382__6fe7d7
   status: completed
   timestamp: 1792350383.1556501
   canonical: true
   emitter:
     kind: sqlite
-    store: >-
-      canonical-runs/viva_genesis.composites.endogenous_boundary.endogenous_boundary__1792350382__6fe7d7/run.db
-  store_path: >-
-    canonical-runs/viva_genesis.composites.endogenous_boundary.endogenous_boundary__1792350382__6fe7d7/run.db
+    store: canonical-runs/viva_genesis.composites.endogenous_boundary.endogenous_boundary__1792350382__6fe7d7/run.db
+  store_path: canonical-runs/viva_genesis.composites.endogenous_boundary.endogenous_boundary__1792350382__6fe7d7/run.db
   params: '{}'
   outcomes:
     boundary-forms-from-chemistry:
@@ -913,10 +705,7 @@ runs:
       evaluated_by: code
       axis:
         id: boundary-forms-from-chemistry
-        label: >-
-          A new individual appears in the agents map (0 -> >=1) when amphiphile is synthesised from acetate+formate
-          and clears cac; with synthesis ablated (k_synth -> 0) the amphiphile stays below cac and NO
-          individual forms.
+        label: A new individual appears in the agents map (0 -> >=1) when amphiphile is synthesised from acetate+formate and clears cac; with synthesis ablated (k_synth -> 0) the amphiphile stays below cac and NO individual forms.
         verdict: within_tol
         value: 1.0
         meter: 0.5
@@ -943,9 +732,7 @@ runs:
       evaluated_by: code
       axis:
         id: rewrite-conserves-matter
-        label: >-
-          Every _add boundary-formation rewrite conserves matter — the parcel withdrawn from the localized
-          pool exactly equals the new individual's internal amounts (rewrite_ok).
+        label: Every _add boundary-formation rewrite conserves matter — the parcel withdrawn from the localized pool exactly equals the new individual's internal amounts (rewrite_ok).
         verdict: within_tol
         value: 1.0
         meter: 0.5
@@ -979,29 +766,17 @@ runs:
     membrane-benefit-persistence:
       result: PASS
       measured_value: 2.93
-      detail: >-
-        At Jordan-2019 vent-calibrated retention 0.905 / access 0.997, the membrane raises the standing
-        metabolite pool (TOC) to 2.93x the no-membrane ablation on the Gate-B pore-concentrated network
-        (equal external feed) - the membrane pays for itself on persistence.
+      detail: At Jordan-2019 vent-calibrated retention 0.905 / access 0.997, the membrane raises the standing metabolite pool (TOC) to 2.93x the no-membrane ablation on the Gate-B pore-concentrated network (equal external feed) - the membrane pays for itself on persistence.
     membrane-benefit-access-window:
       result: PASS
-      detail: >-
-        The persistence benefit is windowed: membrane TOC exceeds the ablation for access >= ~0.45 and
-        inverts below (0.45 -> 1.02x, 0.40 -> 0.86x), a located failure boundary where a too-tight membrane
-        starves the feed. The vent-calibrated access 0.997 sits inside the window.
+      detail: 'The persistence benefit is windowed: membrane TOC exceeds the ablation for access >= ~0.45 and inverts below (0.45 -> 1.02x, 0.40 -> 0.86x), a located failure boundary where a too-tight membrane starves the feed. The vent-calibrated access 0.997 sits inside the window.'
 - id: gate-c-full-md-informed
-  composite: >-
-    viva_genesis.composites.og_32_first_self_maintaining_protocell.og_32_first_self_maintaining_protocell
-  description: >-
-    Membrane (long di-C16, MD-informed retention 0.661) vs matched no-endogenous-membrane ablation at
-    equal feeds; membrane integrity + benefit; composition/k_deg boundary. Artifact artifacts/gate_c_full.json,
-    MD observables artifacts/md_bilayer_observables.json.
+  composite: viva_genesis.composites.og_32_first_self_maintaining_protocell.og_32_first_self_maintaining_protocell
+  description: Membrane (long di-C16, MD-informed retention 0.661) vs matched no-endogenous-membrane ablation at equal feeds; membrane integrity + benefit; composition/k_deg boundary. Artifact artifacts/gate_c_full.json, MD observables artifacts/md_bilayer_observables.json.
   outcomes:
     permeability-md-informed:
       result: PASS
-      detail: >-
-        MD thickness long 2.870 nm > short 2.325 nm -> permeability 0.256 -> retention 0.661 (composition-derived,
-        not a free parameter)
+      detail: MD thickness long 2.870 nm > short 2.325 nm -> permeability 0.256 -> retention 0.661 (composition-derived, not a free parameter)
     self-maintenance-membrane-integrity:
       result: PASS
       detail: production 3.48e-5 >= degradation 1.0e-7 (maintained)
@@ -1013,37 +788,23 @@ runs:
       detail: base_CO2 = base_H2 = 1e-3 held equal across membrane and ablation arms
     self-maintenance-windowed:
       result: PASS
-      detail: >-
-        integrity self-maintains up to k_deg <= 0.01/s; persistence benefit holds for both MD compositions
+      detail: integrity self-maintains up to k_deg <= 0.01/s; persistence benefit holds for both MD compositions
 - id: fatty-acid-vesicle-stability-sweep
-  composite: >-
-    viva_genesis.composites.og_32_first_self_maintaining_protocell.og_32_first_self_maintaining_protocell
-  description: >-
-    Real fatty-acid vesicle MD (viva-openmm) across C10/C12/C14/C16 protonated + charged-only null, 3
-    independent seeds/arm, ~1054 lipids + ~1500 waters, membrane barostat, ~0.8 ns/seed. Canonical runner
-    sims/run_fatty_acid_vesicle_stability.py; artifact artifacts/vesicle_stability.json. (MD-evidence
-    study; the composite ref is og-32's Gate-C protocell that this real-amphiphile MD feeds - see model_approach.)
+  composite: viva_genesis.composites.og_32_first_self_maintaining_protocell.og_32_first_self_maintaining_protocell
+  description: Real fatty-acid vesicle MD (viva-openmm) across C10/C12/C14/C16 protonated + charged-only null, 3 independent seeds/arm, ~1054 lipids + ~1500 waters, membrane barostat, ~0.8 ns/seed. Canonical runner sims/run_fatty_acid_vesicle_stability.py; artifact artifacts/vesicle_stability.json. (MD-evidence study; the composite ref is og-32's Gate-C protocell that this real-amphiphile MD feeds - see model_approach.)
   outcomes:
     protonated-vesicle-stable:
       result: PASS
-      detail: >-
-        all protonated C10-C16 stable 3/3 seeds: inner-leaflet 0.39-0.41 (>=0.20), head_radial_cv 0.227-0.247
-        (<=0.35), std <= 0.01
+      detail: 'all protonated C10-C16 stable 3/3 seeds: inner-leaflet 0.39-0.41 (>=0.20), head_radial_cv 0.227-0.247 (<=0.35), std <= 0.01'
     charged-null-destabilises:
       result: PASS
-      detail: >-
-        C10 charged-only micellises 0/3 (cv 0.433 +/- 0.009 > 0.35); C14 charged still holds (cv 0.296),
-        so the destabilising corner is short + charged
+      detail: C10 charged-only micellises 0/3 (cv 0.433 +/- 0.009 > 0.35); C14 charged still holds (cv 0.296), so the destabilising corner is short + charged
     real-fatty-acid-not-standin:
       result: PASS
-      detail: >-
-        real single-chain fatty-acid vesicle (FAnn/FAnnM, 1054 lipids) builds + integrates finite energy
-        under the membrane barostat - replaces og-32 DLPC/DPPC stand-in
+      detail: real single-chain fatty-acid vesicle (FAnn/FAnnM, 1054 lipids) builds + integrates finite energy under the membrane barostat - replaces og-32 DLPC/DPPC stand-in
     multi-seed-robust:
       result: PASS
-      detail: >-
-        3 independent MD seeds/arm, mean +/- std reported; all per-arm verdicts unanimous (3/3 or 0/3)
-        with tight spread
+      detail: 3 independent MD seeds/arm, mean +/- std reported; all per-arm verdicts unanimous (3/3 or 0/3) with tight spread
 visualizations:
 - name: protocell-boundary-world
   display: supplement
@@ -1052,38 +813,27 @@ visualizations:
     mix_fraction: 0.4
     ionic_strength: 0.35
     pH: 9.0
-    title: "The compartment and the gradient (World view) — SCHEMATIC, not MD data"
-    caption: >-
-      SCHEMATIC illustration, not MD-trajectory output: the vesicle cross-section geometry is an
-      illustrative render driven by the measured retention / access / individuality values — the
-      cross-section itself is not a molecular-dynamics configuration. Demoted to supplement; the
-      real-MD vesicle 3D (og-32b) and the quantitative stability map are the leads.
+    title: The compartment and the gradient (World view) — SCHEMATIC, not MD data
+    caption: 'SCHEMATIC illustration, not MD-trajectory output: the vesicle cross-section geometry is an illustrative render driven by the measured retention / access / individuality values — the cross-section itself is not a molecular-dynamics configuration. Demoted to supplement; the real-MD vesicle 3D (og-32b) and the quantitative stability map are the leads.'
 - name: protocell-window
   display: primary
   address: local:ProtocellWindowViz
   config:
     composite: viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell
-    md_json: >-
-      workspace/studies/og-self-compartmentation/artifacts/og-32-first-self-maintaining-protocell/md_bilayer_observables.json
-    vesicle_json: >-
-      workspace/studies/og-self-compartmentation/artifacts/og-32b-fatty-acid-vesicle-stability/vesicle_stability.json
+    md_json: workspace/studies/og-self-compartmentation/artifacts/og-32-first-self-maintaining-protocell/md_bilayer_observables.json
+    vesicle_json: workspace/studies/og-self-compartmentation/artifacts/og-32b-fatty-acid-vesicle-stability/vesicle_stability.json
     title: The protocell window — single-fatty-acid vs mixed-amphiphile (Decision view)
 - name: protocell-retention-access
   address: local:ProtocellPhaseMap
   config:
-    grid_json: >-
-      workspace/studies/og-self-compartmentation/artifacts/og-04-mineral-compartments-to-protocells/protocell_grid.json
+    grid_json: workspace/studies/og-self-compartmentation/artifacts/og-04-mineral-compartments-to-protocells/protocell_grid.json
     title: A boundary that retains without isolating (Decision view)
 - name: protocell-vesicle-3d
   display: supplement
   address: local:ProtocellVesicle3D
   config:
-    title: "The protocell in 3-D — a boundary that retains without isolating (World view) — SCHEMATIC, not MD data"
-    caption: >-
-      SCHEMATIC illustration, not MD-trajectory output: the vesicle geometry is an illustrative 3-D
-      render; only retention / access / individuality are measured. Demoted to supplement as a
-      redundant vesicle-3D panel — the real Martini-3 CG-MD fatty-acid vesicle 3D (og-32b) is the
-      retained primary 3D.
+    title: The protocell in 3-D — a boundary that retains without isolating (World view) — SCHEMATIC, not MD data
+    caption: 'SCHEMATIC illustration, not MD-trajectory output: the vesicle geometry is an illustrative 3-D render; only retention / access / individuality are measured. Demoted to supplement as a redundant vesicle-3D panel — the real Martini-3 CG-MD fatty-acid vesicle 3D (og-32b) is the retained primary 3D.'
 - name: endogenous-boundary-formation
   display: mechanism
   address: local:EndogenousBoundaryViz
@@ -1092,96 +842,53 @@ visualizations:
 - name: membrane-cohesion
   address: local:OgMembraneCohesionViz
   config:
-    composite: >-
-      viva_genesis.composites.og_31_protometabolism_to_amphiphiles.og_31_protometabolism_to_amphiphiles
+    composite: viva_genesis.composites.og_31_protometabolism_to_amphiphiles.og_31_protometabolism_to_amphiphiles
     n_steps: 8
     nx: 4
     ny: 4
     platform: CPU
     title: Bilayer cohesion and packing — a real Martini bilayer
-    caption: >-
-      Two panels from the Martini NVT run — potential energy settling negative as the coarse-grained bilayer
-      assembles and holds, and the equilibrium area per lipid. Plainly: the membrane snaps into a stable
-      sheet instead of dispersing, and the lipids pack at the spacing real membranes show. Rendered from
-      the real OpenMM run where the membrane extra is installed; otherwise the figure shows a note that
-      the engine is unavailable.
+    caption: 'Two panels from the Martini NVT run — potential energy settling negative as the coarse-grained bilayer assembles and holds, and the equilibrium area per lipid. Plainly: the membrane snaps into a stable sheet instead of dispersing, and the lipids pack at the spacing real membranes show. Rendered from the real OpenMM run where the membrane extra is installed; otherwise the figure shows a note that the engine is unavailable.'
 - name: self-maintaining-protocell
   address: local:OgSelfMaintainingProtocellViz
   config:
     title: The first self-maintaining protocell holds its pool
-    report_json: >-
-      workspace/studies/og-self-compartmentation/artifacts/og-32-first-self-maintaining-protocell/gate_c_full.json
-    md_json: >-
-      workspace/studies/og-self-compartmentation/artifacts/og-32-first-self-maintaining-protocell/md_bilayer_observables.json
-  rendered: >-
-    workspace/studies/og-self-compartmentation/viz/og-32-first-self-maintaining-protocell/self-maintaining-protocell.html
+    report_json: workspace/studies/og-self-compartmentation/artifacts/og-32-first-self-maintaining-protocell/gate_c_full.json
+    md_json: workspace/studies/og-self-compartmentation/artifacts/og-32-first-self-maintaining-protocell/md_bilayer_observables.json
+  rendered: workspace/studies/og-self-compartmentation/viz/og-32-first-self-maintaining-protocell/self-maintaining-protocell.html
 - name: fatty-acid-vesicle-stability
   display: primary
   address: local:OgFattyAcidVesicleStabilityViz
   config:
     title: Fatty-acid vesicles hold a bilayer across the chain window; the charged null micellises
-    report_json: >-
-      workspace/studies/og-self-compartmentation/artifacts/og-32b-fatty-acid-vesicle-stability/vesicle_stability.json
-  rendered: >-
-    workspace/studies/og-self-compartmentation/viz/og-32b-fatty-acid-vesicle-stability/fatty-acid-vesicle-stability.html
+    report_json: workspace/studies/og-self-compartmentation/artifacts/og-32b-fatty-acid-vesicle-stability/vesicle_stability.json
+  rendered: workspace/studies/og-self-compartmentation/viz/og-32b-fatty-acid-vesicle-stability/fatty-acid-vesicle-stability.html
 - name: fatty-acid-vesicle-3d-structure
   display: primary
   config:
-    title: >-
-      Fatty-acid vesicle — real Martini 3 CG-MD 3D structure (og-32b): C14 protonated, closed bilayer
-      shell + water lumen, coloured by leaflet
-  rendered: >-
-    workspace/studies/og-self-compartmentation/viz/og-32b-fatty-acid-vesicle-stability/vesicle-3d-structure.html
+    title: 'Fatty-acid vesicle — real Martini 3 CG-MD 3D structure (og-32b): C14 protonated, closed bilayer shell + water lumen, coloured by leaflet'
+  rendered: workspace/studies/og-self-compartmentation/viz/og-32b-fatty-acid-vesicle-stability/vesicle-3d-structure.html
 - name: bilayer-3d-structure
   display: supplement
   config:
-    title: >-
-      Phospholipid bilayer patch — real Martini 3 CG-MD 3D structure (og-32, DPPC stand-in), coloured
-      by leaflet
-  rendered: >-
-    workspace/studies/og-self-compartmentation/viz/og-32-first-self-maintaining-protocell/bilayer-3d-structure.html
+    title: Phospholipid bilayer patch — real Martini 3 CG-MD 3D structure (og-32, DPPC stand-in), coloured by leaflet
+  rendered: workspace/studies/og-self-compartmentation/viz/og-32-first-self-maintaining-protocell/bilayer-3d-structure.html
 - name: fatty-acid-vesicle-3d-structure-static
   display: supplement
   config:
-    title: >-
-      Fatty-acid vesicle — Martini 3 CG-MD equatorial cross-section (static render): outer-leaflet heads
-      (teal) ring inner-leaflet heads (amber) around the water lumen. Print-friendly companion to the
-      interactive 3D viewer — embeds in the downloaded PDF (where cross-iframe WebGL does not render).
-  rendered: >-
-    workspace/studies/og-self-compartmentation/viz/og-32b-fatty-acid-vesicle-stability/vesicle-3d.png
+    title: 'Fatty-acid vesicle — Martini 3 CG-MD equatorial cross-section (static render): outer-leaflet heads (teal) ring inner-leaflet heads (amber) around the water lumen. Print-friendly companion to the interactive 3D viewer — embeds in the downloaded PDF (where cross-iframe WebGL does not render).'
+  rendered: workspace/studies/og-self-compartmentation/viz/og-32b-fatty-acid-vesicle-stability/vesicle-3d.png
 - name: bilayer-3d-structure-static
   display: supplement
   config:
-    title: >-
-      Phospholipid bilayer patch — Martini 3 CG-MD side view (static render): upper-leaflet heads (teal),
-      lower-leaflet heads (amber), tails forming the hydrophobic core. Print-friendly companion for the PDF.
-  rendered: >-
-    workspace/studies/og-self-compartmentation/viz/og-32-first-self-maintaining-protocell/bilayer-3d.png
-parent_studies:
-- study: og-network-rescue
-  condition: tests-passed
-- study: og-autocatalysis-a2
-  condition: ran
-- study: og-network-persistence
-  condition: tests-passed
-consolidation_note: >-
-  Consolidates og-04-mineral-compartments-to-protocells, og-04-alt-endogenous-boundary, og-31-protometabolism-to-amphiphiles,
-  og-32-first-self-maintaining-protocell (canonical keystone, plan_id 32) and og-32b-fatty-acid-vesicle-stability
-  into the one Gate-C self-compartmentation concept, with mem-m1/m2/m3/m5 (membrane-MD sub-program) and
-  og-ev-chemistry-membrane-overlap (B4 discriminator) folded as planned arms. Each ran fold-in is an explicit
-  arm (see `arms`) keeping its own verdict, matched null, findings and run provenance; artifacts + viz
-  moved under {artifacts,viz}/<source-slug>/. og-32b replaces og-32's DLPC/DPPC phospholipid stand-in
-  with real fatty-acid Martini-3 vesicle MD; the membrane-vs-ablation and charged-null matched nulls are
-  preserved. The GPU-gated gold-standard PMF permeability (og-32a) is tracked as a follow-up (not an arm),
-  as is the per-driver membrane-MD sharpening. Numeric builds_on uses plan 2 (og-network-persistence)
-  for the reaction-network dependency (was 28) and plan 29 (og-autocatalysis-a2). The og-28 parent repoints
-  to og-network-persistence when that consolidation (#6) lands.
+    title: 'Phospholipid bilayer patch — Martini 3 CG-MD side view (static render): upper-leaflet heads (teal), lower-leaflet heads (amber), tails forming the hydrophobic core. Print-friendly companion for the PDF.'
+  rendered: workspace/studies/og-self-compartmentation/viz/og-32-first-self-maintaining-protocell/bilayer-3d.png
+consolidation_note: Consolidates og-04-mineral-compartments-to-protocells, og-04-alt-endogenous-boundary, og-31-protometabolism-to-amphiphiles, og-32-first-self-maintaining-protocell (canonical keystone, plan_id 32) and og-32b-fatty-acid-vesicle-stability into the one Gate-C self-compartmentation concept, with mem-m1/m2/m3/m5 (membrane-MD sub-program) and og-ev-chemistry-membrane-overlap (B4 discriminator) folded as planned arms. Each ran fold-in is an explicit arm (see `arms`) keeping its own verdict, matched null, findings and run provenance; artifacts + viz moved under {artifacts,viz}/<source-slug>/. og-32b replaces og-32's DLPC/DPPC phospholipid stand-in with real fatty-acid Martini-3 vesicle MD; the membrane-vs-ablation and charged-null matched nulls are preserved. The GPU-gated gold-standard PMF permeability (og-32a) is tracked as a follow-up (not an arm), as is the per-driver membrane-MD sharpening. Numeric builds_on uses plan 2 (og-network-persistence) for the reaction-network dependency
+  (was 28) and plan 29 (og-autocatalysis-a2). The og-28 parent repoints to og-network-persistence when that consolidation (#6) lands.
 conditions:
   baseline:
-  - name: >-
-      First self-maintaining protocell (integrated, MD-informed) — canonical keystone arm (og-32)
-    composite: >-
-      viva_genesis.composites.og_32_first_self_maintaining_protocell.og_32_first_self_maintaining_protocell
+  - name: First self-maintaining protocell (integrated, MD-informed) — canonical keystone arm (og-32)
+    composite: viva_genesis.composites.og_32_first_self_maintaining_protocell.og_32_first_self_maintaining_protocell
     params: {}
     canonical: true
     planned: false
@@ -1198,8 +905,41 @@ conditions:
     params: {}
     planned: false
   - name: Real fatty-acid vesicle Martini MD (protonated vs charged null) — og-32b live-MD arm
-    composite: >-
-      viva_genesis.composites.og_32_first_self_maintaining_protocell.og_32_first_self_maintaining_protocell
+    composite: viva_genesis.composites.og_32_first_self_maintaining_protocell.og_32_first_self_maintaining_protocell
     params: {}
     planned: false
   model_settings: []
+preregistered:
+  thresholds:
+    vesicles-form-in-window:
+      op: '>'
+      value: 0.0
+      detail: vesicles form (>0) in the mixed-amphiphile window
+    retention-without-isolation:
+      op: '>='
+      value: 0.3
+      detail: both retention and access nonzero (a non-empty individuality-vs-access region)
+    mixed-amphiphile-advantage-over-single:
+      op: controls_absent
+      detail: mixed forms vesicles; single fatty acid does not at the same salt
+    boundary-forms-from-chemistry:
+      op: '>='
+      value: 1.0
+      detail: boundary caused by the endogenous chemistry — forms in the favorable arm, not in the synthesis-ablated control
+    rewrite-conserves-matter:
+      op: '>='
+      value: 1.0
+      detail: rewrite_residual_max == 0 at every structural rewrite
+  basis: 'Thresholds are the investigation''s pre-stated plan-gate / acceptance criteria, recorded verbatim from each acceptance_criterion gate''s pass_if: conservation laws (ledger closure to numerical precision), literature-anchored ranges (Lost City pH/T/H2; Preiner yields; Baaske enrichment), directional priors, and matched-null / arms methodology requirements. Not fitted to results. No registered_at claimed.'
+execution_status: completed
+pipeline_gate:
+  prerequisites:
+  - study: og-network-rescue
+    condition: tests-passed
+    relation: builds-on
+  - study: og-autocatalysis-a2
+    condition: ran
+    relation: builds-on
+  - study: og-network-persistence
+    condition: tests-passed
+    relation: builds-on

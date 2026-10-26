@@ -2,59 +2,24 @@ schema_version: 4
 name: og-reproduction
 investigation: origins-of-life-vent
 created: '2026-10-18'
-phase: Evaluate
-status: ran
-design_status: approved
-simulation_status: ran
-evaluation_status: evaluated
 gate_status: passed
 confidence: Accepted
 verdict: qualified
-primary_limitation: "Sustained growth-to-division occupies only a bounded throughput x permeability band, and division is triggered at a measured area-doubling geometry (division_ratio 2.0, grounded in hanczyc/budin), not an open-ended process."
+primary_limitation: Sustained growth-to-division occupies only a bounded throughput x permeability band, and division is triggered at a measured area-doubling geometry (division_ratio 2.0, grounded in hanczyc/budin), not an open-ended process.
 key_assumptions:
-- "Growth is metabolism-coupled (an internal autocatalytic source drives osmotic influx)"
-- "Division geometry (ratio 2.0) is a proposed input grounded in the hanczyc/budin literature"
-- "Reproduction is scored against nulls where growth is decoupled or division imposed"
+- Growth is metabolism-coupled (an internal autocatalytic source drives osmotic influx)
+- Division geometry (ratio 2.0) is a proposed input grounded in the hanczyc/budin literature
+- Reproduction is scored against nulls where growth is decoupled or division imposed
 evidence_tier: mechanistic_prediction
 program: consolidated
 plan_id: 33
 title: 'Reproduction: Can Growth and Division Build a Lineage?'
-concept: >-
-  How a self-maintaining protocell reproduces — metabolism-driven growth to a measured-geometry division
-  with viable daughters, building a multi-generation lineage — one concept (Gate D), studied at several
-  fidelities as arms: the coupled growth+division gate (og-33), the growth->division fate model (og-growth-division),
-  and physical multi-generation reproduction (og-growth-alt).
-gate_reason: >-
-  Gate D (reproduction). Consolidates the growth/division line into one concept with explicit arms,
-  each judged against its own matched null with input fluxes held equal: the coupled growth+division gate
-  (og-33, canonical), the growth->division-vs-lysis/starvation fate model (og-growth-division), and physical
-  multi-generation reproduction (og-growth-alt). The headline is bounded by the most-caveated arm — qualified:
-  metabolism grows the compartment to a measured-geometry division with viable daughters and a multi-generation
-  lineage, beating the decoupled/imposed null, on a coarse-grained geometry/budget abstraction. Each arm
-  keeps its own verdict and matched null (see arms).
-claim: >-
-  A self-maintaining protocell reproduces by metabolism-coupled growth and division into a lineage. Metabolism
-  drives growth to a division at measured geometry with viable daughters, beating a null where growth
-  is decoupled from metabolism or division is imposed (og-33, qualified); net throughput grows the compartment
-  to division rather than lysis or starvation, mass-conserved, where a no-throughput ablation does not
-  (og-growth-division, supported); and a growing, dividing individual builds a >=3-generation lineage
-  with volume conserved across division (og-growth-alt, supported). Headline verdict qualified (coarse-grained
-  geometry/budget abstraction); every matched null and every arm verdict preserved.
-question: >-
-  How does a self-maintaining protocell reproduce — does metabolism drive growth to a measured-geometry
-  division with viable daughters (not lysis or starvation), building a multi-generation lineage, each
-  against its own matched null with input fluxes held equal?
-hypothesis: >-
-  Metabolic throughput grows the compartment to a geometry-set division with viable daughters and a persisting
-  lineage; each step is demonstrated only where it beats its matched null (growth decoupled/imposed, no-throughput
-  ablation), and coarse-grained abstractions are reported as such rather than tuned to a pass.
-experiment: >-
-  Run the coupled growth+division composite against a decoupled/imposed null (og-33), the growth->division
-  fate model against a no-throughput ablation (og-growth-division), and the physical reproduction model
-  to a multi-generation lineage (og-growth-alt) — reporting each arm's verdict + matched null with mass/volume
-  conservation checked, and labelling the coarse-grained limits.
-builds_on:
-- 32
+concept: 'How a self-maintaining protocell reproduces — metabolism-driven growth to a measured-geometry division with viable daughters, building a multi-generation lineage — one concept (Gate D), studied at several fidelities as arms: the coupled growth+division gate (og-33), the growth->division fate model (og-growth-division), and physical multi-generation reproduction (og-growth-alt).'
+gate_reason: 'Gate D (reproduction). Consolidates the growth/division line into one concept with explicit arms, each judged against its own matched null with input fluxes held equal: the coupled growth+division gate (og-33, canonical), the growth->division-vs-lysis/starvation fate model (og-growth-division), and physical multi-generation reproduction (og-growth-alt). The headline is bounded by the most-caveated arm — qualified: metabolism grows the compartment to a measured-geometry division with viable daughters and a multi-generation lineage, beating the decoupled/imposed null, on a coarse-grained geometry/budget abstraction. Each arm keeps its own verdict and matched null (see arms).'
+claim: A self-maintaining protocell reproduces by metabolism-coupled growth and division into a lineage. Metabolism drives growth to a division at measured geometry with viable daughters, beating a null where growth is decoupled from metabolism or division is imposed (og-33, qualified); net throughput grows the compartment to division rather than lysis or starvation, mass-conserved, where a no-throughput ablation does not (og-growth-division, supported); and a growing, dividing individual builds a >=3-generation lineage with volume conserved across division (og-growth-alt, supported). Headline verdict qualified (coarse-grained geometry/budget abstraction); every matched null and every arm verdict preserved.
+question: How does a self-maintaining protocell reproduce — does metabolism drive growth to a measured-geometry division with viable daughters (not lysis or starvation), building a multi-generation lineage, each against its own matched null with input fluxes held equal?
+hypothesis: Metabolic throughput grows the compartment to a geometry-set division with viable daughters and a persisting lineage; each step is demonstrated only where it beats its matched null (growth decoupled/imposed, no-throughput ablation), and coarse-grained abstractions are reported as such rather than tuned to a pass.
+experiment: Run the coupled growth+division composite against a decoupled/imposed null (og-33), the growth->division fate model against a no-throughput ablation (og-growth-division), and the physical reproduction model to a multi-generation lineage (og-growth-alt) — reporting each arm's verdict + matched null with mass/volume conservation checked, and labelling the coarse-grained limits.
 handoff:
   emits:
   - to: 34
@@ -73,17 +38,12 @@ handoff:
 arms:
 - id: 33_chemically_coupled_growth_and_division
   source_study: og-33-chemically-coupled-growth-and-division
-  concept_role: >-
-    Canonical arm (Gate D, plan 33): does metabolism drive growth to a measured-geometry division with
-    viable daughters, beating a null where growth is decoupled from metabolism or division is imposed?
-    Realized: qualified — growth-from-metabolism to division at measured geometry, daughters viable, beats
-    the decoupled/imposed null; qualified on the coarse-grained geometry/budget abstraction.
+  concept_role: 'Canonical arm (Gate D, plan 33): does metabolism drive growth to a measured-geometry division with viable daughters, beating a null where growth is decoupled from metabolism or division is imposed? Realized: qualified — growth-from-metabolism to division at measured geometry, daughters viable, beats the decoupled/imposed null; qualified on the coarse-grained geometry/budget abstraction.'
   fidelity: mechanistic_prediction
   verdict: qualified
   gate_status: passed
   matched_null: beats-null-growth-decoupled-or-imposed
-  composite: >-
-    viva_genesis.composites.og_33_chemically_coupled_growth_and_division.og_33_chemically_coupled_growth_and_division
+  composite: viva_genesis.composites.og_33_chemically_coupled_growth_and_division.og_33_chemically_coupled_growth_and_division
   run_ids:
   - gate-d-growth-division
   finding_ids:
@@ -93,28 +53,21 @@ arms:
   canonical: true
 - id: growth_division
   source_study: og-growth-division
-  concept_role: >-
-    Growth→division fate arm: does net metabolic throughput grow the compartment to division (not lysis
-    or starvation), mass-conserved, vs a no-throughput ablation? Realized: supported — net-growth-to-division,
-    division not lysis/starvation, mass conserved; the no-throughput ablation does not grow.
+  concept_role: 'Growth→division fate arm: does net metabolic throughput grow the compartment to division (not lysis or starvation), mass-conserved, vs a no-throughput ablation? Realized: supported — net-growth-to-division, division not lysis/starvation, mass conserved; the no-throughput ablation does not grow.'
   fidelity: mechanistic_prediction
   verdict: supported
   gate_status: passed
   matched_null: ablation-no-throughput-no-growth
   composite: viva_genesis.composites.osmotic_growth_division.osmotic_growth_division
   run_ids:
-  - >-
-    viva_genesis.composites.osmotic_growth_division.osmotic_growth_division__1791927288__76353a
+  - viva_genesis.composites.osmotic_growth_division.osmotic_growth_division__1791927288__76353a
   finding_ids:
   - oggd-metabolism-changes-physical-fate
   - oggd-viable-band-bounded-by-starve-and-lyse
   - oggd-growth-is-chemistry-driven
 - id: growth_alt_physical_reproduction
   source_study: og-growth-alt-physical-reproduction
-  concept_role: >-
-    Physical-reproduction arm: does a growing, dividing individual build a multi-generation lineage (>=3
-    generations) with volume conserved across division? Realized: supported — lineage reaches three generations,
-    division conserves volume.
+  concept_role: 'Physical-reproduction arm: does a growing, dividing individual build a multi-generation lineage (>=3 generations) with volume conserved across division? Realized: supported — lineage reaches three generations, division conserves volume.'
   fidelity: mechanistic_prediction
   verdict: supported
   gate_status: passed
@@ -127,9 +80,7 @@ arms:
 behavior_tests:
 - name: receives-32-handoff-bundle
   classification: secondary
-  description: >-
-    Study 33 consumes study 32's self-maintaining protocell (the real A1 reaction universe + MD-informed
-    membrane) as the substrate the growth/division layer runs on.
+  description: Study 33 consumes study 32's self-maintaining protocell (the real A1 reaction universe + MD-informed membrane) as the substrate the growth/division layer runs on.
   measure:
     kind: observable
     detail: og_33 composite wires the og_32 protocell + GrowthDivisionProcess
@@ -139,9 +90,7 @@ behavior_tests:
   requires_simulation: 'yes'
 - name: growth-from-metabolism
   classification: primary
-  description: >-
-    Membrane area grows from metabolism-supplied amphiphiles - division rate increases with metabolic
-    flux - versus a growth-decoupled control (fixed external amphiphile supply) at equal feeds.
+  description: Membrane area grows from metabolism-supplied amphiphiles - division rate increases with metabolic flux - versus a growth-decoupled control (fixed external amphiphile supply) at equal feeds.
   measure:
     kind: observable
     detail: division_rate vs net carbon flux
@@ -152,8 +101,7 @@ behavior_tests:
   requires_simulation: 'yes'
 - name: division-at-measured-geometry
   classification: primary
-  description: >-
-    Division occurs at a measured area-doubling budding geometry with no imposed division event.
+  description: Division occurs at a measured area-doubling budding geometry with no imposed division event.
   measure:
     kind: observable
     detail: divisions trigger at the measured area-doubling threshold
@@ -165,9 +113,7 @@ behavior_tests:
   requires_simulation: 'yes'
 - name: daughters-viable
   classification: primary
-  description: >-
-    Daughters resume the study-32 self-maintenance criterion (production >= degradation) across the flux
-    sweep - division yields viable daughters, not merely fragments.
+  description: Daughters resume the study-32 self-maintenance criterion (production >= degradation) across the flux sweep - division yields viable daughters, not merely fragments.
   measure:
     kind: observable
     detail: daughter_viable across the coupled feed sweep
@@ -177,10 +123,7 @@ behavior_tests:
   requires_simulation: 'yes'
 - name: beats-null-growth-decoupled-or-imposed
   classification: primary
-  description: >-
-    Emergent growth/division (metabolism + geometry) is compared against the matched null - growth decoupled
-    from metabolism, or an imposed-division-rule control - at input fluxes held equal, so emergence is
-    a margin over the control.
+  description: Emergent growth/division (metabolism + geometry) is compared against the matched null - growth decoupled from metabolism, or an imposed-division-rule control - at input fluxes held equal, so emergence is a margin over the control.
   measure:
     kind: observable
     detail: coupled division rate vs flux-independent decoupled/imposed nulls
@@ -191,9 +134,7 @@ behavior_tests:
   requires_simulation: 'yes'
 - name: handoff-33-to-34-complete
   classification: secondary
-  description: >-
-    The study emits the 33->34 bundle - a dividing protocell with division events and the inherited content
-    partition - for study 34 (heredity & selection).
+  description: The study emits the 33->34 bundle - a dividing protocell with division events and the inherited content partition - for study 34 (heredity & selection).
   measure:
     kind: observable
     detail: division events + daughter compartments available to study 34
@@ -203,10 +144,7 @@ behavior_tests:
   requires_simulation: 'yes'
 - name: net-growth-to-division
   classification: primary
-  description: >-
-    A matched network state drives sustained net osmotic growth to repeated DIVISION — the compartment's
-    chemistry changes its physical fate (product accumulation → osmotic pressure → solvent influx → volume
-    → division).
+  description: A matched network state drives sustained net osmotic growth to repeated DIVISION — the compartment's chemistry changes its physical fate (product accumulation → osmotic pressure → solvent influx → volume → division).
   measure:
     kind: derived
     path: growth_division_count
@@ -224,10 +162,7 @@ behavior_tests:
   band_basis: first_principles
 - name: mass-conserved-across-division
   classification: primary
-  description: >-
-    Osmolyte mass is conserved to machine precision across growth AND division — division halves volume
-    and contents exactly and the leak is capped at the amount present, so the balance residual (N0 + produced
-    − N − leaked − daughter_mass) stays ~0.
+  description: Osmolyte mass is conserved to machine precision across growth AND division — division halves volume and contents exactly and the leak is capped at the amount present, so the balance residual (N0 + produced − N − leaked − daughter_mass) stays ~0.
   measure:
     kind: derived
     path: osmotic_balance_residual_max
@@ -235,19 +170,14 @@ behavior_tests:
   pass_if:
     op: <
     value: 1.0e-18
-    detail: >-
-      mass conserved across the growth/division cycle (residual below a negligible mole tolerance)
+    detail: mass conserved across the growth/division cycle (residual below a negligible mole tolerance)
   units: mole
   requires_simulation: 'yes'
   gate_class: acceptance_criterion
   band_basis: first_principles
 - name: division-not-lysis-or-starvation
   classification: primary
-  description: >-
-    The viable growth→division band is BOUNDED: at the same throughput, a too-permeable membrane starves
-    (the product leaks out, the osmotic pressure never builds, the compartment does not grow) and a too-impermeable
-    membrane lyses (the osmotic pressure spikes past the burst tension) — division is the intermediate,
-    matched fate.
+  description: 'The viable growth→division band is BOUNDED: at the same throughput, a too-permeable membrane starves (the product leaks out, the osmotic pressure never builds, the compartment does not grow) and a too-impermeable membrane lyses (the osmotic pressure spikes past the burst tension) — division is the intermediate, matched fate.'
   measure:
     kind: cross_run
     detail: matched (divide) vs too-permeable (starve) and too-impermeable (lyse) arms
@@ -263,10 +193,7 @@ behavior_tests:
 - name: ablation-no-throughput-no-growth
   gate_class: acceptance_criterion
   classification: primary
-  description: >-
-    Feature ablation: with no autocatalytic/metabolic source (zero network throughput) there is no product,
-    no osmotic pressure, and no growth or division — the growth is driven by the chemistry, not by the
-    compartment physics alone.
+  description: 'Feature ablation: with no autocatalytic/metabolic source (zero network throughput) there is no product, no osmotic pressure, and no growth or division — the growth is driven by the chemistry, not by the compartment physics alone.'
   measure:
     kind: cross_run
     detail: favorable (source on) vs zero-throughput ablation (source off)
@@ -277,16 +204,12 @@ behavior_tests:
   requires_simulation: 'yes'
 - name: lineage-reaches-three-generations
   classification: primary
-  description: >-
-    A founder individual grows and divides, its daughters grow and divide in turn, so the lineage in the
-    agents map reaches at least 3 generations.
+  description: A founder individual grows and divides, its daughters grow and divide in turn, so the lineage in the agents map reaches at least 3 generations.
   measure:
     kind: derived
     path: peak_generation
-    detail: >-
-      deepest generation the lineage REACHES (peak over the run, not the time-mean); from artifacts/physical_reproduction_report.json
-  artifact: >-
-    workspace/studies/og-reproduction/artifacts/og-growth-alt-physical-reproduction/physical_reproduction_report.json
+    detail: deepest generation the lineage REACHES (peak over the run, not the time-mean); from artifacts/physical_reproduction_report.json
+  artifact: workspace/studies/og-reproduction/artifacts/og-growth-alt-physical-reproduction/physical_reproduction_report.json
   pass_if:
     op: '>='
     value: 3.0
@@ -297,16 +220,12 @@ behavior_tests:
   band_basis: first_principles
 - name: division-conserves-volume
   classification: primary
-  description: >-
-    Every _divide conserves matter and volume — the daughters' volumes sum to the mother's, so the total
-    volume is constant across the lineage and the partition residual is 0.
+  description: Every _divide conserves matter and volume — the daughters' volumes sum to the mother's, so the total volume is constant across the lineage and the partition residual is 0.
   measure:
     kind: derived
     path: partition_residual_peak
-    detail: >-
-      worst (max) |mother - sum(daughters)| over every _divide; from artifacts/physical_reproduction_report.json
-  artifact: >-
-    workspace/studies/og-reproduction/artifacts/og-growth-alt-physical-reproduction/physical_reproduction_report.json
+    detail: worst (max) |mother - sum(daughters)| over every _divide; from artifacts/physical_reproduction_report.json
+  artifact: workspace/studies/og-reproduction/artifacts/og-growth-alt-physical-reproduction/physical_reproduction_report.json
   pass_if:
     op: <=
     value: 1.0e-09
@@ -319,60 +238,55 @@ findings:
 - id: og33-grows-and-divides-or-imposed
   kind: computational
   status: confirms
-  statement: >-
-    At equal feeds vs the matched nulls, the protocell grows from its own metabolic amphiphile production
-    and divides at a measured area-doubling budding geometry with no imposed event. Division rate scales
-    with metabolic flux in the coupled arm (0.0125 -> 0.0500 as net carbon flux 3.36e-4 -> 1.16e-3; slope
-    > 0) while the growth-decoupled null is flux-independent (slope ~ 0) and the imposed-division null
-    divides on a timer (rate ~0.044) regardless of geometry. So growth/division is metabolism-driven and
-    beats both matched nulls - qualified (met on the measured-geometry first cut, Option B). Guardrail:
-    growth is funded by the sustained A1 carbon-fixing network, not autocatalysis.
+  statement: 'At equal feeds vs the matched nulls, the protocell grows from its own metabolic amphiphile production and divides at a measured area-doubling budding geometry with no imposed event. Division rate scales with metabolic flux in the coupled arm (0.0125 -> 0.0500 as net carbon flux 3.36e-4 -> 1.16e-3; slope > 0) while the growth-decoupled null is flux-independent (slope ~ 0) and the imposed-division null divides on a timer (rate ~0.044) regardless of geometry. So growth/division is metabolism-driven and beats both matched nulls - qualified (met on the measured-geometry first cut, Option B). Guardrail: growth is funded by the sustained A1 carbon-fixing network, not autocatalysis.'
   evidence:
     from_test: division-at-measured-geometry
   expected:
     cites:
     - hanczyc2003experimental
     - budin2012concentration
+  provenance:
+    run_ids:
+    - viva_genesis.composites.osmotic_growth_division.osmotic_growth_division__1791927288__76353a
+    - viva_genesis.composites.physical_reproduction.physical_reproduction__1792073784__efd05b
+    basis: study canonical run — the acceptance gate passed and was evaluated against this run; its per-gate value is not surfaced in the run outcomes summary, so provenance is recorded at study-run granularity.
 - id: og33-daughters-viable
   kind: computational
   status: confirms
-  statement: >-
-    Daughters resume the study-32 self-maintenance criterion (net amphiphile production >= degradation)
-    across the flux sweep (daughter_viable = 1.0) - division is counted as reproduction because the daughters
-    are viable (resume self-maintenance), not merely formed.
+  statement: Daughters resume the study-32 self-maintenance criterion (net amphiphile production >= degradation) across the flux sweep (daughter_viable = 1.0) - division is counted as reproduction because the daughters are viable (resume self-maintenance), not merely formed.
   evidence:
     from_test: daughters-viable
   expected:
     cites:
     - zhu2012photochemically
     - natchem2023osmoticgrowth
-- id: og33-division-geometry-measured
-  evidence_basis: calibrated
-  evidence_basis_note: "The area-doubling division_ratio 2.0 is a proposed input grounded in the hanczyc/budin growth-division literature."
-  kind: methodological
-  status: confirms
-  statement: >-
-    Division is triggered at a measured area-doubling budding geometry (division_ratio 2.0; a proposed_input
-    grounded in the hanczyc/budin growth-division geometries), not a tuned event - the coupled and growth-decoupled
-    arms both use the geometry, and only the imposed-division control divides on a timer. Full coarse-grained
-    membrane mechanics (viva-md-membrane) is the gold-standard follow-on (og-33a) that would re-test division
-    under resolved membrane physics rather than a measured geometric criterion.
-  evidence:
-    from_test: division-at-measured-geometry
-- id: oggd-metabolism-changes-physical-fate
-  evidence_basis: predicted
-  evidence_basis_note: "Osmotically-driven growth and the 8 divisions are the coupled model's outcome."
   provenance:
     run_ids:
-    - >-
-      viva_genesis.composites.osmotic_growth_division.osmotic_growth_division__1791927288__76353a
+    - viva_genesis.composites.osmotic_growth_division.osmotic_growth_division__1791927288__76353a
+    - viva_genesis.composites.physical_reproduction.physical_reproduction__1792073784__efd05b
+    basis: study canonical run — the acceptance gate passed and was evaluated against this run; its per-gate value is not surfaced in the run outcomes summary, so provenance is recorded at study-run granularity.
+- id: og33-division-geometry-measured
+  evidence_basis: calibrated
+  evidence_basis_note: The area-doubling division_ratio 2.0 is a proposed input grounded in the hanczyc/budin growth-division literature.
+  kind: methodological
+  status: confirms
+  statement: Division is triggered at a measured area-doubling budding geometry (division_ratio 2.0; a proposed_input grounded in the hanczyc/budin growth-division geometries), not a tuned event - the coupled and growth-decoupled arms both use the geometry, and only the imposed-division control divides on a timer. Full coarse-grained membrane mechanics (viva-md-membrane) is the gold-standard follow-on (og-33a) that would re-test division under resolved membrane physics rather than a measured geometric criterion.
+  evidence:
+    from_test: division-at-measured-geometry
+  provenance:
+    run_ids:
+    - viva_genesis.composites.osmotic_growth_division.osmotic_growth_division__1791927288__76353a
+    - viva_genesis.composites.physical_reproduction.physical_reproduction__1792073784__efd05b
+    basis: study canonical run — the acceptance gate passed and was evaluated against this run; its per-gate value is not surfaced in the run outcomes summary, so provenance is recorded at study-run granularity.
+- id: oggd-metabolism-changes-physical-fate
+  evidence_basis: predicted
+  evidence_basis_note: Osmotically-driven growth and the 8 divisions are the coupled model's outcome.
+  provenance:
+    run_ids:
+    - viva_genesis.composites.osmotic_growth_division.osmotic_growth_division__1791927288__76353a
   kind: computational
   status: confirms
-  statement: >-
-    In the matched regime the internal autocatalytic source accumulates product, the osmotic pressure
-    it generates draws solvent in, and the compartment grows to the division threshold and divides repeatedly
-    (8 divisions over the run) — the chemistry changes the compartment's physical fate, a physical selection
-    mechanism without an abstract fitness score.
+  statement: In the matched regime the internal autocatalytic source accumulates product, the osmotic pressure it generates draws solvent in, and the compartment grows to the division threshold and divides repeatedly (8 divisions over the run) — the chemistry changes the compartment's physical fate, a physical selection mechanism without an abstract fitness score.
   evidence:
     from_test: net-growth-to-division
     observed: 8 divisions; outcome = divide; net growth sawtooth driven by osmotic pressure ~1.2e5 Pa
@@ -381,106 +295,71 @@ findings:
     cites:
     - muchowska2019synthesis
     - jordan2019promotion
-  explanation: >-
-    OsmoticGrowthDivisionProcess integrates dN/dt (autocatalytic source − leak), Pi = R·T·c_in (van 't
-    Hoff), dV/dt = Lp·A·Pi (solvent influx), and halves V and N at the division threshold.
+  explanation: OsmoticGrowthDivisionProcess integrates dN/dt (autocatalytic source − leak), Pi = R·T·c_in (van 't Hoff), dV/dt = Lp·A·Pi (solvent influx), and halves V and N at the division threshold.
 - id: oggd-viable-band-bounded-by-starve-and-lyse
   provenance:
     run_ids:
-    - >-
-      viva_genesis.composites.osmotic_growth_division.osmotic_growth_division__1791927288__76353a
+    - viva_genesis.composites.osmotic_growth_division.osmotic_growth_division__1791927288__76353a
   kind: computational
   status: novel
-  statement: >-
-    Sustained net growth leading to division occupies a bounded band of (network throughput × membrane
-    permeability) — about a quarter of the swept grid — flanked by starvation where the membrane is too
-    permeable (the product leaks out so the osmotic pressure never builds and nothing grows) and by lysis
-    where it is too impermeable (the product is trapped, the pressure spikes past the burst tension and
-    the membrane ruptures). Permeability, not throughput alone, decides whether autocatalysis produces
-    a dividing protocell.
+  statement: Sustained net growth leading to division occupies a bounded band of (network throughput × membrane permeability) — about a quarter of the swept grid — flanked by starvation where the membrane is too permeable (the product leaks out so the osmotic pressure never builds and nothing grows) and by lysis where it is too impermeable (the product is trapped, the pressure spikes past the burst tension and the membrane ruptures). Permeability, not throughput alone, decides whether autocatalysis produces a dividing protocell.
   evidence:
     from_test: division-not-lysis-or-starvation
-    observed: >-
-      matched → 8 divisions; too permeable (P=1e-5 m/s) → 0 divisions, net growth ~1.00 (starve); too
-      impermeable (P=1e-10 m/s, high throughput) → lysed at ~1.5e5 Pa
+    observed: matched → 8 divisions; too permeable (P=1e-5 m/s) → 0 divisions, net growth ~1.00 (starve); too impermeable (P=1e-10 m/s, high throughput) → lysed at ~1.5e5 Pa
     units: dimensionless
   expected:
     cites:
     - jordan2019promotion
-  explanation: >-
-    The equilibrium internal concentration scales as throughput / (permeability · area); below a floor
-    the osmotic drive cannot grow the compartment (starve), above a ceiling it exceeds the burst pressure
-    before division can relieve it (lyse).
+  explanation: The equilibrium internal concentration scales as throughput / (permeability · area); below a floor the osmotic drive cannot grow the compartment (starve), above a ceiling it exceeds the burst pressure before division can relieve it (lyse).
 - id: oggd-growth-is-chemistry-driven
   provenance:
     run_ids:
-    - >-
-      viva_genesis.composites.osmotic_growth_division.osmotic_growth_division__1791927288__76353a
+    - viva_genesis.composites.osmotic_growth_division.osmotic_growth_division__1791927288__76353a
   kind: computational
   status: confirms
-  statement: >-
-    The growth is driven by the chemistry, not by the compartment physics alone — with the autocatalytic
-    source ablated (zero throughput) the compartment neither grows nor divides, while mass stays conserved
-    across the whole cycle (residual ~4e-32 mol).
+  statement: The growth is driven by the chemistry, not by the compartment physics alone — with the autocatalytic source ablated (zero throughput) the compartment neither grows nor divides, while mass stays conserved across the whole cycle (residual ~4e-32 mol).
   evidence:
     from_test: ablation-no-throughput-no-growth
-    observed: >-
-      ablation (throughput ~0) → 0 divisions, net growth ~1.04; favorable → 8 divisions; mass residual
-      ~4e-32 mol
+    observed: ablation (throughput ~0) → 0 divisions, net growth ~1.04; favorable → 8 divisions; mass residual ~4e-32 mol
     units: dimensionless
   expected:
     cites:
     - muchowska2019synthesis
-  explanation: >-
-    With no source the only osmolyte is the small seed; the osmotic pressure stays far below the drive
-    needed to reach the division threshold, and division halving conserves mass exactly.
+  explanation: With no source the only osmolyte is the small seed; the osmotic pressure stays far below the drive needed to reach the division threshold, and division halving conserves mass exactly.
 - id: physical-reproduction-lineage
   provenance:
     run_ids:
     - viva_genesis.composites.physical_reproduction.physical_reproduction__1792073784__efd05b
   kind: computational
   status: confirms
-  statement: >-
-    A founder grows, divides, and its daughters do the same — a >=3-generation lineage forms in the agents
-    map, matter and volume conserved at every division.
+  statement: A founder grows, divides, and its daughters do the same — a >=3-generation lineage forms in the agents map, matter and volume conserved at every division.
   evidence:
     from_test: lineage-reaches-three-generations
 runs:
 - id: gate-d-growth-division
-  composite: >-
-    viva_genesis.composites.og_33_chemically_coupled_growth_and_division.og_33_chemically_coupled_growth_and_division
-  description: >-
-    Coupled (metabolism-driven) across a feed sweep vs growth-decoupled and imposed-division nulls at
-    equal feeds; division-rate vs flux slope, division-at-measured-geometry, daughter viability. Artifact
-    artifacts/gate_d_growth_division.json.
+  composite: viva_genesis.composites.og_33_chemically_coupled_growth_and_division.og_33_chemically_coupled_growth_and_division
+  description: Coupled (metabolism-driven) across a feed sweep vs growth-decoupled and imposed-division nulls at equal feeds; division-rate vs flux slope, division-at-measured-geometry, daughter viability. Artifact artifacts/gate_d_growth_division.json.
   outcomes:
     growth-from-metabolism:
       result: PASS
-      detail: >-
-        coupled division rate 0.0125 -> 0.0500 with flux (slope > 0); growth-decoupled null flux-independent
-        (slope ~ 0)
+      detail: coupled division rate 0.0125 -> 0.0500 with flux (slope > 0); growth-decoupled null flux-independent (slope ~ 0)
     division-at-measured-geometry:
       result: PASS
-      detail: >-
-        divisions trigger at the measured area-doubling budding geometry (ratio 2.0; hanczyc/budin), no
-        imposed event
+      detail: divisions trigger at the measured area-doubling budding geometry (ratio 2.0; hanczyc/budin), no imposed event
     daughters-viable:
       result: PASS
       detail: daughter_viable = 1.0 across the flux sweep (resume study-32 self-maintenance)
     beats-null-growth-decoupled-or-imposed:
       result: PASS
       detail: coupled rate at top feed (0.0500) exceeds the flux-independent decoupled null (0.0125)
-- name: >-
-    viva_genesis.composites.osmotic_growth_division.osmotic_growth_division__1791927288__76353a
+- name: viva_genesis.composites.osmotic_growth_division.osmotic_growth_division__1791927288__76353a
   status: completed
   timestamp: 1791927288.360652
   canonical: true
   emitter:
     kind: sqlite
-    store: >-
-      canonical-runs/viva_genesis.composites.osmotic_growth_division.osmotic_growth_division__1791927288__76353a/run.db
-  store_path: >-
-    canonical-runs/viva_genesis.composites.osmotic_growth_division.osmotic_growth_division__1791927288__76353a/run.db
+    store: canonical-runs/viva_genesis.composites.osmotic_growth_division.osmotic_growth_division__1791927288__76353a/run.db
+  store_path: canonical-runs/viva_genesis.composites.osmotic_growth_division.osmotic_growth_division__1791927288__76353a/run.db
   params: '{}'
   outcomes:
     net-growth-to-division:
@@ -491,10 +370,7 @@ runs:
       evaluated_by: code
       axis:
         id: net-growth-to-division
-        label: >-
-          A matched network state drives sustained net osmotic growth to repeated DIVISION — the compartment's
-          chemistry changes its physical fate (product accumulation → osmotic pressure → solvent influx
-          → volume → division).
+        label: A matched network state drives sustained net osmotic growth to repeated DIVISION — the compartment's chemistry changes its physical fate (product accumulation → osmotic pressure → solvent influx → volume → division).
         verdict: within_tol
         value: 8.0
         meter: 1.0
@@ -521,10 +397,7 @@ runs:
       evaluated_by: code
       axis:
         id: mass-conserved-across-division
-        label: >-
-          Osmolyte mass is conserved to machine precision across growth AND division — division halves
-          volume and contents exactly and the leak is capped at the amount present, so the balance residual
-          (N0 + produced − N − leaked − daughter_mass) stays ~0.
+        label: Osmolyte mass is conserved to machine precision across growth AND division — division halves volume and contents exactly and the leak is capped at the amount present, so the balance residual (N0 + produced − N − leaked − daughter_mass) stays ~0.
         verdict: within_tol
         value: 0.0
         meter: 1.0
@@ -548,28 +421,21 @@ runs:
       measured_value: 8
       evaluated_by: code
       operator: cross_run
-      detail: >-
-        matched → 8 divisions (grow→divide); too-permeable → 0 divisions, net growth 1.00 (starvation,
-        no osmotic build-up); too-impermeable → lysed=1 at peak pressure 150727 Pa (lysis) — the viable
-        growth→division band is bounded between starvation and lysis
+      detail: matched → 8 divisions (grow→divide); too-permeable → 0 divisions, net growth 1.00 (starvation, no osmotic build-up); too-impermeable → lysed=1 at peak pressure 150727 Pa (lysis) — the viable growth→division band is bounded between starvation and lysis
     ablation-no-throughput-no-growth:
       result: PASS
       measured_value: 0
       evaluated_by: code
       operator: cross_run
-      detail: >-
-        favorable → 8 divisions; zero-throughput ablation → 0 divisions, net growth 1.040 (no autocatalytic
-        source ⇒ no osmotic growth)
+      detail: favorable → 8 divisions; zero-throughput ablation → 0 divisions, net growth 1.040 (no autocatalytic source ⇒ no osmotic growth)
 - name: viva_genesis.composites.physical_reproduction.physical_reproduction__1792073784__efd05b
   status: completed
   timestamp: 1792073784.657805
   canonical: true
   emitter:
     kind: sqlite
-    store: >-
-      canonical-runs/viva_genesis.composites.physical_reproduction.physical_reproduction__1792073784__efd05b/run.db
-  store_path: >-
-    canonical-runs/viva_genesis.composites.physical_reproduction.physical_reproduction__1792073784__efd05b/run.db
+    store: canonical-runs/viva_genesis.composites.physical_reproduction.physical_reproduction__1792073784__efd05b/run.db
+  store_path: canonical-runs/viva_genesis.composites.physical_reproduction.physical_reproduction__1792073784__efd05b/run.db
   params: '{}'
   outcomes:
     lineage-reaches-three-generations:
@@ -580,9 +446,7 @@ runs:
       evaluated_by: code
       axis:
         id: lineage-reaches-three-generations
-        label: >-
-          A founder individual grows and divides, its daughters grow and divide in turn, so the lineage
-          in the agents map reaches at least 3 generations.
+        label: A founder individual grows and divides, its daughters grow and divide in turn, so the lineage in the agents map reaches at least 3 generations.
         verdict: within_tol
         value: 5.0
         meter: 0.8333333333333333
@@ -609,9 +473,7 @@ runs:
       evaluated_by: code
       axis:
         id: division-conserves-volume
-        label: >-
-          Every _divide conserves matter and volume — the daughters' volumes sum to the mother's, so the
-          total volume is constant across the lineage and the partition residual is 0.
+        label: Every _divide conserves matter and volume — the daughters' volumes sum to the mother's, so the total volume is constant across the lineage and the partition residual is 0.
         verdict: within_tol
         value: 0.0
         meter: 1.0
@@ -635,10 +497,8 @@ visualizations:
   address: local:OgGrowthDivisionViz
   config:
     title: Metabolism-driven growth & division
-    report_json: >-
-      workspace/studies/og-reproduction/artifacts/og-33-chemically-coupled-growth-and-division/gate_d_growth_division.json
-  rendered: >-
-    workspace/studies/og-reproduction/viz/og-33-chemically-coupled-growth-and-division/growth-division.html
+    report_json: workspace/studies/og-reproduction/artifacts/og-33-chemically-coupled-growth-and-division/gate_d_growth_division.json
+  rendered: workspace/studies/og-reproduction/viz/og-33-chemically-coupled-growth-and-division/growth-division.html
 - name: osmotic-growth-world
   address: local:OsmoticGrowthWorld
   config:
@@ -661,21 +521,11 @@ visualizations:
   address: local:PhysicalReproductionViz
   config:
     title: A multi-generation lineage in the agents map
-parent_studies:
-- study: og-self-compartmentation
-  condition: tests-passed
-consolidation_note: >-
-  Consolidates og-33-chemically-coupled-growth-and-division (canonical, plan_id 33), og-growth-division
-  and og-growth-alt-physical-reproduction into the one Gate-D reproduction concept. Each fold-in is an
-  explicit arm (see `arms`) keeping its own verdict, matched null, findings and run provenance; artifacts
-  + viz moved under {artifacts,viz}/<source-slug>/. builds_on [32] = og-self-compartmentation (og-33 built
-  on og-31+og-32, both folded there); handoff emits to:34 = og-heredity (which adopted plan_id 34). The
-  og-33 slug ref in og-heredity's parent_studies is repointed to og-reproduction.
+consolidation_note: Consolidates og-33-chemically-coupled-growth-and-division (canonical, plan_id 33), og-growth-division and og-growth-alt-physical-reproduction into the one Gate-D reproduction concept. Each fold-in is an explicit arm (see `arms`) keeping its own verdict, matched null, findings and run provenance; artifacts + viz moved under {artifacts,viz}/<source-slug>/. builds_on [32] = og-self-compartmentation (og-33 built on og-31+og-32, both folded there); handoff emits to:34 = og-heredity (which adopted plan_id 34). The og-33 slug ref in og-heredity's parent_studies is repointed to og-reproduction.
 conditions:
   baseline:
   - name: Chemically coupled growth and division — canonical arm (og-33)
-    composite: >-
-      viva_genesis.composites.og_33_chemically_coupled_growth_and_division.og_33_chemically_coupled_growth_and_division
+    composite: viva_genesis.composites.og_33_chemically_coupled_growth_and_division.og_33_chemically_coupled_growth_and_division
     params: {}
     canonical: true
     planned: false
@@ -688,3 +538,35 @@ conditions:
     params: {}
     planned: false
   model_settings: []
+preregistered:
+  thresholds:
+    net-growth-to-division:
+      op: '>'
+      value: 0.0
+      detail: the compartment divides (>0) in the matched throughput/permeability regime
+    mass-conserved-across-division:
+      op: <
+      value: 1.0e-18
+      detail: mass conserved across the growth/division cycle (residual below a negligible mole tolerance)
+    division-not-lysis-or-starvation:
+      op: arms_reported
+      detail: matched divides; too permeable = starve (no division
+      no growth); too impermeable = lyse (viable band is bounded): null
+    ablation-no-throughput-no-growth:
+      op: controls_absent
+      detail: favorable divides; zero-throughput ablation shows no division and no net growth
+    lineage-reaches-three-generations:
+      op: '>='
+      value: 3.0
+      detail: a >=3-generation lineage forms (peak reaches generation 5)
+    division-conserves-volume:
+      op: <=
+      value: 1.0e-09
+      detail: partition residual ~ 0 at every division (conserving split)
+  basis: 'Thresholds are the investigation''s pre-stated plan-gate / acceptance criteria, recorded verbatim from each acceptance_criterion gate''s pass_if: conservation laws (ledger closure to numerical precision), literature-anchored ranges (Lost City pH/T/H2; Preiner yields; Baaske enrichment), directional priors, and matched-null / arms methodology requirements. Not fitted to results. No registered_at claimed.'
+execution_status: completed
+pipeline_gate:
+  prerequisites:
+  - study: og-self-compartmentation
+    condition: tests-passed
+    relation: builds-on

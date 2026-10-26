@@ -2,11 +2,6 @@ schema_version: 4
 name: og-network-rescue
 investigation: origins-of-life-vent
 created: '2026-10-18'
-phase: Evaluate
-status: ran
-design_status: approved
-simulation_status: ran
-evaluation_status: evaluated
 gate_status: passed
 verdict: supported
 primary_limitation: "The pore's ignition benefit is a bounded window, not a broad swath; network_connected is a brittle proxy near threshold (reads 0 at high feed while the network stays carbon-fixing)."
@@ -44,9 +39,6 @@ result: >-
   The concentrating pore ignites the network (flux +4.5e-4, 17 persistent species) while the matched well-mixed
   control stays dead; confirmed on the six-carbon network, within a bounded porosity window. Localization makes
   the network productive.
-builds_on:
-- 3
-- 29
 plan_id: 30
 handoff:
   emits:
@@ -155,6 +147,9 @@ findings:
     flux.
   evidence:
     from_test: productive-flux-beats-wellmixed-and-nonconcentrating
+  provenance:
+    run_ids:
+    - gate-b-concentration-rescues-ignition
 - id: og30-c6-confirmation
   kind: computational
   status: confirms
@@ -168,6 +163,9 @@ findings:
     loss.
   evidence:
     from_test: productive-flux-beats-wellmixed-and-nonconcentrating
+  provenance:
+    run_ids:
+    - gate-b-concentration-rescues-ignition
 - id: og30-enrichment-bridges-ignition-gap
   kind: computational
   status: partial
@@ -197,6 +195,9 @@ findings:
     the coefficient-free seed-independence discriminator, not on connectivity.
   evidence:
     from_test: colocalization-residence-measured
+  provenance:
+    run_ids:
+    - gate-b-concentration-rescues-ignition
 - id: og30-resolves-a1-feed-plausibility
   kind: methodological
   status: confirms
@@ -207,6 +208,9 @@ findings:
     on C4 and confirmed directly on C6).
   evidence:
     from_test: productive-flux-beats-wellmixed-and-nonconcentrating
+  provenance:
+    run_ids:
+    - gate-b-concentration-rescues-ignition
 runs:
 - id: gate-b-concentration-rescues-ignition
   composite: >-
@@ -241,6 +245,8 @@ runs:
         The ~20x well-mixed ignition gap (og-29) is bridged at a modest physical pore (porosity 0.88), so A1's
         persistence firms up: a carbon-fixing network persists at vent-realistic feeds in a pore, within the bounded
         geometry window.
+  status: completed
+  run_id: gate-b-concentration-rescues-ignition
 visualizations:
 - name: pore-ignition-coupling
   display: mechanism
@@ -267,16 +273,6 @@ visualizations:
   config:
     report_json: workspace/studies/og-network-rescue/artifacts/og-30-spatially-integrated-protometabolism/networkrescue_fields.json
     title: 'Spatial concentration ignites the network — pore field vs dead well-mixed control (PDE field view)'
-parent_studies:
-- study: og-spatial-concentration
-  condition: tests-passed
-- study: og-network-persistence
-  condition: tests-passed
-parent_relations:
-- study: og-spatial-concentration
-  relation: builds-on
-- study: og-network-persistence
-  relation: builds-on
 split_note: >-
   Split from the former consolidated og-spatial-concentration: the network-RESCUE half. Canonical arm og-30 (Gate
   B pore-ignition) with its findings/viz moved here; adopts plan_id 30 so numeric handoff/builds_on refs to study
@@ -297,3 +293,12 @@ conditions:
       concentrating: false
     planned: false
   model_settings: []
+execution_status: completed
+pipeline_gate:
+  prerequisites:
+  - study: og-spatial-concentration
+    condition: tests-passed
+    relation: builds-on
+  - study: og-network-persistence
+    condition: tests-passed
+    relation: builds-on

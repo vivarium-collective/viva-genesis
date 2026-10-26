@@ -2,11 +2,6 @@ schema_version: 4
 name: og-vent-environment
 investigation: origins-of-life-vent
 created: '2026-10-18'
-phase: Evaluate
-status: ran
-design_status: approved
-simulation_status: ran
-evaluation_status: evaluated
 gate_status: passed
 verdict: supported
 primary_limitation: "The Lost City window holds over ~80% of the grid, but calibration narrows it to a posterior 12.5% of the prior, with dissolved H2 the single binding observation (only 6/48 draws pass the H2 window)."
@@ -48,7 +43,6 @@ result: >-
   ~80% of the operating region falls inside the Lost City window with |charge|=0; the conditioned posterior is
   12.5% of the prior yet 100% viable downstream, transport-class-independent, ledger 0/96. The dissolved-H2 window
   is the binding observation (pH mineral-buffered near 9.4). A viable geochemical reactor within bounds.
-builds_on: []
 plan_id: 0
 handoff:
   emits:
@@ -340,6 +334,9 @@ findings:
   explanation: >-
     Real PHREEQC peridotite serpentinization (Ca-OH endmember) + FiPy transport; pH is a genuine speciation result,
     not tuned.
+  provenance:
+    run_ids:
+    - viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor__1791945139__b33a98
 - id: og00-h2-sustained
   kind: computational
   status: confirms
@@ -353,6 +350,9 @@ findings:
   expected:
     cites:
     - schwander2023serpentinization
+  provenance:
+    run_ids:
+    - viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor__1791945139__b33a98
 - id: og00-conservation
   provenance:
     run_ids:
@@ -377,6 +377,11 @@ findings:
     cites:
     - kelley2005serpentinite
     - ludwig2006formation
+  evidence:
+    from_test: vent-pH-in-lostcity-range
+  provenance:
+    run_ids:
+    - viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor__1791945139__b33a98
 - id: og00-buoyant-convection
   kind: computational
   status: novel
@@ -399,6 +404,9 @@ findings:
     FipyReactiveTransportProcess now solves the stream function each step and advects T + solute with the divergence-free
     Darcy velocity (u=∂ψ/∂y, v=−∂ψ/∂x + upflow); ψ contours are the streamlines the cross-section viz overlays.
     buoyancy=0 recovers the old constant upflow.
+  provenance:
+    run_ids:
+    - viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor__1791945139__b33a98
 - id: og00-habitability-window
   seeded_study: og-00b-ph-endmember-sweep
   kind: computational
@@ -427,6 +435,9 @@ findings:
   next_action: >-
     Sweep pyroxene_fraction (ol/px ratio) and seawater-mixing dilution to bound the pH endmember (og-00b).
   next_action_type: calibrate
+  provenance:
+    run_ids:
+    - viva_genesis.composites.vent_reactor.serpentinizing_vent_reactor__1791945139__b33a98
 - id: ogcal-posterior-viable-fraction
   evidence_basis: calibrated
   evidence_basis_note: "A Bayesian posterior fitted to the Lost City T/pH/H2 field windows."
@@ -1041,8 +1052,6 @@ visualizations:
     report_json: >-
       workspace/studies/og-vent-environment/artifacts/og-00-vent-reactor-baseline/grid_convergence_control.json
     title: The vent reactor is grid-converged at nx=40, in the Lost City window
-parent_studies: []
-parent_relations: []
 split_note: >-
   Split from the former consolidated og-vent-environment into the calibrated-vent-STATES half (this study, og-00
   + og-cal, supported) and the evolving-mineral-INTERFACE half (og-vent-interface, og-27 canonical), because each
@@ -1060,3 +1069,52 @@ conditions:
     params: {}
     planned: false
   model_settings: []
+
+# --- preregistration thresholds (investigation plan-gates, recorded verbatim) ---
+preregistered:
+  thresholds:
+    vent-temperature-in-lostcity-range:
+      op: range
+      low: 40.0
+      high: 91.0
+      detail: settled T in [40, 91] C
+    h2-flux-sustained:
+      op: '>'
+      value: 1.0e-09
+      detail: min sustained H2 flux > 0
+    charge-conserved:
+      op: <=
+      value: 1.0e-06
+      detail: '|charge imbalance| < 1e-6 throughout'
+    spatial-flux-conserved:
+      op: <=
+      value: 0.001
+      detail: max |flux divergence residual| < 1e-3 (direct LU solve ~ machine eps)
+    vent-pH-in-lostcity-range:
+      op: range
+      low: 9.0
+      high: 10.8
+      detail: settled pH in [9.0, 10.8]
+    ledger-closes:
+      op: <=
+      value: 1.0e-12
+      detail: matter ledger residual at machine precision
+    energy-ledger-closes:
+      op: <=
+      value: 1.0e-12
+      detail: energy ledger residual at machine precision
+    dissolved-h2-in-lost-city-range:
+      op: range
+      low: 1.0
+      high: 15.0
+      detail: dissolved H2 in [1, 15] mmol/kg
+    posterior-viable-vent-fraction:
+      op: '>'
+      value: 0.0
+      detail: posterior-viable fraction > 0
+    structure-agreement-across-transport-classes:
+      op: '>='
+      value: 0.8
+      detail: cross-class agreement >= 0.8
+  basis: 'Thresholds are the investigation''s pre-stated plan-gate / acceptance criteria, recorded verbatim from each acceptance_criterion gate''s pass_if: conservation laws (ledger closure to numerical precision), literature-anchored ranges (Lost City pH/T/H2; Preiner yields; Baaske enrichment), directional priors, and matched-null / arms methodology requirements. Not fitted to results. No registered_at claimed.'
+execution_status: completed

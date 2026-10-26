@@ -2,86 +2,31 @@ schema_version: 4
 name: og-vent-specificity
 investigation: origins-of-life-vent
 created: '2026-10-18'
-phase: Evaluate
-status: ran
-design_status: approved
-simulation_status: ran
-evaluation_status: evaluated
 gate_status: passed
 verdict: refuted
-primary_limitation: "The gates certify vent-specificity by rejecting a generic non-equilibrium control (not the vent mechanism's sufficiency); building the control exposed and fixed a latent catalyst_active=0 is_empty bug."
+primary_limitation: The gates certify vent-specificity by rejecting a generic non-equilibrium control (not the vent mechanism's sufficiency); building the control exposed and fixed a latent catalyst_active=0 is_empty bug.
 key_assumptions:
-- "The generic control ablates the vent's features (no sustained H2, no Fe/Ni/S catalyst, no pore concentration)"
-- "The same real og-01/02/03 composites are run for vent and control"
-- "Specificity means the vent passes all five gates where the control fails all five"
+- The generic control ablates the vent's features (no sustained H2, no Fe/Ni/S catalyst, no pore concentration)
+- The same real og-01/02/03 composites are run for vent and control
+- Specificity means the vent passes all five gates where the control fails all five
 evidence_tier: mechanistic_prediction
 program: consolidated
 title: 'Vent Specificity: Are the Gates Vent-Specific or Generic?'
-concept: >-
-  Specificity of the origin scenario: whether the campaign's discriminating gates detect the serpentinizing
-  alkaline vent specifically, or would pass for any generic non-equilibrium drive — tested as a common
-  CROSS-STUDY ABLATION MATRIX (the real og-01/02/03 composites run with each vent feature ablated: no
-  sustained H2, no Fe/Ni/S interface, no pore concentration), plus a PLANNED competing-environments
-  falsification. A null control: a REFUTED generic null is the desired, positive result. Important bound:
-  the ablation matrix shows the gates reject a feature-stripped generic drive, but GENUINE vent specificity
-  requires positive, realistic ALTERNATIVE-ENVIRONMENT models — which are planned, not yet run — so
-  specificity is demonstrated against ablation, not yet against competing origin environments.
-gate_reason: >-
-  Null control (vent specificity). Consolidates the adversarial control (og-adv, canonical) and the planned
-  competing-environments falsification (og-ev-competing-environments). Headline (og-adv, canonical): running
-  the real og-01/02/03 composites with the vent's characteristic features ablated — no sustained H2, no
-  Fe/Ni/S catalytic interface, no pore concentration — makes them fail all five discriminating gates (carbon
-  flux, formate yield, protometabolic throughput, thermophoretic Peclet, enrichment), while the vent passes
-  each. The campaign's gates are therefore vent-specific detectors, not generic non-equilibrium detectors:
-  the generic-nonequilibrium null hypothesis is REFUTED (correctly rejected by every gate). This refutation
-  is the desired result of an adversarial control — it certifies the gates discriminate the vent rather
-  than any drive, and gate_status=passed because the control works as designed. Building it also exposed
-  and fixed a latent control-integrity bug (catalyst_active=0 silently swallowed by process-bigraph is_empty).
-  og-ev-competing-environments (planned) extends the falsification to competing origin environments.
-claim: >-
-  A generic drive stripped of ALL THREE vent features at once (no sustained H2, no Fe/Ni/S catalyst, no
-  pore concentration) fails all five discriminating gates on the same real og-01/02/03 composites while the
-  vent passes each — so the campaign's gates are NOT merely generic non-equilibrium detectors; the
-  generic-nonequilibrium null is refuted by every gate (og-adv, canonical; verdict=refuted = null correctly
-  rejected, gate_status=passed = the control discriminates). This is a LUMPED, all-feature-ablated contrast:
-  it does not attribute the rejection to any single feature, and full vent-specificity — against competing
-  realistic alternative environments — is NOT yet demonstrated (the H2 × Fe/Ni/S × pore-gradient 3-way
-  factorial and the competing-environments study are planned, not run). Consolidated: specificity is
-  demonstrated against a feature-ablated null, not yet against competing origin environments. Every matched
-  null and arm verdict kept.
-question: >-
-  Do the campaign's discriminating gates detect the serpentinizing alkaline vent specifically, or would
-  any generic non-equilibrium drive pass them?
-hypothesis: >-
-  The gates are vent-specific — ablating the vent's characteristic features (sustained H2, Fe/Ni/S catalyst,
-  pore concentration) makes the real composites fail them, so a generic non-equilibrium drive does not
-  reproduce the vent chemistry.
-experiment: >-
-  Consolidate the vent-specificity control(s) into one concept with the adversarial ablation control (og-adv,
-  canonical) and the planned competing-environments falsification as arms, preserving the refuted-by-design
-  null verdict; report that the gates discriminate the vent (generic null refuted).
-result: >-
-  Ablating all three vent features at once makes the real composites fail all five gates while the vent
-  passes, so the generic-nonequilibrium null is refuted (correctly rejected) — the gates are not merely
-  generic-drive detectors. This is a lumped, all-feature-ablated contrast: specificity is demonstrated
-  against ablation, NOT yet against competing realistic environments (the H2 × Fe/Ni/S × pore-gradient
-  3-way factorial and the competing-environments study are planned, not run). A latent catalyst_active=0
-  control-integrity bug was found and fixed building the control.
-builds_on: []
+concept: 'Specificity of the origin scenario: whether the campaign''s discriminating gates detect the serpentinizing alkaline vent specifically, or would pass for any generic non-equilibrium drive — tested as a common CROSS-STUDY ABLATION MATRIX (the real og-01/02/03 composites run with each vent feature ablated: no sustained H2, no Fe/Ni/S interface, no pore concentration), plus a PLANNED competing-environments falsification. A null control: a REFUTED generic null is the desired, positive result. Important bound: the ablation matrix shows the gates reject a feature-stripped generic drive, but GENUINE vent specificity requires positive, realistic ALTERNATIVE-ENVIRONMENT models — which are planned, not yet run — so specificity is demonstrated against ablation, not yet against competing origin environments.'
+gate_reason: 'Null control (vent specificity). Consolidates the adversarial control (og-adv, canonical) and the planned competing-environments falsification (og-ev-competing-environments). Headline (og-adv, canonical): running the real og-01/02/03 composites with the vent''s characteristic features ablated — no sustained H2, no Fe/Ni/S catalytic interface, no pore concentration — makes them fail all five discriminating gates (carbon flux, formate yield, protometabolic throughput, thermophoretic Peclet, enrichment), while the vent passes each. The campaign''s gates are therefore vent-specific detectors, not generic non-equilibrium detectors: the generic-nonequilibrium null hypothesis is REFUTED (correctly rejected by every gate). This refutation is the desired result of an adversarial control — it certifies the gates discriminate the vent rather than any drive, and gate_status=passed because the control works as designed. Building it also exposed and fixed a latent control-integrity bug (catalyst_active=0
+  silently swallowed by process-bigraph is_empty). og-ev-competing-environments (planned) extends the falsification to competing origin environments.'
+claim: 'A generic drive stripped of ALL THREE vent features at once (no sustained H2, no Fe/Ni/S catalyst, no pore concentration) fails all five discriminating gates on the same real og-01/02/03 composites while the vent passes each — so the campaign''s gates are NOT merely generic non-equilibrium detectors; the generic-nonequilibrium null is refuted by every gate (og-adv, canonical; verdict=refuted = null correctly rejected, gate_status=passed = the control discriminates). This is a LUMPED, all-feature-ablated contrast: it does not attribute the rejection to any single feature, and full vent-specificity — against competing realistic alternative environments — is NOT yet demonstrated (the H2 × Fe/Ni/S × pore-gradient 3-way factorial and the competing-environments study are planned, not run). Consolidated: specificity is demonstrated against a feature-ablated null, not yet against competing origin environments. Every matched null and arm verdict kept.'
+question: Do the campaign's discriminating gates detect the serpentinizing alkaline vent specifically, or would any generic non-equilibrium drive pass them?
+hypothesis: The gates are vent-specific — ablating the vent's characteristic features (sustained H2, Fe/Ni/S catalyst, pore concentration) makes the real composites fail them, so a generic non-equilibrium drive does not reproduce the vent chemistry.
+experiment: Consolidate the vent-specificity control(s) into one concept with the adversarial ablation control (og-adv, canonical) and the planned competing-environments falsification as arms, preserving the refuted-by-design null verdict; report that the gates discriminate the vent (generic null refuted).
+result: 'Ablating all three vent features at once makes the real composites fail all five gates while the vent passes, so the generic-nonequilibrium null is refuted (correctly rejected) — the gates are not merely generic-drive detectors. This is a lumped, all-feature-ablated contrast: specificity is demonstrated against ablation, NOT yet against competing realistic environments (the H2 × Fe/Ni/S × pore-gradient 3-way factorial and the competing-environments study are planned, not run). A latent catalyst_active=0 control-integrity bug was found and fixed building the control.'
 handoff:
   emits: []
   receives: []
 arms:
 - id: adv_generic_nonequilibrium
   source_study: og-adv-generic-nonequilibrium
-  concept_role: >-
-    Canonical (adversarial null control): run the real og-01/02/03 composites with the vent's characteristic
-    features ablated — no sustained H2, no Fe/Ni/S catalytic interface, no pore concentration — and they
-    fail all five discriminating gates (carbon flux, formate yield, protometabolic throughput, thermophoretic
-    Peclet, enrichment) while the vent passes each. The gates are therefore vent-specific detectors, not generic
-    non-equilibrium detectors: the generic-nonequilibrium null is REFUTED (correctly rejected). verdict=refuted
-    is the desired result of an adversarial control. (Building it exposed and fixed a latent control-integrity
-    bug: catalyst_active=0 silently swallowed by process-bigraph is_empty.)
+  concept_role: 'Canonical (adversarial null control): run the real og-01/02/03 composites with the vent''s characteristic features ablated — no sustained H2, no Fe/Ni/S catalytic interface, no pore concentration — and they fail all five discriminating gates (carbon flux, formate yield, protometabolic throughput, thermophoretic Peclet, enrichment) while the vent passes each. The gates are therefore vent-specific detectors, not generic non-equilibrium detectors: the generic-nonequilibrium null is REFUTED (correctly rejected). verdict=refuted is the desired result of an adversarial control. (Building it exposed and fixed a latent control-integrity bug: catalyst_active=0 silently swallowed by process-bigraph is_empty.)'
   fidelity: mechanistic_prediction
   verdict: refuted
   gate_status: passed
@@ -101,22 +46,18 @@ arms:
   verdict: null
   note: proposed challenge study, not run
   seeded_from: {}
-  concept_role: >-
-    Planned cross-cutting falsification: do competing origin environments (not the alkaline serpentinizing
-    vent) also pass the gates — extends the specificity control beyond the ablation null? (not run)
+  concept_role: 'Planned cross-cutting falsification: do competing origin environments (not the alkaline serpentinizing vent) also pass the gates — extends the specificity control beyond the ablation null? (not run)'
 behavior_tests:
 - name: gates-reject-generic
   gate_class: acceptance_criterion
   classification: primary
-  description: >-
-    Every vent-specific gate (og-01/02/03) rejects the feature-ablated control — it passes by being rejected.
+  description: Every vent-specific gate (og-01/02/03) rejects the feature-ablated control — it passes by being rejected.
   measure:
     kind: observable
     detail: run og-01/02/03 gates on the generic control; each measured value below its threshold
   pass_if:
     op: controls_absent
-    detail: >-
-      all five gates reject generic (net flux / formate / throughput / Péclet / enrichment below threshold)
+    detail: all five gates reject generic (net flux / formate / throughput / Péclet / enrichment below threshold)
   requires_simulation: 'yes'
   cites:
   - sutherland2017opinion
@@ -136,66 +77,48 @@ behavior_tests:
 findings:
 - id: ogadv-gates-reject-generic
   evidence_basis: predicted
-  evidence_basis_note: "The generic non-equilibrium control fails all five vent-specific gates - a model outcome demonstrating specificity."
+  evidence_basis_note: The generic non-equilibrium control fails all five vent-specific gates - a model outcome demonstrating specificity.
   kind: methodological
   status: confirms
-  statement: >-
-    Every vent-specific gate rejects the generic control. Running the real og-01/02/03 composites with
-    no sustained H2, no Fe/Ni/S catalyst and no pore concentration, all five discriminating gates fall
-    below threshold — net C-flux 4e-13 vs 1e-6 mol/s; formate ~0 vs 50 mM; protometabolic throughput 3e-13
-    vs 1e-6 mol/s; accumulation Péclet 0.26 vs 18; enrichment 1.3 (generic) vs the vent clearing the ≥10⁶-fold
-    gate (a reduced-model magnitude, solver-sensitive above Pe ≈ 13; see og-03) — the tightest by 1.8
-    decades. The vent passes all five.
+  statement: Every vent-specific gate rejects the generic control. Running the real og-01/02/03 composites with no sustained H2, no Fe/Ni/S catalyst and no pore concentration, all five discriminating gates fall below threshold — net C-flux 4e-13 vs 1e-6 mol/s; formate ~0 vs 50 mM; protometabolic throughput 3e-13 vs 1e-6 mol/s; accumulation Péclet 0.26 vs 18; enrichment 1.3 (generic) vs the vent clearing the ≥10⁶-fold gate (a reduced-model magnitude, solver-sensitive above Pe ≈ 13; see og-03) — the tightest by 1.8 decades. The vent passes all five.
   evidence:
     from_test: gates-reject-generic
-    observed: >-
-      min rejection margin 1.84 decades (tightest gate: og-03 accumulation Péclet, generic 0.26 < 18);
-      all 5 gates reject generic, vent passes all 5
+    observed: 'min rejection margin 1.84 decades (tightest gate: og-03 accumulation Péclet, generic 0.26 < 18); all 5 gates reject generic, vent passes all 5'
     units: decades
   expected:
     cites:
     - sutherland2017opinion
-  explanation: >-
-    The vent features are PARAMETERS on the same real composites, so the control is a parameterization
-    of the vent models, not a hand-tuned mock. No dissolved H2 → no CO2 reduction; no Fe/Ni/S interface
-    → no abiotic carbon fixation; an open pore → no thermophoretic concentration.
+  explanation: The vent features are PARAMETERS on the same real composites, so the control is a parameterization of the vent models, not a hand-tuned mock. No dissolved H2 → no CO2 reduction; no Fe/Ni/S interface → no abiotic carbon fixation; an open pore → no thermophoretic concentration.
+  provenance:
+    run_ids:
+    - viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation__1791923061__6216cd
 - id: ogadv-vent-specificity
   provenance:
     run_ids:
     - viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation__1791923061__6216cd
   kind: methodological
   status: novel
-  statement: >-
-    The gates are vent-specific detectors, not generic nonequilibrium detectors — the vent passes where
-    the control fails on each of the five gates. A PASS therefore certifies the vent mechanism (sustained
-    H2 + Fe/Ni/S catalysis + pore concentration), falsifying the "the gates just measure any driven chemistry"
-    objection.
+  statement: The gates are vent-specific detectors, not generic nonequilibrium detectors — the vent passes where the control fails on each of the five gates. A PASS therefore certifies the vent mechanism (sustained H2 + Fe/Ni/S catalysis + pore concentration), falsifying the "the gates just measure any driven chemistry" objection.
   evidence:
     from_test: vent-specificity-demonstrated
     observed: vent passes 5/5 gates; generic control fails 5/5 — pass-where-control-fails on every gate
     units: dimensionless
-  explanation: >-
-    Falsification exposure for the whole investigation — the headline claims would be hollow if a feature-ablated
-    control cleared the same bars. It does not.
+  explanation: Falsification exposure for the whole investigation — the headline claims would be hollow if a feature-ablated control cleared the same bars. It does not.
 - id: ogadv-catalyst-control-integrity
   provenance:
     run_ids:
     - viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation__1791923061__6216cd
   kind: methodological
-  status: novel
-  statement: >-
-    Building the control exposed a latent control-integrity bug — catalyst_active=0 was silently swallowed
-    by process-bigraph's is_empty(Float, 0.0) and refilled with the default, so the no-catalyst control
-    (here and in og-01's cross-run gate) secretly ran with full catalyst. Clamping to 1e-6 honors the
-    control; og-01's gates still pass (9/9 + both cross-run) with the now-truthful control.
+  status: caveat
+  statement: Building the control exposed a latent control-integrity bug — catalyst_active=0 was silently swallowed by process-bigraph's is_empty(Float, 0.0) and refilled with the default, so the no-catalyst control (here and in og-01's cross-run gate) secretly ran with full catalyst. Clamping to 1e-6 honors the control; og-01's gates still pass (9/9 + both cross-run) with the now-truthful control.
   evidence:
-    observed: >-
-      no-catalyst formate dropped from ~0.014 mM (catalyst silently on) to ~2e-8 mM (honored); og-01 still
-      PASS
+    observed: no-catalyst formate dropped from ~0.014 mM (catalyst silently on) to ~2e-8 mM (honored); og-01 still PASS
     units: dimensionless
-  explanation: >-
-    Same gotcha as og-04's mix_fraction=0; a control parameter set to exactly 0.0 must be clamped to a
-    negligible floor so the ablation is real.
+  explanation: Same gotcha as og-04's mix_fraction=0; a control parameter set to exactly 0.0 must be clamped to a negligible floor so the ablation is real.
+- id: ogvs-adjudicate-environment-alternative
+  kind: computational
+  evidence_basis: measured
+  statement: 'Adjudication of the og-vent-environment --alternative-to--> og-vent-specificity challenge (crank, synthesize op): complementary, not competing. og-vent-environment (supported) establishes the vent is a VIABLE calibrated feed (necessary for specificity); og-vent-specificity (behavior gates-reject-generic PASS) establishes the gates DISCRIMINATE the vent from a feature-ablated generic null. og-ev-competing-environments (Phase-3 branch, qualified) then bounds the joint claim: against POSITIVE competing environments the five gates SPLIT - chemistry/feed favors the vent, compartmentation favors low-salinity freshwater. The three are complementary facets of one result: the vent is a viable, chemically-discriminating feed environment, but not the unique environment across all gates - specificity is feature-specific (chemistry/feed), not environment-specific. The alternative-to edge is satisfied as a joint delimitation, not a defeat.'
 runs:
 - name: viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation__1791923061__6216cd
   status: completed
@@ -203,10 +126,8 @@ runs:
   canonical: true
   emitter:
     kind: sqlite
-    store: >-
-      canonical-runs/viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation__1791923061__6216cd/run.db
-  store_path: >-
-    canonical-runs/viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation__1791923061__6216cd/run.db
+    store: canonical-runs/viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation__1791923061__6216cd/run.db
+  store_path: canonical-runs/viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation__1791923061__6216cd/run.db
   params: '{}'
   outcomes:
     gates-reject-generic:
@@ -214,77 +135,32 @@ runs:
       measured_value: 1.836
       evaluated_by: code
       operator: cross_run
-      detail: >-
-        all 5 vent-specific gates REJECT the generic control (min margin 1.84 decades below threshold;
-        tightest: og-03 accumulation Péclet generic=0.26 < 18) => the gates measure the vent mechanism,
-        not generic nonequilibrium chemistry
+      detail: 'all 5 vent-specific gates REJECT the generic control (min margin 1.84 decades below threshold; tightest: og-03 accumulation Péclet generic=0.26 < 18) => the gates measure the vent mechanism, not generic nonequilibrium chemistry'
     vent-specificity-demonstrated:
       result: PASS
       measured_value: 5
       evaluated_by: code
       operator: cross_run
-      detail: >-
-        the vent passes all 5 gates where the generic control fails every one => vent-specificity demonstrated
-        (pass-where-control-fails on each gate)
+      detail: the vent passes all 5 gates where the generic control fails every one => vent-specificity demonstrated (pass-where-control-fails on each gate)
 visualizations:
 - name: vent-specificity-three-view
   address: local:VentSpecificityThreeView
   config:
     title: 'Matched-condition control: vent vs generic'
     matched_only: true
-    grid_json: >-
-      workspace/studies/og-vent-specificity/artifacts/og-adv-generic-nonequilibrium/vent_specificity_grid.json
-    caption: >-
-      Matched simulations compare carbon-production and gate outcomes under vent-like versus generic
-      nonequilibrium boundary conditions. Reduced to the matched-condition control comparison only; the
-      redundant gate-margin bars and the parameter contour are on the primary vent-specificity map /
-      appendix. The generic control removes H2, the Fe/Ni/S catalyst and the pore gradient at once, so
-      this is a lumped contrast, not an attribution to any single ingredient.
+    grid_json: workspace/studies/og-vent-specificity/artifacts/og-adv-generic-nonequilibrium/vent_specificity_grid.json
+    caption: Matched simulations compare carbon-production and gate outcomes under vent-like versus generic nonequilibrium boundary conditions. Reduced to the matched-condition control comparison only; the redundant gate-margin bars and the parameter contour are on the primary vent-specificity map / appendix. The generic control removes H2, the Fe/Ni/S catalyst and the pore gradient at once, so this is a lumped contrast, not an attribution to any single ingredient.
 - name: vent-specificity-map
   display: primary
   address: local:VentSpecificityMap
   config:
     title: Adversarial control — vent-specificity of the gates
-    grid_json: >-
-      workspace/studies/og-vent-specificity/artifacts/og-adv-generic-nonequilibrium/vent_specificity_grid.json
-    caption: >-
-      Carbon-fixation gate margins depend jointly on H2 availability and catalyst activity;
-      generic-control conditions fail the prespecified threshold in the evaluated range (the full range,
-      including failures, is shown). Inferential limit: an all-negative generic control that removes H2,
-      catalyst and pore geometry simultaneously is NOT evidence of vent specificity — it cannot attribute
-      the failure to any one ingredient. Vent-specificity stays a bounded, hedged claim until a factorial
-      ablation (H2 × Fe/Ni/S × pore-gradient, with effect sizes and interactions) is run.
-parent_studies:
-- study: og-vent-environment
-  condition: tests-passed
-- study: og-carbon-fixation
-  condition: tests-passed
-- study: og-network-persistence
-  condition: tests-passed
-- study: og-network-rescue
-  condition: tests-passed
-parent_relations:
-- study: og-vent-environment
-  relation: alternative-to
-- study: og-carbon-fixation
-  relation: tests
-- study: og-network-persistence
-  relation: tests
-- study: og-network-rescue
-  relation: tests
-consolidation_note: >-
-  Consolidates og-adv-generic-nonequilibrium (canonical, the adversarial null control) and the planned
-  og-ev-competing-environments into one concept. og-adv is an adversarial null control: its verdict=refuted
-  means the GENERIC-nonequilibrium null hypothesis is correctly rejected (gate_status=passed = the gates
-  discriminate the vent), which is the DESIRED result — specificity demonstrated, not a failure. Each
-  fold-in is an explicit arm; artifacts + viz moved under artifacts|viz/<source-slug>/. No plan_id (the
-  control carries no numbered plan slot and nothing references it numerically). Folding og-ev-competing-environments
-  as a planned arm clears one planned-stub dashboard WARN.
+    grid_json: workspace/studies/og-vent-specificity/artifacts/og-adv-generic-nonequilibrium/vent_specificity_grid.json
+    caption: 'Carbon-fixation gate margins depend jointly on H2 availability and catalyst activity; generic-control conditions fail the prespecified threshold in the evaluated range (the full range, including failures, is shown). Inferential limit: an all-negative generic control that removes H2, catalyst and pore geometry simultaneously is NOT evidence of vent specificity — it cannot attribute the failure to any one ingredient. Vent-specificity stays a bounded, hedged claim until a factorial ablation (H2 × Fe/Ni/S × pore-gradient, with effect sizes and interactions) is run.'
+consolidation_note: 'Consolidates og-adv-generic-nonequilibrium (canonical, the adversarial null control) and the planned og-ev-competing-environments into one concept. og-adv is an adversarial null control: its verdict=refuted means the GENERIC-nonequilibrium null hypothesis is correctly rejected (gate_status=passed = the gates discriminate the vent), which is the DESIRED result — specificity demonstrated, not a failure. Each fold-in is an explicit arm; artifacts + viz moved under artifacts|viz/<source-slug>/. No plan_id (the control carries no numbered plan slot and nothing references it numerically). Folding og-ev-competing-environments as a planned arm clears one planned-stub dashboard WARN.'
 conditions:
   baseline:
-  - name: >-
-      Generic non-vent adversarial control (ablated: no sustained H2 / no Fe-Ni-S catalyst / no pore) —
-      canonical (og-adv), fails all five gates
+  - name: 'Generic non-vent adversarial control (ablated: no sustained H2 / no Fe-Ni-S catalyst / no pore) — canonical (og-adv), fails all five gates'
     composite: viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation
     params:
       gradient_efficiency: 0.0
@@ -299,3 +175,27 @@ conditions:
       catalyst_active: 1.0
     planned: false
   model_settings: []
+preregistered:
+  thresholds:
+    gates-reject-generic:
+      op: controls_absent
+      detail: all five gates reject generic (net flux / formate / throughput / Péclet / enrichment below threshold)
+    vent-specificity-demonstrated:
+      op: arms_reported
+      detail: vent passes 5/5 where the control fails 5/5
+  basis: 'Thresholds are the investigation''s pre-stated plan-gate / acceptance criteria, recorded verbatim from each acceptance_criterion gate''s pass_if: conservation laws (ledger closure to numerical precision), literature-anchored ranges (Lost City pH/T/H2; Preiner yields; Baaske enrichment), directional priors, and matched-null / arms methodology requirements. Not fitted to results. No registered_at claimed.'
+execution_status: completed
+pipeline_gate:
+  prerequisites:
+  - study: og-vent-environment
+    condition: tests-passed
+    relation: alternative-to
+  - study: og-carbon-fixation
+    condition: tests-passed
+    relation: tests
+  - study: og-network-persistence
+    condition: tests-passed
+    relation: tests
+  - study: og-network-rescue
+    condition: tests-passed
+    relation: tests

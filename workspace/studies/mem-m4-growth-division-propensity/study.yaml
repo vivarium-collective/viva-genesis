@@ -2,63 +2,57 @@ schema_version: 4
 name: mem-m4-growth-division-propensity
 investigation: origins-of-life-vent
 created: '2026-10-18'
-phase: Design
-status: planned
 execution_status: proposed
-design_status: drafted
-simulation_status: not_run
-evaluation_status: not_started
 gate_status: not_started
 study_type: exploratory
 proposed: true
 title: 'Membrane Division: Can a Vesicle Grow and Divide?'
 program: membrane-md
-parent_studies:
-- study: og-self-compartmentation
-  condition: tests-passed
-parent_relations:
-- study: og-self-compartmentation
-  relation: motivates
 design_ref: workspace/references/membrane-md-studies-m1-m5-designs.md
-honest_caveat: >-
-  MD tests candidate prebiotic compositions; it does NOT by itself demonstrate endogenous
-  membrane formation. Division PROPENSITY here is a geometry/curvature/barrier measure and is
-  NOT a demonstration of heritable division (that is Gate D's og-34 / template-copying line).
-question: >-
-  Can supplied amphiphiles insert into, reshape, and expand a vesicle - and what is its
-  propensity to divide?
-hypothesis: >-
-  Supplied amphiphiles insert and expand membrane area; area growth drives curvature/shape
-  change and lowers the budding barrier - a propensity to divide, set by composition and
-  osmotic conditions.
-experiment: >-
-  Measure amphiphile insertion/exchange, area growth, curvature change and the budding/division
-  barrier for candidate vesicles - a division PROPENSITY, kept separate from heritable division.
-primary_output: >-
-  Insertion/exchange rates, area-growth trajectories, curvature change, and budding/division
-  barrier estimates.
-first_cut_forthcoming: >-
-  A lightweight amphiphile-insertion / area-growth MD on a preassembled vesicle (planned, not
-  yet scaffolded or named). Soft forward-reference only; hardened later.
+honest_caveat: MD tests candidate prebiotic compositions; it does NOT by itself demonstrate endogenous membrane formation. Division PROPENSITY here is a geometry/curvature/barrier measure and is NOT a demonstration of heritable division (that is Gate D's og-34 / template-copying line).
+question: Can supplied amphiphiles insert into, reshape, and expand a vesicle - and what is its propensity to divide?
+hypothesis: Supplied amphiphiles insert and expand membrane area; area growth drives curvature/shape change and lowers the budding barrier - a propensity to divide, set by composition and osmotic conditions.
+experiment: Measure amphiphile insertion/exchange, area growth, curvature change and the budding/division barrier for candidate vesicles - a division PROPENSITY, kept separate from heritable division.
+primary_output: Insertion/exchange rates, area-growth trajectories, curvature change, and budding/division barrier estimates.
+first_cut_forthcoming: A lightweight amphiphile-insertion / area-growth MD on a preassembled vesicle (planned, not yet scaffolded or named). Soft forward-reference only; hardened later.
 extends: og-self-compartmentation (the mem-m1 amphiphile-assembly, mem-m2 permeability/retention, mem-m3 stability arms — folded there)
 proposed_acceptance_criteria:
 - Insertion/area-growth/curvature are measured for supplied vs no-supply at identical feeds across vesicle sizes.
 - A division-propensity bound (toward or away from a division-competent geometry) is reported either way.
 - The result is reported as a propensity, explicitly NOT as evidence of heredity (og-33 metabolism-driven division and og-34 heredity remain the gate-earning lines).
-literature_anchors: [hanczyc2003experimental, budin2012concentration, marrink2003vesicle]
+literature_anchors:
+- hanczyc2003experimental
+- budin2012concentration
+- marrink2003vesicle
 visualizations: []
 conditions:
   baseline:
   - name: No-supply control (no amphiphile added)
     planned: true
-    params: {supply: none}
+    params:
+      supply: none
+    composite: viva_genesis.composites.osmotic_growth_division.osmotic_growth_division
   - name: Composition-matched supply
     planned: true
-    params: {supply: composition_matched}
+    params:
+      supply: composition_matched
+    composite: viva_genesis.composites.osmotic_growth_division.osmotic_growth_division
   - name: Multiple vesicle sizes
     planned: true
-    params: {vesicle_size: [small, medium, large]}
+    params:
+      vesicle_size:
+      - small
+      - medium
+      - large
+    composite: viva_genesis.composites.osmotic_growth_division.osmotic_growth_division
   - name: Matched osmotic conditions
     planned: true
-    params: {osmotic: matched}
+    params:
+      osmotic: matched
+    composite: viva_genesis.composites.osmotic_growth_division.osmotic_growth_division
   model_settings: []
+pipeline_gate:
+  prerequisites:
+  - study: og-self-compartmentation
+    condition: tests-passed
+    relation: motivates
