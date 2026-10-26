@@ -2,6 +2,6 @@
   "mode": "snapshot",
   "smsApiBase": "",
   "repo": "https://github.com/vivarium-collective/viva-genesis",
-  "commit": "c496861eb8cf6f2cc9e34c605035fbf1079b57d4",
+  "commit": "8dac079579b2d9014a0f7b4f735517cbefaf6717",
   "generated_from_ref": "harden/origins-of-life-vent"
 }
