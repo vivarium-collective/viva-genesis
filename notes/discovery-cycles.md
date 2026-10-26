@@ -264,3 +264,42 @@ an adjudication (a finding + a resolution), a narrative gap is discharged by *su
 the missing link* — either authoring an epistemic edge between existing studies
 (`discover connect`/`relate`, cheap) or a genuine bridging study (`branch`, heavy, like
 Cycle 2). Cycle 6+ should triage each gap into those two classes before acting.
+
+---
+
+## Cycle 6 — 2026-10-25 (triage the narrative gaps → they are detector artifacts)
+
+### Crank (before): open challenges 0, **open gaps 9**, frontier 31. Next:
+`[branch] narrative_gap on claim:mem-m4-growth-division-propensity`.
+
+### Action: triage, not branch.
+Listed all 9 gaps and read `narrate`/`audit` (`viva_superpowers/narrative.py`). The gaps
+are "Unsupported transition: A → B" between **adjacent units in a topological
+linearization** of the claim DAG (`narrate` toposorts over *supporting* edges, ties by
+id; `audit` flags every consecutive pair `zip(units, units[1:])` with no supporting
+path). Two defects make these mostly **false positives**, not missing science:
+
+1. **Topo-adjacency ≠ asserted inference.** A total order places unrelated claims next
+   to each other (e.g. `og-ecology → og-energetics`, `og-heredity → og-operating-window`,
+   `og-operating-window → og-reproduction`). Flagging each consecutive step as a claimed
+   transition treats the linearization as a chain of inferences, which it is not.
+2. **Support set excludes challenge/test edges.** `audit`'s `_SUPPORTING` set omits
+   `challenge`/`tests` edges, so a genuinely-related, *already-adjudicated* pair is still
+   flagged — e.g. `og-self-maintaining-concentrated → og-self-maintaining-individual`
+   (Cycle 4's adjudicated test edge) and `og-precursor-pool → og-spatial-concentration`.
+
+Branching 9 bridging studies to "close" these would **fabricate links that do not
+belong**. The honest action is an engine fix, not new studies.
+
+### Crank (after): unchanged by design — I did not fabricate. closure stays open gaps 9.
+
+### Observation + next engine PR (the third loop-closing fix)
+A third false-frontier class (after the null-control criterion in Cycle 2 and the
+loop-not-closed in Cycles 2–3): **the narrative-gap detector over-reports.** `audit`
+should flag a gap only where a transition is genuinely *asserted* and unsupported —
+restrict to pairs where `u2` declares a prerequisite on `u1` (any relation) that lacks
+support, and count an adjudicated `challenge`/`tests` edge as narrative continuity — not
+every topo-consecutive pair. That turns 9 artifacts into the (few) real gaps, which then
+discharge via `branch` + `resolve` like Cycles 2–5. This is the highest-leverage next
+discovery improvement; until it lands, the 9 `narrative_gap`s are known artifacts, not
+pending work.
