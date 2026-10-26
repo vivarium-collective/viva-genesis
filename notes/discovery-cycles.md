@@ -303,3 +303,34 @@ every topo-consecutive pair. That turns 9 artifacts into the (few) real gaps, wh
 discharge via `branch` + `resolve` like Cycles 2–5. This is the highest-leverage next
 discovery improvement; until it lands, the 9 `narrative_gap`s are known artifacts, not
 pending work.
+
+---
+
+## Cycle 7 — 2026-10-25 (fix the gap detector → investigation reaches CLOSED)
+
+Implemented the Cycle-6 fix as viva-superpowers **PR #362**: `narrative.audit()` now
+flags a gap only when a **declared edge** asserts the transition and it is neither a
+supporting path nor a challenge — independent-adjacency artifacts and challenge
+double-counts no longer raise gaps.
+
+### Crank (after the fix): **closure CLOSED.**
+`unaddressed criteria 0 · open gaps 9 → 0 · open challenges 0.` The investigation's
+argument is settled: every acceptance criterion met (by behavior), all three challenges
+adjudicated (Cycles 3–5), and no unsupported transitions remain.
+
+### What's left is the `steer` class, not gaps
+The frontier (22) is now entirely forward-looking, expert-input items the crank hands
+back to a human — **8 `open_decision`s** (steer), 13 `divergence`s, 1 `open_question`:
+- Publication scope (close the first paper at the pre-genetic arc?)
+- Reaction-universe rule-set scope (C1–C3 C/H/O-only, or fold in N/P?)
+- Unified-world architecture (single persistent-world composite?)
+- MARHYS 4.0 + Hadean-ocean prior (og-vent-environment)
+- Ocean-floor H2 / organic prior (og-independence)
+- Agent motion model + dicarboxylate membrane permeability (og-ecology)
+- Heredity attachment thresholds (og-heredity)
+
+These require the investigator's decision (the `steer` op is "the expert decides"), not
+an adjudication or a bridging study — so this is the natural hand-back point of the
+crank. Discovery engine after 6 cycles: 3 false-frontier classes found and fixed
+(#360 null-control criterion, #361 loop-not-closed, #362 narrative-gap over-reporting);
+the crank now advances monotonically to a true CLOSED and surfaces only real steer work.
