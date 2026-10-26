@@ -376,8 +376,7 @@ def spatial_field(proc: "FipyReactiveTransportProcess", state: "dict | None" = N
     return out
 
 
-# Back-compat 1-D profile helper (a horizontal slice through the 2-D field at the
-# vent exit) for any caller that imported the old name.
+# 1-D profile helper: a horizontal slice through the 2-D field at the vent exit.
 def spatial_profile(proc: "FipyReactiveTransportProcess") -> dict:
     f = spatial_field(proc)
     if not f.get("nx"):

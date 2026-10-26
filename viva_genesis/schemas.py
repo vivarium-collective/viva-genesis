@@ -24,7 +24,7 @@ This module is that interface layer. It exports
 * ``PORT_TO_CANONICAL`` — the mapping from existing process port names to the
   canonical ``schema.field`` they realise (plan 1.4 / integration doc 1.4). This
   is what ``viva_genesis.models`` uses to check that a face is expressible in
-  canonical terms, and what the migration wrappers will read.
+  canonical terms.
 
 Nothing heavy is imported here: ``build_core`` walks this module and types must
 never be missing.
