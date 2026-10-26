@@ -237,3 +237,30 @@ surfaces the next. Progress that Cycles 2–3 made but the engine couldn't *see*
 visible in the closure count. Remaining: 1 open challenge + 9 narrative gaps (the
 `narrative_gap → bridged` discharge is the next natural use of the same `resolve`
 mechanism, with a bridging study as the `by` artifact).
+
+---
+
+## Cycle 5 — 2026-10-25 (adjudicate the last challenge; all challenges now closed)
+
+### Crank (before): open challenges **1**, frontier 32. Next: `[synthesize]` the
+`og-vent-environment --alternative-to--> og-vent-specificity` edge.
+
+### Action: adjudicated **complementary, not competing** — og-vent-environment (viable
+feed, supported) + og-vent-specificity (gates discriminate the vent, behavior passed)
+are jointly bounded by og-ev-competing-environments (Cycle 2: the gates *split* —
+chemistry favors the vent, compartmentation favors low-salinity freshwater). The vent is
+a viable, chemically-discriminating feed environment but not the unique environment
+across all gates → specificity is **feature-specific, not environment-specific**.
+Recorded as finding `ogvs-adjudicate-environment-alternative`; discharged via `resolve`.
+
+### Crank (after): **open challenges 1 → 0, frontier 32 → 31.** All three argument-level
+challenges (Cycles 3–5) are adjudicated and closed. closure now: unaddressed 0,
+challenges 0, **open gaps 9** — the frontier is entirely `narrative_gap`s.
+
+### Milestone + what's left
+The criterion/verdict axis and the challenge axis are fully discharged. The remaining 9
+`narrative_gap`s are "unsupported transition" items in the reading (op: `branch`). Unlike
+an adjudication (a finding + a resolution), a narrative gap is discharged by *supplying
+the missing link* — either authoring an epistemic edge between existing studies
+(`discover connect`/`relate`, cheap) or a genuine bridging study (`branch`, heavy, like
+Cycle 2). Cycle 6+ should triage each gap into those two classes before acting.

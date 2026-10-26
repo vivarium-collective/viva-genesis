@@ -5116,3 +5116,7 @@ resolutions:
   target: claim:og-self-maintaining-concentrated
   rationale: 'Concordant/quantified: the concentrated study reproduces the individual refutation (9.46e-8) and delimits its closing regime (near-maximal trap, low salinity), bounding it rather than overturning it.'
   by: og-self-maintaining-concentrated#ogsmc-adjudicate-individual-test
+- kind: open_challenge
+  target: claim:og-vent-specificity
+  rationale: 'Complementary, not competing: og-vent-environment (viable feed) + og-vent-specificity (gates discriminate vent) jointly bounded by og-ev-competing-environments (gates split; feature-specific, not environment-specific).'
+  by: og-vent-specificity#ogvs-adjudicate-environment-alternative
