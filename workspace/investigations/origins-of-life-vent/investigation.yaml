@@ -5112,3 +5112,7 @@ resolutions:
   target: claim:og-autocatalysis-a2
   rationale: 'Adjudicated concordant: persistence is driven (og-network-persistence, supported), endogenous autocatalysis refuted (og-autocatalysis-a2) — one driven-dissipative-network claim, not a defeat.'
   by: og-autocatalysis-a2#ogaa2-adjudicate-persistence-challenge
+- kind: open_challenge
+  target: claim:og-self-maintaining-concentrated
+  rationale: 'Concordant/quantified: the concentrated study reproduces the individual refutation (9.46e-8) and delimits its closing regime (near-maximal trap, low salinity), bounding it rather than overturning it.'
+  by: og-self-maintaining-concentrated#ogsmc-adjudicate-individual-test

@@ -202,3 +202,38 @@ understates real progress.
 - The three `open_challenge`s (og-autocatalysis-a2, og-self-maintaining-concentrated,
   og-vent-specificity) are all real adjudication work the engine can't yet close; the
   next engine PR (uniform resolution) is the highest-leverage discovery improvement.
+
+---
+
+## Cycle 4 — 2026-10-25 (adjudicate the individual→concentrated self-maintenance test)
+
+Run on **both engine fixes now merged to viva-superpowers main**: #360
+(acceptance ← behavior) and #361 (uniform resolution + the `discover resolve` verb).
+The Cycle-3 resolution persists, so the crank opened at open challenges **2**.
+
+### Crank state (before)
+`closure: OPEN` — unaddressed 0, open gaps 9, open challenges **2**, frontier 33.
+**Next:** `[synthesize] open_challenge on claim:og-self-maintaining-concentrated`
+— edge `og-self-maintaining-individual --tests--> og-self-maintaining-concentrated`.
+
+### Action (synthesize + resolve)
+Adjudicated: **concordant, not a defeat.** og-self-maintaining-individual (refuted) —
+the loop stays 4–7 orders below CAC at defensible vent conditions; og-self-maintaining-
+concentrated (qualified) **reproduces** that base shortfall (9.46e-8) and maps *where*
+it closes (near-maximal trap, low salinity). The concentrated study inherits and
+**quantifies** the refutation into a conditional bound, it does not overturn it — the
+`tests` edge is satisfied. Recorded as finding `ogsmc-adjudicate-individual-test` and
+discharged with `discover resolve open_challenge claim:og-self-maintaining-concentrated`.
+
+### Crank state (after) — the loop now closes
+**open challenges 2 → 1, frontier 33 → 32.** The item dropped and the crank advanced to
+the last challenge (`og-vent-specificity`, `og-vent-environment --alternative-to-->`).
+First cycle where the recommended `synthesize` op actually moved the frontier — the
+uniform-resolution mechanism (#361) closed the loop that Cycles 2–3 proved was open.
+
+### Observation
+The engine now advances monotonically: each adjudication/resolution drops its item and
+surfaces the next. Progress that Cycles 2–3 made but the engine couldn't *see* is now
+visible in the closure count. Remaining: 1 open challenge + 9 narrative gaps (the
+`narrative_gap → bridged` discharge is the next natural use of the same `resolve`
+mechanism, with a bridging study as the `by` artifact).
