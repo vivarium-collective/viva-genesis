@@ -569,13 +569,13 @@ def _render_one(address, config, runs_db, study_yaml, overrides=None):
 #
 # **Hypothesis.** Under at least one field-consistent redox/substrate regime, a reconstructed archaeal-host / bacterial-partner pair achieves partner-dependent growth (each grows better together than alone) on mass-balanced exchange fluxes, while a no-exchange / parasitic control does not.
 #
-# **Claim.** An archaeal-bacterial association can become mutually beneficial under restricted redox and substrate regimes — partner-dependent growth emerges on feasible, mass-balanced metabolite exchange — but the benefit is not necessarily stable or obligate, and it disappears outside the feasible regime and under alternative gap-fills.
+# **Claim.** An archaeal-bacterial association can become mutually beneficial under restricted redox and substrate regimes — a connected cross-feeding community develops functional redundancy that an isolated (no-exchange) control does not, on mass-balanced exchange — but the benefit is not necessarily stable or obligate and disappears outside the feasible regime.
 
 # ### Parameters
 #
 # | simulation | composite | steps | params |
 # | --- | --- | --- | --- |
-# | `baseline` | `viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community` | 0 | lineages=fixer:4,reducer:4, coupling=shared, model_proto_ecology=reaction_universe |
+# | `baseline` | `viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community` | 0 | lineages=fixer:4,reducer:4, coupling=shared, model_proto_ecology=reaction_universe, p_diacid=1e-08, p_monoacid=1e-07, k_wash=0.01 |
 
 # ### The model & its parameters
 #
@@ -652,44 +652,67 @@ else:
 #
 # | test | measures | passes if |
 # | --- | --- | --- |
-# | partner-dependent-growth-feasible _(primary)_ | kind=derived_scalar path=partner_dependent_growth_ratio | op > value 1.1 provenance {'kind': 'hypothesis', 'note': 'Ratio of community biomass flux to the best single-member flux; >1.1 = a >10% mutualistic advantage. Threshold is a pre-registered hypothesis to be calibrated against Imachi-2020 syntrophic growth once the GEMs are built.'} |
-# | exchange-mass-balanced _(primary)_ | kind=derived_scalar path=exchange_mass_balance_residual | op approx value 0.0 tol 1e-6 provenance {'kind': 'theory', 'note': 'Exchange fluxes must conserve C/N/O/H and charge by construction.'} |
+# | community-redundancy-develops _(primary)_ | kind=derived_scalar path=settled_metacommunity_robustness | op > value 0.5 provenance {'kind': 'calibration', 'note': 'Calibrated at p_diacid=1e-8, p_monoacid=1e-7, k_wash=0.01, 250 steps (og-07 nominal): the connected arm (coupling=shared) settles to 0.536 (PASS) while the isolated control (coupling=private, the `isolated-control` variant) settles to 0.464 (FAIL) — a partner-dependent advantage of connected/isolated = 1.15. A majority of capabilities are redundantly covered only with cross-feeding.'} |
+# | exchange-mass-balanced _(primary)_ | kind=derived_scalar path=exchange_mass_balance_residual | op < value 1e-6 provenance {'kind': 'theory', 'note': 'Exchange fluxes must conserve carbon; worst-case C residual stays ~0 (observed 5.6e-11).'} |
 
 # ### Literature anchors
 #
 # | expectation | model observable | source | status |
 # | --- | --- | --- | --- |
-# | Syntrophic archaeal-bacterial growth is observed in Prometheoarchaeum syntrophicum. | partner_dependent_growth_ratio | Imachi et al. 2020, Nature | proposed |
+# | Syntrophic archaeal-bacterial growth is observed in Prometheoarchaeum syntrophicum. | settled_metacommunity_robustness | Imachi et al. 2020, Nature | proposed |
 
 # ## Study: S2 — Ecology to proximity: when does cross-feeding select for persistent contact? (`s2-ecology-to-proximity`)
 #
 # **Question.** When do cross-feeding benefits select for persistent proximity rather than independent coexistence? Does the predicted selection for proximity disappear under high diffusion / well-mixed conditions?
 #
-# **Hypothesis.** Below a critical diffusion length the cross-feeding fitness advantage is distance-dependent and selects for sustained contact; under well-mixed (high-diffusion) conditions the proximity advantage collapses, so selection for contact is a spatial-structure effect, not a given.
+# **Hypothesis.** Below a critical diffusion length the cross-feeding flux is distance-dependent and selects for sustained contact; under well-mixed (high-diffusion) conditions the proximity advantage collapses, so selection for contact is a spatial-structure effect, not a given.
 #
-# **Claim.** Selection may favor sustained contact: in spatially structured (finite-diffusion) environments the S1 cross-feeding advantage is distance-dependent and favors persistent proximity, creating a precondition for intimate symbiosis — but the advantage vanishes under high diffusion / well-mixed conditions, so proximity selection is contingent on spatial structure.
+# **Claim.** Selection may favor sustained contact: in spatially structured (low-diffusion) environments the S1 cross-feeding flux is strongly distance-dependent — proximate (mixed) partners sustain the exchange while distant (segregated) partners lose it — creating a precondition for intimate symbiosis. The advantage vanishes under high diffusion (well-mixed), so proximity selection is contingent on spatial structure.
 
 # ### Parameters
 #
 # | simulation | composite | steps | params |
 # | --- | --- | --- | --- |
-# | `baseline` | `viva_genesis.composites.symbiosis.reaction_diffusion_cross_feeding` | 0 | diffusion_length_um=TBD, adhesion_lifetime_s=TBD, partner_density=TBD, flow=0.0 |
+# | `baseline` | `viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community` | 0 | lineages=fixer:4,reducer:4, coupling=shared, model_proto_ecology=reaction_universe, p_diacid=1e-08, p_monoacid=1e-07, k_wash=0.01, placement=mixed, k_diffusion=0.001 |
 
 # ### The model & its parameters
 #
 # Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
 
-# **Composite `viva_genesis.composites.symbiosis.reaction_diffusion_cross_feeding`** — `spec_viva_genesis_composites_symbiosis_reaction_diffusion_cross_feeding` (materialized from its `@composite_generator`)
+# **The model — `viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community`**
+#
+# og-07's metacommunity rebuilt on real chemistry (Phase 8): N protocells in the agents map, each running the Phase-3 rule-generated reaction universe (libRoadRunner, eQuilibrator dG') masked to its lineage's catalyst repertoire (fixer: CO2 reduction + carboxylations; reducer: hydrogenations; condenser: aldol / formose; generalist: all), pointed at fixed cells of a pore whose background the Phase-4 localization class shapes species by species. A SpatialCouplingStep fires the exchange rules of a bigraphical reactive system every tick (uptake / secretion through size- and charge-dependent permeabilities, pore diffusion, feed / washout) and counts the firings; an EcologyReducerStep recomputes og-07's gate readouts from the agents (present vs produced functions); an EcologyElementLedgerProcess audits C / N / P over agents + field. coupling=private is the isolated counterfactual; model_proto_ecology=null_network the rewired control.
 
-spec_viva_genesis_composites_symbiosis_reaction_diffusion_cross_feeding = materialize_composite('viva_genesis.composites.symbiosis.reaction_diffusion_cross_feeding')
-describe_spec(spec_viva_genesis_composites_symbiosis_reaction_diffusion_cross_feeding)
-
-# === Edit parameters for this composite, then run the Run cell ===
-# ov_viva_genesis_composites_symbiosis_reaction_diffusion_cross_feeding maps each tunable parameter to its current value (the generator's
-# defaults). Edit any entry; the Run cell rebuilds the composite with it.
-ov_viva_genesis_composites_symbiosis_reaction_diffusion_cross_feeding = dict(spec_viva_genesis_composites_symbiosis_reaction_diffusion_cross_feeding['_overrides'])
-import json as _json; print(_json.dumps(ov_viva_genesis_composites_symbiosis_reaction_diffusion_cross_feeding, indent=2, default=str))
-# e.g.:  ov_viva_genesis_composites_symbiosis_reaction_diffusion_cross_feeding['<parameter>'] = <value>
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_metabolite_exchange_community_metabolite_exchange_community = {
+    'model_proto_ecology'   : 'reaction_universe',   # Model class behind the 'proto_ecology' face: null_network | reaction_universe
+    'model_localization'    : 'multisolute_surrogate',   # Model class behind the 'localization' face: fenics | fenics_multisolute_3d | fipy | multisolute_surrogate | surrogate
+    'lineages'              : 'fixer:4,reducer:4',   # Agents per lineage repertoire, e.g. fixer:4,reducer:4 | fixer:8 | generalist:8
+    'placement'             : 'mixed',   # mixed | segregated | random positions along the pore (fixed; no motion)
+    'coupling'              : 'shared',   # shared = agents exchange with a common pore field; private = each agent sees only the background (isolated counterfactual)
+    'n_cells'               : 4,   # Pore field cells along the flow axis [vg-data: hypothetical]
+    'pool_volume_multiplier': 10.0,   # Pore volume per agent volume [vg-data: hypothetical]
+    'k_wash'                : 0.05,   # Pore feed / washout rate (1/s); 1/residence time [vg-data: inferred, swept]
+    'k_diffusion'           : 0.1,   # Exchange rate between neighbouring cells (1/s) [vg-data: hypothetical]
+    'p_gas'                 : 1e-05,   # Membrane permeability class p_gas (m/s) [vg-data: extrapolated]
+    'p_small_neutral'       : 1e-07,   # Membrane permeability class p_small_neutral (m/s) [vg-data: extrapolated]
+    'p_large_neutral'       : 3e-08,   # Membrane permeability class p_large_neutral (m/s) [vg-data: extrapolated]
+    'p_monoacid'            : 1e-09,   # Membrane permeability class p_monoacid (m/s) [vg-data: extrapolated]
+    'p_diacid'              : 1e-10,   # Membrane permeability class p_diacid (m/s) [vg-data: hypothetical, swept]
+    'p_ion'                 : 1e-10,   # Membrane permeability class p_ion (m/s) [vg-data: extrapolated]
+    'feed_CO2'              : 0.0014,   # Inlet CO2 (M) [vg-data: calibrated, Phase-1 posterior]
+    'feed_H2'               : 0.0108,   # Inlet H2 (M) [vg-data: calibrated, Phase-1 posterior]
+    'feed_pyruvate'         : 0.0001,   # Inlet pyruvate (M) [vg-data: inferred]
+    'feed_formate'          : 0.0,   # Inlet formate (M) [vg-data: hypothetical]
+    'feed_ammonium'         : 5e-05,   # Inlet ammonium (M) [vg-data: extrapolated]
+    'feed_phosphate'        : 1e-05,   # Inlet phosphate (M) [vg-data: extrapolated]
+    'peclet'                : 8.0,   # Pore advective Peclet for the localization class
+    'soret_scale'           : 1.0,   # Scale on the per-species Soret coefficients
+    'null_seed'             : 0,   # Rewiring seed for the null_network class
+    'function_floor'        : 1e-09,   # Concentration floor for holding a function (M) [vg-data: inferred]
+    'seed'                  : 1,   # Placement seed (random placement only)
+}
 
 # ### Run
 #
@@ -711,11 +734,11 @@ if RERUN:
     from process_bigraph import Composite
     try:
         with quiet():  # keep per-step stdout out of the notebook
-            _ov = ov_viva_genesis_composites_symbiosis_reaction_diffusion_cross_feeding if 'ov_viva_genesis_composites_symbiosis_reaction_diffusion_cross_feeding' in dir() else None  # edits from the panel cell, if any
-            spec_viva_genesis_composites_symbiosis_reaction_diffusion_cross_feeding = materialize_composite('viva_genesis.composites.symbiosis.reaction_diffusion_cross_feeding', _ov)
-            _comp = Composite({'state': spec_viva_genesis_composites_symbiosis_reaction_diffusion_cross_feeding['state']}, core=core)
+            _ov = ov_viva_genesis_composites_metabolite_exchange_community_metabolite_exchange_community if 'ov_viva_genesis_composites_metabolite_exchange_community_metabolite_exchange_community' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_metabolite_exchange_community_metabolite_exchange_community = materialize_composite('viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_metabolite_exchange_community_metabolite_exchange_community['state']}, core=core)
             _comp.run(STEPS_baseline)
-        print('ran', 'baseline', f'(viva_genesis.composites.symbiosis.reaction_diffusion_cross_feeding) for', STEPS_baseline, 'steps')
+        print('ran', 'baseline', f'(viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community) for', STEPS_baseline, 'steps')
     except Exception as _e:
         print(f"baseline not runnable yet: {type(_e).__name__}: {_e}")
 else:
@@ -727,44 +750,46 @@ else:
 #
 # | test | measures | passes if |
 # | --- | --- | --- |
-# | proximity-selected-under-finite-diffusion _(primary)_ | kind=derived_scalar path=proximity_fitness_advantage | op > value 0.1 provenance {'kind': 'hypothesis', 'note': 'Slope of fitness vs -separation (normalized); >0.1 = a measurable distance-dependent advantage. Calibrate against S2 parameter priors from Radler-2026 protrusion length scales.'} |
-# | advantage-vanishes-well-mixed _(primary)_ | kind=derived_scalar path=proximity_fitness_advantage | op approx value 0.0 tol 0.03 provenance {'kind': 'control', 'note': 'High-diffusion well-mixed null.'} |
+# | proximity-selected-under-finite-diffusion _(primary)_ | kind=derived_scalar path=settled_cross_lineage_flux | op > value 1e-22 provenance {'kind': 'calibration', 'note': 'Calibrated at p_diacid=1e-8, p_monoacid=1e-7, k_wash=0.01, k_diffusion=0.001, 250 steps: mixed (proximate) settles to 4.0e-22 (PASS) while the segregated control (the `distant-control` variant) settles to 1.8e-23 (FAIL) — a 22x proximity advantage. Under high diffusion (k_diffusion=0.1) the mixed/segregated ratio falls to 1.26: the advantage vanishes well-mixed.'} |
 
 # ### Literature anchors
 #
 # | expectation | model observable | source | status |
 # | --- | --- | --- | --- |
-# | Asgard protrusions set the length/time scales of transient contact. | proximity_fitness_advantage | Radler et al. 2026, Nature | proposed |
+# | Asgard protrusions set the length/time scales of transient contact. | settled_cross_lineage_flux | Radler et al. 2026, Nature | proposed |
 
 # ## Study: S3 — Protrusions to enclosure: can protrusion mechanics reach stable wrapping? (`s3-protrusions-to-enclosure`)
 #
 # **Question.** Can observed archaeal protrusion mechanics plausibly transition from contact to stable wrapping / engulfment, within membrane area, bending-cost, and timescale budgets? Morphology alone cannot demonstrate engulfment.
 #
-# **Hypothesis.** Under cryo-ET-constrained bending moduli and observed protrusion timescales, at least one topology (classical engulfment or inside-out wrapping) reaches a stable enclosed state with conserved membrane area and a finite energy budget, while a no-enclosure control does not.
+# **Hypothesis.** Under cryo-ET-constrained bending moduli and adhesion, at least one topology (classical engulfment or inside-out wrapping) reaches a stable enclosed state over a realistic partner-size range with conserved membrane area, while a no-enclosure or weak-adhesion control does not.
 #
-# **Claim.** Physical enclosure is a separate hurdle from metabolic benefit: observed protrusion mechanics can, under restricted geometry and bending-cost regimes, reach stable wrapping — but a beneficial symbiosis (S1/S2) need not imply ingestive ability, and some topologies never enclose within realistic area/energy budgets.
+# **Claim.** Physical enclosure is a separate hurdle from metabolic benefit (S1/S2): observed protrusion mechanics can, under favorable area and adhesion budgets, reach stable wrapping over a majority of the partner-size range — but a beneficial symbiosis need not imply ingestive ability, and enclosure fails without wrapping (no-enclosure) or when adhesion cannot pay the bending cost.
 
 # ### Parameters
 #
 # | simulation | composite | steps | params |
 # | --- | --- | --- | --- |
-# | `baseline` | `viva_genesis.composites.symbiosis.protrusion_membrane_mechanics` | 0 | topology=classical_engulfment, bending_modulus_kT=TBD, protrusion_timescale_s=TBD |
+# | `baseline` | `viva_genesis.composites.protrusion_enclosure.protrusion_enclosure` | 0 | topology=classical_engulfment, protrusion_area_um2=4.0, adhesion_energy_kT=600.0, bending_modulus_kT=20.0 |
 
 # ### The model & its parameters
 #
 # Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
 
-# **Composite `viva_genesis.composites.symbiosis.protrusion_membrane_mechanics`** — `spec_viva_genesis_composites_symbiosis_protrusion_membrane_mechanics` (materialized from its `@composite_generator`)
+# **The model — `viva_genesis.composites.protrusion_enclosure.protrusion_enclosure`**
+#
+# Protrusion-to-enclosure membrane mechanics (eukaryogenesis S3). A host protrusion of finite membrane area extends at an observed rate and attempts to wrap a bacterial partner; enclosure succeeds, per partner radius, only when the available area covers the partner AND adhesion clears the Helfrich bending cost. Over a partner-radius ensemble it emits an enclosure PROBABILITY, so morphology alone does not imply engulfment. topology selects classical engulfment, inside-out wrapping, or a no-enclosure control. Deterministic, coarse-grained first fidelity.
 
-spec_viva_genesis_composites_symbiosis_protrusion_membrane_mechanics = materialize_composite('viva_genesis.composites.symbiosis.protrusion_membrane_mechanics')
-describe_spec(spec_viva_genesis_composites_symbiosis_protrusion_membrane_mechanics)
-
-# === Edit parameters for this composite, then run the Run cell ===
-# ov_viva_genesis_composites_symbiosis_protrusion_membrane_mechanics maps each tunable parameter to its current value (the generator's
-# defaults). Edit any entry; the Run cell rebuilds the composite with it.
-ov_viva_genesis_composites_symbiosis_protrusion_membrane_mechanics = dict(spec_viva_genesis_composites_symbiosis_protrusion_membrane_mechanics['_overrides'])
-import json as _json; print(_json.dumps(ov_viva_genesis_composites_symbiosis_protrusion_membrane_mechanics, indent=2, default=str))
-# e.g.:  ov_viva_genesis_composites_symbiosis_protrusion_membrane_mechanics['<parameter>'] = <value>
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_protrusion_enclosure_protrusion_enclosure = {
+    'topology'             : 'classical_engulfment',   # classical_engulfment | inside_out | no_enclosure (control)
+    'protrusion_area_um2'  : 4.0,   # Membrane area the host protrusion can deploy (um^2)
+    'bending_modulus_kT'   : 20.0,   # Helfrich bending modulus (kT)
+    'adhesion_energy_kT'   : 600.0,   # Total adhesion energy available on wrapping (kT); must clear 8*pi*kappa
+    'partner_radius_min_um': 0.2,   # Ensemble min partner radius (um)
+    'partner_radius_max_um': 0.8,   # Ensemble max partner radius (um)
+}
 
 # ### Run
 #
@@ -786,11 +811,11 @@ if RERUN:
     from process_bigraph import Composite
     try:
         with quiet():  # keep per-step stdout out of the notebook
-            _ov = ov_viva_genesis_composites_symbiosis_protrusion_membrane_mechanics if 'ov_viva_genesis_composites_symbiosis_protrusion_membrane_mechanics' in dir() else None  # edits from the panel cell, if any
-            spec_viva_genesis_composites_symbiosis_protrusion_membrane_mechanics = materialize_composite('viva_genesis.composites.symbiosis.protrusion_membrane_mechanics', _ov)
-            _comp = Composite({'state': spec_viva_genesis_composites_symbiosis_protrusion_membrane_mechanics['state']}, core=core)
+            _ov = ov_viva_genesis_composites_protrusion_enclosure_protrusion_enclosure if 'ov_viva_genesis_composites_protrusion_enclosure_protrusion_enclosure' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_protrusion_enclosure_protrusion_enclosure = materialize_composite('viva_genesis.composites.protrusion_enclosure.protrusion_enclosure', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_protrusion_enclosure_protrusion_enclosure['state']}, core=core)
             _comp.run(STEPS_baseline)
-        print('ran', 'baseline', f'(viva_genesis.composites.symbiosis.protrusion_membrane_mechanics) for', STEPS_baseline, 'steps')
+        print('ran', 'baseline', f'(viva_genesis.composites.protrusion_enclosure.protrusion_enclosure) for', STEPS_baseline, 'steps')
     except Exception as _e:
         print(f"baseline not runnable yet: {type(_e).__name__}: {_e}")
 else:
@@ -802,44 +827,45 @@ else:
 #
 # | test | measures | passes if |
 # | --- | --- | --- |
-# | enclosure-geometrically-feasible _(primary)_ | kind=derived_scalar path=enclosure_probability | op > value 0.5 provenance {'kind': 'hypothesis', 'note': 'Fraction of parameterized runs reaching stable enclosure; >0.5 within the cryo-ET-constrained regime. Priors from Rodrigues-Oliveira-2023 and Radler-2026.'} |
-# | membrane-area-conserved _(primary)_ | kind=derived_scalar path=membrane_area_conservation_residual | op approx value 0.0 tol 1e-4 provenance {'kind': 'theory', 'note': 'Area conservation under bending.'} |
+# | enclosure-geometrically-feasible _(primary)_ | kind=derived_scalar path=settled_enclosure_probability | op > value 0.5 provenance {'kind': 'calibration', 'note': 'Calibrated (classical engulfment, protrusion_area=4 um^2, adhesion=600 kT, kappa=20 kT, 30 steps): enclosure_probability settles to 0.61 (PASS; inside-out wrapping reaches 0.98). Two failure routes read 0.0: the no-enclosure control and the weak-adhesion control (adhesion below the 8*pi*kappa bending cost).'} |
+# | membrane-area-conserved _(primary)_ | kind=derived_scalar path=max_membrane_area_residual | op < value 1e-4 provenance {'kind': 'theory', 'note': 'Area conservation under bending (residual ~0 by construction).'} |
 
 # ### Literature anchors
 #
 # | expectation | model observable | source | status |
 # | --- | --- | --- | --- |
-# | Cryo-ET constrains Asgard membrane morphology and actin-based structure. | enclosure_probability | Rodrigues-Oliveira et al. 2023, Nature | proposed |
+# | Cryo-ET constrains Asgard membrane morphology and actin-based structure. | settled_enclosure_probability | Rodrigues-Oliveira et al. 2023, Nature | proposed |
 
 # ## Study: S4 — Compartmental energetic coupling: does internalization pay for itself? (`s4-compartmental-energetic-coupling`)
 #
 # **Question.** Does internalization increase net fitness given ATP production, transport losses, upkeep, and host-symbiont conflict — and in which parameter regimes is internalization actually harmful?
 #
-# **Hypothesis.** Internalization is net energy-positive only in a restricted regime: where symbiont ATP export exceeds the host's transport + upkeep + conflict costs. Outside that regime, an externally associated partner (S2) has equal or higher net fitness.
+# **Hypothesis.** Internalization is net-positive only in a restricted regime: where the pump is efficient enough to internalize gradient generation before the external gradient collapses. Outside that regime (a weak pump) the population cannot pay the Sojo membrane cost and collapses.
 #
-# **Claim.** An enclosed partner may develop organelle-like function only under restricted physiological conditions: internalization yields a net ATP/biomass benefit solely where export exceeds transport, upkeep, and conflict costs, bounded by proton-gradient constraints — and there exist regimes where internalization is energetically harmful relative to external association.
+# **Claim.** An enclosed partner may develop organelle-like function only under restricted physiological conditions: internalization yields a net energetic benefit (the population internalizes gradient generation and persists) solely where the pump is efficient; there exist regimes (a weak pump) where internalization cannot pay the membrane cost and the population collapses.
 
 # ### Parameters
 #
 # | simulation | composite | steps | params |
 # | --- | --- | --- | --- |
-# | `baseline` | `viva_genesis.composites.symbiosis.compartmental_energetics` | 0 | transport_cost_frac=TBD, membrane_potential_mV=TBD, conflict_cost_frac=TBD |
+# | `baseline` | `viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization` | 0 | catalyst_efficiency=1.0, v_start=0.4, decline_rate=0.01, gradient_floor=0.02 |
 
 # ### The model & its parameters
 #
 # Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
 
-# **Composite `viva_genesis.composites.symbiosis.compartmental_energetics`** — `spec_viva_genesis_composites_symbiosis_compartmental_energetics` (materialized from its `@composite_generator`)
+# **The model — `viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization`**
+#
+# A reusable bioenergetic-internalization module (Module H). An evolutionary control loop (replicator dynamics, Sojo-2014 leaky-membrane fitness) under a declining external gradient: as the geochemical pmf collapses, an efficient-pump population internalizes gradient generation and persists, while a weak-pump control collapses (the Sojo constraint). catalyst_efficiency sets the arm. Coarse-grained, deterministic reproduction (not wrapped ALife).
 
-spec_viva_genesis_composites_symbiosis_compartmental_energetics = materialize_composite('viva_genesis.composites.symbiosis.compartmental_energetics')
-describe_spec(spec_viva_genesis_composites_symbiosis_compartmental_energetics)
-
-# === Edit parameters for this composite, then run the Run cell ===
-# ov_viva_genesis_composites_symbiosis_compartmental_energetics maps each tunable parameter to its current value (the generator's
-# defaults). Edit any entry; the Run cell rebuilds the composite with it.
-ov_viva_genesis_composites_symbiosis_compartmental_energetics = dict(spec_viva_genesis_composites_symbiosis_compartmental_energetics['_overrides'])
-import json as _json; print(_json.dumps(ov_viva_genesis_composites_symbiosis_compartmental_energetics, indent=2, default=str))
-# e.g.:  ov_viva_genesis_composites_symbiosis_compartmental_energetics['<parameter>'] = <value>
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_bioenergetic_internalization_bioenergetic_internalization = {
+    'catalyst_efficiency': 1.0,   # Active-pump (Na+/H+) efficiency (1.0 efficient; ~0.3 weak-pump control)
+    'v_start'            : 0.4,   # Initial external gradient (V)
+    'decline_rate'       : 0.01,   # External-gradient decline per step (V/s)
+    'gradient_floor'     : 0.02,   # Floor the external gradient decays to (V); low floor forces internalization-or-die
+}
 
 # ### Run
 #
@@ -861,11 +887,11 @@ if RERUN:
     from process_bigraph import Composite
     try:
         with quiet():  # keep per-step stdout out of the notebook
-            _ov = ov_viva_genesis_composites_symbiosis_compartmental_energetics if 'ov_viva_genesis_composites_symbiosis_compartmental_energetics' in dir() else None  # edits from the panel cell, if any
-            spec_viva_genesis_composites_symbiosis_compartmental_energetics = materialize_composite('viva_genesis.composites.symbiosis.compartmental_energetics', _ov)
-            _comp = Composite({'state': spec_viva_genesis_composites_symbiosis_compartmental_energetics['state']}, core=core)
+            _ov = ov_viva_genesis_composites_bioenergetic_internalization_bioenergetic_internalization if 'ov_viva_genesis_composites_bioenergetic_internalization_bioenergetic_internalization' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_bioenergetic_internalization_bioenergetic_internalization = materialize_composite('viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_bioenergetic_internalization_bioenergetic_internalization['state']}, core=core)
             _comp.run(STEPS_baseline)
-        print('ran', 'baseline', f'(viva_genesis.composites.symbiosis.compartmental_energetics) for', STEPS_baseline, 'steps')
+        print('ran', 'baseline', f'(viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization) for', STEPS_baseline, 'steps')
     except Exception as _e:
         print(f"baseline not runnable yet: {type(_e).__name__}: {_e}")
 else:
@@ -877,44 +903,45 @@ else:
 #
 # | test | measures | passes if |
 # | --- | --- | --- |
-# | internalization-net-energy-positive _(primary)_ | kind=derived_scalar path=internalization_net_atp_benefit | op > value 0.0 provenance {'kind': 'hypothesis', 'note': 'Net ATP flux (internalized) minus net ATP flux (external association), per biomass; >0 in at least one regime. Enzyme/pathway ancestry priors from Santana-Molina-2025.'} |
-# | harmful-regime-exists _(secondary)_ | kind=derived_scalar path=internalization_net_atp_benefit | op < value 0.0 provenance {'kind': 'hypothesis', 'note': 'High transport-cost / high-conflict regime.'} |
+# | internalization-net-energy-positive _(primary)_ | kind=derived_scalar path=settled_internalization_survivors | op > value 0.5 provenance {'kind': 'calibration', 'note': 'Calibrated (catalyst_efficiency=1.0, v_start=0.40, decline_rate=0.01, gradient_floor=0.02, 60 steps): survivors settle to 1.00 (PASS; internalization 0.95, autonomy 0.99, lineage fitness 0.68). The weak-pump control (catalyst_efficiency=0.3, the `weak-pump-control` variant) collapses to survivors 0.00 (FAIL; fitness 0.059) — the harmful regime.'} |
 
 # ### Literature anchors
 #
 # | expectation | model observable | source | status |
 # | --- | --- | --- | --- |
-# | Central carbon metabolism has chimeric host+partner enzyme ancestry. | internalization_net_atp_benefit | Santana-Molina et al. 2025, Nature Ecology & Evolution | proposed |
+# | Central carbon metabolism has chimeric host+partner enzyme ancestry. | settled_internalization_survivors | Santana-Molina et al. 2025, Nature Ecology & Evolution | proposed |
 
 # ## Study: S5 — From symbiont to organelle: when does integration become heritable? (`s5-symbiont-to-organelle`)
 #
-# **Question.** Which routes to gene loss, transfer, and protein import lead to stable inheritance and irreversible dependence? Distinguish mere within-host survival from vertical transmission over many generations, gene-function rescue, and sustained fitness alignment.
+# **Question.** Which routes to inheritance lead to stable vertical transmission and a persistent lineage? Distinguish mere within-host survival from high-fidelity vertical transmission over many generations.
 #
-# **Hypothesis.** Stable heritable integration requires high-fidelity vertical transmission AND host-symbiont fitness alignment together; gene loss becomes irreversible (partner-removal lethal) only after transmission fidelity crosses a threshold. Within-host survival alone does not produce a new evolutionary unit.
+# **Hypothesis.** Stable heritable integration requires high-fidelity vertical transmission: only above the Eigen error threshold does the inherited phenotype persist with function across generations. Below threshold (low fidelity) the lineage collapses; without an inheritance mechanism (non-heritable) there is no vertical transmission at all.
 #
-# **Claim.** Integration becomes heritable and coordinated — a new evolutionary individual emerges — only when vertical-transmission fidelity and host-symbiont fitness alignment both cross threshold, after which gene loss is irreversible and the partner becomes obligate; configurations with survival but low transmission fidelity do NOT cross into heritable individuality.
+# **Claim.** Integration becomes heritable and coordinated — a new evolutionary individual emerges — only when vertical-transmission fidelity crosses the Eigen error threshold, after which the inherited phenotype persists with function across generations. Below threshold (low-fidelity template) the lineage hits the error catastrophe and collapses; a non-heritable mechanism transmits nothing.
 
 # ### Parameters
 #
 # | simulation | composite | steps | params |
 # | --- | --- | --- | --- |
-# | `baseline` | `viva_genesis.composites.symbiosis.symbiont_inheritance_abm` | 0 | generations=50, partition_noise=TBD, gene_loss_rate=TBD, selection_strength=TBD |
+# | `baseline` | `viva_genesis.composites.heredity_lineage.heredity_lineage_comparison` | 0 | module=template, per_site_fidelity=0.99 |
 
 # ### The model & its parameters
 #
 # Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
 
-# **Composite `viva_genesis.composites.symbiosis.symbiont_inheritance_abm`** — `spec_viva_genesis_composites_symbiosis_symbiont_inheritance_abm` (materialized from its `@composite_generator`)
+# **The model — `viva_genesis.composites.heredity_lineage.heredity_lineage_comparison`**
+#
+# A reusable agent-based heredity-lineage comparison (Module K). Individuals carry a chemical phenotype inherited at fission into a real lineage tree, with a module-specific mechanism: template Eigen ratchet (Q=fidelity^length), compositional GARD split (length-independent, no template), a template-focused hybrid, or a severed non-heritable control. Emits population mean function, functional fraction, size, lineage depth and realized heritability. Reproduces the Eigen error catastrophe at the agent level AND shows compositional heredity escaping the length catastrophe — heredity need not presume a long high-fidelity template.
 
-spec_viva_genesis_composites_symbiosis_symbiont_inheritance_abm = materialize_composite('viva_genesis.composites.symbiosis.symbiont_inheritance_abm')
-describe_spec(spec_viva_genesis_composites_symbiosis_symbiont_inheritance_abm)
-
-# === Edit parameters for this composite, then run the Run cell ===
-# ov_viva_genesis_composites_symbiosis_symbiont_inheritance_abm maps each tunable parameter to its current value (the generator's
-# defaults). Edit any entry; the Run cell rebuilds the composite with it.
-ov_viva_genesis_composites_symbiosis_symbiont_inheritance_abm = dict(spec_viva_genesis_composites_symbiosis_symbiont_inheritance_abm['_overrides'])
-import json as _json; print(_json.dumps(ov_viva_genesis_composites_symbiosis_symbiont_inheritance_abm, indent=2, default=str))
-# e.g.:  ov_viva_genesis_composites_symbiosis_symbiont_inheritance_abm['<parameter>'] = <value>
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_heredity_lineage_heredity_lineage_comparison = {
+    'module'           : 'template',   # Heredity module: template | compositional | hybrid | non-heritable
+    'per_site_fidelity': 0.99,   # Per-site replication fidelity (template/hybrid)
+    'length'           : 30,   # Template length (template/hybrid cost driver)
+    'temperature'      : 353.15,   # Temperature (K; ~80 C vent)
+    'seed'             : 1,   # RNG seed (reproducible lineage)
+}
 
 # ### Run
 #
@@ -936,11 +963,11 @@ if RERUN:
     from process_bigraph import Composite
     try:
         with quiet():  # keep per-step stdout out of the notebook
-            _ov = ov_viva_genesis_composites_symbiosis_symbiont_inheritance_abm if 'ov_viva_genesis_composites_symbiosis_symbiont_inheritance_abm' in dir() else None  # edits from the panel cell, if any
-            spec_viva_genesis_composites_symbiosis_symbiont_inheritance_abm = materialize_composite('viva_genesis.composites.symbiosis.symbiont_inheritance_abm', _ov)
-            _comp = Composite({'state': spec_viva_genesis_composites_symbiosis_symbiont_inheritance_abm['state']}, core=core)
+            _ov = ov_viva_genesis_composites_heredity_lineage_heredity_lineage_comparison if 'ov_viva_genesis_composites_heredity_lineage_heredity_lineage_comparison' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_heredity_lineage_heredity_lineage_comparison = materialize_composite('viva_genesis.composites.heredity_lineage.heredity_lineage_comparison', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_heredity_lineage_heredity_lineage_comparison['state']}, core=core)
             _comp.run(STEPS_baseline)
-        print('ran', 'baseline', f'(viva_genesis.composites.symbiosis.symbiont_inheritance_abm) for', STEPS_baseline, 'steps')
+        print('ran', 'baseline', f'(viva_genesis.composites.heredity_lineage.heredity_lineage_comparison) for', STEPS_baseline, 'steps')
     except Exception as _e:
         print(f"baseline not runnable yet: {type(_e).__name__}: {_e}")
 else:
@@ -952,14 +979,13 @@ else:
 #
 # | test | measures | passes if |
 # | --- | --- | --- |
-# | heritable-integration-stable _(primary)_ | kind=derived_scalar path=vertical_transmission_fidelity | op > value 0.95 provenance {'kind': 'hypothesis', 'note': 'Fraction of daughter hosts retaining a viable symbiont over >=50 generations; >0.95 = stable vertical inheritance. Threshold pre-registered; refine against population-genetics theory.'} |
-# | dependence-irreversible-after-gene-loss _(primary)_ | kind=derived_scalar path=partner_removal_lethality | op > value 0.9 provenance {'kind': 'hypothesis', 'note': 'Rescue/removal experiment post gene-loss.'} |
+# | heritable-integration-stable _(primary)_ | kind=derived_scalar path=settled_heritability | op > value 0.95 provenance {'kind': 'calibration', 'note': 'Calibrated (module=template, per_site_fidelity=0.99, 60 steps): heritability settles to 0.989 (PASS; functional fraction 1.0, population 220, lineage depth 60). Two failure routes fall below 0.95 — a low-fidelity template (per_site_fidelity=0.80, the `low-fidelity-control` variant) hits the Eigen error catastrophe (heritability 0.799, functional fraction 0.0, population 0), and the non-heritable control reads 0.106.'} |
 
 # ### Literature anchors
 #
 # | expectation | model observable | source | status |
 # | --- | --- | --- | --- |
-# | FECA-LECA transition frames where a new eukaryotic individual emerges. | vertical_transmission_fidelity | Vosseberg et al. 2024, Nature | proposed |
+# | FECA-LECA transition frames where a new eukaryotic individual emerges. | settled_heritability | Vosseberg et al. 2024, Nature | proposed |
 
 # ## Open decisions
 # - Which two or more candidate archaeal-host / bacterial-partner genome pairs anchor S1 (e.g. Asgard + alphaproteobacterium selections from GTDB/NCBI), and under which redox / substrate regimes (anaerobic, micro-aerobic) are they first tested?

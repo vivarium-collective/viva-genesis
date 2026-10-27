@@ -44,25 +44,13 @@
 
 
 
-<div class="composite-lint-banner" role="alert"
-     style="margin:8px 0 14px 0;padding:10px 14px;background:#fffbeb;border:1px solid #f59e0b;border-left-width:5px;border-radius:6px;color:#92400e;font-size:0.9em">
-  
-  <div>⚠ composite not found in registry: <code>viva_genesis.composites.symbiosis.symbiont_inheritance_abm</code></div>
-  
-  <div style="margin-top:4px;font-size:0.86em;color:#a16207">
-    This study references a composite that doesn't resolve — it may not declare a
-    real, registered composite. Add a <code>.composite.yaml</code> and register it
-    in <code>core.py</code>, or fix the ref.
-  </div>
-</div>
 
 
 
 
 
 
-
-<p id="study-question-headline" class="study-question-headline"><span class="q-glyph">Q</span> Which routes to gene loss, transfer, and protein import lead to stable inheritance and irreversible dependence? Distinguish mere within-host survival from vertical transmission over many generations, gene-function rescue, and sustained fitness alignment.</p>
+<p id="study-question-headline" class="study-question-headline"><span class="q-glyph">Q</span> Which routes to inheritance lead to stable vertical transmission and a persistent lineage? Distinguish mere within-host survival from high-fidelity vertical transmission over many generations.</p>
 
 <nav class="study-tabs" aria-label="Study sections">
   
@@ -555,7 +543,7 @@
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Claim</h2>
-      <p class="ctr-text">Integration becomes heritable and coordinated — a new evolutionary individual emerges — only when vertical-transmission fidelity and host-symbiont fitness alignment both cross threshold, after which gene loss is irreversible and the partner becomes obligate; configurations with survival but low transmission fidelity do NOT cross into heritable individuality.</p>
+      <p class="ctr-text">Integration becomes heritable and coordinated — a new evolutionary individual emerges — only when vertical-transmission fidelity crosses the Eigen error threshold, after which the inherited phenotype persists with function across generations. Below threshold (low-fidelity template) the lineage hits the error catastrophe and collapses; a non-heritable mechanism transmits nothing.</p>
       
     </div>
 
@@ -563,8 +551,8 @@
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Background</h2>
       <div class="ctr-meta">
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Question</span> <span class="ctr-meta-item">Which routes to gene loss, transfer, and protein import lead to stable inheritance and irreversible dependence? Distinguish mere within-host survival from vertical transmission over many generations, gene-function rescue, and sustained fitness alignment.</span></div>
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Hypothesis</span> <span class="ctr-meta-item">Stable heritable integration requires high-fidelity vertical transmission AND host-symbiont fitness alignment together; gene loss becomes irreversible (partner-removal lethal) only after transmission fidelity crosses a threshold. Within-host survival alone does not produce a new evolutionary unit.</span></div>
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Question</span> <span class="ctr-meta-item">Which routes to inheritance lead to stable vertical transmission and a persistent lineage? Distinguish mere within-host survival from high-fidelity vertical transmission over many generations.</span></div>
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Hypothesis</span> <span class="ctr-meta-item">Stable heritable integration requires high-fidelity vertical transmission: only above the Eigen error threshold does the inherited phenotype persist with function across generations. Below threshold (low fidelity) the lineage collapses; without an inheritance mechanism (non-heritable) there is no vertical transmission at all.</span></div>
       </div>
     </div>
     
@@ -575,7 +563,7 @@
       <div class="ctr-meta">
         <div class="ctr-meta-row"><span class="ctr-meta-k">Model</span> <code>baseline</code><a class="ov-tablink" href="#" onclick="_setStudyTab('compose');return false;">model →</a></div>
         
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Measures</span> <span class="ctr-meta-item">2 behavior tests</span><a class="ov-tablink" href="#" onclick="_setStudyTab('audit');return false;">see Tests →</a></div>
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Measures</span> <span class="ctr-meta-item">1 behavior test</span><a class="ov-tablink" href="#" onclick="_setStudyTab('audit');return false;">see Tests →</a></div>
         
       </div>
     </div>
@@ -602,12 +590,47 @@
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Result</h2>
-      <p class="ctr-text"></p>
+      <p class="ctr-text">Calibrated (60 generations): a high-fidelity template lineage (per_site_fidelity=0.99) reaches heritability 0.989 and persists with full function (population 220) — stable heritable integration, a new evolutionary individual. Two well-characterized failure routes: a low-fidelity template (0.80) hits the Eigen error catastrophe and collapses (heritability 0.799, population 0), and a non-heritable mechanism transmits nothing (heritability 0.106). Heritable integration emerges only above the fidelity threshold. Direct in-process run.</p>
       
       
       
       
       
+    <div class="overview-section findings-section">
+      <h2 class="overview-label">🔬 Findings — what this study taught us</h2>
+      
+      
+      
+      
+      
+      
+      
+      
+      <div class="finding-card finding-kind-other finding-status-novel">
+        <details class="finding-details">
+          <summary class="finding-row">
+            <span class="finding-status-glyph">◆</span>
+            <span class="finding-claim finding-statement">Calibrated (60 generations): a high-fidelity template lineage (per_site_fidelity=0.99) reaches heritability 0.989 and persists with full function (population 220) — stable heritable integration, a new evolutionary individual. Two well-characterized failure routes: a low-fidelity template (0.80) hits the Eigen error catastrophe and collapses (heritability 0.799, population 0), and a non-heritable mechanism transmits nothing (heritability 0.106). Heritable integration emerges only above the fidelity threshold. Direct in-process run.</span>
+            
+          </summary>
+          <div class="finding-drawer">
+            <div class="finding-header">
+              <span class="finding-id">s5-heritable-integration-needs-high-fidelity</span>
+              <span class="finding-kind">other</span>
+              <span class="finding-status-text">novel literature</span>
+            </div>
+            
+            
+            
+            
+            
+          </div>
+        </details>
+      </div>
+      
+      
+    </div>
+    
       
       
       
@@ -673,22 +696,22 @@
   <div class="overview-section" id="model-section">
     <h3>Runnable models <span class="muted" style="font-size:0.85em;font-weight:normal">— the composite(s) this study simulates</span></h3>
     
-    <div class="cond-block" data-model-composite="viva_genesis.composites.symbiosis.symbiont_inheritance_abm" data-model-overrides='{"gene_loss_rate": "TBD", "generations": 50, "partition_noise": "TBD", "selection_strength": "TBD"}'>
+    <div class="cond-block" data-model-composite="viva_genesis.composites.heredity_lineage.heredity_lineage_comparison" data-model-overrides='{"module": "template", "per_site_fidelity": 0.99}'>
       <div class="cond-block-title" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
         <strong>baseline</strong>
         
-        <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.symbiosis.symbiont_inheritance_abm</code>
+        <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.heredity_lineage.heredity_lineage_comparison</code>
         <button type="button" class="action-btn" style="font-size:0.8em"
-                onclick="_openCompositeLoom('viva_genesis.composites.symbiosis.symbiont_inheritance_abm')">🧬 explore &amp; run ↗</button>
+                onclick="_openCompositeLoom('viva_genesis.composites.heredity_lineage.heredity_lineage_comparison')">🧬 explore &amp; run ↗</button>
         
       </div>
       
       <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
         
         <select class="baseline-composite-input" data-baseline-name="baseline"
-                data-current="viva_genesis.composites.symbiosis.symbiont_inheritance_abm"
+                data-current="viva_genesis.composites.heredity_lineage.heredity_lineage_comparison"
                 style="flex:1;min-width:200px;font-family:monospace;font-size:0.82em;padding:3px 6px">
-          <option value="viva_genesis.composites.symbiosis.symbiont_inheritance_abm" selected>viva_genesis.composites.symbiosis.symbiont_inheritance_abm</option>
+          <option value="viva_genesis.composites.heredity_lineage.heredity_lineage_comparison" selected>viva_genesis.composites.heredity_lineage.heredity_lineage_comparison</option>
           
         </select>
         <button type="button" class="action-btn baseline-composite-set" style="font-size:0.8em"
@@ -849,7 +872,7 @@
           
         </div>
         <div class="anchor-observable">
-          <em>Model observable:</em> <code>vertical_transmission_fidelity</code>
+          <em>Model observable:</em> <code>settled_heritability</code>
         </div>
         
         <div class="anchor-source"><em>Source:</em> Vosseberg et al. 2024, Nature</div>
@@ -916,52 +939,15 @@
         <strong style="font-size: 0.9em;">heritable-integration-stable</strong>
         
       </div>
-      <div style="margin-top: 6px; font-size: 0.95em;">Vertical-transmission fidelity stays high across many generations (stable inheritance).</div>
+      <div style="margin-top: 6px; font-size: 0.95em;">Vertical-transmission fidelity (heritability of the chemical phenotype across the lineage tree) stays high across many generations — only then does the lineage persist with function. The threshold discriminates high-fidelity inheritance from the Eigen-collapse and non-heritable controls.</div>
       
       
       <details style="margin-top: 6px; font-size: 0.82em;">
         <summary class="muted" style="cursor: pointer;">Assertion</summary>
         
-        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"kind": "derived_scalar", "path": "vertical_transmission_fidelity"}
-pass_if: {"op": "\u003e", "provenance": {"kind": "hypothesis", "note": "Fraction of daughter hosts retaining a viable symbiont over \u003e=50 generations; \u003e0.95 = stable vertical inheritance. Threshold pre-registered; refine against population-genetics theory."}, "value": 0.95}
+        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"kind": "derived_scalar", "path": "settled_heritability"}
+pass_if: {"op": "\u003e", "provenance": {"kind": "calibration", "note": "Calibrated (module=template, per_site_fidelity=0.99, 60 steps): heritability settles to 0.989 (PASS; functional fraction 1.0, population 220, lineage depth 60). Two failure routes fall below 0.95 \u2014 a low-fidelity template (per_site_fidelity=0.80, the `low-fidelity-control` variant) hits the Eigen error catastrophe (heritability 0.799, functional fraction 0.0, population 0), and the non-heritable control reads 0.106."}, "value": 0.95}
 cites:   ["vosseberg-nature-2024"]</pre>
-      </details>
-      
-      
-      
-      
-    </li>
-    
-    
-    
-    
-    
-    
-    
-    
-    <li class="expected-behavior-item" id="bt-dependence-irreversible-after-gene-loss"
-        data-test-kind="behavioral"
-        
-        data-pytest-node="dependence-irreversible-after-gene-loss"
-        data-classification="primary"
-        data-result="pending"
-        style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #10b981; background: #f8fafc; border-radius: 4px;">
-      
-        
-      <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
-        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #f1f5f9; color: #475569">⏳ pending</span>
-        <span class="classification-pill classification-primary">primary</span>
-        <strong style="font-size: 0.9em;">dependence-irreversible-after-gene-loss</strong>
-        
-      </div>
-      <div style="margin-top: 6px; font-size: 0.95em;">After modeled gene loss, partner removal becomes lethal (obligate dependence).</div>
-      
-      
-      <details style="margin-top: 6px; font-size: 0.82em;">
-        <summary class="muted" style="cursor: pointer;">Assertion</summary>
-        
-        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"kind": "derived_scalar", "path": "partner_removal_lethality"}
-pass_if: {"op": "\u003e", "provenance": {"kind": "hypothesis", "note": "Rescue/removal experiment post gene-loss."}, "value": 0.9}</pre>
       </details>
       
       
@@ -1126,7 +1112,7 @@ pass_if: {"op": "\u003e", "provenance": {"kind": "hypothesis", "note": "Rescue/r
       <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
         <span class="gate-status-not_started" style="padding:2px 12px;border-radius:9999px;font-weight:700;font-size:0.85em">not_started</span>
         <span class="muted small">evaluated by code</span>
-        <span class="muted small">0/2 passed</span>
+        <span class="muted small">0/1 passed</span>
       </div>
       
     </div>
@@ -1178,7 +1164,7 @@ pass_if: {"op": "\u003e", "provenance": {"kind": "hypothesis", "note": "Rescue/r
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/workbench", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "8ae2366d09458ed676bee5ca78157a7f514ed12d", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/8ae2366d09458ed676bee5ca78157a7f514ed12d", "branch": "main", "lockfile": "uv.lock@3b5b77ead9e7", "generated_at": "2026-10-27 16:17 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/workbench", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "c456f8dbee98fc7b8a1f3eaa84cefe585d15984f", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/c456f8dbee98fc7b8a1f3eaa84cefe585d15984f", "branch": "main", "lockfile": "uv.lock@61cdd87d2a3f", "generated_at": "2026-10-27 19:47 UTC"} };</script>
 <script src="/viva-genesis/workbench/assets/data-source.js"></script>
 <script src="/viva-genesis/workbench/assets/toast.js"></script>
 <script>

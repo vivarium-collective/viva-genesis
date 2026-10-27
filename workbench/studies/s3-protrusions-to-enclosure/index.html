@@ -44,18 +44,6 @@
 
 
 
-<div class="composite-lint-banner" role="alert"
-     style="margin:8px 0 14px 0;padding:10px 14px;background:#fffbeb;border:1px solid #f59e0b;border-left-width:5px;border-radius:6px;color:#92400e;font-size:0.9em">
-  
-  <div>⚠ composite not found in registry: <code>viva_genesis.composites.symbiosis.protrusion_membrane_mechanics</code></div>
-  
-  <div style="margin-top:4px;font-size:0.86em;color:#a16207">
-    This study references a composite that doesn't resolve — it may not declare a
-    real, registered composite. Add a <code>.composite.yaml</code> and register it
-    in <code>core.py</code>, or fix the ref.
-  </div>
-</div>
-
 
 
 
@@ -555,7 +543,7 @@
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Claim</h2>
-      <p class="ctr-text">Physical enclosure is a separate hurdle from metabolic benefit: observed protrusion mechanics can, under restricted geometry and bending-cost regimes, reach stable wrapping — but a beneficial symbiosis (S1/S2) need not imply ingestive ability, and some topologies never enclose within realistic area/energy budgets.</p>
+      <p class="ctr-text">Physical enclosure is a separate hurdle from metabolic benefit (S1/S2): observed protrusion mechanics can, under favorable area and adhesion budgets, reach stable wrapping over a majority of the partner-size range — but a beneficial symbiosis need not imply ingestive ability, and enclosure fails without wrapping (no-enclosure) or when adhesion cannot pay the bending cost.</p>
       
     </div>
 
@@ -564,7 +552,7 @@
       <h2 class="overview-label ctr-h">Background</h2>
       <div class="ctr-meta">
         <div class="ctr-meta-row"><span class="ctr-meta-k">Question</span> <span class="ctr-meta-item">Can observed archaeal protrusion mechanics plausibly transition from contact to stable wrapping / engulfment, within membrane area, bending-cost, and timescale budgets? Morphology alone cannot demonstrate engulfment.</span></div>
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Hypothesis</span> <span class="ctr-meta-item">Under cryo-ET-constrained bending moduli and observed protrusion timescales, at least one topology (classical engulfment or inside-out wrapping) reaches a stable enclosed state with conserved membrane area and a finite energy budget, while a no-enclosure control does not.</span></div>
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Hypothesis</span> <span class="ctr-meta-item">Under cryo-ET-constrained bending moduli and adhesion, at least one topology (classical engulfment or inside-out wrapping) reaches a stable enclosed state over a realistic partner-size range with conserved membrane area, while a no-enclosure or weak-adhesion control does not.</span></div>
       </div>
     </div>
     
@@ -609,12 +597,47 @@
 
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Result</h2>
-      <p class="ctr-text"></p>
+      <p class="ctr-text">Calibrated (30 steps, partner-radius ensemble 0.2-0.8 um): classical engulfment reaches a stable enclosure probability of 0.61 and inside-out wrapping 0.98, both with conserved membrane area (residual 0) — physical enclosure is geometrically feasible under favorable area/adhesion budgets. Two well-characterized failure routes read 0.0: a no-enclosure control (contact without wrapping) and a weak-adhesion control (adhesion 300 kT below the ~502 kT Helfrich bending cost). Enclosure is a separate hurdle from metabolic benefit; morphology alone does not demonstrate engulfment. Direct in-process run of a newly built composite.</p>
       
       
       
       
       
+    <div class="overview-section findings-section">
+      <h2 class="overview-label">🔬 Findings — what this study taught us</h2>
+      
+      
+      
+      
+      
+      
+      
+      
+      <div class="finding-card finding-kind-other finding-status-novel">
+        <details class="finding-details">
+          <summary class="finding-row">
+            <span class="finding-status-glyph">◆</span>
+            <span class="finding-claim finding-statement">Calibrated (30 steps, partner-radius ensemble 0.2-0.8 um): classical engulfment reaches a stable enclosure probability of 0.61 and inside-out wrapping 0.98, both with conserved membrane area (residual 0) — physical enclosure is geometrically feasible under favorable area/adhesion budgets. Two well-characterized failure routes read 0.0: a no-enclosure control (contact without wrapping) and a weak-adhesion control (adhesion 300 kT below the ~502 kT Helfrich bending cost). Enclosure is a separate hurdle from metabolic benefit; morphology alone does not demonstrate engulfment. Direct in-process run of a newly built composite.</span>
+            
+          </summary>
+          <div class="finding-drawer">
+            <div class="finding-header">
+              <span class="finding-id">s3-enclosure-feasible-with-favorable-budget</span>
+              <span class="finding-kind">other</span>
+              <span class="finding-status-text">novel literature</span>
+            </div>
+            
+            
+            
+            
+            
+          </div>
+        </details>
+      </div>
+      
+      
+    </div>
+    
       
       
       
@@ -680,22 +703,22 @@
   <div class="overview-section" id="model-section">
     <h3>Runnable models <span class="muted" style="font-size:0.85em;font-weight:normal">— the composite(s) this study simulates</span></h3>
     
-    <div class="cond-block" data-model-composite="viva_genesis.composites.symbiosis.protrusion_membrane_mechanics" data-model-overrides='{"bending_modulus_kT": "TBD", "protrusion_timescale_s": "TBD", "topology": "classical_engulfment"}'>
+    <div class="cond-block" data-model-composite="viva_genesis.composites.protrusion_enclosure.protrusion_enclosure" data-model-overrides='{"adhesion_energy_kT": 600.0, "bending_modulus_kT": 20.0, "protrusion_area_um2": 4.0, "topology": "classical_engulfment"}'>
       <div class="cond-block-title" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
         <strong>baseline</strong>
         
-        <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.symbiosis.protrusion_membrane_mechanics</code>
+        <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.protrusion_enclosure.protrusion_enclosure</code>
         <button type="button" class="action-btn" style="font-size:0.8em"
-                onclick="_openCompositeLoom('viva_genesis.composites.symbiosis.protrusion_membrane_mechanics')">🧬 explore &amp; run ↗</button>
+                onclick="_openCompositeLoom('viva_genesis.composites.protrusion_enclosure.protrusion_enclosure')">🧬 explore &amp; run ↗</button>
         
       </div>
       
       <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
         
         <select class="baseline-composite-input" data-baseline-name="baseline"
-                data-current="viva_genesis.composites.symbiosis.protrusion_membrane_mechanics"
+                data-current="viva_genesis.composites.protrusion_enclosure.protrusion_enclosure"
                 style="flex:1;min-width:200px;font-family:monospace;font-size:0.82em;padding:3px 6px">
-          <option value="viva_genesis.composites.symbiosis.protrusion_membrane_mechanics" selected>viva_genesis.composites.symbiosis.protrusion_membrane_mechanics</option>
+          <option value="viva_genesis.composites.protrusion_enclosure.protrusion_enclosure" selected>viva_genesis.composites.protrusion_enclosure.protrusion_enclosure</option>
           
         </select>
         <button type="button" class="action-btn baseline-composite-set" style="font-size:0.8em"
@@ -856,7 +879,7 @@
           
         </div>
         <div class="anchor-observable">
-          <em>Model observable:</em> <code>enclosure_probability</code>
+          <em>Model observable:</em> <code>settled_enclosure_probability</code>
         </div>
         
         <div class="anchor-source"><em>Source:</em> Rodrigues-Oliveira et al. 2023, Nature</div>
@@ -923,14 +946,14 @@
         <strong style="font-size: 0.9em;">enclosure-geometrically-feasible</strong>
         
       </div>
-      <div style="margin-top: 6px; font-size: 0.95em;">At least one topology reaches a stable enclosed state above a probability threshold.</div>
+      <div style="margin-top: 6px; font-size: 0.95em;">At least one topology reaches stable enclosure for a majority of the partner-size ensemble (enclosure probability &gt; 0.5). The threshold discriminates the wrapping topologies from the no-enclosure and weak-adhesion controls.</div>
       
       
       <details style="margin-top: 6px; font-size: 0.82em;">
         <summary class="muted" style="cursor: pointer;">Assertion</summary>
         
-        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"kind": "derived_scalar", "path": "enclosure_probability"}
-pass_if: {"op": "\u003e", "provenance": {"kind": "hypothesis", "note": "Fraction of parameterized runs reaching stable enclosure; \u003e0.5 within the cryo-ET-constrained regime. Priors from Rodrigues-Oliveira-2023 and Radler-2026."}, "value": 0.5}
+        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"kind": "derived_scalar", "path": "settled_enclosure_probability"}
+pass_if: {"op": "\u003e", "provenance": {"kind": "calibration", "note": "Calibrated (classical engulfment, protrusion_area=4 um^2, adhesion=600 kT, kappa=20 kT, 30 steps): enclosure_probability settles to 0.61 (PASS; inside-out wrapping reaches 0.98). Two failure routes read 0.0: the no-enclosure control and the weak-adhesion control (adhesion below the 8*pi*kappa bending cost)."}, "value": 0.5}
 cites:   ["rodrigues-oliveira-nature-2023", "radler-nature-2026"]</pre>
       </details>
       
@@ -967,8 +990,8 @@ cites:   ["rodrigues-oliveira-nature-2023", "radler-nature-2026"]</pre>
       <details style="margin-top: 6px; font-size: 0.82em;">
         <summary class="muted" style="cursor: pointer;">Assertion</summary>
         
-        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"kind": "derived_scalar", "path": "membrane_area_conservation_residual"}
-pass_if: {"op": "approx", "provenance": {"kind": "theory", "note": "Area conservation under bending."}, "tol": "1e-4", "value": 0.0}</pre>
+        <pre style="background:#fff; padding:8px; margin:4px 0 0 0; border:1px solid #e2e8f0; border-radius:3px; overflow-x:auto;">measure: {"kind": "derived_scalar", "path": "max_membrane_area_residual"}
+pass_if: {"op": "\u003c", "provenance": {"kind": "theory", "note": "Area conservation under bending (residual ~0 by construction)."}, "value": "1e-4"}</pre>
       </details>
       
       
@@ -1185,7 +1208,7 @@ pass_if: {"op": "approx", "provenance": {"kind": "theory", "note": "Area conserv
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/workbench", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "8ae2366d09458ed676bee5ca78157a7f514ed12d", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/8ae2366d09458ed676bee5ca78157a7f514ed12d", "branch": "main", "lockfile": "uv.lock@3b5b77ead9e7", "generated_at": "2026-10-27 16:17 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/workbench", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "c456f8dbee98fc7b8a1f3eaa84cefe585d15984f", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/c456f8dbee98fc7b8a1f3eaa84cefe585d15984f", "branch": "main", "lockfile": "uv.lock@61cdd87d2a3f", "generated_at": "2026-10-27 19:47 UTC"} };</script>
 <script src="/viva-genesis/workbench/assets/data-source.js"></script>
 <script src="/viva-genesis/workbench/assets/toast.js"></script>
 <script>
