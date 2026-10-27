@@ -1,0 +1,89 @@
+schema_version: 4
+name: s1-metabolic-partnership
+investigation: eukaryogenesis
+created: '2026-10-27'
+title: 'S1 — Metabolic partnership: can an archaeal-bacterial pair gain fitness from exchange?'
+phase: Design
+status: planned
+design_status: draft
+simulation_status: not_run
+evaluation_status: not_evaluated
+gate_status: pending
+topic: metabolic-coupling
+tags: [symbiosis, fba, community, cross-feeding, bioenergetics]
+concept: >-
+  Syntrophy and mutualism made operational as exchange fluxes, partner-dependent growth, invasion
+  fitness, and environmental contingencies. Curated candidate genomes -> gap-audited genome-scale
+  models (GEMs) -> two-member community FBA / dynamic FBA, with separate positive and negative
+  controls, under alternative redox and substrate regimes.
+question: >-
+  Can plausible archaeal-bacterial pairs gain fitness from metabolite exchange, and under which
+  redox and substrate regimes? Does the predicted mutualism survive mass-balance and
+  electron-donor/acceptor feasibility audits and alternative reconstructions?
+hypothesis: >-
+  Under at least one field-consistent redox/substrate regime, a reconstructed archaeal-host /
+  bacterial-partner pair achieves partner-dependent growth (each grows better together than alone)
+  on mass-balanced exchange fluxes, while a no-exchange / parasitic control does not.
+claim: >-
+  An archaeal-bacterial association can become mutually beneficial under restricted redox and
+  substrate regimes — partner-dependent growth emerges on feasible, mass-balanced metabolite
+  exchange — but the benefit is not necessarily stable or obligate, and it disappears outside the
+  feasible regime and under alternative gap-fills.
+behavior_tests:
+- name: partner-dependent-growth-feasible
+  classification: primary
+  description: >-
+    The two-member community grows faster than either member alone (a positive cross-feeding
+    advantage) in at least one redox/substrate regime.
+  measure: {kind: derived_scalar, path: partner_dependent_growth_ratio}
+  pass_if:
+    op: '>'
+    value: 1.1
+    provenance:
+      kind: hypothesis
+      note: >-
+        Ratio of community biomass flux to the best single-member flux; >1.1 = a >10% mutualistic
+        advantage. Threshold is a pre-registered hypothesis to be calibrated against Imachi-2020
+        syntrophic growth once the GEMs are built.
+  cites: [imachi-nature-2020, santana-molina-nee-2025]
+- name: exchange-mass-balanced
+  classification: primary
+  description: Exchanged metabolites close an elemental mass/charge balance (no free lunch).
+  measure: {kind: derived_scalar, path: exchange_mass_balance_residual}
+  pass_if:
+    op: approx
+    value: 0.0
+    tol: '1e-6'
+    provenance: {kind: theory, note: Exchange fluxes must conserve C/N/O/H and charge by construction.}
+- name: advantage-collapses-in-control
+  classification: secondary
+  description: The mutualistic advantage vanishes in the no-exchange (sealed-partner) negative control.
+  measure: {kind: derived_scalar, path: partner_dependent_growth_ratio}
+  pass_if: {op: approx, value: 1.0, tol: 0.05, provenance: {kind: control, note: Sealed-exchange null.}}
+acceptance_criteria:
+- behavior: partner-dependent-growth-feasible
+literature_anchors:
+- expectation: Syntrophic archaeal-bacterial growth is observed in Prometheoarchaeum syntrophicum.
+  model_observable: partner_dependent_growth_ratio
+  source: Imachi et al. 2020, Nature
+  cites: [imachi-nature-2020]
+  status_in_workspace: proposed
+parent_studies: []
+# MODEL TO BUILD (the gap): a two-member community-FBA composite does not exist yet.
+baseline:
+- name: baseline
+  composite: viva_genesis.composites.symbiosis.two_member_community_fba
+  params:
+    host_genome: TBD-asgard-GEM
+    partner_genome: TBD-alphaproteobacterium-GEM
+    redox_regime: anaerobic
+    medium: TBD
+  note: >-
+    Composite NOT yet built. Requires: two gap-audited GEMs (COBRApy) from curated genomes, a
+    community-FBA process, and an exchange-mass-balance validator.
+observables: [partner_dependent_growth_ratio, exchange_mass_balance_residual]
+data_inputs:
+- {name: GTDB genomes, use: candidate Asgard + alphaproteobacterial genomes, url: 'https://gtdb.ecogenomic.org/downloads'}
+- {name: NCBI Assembly/RefSeq, use: CDS + protein annotations for organism selection, url: 'https://www.ncbi.nlm.nih.gov/datasets/'}
+- {name: KEGG/MetaCyc/BiGG, use: reaction stoichiometry + pathway mappings for reconstruction, url: 'https://bigg.ucsd.edu/'}
+- {name: Comparative central metabolism (Zenodo), use: curated proteomes/orthogroups/trees, url: 'https://doi.org/10.5281/zenodo.10991068'}

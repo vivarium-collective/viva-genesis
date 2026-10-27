@@ -1,0 +1,100 @@
+schema_version: 2
+name: eukaryogenesis
+title: From Symbiosis to Complexity
+created: '2026-10-27'
+status: planned
+question: >-
+  Under what physical, metabolic, ecological, and evolutionary conditions can a symbiotic
+  association between an archaeal host and a bacterial partner transition into an integrated
+  eukaryotic cell? The aim is not to animate a predetermined history but to identify plausible,
+  impossible, and still-unresolved pathways from ecological association to a new evolutionary
+  individual.
+hypothesis: >-
+  Eukaryogenesis can be investigated as a succession of coupled transitions in ecological
+  dependence, physical topology, energetic organization, and evolutionary individuality. Each
+  transition introduces new benefits and new constraints; the discovery problem is which
+  combinations of mechanisms allow cooperation to become stable cellular integration, and which
+  competing histories remain consistent with the surviving evidence.
+lead: >-
+  A mechanistic, falsifiable investigation of endosymbiosis and the origin of eukaryotic cells,
+  staged as five bridge studies — metabolic partnership (S1), ecology to proximity (S2),
+  protrusions to enclosure (S3), compartmental energetic coupling (S4), and symbiont to organelle
+  (S5). Independent cells -> ecological partnership -> persistent physical association -> enclosure
+  / compartmental coupling -> metabolic and genetic dependence -> coordinated inheritance and
+  evolutionary individuality are treated as CONCEPTUAL transitions, not a fixed temporal sequence.
+  Counter-narratives are tested head to head: physical internalization preceding strong syntrophy;
+  protrusion-driven external wrapping rather than classical phagocytosis; energetic benefits that
+  do not require internalization; and stable ectosymbioses that never become organelles. Extant
+  Asgard archaea and alphaproteobacteria are experimental proxies, not recovered ancestors.
+executive:
+  what_is_this: >-
+    A branching, evidence-grounded campaign that constructs, tests, compares, and composes
+    mechanistic explanations for eukaryogenesis. Each study carries its own assumptions, parameter
+    ranges, evidence links, interventions, model versions, and validators, and keeps four evidence
+    classes separate: historically supported (phylogenomic ancestry), observed in living proxies
+    (Asgard protrusions), mechanistically demonstrated in a model (stable cross-feeding), and
+    historically inferred (a specific pathway billions of years ago).
+  verdict: >-
+    Open — no study has been built or run. This investigation is seeded from the eukaryogenesis
+    investigation-seed document; the first campaign (S1 + S2) is the minimum viable arc.
+  verdict_status: open
+  verdict_detail: >-
+    Success criterion for the first campaign: at least one mechanistically plausible route and one
+    well-characterized failure route, with transparent data provenance, reusable composed models,
+    quantitative predictions, and an explicit account of what the evidence does not determine. No
+    fully integrated proto-eukaryote (S4/S5) should be built until core exchanges and dynamics
+    (S1/S2) survive sensitivity analysis.
+  decisions_needed:
+  - question: >-
+      Which two or more candidate archaeal-host / bacterial-partner genome pairs anchor S1 (e.g.
+      Asgard + alphaproteobacterium selections from GTDB/NCBI), and under which redox / substrate
+      regimes (anaerobic, micro-aerobic) are they first tested?
+    context: >-
+      No single extant isolate is the ancestral host; S1 must reconstruct two or more pairs with
+      explicit uncertainty rather than pick one.
+  - question: >-
+      Which initial ecology (syntrophy, commensalism, parasitism) is the primary scenario for S2,
+      and which are the competing scenarios run head to head?
+    context: Section 7 requires testing alternative initial ecologies, not assuming syntrophy.
+  decisions_resolved: []
+competing_frameworks: >-
+  (a) classical phagocytosis / engulfment-first; (b) syntrophy-first entangle-engulf-endogenize
+  (Imachi 2020); (c) inside-out membrane topology (Baum & Baum 2014); (d) stable ectosymbiosis that
+  never internalizes. These are authored as alternative-to edges so the cycle can hold them in
+  tension rather than assume one.
+studies:
+- s1-metabolic-partnership
+- s2-ecology-to-proximity
+- s3-protrusions-to-enclosure
+- s4-compartmental-energetic-coupling
+- s5-symbiont-to-organelle
+acceptance_criteria:
+- study: s1-metabolic-partnership
+  behavior: partner-dependent-growth-feasible
+- study: s2-ecology-to-proximity
+  behavior: proximity-selected-under-finite-diffusion
+- study: s3-protrusions-to-enclosure
+  behavior: enclosure-geometrically-feasible
+- study: s4-compartmental-energetic-coupling
+  behavior: internalization-net-energy-positive
+- study: s5-symbiont-to-organelle
+  behavior: heritable-integration-stable
+references:
+- key: vosseberg-nature-2024
+  doi: 10.1038/s41586-024-07677-6
+  note: Origin and early evolution of eukaryotic cells; FECA-LECA; competing scenarios.
+- key: imachi-nature-2020
+  doi: 10.1038/s41586-019-1916-6
+  note: Prometheoarchaeum syntrophicum; syntrophy + protrusions; entangle-engulf-endogenize.
+- key: rodrigues-oliveira-nature-2023
+  doi: 10.1038/s41586-022-05550-y
+  note: Actin cytoskeleton + cryo-ET membrane-morphology constraints in an Asgard archaeon.
+- key: radler-nature-2026
+  doi: 10.1038/s41586-026-11063-9
+  note: Quantified Asgard protrusion extension/retraction + raw microscopy; spatial model input.
+- key: santana-molina-nee-2025
+  doi: 10.1038/s41559-025-02648-0
+  note: Chimeric origins of central carbon metabolism; enzyme ancestry + pathways for coupling.
+- key: baum-baum-bmc-2014
+  doi: 10.1186/s12915-014-0076-2
+  note: Inside-out origin — a falsifiable alternative membrane topology.

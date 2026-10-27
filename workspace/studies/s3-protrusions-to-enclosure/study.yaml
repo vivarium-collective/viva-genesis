@@ -1,0 +1,72 @@
+schema_version: 4
+name: s3-protrusions-to-enclosure
+investigation: eukaryogenesis
+created: '2026-10-27'
+title: 'S3 — Protrusions to enclosure: can protrusion mechanics reach stable wrapping?'
+phase: Design
+status: planned
+design_status: draft
+simulation_status: not_run
+evaluation_status: not_evaluated
+gate_status: pending
+topic: membrane-mechanics
+tags: [symbiosis, membrane, protrusion, enclosure, cryo-et]
+concept: >-
+  Compartmentalization made operational as the topology of enclosing membranes and the energy of
+  deformation. Membrane geometry and mechanics parameterized from cryo-ET / live imaging; classical
+  engulfment, inside-out wrapping, and a no-enclosure control compared.
+question: >-
+  Can observed archaeal protrusion mechanics plausibly transition from contact to stable wrapping /
+  engulfment, within membrane area, bending-cost, and timescale budgets? Morphology alone cannot
+  demonstrate engulfment.
+hypothesis: >-
+  Under cryo-ET-constrained bending moduli and observed protrusion timescales, at least one topology
+  (classical engulfment or inside-out wrapping) reaches a stable enclosed state with conserved
+  membrane area and a finite energy budget, while a no-enclosure control does not.
+claim: >-
+  Physical enclosure is a separate hurdle from metabolic benefit: observed protrusion mechanics can,
+  under restricted geometry and bending-cost regimes, reach stable wrapping — but a beneficial
+  symbiosis (S1/S2) need not imply ingestive ability, and some topologies never enclose within
+  realistic area/energy budgets.
+behavior_tests:
+- name: enclosure-geometrically-feasible
+  classification: primary
+  description: At least one topology reaches a stable enclosed state above a probability threshold.
+  measure: {kind: derived_scalar, path: enclosure_probability}
+  pass_if:
+    op: '>'
+    value: 0.5
+    provenance:
+      kind: hypothesis
+      note: >-
+        Fraction of parameterized runs reaching stable enclosure; >0.5 within the cryo-ET-constrained
+        regime. Priors from Rodrigues-Oliveira-2023 and Radler-2026.
+  cites: [rodrigues-oliveira-nature-2023, radler-nature-2026]
+- name: membrane-area-conserved
+  classification: primary
+  description: Membrane area is conserved through the deformation (no area created from nothing).
+  measure: {kind: derived_scalar, path: membrane_area_conservation_residual}
+  pass_if: {op: approx, value: 0.0, tol: '1e-4', provenance: {kind: theory, note: Area conservation under bending.}}
+acceptance_criteria:
+- behavior: enclosure-geometrically-feasible
+literature_anchors:
+- expectation: Cryo-ET constrains Asgard membrane morphology and actin-based structure.
+  model_observable: enclosure_probability
+  source: Rodrigues-Oliveira et al. 2023, Nature
+  cites: [rodrigues-oliveira-nature-2023]
+  status_in_workspace: proposed
+parent_studies:
+- {study: s2-ecology-to-proximity, relation: builds-on}
+- {study: s1-metabolic-partnership, relation: tests}
+# MODEL TO BUILD (the gap): a deformable-membrane / protrusion-mechanics composite does not exist.
+baseline:
+- name: baseline
+  composite: viva_genesis.composites.symbiosis.protrusion_membrane_mechanics
+  params: {topology: classical_engulfment, bending_modulus_kT: TBD, protrusion_timescale_s: TBD}
+  note: >-
+    Composite NOT yet built. Requires: a deformable-membrane mechanics process, cryo-ET-derived
+    geometry priors, and an area/energy-budget validator; three arms (engulfment, inside-out,
+    no-enclosure control).
+observables: [enclosure_probability, membrane_area_conservation_residual]
+data_inputs:
+- {name: Asgard live-cell microscopy, use: protrusion morphology + timescales, url: 'https://www.ebi.ac.uk/biostudies/bioimages/studies/S-BIAD3928'}

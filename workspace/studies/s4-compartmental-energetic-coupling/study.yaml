@@ -1,0 +1,71 @@
+schema_version: 4
+name: s4-compartmental-energetic-coupling
+investigation: eukaryogenesis
+created: '2026-10-27'
+title: 'S4 — Compartmental energetic coupling: does internalization pay for itself?'
+phase: Design
+status: planned
+design_status: draft
+simulation_status: not_run
+evaluation_status: not_evaluated
+gate_status: pending
+topic: bioenergetics
+tags: [symbiosis, energetics, atp, compartment, proton-gradient]
+concept: >-
+  Endosymbiotic dependence made operational as net ATP / biomass benefit under transport losses,
+  upkeep, and host-symbiont conflict. Two intracellular metabolic networks, transporters, membrane
+  potentials, and energetic accounting composed; external association vs intracellular coupling
+  compared.
+question: >-
+  Does internalization increase net fitness given ATP production, transport losses, upkeep, and
+  host-symbiont conflict — and in which parameter regimes is internalization actually harmful?
+hypothesis: >-
+  Internalization is net energy-positive only in a restricted regime: where symbiont ATP export
+  exceeds the host's transport + upkeep + conflict costs. Outside that regime, an externally
+  associated partner (S2) has equal or higher net fitness.
+claim: >-
+  An enclosed partner may develop organelle-like function only under restricted physiological
+  conditions: internalization yields a net ATP/biomass benefit solely where export exceeds
+  transport, upkeep, and conflict costs, bounded by proton-gradient constraints — and there exist
+  regimes where internalization is energetically harmful relative to external association.
+behavior_tests:
+- name: internalization-net-energy-positive
+  classification: primary
+  description: Net ATP/biomass benefit of the internalized configuration exceeds the external one.
+  measure: {kind: derived_scalar, path: internalization_net_atp_benefit}
+  pass_if:
+    op: '>'
+    value: 0.0
+    provenance:
+      kind: hypothesis
+      note: >-
+        Net ATP flux (internalized) minus net ATP flux (external association), per biomass; >0 in at
+        least one regime. Enzyme/pathway ancestry priors from Santana-Molina-2025.
+  cites: [santana-molina-nee-2025]
+- name: harmful-regime-exists
+  classification: secondary
+  description: There exists a parameter regime where internalization is net-negative (honest failure route).
+  measure: {kind: derived_scalar, path: internalization_net_atp_benefit}
+  pass_if: {op: '<', value: 0.0, provenance: {kind: hypothesis, note: High transport-cost / high-conflict regime.}}
+acceptance_criteria:
+- behavior: internalization-net-energy-positive
+literature_anchors:
+- expectation: Central carbon metabolism has chimeric host+partner enzyme ancestry.
+  model_observable: internalization_net_atp_benefit
+  source: Santana-Molina et al. 2025, Nature Ecology & Evolution
+  cites: [santana-molina-nee-2025]
+  status_in_workspace: proposed
+parent_studies:
+- {study: s3-protrusions-to-enclosure, relation: builds-on}
+- {study: s1-metabolic-partnership, relation: builds-on}
+# MODEL TO BUILD (the gap): a multicompartment energetics composite does not exist.
+baseline:
+- name: baseline
+  composite: viva_genesis.composites.symbiosis.compartmental_energetics
+  params: {transport_cost_frac: TBD, membrane_potential_mV: TBD, conflict_cost_frac: TBD}
+  note: >-
+    Composite NOT yet built. Requires: two intracellular metabolic networks (reuse S1 GEMs), explicit
+    transporters + membrane potentials, and an ATP/biomass accounting process; external-vs-internal arms.
+observables: [internalization_net_atp_benefit]
+data_inputs:
+- {name: Comparative central metabolism (Zenodo), use: enzyme ancestry + pathway stoichiometry, url: 'https://doi.org/10.5281/zenodo.10991068'}
