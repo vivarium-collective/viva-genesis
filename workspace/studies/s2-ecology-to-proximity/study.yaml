@@ -10,68 +10,67 @@ simulation_status: not_run
 evaluation_status: not_evaluated
 gate_status: not_started
 topic: spatial-ecology
-tags: [symbiosis, reaction-diffusion, agents, proximity, selection]
-concept: >-
-  Physical association made operational as encounter rate, adhesion lifetime, diffusion length, and
-  spatial crowding. The two cross-feeding lineages (the S1 community) placed proximate (mixed) vs
-  distant (segregated) along the pore, under varying diffusion — measuring whether the cross-feeding
-  benefit is distance-dependent.
-question: >-
-  When do cross-feeding benefits select for persistent proximity rather than independent
-  coexistence? Does the predicted selection for proximity disappear under high diffusion / well-mixed
-  conditions?
-hypothesis: >-
-  Below a critical diffusion length the cross-feeding flux is distance-dependent and selects for
-  sustained contact; under well-mixed (high-diffusion) conditions the proximity advantage collapses,
+tags:
+- symbiosis
+- reaction-diffusion
+- agents
+- proximity
+- selection
+concept: Physical association made operational as encounter rate, adhesion lifetime, diffusion length,
+  and spatial crowding. The two cross-feeding lineages (the S1 community) placed proximate (mixed) vs
+  distant (segregated) along the pore, under varying diffusion — measuring whether the cross-feeding benefit
+  is distance-dependent.
+question: When do cross-feeding benefits select for persistent proximity rather than independent coexistence?
+  Does the predicted selection for proximity disappear under high diffusion / well-mixed conditions?
+hypothesis: Below a critical diffusion length the cross-feeding flux is distance-dependent and selects
+  for sustained contact; under well-mixed (high-diffusion) conditions the proximity advantage collapses,
   so selection for contact is a spatial-structure effect, not a given.
-claim: >-
-  Selection may favor sustained contact: in spatially structured (low-diffusion) environments the
-  S1 cross-feeding flux is strongly distance-dependent — proximate (mixed) partners sustain the
-  exchange while distant (segregated) partners lose it — creating a precondition for intimate
-  symbiosis. The advantage vanishes under high diffusion (well-mixed), so proximity selection is
-  contingent on spatial structure.
+claim: 'Selection may favor sustained contact: in spatially structured (low-diffusion) environments the
+  S1 cross-feeding flux is strongly distance-dependent — proximate (mixed) partners sustain the exchange
+  while distant (segregated) partners lose it — creating a precondition for intimate symbiosis. The advantage
+  vanishes under high diffusion (well-mixed), so proximity selection is contingent on spatial structure.'
 behavior_tests:
 - name: proximity-selected-under-finite-diffusion
   classification: primary
-  description: >-
-    At low diffusion the proximate (mixed) community sustains cross-lineage metabolite flux that a
-    distant (segregated) community loses — so the cross-feeding benefit is distance-dependent and
+  description: At low diffusion the proximate (mixed) community sustains cross-lineage metabolite flux
+    that a distant (segregated) community loses — so the cross-feeding benefit is distance-dependent and
     selects for contact. The threshold discriminates mixed (proximate) from the segregated control.
-  measure: {kind: derived_scalar, path: settled_cross_lineage_flux}
+  measure:
+    kind: derived_scalar
+    path: settled_cross_lineage_flux
   pass_if:
     op: '>'
-    value: '1e-22'
+    value: 1e-22
     provenance:
       kind: calibration
-      note: >-
-        Calibrated at p_diacid=1e-8, p_monoacid=1e-7, k_wash=0.01, k_diffusion=0.001, 250 steps:
-        mixed (proximate) settles to 4.0e-22 (PASS) while the segregated control (the
-        `distant-control` variant) settles to 1.8e-23 (FAIL) — a 22x proximity advantage. Under
-        high diffusion (k_diffusion=0.1) the mixed/segregated ratio falls to 1.26: the advantage
-        vanishes well-mixed.
-  cites: [radler-nature-2026]
+      note: 'Calibrated at p_diacid=1e-8, p_monoacid=1e-7, k_wash=0.01, k_diffusion=0.001, 250 steps:
+        mixed (proximate) settles to 4.0e-22 (PASS) while the segregated control (the `distant-control`
+        variant) settles to 1.8e-23 (FAIL) — a 22x proximity advantage. Under high diffusion (k_diffusion=0.1)
+        the mixed/segregated ratio falls to 1.26: the advantage vanishes well-mixed.'
+  cites:
+  - radler-nature-2026
 acceptance_criteria:
 - behavior: proximity-selected-under-finite-diffusion
 findings:
 - id: s2-proximity-distance-dependent-calibrated
-  statement: >-
-    Calibrated (k_diffusion=0.001, 250 steps): proximate (mixed) partners sustain cross-lineage
-    flux 4.0e-22 mol/tick while distant (segregated) partners sustain only 1.8e-23 — a 22x
-    proximity advantage, so selection favours persistent contact. The advantage is diffusion-
-    dependent: at k_diffusion=0.1 the mixed/segregated ratio is 1.26 (proximity barely matters,
-    diffusion carries the intermediate). Establishes that proximity selection is a spatial-
-    structure effect, not a given — a precondition for intimate symbiosis. Direct in-process run.
-  cites: [radler-nature-2026]
+  statement: 'Calibrated (k_diffusion=0.001, 250 steps): proximate (mixed) partners sustain cross-lineage
+    flux 4.0e-22 mol/tick while distant (segregated) partners sustain only 1.8e-23 — a 22x proximity advantage,
+    so selection favours persistent contact. The advantage is diffusion- dependent: at k_diffusion=0.1
+    the mixed/segregated ratio is 1.26 (proximity barely matters, diffusion carries the intermediate).
+    Establishes that proximity selection is a spatial- structure effect, not a given — a precondition
+    for intimate symbiosis. Direct in-process run.'
+  cites:
+  - radler-nature-2026
 literature_anchors:
 - expectation: Asgard protrusions set the length/time scales of transient contact.
   model_observable: settled_cross_lineage_flux
   source: Radler et al. 2026, Nature
-  cites: [radler-nature-2026]
+  cites:
+  - radler-nature-2026
   status_in_workspace: proposed
 parent_studies:
-- {study: s1-metabolic-partnership, relation: builds-on}
-# FIRST-FIDELITY MODEL (built + calibrated): the S1 metabolite-exchange community with the spatial
-# lever — placement (mixed=proximate / segregated=distant) under low diffusion.
+- study: s1-metabolic-partnership
+  relation: builds-on
 baseline:
 - name: baseline
   composite: viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community
@@ -79,23 +78,33 @@ baseline:
     lineages: fixer:4,reducer:4
     coupling: shared
     model_proto_ecology: reaction_universe
-    p_diacid: 1.0e-8
-    p_monoacid: 1.0e-7
+    p_diacid: 1.0e-08
+    p_monoacid: 1.0e-07
     k_wash: 0.01
-    placement: mixed                   # PROXIMATE — partners interleaved
-    k_diffusion: 0.001                 # low diffusion → the proximity effect is decisive
-  note: >-
-    First-fidelity arm: reuses the S1 metabolite-exchange community with placement + diffusion as
-    the proximity lever. settled_cross_lineage_flux (metabolite flux between lineages) is the
-    distance-dependent benefit. The dedicated reaction-diffusion PDE with a continuous separation
-    axis is the next-fidelity arm.
+    placement: mixed
+    k_diffusion: 0.001
+  note: 'First-fidelity arm: reuses the S1 metabolite-exchange community with placement + diffusion as
+    the proximity lever. settled_cross_lineage_flux (metabolite flux between lineages) is the distance-dependent
+    benefit. The dedicated reaction-diffusion PDE with a continuous separation axis is the next-fidelity
+    arm.'
 variants:
 - name: distant-control
   base: baseline
-  over: {placement: segregated}        # DISTANT — lineages in separate pore blocks; loses the flux (1.8e-23) -> FAILS the gate
+  over:
+    placement: segregated
 - name: well-mixed-control
   base: baseline
-  over: {k_diffusion: 0.1}             # WELL-MIXED — high diffusion; the proximity advantage vanishes (ratio 1.26)
-observables: [exchange/cross_lineage_flux_total]
+  over:
+    k_diffusion: 0.1
+visualizations:
+- name: proximity-selects-contact
+  address: local:S2EcologyProximityViz
+  config:
+    title: S2 — proximity selects for contact (cross-lineage flux, proximate vs distant)
+  rendered: workspace/studies/s2-ecology-to-proximity/viz/proximity-selects-contact.html
+observables:
+- exchange/cross_lineage_flux_total
 data_inputs:
-- {name: Asgard live-cell microscopy (figshare/BioImage), use: protrusion length/time priors, url: 'https://doi.org/10.6084/m9.figshare.30676367'}
+- name: Asgard live-cell microscopy (figshare/BioImage)
+  use: protrusion length/time priors
+  url: https://doi.org/10.6084/m9.figshare.30676367
