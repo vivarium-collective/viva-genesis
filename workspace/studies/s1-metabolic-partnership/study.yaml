@@ -5,10 +5,10 @@ created: '2026-10-27'
 title: 'S1 — Metabolic partnership: can an archaeal-bacterial pair gain fitness from exchange?'
 phase: Design
 status: planned
-design_status: draft
+design_status: drafted
 simulation_status: not_run
 evaluation_status: not_evaluated
-gate_status: pending
+gate_status: not_started
 topic: metabolic-coupling
 tags: [symbiosis, fba, community, cross-feeding, bioenergetics]
 concept: >-

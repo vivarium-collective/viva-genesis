@@ -5,10 +5,10 @@ created: '2026-10-27'
 title: 'S2 — Ecology to proximity: when does cross-feeding select for persistent contact?'
 phase: Design
 status: planned
-design_status: draft
+design_status: drafted
 simulation_status: not_run
 evaluation_status: not_evaluated
-gate_status: pending
+gate_status: not_started
 topic: spatial-ecology
 tags: [symbiosis, reaction-diffusion, agents, proximity, selection]
 concept: >-

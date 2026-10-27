@@ -5,10 +5,10 @@ created: '2026-10-27'
 title: 'S4 — Compartmental energetic coupling: does internalization pay for itself?'
 phase: Design
 status: planned
-design_status: draft
+design_status: drafted
 simulation_status: not_run
 evaluation_status: not_evaluated
-gate_status: pending
+gate_status: not_started
 topic: bioenergetics
 tags: [symbiosis, energetics, atp, compartment, proton-gradient]
 concept: >-
