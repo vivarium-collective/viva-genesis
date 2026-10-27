@@ -646,6 +646,23 @@ if RERUN:
 else:
     print("RERUN=False — not re-simulating.")
 
+# ### Visualizations
+#
+# _Results are shown by the figures below, produced by the run above._
+
+# **partner-dependent-advantage**
+
+def _save_viz(study, slug, html):
+    d = REPO / 'reports/notebooks/figures' / study
+    d.mkdir(parents=True, exist_ok=True)
+    out = d / (slug + '.html')
+    out.write_text(html, encoding='utf-8')
+    print('  wrote', out)
+
+
+# partner-dependent-advantage
+_save_viz('s1-metabolic-partnership', 'partner-dependent-advantage', _render_one('local:S1MetabolicPartnershipViz', {'title': 'S1 — a partner-dependent advantage (connected vs isolated community redundancy)'}, RUNS_DB, STUDY_YAML))
+
 # ### Acceptance criteria
 #
 # _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
@@ -744,6 +761,15 @@ if RERUN:
 else:
     print("RERUN=False — not re-simulating.")
 
+# ### Visualizations
+#
+# _Results are shown by the figures below, produced by the run above._
+
+# **proximity-selects-contact**
+
+# proximity-selects-contact
+_save_viz('s2-ecology-to-proximity', 'proximity-selects-contact', _render_one('local:S2EcologyProximityViz', {'title': 'S2 — proximity selects for contact (cross-lineage flux, proximate vs distant)'}, RUNS_DB, STUDY_YAML))
+
 # ### Acceptance criteria
 #
 # _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
@@ -821,6 +847,15 @@ if RERUN:
 else:
     print("RERUN=False — not re-simulating.")
 
+# ### Visualizations
+#
+# _Results are shown by the figures below, produced by the run above._
+
+# **enclosure-feasibility**
+
+# enclosure-feasibility
+_save_viz('s3-protrusions-to-enclosure', 'enclosure-feasibility', _render_one('local:S3EnclosureViz', {'title': 'S3 — enclosure is geometrically feasible (by topology)'}, RUNS_DB, STUDY_YAML))
+
 # ### Acceptance criteria
 #
 # _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
@@ -897,6 +932,15 @@ if RERUN:
 else:
     print("RERUN=False — not re-simulating.")
 
+# ### Visualizations
+#
+# _Results are shown by the figures below, produced by the run above._
+
+# **internalization-net-benefit**
+
+# internalization-net-benefit
+_save_viz('s4-compartmental-energetic-coupling', 'internalization-net-benefit', _render_one('local:S4EnergeticCouplingViz', {'title': 'S4 — internalization pays only with an efficient pump (survivors)'}, RUNS_DB, STUDY_YAML))
+
 # ### Acceptance criteria
 #
 # _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
@@ -972,6 +1016,15 @@ if RERUN:
         print(f"baseline not runnable yet: {type(_e).__name__}: {_e}")
 else:
     print("RERUN=False — not re-simulating.")
+
+# ### Visualizations
+#
+# _Results are shown by the figures below, produced by the run above._
+
+# **heritable-integration**
+
+# heritable-integration
+_save_viz('s5-symbiont-to-organelle', 'heritable-integration', _render_one('local:S5HeritabilityViz', {'title': 'S5 — heritable integration needs high fidelity (by inheritance module)'}, RUNS_DB, STUDY_YAML))
 
 # ### Acceptance criteria
 #

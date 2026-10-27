@@ -600,6 +600,20 @@
       <p class="ctr-text">Calibrated (p_diacid=1e-8, p_monoacid=1e-7, k_wash=0.01, 250 steps): the connected cross-feeding community settles to metacommunity_robustness 0.536 (&gt; 0.5, PASS) while the isolated control (coupling=private) settles to 0.464 (&lt; 0.5, FAIL) — a partner-dependent advantage of 1.15 (connected/isolated). Carbon mass balance holds (worst-case residual 5.6e-11). Establishes a mechanistically plausible route (connected community) and a well-characterized failure route (isolated control) at first fidelity. Computed via a direct in-process composite run; the tracked workbench run awaits the evaluator reaching the genesis venv.</p>
       
       
+      <div class="ov-metrics">
+        
+        <div class="ov-metric ov-metric-warn">
+          <div class="ov-metric-v">SKIP</div>
+          <div class="ov-metric-k">community-redundancy-develops</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-warn">
+          <div class="ov-metric-v">SKIP</div>
+          <div class="ov-metric-k">exchange-mass-balanced</div>
+        </div>
+        
+      </div>
+      
       
       
       
@@ -732,6 +746,13 @@
         <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading configuration…</span></div></div>
       
       
+      
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;font-size:0.8em">
+        
+        
+        
+        <span class="cond-pill"><span class="cond-pill-k">status</span>=completed</span>
+      </div>
       
     </div>
     
@@ -936,17 +957,31 @@
         
         data-pytest-node="community-redundancy-develops"
         data-classification="primary"
-        data-result="pending"
+        data-result="SKIP"
         style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #10b981; background: #f8fafc; border-radius: 4px;">
       
         
       <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
-        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #f1f5f9; color: #475569">⏳ pending</span>
+        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #fef3c7; color: #92400e">⏭ SKIP</span>
         <span class="classification-pill classification-primary">primary</span>
         <strong style="font-size: 0.9em;">community-redundancy-develops</strong>
         
       </div>
       <div style="margin-top: 6px; font-size: 0.95em;">The connected community develops functional redundancy — a majority of protometabolic capabilities held by &gt;= 2 compartments (robust to a single-compartment loss). This only rises above the ~0.46 seeded floor when cross-feeding fills in capabilities, so the &gt;0.5 threshold discriminates the connected community from the isolated (no-exchange) control: the partner dependence IS the gap between the two arms.</div>
+      
+      <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
+        <strong>Latest result:</strong>
+        
+        
+          
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: agent</code>
+          
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">note: derived-scalar computer &#39;settled_metacommunity_robustness&#39; error: &#39;community/metacommunity_robustness&#39;</code>
+          
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+          
+        
+      </div>
       
       
       <details style="margin-top: 6px; font-size: 0.82em;">
@@ -974,17 +1009,31 @@ cites:   ["imachi-nature-2020", "santana-molina-nee-2025"]</pre>
         
         data-pytest-node="exchange-mass-balanced"
         data-classification="primary"
-        data-result="pending"
+        data-result="SKIP"
         style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #10b981; background: #f8fafc; border-radius: 4px;">
       
         
       <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
-        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #f1f5f9; color: #475569">⏳ pending</span>
+        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #fef3c7; color: #92400e">⏭ SKIP</span>
         <span class="classification-pill classification-primary">primary</span>
         <strong style="font-size: 0.9em;">exchange-mass-balanced</strong>
         
       </div>
       <div style="margin-top: 6px; font-size: 0.95em;">Exchanged metabolites close an elemental carbon mass balance (no free lunch).</div>
+      
+      <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
+        <strong>Latest result:</strong>
+        
+        
+          
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: agent</code>
+          
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">note: derived-scalar computer &#39;exchange_mass_balance_residual&#39; error: &#39;ledger/C_residual_max&#39;</code>
+          
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+          
+        
+      </div>
       
       
       <details style="margin-top: 6px; font-size: 0.82em;">
@@ -1041,25 +1090,25 @@ pass_if: {"op": "\u003c", "provenance": {"kind": "theory", "note": "Exchange flu
         <span class="gate-current-tag">you are here</span>
       </span>
       
-      <span class="status-step  gate-status-not-assessed">
+      <span class="status-step set gate-status-passed">
         <span class="dot"></span>2 · Execution
         <span class="step-val">not_run</span>
         
       </span>
       
-      <span class="status-step  gate-status-passed-with-conditions">
+      <span class="status-step set gate-status-passed">
         <span class="dot"></span>3 · Evidence
         <span class="step-val">not_evaluated</span>
         
       </span>
       
-      <span class="status-step  gate-status-not-assessed">
+      <span class="status-step set gate-status-passed">
         <span class="dot"></span>4 · Quality
         <span class="step-val">not_evaluated</span>
         
       </span>
       
-      <span class="status-step  gate-status-not-assessed">
+      <span class="status-step  gate-status-blocked">
         <span class="dot"></span>5 · Decision
         <span class="step-val">not_started</span>
         
@@ -1154,9 +1203,9 @@ pass_if: {"op": "\u003c", "provenance": {"kind": "theory", "note": "Exchange flu
         evaluator's result from the behavior-test outcomes — the evaluation the
         conclusion rests on.</p>
       <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
-        <span class="gate-status-not_started" style="padding:2px 12px;border-radius:9999px;font-weight:700;font-size:0.85em">not_started</span>
+        <span class="gate-status-blocked" style="padding:2px 12px;border-radius:9999px;font-weight:700;font-size:0.85em">blocked</span>
         <span class="muted small">evaluated by code</span>
-        <span class="muted small">0/2 passed</span>
+        <span class="muted small">0/2 passed · 2 skipped</span>
       </div>
       
     </div>
@@ -1174,6 +1223,28 @@ pass_if: {"op": "\u003c", "provenance": {"kind": "theory", "note": "Exchange flu
 
   
   
+  <div class="overview-section"><h2 class="overview-label">Plan &amp; assumptions</h2>
+
+    
+    <div class="overview-section">
+      <h3 class="overview-label">Pipeline gate</h3>
+      <p class="muted" style="margin: 0 0 8px 0;font-size:0.88em">
+        Each study is a model-building gate: it answers <em>"Can we safely build the next layer?"</em>
+      </p>
+      
+      <div style="margin-bottom:6px"><strong>Prerequisites:</strong> <em class="muted">none (root study)</em></div>
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+
+  </div>
+  
 
   
   <div class="overview-section"><h2 class="overview-label">Evidence</h2>
@@ -1181,6 +1252,27 @@ pass_if: {"op": "\u003c", "provenance": {"kind": "theory", "note": "Exchange flu
     
     
     
+    
+    <div class="decide-section">
+      <h3 class="overview-label">Latest run outcomes</h3>
+      <div style="font-size:0.88em;color:#64748b;margin-bottom:8px">
+        baseline · seed ? ·
+        ?s simulated ·
+        ? history rows ·
+        started 1793135911.366938
+      </div>
+      
+      
+      
+      <p class="muted" style="margin:0;font-size:0.9em">
+        <strong>2</strong> test outcomes
+        — <span style="color:#065f46;font-weight:600">0 PASS</span> ·
+        <span style="color:#991b1b;font-weight:600">0 FAIL</span>.
+        Per-test outcomes (measured value · evaluator · band) are canonical on the
+        <a onclick="_setStudyTab('audit')" style="cursor:pointer;color:#3b82f6;text-decoration:underline">Tests (in Audit) →</a>.
+      </p>
+      
+    </div>
     
     
 
@@ -1208,7 +1300,7 @@ pass_if: {"op": "\u003c", "provenance": {"kind": "theory", "note": "Exchange flu
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/workbench", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "85ed1300b2177d01e0a0a1307526b4e4dd368f21", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/85ed1300b2177d01e0a0a1307526b4e4dd368f21", "branch": "main", "lockfile": "uv.lock@61cdd87d2a3f", "generated_at": "2026-10-27 21:23 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/workbench", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "269471cdc383e2c505c319235429828382d0bb75", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/269471cdc383e2c505c319235429828382d0bb75", "branch": "main", "lockfile": "uv.lock@cf13294d7ed6", "generated_at": "2026-10-27 21:45 UTC"} };</script>
 <script src="/viva-genesis/workbench/assets/data-source.js"></script>
 <script src="/viva-genesis/workbench/assets/toast.js"></script>
 <script>
