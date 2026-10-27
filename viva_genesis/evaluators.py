@@ -1048,16 +1048,20 @@ def _set_gate(key: str):
 
 
 # --- eukaryogenesis S1 (metabolite-exchange community — first-fidelity arm) ---
-@declares_sources("community/metacommunity_robustness", "community/isolated_robustness")
-def _partner_dependent_growth_ratio(reader, test: dict, ws_root: Any) -> float:
-    """S1 gate: the settled community robustness relative to the isolated counterfactual.
-    >1 means the two-member community is more robust together than apart — a partner-dependent
-    advantage from metabolite exchange. First-fidelity proxy on the og-07 metabolite-exchange
-    community (fixer+reducer lineages, shared vs private coupling); the real archaeal-bacterial
-    GEM community-FBA is the next-fidelity arm (blocked on COBRApy + genome reconstruction).
-    Sources use the composite's full emit paths (community/*), not leaf names."""
-    iso = _settled_mean(reader, "community/isolated_robustness")
-    return (_settled_mean(reader, "community/metacommunity_robustness") / iso) if iso else float("nan")
+@declares_sources("community/metacommunity_robustness")
+def _settled_metacommunity_robustness(reader, test: dict, ws_root: Any) -> float:
+    """S1 gate: settled community functional redundancy — the fraction of protometabolic
+    capabilities held by >= 2 compartments, so they survive a single-compartment loss. This only
+    rises above the ~0.46 seeded floor when cross-feeding fills in capabilities, so the >0.5
+    threshold itself discriminates the CONNECTED community (coupling=shared) from the ISOLATED
+    control (coupling=private): calibrated at p_diacid=1e-8, p_monoacid=1e-7, k_wash=0.01, 250
+    steps, connected settles to 0.536 (PASS) while the private control settles to 0.464 (FAIL) —
+    a partner-dependent advantage (connected/isolated = 1.15). First-fidelity proxy on the og-07
+    metabolite-exchange community; the real archaeal-bacterial GEM community-FBA is the
+    next-fidelity arm (blocked on COBRApy + genome reconstruction). NOTE: the within-run
+    community/isolated_robustness is NOT the counterfactual (it equals the connected value in a
+    shared run) — the isolated arm is a separate coupling=private run."""
+    return _settled_mean(reader, "community/metacommunity_robustness")
 
 
 @declares_sources("ledger/C_residual_max")
@@ -1067,11 +1071,78 @@ def _exchange_mass_balance_residual(reader, test: dict, ws_root: Any) -> float:
     return max((abs(v) for v in vals), default=float("nan"))
 
 
+# --- eukaryogenesis S2 (ecology to proximity — same community model, spatial lever) ---
+@declares_sources("exchange/cross_lineage_flux_total")
+def _settled_cross_lineage_flux(reader, test: dict, ws_root: Any) -> float:
+    """S2 gate: settled metabolite flux BETWEEN the partner lineages (mol/tick). This is
+    proximity-sensitive — at low diffusion a proximate (mixed) community sustains the exchange
+    while a distant (segregated) one loses it, so selection favours persistent contact. Calibrated
+    at p_diacid=1e-8, p_monoacid=1e-7, k_wash=0.01, k_diffusion=0.001, 250 steps: mixed placement
+    settles to 4.0e-22 (PASS) while the segregated control settles to 1.8e-23 (FAIL) — a 22x
+    proximity advantage. The advantage vanishes under high diffusion (k_diffusion=0.1: mixed/seg
+    ratio 1.26), so proximity selection is contingent on spatial structure, not a given."""
+    return _settled_mean(reader, "exchange/cross_lineage_flux_total")
+
+
+# --- eukaryogenesis S4 (compartmental energetic coupling — bioenergetic internalization) ---
+@declares_sources("pop/survivors")
+def _settled_internalization_survivors(reader, test: dict, ws_root: Any) -> float:
+    """S4 gate: settled surviving fraction under a DECLINING external gradient. Internalization is
+    net-positive only when an efficient pump lets the population internalize gradient generation and
+    persist as the external gradient collapses (the Sojo leaky-membrane constraint). Calibrated
+    (catalyst_efficiency=1.0, 60 steps): survivors settle to 1.00 (PASS; internalization 0.95,
+    autonomy 0.99, lineage fitness 0.68). The weak-pump control (catalyst_efficiency=0.3) collapses
+    to survivors 0.00 (FAIL; fitness 0.059) — the regime where internalization does NOT pay for
+    itself, so an enclosed partner develops organelle-like function only under restricted
+    physiological conditions."""
+    return _settled_mean(reader, "pop/survivors")
+
+
+# --- eukaryogenesis S5 (symbiont to organelle — heritable lineage) ---
+@declares_sources("herd/heritability")
+def _settled_heritability(reader, test: dict, ws_root: Any) -> float:
+    """S5 gate: settled vertical-transmission fidelity — the heritability of the chemical phenotype
+    across the lineage tree. Stable heritable integration requires high-fidelity transmission: only
+    then does the lineage persist with function. Calibrated (module=template, per_site_fidelity=0.99,
+    60 steps): heritability settles to 0.989 (PASS; functional fraction 1.0, population 220). TWO
+    failure routes fall below the 0.95 threshold: a low-fidelity template (per_site_fidelity=0.80)
+    hits the Eigen error catastrophe (heritability 0.799, functional fraction 0.0, population 0), and
+    the non-heritable control (daughters get a fresh phenotype) reads 0.106. A new evolutionary
+    individual emerges only above the fidelity threshold."""
+    return _settled_mean(reader, "herd/heritability")
+
+
+# --- eukaryogenesis S3 (protrusions to enclosure — membrane mechanics) ---
+@declares_sources("enc/enclosure_probability")
+def _settled_enclosure_probability(reader, test: dict, ws_root: Any) -> float:
+    """S3 gate: settled probability that a host protrusion reaches stable enclosure over a
+    partner-radius ensemble, given the membrane area + Helfrich bending-energy budget. Calibrated
+    (classical engulfment, protrusion_area=4 um^2, adhesion=600 kT, kappa=20 kT, 30 steps):
+    enclosure_probability settles to 0.61 (PASS; inside-out wrapping reaches 0.98). Two failure
+    routes read 0.0: the no-enclosure control (contact without wrapping) and a weak-adhesion control
+    (adhesion below the 8*pi*kappa bending cost). Physical enclosure is a separate hurdle from any
+    metabolic benefit — morphology alone does not demonstrate engulfment."""
+    return _settled_mean(reader, "enc/enclosure_probability")
+
+
+@declares_sources("enc/membrane_area_conservation_residual")
+def _max_membrane_area_residual(reader, test: dict, ws_root: Any) -> float:
+    """S3 gate: worst-case membrane area-conservation residual over the run — area is conserved
+    through the deformation (stays ~0 by construction)."""
+    vals = _values(reader, "enc/membrane_area_conservation_residual")
+    return max((abs(v) for v in vals), default=float("nan"))
+
+
 def register_derived_scalars(registry: dict) -> None:
     """Hook called by study_evaluator.load_workspace_derived_scalars."""
-    # eukaryogenesis S1 (first-fidelity metabolite-exchange community arm)
-    registry["partner_dependent_growth_ratio"] = _partner_dependent_growth_ratio
+    # eukaryogenesis S1 + S2 (first-fidelity metabolite-exchange community arms)
+    registry["settled_metacommunity_robustness"] = _settled_metacommunity_robustness
     registry["exchange_mass_balance_residual"] = _exchange_mass_balance_residual
+    registry["settled_cross_lineage_flux"] = _settled_cross_lineage_flux
+    registry["settled_internalization_survivors"] = _settled_internalization_survivors
+    registry["settled_heritability"] = _settled_heritability
+    registry["settled_enclosure_probability"] = _settled_enclosure_probability
+    registry["max_membrane_area_residual"] = _max_membrane_area_residual
     # Phase 9 (og-08-alt-robust-innovation-set): the seven ledgers over the integrated world,
     # the ablation, the structural-event log, the autonomy decomposition and the lattice gates
     registry["every_ledger_ok_final"] = _every_ledger_ok_final

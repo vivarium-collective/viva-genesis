@@ -70,7 +70,7 @@ studies:
 - s5-symbiont-to-organelle
 acceptance_criteria:
 - study: s1-metabolic-partnership
-  behavior: partner-dependent-growth-feasible
+  behavior: community-redundancy-develops
 - study: s2-ecology-to-proximity
   behavior: proximity-selected-under-finite-diffusion
 - study: s3-protrusions-to-enclosure
