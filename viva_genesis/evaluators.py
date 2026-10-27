@@ -1112,6 +1112,27 @@ def _settled_heritability(reader, test: dict, ws_root: Any) -> float:
     return _settled_mean(reader, "herd/heritability")
 
 
+# --- eukaryogenesis S3 (protrusions to enclosure — membrane mechanics) ---
+@declares_sources("enc/enclosure_probability")
+def _settled_enclosure_probability(reader, test: dict, ws_root: Any) -> float:
+    """S3 gate: settled probability that a host protrusion reaches stable enclosure over a
+    partner-radius ensemble, given the membrane area + Helfrich bending-energy budget. Calibrated
+    (classical engulfment, protrusion_area=4 um^2, adhesion=600 kT, kappa=20 kT, 30 steps):
+    enclosure_probability settles to 0.61 (PASS; inside-out wrapping reaches 0.98). Two failure
+    routes read 0.0: the no-enclosure control (contact without wrapping) and a weak-adhesion control
+    (adhesion below the 8*pi*kappa bending cost). Physical enclosure is a separate hurdle from any
+    metabolic benefit — morphology alone does not demonstrate engulfment."""
+    return _settled_mean(reader, "enc/enclosure_probability")
+
+
+@declares_sources("enc/membrane_area_conservation_residual")
+def _max_membrane_area_residual(reader, test: dict, ws_root: Any) -> float:
+    """S3 gate: worst-case membrane area-conservation residual over the run — area is conserved
+    through the deformation (stays ~0 by construction)."""
+    vals = _values(reader, "enc/membrane_area_conservation_residual")
+    return max((abs(v) for v in vals), default=float("nan"))
+
+
 def register_derived_scalars(registry: dict) -> None:
     """Hook called by study_evaluator.load_workspace_derived_scalars."""
     # eukaryogenesis S1 + S2 (first-fidelity metabolite-exchange community arms)
@@ -1120,6 +1141,8 @@ def register_derived_scalars(registry: dict) -> None:
     registry["settled_cross_lineage_flux"] = _settled_cross_lineage_flux
     registry["settled_internalization_survivors"] = _settled_internalization_survivors
     registry["settled_heritability"] = _settled_heritability
+    registry["settled_enclosure_probability"] = _settled_enclosure_probability
+    registry["max_membrane_area_residual"] = _max_membrane_area_residual
     # Phase 9 (og-08-alt-robust-innovation-set): the seven ledgers over the integrated world,
     # the ablation, the structural-event log, the autonomy decomposition and the lattice gates
     registry["every_ledger_ok_final"] = _every_ledger_ok_final
