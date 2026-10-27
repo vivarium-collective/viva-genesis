@@ -1084,12 +1084,27 @@ def _settled_cross_lineage_flux(reader, test: dict, ws_root: Any) -> float:
     return _settled_mean(reader, "exchange/cross_lineage_flux_total")
 
 
+# --- eukaryogenesis S4 (compartmental energetic coupling — bioenergetic internalization) ---
+@declares_sources("pop/survivors")
+def _settled_internalization_survivors(reader, test: dict, ws_root: Any) -> float:
+    """S4 gate: settled surviving fraction under a DECLINING external gradient. Internalization is
+    net-positive only when an efficient pump lets the population internalize gradient generation and
+    persist as the external gradient collapses (the Sojo leaky-membrane constraint). Calibrated
+    (catalyst_efficiency=1.0, 60 steps): survivors settle to 1.00 (PASS; internalization 0.95,
+    autonomy 0.99, lineage fitness 0.68). The weak-pump control (catalyst_efficiency=0.3) collapses
+    to survivors 0.00 (FAIL; fitness 0.059) — the regime where internalization does NOT pay for
+    itself, so an enclosed partner develops organelle-like function only under restricted
+    physiological conditions."""
+    return _settled_mean(reader, "pop/survivors")
+
+
 def register_derived_scalars(registry: dict) -> None:
     """Hook called by study_evaluator.load_workspace_derived_scalars."""
     # eukaryogenesis S1 + S2 (first-fidelity metabolite-exchange community arms)
     registry["settled_metacommunity_robustness"] = _settled_metacommunity_robustness
     registry["exchange_mass_balance_residual"] = _exchange_mass_balance_residual
     registry["settled_cross_lineage_flux"] = _settled_cross_lineage_flux
+    registry["settled_internalization_survivors"] = _settled_internalization_survivors
     # Phase 9 (og-08-alt-robust-innovation-set): the seven ledgers over the integrated world,
     # the ablation, the structural-event log, the autonomy decomposition and the lattice gates
     registry["every_ledger_ok_final"] = _every_ledger_ok_final
