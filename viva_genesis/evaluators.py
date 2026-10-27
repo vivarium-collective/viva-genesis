@@ -1071,11 +1071,25 @@ def _exchange_mass_balance_residual(reader, test: dict, ws_root: Any) -> float:
     return max((abs(v) for v in vals), default=float("nan"))
 
 
+# --- eukaryogenesis S2 (ecology to proximity — same community model, spatial lever) ---
+@declares_sources("exchange/cross_lineage_flux_total")
+def _settled_cross_lineage_flux(reader, test: dict, ws_root: Any) -> float:
+    """S2 gate: settled metabolite flux BETWEEN the partner lineages (mol/tick). This is
+    proximity-sensitive — at low diffusion a proximate (mixed) community sustains the exchange
+    while a distant (segregated) one loses it, so selection favours persistent contact. Calibrated
+    at p_diacid=1e-8, p_monoacid=1e-7, k_wash=0.01, k_diffusion=0.001, 250 steps: mixed placement
+    settles to 4.0e-22 (PASS) while the segregated control settles to 1.8e-23 (FAIL) — a 22x
+    proximity advantage. The advantage vanishes under high diffusion (k_diffusion=0.1: mixed/seg
+    ratio 1.26), so proximity selection is contingent on spatial structure, not a given."""
+    return _settled_mean(reader, "exchange/cross_lineage_flux_total")
+
+
 def register_derived_scalars(registry: dict) -> None:
     """Hook called by study_evaluator.load_workspace_derived_scalars."""
-    # eukaryogenesis S1 (first-fidelity metabolite-exchange community arm)
+    # eukaryogenesis S1 + S2 (first-fidelity metabolite-exchange community arms)
     registry["settled_metacommunity_robustness"] = _settled_metacommunity_robustness
     registry["exchange_mass_balance_residual"] = _exchange_mass_balance_residual
+    registry["settled_cross_lineage_flux"] = _settled_cross_lineage_flux
     # Phase 9 (og-08-alt-robust-innovation-set): the seven ledgers over the integrated world,
     # the ablation, the structural-event log, the autonomy decomposition and the lattice gates
     registry["every_ledger_ok_final"] = _every_ledger_ok_final
