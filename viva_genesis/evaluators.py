@@ -18,6 +18,17 @@ from __future__ import annotations
 from typing import Any
 
 
+def declares_sources(*observables: str):
+    """Tag a derived-scalar computer with the run observables it reads, so a run can be
+    checked/configured to emit them. The viva_superpowers run-readiness contract reads the
+    ``source_observables`` attribute this sets; genesis owns the convention locally so it
+    does not depend on a specific framework version to set it."""
+    def _decorate(fn):
+        fn.source_observables = tuple(observables)
+        return fn
+    return _decorate
+
+
 def _values(reader, observable: str) -> list[float]:
     """Return the run's series for *observable* as a clean float list.
 
@@ -52,16 +63,19 @@ def _settled_mean(reader, observable: str, frac: float = 0.25) -> float:
 
 # --- registered computers --------------------------------------------------
 
+@declares_sources("temperature")
 def _settled_temperature_c(reader, test: dict, ws_root: Any) -> float:
     """Steady-state outlet temperature in deg C (store holds kelvin)."""
     return _settled_mean(reader, "temperature") - 273.15
 
 
+@declares_sources("pH")
 def _settled_ph(reader, test: dict, ws_root: Any) -> float:
     """Steady-state outlet pH."""
     return _settled_mean(reader, "pH")
 
 
+@declares_sources("H2_flux")
 def _min_sustained_h2_flux(reader, test: dict, ws_root: Any) -> float:
     """Minimum H2 source flux over the back half of the run — a sustained,
     non-collapsing reducing supply has min flux > 0."""
@@ -69,12 +83,14 @@ def _min_sustained_h2_flux(reader, test: dict, ws_root: Any) -> float:
     return min(_tail(vals, 0.5))
 
 
+@declares_sources("charge_imbalance")
 def _max_abs_charge_imbalance(reader, test: dict, ws_root: Any) -> float:
     """Worst-case |charge imbalance| (eq/kgw) over the run — PHREEQC balances
     charge by construction, so this stays ~0 (charge_neutrality invariant)."""
     return max(abs(v) for v in _values(reader, "charge_imbalance"))
 
 
+@declares_sources("flux_divergence_residual")
 def _max_flux_divergence_residual(reader, test: dict, ws_root: Any) -> float:
     """Worst-case finite-volume flux-divergence residual over the run — FiPy's
     conservative FVM keeps this ~0 (spatial_flux_conservation invariant)."""
@@ -83,25 +99,30 @@ def _max_flux_divergence_residual(reader, test: dict, ws_root: Any) -> float:
 
 # --- og-01 (geology -> reduced carbon) readouts --------------------------
 
+@declares_sources("formate")
 def _settled_formate_mM(reader, test: dict, ws_root: Any) -> float:
     """Batch formate yield in mM (store holds molar)."""
     return _settled_mean(reader, "formate", frac=0.1) * 1000.0
 
 
+@declares_sources("acetate")
 def _settled_acetate_uM(reader, test: dict, ws_root: Any) -> float:
     return _settled_mean(reader, "acetate", frac=0.1) * 1.0e6
 
 
+@declares_sources("pyruvate")
 def _settled_pyruvate_uM(reader, test: dict, ws_root: Any) -> float:
     return _settled_mean(reader, "pyruvate", frac=0.1) * 1.0e6
 
 
+@declares_sources("net_carbon_flux")
 def _peak_net_carbon_flux(reader, test: dict, ws_root: Any) -> float:
     """Peak organic-carbon fixation rate (mol/s) over the run — the sustained-
     flux-region witness (>0 means a viable fixation region exists)."""
     return max(_values(reader, "net_carbon_flux"))
 
 
+@declares_sources("dg_formate")
 def _free_energy_logged_fraction(reader, test: dict, ws_root: Any) -> float:
     """Fraction of steps with a finite logged ΔG' (eQuilibrator) — the
     energy_directionality invariant witness; 1.0 when logged every step."""
@@ -109,11 +130,13 @@ def _free_energy_logged_fraction(reader, test: dict, ws_root: Any) -> float:
     return 1.0 if vals else 0.0
 
 
+@declares_sources("flux_divergence_residual")
 def _max_abs_electro_flux_residual(reader, test: dict, ws_root: Any) -> float:
     """Worst-case |FVM flux-divergence residual| from the Nernst-Planck solve."""
     return max(abs(v) for v in _values(reader, "flux_divergence_residual"))
 
 
+@declares_sources("charge_state")
 def _pmf_backpressure_sag_frac(reader, test: dict, ws_root: Any) -> float:
     """Peak drawdown of the proton reservoir under fixation load — the chemiosmotic
     back-pressure depth (loaded pmf = open-circuit pmf × charge_state, so this is
@@ -127,16 +150,19 @@ def _pmf_backpressure_sag_frac(reader, test: dict, ws_root: Any) -> float:
 
 # --- og-02 (reduced carbon -> protometabolism) readouts ------------------
 
+@declares_sources("net_carbon_flux")
 def _settled_net_carbon_flux(reader, test: dict, ws_root: Any) -> float:
     """Steady net carbon throughput (mol/s) under feed+washout."""
     return _settled_mean(reader, "net_carbon_flux", frac=0.2)
 
 
+@declares_sources("autocatalytic_gain")
 def _peak_autocatalytic_gain(reader, test: dict, ws_root: Any) -> float:
     """Peak OAA self-amplification ratio — >=1 means a reinforcing motif exists."""
     return max(_values(reader, "autocatalytic_gain"))
 
 
+@declares_sources("network_connected")
 def _network_connected_final(reader, test: dict, ws_root: Any) -> float:
     """1.0 if the species-reaction graph is a single connected network."""
     return _values(reader, "network_connected")[-1]
@@ -144,12 +170,14 @@ def _network_connected_final(reader, test: dict, ws_root: Any) -> float:
 
 # --- og-03 (dilution -> localized individuals) readouts ------------------
 
+@declares_sources("accumulation_peclet")
 def _settled_accumulation_peclet(reader, test: dict, ws_root: Any) -> float:
     """Settled thermal-trap accumulation Péclet (= ln(enrichment)). >= ln(1e8) ≈
     18.4 reproduces Baaske's extreme nucleotide accumulation in favorable pores."""
     return _settled_mean(reader, "accumulation_peclet", frac=0.2)
 
 
+@declares_sources("enrichment_factor")
 def _log10_enrichment(reader, test: dict, ws_root: Any) -> float:
     """Settled trap enrichment as log10(fold) — ~7.9 for Baaske's >10^8, ~0 in a
     washout control (open pore / no convection)."""
@@ -158,6 +186,7 @@ def _log10_enrichment(reader, test: dict, ws_root: Any) -> float:
     return math.log10(max(e, 1.0))
 
 
+@declares_sources("flux_divergence_residual")
 def _max_abs_trap_flux_residual(reader, test: dict, ws_root: Any) -> float:
     """Worst-case |FVM flux-divergence residual| from the thermal-trap column
     solve — the spatial_flux_conservation witness."""
@@ -166,12 +195,14 @@ def _max_abs_trap_flux_residual(reader, test: dict, ws_root: Any) -> float:
 
 # --- og-04 (mineral compartments -> protocells) readouts -----------------
 
+@declares_sources("viable_compartments")
 def _settled_viable_compartments(reader, test: dict, ws_root: Any) -> float:
     """Viable vesicle count in the favorable arm — >0 means vesicles form in the
     mixed-amphiphile stability window (Jordan 2019)."""
     return _settled_mean(reader, "viable_compartments", frac=0.2)
 
 
+@declares_sources("individuality_access")
 def _settled_individuality_access(reader, test: dict, ws_root: Any) -> float:
     """Retention × access — individuality WITHOUT isolation. >0 means the membrane
     holds internal chemistry AND stays permeable to the external gradient."""
@@ -180,6 +211,7 @@ def _settled_individuality_access(reader, test: dict, ws_root: Any) -> float:
 
 # --- og-05 (environmental -> internal bioenergetics) readouts ------------
 
+@declares_sources("internalization")
 def _final_internalization(reader, test: dict, ws_root: Any) -> float:
     """Active-pump fraction of the surviving population at the end of the run, as
     the external gradient collapses — >0.5 means selection internalized gradient
@@ -187,6 +219,7 @@ def _final_internalization(reader, test: dict, ws_root: Any) -> float:
     return _values(reader, "internalization")[-1]
 
 
+@declares_sources("survivors")
 def _final_survivors(reader, test: dict, ws_root: Any) -> float:
     """Surviving strategy mass at the end of the run — a lineage that internalized
     persists (~1); one that could not (weak pump) collapses (~0) as the external
@@ -196,6 +229,7 @@ def _final_survivors(reader, test: dict, ws_root: Any) -> float:
 
 # --- og-06 (chemistry -> heredity) readouts ------------------------------
 
+@declares_sources("lineage_fitness")
 def _final_lineage_fitness(reader, test: dict, ws_root: Any) -> float:
     """Heredity-module lineage fitness at the end of the run = benefit*(retention*C)
     - cost*krep. >0 means inheritance pays within the replication budget; the best
@@ -203,6 +237,7 @@ def _final_lineage_fitness(reader, test: dict, ws_root: Any) -> float:
     return _values(reader, "lineage_fitness")[-1]
 
 
+@declares_sources("information_retention")
 def _final_information_retention(reader, test: dict, ws_root: Any) -> float:
     """Functional-information retention C/(C+E) at the end — high above the Eigen
     error threshold, ~0 in the error catastrophe."""
@@ -211,6 +246,7 @@ def _final_information_retention(reader, test: dict, ws_root: Any) -> float:
 
 # --- og-08 (escape from the vent) readouts ------------------------------
 
+@declares_sources("survivors")
 def _offgradient_survival(reader, test: dict, ws_root: Any) -> float:
     """Surviving population fraction at the end of the run, as geological support is
     withdrawn (the external gradient, mineral access and feed all relaxed toward zero).
@@ -221,6 +257,7 @@ def _offgradient_survival(reader, test: dict, ws_root: Any) -> float:
 
 # --- og-07 (ecology before LUCA) readouts -------------------------------
 
+@declares_sources("metacommunity_robustness")
 def _connected_metacommunity_robustness(reader, test: dict, ws_root: Any) -> float:
     """Settled functional redundancy (robustness) of the connected metacommunity —
     the fraction of protometabolic capabilities covered by >= R compartments (so each
@@ -229,6 +266,7 @@ def _connected_metacommunity_robustness(reader, test: dict, ws_root: Any) -> flo
     return _settled_mean(reader, "metacommunity_robustness", frac=0.2)
 
 
+@declares_sources("luca_capability_overlap")
 def _luca_capability_overlap(reader, test: dict, ws_root: Any) -> float:
     """Settled overlap of the metacommunity's collective capability repertoire with
     the anaerobic H2/CO2/FeS LUCA reconstruction (Weiss 2016) — reported as a far-end
@@ -238,6 +276,7 @@ def _luca_capability_overlap(reader, test: dict, ws_root: Any) -> float:
 
 # --- og-res (nitrogen as a limiting resource) readouts ------------------
 
+@declares_sources("NH4")
 def _settled_nh4_uM(reader, test: dict, ws_root: Any) -> float:
     """Settled ammonium pool in µM (store holds molar) — the standing reduced-N the
     FeS-mediated reduction accumulates under feed + washout. ~0 in the no-FeS / no-H2
@@ -245,11 +284,13 @@ def _settled_nh4_uM(reader, test: dict, ws_root: Any) -> float:
     return _settled_mean(reader, "NH4", frac=0.2) * 1.0e6
 
 
+@declares_sources("reduced_n")
 def _settled_reduced_n_uM(reader, test: dict, ws_root: Any) -> float:
     """Settled useful reduced N (NH4+ + amino-acid precursor) in µM."""
     return _settled_mean(reader, "reduced_n", frac=0.2) * 1.0e6
 
 
+@declares_sources("cn_supply_ratio")
 def _settled_cn_supply_ratio(reader, test: dict, ws_root: Any) -> float:
     """Settled C:N supply ratio = carbon demand / reduced-N production. Within a viable
     band (~Redfield) reduced N keeps pace with carbon; large means nitrogen is limiting."""
@@ -257,6 +298,7 @@ def _settled_cn_supply_ratio(reader, test: dict, ws_root: Any) -> float:
     return sum(_tail(vals, 0.2)) / len(_tail(vals, 0.2))
 
 
+@declares_sources("nh4_production_rate")
 def _peak_nh4_production_rate(reader, test: dict, ws_root: Any) -> float:
     """Peak reduced-nitrogen (ammonium) production rate (mol/s) over the run — the
     witness that a viable reduced-N source exists (>0 in the favourable arm, ~0 in
@@ -264,6 +306,7 @@ def _peak_nh4_production_rate(reader, test: dict, ws_root: Any) -> float:
     return max(_values(reader, "nh4_production_rate"))
 
 
+@declares_sources("n_mass_residual")
 def _max_abs_n_mass_residual(reader, test: dict, ws_root: Any) -> float:
     """Worst-case |per-step nitrogen-mass accounting error| (M) — every internal
     reaction conserves N atoms, so Delta(total N) must equal feed - washout exactly;
@@ -273,6 +316,7 @@ def _max_abs_n_mass_residual(reader, test: dict, ws_root: Any) -> float:
 
 # --- og-res-phosphorus-availability (the phosphorus bottleneck) readouts ----
 
+@declares_sources("reactive_P")
 def _phosphate_reactive_p_settled(reader, test: dict, ws_root: Any) -> float:
     """Settled standing reactive-P pool in µM (store holds molar) — the available
     reactive phosphorus in the favorable (enriched) pore. >0 and above threshold
@@ -280,6 +324,7 @@ def _phosphate_reactive_p_settled(reader, test: dict, ws_root: Any) -> float:
     return _settled_mean(reader, "reactive_P", frac=0.2) * 1.0e6
 
 
+@declares_sources("net_reactive_P")
 def _phosphorus_net_reactive_availability(reader, test: dict, ws_root: Any) -> float:
     """Settled net reactive-P availability (mol/s) = reactive-P production flux −
     precipitation/adsorption loss flux. >0 means reactive P is produced FASTER than
@@ -287,12 +332,14 @@ def _phosphorus_net_reactive_availability(reader, test: dict, ws_root: Any) -> f
     return _settled_mean(reader, "net_reactive_P", frac=0.2)
 
 
+@declares_sources("precipitated_fraction")
 def _phosphate_precipitated_fraction_final(reader, test: dict, ws_root: Any) -> float:
     """Final mineral-bound (precipitated/adsorbed) fraction of total P — ~0 in the
     favorable pore (reactive route wins), ~1 in the open-pore control (the sink wins)."""
     return _values(reader, "precipitated_fraction")[-1]
 
 
+@declares_sources("p_mass_residual")
 def _phosphorus_p_mass_residual(reader, test: dict, ws_root: Any) -> float:
     """Worst-case |total P − supplied| / supplied over the run — the P-mass
     conservation witness; ~0 because the speciation network is P-atom-conserving."""
@@ -301,6 +348,7 @@ def _phosphorus_p_mass_residual(reader, test: dict, ws_root: Any) -> float:
 
 # --- og-proto-energetics (an energy currency before modern pumping) readouts ---
 
+@declares_sources("energy_charge_fraction")
 def _energy_final_charge_fraction(reader, test: dict, ws_root: Any) -> float:
     """Charged fraction of the carrier pool at the end of the run, under continuous
     endergonic load — >0 (above threshold) means the transferable currency is
@@ -309,6 +357,7 @@ def _energy_final_charge_fraction(reader, test: dict, ws_root: Any) -> float:
     return _values(reader, "energy_charge_fraction")[-1]
 
 
+@declares_sources("energy_stored_work_fraction")
 def _energy_stored_work_fraction(reader, test: dict, ws_root: Any) -> float:
     """Fraction of the input geochemical free energy captured as transferable usable
     work ((delivered work + currently stored)/input) at the end of the run — the
@@ -317,6 +366,7 @@ def _energy_stored_work_fraction(reader, test: dict, ws_root: Any) -> float:
     return _values(reader, "energy_stored_work_fraction")[-1]
 
 
+@declares_sources("energy_ledger_residual")
 def _energy_ledger_residual(reader, test: dict, ws_root: Any) -> float:
     """Worst-case |free-energy ledger residual| = |input-(work+stored+dissipated)|
     over the run — the free-energy-accounting conservation witness; stays at machine
@@ -326,6 +376,7 @@ def _energy_ledger_residual(reader, test: dict, ws_root: Any) -> float:
 
 # --- og-growth-division (metabolism -> osmotic growth & division) readouts --
 
+@declares_sources("division_count")
 def _growth_division_count(reader, test: dict, ws_root: Any) -> float:
     """Final cumulative division count — >0 means the compartment's chemistry drove
     repeated osmotic growth to the division threshold (net growth leading to
@@ -333,12 +384,14 @@ def _growth_division_count(reader, test: dict, ws_root: Any) -> float:
     return _values(reader, "division_count")[-1]
 
 
+@declares_sources("net_growth")
 def _growth_net_growth(reader, test: dict, ws_root: Any) -> float:
     """Final net volume growth factor V/V0 — the compartment expanded under the
     osmotic load its metabolism generated (>1 = growth)."""
     return _values(reader, "net_growth")[-1]
 
 
+@declares_sources("osmotic_pressure")
 def _osmotic_peak_pressure(reader, test: dict, ws_root: Any) -> float:
     """Peak internal osmotic pressure (Pa) over the run — the van 't Hoff pressure
     the product accumulation generated; bounded below the burst tension in the viable
@@ -346,6 +399,7 @@ def _osmotic_peak_pressure(reader, test: dict, ws_root: Any) -> float:
     return max(_values(reader, "osmotic_pressure"))
 
 
+@declares_sources("osmolyte_balance_residual")
 def _osmotic_balance_residual_max(reader, test: dict, ws_root: Any) -> float:
     """Worst-case |osmolyte mass-balance residual| (mol) over the run — the growth /
     division mass-conservation witness ``(N0 + produced) - (N + leaked + daughter_mass)``;
@@ -356,11 +410,13 @@ def _osmotic_balance_residual_max(reader, test: dict, ws_root: Any) -> float:
 
 # --- geochemical_world / Phase-1 ledger (og-cal-vent-environment) ------------
 
+@declares_sources("ledger_ok")
 def _ledger_ok_final(reader, test: dict, ws_root: Any) -> float:
     """Final ConservationLedgerProcess verdict (1 = every residual within tolerance)."""
     return _values(reader, "ledger_ok")[-1]
 
 
+@declares_sources("H2_residual", "alkalinity_residual")
 def _max_ledger_mass_residual(reader, test: dict, ws_root: Any) -> float:
     """Worst-case |pool - integrated source| / integral over H2 and alkalinity."""
     h2 = _values(reader, "H2_residual")
@@ -368,16 +424,19 @@ def _max_ledger_mass_residual(reader, test: dict, ws_root: Any) -> float:
     return max(max(abs(v) for v in h2), max(abs(v) for v in alk))
 
 
+@declares_sources("energy_residual")
 def _max_ledger_energy_residual(reader, test: dict, ws_root: Any) -> float:
     """Worst-case |heat pool - integrated heat source| / integral."""
     return max(abs(v) for v in _values(reader, "energy_residual"))
 
 
+@declares_sources("energy_directionality")
 def _energy_directionality_final(reader, test: dict, ws_root: Any) -> float:
     """1 if the serpentinization heat source never went negative (released, not absorbed)."""
     return _values(reader, "energy_directionality")[-1]
 
 
+@declares_sources("H2_flux")
 def _settled_dissolved_h2_mM(reader, test: dict, ws_root: Any) -> float:
     """Reacted-fluid dissolved H2 (mmol/kg) backed out of the settled H2 flux.
 
@@ -428,33 +487,39 @@ def _structure_agreement_viable(reader, test: dict, ws_root: Any) -> float:
 _OGCAL_ELECTRO_REPORT = "workspace/studies/og-carbon-fixation/artifacts/og-01-cal-electrochemistry/electrochemistry_report.json"
 
 
+@declares_sources("charge_residual_max")
 def _charge_ledger_residual_max(reader, test: dict, ws_root: Any) -> float:
     """Worst-case Kirchhoff residual |anode - (carbon + her)| / anode over the run
     (ChargeLedgerProcess) — the charge + electron-count ledger witness."""
     return max(abs(v) for v in _values(reader, "charge_residual_max"))
 
 
+@declares_sources("faradaic_efficiency_max")
 def _faradaic_efficiency_max(reader, test: dict, ws_root: Any) -> float:
     """Worst-case faradaic efficiency (electrons to carbon / electrons supplied)
     over the run — must never exceed 1."""
     return max(_values(reader, "faradaic_efficiency_max"))
 
 
+@declares_sources("iv_residual_max")
 def _iv_residual_max(reader, test: dict, ws_root: Any) -> float:
     """Worst-case current-voltage (circuit-equation) residual of the galvanic-cell solve."""
     return max(abs(v) for v in _values(reader, "iv_residual_max"))
 
 
+@declares_sources("charge_ledger_ok")
 def _charge_ledger_ok_final(reader, test: dict, ws_root: Any) -> float:
     """Final ChargeLedgerProcess verdict (1 = every residual within tolerance, FE <= 1)."""
     return _values(reader, "charge_ledger_ok")[-1]
 
 
+@declares_sources("current_density")
 def _settled_current_density(reader, test: dict, ws_root: Any) -> float:
     """Settled cell current density (A/m^2) — compared with the Altair-2025 window."""
     return _settled_mean(reader, "current_density", frac=0.1)
 
 
+@declares_sources("faradaic_efficiency")
 def _settled_faradaic_efficiency(reader, test: dict, ws_root: Any) -> float:
     """Settled fraction of the electrons reaching the cathode that reduce CO2."""
     return _settled_mean(reader, "faradaic_efficiency", frac=0.1)
@@ -491,34 +556,41 @@ _OG02ALT_ENRICHMENT = "workspace/studies/og-network-persistence/artifacts/og-02-
 _OG02ALT_VERIFICATION = "workspace/studies/og-network-persistence/artifacts/og-02-alt-reaction-universe/reaction_universe_verification.json"
 
 
+@declares_sources("ledger_ok")
 def _network_ledger_ok_final(reader, test: dict, ws_root: Any) -> float:
     """Final NetworkLedgerProcess verdict (element, carbon and free-energy witnesses within tolerance)."""
     return _values(reader, "ledger_ok")[-1]
 
 
+@declares_sources("element_residual_max")
 def _max_element_residual(reader, test: dict, ws_root: Any) -> float:
     """Worst-case stoichiometric element residual max|E S| (exact; 0 for a generated universe)."""
     return _values(reader, "element_residual_max")[-1]
 
 
+@declares_sources("carbon_residual_max")
 def _max_carbon_residual(reader, test: dict, ws_root: Any) -> float:
     """Worst-case integrated carbon-balance residual (integrator tolerance)."""
     return _values(reader, "carbon_residual_max")[-1]
 
 
+@declares_sources("free_energy_directionality")
 def _free_energy_directionality_final(reader, test: dict, ws_root: Any) -> float:
     """1 if the dissipation -sum v dG never went below -tolerance (second law)."""
     return _values(reader, "free_energy_directionality")[-1]
 
 
+@declares_sources("n_persistent_species")
 def _final_n_persistent_species(reader, test: dict, ws_root: Any) -> float:
     return _values(reader, "n_persistent_species")[-1]
 
 
+@declares_sources("n_autocatalytic_motifs")
 def _final_n_autocatalytic_motifs(reader, test: dict, ws_root: Any) -> float:
     return _values(reader, "n_autocatalytic_motifs")[-1]
 
 
+@declares_sources("malate")
 def _settled_malate_M(reader, test: dict, ws_root: Any) -> float:
     """Settled malate pool (M): the rTCA reductive branch emerging from the rules."""
     return _settled_mean(reader, "malate")
@@ -613,31 +685,37 @@ def _partition_residual_peak(reader, test, ws_root):
 _OGENERGYALT_REPORT = "workspace/studies/og-energetics/artifacts/og-energy-alt-internalization-threshold/internalization_threshold_report.json"
 
 
+@declares_sources("free_energy_ledger_ok")
 def _free_energy_ledger_ok_final(reader, test: dict, ws_root: Any) -> float:
     """Final FreeEnergyLedgerProcess verdict (residual, second-law margin, dissipation >= 0, efficiency <= 1)."""
     return _values(reader, "free_energy_ledger_ok")[-1]
 
 
+@declares_sources("free_energy_residual_max")
 def _free_energy_residual_max(reader, test: dict, ws_root: Any) -> float:
     """Worst-case |in_cum + E0 - work_cum - diss_cum - E(t)| / in_cum over the run (rounding by construction)."""
     return _values(reader, "free_energy_residual_max")[-1]
 
 
+@declares_sources("second_law_margin_min")
 def _second_law_margin_min(reader, test: dict, ws_root: Any) -> float:
     """Minimum of in_cum + E0 - work_cum - diss_cum (J) over the run — free_energy_in >= work + dissipated."""
     return _values(reader, "second_law_margin_min")[-1]
 
 
+@declares_sources("autonomy")
 def _final_autonomy(reader, test: dict, ws_root: Any) -> float:
     """Per-individual autonomy internal / (internal + external) power at the end of the run."""
     return _values(reader, "autonomy")[-1]
 
 
+@declares_sources("net_power")
 def _settled_net_power(reader, test: dict, ws_root: Any) -> float:
     """Settled net power (W) = work - maintenance of the individual (last quintile)."""
     return _settled_mean(reader, "net_power", frac=0.2)
 
 
+@declares_sources("internal_power")
 def _settled_internal_power(reader, test: dict, ws_root: Any) -> float:
     return _settled_mean(reader, "internal_power", frac=0.2)
 
@@ -690,35 +768,42 @@ def _threshold_map_ledger_all_ok(reader, test: dict, ws_root: Any) -> float:
 _OG06ALT_FRONTIER = "workspace/studies/og-heredity/artifacts/og-06-alt-information-per-cost/information_frontier.json"
 
 
+@declares_sources("information_content")
 def _heritable_bits_final(reader, test: dict, ws_root: Any) -> float:
     """Realised heritable bits on the final tick: parent-offspring MI net of its permutation null."""
     return _values(reader, "information_content")[-1]
 
 
+@declares_sources("mi_converged")
 def _mi_converged_final(reader, test: dict, ws_root: Any) -> float:
     """1 when the MI estimator's prefix ladder + bootstrap SE converged on the final tick."""
     return _values(reader, "mi_converged")[-1]
 
 
+@declares_sources("information_ledger_ok")
 def _information_ledger_ok_final(reader, test: dict, ws_root: Any) -> float:
     """Final InformationLedgerProcess verdict (energy store audited + MI converged)."""
     return _values(reader, "information_ledger_ok")[-1]
 
 
+@declares_sources("energy_residual")
 def _energy_store_residual_max(reader, test: dict, ws_root: Any) -> float:
     """Worst-case |stored_work - (W0 + in - used)| / in over the run."""
     return max(abs(v) for v in _values(reader, "energy_residual"))
 
 
+@declares_sources("bits_per_joule")
 def _bits_per_joule_final(reader, test: dict, ws_root: Any) -> float:
     return _values(reader, "bits_per_joule")[-1]
 
 
+@declares_sources("mean_function")
 def _heredity_settled_function(reader, test: dict, ws_root: Any) -> float:
     """Settled population mean function (last quartile) of the lineage."""
     return _settled_mean(reader, "mean_function")
 
 
+@declares_sources("attached")
 def _heredity_attached_final(reader, test: dict, ws_root: Any) -> float:
     return _values(reader, "attached")[-1]
 
@@ -791,40 +876,48 @@ def _frontier_energy_within_tolerance(reader, test: dict, ws_root: Any) -> float
 _OG07ALT_MAP = "workspace/studies/og-ecology/artifacts/og-07-alt-real-metabolite-exchange/community_function_map.json"
 
 
+@declares_sources("element_ledger_ok")
 def _element_ledger_ok_final(reader, test: dict, ws_root: Any) -> float:
     """Final EcologyElementLedgerProcess verdict (C / N / P residuals over agents + field within tolerance)."""
     return _values(reader, "element_ledger_ok")[-1]
 
 
+@declares_sources("C_residual_max", "N_residual_max", "P_residual_max")
 def _element_residual_max_all(reader, test: dict, ws_root: Any) -> float:
     """Worst-case C / N / P residual of the cross-system element ledger on the run."""
     return max(_values(reader, "C_residual_max")[-1], _values(reader, "N_residual_max")[-1],
                _values(reader, "P_residual_max")[-1])
 
 
+@declares_sources("C_residual_max")
 def _carbon_residual_max_final(reader, test: dict, ws_root: Any) -> float:
     return _values(reader, "C_residual_max")[-1]
 
 
+@declares_sources("exchange_firings_total")
 def _exchange_firings_final(reader, test: dict, ws_root: Any) -> float:
     """Cumulative exchange-rule firings (uptake + secretion + diffusion + pore exchange) on the run."""
     return _values(reader, "exchange_firings_total")[-1]
 
 
+@declares_sources("cross_lineage_flux_total")
 def _cross_lineage_flux_total_final(reader, test: dict, ws_root: Any) -> float:
     """Cumulative moles secreted by one lineage and taken up by another (the real-flux witness)."""
     return _values(reader, "cross_lineage_flux_total")[-1]
 
 
+@declares_sources("max_cell_completeness")
 def _max_cell_completeness_final(reader, test: dict, ws_root: Any) -> float:
     """Max over agents of |functions held| / |community union| on the final tick (< 1: no cell is complete)."""
     return _values(reader, "max_cell_completeness")[-1]
 
 
+@declares_sources("n_functions_union")
 def _n_functions_union_final(reader, test: dict, ws_root: Any) -> float:
     return _values(reader, "n_functions_union")[-1]
 
 
+@declares_sources("robustness_gain")
 def _settled_robustness_gain(reader, test: dict, ws_root: Any) -> float:
     """Settled held-minus-produced robustness: what real metabolite flux delivered."""
     return _settled_mean(reader, "robustness_gain", frac=0.2)
@@ -894,6 +987,7 @@ _PHASE9_LEDGER_FLAGS = ("geology_ledger_ok", "charge_ledger_ok", "network_ledger
                         "free_energy_ledger_ok", "rewrite_ok")
 
 
+@declares_sources("energy_residual")
 def _every_ledger_ok_final(reader, test: dict, ws_root: Any) -> float:
     """1 when every ledger of the integrated world reports ok on the final tick (the information
     ledger by its exact energy-store residual, since its ok flag also needs MI convergence)."""
@@ -902,35 +996,43 @@ def _every_ledger_ok_final(reader, test: dict, ws_root: Any) -> float:
     return 1.0 if all(flags) and info else 0.0
 
 
+@declares_sources("ablation_phase")
 def _ablation_complete_final(reader, test: dict, ws_root: Any) -> float:
     return 1.0 if _values(reader, "ablation_phase")[-1] >= 2.0 else 0.0
 
 
+@declares_sources("event_count")
 def _structural_events_logged(reader, test: dict, ws_root: Any) -> float:
     return _values(reader, "event_count")[-1]
 
 
+@declares_sources("autonomy")
 def _settled_autonomy(reader, test: dict, ws_root: Any) -> float:
     """The work-weighted autonomy over the final 15 % of the run (every driver at its floor)."""
     return _settled_mean(reader, "autonomy", frac=0.15)
 
 
+@declares_sources("autonomy_work")
 def _settled_autonomy_work(reader, test: dict, ws_root: Any) -> float:
     return _settled_mean(reader, "autonomy_work", frac=0.15)
 
 
+@declares_sources("autonomy_material")
 def _settled_autonomy_material(reader, test: dict, ws_root: Any) -> float:
     return _settled_mean(reader, "autonomy_material", frac=0.15)
 
 
+@declares_sources("net_power")
 def _settled_net_power_offgradient(reader, test: dict, ws_root: Any) -> float:
     return _settled_mean(reader, "net_power", frac=0.15)
 
 
+@declares_sources("machinery")
 def _settled_machinery_offgradient(reader, test: dict, ws_root: Any) -> float:
     return _settled_mean(reader, "machinery", frac=0.15)
 
 
+@declares_sources("survivors")
 def _final_survivors_integrated(reader, test: dict, ws_root: Any) -> float:
     return _values(reader, "survivors")[-1]
 
@@ -1146,36 +1248,43 @@ def register_derived_scalars(registry: dict) -> None:
 
 # --- NEW A: og-precursor-pool derived scalars ------------------------------
 
+@declares_sources("functional_pool_carbon")
 def _settled_functional_pool_carbon(reader, test: dict, ws_root: Any) -> float:
     """Settled functional (C>=2) precursor pool carbon (molar C)."""
     return _settled_mean(reader, "functional_pool_carbon", frac=0.2)
 
 
+@declares_sources("pool_cofixed_fraction")
 def _settled_pool_cofixed_fraction(reader, test: dict, ws_root: Any) -> float:
     """Settled carbon-weighted de-novo CO2-fixed fraction of the functional pool."""
     return _settled_mean(reader, "pool_cofixed_fraction", frac=0.2)
 
 
+@declares_sources("electron_budget_residual")
 def _pool_electron_budget_residual_max(reader, test: dict, ws_root: Any) -> float:
     """Worst-case degree-of-reduction (electron) budget residual."""
     return max(abs(v) for v in _values(reader, "electron_budget_residual"))
 
 
+@declares_sources("element_residual")
 def _pool_element_residual_max(reader, test: dict, ws_root: Any) -> float:
     """Worst-case atom-balance residual (exact for a generated universe -> 0)."""
     return max(abs(v) for v in _values(reader, "element_residual"))
 
 
+@declares_sources("carbon_residual")
 def _pool_carbon_residual_max(reader, test: dict, ws_root: Any) -> float:
     """Worst-case integrated carbon-balance residual."""
     return max(abs(v) for v in _values(reader, "carbon_residual"))
 
 
+@declares_sources("cn_ratio")
 def _settled_pool_cn_ratio(reader, test: dict, ws_root: Any) -> float:
     """Settled fixed-carbon : reduced-nitrogen ratio (dimensionless)."""
     return _settled_mean(reader, "cn_ratio", frac=0.2)
 
 
+@declares_sources("formate", "acetate")
 def _settled_pool_c2_c1_ratio(reader, test: dict, ws_root: Any) -> float:
     """Predicted (withheld) C2:C1 hierarchy ratio = settled acetate / settled formate."""
     formate = _settled_mean(reader, "formate", frac=0.2)
@@ -1183,6 +1292,7 @@ def _settled_pool_c2_c1_ratio(reader, test: dict, ws_root: Any) -> float:
     return acetate / formate if formate > 0 else 0.0
 
 
+@declares_sources("formate")
 def _settled_pool_formate_mM(reader, test: dict, ws_root: Any) -> float:
     """Settled formate (C1 feedstock) in mM — the calibrated C1 anchor."""
     return _settled_mean(reader, "formate", frac=0.2) * 1000.0
@@ -1190,6 +1300,7 @@ def _settled_pool_formate_mM(reader, test: dict, ws_root: Any) -> float:
 
 # --- NEW B: og-operating-window derived scalars ----------------------------
 
+@declares_sources("functional_pool_carbon", "enrichment_factor")
 def _settled_ow_enriched_pool(reader, test: dict, ws_root: Any) -> float:
     """Settled product-pool-enriched functional pool (molar C): the retained
     functional pool times the pore enrichment factor — the rescue readout."""
@@ -1198,11 +1309,13 @@ def _settled_ow_enriched_pool(reader, test: dict, ws_root: Any) -> float:
     return pool * enr
 
 
+@declares_sources("enrichment_factor")
 def _settled_ow_enrichment_factor(reader, test: dict, ws_root: Any) -> float:
     """Settled real-FiPy pore enrichment factor (dimensionless, >=1)."""
     return _settled_mean(reader, "enrichment_factor", frac=0.2)
 
 
+@declares_sources("retention")
 def _settled_ow_retention(reader, test: dict, ws_root: Any) -> float:
     """Settled membrane retention fraction from the real ProtocellAssembly model."""
     return _settled_mean(reader, "retention", frac=0.2)
@@ -1210,17 +1323,20 @@ def _settled_ow_retention(reader, test: dict, ws_root: Any) -> float:
 
 # --- NEW C: og-self-maintaining-individual derived scalars -----------------
 
+@declares_sources("aggregation_competent")
 def _settled_aggregation_competent(reader, test: dict, ws_root: Any) -> float:
     """Settled aggregation competence = long-chain amphiphile pool / CAC (>=1 = a
     membrane can form). The no-built-in-gain witness."""
     return _settled_mean(reader, "aggregation_competent", frac=0.2)
 
 
+@declares_sources("amphiphile_total")
 def _settled_amphiphile_total(reader, test: dict, ws_root: Any) -> float:
     """Settled total amphiphile concentration (molar) the chemistry produces."""
     return _settled_mean(reader, "amphiphile_total", frac=0.2)
 
 
+@declares_sources("acetate")
 def _settled_synth_acetate(reader, test: dict, ws_root: Any) -> float:
     """Settled acetate (C2) the reaction network delivers to amphiphile synthesis (molar)."""
     return _settled_mean(reader, "acetate", frac=0.2)
@@ -1228,16 +1344,19 @@ def _settled_synth_acetate(reader, test: dict, ws_root: Any) -> float:
 
 # --- NEW D: og-evolvable-lineages derived scalars --------------------------
 
+@declares_sources("mean_composition")
 def _final_mean_composition(reader, test: dict, ws_root: Any) -> float:
     """Final-generation population mean composition (the selected trait)."""
     return _settled_mean(reader, "mean_composition", frac=0.15)
 
 
+@declares_sources("parent_offspring_fitness_correlation")
 def _final_parent_offspring_r(reader, test: dict, ws_root: Any) -> float:
     """Final-generation parent-offspring fitness correlation (heritability)."""
     return _settled_mean(reader, "parent_offspring_fitness_correlation", frac=0.15)
 
 
+@declares_sources("heritable_fitness_variance")
 def _heritable_variance_ratio(reader, test: dict, ws_root: Any) -> float:
     """Heritable-fitness-variance ratio final/initial. < 1 means the variance declines
     as the population converges to the optimum -> BOUNDED fixed-trait selection (not
