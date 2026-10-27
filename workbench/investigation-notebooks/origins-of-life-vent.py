@@ -2519,31 +2519,6 @@ _save_viz('og-independence', 'autonomy-ablation-trace', _render_one('local:Auton
 # **Hypothesis.** Supplied amphiphiles insert and expand membrane area; area growth drives curvature/shape change and lowers the budding barrier - a propensity to divide, set by composition and osmotic conditions.
 
 # ### Parameters
-#
-# | simulation | composite | steps | params |
-# | --- | --- | --- | --- |
-# | `No-supply control (no amphiphile added)` | `viva_genesis.composites.osmotic_growth_division.osmotic_growth_division` | 0 | supply=none |
-# | `Composition-matched supply` | `viva_genesis.composites.osmotic_growth_division.osmotic_growth_division` | 0 | supply=composition_matched |
-# | `Multiple vesicle sizes` | `viva_genesis.composites.osmotic_growth_division.osmotic_growth_division` | 0 | vesicle_size=['small', 'medium', 'large'] |
-# | `Matched osmotic conditions` | `viva_genesis.composites.osmotic_growth_division.osmotic_growth_division` | 0 | osmotic=matched |
-
-# ### The model & its parameters
-#
-# Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
-
-# **The model — `viva_genesis.composites.osmotic_growth_division.osmotic_growth_division`**
-#
-# A reusable osmotic growth-and-division module (metabolism → growth & division). An internal autocatalytic osmolyte source coupled to compartment osmotic physics: product accumulation → osmotic pressure (van 't Hoff) → solvent influx → volume growth → division at a size threshold. Membrane permeability sets the fate: too permeable starves (product leaks, no osmotic build-up), too impermeable lyses (pressure bursts the membrane), matched gives sustained growth → division. Units-typed, mass-conserving coarse-grained reproduction (not wrapped membrane MD).
-
-# === Parameters — edit any value, then re-run from the Run cell below ===
-# Each entry is the composite's current default; the comment explains it.
-ov_viva_genesis_composites_osmotic_growth_division_osmotic_growth_division = {
-    'network_throughput'   : 1e-19,   # Internal autocatalytic/metabolic osmolyte source rate (mole/second); ~0 = ablation control
-    'autocatalytic_rate'   : 0.5,   # Self-amplification gain of the source (dimensionless)
-    'membrane_permeability': 1e-09,   # Membrane solute permeability (meter/second); the fate knob (leaky→starve, tight→lyse)
-    'division_threshold'   : 6.4e-17,   # Volume at which the compartment divides (liter); default 1.6× initial volume
-    'leak_rate'            : 1.0,   # Multiplier on the solute permeability for the outward leak (dimensionless)
-}
 
 # ### Run
 #
@@ -2555,58 +2530,7 @@ STUDY_DIR = REPO / 'workspace/studies' / STUDY
 STUDY_YAML = str(STUDY_DIR / "study.yaml")
 RUNS_DB = str(STUDY_DIR / "runs.db")
 
-# This study has no *recorded* runs yet. RERUN builds its declared
-# composite(s) live and runs them; a composite whose module processes
-# are not implemented yet reports the error instead of crashing.
-STEPS_No_supply_control_no_amphiphile_added = 100
-INTERVAL_No_supply_control_no_amphiphile_added = 1.0
-STEPS_Composition_matched_supply = 100
-INTERVAL_Composition_matched_supply = 1.0
-STEPS_Multiple_vesicle_sizes = 100
-INTERVAL_Multiple_vesicle_sizes = 1.0
-STEPS_Matched_osmotic_conditions = 100
-INTERVAL_Matched_osmotic_conditions = 1.0
-
-if RERUN:
-    from process_bigraph import Composite
-    try:
-        with quiet():  # keep per-step stdout out of the notebook
-            _ov = ov_viva_genesis_composites_osmotic_growth_division_osmotic_growth_division if 'ov_viva_genesis_composites_osmotic_growth_division_osmotic_growth_division' in dir() else None  # edits from the panel cell, if any
-            spec_viva_genesis_composites_osmotic_growth_division_osmotic_growth_division = materialize_composite('viva_genesis.composites.osmotic_growth_division.osmotic_growth_division', _ov)
-            _comp = Composite({'state': spec_viva_genesis_composites_osmotic_growth_division_osmotic_growth_division['state']}, core=core)
-            _comp.run(STEPS_No_supply_control_no_amphiphile_added)
-        print('ran', 'No-supply control (no amphiphile added)', f'(viva_genesis.composites.osmotic_growth_division.osmotic_growth_division) for', STEPS_No_supply_control_no_amphiphile_added, 'steps')
-    except Exception as _e:
-        print(f"No-supply control (no amphiphile added) not runnable yet: {type(_e).__name__}: {_e}")
-    try:
-        with quiet():  # keep per-step stdout out of the notebook
-            _ov = ov_viva_genesis_composites_osmotic_growth_division_osmotic_growth_division if 'ov_viva_genesis_composites_osmotic_growth_division_osmotic_growth_division' in dir() else None  # edits from the panel cell, if any
-            spec_viva_genesis_composites_osmotic_growth_division_osmotic_growth_division = materialize_composite('viva_genesis.composites.osmotic_growth_division.osmotic_growth_division', _ov)
-            _comp = Composite({'state': spec_viva_genesis_composites_osmotic_growth_division_osmotic_growth_division['state']}, core=core)
-            _comp.run(STEPS_Composition_matched_supply)
-        print('ran', 'Composition-matched supply', f'(viva_genesis.composites.osmotic_growth_division.osmotic_growth_division) for', STEPS_Composition_matched_supply, 'steps')
-    except Exception as _e:
-        print(f"Composition-matched supply not runnable yet: {type(_e).__name__}: {_e}")
-    try:
-        with quiet():  # keep per-step stdout out of the notebook
-            _ov = ov_viva_genesis_composites_osmotic_growth_division_osmotic_growth_division if 'ov_viva_genesis_composites_osmotic_growth_division_osmotic_growth_division' in dir() else None  # edits from the panel cell, if any
-            spec_viva_genesis_composites_osmotic_growth_division_osmotic_growth_division = materialize_composite('viva_genesis.composites.osmotic_growth_division.osmotic_growth_division', _ov)
-            _comp = Composite({'state': spec_viva_genesis_composites_osmotic_growth_division_osmotic_growth_division['state']}, core=core)
-            _comp.run(STEPS_Multiple_vesicle_sizes)
-        print('ran', 'Multiple vesicle sizes', f'(viva_genesis.composites.osmotic_growth_division.osmotic_growth_division) for', STEPS_Multiple_vesicle_sizes, 'steps')
-    except Exception as _e:
-        print(f"Multiple vesicle sizes not runnable yet: {type(_e).__name__}: {_e}")
-    try:
-        with quiet():  # keep per-step stdout out of the notebook
-            _ov = ov_viva_genesis_composites_osmotic_growth_division_osmotic_growth_division if 'ov_viva_genesis_composites_osmotic_growth_division_osmotic_growth_division' in dir() else None  # edits from the panel cell, if any
-            spec_viva_genesis_composites_osmotic_growth_division_osmotic_growth_division = materialize_composite('viva_genesis.composites.osmotic_growth_division.osmotic_growth_division', _ov)
-            _comp = Composite({'state': spec_viva_genesis_composites_osmotic_growth_division_osmotic_growth_division['state']}, core=core)
-            _comp.run(STEPS_Matched_osmotic_conditions)
-        print('ran', 'Matched osmotic conditions', f'(viva_genesis.composites.osmotic_growth_division.osmotic_growth_division) for', STEPS_Matched_osmotic_conditions, 'steps')
-    except Exception as _e:
-        print(f"Matched osmotic conditions not runnable yet: {type(_e).__name__}: {_e}")
-else:
-    print("RERUN=False — not re-simulating.")
+print("No baseline composite declared for this study — nothing to build.")
 
 # ### Literature anchors
 #
@@ -3247,81 +3171,6 @@ _save_viz('og-self-maintaining-individual', 'self-maintaining-closure-map', _ren
 # | acetate-delivered-to-synthesis _(supporting)_ | kind=derived path=settled_synth_acetate detail=settled acetate delivered to synthesis | op > value 0.0 detail the network delivers acetate to synthesis |
 # | amphiphiles-aggregation-competent _(primary)_ | kind=derived path=settled_aggregation_competent detail=long-chain amphiphile pool / CAC | op >= value 1.0 detail amphiphile pool clears CAC (a membrane can form endogenously) |
 # | reciprocal-maintenance-closes-endogenously _(primary)_ | kind=cross_run detail=endogenous closure (no built-in gain) at canonical + the operating-window corner, vs the three ablations and the gain comparison | op controls_absent detail reciprocal maintenance closes endogenously without a built-in gain |
-
-# ## Study: Self-Maintenance Under Pore Concentration: Does Thermophoresis Close the Loop? (`og-self-maintaining-concentrated`)
-#
-# **Question.** Does coupling the supported spatial-concentration mechanism (the vent pore's thermophoretic trap) to the refuted self-maintenance loop close the 4-7 order amphiphile/CAC gap - and at what pore geometry and amphiphile Soret coefficient?
-#
-# **Hypothesis.** The amphiphile pool the chemistry produces is dilute in bulk but is the species a serpentinite pore most strongly traps; re-judging its aggregation competence at the trap base, rather than in bulk, closes the reciprocal loop at defensible vent gradients.
-#
-# **Claim.** Reciprocal chemistry-boundary self-maintenance can close spatially: coupling the vent pore's real thermophoretic (Baaske) trap to the refuted loop lifts the amphiphile pool across its CAC and earns a membrane without a built-in gain - but only at near-maximal trapping (S_T >= ~0.07, dT >= ~45 K). At conservative vent Soret it does not close, so the refutation is re-cast as a quantified conditional, not overturned.
-
-# ### Parameters
-#
-# | simulation | composite | steps | params |
-# | --- | --- | --- | --- |
-# | `Pore-concentrated reciprocal loop (real precursor pool, fatty-acid synthesis, FiPy thermophoretic trap, aggregation re-judged at the trap base)` | `viva_genesis.composites.self_maintaining_concentrated.og_self_maintaining_concentrated` | 0 | feed_CO2=0.002, delta_T=30.0, soret_coeff=0.05 |
-
-# ### The model & its parameters
-#
-# Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
-
-# **The model — `viva_genesis.composites.self_maintaining_concentrated.og_self_maintaining_concentrated`**
-#
-# Connects the narrative's spatial-concentration step to its self-maintenance step: A's real precursor-pool reactor feeds acetate to the real AmphiphileChainExtensionProcess (base, well-mixed aggregation competence = long-chain/CAC); the real FiPy ThermophoreticTrapProcess solves the vent pore's Baaske accumulation column (enrichment read from the solved base/top ratio); and the amphiphile pool is re-judged at the trap base (aggregation_competent * enrichment_factor). The matched concentrating=False control (enrichment 1) is the no-built-in-gain witness. Tests whether spatial concentration closes the 4-7 order amphiphile/CAC gap that refuted og-self-maintaining-individual, and at what pore geometry.
-
-# === Parameters — edit any value, then re-run from the Run cell below ===
-# Each entry is the composite's current default; the comment explains it.
-ov_viva_genesis_composites_self_maintaining_concentrated_og_self_maintaining_concentrated = {
-    'feed_CO2'     : 0.002,   # Inorganic-carbon feed (M), og-vent-interface DIC window
-    'delta_T'      : 30.0,   # Cross-pore temperature difference (K); Lost City-ish, Baaske-favorable ~30
-    'pore_length'  : 0.005,   # Accumulation-column length (m); enrichment is exponential in this
-    'pore_flow'    : 0.0001,   # Buoyant convective flow in the pore (m/s)
-    'porosity'     : 0.3,   # Pore porosity/openness (0-1; lower = more confinement = more trapping)
-    'soret_coeff'  : 0.05,   # Amphiphile Soret coefficient (1/K): ~0.01 small-molecule, ~0.10 large self-associating; swept
-    'concentrating': True,   # Pore concentration on; False is the matched non-concentrating control (enrichment 1)
-}
-
-# ### Run
-#
-# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
-
-# === Study: og-self-maintaining-concentrated ===
-STUDY = 'og-self-maintaining-concentrated'
-STUDY_DIR = REPO / 'workspace/studies' / STUDY
-STUDY_YAML = str(STUDY_DIR / "study.yaml")
-RUNS_DB = str(STUDY_DIR / "runs.db")
-
-# This study has no *recorded* runs yet. RERUN builds its declared
-# composite(s) live and runs them; a composite whose module processes
-# are not implemented yet reports the error instead of crashing.
-STEPS_Pore_concentrated_reciprocal_loop_real_precursor_pool_fatty_acid_synthesis_FiPy_thermophoretic_trap_aggregation_re_judged_at_the_trap_base = 100
-INTERVAL_Pore_concentrated_reciprocal_loop_real_precursor_pool_fatty_acid_synthesis_FiPy_thermophoretic_trap_aggregation_re_judged_at_the_trap_base = 1.0
-
-if RERUN:
-    from process_bigraph import Composite
-    try:
-        with quiet():  # keep per-step stdout out of the notebook
-            _ov = ov_viva_genesis_composites_self_maintaining_concentrated_og_self_maintaining_concentrated if 'ov_viva_genesis_composites_self_maintaining_concentrated_og_self_maintaining_concentrated' in dir() else None  # edits from the panel cell, if any
-            spec_viva_genesis_composites_self_maintaining_concentrated_og_self_maintaining_concentrated = materialize_composite('viva_genesis.composites.self_maintaining_concentrated.og_self_maintaining_concentrated', _ov)
-            _comp = Composite({'state': spec_viva_genesis_composites_self_maintaining_concentrated_og_self_maintaining_concentrated['state']}, core=core)
-            _comp.run(STEPS_Pore_concentrated_reciprocal_loop_real_precursor_pool_fatty_acid_synthesis_FiPy_thermophoretic_trap_aggregation_re_judged_at_the_trap_base)
-        print('ran', 'Pore-concentrated reciprocal loop (real precursor pool, fatty-acid synthesis, FiPy thermophoretic trap, aggregation re-judged at the trap base)', f'(viva_genesis.composites.self_maintaining_concentrated.og_self_maintaining_concentrated) for', STEPS_Pore_concentrated_reciprocal_loop_real_precursor_pool_fatty_acid_synthesis_FiPy_thermophoretic_trap_aggregation_re_judged_at_the_trap_base, 'steps')
-    except Exception as _e:
-        print(f"Pore-concentrated reciprocal loop (real precursor pool, fatty-acid synthesis, FiPy thermophoretic trap, aggregation re-judged at the trap base) not runnable yet: {type(_e).__name__}: {_e}")
-else:
-    print("RERUN=False — not re-simulating.")
-
-# ### Acceptance criteria
-#
-# _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
-#
-# | test | measures | passes if |
-# | --- | --- | --- |
-# | control-reproduces-refutation _(supporting)_ | kind=derived path=aggregation_competent_base | op < value 1.0 detail with no concentration the amphiphile pool stays below CAC (the refuted shortfall, reproduced) |
-# | closes-under-favorable-trapping _(primary)_ | kind=derived path=aggregation_competent_concentrated | op >= value 1.0 detail at S_T 0.10 and dT 30 K the trap enrichment (~1e8) clears CAC: the mechanism can close the loop |
-# | closes-at-conservative-vent-soret _(primary)_ | kind=derived path=aggregation_competent_concentrated | op >= value 1.0 detail at a conservative S_T (0.05, dT 30 K) the loop should still close - it does NOT, so closure is conditional |
-# | matched-null-does-not-close _(supporting)_ | kind=derived path=aggregation_competent_concentrated | op < value 1.0 detail the concentrating=False control stays sub-CAC at the same geometry: the pore, not an assumed membrane, is the mechanism |
 
 # ## Study: Evolvable Lineages: Can a Granted Individual Evolve? (`og-evolvable-lineages`)
 #
