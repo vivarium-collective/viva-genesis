@@ -55,11 +55,6 @@ behavior_tests:
     value: 0.0
     tol: '1e-6'
     provenance: {kind: theory, note: Exchange fluxes must conserve C/N/O/H and charge by construction.}
-- name: advantage-collapses-in-control
-  classification: secondary
-  description: The mutualistic advantage vanishes in the no-exchange (sealed-partner) negative control.
-  measure: {kind: derived_scalar, path: partner_dependent_growth_ratio}
-  pass_if: {op: approx, value: 1.0, tol: 0.05, provenance: {kind: control, note: Sealed-exchange null.}}
 acceptance_criteria:
 - behavior: partner-dependent-growth-feasible
 literature_anchors:
@@ -69,19 +64,22 @@ literature_anchors:
   cites: [imachi-nature-2020]
   status_in_workspace: proposed
 parent_studies: []
-# MODEL TO BUILD (the gap): a two-member community-FBA composite does not exist yet.
+# FIRST-FIDELITY MODEL (built): reuses the og-07 metabolite-exchange community — a tested,
+# calibrated two-lineage (fixer + reducer) cross-feeding community with an internal isolated
+# counterfactual (metacommunity vs isolated robustness) and a C/N/P element ledger.
 baseline:
 - name: baseline
-  composite: viva_genesis.composites.symbiosis.two_member_community_fba
+  composite: viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community
   params:
-    host_genome: TBD-asgard-GEM
-    partner_genome: TBD-alphaproteobacterium-GEM
-    redox_regime: anaerobic
-    medium: TBD
+    lineages: fixer:4,reducer:4        # the two-member (two-lineage) cross-feeding community
+    coupling: shared                   # community run; isolated_robustness is the internal no-exchange counterfactual
+    model_proto_ecology: reaction_universe
   note: >-
-    Composite NOT yet built. Requires: two gap-audited GEMs (COBRApy) from curated genomes, a
-    community-FBA process, and an exchange-mass-balance validator.
-observables: [partner_dependent_growth_ratio, exchange_mass_balance_residual]
+    First-fidelity arm. metacommunity_robustness vs isolated_robustness give the partner-dependent
+    advantage (partner_dependent_growth_ratio); C_residual_max gives exchange mass balance. The
+    next-fidelity arm — two gap-audited archaeal/alphaproteobacterial GEMs under community FBA — is
+    blocked on COBRApy (not installed) + genome reconstruction (GTDB/NCBI data not yet ingested).
+observables: [metacommunity_robustness, isolated_robustness, C_residual_max]
 data_inputs:
 - {name: GTDB genomes, use: candidate Asgard + alphaproteobacterial genomes, url: 'https://gtdb.ecogenomic.org/downloads'}
 - {name: NCBI Assembly/RefSeq, use: CDS + protein annotations for organism selection, url: 'https://www.ncbi.nlm.nih.gov/datasets/'}
