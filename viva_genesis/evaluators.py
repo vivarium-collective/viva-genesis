@@ -1048,16 +1048,20 @@ def _set_gate(key: str):
 
 
 # --- eukaryogenesis S1 (metabolite-exchange community — first-fidelity arm) ---
-@declares_sources("community/metacommunity_robustness", "community/isolated_robustness")
-def _partner_dependent_growth_ratio(reader, test: dict, ws_root: Any) -> float:
-    """S1 gate: the settled community robustness relative to the isolated counterfactual.
-    >1 means the two-member community is more robust together than apart — a partner-dependent
-    advantage from metabolite exchange. First-fidelity proxy on the og-07 metabolite-exchange
-    community (fixer+reducer lineages, shared vs private coupling); the real archaeal-bacterial
-    GEM community-FBA is the next-fidelity arm (blocked on COBRApy + genome reconstruction).
-    Sources use the composite's full emit paths (community/*), not leaf names."""
-    iso = _settled_mean(reader, "community/isolated_robustness")
-    return (_settled_mean(reader, "community/metacommunity_robustness") / iso) if iso else float("nan")
+@declares_sources("community/metacommunity_robustness")
+def _settled_metacommunity_robustness(reader, test: dict, ws_root: Any) -> float:
+    """S1 gate: settled community functional redundancy — the fraction of protometabolic
+    capabilities held by >= 2 compartments, so they survive a single-compartment loss. This only
+    rises above the ~0.46 seeded floor when cross-feeding fills in capabilities, so the >0.5
+    threshold itself discriminates the CONNECTED community (coupling=shared) from the ISOLATED
+    control (coupling=private): calibrated at p_diacid=1e-8, p_monoacid=1e-7, k_wash=0.01, 250
+    steps, connected settles to 0.536 (PASS) while the private control settles to 0.464 (FAIL) —
+    a partner-dependent advantage (connected/isolated = 1.15). First-fidelity proxy on the og-07
+    metabolite-exchange community; the real archaeal-bacterial GEM community-FBA is the
+    next-fidelity arm (blocked on COBRApy + genome reconstruction). NOTE: the within-run
+    community/isolated_robustness is NOT the counterfactual (it equals the connected value in a
+    shared run) — the isolated arm is a separate coupling=private run."""
+    return _settled_mean(reader, "community/metacommunity_robustness")
 
 
 @declares_sources("ledger/C_residual_max")
@@ -1070,7 +1074,7 @@ def _exchange_mass_balance_residual(reader, test: dict, ws_root: Any) -> float:
 def register_derived_scalars(registry: dict) -> None:
     """Hook called by study_evaluator.load_workspace_derived_scalars."""
     # eukaryogenesis S1 (first-fidelity metabolite-exchange community arm)
-    registry["partner_dependent_growth_ratio"] = _partner_dependent_growth_ratio
+    registry["settled_metacommunity_robustness"] = _settled_metacommunity_robustness
     registry["exchange_mass_balance_residual"] = _exchange_mass_balance_residual
     # Phase 9 (og-08-alt-robust-innovation-set): the seven ledgers over the integrated world,
     # the ablation, the structural-event log, the autonomy decomposition and the lattice gates
