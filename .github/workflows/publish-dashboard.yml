@@ -8,6 +8,7 @@
 # re-scaffolding, or by copying the current source from
 #   vivarium-collective/viva-template/template/.github/workflows/<template>
 # template: publish-dashboard.yml
+# divergence: workbench rebrand (gh-pages workbench/ path + /dashboard/ redirect; diverges from the template's dashboard naming on purpose)
 # sha256: c792574c38606de292d9fe740875762837d3e725933d26c30ec60a13adee83d1
 # <<< viva-template-provenance <<<
 
