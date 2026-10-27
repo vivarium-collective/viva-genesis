@@ -1048,21 +1048,22 @@ def _set_gate(key: str):
 
 
 # --- eukaryogenesis S1 (metabolite-exchange community — first-fidelity arm) ---
-@declares_sources("metacommunity_robustness", "isolated_robustness")
+@declares_sources("community/metacommunity_robustness", "community/isolated_robustness")
 def _partner_dependent_growth_ratio(reader, test: dict, ws_root: Any) -> float:
     """S1 gate: the settled community robustness relative to the isolated counterfactual.
     >1 means the two-member community is more robust together than apart — a partner-dependent
     advantage from metabolite exchange. First-fidelity proxy on the og-07 metabolite-exchange
     community (fixer+reducer lineages, shared vs private coupling); the real archaeal-bacterial
-    GEM community-FBA is the next-fidelity arm (blocked on COBRApy + genome reconstruction)."""
-    iso = _settled_mean(reader, "isolated_robustness")
-    return (_settled_mean(reader, "metacommunity_robustness") / iso) if iso else float("nan")
+    GEM community-FBA is the next-fidelity arm (blocked on COBRApy + genome reconstruction).
+    Sources use the composite's full emit paths (community/*), not leaf names."""
+    iso = _settled_mean(reader, "community/isolated_robustness")
+    return (_settled_mean(reader, "community/metacommunity_robustness") / iso) if iso else float("nan")
 
 
-@declares_sources("C_residual_max")
+@declares_sources("ledger/C_residual_max")
 def _exchange_mass_balance_residual(reader, test: dict, ws_root: Any) -> float:
     """S1 gate: worst-case carbon mass-balance residual over the run — exchange must conserve C."""
-    vals = _values(reader, "C_residual_max")
+    vals = _values(reader, "ledger/C_residual_max")
     return max((abs(v) for v in vals), default=float("nan"))
 
 
