@@ -1098,6 +1098,20 @@ def _settled_internalization_survivors(reader, test: dict, ws_root: Any) -> floa
     return _settled_mean(reader, "pop/survivors")
 
 
+# --- eukaryogenesis S5 (symbiont to organelle — heritable lineage) ---
+@declares_sources("herd/heritability")
+def _settled_heritability(reader, test: dict, ws_root: Any) -> float:
+    """S5 gate: settled vertical-transmission fidelity — the heritability of the chemical phenotype
+    across the lineage tree. Stable heritable integration requires high-fidelity transmission: only
+    then does the lineage persist with function. Calibrated (module=template, per_site_fidelity=0.99,
+    60 steps): heritability settles to 0.989 (PASS; functional fraction 1.0, population 220). TWO
+    failure routes fall below the 0.95 threshold: a low-fidelity template (per_site_fidelity=0.80)
+    hits the Eigen error catastrophe (heritability 0.799, functional fraction 0.0, population 0), and
+    the non-heritable control (daughters get a fresh phenotype) reads 0.106. A new evolutionary
+    individual emerges only above the fidelity threshold."""
+    return _settled_mean(reader, "herd/heritability")
+
+
 def register_derived_scalars(registry: dict) -> None:
     """Hook called by study_evaluator.load_workspace_derived_scalars."""
     # eukaryogenesis S1 + S2 (first-fidelity metabolite-exchange community arms)
@@ -1105,6 +1119,7 @@ def register_derived_scalars(registry: dict) -> None:
     registry["exchange_mass_balance_residual"] = _exchange_mass_balance_residual
     registry["settled_cross_lineage_flux"] = _settled_cross_lineage_flux
     registry["settled_internalization_survivors"] = _settled_internalization_survivors
+    registry["settled_heritability"] = _settled_heritability
     # Phase 9 (og-08-alt-robust-innovation-set): the seven ledgers over the integrated world,
     # the ablation, the structural-event log, the autonomy decomposition and the lattice gates
     registry["every_ledger_ok_final"] = _every_ledger_ok_final
