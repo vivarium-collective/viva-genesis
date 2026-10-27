@@ -100,9 +100,88 @@ variants:
 - name: isolated-control
   base: baseline
   over: {coupling: private}            # the ISOLATED counterfactual: no cross-feeding — must FAIL the >0.5 gate (settles 0.464)
+visualizations:
+- name: partner-dependent-advantage
+  address: local:S1MetabolicPartnershipViz
+  config: {title: 'S1 — a partner-dependent advantage (connected vs isolated community redundancy)'}
 observables: [community/metacommunity_robustness, ledger/C_residual_max]
 data_inputs:
 - {name: GTDB genomes, use: candidate Asgard + alphaproteobacterial genomes, url: 'https://gtdb.ecogenomic.org/downloads'}
 - {name: NCBI Assembly/RefSeq, use: CDS + protein annotations for organism selection, url: 'https://www.ncbi.nlm.nih.gov/datasets/'}
 - {name: KEGG/MetaCyc/BiGG, use: reaction stoichiometry + pathway mappings for reconstruction, url: 'https://bigg.ucsd.edu/'}
 - {name: Comparative central metabolism (Zenodo), use: curated proteomes/orthogroups/trees, url: 'https://doi.org/10.5281/zenodo.10991068'}
+runs:
+- name: viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1793135900__f172d8
+  status: completed
+  timestamp: 1793135911.366938
+  emitter:
+    kind: unknown
+  env_id: 8edee07b036c96c0
+  params: '{"lineages": "fixer:4,reducer:4", "coupling": "shared", "model_proto_ecology": "reaction_universe", "p_diacid": 1e-08, "p_monoacid": 1e-07, "k_wash": 0.01}'
+  computed_outcomes:
+    community-redundancy-develops:
+      evaluated_by: agent
+      reason: observable 'settled_metacommunity_robustness' not resolvable
+      reconcile: no_authored
+    exchange-mass-balanced:
+      evaluated_by: agent
+      reason: observable 'exchange_mass_balance_residual' not resolvable
+      reconcile: no_authored
+  provenance:
+    params:
+      coupling:
+        value: shared
+        source: override
+      k_wash:
+        value: 0.01
+        source: override
+      lineages:
+        value: fixer:4,reducer:4
+        source: override
+      model_proto_ecology:
+        value: reaction_universe
+        source: override
+      p_diacid:
+        value: 1e-08
+        source: override
+      p_monoacid:
+        value: 1e-07
+        source: override
+    params_captured_at: '2026-10-27'
+    params_source: dashboard-runner
+  outcomes:
+    community-redundancy-develops:
+      result: SKIP
+      evaluated_by: agent
+      note: "derived-scalar computer 'settled_metacommunity_robustness' error: 'community/metacommunity_robustness'"
+      auto_evaluated: true
+    exchange-mass-balanced:
+      result: SKIP
+      evaluated_by: agent
+      note: "derived-scalar computer 'exchange_mass_balance_residual' error: 'ledger/C_residual_max'"
+      auto_evaluated: true
+simulation_set:
+- name: baseline-baseline
+  kind: single
+  base_model: viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community
+  is_baseline: true
+  status: ran
+  params:
+    lineages: fixer:4,reducer:4
+    coupling: shared
+    model_proto_ecology: reaction_universe
+    p_diacid: 1e-08
+    p_monoacid: 1e-07
+    k_wash: 0.01
+- name: isolated-control
+  kind: single
+  base_model: viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community
+  status: ran
+pipeline_gate:
+  gate_evaluator:
+    result: blocked
+    blocked_by:
+    - community-redundancy-develops
+    - exchange-mass-balanced
+    evaluated_by: code
+    diverges_from_authored: false

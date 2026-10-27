@@ -91,6 +91,10 @@ variants:
 - name: non-heritable-control
   base: baseline
   over: {module: non-heritable}        # daughters get a fresh phenotype → no vertical transmission -> FAILS
+visualizations:
+- name: heritable-integration
+  address: local:S5HeritabilityViz
+  config: {title: 'S5 — heritable integration needs high fidelity (by inheritance module)'}
 observables: [herd/heritability]
 data_inputs:
 - {name: EukProt v3, use: extant eukaryotic proteomes for ancestral comparison, url: 'https://doi.org/10.6084/m9.figshare.12417881.v3'}

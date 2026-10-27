@@ -100,6 +100,10 @@ variants:
 - name: weak-adhesion-control
   base: baseline
   over: {adhesion_energy_kT: 300.0}    # adhesion below the bending cost -> cannot enclose -> FAILS
+visualizations:
+- name: enclosure-feasibility
+  address: local:S3EnclosureViz
+  config: {title: 'S3 — enclosure is geometrically feasible (by topology)'}
 observables: [enc/enclosure_probability, enc/membrane_area_conservation_residual]
 data_inputs:
 - {name: Asgard live-cell microscopy, use: protrusion morphology + timescales, url: 'https://www.ebi.ac.uk/biostudies/bioimages/studies/S-BIAD3928'}

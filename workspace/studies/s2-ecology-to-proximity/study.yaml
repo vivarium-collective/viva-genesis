@@ -96,6 +96,10 @@ variants:
 - name: well-mixed-control
   base: baseline
   over: {k_diffusion: 0.1}             # WELL-MIXED — high diffusion; the proximity advantage vanishes (ratio 1.26)
+visualizations:
+- name: proximity-selects-contact
+  address: local:S2EcologyProximityViz
+  config: {title: 'S2 — proximity selects for contact (cross-lineage flux, proximate vs distant)'}
 observables: [exchange/cross_lineage_flux_total]
 data_inputs:
 - {name: Asgard live-cell microscopy (figshare/BioImage), use: protrusion length/time priors, url: 'https://doi.org/10.6084/m9.figshare.30676367'}

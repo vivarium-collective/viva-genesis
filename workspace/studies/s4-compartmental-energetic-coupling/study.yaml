@@ -88,6 +88,10 @@ variants:
 - name: weak-pump-control
   base: baseline
   over: {catalyst_efficiency: 0.3}     # WEAK pump → cannot internalize; collapses (survivors 0.0) -> FAILS the gate
+visualizations:
+- name: internalization-net-benefit
+  address: local:S4EnergeticCouplingViz
+  config: {title: 'S4 — internalization pays only with an efficient pump (survivors)'}
 observables: [pop/survivors]
 data_inputs:
 - {name: Comparative central metabolism (Zenodo), use: enzyme ancestry + pathway stoichiometry, url: 'https://doi.org/10.5281/zenodo.10991068'}
