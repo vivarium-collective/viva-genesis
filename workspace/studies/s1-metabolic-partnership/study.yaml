@@ -1,0 +1,146 @@
+schema_version: 4
+name: s1-metabolic-partnership
+investigation: eukaryogenesis
+created: '2026-10-27'
+title: 'S1 — Metabolic partnership: can an archaeal-bacterial pair gain fitness from exchange?'
+phase: Design
+status: planned
+design_status: drafted
+simulation_status: not_run
+evaluation_status: not_evaluated
+gate_status: not_started
+topic: metabolic-coupling
+tags: [symbiosis, fba, community, cross-feeding, bioenergetics]
+concept: >-
+  Syntrophy and mutualism made operational as exchange fluxes, partner-dependent growth, invasion
+  fitness, and environmental contingencies. Curated candidate genomes -> gap-audited genome-scale
+  models (GEMs) -> two-member community FBA / dynamic FBA, with separate positive and negative
+  controls, under alternative redox and substrate regimes.
+question: >-
+  Can plausible archaeal-bacterial pairs gain fitness from metabolite exchange, and under which
+  redox and substrate regimes? Does the predicted mutualism survive mass-balance and
+  electron-donor/acceptor feasibility audits and alternative reconstructions?
+hypothesis: >-
+  Under at least one field-consistent redox/substrate regime, a reconstructed archaeal-host /
+  bacterial-partner pair achieves partner-dependent growth (each grows better together than alone)
+  on mass-balanced exchange fluxes, while a no-exchange / parasitic control does not.
+claim: >-
+  An archaeal-bacterial association can become mutually beneficial under restricted redox and
+  substrate regimes — partner-dependent growth emerges on feasible, mass-balanced metabolite
+  exchange — but the benefit is not necessarily stable or obligate, and it disappears outside the
+  feasible regime and under alternative gap-fills.
+behavior_tests:
+- name: partner-dependent-growth-feasible
+  classification: primary
+  description: >-
+    The two-member community grows faster than either member alone (a positive cross-feeding
+    advantage) in at least one redox/substrate regime.
+  measure: {kind: derived_scalar, path: partner_dependent_growth_ratio}
+  pass_if:
+    op: '>'
+    value: 1.1
+    provenance:
+      kind: hypothesis
+      note: >-
+        Ratio of community biomass flux to the best single-member flux; >1.1 = a >10% mutualistic
+        advantage. Threshold is a pre-registered hypothesis to be calibrated against Imachi-2020
+        syntrophic growth once the GEMs are built.
+  cites: [imachi-nature-2020, santana-molina-nee-2025]
+- name: exchange-mass-balanced
+  classification: primary
+  description: Exchanged metabolites close an elemental mass/charge balance (no free lunch).
+  measure: {kind: derived_scalar, path: exchange_mass_balance_residual}
+  pass_if:
+    op: approx
+    value: 0.0
+    tol: '1e-6'
+    provenance: {kind: theory, note: Exchange fluxes must conserve C/N/O/H and charge by construction.}
+acceptance_criteria:
+- behavior: partner-dependent-growth-feasible
+literature_anchors:
+- expectation: Syntrophic archaeal-bacterial growth is observed in Prometheoarchaeum syntrophicum.
+  model_observable: partner_dependent_growth_ratio
+  source: Imachi et al. 2020, Nature
+  cites: [imachi-nature-2020]
+  status_in_workspace: proposed
+parent_studies: []
+# FIRST-FIDELITY MODEL (built): reuses the og-07 metabolite-exchange community — a tested,
+# calibrated two-lineage (fixer + reducer) cross-feeding community with an internal isolated
+# counterfactual (metacommunity vs isolated robustness) and a C/N/P element ledger.
+baseline:
+- name: baseline
+  composite: viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community
+  params:
+    lineages: fixer:4,reducer:4        # the two-member (two-lineage) cross-feeding community
+    coupling: shared                   # community run; isolated_robustness is the internal no-exchange counterfactual
+    model_proto_ecology: reaction_universe
+  note: >-
+    First-fidelity arm. metacommunity_robustness vs isolated_robustness give the partner-dependent
+    advantage (partner_dependent_growth_ratio); C_residual_max gives exchange mass balance. The
+    next-fidelity arm — two gap-audited archaeal/alphaproteobacterial GEMs under community FBA — is
+    blocked on COBRApy (not installed) + genome reconstruction (GTDB/NCBI data not yet ingested).
+observables: [community/metacommunity_robustness, community/isolated_robustness, ledger/C_residual_max]
+data_inputs:
+- {name: GTDB genomes, use: candidate Asgard + alphaproteobacterial genomes, url: 'https://gtdb.ecogenomic.org/downloads'}
+- {name: NCBI Assembly/RefSeq, use: CDS + protein annotations for organism selection, url: 'https://www.ncbi.nlm.nih.gov/datasets/'}
+- {name: KEGG/MetaCyc/BiGG, use: reaction stoichiometry + pathway mappings for reconstruction, url: 'https://bigg.ucsd.edu/'}
+- {name: Comparative central metabolism (Zenodo), use: curated proteomes/orthogroups/trees, url: 'https://doi.org/10.5281/zenodo.10991068'}
+runs:
+- name: viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1793116359__8701ae
+  status: completed
+  timestamp: 1793116370.1587
+  emitter:
+    kind: unknown
+  env_id: 76bce67cd8fef1e6
+  params: '{"lineages": "fixer:4,reducer:4", "coupling": "shared", "model_proto_ecology": "reaction_universe"}'
+  computed_outcomes:
+    partner-dependent-growth-feasible:
+      evaluated_by: agent
+      reason: observable 'partner_dependent_growth_ratio' not resolvable
+      reconcile: no_authored
+    exchange-mass-balanced:
+      evaluated_by: agent
+      reason: "unsupported op: 'approx'"
+      reconcile: no_authored
+  provenance:
+    params:
+      coupling:
+        value: shared
+        source: override
+      lineages:
+        value: fixer:4,reducer:4
+        source: override
+      model_proto_ecology:
+        value: reaction_universe
+        source: override
+    params_captured_at: '2026-10-27'
+    params_source: dashboard-runner
+  outcomes:
+    partner-dependent-growth-feasible:
+      result: SKIP
+      evaluated_by: agent
+      note: "derived-scalar computer 'partner_dependent_growth_ratio' error: 'isolated_robustness'"
+      auto_evaluated: true
+    exchange-mass-balanced:
+      result: SKIP
+      evaluated_by: agent
+      note: "unsupported op: 'approx'"
+      auto_evaluated: true
+simulation_set:
+- name: baseline-baseline
+  kind: single
+  base_model: viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community
+  is_baseline: true
+  status: ran
+  params:
+    lineages: fixer:4,reducer:4
+    coupling: shared
+    model_proto_ecology: reaction_universe
+pipeline_gate:
+  gate_evaluator:
+    result: blocked
+    blocked_by:
+    - partner-dependent-growth-feasible
+    - exchange-mass-balanced
+    evaluated_by: code
+    diverges_from_authored: false
