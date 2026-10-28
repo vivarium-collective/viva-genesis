@@ -1,67 +1,244 @@
 schema_version: 2
 name: eukaryogenesis
-title: From Symbiosis to Complexity
+title: The Endosymbiotic Transition
 created: '2026-10-27'
 status: planned
 question: >-
-  Under what physical, metabolic, ecological, and evolutionary conditions can a symbiotic
-  association between an archaeal host and a bacterial partner transition into an integrated
-  eukaryotic cell? The aim is not to animate a predetermined history but to identify plausible,
-  impossible, and still-unresolved pathways from ecological association to a new evolutionary
-  individual.
+  Under what physical, metabolic, ecological, and evolutionary conditions can an archaeal host
+  and a bacterial partner cross from ecological association to a stable, integrated eukaryotic
+  lineage? Endosymbiotic integration is treated not as a single event but as a succession of
+  barriers — biochemical, spatial, mechanical, energetic, and reproductive — each of which must
+  be crossed on plausible terms. The aim is to identify which combinations of mechanisms make the
+  crossings possible, which make them impossible, and which competing histories remain consistent
+  with the surviving evidence — not to animate a predetermined origin story.
 hypothesis: >-
-  Eukaryogenesis can be investigated as a succession of coupled transitions in ecological
-  dependence, physical topology, energetic organization, and evolutionary individuality. Each
-  transition introduces new benefits and new constraints; the discovery problem is which
-  combinations of mechanisms allow cooperation to become stable cellular integration, and which
-  competing histories remain consistent with the surviving evidence.
+  The endosymbiotic transition is persuasive only if each barrier-crossing (exchange, proximity,
+  enclosure, physiology, individuality, complexity) emerges from plausible preceding conditions,
+  conserves the relevant physical quantities (mass, charge, electron, free energy), improves or at
+  least preserves lineage fitness, and persists through generations. Each crossing introduces new
+  benefits and new constraints; the discovery problem is which mechanism combinations let
+  cooperation become stable cellular integration, and which alternative histories the evidence
+  cannot yet rule out.
 lead: >-
-  A mechanistic, falsifiable investigation of endosymbiosis and the origin of eukaryotic cells,
-  staged as five bridge studies — metabolic partnership (S1), ecology to proximity (S2),
-  protrusions to enclosure (S3), compartmental energetic coupling (S4), and symbiont to organelle
-  (S5). Independent cells -> ecological partnership -> persistent physical association -> enclosure
-  / compartmental coupling -> metabolic and genetic dependence -> coordinated inheritance and
-  evolutionary individuality are treated as CONCEPTUAL transitions, not a fixed temporal sequence.
-  Counter-narratives are tested head to head: physical internalization preceding strong syntrophy;
-  protrusion-driven external wrapping rather than classical phagocytosis; energetic benefits that
-  do not require internalization; and stable ectosymbioses that never become organelles. Extant
-  Asgard archaea and alphaproteobacteria are experimental proxies, not recovered ancestors.
+  A mechanistic, falsifiable investigation of the endosymbiotic transition, staged as a chain of
+  barrier-crossings with an explicit decision gate at each one. The built arc is five bridge
+  studies — metabolic partnership (S1, gate G1·Exchange), ecology to proximity (S2, G2·Proximity),
+  protrusions to enclosure (S3, G3·Enclosure), compartmental energetic coupling (S4,
+  G4·Physiology), and symbiont to organelle (S5, G5·Individuality) — bracketed by two proposed
+  bookend studies: genome-resolved ancestral reconstruction (S0, G0·Reconstruct) and the emergence
+  of cellular complexity (S6, G6·Complexity). The ordering is a CONCEPTUAL dependency graph, not a
+  fixed temporal sequence: independent cells -> metabolic benefit -> persistent contact ->
+  enclosure / compartmental coupling -> net energetic and genetic dependence -> coordinated
+  inheritance and evolutionary individuality -> new capability. Counter-narratives are tested head
+  to head — physical internalization preceding strong syntrophy; protrusion-driven external
+  wrapping rather than classical phagocytosis; energetic benefit without internalization; and stable
+  ectosymbioses that never become organelles. Extant Asgard archaea and alphaproteobacteria are
+  experimental proxies that constrain mechanism, not recovered ancestors; phylogenetic
+  reconstructions are treated as ensembles, never a single definitive lineage. The campaign's
+  capstone deliverable is a phase diagram of endosymbiosis (see final_deliverable) — a systematic
+  map of where each proposed transition can and cannot work.
 executive:
   what_is_this: >-
     A branching, evidence-grounded campaign that constructs, tests, compares, and composes
-    mechanistic explanations for eukaryogenesis. Each study carries its own assumptions, parameter
-    ranges, evidence links, interventions, model versions, and validators, and keeps four evidence
-    classes separate: historically supported (phylogenomic ancestry), observed in living proxies
-    (Asgard protrusions), mechanistically demonstrated in a model (stable cross-feeding), and
-    historically inferred (a specific pathway billions of years ago).
+    mechanistic explanations for the endosymbiotic transition. Each study carries its own
+    assumptions, parameter ranges, evidence links, interventions, model versions, and validators,
+    and keeps four classes of evidence strictly separate — each with its proper interpretation:
+    (1) modern proxy observation (e.g. Asgard protrusion geometry and motility) constrains
+    plausible mechanism and parameters, but is not a direct ancestral observation; (2) genomic /
+    phylogenetic evidence (gene histories, transporters, energy metabolism) sets priors on ancestral
+    states and models their uncertainty, it does not fix an ordering; (3) a model demonstration
+    (stable spatial mutualism, a dynamically closed membrane, net ATP export) establishes
+    mechanistic possibility in a stated parameter region, not historical fact; (4) historical
+    inference (the specific ordering of integration events) can be weighed by model comparison but
+    cannot be established by simulation alone.
   verdict: >-
-    Open — no study has been built or run. This investigation is seeded from the eukaryogenesis
-    investigation-seed document; the first campaign (S1 + S2) is the minimum viable arc.
+    Open — the built arc (S1–S5) is seeded and calibrated but not yet run as tracked studies; the
+    bookend studies S0 and S6 are proposed. This investigation integrates the "Testing the
+    Endosymbiotic Theory" campaign review: its barrier/gate logic, competing hypothesis families,
+    method mapping, and candidate hybrid composites. The first campaign (S1 + S2) is the minimum
+    viable arc.
   verdict_status: open
   verdict_detail: >-
     Success criterion for the first campaign: at least one mechanistically plausible route and one
     well-characterized failure route, with transparent data provenance, reusable composed models,
-    quantitative predictions, and an explicit account of what the evidence does not determine. No
-    fully integrated proto-eukaryote (S4/S5) should be built until core exchanges and dynamics
-    (S1/S2) survive sensitivity analysis.
+    quantitative predictions with uncertainty intervals, and an explicit account of what the
+    evidence does not determine. No fully integrated proto-eukaryote (S4/S5) should be built until
+    core exchanges and dynamics (S1/S2) survive sensitivity analysis. A negative result at any gate
+    preserves an alternative hypothesis, triggers model refinement, or closes a branch — it is never
+    silently adjusted into a success.
   decisions_needed:
   - question: >-
       Which two or more candidate archaeal-host / bacterial-partner genome pairs anchor S1 (e.g.
       Asgard + alphaproteobacterium selections from GTDB/NCBI), and under which redox / substrate
-      regimes (anaerobic, micro-aerobic) are they first tested?
+      regimes (anaerobic, micro-aerobic, oxygen-tolerant) are they first tested?
     context: >-
-      No single extant isolate is the ancestral host; S1 must reconstruct two or more pairs with
-      explicit uncertainty rather than pick one.
+      No single extant isolate is the ancestral host; S0/S1 must reconstruct two or more pairs with
+      explicit uncertainty rather than pick one (gate G0·Reconstruct).
   - question: >-
       Which initial ecology (syntrophy, commensalism, parasitism) is the primary scenario for S2,
       and which are the competing scenarios run head to head?
-    context: Section 7 requires testing alternative initial ecologies, not assuming syntrophy.
+    context: >-
+      The campaign requires testing alternative initial ecologies, not assuming syntrophy
+      (hypotheses H1 vs H4 vs H5).
   decisions_resolved: []
 competing_frameworks: >-
-  (a) classical phagocytosis / engulfment-first; (b) syntrophy-first entangle-engulf-endogenize
-  (Imachi 2020); (c) inside-out membrane topology (Baum & Baum 2014); (d) stable ectosymbiosis that
-  never internalizes. These are authored as alternative-to edges so the cycle can hold them in
-  tension rather than assume one.
+  The campaign tests five hypothesis families head to head rather than assuming one history, each
+  authored so the cycle can hold them in tension: H1 Syntrophy-first — metabolic complementarity
+  selects for proximity before enclosure (discriminator: selection for adhesion / encounter
+  persistence under diffusion-limited exchange; cf. Imachi 2020 entangle-engulf-endogenize).
+  H2 Host-complexity-first — protrusions and compartmental machinery partially precede symbiosis
+  (discriminator: enclosure accessibility as a function of pre-existing host morphology; cf.
+  Baum & Baum 2014 inside-out topology). H3 Respiratory-capable host — the host already possesses
+  substantial energy metabolism (discriminator: marginal ATP / fitness advantage of internalization
+  across O2 and redox regimes). H4 Community / sequential association — multiple partners or earlier
+  ecological guilds precede stable integration (discriminator: two-species vs multispecies
+  histories, including partner replacement). H5 Stable ectosymbiosis — intimate contact remains
+  favored without internalization (discriminator: persistent surface association beats enclosure
+  over part of parameter space, the explicit null to organellogenesis).
+transition_barriers:
+- gate: G0
+  barrier: Reconstruct
+  study: s0-ancestral-reconstruction
+  status: proposed
+  method: Phylogenetic ancestral-state reconstruction; orthology-informed metabolic reconstruction; gap-fill ensembles
+  required_evidence: two or more host-partner ensembles with explicit, gap-filled metabolic uncertainty across anaerobic / microaerobic / oxygen-tolerant scenarios
+  failure_alternative: unconstrained ancestral reconstruction -> widen the uncertainty, do not select a favorite
+- gate: G1
+  barrier: Exchange
+  study: s1-metabolic-partnership
+  status: built
+  method: Genome-scale metabolic modeling (GEM/FBA) + thermodynamic FBA (TFA) + dynamic FBA (dFBA)
+  required_evidence: a growth or viability benefit to at least one partner, with mass, charge, electron, and thermodynamic (feasible dG) audits
+  failure_alternative: competitive, neutral, or thermodynamically infeasible exchange
+- gate: G2
+  barrier: Proximity
+  study: s2-ecology-to-proximity
+  status: built
+  method: Spatial agent-based modeling (ABM) + reaction-diffusion PDE substrate fields
+  required_evidence: a heritable contact / adhesion trait gains invasion fitness under spatial structure, robust to a high-diffusion control
+  failure_alternative: stable free-living coexistence, or no selection for contact
+- gate: G3
+  barrier: Enclosure
+  study: s3-protrusions-to-enclosure
+  status: built
+  method: Membrane mechanics / phase-field (Helfrich bending, tension, adhesion) or Cellular Potts (viva-cpm) + stochastic closure events
+  required_evidence: dynamic wrapping / topology closure reached mechanically (not imposed by a threshold) plus post-enclosure survival within measured force and area budgets
+  failure_alternative: persistent ectosymbiosis, partial wrapping, or failed closure
+  note: >-
+    A Cellular Potts spike in viva-cpm already demonstrates a sharp differential-adhesion wrapping
+    transition (stable full enclosure when host-symbiont adhesion beats the combined surface-tension
+    cost, J_hs < J_sM - J_hM), with real spatial boundaries — the candidate composite B, partly
+    realized.
+- gate: G4
+  barrier: Physiology
+  study: s4-compartmental-energetic-coupling
+  status: built
+  method: Chemiosmotic / bioenergetic ODEs (proton motive force, ATP synthase, transport) + genome-scale metabolic constraints
+  required_evidence: the internalized configuration improves host-lineage fitness after transport and maintenance costs, versus the best viable external configuration
+  failure_alternative: symbiont burden, cheating, or a superior external configuration
+- gate: G5
+  barrier: Individuality
+  study: s5-symbiont-to-organelle
+  status: built
+  method: Stochastic evolutionary ABM + population genetics + metabolic genotype-phenotype mapping
+  required_evidence: stable co-transmission, gene loss / targeting compatibility, and multigenerational function (no assumed universal error threshold)
+  failure_alternative: segregation loss, conflict, parasitism, or dependency collapse
+- gate: G6
+  barrier: Complexity
+  study: s6-emergence-of-complexity
+  status: proposed
+  method: Controlled evolutionary trajectories in a multiobjective, resource-limited phenotype space
+  required_evidence: quantitative expansion of a cellular capability compared with matched viable ancestral controls, with a mechanistic explanation
+  failure_alternative: integrated symbiosis without any added higher-order capability
+candidate_composites:
+- id: A
+  title: Thermodynamic metabolism + spatial ecology
+  stack: TFA / dFBA + reaction-diffusion PDE + spatial ABM
+  tests: whether metabolic syntrophy creates a selective advantage for living in contact rather than separately; explicitly models H2, formate, acetate, CO2, nutrients, and environmental redox
+  discovery_target: conditions where physical proximity becomes evolutionarily favorable because of metabolism
+  serves: [s1-metabolic-partnership, s2-ecology-to-proximity]
+  ecosystem: COBRApy / MICOM / COMETS + spatio-flux (spatial FBA)
+- id: B
+  title: Active membrane mechanics + stochastic encounters
+  stack: Helfrich mechanics + phase field + cytoskeletal forces + stochastic dynamics
+  tests: archaeal protrusions, bacterial adhesion, membrane deformation, enclosure and possible scission; compares classical engulfment, inside-out, and persistent external symbiosis
+  discovery_target: physical parameter regimes that permit viable internalization without assuming it occurs
+  serves: [s3-protrusions-to-enclosure]
+  ecosystem: viva-cpm (Cellular Potts; wrapping transition demonstrated) / Mem3DG (continuum membrane)
+- id: C
+  title: Chemiosmosis + genome-scale metabolism
+  stack: bioenergetic ODE + GEM + membrane transport
+  tests: proton motive force, respiratory electron transport, ATP synthesis, and host-partner metabolite exchange; internalized symbiont vs an external partner with matched metabolic capabilities
+  discovery_target: when endosymbiosis produces a genuine net fitness or energetic advantage
+  serves: [s4-compartmental-energetic-coupling]
+  ecosystem: Tellurium / COPASI (kinetics) + COBRApy
+- id: D
+  title: Multilevel selection + metabolic dependency
+  stack: evolutionary ABM + stochastic inheritance + metabolic networks
+  tests: hosts and symbionts reproduce, mutate, compete, transfer genes, lose functions, and segregate at division; fitness computed separately at host, symbiont, and integrated-lineage levels
+  discovery_target: the conditions under which selection stabilizes an integrated lineage rather than maintaining two independent organisms
+  serves: [s5-symbiont-to-organelle]
+  ecosystem: custom stochastic ABM / Gillespie processes
+candidate_software:
+- layer: Genome-scale metabolism
+  software: [COBRApy, MICOM]
+  role: reconstruction, metabolic feasibility, community exchange
+- layer: Spatial microbial ecology
+  software: [COMETS, custom Vivarium ABM, spatio-flux]
+  role: population growth and metabolite diffusion
+- layer: Biochemical kinetics
+  software: [Tellurium, COPASI]
+  role: chemiosmosis, redox balances, ATP dynamics
+- layer: Membrane mechanics
+  software: [viva-cpm, Mem3DG, phase-field solvers]
+  role: deformation, protrusions, bending energy, enclosure
+- layer: Particle reactions
+  software: [ReaDDy, Smoldyn]
+  role: local stochastic molecular interactions
+- layer: Evolution and inheritance
+  software: [custom stochastic ABM, Gillespie processes]
+  role: division, symbiont segregation, conflict, gene loss
+final_deliverable: >-
+  The campaign's capstone is a phase diagram of endosymbiosis: a map over metabolic, physical,
+  ecological, and evolutionary conditions that separates five outcome regimes — independent
+  organisms, stable ectosymbiosis, transient internalization, parasitic association, and stable
+  inherited endosymbiosis. Each regime is defined by how far a parameter set travels through the
+  gate chain: independent organisms fail G1/G2 (no exchange benefit, no contact selection); stable
+  ectosymbiosis clears G1-G2 but not G3 (favored contact without enclosure, hypothesis H5);
+  transient internalization clears G3 but fails G4/G5 (enclosed but not net-beneficial or not
+  heritable); parasitic association is negative-sum at G4/G5 (one partner exploited, conflict wins);
+  and stable inherited endosymbiosis crosses G1-G5 to a coordinated, heritable lineage. The product
+  is therefore not a single simulation of "the" endosymbiotic theory but a systematic search —
+  endosymbiosis put to the test — for the conditions under which its proposed transitions can and
+  cannot work, reported with quantitative uncertainty and explicit unresolved historical
+  alternatives.
+regimes:
+- independent organisms
+- stable ectosymbiosis
+- transient internalization
+- parasitic association
+- stable inherited endosymbiosis
+flagship_studies:
+- framing: Can syntrophy drive physical association?
+  studies: [s1-metabolic-partnership, s2-ecology-to-proximity]
+  composite: A
+  why: >-
+    bridges S1 and S2 into a tractable, testable first result — does improved metabolic exchange
+    actually select for sustained cell-cell contact when adhesion is an evolving trait?
+- framing: Can archaeal protrusions produce endosymbiosis?
+  studies: [s3-protrusions-to-enclosure]
+  composite: B
+  why: >-
+    the most visually compelling study — with realistic size, force, adhesion and surface-area
+    constraints, when does a partner become enclosed, what membrane topology results, and does the
+    host remain viable? (a viva-cpm spike already shows the wrapping transition.)
+- framing: When do two organisms become one evolutionary individual?
+  studies: [s5-symbiont-to-organelle]
+  composite: D
+  why: >-
+    the deepest evolutionary question — couples metabolic dependency to multigenerational population
+    genetics with symbiont transmission, gene loss, protein import, and competition between
+    integrated and unintegrated lineages.
 studies:
 - s1-metabolic-partnership
 - s2-ecology-to-proximity
@@ -85,16 +262,31 @@ references:
   note: Origin and early evolution of eukaryotic cells; FECA-LECA; competing scenarios.
 - key: imachi-nature-2020
   doi: 10.1038/s41586-019-1916-6
-  note: Prometheoarchaeum syntrophicum; syntrophy + protrusions; entangle-engulf-endogenize.
+  note: Prometheoarchaeum syntrophicum; syntrophy + protrusions; entangle-engulf-endogenize (H1).
 - key: rodrigues-oliveira-nature-2023
   doi: 10.1038/s41586-022-05550-y
   note: Actin cytoskeleton + cryo-ET membrane-morphology constraints in an Asgard archaeon.
 - key: radler-nature-2026
   doi: 10.1038/s41586-026-11063-9
-  note: Quantified Asgard protrusion extension/retraction + raw microscopy; spatial model input.
+  note: Quantified Asgard protrusion extension/retraction + raw microscopy; spatial model input for S2/S3.
 - key: santana-molina-nee-2025
   doi: 10.1038/s41559-025-02648-0
-  note: Chimeric origins of central carbon metabolism; enzyme ancestry + pathways for coupling.
+  note: Chimeric origins + dynamic evolution of central carbon metabolism; enzyme ancestry for coupling (S1/S4).
 - key: baum-baum-bmc-2014
   doi: 10.1186/s12915-014-0076-2
-  note: Inside-out origin — a falsifiable alternative membrane topology.
+  note: Inside-out origin — a falsifiable alternative membrane topology (H2).
+- key: appler-nature-2026
+  doi: 10.1038/s41586-026-10128-z
+  note: Oxygen metabolism in descendants of the archaeal-eukaryotic ancestor; redox / O2 priors for S4 (H3).
+- key: tobiasson-pmc-2026
+  url: https://pmc.ncbi.nlm.nih.gov/articles/PMC12872458/
+  note: Dominant contribution of Asgard archaea to eukaryogenesis; host-ancestry prior for S0.
+- key: zhang-nature-2025
+  doi: 10.1038/s41586-025-08955-7
+  note: Deep origin of eukaryotes outside Heimdallarchaeia; constrains competing host histories (S0).
+- key: gene-ancestries-nature-2026
+  doi: 10.1038/s41586-026-10639-9
+  note: Gene ancestries reveal diverse microbial associations during eukaryogenesis; supports community histories (H4, S2).
+- key: protein-import-endosymbionts-2025
+  url: https://pmc.ncbi.nlm.nih.gov/articles/PMC12176269/
+  note: Protein import into bacterial endosymbionts and evolving organelles; targeting / import evidence for S5.

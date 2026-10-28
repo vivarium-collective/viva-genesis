@@ -100,6 +100,16 @@ baseline:
   note: New first-fidelity model built for S3 (no existing composite fit). enclosure_probability over
     a partner-radius ensemble is the feasibility gate; membrane area is conserved by construction. The
     full deformable-membrane PDE with explicit protrusion dynamics is the next-fidelity arm.
+- name: cpm-spatial
+  composite: viva_genesis.composites.protrusion_enclosure_cpm.protrusion_enclosure_cpm
+  params:
+    j_hs: 6.0
+    j_sM: 16.0
+    j_hM: 4.0
+  note: Spatial companion (campaign composite B) — the real Rust Cellular Potts engine with actual
+    boundaries. Enclosure is an emergent, measured outcome (host coverage of the symbiont boundary),
+    not an area/bending threshold; the wrapping transition tracks j_hs = j_sM - j_hM. Measured j_hs=6
+    (strong adhesion) -> enclosure_fraction 1.000; j_hs=18 (weak) -> 0.176.
 variants:
 - name: inside-out
   base: baseline
@@ -113,15 +123,24 @@ variants:
   base: baseline
   over:
     adhesion_energy_kT: 300.0
+- name: cpm-weak-adhesion
+  base: cpm-spatial
+  over:
+    j_hs: 18.0
 visualizations:
 - name: enclosure-feasibility
   address: local:S3EnclosureViz
   config:
     title: S3 — enclosure is geometrically feasible (by topology)
   rendered: workspace/studies/s3-protrusions-to-enclosure/viz/enclosure-feasibility.html
+- name: endosymbiosis-phase-diagram
+  title: Endosymbiosis phase diagram — enclosure (G3) plane (CPM)
+  rendered: workspace/studies/s3-protrusions-to-enclosure/viz/endosymbiosis-phase-diagram.html
 observables:
 - enc/enclosure_probability
 - enc/membrane_area_conservation_residual
+- enc/enclosure_fraction
+- enc/enclosed
 data_inputs:
 - name: Asgard live-cell microscopy
   use: protrusion morphology + timescales
