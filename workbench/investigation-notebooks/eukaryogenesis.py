@@ -17,13 +17,13 @@ if _os.environ.get("PYTHONUTF8") != "1":
     _os.execv(_sys.executable, [_sys.executable, *_sys.argv])
 
 
-# # From Symbiosis to Complexity
+# # The Endosymbiotic Transition
 #
 # _Investigation `eukaryogenesis` — coder reproduction notebook._
 #
-# **Question.** Under what physical, metabolic, ecological, and evolutionary conditions can a symbiotic association between an archaeal host and a bacterial partner transition into an integrated eukaryotic cell? The aim is not to animate a predetermined history but to identify plausible, impossible, and still-unresolved pathways from ecological association to a new evolutionary individual.
+# **Question.** Under what physical, metabolic, ecological, and evolutionary conditions can an archaeal host and a bacterial partner cross from ecological association to a stable, integrated eukaryotic lineage? Endosymbiotic integration is treated not as a single event but as a succession of barriers — biochemical, spatial, mechanical, energetic, and reproductive — each of which must be crossed on plausible terms. The aim is to identify which combinations of mechanisms make the crossings possible, which make them impossible, and which competing histories remain consistent with the surviving evidence — not to animate a predetermined origin story.
 #
-# A branching, evidence-grounded campaign that constructs, tests, compares, and composes mechanistic explanations for eukaryogenesis. Each study carries its own assumptions, parameter ranges, evidence links, interventions, model versions, and validators, and keeps four evidence classes separate: historically supported (phylogenomic ancestry), observed in living proxies (Asgard protrusions), mechanistically demonstrated in a model (stable cross-feeding), and historically inferred (a specific pathway billions of years ago).
+# A branching, evidence-grounded campaign that constructs, tests, compares, and composes mechanistic explanations for the endosymbiotic transition. Each study carries its own assumptions, parameter ranges, evidence links, interventions, model versions, and validators, and keeps four classes of evidence strictly separate — each with its proper interpretation: (1) modern proxy observation (e.g. Asgard protrusion geometry and motility) constrains plausible mechanism and parameters, but is not a direct ancestral observation; (2) genomic / phylogenetic evidence (gene histories, transporters, energy metabolism) sets priors on ancestral states and models their uncertainty, it does not fix an ordering; (3) a model demonstration (stable spatial mutualism, a dynamically closed membrane, net ATP export) establishes mechanistic possibility in a stated parameter region, not historical fact; (4) historical inference (the specific ordering of integration events) can be weighed by model comparison but cannot be established by simulation alone.
 #
 # ---
 #
@@ -37,72 +37,348 @@ if _os.environ.get("PYTHONUTF8") != "1":
 
 # **Competing frameworks**
 #
-# - (
-# - a
-# - )
+# - T
+# - h
+# - e
 # - 
 # - c
-# - l
 # - a
+# - m
+# - p
+# - a
+# - i
+# - g
+# - n
+# - 
+# - t
+# - e
 # - s
+# - t
+# - s
+# - 
+# - f
+# - i
+# - v
+# - e
+# - 
+# - h
+# - y
+# - p
+# - o
+# - t
+# - h
+# - e
 # - s
 # - i
-# - c
-# - a
-# - l
+# - s
 # - 
-# - p
-# - h
+# - f
 # - a
-# - g
-# - o
-# - c
-# - y
+# - m
+# - i
+# - l
+# - i
+# - e
+# - s
+# - 
+# - h
+# - e
+# - a
+# - d
+# - 
 # - t
 # - o
+# - 
+# - h
+# - e
+# - a
+# - d
+# - 
+# - r
+# - a
+# - t
+# - h
+# - e
+# - r
+# - 
+# - t
+# - h
+# - a
+# - n
+# - 
+# - a
 # - s
+# - s
+# - u
+# - m
+# - i
+# - n
+# - g
+# - 
+# - o
+# - n
+# - e
+# - 
+# - h
 # - i
 # - s
+# - t
+# - o
+# - r
+# - y
+# - ,
+# - 
+# - e
+# - a
+# - c
+# - h
+# - 
+# - a
+# - u
+# - t
+# - h
+# - o
+# - r
+# - e
+# - d
+# - 
+# - s
+# - o
+# - 
+# - t
+# - h
+# - e
+# - 
+# - c
+# - y
+# - c
+# - l
+# - e
+# - 
+# - c
+# - a
+# - n
+# - 
+# - h
+# - o
+# - l
+# - d
+# - 
+# - t
+# - h
+# - e
+# - m
+# - 
+# - i
+# - n
+# - 
+# - t
+# - e
+# - n
+# - s
+# - i
+# - o
+# - n
+# - :
+# - 
+# - H
+# - 1
+# - 
+# - S
+# - y
+# - n
+# - t
+# - r
+# - o
+# - p
+# - h
+# - y
+# - -
+# - f
+# - i
+# - r
+# - s
+# - t
+# - 
+# - —
+# - 
+# - m
+# - e
+# - t
+# - a
+# - b
+# - o
+# - l
+# - i
+# - c
+# - 
+# - c
+# - o
+# - m
+# - p
+# - l
+# - e
+# - m
+# - e
+# - n
+# - t
+# - a
+# - r
+# - i
+# - t
+# - y
+# - 
+# - s
+# - e
+# - l
+# - e
+# - c
+# - t
+# - s
+# - 
+# - f
+# - o
+# - r
+# - 
+# - p
+# - r
+# - o
+# - x
+# - i
+# - m
+# - i
+# - t
+# - y
+# - 
+# - b
+# - e
+# - f
+# - o
+# - r
+# - e
+# - 
+# - e
+# - n
+# - c
+# - l
+# - o
+# - s
+# - u
+# - r
+# - e
+# - 
+# - (
+# - d
+# - i
+# - s
+# - c
+# - r
+# - i
+# - m
+# - i
+# - n
+# - a
+# - t
+# - o
+# - r
+# - :
+# - 
+# - s
+# - e
+# - l
+# - e
+# - c
+# - t
+# - i
+# - o
+# - n
+# - 
+# - f
+# - o
+# - r
+# - 
+# - a
+# - d
+# - h
+# - e
+# - s
+# - i
+# - o
+# - n
 # - 
 # - /
 # - 
 # - e
 # - n
-# - g
+# - c
+# - o
 # - u
-# - l
-# - f
-# - m
+# - n
+# - t
+# - e
+# - r
+# - 
+# - p
+# - e
+# - r
+# - s
+# - i
+# - s
+# - t
 # - e
 # - n
-# - t
-# - -
-# - f
-# - i
+# - c
+# - e
+# - 
+# - u
+# - n
+# - d
+# - e
 # - r
+# - 
+# - d
+# - i
+# - f
+# - f
+# - u
 # - s
+# - i
+# - o
+# - n
+# - -
+# - l
+# - i
+# - m
+# - i
 # - t
+# - e
+# - d
+# - 
+# - e
+# - x
+# - c
+# - h
+# - a
+# - n
+# - g
+# - e
 # - ;
 # - 
-# - (
-# - b
-# - )
-# - 
-# - s
-# - y
-# - n
-# - t
-# - r
-# - o
-# - p
-# - h
-# - y
-# - -
+# - c
 # - f
+# - .
+# - 
+# - I
+# - m
+# - a
+# - c
+# - h
 # - i
-# - r
-# - s
-# - t
+# - 
+# - 2
+# - 0
+# - 2
+# - 0
 # - 
 # - e
 # - n
@@ -130,56 +406,195 @@ if _os.environ.get("PYTHONUTF8") != "1":
 # - i
 # - z
 # - e
+# - )
+# - .
 # - 
-# - (
-# - I
+# - H
+# - 2
+# - 
+# - H
+# - o
+# - s
+# - t
+# - -
+# - c
+# - o
+# - m
+# - p
+# - l
+# - e
+# - x
+# - i
+# - t
+# - y
+# - -
+# - f
+# - i
+# - r
+# - s
+# - t
+# - 
+# - —
+# - 
+# - p
+# - r
+# - o
+# - t
+# - r
+# - u
+# - s
+# - i
+# - o
+# - n
+# - s
+# - 
+# - a
+# - n
+# - d
+# - 
+# - c
+# - o
+# - m
+# - p
+# - a
+# - r
+# - t
+# - m
+# - e
+# - n
+# - t
+# - a
+# - l
+# - 
 # - m
 # - a
 # - c
 # - h
 # - i
-# - 
-# - 2
-# - 0
-# - 2
-# - 0
-# - )
-# - ;
-# - 
-# - (
-# - c
-# - )
-# - 
-# - i
 # - n
-# - s
+# - e
+# - r
+# - y
+# - 
+# - p
+# - a
+# - r
+# - t
 # - i
+# - a
+# - l
+# - l
+# - y
+# - 
+# - p
+# - r
+# - e
+# - c
+# - e
 # - d
 # - e
-# - -
-# - o
-# - u
-# - t
 # - 
-# - m
-# - e
+# - s
+# - y
 # - m
 # - b
-# - r
-# - a
-# - n
-# - e
+# - i
+# - o
+# - s
+# - i
+# - s
 # - 
+# - (
+# - d
+# - i
+# - s
+# - c
+# - r
+# - i
+# - m
+# - i
+# - n
+# - a
 # - t
 # - o
+# - r
+# - :
+# - 
+# - e
+# - n
+# - c
+# - l
+# - o
+# - s
+# - u
+# - r
+# - e
+# - 
+# - a
+# - c
+# - c
+# - e
+# - s
+# - s
+# - i
+# - b
+# - i
+# - l
+# - i
+# - t
+# - y
+# - 
+# - a
+# - s
+# - 
+# - a
+# - 
+# - f
+# - u
+# - n
+# - c
+# - t
+# - i
+# - o
+# - n
+# - 
+# - o
+# - f
+# - 
 # - p
+# - r
+# - e
+# - -
+# - e
+# - x
+# - i
+# - s
+# - t
+# - i
+# - n
+# - g
+# - 
+# - h
+# - o
+# - s
+# - t
+# - 
+# - m
+# - o
+# - r
+# - p
+# - h
 # - o
 # - l
 # - o
 # - g
 # - y
+# - ;
 # - 
-# - (
+# - c
+# - f
+# - .
+# - 
 # - B
 # - a
 # - u
@@ -196,44 +611,167 @@ if _os.environ.get("PYTHONUTF8") != "1":
 # - 0
 # - 1
 # - 4
-# - )
-# - ;
 # - 
-# - (
-# - d
-# - )
-# - 
+# - i
+# - n
 # - s
+# - i
+# - d
+# - e
+# - -
+# - o
+# - u
 # - t
+# - 
+# - t
+# - o
+# - p
+# - o
+# - l
+# - o
+# - g
+# - y
+# - )
+# - .
+# - 
+# - H
+# - 3
+# - 
+# - R
+# - e
+# - s
+# - p
+# - i
+# - r
+# - a
+# - t
+# - o
+# - r
+# - y
+# - -
+# - c
+# - a
+# - p
 # - a
 # - b
 # - l
 # - e
 # - 
-# - e
-# - c
+# - h
+# - o
+# - s
 # - t
-# - o
-# - s
-# - y
-# - m
-# - b
-# - i
-# - o
-# - s
-# - i
-# - s
+# - 
+# - —
 # - 
 # - t
 # - h
-# - a
+# - e
+# - 
+# - h
+# - o
+# - s
 # - t
 # - 
+# - a
+# - l
+# - r
+# - e
+# - a
+# - d
+# - y
+# - 
+# - p
+# - o
+# - s
+# - s
+# - e
+# - s
+# - s
+# - e
+# - s
+# - 
+# - s
+# - u
+# - b
+# - s
+# - t
+# - a
+# - n
+# - t
+# - i
+# - a
+# - l
+# - 
+# - e
 # - n
 # - e
-# - v
-# - e
 # - r
+# - g
+# - y
+# - 
+# - m
+# - e
+# - t
+# - a
+# - b
+# - o
+# - l
+# - i
+# - s
+# - m
+# - 
+# - (
+# - d
+# - i
+# - s
+# - c
+# - r
+# - i
+# - m
+# - i
+# - n
+# - a
+# - t
+# - o
+# - r
+# - :
+# - 
+# - m
+# - a
+# - r
+# - g
+# - i
+# - n
+# - a
+# - l
+# - 
+# - A
+# - T
+# - P
+# - 
+# - /
+# - 
+# - f
+# - i
+# - t
+# - n
+# - e
+# - s
+# - s
+# - 
+# - a
+# - d
+# - v
+# - a
+# - n
+# - t
+# - a
+# - g
+# - e
+# - 
+# - o
+# - f
 # - 
 # - i
 # - n
@@ -245,113 +783,457 @@ if _os.environ.get("PYTHONUTF8") != "1":
 # - l
 # - i
 # - z
+# - a
+# - t
+# - i
+# - o
+# - n
+# - 
+# - a
+# - c
+# - r
+# - o
+# - s
+# - s
+# - 
+# - O
+# - 2
+# - 
+# - a
+# - n
+# - d
+# - 
+# - r
+# - e
+# - d
+# - o
+# - x
+# - 
+# - r
+# - e
+# - g
+# - i
+# - m
 # - e
 # - s
+# - )
 # - .
 # - 
-# - T
-# - h
-# - e
+# - H
+# - 4
+# - 
+# - C
+# - o
+# - m
+# - m
+# - u
+# - n
+# - i
+# - t
+# - y
+# - 
+# - /
+# - 
 # - s
 # - e
+# - q
+# - u
+# - e
+# - n
+# - t
+# - i
+# - a
+# - l
 # - 
 # - a
-# - r
+# - s
+# - s
+# - o
+# - c
+# - i
+# - a
+# - t
+# - i
+# - o
+# - n
+# - 
+# - —
+# - 
+# - m
+# - u
+# - l
+# - t
+# - i
+# - p
+# - l
 # - e
 # - 
+# - p
 # - a
-# - u
+# - r
 # - t
+# - n
+# - e
+# - r
+# - s
+# - 
+# - o
+# - r
+# - 
+# - e
+# - a
+# - r
+# - l
+# - i
+# - e
+# - r
+# - 
+# - e
+# - c
+# - o
+# - l
+# - o
+# - g
+# - i
+# - c
+# - a
+# - l
+# - 
+# - g
+# - u
+# - i
+# - l
+# - d
+# - s
+# - 
+# - p
+# - r
+# - e
+# - c
+# - e
+# - d
+# - e
+# - 
+# - s
+# - t
+# - a
+# - b
+# - l
+# - e
+# - 
+# - i
+# - n
+# - t
+# - e
+# - g
+# - r
+# - a
+# - t
+# - i
+# - o
+# - n
+# - 
+# - (
+# - d
+# - i
+# - s
+# - c
+# - r
+# - i
+# - m
+# - i
+# - n
+# - a
+# - t
+# - o
+# - r
+# - :
+# - 
+# - t
+# - w
+# - o
+# - -
+# - s
+# - p
+# - e
+# - c
+# - i
+# - e
+# - s
+# - 
+# - v
+# - s
+# - 
+# - m
+# - u
+# - l
+# - t
+# - i
+# - s
+# - p
+# - e
+# - c
+# - i
+# - e
+# - s
+# - 
 # - h
+# - i
+# - s
+# - t
+# - o
+# - r
+# - i
+# - e
+# - s
+# - ,
+# - 
+# - i
+# - n
+# - c
+# - l
+# - u
+# - d
+# - i
+# - n
+# - g
+# - 
+# - p
+# - a
+# - r
+# - t
+# - n
+# - e
+# - r
+# - 
+# - r
+# - e
+# - p
+# - l
+# - a
+# - c
+# - e
+# - m
+# - e
+# - n
+# - t
+# - )
+# - .
+# - 
+# - H
+# - 5
+# - 
+# - S
+# - t
+# - a
+# - b
+# - l
+# - e
+# - 
+# - e
+# - c
+# - t
+# - o
+# - s
+# - y
+# - m
+# - b
+# - i
+# - o
+# - s
+# - i
+# - s
+# - 
+# - —
+# - 
+# - i
+# - n
+# - t
+# - i
+# - m
+# - a
+# - t
+# - e
+# - 
+# - c
+# - o
+# - n
+# - t
+# - a
+# - c
+# - t
+# - 
+# - r
+# - e
+# - m
+# - a
+# - i
+# - n
+# - s
+# - 
+# - f
+# - a
+# - v
 # - o
 # - r
 # - e
 # - d
 # - 
-# - a
-# - s
+# - w
+# - i
+# - t
+# - h
+# - o
+# - u
+# - t
 # - 
-# - a
-# - l
+# - i
+# - n
 # - t
 # - e
 # - r
 # - n
 # - a
+# - l
+# - i
+# - z
+# - a
 # - t
 # - i
+# - o
+# - n
+# - 
+# - (
+# - d
+# - i
+# - s
+# - c
+# - r
+# - i
+# - m
+# - i
+# - n
+# - a
+# - t
+# - o
+# - r
+# - :
+# - 
+# - p
+# - e
+# - r
+# - s
+# - i
+# - s
+# - t
+# - e
+# - n
+# - t
+# - 
+# - s
+# - u
+# - r
+# - f
+# - a
+# - c
+# - e
+# - 
+# - a
+# - s
+# - s
+# - o
+# - c
+# - i
+# - a
+# - t
+# - i
+# - o
+# - n
+# - 
+# - b
+# - e
+# - a
+# - t
+# - s
+# - 
+# - e
+# - n
+# - c
+# - l
+# - o
+# - s
+# - u
+# - r
+# - e
+# - 
+# - o
 # - v
 # - e
-# - -
+# - r
+# - 
+# - p
+# - a
+# - r
+# - t
+# - 
+# - o
+# - f
+# - 
+# - p
+# - a
+# - r
+# - a
+# - m
+# - e
+# - t
+# - e
+# - r
+# - 
+# - s
+# - p
+# - a
+# - c
+# - e
+# - ,
+# - 
+# - t
+# - h
+# - e
+# - 
+# - e
+# - x
+# - p
+# - l
+# - i
+# - c
+# - i
+# - t
+# - 
+# - n
+# - u
+# - l
+# - l
+# - 
 # - t
 # - o
 # - 
+# - o
+# - r
+# - g
+# - a
+# - n
 # - e
-# - d
+# - l
+# - l
+# - o
 # - g
 # - e
-# - s
-# - 
-# - s
-# - o
-# - 
-# - t
-# - h
-# - e
-# - 
-# - c
-# - y
-# - c
-# - l
-# - e
-# - 
-# - c
-# - a
 # - n
-# - 
-# - h
-# - o
-# - l
-# - d
-# - 
-# - t
-# - h
 # - e
-# - m
-# - 
-# - i
-# - n
-# - 
-# - t
-# - e
-# - n
 # - s
 # - i
-# - o
-# - n
-# - 
-# - r
-# - a
-# - t
-# - h
-# - e
-# - r
-# - 
-# - t
-# - h
-# - a
-# - n
-# - 
-# - a
 # - s
-# - s
-# - u
-# - m
-# - e
-# - 
-# - o
-# - n
-# - e
+# - )
 # - .
 
 """Setup — environment & helpers (runs automatically; open only to inspect).
@@ -797,6 +1679,7 @@ _save_viz('s2-ecology-to-proximity', 'proximity-selects-contact', _render_one('l
 # | simulation | composite | steps | params |
 # | --- | --- | --- | --- |
 # | `baseline` | `viva_genesis.composites.protrusion_enclosure.protrusion_enclosure` | 0 | topology=classical_engulfment, protrusion_area_um2=4.0, adhesion_energy_kT=600.0, bending_modulus_kT=20.0 |
+# | `cpm-spatial` | `viva_genesis.composites.protrusion_enclosure_cpm.protrusion_enclosure_cpm` | 0 | j_hs=6.0, j_sM=16.0, j_hM=4.0 |
 
 # ### The model & its parameters
 #
@@ -817,6 +1700,19 @@ ov_viva_genesis_composites_protrusion_enclosure_protrusion_enclosure = {
     'partner_radius_max_um': 0.8,   # Ensemble max partner radius (um)
 }
 
+# **The model — `viva_genesis.composites.protrusion_enclosure_cpm.protrusion_enclosure_cpm`**
+#
+# Eukaryogenesis S3 (protrusions to enclosure), SPATIAL campaign composite B. A host and a symbiont on the real Rust CPM engine with actual boundaries; sweeping host-symbiont adhesion j_hs across j_sM - j_hM moves the system through the wrapping transition (stable enclosure -> transient -> partial cup -> free symbiont). Emits enc/enclosure_fraction (1 = fully enclosed) and enc/enclosed. Enclosure is emergent, not an imposed threshold.
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_protrusion_enclosure_cpm_protrusion_enclosure_cpm = {
+    'j_hs': 6.0,   # host-symbiont adhesion (low = strong adhesion = enclosure; transition at j_sM - j_hM = 12)
+    'j_sM': 16.0,   # symbiont-medium surface tension
+    'j_hM': 4.0,   # host-medium surface tension (host cortical tension)
+    'seed': 7,   # RNG seed for the realization
+}
+
 # ### Run
 #
 # _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
@@ -832,6 +1728,8 @@ RUNS_DB = str(STUDY_DIR / "runs.db")
 # are not implemented yet reports the error instead of crashing.
 STEPS_baseline = 100
 INTERVAL_baseline = 1.0
+STEPS_cpm_spatial = 100
+INTERVAL_cpm_spatial = 1.0
 
 if RERUN:
     from process_bigraph import Composite
@@ -844,6 +1742,15 @@ if RERUN:
         print('ran', 'baseline', f'(viva_genesis.composites.protrusion_enclosure.protrusion_enclosure) for', STEPS_baseline, 'steps')
     except Exception as _e:
         print(f"baseline not runnable yet: {type(_e).__name__}: {_e}")
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_protrusion_enclosure_cpm_protrusion_enclosure_cpm if 'ov_viva_genesis_composites_protrusion_enclosure_cpm_protrusion_enclosure_cpm' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_protrusion_enclosure_cpm_protrusion_enclosure_cpm = materialize_composite('viva_genesis.composites.protrusion_enclosure_cpm.protrusion_enclosure_cpm', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_protrusion_enclosure_cpm_protrusion_enclosure_cpm['state']}, core=core)
+            _comp.run(STEPS_cpm_spatial)
+        print('ran', 'cpm-spatial', f'(viva_genesis.composites.protrusion_enclosure_cpm.protrusion_enclosure_cpm) for', STEPS_cpm_spatial, 'steps')
+    except Exception as _e:
+        print(f"cpm-spatial not runnable yet: {type(_e).__name__}: {_e}")
 else:
     print("RERUN=False — not re-simulating.")
 
@@ -855,6 +1762,11 @@ else:
 
 # enclosure-feasibility
 _save_viz('s3-protrusions-to-enclosure', 'enclosure-feasibility', _render_one('local:S3EnclosureViz', {'title': 'S3 — enclosure is geometrically feasible (by topology)'}, RUNS_DB, STUDY_YAML))
+
+# **endosymbiosis-phase-diagram**
+
+# endosymbiosis-phase-diagram
+_save_viz('s3-protrusions-to-enclosure', 'endosymbiosis-phase-diagram', _render_one('', {}, RUNS_DB, STUDY_YAML))
 
 # ### Acceptance criteria
 #
@@ -1041,5 +1953,5 @@ _save_viz('s5-symbiont-to-organelle', 'heritable-integration', _render_one('loca
 # | FECA-LECA transition frames where a new eukaryotic individual emerges. | settled_heritability | Vosseberg et al. 2024, Nature | proposed |
 
 # ## Open decisions
-# - Which two or more candidate archaeal-host / bacterial-partner genome pairs anchor S1 (e.g. Asgard + alphaproteobacterium selections from GTDB/NCBI), and under which redox / substrate regimes (anaerobic, micro-aerobic) are they first tested?
+# - Which two or more candidate archaeal-host / bacterial-partner genome pairs anchor S1 (e.g. Asgard + alphaproteobacterium selections from GTDB/NCBI), and under which redox / substrate regimes (anaerobic, micro-aerobic, oxygen-tolerant) are they first tested?
 # - Which initial ecology (syntrophy, commensalism, parasitism) is the primary scenario for S2, and which are the competing scenarios run head to head?

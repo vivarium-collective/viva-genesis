@@ -561,7 +561,7 @@
       <h2 class="overview-label ctr-h">Model &amp; approach</h2>
       <p class="ctr-text"></p>
       <div class="ctr-meta">
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Model</span> <code>baseline</code><a class="ov-tablink" href="#" onclick="_setStudyTab('compose');return false;">model →</a></div>
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Model</span> <code>baseline</code>, <code>cpm-spatial</code><a class="ov-tablink" href="#" onclick="_setStudyTab('compose');return false;">model →</a></div>
         
         <div class="ctr-meta-row"><span class="ctr-meta-k">Measures</span> <span class="ctr-meta-item">2 behavior tests</span><a class="ov-tablink" href="#" onclick="_setStudyTab('audit');return false;">see Tests →</a></div>
         
@@ -725,6 +725,38 @@
                 data-baseline-name="baseline">Set composite</button>
       </div>
       <div class="baseline-composite-status muted" data-baseline-name="baseline" style="font-size:0.8em;margin-top:2px"></div>
+      
+      
+      
+      <div class="model-config-mount" style="margin-top:8px">
+        <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading configuration…</span></div></div>
+      
+      
+      
+    </div>
+    
+    <div class="cond-block" data-model-composite="viva_genesis.composites.protrusion_enclosure_cpm.protrusion_enclosure_cpm" data-model-overrides='{"j_hM": 4.0, "j_hs": 6.0, "j_sM": 16.0}'>
+      <div class="cond-block-title" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+        <strong>cpm-spatial</strong>
+        
+        <code style="font-size:0.82em;color:#374151;background:#f1f5f9;padding:1px 6px;border-radius:3px">viva_genesis.composites.protrusion_enclosure_cpm.protrusion_enclosure_cpm</code>
+        <button type="button" class="action-btn" style="font-size:0.8em"
+                onclick="_openCompositeLoom('viva_genesis.composites.protrusion_enclosure_cpm.protrusion_enclosure_cpm')">🧬 explore &amp; run ↗</button>
+        
+      </div>
+      
+      <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
+        
+        <select class="baseline-composite-input" data-baseline-name="cpm-spatial"
+                data-current="viva_genesis.composites.protrusion_enclosure_cpm.protrusion_enclosure_cpm"
+                style="flex:1;min-width:200px;font-family:monospace;font-size:0.82em;padding:3px 6px">
+          <option value="viva_genesis.composites.protrusion_enclosure_cpm.protrusion_enclosure_cpm" selected>viva_genesis.composites.protrusion_enclosure_cpm.protrusion_enclosure_cpm</option>
+          
+        </select>
+        <button type="button" class="action-btn baseline-composite-set" style="font-size:0.8em"
+                data-baseline-name="cpm-spatial">Set composite</button>
+      </div>
+      <div class="baseline-composite-status muted" data-baseline-name="cpm-spatial" style="font-size:0.8em;margin-top:2px"></div>
       
       
       
@@ -1208,7 +1240,7 @@ pass_if: {"op": "\u003c", "provenance": {"kind": "theory", "note": "Area conserv
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/workbench", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "269471cdc383e2c505c319235429828382d0bb75", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/269471cdc383e2c505c319235429828382d0bb75", "branch": "main", "lockfile": "uv.lock@cf13294d7ed6", "generated_at": "2026-10-27 21:45 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/workbench", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "36a72d4a5ae9415704f146366798400ba70ef6f4", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/36a72d4a5ae9415704f146366798400ba70ef6f4", "branch": "main", "lockfile": "uv.lock@bcb0a001c8da", "generated_at": "2026-10-28 01:50 UTC"} };</script>
 <script src="/viva-genesis/workbench/assets/data-source.js"></script>
 <script src="/viva-genesis/workbench/assets/toast.js"></script>
 <script>
