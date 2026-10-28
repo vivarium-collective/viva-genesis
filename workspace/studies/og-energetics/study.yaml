@@ -9,6 +9,7 @@ simulation_status: ran
 evaluation_status: evaluated
 gate_status: passed
 verdict: qualified
+confidence: Accepted
 primary_limitation: "Energetics buy persistence/robustness, not raw throughput - the carrier does not beat gradient-only on total work, and carrier chemistry is one specified thioester cycle (Option B)."
 key_assumptions:
 - "A pre-ATP thioester-class carrier stands in for the energy currency (Option B, tied to the og-12 rebuild)"
