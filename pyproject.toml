@@ -52,6 +52,13 @@ dev = ["pytest>=7.4"]
 # `uv pip install -e .[membrane]` (also pulls martini_openmm — a GitHub-only dep;
 # add it separately: pip install "git+https://github.com/maccallumlab/martini_openmm.git").
 membrane = ["viva-openmm"]
+# Spatial enclosure study (S3 "The Endosymbiotic Transition" gate G3) — the real Rust
+# Cellular Potts engine from viva-cpm (provides the top-level `cpm` import). Like the
+# membrane extra it is OPT-IN: core.build_core() registers ProtrusionEnclosureCPMProcess
+# only when `cpm` is importable (the module's `from cpm import ...` fails gracefully and
+# is swallowed otherwise). Install with `uv pip install -e .[spatial]`, or for local dev
+# add viva-cpm's checkout to the venv path (a `.pth` to the viva-cpm repo root).
+spatial = ["viva-cpm"]
 
 [build-system]
 requires = ["hatchling"]
