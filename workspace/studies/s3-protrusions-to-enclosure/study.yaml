@@ -75,6 +75,21 @@ findings:
     and a weak-adhesion control (adhesion 300 kT below the ~502 kT Helfrich bending cost). Enclosure is
     a separate hurdle from metabolic benefit; morphology alone does not demonstrate engulfment. Direct
     in-process run of a newly built composite.'
+  evidence:
+    from_test: enclosure-geometrically-feasible
+    measure: settled_enclosure_probability
+    observed: 1.0
+  provenance:
+    kind: run
+    run_date: '2026-10-28'
+    note: 'Spatial Cellular Potts run (viva_genesis.composites.protrusion_enclosure_cpm — the
+      real Rust cpm_core engine, Glazier-Graner-Hogeweg differential adhesion on a 90x90
+      lattice with actual boundaries; J_hs=6 < J_sM-J_hM=12, so engulfment is favored):
+      10-seed ensemble gives enclosure probability 1.00 (10/10 enclosed, enclosure_fraction
+      1.0, 0 medium-contact faces — the symbiont boundary is entirely wrapped by the host).
+      The coarse-grained analytical companion (viva_genesis.composites.protrusion_enclosure,
+      area + Helfrich bending budget) independently reaches 0.61 (classical engulfment) and
+      0.98 (inside-out); the no_enclosure and weak-adhesion controls read 0.0.'
   cites:
   - rodrigues-oliveira-nature-2023
 literature_anchors:
