@@ -125,6 +125,23 @@ baseline:
     boundaries. Enclosure is an emergent, measured outcome (host coverage of the symbiont boundary),
     not an area/bending threshold; the wrapping transition tracks j_hs = j_sM - j_hM. Measured j_hs=6
     (strong adhesion) -> enclosure_fraction 1.000; j_hs=18 (weak) -> 0.176.
+- name: membrane-wrapping
+  composite: viva_genesis.composites.protrusion_enclosure_membrane.protrusion_enclosure_membrane
+  params:
+    topology: classical_engulfment
+    bending_modulus_kT: 20.0
+    adhesion_per_um2_kT: 250.0
+    tension_per_um2_kT: 200.0
+    protrusion_force_pN: 10.0
+    max_membrane_area_um2: 4.0
+  note: 'Higher-fidelity continuum-energetics arm — the membrane-wrapping transition
+    (Deserno/Lipowsky) with an active protrusion force, the mechanism the question is about
+    (not passive differential adhesion). Classical external engulfment reaches enclosure only
+    in a narrow size window (0.41-0.56 um), for a minority of partners (probability 0.27), and
+    the active protrusion is load-bearing (raises it from 0.17; 36% of enclosures need the
+    force); inside-out invagination (Baum & Baum) is far more feasible (0.83). The coarse
+    area+bending budget (0.61) and the 2D passive-adhesion CPM (1.00) arms overstated classical
+    engulfment. Next fidelity rung: a triangulated-mesh run (pbg-mem3dg).'
 variants:
 - name: inside-out
   base: baseline
