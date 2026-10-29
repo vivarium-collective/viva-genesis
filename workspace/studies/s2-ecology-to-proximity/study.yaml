@@ -59,6 +59,37 @@ findings:
     the mixed/segregated ratio is 1.26 (proximity barely matters, diffusion carries the intermediate).
     Establishes that proximity selection is a spatial- structure effect, not a given — a precondition
     for intimate symbiosis. Direct in-process run.'
+  evidence:
+    from_test: proximity-selected-under-finite-diffusion
+    measure: settled_cross_lineage_flux
+    observed: 4.005e-22
+    conditions: {structure: proximate}
+    fidelity: reproduction
+  provenance:
+    kind: run
+    run_date: '2026-10-28'
+    note: 'In-process run of metabolite_exchange_community (250 steps). Proper 2x2 (placement x diffusion):
+      at LOW diffusion (k=0.001) proximate (mixed) settled_cross_lineage_flux 4.005e-22 vs distant
+      (segregated) 1.821e-23 — a 22x proximity advantage; at HIGH diffusion (k=0.1) the ratio collapses
+      to 1.3x (mixed 4.005e-22, segregated 3.191e-22). Proximity selection is contingent on spatial
+      structure. NOTE: reproduces only at ~250 steps (a 60-step run under-reads the flux by ~17x).'
+  cites:
+  - radler-nature-2026
+- id: s2-distant-partners-lose-the-exchange
+  statement: 'At low diffusion the distant (segregated) partners sustain cross-lineage flux of only
+    1.821e-23 — an order of magnitude below the proximate 4.005e-22 (the 22x advantage). Distance
+    breaks the exchange, so persistent contact is selected only where spatial structure holds.'
+  evidence:
+    from_test: proximity-selected-under-finite-diffusion
+    measure: settled_cross_lineage_flux
+    observed: 1.821e-23
+    conditions: {structure: distant}
+    fidelity: reproduction
+  provenance:
+    kind: run
+    run_date: '2026-10-28'
+    note: 'Same composite, distant (segregated) placement at low diffusion (k=0.001), 250 steps:
+      settled_cross_lineage_flux 1.821e-23.'
   cites:
   - radler-nature-2026
 literature_anchors:

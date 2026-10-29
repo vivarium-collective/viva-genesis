@@ -268,6 +268,7 @@ hypotheses:
   competing_with: [h-s1-no-exchange]
   predictions:
   - observable: settled_metacommunity_robustness
+    when: {coupling: connected}
     expected: {op: '>=', value: 0.5}
   status: open
 - id: h-s1-no-exchange
@@ -276,6 +277,7 @@ hypotheses:
   competing_with: [h-s1-mutualism]
   predictions:
   - observable: settled_metacommunity_robustness
+    when: {coupling: isolated}
     expected: {op: '<=', value: 0.5}
   status: open
 - id: h-s2-spatial-contingent
@@ -284,7 +286,11 @@ hypotheses:
   competing_with: [h-s2-well-mixed-null]
   predictions:
   - observable: settled_cross_lineage_flux
+    when: {structure: proximate}
     expected: {op: '>=', value: 1.0e-22}
+  - observable: settled_cross_lineage_flux
+    when: {structure: distant}
+    expected: {op: '<=', value: 5.0e-23}
   status: open
 - id: h-s2-well-mixed-null
   study: s2-ecology-to-proximity
@@ -292,6 +298,7 @@ hypotheses:
   competing_with: [h-s2-spatial-contingent]
   predictions:
   - observable: settled_cross_lineage_flux
+    when: {structure: proximate}
     expected: {op: '<=', value: 5.0e-23}
   status: open
 - id: h-s3-enclosure-reachable
