@@ -122,6 +122,9 @@ variants:
   over:
     module: non-heritable
 visualizations:
+- name: eigen-catastrophe
+  title: The Eigen error catastrophe — heritability vs transmission fidelity
+  rendered: workspace/studies/s5-symbiont-to-organelle/viz/eigen-catastrophe.html
 - name: heritable-integration
   address: local:S5HeritabilityViz
   config:

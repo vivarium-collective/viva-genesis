@@ -179,6 +179,12 @@ visualizations:
 - name: endosymbiosis-phase-diagram
   title: Endosymbiosis phase diagram — enclosure (G3) plane (CPM)
   rendered: workspace/studies/s3-protrusions-to-enclosure/viz/endosymbiosis-phase-diagram.html
+- name: enclosure-spatial
+  title: Enclosure in space — host wrapping the symbiont (Cellular Potts lattice over time)
+  rendered: workspace/studies/s3-protrusions-to-enclosure/viz/enclosure-spatial.html
+- name: wrapping-size-window
+  title: Where enclosure succeeds — the wrapping size window (classical vs inside-out; active protrusion)
+  rendered: workspace/studies/s3-protrusions-to-enclosure/viz/wrapping-size-window.html
 observables:
 - enc/enclosure_probability
 - enc/membrane_area_conservation_residual

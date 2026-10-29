@@ -124,6 +124,9 @@ variants:
   over:
     catalyst_efficiency: 0.3
 visualizations:
+- name: internalization-boundary
+  title: Internalization pays only with an efficient pump — survivors vs pump efficiency
+  rendered: workspace/studies/s4-compartmental-energetic-coupling/viz/internalization-boundary.html
 - name: internalization-net-benefit
   address: local:S4EnergeticCouplingViz
   config:

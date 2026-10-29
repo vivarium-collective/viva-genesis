@@ -135,6 +135,9 @@ variants:
   over:
     coupling: private
 visualizations:
+- name: community-redundancy
+  title: Connected community develops redundancy; isolated does not — robustness over time
+  rendered: workspace/studies/s1-metabolic-partnership/viz/community-redundancy.html
 - name: partner-dependent-advantage
   address: local:S1MetabolicPartnershipViz
   config:

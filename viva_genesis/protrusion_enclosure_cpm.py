@@ -285,3 +285,89 @@ def render_phase_diagram_html(data, out_path):
             "{responsive:true,displayModeBar:false});</script></body></html>")
     Path(out_path).write_text(html)
     return out_path
+
+
+# ---------------------------------------------------------------------------
+# Spatial lattice figure — the actual host-wraps-symbiont geometry over time
+# ---------------------------------------------------------------------------
+
+def run_with_snapshots(p: EnclosureParams, snapshot_sweeps=(0, 150, 450, 1200), block: int = 30):
+    """Run the CPM and return (sweeps, wrapping-fraction trajectory, {sweep: type_grid})
+    capturing the 2D lattice at each requested sweep count."""
+    w = build_world(p)
+    xs, ys = [0], [wrapping_fraction(type_grid(w, p.nx))]
+    snaps = {0: type_grid(w, p.nx).tolist()} if 0 in snapshot_sweeps else {}
+    total = max(snapshot_sweeps)
+    for s in range(block, total + 1, block):
+        w.step_parallel(block, 16)
+        g = type_grid(w, p.nx)
+        xs.append(s); ys.append(wrapping_fraction(g))
+        if s in snapshot_sweeps:
+            snaps[s] = g.tolist()
+    return np.array(xs), np.array(ys), snaps
+
+
+def render_enclosure_spatial_html(out_path, p: EnclosureParams = None,
+                                  snapshot_sweeps=(0, 150, 450, 1200)):
+    """Self-contained Plotly figure of the CPM *spatial* enclosure: the 2D lattice
+    (medium / symbiont / host) at several Monte-Carlo timepoints, showing the host
+    physically wrapping the symbiont, with the measured host-coverage trajectory
+    below. This is the spatial detail behind the enclosure probability."""
+    import json
+    from pathlib import Path
+    p = p or EnclosureParams()
+    xs, ys, snaps = run_with_snapshots(p, snapshot_sweeps)
+    sweeps = sorted(snaps)
+    wf = dict(zip([int(x) for x in xs], [float(y) for y in ys]))
+    med, sym, host = "#efe9dc", "#e0a53f", "#2f6f8f"
+    colorscale = [[0.0, med], [1/3, med], [1/3, sym], [2/3, sym], [2/3, host], [1.0, host]]
+    n = len(sweeps)
+    gap = 0.018
+    w_each = (1.0 - gap * (n - 1)) / n
+    fig_data, layout = [], {
+        "paper_bgcolor": "white", "plot_bgcolor": "white",
+        "margin": {"l": 20, "r": 20, "t": 64, "b": 44}, "showlegend": False,
+        "title": {"text": "<b>Enclosure, in space — host wrapping the symbiont (Cellular Potts)</b><br>"
+                  "<span style='font-size:12px;color:#64748b'>differential adhesion J_hs="
+                  f"{p.j_hs:g} &lt; J_sM&minus;J_hM={p.wrapping_threshold:g}; "
+                  "colour = cell type, panels = Monte-Carlo sweeps</span>"},
+        "annotations": [],
+    }
+    labels = ["contact", "wrapping", "deep wrapping", "enclosed"]
+    for i, sw in enumerate(sweeps):
+        ax = "" if i == 0 else str(i + 1)
+        x0 = i * (w_each + gap)
+        fig_data.append({"type": "heatmap", "z": snaps[sw], "colorscale": colorscale,
+                         "zmin": 0, "zmax": 2, "showscale": False, "hoverinfo": "skip",
+                         "xaxis": f"x{ax}", "yaxis": f"y{ax}"})
+        layout[f"xaxis{ax}"] = {"domain": [x0, x0 + w_each], "showticklabels": False,
+                                "ticks": "", "showgrid": False, "zeroline": False}
+        layout[f"yaxis{ax}"] = {"domain": [0.34, 0.92], "showticklabels": False, "ticks": "",
+                                "showgrid": False, "zeroline": False, "scaleanchor": f"x{ax}"}
+        lab = labels[min(i, len(labels) - 1)]
+        layout["annotations"].append({
+            "x": x0 + w_each / 2, "y": 0.95, "xref": "paper", "yref": "paper", "showarrow": False,
+            "text": f"<b>{lab}</b><br><span style='font-size:11px;color:#64748b'>"
+                    f"sweep {sw} · coverage {wf.get(sw, 0):.2f}</span>", "font": {"size": 12}})
+    # trajectory curve across the bottom
+    cax = str(n + 1)
+    fig_data.append({"type": "scatter", "x": [int(x) for x in xs], "y": [float(y) for y in ys],
+                     "mode": "lines", "line": {"color": host, "width": 2.5},
+                     "fill": "tozeroy", "fillcolor": "rgba(47,111,143,0.12)",
+                     "xaxis": f"x{cax}", "yaxis": f"y{cax}", "hoverinfo": "x+y"})
+    layout[f"xaxis{cax}"] = {"domain": [0.05, 0.95], "anchor": f"y{cax}",
+                             "title": {"text": "Monte-Carlo sweeps", "font": {"size": 11}}}
+    layout[f"yaxis{cax}"] = {"domain": [0.0, 0.24], "anchor": f"x{cax}", "range": [0, 1.02],
+                             "title": {"text": "host coverage of symbiont", "font": {"size": 11}}}
+    legend = ("".join(f"<span style='display:inline-block;width:12px;height:12px;background:{c};"
+              f"margin:0 4px 0 14px;vertical-align:middle;border:1px solid #cbd5e1'></span>{lab}"
+              for c, lab in [(med, "medium"), (sym, "symbiont"), (host, "host")]))
+    html = ("<!doctype html><html><head><meta charset='utf-8'>"
+            "<script src='https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js'></script>"
+            "</head><body style='font-family:-apple-system,Segoe UI,Roboto,sans-serif;margin:0'>"
+            "<div id='sp' style='width:100%;max-width:960px;margin:0 auto'></div>"
+            f"<div style='text-align:center;font-size:12px;color:#334155;margin:4px'>{legend}</div>"
+            f"<script>Plotly.newPlot('sp',{json.dumps(fig_data)},{json.dumps(layout)},"
+            "{responsive:true,displayModeBar:false});</script></body></html>")
+    Path(out_path).write_text(html)
+    return out_path
