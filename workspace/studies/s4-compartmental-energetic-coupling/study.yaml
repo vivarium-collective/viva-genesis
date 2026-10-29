@@ -59,6 +59,24 @@ findings:
     (survivors 0.00, fitness 0.059) — a well-characterized harmful regime where internalization cannot
     pay the Sojo membrane cost. An enclosed partner develops organelle-like function only under restricted
     physiological conditions. Direct in-process run.'
+  evidence:
+    from_test: internalization-net-energy-positive
+    measure: settled_internalization_survivors
+    observed: 0.99999
+    fidelity: reproduction
+    by_regime:
+      efficient_pump: 0.99999
+      weak_pump: 0.0
+  provenance:
+    kind: run
+    run_date: '2026-10-28'
+    note: 'In-process run of viva_genesis.composites.bioenergetic_internalization (an energetic
+      population/reproduction loop under a declining external gradient, 60 steps). Baseline /
+      primary condition — efficient pump (catalyst_efficiency=1.0): settled survivors 0.99999
+      (internalization 0.95, lineage fitness 0.677). Weak-pump control (catalyst_efficiency=0.3):
+      survivors 0.0 (internalization 0.54, fitness 0.059). The conditional claim holds —
+      internalization is net-positive only with an efficient pump. Model fidelity is appropriate to
+      the energetic-survival question; the whole-cell metabolic-network arm is the next rung.'
   cites:
   - santana-molina-nee-2025
 literature_anchors:
