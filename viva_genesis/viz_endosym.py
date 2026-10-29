@@ -140,6 +140,87 @@ def render_s4_internalization(out_path, steps: int = 60):
     return out_path
 
 
+def render_s1_redundancy(out_path, steps: int = 600, block: int = 30):
+    from .composites.metabolite_exchange_community import metabolite_exchange_community
+    core = build_core()
+    base = dict(lineages="fixer:4,reducer:4", model_proto_ecology="reaction_universe",
+                p_diacid=1e-8, p_monoacid=1e-7, k_wash=0.01)
+    traj = {}
+    for cup, label, color in (("shared", "connected community", _TEAL),
+                              ("private", "isolated control", _AMBER)):
+        spec = metabolite_exchange_community(core, coupling=cup, placement="mixed", **base)
+        c = Composite({"state": spec}, core=core)
+        xs = [0]; ys = [float(_leaf(c.state, "community/metacommunity_robustness") or 0.0)]
+        for s in range(block, steps + 1, block):
+            c.run(block)
+            xs.append(s); ys.append(float(_leaf(c.state, "community/metacommunity_robustness") or 0.0))
+        traj[label] = (xs, ys, color)
+    fig = [{"type": "scatter", "x": x, "y": y, "mode": "lines", "name": lab,
+            "line": {"color": col, "width": 3}} for lab, (x, y, col) in traj.items()]
+    fig.append({"type": "scatter", "x": [0, steps], "y": [0.5, 0.5], "mode": "lines",
+                "line": {"color": _RED, "width": 1.5, "dash": "dash"}, "name": "redundancy threshold"})
+    layout = {
+        "title": {"text": "<b>A connected community develops redundancy; an isolated one does not (s1)</b><br>"
+                  "<span style='font-size:12px;color:#64748b'>metacommunity robustness over time; the "
+                  "connected cross-feeding community crosses the threshold (~200 steps), the isolated control does not</span>"},
+        "xaxis": {"title": "simulation steps"},
+        "yaxis": {"title": "metacommunity robustness", "range": [0.3, 0.65]},
+        "paper_bgcolor": "white", "plot_bgcolor": "white",
+        "legend": {"x": 0.98, "y": 0.02, "xanchor": "right", "yanchor": "bottom"},
+        "margin": {"l": 70, "r": 30, "t": 70, "b": 60},
+    }
+    Path(out_path).write_text(_html("s1", fig, layout))
+    return out_path
+
+
+# Headline per step (from the recorded runs) + verdict colour for the overview.
+_STEPS = [
+    ("S1", "Metabolic partnership", "connected 0.54 &gt; isolated 0.46", "supported", _TEAL),
+    ("S2", "Ecology → proximity", "22× flux advantage at low diffusion", "supported", _TEAL),
+    ("S3", "Protrusions → enclosure", "classical 0.27 · inside-out 0.83", "topology-gated", _AMBER),
+    ("S4", "Compartmental coupling", "survivors 1.0 (efficient) · 0.0 (weak)", "supported*", _TEAL),
+    ("S5", "Symbiont → organelle", "heritable above the Eigen threshold", "supported", _TEAL),
+]
+
+
+def render_transition_overview(out_path):
+    """The five-step endosymbiosis transition on one page — each step's headline
+    result and verdict, as a left-to-right ladder (styled HTML, no Plotly)."""
+    cards = []
+    for tag, name, headline, verdict, color in _STEPS:
+        cards.append(
+            f"<div style='flex:1;min-width:150px;background:#fff;border:1px solid #e2e8f0;"
+            f"border-top:4px solid {color};border-radius:10px;padding:12px 12px 14px;"
+            f"box-shadow:0 1px 3px rgba(0,0,0,.06)'>"
+            f"<div style='font-size:11px;letter-spacing:.06em;color:#94a3b8;font-weight:700'>{tag}</div>"
+            f"<div style='font-size:14px;font-weight:700;color:#1e293b;margin:2px 0 8px'>{name}</div>"
+            f"<div style='font-size:12.5px;color:#334155;line-height:1.35'>{headline}</div>"
+            f"<div style='margin-top:10px'><span style='font-size:11px;font-weight:700;color:{color};"
+            f"background:{color}22;border-radius:999px;padding:2px 9px'>{verdict}</span></div></div>")
+    # interleave arrows between cards
+    inter = []
+    for i, card in enumerate(cards):
+        inter.append(card)
+        if i < len(cards) - 1:
+            inter.append("<div style='font-size:26px;color:#94a3b8;align-self:center'>→</div>")
+    ladder = ("<div style='display:flex;gap:4px;align-items:stretch;flex-wrap:nowrap;overflow-x:auto;"
+              "max-width:1180px;margin:0 auto;padding:4px 12px 12px'>" + "".join(inter) + "</div>")
+    html = ("<!doctype html><html><head><meta charset='utf-8'></head>"
+            "<body style='font-family:-apple-system,Segoe UI,Roboto,sans-serif;margin:0;background:#f8fafc'>"
+            "<div style='max-width:1180px;margin:0 auto;padding:18px 12px 6px'>"
+            "<div style='font-size:19px;font-weight:800;color:#0f172a'>The Endosymbiotic Transition — five steps</div>"
+            "<div style='font-size:13px;color:#64748b;margin:4px 0 14px'>from a metabolic partnership to a "
+            "heritable organelle; each step's headline result from its own simulation, and whether it is "
+            "empirically supported or still open.</div></div>"
+            + ladder +
+            "<div style='max-width:1180px;margin:10px auto 0;padding:0 12px;font-size:11.5px;color:#94a3b8'>"
+            "supported* = conditional (holds only in the favourable regime); topology-gated = depends on an "
+            "open decision (classical external engulfment vs inside-out invagination).</div>"
+            "</body></html>")
+    Path(out_path).write_text(html)
+    return out_path
+
+
 def render_all(ws_root):
     """Generate the three figures into their studies' viz/ dirs. Returns the paths."""
     ws = Path(ws_root)
