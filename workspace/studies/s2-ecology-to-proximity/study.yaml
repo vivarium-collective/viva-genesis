@@ -128,6 +128,9 @@ variants:
   over:
     k_diffusion: 0.1
 visualizations:
+- name: proximity-diffusion
+  title: Proximity sustains exchange only where structure holds — flux vs diffusion (22x → 1.3x)
+  rendered: workspace/studies/s2-ecology-to-proximity/viz/proximity-diffusion.html
 - name: proximity-selects-contact
   address: local:S2EcologyProximityViz
   config:
