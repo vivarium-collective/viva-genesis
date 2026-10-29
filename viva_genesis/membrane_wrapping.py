@@ -87,6 +87,61 @@ def wraps(R_um: float, *, kappa_kT: float, adhesion_per_um2_kT: float,
     return (adhesion_gain + protrusion_work) >= barrier
 
 
+def render_wrapping_window_html(out_path, *, kappa_kT=20.0, adhesion_per_um2_kT=250.0,
+                                tension_per_um2_kT=200.0, protrusion_force_pN=10.0,
+                                max_membrane_area_um2=4.0, r_min=0.1, r_max=1.0, n=181):
+    """Self-contained Plotly figure of the membrane-wrapping SIZE WINDOW: across
+    partner radius, for classical engulfment vs inside-out invagination, which
+    partners reach a stable wrap — and which reach it only because the active
+    protrusion carries the membrane over the bending barrier. The spatial detail
+    (in size space) behind the enclosure probability."""
+    import json
+    from pathlib import Path
+    radii = [r_min + (r_max - r_min) * i / (n - 1) for i in range(n)]
+    rows = {"classical engulfment": 1.0, "inside-out invagination": 0.5}
+    # category per radius: 0 no wrap, 1 wraps with the active protrusion only, 2 wraps passively
+    no, act, pas = "#e5e7eb", "#e0a53f", "#2f6f8f"
+    fig_data, layout = [], {
+        "paper_bgcolor": "white", "plot_bgcolor": "white", "showlegend": False,
+        "margin": {"l": 160, "r": 24, "t": 64, "b": 48}, "barmode": "stack",
+        "title": {"text": "<b>Where enclosure succeeds — the wrapping size window</b><br>"
+                  "<span style='font-size:12px;color:#64748b'>membrane-wrapping transition + active "
+                  f"protrusion ({protrusion_force_pN:g} pN); colour = outcome across partner radius</span>"},
+        "xaxis": {"title": {"text": "partner radius (µm)", "font": {"size": 11}}, "range": [r_min, r_max]},
+        "yaxis": {"automargin": True}, "annotations": [],
+    }
+    kw = dict(kappa_kT=kappa_kT, adhesion_per_um2_kT=adhesion_per_um2_kT,
+              tension_per_um2_kT=tension_per_um2_kT, barrier_coeff=0.30,
+              max_membrane_area_um2=max_membrane_area_um2)
+    dr = (r_max - r_min) / (n - 1)
+    for label, af in rows.items():
+        base = [0.0] * n
+        for cat, color, nm in ((2, pas, "passive"), (1, act, "needs protrusion"), (0, no, "no enclosure")):
+            widths, xs, ys = [], [], []
+            for i, R in enumerate(radii):
+                w_act = wraps(R, protrusion_force_pN=protrusion_force_pN, area_factor=af, **kw)
+                w_pas = wraps(R, protrusion_force_pN=0.0, area_factor=af, **kw)
+                c = 2 if w_pas else (1 if w_act else 0)
+                widths.append(dr if c == cat else 0.0)
+            fig_data.append({"type": "bar", "orientation": "h", "y": [label] * n,
+                             "x": widths, "base": [r for r in radii], "marker": {"color": color},
+                             "hoverinfo": "skip", "width": 0.5})
+    # legend chips
+    legend = "".join(f"<span style='display:inline-block;width:12px;height:12px;background:{c};"
+                     f"margin:0 4px 0 14px;vertical-align:middle;border:1px solid #cbd5e1'></span>{t}"
+                     for c, t in [(pas, "wraps passively"), (act, "wraps only with the active protrusion"),
+                                  (no, "no stable enclosure")])
+    html = ("<!doctype html><html><head><meta charset='utf-8'>"
+            "<script src='https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js'></script>"
+            "</head><body style='font-family:-apple-system,Segoe UI,Roboto,sans-serif;margin:0'>"
+            "<div id='ww' style='width:100%;max-width:900px;margin:0 auto'></div>"
+            f"<div style='text-align:center;font-size:12px;color:#334155;margin:4px'>{legend}</div>"
+            f"<script>Plotly.newPlot('ww',{json.dumps(fig_data)},{json.dumps(layout)},"
+            "{responsive:true,displayModeBar:false});</script></body></html>")
+    Path(out_path).write_text(html)
+    return out_path
+
+
 class MembraneWrappingProcess(Process):
     """Active-protrusion membrane-wrapping transition (eukaryogenesis S3, continuum
     energetics). Over a partner-radius ensemble it emits the enclosure PROBABILITY
