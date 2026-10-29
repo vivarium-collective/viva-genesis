@@ -1680,6 +1680,7 @@ _save_viz('s2-ecology-to-proximity', 'proximity-selects-contact', _render_one('l
 # | --- | --- | --- | --- |
 # | `baseline` | `viva_genesis.composites.protrusion_enclosure.protrusion_enclosure` | 0 | topology=classical_engulfment, protrusion_area_um2=4.0, adhesion_energy_kT=600.0, bending_modulus_kT=20.0 |
 # | `cpm-spatial` | `viva_genesis.composites.protrusion_enclosure_cpm.protrusion_enclosure_cpm` | 0 | j_hs=6.0, j_sM=16.0, j_hM=4.0 |
+# | `membrane-wrapping` | `viva_genesis.composites.protrusion_enclosure_membrane.protrusion_enclosure_membrane` | 0 | topology=classical_engulfment, bending_modulus_kT=20.0, adhesion_per_um2_kT=250.0, tension_per_um2_kT=200.0, protrusion_force_pN=10.0, max_membrane_area_um2=4.0 |
 
 # ### The model & its parameters
 #
@@ -1713,6 +1714,23 @@ ov_viva_genesis_composites_protrusion_enclosure_cpm_protrusion_enclosure_cpm = {
     'seed': 7,   # RNG seed for the realization
 }
 
+# **The model — `viva_genesis.composites.protrusion_enclosure_membrane.protrusion_enclosure_membrane`**
+#
+# Active-protrusion membrane-wrapping mechanics (eukaryogenesis S3, continuum energetics). Tests whether an actin-driven host protrusion supplies enough work to carry a lipid membrane over the Helfrich bending barrier to a stable fully wrapped state around a bacterial partner, given adhesion, membrane tension, and a finite protrusion-area reservoir. Emits enclosure PROBABILITY over a partner-radius ensemble and the share of enclosures that require the active force — the mechanism the question is about, not passive differential adhesion. Validated against the classic wrapping threshold (reduced adhesion = 2). The next fidelity rung is a triangulated-mesh run (pbg-mem3dg).
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_protrusion_enclosure_membrane_protrusion_enclosure_membrane = {
+    'topology'             : 'classical_engulfment',   # classical_engulfment | inside_out | no_enclosure (control)
+    'bending_modulus_kT'   : 20.0,   # Helfrich kappa (lipid bilayer)
+    'adhesion_per_um2_kT'  : 250.0,   # specific adhesion energy per area
+    'tension_per_um2_kT'   : 200.0,   # membrane tension (low-tension regime)
+    'protrusion_force_pN'  : 10.0,   # active protrusion force (actin/Radler 2026 scale)
+    'max_membrane_area_um2': 4.0,   # membrane area the protrusion can deploy
+    'partner_radius_min_um': 0.2,   # ensemble min partner radius (um)
+    'partner_radius_max_um': 0.8,   # ensemble max partner radius (um)
+}
+
 # ### Run
 #
 # _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
@@ -1730,6 +1748,8 @@ STEPS_baseline = 100
 INTERVAL_baseline = 1.0
 STEPS_cpm_spatial = 100
 INTERVAL_cpm_spatial = 1.0
+STEPS_membrane_wrapping = 100
+INTERVAL_membrane_wrapping = 1.0
 
 if RERUN:
     from process_bigraph import Composite
@@ -1751,6 +1771,15 @@ if RERUN:
         print('ran', 'cpm-spatial', f'(viva_genesis.composites.protrusion_enclosure_cpm.protrusion_enclosure_cpm) for', STEPS_cpm_spatial, 'steps')
     except Exception as _e:
         print(f"cpm-spatial not runnable yet: {type(_e).__name__}: {_e}")
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_protrusion_enclosure_membrane_protrusion_enclosure_membrane if 'ov_viva_genesis_composites_protrusion_enclosure_membrane_protrusion_enclosure_membrane' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_protrusion_enclosure_membrane_protrusion_enclosure_membrane = materialize_composite('viva_genesis.composites.protrusion_enclosure_membrane.protrusion_enclosure_membrane', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_protrusion_enclosure_membrane_protrusion_enclosure_membrane['state']}, core=core)
+            _comp.run(STEPS_membrane_wrapping)
+        print('ran', 'membrane-wrapping', f'(viva_genesis.composites.protrusion_enclosure_membrane.protrusion_enclosure_membrane) for', STEPS_membrane_wrapping, 'steps')
+    except Exception as _e:
+        print(f"membrane-wrapping not runnable yet: {type(_e).__name__}: {_e}")
 else:
     print("RERUN=False — not re-simulating.")
 
