@@ -76,6 +76,35 @@ findings:
     community) and a well-characterized failure route (isolated control) at first fidelity. Computed via
     a direct in-process composite run; the tracked workbench run awaits the evaluator reaching the genesis
     venv.'
+  evidence:
+    from_test: community-redundancy-develops
+    measure: settled_metacommunity_robustness
+    observed: 0.536
+    conditions: {coupling: connected}
+    fidelity: reproduction
+  provenance:
+    kind: run
+    run_date: '2026-10-28'
+    note: 'In-process run of metabolite_exchange_community (lineages fixer:4,reducer:4, reaction_universe,
+      p_diacid 1e-8, p_monoacid 1e-7, k_wash 0.01, 250 steps). Connected (coupling=shared) settles to
+      metacommunity_robustness 0.536 (>0.5); isolated control (coupling=private) 0.464. Robustness
+      develops over ~200 steps — a 60-step run is too short (0.43) and under-reads the connected advantage.'
+  cites:
+  - imachi-nature-2020
+- id: s1-isolated-control-stays-below-threshold
+  statement: 'The isolated no-exchange control (coupling=private) settles to metacommunity_robustness 0.464
+    (< 0.5) — without reciprocal exchange the community does not develop functional redundancy. The
+    partner-dependent advantage (connected 0.536 vs isolated 0.464) is the discriminating signal.'
+  evidence:
+    from_test: community-redundancy-develops
+    measure: settled_metacommunity_robustness
+    observed: 0.464
+    conditions: {coupling: isolated}
+    fidelity: reproduction
+  provenance:
+    kind: run
+    run_date: '2026-10-28'
+    note: 'Same composite, isolated counterfactual (coupling=private), 250 steps: metacommunity_robustness 0.464.'
   cites:
   - imachi-nature-2020
 literature_anchors:

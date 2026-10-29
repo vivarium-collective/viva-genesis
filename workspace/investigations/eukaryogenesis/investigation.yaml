@@ -256,6 +256,112 @@ acceptance_criteria:
   behavior: internalization-net-energy-positive
 - study: s5-symbiont-to-organelle
   behavior: heritable-integration-stable
+# Competing mechanistic hypotheses per transition step. Each names the study
+# that tests it and the discriminating observable (its acceptance gate's
+# model_observable), with a non-overlapping expected band so the study's run
+# separates the alternatives. support_log is COMPUTED by the engine's
+# hypotheses rollup from each study's findings — do not author it.
+hypotheses:
+- id: h-s1-mutualism
+  study: s1-metabolic-partnership
+  statement: 'Reciprocal cross-feeding builds community redundancy: a connected archaeal-bacterial exchange network develops functional redundancy that an isolated no-exchange control does not.'
+  competing_with: [h-s1-no-exchange]
+  predictions:
+  - observable: settled_metacommunity_robustness
+    when: {coupling: connected}
+    expected: {op: '>=', value: 0.5}
+  status: open
+- id: h-s1-no-exchange
+  study: s1-metabolic-partnership
+  statement: 'Null — no mutual benefit: without reciprocal metabolite exchange (a no-exchange or parasitic control) no community-level functional redundancy develops.'
+  competing_with: [h-s1-mutualism]
+  predictions:
+  - observable: settled_metacommunity_robustness
+    when: {coupling: isolated}
+    expected: {op: '<=', value: 0.5}
+  status: open
+- id: h-s2-spatial-contingent
+  study: s2-ecology-to-proximity
+  statement: 'Proximity selection is contingent on spatial structure: below a critical diffusion length the cross-lineage flux is distance-dependent, so proximate partners sustain exchange while distant partners lose it.'
+  competing_with: [h-s2-well-mixed-null]
+  predictions:
+  - observable: settled_cross_lineage_flux
+    when: {structure: proximate}
+    expected: {op: '>=', value: 1.0e-22}
+  - observable: settled_cross_lineage_flux
+    when: {structure: distant}
+    expected: {op: '<=', value: 5.0e-23}
+  status: open
+- id: h-s2-well-mixed-null
+  study: s2-ecology-to-proximity
+  statement: 'Well-mixed null: under fast diffusion proximity confers no exchange advantage, so persistent contact is not selected.'
+  competing_with: [h-s2-spatial-contingent]
+  predictions:
+  - observable: settled_cross_lineage_flux
+    when: {structure: proximate}
+    expected: {op: '<=', value: 5.0e-23}
+  status: open
+- id: h-s3-enclosure-reachable
+  study: s3-protrusions-to-enclosure
+  statement: 'Enclosure is reachable: under favorable area and adhesion budgets, protrusion mechanics settle to stable wrapping above the enclosure threshold over a majority of the partner-size range.'
+  competing_with: [h-s3-no-enclosure]
+  predictions:
+  - observable: settled_enclosure_probability
+    expected: {op: '>=', value: 0.5}
+  status: open
+- id: h-s3-no-enclosure
+  study: s3-protrusions-to-enclosure
+  statement: 'Enclosure fails: when adhesion cannot pay the membrane bending cost, wrapping does not settle above the enclosure threshold.'
+  competing_with: [h-s3-enclosure-reachable]
+  predictions:
+  - observable: settled_enclosure_probability
+    expected: {op: '<=', value: 0.5}
+  status: open
+- id: h-s4-benefit-efficient-pump
+  study: s4-compartmental-energetic-coupling
+  statement: 'Internalization pays only with an efficient pump: where the proton pump is efficient, the population internalizes gradient generation and the lineage persists.'
+  competing_with: [h-s4-collapse-weak-pump]
+  predictions:
+  - observable: settled_internalization_survivors
+    when: {pump: efficient}
+    expected: {op: '>=', value: 0.5}
+  status: open
+- id: h-s4-collapse-weak-pump
+  study: s4-compartmental-energetic-coupling
+  statement: 'Energetic collapse: with a weak pump internalization cannot pay the membrane cost and the population collapses.'
+  competing_with: [h-s4-benefit-efficient-pump]
+  predictions:
+  - observable: settled_internalization_survivors
+    when: {pump: weak}
+    expected: {op: '<=', value: 0.5}
+  status: open
+- id: h-s5-threshold-high-fidelity
+  study: s5-symbiont-to-organelle
+  statement: 'Heritable integration requires high fidelity: only above the Eigen error threshold does vertical transmission keep the integrated phenotype across generations — a new evolutionary individual.'
+  competing_with: [h-s5-error-catastrophe, h-s5-non-heritable-null]
+  predictions:
+  - observable: settled_heritability
+    when: {fidelity: high}
+    expected: {op: '>=', value: 0.5}
+  status: open
+- id: h-s5-error-catastrophe
+  study: s5-symbiont-to-organelle
+  statement: 'Error catastrophe: below the transmission-fidelity threshold the lineage accumulates errors and collapses, losing the inherited phenotype.'
+  competing_with: [h-s5-threshold-high-fidelity]
+  predictions:
+  - observable: settled_heritability
+    when: {fidelity: low}
+    expected: {op: '<=', value: 0.5}
+  status: open
+- id: h-s5-non-heritable-null
+  study: s5-symbiont-to-organelle
+  statement: 'Non-heritable null: without an inheritance mechanism nothing is transmitted vertically, so no integrated phenotype persists.'
+  competing_with: [h-s5-threshold-high-fidelity]
+  predictions:
+  - observable: settled_heritability
+    when: {mechanism: none}
+    expected: {op: '<=', value: 0.1}
+  status: open
 references:
 - key: vosseberg-nature-2024
   doi: 10.1038/s41586-024-07677-6

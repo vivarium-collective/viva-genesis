@@ -68,13 +68,39 @@ acceptance_criteria:
 - behavior: enclosure-geometrically-feasible
 findings:
 - id: s3-enclosure-feasible-with-favorable-budget
-  statement: 'Calibrated (30 steps, partner-radius ensemble 0.2-0.8 um): classical engulfment reaches
-    a stable enclosure probability of 0.61 and inside-out wrapping 0.98, both with conserved membrane
-    area (residual 0) — physical enclosure is geometrically feasible under favorable area/adhesion budgets.
-    Two well-characterized failure routes read 0.0: a no-enclosure control (contact without wrapping)
-    and a weak-adhesion control (adhesion 300 kT below the ~502 kT Helfrich bending cost). Enclosure is
-    a separate hurdle from metabolic benefit; morphology alone does not demonstrate engulfment. Direct
-    in-process run of a newly built composite.'
+  statement: 'Enclosure is topology-gated, not a settled yes. The higher-fidelity active-protrusion
+    membrane-wrapping model (Helfrich bending + adhesion + tension + finite protrusion area + active
+    force F*R, 3D; the mechanism the question is about) supersedes the coarser arms: classical
+    EXTERNAL engulfment reaches a stable wrap for only a MINORITY of partners (probability 0.27, a
+    narrow 0.41-0.56 um window), with the active protrusion load-bearing (raises it from 0.17; 36%
+    of enclosures need the force); INSIDE-OUT invagination (Baum & Baum) is far more feasible (0.83).
+    The coarse arms overstated it — the 2D passive-adhesion CPM read 1.00 (but that is regime-assumed,
+    J_hs < J_sM-J_hM, with no protrusion) and the static area+bending budget read 0.61/0.98. So whether
+    the enclosure hypothesis is supported depends on which topology is primary, which remains an open
+    investigation decision. Enclosure is a separate hurdle from metabolic benefit; morphology alone
+    does not demonstrate engulfment.'
+  evidence:
+    from_test: enclosure-geometrically-feasible
+    measure: settled_enclosure_probability
+    # No single observed value: enclosure is topology-gated, so support stays UNRESOLVED until
+    # the primary topology is decided. The model values are recorded by topology below.
+    by_topology:
+      classical_engulfment: 0.27
+      inside_out: 0.83
+    superseded:
+      source: protrusion_enclosure_cpm (2D passive differential adhesion, regime-assumed)
+      observed: 1.0
+      reason: wrong mechanism for the posed question (no active protrusion; 2D; engulfment assumed by the chosen adhesion hierarchy)
+  provenance:
+    kind: run
+    run_date: '2026-10-28'
+    note: 'Active-protrusion membrane-wrapping model (viva_genesis.composites.protrusion_enclosure_membrane,
+      MembraneWrappingProcess; continuum energetics validated against the reduced-adhesion=2 wrapping
+      threshold) over the 0.2-0.8 um partner-radius ensemble at grounded parameters (kappa 20 kT,
+      adhesion 250 kT/um^2, tension 200 kT/um^2, protrusion force 10 pN, A_max 4 um^2): classical
+      engulfment enclosure probability 0.27 (window 0.41-0.56 um; protrusion required for 36%);
+      inside-out 0.83. Companions (lower fidelity): CPM spatial arm 1.00 (regime-assumed), area+bending
+      budget 0.61/0.98. Next fidelity rung: a triangulated-mesh run (pbg-mem3dg).'
   cites:
   - rodrigues-oliveira-nature-2023
 literature_anchors:
@@ -110,6 +136,23 @@ baseline:
     boundaries. Enclosure is an emergent, measured outcome (host coverage of the symbiont boundary),
     not an area/bending threshold; the wrapping transition tracks j_hs = j_sM - j_hM. Measured j_hs=6
     (strong adhesion) -> enclosure_fraction 1.000; j_hs=18 (weak) -> 0.176.
+- name: membrane-wrapping
+  composite: viva_genesis.composites.protrusion_enclosure_membrane.protrusion_enclosure_membrane
+  params:
+    topology: classical_engulfment
+    bending_modulus_kT: 20.0
+    adhesion_per_um2_kT: 250.0
+    tension_per_um2_kT: 200.0
+    protrusion_force_pN: 10.0
+    max_membrane_area_um2: 4.0
+  note: 'Higher-fidelity continuum-energetics arm — the membrane-wrapping transition
+    (Deserno/Lipowsky) with an active protrusion force, the mechanism the question is about
+    (not passive differential adhesion). Classical external engulfment reaches enclosure only
+    in a narrow size window (0.41-0.56 um), for a minority of partners (probability 0.27), and
+    the active protrusion is load-bearing (raises it from 0.17; 36% of enclosures need the
+    force); inside-out invagination (Baum & Baum) is far more feasible (0.83). The coarse
+    area+bending budget (0.61) and the 2D passive-adhesion CPM (1.00) arms overstated classical
+    engulfment. Next fidelity rung: a triangulated-mesh run (pbg-mem3dg).'
 variants:
 - name: inside-out
   base: baseline

@@ -61,6 +61,36 @@ findings:
     hits the Eigen error catastrophe and collapses (heritability 0.799, population 0), and a non-heritable
     mechanism transmits nothing (heritability 0.106). Heritable integration emerges only above the fidelity
     threshold. Direct in-process run.'
+  evidence:
+    from_test: heritable-integration-stable
+    measure: settled_heritability
+    observed: 0.989
+    conditions: {fidelity: high}
+    fidelity: reproduction
+  provenance:
+    kind: run
+    run_date: '2026-10-28'
+    note: 'In-process run of heredity_lineage_comparison (module=template, 60 generations). High-fidelity
+      (per_site_fidelity=0.99): settled heritability 0.989. Fidelity sweep locates the Eigen error
+      catastrophe between 0.5 and 0.3 (0.80 -> 0.799, 0.50 -> 0.592, 0.30 -> 0.0) — correcting this
+      finding''s earlier claim that 0.80 collapses; it does not.'
+  cites:
+  - vosseberg-nature-2024
+- id: s5-low-fidelity-hits-error-catastrophe
+  statement: 'Below the fidelity threshold the lineage hits the Eigen error catastrophe: a low-fidelity
+    template (per_site_fidelity=0.30) collapses to heritability 0.0 — the inherited phenotype is lost.
+    The catastrophe sits between per_site_fidelity 0.5 and 0.3 (sweep: 0.50 -> 0.592, 0.30 -> 0.0).'
+  evidence:
+    from_test: heritable-integration-stable
+    measure: settled_heritability
+    observed: 0.0
+    conditions: {fidelity: low}
+    fidelity: reproduction
+  provenance:
+    kind: run
+    run_date: '2026-10-28'
+    note: 'In-process run of heredity_lineage_comparison, low-fidelity template (per_site_fidelity=0.30),
+      60 generations: settled heritability 0.0 (error catastrophe).'
   cites:
   - vosseberg-nature-2024
 literature_anchors:
