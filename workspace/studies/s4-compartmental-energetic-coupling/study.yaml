@@ -63,10 +63,8 @@ findings:
     from_test: internalization-net-energy-positive
     measure: settled_internalization_survivors
     observed: 0.99999
+    conditions: {pump: efficient}
     fidelity: reproduction
-    by_regime:
-      efficient_pump: 0.99999
-      weak_pump: 0.0
   provenance:
     kind: run
     run_date: '2026-10-28'
@@ -77,6 +75,23 @@ findings:
       survivors 0.0 (internalization 0.54, fitness 0.059). The conditional claim holds —
       internalization is net-positive only with an efficient pump. Model fidelity is appropriate to
       the energetic-survival question; the whole-cell metabolic-network arm is the next rung.'
+  cites:
+  - santana-molina-nee-2025
+- id: s4-weak-pump-collapses
+  statement: 'The weak-pump control (catalyst_efficiency=0.3) collapses: settled survivors 0.0
+    (internalization 0.54, lineage fitness 0.059). Internalization cannot pay the Sojo membrane cost
+    when the pump is inefficient — the harmful regime that bounds the conditional benefit.'
+  evidence:
+    from_test: internalization-net-energy-positive
+    measure: settled_internalization_survivors
+    observed: 0.0
+    conditions: {pump: weak}
+    fidelity: reproduction
+  provenance:
+    kind: run
+    run_date: '2026-10-28'
+    note: 'In-process run of bioenergetic_internalization, weak-pump control (catalyst_efficiency=0.3),
+      60 steps: settled survivors 0.0.'
   cites:
   - santana-molina-nee-2025
 literature_anchors:

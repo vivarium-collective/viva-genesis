@@ -316,6 +316,7 @@ hypotheses:
   competing_with: [h-s4-collapse-weak-pump]
   predictions:
   - observable: settled_internalization_survivors
+    when: {pump: efficient}
     expected: {op: '>=', value: 0.5}
   status: open
 - id: h-s4-collapse-weak-pump
@@ -324,6 +325,7 @@ hypotheses:
   competing_with: [h-s4-benefit-efficient-pump]
   predictions:
   - observable: settled_internalization_survivors
+    when: {pump: weak}
     expected: {op: '<=', value: 0.5}
   status: open
 - id: h-s5-threshold-high-fidelity
@@ -332,6 +334,7 @@ hypotheses:
   competing_with: [h-s5-error-catastrophe, h-s5-non-heritable-null]
   predictions:
   - observable: settled_heritability
+    when: {fidelity: high}
     expected: {op: '>=', value: 0.5}
   status: open
 - id: h-s5-error-catastrophe
@@ -340,6 +343,7 @@ hypotheses:
   competing_with: [h-s5-threshold-high-fidelity]
   predictions:
   - observable: settled_heritability
+    when: {fidelity: low}
     expected: {op: '<=', value: 0.5}
   status: open
 - id: h-s5-non-heritable-null
@@ -348,6 +352,7 @@ hypotheses:
   competing_with: [h-s5-threshold-high-fidelity]
   predictions:
   - observable: settled_heritability
+    when: {mechanism: none}
     expected: {op: '<=', value: 0.1}
   status: open
 references:
