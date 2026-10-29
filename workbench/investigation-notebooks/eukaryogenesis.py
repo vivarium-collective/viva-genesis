@@ -1532,7 +1532,7 @@ else:
 #
 # _Results are shown by the figures below, produced by the run above._
 
-# **partner-dependent-advantage**
+# **community-redundancy**
 
 def _save_viz(study, slug, html):
     d = REPO / 'reports/notebooks/figures' / study
@@ -1541,6 +1541,11 @@ def _save_viz(study, slug, html):
     out.write_text(html, encoding='utf-8')
     print('  wrote', out)
 
+
+# community-redundancy
+_save_viz('s1-metabolic-partnership', 'community-redundancy', _render_one('', {}, RUNS_DB, STUDY_YAML))
+
+# **partner-dependent-advantage**
 
 # partner-dependent-advantage
 _save_viz('s1-metabolic-partnership', 'partner-dependent-advantage', _render_one('local:S1MetabolicPartnershipViz', {'title': 'S1 — a partner-dependent advantage (connected vs isolated community redundancy)'}, RUNS_DB, STUDY_YAML))
@@ -1646,6 +1651,11 @@ else:
 # ### Visualizations
 #
 # _Results are shown by the figures below, produced by the run above._
+
+# **proximity-diffusion**
+
+# proximity-diffusion
+_save_viz('s2-ecology-to-proximity', 'proximity-diffusion', _render_one('', {}, RUNS_DB, STUDY_YAML))
 
 # **proximity-selects-contact**
 
@@ -1797,6 +1807,16 @@ _save_viz('s3-protrusions-to-enclosure', 'enclosure-feasibility', _render_one('l
 # endosymbiosis-phase-diagram
 _save_viz('s3-protrusions-to-enclosure', 'endosymbiosis-phase-diagram', _render_one('', {}, RUNS_DB, STUDY_YAML))
 
+# **enclosure-spatial**
+
+# enclosure-spatial
+_save_viz('s3-protrusions-to-enclosure', 'enclosure-spatial', _render_one('', {}, RUNS_DB, STUDY_YAML))
+
+# **wrapping-size-window**
+
+# wrapping-size-window
+_save_viz('s3-protrusions-to-enclosure', 'wrapping-size-window', _render_one('', {}, RUNS_DB, STUDY_YAML))
+
 # ### Acceptance criteria
 #
 # _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
@@ -1876,6 +1896,11 @@ else:
 # ### Visualizations
 #
 # _Results are shown by the figures below, produced by the run above._
+
+# **internalization-boundary**
+
+# internalization-boundary
+_save_viz('s4-compartmental-energetic-coupling', 'internalization-boundary', _render_one('', {}, RUNS_DB, STUDY_YAML))
 
 # **internalization-net-benefit**
 
@@ -1961,6 +1986,11 @@ else:
 # ### Visualizations
 #
 # _Results are shown by the figures below, produced by the run above._
+
+# **eigen-catastrophe**
+
+# eigen-catastrophe
+_save_viz('s5-symbiont-to-organelle', 'eigen-catastrophe', _render_one('', {}, RUNS_DB, STUDY_YAML))
 
 # **heritable-integration**
 
