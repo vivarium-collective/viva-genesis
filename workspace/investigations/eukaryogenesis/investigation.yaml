@@ -81,6 +81,29 @@ executive:
       The campaign requires testing alternative initial ecologies, not assuming syntrophy
       (hypotheses H1 vs H4 vs H5).
   decisions_resolved: []
+  computed_verdict_status: passing-with-caveats
+  computed_acceptance:
+    criteria:
+    - study: s1-metabolic-partnership
+      behavior: community-redundancy-develops
+      result: passing
+    - study: s2-ecology-to-proximity
+      behavior: proximity-selected-under-finite-diffusion
+      result: passing-with-caveats
+    - study: s3-protrusions-to-enclosure
+      behavior: enclosure-geometrically-feasible
+      result: passing
+    - study: s4-compartmental-energetic-coupling
+      behavior: internalization-net-energy-positive
+      result: passing
+    - study: s5-symbiont-to-organelle
+      behavior: heritable-integration-stable
+      result: passing
+    unmet:
+    - study: s2-ecology-to-proximity
+      behavior: proximity-selected-under-finite-diffusion
+      result: passing-with-caveats
+    diverges_from_authored: true
 competing_frameworks: >-
   The campaign tests five hypothesis families head to head rather than assuming one history, each
   authored so the cycle can hold them in tension: H1 Syntrophy-first — metabolic complementarity

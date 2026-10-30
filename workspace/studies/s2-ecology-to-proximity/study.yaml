@@ -16,25 +16,14 @@ tags:
 - agents
 - proximity
 - selection
-concept: Physical association made operational as encounter rate, adhesion lifetime, diffusion length,
-  and spatial crowding. The two cross-feeding lineages (the S1 community) placed proximate (mixed) vs
-  distant (segregated) along the pore, under varying diffusion — measuring whether the cross-feeding benefit
-  is distance-dependent.
-question: When do cross-feeding benefits select for persistent proximity rather than independent coexistence?
-  Does the predicted selection for proximity disappear under high diffusion / well-mixed conditions?
-hypothesis: Below a critical diffusion length the cross-feeding flux is distance-dependent and selects
-  for sustained contact; under well-mixed (high-diffusion) conditions the proximity advantage collapses,
-  so selection for contact is a spatial-structure effect, not a given.
-claim: 'Selection may favor sustained contact: in spatially structured (low-diffusion) environments the
-  S1 cross-feeding flux is strongly distance-dependent — proximate (mixed) partners sustain the exchange
-  while distant (segregated) partners lose it — creating a precondition for intimate symbiosis. The advantage
-  vanishes under high diffusion (well-mixed), so proximity selection is contingent on spatial structure.'
+concept: Physical association made operational as encounter rate, adhesion lifetime, diffusion length, and spatial crowding. The two cross-feeding lineages (the S1 community) placed proximate (mixed) vs distant (segregated) along the pore, under varying diffusion — measuring whether the cross-feeding benefit is distance-dependent.
+question: When do cross-feeding benefits select for persistent proximity rather than independent coexistence? Does the predicted selection for proximity disappear under high diffusion / well-mixed conditions?
+hypothesis: Below a critical diffusion length the cross-feeding flux is distance-dependent and selects for sustained contact; under well-mixed (high-diffusion) conditions the proximity advantage collapses, so selection for contact is a spatial-structure effect, not a given.
+claim: 'Selection may favor sustained contact: in spatially structured (low-diffusion) environments the S1 cross-feeding flux is strongly distance-dependent — proximate (mixed) partners sustain the exchange while distant (segregated) partners lose it — creating a precondition for intimate symbiosis. The advantage vanishes under high diffusion (well-mixed), so proximity selection is contingent on spatial structure.'
 behavior_tests:
 - name: proximity-selected-under-finite-diffusion
   classification: primary
-  description: At low diffusion the proximate (mixed) community sustains cross-lineage metabolite flux
-    that a distant (segregated) community loses — so the cross-feeding benefit is distance-dependent and
-    selects for contact. The threshold discriminates mixed (proximate) from the segregated control.
+  description: At low diffusion the proximate (mixed) community sustains cross-lineage metabolite flux that a distant (segregated) community loses — so the cross-feeding benefit is distance-dependent and selects for contact. The threshold discriminates mixed (proximate) from the segregated control.
   measure:
     kind: derived_scalar
     path: settled_cross_lineage_flux
@@ -43,22 +32,14 @@ behavior_tests:
     value: 1e-22
     provenance:
       kind: calibration
-      note: 'Calibrated at p_diacid=1e-8, p_monoacid=1e-7, k_wash=0.01, k_diffusion=0.001, 250 steps:
-        mixed (proximate) settles to 4.0e-22 (PASS) while the segregated control (the `distant-control`
-        variant) settles to 1.8e-23 (FAIL) — a 22x proximity advantage. Under high diffusion (k_diffusion=0.1)
-        the mixed/segregated ratio falls to 1.26: the advantage vanishes well-mixed.'
+      note: 'Calibrated at p_diacid=1e-8, p_monoacid=1e-7, k_wash=0.01, k_diffusion=0.001, 250 steps: mixed (proximate) settles to 4.0e-22 (PASS) while the segregated control (the `distant-control` variant) settles to 1.8e-23 (FAIL) — a 22x proximity advantage. Under high diffusion (k_diffusion=0.1) the mixed/segregated ratio falls to 1.26: the advantage vanishes well-mixed.'
   cites:
   - radler-nature-2026
 acceptance_criteria:
 - behavior: proximity-selected-under-finite-diffusion
 findings:
 - id: s2-proximity-distance-dependent-calibrated
-  statement: 'Calibrated (k_diffusion=0.001, 250 steps): proximate (mixed) partners sustain cross-lineage
-    flux 4.0e-22 mol/tick while distant (segregated) partners sustain only 1.8e-23 — a 22x proximity advantage,
-    so selection favours persistent contact. The advantage is diffusion- dependent: at k_diffusion=0.1
-    the mixed/segregated ratio is 1.26 (proximity barely matters, diffusion carries the intermediate).
-    Establishes that proximity selection is a spatial- structure effect, not a given — a precondition
-    for intimate symbiosis. Direct in-process run.'
+  statement: 'Calibrated (k_diffusion=0.001, 250 steps): proximate (mixed) partners sustain cross-lineage flux 4.0e-22 mol/tick while distant (segregated) partners sustain only 1.8e-23 — a 22x proximity advantage, so selection favours persistent contact. The advantage is diffusion- dependent: at k_diffusion=0.1 the mixed/segregated ratio is 1.26 (proximity barely matters, diffusion carries the intermediate). Establishes that proximity selection is a spatial- structure effect, not a given — a precondition for intimate symbiosis. Direct in-process run.'
   evidence:
     from_test: proximity-selected-under-finite-diffusion
     measure: settled_cross_lineage_flux
@@ -68,17 +49,16 @@ findings:
   provenance:
     kind: run
     run_date: '2026-10-28'
-    note: 'In-process run of metabolite_exchange_community (250 steps). Proper 2x2 (placement x diffusion):
-      at LOW diffusion (k=0.001) proximate (mixed) settled_cross_lineage_flux 4.005e-22 vs distant
-      (segregated) 1.821e-23 — a 22x proximity advantage; at HIGH diffusion (k=0.1) the ratio collapses
-      to 1.3x (mixed 4.005e-22, segregated 3.191e-22). Proximity selection is contingent on spatial
-      structure. NOTE: reproduces only at ~250 steps (a 60-step run under-reads the flux by ~17x).'
+    note: 'In-process run of metabolite_exchange_community (250 steps). Proper 2x2 (placement x diffusion): at LOW diffusion (k=0.001) proximate (mixed) settled_cross_lineage_flux 4.005e-22 vs distant (segregated) 1.821e-23 — a 22x proximity advantage; at HIGH diffusion (k=0.1) the ratio collapses to 1.3x (mixed 4.005e-22, segregated 3.191e-22). Proximity selection is contingent on spatial structure. NOTE: reproduces only at ~250 steps (a 60-step run under-reads the flux by ~17x).'
+    run_ids:
+    - viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1793320338__deb319
   cites:
   - radler-nature-2026
+  expected:
+    cites:
+    - radler-nature-2026
 - id: s2-distant-partners-lose-the-exchange
-  statement: 'At low diffusion the distant (segregated) partners sustain cross-lineage flux of only
-    1.821e-23 — an order of magnitude below the proximate 4.005e-22 (the 22x advantage). Distance
-    breaks the exchange, so persistent contact is selected only where spatial structure holds.'
+  statement: 'At low diffusion the distant (segregated) partners sustain cross-lineage flux of only 1.821e-23 — an order of magnitude below the proximate 4.005e-22 (the 22x advantage). Distance breaks the exchange, so persistent contact is selected only where spatial structure holds.'
   evidence:
     from_test: proximity-selected-under-finite-diffusion
     measure: settled_cross_lineage_flux
@@ -88,10 +68,14 @@ findings:
   provenance:
     kind: run
     run_date: '2026-10-28'
-    note: 'Same composite, distant (segregated) placement at low diffusion (k=0.001), 250 steps:
-      settled_cross_lineage_flux 1.821e-23.'
+    note: 'Same composite, distant (segregated) placement at low diffusion (k=0.001), 250 steps: settled_cross_lineage_flux 1.821e-23.'
+    run_ids:
+    - viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1793320338__deb319
   cites:
   - radler-nature-2026
+  expected:
+    cites:
+    - radler-nature-2026
 literature_anchors:
 - expectation: Asgard protrusions set the length/time scales of transient contact.
   model_observable: settled_cross_lineage_flux
@@ -114,10 +98,7 @@ baseline:
     k_wash: 0.01
     placement: mixed
     k_diffusion: 0.001
-  note: 'First-fidelity arm: reuses the S1 metabolite-exchange community with placement + diffusion as
-    the proximity lever. settled_cross_lineage_flux (metabolite flux between lineages) is the distance-dependent
-    benefit. The dedicated reaction-diffusion PDE with a continuous separation axis is the next-fidelity
-    arm.'
+  note: 'First-fidelity arm: reuses the S1 metabolite-exchange community with placement + diffusion as the proximity lever. settled_cross_lineage_flux (metabolite flux between lineages) is the distance-dependent benefit. The dedicated reaction-diffusion PDE with a continuous separation axis is the next-fidelity arm.'
 variants:
 - name: distant-control
   base: baseline
@@ -142,3 +123,301 @@ data_inputs:
 - name: Asgard live-cell microscopy (figshare/BioImage)
   use: protrusion length/time priors
   url: https://doi.org/10.6084/m9.figshare.30676367
+runs:
+- name: viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1793315782__9470aa
+  status: completed
+  timestamp: 1793315794.634239
+  emitter:
+    kind: unknown
+  env_id: 283d60067ef7e750
+  params: '{"lineages": "fixer:4,reducer:4", "coupling": "shared", "model_proto_ecology": "reaction_universe", "p_diacid": 1e-08, "p_monoacid": 1e-07, "k_wash": 0.01, "placement": "mixed", "k_diffusion": 0.001}'
+  computed_outcomes:
+    proximity-selected-under-finite-diffusion:
+      evaluated_by: agent
+      reason: "derived-scalar computer 'settled_cross_lineage_flux' error: 'exchange.cross_lineage_flux_total'"
+      reconcile: no_authored
+  provenance:
+    params:
+      coupling:
+        value: shared
+        source: override
+      k_diffusion:
+        value: 0.001
+        source: override
+      k_wash:
+        value: 0.01
+        source: override
+      lineages:
+        value: fixer:4,reducer:4
+        source: override
+      model_proto_ecology:
+        value: reaction_universe
+        source: override
+      p_diacid:
+        value: 1e-08
+        source: override
+      p_monoacid:
+        value: 1e-07
+        source: override
+      placement:
+        value: mixed
+        source: override
+    params_captured_at: '2026-10-29'
+    params_source: dashboard-runner
+- name: viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1793316648__4c3e3f
+  status: completed
+  timestamp: 1793316657.719973
+  emitter:
+    kind: unknown
+  env_id: 283d60067ef7e750
+  params: '{"lineages": "fixer:4,reducer:4", "coupling": "shared", "model_proto_ecology": "reaction_universe", "p_diacid": 1e-08, "p_monoacid": 1e-07, "k_wash": 0.01, "placement": "mixed", "k_diffusion": 0.001}'
+  computed_outcomes:
+    proximity-selected-under-finite-diffusion:
+      evaluated_by: agent
+      reason: "derived-scalar computer 'settled_cross_lineage_flux' error: 'exchange.cross_lineage_flux_total'"
+      reconcile: no_authored
+  provenance:
+    params:
+      coupling:
+        value: shared
+        source: override
+      k_diffusion:
+        value: 0.001
+        source: override
+      k_wash:
+        value: 0.01
+        source: override
+      lineages:
+        value: fixer:4,reducer:4
+        source: override
+      model_proto_ecology:
+        value: reaction_universe
+        source: override
+      n_steps:
+        value: 120
+        source: resolved
+      p_diacid:
+        value: 1e-08
+        source: override
+      p_monoacid:
+        value: 1e-07
+        source: override
+      placement:
+        value: mixed
+        source: override
+    params_captured_at: '2026-10-29'
+    params_source: dashboard-runner
+- name: viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1793318203__fd0bc3
+  status: completed
+  timestamp: 1793318217.8523562
+  emitter:
+    kind: unknown
+  env_id: 283d60067ef7e750
+  params: '{"lineages": "fixer:4,reducer:4", "coupling": "shared", "model_proto_ecology": "reaction_universe", "p_diacid": 1e-08, "p_monoacid": 1e-07, "k_wash": 0.01, "placement": "mixed", "k_diffusion": 0.001}'
+  computed_outcomes:
+    proximity-selected-under-finite-diffusion:
+      evaluated_by: agent
+      reason: "derived-scalar computer 'settled_cross_lineage_flux' error: 'exchange.cross_lineage_flux_total'"
+      reconcile: no_authored
+  provenance:
+    params:
+      coupling:
+        value: shared
+        source: override
+      k_diffusion:
+        value: 0.001
+        source: override
+      k_wash:
+        value: 0.01
+        source: override
+      lineages:
+        value: fixer:4,reducer:4
+        source: override
+      model_proto_ecology:
+        value: reaction_universe
+        source: override
+      n_steps:
+        value: 250
+        source: resolved
+      p_diacid:
+        value: 1e-08
+        source: override
+      p_monoacid:
+        value: 1e-07
+        source: override
+      placement:
+        value: mixed
+        source: override
+    params_captured_at: '2026-10-29'
+    params_source: dashboard-runner
+- name: viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1793318553__09b880
+  status: completed
+  timestamp: 1793318565.690367
+  emitter:
+    kind: unknown
+  env_id: 283d60067ef7e750
+  params: '{"lineages": "fixer:4,reducer:4", "coupling": "shared", "model_proto_ecology": "reaction_universe", "p_diacid": 1e-08, "p_monoacid": 1e-07, "k_wash": 0.01, "placement": "mixed", "k_diffusion": 0.001}'
+  computed_outcomes:
+    proximity-selected-under-finite-diffusion:
+      evaluated_by: agent
+      reason: "derived-scalar computer 'settled_cross_lineage_flux' error: 'exchange.cross_lineage_flux_total'"
+      reconcile: no_authored
+  provenance:
+    params:
+      coupling:
+        value: shared
+        source: override
+      k_diffusion:
+        value: 0.001
+        source: override
+      k_wash:
+        value: 0.01
+        source: override
+      lineages:
+        value: fixer:4,reducer:4
+        source: override
+      model_proto_ecology:
+        value: reaction_universe
+        source: override
+      n_steps:
+        value: 250
+        source: resolved
+      p_diacid:
+        value: 1e-08
+        source: override
+      p_monoacid:
+        value: 1e-07
+        source: override
+      placement:
+        value: mixed
+        source: override
+    params_captured_at: '2026-10-29'
+    params_source: dashboard-runner
+- name: viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1793320040__249383
+  status: completed
+  timestamp: 1793320051.556523
+  emitter:
+    kind: unknown
+  env_id: 283d60067ef7e750
+  params: '{"lineages": "fixer:4,reducer:4", "coupling": "shared", "model_proto_ecology": "reaction_universe", "p_diacid": 1e-08, "p_monoacid": 1e-07, "k_wash": 0.01, "placement": "mixed", "k_diffusion": 0.001}'
+  computed_outcomes:
+    proximity-selected-under-finite-diffusion:
+      evaluated_by: agent
+      reason: "derived-scalar computer 'settled_cross_lineage_flux' error: 'exchange.cross_lineage_flux_total'"
+      reconcile: no_authored
+  provenance:
+    params:
+      coupling:
+        value: shared
+        source: override
+      k_diffusion:
+        value: 0.001
+        source: override
+      k_wash:
+        value: 0.01
+        source: override
+      lineages:
+        value: fixer:4,reducer:4
+        source: override
+      model_proto_ecology:
+        value: reaction_universe
+        source: override
+      n_steps:
+        value: 250
+        source: resolved
+      p_diacid:
+        value: 1e-08
+        source: override
+      p_monoacid:
+        value: 1e-07
+        source: override
+      placement:
+        value: mixed
+        source: override
+    params_captured_at: '2026-10-29'
+    params_source: dashboard-runner
+- name: viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1793320338__deb319
+  status: completed
+  timestamp: 1793320349.990596
+  emitter:
+    kind: xarray
+    store: /Users/eranagmon/code/viva-genesis--wb/workspace/studies/s2-ecology-to-proximity/runs.viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1793320338__deb319.zarr
+  env_id: 283d60067ef7e750
+  generations: 1
+  n_readouts: 1
+  params: '{"lineages": "fixer:4,reducer:4", "coupling": "shared", "model_proto_ecology": "reaction_universe", "p_diacid": 1e-08, "p_monoacid": 1e-07, "k_wash": 0.01, "placement": "mixed", "k_diffusion": 0.001}'
+  computed_outcomes:
+    proximity-selected-under-finite-diffusion:
+      result: PASS
+      measured_value: 0.0
+      evaluated_by: code
+      operator: derived_scalar/>
+      detail: 3.339e-22 > 1e-22
+      reconcile: divergent
+  provenance:
+    params:
+      coupling:
+        value: shared
+        source: override
+      k_diffusion:
+        value: 0.001
+        source: override
+      k_wash:
+        value: 0.01
+        source: override
+      lineages:
+        value: fixer:4,reducer:4
+        source: override
+      model_proto_ecology:
+        value: reaction_universe
+        source: override
+      n_steps:
+        value: 250
+        source: resolved
+      p_diacid:
+        value: 1e-08
+        source: override
+      p_monoacid:
+        value: 1e-07
+        source: override
+      placement:
+        value: mixed
+        source: override
+    params_captured_at: '2026-10-29'
+    params_source: dashboard-runner
+  outcomes:
+    proximity-selected-under-finite-diffusion:
+      result: SKIP
+      evaluated_by: agent
+      note: "derived-scalar computer 'settled_cross_lineage_flux' error: 'exchange/cross_lineage_flux_total'"
+      auto_evaluated: true
+simulation_set:
+- name: baseline-baseline
+  kind: single
+  base_model: viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community
+  is_baseline: true
+  status: ran
+  params:
+    lineages: fixer:4,reducer:4
+    coupling: shared
+    model_proto_ecology: reaction_universe
+    p_diacid: 1e-08
+    p_monoacid: 1e-07
+    k_wash: 0.01
+    placement: mixed
+    k_diffusion: 0.001
+- name: distant-control
+  kind: single
+  base_model: viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community
+  status: ran
+- name: well-mixed-control
+  kind: single
+  base_model: viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community
+  status: ran
+pipeline_gate:
+  gate_evaluator:
+    result: blocked
+    blocked_by:
+    - proximity-selected-under-finite-diffusion
+    evaluated_by: code
+    diverges_from_authored: false

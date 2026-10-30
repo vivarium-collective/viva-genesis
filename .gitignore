@@ -50,3 +50,6 @@ workspace/studies/*/runs.db-shm
 workspace/studies/*/runs.db-wal
 # Generated report-card artifacts (rendered by sims/run.py grading, regenerated per run)
 workspace/studies/*/viz/report_card/
+
+# Per-run XArray/zarr emitter stores next to study dirs (run data, like runs.db)
+workspace/studies/*/runs.*.zarr/
