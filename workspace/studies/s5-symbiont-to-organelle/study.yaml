@@ -44,8 +44,12 @@ findings:
     from_test: heritable-integration-stable
     measure: settled_heritability
     observed: 0.989
-    conditions: {fidelity: high}
+    conditions: {fidelity: high, per_site_fidelity: '>=0.95-gate'}
     fidelity: reproduction
+    by_regime:
+      high_fidelity_0.99: 0.99
+      low_fidelity_0.495: 0.575
+    threshold: 'heritable integration is fidelity-gated: it clears the >0.95 heritability gate at per_site_fidelity=0.99 (0.990, PASS) but collapses at 0.495 (0.575, FAIL) — the error-catastrophe boundary lies between. The claim holds in the high-fidelity regime; both h-s5-threshold-high-fidelity (high) and h-s5-error-catastrophe (low) are confirmed in their regimes.'
   provenance:
     kind: run
     run_date: '2026-10-28'
@@ -102,6 +106,14 @@ variants:
   base: baseline
   over:
     module: non-heritable
+- name: sweep-per_site_fidelity-0.495
+  base: baseline
+  params:
+    per_site_fidelity: 0.495
+- name: sweep-per_site_fidelity-1.98
+  base: baseline
+  params:
+    per_site_fidelity: 1.98
 visualizations:
 - name: eigen-catastrophe
   title: The Eigen error catastrophe — heritability vs transmission fidelity
@@ -197,6 +209,86 @@ runs:
         knob:
         citation: vosseberg-nature-2024
       auto_evaluated: true
+  canonical: true
+- name: viva_genesis.composites.heredity_lineage.heredity_lineage_comparison__1793328705__2a7305
+  status: completed
+  timestamp: 1793328707.549386
+  emitter:
+    kind: xarray
+    store: /Users/eranagmon/code/viva-genesis--wb/workspace/studies/s5-symbiont-to-organelle/runs.viva_genesis.composites.heredity_lineage.heredity_lineage_comparison__1793328705__2a7305.zarr
+  env_id: 020cf48be135d264
+  generations: 1
+  sim_minutes: 2
+  n_readouts: 1
+  params: '{"module": "template", "per_site_fidelity": 0.495}'
+  computed_outcomes:
+    heritable-integration-stable:
+      result: FAIL
+      measured_value: 0.574924
+      evaluated_by: code
+      operator: derived_scalar/>
+      detail: 0.5749 > 0.95
+      axis:
+        id: heritable-integration-stable
+        label: Vertical-transmission fidelity (heritability of the chemical phenotype across the lineage tree) stays high across many generations — only then does the lineage persist with function. The threshold discriminates high-fidelity inheritance from the Eigen-collapse and non-heritable controls.
+        verdict: mismatch
+        value: 0.574924
+        meter: 0.30259157894736843
+        detail:
+        expected:
+          kind: value
+          value: 0.95
+          low:
+          high:
+          op: '>'
+          tol: 0.05
+          statement:
+          units:
+        margin: -0.37507599999999996
+        severity: hard
+        units:
+        knob:
+        citation: vosseberg-nature-2024
+      reconcile: agree
+  provenance:
+    params:
+      module:
+        value: template
+        source: override
+      per_site_fidelity:
+        value: 0.495
+        source: override
+    params_captured_at: '2026-10-29'
+    params_source: dashboard-runner
+  outcomes:
+    heritable-integration-stable:
+      result: FAIL
+      measured_value: 0.574924
+      detail: 0.5749 > 0.95
+      operator: derived_scalar/>
+      evaluated_by: code
+      axis:
+        id: heritable-integration-stable
+        label: Vertical-transmission fidelity (heritability of the chemical phenotype across the lineage tree) stays high across many generations — only then does the lineage persist with function. The threshold discriminates high-fidelity inheritance from the Eigen-collapse and non-heritable controls.
+        verdict: mismatch
+        value: 0.574924
+        meter: 0.30259157894736843
+        detail:
+        expected:
+          kind: value
+          value: 0.95
+          low:
+          high:
+          op: '>'
+          tol: 0.05
+          statement:
+          units:
+        margin: -0.37507599999999996
+        severity: hard
+        units:
+        knob:
+        citation: vosseberg-nature-2024
+      auto_evaluated: true
 simulation_set:
 - name: baseline-baseline
   kind: single
@@ -206,14 +298,32 @@ simulation_set:
   params:
     module: template
     per_site_fidelity: 0.99
+  pass_fail_tests: &id001
+  - heritable-integration-stable
 - name: low-fidelity-control
   kind: single
   base_model: viva_genesis.composites.heredity_lineage.heredity_lineage_comparison
   status: ran
+  pass_fail_tests: *id001
 - name: non-heritable-control
   kind: single
   base_model: viva_genesis.composites.heredity_lineage.heredity_lineage_comparison
   status: ran
+  pass_fail_tests: *id001
+- name: sweep-per_site_fidelity-0.495
+  kind: single
+  base_model: viva_genesis.composites.heredity_lineage.heredity_lineage_comparison
+  perturbation:
+    per_site_fidelity: 0.495
+  status: ran
+  pass_fail_tests: *id001
+- name: sweep-per_site_fidelity-1.98
+  kind: single
+  base_model: viva_genesis.composites.heredity_lineage.heredity_lineage_comparison
+  perturbation:
+    per_site_fidelity: 1.98
+  status: ran
+  pass_fail_tests: *id001
 pipeline_gate:
   gate_evaluator:
     result: blocked
@@ -221,3 +331,15 @@ pipeline_gate:
     - heritable-integration-stable
     evaluated_by: code
     diverges_from_authored: false
+robustness:
+  n_replicates: 3
+  seeds:
+  - 1
+  - 2
+  - 3
+  parameter_sweep: true
+refined_from:
+  study: s5-symbiont-to-organelle
+  changes:
+  - replicate
+  - sweep

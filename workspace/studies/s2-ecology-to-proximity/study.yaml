@@ -93,8 +93,8 @@ baseline:
     lineages: fixer:4,reducer:4
     coupling: shared
     model_proto_ecology: reaction_universe
-    p_diacid: 1.0e-08
-    p_monoacid: 1.0e-07
+    p_diacid: 1e-08
+    p_monoacid: 1e-07
     k_wash: 0.01
     placement: mixed
     k_diffusion: 0.001
@@ -108,6 +108,14 @@ variants:
   base: baseline
   over:
     k_diffusion: 0.1
+- name: sweep-p_diacid-5e-09
+  base: baseline
+  params:
+    p_diacid: 5e-09
+- name: sweep-p_diacid-2e-08
+  base: baseline
+  params:
+    p_diacid: 2e-08
 visualizations:
 - name: proximity-diffusion
   title: Proximity sustains exchange only where structure holds — flux vs diffusion (22x → 1.3x)
@@ -391,6 +399,129 @@ runs:
       evaluated_by: agent
       note: "derived-scalar computer 'settled_cross_lineage_flux' error: 'exchange/cross_lineage_flux_total'"
       auto_evaluated: true
+  sim_minutes: 4
+- name: viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1793328633__90e2e4
+  status: completed
+  timestamp: 1793328646.333514
+  emitter:
+    kind: xarray
+    store: /Users/eranagmon/code/viva-genesis--wb/workspace/studies/s2-ecology-to-proximity/runs.viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1793328633__90e2e4.zarr
+  env_id: 020cf48be135d264
+  generations: 1
+  sim_minutes: 4
+  n_readouts: 1
+  params: '{"lineages": "fixer:4,reducer:4", "coupling": "shared", "model_proto_ecology": "reaction_universe", "p_diacid": "5e-09", "p_monoacid": "1e-07", "k_wash": 0.01, "placement": "mixed", "k_diffusion": 0.001}'
+  computed_outcomes:
+    proximity-selected-under-finite-diffusion:
+      result: PASS
+      measured_value: 0.0
+      evaluated_by: code
+      operator: derived_scalar/>
+      detail: 3.339e-22 > 1e-22
+      reconcile: agree
+  provenance:
+    params:
+      coupling:
+        value: shared
+        source: override
+      k_diffusion:
+        value: 0.001
+        source: override
+      k_wash:
+        value: 0.01
+        source: override
+      lineages:
+        value: fixer:4,reducer:4
+        source: override
+      model_proto_ecology:
+        value: reaction_universe
+        source: override
+      p_diacid:
+        value: '5e-09'
+        source: override
+      p_monoacid:
+        value: '1e-07'
+        source: override
+      placement:
+        value: mixed
+        source: override
+    params_captured_at: '2026-10-29'
+    params_source: dashboard-runner
+  outcomes:
+    proximity-selected-under-finite-diffusion:
+      result: PASS
+      measured_value: 0.0
+      detail: 3.339e-22 > 1e-22
+      operator: derived_scalar/>
+      evaluated_by: code
+      auto_evaluated: true
+- name: viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1793322921__ee393d
+  status: completed
+  timestamp: 1793322932.7771509
+  emitter:
+    kind: unknown
+  env_id: 283d60067ef7e750
+  params: '{"lineages": "fixer:4,reducer:4", "coupling": "shared", "model_proto_ecology": "reaction_universe", "p_diacid": 1e-08, "p_monoacid": 1e-07, "k_wash": 0.01, "placement": "mixed", "k_diffusion": 0.001}'
+  computed_outcomes:
+    proximity-selected-under-finite-diffusion:
+      evaluated_by: agent
+      reason: "derived-scalar computer 'settled_cross_lineage_flux' error: 'exchange.cross_lineage_flux_total'"
+      reconcile: no_authored
+- name: viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1793328662__bebf15
+  status: completed
+  timestamp: 1793328674.546528
+  emitter:
+    kind: xarray
+    store: /Users/eranagmon/code/viva-genesis--wb/workspace/studies/s2-ecology-to-proximity/runs.viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1793328662__bebf15.zarr
+  env_id: 020cf48be135d264
+  generations: 1
+  sim_minutes: 4
+  n_readouts: 1
+  params: '{"lineages": "fixer:4,reducer:4", "coupling": "shared", "model_proto_ecology": "reaction_universe", "p_diacid": "2e-08", "p_monoacid": "1e-07", "k_wash": 0.01, "placement": "mixed", "k_diffusion": 0.001}'
+  computed_outcomes:
+    proximity-selected-under-finite-diffusion:
+      result: PASS
+      measured_value: 0.0
+      evaluated_by: code
+      operator: derived_scalar/>
+      detail: 3.342e-22 > 1e-22
+      reconcile: agree
+  provenance:
+    params:
+      coupling:
+        value: shared
+        source: override
+      k_diffusion:
+        value: 0.001
+        source: override
+      k_wash:
+        value: 0.01
+        source: override
+      lineages:
+        value: fixer:4,reducer:4
+        source: override
+      model_proto_ecology:
+        value: reaction_universe
+        source: override
+      p_diacid:
+        value: '2e-08'
+        source: override
+      p_monoacid:
+        value: '1e-07'
+        source: override
+      placement:
+        value: mixed
+        source: override
+    params_captured_at: '2026-10-29'
+    params_source: dashboard-runner
+  outcomes:
+    proximity-selected-under-finite-diffusion:
+      result: PASS
+      measured_value: 0.0
+      detail: 3.342e-22 > 1e-22
+      operator: derived_scalar/>
+      evaluated_by: code
+      auto_evaluated: true
 simulation_set:
 - name: baseline-baseline
   kind: single
@@ -406,14 +537,32 @@ simulation_set:
     k_wash: 0.01
     placement: mixed
     k_diffusion: 0.001
+  pass_fail_tests: &id001
+  - proximity-selected-under-finite-diffusion
 - name: distant-control
   kind: single
   base_model: viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community
   status: ran
+  pass_fail_tests: *id001
 - name: well-mixed-control
   kind: single
   base_model: viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community
   status: ran
+  pass_fail_tests: *id001
+- name: sweep-p_diacid-5e-09
+  kind: single
+  base_model: viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community
+  perturbation:
+    p_diacid: '5e-09'
+  status: ran
+  pass_fail_tests: *id001
+- name: sweep-p_diacid-2e-08
+  kind: single
+  base_model: viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community
+  perturbation:
+    p_diacid: '2e-08'
+  status: ran
+  pass_fail_tests: *id001
 pipeline_gate:
   gate_evaluator:
     result: blocked
@@ -421,3 +570,9 @@ pipeline_gate:
     - proximity-selected-under-finite-diffusion
     evaluated_by: code
     diverges_from_authored: false
+robustness:
+  parameter_sweep: true
+refined_from:
+  study: s2-ecology-to-proximity
+  changes:
+  - sweep

@@ -136,6 +136,14 @@ variants:
   base: cpm-spatial
   over:
     j_hs: 18.0
+- name: sweep-protrusion_area_um2-2.0
+  base: baseline
+  params:
+    protrusion_area_um2: 2.0
+- name: sweep-protrusion_area_um2-8.0
+  base: baseline
+  params:
+    protrusion_area_um2: 8.0
 visualizations:
 - name: enclosure-feasibility
   address: local:S3EnclosureViz
@@ -375,6 +383,204 @@ runs:
       operator: derived_scalar/<
       evaluated_by: code
       auto_evaluated: true
+- name: viva_genesis.composites.protrusion_enclosure.protrusion_enclosure__1793328689__206166
+  status: completed
+  timestamp: 1793328691.929899
+  emitter:
+    kind: xarray
+    store: /Users/eranagmon/code/viva-genesis--wb/workspace/studies/s3-protrusions-to-enclosure/runs.viva_genesis.composites.protrusion_enclosure.protrusion_enclosure__1793328689__206166.zarr
+  env_id: 020cf48be135d264
+  generations: 1
+  sim_minutes: 2
+  n_readouts: 2
+  params: '{"topology": "classical_engulfment", "protrusion_area_um2": 2.0, "adhesion_energy_kT": 600.0, "bending_modulus_kT": 20.0}'
+  computed_outcomes:
+    enclosure-geometrically-feasible:
+      result: FAIL
+      measured_value: 0.341463
+      evaluated_by: code
+      operator: derived_scalar/>
+      detail: 0.3415 > 0.5
+      axis:
+        id: enclosure-geometrically-feasible
+        label: At least one topology reaches stable enclosure for a majority of the partner-size ensemble (enclosure probability > 0.5). The threshold discriminates the wrapping topologies from the no-enclosure and weak-adhesion controls.
+        verdict: mismatch
+        value: 0.341463
+        meter: 0.341463
+        detail:
+        expected:
+          kind: value
+          value: 0.5
+          low:
+          high:
+          op: '>'
+          tol: 0.05
+          statement:
+          units:
+        margin: -0.15853699999999998
+        severity: hard
+        units:
+        knob:
+        citation: rodrigues-oliveira-nature-2023; radler-nature-2026
+      reconcile: agree
+    membrane-area-conserved:
+      result: PASS
+      measured_value: 0.0
+      evaluated_by: code
+      operator: derived_scalar/<
+      detail: 0 < 0.0001
+      reconcile: agree
+  provenance:
+    params:
+      adhesion_energy_kT:
+        value: 600.0
+        source: override
+      bending_modulus_kT:
+        value: 20.0
+        source: override
+      protrusion_area_um2:
+        value: 2.0
+        source: override
+      topology:
+        value: classical_engulfment
+        source: override
+    params_captured_at: '2026-10-29'
+    params_source: dashboard-runner
+  outcomes:
+    enclosure-geometrically-feasible:
+      result: FAIL
+      measured_value: 0.341463
+      detail: 0.3415 > 0.5
+      operator: derived_scalar/>
+      evaluated_by: code
+      axis:
+        id: enclosure-geometrically-feasible
+        label: At least one topology reaches stable enclosure for a majority of the partner-size ensemble (enclosure probability > 0.5). The threshold discriminates the wrapping topologies from the no-enclosure and weak-adhesion controls.
+        verdict: mismatch
+        value: 0.341463
+        meter: 0.341463
+        detail:
+        expected:
+          kind: value
+          value: 0.5
+          low:
+          high:
+          op: '>'
+          tol: 0.05
+          statement:
+          units:
+        margin: -0.15853699999999998
+        severity: hard
+        units:
+        knob:
+        citation: rodrigues-oliveira-nature-2023; radler-nature-2026
+      auto_evaluated: true
+    membrane-area-conserved:
+      result: PASS
+      measured_value: 0.0
+      detail: 0 < 0.0001
+      operator: derived_scalar/<
+      evaluated_by: code
+      auto_evaluated: true
+- name: viva_genesis.composites.protrusion_enclosure.protrusion_enclosure__1793328693__414211
+  status: completed
+  timestamp: 1793328695.8782551
+  emitter:
+    kind: xarray
+    store: /Users/eranagmon/code/viva-genesis--wb/workspace/studies/s3-protrusions-to-enclosure/runs.viva_genesis.composites.protrusion_enclosure.protrusion_enclosure__1793328693__414211.zarr
+  env_id: 020cf48be135d264
+  generations: 1
+  sim_minutes: 2
+  n_readouts: 2
+  params: '{"topology": "classical_engulfment", "protrusion_area_um2": 8.0, "adhesion_energy_kT": 600.0, "bending_modulus_kT": 20.0}'
+  computed_outcomes:
+    enclosure-geometrically-feasible:
+      result: PASS
+      measured_value: 0.97561
+      evaluated_by: code
+      operator: derived_scalar/>
+      detail: 0.9756 > 0.5
+      axis:
+        id: enclosure-geometrically-feasible
+        label: At least one topology reaches stable enclosure for a majority of the partner-size ensemble (enclosure probability > 0.5). The threshold discriminates the wrapping topologies from the no-enclosure and weak-adhesion controls.
+        verdict: within_tol
+        value: 0.97561
+        meter: 0.97561
+        detail:
+        expected:
+          kind: value
+          value: 0.5
+          low:
+          high:
+          op: '>'
+          tol: 0.05
+          statement:
+          units:
+        margin: 0.47561
+        severity: hard
+        units:
+        knob:
+        citation: rodrigues-oliveira-nature-2023; radler-nature-2026
+      reconcile: agree
+    membrane-area-conserved:
+      result: PASS
+      measured_value: 0.0
+      evaluated_by: code
+      operator: derived_scalar/<
+      detail: 0 < 0.0001
+      reconcile: agree
+  provenance:
+    params:
+      adhesion_energy_kT:
+        value: 600.0
+        source: override
+      bending_modulus_kT:
+        value: 20.0
+        source: override
+      protrusion_area_um2:
+        value: 8.0
+        source: override
+      topology:
+        value: classical_engulfment
+        source: override
+    params_captured_at: '2026-10-29'
+    params_source: dashboard-runner
+  outcomes:
+    enclosure-geometrically-feasible:
+      result: PASS
+      measured_value: 0.97561
+      detail: 0.9756 > 0.5
+      operator: derived_scalar/>
+      evaluated_by: code
+      axis:
+        id: enclosure-geometrically-feasible
+        label: At least one topology reaches stable enclosure for a majority of the partner-size ensemble (enclosure probability > 0.5). The threshold discriminates the wrapping topologies from the no-enclosure and weak-adhesion controls.
+        verdict: within_tol
+        value: 0.97561
+        meter: 0.97561
+        detail:
+        expected:
+          kind: value
+          value: 0.5
+          low:
+          high:
+          op: '>'
+          tol: 0.05
+          statement:
+          units:
+        margin: 0.47561
+        severity: hard
+        units:
+        knob:
+        citation: rodrigues-oliveira-nature-2023; radler-nature-2026
+      auto_evaluated: true
+    membrane-area-conserved:
+      result: PASS
+      measured_value: 0.0
+      detail: 0 < 0.0001
+      operator: derived_scalar/<
+      evaluated_by: code
+      auto_evaluated: true
 simulation_set:
 - name: baseline-baseline
   kind: single
@@ -432,6 +638,22 @@ simulation_set:
   base_model: viva_genesis.composites.protrusion_enclosure_membrane.protrusion_enclosure_membrane
   status: ran
   pass_fail_tests: *id001
+- name: sweep-protrusion_area_um2-2.0
+  kind: single
+  base_model: viva_genesis.composites.protrusion_enclosure_membrane.protrusion_enclosure_membrane
+  perturbation:
+    protrusion_area_um2: 2.0
+  status: ran
+  pass_fail_tests: &id002
+  - enclosure-geometrically-feasible
+  - membrane-area-conserved
+- name: sweep-protrusion_area_um2-8.0
+  kind: single
+  base_model: viva_genesis.composites.protrusion_enclosure_membrane.protrusion_enclosure_membrane
+  perturbation:
+    protrusion_area_um2: 8.0
+  status: ran
+  pass_fail_tests: *id002
 pipeline_gate:
   gate_evaluator:
     result: blocked
@@ -440,3 +662,9 @@ pipeline_gate:
     - membrane-area-conserved
     evaluated_by: code
     diverges_from_authored: false
+robustness:
+  parameter_sweep: true
+refined_from:
+  study: s3-protrusions-to-enclosure
+  changes:
+  - sweep

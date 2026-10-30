@@ -102,6 +102,14 @@ variants:
   base: baseline
   over:
     catalyst_efficiency: 0.3
+- name: sweep-catalyst_efficiency-0.5
+  base: baseline
+  params:
+    catalyst_efficiency: 0.5
+- name: sweep-catalyst_efficiency-2.0
+  base: baseline
+  params:
+    catalyst_efficiency: 2.0
 visualizations:
 - name: internalization-boundary
   title: Internalization pays only with an efficient pump — survivors vs pump efficiency
@@ -203,6 +211,176 @@ runs:
         knob:
         citation: santana-molina-nee-2025
       auto_evaluated: true
+- name: viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization__1793328698__ece844
+  status: completed
+  timestamp: 1793328700.534863
+  emitter:
+    kind: xarray
+    store: /Users/eranagmon/code/viva-genesis--wb/workspace/studies/s4-compartmental-energetic-coupling/runs.viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization__1793328698__ece844.zarr
+  env_id: 020cf48be135d264
+  generations: 1
+  sim_minutes: 2
+  n_readouts: 1
+  params: '{"catalyst_efficiency": 0.5, "v_start": 0.4, "decline_rate": 0.01, "gradient_floor": 0.02}'
+  computed_outcomes:
+    internalization-net-energy-positive:
+      result: PASS
+      measured_value: 0.998865
+      evaluated_by: code
+      operator: derived_scalar/>
+      detail: 0.9989 > 0.5
+      axis:
+        id: internalization-net-energy-positive
+        label: With an efficient pump the population internalizes gradient generation and SURVIVES the declining external gradient (net-positive). The survival threshold discriminates the favorable regime from the weak-pump control, which collapses.
+        verdict: within_tol
+        value: 0.998865
+        meter: 0.998865
+        detail:
+        expected:
+          kind: value
+          value: 0.5
+          low:
+          high:
+          op: '>'
+          tol: 0.05
+          statement:
+          units:
+        margin: 0.498865
+        severity: hard
+        units:
+        knob:
+        citation: santana-molina-nee-2025
+      reconcile: agree
+  provenance:
+    params:
+      catalyst_efficiency:
+        value: 0.5
+        source: override
+      decline_rate:
+        value: 0.01
+        source: override
+      gradient_floor:
+        value: 0.02
+        source: override
+      v_start:
+        value: 0.4
+        source: override
+    params_captured_at: '2026-10-29'
+    params_source: dashboard-runner
+  outcomes:
+    internalization-net-energy-positive:
+      result: PASS
+      measured_value: 0.998865
+      detail: 0.9989 > 0.5
+      operator: derived_scalar/>
+      evaluated_by: code
+      axis:
+        id: internalization-net-energy-positive
+        label: With an efficient pump the population internalizes gradient generation and SURVIVES the declining external gradient (net-positive). The survival threshold discriminates the favorable regime from the weak-pump control, which collapses.
+        verdict: within_tol
+        value: 0.998865
+        meter: 0.998865
+        detail:
+        expected:
+          kind: value
+          value: 0.5
+          low:
+          high:
+          op: '>'
+          tol: 0.05
+          statement:
+          units:
+        margin: 0.498865
+        severity: hard
+        units:
+        knob:
+        citation: santana-molina-nee-2025
+      auto_evaluated: true
+- name: viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization__1793328702__20770e
+  status: completed
+  timestamp: 1793328703.8126678
+  emitter:
+    kind: xarray
+    store: /Users/eranagmon/code/viva-genesis--wb/workspace/studies/s4-compartmental-energetic-coupling/runs.viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization__1793328702__20770e.zarr
+  env_id: 020cf48be135d264
+  generations: 1
+  sim_minutes: 2
+  n_readouts: 1
+  params: '{"catalyst_efficiency": 2.0, "v_start": 0.4, "decline_rate": 0.01, "gradient_floor": 0.02}'
+  computed_outcomes:
+    internalization-net-energy-positive:
+      result: PASS
+      measured_value: 1.0
+      evaluated_by: code
+      operator: derived_scalar/>
+      detail: 1 > 0.5
+      axis:
+        id: internalization-net-energy-positive
+        label: With an efficient pump the population internalizes gradient generation and SURVIVES the declining external gradient (net-positive). The survival threshold discriminates the favorable regime from the weak-pump control, which collapses.
+        verdict: within_tol
+        value: 1.0
+        meter: 1.0
+        detail:
+        expected:
+          kind: value
+          value: 0.5
+          low:
+          high:
+          op: '>'
+          tol: 0.05
+          statement:
+          units:
+        margin: 0.5
+        severity: hard
+        units:
+        knob:
+        citation: santana-molina-nee-2025
+      reconcile: agree
+  provenance:
+    params:
+      catalyst_efficiency:
+        value: 2.0
+        source: override
+      decline_rate:
+        value: 0.01
+        source: override
+      gradient_floor:
+        value: 0.02
+        source: override
+      v_start:
+        value: 0.4
+        source: override
+    params_captured_at: '2026-10-29'
+    params_source: dashboard-runner
+  outcomes:
+    internalization-net-energy-positive:
+      result: PASS
+      measured_value: 1.0
+      detail: 1 > 0.5
+      operator: derived_scalar/>
+      evaluated_by: code
+      axis:
+        id: internalization-net-energy-positive
+        label: With an efficient pump the population internalizes gradient generation and SURVIVES the declining external gradient (net-positive). The survival threshold discriminates the favorable regime from the weak-pump control, which collapses.
+        verdict: within_tol
+        value: 1.0
+        meter: 1.0
+        detail:
+        expected:
+          kind: value
+          value: 0.5
+          low:
+          high:
+          op: '>'
+          tol: 0.05
+          statement:
+          units:
+        margin: 0.5
+        severity: hard
+        units:
+        knob:
+        citation: santana-molina-nee-2025
+      auto_evaluated: true
 simulation_set:
 - name: baseline-baseline
   kind: single
@@ -214,10 +392,27 @@ simulation_set:
     v_start: 0.4
     decline_rate: 0.01
     gradient_floor: 0.02
+  pass_fail_tests: &id001
+  - internalization-net-energy-positive
 - name: weak-pump-control
   kind: single
   base_model: viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization
   status: ran
+  pass_fail_tests: *id001
+- name: sweep-catalyst_efficiency-0.5
+  kind: single
+  base_model: viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization
+  perturbation:
+    catalyst_efficiency: 0.5
+  status: ran
+  pass_fail_tests: *id001
+- name: sweep-catalyst_efficiency-2.0
+  kind: single
+  base_model: viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization
+  perturbation:
+    catalyst_efficiency: 2.0
+  status: ran
+  pass_fail_tests: *id001
 pipeline_gate:
   gate_evaluator:
     result: blocked
@@ -225,3 +420,15 @@ pipeline_gate:
     - internalization-net-energy-positive
     evaluated_by: code
     diverges_from_authored: false
+robustness:
+  n_replicates: 3
+  seeds:
+  - 1
+  - 2
+  - 3
+  parameter_sweep: true
+refined_from:
+  study: s4-compartmental-energetic-coupling
+  changes:
+  - replicate
+  - sweep

@@ -106,8 +106,8 @@ baseline:
     lineages: fixer:4,reducer:4
     coupling: shared
     model_proto_ecology: reaction_universe
-    p_diacid: 1.0e-08
-    p_monoacid: 1.0e-07
+    p_diacid: 1e-08
+    p_monoacid: 1e-07
     k_wash: 0.01
   note: First-fidelity arm. settled_metacommunity_robustness (community functional redundancy) is the partner-dependence gate; C_residual_max gives carbon mass balance. The next-fidelity arm — two gap-audited archaeal/alphaproteobacterial GEMs under community FBA — is blocked on COBRApy (not installed) + genome reconstruction (GTDB/NCBI data not yet ingested).
 variants:
@@ -115,6 +115,14 @@ variants:
   base: baseline
   over:
     coupling: private
+- name: sweep-p_diacid-5e-09
+  base: baseline
+  params:
+    p_diacid: 5e-09
+- name: sweep-p_diacid-2e-08
+  base: baseline
+  params:
+    p_diacid: 2e-08
 visualizations:
 - name: community-redundancy
   title: Connected community develops redundancy; isolated does not — robustness over time
@@ -291,6 +299,216 @@ runs:
       operator: derived_scalar/<
       evaluated_by: code
       auto_evaluated: true
+- name: viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1793328573__4323f0
+  status: completed
+  timestamp: 1793328585.9191418
+  emitter:
+    kind: xarray
+    store: /Users/eranagmon/code/viva-genesis--wb/workspace/studies/s1-metabolic-partnership/runs.viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1793328573__4323f0.zarr
+  env_id: 020cf48be135d264
+  generations: 1
+  sim_minutes: 4
+  n_readouts: 2
+  params: '{"lineages": "fixer:4,reducer:4", "coupling": "shared", "model_proto_ecology": "reaction_universe", "p_diacid": "5e-09", "p_monoacid": "1e-07", "k_wash": 0.01}'
+  computed_outcomes:
+    community-redundancy-develops:
+      result: PASS
+      measured_value: 0.535714
+      evaluated_by: code
+      operator: derived_scalar/>
+      detail: 0.5357 > 0.5
+      axis:
+        id: community-redundancy-develops
+        label: 'The connected community develops functional redundancy — a majority of protometabolic capabilities held by >= 2 compartments (robust to a single-compartment loss). This only rises above the ~0.46 seeded floor when cross-feeding fills in capabilities, so the >0.5 threshold discriminates the connected community from the isolated (no-exchange) control: the partner dependence IS the gap between the two arms.'
+        verdict: within_tol
+        value: 0.535714
+        meter: 0.535714
+        detail:
+        expected:
+          kind: value
+          value: 0.5
+          low:
+          high:
+          op: '>'
+          tol: 0.05
+          statement:
+          units:
+        margin: 0.035714000000000024
+        severity: hard
+        units:
+        knob:
+        citation: imachi-nature-2020; santana-molina-nee-2025
+      reconcile: agree
+    exchange-mass-balanced:
+      result: PASS
+      measured_value: 0.0
+      evaluated_by: code
+      operator: derived_scalar/<
+      detail: 5.17e-11 < 1e-06
+      reconcile: agree
+  provenance:
+    params:
+      coupling:
+        value: shared
+        source: override
+      k_wash:
+        value: 0.01
+        source: override
+      lineages:
+        value: fixer:4,reducer:4
+        source: override
+      model_proto_ecology:
+        value: reaction_universe
+        source: override
+      p_diacid:
+        value: '5e-09'
+        source: override
+      p_monoacid:
+        value: '1e-07'
+        source: override
+    params_captured_at: '2026-10-29'
+    params_source: dashboard-runner
+  outcomes:
+    community-redundancy-develops:
+      result: PASS
+      measured_value: 0.535714
+      detail: 0.5357 > 0.5
+      operator: derived_scalar/>
+      evaluated_by: code
+      axis:
+        id: community-redundancy-develops
+        label: 'The connected community develops functional redundancy — a majority of protometabolic capabilities held by >= 2 compartments (robust to a single-compartment loss). This only rises above the ~0.46 seeded floor when cross-feeding fills in capabilities, so the >0.5 threshold discriminates the connected community from the isolated (no-exchange) control: the partner dependence IS the gap between the two arms.'
+        verdict: within_tol
+        value: 0.535714
+        meter: 0.535714
+        detail:
+        expected:
+          kind: value
+          value: 0.5
+          low:
+          high:
+          op: '>'
+          tol: 0.05
+          statement:
+          units:
+        margin: 0.035714000000000024
+        severity: hard
+        units:
+        knob:
+        citation: imachi-nature-2020; santana-molina-nee-2025
+      auto_evaluated: true
+    exchange-mass-balanced:
+      result: PASS
+      measured_value: 0.0
+      detail: 5.17e-11 < 1e-06
+      operator: derived_scalar/<
+      evaluated_by: code
+      auto_evaluated: true
+- name: viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1793328605__16f0f9
+  status: completed
+  timestamp: 1793328618.041333
+  emitter:
+    kind: xarray
+    store: /Users/eranagmon/code/viva-genesis--wb/workspace/studies/s1-metabolic-partnership/runs.viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1793328605__16f0f9.zarr
+  env_id: 020cf48be135d264
+  generations: 1
+  sim_minutes: 4
+  n_readouts: 2
+  params: '{"lineages": "fixer:4,reducer:4", "coupling": "shared", "model_proto_ecology": "reaction_universe", "p_diacid": "2e-08", "p_monoacid": "1e-07", "k_wash": 0.01}'
+  computed_outcomes:
+    community-redundancy-develops:
+      result: PASS
+      measured_value: 0.535714
+      evaluated_by: code
+      operator: derived_scalar/>
+      detail: 0.5357 > 0.5
+      axis:
+        id: community-redundancy-develops
+        label: 'The connected community develops functional redundancy — a majority of protometabolic capabilities held by >= 2 compartments (robust to a single-compartment loss). This only rises above the ~0.46 seeded floor when cross-feeding fills in capabilities, so the >0.5 threshold discriminates the connected community from the isolated (no-exchange) control: the partner dependence IS the gap between the two arms.'
+        verdict: within_tol
+        value: 0.535714
+        meter: 0.535714
+        detail:
+        expected:
+          kind: value
+          value: 0.5
+          low:
+          high:
+          op: '>'
+          tol: 0.05
+          statement:
+          units:
+        margin: 0.035714000000000024
+        severity: hard
+        units:
+        knob:
+        citation: imachi-nature-2020; santana-molina-nee-2025
+      reconcile: agree
+    exchange-mass-balanced:
+      result: PASS
+      measured_value: 0.0
+      evaluated_by: code
+      operator: derived_scalar/<
+      detail: 2.011e-11 < 1e-06
+      reconcile: agree
+  provenance:
+    params:
+      coupling:
+        value: shared
+        source: override
+      k_wash:
+        value: 0.01
+        source: override
+      lineages:
+        value: fixer:4,reducer:4
+        source: override
+      model_proto_ecology:
+        value: reaction_universe
+        source: override
+      p_diacid:
+        value: '2e-08'
+        source: override
+      p_monoacid:
+        value: '1e-07'
+        source: override
+    params_captured_at: '2026-10-29'
+    params_source: dashboard-runner
+  outcomes:
+    community-redundancy-develops:
+      result: PASS
+      measured_value: 0.535714
+      detail: 0.5357 > 0.5
+      operator: derived_scalar/>
+      evaluated_by: code
+      axis:
+        id: community-redundancy-develops
+        label: 'The connected community develops functional redundancy — a majority of protometabolic capabilities held by >= 2 compartments (robust to a single-compartment loss). This only rises above the ~0.46 seeded floor when cross-feeding fills in capabilities, so the >0.5 threshold discriminates the connected community from the isolated (no-exchange) control: the partner dependence IS the gap between the two arms.'
+        verdict: within_tol
+        value: 0.535714
+        meter: 0.535714
+        detail:
+        expected:
+          kind: value
+          value: 0.5
+          low:
+          high:
+          op: '>'
+          tol: 0.05
+          statement:
+          units:
+        margin: 0.035714000000000024
+        severity: hard
+        units:
+        knob:
+        citation: imachi-nature-2020; santana-molina-nee-2025
+      auto_evaluated: true
+    exchange-mass-balanced:
+      result: PASS
+      measured_value: 0.0
+      detail: 2.011e-11 < 1e-06
+      operator: derived_scalar/<
+      evaluated_by: code
+      auto_evaluated: true
 simulation_set:
 - name: baseline-baseline
   kind: single
@@ -312,6 +530,22 @@ simulation_set:
   base_model: viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community
   status: ran
   pass_fail_tests: *id001
+- name: sweep-p_diacid-5e-09
+  kind: single
+  base_model: viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community
+  perturbation:
+    p_diacid: '5e-09'
+  status: ran
+  pass_fail_tests: &id002
+  - community-redundancy-develops
+  - exchange-mass-balanced
+- name: sweep-p_diacid-2e-08
+  kind: single
+  base_model: viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community
+  perturbation:
+    p_diacid: '2e-08'
+  status: ran
+  pass_fail_tests: *id002
 pipeline_gate:
   gate_evaluator:
     result: blocked
@@ -320,3 +554,15 @@ pipeline_gate:
     - exchange-mass-balanced
     evaluated_by: code
     diverges_from_authored: false
+robustness:
+  n_replicates: 3
+  seeds:
+  - 1
+  - 2
+  - 3
+  parameter_sweep: true
+refined_from:
+  study: s1-metabolic-partnership
+  changes:
+  - replicate
+  - sweep
