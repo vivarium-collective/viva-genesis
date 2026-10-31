@@ -235,3 +235,30 @@ def render_all(ws_root):
         d.mkdir(parents=True, exist_ok=True)
         out.append(fn(str(d / fname)))
     return out
+
+
+def _figure_registry():
+    """figure-name -> render fn, derived from render_all's job list."""
+    import inspect
+    import re
+    src = inspect.getsource(render_all)
+    names = re.findall(r'\("[^"]+",\s*"([^"]+)\.html",\s*(\w+)\)', src)
+    return {fig: globals()[fn] for fig, fn in names}
+
+
+def main(argv=None):
+    import sys
+    argv = list(sys.argv[1:] if argv is None else argv)
+    reg = _figure_registry()
+    if len(argv) != 2 or argv[0] not in reg:
+        print(f"usage: python -m viva_genesis.viz_endosym <figure> <output-path>\n"
+              f"unknown or missing figure {argv[:1]!r}; known: {', '.join(sorted(reg))}",
+              file=sys.stderr)
+        return 2
+    Path(argv[1]).parent.mkdir(parents=True, exist_ok=True)
+    reg[argv[0]](argv[1])
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
