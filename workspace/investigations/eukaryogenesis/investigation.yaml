@@ -417,4 +417,4 @@ references:
   url: https://pmc.ncbi.nlm.nih.gov/articles/PMC12176269/
   note: Protein import into bacterial endosymbionts and evolving organelles; targeting / import evidence for S5.
 cycle_flags:
-  viz_untied: false
+  viz_untied: true
