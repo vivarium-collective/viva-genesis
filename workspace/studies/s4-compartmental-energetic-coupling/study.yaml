@@ -16,25 +16,14 @@ tags:
 - atp
 - compartment
 - proton-gradient
-concept: Endosymbiotic dependence made operational as net energetic benefit under a declining external
-  gradient. A replicator population (Sojo leaky-membrane fitness) either INTERNALIZES gradient generation
-  (efficient pump → tight membrane) and persists, or — with a weak pump — collapses as the external geochemical
-  gradient drops. External association vs internalized coupling compared.
-question: Does internalization increase net fitness given ATP production, transport losses, upkeep, and
-  host-symbiont conflict — and in which parameter regimes is internalization actually harmful?
-hypothesis: 'Internalization is net-positive only in a restricted regime: where the pump is efficient
-  enough to internalize gradient generation before the external gradient collapses. Outside that regime
-  (a weak pump) the population cannot pay the Sojo membrane cost and collapses.'
-claim: 'An enclosed partner may develop organelle-like function only under restricted physiological conditions:
-  internalization yields a net energetic benefit (the population internalizes gradient generation and
-  persists) solely where the pump is efficient; there exist regimes (a weak pump) where internalization
-  cannot pay the membrane cost and the population collapses.'
+concept: Endosymbiotic dependence made operational as net energetic benefit under a declining external gradient. A replicator population (Sojo leaky-membrane fitness) either INTERNALIZES gradient generation (efficient pump → tight membrane) and persists, or — with a weak pump — collapses as the external geochemical gradient drops. External association vs internalized coupling compared.
+question: Does internalization increase net fitness given ATP production, transport losses, upkeep, and host-symbiont conflict — and in which parameter regimes is internalization actually harmful?
+hypothesis: 'Internalization is net-positive only in a restricted regime: where the pump is efficient enough to internalize gradient generation before the external gradient collapses. Outside that regime (a weak pump) the population cannot pay the Sojo membrane cost and collapses.'
+claim: 'An enclosed partner may develop organelle-like function only under restricted physiological conditions: internalization yields a net energetic benefit (the population internalizes gradient generation and persists) solely where the pump is efficient; there exist regimes (a weak pump) where internalization cannot pay the membrane cost and the population collapses.'
 behavior_tests:
 - name: internalization-net-energy-positive
   classification: primary
-  description: With an efficient pump the population internalizes gradient generation and SURVIVES the
-    declining external gradient (net-positive). The survival threshold discriminates the favorable regime
-    from the weak-pump control, which collapses.
+  description: With an efficient pump the population internalizes gradient generation and SURVIVES the declining external gradient (net-positive). The survival threshold discriminates the favorable regime from the weak-pump control, which collapses.
   measure:
     kind: derived_scalar
     path: settled_internalization_survivors
@@ -43,22 +32,14 @@ behavior_tests:
     value: 0.5
     provenance:
       kind: calibration
-      note: 'Calibrated (catalyst_efficiency=1.0, v_start=0.40, decline_rate=0.01, gradient_floor=0.02,
-        60 steps): survivors settle to 1.00 (PASS; internalization 0.95, autonomy 0.99, lineage fitness
-        0.68). The weak-pump control (catalyst_efficiency=0.3, the `weak-pump-control` variant) collapses
-        to survivors 0.00 (FAIL; fitness 0.059) — the harmful regime.'
+      note: 'Calibrated (catalyst_efficiency=1.0, v_start=0.40, decline_rate=0.01, gradient_floor=0.02, 60 steps): survivors settle to 1.00 (PASS; internalization 0.95, autonomy 0.99, lineage fitness 0.68). The weak-pump control (catalyst_efficiency=0.3, the `weak-pump-control` variant) collapses to survivors 0.00 (FAIL; fitness 0.059) — the harmful regime.'
   cites:
   - santana-molina-nee-2025
 acceptance_criteria:
 - behavior: internalization-net-energy-positive
 findings:
 - id: s4-internalization-pays-only-with-efficient-pump
-  statement: 'Calibrated (60 steps, declining external gradient): with an efficient pump (catalyst_efficiency=1.0)
-    the population internalizes gradient generation and survives (survivors 1.00, autonomy 0.99, fitness
-    0.68) — internalization is net-positive. The weak-pump control (catalyst_efficiency=0.3) collapses
-    (survivors 0.00, fitness 0.059) — a well-characterized harmful regime where internalization cannot
-    pay the Sojo membrane cost. An enclosed partner develops organelle-like function only under restricted
-    physiological conditions. Direct in-process run.'
+  statement: 'Calibrated (60 steps, declining external gradient): with an efficient pump (catalyst_efficiency=1.0) the population internalizes gradient generation and survives (survivors 1.00, autonomy 0.99, fitness 0.68) — internalization is net-positive. The weak-pump control (catalyst_efficiency=0.3) collapses (survivors 0.00, fitness 0.059) — a well-characterized harmful regime where internalization cannot pay the Sojo membrane cost. An enclosed partner develops organelle-like function only under restricted physiological conditions. Direct in-process run.'
   evidence:
     from_test: internalization-net-energy-positive
     measure: settled_internalization_survivors
@@ -68,19 +49,17 @@ findings:
   provenance:
     kind: run
     run_date: '2026-10-28'
-    note: 'In-process run of viva_genesis.composites.bioenergetic_internalization (an energetic
-      population/reproduction loop under a declining external gradient, 60 steps). Baseline /
-      primary condition — efficient pump (catalyst_efficiency=1.0): settled survivors 0.99999
-      (internalization 0.95, lineage fitness 0.677). Weak-pump control (catalyst_efficiency=0.3):
-      survivors 0.0 (internalization 0.54, fitness 0.059). The conditional claim holds —
-      internalization is net-positive only with an efficient pump. Model fidelity is appropriate to
-      the energetic-survival question; the whole-cell metabolic-network arm is the next rung.'
+    note: 'In-process run of viva_genesis.composites.bioenergetic_internalization (an energetic population/reproduction loop under a declining external gradient, 60 steps). Baseline / primary condition — efficient pump (catalyst_efficiency=1.0): settled survivors 0.99999 (internalization 0.95, lineage fitness 0.677). Weak-pump control (catalyst_efficiency=0.3): survivors 0.0 (internalization 0.54, fitness 0.059). The conditional claim holds — internalization is net-positive only with an efficient pump. Model fidelity is appropriate to the energetic-survival question; the whole-cell metabolic-network arm is the next rung.'
+    run_ids:
+    - viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization__1793462394__14db12
+    model_version: mv:fc07ffc6c390f09a
   cites:
   - santana-molina-nee-2025
+  expected:
+    cites:
+    - santana-molina-nee-2025
 - id: s4-weak-pump-collapses
-  statement: 'The weak-pump control (catalyst_efficiency=0.3) collapses: settled survivors 0.0
-    (internalization 0.54, lineage fitness 0.059). Internalization cannot pay the Sojo membrane cost
-    when the pump is inefficient — the harmful regime that bounds the conditional benefit.'
+  statement: 'The weak-pump control (catalyst_efficiency=0.3) collapses: settled survivors 0.0 (internalization 0.54, lineage fitness 0.059). Internalization cannot pay the Sojo membrane cost when the pump is inefficient — the harmful regime that bounds the conditional benefit.'
   evidence:
     from_test: internalization-net-energy-positive
     measure: settled_internalization_survivors
@@ -90,10 +69,15 @@ findings:
   provenance:
     kind: run
     run_date: '2026-10-28'
-    note: 'In-process run of bioenergetic_internalization, weak-pump control (catalyst_efficiency=0.3),
-      60 steps: settled survivors 0.0.'
+    note: 'In-process run of bioenergetic_internalization, weak-pump control (catalyst_efficiency=0.3), 60 steps: settled survivors 0.0.'
+    run_ids:
+    - viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization__1793462394__14db12
+    model_version: mv:fc07ffc6c390f09a
   cites:
   - santana-molina-nee-2025
+  expected:
+    cites:
+    - santana-molina-nee-2025
 literature_anchors:
 - expectation: Central carbon metabolism has chimeric host+partner enzyme ancestry.
   model_observable: settled_internalization_survivors
@@ -114,10 +98,7 @@ baseline:
     v_start: 0.4
     decline_rate: 0.01
     gradient_floor: 0.02
-  note: 'First-fidelity arm: reuses the og-05 bioenergetic-internalization module. settled survivors under
-    the declining gradient is the net-benefit gate. The full multicompartment ATP accounting (two intracellular
-    metabolic networks + transporters + membrane potentials, external-vs-internal arms) is the next-fidelity
-    arm.'
+  note: 'First-fidelity arm: reuses the og-05 bioenergetic-internalization module. settled survivors under the declining gradient is the net-benefit gate. The full multicompartment ATP accounting (two intracellular metabolic networks + transporters + membrane potentials, external-vs-internal arms) is the next-fidelity arm.'
 variants:
 - name: weak-pump-control
   base: baseline
@@ -126,7 +107,11 @@ variants:
 visualizations:
 - name: internalization-boundary
   title: Internalization pays only with an efficient pump — survivors vs pump efficiency
-  rendered: workspace/studies/s4-compartmental-energetic-coupling/viz/internalization-boundary.html
+  address: html:viz/internalization-boundary.html
+  render: "python -m viva_genesis.viz_endosym internalization-boundary {chart}"
+  requires: []
+  covers:
+  - settled_internalization_survivors
 - name: internalization-net-benefit
   address: local:S4EnergeticCouplingViz
   config:
@@ -138,3 +123,111 @@ data_inputs:
 - name: Comparative central metabolism (Zenodo)
   use: enzyme ancestry + pathway stoichiometry
   url: https://doi.org/10.5281/zenodo.10991068
+runs:
+- name: viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization__1793462394__14db12
+  status: completed
+  timestamp: 1793462396.3693812
+  emitter:
+    kind: unknown
+  env_id: f5cfabae9de14681
+  params: '{"catalyst_efficiency": 1.0, "v_start": 0.4, "decline_rate": 0.01, "gradient_floor": 0.02}'
+  computed_outcomes:
+    internalization-net-energy-positive:
+      result: PASS
+      measured_value: 0.999999
+      evaluated_by: code
+      operator: derived_scalar/>
+      detail: 1 > 0.5
+      axis:
+        id: internalization-net-energy-positive
+        label: With an efficient pump the population internalizes gradient generation and SURVIVES the declining external gradient (net-positive). The survival threshold discriminates the favorable regime from the weak-pump control, which collapses.
+        verdict: within_tol
+        value: 0.999999
+        meter: 0.999999
+        detail:
+        expected:
+          kind: value
+          value: 0.5
+          low:
+          high:
+          op: '>'
+          tol: 0.05
+          statement:
+          units:
+        margin: 0.49999899999999997
+        severity: hard
+        units:
+        knob:
+        citation: santana-molina-nee-2025
+  provenance:
+    params:
+      catalyst_efficiency:
+        value: 1.0
+        source: override
+      decline_rate:
+        value: 0.01
+        source: override
+      gradient_floor:
+        value: 0.02
+        source: override
+      n_steps:
+        value: 250
+        source: resolved
+      v_start:
+        value: 0.4
+        source: override
+    params_captured_at: '2026-10-31'
+    params_source: dashboard-runner
+  outcomes:
+    internalization-net-energy-positive:
+      result: PASS
+      measured_value: 0.999999
+      detail: 1 > 0.5
+      operator: derived_scalar/>
+      evaluated_by: code
+      axis:
+        id: internalization-net-energy-positive
+        label: With an efficient pump the population internalizes gradient generation and SURVIVES the declining external gradient (net-positive). The survival threshold discriminates the favorable regime from the weak-pump control, which collapses.
+        verdict: within_tol
+        value: 0.999999
+        meter: 0.999999
+        detail:
+        expected:
+          kind: value
+          value: 0.5
+          low:
+          high:
+          op: '>'
+          tol: 0.05
+          statement:
+          units:
+        margin: 0.49999899999999997
+        severity: hard
+        units:
+        knob:
+        citation: santana-molina-nee-2025
+      auto_evaluated: true
+simulation_set:
+- name: baseline-baseline
+  kind: single
+  base_model: viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization
+  is_baseline: true
+  status: ran
+  params:
+    catalyst_efficiency: 1.0
+    v_start: 0.4
+    decline_rate: 0.01
+    gradient_floor: 0.02
+  pass_fail_tests: &id001
+  - internalization-net-energy-positive
+- name: weak-pump-control
+  kind: single
+  base_model: viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization
+  status: ran
+  pass_fail_tests: *id001
+pipeline_gate:
+  gate_evaluator:
+    result: passed
+    blocked_by: []
+    evaluated_by: code
+    diverges_from_authored: false
