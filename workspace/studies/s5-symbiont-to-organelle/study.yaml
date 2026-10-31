@@ -16,26 +16,14 @@ tags:
 - population-genetics
 - gene-loss
 - individuality
-concept: Inheritance and evolutionary individuality made operational as the fidelity of vertical transmission
-  across a lineage tree. A chemical phenotype inherited at fission via a module-specific mechanism (template
-  Eigen ratchet, compositional GARD, or a non-heritable control), tracked over many generations — stable
-  heritable integration vs collapse.
-question: Which routes to inheritance lead to stable vertical transmission and a persistent lineage? Distinguish
-  mere within-host survival from high-fidelity vertical transmission over many generations.
-hypothesis: 'Stable heritable integration requires high-fidelity vertical transmission: only above the
-  Eigen error threshold does the inherited phenotype persist with function across generations. Below threshold
-  (low fidelity) the lineage collapses; without an inheritance mechanism (non-heritable) there is no vertical
-  transmission at all.'
-claim: Integration becomes heritable and coordinated — a new evolutionary individual emerges — only when
-  vertical-transmission fidelity crosses the Eigen error threshold, after which the inherited phenotype
-  persists with function across generations. Below threshold (low-fidelity template) the lineage hits
-  the error catastrophe and collapses; a non-heritable mechanism transmits nothing.
+concept: Inheritance and evolutionary individuality made operational as the fidelity of vertical transmission across a lineage tree. A chemical phenotype inherited at fission via a module-specific mechanism (template Eigen ratchet, compositional GARD, or a non-heritable control), tracked over many generations — stable heritable integration vs collapse.
+question: Which routes to inheritance lead to stable vertical transmission and a persistent lineage? Distinguish mere within-host survival from high-fidelity vertical transmission over many generations.
+hypothesis: 'Stable heritable integration requires high-fidelity vertical transmission: only above the Eigen error threshold does the inherited phenotype persist with function across generations. Below threshold (low fidelity) the lineage collapses; without an inheritance mechanism (non-heritable) there is no vertical transmission at all.'
+claim: Integration becomes heritable and coordinated — a new evolutionary individual emerges — only when vertical-transmission fidelity crosses the Eigen error threshold, after which the inherited phenotype persists with function across generations. Below threshold (low-fidelity template) the lineage hits the error catastrophe and collapses; a non-heritable mechanism transmits nothing.
 behavior_tests:
 - name: heritable-integration-stable
   classification: primary
-  description: Vertical-transmission fidelity (heritability of the chemical phenotype across the lineage
-    tree) stays high across many generations — only then does the lineage persist with function. The threshold
-    discriminates high-fidelity inheritance from the Eigen-collapse and non-heritable controls.
+  description: Vertical-transmission fidelity (heritability of the chemical phenotype across the lineage tree) stays high across many generations — only then does the lineage persist with function. The threshold discriminates high-fidelity inheritance from the Eigen-collapse and non-heritable controls.
   measure:
     kind: derived_scalar
     path: settled_heritability
@@ -44,23 +32,14 @@ behavior_tests:
     value: 0.95
     provenance:
       kind: calibration
-      note: 'Calibrated (module=template, per_site_fidelity=0.99, 60 steps): heritability settles to 0.989
-        (PASS; functional fraction 1.0, population 220, lineage depth 60). Two failure routes fall below
-        0.95 — a low-fidelity template (per_site_fidelity=0.80, the `low-fidelity-control` variant) hits
-        the Eigen error catastrophe (heritability 0.799, functional fraction 0.0, population 0), and the
-        non-heritable control reads 0.106.'
+      note: 'Calibrated (module=template, per_site_fidelity=0.99, 60 steps): heritability settles to 0.989 (PASS; functional fraction 1.0, population 220, lineage depth 60). Two failure routes fall below 0.95 — a low-fidelity template (per_site_fidelity=0.80, the `low-fidelity-control` variant) hits the Eigen error catastrophe (heritability 0.799, functional fraction 0.0, population 0), and the non-heritable control reads 0.106.'
   cites:
   - vosseberg-nature-2024
 acceptance_criteria:
 - behavior: heritable-integration-stable
 findings:
 - id: s5-heritable-integration-needs-high-fidelity
-  statement: 'Calibrated (60 generations): a high-fidelity template lineage (per_site_fidelity=0.99) reaches
-    heritability 0.989 and persists with full function (population 220) — stable heritable integration,
-    a new evolutionary individual. Two well-characterized failure routes: a low-fidelity template (0.80)
-    hits the Eigen error catastrophe and collapses (heritability 0.799, population 0), and a non-heritable
-    mechanism transmits nothing (heritability 0.106). Heritable integration emerges only above the fidelity
-    threshold. Direct in-process run.'
+  statement: 'Calibrated (60 generations): a high-fidelity template lineage (per_site_fidelity=0.99) reaches heritability 0.989 and persists with full function (population 220) — stable heritable integration, a new evolutionary individual. Two well-characterized failure routes: a low-fidelity template (0.80) hits the Eigen error catastrophe and collapses (heritability 0.799, population 0), and a non-heritable mechanism transmits nothing (heritability 0.106). Heritable integration emerges only above the fidelity threshold. Direct in-process run.'
   evidence:
     from_test: heritable-integration-stable
     measure: settled_heritability
@@ -70,16 +49,17 @@ findings:
   provenance:
     kind: run
     run_date: '2026-10-28'
-    note: 'In-process run of heredity_lineage_comparison (module=template, 60 generations). High-fidelity
-      (per_site_fidelity=0.99): settled heritability 0.989. Fidelity sweep locates the Eigen error
-      catastrophe between 0.5 and 0.3 (0.80 -> 0.799, 0.50 -> 0.592, 0.30 -> 0.0) — correcting this
-      finding''s earlier claim that 0.80 collapses; it does not.'
+    note: 'In-process run of heredity_lineage_comparison (module=template, 60 generations). High-fidelity (per_site_fidelity=0.99): settled heritability 0.989. Fidelity sweep locates the Eigen error catastrophe between 0.5 and 0.3 (0.80 -> 0.799, 0.50 -> 0.592, 0.30 -> 0.0) — correcting this finding''s earlier claim that 0.80 collapses; it does not.'
+    run_ids:
+    - viva_genesis.composites.heredity_lineage.heredity_lineage_comparison__1793462401__b1d6f7
+    model_version: mv:931b63c6aaec8660
   cites:
   - vosseberg-nature-2024
+  expected:
+    cites:
+    - vosseberg-nature-2024
 - id: s5-low-fidelity-hits-error-catastrophe
-  statement: 'Below the fidelity threshold the lineage hits the Eigen error catastrophe: a low-fidelity
-    template (per_site_fidelity=0.30) collapses to heritability 0.0 — the inherited phenotype is lost.
-    The catastrophe sits between per_site_fidelity 0.5 and 0.3 (sweep: 0.50 -> 0.592, 0.30 -> 0.0).'
+  statement: 'Below the fidelity threshold the lineage hits the Eigen error catastrophe: a low-fidelity template (per_site_fidelity=0.30) collapses to heritability 0.0 — the inherited phenotype is lost. The catastrophe sits between per_site_fidelity 0.5 and 0.3 (sweep: 0.50 -> 0.592, 0.30 -> 0.0).'
   evidence:
     from_test: heritable-integration-stable
     measure: settled_heritability
@@ -89,10 +69,15 @@ findings:
   provenance:
     kind: run
     run_date: '2026-10-28'
-    note: 'In-process run of heredity_lineage_comparison, low-fidelity template (per_site_fidelity=0.30),
-      60 generations: settled heritability 0.0 (error catastrophe).'
+    note: 'In-process run of heredity_lineage_comparison, low-fidelity template (per_site_fidelity=0.30), 60 generations: settled heritability 0.0 (error catastrophe).'
+    run_ids:
+    - viva_genesis.composites.heredity_lineage.heredity_lineage_comparison__1793462401__b1d6f7
+    model_version: mv:931b63c6aaec8660
   cites:
   - vosseberg-nature-2024
+  expected:
+    cites:
+    - vosseberg-nature-2024
 literature_anchors:
 - expectation: FECA-LECA transition frames where a new eukaryotic individual emerges.
   model_observable: settled_heritability
@@ -109,9 +94,7 @@ baseline:
   params:
     module: template
     per_site_fidelity: 0.99
-  note: 'First-fidelity arm: reuses the og-06 heredity-lineage comparison. settled herd/heritability is
-    the vertical-transmission-fidelity gate. The full population-genetics model coupled to agent-based
-    host/symbiont division with stochastic partitioning + gene-loss / rescue is the next-fidelity arm.'
+  note: 'First-fidelity arm: reuses the og-06 heredity-lineage comparison. settled herd/heritability is the vertical-transmission-fidelity gate. The full population-genetics model coupled to agent-based host/symbiont division with stochastic partitioning + gene-loss / rescue is the next-fidelity arm.'
 variants:
 - name: low-fidelity-control
   base: baseline
@@ -124,7 +107,11 @@ variants:
 visualizations:
 - name: eigen-catastrophe
   title: The Eigen error catastrophe — heritability vs transmission fidelity
-  rendered: workspace/studies/s5-symbiont-to-organelle/viz/eigen-catastrophe.html
+  address: html:viz/eigen-catastrophe.html
+  render: "python -m viva_genesis.viz_endosym eigen-catastrophe {chart}"
+  requires: []
+  covers:
+  - settled_heritability
 - name: heritable-integration
   address: local:S5HeritabilityViz
   config:
@@ -136,3 +123,108 @@ data_inputs:
 - name: EukProt v3
   use: extant eukaryotic proteomes for ancestral comparison
   url: https://doi.org/10.6084/m9.figshare.12417881.v3
+runs:
+- name: viva_genesis.composites.heredity_lineage.heredity_lineage_comparison__1793462401__b1d6f7
+  status: completed
+  timestamp: 1793462403.944847
+  emitter:
+    kind: unknown
+  env_id: f5cfabae9de14681
+  params: '{"module": "template", "per_site_fidelity": 0.99}'
+  computed_outcomes:
+    heritable-integration-stable:
+      result: PASS
+      measured_value: 0.990054
+      evaluated_by: code
+      operator: derived_scalar/>
+      detail: 0.9901 > 0.95
+      axis:
+        id: heritable-integration-stable
+        label: Vertical-transmission fidelity (heritability of the chemical phenotype across the lineage tree) stays high across many generations — only then does the lineage persist with function. The threshold discriminates high-fidelity inheritance from the Eigen-collapse and non-heritable controls.
+        verdict: within_tol
+        value: 0.990054
+        meter: 0.521081052631579
+        detail:
+        expected:
+          kind: value
+          value: 0.95
+          low:
+          high:
+          op: '>'
+          tol: 0.05
+          statement:
+          units:
+        margin: 0.040054000000000034
+        severity: hard
+        units:
+        knob:
+        citation: vosseberg-nature-2024
+  provenance:
+    params:
+      module:
+        value: template
+        source: override
+      n_steps:
+        value: 250
+        source: resolved
+      per_site_fidelity:
+        value: 0.99
+        source: override
+    params_captured_at: '2026-10-31'
+    params_source: dashboard-runner
+  outcomes:
+    heritable-integration-stable:
+      result: PASS
+      measured_value: 0.990054
+      detail: 0.9901 > 0.95
+      operator: derived_scalar/>
+      evaluated_by: code
+      axis:
+        id: heritable-integration-stable
+        label: Vertical-transmission fidelity (heritability of the chemical phenotype across the lineage tree) stays high across many generations — only then does the lineage persist with function. The threshold discriminates high-fidelity inheritance from the Eigen-collapse and non-heritable controls.
+        verdict: within_tol
+        value: 0.990054
+        meter: 0.521081052631579
+        detail:
+        expected:
+          kind: value
+          value: 0.95
+          low:
+          high:
+          op: '>'
+          tol: 0.05
+          statement:
+          units:
+        margin: 0.040054000000000034
+        severity: hard
+        units:
+        knob:
+        citation: vosseberg-nature-2024
+      auto_evaluated: true
+simulation_set:
+- name: baseline-baseline
+  kind: single
+  base_model: viva_genesis.composites.heredity_lineage.heredity_lineage_comparison
+  is_baseline: true
+  status: ran
+  params:
+    module: template
+    per_site_fidelity: 0.99
+  pass_fail_tests: &id001
+  - heritable-integration-stable
+- name: low-fidelity-control
+  kind: single
+  base_model: viva_genesis.composites.heredity_lineage.heredity_lineage_comparison
+  status: ran
+  pass_fail_tests: *id001
+- name: non-heritable-control
+  kind: single
+  base_model: viva_genesis.composites.heredity_lineage.heredity_lineage_comparison
+  status: ran
+  pass_fail_tests: *id001
+pipeline_gate:
+  gate_evaluator:
+    result: passed
+    blocked_by: []
+    evaluated_by: code
+    diverges_from_authored: false
