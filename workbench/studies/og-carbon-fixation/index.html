@@ -20,7 +20,7 @@
   <div style="display:flex; align-items:center; gap:14px; justify-content:space-between;">
   <div style="display:flex; align-items:center; gap:12px; min-width:0; flex-wrap:wrap">
   <h1 class="study-title" style="margin:0">
-    <span class="study-name" id="study-name" data-slug="og-carbon-fixation" data-study-kind="computational" title="og-carbon-fixation">Carbon Fixation: Does H2 Reduce CO2 at the Vent?</span>
+    <span class="study-name" id="study-name" data-slug="og-carbon-fixation" data-study-kind="computational" title="og-carbon-fixation" data-edit-kind="study" data-edit-field="title" data-edit-value="Carbon Fixation: Does H2 Reduce CO2 at the Vent?" data-edit-label="Title">Carbon Fixation: Does H2 Reduce CO2 at the Vent?</span>
     
   </h1>
     
@@ -551,8 +551,8 @@
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Background</h2>
       <div class="ctr-meta">
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Question</span> <span class="ctr-meta-item">Does H2-driven CO2 reduction over Fe/Ni/S catalysts fix carbon and reproduce lab yield benchmarks at the vent — and can the model classes agree on which limitation stops it?</span></div>
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Hypothesis</span> <span class="ctr-meta-item">H2-driven CO2 reduction reproduces the Preiner yield hierarchy and sustains net carbon flux in a bounded pH/H2 region (the core claim); but the attribution of the dominant limitation is not claimed where the model classes disagree below the pre-registered agreement gate.</span></div>
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Question</span> <span class="ctr-meta-item" data-edit-kind="study" data-edit-field="question" data-edit-value="Does H2-driven CO2 reduction over Fe/Ni/S catalysts fix carbon and reproduce lab yield benchmarks at the vent — and can the model classes agree on which limitation stops it?" data-edit-multiline data-edit-label="Question">Does H2-driven CO2 reduction over Fe/Ni/S catalysts fix carbon and reproduce lab yield benchmarks at the vent — and can the model classes agree on which limitation stops it?</span></div>
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Hypothesis</span> <span class="ctr-meta-item" data-edit-kind="study" data-edit-field="hypothesis" data-edit-value="H2-driven CO2 reduction reproduces the Preiner yield hierarchy and sustains net carbon flux in a bounded pH/H2 region (the core claim); but the attribution of the dominant limitation is not claimed where the model classes disagree below the pre-registered agreement gate." data-edit-multiline data-edit-label="Hypothesis">H2-driven CO2 reduction reproduces the Preiner yield hierarchy and sustains net carbon flux in a bounded pH/H2 region (the core claim); but the attribution of the dominant limitation is not claimed where the model classes disagree below the pre-registered agreement gate.</span></div>
       </div>
     </div>
     
@@ -743,7 +743,7 @@
         <details class="finding-details">
           <summary class="finding-row">
             <span class="finding-status-glyph">✓</span>
-            <span class="finding-claim finding-statement">Every one of the 375 grid points carries a limitation label in both runnable classes (coverage 1.00; 0 failed runs). Butler-Volmer: catalytic 226, electrical 149, transport 0, thermodynamic 0. Empirical: transport 147, catalytic 117, electrical 108, thermodynamic 3.</span>
+            <span class="finding-claim finding-statement" data-edit-kind="study" data-edit-field="findings[og01cal-every-point-attributed].statement" data-edit-value="Every one of the 375 grid points carries a limitation label in both runnable classes (coverage 1.00; 0 failed runs). Butler-Volmer: catalytic 226, electrical 149, transport 0, thermodynamic 0. Empirical: transport 147, catalytic 117, electrical 108, thermodynamic 3." data-edit-multiline data-edit-label="Finding og01cal-every-point-attributed">Every one of the 375 grid points carries a limitation label in both runnable classes (coverage 1.00; 0 failed runs). Butler-Volmer: catalytic 226, electrical 149, transport 0, thermodynamic 0. Empirical: transport 147, catalytic 117, electrical 108, thermodynamic 3.</span>
             
             <span class="finding-chip">via <code>failure-mode-labelled</code></span>
             
@@ -797,7 +797,7 @@
         <details class="finding-details">
           <summary class="finding-row">
             <span class="finding-status-glyph">◆</span>
-            <span class="finding-claim finding-statement">The pre-registered failure-mode-attributed gate fails: on the 78 points both classes call favorable the labels agree on 37 (0.47); overall 168/375 (0.45). The confusion is systematic, not noise — every Butler-Volmer favorable point is catalytic (93/93), while the empirical class calls 47 of its favorable points electrical and 28 transport. Agreement is high only where the physics is unambiguous: 0.81 at 1e-9 S/m (both: electrical) and 0.67-0.68 at H2 &gt;= 1.4e-4 M; it collapses to 0.01 at 1 uM H2, where the empirical Michaelis constant (1e-4 M) declares transport limitation that the cell never reaches (the limiting current stays above the activation-limited current at these exchange currents).</span>
+            <span class="finding-claim finding-statement" data-edit-kind="study" data-edit-field="findings[og01cal-classes-disagree-in-the-favorable-region].statement" data-edit-value="The pre-registered failure-mode-attributed gate fails: on the 78 points both classes call favorable the labels agree on 37 (0.47); overall 168/375 (0.45). The confusion is systematic, not noise — every Butler-Volmer favorable point is catalytic (93/93), while the empirical class calls 47 of its favorable points electrical and 28 transport. Agreement is high only where the physics is unambiguous: 0.81 at 1e-9 S/m (both: electrical) and 0.67-0.68 at H2 &gt;= 1.4e-4 M; it collapses to 0.01 at 1 uM H2, where the empirical Michaelis constant (1e-4 M) declares transport limitation that the cell never reaches (the limiting current stays above the activation-limited current at these exchange currents)." data-edit-multiline data-edit-label="Finding og01cal-classes-disagree-in-the-favorable-region">The pre-registered failure-mode-attributed gate fails: on the 78 points both classes call favorable the labels agree on 37 (0.47); overall 168/375 (0.45). The confusion is systematic, not noise — every Butler-Volmer favorable point is catalytic (93/93), while the empirical class calls 47 of its favorable points electrical and 28 transport. Agreement is high only where the physics is unambiguous: 0.81 at 1e-9 S/m (both: electrical) and 0.67-0.68 at H2 &gt;= 1.4e-4 M; it collapses to 0.01 at 1 uM H2, where the empirical Michaelis constant (1e-4 M) declares transport limitation that the cell never reaches (the limiting current stays above the activation-limited current at these exchange currents).</span>
             
             <span class="finding-chip">via <code>failure-mode-attributed</code></span>
             
@@ -858,7 +858,7 @@
         <details class="finding-details">
           <summary class="finding-row">
             <span class="finding-status-glyph">◆</span>
-            <span class="finding-claim finding-statement">Under explicit electrochemistry the alkaline-vent cell is catalytically (activation) limited everywhere the wall conducts: at the nominal point (pH 9.5 | 6.0, 5 mM H2, 2 mM CO2, 100 C, 1e-3 S/m, Ni3Fe) the anode + cathode activation overpotentials take 0.996 of the 0.49 V fresh-fluid emf, the ohmic drop 0.002 and transport 0.001, at j = 1.06e-3 A/m^2 with faradaic efficiency 0.92 to carbon. Throughput rises only ~40x across the whole (pH x H2) plane (74 mV per pH unit, (RT/2F) ln10 per decade of H2) because the current scales with the exchange current, not the driving force. The electrical regime appears below ~1e-6 S/m (ohmic drop &gt; activation), where the circuit-derived gradient efficiency is 0.01-0.42.</span>
+            <span class="finding-claim finding-statement" data-edit-kind="study" data-edit-field="findings[og01cal-butler-volmer-cell-is-activation-limited].statement" data-edit-value="Under explicit electrochemistry the alkaline-vent cell is catalytically (activation) limited everywhere the wall conducts: at the nominal point (pH 9.5 | 6.0, 5 mM H2, 2 mM CO2, 100 C, 1e-3 S/m, Ni3Fe) the anode + cathode activation overpotentials take 0.996 of the 0.49 V fresh-fluid emf, the ohmic drop 0.002 and transport 0.001, at j = 1.06e-3 A/m^2 with faradaic efficiency 0.92 to carbon. Throughput rises only ~40x across the whole (pH x H2) plane (74 mV per pH unit, (RT/2F) ln10 per decade of H2) because the current scales with the exchange current, not the driving force. The electrical regime appears below ~1e-6 S/m (ohmic drop &gt; activation), where the circuit-derived gradient efficiency is 0.01-0.42." data-edit-multiline data-edit-label="Finding og01cal-butler-volmer-cell-is-activation-limited">Under explicit electrochemistry the alkaline-vent cell is catalytically (activation) limited everywhere the wall conducts: at the nominal point (pH 9.5 | 6.0, 5 mM H2, 2 mM CO2, 100 C, 1e-3 S/m, Ni3Fe) the anode + cathode activation overpotentials take 0.996 of the 0.49 V fresh-fluid emf, the ohmic drop 0.002 and transport 0.001, at j = 1.06e-3 A/m^2 with faradaic efficiency 0.92 to carbon. Throughput rises only ~40x across the whole (pH x H2) plane (74 mV per pH unit, (RT/2F) ln10 per decade of H2) because the current scales with the exchange current, not the driving force. The electrical regime appears below ~1e-6 S/m (ohmic drop &gt; activation), where the circuit-derived gradient efficiency is 0.01-0.42.</span>
             
             <span class="finding-chip">via <code>current-in-altair-window</code></span>
             
@@ -919,7 +919,7 @@
         <details class="finding-details">
           <summary class="finding-row">
             <span class="finding-status-glyph">✓</span>
-            <span class="finding-claim finding-statement">The Butler-Volmer class&#39;s settled current density lies inside the Altair-2025 window (1e-5 .. 1e-2 A/m^2, i.e. ~10 nA .. 10 uA on the cm^2-scale interface) at the canonical operating point and on 79.7% of the grid (range 1.4e-7 .. 3.0e-3 A/m^2; the points below the window are the insulating walls). Selectivity to carbon products stays 0.76-1.00.</span>
+            <span class="finding-claim finding-statement" data-edit-kind="study" data-edit-field="findings[og01cal-current-window-reproduced].statement" data-edit-value="The Butler-Volmer class&#39;s settled current density lies inside the Altair-2025 window (1e-5 .. 1e-2 A/m^2, i.e. ~10 nA .. 10 uA on the cm^2-scale interface) at the canonical operating point and on 79.7% of the grid (range 1.4e-7 .. 3.0e-3 A/m^2; the points below the window are the insulating walls). Selectivity to carbon products stays 0.76-1.00." data-edit-multiline data-edit-label="Finding og01cal-current-window-reproduced">The Butler-Volmer class&#39;s settled current density lies inside the Altair-2025 window (1e-5 .. 1e-2 A/m^2, i.e. ~10 nA .. 10 uA on the cm^2-scale interface) at the canonical operating point and on 79.7% of the grid (range 1.4e-7 .. 3.0e-3 A/m^2; the points below the window are the insulating walls). Selectivity to carbon products stays 0.76-1.00.</span>
             
             <span class="finding-chip">via <code>current-in-altair-window</code></span>
             
@@ -980,7 +980,7 @@
         <details class="finding-details">
           <summary class="finding-row">
             <span class="finding-status-glyph">✓</span>
-            <span class="finding-claim finding-statement">Numerical verification: the ChargeLedgerProcess closes on all 750 mechanism-map runs and on the 120-tick canonical run — Kirchhoff residual |anode - (carbon + H2 evolution)| / anode &lt;= 1.7e-13 (0.0 for the empirical class), faradaic efficiency never above 1 (max 1 + 1e-13), circuit residual &lt;= 8.5e-9. The ledger caught a real bookkeeping gap during the build (on insulating walls the trace ocean-side H2 oxidising at the cathode co-supplies electrons), which is now counted explicitly.</span>
+            <span class="finding-claim finding-statement" data-edit-kind="study" data-edit-field="findings[og01cal-charge-ledger-exact].statement" data-edit-value="Numerical verification: the ChargeLedgerProcess closes on all 750 mechanism-map runs and on the 120-tick canonical run — Kirchhoff residual |anode - (carbon + H2 evolution)| / anode &lt;= 1.7e-13 (0.0 for the empirical class), faradaic efficiency never above 1 (max 1 + 1e-13), circuit residual &lt;= 8.5e-9. The ledger caught a real bookkeeping gap during the build (on insulating walls the trace ocean-side H2 oxidising at the cathode co-supplies electrons), which is now counted explicitly." data-edit-multiline data-edit-label="Finding og01cal-charge-ledger-exact">Numerical verification: the ChargeLedgerProcess closes on all 750 mechanism-map runs and on the 120-tick canonical run — Kirchhoff residual |anode - (carbon + H2 evolution)| / anode &lt;= 1.7e-13 (0.0 for the empirical class), faradaic efficiency never above 1 (max 1 + 1e-13), circuit residual &lt;= 8.5e-9. The ledger caught a real bookkeeping gap during the build (on insulating walls the trace ocean-side H2 oxidising at the cathode co-supplies electrons), which is now counted explicitly.</span>
             
             <span class="finding-chip">via <code>charge-ledger-closes</code></span>
             
@@ -1034,7 +1034,7 @@
         <details class="finding-details">
           <summary class="finding-row">
             <span class="finding-status-glyph">✓</span>
-            <span class="finding-claim finding-statement">The favorable arm reproduces the Preiner-2020 yield hierarchy (formate 200 mM &gt;&gt; acetate 100 µM &gt;&gt; pyruvate 10 µM) at 100 °C.</span>
+            <span class="finding-claim finding-statement" data-edit-kind="study" data-edit-field="findings[og01-preiner-yields].statement" data-edit-value="The favorable arm reproduces the Preiner-2020 yield hierarchy (formate 200 mM &gt;&gt; acetate 100 µM &gt;&gt; pyruvate 10 µM) at 100 °C." data-edit-multiline data-edit-label="Finding og01-preiner-yields">The favorable arm reproduces the Preiner-2020 yield hierarchy (formate 200 mM &gt;&gt; acetate 100 µM &gt;&gt; pyruvate 10 µM) at 100 °C.</span>
             
             <span class="finding-chip">via <code>formate-yield-reproduces-preiner</code></span>
             
@@ -1089,7 +1089,7 @@
         <details class="finding-details">
           <summary class="finding-row">
             <span class="finding-status-glyph">✓</span>
-            <span class="finding-claim finding-statement">Formate is present with the pH-gradient proton-motive force and collapses to &lt;1 mM in every control (no gradient / no H2 / no catalyst).</span>
+            <span class="finding-claim finding-statement" data-edit-kind="study" data-edit-field="findings[og01-gradient-drives-formate].statement" data-edit-value="Formate is present with the pH-gradient proton-motive force and collapses to &lt;1 mM in every control (no gradient / no H2 / no catalyst)." data-edit-multiline data-edit-label="Finding og01-gradient-drives-formate">Formate is present with the pH-gradient proton-motive force and collapses to &lt;1 mM in every control (no gradient / no H2 / no catalyst).</span>
             
             <span class="finding-chip">via <code>ph-gradient-drives-formate</code></span>
             
@@ -1144,7 +1144,7 @@
         <details class="finding-details">
           <summary class="finding-row">
             <span class="finding-status-glyph">◆</span>
-            <span class="finding-claim finding-statement">The Tutolo-2026 in-situ arm collapses the usable proton-motive gradient (pmf 427 → 43 mV), the discriminating test the campaign must survive.</span>
+            <span class="finding-claim finding-statement" data-edit-kind="study" data-edit-field="findings[og01-tutolo-collapse].statement" data-edit-value="The Tutolo-2026 in-situ arm collapses the usable proton-motive gradient (pmf 427 → 43 mV), the discriminating test the campaign must survive." data-edit-multiline data-edit-label="Finding og01-tutolo-collapse">The Tutolo-2026 in-situ arm collapses the usable proton-motive gradient (pmf 427 → 43 mV), the discriminating test the campaign must survive.</span>
             
             <span class="finding-chip">via <code>in-situ-ph-correction</code></span>
             
@@ -1199,7 +1199,7 @@
         <details class="finding-details">
           <summary class="finding-row">
             <span class="finding-status-glyph">✓</span>
-            <span class="finding-claim finding-statement">Real eQuilibrator ΔG&#39; is logged every step and makes feasibility explicit (fixation stops where ΔG&#39; ≥ 0 — genuine product inhibition).</span>
+            <span class="finding-claim finding-statement" data-edit-kind="study" data-edit-field="findings[og01-energy-directionality].statement" data-edit-value="Real eQuilibrator ΔG&#39; is logged every step and makes feasibility explicit (fixation stops where ΔG&#39; ≥ 0 — genuine product inhibition)." data-edit-multiline data-edit-label="Finding og01-energy-directionality">Real eQuilibrator ΔG&#39; is logged every step and makes feasibility explicit (fixation stops where ΔG&#39; ≥ 0 — genuine product inhibition).</span>
             
             <span class="finding-chip">via <code>free-energy-directionality-logged</code></span>
             
@@ -1247,7 +1247,7 @@
         <details class="finding-details">
           <summary class="finding-row">
             <span class="finding-status-glyph">◆</span>
-            <span class="finding-claim finding-statement">Carbon fixation SPENDS the proton gradient — a conserved proton budget (≈2 H⁺ per carbon) draws the loaded pmf down ~40% below the open-circuit 427 mV under load, then relaxes as products saturate. The gradient does work and is consumed, not merely correlated with reduction.</span>
+            <span class="finding-claim finding-statement" data-edit-kind="study" data-edit-field="findings[og01-chemiosmotic-backpressure].statement" data-edit-value="Carbon fixation SPENDS the proton gradient — a conserved proton budget (≈2 H⁺ per carbon) draws the loaded pmf down ~40% below the open-circuit 427 mV under load, then relaxes as products saturate. The gradient does work and is consumed, not merely correlated with reduction." data-edit-multiline data-edit-label="Finding og01-chemiosmotic-backpressure">Carbon fixation SPENDS the proton gradient — a conserved proton budget (≈2 H⁺ per carbon) draws the loaded pmf down ~40% below the open-circuit 427 mV under load, then relaxes as products saturate. The gradient does work and is consumed, not merely correlated with reduction.</span>
             
             <span class="finding-chip">via <code>chemiosmotic-backpressure-loads-gradient</code></span>
             
@@ -1302,7 +1302,7 @@
         <details class="finding-details">
           <summary class="finding-row">
             <span class="finding-status-glyph">◆</span>
-            <span class="finding-claim finding-statement">A parameter sweep over the (vent pH × dissolved H₂) plane maps the carbon-fixation landscape, not a single run. In the open-flow reactor, sustained reduced-carbon throughput scales with both the pH gradient and H₂ (6.4 → 24 ×10⁻³ mol-C/s; steady pool 7–28 mM); the Tutolo-2026 gradient collapse roughly halves it on the same axes, and the no-gradient / no-catalyst / no-H₂ controls zero it. The favorable region is broadly productive — the sharp dependence is on a SUSTAINED gradient, not on sitting at one pH/H₂ point.</span>
+            <span class="finding-claim finding-statement" data-edit-kind="study" data-edit-field="findings[og01-fixation-landscape].statement" data-edit-value="A parameter sweep over the (vent pH × dissolved H₂) plane maps the carbon-fixation landscape, not a single run. In the open-flow reactor, sustained reduced-carbon throughput scales with both the pH gradient and H₂ (6.4 → 24 ×10⁻³ mol-C/s; steady pool 7–28 mM); the Tutolo-2026 gradient collapse roughly halves it on the same axes, and the no-gradient / no-catalyst / no-H₂ controls zero it. The favorable region is broadly productive — the sharp dependence is on a SUSTAINED gradient, not on sitting at one pH/H₂ point." data-edit-multiline data-edit-label="Finding og01-fixation-landscape">A parameter sweep over the (vent pH × dissolved H₂) plane maps the carbon-fixation landscape, not a single run. In the open-flow reactor, sustained reduced-carbon throughput scales with both the pH gradient and H₂ (6.4 → 24 ×10⁻³ mol-C/s; steady pool 7–28 mM); the Tutolo-2026 gradient collapse roughly halves it on the same axes, and the no-gradient / no-catalyst / no-H₂ controls zero it. The favorable region is broadly productive — the sharp dependence is on a SUSTAINED gradient, not on sitting at one pH/H₂ point.</span>
             
             <span class="finding-chip">via <code>net-carbon-flux-nonzero-region</code></span>
             
@@ -2721,11 +2721,12 @@ cites:   ["tutolo2026rethinking", "jackson2016natural"]</pre>
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/workbench", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "d28c16afd924d4c5e22aad5700d908b308369b48", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/d28c16afd924d4c5e22aad5700d908b308369b48", "branch": "main", "lockfile": "uv.lock@80c53e9f2d55", "generated_at": "2026-10-29 12:37 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/workbench", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "383cc224287901fd9ed31b342fa45b6f01078cc2", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/383cc224287901fd9ed31b342fa45b6f01078cc2", "branch": "main", "lockfile": "uv.lock@dabb9b15b184", "generated_at": "2026-10-31 18:34 UTC"} };</script>
 <script src="/viva-genesis/workbench/assets/data-source.js"></script>
 <script src="/viva-genesis/workbench/assets/toast.js"></script>
 <script>
 window._studyName = "og-carbon-fixation";
+window.__STUDY_INVESTIGATION__ = "origins-of-life-vent";  // owning investigation (feedback save routing)
 window._study = null;  // populated by _bootstrapStudy() in study-detail.js
 
 // Save handler for the Conditions → Model settings editable rows.
@@ -2854,6 +2855,8 @@ window._seedFollowupProposal = _seedFollowupProposal;
 <script src="/viva-genesis/workbench/assets/progress-track.js"></script>
 <script src="/viva-genesis/workbench/assets/comparison-view.js"></script>
 <script src="/viva-genesis/workbench/assets/study-detail.js"></script>
+<script src="/viva-genesis/workbench/assets/study-feedback.js"></script>
+<script src="/viva-genesis/workbench/assets/inline-edit.js"></script>
 <script>
 // Re-assert the refresh-aware seed handlers AFTER study-detail.js (which
 // defines its own navigate-away _seedFollowupStudy). The embedded

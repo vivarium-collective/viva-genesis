@@ -1655,7 +1655,7 @@ else:
 # **proximity-diffusion**
 
 # proximity-diffusion
-_save_viz('s2-ecology-to-proximity', 'proximity-diffusion', _render_one('', {}, RUNS_DB, STUDY_YAML))
+_save_viz('s2-ecology-to-proximity', 'proximity-diffusion', _render_one('html:viz/proximity-diffusion.html', {}, RUNS_DB, STUDY_YAML))
 
 # **proximity-selects-contact**
 
@@ -1900,7 +1900,7 @@ else:
 # **internalization-boundary**
 
 # internalization-boundary
-_save_viz('s4-compartmental-energetic-coupling', 'internalization-boundary', _render_one('', {}, RUNS_DB, STUDY_YAML))
+_save_viz('s4-compartmental-energetic-coupling', 'internalization-boundary', _render_one('html:viz/internalization-boundary.html', {}, RUNS_DB, STUDY_YAML))
 
 # **internalization-net-benefit**
 
@@ -1990,7 +1990,7 @@ else:
 # **eigen-catastrophe**
 
 # eigen-catastrophe
-_save_viz('s5-symbiont-to-organelle', 'eigen-catastrophe', _render_one('', {}, RUNS_DB, STUDY_YAML))
+_save_viz('s5-symbiont-to-organelle', 'eigen-catastrophe', _render_one('html:viz/eigen-catastrophe.html', {}, RUNS_DB, STUDY_YAML))
 
 # **heritable-integration**
 

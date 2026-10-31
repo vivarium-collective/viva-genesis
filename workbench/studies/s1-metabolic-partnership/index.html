@@ -20,7 +20,7 @@
   <div style="display:flex; align-items:center; gap:14px; justify-content:space-between;">
   <div style="display:flex; align-items:center; gap:12px; min-width:0; flex-wrap:wrap">
   <h1 class="study-title" style="margin:0">
-    <span class="study-name" id="study-name" data-slug="s1-metabolic-partnership" data-study-kind="computational" title="s1-metabolic-partnership">S1 — Metabolic partnership: can an archaeal-bacterial pair gain fitness from exchange?</span>
+    <span class="study-name" id="study-name" data-slug="s1-metabolic-partnership" data-study-kind="computational" title="s1-metabolic-partnership" data-edit-kind="study" data-edit-field="title" data-edit-value="S1 — Metabolic partnership: can an archaeal-bacterial pair gain fitness from exchange?" data-edit-label="Title">S1 — Metabolic partnership: can an archaeal-bacterial pair gain fitness from exchange?</span>
     
   </h1>
     
@@ -551,8 +551,8 @@
     <div class="ctr-block">
       <h2 class="overview-label ctr-h">Background</h2>
       <div class="ctr-meta">
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Question</span> <span class="ctr-meta-item">Can plausible archaeal-bacterial pairs gain fitness from metabolite exchange, and under which redox and substrate regimes? Does the predicted mutualism survive mass-balance and electron-donor/acceptor feasibility audits and alternative reconstructions?</span></div>
-        <div class="ctr-meta-row"><span class="ctr-meta-k">Hypothesis</span> <span class="ctr-meta-item">Under at least one field-consistent redox/substrate regime, a reconstructed archaeal-host / bacterial-partner pair achieves partner-dependent growth (each grows better together than alone) on mass-balanced exchange fluxes, while a no-exchange / parasitic control does not.</span></div>
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Question</span> <span class="ctr-meta-item" data-edit-kind="study" data-edit-field="question" data-edit-value="Can plausible archaeal-bacterial pairs gain fitness from metabolite exchange, and under which redox and substrate regimes? Does the predicted mutualism survive mass-balance and electron-donor/acceptor feasibility audits and alternative reconstructions?" data-edit-multiline data-edit-label="Question">Can plausible archaeal-bacterial pairs gain fitness from metabolite exchange, and under which redox and substrate regimes? Does the predicted mutualism survive mass-balance and electron-donor/acceptor feasibility audits and alternative reconstructions?</span></div>
+        <div class="ctr-meta-row"><span class="ctr-meta-k">Hypothesis</span> <span class="ctr-meta-item" data-edit-kind="study" data-edit-field="hypothesis" data-edit-value="Under at least one field-consistent redox/substrate regime, a reconstructed archaeal-host / bacterial-partner pair achieves partner-dependent growth (each grows better together than alone) on mass-balanced exchange fluxes, while a no-exchange / parasitic control does not." data-edit-multiline data-edit-label="Hypothesis">Under at least one field-consistent redox/substrate regime, a reconstructed archaeal-host / bacterial-partner pair achieves partner-dependent growth (each grows better together than alone) on mass-balanced exchange fluxes, while a no-exchange / parasitic control does not.</span></div>
       </div>
     </div>
     
@@ -631,7 +631,7 @@
         <details class="finding-details">
           <summary class="finding-row">
             <span class="finding-status-glyph">◆</span>
-            <span class="finding-claim finding-statement">Calibrated (p_diacid=1e-8, p_monoacid=1e-7, k_wash=0.01, 250 steps): the connected cross-feeding community settles to metacommunity_robustness 0.536 (&gt; 0.5, PASS) while the isolated control (coupling=private) settles to 0.464 (&lt; 0.5, FAIL) — a partner-dependent advantage of 1.15 (connected/isolated). Carbon mass balance holds (worst-case residual 5.6e-11). Establishes a mechanistically plausible route (connected community) and a well-characterized failure route (isolated control) at first fidelity. Computed via a direct in-process composite run; the tracked workbench run awaits the evaluator reaching the genesis venv.</span>
+            <span class="finding-claim finding-statement" data-edit-kind="study" data-edit-field="findings[s1-connected-beats-isolated-calibrated].statement" data-edit-value="Calibrated (p_diacid=1e-8, p_monoacid=1e-7, k_wash=0.01, 250 steps): the connected cross-feeding community settles to metacommunity_robustness 0.536 (&gt; 0.5, PASS) while the isolated control (coupling=private) settles to 0.464 (&lt; 0.5, FAIL) — a partner-dependent advantage of 1.15 (connected/isolated). Carbon mass balance holds (worst-case residual 5.6e-11). Establishes a mechanistically plausible route (connected community) and a well-characterized failure route (isolated control) at first fidelity. Computed via a direct in-process composite run; the tracked workbench run awaits the evaluator reaching the genesis venv." data-edit-multiline data-edit-label="Finding s1-connected-beats-isolated-calibrated">Calibrated (p_diacid=1e-8, p_monoacid=1e-7, k_wash=0.01, 250 steps): the connected cross-feeding community settles to metacommunity_robustness 0.536 (&gt; 0.5, PASS) while the isolated control (coupling=private) settles to 0.464 (&lt; 0.5, FAIL) — a partner-dependent advantage of 1.15 (connected/isolated). Carbon mass balance holds (worst-case residual 5.6e-11). Establishes a mechanistically plausible route (connected community) and a well-characterized failure route (isolated control) at first fidelity. Computed via a direct in-process composite run; the tracked workbench run awaits the evaluator reaching the genesis venv.</span>
             
             <span class="finding-chip">via <code>community-redundancy-develops</code></span>
             
@@ -679,7 +679,7 @@
         <details class="finding-details">
           <summary class="finding-row">
             <span class="finding-status-glyph">◆</span>
-            <span class="finding-claim finding-statement">The isolated no-exchange control (coupling=private) settles to metacommunity_robustness 0.464 (&lt; 0.5) — without reciprocal exchange the community does not develop functional redundancy. The partner-dependent advantage (connected 0.536 vs isolated 0.464) is the discriminating signal.</span>
+            <span class="finding-claim finding-statement" data-edit-kind="study" data-edit-field="findings[s1-isolated-control-stays-below-threshold].statement" data-edit-value="The isolated no-exchange control (coupling=private) settles to metacommunity_robustness 0.464 (&lt; 0.5) — without reciprocal exchange the community does not develop functional redundancy. The partner-dependent advantage (connected 0.536 vs isolated 0.464) is the discriminating signal." data-edit-multiline data-edit-label="Finding s1-isolated-control-stays-below-threshold">The isolated no-exchange control (coupling=private) settles to metacommunity_robustness 0.464 (&lt; 0.5) — without reciprocal exchange the community does not develop functional redundancy. The partner-dependent advantage (connected 0.536 vs isolated 0.464) is the discriminating signal.</span>
             
             <span class="finding-chip">via <code>community-redundancy-develops</code></span>
             
@@ -1372,11 +1372,12 @@ pass_if: {"op": "\u003c", "provenance": {"kind": "theory", "note": "Exchange flu
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/workbench", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "d28c16afd924d4c5e22aad5700d908b308369b48", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/d28c16afd924d4c5e22aad5700d908b308369b48", "branch": "main", "lockfile": "uv.lock@80c53e9f2d55", "generated_at": "2026-10-29 12:37 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/workbench", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "383cc224287901fd9ed31b342fa45b6f01078cc2", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/383cc224287901fd9ed31b342fa45b6f01078cc2", "branch": "main", "lockfile": "uv.lock@dabb9b15b184", "generated_at": "2026-10-31 18:34 UTC"} };</script>
 <script src="/viva-genesis/workbench/assets/data-source.js"></script>
 <script src="/viva-genesis/workbench/assets/toast.js"></script>
 <script>
 window._studyName = "s1-metabolic-partnership";
+window.__STUDY_INVESTIGATION__ = "eukaryogenesis";  // owning investigation (feedback save routing)
 window._study = null;  // populated by _bootstrapStudy() in study-detail.js
 
 // Save handler for the Conditions → Model settings editable rows.
@@ -1505,6 +1506,8 @@ window._seedFollowupProposal = _seedFollowupProposal;
 <script src="/viva-genesis/workbench/assets/progress-track.js"></script>
 <script src="/viva-genesis/workbench/assets/comparison-view.js"></script>
 <script src="/viva-genesis/workbench/assets/study-detail.js"></script>
+<script src="/viva-genesis/workbench/assets/study-feedback.js"></script>
+<script src="/viva-genesis/workbench/assets/inline-edit.js"></script>
 <script>
 // Re-assert the refresh-aware seed handlers AFTER study-detail.js (which
 // defines its own navigate-away _seedFollowupStudy). The embedded
