@@ -1,0 +1,60 @@
+schema_version: 4
+name: s01-formation
+investigation: multicellularity
+created: '2026-11-01'
+title: Collective formation
+phase: Design
+status: planned
+design_status: drafted
+simulation_status: not_run
+evaluation_status: not_evaluated
+gate_status: not_started
+topic: multicellularity
+tags:
+- seed
+- planned
+- multicellularity
+concept: emergence of multicellularity
+question: Which adhesion, reproductive, and ecological regimes create persistent collectives
+  rather than transient aggregates? (Q1)
+hypothesis: Clonal incomplete separation with reversible adhesion, swept over bond
+  strength and division/fragmentation, produces a persistent group life cycle and
+  heritable cluster traits that a non-group null does not.
+claim: Clonal incomplete separation with reversible adhesion can yield a persistent
+  group life cycle and heritable cluster traits beyond a non-group null — provisional
+  (unvalidated) until a registered run.
+behavior_tests:
+- name: group-life-cycle-persists
+  classification: primary
+  description: 'Contrast clonal incomplete separation, aggregation, and reversible
+    adhesion. Sweep bond strength, division and fragmentation against a non-group
+    null. Decision criterion: persistent group life cycle and heritable cluster traits
+    versus a non-group null.'
+acceptance_criteria: []
+findings: []
+literature_anchors:
+- source: Morowitz 2002, The Emergence of Everything, ch.14
+  cites:
+  - morowitz2002emergence_multicellularity
+  status_in_workspace: proposed
+- source: Ratcliff et al. 2012, PNAS
+  cites:
+  - ratcliff2012experimental
+  status_in_workspace: proposed
+- source: Herron et al. 2019, Sci Rep
+  cites:
+  - herron2019denovo
+  status_in_workspace: proposed
+parent_studies: []
+baseline: []
+variants: []
+visualizations: []
+observables:
+- group_life_cycle_persistence
+data_inputs: []
+runs: []
+simulation_set: []
+pipeline_gate:
+  gate_evaluator:
+    result: not_started
+    evaluated_by: code

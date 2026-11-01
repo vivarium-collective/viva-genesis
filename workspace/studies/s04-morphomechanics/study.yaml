@@ -1,0 +1,61 @@
+schema_version: 4
+name: s04-morphomechanics
+investigation: multicellularity
+created: '2026-11-01'
+title: Morphomechanics
+phase: Design
+status: planned
+design_status: drafted
+simulation_status: not_run
+evaluation_status: not_evaluated
+gate_status: not_started
+topic: multicellularity
+tags:
+- seed
+- planned
+- multicellularity
+concept: emergence of multicellularity
+question: How do cell aspect ratio, branch topology, packing and bond strength set
+  collective toughness and propagule size? (Q2)
+hypothesis: Varying aspect ratio, branch topology, packing and bond strength predicts
+  toughness and propagule-size distributions; mechanics backends agree on the summary
+  observables (C4).
+claim: Cell geometry/mechanics (aspect ratio, topology, packing, bonds) sets collective
+  toughness and propagule-size distributions, consistently across mechanics backends
+  (C4) — provisional until cross-backend runs agree.
+behavior_tests:
+- name: propagule-toughness-predicted
+  classification: primary
+  description: 'Vary cell aspect ratio, branch topology, packing and bond strength;
+    compare mechanics backends. Decision criterion: predict toughness and propagule-size
+    distributions.'
+acceptance_criteria: []
+findings: []
+literature_anchors:
+- source: Bozdag et al. 2023, Nature
+  cites:
+  - bozdag2023denovo
+  status_in_workspace: proposed
+- source: Bozdag et al. 2023 data/code (GitHub)
+  cites:
+  - bozdag2023data
+  status_in_workspace: proposed
+- source: NCBI SRA PRJNA943273
+  cites:
+  - sra_prjna943273
+  status_in_workspace: proposed
+parent_studies:
+- study: s03-transport-limits
+  relation: builds-on
+baseline: []
+variants: []
+visualizations: []
+observables:
+- propagule_toughness
+data_inputs: []
+runs: []
+simulation_set: []
+pipeline_gate:
+  gate_evaluator:
+    result: not_started
+    evaluated_by: code

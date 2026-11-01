@@ -1,0 +1,59 @@
+schema_version: 4
+name: s02-ecological-selection
+investigation: multicellularity
+created: '2026-11-01'
+title: Ecological selection
+phase: Design
+status: planned
+design_status: drafted
+simulation_status: not_run
+evaluation_status: not_evaluated
+gate_status: not_started
+topic: multicellularity
+tags:
+- seed
+- planned
+- multicellularity
+concept: emergence of multicellularity
+question: Can size-dependent predation and settling reward group formation without
+  added physiology? (Q1)
+hypothesis: Under size-dependent predation/settling, simple adhesive collectives gain
+  a fitness advantage over unicells even with metabolic exchange controlled (H1).
+claim: Size-dependent predation/settling can explain group emergence without added
+  physiology (H1) — provisional until predator-free controls are run.
+behavior_tests:
+- name: group-fitness-advantage-under-selection
+  classification: primary
+  description: 'Add size-dependent predation, settling and no-selection controls;
+    compare group vs unicell fitness with physiology held fixed. Decision criterion:
+    ecological benefit explains group emergence without added physiology.'
+acceptance_criteria: []
+findings: []
+literature_anchors:
+- source: Herron et al. 2019, Sci Rep
+  cites:
+  - herron2019denovo
+  status_in_workspace: proposed
+- source: Ratcliff et al. 2012, PNAS
+  cites:
+  - ratcliff2012experimental
+  status_in_workspace: proposed
+- source: Grosberg & Strathmann 2007, Annu Rev Ecol Evol Syst
+  cites:
+  - grosberg2007evolution
+  status_in_workspace: proposed
+parent_studies:
+- study: s01-formation
+  relation: builds-on
+baseline: []
+variants: []
+visualizations: []
+observables:
+- group_fitness_advantage
+data_inputs: []
+runs: []
+simulation_set: []
+pipeline_gate:
+  gate_evaluator:
+    result: not_started
+    evaluated_by: code

@@ -1,0 +1,56 @@
+schema_version: 4
+name: s05-differentiation
+investigation: multicellularity
+created: '2026-11-01'
+title: Cell-state differentiation
+phase: Design
+status: planned
+design_status: drafted
+simulation_status: not_run
+evaluation_status: not_evaluated
+gate_status: not_started
+topic: multicellularity
+tags:
+- seed
+- planned
+- multicellularity
+concept: emergence of multicellularity
+question: Can environmental gradients create stable cell-state differentiation without
+  a dedicated developmental program? (Q4, Q3)
+hypothesis: Metabolite exchange plus inducible cell fate yields specialization that
+  improves out-of-sample group performance beyond a no-fate and random-fate null (C5).
+claim: Gradient-induced specialization can improve out-of-sample group performance
+  beyond non-regulated nulls (C5) — provisional until a no-fate/random-fate null is
+  beaten.
+behavior_tests:
+- name: specialization-improves-group-performance
+  classification: primary
+  description: 'Enable metabolite exchange and inducible cell fate, with no-fate and
+    random-fate nulls. Decision criterion: specialization improves out-of-sample group
+    performance.'
+acceptance_criteria: []
+findings: []
+literature_anchors:
+- source: Kirk 2005, BioEssays
+  cites:
+  - kirk2005twelve
+  status_in_workspace: proposed
+- source: Grosberg & Strathmann 2007, Annu Rev Ecol Evol Syst
+  cites:
+  - grosberg2007evolution
+  status_in_workspace: proposed
+parent_studies:
+- study: s04-morphomechanics
+  relation: builds-on
+baseline: []
+variants: []
+visualizations: []
+observables:
+- specialization_out_of_sample_gain
+data_inputs: []
+runs: []
+simulation_set: []
+pipeline_gate:
+  gate_evaluator:
+    result: not_started
+    evaluated_by: code

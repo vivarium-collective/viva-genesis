@@ -1,0 +1,61 @@
+schema_version: 4
+name: s03-transport-limits
+investigation: multicellularity
+created: '2026-11-01'
+title: Transport limits
+phase: Design
+status: planned
+design_status: drafted
+simulation_status: not_run
+evaluation_status: not_evaluated
+gate_status: not_started
+topic: multicellularity
+tags:
+- seed
+- planned
+- multicellularity
+concept: emergence of multicellularity
+question: How do oxygen, nutrients, cell shape, packing and geometry limit collective
+  size? (Q2)
+hypothesis: Coupling oxygen/nutrient/waste PDEs to growth across colony geometries
+  predicts size/viability changes that track diffusion length and metabolic regime
+  (C3).
+claim: Transport (oxygen/nutrient/waste diffusion) bounds collective size/viability
+  in a geometry- and metabolism-dependent way (C3) — provisional until shape/transport
+  controls are run.
+behavior_tests:
+- name: size-viability-tracks-transport
+  classification: primary
+  description: 'Couple oxygen/nutrient/waste PDEs to growth across colony geometries
+    and metabolic regimes. Decision criterion: predict size/viability changes across
+    experimental regimes.'
+acceptance_criteria: []
+findings: []
+literature_anchors:
+- source: Knoll 2011, Annu Rev Earth Planet Sci
+  cites:
+  - knoll2011multiple
+  status_in_workspace: proposed
+- source: Bozdag et al. 2023, Nature
+  cites:
+  - bozdag2023denovo
+  status_in_workspace: proposed
+- source: Bozdag et al. 2023 data/code (GitHub)
+  cites:
+  - bozdag2023data
+  status_in_workspace: proposed
+parent_studies:
+- study: s02-ecological-selection
+  relation: builds-on
+baseline: []
+variants: []
+visualizations: []
+observables:
+- size_viability_vs_transport
+data_inputs: []
+runs: []
+simulation_set: []
+pipeline_gate:
+  gate_evaluator:
+    result: not_started
+    evaluated_by: code
