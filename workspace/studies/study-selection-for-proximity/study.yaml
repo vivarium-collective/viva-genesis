@@ -32,11 +32,33 @@ required_mechanisms:
 baseline:
 - name: baseline
   composite: viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community
-  params: {}
-  note: "First-fidelity arm: reuses the parent composite named in the feedback's `reuse`.\
-    \ The coupled proto_endosymbiosis_hybrid composite (with the extend_with mechanisms)\
-    \ is the next-fidelity arm \u2014 a capability gap to build."
-variants: []
+  params:
+    lineages: fixer:4,reducer:4
+    coupling: shared
+    model_proto_ecology: reaction_universe
+    p_diacid: 1.0e-08
+    p_monoacid: 1.0e-07
+    k_wash: 0.01
+    placement: mixed
+    k_diffusion: 0.001
+  note: "First-fidelity CONNECTED arm: reuses the S2 metabolite-exchange community\
+    \ (proven params). Measures PREREQUISITE observables (exchange flux, robustness)\
+    \ only \u2014 the discriminating selection_coefficient requires the coupled proto_endosymbiosis_hybrid\
+    \ composite (next-fidelity arm, P2)."
+variants:
+- name: no-exchange-control
+  composite: viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community
+  params:
+    lineages: fixer:4,reducer:4
+    coupling: private
+    model_proto_ecology: reaction_universe
+    p_diacid: 1.0e-08
+    p_monoacid: 1.0e-07
+    k_wash: 0.01
+    placement: mixed
+    k_diffusion: 0.001
+  note: 'Matched no_exchange control (coupling=private): the nonnegotiable_controls
+    baseline.'
 observables:
 - selection_coefficient_for_adhesion
 - contact_duration_distribution
