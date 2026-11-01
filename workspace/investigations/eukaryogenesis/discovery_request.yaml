@@ -1,0 +1,28 @@
+discovery_request:
+  schema_version: "1.0"
+  investigation_id: eukaryogenesis
+  feedback_file: feedback/reopening-feedback.yaml
+  lifecycle:
+    action: reopen
+    reason: unresolved_scientific_challenge
+    preserve_history: true
+  execution:
+    mode: supervised_autonomous
+    max_cycles: 5
+    max_new_studies: 8
+    max_new_models: 4
+    # consequential operations that always require explicit human approval
+    require_approval_for:
+      - external_data_access
+      - expensive_compute
+      - publishing
+      - model_revision      # revise_model ops
+      - steer               # human-only open_decisions / steers
+      - synthesize
+  continuation:
+    policy: highest_information_gain
+    stop_when:
+      - scientific_objectives_satisfied   # closure() closed
+      - budget_exhausted                  # cycles/studies/models caps hit
+      - no_executable_actions             # nothing run-ready (e.g. model must be built first)
+      - human_decision_required           # top action needs approval
