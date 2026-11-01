@@ -452,6 +452,96 @@ scientific_argument:
   - The stages currently run as separate composites with hand-carried parameters and a division
     counter rather than one persistent world whose bigraph restructures, so "a boundary forms" and
     "an individual divides" are scalar readouts, not changes in the composition itself.
+biological_story: |
+  Cells did not switch on in a single spark. This campaign reads their origin as an ordered
+  chain of nonequilibrium transitions at an alkaline hydrothermal vent, and it treats each
+  link as a step a simulation can pass or fail rather than a story to illustrate. The
+  question is whether a physically plausible early-Earth vent hands a nascent cell, in
+  order, the free energy, reduced carbon, self-amplifying chemistry, concentration, boundary,
+  internalized energy and heredity it needs — without smuggling metabolism, membranes or
+  genes in by assumption. Every stage is a coupled Vivarium composite of real simulators
+  (PHREEQC, FiPy/FEniCS, eQuilibrator, libRoadRunner) run under explicit conservation
+  contracts, and the favorable classical picture is run head to head against the 2026
+  unfavorable reassessment, so the campaign adjudicates its scenarios instead of asserting
+  them.
+
+  The vent itself holds up. A serpentinizing reactor settles inside the Lost City pH and
+  temperature window across about 80% of the swept grid with charge balance exact, and when
+  the parameters are conditioned on what the geology actually supports, the surviving states
+  (roughly an eighth of the plausible range, hydrogen-limited) leave a posterior in which
+  every empirically supported vent state supplies what the next stage needs — the first
+  free-energy source, a natural proton gradient across thin mineral walls, before a cell
+  owns a membrane or a pump.
+
+  The cell's first carbon follows. Hydrogen-driven reduction of CO2 on mineral and
+  native-metal catalysts reproduces the Preiner and Hudson laboratory benchmarks and
+  sustains a net organic-carbon flux in a bounded pH/H2 region, while the no-hydrogen,
+  no-catalyst and no-gradient controls collapse. The honest wrinkle is mechanistic, not
+  directional: asked which limitation actually stops the reaction, two model classes agree
+  only 47% of the time against an 80% bar, so the campaign reports a mechanism map rather
+  than a settled cause — and keeps carbon fixation supported, with the charge and electron
+  ledger exact over hundreds of runs.
+
+  Chemistry then has to persist and, ideally, amplify. It does the first but not the
+  second. A rule-generated, real-thermodynamics carbon-fixing network ignites and sustains
+  throughput once it sits inside a concentrating mineral pore, while a matched well-mixed
+  control at the same feed stays dead — persistence is real, but it is driven by the pore
+  and the feed, not self-sustaining. Endogenous autocatalysis is refuted under vent
+  conditions for both routes a vent could offer, each for a concrete reason: the formose
+  doubling step is condensation-favored, so its splitting direction carries no net flux and
+  production proves feed-driven rather than seed-amplified; and a reductive-TCA cycle washes
+  out because its carboxylations run energetically uphill on hydrogen — the same reason real
+  rTCA organisms use ferredoxin, not H2. (Under a stronger reductant the rTCA topology can
+  amplify, noted as a beyond-vent follow-up, not a vent result.)
+
+  Concentration against dilution is likewise real but selective. Long, tight pores cross the
+  thermophoretic enrichment threshold, yet the eight-solute mixture a protocell needs
+  together fractionates rather than co-localizing — strongly thermophoretic species pile up
+  while others, such as ammonium, lag — so concentrating one tracer is not concentrating the
+  set. A real-pore Soret trap plus membrane retention can lift the functional C2–C3 precursor
+  pool from nanomolar to a consumable micromolar, but only in a narrow corner at the upper
+  edge of defensible small-molecule thermophoresis; the result now hinges on a single
+  measurable number, the Soret coefficient of those precursors at the vent gradient, which is
+  the discriminating experiment.
+
+  Where the campaign turns genuinely positive is the protocell's own housekeeping. A
+  self-made amphiphile boundary pays for itself on persistence — a standing pool roughly two
+  to three times a matched no-membrane ablation, with real fatty-acid-vesicle molecular
+  dynamics replacing the earlier phospholipid stand-in — though it buys persistence, not
+  throughput. The protocell grows from amphiphile it produces itself and divides at a
+  measured area-doubling geometry, and a daughter-inherited compositional difference produces
+  a reproducible, selectable fitness difference (parent–offspring fitness correlation about
+  +0.95 against a no-inheritance control). Heredity here need not presume RNA: compositional
+  and hybrid inheritance slip past the Eigen length catastrophe on an information-per-cost
+  frontier of competing mechanisms.
+
+  But the stage that would make all of this alive — chemistry maintaining a boundary that in
+  turn sustains and propagates that chemistry — does not close on its own. Under defensible
+  conditions the amphiphile pool the chemistry actually makes falls orders of magnitude below
+  the concentration needed to form a membrane (about four orders even at the operating
+  window's favorable corner), so no boundary forms without assuming one, and the reciprocal
+  loop never shuts. Given a boundary as a gift, selection does real work — stochastic
+  partitioning and variation produce heritable, selectable adaptation that beats both the
+  no-inheritance and shared-feed nulls and re-tracks a changed environment — but it is
+  bounded, fixed-trait selection, not open-ended novelty. Together these two results place
+  the binding bottleneck of the chemistry-to-life transition at individuality itself, not at
+  evolvability downstream.
+
+  One thread runs through every independent stage: robustness is the hard-won, repeatedly
+  traded axis. The pore, the membrane and the energy carrier each buy persistence rather than
+  more total work; a cross-feeding community buys productivity but spends robustness to get
+  it; and the escape-from-the-vent analysis is an affordability map — the pump/importer/
+  heredity set helps but is not an irreducible unit, and the proton gradient, not any
+  innovation triple, is the hard dependency. An adversarial vent-ablated control is rejected
+  by every discriminating gate, consistent with vent-specific rather than generic chemistry,
+  with the caveat that the clean three-way factorial is still pending. The honest bottom line
+  is therefore not a declaration that life began at a vent but a mechanism map and an
+  honestly advanced spine: carbon-fixing chemistry persists at vent-realistic feeds in a
+  pore, self-amplification does not occur under vent conditions, a membrane earns its cost,
+  and a protocell reproduces and inherits a selectable trait — while the central transition,
+  from staged chemistry to a self-maintaining individual, remains open. What is left is
+  largely editorial scope and a few expert priors (the Hadean ocean's hydrogen and organic
+  floor, heredity-attachment thresholds, membrane permeabilities), not unrun science.
 guidelines:
   scientific_standard:
     source: the transition standard (feasibility, robustness, discrimination), section 1
