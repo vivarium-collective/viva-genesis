@@ -348,6 +348,7 @@ studies:
 - study-selection-for-proximity
 - study-enclosure-mechanics
 - study-contact-to-enclosure-coupling
+- study-vertical-transmission-stability
 acceptance_criteria:
 - study: s1-metabolic-partnership
   behavior: community-redundancy-develops
@@ -738,9 +739,10 @@ reconciliation_log:
     scientific falsification.
   status: open
 synthesis:
-  headline: 'The syntrophy->enclosure eukaryogenesis path is FEASIBLE but NARROW:
-    a self-reinforcing contact+enclosure regime exists only where metabolic-exchange
-    selection, enclosure sealing, and seal persistence all align.'
+  headline: 'The syntrophy->enclosure eukaryogenesis path is FEASIBLE but NARROW,
+    and even once established it is RETAINED only where transmission fidelity and
+    selective benefit outrun conflict/partner-loss: a self-reinforcing contact+enclosure
+    regime that is also heritably stable occupies a bounded region of parameter space.'
   evidence_chain:
   - study: study-selection-for-proximity
     model: proto_endosymbiosis_hybrid (M1)
@@ -754,6 +756,11 @@ synthesis:
     model: proto_endosymbiosis_coupled (M3)
     result: "joint_feasibility_region 0.91 aligned vs 0.075 decoupled \u2014 the two\
       \ co-succeed only when all three conditions hold."
+  - study: study-vertical-transmission-stability
+    model: proto_endosymbiosis_transmission (M5)
+    result: "endosymbiont_retention_fraction 0.78 (stable) vs 0.03 (high conflict)\
+      \ \u2014 establishment does not guarantee evolutionary permanence; retention\
+      \ needs fidelity+benefit to outrun loss."
   phase_diagram:
     figure: figures/transition_phase_diagram.html
     data: figures/transition_phase_data.json
