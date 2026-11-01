@@ -1099,6 +1099,7 @@ scientific_argument:
   - M6 shows the whole syntrophy-first premise weakens in a well-mixed regime (proximity
     advantage ~3x), a boundary condition on the hypothesis.
   key_figures:
+  - figures/transition-ledger.html
   - figures/transition_phase_diagram.html
   caveats:
   - All models are reduced coupled models measuring the discriminating observable
