@@ -6,9 +6,9 @@ title: Collective formation
 phase: Design
 status: planned
 design_status: drafted
-simulation_status: not_run
-evaluation_status: not_evaluated
-gate_status: not_started
+simulation_status: ran
+evaluation_status: evaluated
+gate_status: passed
 topic: multicellularity
 tags:
 - seed
@@ -20,9 +20,8 @@ question: Which adhesion, reproductive, and ecological regimes create persistent
 hypothesis: Clonal incomplete separation with reversible adhesion, swept over bond
   strength and division/fragmentation, produces a persistent group life cycle and
   heritable cluster traits that a non-group null does not.
-claim: Clonal incomplete separation with reversible adhesion can yield a persistent
-  group life cycle and heritable cluster traits beyond a non-group null — provisional
-  (unvalidated) until a registered run.
+claim: Clonal incomplete separation with reversible adhesion produces a PERSISTENT
+  group life cycle (group fraction=0.
 behavior_tests:
 - name: group-life-cycle-persists
   classification: primary
@@ -30,8 +29,25 @@ behavior_tests:
     adhesion. Sweep bond strength, division and fragmentation against a non-group
     null. Decision criterion: persistent group life cycle and heritable cluster traits
     versus a non-group null.'
+  pass_if:
+    op: '>='
+    value: 0.5
 acceptance_criteria: []
-findings: []
+findings:
+- id: s01-formation-first-cycle
+  statement: Clonal incomplete separation with reversible adhesion produces a PERSISTENT
+    group life cycle (group fraction=0.67) that a non-group null (adhesion off) does
+    not (=0.01). Supports group FORMATION; says nothing yet about fitness.
+  status: confirms
+  evidence:
+    observed: 0.6667
+    from_test: group-life-cycle-persists
+    from_run: viva_genesis.composites.cell_collective.cell_collective__1793567204__7fb93c
+  inferential_scope: 'Reduced mean-field cell-collective model (cell_collective):
+    unicell/group split under adhesion + size-dependent predation/settling + oxygen-limited
+    growth. First-fidelity; not an explicit spatial agent/mechanics simulation and
+    not a historical estimate.'
+  kind: computational
 literature_anchors:
 - source: Morowitz 2002, The Emergence of Everything, ch.14
   cites:
@@ -46,15 +62,58 @@ literature_anchors:
   - herron2019denovo
   status_in_workspace: proposed
 parent_studies: []
-baseline: []
-variants: []
+baseline:
+- name: baseline
+  composite: viva_genesis.composites.cell_collective.cell_collective
+  params:
+    adhesion: 0.8
+    fragmentation: 0.2
+    predation_size_reward: 0.02
+    transport_penalty: 0.02
+  note: 'Clonal adhesion on (A): persistent clonal groups form.'
+variants:
+- name: no-adhesion-null
+  composite: viva_genesis.composites.cell_collective.cell_collective
+  params:
+    adhesion: 0.02
+    fragmentation: 0.8
+    predation_size_reward: 0.8
+    transport_penalty: 0.02
+  note: 'Non-group null: adhesion off -> no persistent groups.'
 visualizations: []
 observables:
 - group_life_cycle_persistence
 data_inputs: []
-runs: []
+runs:
+- name: viva_genesis.composites.cell_collective.cell_collective__1793567204__7fb93c
+  status: completed
+  timestamp: 1793567204.508229
+  emitter:
+    kind: in-process
+  params: '{"adhesion": 0.8, "fragmentation": 0.2, "predation_size_reward": 0.02,
+    "transport_penalty": 0.02}'
+  provenance:
+    params_source: first-cycle-in-process-runner
+    params_captured_at: '2026-11-01'
+- name: viva_genesis.composites.cell_collective.cell_collective__1793567204__6ab1aa
+  status: completed
+  timestamp: 1793567204.508229
+  emitter:
+    kind: in-process
+  params: '{"adhesion": 0.02, "fragmentation": 0.8, "predation_size_reward": 0.8,
+    "transport_penalty": 0.02}'
+  provenance:
+    params_source: first-cycle-in-process-runner
+    params_captured_at: '2026-11-01'
+  variant: no-adhesion-null
 simulation_set: []
 pipeline_gate:
   gate_evaluator:
-    result: not_started
+    result: passed
     evaluated_by: code
+    diverges_from_authored: false
+verdict: supported
+confidence: provisional
+verdict_rationale: 'First-cycle discriminating run on cell_collective: group_life_cycle_persistence=0.667
+  vs control 0.012.'
+evidence_tier: mechanistic_prediction

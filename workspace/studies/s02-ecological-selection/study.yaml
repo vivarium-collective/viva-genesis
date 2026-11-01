@@ -6,9 +6,9 @@ title: Ecological selection
 phase: Design
 status: planned
 design_status: drafted
-simulation_status: not_run
-evaluation_status: not_evaluated
-gate_status: not_started
+simulation_status: ran
+evaluation_status: evaluated
+gate_status: passed
 topic: multicellularity
 tags:
 - seed
@@ -19,16 +19,34 @@ question: Can size-dependent predation and settling reward group formation witho
   added physiology? (Q1)
 hypothesis: Under size-dependent predation/settling, simple adhesive collectives gain
   a fitness advantage over unicells even with metabolic exchange controlled (H1).
-claim: Size-dependent predation/settling can explain group emergence without added
-  physiology (H1) — provisional until predator-free controls are run.
+claim: Under size-dependent predation/settling, groups gain a FITNESS ADVANTAGE over
+  unicells (adv=+0.
 behavior_tests:
 - name: group-fitness-advantage-under-selection
   classification: primary
   description: 'Add size-dependent predation, settling and no-selection controls;
     compare group vs unicell fitness with physiology held fixed. Decision criterion:
     ecological benefit explains group emergence without added physiology.'
+  pass_if:
+    op: '>'
+    value: 0.0
 acceptance_criteria: []
-findings: []
+findings:
+- id: s02-ecological-selection-first-cycle
+  statement: Under size-dependent predation/settling, groups gain a FITNESS ADVANTAGE
+    over unicells (adv=+0.15); with adhesion alone (no ecology) the advantage vanishes
+    (adv=-0.00). Ecological selection — NOT adhesion per se — confers the group-level
+    fitness advantage (supports H1 for the advantage).
+  status: confirms
+  evidence:
+    observed: 0.1508
+    from_test: group-fitness-advantage-under-selection
+    from_run: viva_genesis.composites.cell_collective.cell_collective__1793567204__5c2568
+  inferential_scope: 'Reduced mean-field cell-collective model (cell_collective):
+    unicell/group split under adhesion + size-dependent predation/settling + oxygen-limited
+    growth. First-fidelity; not an explicit spatial agent/mechanics simulation and
+    not a historical estimate.'
+  kind: computational
 literature_anchors:
 - source: Herron et al. 2019, Sci Rep
   cites:
@@ -45,15 +63,58 @@ literature_anchors:
 parent_studies:
 - study: s01-formation
   relation: builds-on
-baseline: []
-variants: []
+baseline:
+- name: baseline
+  composite: viva_genesis.composites.cell_collective.cell_collective
+  params:
+    adhesion: 0.8
+    fragmentation: 0.2
+    predation_size_reward: 0.8
+    transport_penalty: 0.02
+  note: Adhesion + size-dependent predation/settling (B).
+variants:
+- name: adhesion-only-control
+  composite: viva_genesis.composites.cell_collective.cell_collective
+  params:
+    adhesion: 0.8
+    fragmentation: 0.2
+    predation_size_reward: 0.02
+    transport_penalty: 0.02
+  note: 'Adhesion only (A): no ecological selection.'
 visualizations: []
 observables:
 - group_fitness_advantage
 data_inputs: []
-runs: []
+runs:
+- name: viva_genesis.composites.cell_collective.cell_collective__1793567204__5c2568
+  status: completed
+  timestamp: 1793567204.508229
+  emitter:
+    kind: in-process
+  params: '{"adhesion": 0.8, "fragmentation": 0.2, "predation_size_reward": 0.8, "transport_penalty":
+    0.02}'
+  provenance:
+    params_source: first-cycle-in-process-runner
+    params_captured_at: '2026-11-01'
+- name: viva_genesis.composites.cell_collective.cell_collective__1793567204__7fb93c
+  status: completed
+  timestamp: 1793567204.508229
+  emitter:
+    kind: in-process
+  params: '{"adhesion": 0.8, "fragmentation": 0.2, "predation_size_reward": 0.02,
+    "transport_penalty": 0.02}'
+  provenance:
+    params_source: first-cycle-in-process-runner
+    params_captured_at: '2026-11-01'
+  variant: adhesion-only-control
 simulation_set: []
 pipeline_gate:
   gate_evaluator:
-    result: not_started
+    result: passed
     evaluated_by: code
+    diverges_from_authored: false
+verdict: supported
+confidence: provisional
+verdict_rationale: 'First-cycle discriminating run on cell_collective: group_fitness_advantage=0.151
+  vs control -0.002.'
+evidence_tier: mechanistic_prediction

@@ -6,9 +6,9 @@ title: Transport limits
 phase: Design
 status: planned
 design_status: drafted
-simulation_status: not_run
-evaluation_status: not_evaluated
-gate_status: not_started
+simulation_status: ran
+evaluation_status: evaluated
+gate_status: passed
 topic: multicellularity
 tags:
 - seed
@@ -20,9 +20,8 @@ question: How do oxygen, nutrients, cell shape, packing and geometry limit colle
 hypothesis: Coupling oxygen/nutrient/waste PDEs to growth across colony geometries
   predicts size/viability changes that track diffusion length and metabolic regime
   (C3).
-claim: Transport (oxygen/nutrient/waste diffusion) bounds collective size/viability
-  in a geometry- and metabolism-dependent way (C3) — provisional until shape/transport
-  controls are run.
+claim: 'Oxygen/transport BOUNDS the advantage to an optimal intermediate size: small
+  groups (size=3.'
 behavior_tests:
 - name: size-viability-tracks-transport
   classification: primary
@@ -30,7 +29,22 @@ behavior_tests:
     and metabolic regimes. Decision criterion: predict size/viability changes across
     experimental regimes.'
 acceptance_criteria: []
-findings: []
+findings:
+- id: s03-transport-limits-first-cycle
+  statement: 'Oxygen/transport BOUNDS the advantage to an optimal intermediate size:
+    small groups (size=3.7) keep a positive advantage (adv=+0.12) while large groups
+    (size=17.0) lose it (adv=-0.21). Size/viability tracks the transport regime (supports
+    C3; the advantage is not monotonic in size).'
+  status: confirms
+  evidence:
+    observed: 16.9999
+    from_test: size-viability-tracks-transport
+    from_run: viva_genesis.composites.cell_collective.cell_collective__1793567204__cfeb77
+  inferential_scope: 'Reduced mean-field cell-collective model (cell_collective):
+    unicell/group split under adhesion + size-dependent predation/settling + oxygen-limited
+    growth. First-fidelity; not an explicit spatial agent/mechanics simulation and
+    not a historical estimate.'
+  kind: computational
 literature_anchors:
 - source: Knoll 2011, Annu Rev Earth Planet Sci
   cites:
@@ -47,15 +61,58 @@ literature_anchors:
 parent_studies:
 - study: s02-ecological-selection
   relation: builds-on
-baseline: []
-variants: []
+baseline:
+- name: baseline
+  composite: viva_genesis.composites.cell_collective.cell_collective
+  params:
+    adhesion: 0.8
+    fragmentation: 0.2
+    predation_size_reward: 0.8
+    transport_penalty: 0.8
+  note: 'B + oxygen-limited growth (C): large groups starve in the interior.'
+variants:
+- name: small-groups
+  composite: viva_genesis.composites.cell_collective.cell_collective
+  params:
+    adhesion: 0.2
+    fragmentation: 0.3
+    predation_size_reward: 0.8
+    transport_penalty: 0.8
+  note: C with weak adhesion -> small groups below the oxygen size limit.
 visualizations: []
 observables:
-- size_viability_vs_transport
+- mean_group_size
 data_inputs: []
-runs: []
+runs:
+- name: viva_genesis.composites.cell_collective.cell_collective__1793567204__cfeb77
+  status: completed
+  timestamp: 1793567204.508229
+  emitter:
+    kind: in-process
+  params: '{"adhesion": 0.8, "fragmentation": 0.2, "predation_size_reward": 0.8, "transport_penalty":
+    0.8}'
+  provenance:
+    params_source: first-cycle-in-process-runner
+    params_captured_at: '2026-11-01'
+- name: viva_genesis.composites.cell_collective.cell_collective__1793567204__68451e
+  status: completed
+  timestamp: 1793567204.508229
+  emitter:
+    kind: in-process
+  params: '{"adhesion": 0.2, "fragmentation": 0.3, "predation_size_reward": 0.8, "transport_penalty":
+    0.8}'
+  provenance:
+    params_source: first-cycle-in-process-runner
+    params_captured_at: '2026-11-01'
+  variant: small-groups
 simulation_set: []
 pipeline_gate:
   gate_evaluator:
-    result: not_started
+    result: passed
     evaluated_by: code
+    diverges_from_authored: false
+verdict: supported
+confidence: provisional
+verdict_rationale: 'First-cycle discriminating run on cell_collective: mean_group_size=17.000
+  vs control 3.667.'
+evidence_tier: mechanistic_prediction

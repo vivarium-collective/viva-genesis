@@ -2,7 +2,7 @@ schema_version: 2
 name: multicellularity
 title: From Cells to Organisms
 created: '2026-11-01'
-status: planning
+status: running
 seed_id: VG-MULTI-001
 question: Under what physical, metabolic, ecological, developmental, and evolutionary
   conditions can independent cells become a persistent, integrated, self-reproducing
@@ -30,8 +30,11 @@ lead: This investigation is a falsifiable simulation-and-evidence program for th
 executive:
   what_is_this: Seed for a falsifiable program testing which conditions turn independent
     cells into an integrated, self-reproducing multicellular individual.
-  verdict: ''
-  verdict_status: planning
+  verdict: 'First cycle: clonal adhesion produces persistent groups, but adhesion
+    alone confers no fitness advantage; size-dependent ecological selection (predation/settling)
+    is what makes groups fitter than unicells; oxygen/transport then bounds that advantage
+    to an optimal intermediate group size.'
+  verdict_status: in-progress
   verdict_detail: Proposed seed — tool names and the import manifest are design targets,
     not a verified importer schema. No studies have run; every claim is provisional
     until mapped to source-specific evidence.
@@ -56,7 +59,13 @@ executive:
       or treat them as comparison-only?
     context: S03/S04 benchmark against Bozdag 2023 (oxygen, elongation, macroscopic
       size, mechanical robustness); direct ingestion enables held-out prediction.
-  decisions_resolved: []
+  decisions_resolved:
+  - question: Does ecological selection + simple clonal adhesion suffice for group
+      formation and a group-level fitness advantage? (first-cycle A/B/C)
+    resolution: 'Discriminated on cell_collective: A (adhesion only) forms persistent
+      groups (0.67) but adv~0; B (+predation/settling) gives adv>0 (+0.15); C (+O2-limited
+      growth) bounds the advantage to small/intermediate size. Ecology is sufficient
+      for the advantage; adhesion alone is not; transport sets a size optimum.'
 competing_frameworks:
 - name: Morowitz emergence framework
   relation: interpretive lens — emergence as successive constraint-crossings toward
