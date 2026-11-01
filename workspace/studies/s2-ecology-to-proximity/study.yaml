@@ -111,17 +111,12 @@ variants:
   over:
     k_diffusion: 0.1
 visualizations:
-- name: proximity-diffusion
-  title: Proximity sustains exchange only where structure holds — flux vs diffusion (22x → 1.3x)
-  address: html:viz/proximity-diffusion.html
-  render: "python -m viva_genesis.viz_endosym proximity-diffusion {chart}"
-  requires: []
-  covers:
-  - settled_cross_lineage_flux
 - name: proximity-selects-contact
   address: local:CommunityPlacementViz
   config:
-    title: S2 — proximity selects for contact (cross-lineage flux, proximate vs distant)
+    title: S2 — proximity selects for contact (pore layout and cross-feeding distance)
+  covers:
+  - settled_cross_lineage_flux
   rendered: workspace/studies/s2-ecology-to-proximity/viz/proximity-selects-contact.html
 observables:
 - exchange/cross_lineage_flux_total
