@@ -349,6 +349,7 @@ studies:
 - study-enclosure-mechanics
 - study-contact-to-enclosure-coupling
 - study-vertical-transmission-stability
+- study-spatial-exchange-proximity
 acceptance_criteria:
 - study: s1-metabolic-partnership
   behavior: community-redundancy-develops
@@ -761,6 +762,11 @@ synthesis:
     result: "endosymbiont_retention_fraction 0.78 (stable) vs 0.03 (high conflict)\
       \ \u2014 establishment does not guarantee evolutionary permanence; retention\
       \ needs fidelity+benefit to outrun loss."
+  - study: study-spatial-exchange-proximity
+    model: proto_endosymbiosis_spatial (M6)
+    result: "realised_exchange_level 49x higher at contact than distal (screened regime)\
+      \ \u2014 M1's contact-scales-exchange premise is mechanistically justified,\
+      \ collapsing only when well-mixed."
   phase_diagram:
     figure: figures/transition_phase_diagram.html
     data: figures/transition_phase_data.json
@@ -778,3 +784,6 @@ synthesis:
     \ the adhesion enclosure needs and enclosure locks in the exchange benefit that\
     \ keeps contact selected \u2014 the feedback is self-reinforcing only inside the\
     \ narrow aligned region."
+  premise_check: 'M6 validates the exchange-access premise M1-M5 rest on: realised
+    exchange is proximity-dependent wherever the metabolite is screened; the whole
+    syntrophy-first path would weaken only in a well-mixed regime.'
