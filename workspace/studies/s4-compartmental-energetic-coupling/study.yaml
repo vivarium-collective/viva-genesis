@@ -113,7 +113,7 @@ visualizations:
   covers:
   - settled_internalization_survivors
 - name: internalization-net-benefit
-  address: local:S4EnergeticCouplingViz
+  address: local:S4InternalizationDoseViz
   config:
     title: S4 — internalization pays only with an efficient pump (survivors)
   rendered: workspace/studies/s4-compartmental-energetic-coupling/viz/internalization-net-benefit.html

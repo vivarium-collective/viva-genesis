@@ -3,8 +3,9 @@ name: study-selection-for-proximity
 title: Does exchange increase the fitness of contact-seeking phenotypes?
 investigation: eukaryogenesis
 question: Does exchange increase the fitness of contact-seeking phenotypes?
-claim:
-hypothesis: Exchange creates positive selection for contact (adhesion-seeking phenotypes invade and persist).
+claim: null
+hypothesis: Exchange creates positive selection for contact (adhesion-seeking phenotypes
+  invade and persist).
 concept: endosymbiosis transition bridge
 topic: eukaryogenesis
 status: planned
@@ -40,7 +41,10 @@ baseline:
     k_wash: 0.01
     placement: mixed
     k_diffusion: 0.001
-  note: "First-fidelity CONNECTED arm: reuses the S2 metabolite-exchange community (proven params). Measures PREREQUISITE observables (exchange flux, robustness) only — the discriminating selection_coefficient requires the coupled proto_endosymbiosis_hybrid composite (next-fidelity arm, P2)."
+  note: 'First-fidelity CONNECTED arm: reuses the S2 metabolite-exchange community
+    (proven params). Measures PREREQUISITE observables (exchange flux, robustness)
+    only — the discriminating selection_coefficient requires the coupled proto_endosymbiosis_hybrid
+    composite (next-fidelity arm, P2).'
 variants:
 - name: no-exchange-control
   composite: viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community
@@ -53,7 +57,8 @@ variants:
     k_wash: 0.01
     placement: mixed
     k_diffusion: 0.001
-  note: 'Matched no_exchange control (coupling=private): the nonnegotiable_controls baseline.'
+  note: 'Matched no_exchange control (coupling=private): the nonnegotiable_controls
+    baseline.'
 - name: coupled-selection
   composite: viva_genesis.composites.proto_endosymbiosis_hybrid.proto_endosymbiosis_hybrid
   params:
@@ -62,7 +67,8 @@ variants:
     cost_coeff: 0.3
     init_freq_high: 0.6
     n_initial: 100.0
-  note: 'Next-fidelity arm: the proto_endosymbiosis_hybrid coupled model under exchange, favorable regime (benefit>cost, above the invasion threshold).'
+  note: 'Next-fidelity arm: the proto_endosymbiosis_hybrid coupled model under exchange,
+    favorable regime (benefit>cost, above the invasion threshold).'
 - name: coupled-no-exchange
   composite: viva_genesis.composites.proto_endosymbiosis_hybrid.proto_endosymbiosis_hybrid
   params:
@@ -71,7 +77,8 @@ variants:
     cost_coeff: 0.3
     init_freq_high: 0.6
     n_initial: 100.0
-  note: "Matched no-exchange control on the coupled model — isolates whether exchange is NECESSARY for positive selection."
+  note: Matched no-exchange control on the coupled model — isolates whether exchange
+    is NECESSARY for positive selection.
 observables:
 - selection_coefficient_for_adhesion
 - contact_duration_distribution
@@ -80,33 +87,51 @@ observables:
 behavior_tests:
 - name: study-selection-for-proximity-discriminates
   classification: primary
-  description: Syntrophy-first is preferred only where contact phenotypes invade and persist with POSITIVE selection under exchange, but not in no-exchange controls.
+  description: Syntrophy-first is preferred only where contact phenotypes invade and
+    persist with POSITIVE selection under exchange, but not in no-exchange controls.
   measure: selection_coefficient_for_adhesion
   pass_if:
     op: '>'
     value: 0.0
 - name: study-selection-for-proximity-contact-duration-distribution
   classification: secondary
-  description: 'Preregistered measurement: contact_duration_distribution (bands to be sharpened before run).'
+  description: 'Preregistered measurement: contact_duration_distribution (bands to
+    be sharpened before run).'
   measure: contact_duration_distribution
 - name: study-selection-for-proximity-exchange-flux-and-growth-rate
   classification: secondary
-  description: 'Preregistered measurement: exchange_flux_and_growth_rate (bands to be sharpened before run).'
+  description: 'Preregistered measurement: exchange_flux_and_growth_rate (bands to
+    be sharpened before run).'
   measure: exchange_flux_and_growth_rate
 - name: study-selection-for-proximity-fitness-gain-relative-to-no-exchange
   classification: secondary
-  description: 'Preregistered measurement: fitness_gain_relative_to_no_exchange (bands to be sharpened before run).'
+  description: 'Preregistered measurement: fitness_gain_relative_to_no_exchange (bands
+    to be sharpened before run).'
   measure: fitness_gain_relative_to_no_exchange
-visualizations: []
+visualizations:
+- name: selection-invasion
+  address: local:SelectionInvasionViz
+  config:
+    title: Exchange selects for contact — the adhesive phenotype invades to fixation
+  rendered: workspace/studies/study-selection-for-proximity/viz/selection-invasion.html
 findings:
 - id: s-sel-exchange-selects-contact
-  statement: Under metabolic exchange, a heritable contact/adhesion propensity is POSITIVELY selected (selection coefficient +0.63, contact fixes) above a frequency-dependent invasion threshold; the matched no-exchange control shows NEGATIVE selection (-0.36, contact eliminated). Exchange is necessary for selection-for-contact. Supports H1-syntrophy-first in the favorable regime; rejects H4-no-integration there.
+  statement: Under metabolic exchange, a heritable contact/adhesion propensity is
+    POSITIVELY selected (selection coefficient +0.63, contact fixes) above a frequency-dependent
+    invasion threshold; the matched no-exchange control shows NEGATIVE selection (-0.36,
+    contact eliminated). Exchange is necessary for selection-for-contact. Supports
+    H1-syntrophy-first in the favorable regime; rejects H4-no-integration there.
   status: confirms
   evidence:
     observed: 0.6264
     from_test: study-selection-for-proximity-discriminates
-    from_run: proto_endosymbiosis_hybrid coupled-selection (exchange on) vs coupled-no-exchange control, seed 1
-  inferential_scope: "Reduced coupled model (replicator on contact propensity; frequency-dependent exchange benefit vs energetic adhesion cost). Establishes that exchange CAN select for contact given benefit>cost and partner availability; does NOT model spatial exchange PDE or membrane mechanics (M2+). The selection is regime-dependent — a frequency threshold exists (full phase map = M4)."
+    from_run: proto_endosymbiosis_hybrid coupled-selection (exchange on) vs coupled-no-exchange
+      control, seed 1
+  inferential_scope: Reduced coupled model (replicator on contact propensity; frequency-dependent
+    exchange benefit vs energetic adhesion cost). Establishes that exchange CAN select
+    for contact given benefit>cost and partner availability; does NOT model spatial
+    exchange PDE or membrane mechanics (M2+). The selection is regime-dependent —
+    a frequency threshold exists (full phase map = M4).
 runs:
 - name: viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1793500736__44a285
   status: completed
@@ -114,7 +139,9 @@ runs:
   emitter:
     kind: unknown
   env_id: 86d9819249bc91aa
-  params: '{"lineages": "fixer:4,reducer:4", "coupling": "shared", "model_proto_ecology": "reaction_universe", "p_diacid": 1e-08, "p_monoacid": 1e-07, "k_wash": 0.01, "placement": "mixed", "k_diffusion": 0.001, "seed": 1}'
+  params: '{"lineages": "fixer:4,reducer:4", "coupling": "shared", "model_proto_ecology":
+    "reaction_universe", "p_diacid": 1e-08, "p_monoacid": 1e-07, "k_wash": 0.01, "placement":
+    "mixed", "k_diffusion": 0.001, "seed": 1}'
   provenance:
     params:
       coupling:
@@ -156,7 +183,9 @@ runs:
     kind: unknown
   env_id: 86d9819249bc91aa
   variant: no-exchange-control
-  params: '{"lineages": "fixer:4,reducer:4", "coupling": "private", "model_proto_ecology": "reaction_universe", "p_diacid": 1e-08, "p_monoacid": 1e-07, "k_wash": 0.01, "placement": "mixed", "k_diffusion": 0.001}'
+  params: '{"lineages": "fixer:4,reducer:4", "coupling": "private", "model_proto_ecology":
+    "reaction_universe", "p_diacid": 1e-08, "p_monoacid": 1e-07, "k_wash": 0.01, "placement":
+    "mixed", "k_diffusion": 0.001}'
   provenance:
     params:
       coupling:
@@ -192,7 +221,8 @@ runs:
     kind: unknown
   env_id: 432d1860d83344ad
   variant: coupled-selection
-  params: '{"exchange": "on", "benefit_coeff": 1.2, "cost_coeff": 0.3, "init_freq_high": 0.6, "n_initial": 100.0}'
+  params: '{"exchange": "on", "benefit_coeff": 1.2, "cost_coeff": 0.3, "init_freq_high":
+    0.6, "n_initial": 100.0}'
   provenance:
     params:
       benefit_coeff:
@@ -219,7 +249,8 @@ runs:
     kind: unknown
   env_id: d71c34e4e36f73ff
   variant: coupled-no-exchange
-  params: '{"exchange": "off", "benefit_coeff": 1.2, "cost_coeff": 0.3, "init_freq_high": 0.6, "n_initial": 100.0}'
+  params: '{"exchange": "off", "benefit_coeff": 1.2, "cost_coeff": 0.3, "init_freq_high":
+    0.6, "n_initial": 100.0}'
 - name: viva_genesis.composites.proto_endosymbiosis_hybrid.proto_endosymbiosis_hybrid__1793504118__1e2acf
   status: failed
   timestamp: 1793504119.762897
@@ -227,7 +258,8 @@ runs:
     kind: unknown
   env_id: d71c34e4e36f73ff
   variant: coupled-selection
-  params: '{"exchange": "on", "benefit_coeff": 1.2, "cost_coeff": 0.3, "init_freq_high": 0.6, "n_initial": 100.0}'
+  params: '{"exchange": "on", "benefit_coeff": 1.2, "cost_coeff": 0.3, "init_freq_high":
+    0.6, "n_initial": 100.0}'
 - name: viva_genesis.composites.proto_endosymbiosis_hybrid.proto_endosymbiosis_hybrid__1793503925__1f73c1
   status: failed
   timestamp: 1793503926.5564601
@@ -235,7 +267,8 @@ runs:
     kind: unknown
   env_id: d44c8f85fe25b1f2
   variant: coupled-no-exchange
-  params: '{"exchange": "off", "benefit_coeff": 1.2, "cost_coeff": 0.3, "init_freq_high": 0.6, "n_initial": 100.0}'
+  params: '{"exchange": "off", "benefit_coeff": 1.2, "cost_coeff": 0.3, "init_freq_high":
+    0.6, "n_initial": 100.0}'
 - name: viva_genesis.composites.proto_endosymbiosis_hybrid.proto_endosymbiosis_hybrid__1793503924__c3e4da
   status: failed
   timestamp: 1793503925.2758799
@@ -243,7 +276,8 @@ runs:
     kind: unknown
   env_id: d44c8f85fe25b1f2
   variant: coupled-selection
-  params: '{"exchange": "on", "benefit_coeff": 1.2, "cost_coeff": 0.3, "init_freq_high": 0.6, "n_initial": 100.0}'
+  params: '{"exchange": "on", "benefit_coeff": 1.2, "cost_coeff": 0.3, "init_freq_high":
+    0.6, "n_initial": 100.0}'
 - name: viva_genesis.composites.proto_endosymbiosis_hybrid.proto_endosymbiosis_hybrid__1793504273__121f2b
   status: completed
   timestamp: 1793504274.850303
@@ -251,7 +285,8 @@ runs:
     kind: unknown
   env_id: 432d1860d83344ad
   variant: coupled-no-exchange
-  params: '{"exchange": "off", "benefit_coeff": 1.2, "cost_coeff": 0.3, "init_freq_high": 0.6, "n_initial": 100.0}'
+  params: '{"exchange": "off", "benefit_coeff": 1.2, "cost_coeff": 0.3, "init_freq_high":
+    0.6, "n_initial": 100.0}'
   provenance:
     params:
       benefit_coeff:
@@ -278,7 +313,8 @@ runs:
     kind: unknown
   env_id: 428a0301b0934c48
   variant: coupled-selection
-  params: '{"exchange": "on", "benefit_coeff": 1.2, "cost_coeff": 0.3, "init_freq_high": 0.6, "n_initial": 100.0}'
+  params: '{"exchange": "on", "benefit_coeff": 1.2, "cost_coeff": 0.3, "init_freq_high":
+    0.6, "n_initial": 100.0}'
   provenance:
     params:
       benefit_coeff:
@@ -305,7 +341,8 @@ runs:
     kind: unknown
   env_id: 428a0301b0934c48
   variant: coupled-no-exchange
-  params: '{"exchange": "off", "benefit_coeff": 1.2, "cost_coeff": 0.3, "init_freq_high": 0.6, "n_initial": 100.0}'
+  params: '{"exchange": "off", "benefit_coeff": 1.2, "cost_coeff": 0.3, "init_freq_high":
+    0.6, "n_initial": 100.0}'
 - name: viva_genesis.composites.proto_endosymbiosis_hybrid.proto_endosymbiosis_hybrid__1793504482__1c423b
   status: failed
   timestamp: 1793504484.140703
@@ -313,7 +350,8 @@ runs:
     kind: unknown
   env_id: 428a0301b0934c48
   variant: coupled-selection
-  params: '{"exchange": "on", "benefit_coeff": 1.2, "cost_coeff": 0.3, "init_freq_high": 0.6, "n_initial": 100.0}'
+  params: '{"exchange": "on", "benefit_coeff": 1.2, "cost_coeff": 0.3, "init_freq_high":
+    0.6, "n_initial": 100.0}'
 - name: viva_genesis.composites.proto_endosymbiosis_hybrid.proto_endosymbiosis_hybrid__1793504556__f930ce
   status: completed
   timestamp: 1793504557.476099
@@ -321,7 +359,8 @@ runs:
     kind: unknown
   env_id: 428a0301b0934c48
   variant: coupled-no-exchange
-  params: '{"exchange": "off", "benefit_coeff": 1.2, "cost_coeff": 0.3, "init_freq_high": 0.6, "n_initial": 100.0}'
+  params: '{"exchange": "off", "benefit_coeff": 1.2, "cost_coeff": 0.3, "init_freq_high":
+    0.6, "n_initial": 100.0}'
   provenance:
     params:
       benefit_coeff:
@@ -405,5 +444,8 @@ pipeline_gate:
     diverges_from_authored: false
 verdict: supported
 confidence: provisional
-verdict_rationale: 'Discriminating campaign on the coupled proto_endosymbiosis_hybrid model: selection coefficient >0 under exchange, <=0 under the matched no-exchange control. H1 supported conditionally (favorable regime), H4 rejected there, exchange necessary.'
+verdict_rationale: 'Discriminating campaign on the coupled proto_endosymbiosis_hybrid
+  model: selection coefficient >0 under exchange, <=0 under the matched no-exchange
+  control. H1 supported conditionally (favorable regime), H4 rejected there, exchange
+  necessary.'
 evidence_tier: mechanistic_prediction

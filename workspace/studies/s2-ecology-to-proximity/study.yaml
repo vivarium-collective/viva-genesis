@@ -119,7 +119,7 @@ visualizations:
   covers:
   - settled_cross_lineage_flux
 - name: proximity-selects-contact
-  address: local:S2EcologyProximityViz
+  address: local:CommunityPlacementViz
   config:
     title: S2 — proximity selects for contact (cross-lineage flux, proximate vs distant)
   rendered: workspace/studies/s2-ecology-to-proximity/viz/proximity-selects-contact.html

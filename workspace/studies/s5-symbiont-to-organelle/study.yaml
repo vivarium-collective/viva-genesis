@@ -113,7 +113,7 @@ visualizations:
   covers:
   - settled_heritability
 - name: heritable-integration
-  address: local:S5HeritabilityViz
+  address: local:S5ErrorThresholdViz
   config:
     title: S5 — heritable integration needs high fidelity (by inheritance module)
   rendered: workspace/studies/s5-symbiont-to-organelle/viz/heritable-integration.html
