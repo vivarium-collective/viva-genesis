@@ -1,7 +1,8 @@
 slug: study-vertical-transmission-stability
 name: study-vertical-transmission-stability
 title: Is the established endosymbiosis evolutionarily stable?
-question: Once contact+enclosure establish the symbiosis (M3), is the symbiont heritably retained across generations, or does conflict/partner-loss decay it?
+question: Once contact+enclosure establish the symbiosis (M3), is the symbiont heritably
+  retained across generations, or does conflict/partner-loss decay it?
 parent_studies:
 - study: study-contact-to-enclosure-coupling
   relation: builds-on
@@ -13,7 +14,8 @@ baseline:
     benefit: 0.6
     cost: 0.1
     loss_rate: 0.03
-  note: "High transmission fidelity + net benefit, low conflict — selection and inheritance outrun loss."
+  note: High transmission fidelity + net benefit, low conflict — selection and inheritance
+    outrun loss.
 variants:
 - name: high-conflict
   composite: viva_genesis.composites.proto_endosymbiosis_transmission.proto_endosymbiosis_transmission
@@ -22,11 +24,13 @@ variants:
     benefit: 0.6
     cost: 0.1
     loss_rate: 0.5
-  note: "Conflict / partner-loss dominates — tests whether an established symbiosis can still decay."
+  note: Conflict / partner-loss dominates — tests whether an established symbiosis
+    can still decay.
 behavior_tests:
 - name: study-vertical-transmission-stability-discriminates
   classification: primary
-  description: The established symbiosis is retained across generations only if inheritance+selection outrun loss (not assumed).
+  description: The established symbiosis is retained across generations only if inheritance+selection
+    outrun loss (not assumed).
   measure: endosymbiont_retention_fraction
   pass_if:
     op: '>='
@@ -40,7 +44,8 @@ runs:
   emitter:
     kind: unknown
   env_id: 22af1c518b873ef3
-  params: '{"fidelity": 0.98, "benefit": 0.6, "cost": 0.1, "loss_rate": 0.03, "seed": 1}'
+  params: '{"fidelity": 0.98, "benefit": 0.6, "cost": 0.1, "loss_rate": 0.03, "seed":
+    1}'
   provenance:
     params:
       benefit:
@@ -116,14 +121,31 @@ pipeline_gate:
     diverges_from_authored: false
 findings:
 - id: s-vts-establishment-not-permanence
-  statement: "An established endosymbiosis is evolutionarily STABLE (retention 0.78) only when transmission fidelity and the selective benefit together outrun conflict/partner-loss and segregational leakage; under high conflict it decays to 0.03 even though it established. Establishment (M3) does NOT guarantee permanence — retention also collapses under low transmission fidelity (0.19) or no net benefit (0.06)."
+  statement: An established endosymbiosis is evolutionarily STABLE (retention 0.78)
+    only when transmission fidelity and the selective benefit together outrun conflict/partner-loss
+    and segregational leakage; under high conflict it decays to 0.03 even though it
+    established. Establishment (M3) does NOT guarantee permanence — retention also
+    collapses under low transmission fidelity (0.19) or no net benefit (0.06).
   status: confirms
   evidence:
     observed: 0.779
     from_test: study-vertical-transmission-stability-discriminates
-    from_run: proto_endosymbiosis_transmission baseline (stable) vs high-conflict variant, seed 1
-  inferential_scope: Reduced frequency replicator (symbiont-bearing vs free) balancing selection, segregational transmission loss, conflict/partner-loss, and re-acquisition. Captures the evolutionary-stability balance; not the molecular partition machinery or an explicit genome.
+    from_run: proto_endosymbiosis_transmission baseline (stable) vs high-conflict
+      variant, seed 1
+  inferential_scope: Reduced frequency replicator (symbiont-bearing vs free) balancing
+    selection, segregational transmission loss, conflict/partner-loss, and re-acquisition.
+    Captures the evolutionary-stability balance; not the molecular partition machinery
+    or an explicit genome.
 verdict: supported
 confidence: provisional
-verdict_rationale: "Discriminating campaign on proto_endosymbiosis_transmission: retention>=0.5 when inheritance+selection outrun loss, <<0.5 under high conflict. The established symbiosis is retained only in a bounded regime — a distinct stability axis beyond establishment."
+verdict_rationale: 'Discriminating campaign on proto_endosymbiosis_transmission: retention>=0.5
+  when inheritance+selection outrun loss, <<0.5 under high conflict. The established
+  symbiosis is retained only in a bounded regime — a distinct stability axis beyond
+  establishment.'
 evidence_tier: mechanistic_prediction
+visualizations:
+- name: transmission-fan
+  address: local:TransmissionFanViz
+  config:
+    title: Establishment ≠ permanence — retention survives only below a conflict threshold
+  rendered: workspace/studies/study-vertical-transmission-stability/viz/transmission-fan.html
