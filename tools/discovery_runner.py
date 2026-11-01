@@ -59,12 +59,31 @@ def _gated_ops(require_approval_for: list[str]) -> set[str]:
     return out
 
 
-def ensure_reopened(ws: Path, inv: str, feedback_path: Path) -> dict:
-    """Idempotent: apply the feedback->engine translation if not already reopened."""
+def ensure_reopened(ws: Path, inv: str, feedback_path: Path, request_path: Path | None = None) -> dict:
+    """Idempotent: reopen the investigation from the feedback.
+
+    PROTOTYPE RETIRED into the engine: prefer ``discovery_engine.feedback_compiler``
+    (the canonical, schema-validated compiler — ``ingest_feedback`` loads the
+    discovery_request + its feedback, compiles to typed actions, reconciles, and writes)
+    whenever the engine is importable. The local ``feedback_cycle`` translator remains ONLY
+    as the offline fallback for when the engine isn't on the path.
+    """
     inv_yaml = ws / "investigations" / inv / "investigation.yaml"
     inv_spec = _load(inv_yaml)
     if (inv_spec.get("cycle_flags") or {}).get("reopened"):
         return {"already": True, "status": inv_spec.get("status")}
+    # Canonical path: the engine's feedback_compiler.
+    if request_path and Path(request_path).is_file():
+        try:
+            from discovery_engine import feedback_compiler as _fc  # noqa: PLC0415
+            res = _fc.ingest_feedback(str(request_path), str(ws), write=True) or {}
+            return {"already": False, "via": "engine.feedback_compiler",
+                    **(res.get("summary") or {k: v for k, v in res.items() if k != "compiled"})}
+        except Exception as e:  # noqa: BLE001 — fall back to the local prototype translator
+            _fallback_note = f"engine compiler unavailable ({type(e).__name__}); using local prototype"
+        else:
+            _fallback_note = None
+    # Fallback: the retired local prototype translator.
     fb = _load(feedback_path)
     studies = {}
     for slug in inv_spec.get("studies") or []:
@@ -77,7 +96,7 @@ def ensure_reopened(ws: Path, inv: str, feedback_path: Path) -> dict:
         sdir = ws / "studies" / slug
         sdir.mkdir(parents=True, exist_ok=True)
         (sdir / "study.yaml").write_text(yaml.safe_dump(spec, sort_keys=False), encoding="utf-8")
-    return {"already": False, **out["summary"]}
+    return {"already": False, "via": "local-prototype-fallback", **out["summary"]}
 
 
 def assess(ws: Path, inv: str, gated: set[str]) -> dict:
@@ -176,7 +195,7 @@ def main() -> int:
     log_dir.mkdir(parents=True, exist_ok=True)
     log = log_dir / "cycle-log.jsonl"
 
-    reopen = ensure_reopened(ws, inv, feedback_path)
+    reopen = ensure_reopened(ws, inv, feedback_path, request_path=env_path)
     print(json.dumps({"reopen": reopen}, indent=2))
 
     cycle_n = 0

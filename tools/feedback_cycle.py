@@ -1,6 +1,13 @@
 #!/usr/bin/env python3
 """feedback_cycle — drive the discovery engine from a reopening-feedback YAML.
 
+RETIRED PROTOTYPE (kept as the offline fallback). The canonical implementation is now
+``discovery_engine.feedback_compiler`` (schema-validated ``compile_feedback`` /
+``reconcile_and_reopen`` / ``ingest_feedback``, merged in discovery-engine #19). The runner
+(``discovery_runner.ensure_reopened``) prefers the engine compiler whenever it is importable
+and only falls back to this local translator when it is not. This module stays as that fallback
+and as the record of the prototype's mapping; new behaviour belongs in the engine compiler.
+
 A *reopening-feedback* file (``feedback_version: 1.0`` with ``target`` /
 ``status_reconciliation`` / ``scientific_challenge`` / ``next_cycle`` / ...) is a
 scientist's instruction to REOPEN and REDIRECT an investigation. The engine's
