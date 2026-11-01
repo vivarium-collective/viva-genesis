@@ -1,0 +1,27 @@
+discovery_request:
+  schema_version: "1.0"
+  investigation_id: eukaryogenesis
+  feedback_file: feedback/morowitz-reopening-feedback.yaml
+  lifecycle:
+    action: reopen
+    reason: unresolved_structural_and_integration_barriers
+    preserve_history: true
+  execution:
+    mode: supervised_autonomous
+    max_cycles: 5
+    max_new_studies: 6
+    max_new_models: 2
+    require_approval_for:
+      - external_data_access
+      - expensive_compute
+      - publishing
+      - model_revision
+      - steer
+      - synthesize
+  continuation:
+    policy: highest_expected_discrimination_times_feasibility
+    stop_when:
+      - scientific_objectives_satisfied
+      - budget_exhausted
+      - no_executable_actions
+      - human_decision_required

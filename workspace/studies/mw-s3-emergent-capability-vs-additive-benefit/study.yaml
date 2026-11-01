@@ -1,0 +1,85 @@
+schema_version: 4
+name: mw-s3-emergent-capability-vs-additive-benefit
+title: Does the partnership create a capability neither free-living partner sustains
+  alone, or only an additive benefit?
+investigation: eukaryogenesis
+question: Does the partnership create a capability neither free-living partner sustains
+  alone, or only an additive benefit?
+claim: null
+concept: morowitz-structural-and-integration-barriers
+topic: eukaryogenesis
+status: planned
+design_status: designed
+simulation_status: not_started
+evaluation_status: not_started
+gate_status: not_started
+created: '2026-11-01T19:46:36Z'
+parent_studies:
+- study: study-bidirectional-syntrophy
+  relation: builds-on
+- study: s1-metabolic-partnership
+  relation: builds-on
+required_mechanisms:
+- Growth under restricted conditions, ATP yield, and survival under perturbation measured
+  against the best single partner.
+- The full exchange-mode panel (one-way, balanced reciprocal, parasitism, commensalism,
+  environmental cross-feeding) plus partner exclusion/replacement.
+- wall_present
+- wall_attenuated
+- wall_free_with_cortex
+- wall_free_without_cortex
+- no_enclosure_stable_ectosymbiosis
+- spatially_separated_partner
+- membrane_adjacent_ectosymbiont
+- internalized_partner
+- matched_resource_budget
+- no_gene_transfer_null
+- faithful_vs_failed_division_synchronization
+- cheater_invasion_allowed
+- matched_randomized_seeds
+variants: []
+observables:
+- emergent_capability_gain
+- capability_under_restriction
+- atp_yield_vs_best_single_partner
+- net_fitness_advantage_of_internalization
+behavior_tests:
+- name: mw-s3-emergent-capability-vs-additive-benefit-discriminates-emergent-capability-gain
+  classification: primary
+  description: Claim emergence only where the joint system exceeds the best single
+    partner under restriction (super-additive); otherwise report additive benefit.
+  measure: emergent_capability_gain
+  pass_if:
+    op: '>'
+    value: 0.0
+- name: mw-s3-emergent-capability-vs-additive-benefit-capability-under-restriction
+  classification: secondary
+  description: Preregistered measurement 'capability_under_restriction' (bands to
+    be authored).
+  measure: capability_under_restriction
+- name: mw-s3-emergent-capability-vs-additive-benefit-atp-yield-vs-best-single-partner
+  classification: secondary
+  description: Preregistered measurement 'atp_yield_vs_best_single_partner' (bands
+    to be authored).
+  measure: atp_yield_vs_best_single_partner
+- name: mw-s3-emergent-capability-vs-additive-benefit-discriminates-net-fitness-advantage-of-internalization
+  classification: primary
+  description: Claim emergence only where the joint system exceeds the best single
+    partner under restriction (super-additive); otherwise report additive benefit.
+  measure: net_fitness_advantage_of_internalization
+  pass_if:
+    op: <=
+    value: 0.0
+visualizations: []
+findings: []
+runs: []
+tags:
+- bridge
+- discriminating
+- reopened-by-feedback
+baseline:
+- name: baseline
+  composite: viva_genesis.composites.proto_endosymbiosis_multimetab.proto_endosymbiosis_multimetab
+  params: {}
+  note: First-fidelity arm reusing the parent composite named in the feedback's `reuse`;
+    the coupled bridge composite is the next-fidelity arm (a capability gap to build).

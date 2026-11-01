@@ -2,7 +2,7 @@ schema_version: 2
 name: eukaryogenesis
 title: The Endosymbiotic Transition
 created: '2026-10-27'
-status: closed
+status: active
 question: Under what physical, metabolic, ecological, and evolutionary conditions
   can an archaeal host and a bacterial partner cross from ecological association to
   a stable, integrated eukaryotic lineage? Endosymbiotic integration is treated not
@@ -58,7 +58,7 @@ executive:
     per-study composites could not. Result: the syntrophy->enclosure path works only
     inside a region bounded on every axis — selection, enclosure, persistence, proximity,
     and reciprocity.'
-  verdict_status: complete
+  verdict_status: open
   verdict_detail: M1 selection_coefficient_for_adhesion +0.63 vs -0.36 control (exchange
     necessary); M2 probability_of_stable_enclosure 0.95 vs 0.14; M3 joint_feasibility_region
     0.91 vs 0.075; M5 endosymbiont_retention_fraction 0.78 vs 0.03 (establishment
@@ -117,18 +117,27 @@ executive:
       behavior: study-contact-to-enclosure-coupling-discriminates
       result: in-progress
     diverges_from_authored: true
-  objective: Under what ecological, physical, and energetic conditions does metabolic
-    exchange create selection for persistent host-partner contact, promote membrane
-    enclosure, and produce a stable, heritably integrated lineage?
-  central_gap: 'RESOLVED for this campaign: the coupled models demonstrate a causal,
-    physically consistent transition path (contact provides enclosure''s adhesion;
-    enclosure locks in the exchange benefit that keeps contact selected; transmission
-    fidelity + benefit must outrun loss to retain it) rather than separate feasibility
-    conditions. Higher-fidelity axes (membrane PDE, ATP accounting, 3-D geometry)
-    remain as named deferrals.'
-  mandate: Find at least one feasible transition pathway AND one decisive failure
-    regime; compare competing explanations using shared initial conditions, conservation
-    constraints, uncertainty, and preregistered decision rules.
+  objective: Which combinations of already-evolved cellular capabilities can make
+    a new cellular individual, and what must change for a metabolic association to
+    become a structurally viable, physiologically integrated, heritable cell? Which
+    barriers to that transition are necessary, which contingent, and which bypassable,
+    and what novel collective functions emerge when they are crossed? Do not assume
+    eukaryogenesis required phagocytosis, wall loss, or any universal order of events.
+  central_gap: The M-track demonstrates that metabolic exchange can select for proximity,
+    that enclosure is mechanically reachable, and that partners can be transmitted,
+    in a reduced regime. It does not model the cell envelope as a mechanical object
+    (wall rigidity, membrane tension, osmotic balance, cortex stabilization), does
+    not represent the gene-integration arc (symbiont gene loss, host transfer, protein
+    targeting and import, host regulatory control), and does not treat stable ectosymbiosis
+    or a permanent non-organelle endosymbiont as serious alternative endpoints. A
+    chain of feasibility results is not evidence that one physically consistent system
+    crosses the structural and integration barriers.
+  mandate: Find at least one feasible structural-and-integration pathway AND at least
+    one decisive failure regime or stable alternative endpoint. Compare competing
+    structural routes and competing innovation orderings under shared initial conditions,
+    mass and energy conservation, explicit osmotic and mechanical constraints, and
+    preregistered decision rules. Keep organelle-grade integration a hypothesis to
+    be tested, not an assumed outcome.
 competing_frameworks: 'The campaign tests five hypothesis families head to head rather
   than assuming one history, each authored so the cycle can hold them in tension:
   H1 Syntrophy-first — metabolic complementarity selects for proximity before enclosure
@@ -349,6 +358,9 @@ studies:
 - study-vertical-transmission-stability
 - study-spatial-exchange-proximity
 - study-bidirectional-syntrophy
+- mw-s1-wall-rupture-deformability-tradeoff
+- mw-s3-emergent-capability-vs-additive-benefit
+- mw-s5-division-sync-and-conflict-suppression
 acceptance_criteria:
 - study: s1-metabolic-partnership
   behavior: community-redundancy-develops
@@ -366,6 +378,16 @@ acceptance_criteria:
   behavior: study-enclosure-mechanics-discriminates
 - study: study-contact-to-enclosure-coupling
   behavior: study-contact-to-enclosure-coupling-discriminates
+- study: mw-s1-wall-rupture-deformability-tradeoff
+  behavior: mw-s1-wall-rupture-deformability-tradeoff-discriminates-lysis-probability
+- study: mw-s1-wall-rupture-deformability-tradeoff
+  behavior: mw-s1-wall-rupture-deformability-tradeoff-discriminates-probability-of-membrane-intact-enclosure
+- study: mw-s3-emergent-capability-vs-additive-benefit
+  behavior: mw-s3-emergent-capability-vs-additive-benefit-discriminates-emergent-capability-gain
+- study: mw-s3-emergent-capability-vs-additive-benefit
+  behavior: mw-s3-emergent-capability-vs-additive-benefit-discriminates-net-fitness-advantage-of-internalization
+- study: mw-s5-division-sync-and-conflict-suppression
+  behavior: mw-s5-division-sync-and-conflict-suppression-discriminates-transmission-fidelity-under-conflict
 hypotheses:
 - id: h-s1-mutualism
   study: s1-metabolic-partnership
@@ -613,6 +635,139 @@ hypotheses:
       op: <=
       value: 0.0
   status: open
+- id: MW-C1-rigid-envelope-constrains-internalization
+  statement: A rigid cell wall or envelope mechanically blocks the internalization
+    routes that would enclose a partner, without added remodeling machinery.
+  competing_with:
+  - MW-C3-cortex-compensation-enables-safe-enclosure
+  predictions:
+  - observable: probability_of_membrane_intact_enclosure
+    expected:
+      op: <
+      value: 0.1
+    when:
+      regime: wall_present
+  status: open
+  study: mw-s1-wall-rupture-deformability-tradeoff
+- id: MW-C2-wall-loss-induces-osmotic-fragility
+  statement: Losing the wall raises deformability but exposes the cell to osmotic
+    rupture under a hypotonic gradient.
+  competing_with:
+  - MW-C3-cortex-compensation-enables-safe-enclosure
+  predictions:
+  - observable: lysis_probability
+    expected:
+      op: '>'
+      value: 0.5
+    when:
+      regime: wall_free_no_cortex_hypotonic
+  status: open
+  study: mw-s1-wall-rupture-deformability-tradeoff
+- id: MW-C3-cortex-compensation-enables-safe-enclosure
+  statement: A cytoskeletal cortex or membrane-tension control compensates for wall
+    loss, suppressing lysis while permitting enclosure with an intact membrane.
+  competing_with:
+  - MW-C1-rigid-envelope-constrains-internalization
+  - MW-C2-wall-loss-induces-osmotic-fragility
+  predictions:
+  - observable: lysis_probability
+    expected:
+      op: <
+      value: 0.1
+    when:
+      regime: wall_free_with_cortex_hypotonic
+  - observable: probability_of_membrane_intact_enclosure
+    expected:
+      op: '>='
+      value: 0.5
+    when:
+      regime: wall_free_with_cortex
+  status: open
+  study: mw-s1-wall-rupture-deformability-tradeoff
+- id: MW-C4-symbiosis-creates-emergent-capability
+  statement: Combining two pre-adapted partners yields a capability neither sustains
+    alone (super-additive), rather than a merely additive benefit.
+  competing_with:
+  - MW-C4null-additive-only
+  predictions:
+  - observable: emergent_capability_gain
+    expected:
+      op: '>'
+      value: 0.0
+    when:
+      regime: restricted_condition
+  status: open
+  study: mw-s3-emergent-capability-vs-additive-benefit
+- id: MW-C4null-additive-only
+  statement: The partnership is only the sum of two independent functions; no new
+    collective capability emerges.
+  competing_with:
+  - MW-C4-symbiosis-creates-emergent-capability
+  predictions:
+  - observable: emergent_capability_gain
+    expected:
+      op: <=
+      value: 0.0
+    when:
+      regime: restricted_condition
+  status: open
+  study: mw-s3-emergent-capability-vs-additive-benefit
+- id: MW-C6-integrated-individual
+  statement: Division synchronization, copy-number segregation, and conflict suppression
+    make host and partner a single heritable individual.
+  competing_with:
+  - MW-C6conflict-dominated
+  predictions:
+  - observable: transmission_fidelity_under_conflict
+    expected:
+      op: '>='
+      value: 0.5
+    when:
+      regime: cheater_invasion_allowed
+  status: open
+  study: mw-s5-division-sync-and-conflict-suppression
+- id: MW-C6conflict-dominated
+  statement: Cheater or conflict dynamics collapse faithful co-inheritance despite
+    enclosure.
+  competing_with:
+  - MW-C6-integrated-individual
+  predictions:
+  - observable: transmission_fidelity_under_conflict
+    expected:
+      op: <
+      value: 0.5
+    when:
+      regime: cheater_invasion_allowed
+  status: open
+  study: mw-s5-division-sync-and-conflict-suppression
+- id: MW-C-ectosymbiosis-stable-endpoint
+  statement: Permanent membrane-adjacent ectosymbiosis is a stable endpoint; internalization
+    is not selectively favored once its costs are counted.
+  competing_with:
+  - MW-C-integration-favored
+  predictions:
+  - observable: net_fitness_advantage_of_internalization
+    expected:
+      op: <=
+      value: 0.0
+    when:
+      regime: matched_resource_budget
+  status: open
+  study: mw-s3-emergent-capability-vs-additive-benefit
+- id: MW-C-integration-favored
+  statement: Internalization carries a net fitness advantage over ectosymbiosis under
+    matched budgets.
+  competing_with:
+  - MW-C-ectosymbiosis-stable-endpoint
+  predictions:
+  - observable: net_fitness_advantage_of_internalization
+    expected:
+      op: '>'
+      value: 0.0
+    when:
+      regime: matched_resource_budget
+  status: open
+  study: mw-s3-emergent-capability-vs-additive-benefit
 references:
 - key: vosseberg-nature-2024
   doi: 10.1038/s41586-024-07677-6
@@ -656,6 +811,33 @@ references:
   url: https://pmc.ncbi.nlm.nih.gov/articles/PMC12176269/
   note: Protein import into bacterial endosymbionts and evolving organelles; targeting
     / import evidence for S5.
+- key: morowitz-emergence-2002
+  note: 'FOUNDATIONAL - Morowitz, The Emergence of Everything (Oxford UP, 2002), ch.13
+    ''Cells with Organelles'', pp.86-91. ISBN 9780195135138 (verify from publisher).
+    Source frame for the structural/integration barrier ledger: envelopes/walls, osmotic
+    vulnerability, mechanical stabilization, symbiotic combination, reductive evolution.'
+- key: margulis-origin-1970
+  note: FOUNDATIONAL - Margulis, Origin of Eukaryotic Cells (Yale UP, 1970). Serial
+    endosymbiosis theory.
+- key: margulis-symbiotic-1998
+  note: FOUNDATIONAL - Margulis, Symbiotic Planet (Basic Books, 1998). Symbiogenesis
+    as an evolutionary driver.
+- key: maynard-smith-szathmary-1995
+  note: FOUNDATIONAL - Maynard Smith & Szathmary, The Major Transitions in Evolution
+    (OUP, 1995). Individuality/heritability criteria for a major transition (MW-C6).
+- key: martin-muller-nature-1998
+  doi: 10.1038/32096
+  note: FOUNDATIONAL - Martin & Muller, The hydrogen hypothesis for the first eukaryote,
+    Nature 392:37-41 (1998). Mitochondrion-early metabolic-symbiosis ordering hypothesis
+    (MW-C7).
+- key: eme-nrmicro-2017
+  doi: 10.1038/nrmicro.2017.133
+  note: Eme et al., Archaea and the origin of eukaryotes, Nat Rev Microbiol 15:711-723
+    (2017). Asgard host-lineage context.
+- key: roger-curbio-2017
+  doi: 10.1016/j.cub.2017.09.015
+  note: Roger et al., The origin and diversification of mitochondria, Curr Biol 27:R1177-R1192
+    (2017). Mitochondrial origin + reductive evolution.
 cycle_flags:
   viz_untied: false
   autonomy: supervised
@@ -668,20 +850,44 @@ required_mechanisms:
 - host_symbiont_growth_division_and_death
 - symbiont_partition_and_vertical_transmission
 - host_partner_conflict_and_partner_loss
+- wall_present
+- wall_attenuated
+- wall_free_with_cortex
+- wall_free_without_cortex
+- no_enclosure_stable_ectosymbiosis
+- spatially_separated_partner
+- membrane_adjacent_ectosymbiont
+- internalized_partner
+- matched_resource_budget
+- no_gene_transfer_null
+- faithful_vs_failed_division_synchronization
+- cheater_invasion_allowed
+- matched_randomized_seeds
+- envelope_and_cortex_mechanics
+- osmotic_balance_and_membrane_tension
+- membrane_remodeling_and_engulfment_routes
+- flux_resolved_metabolite_transport_and_energy_accounting
+- symbiont_gene_loss_and_host_transfer
+- protein_targeting_and_import
+- host_regulatory_control
+- division_synchronization_and_segregation
+- conflict_and_cheater_dynamics
 bridge_composite:
-  name: proto_endosymbiosis_hybrid
+  name: proto_endosymbiosis_integration
   architecture: process_bigraph_composite
   modules:
-  - spatial_metabolite_exchange
-  - host_and_partner_metabolism
-  - adhesion_and_membrane_mechanics
-  - compartment_transport_and_energy_accounting
-  - host_symbiont_growth_division_and_death
-  - symbiont_partition_and_vertical_transmission
-  - host_partner_conflict_and_partner_loss
+  - envelope_and_cortex_mechanics
+  - osmotic_balance_and_membrane_tension
+  - membrane_remodeling_and_engulfment_routes
+  - flux_resolved_metabolite_transport_and_energy_accounting
+  - symbiont_gene_loss_and_host_transfer
+  - protein_targeting_and_import
+  - host_regulatory_control
+  - division_synchronization_and_segregation
+  - conflict_and_cheater_dynamics
   coupling_contract: Share typed stores with explicit units and mass/energy conservation;
     pass actual output states between modules; support topology-changing enclosure
-    events; do not substitute a narrative handoff for coupling.
+    and gene-transfer events; do not substitute a narrative handoff for coupling.
   status: proposed
 lifecycle_history:
 - at: '2026-11-01T02:16:30Z'
@@ -694,6 +900,18 @@ lifecycle_history:
     can CAUSE the emergence of stable, heritable endosymbiosis. Repair the study/evidence
     inconsistencies, then design and execute competing, control-matched experiments
     that connect metabolic exchange, selection for proximity, physically const
+- at: '2026-11-01T19:46:36Z'
+  event: reopened_by_feedback
+  feedback_intent: reopen_and_add_structural_and_integration_axis
+  challenge_id: morowitz-structural-and-integration-barriers
+  reason: unresolved_structural_and_integration_barriers
+  prior_status: closed
+  prior_verdict_status: complete
+  rationale: Reopen this investigation and stop treating the selection-to-enclosure-to-transmission
+    arc as the whole story. Keep the six M-track supported verdicts as prior evidence.
+    The unresolved problem is Morowitz's structural and integration barriers - whether
+    a cell can gain the deformability to enclose a partner without osmotic rupture,
+    whether the partnership creates a genuinely new collective capabili
 reconciliation_log:
 - id: lifecycle-mismatch
   severity: blocking
@@ -736,6 +954,66 @@ reconciliation_log:
   observation: Reported validator census is 1 passed and 10 failed.
   request: Classify validator failures, fix blockers, and distinguish validation from
     scientific falsification.
+  status: open
+- id: enclosure-reduced-model-overgeneralization
+  severity: high
+  observation: The enclosure 0.95-vs-0.14 contrast is a reduced-model result that
+    imposes outcome topology and does not track membrane integrity.
+  request: Re-gate enclosure on membrane integrity (lysis, tension, osmotic pressure,
+    deformation energy); label the result illustrative model-regime, not ancestral
+    cell biology.
+  status: open
+- id: energetic-coupling-not-flux-resolved
+  severity: high
+  observation: The energetic-coupling study reports a qualitative viability threshold,
+    not a flux- and stoichiometry-resolved budget.
+  request: Upgrade to ATP production/consumption, transport costs, host maintenance,
+    and oxygen/redox variation; no quantitative energy-advantage claim without a calibrated
+    network or explicit reduced-model caveat.
+  status: open
+- id: syntrophy-benefit-is-modeled-not-ancestral
+  severity: medium
+  observation: The 1.52-vs-0.30 syntrophy benefit demonstrates modeled reciprocity,
+    not historical symbiotic ancestry.
+  request: Frame as emergent-capability evidence under restriction; add partner exclusion/replacement
+    and the full exchange-mode panel.
+  status: open
+- id: retention-is-model-regime-not-probability
+  severity: medium
+  observation: Retention 0.78-vs-0.03 is an internal model regime, not an ancestral
+    probability.
+  request: Add organelle-individuality criteria (division sync, segregation, host
+    dependence, conflict resistance, lineage heritability) and multi-generation validation
+    with null controls.
+  status: open
+- id: model-form-disagreement-unbenchmarked
+  severity: high
+  observation: Classical-engulfment, inside-out, and CPM model forms disagree on enclosure
+    and this disagreement is unresolved.
+  request: Promote to a dedicated alternative-model benchmark comparing the three
+    on matched initial conditions.
+  status: open
+- id: missing-gene-integration-arc
+  severity: high
+  observation: No study represents symbiont gene loss, host transfer, protein targeting/import,
+    or host regulatory control.
+  request: Seed the gene-integration arc as separately switchable processes with viable
+    intermediates between facultative association and obligate dependence.
+  status: open
+- id: provenance-not-separated-by-evidence-type
+  severity: medium
+  observation: Contemporary-taxon observation, phylogenetic reconstruction, mechanistic
+    simulation, and historical inference are not visibly separated.
+  request: Separate the four evidence classes in synthesis and figures; mark simulation
+    results as illustrative model-regime findings.
+  status: open
+- id: external-datasets-not-ingested
+  severity: low
+  observation: Asgard microscopy/ultrastructure, GTDB/NCBI genomes, transporter annotations,
+    and environmental redox/growth measurements are requested by the reviewer but
+    not present.
+  request: Register these as data-access requests requiring approval; do not mark
+    any as ingested until verified.
   status: open
 synthesis:
   headline: 'The syntrophy->enclosure eukaryogenesis path is feasible, retained, and
@@ -831,3 +1109,1335 @@ scientific_argument:
     regimes, not calibrated to a specific organism pair.'
 closed_at: '2026-11-01T04:43:57Z'
 report_url: report.html
+model_versions:
+- id: mv:f0891e096d22eaaa
+  composite: viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community
+  params:
+    lineages: fixer:4,reducer:4
+    coupling: shared
+    model_proto_ecology: reaction_universe
+    p_diacid: 1.0e-08
+    p_monoacid: 1.0e-07
+    k_wash: 0.01
+  parent_ids: []
+  origin:
+    kind: authored
+  bound_to:
+  - study: s1-metabolic-partnership
+    arm: baseline
+  - study: s1-metabolic-partnership
+    arm: isolated-control
+  resolves: false
+- id: mv:6405f4ca2bcd6f11
+  composite: viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community
+  params:
+    lineages: fixer:4,reducer:4
+    coupling: shared
+    model_proto_ecology: reaction_universe
+    p_diacid: 1.0e-08
+    p_monoacid: 1.0e-07
+    k_wash: 0.01
+    placement: mixed
+    k_diffusion: 0.001
+  parent_ids: []
+  origin:
+    kind: authored
+  bound_to:
+  - study: s2-ecology-to-proximity
+    arm: baseline
+  - study: s2-ecology-to-proximity
+    arm: distant-control
+  - study: s2-ecology-to-proximity
+    arm: well-mixed-control
+  - study: study-selection-for-proximity
+    arm: baseline
+  resolves: false
+- id: mv:9dc77ccd453840b5
+  composite: viva_genesis.composites.protrusion_enclosure.protrusion_enclosure
+  params:
+    topology: classical_engulfment
+    protrusion_area_um2: 4.0
+    adhesion_energy_kT: 600.0
+    bending_modulus_kT: 20.0
+  parent_ids: []
+  origin: &id001
+    kind: authored
+  bound_to:
+  - study: s3-protrusions-to-enclosure
+    arm: baseline
+  - study: s3-protrusions-to-enclosure
+    arm: inside-out
+  - study: s3-protrusions-to-enclosure
+    arm: no-enclosure-control
+  - study: s3-protrusions-to-enclosure
+    arm: weak-adhesion-control
+  resolves: false
+- id: mv:928b4f6ebc372b31
+  composite: viva_genesis.composites.protrusion_enclosure_cpm.protrusion_enclosure_cpm
+  params:
+    j_hs: 6.0
+    j_sM: 16.0
+    j_hM: 4.0
+  parent_ids: []
+  origin: *id001
+  bound_to:
+  - study: s3-protrusions-to-enclosure
+    arm: cpm-spatial
+  - study: s3-protrusions-to-enclosure
+    arm: cpm-weak-adhesion
+  resolves: false
+- id: mv:8a02ffc1431b5230
+  composite: viva_genesis.composites.protrusion_enclosure_membrane.protrusion_enclosure_membrane
+  params:
+    topology: classical_engulfment
+    bending_modulus_kT: 20.0
+    adhesion_per_um2_kT: 250.0
+    tension_per_um2_kT: 200.0
+    protrusion_force_pN: 10.0
+    max_membrane_area_um2: 4.0
+  parent_ids: []
+  origin: *id001
+  bound_to:
+  - study: s3-protrusions-to-enclosure
+    arm: membrane-wrapping
+  resolves: false
+- id: mv:fc07ffc6c390f09a
+  composite: viva_genesis.composites.bioenergetic_internalization.bioenergetic_internalization
+  params:
+    catalyst_efficiency: 1.0
+    v_start: 0.4
+    decline_rate: 0.01
+    gradient_floor: 0.02
+  parent_ids: []
+  origin:
+    kind: authored
+  bound_to:
+  - study: s4-compartmental-energetic-coupling
+    arm: baseline
+  - study: s4-compartmental-energetic-coupling
+    arm: weak-pump-control
+  resolves: false
+- id: mv:931b63c6aaec8660
+  composite: viva_genesis.composites.heredity_lineage.heredity_lineage_comparison
+  params:
+    module: template
+    per_site_fidelity: 0.99
+  parent_ids: []
+  origin:
+    kind: authored
+  bound_to:
+  - study: s5-symbiont-to-organelle
+    arm: baseline
+  - study: s5-symbiont-to-organelle
+    arm: low-fidelity-control
+  - study: s5-symbiont-to-organelle
+    arm: non-heritable-control
+  resolves: false
+- id: mv:eae7300861e0896d
+  composite: viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community
+  params:
+    lineages: fixer:4,reducer:4
+    coupling: private
+    model_proto_ecology: reaction_universe
+    p_diacid: 1.0e-08
+    p_monoacid: 1.0e-07
+    k_wash: 0.01
+    placement: mixed
+    k_diffusion: 0.001
+  parent_ids:
+  - mv:6405f4ca2bcd6f11
+  origin:
+    kind: authored
+  bound_to:
+  - study: study-selection-for-proximity
+    arm: no-exchange-control
+  resolves: false
+- id: mv:86540cd93d1402d5
+  composite: viva_genesis.composites.proto_endosymbiosis_hybrid.proto_endosymbiosis_hybrid
+  params:
+    exchange: 'on'
+    benefit_coeff: 1.2
+    cost_coeff: 0.3
+    init_freq_high: 0.6
+    n_initial: 100.0
+  parent_ids:
+  - mv:6405f4ca2bcd6f11
+  origin:
+    kind: authored
+  bound_to:
+  - study: study-selection-for-proximity
+    arm: coupled-selection
+  resolves: false
+- id: mv:a90770917903ebca
+  composite: viva_genesis.composites.proto_endosymbiosis_hybrid.proto_endosymbiosis_hybrid
+  params:
+    exchange: 'off'
+    benefit_coeff: 1.2
+    cost_coeff: 0.3
+    init_freq_high: 0.6
+    n_initial: 100.0
+  parent_ids:
+  - mv:6405f4ca2bcd6f11
+  origin:
+    kind: authored
+  bound_to:
+  - study: study-selection-for-proximity
+    arm: coupled-no-exchange
+  resolves: false
+- id: mv:367232ca215666b0
+  composite: viva_genesis.composites.proto_endosymbiosis_enclosure.proto_endosymbiosis_enclosure
+  params:
+    adhesion_energy: 0.9
+    bending_modulus: 0.2
+    perturbation: 0.1
+  parent_ids: []
+  origin:
+    kind: authored
+  bound_to:
+  - study: study-enclosure-mechanics
+    arm: baseline
+  resolves: false
+- id: mv:a6558c559e246a36
+  composite: viva_genesis.composites.proto_endosymbiosis_enclosure.proto_endosymbiosis_enclosure
+  params:
+    adhesion_energy: 0.6
+    bending_modulus: 0.3
+    perturbation: 0.9
+  parent_ids:
+  - mv:367232ca215666b0
+  origin:
+    kind: authored
+  bound_to:
+  - study: study-enclosure-mechanics
+    arm: enclosure-conflict
+  resolves: false
+- id: mv:d5a69e7d60ff9a58
+  composite: viva_genesis.composites.proto_endosymbiosis_coupled.proto_endosymbiosis_coupled
+  params:
+    benefit_coeff: 1.2
+    cost_coeff: 0.3
+    base_adhesion: 0.8
+    bending_modulus: 0.2
+    perturbation: 0.1
+  parent_ids: []
+  origin:
+    kind: authored
+  bound_to:
+  - study: study-contact-to-enclosure-coupling
+    arm: baseline
+  resolves: false
+- id: mv:09d9bfeb37606fe4
+  composite: viva_genesis.composites.proto_endosymbiosis_coupled.proto_endosymbiosis_coupled
+  params:
+    benefit_coeff: 0.3
+    cost_coeff: 0.5
+    base_adhesion: 0.8
+    bending_modulus: 0.2
+    perturbation: 0.1
+  parent_ids:
+  - mv:d5a69e7d60ff9a58
+  origin:
+    kind: authored
+  bound_to:
+  - study: study-contact-to-enclosure-coupling
+    arm: decoupled-control
+  resolves: false
+- id: mv:be63b19e06f4dd61
+  composite: viva_genesis.composites.proto_endosymbiosis_transmission.proto_endosymbiosis_transmission
+  params:
+    fidelity: 0.98
+    benefit: 0.6
+    cost: 0.1
+    loss_rate: 0.03
+  parent_ids: []
+  origin:
+    kind: authored
+  bound_to:
+  - study: study-vertical-transmission-stability
+    arm: baseline
+  resolves: false
+- id: mv:875d9805e815195b
+  composite: viva_genesis.composites.proto_endosymbiosis_transmission.proto_endosymbiosis_transmission
+  params:
+    fidelity: 0.95
+    benefit: 0.6
+    cost: 0.1
+    loss_rate: 0.5
+  parent_ids:
+  - mv:be63b19e06f4dd61
+  origin:
+    kind: authored
+  bound_to:
+  - study: study-vertical-transmission-stability
+    arm: high-conflict
+  resolves: false
+- id: mv:c5aa64e3bf338f90
+  composite: viva_genesis.composites.proto_endosymbiosis_spatial.proto_endosymbiosis_spatial
+  params:
+    consumer_distance: 1
+    diffusion: 0.4
+    decay: 0.08
+  parent_ids: []
+  origin:
+    kind: authored
+  bound_to:
+  - study: study-spatial-exchange-proximity
+    arm: baseline
+  resolves: false
+- id: mv:60be18d8f28dc240
+  composite: viva_genesis.composites.proto_endosymbiosis_spatial.proto_endosymbiosis_spatial
+  params:
+    consumer_distance: 10
+    diffusion: 0.4
+    decay: 0.08
+  parent_ids:
+  - mv:c5aa64e3bf338f90
+  origin:
+    kind: authored
+  bound_to:
+  - study: study-spatial-exchange-proximity
+    arm: distal
+  resolves: false
+- id: mv:c7faf47908b4eb5a
+  composite: viva_genesis.composites.proto_endosymbiosis_multimetab.proto_endosymbiosis_multimetab
+  params:
+    symbiont_distance: 1
+    production_a: 1.0
+    production_b: 1.0
+  parent_ids: []
+  origin:
+    kind: authored
+  bound_to:
+  - study: study-bidirectional-syntrophy
+    arm: baseline
+  resolves: false
+- id: mv:77916a41a436c28f
+  composite: viva_genesis.composites.proto_endosymbiosis_multimetab.proto_endosymbiosis_multimetab
+  params:
+    symbiont_distance: 1
+    production_a: 1.0
+    production_b: 0.2
+  parent_ids:
+  - mv:c7faf47908b4eb5a
+  origin:
+    kind: authored
+  bound_to:
+  - study: study-bidirectional-syntrophy
+    arm: asymmetric
+  resolves: false
+- id: mv:688635590273cd84
+  composite: viva_genesis.composites.proto_endosymbiosis_enclosure.proto_endosymbiosis_enclosure
+  params: {}
+  parent_ids: []
+  origin:
+    kind: authored
+  bound_to:
+  - study: mw-s1-wall-rupture-deformability-tradeoff
+    arm: baseline
+  resolves: false
+- id: mv:8f0ad805fff7a3ef
+  composite: viva_genesis.composites.proto_endosymbiosis_multimetab.proto_endosymbiosis_multimetab
+  params: {}
+  parent_ids: []
+  origin:
+    kind: authored
+  bound_to:
+  - study: mw-s3-emergent-capability-vs-additive-benefit
+    arm: baseline
+  resolves: false
+- id: mv:b873dfadd99547aa
+  composite: viva_genesis.composites.proto_endosymbiosis_transmission.proto_endosymbiosis_transmission
+  params: {}
+  parent_ids: []
+  origin:
+    kind: authored
+  bound_to:
+  - study: mw-s5-division-sync-and-conflict-suppression
+    arm: baseline
+  resolves: false
+revision_proposals:
+- id: rp:s3-protrusions-to-enclosure:mv:9dc77ccd453840b5:3c473418
+  status: proposed
+  source:
+    kind: model_disagreement
+    study: s3-protrusions-to-enclosure
+    finding: s3-enclosure-feasible-with-favorable-budget
+    observable: settled_enclosure_probability
+  affected_model_version: mv:9dc77ccd453840b5
+  inadequacy: arms {classical_engulfment=0.27, inside_out=0.83, superseded:protrusion_enclosure_cpm
+    (2D =1.0} disagree (spread 0.73) on settled_enclosure_probability
+  candidate_changes:
+  - kind: param
+    name: protrusion_area_um2
+    from: 4.0
+    to:
+    - 2.0
+    - 8.0
+    derived_by: refine_study._default_sweep
+  predicted_effects:
+  - observable: settled_enclosure_probability
+    direction: converge
+    rationale: if the arm gap is a formalism artefact, raising fidelity collapses
+      the spread
+  discriminating_test:
+    behavior_test: enclosure-geometrically-feasible
+    pass_if:
+      op: '>'
+      value: 0.5
+      provenance:
+        kind: calibration
+        note: 'Calibrated (classical engulfment, protrusion_area=4 um^2, adhesion=600
+          kT, kappa=20 kT, 30 steps): enclosure_probability settles to 0.61 (PASS;
+          inside-out wrapping reaches 0.98). Two failure routes read 0.0: the no-enclosure
+          control and the weak-adhesion control (adhesion below the 8*pi*kappa bending
+          cost).'
+  approval: review
+  history:
+  - at: '2026-11-01T19:54:49Z'
+    event: proposed
+    by: engine
+  evaluated: null
+viz_proposals:
+- id: vp:s1-metabolic-partnership:3666e9b5
+  status: proposed
+  study: s1-metabolic-partnership
+  source:
+    kind: gate_uncovered
+    behavior_test: exchange-mass-balanced
+    observable: exchange_mass_balance_residual
+  suggested:
+    form: band_overlay
+    title: exchange_mass_balance_residual (band overlay)
+    data_source:
+      observable: exchange_mass_balance_residual
+      run_ids:
+      - viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1793135900__f172d8
+      - viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1793462314__6c7af7
+    address: null
+    inputs_map: {}
+    needs_author: true
+    effort: needs-author
+  sharpens:
+    finding: null
+    claim: claim:s1-metabolic-partnership
+  approval: review
+  history:
+  - at: '2026-11-01T19:54:49Z'
+    event: proposed
+    by: engine
+  built: null
+  derivable: false
+- id: vp:s1-metabolic-partnership:b98acaad
+  status: proposed
+  study: s1-metabolic-partnership
+  source:
+    kind: gate_uncovered
+    behavior_test: community-redundancy-develops
+    observable: settled_metacommunity_robustness
+  suggested:
+    form: band_overlay
+    title: settled_metacommunity_robustness (band overlay)
+    data_source:
+      observable: settled_metacommunity_robustness
+      run_ids:
+      - viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1793135900__f172d8
+      - viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1793462314__6c7af7
+    address: null
+    inputs_map: {}
+    needs_author: true
+    effort: needs-author
+  sharpens:
+    finding: s1-connected-beats-isolated-calibrated
+    claim: claim:s1-metabolic-partnership
+  approval: review
+  history:
+  - at: '2026-11-01T19:54:49Z'
+    event: proposed
+    by: engine
+  built: null
+  derivable: false
+- id: vp:s3-protrusions-to-enclosure:0217a0c7
+  status: proposed
+  study: s3-protrusions-to-enclosure
+  source:
+    kind: gate_uncovered
+    behavior_test: enclosure-geometrically-feasible
+    observable: settled_enclosure_probability
+  suggested:
+    form: band_overlay
+    title: settled_enclosure_probability (band overlay)
+    data_source:
+      observable: settled_enclosure_probability
+      run_ids:
+      - viva_genesis.composites.protrusion_enclosure.protrusion_enclosure__1793462387__8918b2
+    address: null
+    inputs_map: {}
+    needs_author: true
+    effort: needs-author
+  sharpens:
+    finding: s3-enclosure-feasible-with-favorable-budget
+    claim: claim:s3-protrusions-to-enclosure
+  approval: review
+  history:
+  - at: '2026-11-01T19:54:49Z'
+    event: proposed
+    by: engine
+  built: null
+  derivable: false
+- id: vp:s3-protrusions-to-enclosure:640babcb
+  status: proposed
+  study: s3-protrusions-to-enclosure
+  source:
+    kind: gate_uncovered
+    behavior_test: membrane-area-conserved
+    observable: max_membrane_area_residual
+  suggested:
+    form: band_overlay
+    title: max_membrane_area_residual (band overlay)
+    data_source:
+      observable: max_membrane_area_residual
+      run_ids:
+      - viva_genesis.composites.protrusion_enclosure.protrusion_enclosure__1793462387__8918b2
+    address: null
+    inputs_map: {}
+    needs_author: true
+    effort: needs-author
+  sharpens:
+    finding: null
+    claim: claim:s3-protrusions-to-enclosure
+  approval: review
+  history:
+  - at: '2026-11-01T19:54:49Z'
+    event: proposed
+    by: engine
+  built: null
+  derivable: false
+- id: vp:mw-s1-wall-rupture-deformability-tradeoff:cceb2042
+  status: proposed
+  study: mw-s1-wall-rupture-deformability-tradeoff
+  source:
+    kind: discriminating_uncovered
+    hypotheses:
+    - MW-C1-rigid-envelope-constrains-internalization
+    - MW-C3-cortex-compensation-enables-safe-enclosure
+    observable: probability_of_membrane_intact_enclosure
+  suggested:
+    form: prediction_bands
+    title: probability_of_membrane_intact_enclosure (prediction bands)
+    data_source:
+      observable: probability_of_membrane_intact_enclosure
+      run_ids: []
+    address: null
+    inputs_map: {}
+    needs_author: true
+    effort: needs-author
+  sharpens:
+    finding: null
+    claim: claim:mw-s1-wall-rupture-deformability-tradeoff
+  approval: review
+  history:
+  - at: '2026-11-01T19:54:49Z'
+    event: proposed
+    by: engine
+  built: null
+  derivable: false
+- id: vp:mw-s3-emergent-capability-vs-additive-benefit:145f89a4
+  status: proposed
+  study: mw-s3-emergent-capability-vs-additive-benefit
+  source:
+    kind: discriminating_uncovered
+    hypotheses:
+    - MW-C4-symbiosis-creates-emergent-capability
+    - MW-C4null-additive-only
+    observable: emergent_capability_gain
+  suggested:
+    form: prediction_bands
+    title: emergent_capability_gain (prediction bands)
+    data_source:
+      observable: emergent_capability_gain
+      run_ids: []
+    address: null
+    inputs_map: {}
+    needs_author: true
+    effort: needs-author
+  sharpens:
+    finding: null
+    claim: claim:mw-s3-emergent-capability-vs-additive-benefit
+  approval: review
+  history:
+  - at: '2026-11-01T19:54:49Z'
+    event: proposed
+    by: engine
+  built: null
+  derivable: false
+- id: vp:mw-s5-division-sync-and-conflict-suppression:91a07b4c
+  status: proposed
+  study: mw-s5-division-sync-and-conflict-suppression
+  source:
+    kind: discriminating_uncovered
+    hypotheses:
+    - MW-C6-integrated-individual
+    - MW-C6conflict-dominated
+    observable: transmission_fidelity_under_conflict
+  suggested:
+    form: prediction_bands
+    title: transmission_fidelity_under_conflict (prediction bands)
+    data_source:
+      observable: transmission_fidelity_under_conflict
+      run_ids: []
+    address: null
+    inputs_map: {}
+    needs_author: true
+    effort: needs-author
+  sharpens:
+    finding: null
+    claim: claim:mw-s5-division-sync-and-conflict-suppression
+  approval: review
+  history:
+  - at: '2026-11-01T19:54:49Z'
+    event: proposed
+    by: engine
+  built: null
+  derivable: false
+- id: vp:study-contact-to-enclosure-coupling:bc687404
+  status: proposed
+  study: study-contact-to-enclosure-coupling
+  source:
+    kind: discriminating_uncovered
+    hypotheses:
+    - H1-syntrophy-first@study-contact-to-enclosure-coupling
+    - H4-no-integration@study-contact-to-enclosure-coupling
+    observable: joint_feasibility_region
+  suggested:
+    form: prediction_bands
+    title: joint_feasibility_region (prediction bands)
+    data_source:
+      observable: joint_feasibility_region
+      run_ids:
+      - viva_genesis.composites.proto_endosymbiosis_coupled.proto_endosymbiosis_coupled__1793505450__a3acc2
+      - viva_genesis.composites.proto_endosymbiosis_coupled.proto_endosymbiosis_coupled__1793505453__5903e3
+    address: null
+    inputs_map: {}
+    needs_author: true
+    effort: needs-author
+  sharpens:
+    finding: null
+    claim: claim:study-contact-to-enclosure-coupling
+  approval: review
+  history:
+  - at: '2026-11-01T19:54:49Z'
+    event: proposed
+    by: engine
+  built: null
+  derivable: false
+- id: vp:study-enclosure-mechanics:d03851be
+  status: proposed
+  study: study-enclosure-mechanics
+  source:
+    kind: discriminating_uncovered
+    hypotheses:
+    - H2-geometry-first@study-enclosure-mechanics
+    - H3-parasitism-or-conflict@study-enclosure-mechanics
+    observable: probability_of_stable_enclosure
+  suggested:
+    form: prediction_bands
+    title: probability_of_stable_enclosure (prediction bands)
+    data_source:
+      observable: probability_of_stable_enclosure
+      run_ids:
+      - viva_genesis.composites.proto_endosymbiosis_enclosure.proto_endosymbiosis_enclosure__1793504999__cab6e8
+      - viva_genesis.composites.proto_endosymbiosis_enclosure.proto_endosymbiosis_enclosure__1793505002__c0988c
+    address: null
+    inputs_map: {}
+    needs_author: true
+    effort: needs-author
+  sharpens:
+    finding: null
+    claim: claim:study-enclosure-mechanics
+  approval: review
+  history:
+  - at: '2026-11-01T19:54:49Z'
+    event: proposed
+    by: engine
+  built: null
+  derivable: false
+- id: vp:study-selection-for-proximity:e134dc73
+  status: proposed
+  study: study-selection-for-proximity
+  source:
+    kind: discriminating_uncovered
+    hypotheses:
+    - H1-syntrophy-first@study-selection-for-proximity
+    - H4-no-integration@study-selection-for-proximity
+    observable: selection_coefficient_for_adhesion
+  suggested:
+    form: prediction_bands
+    title: selection_coefficient_for_adhesion (prediction bands)
+    data_source:
+      observable: selection_coefficient_for_adhesion
+      run_ids:
+      - viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1793500736__44a285
+      - viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1793500792__f940c1
+      - viva_genesis.composites.proto_endosymbiosis_hybrid.proto_endosymbiosis_hybrid__1793504270__089ae2
+      - viva_genesis.composites.proto_endosymbiosis_hybrid.proto_endosymbiosis_hybrid__1793504119__2ce2f2
+      - viva_genesis.composites.proto_endosymbiosis_hybrid.proto_endosymbiosis_hybrid__1793504118__1e2acf
+      - viva_genesis.composites.proto_endosymbiosis_hybrid.proto_endosymbiosis_hybrid__1793503925__1f73c1
+      - viva_genesis.composites.proto_endosymbiosis_hybrid.proto_endosymbiosis_hybrid__1793503924__c3e4da
+      - viva_genesis.composites.proto_endosymbiosis_hybrid.proto_endosymbiosis_hybrid__1793504273__121f2b
+      - viva_genesis.composites.proto_endosymbiosis_hybrid.proto_endosymbiosis_hybrid__1793504552__d24fe1
+      - viva_genesis.composites.proto_endosymbiosis_hybrid.proto_endosymbiosis_hybrid__1793504484__44469c
+      - viva_genesis.composites.proto_endosymbiosis_hybrid.proto_endosymbiosis_hybrid__1793504482__1c423b
+      - viva_genesis.composites.proto_endosymbiosis_hybrid.proto_endosymbiosis_hybrid__1793504556__f930ce
+    address: null
+    inputs_map: {}
+    needs_author: true
+    effort: needs-author
+  sharpens:
+    finding: null
+    claim: claim:study-selection-for-proximity
+  approval: review
+  history:
+  - at: '2026-11-01T19:54:49Z'
+    event: proposed
+    by: engine
+  built: null
+  derivable: false
+capability_gaps:
+- id: cg:eukaryogenesis:20e31367
+  status: proposed
+  kind: capability_gap
+  op: build_process
+  mechanism: host_regulatory_control
+  study: null
+  source:
+    kind: required_mechanism
+    mechanism: host_regulatory_control
+    study: null
+    inv: eukaryogenesis
+  suggested:
+    route: build
+    rationale: no catalog component provides this mechanism; draft a mathematical
+      spec + implement + validate
+    needs_author: true
+    effort: needs-author
+  approval: review
+  resolution_route:
+    routes:
+    - develop_method
+    mode: all
+  history:
+  - at: '2026-11-01T19:54:49Z'
+    event: proposed
+    by: engine
+  built: null
+  derivable: false
+- id: cg:eukaryogenesis:2165201b
+  status: proposed
+  kind: capability_gap
+  op: build_process
+  mechanism: conflict_and_cheater_dynamics
+  study: null
+  source:
+    kind: required_mechanism
+    mechanism: conflict_and_cheater_dynamics
+    study: null
+    inv: eukaryogenesis
+  suggested:
+    route: build
+    rationale: no catalog component provides this mechanism; draft a mathematical
+      spec + implement + validate
+    needs_author: true
+    effort: needs-author
+  approval: review
+  resolution_route:
+    routes:
+    - develop_method
+    mode: all
+  history:
+  - at: '2026-11-01T19:54:49Z'
+    event: proposed
+    by: engine
+  built: null
+  derivable: false
+- id: cg:eukaryogenesis:26b96bb4
+  status: proposed
+  kind: capability_gap
+  op: build_process
+  mechanism: Test whether benefit persists after explicit adhesion and membrane costs.
+  study: study-contact-to-enclosure-coupling
+  source:
+    kind: required_mechanism
+    mechanism: Test whether benefit persists after explicit adhesion and membrane
+      costs.
+    study: study-contact-to-enclosure-coupling
+    inv: eukaryogenesis
+  suggested:
+    route: build
+    rationale: no catalog component provides this mechanism; draft a mathematical
+      spec + implement + validate
+    needs_author: true
+    effort: needs-author
+  approval: review
+  resolution_route:
+    routes:
+    - develop_method
+    mode: all
+  history:
+  - at: '2026-11-01T19:54:49Z'
+    event: proposed
+    by: engine
+  built: null
+  derivable: false
+- id: cg:eukaryogenesis:2ecf673b
+  status: proposed
+  kind: capability_gap
+  op: build_process
+  mechanism: internalized_partner
+  study: mw-s1-wall-rupture-deformability-tradeoff
+  source:
+    kind: required_mechanism
+    mechanism: internalized_partner
+    study: mw-s1-wall-rupture-deformability-tradeoff
+    inv: eukaryogenesis
+  suggested:
+    route: build
+    rationale: no catalog component provides this mechanism; draft a mathematical
+      spec + implement + validate
+    needs_author: true
+    effort: needs-author
+  approval: review
+  resolution_route:
+    routes:
+    - develop_method
+    mode: all
+  history:
+  - at: '2026-11-01T19:54:49Z'
+    event: proposed
+    by: engine
+  built: null
+  derivable: false
+- id: cg:eukaryogenesis:32230913
+  status: proposed
+  kind: capability_gap
+  op: build_process
+  mechanism: cheater_invasion_allowed
+  study: mw-s1-wall-rupture-deformability-tradeoff
+  source:
+    kind: required_mechanism
+    mechanism: cheater_invasion_allowed
+    study: mw-s1-wall-rupture-deformability-tradeoff
+    inv: eukaryogenesis
+  suggested:
+    route: build
+    rationale: no catalog component provides this mechanism; draft a mathematical
+      spec + implement + validate
+    needs_author: true
+    effort: needs-author
+  approval: review
+  resolution_route:
+    routes:
+    - develop_method
+    mode: all
+  history:
+  - at: '2026-11-01T19:54:49Z'
+    event: proposed
+    by: engine
+  built: null
+  derivable: false
+- id: cg:eukaryogenesis:33555496
+  status: proposed
+  kind: capability_gap
+  op: build_process
+  mechanism: Compare protrusion/inside-out, active engulfment, and non-enclosing contact.
+  study: study-enclosure-mechanics
+  source:
+    kind: required_mechanism
+    mechanism: Compare protrusion/inside-out, active engulfment, and non-enclosing
+      contact.
+    study: study-enclosure-mechanics
+    inv: eukaryogenesis
+  suggested:
+    route: build
+    rationale: no catalog component provides this mechanism; draft a mathematical
+      spec + implement + validate
+    needs_author: true
+    effort: needs-author
+  approval: review
+  resolution_route:
+    routes:
+    - develop_method
+    mode: all
+  history:
+  - at: '2026-11-01T19:54:49Z'
+    event: proposed
+    by: engine
+  built: null
+  derivable: false
+- id: cg:eukaryogenesis:3b4f0a3c
+  status: proposed
+  kind: capability_gap
+  op: build_process
+  mechanism: Host-symbiont division synchronization, copy-number segregation, cheater
+    invasion, and a Price-style selection decomposition where feasible.
+  study: mw-s5-division-sync-and-conflict-suppression
+  source:
+    kind: required_mechanism
+    mechanism: Host-symbiont division synchronization, copy-number segregation, cheater
+      invasion, and a Price-style selection decomposition where feasible.
+    study: mw-s5-division-sync-and-conflict-suppression
+    inv: eukaryogenesis
+  suggested:
+    route: build
+    rationale: no catalog component provides this mechanism; draft a mathematical
+      spec + implement + validate
+    needs_author: true
+    effort: needs-author
+  approval: review
+  resolution_route:
+    routes:
+    - develop_method
+    mode: all
+  history:
+  - at: '2026-11-01T19:54:49Z'
+    event: proposed
+    by: engine
+  built: null
+  derivable: false
+- id: cg:eukaryogenesis:4321cb2f
+  status: proposed
+  kind: capability_gap
+  op: build_process
+  mechanism: Competition between contact-seeking and non-contact-seeking phenotypes.
+  study: study-selection-for-proximity
+  source:
+    kind: required_mechanism
+    mechanism: Competition between contact-seeking and non-contact-seeking phenotypes.
+    study: study-selection-for-proximity
+    inv: eukaryogenesis
+  suggested:
+    route: build
+    rationale: no catalog component provides this mechanism; draft a mathematical
+      spec + implement + validate
+    needs_author: true
+    effort: needs-author
+  approval: review
+  resolution_route:
+    routes:
+    - develop_method
+    mode: all
+  history:
+  - at: '2026-11-01T19:54:49Z'
+    event: proposed
+    by: engine
+  built: null
+  derivable: false
+- id: cg:eukaryogenesis:4a7c428d
+  status: proposed
+  kind: capability_gap
+  op: build_process
+  mechanism: low_vs_high_diffusion
+  study: study-contact-to-enclosure-coupling
+  source:
+    kind: required_mechanism
+    mechanism: low_vs_high_diffusion
+    study: study-contact-to-enclosure-coupling
+    inv: eukaryogenesis
+  suggested:
+    route: build
+    rationale: no catalog component provides this mechanism; draft a mathematical
+      spec + implement + validate
+    needs_author: true
+    effort: needs-author
+  approval: review
+  resolution_route:
+    routes:
+    - develop_method
+    mode: all
+  history:
+  - at: '2026-11-01T19:54:49Z'
+    event: proposed
+    by: engine
+  built: null
+  derivable: false
+- id: cg:eukaryogenesis:65853103
+  status: proposed
+  kind: capability_gap
+  op: build_process
+  mechanism: Register matched runs; distinguish contact, partial wrapping, sealing,
+    and survival.
+  study: study-enclosure-mechanics
+  source:
+    kind: required_mechanism
+    mechanism: Register matched runs; distinguish contact, partial wrapping, sealing,
+      and survival.
+    study: study-enclosure-mechanics
+    inv: eukaryogenesis
+  suggested:
+    route: build
+    rationale: no catalog component provides this mechanism; draft a mathematical
+      spec + implement + validate
+    needs_author: true
+    effort: needs-author
+  approval: review
+  resolution_route:
+    routes:
+    - develop_method
+    mode: all
+  history:
+  - at: '2026-11-01T19:54:49Z'
+    event: proposed
+    by: engine
+  built: null
+  derivable: false
+- id: cg:eukaryogenesis:7b577436
+  status: proposed
+  kind: capability_gap
+  op: build_process
+  mechanism: Multi-generation validation with null controls.
+  study: mw-s5-division-sync-and-conflict-suppression
+  source:
+    kind: required_mechanism
+    mechanism: Multi-generation validation with null controls.
+    study: mw-s5-division-sync-and-conflict-suppression
+    inv: eukaryogenesis
+  suggested:
+    route: build
+    rationale: no catalog component provides this mechanism; draft a mathematical
+      spec + implement + validate
+    needs_author: true
+    effort: needs-author
+  approval: review
+  resolution_route:
+    routes:
+    - develop_method
+    mode: all
+  history:
+  - at: '2026-11-01T19:54:49Z'
+    event: proposed
+    by: engine
+  built: null
+  derivable: false
+- id: cg:eukaryogenesis:b377e4b9
+  status: proposed
+  kind: capability_gap
+  op: build_process
+  mechanism: Growth under restricted conditions, ATP yield, and survival under perturbation
+    measured against the best single partner.
+  study: mw-s3-emergent-capability-vs-additive-benefit
+  source:
+    kind: required_mechanism
+    mechanism: Growth under restricted conditions, ATP yield, and survival under perturbation
+      measured against the best single partner.
+    study: mw-s3-emergent-capability-vs-additive-benefit
+    inv: eukaryogenesis
+  suggested:
+    route: build
+    rationale: no catalog component provides this mechanism; draft a mathematical
+      spec + implement + validate
+    needs_author: true
+    effort: needs-author
+  approval: review
+  resolution_route:
+    routes:
+    - develop_method
+    mode: all
+  history:
+  - at: '2026-11-01T19:54:49Z'
+    event: proposed
+    by: engine
+  built: null
+  derivable: false
+- id: cg:eukaryogenesis:cc4c12cc
+  status: proposed
+  kind: capability_gap
+  op: build_process
+  mechanism: Spatial gradients and diffusivity sweeps with common randomized seeds.
+  study: study-selection-for-proximity
+  source:
+    kind: required_mechanism
+    mechanism: Spatial gradients and diffusivity sweeps with common randomized seeds.
+    study: study-selection-for-proximity
+    inv: eukaryogenesis
+  suggested:
+    route: build
+    rationale: no catalog component provides this mechanism; draft a mathematical
+      spec + implement + validate
+    needs_author: true
+    effort: needs-author
+  approval: review
+  resolution_route:
+    routes:
+    - develop_method
+    mode: all
+  history:
+  - at: '2026-11-01T19:54:49Z'
+    event: proposed
+    by: engine
+  built: null
+  derivable: false
+- id: cg:eukaryogenesis:ffecad6a
+  status: proposed
+  kind: capability_gap
+  op: build_process
+  mechanism: The full exchange-mode panel (one-way, balanced reciprocal, parasitism,
+    commensalism, environmental cross-feeding) plus partner exclusion/replacement.
+  study: mw-s3-emergent-capability-vs-additive-benefit
+  source:
+    kind: required_mechanism
+    mechanism: The full exchange-mode panel (one-way, balanced reciprocal, parasitism,
+      commensalism, environmental cross-feeding) plus partner exclusion/replacement.
+    study: mw-s3-emergent-capability-vs-additive-benefit
+    inv: eukaryogenesis
+  suggested:
+    route: build
+    rationale: no catalog component provides this mechanism; draft a mathematical
+      spec + implement + validate
+    needs_author: true
+    effort: needs-author
+  approval: review
+  resolution_route:
+    routes:
+    - develop_method
+    mode: all
+  history:
+  - at: '2026-11-01T19:54:49Z'
+    event: proposed
+    by: engine
+  built: null
+  derivable: false
+cycle_state:
+  generated_at: '2026-11-01T19:54:49+00:00'
+  closed: false
+  frontier_size: 55
+  next_action:
+    op: branch
+    kind: unaddressed_criterion
+    target: mw-s1-wall-rupture-deformability-tradeoff
+  top_opportunities:
+  - source: mw-s1-wall-rupture-deformability-tradeoff
+    action: branch
+    score: 0.85
+  - source: mw-s3-emergent-capability-vs-additive-benefit
+    action: branch
+    score: 0.85
+  - source: mw-s5-division-sync-and-conflict-suppression
+    action: branch
+    score: 0.85
+  - source: study-contact-to-enclosure-coupling
+    action: test
+    score: 0.7
+  - source: study-enclosure-mechanics
+    action: test
+    score: 0.7
+  - source: study-selection-for-proximity
+    action: test
+    score: 0.7
+  - source: claim:mw-s1-wall-rupture-deformability-tradeoff
+    action: test
+    score: 0.62
+  - source: claim:mw-s3-emergent-capability-vs-additive-benefit
+    action: test
+    score: 0.62
+  suggestions:
+    ready: 0
+    awaiting_expert: 9
+  diagnosis:
+    flags:
+    - input_limited
+    - planner_limited
+    - validation_limited
+    validator_pass_rate: 0.38095238095238093
+  execution_plan:
+  - source: mw-s1-wall-rupture-deformability-tradeoff
+    action: branch
+    score: 0.85
+    consequence: simulation+study
+    command: viva-study seed-from-followup <parent> <proposal>; vivarium-workbench
+      run study mw-s1-wall-rupture-deformability-tradeoff --workspace <ws>
+  - source: mw-s3-emergent-capability-vs-additive-benefit
+    action: branch
+    score: 0.85
+    consequence: simulation+study
+    command: viva-study seed-from-followup <parent> <proposal>; vivarium-workbench
+      run study mw-s3-emergent-capability-vs-additive-benefit --workspace <ws>
+  - source: mw-s5-division-sync-and-conflict-suppression
+    action: branch
+    score: 0.85
+    consequence: simulation+study
+    command: viva-study seed-from-followup <parent> <proposal>; vivarium-workbench
+      run study mw-s5-division-sync-and-conflict-suppression --workspace <ws>
+  - source: study-contact-to-enclosure-coupling
+    action: test
+    score: 0.7
+    consequence: simulation
+    command: vivarium-workbench run study study-contact-to-enclosure-coupling --workspace
+      <ws>
+  - source: study-enclosure-mechanics
+    action: test
+    score: 0.7
+    consequence: simulation
+    command: vivarium-workbench run study study-enclosure-mechanics --workspace <ws>
+  - source: study-selection-for-proximity
+    action: test
+    score: 0.7
+    consequence: simulation
+    command: vivarium-workbench run study study-selection-for-proximity --workspace
+      <ws>
+  - source: claim:mw-s1-wall-rupture-deformability-tradeoff
+    action: test
+    score: 0.62
+    consequence: simulation
+    command: vivarium-workbench run study mw-s1-wall-rupture-deformability-tradeoff
+      --workspace <ws>
+  - source: claim:mw-s3-emergent-capability-vs-additive-benefit
+    action: test
+    score: 0.62
+    consequence: simulation
+    command: vivarium-workbench run study mw-s3-emergent-capability-vs-additive-benefit
+      --workspace <ws>
+  validator_census:
+    failed: 47
+    passed: 9
+    inconclusive: 2
+  drift:
+    divergences: 6
+    stale_validations: 0
+    stale_viz: 0
+  viz_census:
+    fresh: 8
+    stale: 0
+    unrendered: 0
+    broken: 4
+    untracked_files: 2
+    proposals:
+      open: 10
+      accepted: 0
+      built: 0
+  viz_appropriateness:
+    misplaced: 0
+    untied: 9
+    duplicated: 0
+    not_assessed: 3
+    any_issue: true
+    untied_surfaced: false
+  freshness:
+    verdict:
+      state: expired
+      authored: open
+      computed: in-progress
+      detail: authored verdict 'open' diverges from computed 'in-progress'
+    decisions:
+      state: fresh
+    narrative:
+      state: unstamped
+      basis: 3341c232
+    any_expired: true
+  model_versions:
+  - mv:f0891e096d22eaaa
+  - mv:6405f4ca2bcd6f11
+  - mv:9dc77ccd453840b5
+  - mv:928b4f6ebc372b31
+  - mv:8a02ffc1431b5230
+  - mv:fc07ffc6c390f09a
+  - mv:931b63c6aaec8660
+  - mv:eae7300861e0896d
+  - mv:86540cd93d1402d5
+  - mv:a90770917903ebca
+  - mv:367232ca215666b0
+  - mv:a6558c559e246a36
+  - mv:d5a69e7d60ff9a58
+  - mv:09d9bfeb37606fe4
+  - mv:be63b19e06f4dd61
+  - mv:875d9805e815195b
+  - mv:c5aa64e3bf338f90
+  - mv:60be18d8f28dc240
+  - mv:c7faf47908b4eb5a
+  - mv:77916a41a436c28f
+  - mv:688635590273cd84
+  - mv:8f0ad805fff7a3ef
+  - mv:b873dfadd99547aa
+  evaluation_snapshot:
+    fingerprint: a0e11f1e8e4c9f66
+    by_study:
+      mw-s1-wall-rupture-deformability-tradeoff:
+        status: unresolved
+        favored: null
+        evidence: null
+        model_version: null
+      mw-s3-emergent-capability-vs-additive-benefit:
+        status: unresolved
+        favored: null
+        evidence: null
+        model_version: null
+      mw-s5-division-sync-and-conflict-suppression:
+        status: unresolved
+        favored: null
+        evidence: null
+        model_version: null
+      s1-metabolic-partnership:
+        status: provisionally-supported
+        favored: h-s1-mutualism
+        evidence: provisional
+        model_version: mv:f0891e096d22eaaa
+      s2-ecology-to-proximity:
+        status: provisionally-supported
+        favored: h-s2-spatial-contingent
+        evidence: provisional
+        model_version: mv:6405f4ca2bcd6f11
+      s3-protrusions-to-enclosure:
+        status: gated
+        favored: h-s3-enclosure-reachable
+        evidence: provisional
+        model_version: mv:9dc77ccd453840b5
+      s4-compartmental-energetic-coupling:
+        status: provisionally-supported
+        favored: h-s4-benefit-efficient-pump
+        evidence: provisional
+        model_version: mv:fc07ffc6c390f09a
+      s5-symbiont-to-organelle:
+        status: provisionally-supported
+        favored: h-s5-threshold-high-fidelity
+        evidence: provisional
+        model_version: mv:931b63c6aaec8660
+      study-contact-to-enclosure-coupling:
+        status: unresolved
+        favored: null
+        evidence: provisional
+        model_version: null
+      study-enclosure-mechanics:
+        status: unresolved
+        favored: null
+        evidence: provisional
+        model_version: null
+      study-selection-for-proximity:
+        status: unresolved
+        favored: null
+        evidence: provisional
+        model_version: null
+    model_versions:
+    - mv:f0891e096d22eaaa
+    - mv:6405f4ca2bcd6f11
+    - mv:9dc77ccd453840b5
+    - mv:928b4f6ebc372b31
+    - mv:8a02ffc1431b5230
+    - mv:fc07ffc6c390f09a
+    - mv:931b63c6aaec8660
+    - mv:eae7300861e0896d
+    - mv:86540cd93d1402d5
+    - mv:a90770917903ebca
+    - mv:367232ca215666b0
+    - mv:a6558c559e246a36
+    - mv:d5a69e7d60ff9a58
+    - mv:09d9bfeb37606fe4
+    - mv:be63b19e06f4dd61
+    - mv:875d9805e815195b
+    - mv:c5aa64e3bf338f90
+    - mv:60be18d8f28dc240
+    - mv:c7faf47908b4eb5a
+    - mv:77916a41a436c28f
+    - mv:688635590273cd84
+    - mv:8f0ad805fff7a3ef
+    - mv:b873dfadd99547aa
+    proposals:
+      open: []
+      applied: []

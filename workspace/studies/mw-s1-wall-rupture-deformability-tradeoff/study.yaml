@@ -1,0 +1,94 @@
+schema_version: 4
+name: mw-s1-wall-rupture-deformability-tradeoff
+title: Across wall-present, wall-attenuated, wall-free-with-cortex, and wall-free-without-cortex
+  arms, where does the cell gain the deformability to enclose a partner without osmotic
+  rupture?
+investigation: eukaryogenesis
+question: Across wall-present, wall-attenuated, wall-free-with-cortex, and wall-free-without-cortex
+  arms, where does the cell gain the deformability to enclose a partner without osmotic
+  rupture?
+claim: null
+concept: morowitz-structural-and-integration-barriers
+topic: eukaryogenesis
+status: planned
+design_status: designed
+simulation_status: not_started
+evaluation_status: not_started
+gate_status: not_started
+created: '2026-11-01T19:46:36Z'
+parent_studies:
+- study: study-enclosure-mechanics
+  relation: builds-on
+- study: s3-protrusions-to-enclosure
+  relation: builds-on
+required_mechanisms:
+- Envelope mechanics (wall rigidity, membrane tension, bending modulus, excess area,
+  cortex stiffness) and an explicit osmotic balance under a hypotonic gradient.
+- Matched wall-present / wall-attenuated / wall-free-with-cortex / wall-free-without-cortex
+  arms with common randomized seeds.
+- Membrane-integrity gating so enclosure counts only when the membrane survives.
+- wall_present
+- wall_attenuated
+- wall_free_with_cortex
+- wall_free_without_cortex
+- no_enclosure_stable_ectosymbiosis
+- spatially_separated_partner
+- membrane_adjacent_ectosymbiont
+- internalized_partner
+- matched_resource_budget
+- no_gene_transfer_null
+- faithful_vs_failed_division_synchronization
+- cheater_invasion_allowed
+- matched_randomized_seeds
+variants: []
+observables:
+- lysis_probability
+- membrane_tension
+- osmotic_pressure_difference
+- deformation_energy
+- probability_of_membrane_intact_enclosure
+behavior_tests:
+- name: mw-s1-wall-rupture-deformability-tradeoff-discriminates-lysis-probability
+  classification: primary
+  description: Report a mechanical/osmotic phase diagram with feasibility bounds and
+    calibrated uncertainty; support safe enclosure only where membrane-intact enclosure
+    occurs with low lysis, and never as a universal necessity.
+  measure: lysis_probability
+  pass_if:
+    op: <
+    value: 0.1
+- name: mw-s1-wall-rupture-deformability-tradeoff-membrane-tension
+  classification: secondary
+  description: Preregistered measurement 'membrane_tension' (bands to be authored).
+  measure: membrane_tension
+- name: mw-s1-wall-rupture-deformability-tradeoff-osmotic-pressure-difference
+  classification: secondary
+  description: Preregistered measurement 'osmotic_pressure_difference' (bands to be
+    authored).
+  measure: osmotic_pressure_difference
+- name: mw-s1-wall-rupture-deformability-tradeoff-deformation-energy
+  classification: secondary
+  description: Preregistered measurement 'deformation_energy' (bands to be authored).
+  measure: deformation_energy
+- name: mw-s1-wall-rupture-deformability-tradeoff-discriminates-probability-of-membrane-intact-enclosure
+  classification: primary
+  description: Report a mechanical/osmotic phase diagram with feasibility bounds and
+    calibrated uncertainty; support safe enclosure only where membrane-intact enclosure
+    occurs with low lysis, and never as a universal necessity.
+  measure: probability_of_membrane_intact_enclosure
+  pass_if:
+    op: '>='
+    value: 0.5
+visualizations: []
+findings: []
+runs: []
+tags:
+- bridge
+- discriminating
+- reopened-by-feedback
+baseline:
+- name: baseline
+  composite: viva_genesis.composites.proto_endosymbiosis_enclosure.proto_endosymbiosis_enclosure
+  params: {}
+  note: First-fidelity arm reusing the parent composite named in the feedback's `reuse`;
+    the coupled bridge composite is the next-fidelity arm (a capability gap to build).
