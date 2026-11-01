@@ -350,6 +350,7 @@ studies:
 - study-contact-to-enclosure-coupling
 - study-vertical-transmission-stability
 - study-spatial-exchange-proximity
+- study-bidirectional-syntrophy
 acceptance_criteria:
 - study: s1-metabolic-partnership
   behavior: community-redundancy-develops
@@ -740,10 +741,12 @@ reconciliation_log:
     scientific falsification.
   status: open
 synthesis:
-  headline: 'The syntrophy->enclosure eukaryogenesis path is FEASIBLE but NARROW,
-    and even once established it is RETAINED only where transmission fidelity and
-    selective benefit outrun conflict/partner-loss: a self-reinforcing contact+enclosure
-    regime that is also heritably stable occupies a bounded region of parameter space.'
+  headline: "The syntrophy->enclosure eukaryogenesis path is feasible, retained, and\
+    \ mechanistically proximity-driven only within a MULTIPLY-bounded region: selection+sealing+persistence\
+    \ must align to establish it, fidelity+benefit must outrun loss to keep it, exchange\
+    \ must be proximity-screened to drive it, and (for obligate bidirectional syntrophy)\
+    \ reciprocal production must be balanced for the mutualism to pay \u2014 each\
+    \ shown by a coupled model that measures the axis."
   evidence_chain:
   - study: study-selection-for-proximity
     model: proto_endosymbiosis_hybrid (M1)
@@ -767,6 +770,11 @@ synthesis:
     result: "realised_exchange_level 49x higher at contact than distal (screened regime)\
       \ \u2014 M1's contact-scales-exchange premise is mechanistically justified,\
       \ collapsing only when well-mixed."
+  - study: study-bidirectional-syntrophy
+    model: proto_endosymbiosis_multimetab (M7)
+    result: "mutualistic_exchange_benefit 1.52 balanced vs 0.30 asymmetric (Liebig-capped)\
+      \ \u2014 obligate bidirectional syntrophy adds a metabolic-reciprocity requirement\
+      \ beyond proximity."
   phase_diagram:
     figure: figures/transition_phase_diagram.html
     data: figures/transition_phase_data.json
