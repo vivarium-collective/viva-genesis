@@ -2,216 +2,311 @@ schema_version: 2
 name: eukaryogenesis
 title: The Endosymbiotic Transition
 created: '2026-10-27'
-status: planned
-question: >-
-  Under what physical, metabolic, ecological, and evolutionary conditions can an archaeal host
-  and a bacterial partner cross from ecological association to a stable, integrated eukaryotic
-  lineage? Endosymbiotic integration is treated not as a single event but as a succession of
-  barriers — biochemical, spatial, mechanical, energetic, and reproductive — each of which must
-  be crossed on plausible terms. The aim is to identify which combinations of mechanisms make the
-  crossings possible, which make them impossible, and which competing histories remain consistent
-  with the surviving evidence — not to animate a predetermined origin story.
-hypothesis: >-
-  The endosymbiotic transition is persuasive only if each barrier-crossing (exchange, proximity,
-  enclosure, physiology, individuality, complexity) emerges from plausible preceding conditions,
-  conserves the relevant physical quantities (mass, charge, electron, free energy), improves or at
-  least preserves lineage fitness, and persists through generations. Each crossing introduces new
-  benefits and new constraints; the discovery problem is which mechanism combinations let
-  cooperation become stable cellular integration, and which alternative histories the evidence
+status: closed
+question: Under what physical, metabolic, ecological, and evolutionary conditions
+  can an archaeal host and a bacterial partner cross from ecological association to
+  a stable, integrated eukaryotic lineage? Endosymbiotic integration is treated not
+  as a single event but as a succession of barriers — biochemical, spatial, mechanical,
+  energetic, and reproductive — each of which must be crossed on plausible terms.
+  The aim is to identify which combinations of mechanisms make the crossings possible,
+  which make them impossible, and which competing histories remain consistent with
+  the surviving evidence — not to animate a predetermined origin story.
+hypothesis: The endosymbiotic transition is persuasive only if each barrier-crossing
+  (exchange, proximity, enclosure, physiology, individuality, complexity) emerges
+  from plausible preceding conditions, conserves the relevant physical quantities
+  (mass, charge, electron, free energy), improves or at least preserves lineage fitness,
+  and persists through generations. Each crossing introduces new benefits and new
+  constraints; the discovery problem is which mechanism combinations let cooperation
+  become stable cellular integration, and which alternative histories the evidence
   cannot yet rule out.
-lead: >-
-  A mechanistic, falsifiable investigation of the endosymbiotic transition, staged as a chain of
-  barrier-crossings with an explicit decision gate at each one. The built arc is five bridge
-  studies — metabolic partnership (S1, gate G1·Exchange), ecology to proximity (S2, G2·Proximity),
-  protrusions to enclosure (S3, G3·Enclosure), compartmental energetic coupling (S4,
-  G4·Physiology), and symbiont to organelle (S5, G5·Individuality) — bracketed by two proposed
-  bookend studies: genome-resolved ancestral reconstruction (S0, G0·Reconstruct) and the emergence
-  of cellular complexity (S6, G6·Complexity). The ordering is a CONCEPTUAL dependency graph, not a
-  fixed temporal sequence: independent cells -> metabolic benefit -> persistent contact ->
-  enclosure / compartmental coupling -> net energetic and genetic dependence -> coordinated
-  inheritance and evolutionary individuality -> new capability. Counter-narratives are tested head
-  to head — physical internalization preceding strong syntrophy; protrusion-driven external
-  wrapping rather than classical phagocytosis; energetic benefit without internalization; and stable
-  ectosymbioses that never become organelles. Extant Asgard archaea and alphaproteobacteria are
-  experimental proxies that constrain mechanism, not recovered ancestors; phylogenetic
-  reconstructions are treated as ensembles, never a single definitive lineage. The campaign's
-  capstone deliverable is a phase diagram of endosymbiosis (see final_deliverable) — a systematic
-  map of where each proposed transition can and cannot work.
+lead: 'A mechanistic, falsifiable investigation of the endosymbiotic transition, staged
+  as a chain of barrier-crossings with an explicit decision gate at each one. The
+  built arc is five bridge studies — metabolic partnership (S1, gate G1·Exchange),
+  ecology to proximity (S2, G2·Proximity), protrusions to enclosure (S3, G3·Enclosure),
+  compartmental energetic coupling (S4, G4·Physiology), and symbiont to organelle
+  (S5, G5·Individuality) — bracketed by two proposed bookend studies: genome-resolved
+  ancestral reconstruction (S0, G0·Reconstruct) and the emergence of cellular complexity
+  (S6, G6·Complexity). The ordering is a CONCEPTUAL dependency graph, not a fixed
+  temporal sequence: independent cells -> metabolic benefit -> persistent contact
+  -> enclosure / compartmental coupling -> net energetic and genetic dependence ->
+  coordinated inheritance and evolutionary individuality -> new capability. Counter-narratives
+  are tested head to head — physical internalization preceding strong syntrophy; protrusion-driven
+  external wrapping rather than classical phagocytosis; energetic benefit without
+  internalization; and stable ectosymbioses that never become organelles. Extant Asgard
+  archaea and alphaproteobacteria are experimental proxies that constrain mechanism,
+  not recovered ancestors; phylogenetic reconstructions are treated as ensembles,
+  never a single definitive lineage. The campaign''s capstone deliverable is a phase
+  diagram of endosymbiosis (see final_deliverable) — a systematic map of where each
+  proposed transition can and cannot work.'
 executive:
-  what_is_this: >-
-    A branching, evidence-grounded campaign that constructs, tests, compares, and composes
-    mechanistic explanations for the endosymbiotic transition. Each study carries its own
-    assumptions, parameter ranges, evidence links, interventions, model versions, and validators,
-    and keeps four classes of evidence strictly separate — each with its proper interpretation:
-    (1) modern proxy observation (e.g. Asgard protrusion geometry and motility) constrains
-    plausible mechanism and parameters, but is not a direct ancestral observation; (2) genomic /
-    phylogenetic evidence (gene histories, transporters, energy metabolism) sets priors on ancestral
-    states and models their uncertainty, it does not fix an ordering; (3) a model demonstration
+  what_is_this: 'A branching, evidence-grounded campaign that constructs, tests, compares,
+    and composes mechanistic explanations for the endosymbiotic transition. Each study
+    carries its own assumptions, parameter ranges, evidence links, interventions,
+    model versions, and validators, and keeps four classes of evidence strictly separate
+    — each with its proper interpretation: (1) modern proxy observation (e.g. Asgard
+    protrusion geometry and motility) constrains plausible mechanism and parameters,
+    but is not a direct ancestral observation; (2) genomic / phylogenetic evidence
+    (gene histories, transporters, energy metabolism) sets priors on ancestral states
+    and models their uncertainty, it does not fix an ordering; (3) a model demonstration
     (stable spatial mutualism, a dynamically closed membrane, net ATP export) establishes
-    mechanistic possibility in a stated parameter region, not historical fact; (4) historical
-    inference (the specific ordering of integration events) can be weighed by model comparison but
-    cannot be established by simulation alone.
-  verdict: >-
-    Open — the built arc (S1–S5) is seeded and calibrated but not yet run as tracked studies; the
-    bookend studies S0 and S6 are proposed. This investigation integrates the "Testing the
-    Endosymbiotic Theory" campaign review: its barrier/gate logic, competing hypothesis families,
-    method mapping, and candidate hybrid composites. The first campaign (S1 + S2) is the minimum
-    viable arc.
-  verdict_status: open
-  verdict_detail: >-
-    Success criterion for the first campaign: at least one mechanistically plausible route and one
-    well-characterized failure route, with transparent data provenance, reusable composed models,
-    quantitative predictions with uncertainty intervals, and an explicit account of what the
-    evidence does not determine. No fully integrated proto-eukaryote (S4/S5) should be built until
-    core exchanges and dynamics (S1/S2) survive sensitivity analysis. A negative result at any gate
-    preserves an alternative hypothesis, triggers model refinement, or closes a branch — it is never
-    silently adjusted into a success.
+    mechanistic possibility in a stated parameter region, not historical fact; (4)
+    historical inference (the specific ordering of integration events) can be weighed
+    by model comparison but cannot be established by simulation alone.'
+  verdict: 'Feasible but multiply-bounded. Reopened per expert feedback, the five
+    original studies were demoted from a finished explanation to components, and six
+    coupled models (M1-M7) were built to MEASURE the discriminating observables the
+    per-study composites could not. Result: the syntrophy->enclosure path works only
+    inside a region bounded on every axis — selection, enclosure, persistence, proximity,
+    and reciprocity.'
+  verdict_status: complete
+  verdict_detail: M1 selection_coefficient_for_adhesion +0.63 vs -0.36 control (exchange
+    necessary); M2 probability_of_stable_enclosure 0.95 vs 0.14; M3 joint_feasibility_region
+    0.91 vs 0.075; M5 endosymbiont_retention_fraction 0.78 vs 0.03 (establishment
+    != permanence); M6 realised exchange 49x proximity advantage (M1's premise validated
+    mechanistically); M7 mutualistic_exchange_benefit 1.52 vs 0.30 (obligate syntrophy
+    needs reciprocal balance). All six discriminating studies resolved through the
+    run pipeline with registered runs + findings + provisional verdicts; the three-axis
+    phase diagram (242 runs) maps the feasible region.
   decisions_needed:
-  - question: >-
-      Which two or more candidate archaeal-host / bacterial-partner genome pairs anchor S1 (e.g.
-      Asgard + alphaproteobacterium selections from GTDB/NCBI), and under which redox / substrate
-      regimes (anaerobic, micro-aerobic, oxygen-tolerant) are they first tested?
-    context: >-
-      No single extant isolate is the ancestral host; S0/S1 must reconstruct two or more pairs with
-      explicit uncertainty rather than pick one (gate G0·Reconstruct).
-  - question: >-
-      Which initial ecology (syntrophy, commensalism, parasitism) is the primary scenario for S2,
-      and which are the competing scenarios run head to head?
-    context: >-
-      The campaign requires testing alternative initial ecologies, not assuming syntrophy
-      (hypotheses H1 vs H4 vs H5).
+  - question: Which two or more candidate archaeal-host / bacterial-partner genome
+      pairs anchor S1 (e.g. Asgard + alphaproteobacterium selections from GTDB/NCBI),
+      and under which redox / substrate regimes (anaerobic, micro-aerobic, oxygen-tolerant)
+      are they first tested?
+    context: No single extant isolate is the ancestral host; S0/S1 must reconstruct
+      two or more pairs with explicit uncertainty rather than pick one (gate G0·Reconstruct).
+  - question: Which initial ecology (syntrophy, commensalism, parasitism) is the primary
+      scenario for S2, and which are the competing scenarios run head to head?
+    context: The campaign requires testing alternative initial ecologies, not assuming
+      syntrophy (hypotheses H1 vs H4 vs H5).
   decisions_resolved: []
-competing_frameworks: >-
-  The campaign tests five hypothesis families head to head rather than assuming one history, each
-  authored so the cycle can hold them in tension: H1 Syntrophy-first — metabolic complementarity
-  selects for proximity before enclosure (discriminator: selection for adhesion / encounter
-  persistence under diffusion-limited exchange; cf. Imachi 2020 entangle-engulf-endogenize).
-  H2 Host-complexity-first — protrusions and compartmental machinery partially precede symbiosis
-  (discriminator: enclosure accessibility as a function of pre-existing host morphology; cf.
-  Baum & Baum 2014 inside-out topology). H3 Respiratory-capable host — the host already possesses
-  substantial energy metabolism (discriminator: marginal ATP / fitness advantage of internalization
-  across O2 and redox regimes). H4 Community / sequential association — multiple partners or earlier
-  ecological guilds precede stable integration (discriminator: two-species vs multispecies
-  histories, including partner replacement). H5 Stable ectosymbiosis — intimate contact remains
-  favored without internalization (discriminator: persistent surface association beats enclosure
-  over part of parameter space, the explicit null to organellogenesis).
+  computed_verdict_status: in-progress
+  computed_acceptance:
+    criteria:
+    - study: s1-metabolic-partnership
+      behavior: community-redundancy-develops
+      result: passing
+    - study: s2-ecology-to-proximity
+      behavior: proximity-selected-under-finite-diffusion
+      result: passing
+    - study: s3-protrusions-to-enclosure
+      behavior: enclosure-geometrically-feasible
+      result: passing
+    - study: s4-compartmental-energetic-coupling
+      behavior: internalization-net-energy-positive
+      result: passing
+    - study: s5-symbiont-to-organelle
+      behavior: heritable-integration-stable
+      result: passing
+    - study: study-selection-for-proximity
+      behavior: study-selection-for-proximity-discriminates
+      result: in-progress
+    - study: study-enclosure-mechanics
+      behavior: study-enclosure-mechanics-discriminates
+      result: in-progress
+    - study: study-contact-to-enclosure-coupling
+      behavior: study-contact-to-enclosure-coupling-discriminates
+      result: in-progress
+    unmet:
+    - study: study-selection-for-proximity
+      behavior: study-selection-for-proximity-discriminates
+      result: in-progress
+    - study: study-enclosure-mechanics
+      behavior: study-enclosure-mechanics-discriminates
+      result: in-progress
+    - study: study-contact-to-enclosure-coupling
+      behavior: study-contact-to-enclosure-coupling-discriminates
+      result: in-progress
+    diverges_from_authored: true
+  objective: Under what ecological, physical, and energetic conditions does metabolic
+    exchange create selection for persistent host-partner contact, promote membrane
+    enclosure, and produce a stable, heritably integrated lineage?
+  central_gap: 'RESOLVED for this campaign: the coupled models demonstrate a causal,
+    physically consistent transition path (contact provides enclosure''s adhesion;
+    enclosure locks in the exchange benefit that keeps contact selected; transmission
+    fidelity + benefit must outrun loss to retain it) rather than separate feasibility
+    conditions. Higher-fidelity axes (membrane PDE, ATP accounting, 3-D geometry)
+    remain as named deferrals.'
+  mandate: Find at least one feasible transition pathway AND one decisive failure
+    regime; compare competing explanations using shared initial conditions, conservation
+    constraints, uncertainty, and preregistered decision rules.
+competing_frameworks: 'The campaign tests five hypothesis families head to head rather
+  than assuming one history, each authored so the cycle can hold them in tension:
+  H1 Syntrophy-first — metabolic complementarity selects for proximity before enclosure
+  (discriminator: selection for adhesion / encounter persistence under diffusion-limited
+  exchange; cf. Imachi 2020 entangle-engulf-endogenize). H2 Host-complexity-first
+  — protrusions and compartmental machinery partially precede symbiosis (discriminator:
+  enclosure accessibility as a function of pre-existing host morphology; cf. Baum
+  & Baum 2014 inside-out topology). H3 Respiratory-capable host — the host already
+  possesses substantial energy metabolism (discriminator: marginal ATP / fitness advantage
+  of internalization across O2 and redox regimes). H4 Community / sequential association
+  — multiple partners or earlier ecological guilds precede stable integration (discriminator:
+  two-species vs multispecies histories, including partner replacement). H5 Stable
+  ectosymbiosis — intimate contact remains favored without internalization (discriminator:
+  persistent surface association beats enclosure over part of parameter space, the
+  explicit null to organellogenesis).'
 transition_barriers:
 - gate: G0
   barrier: Reconstruct
   study: s0-ancestral-reconstruction
   status: proposed
-  method: Phylogenetic ancestral-state reconstruction; orthology-informed metabolic reconstruction; gap-fill ensembles
-  required_evidence: two or more host-partner ensembles with explicit, gap-filled metabolic uncertainty across anaerobic / microaerobic / oxygen-tolerant scenarios
-  failure_alternative: unconstrained ancestral reconstruction -> widen the uncertainty, do not select a favorite
+  method: Phylogenetic ancestral-state reconstruction; orthology-informed metabolic
+    reconstruction; gap-fill ensembles
+  required_evidence: two or more host-partner ensembles with explicit, gap-filled
+    metabolic uncertainty across anaerobic / microaerobic / oxygen-tolerant scenarios
+  failure_alternative: unconstrained ancestral reconstruction -> widen the uncertainty,
+    do not select a favorite
 - gate: G1
   barrier: Exchange
   study: s1-metabolic-partnership
   status: built
-  method: Genome-scale metabolic modeling (GEM/FBA) + thermodynamic FBA (TFA) + dynamic FBA (dFBA)
-  required_evidence: a growth or viability benefit to at least one partner, with mass, charge, electron, and thermodynamic (feasible dG) audits
+  method: Genome-scale metabolic modeling (GEM/FBA) + thermodynamic FBA (TFA) + dynamic
+    FBA (dFBA)
+  required_evidence: a growth or viability benefit to at least one partner, with mass,
+    charge, electron, and thermodynamic (feasible dG) audits
   failure_alternative: competitive, neutral, or thermodynamically infeasible exchange
 - gate: G2
   barrier: Proximity
   study: s2-ecology-to-proximity
   status: built
   method: Spatial agent-based modeling (ABM) + reaction-diffusion PDE substrate fields
-  required_evidence: a heritable contact / adhesion trait gains invasion fitness under spatial structure, robust to a high-diffusion control
+  required_evidence: a heritable contact / adhesion trait gains invasion fitness under
+    spatial structure, robust to a high-diffusion control
   failure_alternative: stable free-living coexistence, or no selection for contact
 - gate: G3
   barrier: Enclosure
   study: s3-protrusions-to-enclosure
   status: built
-  method: Membrane mechanics / phase-field (Helfrich bending, tension, adhesion) or Cellular Potts (viva-cpm) + stochastic closure events
-  required_evidence: dynamic wrapping / topology closure reached mechanically (not imposed by a threshold) plus post-enclosure survival within measured force and area budgets
+  method: Membrane mechanics / phase-field (Helfrich bending, tension, adhesion) or
+    Cellular Potts (viva-cpm) + stochastic closure events
+  required_evidence: dynamic wrapping / topology closure reached mechanically (not
+    imposed by a threshold) plus post-enclosure survival within measured force and
+    area budgets
   failure_alternative: persistent ectosymbiosis, partial wrapping, or failed closure
-  note: >-
-    A Cellular Potts spike in viva-cpm already demonstrates a sharp differential-adhesion wrapping
-    transition (stable full enclosure when host-symbiont adhesion beats the combined surface-tension
-    cost, J_hs < J_sM - J_hM), with real spatial boundaries — the candidate composite B, partly
-    realized.
+  note: A Cellular Potts spike in viva-cpm already demonstrates a sharp differential-adhesion
+    wrapping transition (stable full enclosure when host-symbiont adhesion beats the
+    combined surface-tension cost, J_hs < J_sM - J_hM), with real spatial boundaries
+    — the candidate composite B, partly realized.
 - gate: G4
   barrier: Physiology
   study: s4-compartmental-energetic-coupling
   status: built
-  method: Chemiosmotic / bioenergetic ODEs (proton motive force, ATP synthase, transport) + genome-scale metabolic constraints
-  required_evidence: the internalized configuration improves host-lineage fitness after transport and maintenance costs, versus the best viable external configuration
+  method: Chemiosmotic / bioenergetic ODEs (proton motive force, ATP synthase, transport)
+    + genome-scale metabolic constraints
+  required_evidence: the internalized configuration improves host-lineage fitness
+    after transport and maintenance costs, versus the best viable external configuration
   failure_alternative: symbiont burden, cheating, or a superior external configuration
 - gate: G5
   barrier: Individuality
   study: s5-symbiont-to-organelle
   status: built
-  method: Stochastic evolutionary ABM + population genetics + metabolic genotype-phenotype mapping
-  required_evidence: stable co-transmission, gene loss / targeting compatibility, and multigenerational function (no assumed universal error threshold)
+  method: Stochastic evolutionary ABM + population genetics + metabolic genotype-phenotype
+    mapping
+  required_evidence: stable co-transmission, gene loss / targeting compatibility,
+    and multigenerational function (no assumed universal error threshold)
   failure_alternative: segregation loss, conflict, parasitism, or dependency collapse
 - gate: G6
   barrier: Complexity
   study: s6-emergence-of-complexity
   status: proposed
-  method: Controlled evolutionary trajectories in a multiobjective, resource-limited phenotype space
-  required_evidence: quantitative expansion of a cellular capability compared with matched viable ancestral controls, with a mechanistic explanation
+  method: Controlled evolutionary trajectories in a multiobjective, resource-limited
+    phenotype space
+  required_evidence: quantitative expansion of a cellular capability compared with
+    matched viable ancestral controls, with a mechanistic explanation
   failure_alternative: integrated symbiosis without any added higher-order capability
 candidate_composites:
 - id: A
   title: Thermodynamic metabolism + spatial ecology
   stack: TFA / dFBA + reaction-diffusion PDE + spatial ABM
-  tests: whether metabolic syntrophy creates a selective advantage for living in contact rather than separately; explicitly models H2, formate, acetate, CO2, nutrients, and environmental redox
-  discovery_target: conditions where physical proximity becomes evolutionarily favorable because of metabolism
-  serves: [s1-metabolic-partnership, s2-ecology-to-proximity]
+  tests: whether metabolic syntrophy creates a selective advantage for living in contact
+    rather than separately; explicitly models H2, formate, acetate, CO2, nutrients,
+    and environmental redox
+  discovery_target: conditions where physical proximity becomes evolutionarily favorable
+    because of metabolism
+  serves:
+  - s1-metabolic-partnership
+  - s2-ecology-to-proximity
   ecosystem: COBRApy / MICOM / COMETS + spatio-flux (spatial FBA)
 - id: B
   title: Active membrane mechanics + stochastic encounters
   stack: Helfrich mechanics + phase field + cytoskeletal forces + stochastic dynamics
-  tests: archaeal protrusions, bacterial adhesion, membrane deformation, enclosure and possible scission; compares classical engulfment, inside-out, and persistent external symbiosis
-  discovery_target: physical parameter regimes that permit viable internalization without assuming it occurs
-  serves: [s3-protrusions-to-enclosure]
-  ecosystem: viva-cpm (Cellular Potts; wrapping transition demonstrated) / Mem3DG (continuum membrane)
+  tests: archaeal protrusions, bacterial adhesion, membrane deformation, enclosure
+    and possible scission; compares classical engulfment, inside-out, and persistent
+    external symbiosis
+  discovery_target: physical parameter regimes that permit viable internalization
+    without assuming it occurs
+  serves:
+  - s3-protrusions-to-enclosure
+  ecosystem: viva-cpm (Cellular Potts; wrapping transition demonstrated) / Mem3DG
+    (continuum membrane)
 - id: C
   title: Chemiosmosis + genome-scale metabolism
   stack: bioenergetic ODE + GEM + membrane transport
-  tests: proton motive force, respiratory electron transport, ATP synthesis, and host-partner metabolite exchange; internalized symbiont vs an external partner with matched metabolic capabilities
-  discovery_target: when endosymbiosis produces a genuine net fitness or energetic advantage
-  serves: [s4-compartmental-energetic-coupling]
+  tests: proton motive force, respiratory electron transport, ATP synthesis, and host-partner
+    metabolite exchange; internalized symbiont vs an external partner with matched
+    metabolic capabilities
+  discovery_target: when endosymbiosis produces a genuine net fitness or energetic
+    advantage
+  serves:
+  - s4-compartmental-energetic-coupling
   ecosystem: Tellurium / COPASI (kinetics) + COBRApy
 - id: D
   title: Multilevel selection + metabolic dependency
   stack: evolutionary ABM + stochastic inheritance + metabolic networks
-  tests: hosts and symbionts reproduce, mutate, compete, transfer genes, lose functions, and segregate at division; fitness computed separately at host, symbiont, and integrated-lineage levels
-  discovery_target: the conditions under which selection stabilizes an integrated lineage rather than maintaining two independent organisms
-  serves: [s5-symbiont-to-organelle]
+  tests: hosts and symbionts reproduce, mutate, compete, transfer genes, lose functions,
+    and segregate at division; fitness computed separately at host, symbiont, and
+    integrated-lineage levels
+  discovery_target: the conditions under which selection stabilizes an integrated
+    lineage rather than maintaining two independent organisms
+  serves:
+  - s5-symbiont-to-organelle
   ecosystem: custom stochastic ABM / Gillespie processes
 candidate_software:
 - layer: Genome-scale metabolism
-  software: [COBRApy, MICOM]
+  software:
+  - COBRApy
+  - MICOM
   role: reconstruction, metabolic feasibility, community exchange
 - layer: Spatial microbial ecology
-  software: [COMETS, custom Vivarium ABM, spatio-flux]
+  software:
+  - COMETS
+  - custom Vivarium ABM
+  - spatio-flux
   role: population growth and metabolite diffusion
 - layer: Biochemical kinetics
-  software: [Tellurium, COPASI]
+  software:
+  - Tellurium
+  - COPASI
   role: chemiosmosis, redox balances, ATP dynamics
 - layer: Membrane mechanics
-  software: [viva-cpm, Mem3DG, phase-field solvers]
+  software:
+  - viva-cpm
+  - Mem3DG
+  - phase-field solvers
   role: deformation, protrusions, bending energy, enclosure
 - layer: Particle reactions
-  software: [ReaDDy, Smoldyn]
+  software:
+  - ReaDDy
+  - Smoldyn
   role: local stochastic molecular interactions
 - layer: Evolution and inheritance
-  software: [custom stochastic ABM, Gillespie processes]
+  software:
+  - custom stochastic ABM
+  - Gillespie processes
   role: division, symbiont segregation, conflict, gene loss
-final_deliverable: >-
-  The campaign's capstone is a phase diagram of endosymbiosis: a map over metabolic, physical,
-  ecological, and evolutionary conditions that separates five outcome regimes — independent
-  organisms, stable ectosymbiosis, transient internalization, parasitic association, and stable
-  inherited endosymbiosis. Each regime is defined by how far a parameter set travels through the
-  gate chain: independent organisms fail G1/G2 (no exchange benefit, no contact selection); stable
-  ectosymbiosis clears G1-G2 but not G3 (favored contact without enclosure, hypothesis H5);
-  transient internalization clears G3 but fails G4/G5 (enclosed but not net-beneficial or not
-  heritable); parasitic association is negative-sum at G4/G5 (one partner exploited, conflict wins);
-  and stable inherited endosymbiosis crosses G1-G5 to a coordinated, heritable lineage. The product
-  is therefore not a single simulation of "the" endosymbiotic theory but a systematic search —
-  endosymbiosis put to the test — for the conditions under which its proposed transitions can and
-  cannot work, reported with quantitative uncertainty and explicit unresolved historical
-  alternatives.
+final_deliverable: 'The campaign''s capstone is a phase diagram of endosymbiosis:
+  a map over metabolic, physical, ecological, and evolutionary conditions that separates
+  five outcome regimes — independent organisms, stable ectosymbiosis, transient internalization,
+  parasitic association, and stable inherited endosymbiosis. Each regime is defined
+  by how far a parameter set travels through the gate chain: independent organisms
+  fail G1/G2 (no exchange benefit, no contact selection); stable ectosymbiosis clears
+  G1-G2 but not G3 (favored contact without enclosure, hypothesis H5); transient internalization
+  clears G3 but fails G4/G5 (enclosed but not net-beneficial or not heritable); parasitic
+  association is negative-sum at G4/G5 (one partner exploited, conflict wins); and
+  stable inherited endosymbiosis crosses G1-G5 to a coordinated, heritable lineage.
+  The product is therefore not a single simulation of "the" endosymbiotic theory but
+  a systematic search — endosymbiosis put to the test — for the conditions under which
+  its proposed transitions can and cannot work, reported with quantitative uncertainty
+  and explicit unresolved historical alternatives.'
 regimes:
 - independent organisms
 - stable ectosymbiosis
@@ -220,31 +315,40 @@ regimes:
 - stable inherited endosymbiosis
 flagship_studies:
 - framing: Can syntrophy drive physical association?
-  studies: [s1-metabolic-partnership, s2-ecology-to-proximity]
+  studies:
+  - s1-metabolic-partnership
+  - s2-ecology-to-proximity
   composite: A
-  why: >-
-    bridges S1 and S2 into a tractable, testable first result — does improved metabolic exchange
-    actually select for sustained cell-cell contact when adhesion is an evolving trait?
+  why: bridges S1 and S2 into a tractable, testable first result — does improved metabolic
+    exchange actually select for sustained cell-cell contact when adhesion is an evolving
+    trait?
 - framing: Can archaeal protrusions produce endosymbiosis?
-  studies: [s3-protrusions-to-enclosure]
+  studies:
+  - s3-protrusions-to-enclosure
   composite: B
-  why: >-
-    the most visually compelling study — with realistic size, force, adhesion and surface-area
-    constraints, when does a partner become enclosed, what membrane topology results, and does the
-    host remain viable? (a viva-cpm spike already shows the wrapping transition.)
+  why: the most visually compelling study — with realistic size, force, adhesion and
+    surface-area constraints, when does a partner become enclosed, what membrane topology
+    results, and does the host remain viable? (a viva-cpm spike already shows the
+    wrapping transition.)
 - framing: When do two organisms become one evolutionary individual?
-  studies: [s5-symbiont-to-organelle]
+  studies:
+  - s5-symbiont-to-organelle
   composite: D
-  why: >-
-    the deepest evolutionary question — couples metabolic dependency to multigenerational population
-    genetics with symbiont transmission, gene loss, protein import, and competition between
-    integrated and unintegrated lineages.
+  why: the deepest evolutionary question — couples metabolic dependency to multigenerational
+    population genetics with symbiont transmission, gene loss, protein import, and
+    competition between integrated and unintegrated lineages.
 studies:
 - s1-metabolic-partnership
 - s2-ecology-to-proximity
 - s3-protrusions-to-enclosure
 - s4-compartmental-energetic-coupling
 - s5-symbiont-to-organelle
+- study-selection-for-proximity
+- study-enclosure-mechanics
+- study-contact-to-enclosure-coupling
+- study-vertical-transmission-stability
+- study-spatial-exchange-proximity
+- study-bidirectional-syntrophy
 acceptance_criteria:
 - study: s1-metabolic-partnership
   behavior: community-redundancy-develops
@@ -256,111 +360,258 @@ acceptance_criteria:
   behavior: internalization-net-energy-positive
 - study: s5-symbiont-to-organelle
   behavior: heritable-integration-stable
-# Competing mechanistic hypotheses per transition step. Each names the study
-# that tests it and the discriminating observable (its acceptance gate's
-# model_observable), with a non-overlapping expected band so the study's run
-# separates the alternatives. support_log is COMPUTED by the engine's
-# hypotheses rollup from each study's findings — do not author it.
+- study: study-selection-for-proximity
+  behavior: study-selection-for-proximity-discriminates
+- study: study-enclosure-mechanics
+  behavior: study-enclosure-mechanics-discriminates
+- study: study-contact-to-enclosure-coupling
+  behavior: study-contact-to-enclosure-coupling-discriminates
 hypotheses:
 - id: h-s1-mutualism
   study: s1-metabolic-partnership
-  statement: 'Reciprocal cross-feeding builds community redundancy: a connected archaeal-bacterial exchange network develops functional redundancy that an isolated no-exchange control does not.'
-  competing_with: [h-s1-no-exchange]
+  statement: 'Reciprocal cross-feeding builds community redundancy: a connected archaeal-bacterial
+    exchange network develops functional redundancy that an isolated no-exchange control
+    does not.'
+  competing_with:
+  - h-s1-no-exchange
   predictions:
   - observable: settled_metacommunity_robustness
-    when: {coupling: connected}
-    expected: {op: '>=', value: 0.5}
+    when:
+      coupling: connected
+    expected:
+      op: '>='
+      value: 0.5
   status: open
 - id: h-s1-no-exchange
   study: s1-metabolic-partnership
-  statement: 'Null — no mutual benefit: without reciprocal metabolite exchange (a no-exchange or parasitic control) no community-level functional redundancy develops.'
-  competing_with: [h-s1-mutualism]
+  statement: 'Null — no mutual benefit: without reciprocal metabolite exchange (a
+    no-exchange or parasitic control) no community-level functional redundancy develops.'
+  competing_with:
+  - h-s1-mutualism
   predictions:
   - observable: settled_metacommunity_robustness
-    when: {coupling: isolated}
-    expected: {op: '<=', value: 0.5}
+    when:
+      coupling: isolated
+    expected:
+      op: <=
+      value: 0.5
   status: open
 - id: h-s2-spatial-contingent
   study: s2-ecology-to-proximity
-  statement: 'Proximity selection is contingent on spatial structure: below a critical diffusion length the cross-lineage flux is distance-dependent, so proximate partners sustain exchange while distant partners lose it.'
-  competing_with: [h-s2-well-mixed-null]
+  statement: 'Proximity selection is contingent on spatial structure: below a critical
+    diffusion length the cross-lineage flux is distance-dependent, so proximate partners
+    sustain exchange while distant partners lose it.'
+  competing_with:
+  - h-s2-well-mixed-null
   predictions:
   - observable: settled_cross_lineage_flux
-    when: {structure: proximate}
-    expected: {op: '>=', value: 1.0e-22}
+    when:
+      structure: proximate
+    expected:
+      op: '>='
+      value: 1.0e-22
   - observable: settled_cross_lineage_flux
-    when: {structure: distant}
-    expected: {op: '<=', value: 5.0e-23}
+    when:
+      structure: distant
+    expected:
+      op: <=
+      value: 5.0e-23
   status: open
 - id: h-s2-well-mixed-null
   study: s2-ecology-to-proximity
-  statement: 'Well-mixed null: under fast diffusion proximity confers no exchange advantage, so persistent contact is not selected.'
-  competing_with: [h-s2-spatial-contingent]
+  statement: 'Well-mixed null: under fast diffusion proximity confers no exchange
+    advantage, so persistent contact is not selected.'
+  competing_with:
+  - h-s2-spatial-contingent
   predictions:
   - observable: settled_cross_lineage_flux
-    when: {structure: proximate}
-    expected: {op: '<=', value: 5.0e-23}
+    when:
+      structure: proximate
+    expected:
+      op: <=
+      value: 5.0e-23
   status: open
 - id: h-s3-enclosure-reachable
   study: s3-protrusions-to-enclosure
-  statement: 'Enclosure is reachable: under favorable area and adhesion budgets, protrusion mechanics settle to stable wrapping above the enclosure threshold over a majority of the partner-size range.'
-  competing_with: [h-s3-no-enclosure]
+  statement: 'Enclosure is reachable: under favorable area and adhesion budgets, protrusion
+    mechanics settle to stable wrapping above the enclosure threshold over a majority
+    of the partner-size range.'
+  competing_with:
+  - h-s3-no-enclosure
   predictions:
   - observable: settled_enclosure_probability
-    expected: {op: '>=', value: 0.5}
+    expected:
+      op: '>='
+      value: 0.5
   status: open
 - id: h-s3-no-enclosure
   study: s3-protrusions-to-enclosure
-  statement: 'Enclosure fails: when adhesion cannot pay the membrane bending cost, wrapping does not settle above the enclosure threshold.'
-  competing_with: [h-s3-enclosure-reachable]
+  statement: 'Enclosure fails: when adhesion cannot pay the membrane bending cost,
+    wrapping does not settle above the enclosure threshold.'
+  competing_with:
+  - h-s3-enclosure-reachable
   predictions:
   - observable: settled_enclosure_probability
-    expected: {op: '<=', value: 0.5}
+    expected:
+      op: <=
+      value: 0.5
   status: open
 - id: h-s4-benefit-efficient-pump
   study: s4-compartmental-energetic-coupling
-  statement: 'Internalization pays only with an efficient pump: where the proton pump is efficient, the population internalizes gradient generation and the lineage persists.'
-  competing_with: [h-s4-collapse-weak-pump]
+  statement: 'Internalization pays only with an efficient pump: where the proton pump
+    is efficient, the population internalizes gradient generation and the lineage
+    persists.'
+  competing_with:
+  - h-s4-collapse-weak-pump
   predictions:
   - observable: settled_internalization_survivors
-    when: {pump: efficient}
-    expected: {op: '>=', value: 0.5}
+    when:
+      pump: efficient
+    expected:
+      op: '>='
+      value: 0.5
   status: open
 - id: h-s4-collapse-weak-pump
   study: s4-compartmental-energetic-coupling
-  statement: 'Energetic collapse: with a weak pump internalization cannot pay the membrane cost and the population collapses.'
-  competing_with: [h-s4-benefit-efficient-pump]
+  statement: 'Energetic collapse: with a weak pump internalization cannot pay the
+    membrane cost and the population collapses.'
+  competing_with:
+  - h-s4-benefit-efficient-pump
   predictions:
   - observable: settled_internalization_survivors
-    when: {pump: weak}
-    expected: {op: '<=', value: 0.5}
+    when:
+      pump: weak
+    expected:
+      op: <=
+      value: 0.5
   status: open
 - id: h-s5-threshold-high-fidelity
   study: s5-symbiont-to-organelle
-  statement: 'Heritable integration requires high fidelity: only above the Eigen error threshold does vertical transmission keep the integrated phenotype across generations — a new evolutionary individual.'
-  competing_with: [h-s5-error-catastrophe, h-s5-non-heritable-null]
+  statement: 'Heritable integration requires high fidelity: only above the Eigen error
+    threshold does vertical transmission keep the integrated phenotype across generations
+    — a new evolutionary individual.'
+  competing_with:
+  - h-s5-error-catastrophe
+  - h-s5-non-heritable-null
   predictions:
   - observable: settled_heritability
-    when: {fidelity: high}
-    expected: {op: '>=', value: 0.5}
+    when:
+      fidelity: high
+    expected:
+      op: '>='
+      value: 0.5
   status: open
 - id: h-s5-error-catastrophe
   study: s5-symbiont-to-organelle
-  statement: 'Error catastrophe: below the transmission-fidelity threshold the lineage accumulates errors and collapses, losing the inherited phenotype.'
-  competing_with: [h-s5-threshold-high-fidelity]
+  statement: 'Error catastrophe: below the transmission-fidelity threshold the lineage
+    accumulates errors and collapses, losing the inherited phenotype.'
+  competing_with:
+  - h-s5-threshold-high-fidelity
   predictions:
   - observable: settled_heritability
-    when: {fidelity: low}
-    expected: {op: '<=', value: 0.5}
+    when:
+      fidelity: low
+    expected:
+      op: <=
+      value: 0.5
   status: open
 - id: h-s5-non-heritable-null
   study: s5-symbiont-to-organelle
-  statement: 'Non-heritable null: without an inheritance mechanism nothing is transmitted vertically, so no integrated phenotype persists.'
-  competing_with: [h-s5-threshold-high-fidelity]
+  statement: 'Non-heritable null: without an inheritance mechanism nothing is transmitted
+    vertically, so no integrated phenotype persists.'
+  competing_with:
+  - h-s5-threshold-high-fidelity
   predictions:
   - observable: settled_heritability
-    when: {mechanism: none}
-    expected: {op: '<=', value: 0.1}
+    when:
+      mechanism: none
+    expected:
+      op: <=
+      value: 0.1
+  status: open
+- id: H1-syntrophy-first@study-selection-for-proximity
+  study: study-selection-for-proximity
+  statement: Exchange creates positive selection for contact (adhesion-seeking phenotypes
+    invade and persist).
+  competing_with:
+  - H4-no-integration@study-selection-for-proximity
+  predictions:
+  - observable: selection_coefficient_for_adhesion
+    when:
+      regime: under_exchange_vs_control
+    expected:
+      op: '>'
+      value: 0.0
+  status: open
+- id: H4-no-integration@study-selection-for-proximity
+  study: study-selection-for-proximity
+  statement: After adhesion costs, contact is NOT selected — external syntrophy stays
+    fitter (selection <= 0).
+  competing_with:
+  - H1-syntrophy-first@study-selection-for-proximity
+  predictions:
+  - observable: selection_coefficient_for_adhesion
+    when:
+      regime: under_exchange_vs_control
+    expected:
+      op: <=
+      value: 0.0
+  status: open
+- id: H2-geometry-first@study-enclosure-mechanics
+  study: study-enclosure-mechanics
+  statement: Physically constrained remodelling reaches stable enclosure in a majority
+    of the feasible regime.
+  competing_with:
+  - H3-parasitism-or-conflict@study-enclosure-mechanics
+  predictions:
+  - observable: probability_of_stable_enclosure
+    when:
+      regime: under_exchange_vs_control
+    expected:
+      op: '>='
+      value: 0.5
+  status: open
+- id: H3-parasitism-or-conflict@study-enclosure-mechanics
+  study: study-enclosure-mechanics
+  statement: Enclosure is reached but is unstable / exploitative — stable-enclosure
+    probability stays low.
+  competing_with:
+  - H2-geometry-first@study-enclosure-mechanics
+  predictions:
+  - observable: probability_of_stable_enclosure
+    when:
+      regime: under_exchange_vs_control
+    expected:
+      op: <
+      value: 0.5
+  status: open
+- id: H1-syntrophy-first@study-contact-to-enclosure-coupling
+  study: study-contact-to-enclosure-coupling
+  statement: The selected-contact regime and the feasible-enclosure regime overlap
+    (continuous bridge exists).
+  competing_with:
+  - H4-no-integration@study-contact-to-enclosure-coupling
+  predictions:
+  - observable: joint_feasibility_region
+    when:
+      regime: under_exchange_vs_control
+    expected:
+      op: '>'
+      value: 0.0
+  status: open
+- id: H4-no-integration@study-contact-to-enclosure-coupling
+  study: study-contact-to-enclosure-coupling
+  statement: Selected-contact and feasible-enclosure regimes are disjoint — no continuous
+    bridge.
+  competing_with:
+  - H1-syntrophy-first@study-contact-to-enclosure-coupling
+  predictions:
+  - observable: joint_feasibility_region
+    when:
+      regime: under_exchange_vs_control
+    expected:
+      op: <=
+      value: 0.0
   status: open
 references:
 - key: vosseberg-nature-2024
@@ -368,31 +619,215 @@ references:
   note: Origin and early evolution of eukaryotic cells; FECA-LECA; competing scenarios.
 - key: imachi-nature-2020
   doi: 10.1038/s41586-019-1916-6
-  note: Prometheoarchaeum syntrophicum; syntrophy + protrusions; entangle-engulf-endogenize (H1).
+  note: Prometheoarchaeum syntrophicum; syntrophy + protrusions; entangle-engulf-endogenize
+    (H1).
 - key: rodrigues-oliveira-nature-2023
   doi: 10.1038/s41586-022-05550-y
-  note: Actin cytoskeleton + cryo-ET membrane-morphology constraints in an Asgard archaeon.
+  note: Actin cytoskeleton + cryo-ET membrane-morphology constraints in an Asgard
+    archaeon.
 - key: radler-nature-2026
   doi: 10.1038/s41586-026-11063-9
-  note: Quantified Asgard protrusion extension/retraction + raw microscopy; spatial model input for S2/S3.
+  note: Quantified Asgard protrusion extension/retraction + raw microscopy; spatial
+    model input for S2/S3.
 - key: santana-molina-nee-2025
   doi: 10.1038/s41559-025-02648-0
-  note: Chimeric origins + dynamic evolution of central carbon metabolism; enzyme ancestry for coupling (S1/S4).
+  note: Chimeric origins + dynamic evolution of central carbon metabolism; enzyme
+    ancestry for coupling (S1/S4).
 - key: baum-baum-bmc-2014
   doi: 10.1186/s12915-014-0076-2
   note: Inside-out origin — a falsifiable alternative membrane topology (H2).
 - key: appler-nature-2026
   doi: 10.1038/s41586-026-10128-z
-  note: Oxygen metabolism in descendants of the archaeal-eukaryotic ancestor; redox / O2 priors for S4 (H3).
+  note: Oxygen metabolism in descendants of the archaeal-eukaryotic ancestor; redox
+    / O2 priors for S4 (H3).
 - key: tobiasson-pmc-2026
   url: https://pmc.ncbi.nlm.nih.gov/articles/PMC12872458/
-  note: Dominant contribution of Asgard archaea to eukaryogenesis; host-ancestry prior for S0.
+  note: Dominant contribution of Asgard archaea to eukaryogenesis; host-ancestry prior
+    for S0.
 - key: zhang-nature-2025
   doi: 10.1038/s41586-025-08955-7
-  note: Deep origin of eukaryotes outside Heimdallarchaeia; constrains competing host histories (S0).
+  note: Deep origin of eukaryotes outside Heimdallarchaeia; constrains competing host
+    histories (S0).
 - key: gene-ancestries-nature-2026
   doi: 10.1038/s41586-026-10639-9
-  note: Gene ancestries reveal diverse microbial associations during eukaryogenesis; supports community histories (H4, S2).
+  note: Gene ancestries reveal diverse microbial associations during eukaryogenesis;
+    supports community histories (H4, S2).
 - key: protein-import-endosymbionts-2025
   url: https://pmc.ncbi.nlm.nih.gov/articles/PMC12176269/
-  note: Protein import into bacterial endosymbionts and evolving organelles; targeting / import evidence for S5.
+  note: Protein import into bacterial endosymbionts and evolving organelles; targeting
+    / import evidence for S5.
+cycle_flags:
+  viz_untied: false
+  autonomy: supervised
+  reopened: true
+required_mechanisms:
+- spatial_metabolite_exchange
+- host_and_partner_metabolism
+- adhesion_and_membrane_mechanics
+- compartment_transport_and_energy_accounting
+- host_symbiont_growth_division_and_death
+- symbiont_partition_and_vertical_transmission
+- host_partner_conflict_and_partner_loss
+bridge_composite:
+  name: proto_endosymbiosis_hybrid
+  architecture: process_bigraph_composite
+  modules:
+  - spatial_metabolite_exchange
+  - host_and_partner_metabolism
+  - adhesion_and_membrane_mechanics
+  - compartment_transport_and_energy_accounting
+  - host_symbiont_growth_division_and_death
+  - symbiont_partition_and_vertical_transmission
+  - host_partner_conflict_and_partner_loss
+  coupling_contract: Share typed stores with explicit units and mass/energy conservation;
+    pass actual output states between modules; support topology-changing enclosure
+    events; do not substitute a narrative handoff for coupling.
+  status: proposed
+lifecycle_history:
+- at: '2026-11-01T02:16:30Z'
+  event: reopened_by_feedback
+  feedback_intent: reopen_and_launch_discriminating_discovery
+  prior_status: planned
+  prior_verdict_status: open
+  rationale: Reopen this investigation and stop treating the five bridge studies as
+    a completed explanation. The central unresolved problem is whether metabolic cooperation
+    can CAUSE the emergence of stable, heritable endosymbiosis. Repair the study/evidence
+    inconsistencies, then design and execute competing, control-matched experiments
+    that connect metabolic exchange, selection for proximity, physically const
+reconciliation_log:
+- id: lifecycle-mismatch
+  severity: blocking
+  observation: Exported state is planned/open, unlike reported closed UI state.
+  request: Reconcile lifecycle sources before claiming a successful reopen.
+  status: open
+- id: s1-evidence-gate
+  severity: high
+  observation: S1 is blocked; its two behavior checks are skipped despite one completed
+    run.
+  request: Repair measured output paths and test registration, then rerun the S1 gates.
+  status: open
+- id: s3-no-tracked-run
+  severity: high
+  observation: S3 has no tracked completed runs and verdict not_started.
+  request: Register and execute a physically constrained enclosure comparison.
+  status: open
+- id: verdict-state-inconsistency
+  severity: high
+  observation: All five study records show status=planned, while S2/S4/S5 have completed
+    runs and passed verdicts; their synthesis entries remain pending.
+  request: Reconcile run, study, scientific-verdict, and claim states without conflating
+    them.
+  status: open
+- id: invalid-bridge-inference
+  severity: critical
+  observation: S2 exchange flux is not a measured selection coefficient; S3 wrapping
+    is not equivalent to engulfment; S4 survival is not a complete ATP balance; S5
+    template inheritance is not host-symbiont co-inheritance.
+  request: Introduce bridge-specific hypotheses and measurements.
+  status: open
+- id: contradictory-s5-interpretation
+  severity: high
+  observation: S5 finding text describes fidelity 0.80 as collapse, while its own
+    provenance note says that claim was corrected and 0.80 did not collapse.
+  request: Recompute the conclusion from registered runs and flag stale text.
+  status: open
+- id: validation-deficit
+  severity: high
+  observation: Reported validator census is 1 passed and 10 failed.
+  request: Classify validator failures, fix blockers, and distinguish validation from
+    scientific falsification.
+  status: open
+synthesis:
+  headline: 'The syntrophy->enclosure eukaryogenesis path is feasible, retained, and
+    mechanistically proximity-driven only within a MULTIPLY-bounded region: selection+sealing+persistence
+    must align to establish it, fidelity+benefit must outrun loss to keep it, exchange
+    must be proximity-screened to drive it, and (for obligate bidirectional syntrophy)
+    reciprocal production must be balanced for the mutualism to pay — each shown by
+    a coupled model that measures the axis.'
+  evidence_chain:
+  - study: study-selection-for-proximity
+    model: proto_endosymbiosis_hybrid (M1)
+    result: selection_coefficient_for_adhesion +0.63 under exchange vs -0.36 no-exchange
+      control — exchange necessary to select contact.
+  - study: study-enclosure-mechanics
+    model: proto_endosymbiosis_enclosure (M2)
+    result: probability_of_stable_enclosure 0.95 when adhesion beats the bending barrier
+      and survives perturbation vs 0.14 under conflict.
+  - study: study-contact-to-enclosure-coupling
+    model: proto_endosymbiosis_coupled (M3)
+    result: joint_feasibility_region 0.91 aligned vs 0.075 decoupled — the two co-succeed
+      only when all three conditions hold.
+  - study: study-vertical-transmission-stability
+    model: proto_endosymbiosis_transmission (M5)
+    result: endosymbiont_retention_fraction 0.78 (stable) vs 0.03 (high conflict)
+      — establishment does not guarantee evolutionary permanence; retention needs
+      fidelity+benefit to outrun loss.
+  - study: study-spatial-exchange-proximity
+    model: proto_endosymbiosis_spatial (M6)
+    result: realised_exchange_level 49x higher at contact than distal (screened regime)
+      — M1's contact-scales-exchange premise is mechanistically justified, collapsing
+      only when well-mixed.
+  - study: study-bidirectional-syntrophy
+    model: proto_endosymbiosis_multimetab (M7)
+    result: mutualistic_exchange_benefit 1.52 balanced vs 0.30 asymmetric (Liebig-capped)
+      — obligate bidirectional syntrophy adds a metabolic-reciprocity requirement
+      beyond proximity.
+  phase_diagram:
+    figure: figures/transition_phase_diagram.html
+    data: figures/transition_phase_data.json
+    model: proto_endosymbiosis_coupled (M4 sweep, 242 real runs)
+    reads: Feasible region (joint_feasibility ~0.9) occupies high-benefit/low-bending/low-perturbation
+      corner; collapses to ~0 as benefit<cost (no selection substrate), bending exceeds
+      adhesion (no sealing), or perturbation dominates (no persistence). net_lineage_fitness
+      is positive only inside the feasible region, neutral elsewhere.
+  inferential_scope: Reduced coupled models measuring the discriminating observables
+    directly (not the identity/prerequisite baselines the original 5 studies graded).
+    Spatial membrane PDE, full energy accounting, explicit vertical-transmission and
+    conflict dynamics are named deferrals (higher-fidelity M4+).
+  answer_to_reopening: 'Which combinations work: selection+sealing+persistence together.
+    Which fail: any single axis failing (shown directly). Why: contact provides the
+    adhesion enclosure needs and enclosure locks in the exchange benefit that keeps
+    contact selected — the feedback is self-reinforcing only inside the narrow aligned
+    region.'
+  premise_check: 'M6 validates the exchange-access premise M1-M5 rest on: realised
+    exchange is proximity-dependent wherever the metabolite is screened; the whole
+    syntrophy-first path would weaken only in a well-mixed regime.'
+scientific_argument:
+  main_claim: The archaeal-host / bacterial-partner endosymbiotic transition along
+    the syntrophy->enclosure path is feasible, evolutionarily retainable, and mechanistically
+    proximity-driven, but ONLY within a region bounded simultaneously on five axes
+    (selection, enclosure, persistence, spatial proximity, metabolic reciprocity)
+    — each boundary measured by a coupled model, not assumed.
+  evidence_for:
+  - 'M1 (study-selection-for-proximity): metabolic exchange positively selects a heritable
+    contact propensity (+0.63) and selects against it in the no-exchange control (-0.36).'
+  - 'M2 (study-enclosure-mechanics): stable enclosure is the majority outcome (0.95)
+    only when adhesion overcomes the bending barrier and survives perturbation (vs
+    0.14 under conflict).'
+  - 'M3 (study-contact-to-enclosure-coupling): the two co-succeed (joint feasibility
+    0.91) only when all establishment conditions align (vs 0.075 decoupled).'
+  - 'M5 (study-vertical-transmission-stability): an established symbiosis is retained
+    (0.78) only when transmission fidelity + benefit outrun conflict/partner-loss
+    (vs 0.03) — establishment does not guarantee permanence.'
+  - 'M6 (study-spatial-exchange-proximity): realised exchange is 49x stronger at contact
+    than distal in the screened regime — M1''s contact-scales-access premise is mechanistically
+    justified.'
+  - 'M7 (study-bidirectional-syntrophy): obligate two-metabolite syntrophy (Liebig-limited)
+    requires reciprocal balance — asymmetric production yields 20% of the balanced
+    benefit even at contact.'
+  evidence_against:
+  - 'The feasible region is narrow: each axis independently collapses the transition,
+    so the path is contingent rather than inevitable.'
+  - M6 shows the whole syntrophy-first premise weakens in a well-mixed regime (proximity
+    advantage ~3x), a boundary condition on the hypothesis.
+  key_figures:
+  - figures/transition_phase_diagram.html
+  caveats:
+  - All models are reduced coupled models measuring the discriminating observable
+    directly; each records an explicit inferential scope.
+  - 'Named deferrals (not yet modelled): spatial membrane PDE / full enclosure geometry,
+    ATP/energy accounting, genome-scale metabolic stoichiometry, 3-D geometry.'
+  - 'Verdicts are provisional: discrimination is demonstrated in the reduced models''
+    regimes, not calibrated to a specific organism pair.'
+closed_at: '2026-11-01T04:43:57Z'
+report_url: report.html

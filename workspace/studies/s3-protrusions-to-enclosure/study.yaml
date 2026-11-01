@@ -16,27 +16,14 @@ tags:
 - protrusion
 - enclosure
 - cryo-et
-concept: Compartmentalization made operational as the topology and energy of enclosing membranes. A host
-  protrusion of finite membrane area extends at an observed rate and attempts to wrap a bacterial partner;
-  enclosure succeeds, per partner radius, only when the available area covers the partner AND adhesion
-  clears the Helfrich bending cost. Classical engulfment, inside-out wrapping, and a no-enclosure control
-  are compared over a partner-radius ensemble.
-question: Can observed archaeal protrusion mechanics plausibly transition from contact to stable wrapping
-  / engulfment, within membrane area, bending-cost, and timescale budgets? Morphology alone cannot demonstrate
-  engulfment.
-hypothesis: Under cryo-ET-constrained bending moduli and adhesion, at least one topology (classical engulfment
-  or inside-out wrapping) reaches a stable enclosed state over a realistic partner-size range with conserved
-  membrane area, while a no-enclosure or weak-adhesion control does not.
-claim: 'Physical enclosure is a separate hurdle from metabolic benefit (S1/S2): observed protrusion mechanics
-  can, under favorable area and adhesion budgets, reach stable wrapping over a majority of the partner-size
-  range — but a beneficial symbiosis need not imply ingestive ability, and enclosure fails without wrapping
-  (no-enclosure) or when adhesion cannot pay the bending cost.'
+concept: Compartmentalization made operational as the topology and energy of enclosing membranes. A host protrusion of finite membrane area extends at an observed rate and attempts to wrap a bacterial partner; enclosure succeeds, per partner radius, only when the available area covers the partner AND adhesion clears the Helfrich bending cost. Classical engulfment, inside-out wrapping, and a no-enclosure control are compared over a partner-radius ensemble.
+question: Can observed archaeal protrusion mechanics plausibly transition from contact to stable wrapping / engulfment, within membrane area, bending-cost, and timescale budgets? Morphology alone cannot demonstrate engulfment.
+hypothesis: Under cryo-ET-constrained bending moduli and adhesion, at least one topology (classical engulfment or inside-out wrapping) reaches a stable enclosed state over a realistic partner-size range with conserved membrane area, while a no-enclosure or weak-adhesion control does not.
+claim: 'Physical enclosure is a separate hurdle from metabolic benefit (S1/S2): observed protrusion mechanics can, under favorable area and adhesion budgets, reach stable wrapping over a majority of the partner-size range — but a beneficial symbiosis need not imply ingestive ability, and enclosure fails without wrapping (no-enclosure) or when adhesion cannot pay the bending cost.'
 behavior_tests:
 - name: enclosure-geometrically-feasible
   classification: primary
-  description: At least one topology reaches stable enclosure for a majority of the partner-size ensemble
-    (enclosure probability > 0.5). The threshold discriminates the wrapping topologies from the no-enclosure
-    and weak-adhesion controls.
+  description: At least one topology reaches stable enclosure for a majority of the partner-size ensemble (enclosure probability > 0.5). The threshold discriminates the wrapping topologies from the no-enclosure and weak-adhesion controls.
   measure:
     kind: derived_scalar
     path: settled_enclosure_probability
@@ -45,10 +32,7 @@ behavior_tests:
     value: 0.5
     provenance:
       kind: calibration
-      note: 'Calibrated (classical engulfment, protrusion_area=4 um^2, adhesion=600 kT, kappa=20 kT, 30
-        steps): enclosure_probability settles to 0.61 (PASS; inside-out wrapping reaches 0.98). Two failure
-        routes read 0.0: the no-enclosure control and the weak-adhesion control (adhesion below the 8*pi*kappa
-        bending cost).'
+      note: 'Calibrated (classical engulfment, protrusion_area=4 um^2, adhesion=600 kT, kappa=20 kT, 30 steps): enclosure_probability settles to 0.61 (PASS; inside-out wrapping reaches 0.98). Two failure routes read 0.0: the no-enclosure control and the weak-adhesion control (adhesion below the 8*pi*kappa bending cost).'
   cites:
   - rodrigues-oliveira-nature-2023
   - radler-nature-2026
@@ -68,17 +52,7 @@ acceptance_criteria:
 - behavior: enclosure-geometrically-feasible
 findings:
 - id: s3-enclosure-feasible-with-favorable-budget
-  statement: 'Enclosure is topology-gated, not a settled yes. The higher-fidelity active-protrusion
-    membrane-wrapping model (Helfrich bending + adhesion + tension + finite protrusion area + active
-    force F*R, 3D; the mechanism the question is about) supersedes the coarser arms: classical
-    EXTERNAL engulfment reaches a stable wrap for only a MINORITY of partners (probability 0.27, a
-    narrow 0.41-0.56 um window), with the active protrusion load-bearing (raises it from 0.17; 36%
-    of enclosures need the force); INSIDE-OUT invagination (Baum & Baum) is far more feasible (0.83).
-    The coarse arms overstated it — the 2D passive-adhesion CPM read 1.00 (but that is regime-assumed,
-    J_hs < J_sM-J_hM, with no protrusion) and the static area+bending budget read 0.61/0.98. So whether
-    the enclosure hypothesis is supported depends on which topology is primary, which remains an open
-    investigation decision. Enclosure is a separate hurdle from metabolic benefit; morphology alone
-    does not demonstrate engulfment.'
+  statement: 'Enclosure is topology-gated, not a settled yes. The higher-fidelity active-protrusion membrane-wrapping model (Helfrich bending + adhesion + tension + finite protrusion area + active force F*R, 3D; the mechanism the question is about) supersedes the coarser arms: classical EXTERNAL engulfment reaches a stable wrap for only a MINORITY of partners (probability 0.27, a narrow 0.41-0.56 um window), with the active protrusion load-bearing (raises it from 0.17; 36% of enclosures need the force); INSIDE-OUT invagination (Baum & Baum) is far more feasible (0.83). The coarse arms overstated it — the 2D passive-adhesion CPM read 1.00 (but that is regime-assumed, J_hs < J_sM-J_hM, with no protrusion) and the static area+bending budget read 0.61/0.98. So whether the enclosure hypothesis is supported depends on which topology is primary, which remains an open investigation decision. Enclosure is a separate hurdle from metabolic benefit; morphology alone does not demonstrate engulfment.'
   evidence:
     from_test: enclosure-geometrically-feasible
     measure: settled_enclosure_probability
@@ -91,18 +65,20 @@ findings:
       source: protrusion_enclosure_cpm (2D passive differential adhesion, regime-assumed)
       observed: 1.0
       reason: wrong mechanism for the posed question (no active protrusion; 2D; engulfment assumed by the chosen adhesion hierarchy)
+    observed: 0.609756
   provenance:
     kind: run
     run_date: '2026-10-28'
-    note: 'Active-protrusion membrane-wrapping model (viva_genesis.composites.protrusion_enclosure_membrane,
-      MembraneWrappingProcess; continuum energetics validated against the reduced-adhesion=2 wrapping
-      threshold) over the 0.2-0.8 um partner-radius ensemble at grounded parameters (kappa 20 kT,
-      adhesion 250 kT/um^2, tension 200 kT/um^2, protrusion force 10 pN, A_max 4 um^2): classical
-      engulfment enclosure probability 0.27 (window 0.41-0.56 um; protrusion required for 36%);
-      inside-out 0.83. Companions (lower fidelity): CPM spatial arm 1.00 (regime-assumed), area+bending
-      budget 0.61/0.98. Next fidelity rung: a triangulated-mesh run (pbg-mem3dg).'
+    note: 'Active-protrusion membrane-wrapping model (viva_genesis.composites.protrusion_enclosure_membrane, MembraneWrappingProcess; continuum energetics validated against the reduced-adhesion=2 wrapping threshold) over the 0.2-0.8 um partner-radius ensemble at grounded parameters (kappa 20 kT, adhesion 250 kT/um^2, tension 200 kT/um^2, protrusion force 10 pN, A_max 4 um^2): classical engulfment enclosure probability 0.27 (window 0.41-0.56 um; protrusion required for 36%); inside-out 0.83. Companions (lower fidelity): CPM spatial arm 1.00 (regime-assumed), area+bending budget 0.61/0.98. Next fidelity rung: a triangulated-mesh run (pbg-mem3dg).'
+    run_ids:
+    - viva_genesis.composites.protrusion_enclosure.protrusion_enclosure__1793462387__8918b2
+    model_version: mv:9dc77ccd453840b5
   cites:
   - rodrigues-oliveira-nature-2023
+  expected:
+    cites:
+    - rodrigues-oliveira-nature-2023
+    - radler-nature-2026
 literature_anchors:
 - expectation: Cryo-ET constrains Asgard membrane morphology and actin-based structure.
   model_observable: settled_enclosure_probability
@@ -123,19 +99,14 @@ baseline:
     protrusion_area_um2: 4.0
     adhesion_energy_kT: 600.0
     bending_modulus_kT: 20.0
-  note: New first-fidelity model built for S3 (no existing composite fit). enclosure_probability over
-    a partner-radius ensemble is the feasibility gate; membrane area is conserved by construction. The
-    full deformable-membrane PDE with explicit protrusion dynamics is the next-fidelity arm.
+  note: New first-fidelity model built for S3 (no existing composite fit). enclosure_probability over a partner-radius ensemble is the feasibility gate; membrane area is conserved by construction. The full deformable-membrane PDE with explicit protrusion dynamics is the next-fidelity arm.
 - name: cpm-spatial
   composite: viva_genesis.composites.protrusion_enclosure_cpm.protrusion_enclosure_cpm
   params:
     j_hs: 6.0
     j_sM: 16.0
     j_hM: 4.0
-  note: Spatial companion (campaign composite B) — the real Rust Cellular Potts engine with actual
-    boundaries. Enclosure is an emergent, measured outcome (host coverage of the symbiont boundary),
-    not an area/bending threshold; the wrapping transition tracks j_hs = j_sM - j_hM. Measured j_hs=6
-    (strong adhesion) -> enclosure_fraction 1.000; j_hs=18 (weak) -> 0.176.
+  note: Spatial companion (campaign composite B) — the real Rust Cellular Potts engine with actual boundaries. Enclosure is an emergent, measured outcome (host coverage of the symbiont boundary), not an area/bending threshold; the wrapping transition tracks j_hs = j_sM - j_hM. Measured j_hs=6 (strong adhesion) -> enclosure_fraction 1.000; j_hs=18 (weak) -> 0.176.
 - name: membrane-wrapping
   composite: viva_genesis.composites.protrusion_enclosure_membrane.protrusion_enclosure_membrane
   params:
@@ -145,14 +116,7 @@ baseline:
     tension_per_um2_kT: 200.0
     protrusion_force_pN: 10.0
     max_membrane_area_um2: 4.0
-  note: 'Higher-fidelity continuum-energetics arm — the membrane-wrapping transition
-    (Deserno/Lipowsky) with an active protrusion force, the mechanism the question is about
-    (not passive differential adhesion). Classical external engulfment reaches enclosure only
-    in a narrow size window (0.41-0.56 um), for a minority of partners (probability 0.27), and
-    the active protrusion is load-bearing (raises it from 0.17; 36% of enclosures need the
-    force); inside-out invagination (Baum & Baum) is far more feasible (0.83). The coarse
-    area+bending budget (0.61) and the 2D passive-adhesion CPM (1.00) arms overstated classical
-    engulfment. Next fidelity rung: a triangulated-mesh run (pbg-mem3dg).'
+  note: 'Higher-fidelity continuum-energetics arm — the membrane-wrapping transition (Deserno/Lipowsky) with an active protrusion force, the mechanism the question is about (not passive differential adhesion). Classical external engulfment reaches enclosure only in a narrow size window (0.41-0.56 um), for a minority of partners (probability 0.27), and the active protrusion is load-bearing (raises it from 0.17; 36% of enclosures need the force); inside-out invagination (Baum & Baum) is far more feasible (0.83). The coarse area+bending budget (0.61) and the 2D passive-adhesion CPM (1.00) arms overstated classical engulfment. Next fidelity rung: a triangulated-mesh run (pbg-mem3dg).'
 variants:
 - name: inside-out
   base: baseline
@@ -194,3 +158,163 @@ data_inputs:
 - name: Asgard live-cell microscopy
   use: protrusion morphology + timescales
   url: https://www.ebi.ac.uk/biostudies/bioimages/studies/S-BIAD3928
+runs:
+- name: viva_genesis.composites.protrusion_enclosure.protrusion_enclosure__1793462387__8918b2
+  status: completed
+  timestamp: 1793462388.968004
+  emitter:
+    kind: unknown
+  env_id: f5cfabae9de14681
+  params: '{"topology": "classical_engulfment", "protrusion_area_um2": 4.0, "adhesion_energy_kT": 600.0, "bending_modulus_kT": 20.0}'
+  computed_outcomes:
+    enclosure-geometrically-feasible:
+      result: PASS
+      measured_value: 0.609756
+      evaluated_by: code
+      operator: derived_scalar/>
+      detail: 0.6098 > 0.5
+      axis:
+        id: enclosure-geometrically-feasible
+        label: At least one topology reaches stable enclosure for a majority of the partner-size ensemble (enclosure probability > 0.5). The threshold discriminates the wrapping topologies from the no-enclosure and weak-adhesion controls.
+        verdict: within_tol
+        value: 0.609756
+        meter: 0.609756
+        detail:
+        expected:
+          kind: value
+          value: 0.5
+          low:
+          high:
+          op: '>'
+          tol: 0.05
+          statement:
+          units:
+        margin: 0.10975599999999996
+        severity: hard
+        units:
+        knob:
+        citation: rodrigues-oliveira-nature-2023; radler-nature-2026
+    membrane-area-conserved:
+      result: PASS
+      measured_value: 0.0
+      evaluated_by: code
+      operator: derived_scalar/<
+      detail: 0 < 0.0001
+  provenance:
+    params:
+      adhesion_energy_kT:
+        value: 600.0
+        source: override
+      bending_modulus_kT:
+        value: 20.0
+        source: override
+      n_steps:
+        value: 250
+        source: resolved
+      protrusion_area_um2:
+        value: 4.0
+        source: override
+      topology:
+        value: classical_engulfment
+        source: override
+    params_captured_at: '2026-10-31'
+    params_source: dashboard-runner
+  outcomes:
+    enclosure-geometrically-feasible:
+      result: PASS
+      measured_value: 0.609756
+      detail: 0.6098 > 0.5
+      operator: derived_scalar/>
+      evaluated_by: code
+      axis:
+        id: enclosure-geometrically-feasible
+        label: At least one topology reaches stable enclosure for a majority of the partner-size ensemble (enclosure probability > 0.5). The threshold discriminates the wrapping topologies from the no-enclosure and weak-adhesion controls.
+        verdict: within_tol
+        value: 0.609756
+        meter: 0.609756
+        detail:
+        expected:
+          kind: value
+          value: 0.5
+          low:
+          high:
+          op: '>'
+          tol: 0.05
+          statement:
+          units:
+        margin: 0.10975599999999996
+        severity: hard
+        units:
+        knob:
+        citation: rodrigues-oliveira-nature-2023; radler-nature-2026
+      auto_evaluated: true
+    membrane-area-conserved:
+      result: PASS
+      measured_value: 0.0
+      detail: 0 < 0.0001
+      operator: derived_scalar/<
+      evaluated_by: code
+      auto_evaluated: true
+simulation_set:
+- name: baseline-baseline
+  kind: single
+  base_model: viva_genesis.composites.protrusion_enclosure.protrusion_enclosure
+  is_baseline: true
+  status: ran
+  params:
+    topology: classical_engulfment
+    protrusion_area_um2: 4.0
+    adhesion_energy_kT: 600.0
+    bending_modulus_kT: 20.0
+  pass_fail_tests: &id001
+  - enclosure-geometrically-feasible
+  - membrane-area-conserved
+- name: cpm-spatial-baseline
+  kind: single
+  base_model: viva_genesis.composites.protrusion_enclosure_cpm.protrusion_enclosure_cpm
+  is_baseline: true
+  status: ran
+  params:
+    j_hs: 6.0
+    j_sM: 16.0
+    j_hM: 4.0
+  pass_fail_tests: *id001
+- name: membrane-wrapping-baseline
+  kind: single
+  base_model: viva_genesis.composites.protrusion_enclosure_membrane.protrusion_enclosure_membrane
+  is_baseline: true
+  status: ran
+  params:
+    topology: classical_engulfment
+    bending_modulus_kT: 20.0
+    adhesion_per_um2_kT: 250.0
+    tension_per_um2_kT: 200.0
+    protrusion_force_pN: 10.0
+    max_membrane_area_um2: 4.0
+  pass_fail_tests: *id001
+- name: inside-out
+  kind: single
+  base_model: viva_genesis.composites.protrusion_enclosure_membrane.protrusion_enclosure_membrane
+  status: ran
+  pass_fail_tests: *id001
+- name: no-enclosure-control
+  kind: single
+  base_model: viva_genesis.composites.protrusion_enclosure_membrane.protrusion_enclosure_membrane
+  status: ran
+  pass_fail_tests: *id001
+- name: weak-adhesion-control
+  kind: single
+  base_model: viva_genesis.composites.protrusion_enclosure_membrane.protrusion_enclosure_membrane
+  status: ran
+  pass_fail_tests: *id001
+- name: cpm-weak-adhesion
+  kind: single
+  base_model: viva_genesis.composites.protrusion_enclosure_membrane.protrusion_enclosure_membrane
+  status: ran
+  pass_fail_tests: *id001
+pipeline_gate:
+  gate_evaluator:
+    result: passed
+    blocked_by: []
+    evaluated_by: code
+    diverges_from_authored: false

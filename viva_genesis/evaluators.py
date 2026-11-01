@@ -35,7 +35,16 @@ def _values(reader, observable: str) -> list[float]:
     Raises if the observable isn't in the store, so the evaluator falls to the
     agent bucket honestly rather than fabricating a verdict.
     """
-    df = reader.series(observable)  # viva_emitters RunReader -> polars DataFrame
+    # Path conventions differ by run-store backend: parquet exposes "ns/name", the runs.db
+    # (sqlite) store exposes the nested state tree as dotted "ns.name". Try the declared id,
+    # then its dotted form, so one declaration grades both tracked and in-process runs.
+    try:
+        df = reader.series(observable)  # viva_emitters RunReader -> polars DataFrame
+    except KeyError:
+        alt = observable.replace("/", ".")
+        if alt == observable:
+            raise
+        df = reader.series(alt)
     import math
     out: list[float] = []
     for v in df["value"].to_list():

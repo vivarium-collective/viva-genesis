@@ -50,3 +50,7 @@ workspace/studies/*/runs.db-shm
 workspace/studies/*/runs.db-wal
 # Generated report-card artifacts (rendered by sims/run.py grading, regenerated per run)
 workspace/studies/*/viz/report_card/
+workspace/.discovery/
+.wb.log
+.discovery/
+workspace/.discovery/
