@@ -133,6 +133,11 @@ verdict_rationale: 'Spatial-exchange campaign: realised_exchange_level 1.70 at c
   regime; flags well-mixed regime as the boundary where it fails.'
 evidence_tier: mechanistic_prediction
 visualizations:
+- name: spatial-field
+  address: local:SpatialExchangeFieldViz
+  config:
+    title: Spatial exchange — the metabolite field a consumer sees at distance
+  rendered: workspace/studies/study-spatial-exchange-proximity/viz/spatial-field.html
 - name: spatial-distance
   address: local:SpatialDistanceViz
   config:
