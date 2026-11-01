@@ -25,19 +25,21 @@ behavior_tests:
 - name: study-spatial-exchange-proximity-discriminates
   classification: primary
   description: Realised exchange at contact is substantial (and >> distal), confirming contact confers exchange access mechanistically.
-  measure: realised_exchange_level
+  measure:
+    kind: derived_scalar
+    path: realised_exchange_level
   pass_if:
     op: '>='
     value: 0.5
 observables:
 - realised_exchange_level
 runs:
-- name: viva_genesis.composites.proto_endosymbiosis_spatial.proto_endosymbiosis_spatial__1793507242__81c6a7
+- name: viva_genesis.composites.proto_endosymbiosis_spatial.proto_endosymbiosis_spatial__1793529726__da2db4
   status: completed
-  timestamp: 1793507243.690027
+  timestamp: 1793529727.9872808
   emitter:
     kind: unknown
-  env_id: 83ac805d9e21be78
+  env_id: d9065a7863b44f5f
   params: '{"consumer_distance": 1, "diffusion": 0.4, "decay": 0.08, "seed": 1}'
   provenance:
     params:
@@ -58,27 +60,12 @@ runs:
         source: override
     params_captured_at: '2026-11-01'
     params_source: dashboard-runner
-- name: viva_genesis.composites.proto_endosymbiosis_spatial.proto_endosymbiosis_spatial__1793507245__06dd85
-  status: completed
-  timestamp: 1793507246.67276
-  emitter:
-    kind: unknown
-  env_id: 83ac805d9e21be78
-  variant: distal
-  params: '{"consumer_distance": 10, "diffusion": 0.4, "decay": 0.08}'
-  provenance:
-    params:
-      consumer_distance:
-        value: 10
-        source: override
-      decay:
-        value: 0.08
-        source: override
-      diffusion:
-        value: 0.4
-        source: override
-    params_captured_at: '2026-11-01'
-    params_source: dashboard-runner
+  outcomes:
+    study-spatial-exchange-proximity-discriminates:
+      result: SKIP
+      evaluated_by: agent
+      note: observable 'realised_exchange_level' not resolvable
+      auto_evaluated: true
 simulation_set:
 - name: baseline-baseline
   kind: single

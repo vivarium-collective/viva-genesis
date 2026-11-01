@@ -27,19 +27,21 @@ behavior_tests:
 - name: study-vertical-transmission-stability-discriminates
   classification: primary
   description: The established symbiosis is retained across generations only if inheritance+selection outrun loss (not assumed).
-  measure: endosymbiont_retention_fraction
+  measure:
+    kind: derived_scalar
+    path: endosymbiont_retention_fraction
   pass_if:
     op: '>='
     value: 0.5
 observables:
 - endosymbiont_retention_fraction
 runs:
-- name: viva_genesis.composites.proto_endosymbiosis_transmission.proto_endosymbiosis_transmission__1793506089__68b179
+- name: viva_genesis.composites.proto_endosymbiosis_transmission.proto_endosymbiosis_transmission__1793529724__2dfdf0
   status: completed
-  timestamp: 1793506091.0482
+  timestamp: 1793529726.007217
   emitter:
     kind: unknown
-  env_id: 22af1c518b873ef3
+  env_id: d9065a7863b44f5f
   params: '{"fidelity": 0.98, "benefit": 0.6, "cost": 0.1, "loss_rate": 0.03, "seed": 1}'
   provenance:
     params:
@@ -63,30 +65,12 @@ runs:
         source: override
     params_captured_at: '2026-11-01'
     params_source: dashboard-runner
-- name: viva_genesis.composites.proto_endosymbiosis_transmission.proto_endosymbiosis_transmission__1793506092__eae49e
-  status: completed
-  timestamp: 1793506094.2284758
-  emitter:
-    kind: unknown
-  env_id: 22af1c518b873ef3
-  variant: high-conflict
-  params: '{"fidelity": 0.95, "benefit": 0.6, "cost": 0.1, "loss_rate": 0.5}'
-  provenance:
-    params:
-      benefit:
-        value: 0.6
-        source: override
-      cost:
-        value: 0.1
-        source: override
-      fidelity:
-        value: 0.95
-        source: override
-      loss_rate:
-        value: 0.5
-        source: override
-    params_captured_at: '2026-11-01'
-    params_source: dashboard-runner
+  outcomes:
+    study-vertical-transmission-stability-discriminates:
+      result: SKIP
+      evaluated_by: agent
+      note: observable 'endosymbiont_retention_fraction' not resolvable
+      auto_evaluated: true
 simulation_set:
 - name: baseline-baseline
   kind: single

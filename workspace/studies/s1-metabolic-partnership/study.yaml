@@ -314,3 +314,4 @@ pipeline_gate:
     blocked_by: []
     evaluated_by: code
     diverges_from_authored: false
+execution_status: completed

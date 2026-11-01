@@ -25,19 +25,21 @@ behavior_tests:
 - name: study-bidirectional-syntrophy-discriminates
   classification: primary
   description: Obligate mutualistic benefit is substantial only under balanced reciprocal production (not assumed).
-  measure: mutualistic_exchange_benefit
+  measure:
+    kind: derived_scalar
+    path: mutualistic_exchange_benefit
   pass_if:
     op: '>='
     value: 0.5
 observables:
 - mutualistic_exchange_benefit
 runs:
-- name: viva_genesis.composites.proto_endosymbiosis_multimetab.proto_endosymbiosis_multimetab__1793507825__c221e4
+- name: viva_genesis.composites.proto_endosymbiosis_multimetab.proto_endosymbiosis_multimetab__1793529728__635c3d
   status: completed
-  timestamp: 1793507826.894892
+  timestamp: 1793529730.075399
   emitter:
     kind: unknown
-  env_id: 4682795bda8595e6
+  env_id: d9065a7863b44f5f
   params: '{"symbiont_distance": 1, "production_a": 1.0, "production_b": 1.0, "seed": 1}'
   provenance:
     params:
@@ -58,27 +60,12 @@ runs:
         source: override
     params_captured_at: '2026-11-01'
     params_source: dashboard-runner
-- name: viva_genesis.composites.proto_endosymbiosis_multimetab.proto_endosymbiosis_multimetab__1793507828__42bbec
-  status: completed
-  timestamp: 1793507829.809377
-  emitter:
-    kind: unknown
-  env_id: 4682795bda8595e6
-  variant: asymmetric
-  params: '{"symbiont_distance": 1, "production_a": 1.0, "production_b": 0.2}'
-  provenance:
-    params:
-      production_a:
-        value: 1.0
-        source: override
-      production_b:
-        value: 0.2
-        source: override
-      symbiont_distance:
-        value: 1
-        source: override
-    params_captured_at: '2026-11-01'
-    params_source: dashboard-runner
+  outcomes:
+    study-bidirectional-syntrophy-discriminates:
+      result: SKIP
+      evaluated_by: agent
+      note: observable 'mutualistic_exchange_benefit' not resolvable
+      auto_evaluated: true
 simulation_set:
 - name: baseline-baseline
   kind: single

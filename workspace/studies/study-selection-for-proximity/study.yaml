@@ -81,22 +81,30 @@ behavior_tests:
 - name: study-selection-for-proximity-discriminates
   classification: primary
   description: Syntrophy-first is preferred only where contact phenotypes invade and persist with POSITIVE selection under exchange, but not in no-exchange controls.
-  measure: selection_coefficient_for_adhesion
+  measure:
+    kind: derived_scalar
+    path: selection_coefficient_for_adhesion
   pass_if:
     op: '>'
     value: 0.0
 - name: study-selection-for-proximity-contact-duration-distribution
   classification: secondary
   description: 'Preregistered measurement: contact_duration_distribution (bands to be sharpened before run).'
-  measure: contact_duration_distribution
+  measure:
+    kind: derived_scalar
+    path: contact_duration_distribution
 - name: study-selection-for-proximity-exchange-flux-and-growth-rate
   classification: secondary
   description: 'Preregistered measurement: exchange_flux_and_growth_rate (bands to be sharpened before run).'
-  measure: exchange_flux_and_growth_rate
+  measure:
+    kind: derived_scalar
+    path: exchange_flux_and_growth_rate
 - name: study-selection-for-proximity-fitness-gain-relative-to-no-exchange
   classification: secondary
   description: 'Preregistered measurement: fitness_gain_relative_to_no_exchange (bands to be sharpened before run).'
-  measure: fitness_gain_relative_to_no_exchange
+  measure:
+    kind: derived_scalar
+    path: fitness_gain_relative_to_no_exchange
 visualizations:
 - name: selection-for-proximity
   address: local:M1SelectionViz
@@ -112,12 +120,12 @@ findings:
     from_run: proto_endosymbiosis_hybrid coupled-selection (exchange on) vs coupled-no-exchange control, seed 1
   inferential_scope: "Reduced coupled model (replicator on contact propensity; frequency-dependent exchange benefit vs energetic adhesion cost). Establishes that exchange CAN select for contact given benefit>cost and partner availability; does NOT model spatial exchange PDE or membrane mechanics (M2+). The selection is regime-dependent — a frequency threshold exists (full phase map = M4)."
 runs:
-- name: viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1793500736__44a285
+- name: viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1793529709__dde858
   status: completed
-  timestamp: 1793500742.9200032
+  timestamp: 1793529718.3405492
   emitter:
     kind: unknown
-  env_id: 86d9819249bc91aa
+  env_id: d9065a7863b44f5f
   params: '{"lineages": "fixer:4,reducer:4", "coupling": "shared", "model_proto_ecology": "reaction_universe", "p_diacid": 1e-08, "p_monoacid": 1e-07, "k_wash": 0.01, "placement": "mixed", "k_diffusion": 0.001, "seed": 1}'
   provenance:
     params:
@@ -137,7 +145,7 @@ runs:
         value: reaction_universe
         source: override
       n_steps:
-        value: 30
+        value: 160
         source: resolved
       p_diacid:
         value: 1e-08
@@ -151,200 +159,29 @@ runs:
       seed:
         value: 1
         source: override
-    params_captured_at: '2026-10-31'
+    params_captured_at: '2026-11-01'
     params_source: dashboard-runner
-- name: viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1793500792__f940c1
-  status: completed
-  timestamp: 1793500798.9762402
-  emitter:
-    kind: unknown
-  env_id: 86d9819249bc91aa
-  variant: no-exchange-control
-  params: '{"lineages": "fixer:4,reducer:4", "coupling": "private", "model_proto_ecology": "reaction_universe", "p_diacid": 1e-08, "p_monoacid": 1e-07, "k_wash": 0.01, "placement": "mixed", "k_diffusion": 0.001}'
-  provenance:
-    params:
-      coupling:
-        value: private
-        source: override
-      k_diffusion:
-        value: 0.001
-        source: override
-      k_wash:
-        value: 0.01
-        source: override
-      lineages:
-        value: fixer:4,reducer:4
-        source: override
-      model_proto_ecology:
-        value: reaction_universe
-        source: override
-      p_diacid:
-        value: 1e-08
-        source: override
-      p_monoacid:
-        value: 1e-07
-        source: override
-      placement:
-        value: mixed
-        source: override
-    params_captured_at: '2026-10-31'
-    params_source: dashboard-runner
-- name: viva_genesis.composites.proto_endosymbiosis_hybrid.proto_endosymbiosis_hybrid__1793504270__089ae2
-  status: completed
-  timestamp: 1793504271.4790258
-  emitter:
-    kind: unknown
-  env_id: 432d1860d83344ad
-  variant: coupled-selection
-  params: '{"exchange": "on", "benefit_coeff": 1.2, "cost_coeff": 0.3, "init_freq_high": 0.6, "n_initial": 100.0}'
-  provenance:
-    params:
-      benefit_coeff:
-        value: 1.2
-        source: override
-      cost_coeff:
-        value: 0.3
-        source: override
-      exchange:
-        value: true
-        source: override
-      init_freq_high:
-        value: 0.6
-        source: override
-      n_initial:
-        value: 100.0
-        source: override
-    params_captured_at: '2026-10-31'
-    params_source: dashboard-runner
-- name: viva_genesis.composites.proto_endosymbiosis_hybrid.proto_endosymbiosis_hybrid__1793504119__2ce2f2
-  status: failed
-  timestamp: 1793504121.0640671
-  emitter:
-    kind: unknown
-  env_id: d71c34e4e36f73ff
-  variant: coupled-no-exchange
-  params: '{"exchange": "off", "benefit_coeff": 1.2, "cost_coeff": 0.3, "init_freq_high": 0.6, "n_initial": 100.0}'
-- name: viva_genesis.composites.proto_endosymbiosis_hybrid.proto_endosymbiosis_hybrid__1793504118__1e2acf
-  status: failed
-  timestamp: 1793504119.762897
-  emitter:
-    kind: unknown
-  env_id: d71c34e4e36f73ff
-  variant: coupled-selection
-  params: '{"exchange": "on", "benefit_coeff": 1.2, "cost_coeff": 0.3, "init_freq_high": 0.6, "n_initial": 100.0}'
-- name: viva_genesis.composites.proto_endosymbiosis_hybrid.proto_endosymbiosis_hybrid__1793503925__1f73c1
-  status: failed
-  timestamp: 1793503926.5564601
-  emitter:
-    kind: unknown
-  env_id: d44c8f85fe25b1f2
-  variant: coupled-no-exchange
-  params: '{"exchange": "off", "benefit_coeff": 1.2, "cost_coeff": 0.3, "init_freq_high": 0.6, "n_initial": 100.0}'
-- name: viva_genesis.composites.proto_endosymbiosis_hybrid.proto_endosymbiosis_hybrid__1793503924__c3e4da
-  status: failed
-  timestamp: 1793503925.2758799
-  emitter:
-    kind: unknown
-  env_id: d44c8f85fe25b1f2
-  variant: coupled-selection
-  params: '{"exchange": "on", "benefit_coeff": 1.2, "cost_coeff": 0.3, "init_freq_high": 0.6, "n_initial": 100.0}'
-- name: viva_genesis.composites.proto_endosymbiosis_hybrid.proto_endosymbiosis_hybrid__1793504273__121f2b
-  status: completed
-  timestamp: 1793504274.850303
-  emitter:
-    kind: unknown
-  env_id: 432d1860d83344ad
-  variant: coupled-no-exchange
-  params: '{"exchange": "off", "benefit_coeff": 1.2, "cost_coeff": 0.3, "init_freq_high": 0.6, "n_initial": 100.0}'
-  provenance:
-    params:
-      benefit_coeff:
-        value: 1.2
-        source: override
-      cost_coeff:
-        value: 0.3
-        source: override
-      exchange:
-        value: false
-        source: override
-      init_freq_high:
-        value: 0.6
-        source: override
-      n_initial:
-        value: 100.0
-        source: override
-    params_captured_at: '2026-10-31'
-    params_source: dashboard-runner
-- name: viva_genesis.composites.proto_endosymbiosis_hybrid.proto_endosymbiosis_hybrid__1793504552__d24fe1
-  status: completed
-  timestamp: 1793504554.112401
-  emitter:
-    kind: unknown
-  env_id: 428a0301b0934c48
-  variant: coupled-selection
-  params: '{"exchange": "on", "benefit_coeff": 1.2, "cost_coeff": 0.3, "init_freq_high": 0.6, "n_initial": 100.0}'
-  provenance:
-    params:
-      benefit_coeff:
-        value: 1.2
-        source: override
-      cost_coeff:
-        value: 0.3
-        source: override
-      exchange:
-        value: true
-        source: override
-      init_freq_high:
-        value: 0.6
-        source: override
-      n_initial:
-        value: 100.0
-        source: override
-    params_captured_at: '2026-10-31'
-    params_source: dashboard-runner
-- name: viva_genesis.composites.proto_endosymbiosis_hybrid.proto_endosymbiosis_hybrid__1793504484__44469c
-  status: failed
-  timestamp: 1793504485.447696
-  emitter:
-    kind: unknown
-  env_id: 428a0301b0934c48
-  variant: coupled-no-exchange
-  params: '{"exchange": "off", "benefit_coeff": 1.2, "cost_coeff": 0.3, "init_freq_high": 0.6, "n_initial": 100.0}'
-- name: viva_genesis.composites.proto_endosymbiosis_hybrid.proto_endosymbiosis_hybrid__1793504482__1c423b
-  status: failed
-  timestamp: 1793504484.140703
-  emitter:
-    kind: unknown
-  env_id: 428a0301b0934c48
-  variant: coupled-selection
-  params: '{"exchange": "on", "benefit_coeff": 1.2, "cost_coeff": 0.3, "init_freq_high": 0.6, "n_initial": 100.0}'
-- name: viva_genesis.composites.proto_endosymbiosis_hybrid.proto_endosymbiosis_hybrid__1793504556__f930ce
-  status: completed
-  timestamp: 1793504557.476099
-  emitter:
-    kind: unknown
-  env_id: 428a0301b0934c48
-  variant: coupled-no-exchange
-  params: '{"exchange": "off", "benefit_coeff": 1.2, "cost_coeff": 0.3, "init_freq_high": 0.6, "n_initial": 100.0}'
-  provenance:
-    params:
-      benefit_coeff:
-        value: 1.2
-        source: override
-      cost_coeff:
-        value: 0.3
-        source: override
-      exchange:
-        value: false
-        source: override
-      init_freq_high:
-        value: 0.6
-        source: override
-      n_initial:
-        value: 100.0
-        source: override
-    params_captured_at: '2026-10-31'
-    params_source: dashboard-runner
+  outcomes:
+    study-selection-for-proximity-discriminates:
+      result: SKIP
+      evaluated_by: agent
+      note: observable 'selection_coefficient_for_adhesion' not resolvable
+      auto_evaluated: true
+    study-selection-for-proximity-contact-duration-distribution:
+      result: SKIP
+      evaluated_by: agent
+      note: missing pass_if block
+      auto_evaluated: true
+    study-selection-for-proximity-exchange-flux-and-growth-rate:
+      result: SKIP
+      evaluated_by: agent
+      note: missing pass_if block
+      auto_evaluated: true
+    study-selection-for-proximity-fitness-gain-relative-to-no-exchange:
+      result: SKIP
+      evaluated_by: agent
+      note: missing pass_if block
+      auto_evaluated: true
 tags:
 - bridge
 - discriminating

@@ -1142,8 +1142,66 @@ def _max_membrane_area_residual(reader, test: dict, ws_root: Any) -> float:
     return max((abs(v) for v in vals), default=float("nan"))
 
 
+# ── eukaryogenesis M-track (reduced coupled bridge models M1–M7) ───────────────────
+# The discriminating observables each coupled model measures, read from its SQLiteEmitter
+# abundance/field stores so compute_outcomes grades the M-track gates from real run data
+# (closing the verdict↔computed divergence the authored verdicts otherwise leave open).
+def _mtrack_rows(reader, keys):
+    series = {}
+    for k in keys:
+        try:
+            series[k] = _values(reader, k)
+        except Exception:  # noqa: BLE001 — a store absent in this run → empty; the observable guards it
+            series[k] = []
+    n = max((len(v) for v in series.values()), default=0)
+    return [{k: (series[k][i] if i < len(series[k]) else None) for k in keys} for i in range(n)]
+
+
+@declares_sources("n_high", "n_low")
+def _mtrack_selection_coefficient(reader, test: Any, ws_root: Any) -> float:
+    from .composites.proto_endosymbiosis_hybrid import selection_coefficient_for_adhesion as O
+    return float(O(_mtrack_rows(reader, ("n_high", "n_low"))))
+
+
+@declares_sources("n_attempting", "n_sealed", "n_stalled")
+def _mtrack_stable_enclosure(reader, test: Any, ws_root: Any) -> float:
+    from .composites.proto_endosymbiosis_enclosure import probability_of_stable_enclosure as O
+    return float(O(_mtrack_rows(reader, ("n_attempting", "n_sealed", "n_stalled"))))
+
+
+@declares_sources("n_lc", "n_hc_un", "n_hc_se", "n_hc_st")
+def _mtrack_joint_feasibility(reader, test: Any, ws_root: Any) -> float:
+    from .composites.proto_endosymbiosis_coupled import joint_feasibility_region as O
+    return float(O(_mtrack_rows(reader, ("n_lc", "n_hc_un", "n_hc_se", "n_hc_st"))))
+
+
+@declares_sources("n_sym", "n_free")
+def _mtrack_retention(reader, test: Any, ws_root: Any) -> float:
+    from .composites.proto_endosymbiosis_transmission import endosymbiont_retention_fraction as O
+    return float(O(_mtrack_rows(reader, ("n_sym", "n_free"))))
+
+
+@declares_sources("consumer_conc")
+def _mtrack_realised_exchange(reader, test: Any, ws_root: Any) -> float:
+    from .composites.proto_endosymbiosis_spatial import realised_exchange_level as O
+    return float(O(_mtrack_rows(reader, ("consumer_conc",))))
+
+
+@declares_sources("symbiont_a_conc", "host_b_conc")
+def _mtrack_mutualistic_benefit(reader, test: Any, ws_root: Any) -> float:
+    from .composites.proto_endosymbiosis_multimetab import mutualistic_exchange_benefit as O
+    return float(O(_mtrack_rows(reader, ("symbiont_a_conc", "host_b_conc"))))
+
+
 def register_derived_scalars(registry: dict) -> None:
     """Hook called by study_evaluator.load_workspace_derived_scalars."""
+    # eukaryogenesis M-track (M1–M7 reduced coupled bridge models) — discriminating observables
+    registry["selection_coefficient_for_adhesion"] = _mtrack_selection_coefficient
+    registry["probability_of_stable_enclosure"] = _mtrack_stable_enclosure
+    registry["joint_feasibility_region"] = _mtrack_joint_feasibility
+    registry["endosymbiont_retention_fraction"] = _mtrack_retention
+    registry["realised_exchange_level"] = _mtrack_realised_exchange
+    registry["mutualistic_exchange_benefit"] = _mtrack_mutualistic_benefit
     # eukaryogenesis S1 + S2 (first-fidelity metabolite-exchange community arms)
     registry["settled_metacommunity_robustness"] = _settled_metacommunity_robustness
     registry["exchange_mass_balance_residual"] = _exchange_mass_balance_residual

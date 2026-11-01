@@ -55,7 +55,9 @@ behavior_tests:
 - name: study-contact-to-enclosure-coupling-discriminates
   classification: primary
   description: A self-reinforcing contact+enclosure regime exists (joint feasibility is substantial), not imposed.
-  measure: joint_feasibility_region
+  measure:
+    kind: derived_scalar
+    path: joint_feasibility_region
   pass_if:
     op: '>='
     value: 0.5
@@ -74,12 +76,12 @@ findings:
     from_run: proto_endosymbiosis_coupled baseline (aligned) vs decoupled-control variant, seed 1
   inferential_scope: Reduced four-compartment coupled model (lc<->hc_un<->hc_se, hc_st stalled trap) with contact providing enclosure's adhesion and enclosure locking in the exchange benefit. Establishes that a jointly-feasible regime EXISTS and is contingent on all three sub-mechanisms; does not resolve the spatial membrane PDE or full energy accounting (M4).
 runs:
-- name: viva_genesis.composites.proto_endosymbiosis_coupled.proto_endosymbiosis_coupled__1793505450__a3acc2
+- name: viva_genesis.composites.proto_endosymbiosis_coupled.proto_endosymbiosis_coupled__1793529722__cd258b
   status: completed
-  timestamp: 1793505451.369306
+  timestamp: 1793529724.0030248
   emitter:
     kind: unknown
-  env_id: 4cf318f473d3c8ec
+  env_id: d9065a7863b44f5f
   params: '{"benefit_coeff": 1.2, "cost_coeff": 0.3, "base_adhesion": 0.8, "bending_modulus": 0.2, "perturbation": 0.1, "seed": 1}'
   provenance:
     params:
@@ -96,7 +98,7 @@ runs:
         value: 0.3
         source: override
       n_steps:
-        value: 200
+        value: 160
         source: resolved
       perturbation:
         value: 0.1
@@ -104,35 +106,14 @@ runs:
       seed:
         value: 1
         source: override
-    params_captured_at: '2026-10-31'
+    params_captured_at: '2026-11-01'
     params_source: dashboard-runner
-- name: viva_genesis.composites.proto_endosymbiosis_coupled.proto_endosymbiosis_coupled__1793505453__5903e3
-  status: completed
-  timestamp: 1793505454.621556
-  emitter:
-    kind: unknown
-  env_id: 4cf318f473d3c8ec
-  variant: decoupled-control
-  params: '{"benefit_coeff": 0.3, "cost_coeff": 0.5, "base_adhesion": 0.8, "bending_modulus": 0.2, "perturbation": 0.1}'
-  provenance:
-    params:
-      base_adhesion:
-        value: 0.8
-        source: override
-      bending_modulus:
-        value: 0.2
-        source: override
-      benefit_coeff:
-        value: 0.3
-        source: override
-      cost_coeff:
-        value: 0.5
-        source: override
-      perturbation:
-        value: 0.1
-        source: override
-    params_captured_at: '2026-10-31'
-    params_source: dashboard-runner
+  outcomes:
+    study-contact-to-enclosure-coupling-discriminates:
+      result: SKIP
+      evaluated_by: agent
+      note: observable 'joint_feasibility_region' not resolvable
+      auto_evaluated: true
 tags:
 - bridge
 - discriminating
