@@ -1,16 +1,16 @@
 schema_version: '0.4'
 name: study-contact-to-enclosure-coupling
-title: Do the same conditions that select proximity also permit enclosure?
+title: 'Contact-to-enclosure coupling: do the same conditions that select proximity also permit enclosure?'
 investigation: eukaryogenesis
 question: Do the same conditions that select proximity also permit enclosure?
-claim:
+claim: Selection-for-contact and stable enclosure co-succeed (joint feasibility 0.91) only when exchange benefit, sealing, and persistence all align — contact supplies the adhesion enclosure needs and enclosure locks in the exchange benefit that keeps contact selected; the reinforcing regime is real but narrow (0.07 when decoupled).
 hypothesis: The selected-contact regime and the feasible-enclosure regime overlap (continuous bridge exists).
 concept: endosymbiosis transition bridge
 topic: eukaryogenesis
-status: planned
+status: complete
 design_status: designed
-simulation_status: not_started
-evaluation_status: not_started
+simulation_status: ran
+evaluation_status: evaluated
 gate_status: not_started
 created: '2026-11-01T02:16:30Z'
 parent_studies:
@@ -59,7 +59,11 @@ behavior_tests:
   pass_if:
     op: '>='
     value: 0.5
-visualizations: []
+visualizations:
+- name: contact-to-enclosure-coupling
+  address: local:M3CouplingViz
+  config:
+    n_steps: 200
 findings:
 - id: s-coupling-joint-regime-exists
   statement: "A self-reinforcing contact+enclosure regime EXISTS: joint_feasibility_region=0.91 when exchange selects contact AND contact's adhesion overcomes the bending barrier AND the seal persists. It collapses to 0.07 when contact is not selected (benefit<cost), and (directly measured) toward zero when enclosure destabilises (0.14) or the bending barrier blocks sealing (0.21). So selection-for-contact and stable enclosure CO-SUCCEED only when all three conditions align — the coupled eukaryogenesis transition is feasible along the syntrophy->enclosure path, but narrowly."
@@ -166,3 +170,4 @@ verdict: supported
 confidence: provisional
 verdict_rationale: "Discriminating campaign on proto_endosymbiosis_coupled: joint_feasibility_region>=0.5 in the aligned regime, <<0.5 in the decoupled control. The coupled transition is feasible but narrow — requires selection, sealing, and persistence to align."
 evidence_tier: mechanistic_prediction
+execution_status: completed

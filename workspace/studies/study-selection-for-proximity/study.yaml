@@ -1,16 +1,16 @@
 schema_version: '0.4'
 name: study-selection-for-proximity
-title: Does exchange increase the fitness of contact-seeking phenotypes?
+title: 'Selection for proximity: does exchange increase the fitness of contact-seeking phenotypes?'
 investigation: eukaryogenesis
 question: Does exchange increase the fitness of contact-seeking phenotypes?
-claim:
+claim: Metabolic exchange positively selects a heritable contact/adhesion propensity (selection coefficient +0.63) once the adhesion cost is paid, above a frequency-dependent invasion threshold; the matched no-exchange control selects AGAINST contact (-0.36), so exchange is necessary and contact is not favoured for its own sake.
 hypothesis: Exchange creates positive selection for contact (adhesion-seeking phenotypes invade and persist).
 concept: endosymbiosis transition bridge
 topic: eukaryogenesis
-status: planned
+status: complete
 design_status: designed
-simulation_status: not_started
-evaluation_status: not_started
+simulation_status: ran
+evaluation_status: evaluated
 gate_status: not_started
 created: '2026-11-01T02:16:30Z'
 parent_studies:
@@ -97,7 +97,11 @@ behavior_tests:
   classification: secondary
   description: 'Preregistered measurement: fitness_gain_relative_to_no_exchange (bands to be sharpened before run).'
   measure: fitness_gain_relative_to_no_exchange
-visualizations: []
+visualizations:
+- name: selection-for-proximity
+  address: local:M1SelectionViz
+  config:
+    n_steps: 160
 findings:
 - id: s-sel-exchange-selects-contact
   statement: Under metabolic exchange, a heritable contact/adhesion propensity is POSITIVELY selected (selection coefficient +0.63, contact fixes) above a frequency-dependent invasion threshold; the matched no-exchange control shows NEGATIVE selection (-0.36, contact eliminated). Exchange is necessary for selection-for-contact. Supports H1-syntrophy-first in the favorable regime; rejects H4-no-integration there.
@@ -407,3 +411,4 @@ verdict: supported
 confidence: provisional
 verdict_rationale: 'Discriminating campaign on the coupled proto_endosymbiosis_hybrid model: selection coefficient >0 under exchange, <=0 under the matched no-exchange control. H1 supported conditionally (favorable regime), H4 rejected there, exchange necessary.'
 evidence_tier: mechanistic_prediction
+execution_status: completed

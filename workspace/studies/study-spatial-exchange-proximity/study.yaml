@@ -1,6 +1,6 @@
 slug: study-spatial-exchange-proximity
 name: study-spatial-exchange-proximity
-title: Does contact mechanistically confer an exchange advantage?
+title: 'Spatial exchange: does contact mechanistically confer an exchange advantage?'
 question: M1 assumes contact scales exchange access. Under explicit diffusion, is realised metabolite exchange strongly proximity-dependent, or well-mixed (premise invalid)?
 parent_studies:
 - study: study-selection-for-proximity
@@ -117,3 +117,13 @@ verdict: supported
 confidence: provisional
 verdict_rationale: 'Spatial-exchange campaign: realised_exchange_level 1.70 at contact vs 0.034 distal (49x). Confirms M1''s contact-scales-access premise in the screened regime; flags well-mixed regime as the boundary where it fails.'
 evidence_tier: mechanistic_prediction
+claim: Realised metabolite exchange is strongly proximity-dependent in the screened-diffusion regime (49x contact-vs-distal advantage, up to ~1900x under strong screening) and collapses only when the metabolite is well-mixed — so the premise that contact scales exchange access is mechanistically justified, not assumed.
+visualizations:
+- name: spatial-exchange-proximity
+  address: local:M6SpatialViz
+  config:
+    n_steps: 400
+execution_status: completed
+simulation_status: ran
+evaluation_status: evaluated
+status: complete

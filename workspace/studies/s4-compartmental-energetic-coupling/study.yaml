@@ -2,7 +2,7 @@ schema_version: 4
 name: s4-compartmental-energetic-coupling
 investigation: eukaryogenesis
 created: '2026-10-27'
-title: 'S4 — Compartmental energetic coupling: does internalization pay for itself?'
+title: 'Compartmental energetic coupling: does internalization pay for itself?'
 phase: Calibrate
 status: planned
 design_status: drafted

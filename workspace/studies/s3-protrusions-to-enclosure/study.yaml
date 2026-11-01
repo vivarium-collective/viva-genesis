@@ -2,7 +2,7 @@ schema_version: 4
 name: s3-protrusions-to-enclosure
 investigation: eukaryogenesis
 created: '2026-10-27'
-title: 'S3 — Protrusions to enclosure: can protrusion mechanics reach stable wrapping?'
+title: 'Protrusions to enclosure: can protrusion mechanics reach stable wrapping?'
 phase: Calibrate
 status: planned
 design_status: drafted
@@ -19,7 +19,7 @@ tags:
 concept: Compartmentalization made operational as the topology and energy of enclosing membranes. A host protrusion of finite membrane area extends at an observed rate and attempts to wrap a bacterial partner; enclosure succeeds, per partner radius, only when the available area covers the partner AND adhesion clears the Helfrich bending cost. Classical engulfment, inside-out wrapping, and a no-enclosure control are compared over a partner-radius ensemble.
 question: Can observed archaeal protrusion mechanics plausibly transition from contact to stable wrapping / engulfment, within membrane area, bending-cost, and timescale budgets? Morphology alone cannot demonstrate engulfment.
 hypothesis: Under cryo-ET-constrained bending moduli and adhesion, at least one topology (classical engulfment or inside-out wrapping) reaches a stable enclosed state over a realistic partner-size range with conserved membrane area, while a no-enclosure or weak-adhesion control does not.
-claim: 'Physical enclosure is a separate hurdle from metabolic benefit (S1/S2): observed protrusion mechanics can, under favorable area and adhesion budgets, reach stable wrapping over a majority of the partner-size range — but a beneficial symbiosis need not imply ingestive ability, and enclosure fails without wrapping (no-enclosure) or when adhesion cannot pay the bending cost.'
+claim: 'Physical enclosure is a separate hurdle from the metabolic benefit: observed protrusion mechanics can, under favorable area and adhesion budgets, reach stable wrapping over a majority of the partner-size range — but a beneficial symbiosis need not imply ingestive ability, and enclosure fails without wrapping (no-enclosure) or when adhesion cannot pay the bending cost.'
 behavior_tests:
 - name: enclosure-geometrically-feasible
   classification: primary

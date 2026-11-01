@@ -1,6 +1,6 @@
 slug: study-bidirectional-syntrophy
 name: study-bidirectional-syntrophy
-title: Does obligate bidirectional syntrophy add a constraint beyond proximity?
+title: 'Bidirectional syntrophy: does obligate syntrophy add a constraint beyond proximity?'
 question: The syntrophy/hydrogen hypotheses are obligate two-metabolite mutualisms. Does Liebig-limited reciprocal exchange require metabolic BALANCE, not just contact?
 parent_studies:
 - study: study-spatial-exchange-proximity
@@ -117,3 +117,13 @@ verdict: supported
 confidence: provisional
 verdict_rationale: 'Bidirectional-syntrophy campaign: mutualistic_exchange_benefit 1.52 balanced vs 0.30 asymmetric. Obligate mutualism adds a reciprocity/balance requirement beyond the proximity of M1-M6.'
 evidence_tier: mechanistic_prediction
+claim: 'Obligate two-metabolite syntrophy is proximity-dependent like one-way exchange when production is balanced, but adds a reciprocity constraint: the Liebig minimum caps the mutual benefit at the scarcer partner, so an imbalanced pair is starved even at contact — the syntrophy hypotheses require metabolic balance, not just proximity.'
+visualizations:
+- name: bidirectional-syntrophy
+  address: local:M7BidirectionalViz
+  config:
+    n_steps: 400
+execution_status: completed
+simulation_status: ran
+evaluation_status: evaluated
+status: complete

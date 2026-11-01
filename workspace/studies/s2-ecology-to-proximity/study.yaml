@@ -2,7 +2,7 @@ schema_version: 4
 name: s2-ecology-to-proximity
 investigation: eukaryogenesis
 created: '2026-10-27'
-title: 'S2 — Ecology to proximity: when does cross-feeding select for persistent contact?'
+title: 'Ecology to proximity: when does cross-feeding select for persistent contact?'
 phase: Calibrate
 status: planned
 design_status: drafted
@@ -19,7 +19,7 @@ tags:
 concept: Physical association made operational as encounter rate, adhesion lifetime, diffusion length, and spatial crowding. The two cross-feeding lineages (the S1 community) placed proximate (mixed) vs distant (segregated) along the pore, under varying diffusion — measuring whether the cross-feeding benefit is distance-dependent.
 question: When do cross-feeding benefits select for persistent proximity rather than independent coexistence? Does the predicted selection for proximity disappear under high diffusion / well-mixed conditions?
 hypothesis: Below a critical diffusion length the cross-feeding flux is distance-dependent and selects for sustained contact; under well-mixed (high-diffusion) conditions the proximity advantage collapses, so selection for contact is a spatial-structure effect, not a given.
-claim: 'Selection may favor sustained contact: in spatially structured (low-diffusion) environments the S1 cross-feeding flux is strongly distance-dependent — proximate (mixed) partners sustain the exchange while distant (segregated) partners lose it — creating a precondition for intimate symbiosis. The advantage vanishes under high diffusion (well-mixed), so proximity selection is contingent on spatial structure.'
+claim: 'Selection may favor sustained contact: in spatially structured (low-diffusion) environments the cross-feeding flux is strongly distance-dependent — proximate (mixed) partners sustain the exchange while distant (segregated) partners lose it — creating a precondition for intimate symbiosis. The advantage vanishes under high diffusion (well-mixed), so proximity selection is contingent on spatial structure.'
 behavior_tests:
 - name: proximity-selected-under-finite-diffusion
   classification: primary

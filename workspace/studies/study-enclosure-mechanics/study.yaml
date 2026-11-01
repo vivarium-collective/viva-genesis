@@ -1,16 +1,16 @@
 schema_version: '0.4'
 name: study-enclosure-mechanics
-title: Can selected contact transition to stable enclosure under physical constraints?
+title: 'Enclosure mechanics: can selected contact transition to stable enclosure under physical constraints?'
 investigation: eukaryogenesis
 question: Can selected contact transition to stable enclosure under physical constraints?
-claim:
+claim: Stable, persistent enclosure is the majority outcome only where adhesion overcomes the membrane bending/neck-closure barrier and survives perturbation; under conflict the membrane seals but unwraps — enclosure stability is a mechanical threshold, not a given once contact exists.
 hypothesis: Physically constrained remodelling reaches stable enclosure in a majority of the feasible regime.
 concept: endosymbiosis transition bridge
 topic: eukaryogenesis
-status: planned
+status: complete
 design_status: designed
-simulation_status: not_started
-evaluation_status: not_started
+simulation_status: ran
+evaluation_status: evaluated
 gate_status: not_started
 created: '2026-11-01T02:16:30Z'
 parent_studies:
@@ -52,7 +52,11 @@ behavior_tests:
   pass_if:
     op: '>='
     value: 0.5
-visualizations: []
+visualizations:
+- name: enclosure-mechanics
+  address: local:M2EnclosureViz
+  config:
+    n_steps: 120
 findings:
 - id: s-encl-stable-enclosure-regime-dependent
   statement: "Stable, persistent enclosure is the MAJORITY outcome (P=0.95) only in the geometry-first regime where adhesion overcomes the bending neck-closure barrier AND survives perturbation; under conflict (high perturbation) P=0.14 — enclosure seals but unwraps. Supports H2-geometry-first in the favorable regime; H3-parasitism/conflict where perturbation dominates."
@@ -143,3 +147,4 @@ verdict: supported
 confidence: provisional
 verdict_rationale: 'Discriminating campaign on proto_endosymbiosis_enclosure: P(stable_enclosure)>=0.5 in the geometry-first regime, <0.5 under the conflict regime. H2 supported conditionally; stability requires adhesion to both overcome the bending barrier and survive perturbation.'
 evidence_tier: mechanistic_prediction
+execution_status: completed

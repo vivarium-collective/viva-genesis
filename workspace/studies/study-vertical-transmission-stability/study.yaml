@@ -1,6 +1,6 @@
 slug: study-vertical-transmission-stability
 name: study-vertical-transmission-stability
-title: Is the established endosymbiosis evolutionarily stable?
+title: 'Vertical-transmission stability: is the established endosymbiosis evolutionarily stable?'
 question: Once contact+enclosure establish the symbiosis (M3), is the symbiont heritably retained across generations, or does conflict/partner-loss decay it?
 parent_studies:
 - study: study-contact-to-enclosure-coupling
@@ -127,3 +127,13 @@ verdict: supported
 confidence: provisional
 verdict_rationale: "Discriminating campaign on proto_endosymbiosis_transmission: retention>=0.5 when inheritance+selection outrun loss, <<0.5 under high conflict. The established symbiosis is retained only in a bounded regime — a distinct stability axis beyond establishment."
 evidence_tier: mechanistic_prediction
+claim: An established symbiosis is evolutionarily retained (0.78) only where transmission fidelity and the selective benefit together outrun conflict/partner-loss and segregational leakage; it decays to near zero under high conflict, low fidelity, or no net benefit — establishment does not guarantee permanence.
+visualizations:
+- name: vertical-transmission-stability
+  address: local:M5TransmissionViz
+  config:
+    n_steps: 300
+execution_status: completed
+simulation_status: ran
+evaluation_status: evaluated
+status: complete
