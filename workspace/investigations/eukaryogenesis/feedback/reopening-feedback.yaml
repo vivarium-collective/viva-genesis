@@ -5,266 +5,277 @@ target:
   source_report: investigation-eukaryogenesis-4.html
   intent: reopen_and_launch_discriminating_discovery
   priority: critical
-
 status_reconciliation:
-  observation: >-
-    The interface reportedly marks the investigation closed, but the exported HTML
-    contains status=planned and discovery.closed=false, with seven frontier
-    opportunities. The source of the UI closure is not established by the report.
+  observation: The interface reportedly marks the investigation closed, but the exported
+    HTML contains status=planned and discovery.closed=false, with seven frontier opportunities.
+    The source of the UI closure is not established by the report.
   requested_state: active
   actions:
-    - Inspect the canonical investigation lifecycle record and any separate
-      cycle/closure records; identify which record the interface reads.
-    - Reopen that canonical record through the supported lifecycle mechanism;
-      do not assume changing the HTML or this feedback file changes state.
-    - Preserve the previous closure event and rationale in the audit trail.
-    - Register the scientific challenge below as an unresolved, high-priority
-      investigation objective, with executable follow-up actions.
-    - Recompute frontier/readiness, then propose a new cycle; require review
-      only for consequential operations or scientifically uncertain assumptions.
-  acceptance: >-
-    UI and canonical state agree on active/open; a nonempty prioritized frontier
-    contains at least one actionable experiment-design or model-building task.
-
+  - Inspect the canonical investigation lifecycle record and any separate cycle/closure
+    records; identify which record the interface reads.
+  - Reopen that canonical record through the supported lifecycle mechanism; do not
+    assume changing the HTML or this feedback file changes state.
+  - Preserve the previous closure event and rationale in the audit trail.
+  - Register the scientific challenge below as an unresolved, high-priority investigation
+    objective, with executable follow-up actions.
+  - Recompute frontier/readiness, then propose a new cycle; require review only for
+    consequential operations or scientifically uncertain assumptions.
+  acceptance: UI and canonical state agree on active/open; a nonempty prioritized
+    frontier contains at least one actionable experiment-design or model-building
+    task.
 scientific_challenge:
   id: bridge-selection-to-integration
-  question: >-
-    Under what ecological, physical, and energetic conditions does metabolic
-    exchange create selection for persistent host-partner contact, promote
-    membrane enclosure, and produce a stable, heritably integrated lineage?
-  central_gap: >-
-    Current studies illustrate separate feasibility conditions, but do not
-    demonstrate a causal, physically consistent transition across their
-    interfaces. A chain of independently passing tests is not evidence that
-    one system can cross all five barriers.
-  mandate: >-
-    Find at least one feasible transition pathway AND one decisive failure
-    regime; compare competing explanations using shared initial conditions,
-    conservation constraints, uncertainty, and preregistered decision rules.
+  question: Under what ecological, physical, and energetic conditions does metabolic
+    exchange create selection for persistent host-partner contact, promote membrane
+    enclosure, and produce a stable, heritably integrated lineage?
+  central_gap: Current studies illustrate separate feasibility conditions, but do
+    not demonstrate a causal, physically consistent transition across their interfaces.
+    A chain of independently passing tests is not evidence that one system can cross
+    all five barriers.
+  mandate: Find at least one feasible transition pathway AND one decisive failure
+    regime; compare competing explanations using shared initial conditions, conservation
+    constraints, uncertainty, and preregistered decision rules.
   competing_hypotheses:
-    - id: H1-syntrophy-first
-      mechanism: Metabolic dependence favors proximity, then adhesion and enclosure.
-    - id: H2-geometry-first
-      mechanism: Protrusions or membrane remodeling permit enclosure before strong mutualism.
-    - id: H3-parasitism-or-conflict
-      mechanism: Invasion or asymmetric exploitation yields enclosure but prevents stable mutualism.
-    - id: H4-no-integration
-      mechanism: External syntrophy remains fitter than internalization after costs are counted.
+  - id: H1-syntrophy-first
+    mechanism: Metabolic dependence favors proximity, then adhesion and enclosure.
+    predictions:
+    - observable: selection_coefficient_for_adhesion
+      op: '>'
+      value: 0
+      regime: under_exchange_vs_control
+    - observable: joint_feasibility_region
+      op: '>'
+      value: 0
+      regime: under_exchange_vs_control
+  - id: H2-geometry-first
+    mechanism: Protrusions or membrane remodeling permit enclosure before strong mutualism.
+    predictions:
+    - observable: probability_of_stable_enclosure
+      op: '>='
+      value: 0.5
+  - id: H3-parasitism-or-conflict
+    mechanism: Invasion or asymmetric exploitation yields enclosure but prevents stable
+      mutualism.
+    predictions:
+    - observable: probability_of_stable_enclosure
+      op: <
+      value: 0.5
+  - id: H4-no-integration
+    mechanism: External syntrophy remains fitter than internalization after costs
+      are counted.
+    predictions:
+    - observable: selection_coefficient_for_adhesion
+      op: <=
+      value: 0
+    - observable: joint_feasibility_region
+      op: <=
+      value: 0
   nonnegotiable_controls:
-    - no_exchange
-    - no_adhesion
-    - no_enclosure
-    - low_vs_high_diffusion
-    - efficient_vs_inefficient_energy_coupling
-    - faithful_vs_failed_vertical_transmission
-
+  - no_exchange
+  - no_adhesion
+  - no_enclosure
+  - low_vs_high_diffusion
+  - efficient_vs_inefficient_energy_coupling
+  - faithful_vs_failed_vertical_transmission
 report_diagnostics:
-  - id: lifecycle-mismatch
-    severity: blocking
-    observation: Exported state is planned/open, unlike reported closed UI state.
-    request: Reconcile lifecycle sources before claiming a successful reopen.
-  - id: s1-evidence-gate
-    severity: high
-    observation: S1 is blocked; its two behavior checks are skipped despite one completed run.
-    request: Repair measured output paths and test registration, then rerun the S1 gates.
-  - id: s3-no-tracked-run
-    severity: high
-    observation: S3 has no tracked completed runs and verdict not_started.
-    request: Register and execute a physically constrained enclosure comparison.
-  - id: verdict-state-inconsistency
-    severity: high
-    observation: >-
-      All five study records show status=planned, while S2/S4/S5 have
-      completed runs and passed verdicts; their synthesis entries remain pending.
-    request: Reconcile run, study, scientific-verdict, and claim states without conflating them.
-  - id: invalid-bridge-inference
-    severity: critical
-    observation: >-
-      S2 exchange flux is not a measured selection coefficient; S3 wrapping
-      is not equivalent to engulfment; S4 survival is not a complete ATP
-      balance; S5 template inheritance is not host-symbiont co-inheritance.
-    request: Introduce bridge-specific hypotheses and measurements.
-  - id: contradictory-s5-interpretation
-    severity: high
-    observation: >-
-      S5 finding text describes fidelity 0.80 as collapse, while its own
-      provenance note says that claim was corrected and 0.80 did not collapse.
-    request: Recompute the conclusion from registered runs and flag stale text.
-  - id: validation-deficit
-    severity: high
-    observation: Reported validator census is 1 passed and 10 failed.
-    request: Classify validator failures, fix blockers, and distinguish validation from scientific falsification.
-
+- id: lifecycle-mismatch
+  severity: blocking
+  observation: Exported state is planned/open, unlike reported closed UI state.
+  request: Reconcile lifecycle sources before claiming a successful reopen.
+- id: s1-evidence-gate
+  severity: high
+  observation: S1 is blocked; its two behavior checks are skipped despite one completed
+    run.
+  request: Repair measured output paths and test registration, then rerun the S1 gates.
+- id: s3-no-tracked-run
+  severity: high
+  observation: S3 has no tracked completed runs and verdict not_started.
+  request: Register and execute a physically constrained enclosure comparison.
+- id: verdict-state-inconsistency
+  severity: high
+  observation: All five study records show status=planned, while S2/S4/S5 have completed
+    runs and passed verdicts; their synthesis entries remain pending.
+  request: Reconcile run, study, scientific-verdict, and claim states without conflating
+    them.
+- id: invalid-bridge-inference
+  severity: critical
+  observation: S2 exchange flux is not a measured selection coefficient; S3 wrapping
+    is not equivalent to engulfment; S4 survival is not a complete ATP balance; S5
+    template inheritance is not host-symbiont co-inheritance.
+  request: Introduce bridge-specific hypotheses and measurements.
+- id: contradictory-s5-interpretation
+  severity: high
+  observation: S5 finding text describes fidelity 0.80 as collapse, while its own
+    provenance note says that claim was corrected and 0.80 did not collapse.
+  request: Recompute the conclusion from registered runs and flag stale text.
+- id: validation-deficit
+  severity: high
+  observation: Reported validator census is 1 passed and 10 failed.
+  request: Classify validator failures, fix blockers, and distinguish validation from
+    scientific falsification.
 next_cycle:
   title: Does exchange select for enclosure?
-  objective: >-
-    Establish or reject a causal path from ecological exchange to stable
+  objective: Establish or reject a causal path from ecological exchange to stable
     proximity and physically feasible enclosure, not just correlations.
   design:
-    - id: study-selection-for-proximity
-      question: Does exchange increase the fitness of contact-seeking phenotypes?
-      reuse: [s1-metabolic-partnership, s2-ecology-to-proximity]
-      extend_with:
-        - Agent-level growth, division, death, adhesion cost, and heritable contact propensity.
-        - Competition between contact-seeking and non-contact-seeking phenotypes.
-        - Spatial gradients and diffusivity sweeps with common randomized seeds.
-      measurements:
-        - selection_coefficient_for_adhesion
-        - contact_duration_distribution
-        - exchange_flux_and_growth_rate
-        - fitness_gain_relative_to_no_exchange
-      decision_rule: >-
-        Prefer syntrophy-first only where adhesion/contact phenotypes invade
-        and persist with positive selection under exchange, but not controls;
-        report uncertainty and parameter dependence.
-    - id: study-enclosure-mechanics
-      question: Can selected contact transition to stable enclosure under physical constraints?
-      reuse: [s3-protrusions-to-enclosure]
-      extend_with:
-        - Compare protrusion/inside-out, active engulfment, and non-enclosing contact.
-        - Explicit membrane area, bending energy, adhesion energy, and topology constraints.
-        - Register matched runs; distinguish contact, partial wrapping, sealing, and survival.
-      measurements:
-        - probability_of_stable_enclosure
-        - mechanical_work_and_membrane_area_cost
-        - enclosure_time_and_failure_mode
-        - persistence_after_perturbation
-      decision_rule: >-
-        Enclosure is supported only if mechanically valid, persistent outcomes
-        occur without imposing the desired topology as a starting condition.
-    - id: study-contact-to-enclosure-coupling
-      question: Do the same conditions that select proximity also permit enclosure?
-      reuse: [s1-metabolic-partnership, s2-ecology-to-proximity, s3-protrusions-to-enclosure]
-      extend_with:
-        - Feed spatial and metabolic outputs into enclosure initial conditions.
-        - Test whether benefit persists after explicit adhesion and membrane costs.
-      measurements:
-        - joint_feasibility_region
-        - net_fitness_before_and_after_enclosure
-        - sensitivity_to_partner_size_and_diffusion
-      decision_rule: >-
-        Reject a continuous syntrophy-first bridge where the selected contact
-        regime and feasible enclosure regime do not overlap.
+  - id: study-selection-for-proximity
+    question: Does exchange increase the fitness of contact-seeking phenotypes?
+    reuse:
+    - s1-metabolic-partnership
+    - s2-ecology-to-proximity
+    extend_with:
+    - Agent-level growth, division, death, adhesion cost, and heritable contact propensity.
+    - Competition between contact-seeking and non-contact-seeking phenotypes.
+    - Spatial gradients and diffusivity sweeps with common randomized seeds.
+    measurements:
+    - selection_coefficient_for_adhesion
+    - contact_duration_distribution
+    - exchange_flux_and_growth_rate
+    - fitness_gain_relative_to_no_exchange
+    decision_rule: Prefer syntrophy-first only where adhesion/contact phenotypes invade
+      and persist with positive selection under exchange, but not controls; report
+      uncertainty and parameter dependence.
+  - id: study-enclosure-mechanics
+    question: Can selected contact transition to stable enclosure under physical constraints?
+    reuse:
+    - s3-protrusions-to-enclosure
+    extend_with:
+    - Compare protrusion/inside-out, active engulfment, and non-enclosing contact.
+    - Explicit membrane area, bending energy, adhesion energy, and topology constraints.
+    - Register matched runs; distinguish contact, partial wrapping, sealing, and survival.
+    measurements:
+    - probability_of_stable_enclosure
+    - mechanical_work_and_membrane_area_cost
+    - enclosure_time_and_failure_mode
+    - persistence_after_perturbation
+    decision_rule: Enclosure is supported only if mechanically valid, persistent outcomes
+      occur without imposing the desired topology as a starting condition.
+  - id: study-contact-to-enclosure-coupling
+    question: Do the same conditions that select proximity also permit enclosure?
+    reuse:
+    - s1-metabolic-partnership
+    - s2-ecology-to-proximity
+    - s3-protrusions-to-enclosure
+    extend_with:
+    - Feed spatial and metabolic outputs into enclosure initial conditions.
+    - Test whether benefit persists after explicit adhesion and membrane costs.
+    measurements:
+    - joint_feasibility_region
+    - net_fitness_before_and_after_enclosure
+    - sensitivity_to_partner_size_and_diffusion
+    decision_rule: Reject a continuous syntrophy-first bridge where the selected contact
+      regime and feasible enclosure regime do not overlap.
   required_visualizations:
-    - Contact-selection phase map across diffusion and metabolic dependence.
-    - Time-resolved paired trajectories of exchange, fitness, distance, and adhesion.
-    - Membrane mechanics visualization showing successful and failed enclosure paths.
-    - Joint feasibility map overlaying selection and enclosure regimes.
-  exit_gate: >-
-    Tracked, reproducible, control-matched runs support or reject at least
+  - Contact-selection phase map across diffusion and metabolic dependence.
+  - Time-resolved paired trajectories of exchange, fitness, distance, and adhesion.
+  - Membrane mechanics visualization showing successful and failed enclosure paths.
+  - Joint feasibility map overlaying selection and enclosure regimes.
+  exit_gate: Tracked, reproducible, control-matched runs support or reject at least
     one bridge hypothesis and identify a quantitative next uncertainty.
-
 following_cycle:
   title: When does enclosure become an evolutionary individual?
-  entry_condition: >-
-    The preceding cycle has reconciled provenance and produced at least one
-    well-defined feasible contact/enclosure regime, or a documented negative
-    result requiring a competing route.
-  objective: >-
-    Test whether an actually enclosed host-partner system gains net energetic
+  entry_condition: The preceding cycle has reconciled provenance and produced at least
+    one well-defined feasible contact/enclosure regime, or a documented negative result
+    requiring a competing route.
+  objective: Test whether an actually enclosed host-partner system gains net energetic
     fitness and transmits both partners across generations.
   new_composite_model:
     name: proto_endosymbiosis_hybrid
     architecture: process_bigraph_composite
     modules:
-      - spatial_metabolite_exchange
-      - host_and_partner_metabolism
-      - adhesion_and_membrane_mechanics
-      - compartment_transport_and_energy_accounting
-      - host_symbiont_growth_division_and_death
-      - symbiont_partition_and_vertical_transmission
-      - host_partner_conflict_and_partner_loss
-    coupling_contract: >-
-      Share typed stores with explicit units and mass/energy conservation;
-      pass actual output states between modules; support topology-changing
-      enclosure events; do not substitute a narrative handoff for coupling.
+    - spatial_metabolite_exchange
+    - host_and_partner_metabolism
+    - adhesion_and_membrane_mechanics
+    - compartment_transport_and_energy_accounting
+    - host_symbiont_growth_division_and_death
+    - symbiont_partition_and_vertical_transmission
+    - host_partner_conflict_and_partner_loss
+    coupling_contract: Share typed stores with explicit units and mass/energy conservation;
+      pass actual output states between modules; support topology-changing enclosure
+      events; do not substitute a narrative handoff for coupling.
   experiments:
-    - Compare external syntrophy, transient enclosure, stable integration,
-      parasitism, and collapse from matched ecological starting conditions.
-    - Sweep membrane cost, transport permeability, pump efficiency,
-      host-partner conflict, and symbiont partition fidelity.
-    - Track multiple stochastic seeds and test robustness to model structure.
+  - Compare external syntrophy, transient enclosure, stable integration, parasitism,
+    and collapse from matched ecological starting conditions.
+  - Sweep membrane cost, transport permeability, pump efficiency, host-partner conflict,
+    and symbiont partition fidelity.
+  - Track multiple stochastic seeds and test robustness to model structure.
   measurements:
-    - net_host_lineage_fitness
-    - energy_balance_and_transport_losses
-    - fraction_of_generations_with_functional_symbionts
-    - vertical_transmission_failure_rate
-    - probability_of_each_transition_outcome_given_model_and_parameters
+  - net_host_lineage_fitness
+  - energy_balance_and_transport_losses
+  - fraction_of_generations_with_functional_symbionts
+  - vertical_transmission_failure_rate
+  - probability_of_each_transition_outcome_given_model_and_parameters
   required_visualizations:
-    - Animated multiscale trajectories from association to enclosure to division.
-    - Transition outcome phase diagram with uncertainty and failure modes.
-    - Energy-flow Sankey or flux budget before and after enclosure.
-    - Host-symbiont lineage tree showing loss, rescue, and persistence.
-    - Evidence-linked competing-pathway graph with rejected alternatives.
-  exit_gate: >-
-    Report conditions for stable integration and conditions favoring
-    non-integration, with quantified uncertainty; do not label the simulated
-    route as the unique historical origin of eukaryotes.
-
+  - Animated multiscale trajectories from association to enclosure to division.
+  - Transition outcome phase diagram with uncertainty and failure modes.
+  - Energy-flow Sankey or flux budget before and after enclosure.
+  - Host-symbiont lineage tree showing loss, rescue, and persistence.
+  - Evidence-linked competing-pathway graph with rejected alternatives.
+  exit_gate: Report conditions for stable integration and conditions favoring non-integration,
+    with quantified uncertainty; do not label the simulated route as the unique historical
+    origin of eukaryotes.
 engine_method_feedback:
   reuse_existing_reported_capabilities:
-    - discovery frontier and scored opportunities
-    - readiness and validator checks
-    - study baselines, variants, behavior tests, and recorded runs
-    - process-bigraph/Vivarium composites
-    - execution plan and revision suggestions
+  - discovery frontier and scored opportunities
+  - readiness and validator checks
+  - study baselines, variants, behavior tests, and recorded runs
+  - process-bigraph/Vivarium composites
+  - execution plan and revision suggestions
   reconcile:
-    - UI lifecycle state versus canonical investigation/cycle closure
-    - run status versus study verdict versus claim evidence status
-    - duplicate claim-level and study-level actions targeting the same run
-    - planner priority versus scientific information gain
-    - study findings versus corrected provenance and actual run outcomes
+  - UI lifecycle state versus canonical investigation/cycle closure
+  - run status versus study verdict versus claim evidence status
+  - duplicate claim-level and study-level actions targeting the same run
+  - planner priority versus scientific information gain
+  - study findings versus corrected provenance and actual run outcomes
   build_or_extend:
-    - name: plan_discriminating_studies
-      purpose: Generate competing hypotheses, controls, and falsifiable decision rules.
-    - name: build_bridge_composite
-      purpose: Connect existing models with typed, conserved state transfer.
-    - name: score_expected_information_gain
-      purpose: Prioritize experiments that separate hypotheses, not merely repeat known passes.
-    - name: register_prediction_and_run_manifest
-      purpose: Preregister measurable predictions and preserve reproducible provenance.
-    - name: evaluate_cross_study_continuity
-      purpose: Check whether downstream conditions genuinely emerge upstream.
-    - name: map_transition_phase_space
-      purpose: Identify success/failure basins and uncertainty across parameters.
-    - name: update_claims_and_frontier
-      purpose: Promote supported findings, reject alternatives, and generate the next cycle.
-  note: >-
-    Method names under build_or_extend are requested capabilities, not claims
+  - name: plan_discriminating_studies
+    purpose: Generate competing hypotheses, controls, and falsifiable decision rules.
+  - name: build_bridge_composite
+    purpose: Connect existing models with typed, conserved state transfer.
+  - name: score_expected_information_gain
+    purpose: Prioritize experiments that separate hypotheses, not merely repeat known
+      passes.
+  - name: register_prediction_and_run_manifest
+    purpose: Preregister measurable predictions and preserve reproducible provenance.
+  - name: evaluate_cross_study_continuity
+    purpose: Check whether downstream conditions genuinely emerge upstream.
+  - name: map_transition_phase_space
+    purpose: Identify success/failure basins and uncertainty across parameters.
+  - name: update_claims_and_frontier
+    purpose: Promote supported findings, reject alternatives, and generate the next
+      cycle.
+  note: Method names under build_or_extend are requested capabilities, not claims
     that these exact callable functions already exist.
-
 cycle_instructions:
   autonomy: supervised
   first_action: reconcile_status_and_evidence
   then:
-    - Register the central challenge and four competing hypotheses.
-    - Rank candidate studies by expected ability to discriminate mechanisms.
-    - Create executable study specifications and identify missing components.
-    - Reuse and connect existing models where possible; build only missing interfaces.
-    - Run matched controls and parameter ensembles after readiness checks.
-    - Generate linked visualizations, uncertainty estimates, and evidence records.
-    - Revise hypotheses and models based on failed predictions.
-    - Open the following cycle around the highest-value unresolved transition.
+  - Register the central challenge and four competing hypotheses.
+  - Rank candidate studies by expected ability to discriminate mechanisms.
+  - Create executable study specifications and identify missing components.
+  - Reuse and connect existing models where possible; build only missing interfaces.
+  - Run matched controls and parameter ensembles after readiness checks.
+  - Generate linked visualizations, uncertainty estimates, and evidence records.
+  - Revise hypotheses and models based on failed predictions.
+  - Open the following cycle around the highest-value unresolved transition.
   stop_conditions:
-    - Missing required data or model interface with no defensible fallback.
-    - Conservation or validation failure that invalidates the experiment.
-    - Action requires approval outside configured execution permissions.
+  - Missing required data or model interface with no defensible fallback.
+  - Conservation or validation failure that invalidates the experiment.
+  - Action requires approval outside configured execution permissions.
   success_criteria:
-    - At least one newly registered, discriminating study beyond the five bridge studies.
-    - At least one new coupled model rather than an isolated reused demonstration.
-    - At least one hypothesis rejected or meaningfully narrowed by evidence.
-    - A phase diagram or comparable visualization exposing both success and failure regimes.
-    - Evidence-linked narrative and a concrete, nonempty next discovery frontier.
-
-human_feedback_to_engine: >-
-  Reopen this investigation and stop treating the five bridge studies as a
-  completed explanation. The central unresolved problem is whether metabolic
-  cooperation can CAUSE the emergence of stable, heritable endosymbiosis.
-  Repair the study/evidence inconsistencies, then design and execute competing,
-  control-matched experiments that connect metabolic exchange, selection for
-  proximity, physically constrained enclosure, energetic payoff, and vertical
-  transmission in a shared model. Seek both a successful transition and
-  decisive failure regimes. Prioritize new model coupling, falsifiable tests,
-  phase diagrams, lineage visualizations, and evidence-backed revision over
-  further narrative synthesis. Continue cycling on the highest-value remaining
-  uncertainty, with human review for consequential actions.
+  - At least one newly registered, discriminating study beyond the five bridge studies.
+  - At least one new coupled model rather than an isolated reused demonstration.
+  - At least one hypothesis rejected or meaningfully narrowed by evidence.
+  - A phase diagram or comparable visualization exposing both success and failure
+    regimes.
+  - Evidence-linked narrative and a concrete, nonempty next discovery frontier.
+human_feedback_to_engine: Reopen this investigation and stop treating the five bridge
+  studies as a completed explanation. The central unresolved problem is whether metabolic
+  cooperation can CAUSE the emergence of stable, heritable endosymbiosis. Repair the
+  study/evidence inconsistencies, then design and execute competing, control-matched
+  experiments that connect metabolic exchange, selection for proximity, physically
+  constrained enclosure, energetic payoff, and vertical transmission in a shared model.
+  Seek both a successful transition and decisive failure regimes. Prioritize new model
+  coupling, falsifiable tests, phase diagrams, lineage visualizations, and evidence-backed
+  revision over further narrative synthesis. Continue cycling on the highest-value
+  remaining uncertainty, with human review for consequential actions.
