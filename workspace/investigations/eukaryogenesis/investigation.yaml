@@ -82,7 +82,7 @@ executive:
     context: The campaign requires testing alternative initial ecologies, not assuming
       syntrophy (hypotheses H1 vs H4 vs H5).
   decisions_resolved: []
-  computed_verdict_status: passing
+  computed_verdict_status: in-progress
   computed_acceptance:
     criteria:
     - study: s1-metabolic-partnership
@@ -100,7 +100,25 @@ executive:
     - study: s5-symbiont-to-organelle
       behavior: heritable-integration-stable
       result: passing
-    unmet: []
+    - study: study-selection-for-proximity
+      behavior: study-selection-for-proximity-discriminates
+      result: in-progress
+    - study: study-enclosure-mechanics
+      behavior: study-enclosure-mechanics-discriminates
+      result: in-progress
+    - study: study-contact-to-enclosure-coupling
+      behavior: study-contact-to-enclosure-coupling-discriminates
+      result: in-progress
+    unmet:
+    - study: study-selection-for-proximity
+      behavior: study-selection-for-proximity-discriminates
+      result: in-progress
+    - study: study-enclosure-mechanics
+      behavior: study-enclosure-mechanics-discriminates
+      result: in-progress
+    - study: study-contact-to-enclosure-coupling
+      behavior: study-contact-to-enclosure-coupling-discriminates
+      result: in-progress
     diverges_from_authored: true
   objective: Under what ecological, physical, and energetic conditions does metabolic
     exchange create selection for persistent host-partner contact, promote membrane
@@ -719,3 +737,37 @@ reconciliation_log:
   request: Classify validator failures, fix blockers, and distinguish validation from
     scientific falsification.
   status: open
+synthesis:
+  headline: 'The syntrophy->enclosure eukaryogenesis path is FEASIBLE but NARROW:
+    a self-reinforcing contact+enclosure regime exists only where metabolic-exchange
+    selection, enclosure sealing, and seal persistence all align.'
+  evidence_chain:
+  - study: study-selection-for-proximity
+    model: proto_endosymbiosis_hybrid (M1)
+    result: "selection_coefficient_for_adhesion +0.63 under exchange vs -0.36 no-exchange\
+      \ control \u2014 exchange necessary to select contact."
+  - study: study-enclosure-mechanics
+    model: proto_endosymbiosis_enclosure (M2)
+    result: probability_of_stable_enclosure 0.95 when adhesion beats the bending barrier
+      and survives perturbation vs 0.14 under conflict.
+  - study: study-contact-to-enclosure-coupling
+    model: proto_endosymbiosis_coupled (M3)
+    result: "joint_feasibility_region 0.91 aligned vs 0.075 decoupled \u2014 the two\
+      \ co-succeed only when all three conditions hold."
+  phase_diagram:
+    figure: figures/transition_phase_diagram.html
+    data: figures/transition_phase_data.json
+    model: proto_endosymbiosis_coupled (M4 sweep, 242 real runs)
+    reads: Feasible region (joint_feasibility ~0.9) occupies high-benefit/low-bending/low-perturbation
+      corner; collapses to ~0 as benefit<cost (no selection substrate), bending exceeds
+      adhesion (no sealing), or perturbation dominates (no persistence). net_lineage_fitness
+      is positive only inside the feasible region, neutral elsewhere.
+  inferential_scope: Reduced coupled models measuring the discriminating observables
+    directly (not the identity/prerequisite baselines the original 5 studies graded).
+    Spatial membrane PDE, full energy accounting, explicit vertical-transmission and
+    conflict dynamics are named deferrals (higher-fidelity M4+).
+  answer_to_reopening: "Which combinations work: selection+sealing+persistence together.\
+    \ Which fail: any single axis failing (shown directly). Why: contact provides\
+    \ the adhesion enclosure needs and enclosure locks in the exchange benefit that\
+    \ keeps contact selected \u2014 the feedback is self-reinforcing only inside the\
+    \ narrow aligned region."
