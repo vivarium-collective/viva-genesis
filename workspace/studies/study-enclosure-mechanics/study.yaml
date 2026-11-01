@@ -1,0 +1,73 @@
+schema_version: '0.4'
+name: study-enclosure-mechanics
+title: Can selected contact transition to stable enclosure under physical constraints?
+investigation: eukaryogenesis
+question: Can selected contact transition to stable enclosure under physical constraints?
+claim: null
+hypothesis: Physically constrained remodelling reaches stable enclosure in a majority
+  of the feasible regime.
+concept: endosymbiosis transition bridge
+topic: eukaryogenesis
+status: planned
+design_status: designed
+simulation_status: not_started
+evaluation_status: not_started
+gate_status: not_started
+created: '2026-11-01T02:16:30Z'
+parent_studies:
+- study: s3-protrusions-to-enclosure
+  relation: builds-on
+required_mechanisms:
+- Compare protrusion/inside-out, active engulfment, and non-enclosing contact.
+- Explicit membrane area, bending energy, adhesion energy, and topology constraints.
+- Register matched runs; distinguish contact, partial wrapping, sealing, and survival.
+- no_exchange
+- no_adhesion
+- no_enclosure
+- low_vs_high_diffusion
+- efficient_vs_inefficient_energy_coupling
+- faithful_vs_failed_vertical_transmission
+baseline:
+- name: baseline
+  composite: viva_genesis.composites.protrusion_enclosure.protrusion_enclosure
+  params: {}
+  note: "First-fidelity arm: reuses the parent composite named in the feedback's `reuse`.\
+    \ The coupled proto_endosymbiosis_hybrid composite (with the extend_with mechanisms)\
+    \ is the next-fidelity arm \u2014 a capability gap to build."
+variants: []
+observables:
+- probability_of_stable_enclosure
+- mechanical_work_and_membrane_area_cost
+- enclosure_time_and_failure_mode
+- persistence_after_perturbation
+behavior_tests:
+- name: study-enclosure-mechanics-discriminates
+  classification: primary
+  description: Enclosure is supported only if mechanically valid, persistent outcomes
+    occur without imposing the desired topology as a starting condition.
+  measure: probability_of_stable_enclosure
+  pass_if:
+    op: '>='
+    value: 0.5
+- name: study-enclosure-mechanics-mechanical-work-and-membrane-area-cost
+  classification: secondary
+  description: 'Preregistered measurement: mechanical_work_and_membrane_area_cost
+    (bands to be sharpened before run).'
+  measure: mechanical_work_and_membrane_area_cost
+- name: study-enclosure-mechanics-enclosure-time-and-failure-mode
+  classification: secondary
+  description: 'Preregistered measurement: enclosure_time_and_failure_mode (bands
+    to be sharpened before run).'
+  measure: enclosure_time_and_failure_mode
+- name: study-enclosure-mechanics-persistence-after-perturbation
+  classification: secondary
+  description: 'Preregistered measurement: persistence_after_perturbation (bands to
+    be sharpened before run).'
+  measure: persistence_after_perturbation
+visualizations: []
+findings: []
+runs: []
+tags:
+- bridge
+- discriminating
+- reopened-by-feedback

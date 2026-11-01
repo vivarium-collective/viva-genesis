@@ -1,0 +1,75 @@
+schema_version: '0.4'
+name: study-selection-for-proximity
+title: Does exchange increase the fitness of contact-seeking phenotypes?
+investigation: eukaryogenesis
+question: Does exchange increase the fitness of contact-seeking phenotypes?
+claim: null
+hypothesis: Exchange creates positive selection for contact (adhesion-seeking phenotypes
+  invade and persist).
+concept: endosymbiosis transition bridge
+topic: eukaryogenesis
+status: planned
+design_status: designed
+simulation_status: not_started
+evaluation_status: not_started
+gate_status: not_started
+created: '2026-11-01T02:16:30Z'
+parent_studies:
+- study: s1-metabolic-partnership
+  relation: builds-on
+- study: s2-ecology-to-proximity
+  relation: builds-on
+required_mechanisms:
+- Agent-level growth, division, death, adhesion cost, and heritable contact propensity.
+- Competition between contact-seeking and non-contact-seeking phenotypes.
+- Spatial gradients and diffusivity sweeps with common randomized seeds.
+- no_exchange
+- no_adhesion
+- no_enclosure
+- low_vs_high_diffusion
+- efficient_vs_inefficient_energy_coupling
+- faithful_vs_failed_vertical_transmission
+baseline:
+- name: baseline
+  composite: viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community
+  params: {}
+  note: "First-fidelity arm: reuses the parent composite named in the feedback's `reuse`.\
+    \ The coupled proto_endosymbiosis_hybrid composite (with the extend_with mechanisms)\
+    \ is the next-fidelity arm \u2014 a capability gap to build."
+variants: []
+observables:
+- selection_coefficient_for_adhesion
+- contact_duration_distribution
+- exchange_flux_and_growth_rate
+- fitness_gain_relative_to_no_exchange
+behavior_tests:
+- name: study-selection-for-proximity-discriminates
+  classification: primary
+  description: Syntrophy-first is preferred only where contact phenotypes invade and
+    persist with POSITIVE selection under exchange, but not in no-exchange controls.
+  measure: selection_coefficient_for_adhesion
+  pass_if:
+    op: '>'
+    value: 0.0
+- name: study-selection-for-proximity-contact-duration-distribution
+  classification: secondary
+  description: 'Preregistered measurement: contact_duration_distribution (bands to
+    be sharpened before run).'
+  measure: contact_duration_distribution
+- name: study-selection-for-proximity-exchange-flux-and-growth-rate
+  classification: secondary
+  description: 'Preregistered measurement: exchange_flux_and_growth_rate (bands to
+    be sharpened before run).'
+  measure: exchange_flux_and_growth_rate
+- name: study-selection-for-proximity-fitness-gain-relative-to-no-exchange
+  classification: secondary
+  description: 'Preregistered measurement: fitness_gain_relative_to_no_exchange (bands
+    to be sharpened before run).'
+  measure: fitness_gain_relative_to_no_exchange
+visualizations: []
+findings: []
+runs: []
+tags:
+- bridge
+- discriminating
+- reopened-by-feedback

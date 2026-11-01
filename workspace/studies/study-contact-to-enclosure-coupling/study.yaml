@@ -1,0 +1,70 @@
+schema_version: '0.4'
+name: study-contact-to-enclosure-coupling
+title: Do the same conditions that select proximity also permit enclosure?
+investigation: eukaryogenesis
+question: Do the same conditions that select proximity also permit enclosure?
+claim: null
+hypothesis: The selected-contact regime and the feasible-enclosure regime overlap
+  (continuous bridge exists).
+concept: endosymbiosis transition bridge
+topic: eukaryogenesis
+status: planned
+design_status: designed
+simulation_status: not_started
+evaluation_status: not_started
+gate_status: not_started
+created: '2026-11-01T02:16:30Z'
+parent_studies:
+- study: s1-metabolic-partnership
+  relation: builds-on
+- study: s2-ecology-to-proximity
+  relation: builds-on
+- study: s3-protrusions-to-enclosure
+  relation: builds-on
+required_mechanisms:
+- Feed spatial and metabolic outputs into enclosure initial conditions.
+- Test whether benefit persists after explicit adhesion and membrane costs.
+- no_exchange
+- no_adhesion
+- no_enclosure
+- low_vs_high_diffusion
+- efficient_vs_inefficient_energy_coupling
+- faithful_vs_failed_vertical_transmission
+baseline:
+- name: baseline
+  composite: viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community
+  params: {}
+  note: "First-fidelity arm: reuses the parent composite named in the feedback's `reuse`.\
+    \ The coupled proto_endosymbiosis_hybrid composite (with the extend_with mechanisms)\
+    \ is the next-fidelity arm \u2014 a capability gap to build."
+variants: []
+observables:
+- joint_feasibility_region
+- net_fitness_before_and_after_enclosure
+- sensitivity_to_partner_size_and_diffusion
+behavior_tests:
+- name: study-contact-to-enclosure-coupling-discriminates
+  classification: primary
+  description: Reject a continuous syntrophy-first bridge where the selected-contact
+    regime and the feasible-enclosure regime do NOT overlap.
+  measure: joint_feasibility_region
+  pass_if:
+    op: '>'
+    value: 0.0
+- name: study-contact-to-enclosure-coupling-net-fitness-before-and-after-enclosure
+  classification: secondary
+  description: 'Preregistered measurement: net_fitness_before_and_after_enclosure
+    (bands to be sharpened before run).'
+  measure: net_fitness_before_and_after_enclosure
+- name: study-contact-to-enclosure-coupling-sensitivity-to-partner-size-and-diffusion
+  classification: secondary
+  description: 'Preregistered measurement: sensitivity_to_partner_size_and_diffusion
+    (bands to be sharpened before run).'
+  measure: sensitivity_to_partner_size_and_diffusion
+visualizations: []
+findings: []
+runs: []
+tags:
+- bridge
+- discriminating
+- reopened-by-feedback
