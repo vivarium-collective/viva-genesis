@@ -1,0 +1,378 @@
+feedback_version: '1.0'
+target:
+  investigation: eukaryogenesis
+  title: The Endosymbiotic Transition
+  source_report: investigation-eukaryogenesis-5.html
+  intent: reopen_and_add_structural_and_integration_axis
+  priority: high
+status_reconciliation:
+  observation: The investigation is marked closed with six M-track models returning
+    supported verdicts for selection-for-proximity, enclosure mechanics, contact-to-enclosure
+    coupling, vertical transmission, spatial exchange, and bidirectional syntrophy.
+    Those results establish a feasible selection-to-enclosure-to-transmission arc in
+    a reduced model regime. They do not test the structural barriers Morowitz (2002,
+    ch. 13) places at the center of the transition, nor the gene-level integration
+    arc that turns an association into an inherited organelle. The scientific question
+    is therefore unresolved, independent of report closure.
+  requested_state: active
+  actions:
+  - Reopen the canonical investigation record through the supported lifecycle mechanism;
+    do not treat editing HTML or this feedback file as a state change.
+  - Preserve every prior closure event and all six M-track supported verdicts in the
+    audit trail as prior evidence; this reopening ADDS axes, it does not retract them.
+  - Register the Morowitz barrier ledger below as an unresolved, high-priority objective
+    with executable follow-up actions.
+  - Convert at least four unfulfilled structural or integration barriers into typed
+    actionable opportunities with owner/process requirements, dependency edges, observable
+    endpoints, and acceptance validators.
+  - Distinguish report closure from scientific closure; do not declare any cycle complete
+    without new registered runs.
+  - Recompute frontier and readiness, then prioritize by expected discrimination times
+    feasibility, not gate status alone.
+  acceptance: UI and canonical state agree on active/open; the six M-track verdicts
+    remain visible as prior evidence; a nonempty prioritized frontier contains at least
+    one structural-mechanics or gene-integration experiment-design task.
+scientific_challenge:
+  id: morowitz-structural-and-integration-barriers
+  question: Which combinations of already-evolved cellular capabilities can make a
+    new cellular individual, and what must change for a metabolic association to become
+    a structurally viable, physiologically integrated, heritable cell? Which barriers
+    to that transition are necessary, which contingent, and which bypassable, and what
+    novel collective functions emerge when they are crossed? Do not assume eukaryogenesis
+    required phagocytosis, wall loss, or any universal order of events.
+  central_gap: The M-track demonstrates that metabolic exchange can select for proximity,
+    that enclosure is mechanically reachable, and that partners can be transmitted,
+    in a reduced regime. It does not model the cell envelope as a mechanical object
+    (wall rigidity, membrane tension, osmotic balance, cortex stabilization), does not
+    represent the gene-integration arc (symbiont gene loss, host transfer, protein
+    targeting and import, host regulatory control), and does not treat stable ectosymbiosis
+    or a permanent non-organelle endosymbiont as serious alternative endpoints. A chain
+    of feasibility results is not evidence that one physically consistent system crosses
+    the structural and integration barriers.
+  mandate: Find at least one feasible structural-and-integration pathway AND at least
+    one decisive failure regime or stable alternative endpoint. Compare competing structural
+    routes and competing innovation orderings under shared initial conditions, mass
+    and energy conservation, explicit osmotic and mechanical constraints, and preregistered
+    decision rules. Keep organelle-grade integration a hypothesis to be tested, not
+    an assumed outcome.
+  competing_hypotheses:
+  - id: MW-C1-rigid-envelope-constrains-internalization
+    mechanism: A rigid cell wall or envelope mechanically blocks the internalization
+      routes that would enclose a partner, without added remodeling machinery.
+    predictions:
+    - observable: probability_of_membrane_intact_enclosure
+      op: <
+      value: 0.1
+      regime: wall_present
+  - id: MW-C2-wall-loss-induces-osmotic-fragility
+    mechanism: Losing the wall raises deformability but exposes the cell to osmotic
+      rupture under a hypotonic gradient.
+    predictions:
+    - observable: lysis_probability
+      op: '>'
+      value: 0.5
+      regime: wall_free_no_cortex_hypotonic
+  - id: MW-C3-cortex-compensation-enables-safe-enclosure
+    mechanism: A cytoskeletal cortex or membrane-tension control compensates for wall
+      loss, suppressing lysis while permitting enclosure with an intact membrane.
+    predictions:
+    - observable: lysis_probability
+      op: <
+      value: 0.1
+      regime: wall_free_with_cortex_hypotonic
+    - observable: probability_of_membrane_intact_enclosure
+      op: '>='
+      value: 0.5
+      regime: wall_free_with_cortex
+  - id: MW-C4-symbiosis-creates-emergent-capability
+    mechanism: Combining two pre-adapted partners yields a capability neither sustains
+      alone (super-additive), rather than a merely additive benefit.
+    predictions:
+    - observable: emergent_capability_gain
+      op: '>'
+      value: 0
+      regime: restricted_condition
+  - id: MW-C4null-additive-only
+    mechanism: The partnership is only the sum of two independent functions; no new
+      collective capability emerges.
+    predictions:
+    - observable: emergent_capability_gain
+      op: <=
+      value: 0
+      regime: restricted_condition
+  - id: MW-C6-integrated-individual
+    mechanism: Division synchronization, copy-number segregation, and conflict suppression
+      make host and partner a single heritable individual.
+    predictions:
+    - observable: transmission_fidelity_under_conflict
+      op: '>='
+      value: 0.5
+      regime: cheater_invasion_allowed
+  - id: MW-C6conflict-dominated
+    mechanism: Cheater or conflict dynamics collapse faithful co-inheritance despite
+      enclosure.
+    predictions:
+    - observable: transmission_fidelity_under_conflict
+      op: <
+      value: 0.5
+      regime: cheater_invasion_allowed
+  - id: MW-C-ectosymbiosis-stable-endpoint
+    mechanism: Permanent membrane-adjacent ectosymbiosis is a stable endpoint; internalization
+      is not selectively favored once its costs are counted.
+    predictions:
+    - observable: net_fitness_advantage_of_internalization
+      op: <=
+      value: 0
+      regime: matched_resource_budget
+  - id: MW-C-integration-favored
+    mechanism: Internalization carries a net fitness advantage over ectosymbiosis under
+      matched budgets.
+    predictions:
+    - observable: net_fitness_advantage_of_internalization
+      op: '>'
+      value: 0
+      regime: matched_resource_budget
+  nonnegotiable_controls:
+  - wall_present
+  - wall_attenuated
+  - wall_free_with_cortex
+  - wall_free_without_cortex
+  - no_enclosure_stable_ectosymbiosis
+  - spatially_separated_partner
+  - membrane_adjacent_ectosymbiont
+  - internalized_partner
+  - matched_resource_budget
+  - no_gene_transfer_null
+  - faithful_vs_failed_division_synchronization
+  - cheater_invasion_allowed
+  - matched_randomized_seeds
+report_diagnostics:
+- id: enclosure-reduced-model-overgeneralization
+  severity: high
+  observation: The enclosure 0.95-vs-0.14 contrast is a reduced-model result that imposes
+    outcome topology and does not track membrane integrity.
+  request: Re-gate enclosure on membrane integrity (lysis, tension, osmotic pressure,
+    deformation energy); label the result illustrative model-regime, not ancestral
+    cell biology.
+- id: energetic-coupling-not-flux-resolved
+  severity: high
+  observation: The energetic-coupling study reports a qualitative viability threshold,
+    not a flux- and stoichiometry-resolved budget.
+  request: Upgrade to ATP production/consumption, transport costs, host maintenance,
+    and oxygen/redox variation; no quantitative energy-advantage claim without a calibrated
+    network or explicit reduced-model caveat.
+- id: syntrophy-benefit-is-modeled-not-ancestral
+  severity: medium
+  observation: The 1.52-vs-0.30 syntrophy benefit demonstrates modeled reciprocity,
+    not historical symbiotic ancestry.
+  request: Frame as emergent-capability evidence under restriction; add partner exclusion/replacement
+    and the full exchange-mode panel.
+- id: retention-is-model-regime-not-probability
+  severity: medium
+  observation: Retention 0.78-vs-0.03 is an internal model regime, not an ancestral
+    probability.
+  request: Add organelle-individuality criteria (division sync, segregation, host dependence,
+    conflict resistance, lineage heritability) and multi-generation validation with
+    null controls.
+- id: model-form-disagreement-unbenchmarked
+  severity: high
+  observation: Classical-engulfment, inside-out, and CPM model forms disagree on enclosure
+    and this disagreement is unresolved.
+  request: Promote to a dedicated alternative-model benchmark comparing the three on
+    matched initial conditions.
+- id: missing-gene-integration-arc
+  severity: high
+  observation: No study represents symbiont gene loss, host transfer, protein targeting/import,
+    or host regulatory control.
+  request: Seed the gene-integration arc as separately switchable processes with viable
+    intermediates between facultative association and obligate dependence.
+- id: provenance-not-separated-by-evidence-type
+  severity: medium
+  observation: Contemporary-taxon observation, phylogenetic reconstruction, mechanistic
+    simulation, and historical inference are not visibly separated.
+  request: Separate the four evidence classes in synthesis and figures; mark simulation
+    results as illustrative model-regime findings.
+- id: external-datasets-not-ingested
+  severity: low
+  observation: Asgard microscopy/ultrastructure, GTDB/NCBI genomes, transporter annotations,
+    and environmental redox/growth measurements are requested by the reviewer but not
+    present.
+  request: Register these as data-access requests requiring approval; do not mark any
+    as ingested until verified.
+next_cycle:
+  title: Do structural barriers permit or forbid a membrane-intact, integrated endosymbiont?
+  objective: Test the Morowitz structural and integration barriers directly, keeping
+    the six M-track supported verdicts as prior evidence, and establish at least one
+    feasible pathway and one decisive failure or stable alternative endpoint.
+  design:
+  - id: mw-s1-wall-rupture-deformability-tradeoff
+    question: Across wall-present, wall-attenuated, wall-free-with-cortex, and wall-free-without-cortex
+      arms, where does the cell gain the deformability to enclose a partner without
+      osmotic rupture?
+    reuse:
+    - study-enclosure-mechanics
+    - s3-protrusions-to-enclosure
+    extend_with:
+    - Envelope mechanics (wall rigidity, membrane tension, bending modulus, excess
+      area, cortex stiffness) and an explicit osmotic balance under a hypotonic gradient.
+    - Matched wall-present / wall-attenuated / wall-free-with-cortex / wall-free-without-cortex
+      arms with common randomized seeds.
+    - Membrane-integrity gating so enclosure counts only when the membrane survives.
+    measurements:
+    - lysis_probability
+    - membrane_tension
+    - osmotic_pressure_difference
+    - deformation_energy
+    - probability_of_membrane_intact_enclosure
+    decision_rule: Report a mechanical/osmotic phase diagram with feasibility bounds
+      and calibrated uncertainty; support safe enclosure only where membrane-intact
+      enclosure occurs with low lysis, and never as a universal necessity.
+    primary_hypothesis: MW-C3-cortex-compensation-enables-safe-enclosure
+  - id: mw-s3-emergent-capability-vs-additive-benefit
+    question: Does the partnership create a capability neither free-living partner sustains
+      alone, or only an additive benefit?
+    reuse:
+    - study-bidirectional-syntrophy
+    - s1-metabolic-partnership
+    extend_with:
+    - Growth under restricted conditions, ATP yield, and survival under perturbation
+      measured against the best single partner.
+    - The full exchange-mode panel (one-way, balanced reciprocal, parasitism, commensalism,
+      environmental cross-feeding) plus partner exclusion/replacement.
+    measurements:
+    - emergent_capability_gain
+    - capability_under_restriction
+    - atp_yield_vs_best_single_partner
+    - net_fitness_advantage_of_internalization
+    decision_rule: Claim emergence only where the joint system exceeds the best single
+      partner under restriction (super-additive); otherwise report additive benefit.
+    primary_hypothesis: MW-C4-symbiosis-creates-emergent-capability
+  - id: mw-s5-division-sync-and-conflict-suppression
+    question: Do division synchronization, copy-number segregation, and conflict suppression
+      make host and partner a single heritable individual?
+    reuse:
+    - study-vertical-transmission-stability
+    extend_with:
+    - Host-symbiont division synchronization, copy-number segregation, cheater invasion,
+      and a Price-style selection decomposition where feasible.
+    - Multi-generation validation with null controls.
+    measurements:
+    - transmission_fidelity_under_conflict
+    - cheater_invasion_resistance
+    - division_synchronization_index
+    - lineage_heritability
+    decision_rule: Support integrated individuality only where faithful co-inheritance
+      resists cheater invasion across generations; retention alone is insufficient.
+    primary_hypothesis: MW-C6-integrated-individual
+  required_visualizations:
+  - Morowitz constraint-to-innovation map with enables/constrains/bypasses edges and
+    explicit uncertainty.
+  - Envelope-stability versus engulfment-feasibility phase diagram including the lysis
+    boundary.
+  - Integration/individuality radar over inheritance, autonomy, protein import, host
+    control, and reciprocal dependency.
+  exit_gate: Tracked, control-matched runs support or reject at least one structural
+    or integration barrier hypothesis, identify the next quantitative uncertainty,
+    and keep the M-track verdicts intact as prior evidence.
+following_cycle:
+  title: From facultative association to obligate organelle, and the competition of
+    routes and orderings
+  entry_condition: The preceding cycle has produced a membrane-intact feasible enclosure
+    regime or a documented failure/alternative endpoint, and a flux-resolved energetic
+    budget is available or scoped.
+  objective: Test which structural routes and innovation orderings yield a viable path
+    to an integrated individual, and whether viable permanent endosymbionts that never
+    become organelles are a stable endpoint.
+  new_composite_model:
+    name: proto_endosymbiosis_integration
+    architecture: process_bigraph_composite
+    modules:
+    - envelope_and_cortex_mechanics
+    - osmotic_balance_and_membrane_tension
+    - membrane_remodeling_and_engulfment_routes
+    - flux_resolved_metabolite_transport_and_energy_accounting
+    - symbiont_gene_loss_and_host_transfer
+    - protein_targeting_and_import
+    - host_regulatory_control
+    - division_synchronization_and_segregation
+    - conflict_and_cheater_dynamics
+    coupling_contract: Share typed stores with explicit units and mass/energy conservation;
+      pass actual output states between modules; support topology-changing enclosure
+      and gene-transfer events; do not substitute a narrative handoff for coupling.
+  experiments:
+  - MW-S2 structural-route competition (inside-out, active engulfment, protrusion-mediated
+    ectosymbiosis, no-enclosure) on matched initial conditions, scored on membrane-intact
+    enclosure and net fitness advantage of internalization.
+  - MW-S4 gene-integration arc with gene loss, host transfer, protein retargeting,
+    and host control as separately switchable processes; test whether viable intermediates
+    connect facultative association to obligate dependence, and allow viable permanent
+    endosymbionts.
+  - MW-S6 alternative innovation ordering (mitochondrion-early versus complex-host-first)
+    via viability-constrained path search.
+  measurements:
+  - probability_of_membrane_intact_enclosure
+  - net_fitness_advantage_of_internalization
+  - obligate_dependence_probability
+  - loss_of_autonomy_fraction
+  - viable_ordering_count
+  - energy_balance_and_transport_losses
+  required_visualizations:
+  - Paired function-versus-cost maps for free-living, ectosymbiotic, enclosed, and
+    organelle-like states.
+  - Evolutionary path map across innovation orderings with viable, nonviable, and untested
+    edges.
+  - Evidence-to-claim provenance graph separating modern proxies from historical reconstructions.
+  exit_gate: Report conditions for integrated individuality and conditions favoring
+    non-integration or stable ectosymbiosis, with quantified uncertainty; do not label
+    any simulated route as the unique historical origin of eukaryotes.
+engine_method_feedback:
+  prioritize_by: expected_discrimination_times_feasibility
+  closure_policy: report_closure_is_not_scientific_closure; no cycle complete without
+    new registered runs
+  convert_to_opportunities:
+  - envelope mechanics and osmotic rupture (wall/cortex arms)
+  - structural-route competition with an alternative-model benchmark
+  - emergent collective capability versus additive benefit
+  - gene-integration arc (loss, transfer, targeting, host control)
+  - division synchronization and conflict suppression
+  - alternative innovation orderings under viability-constrained search
+  preserve:
+  - the six M-track supported verdicts as prior evidence in lifecycle_history
+  note: Method names are requested capabilities, not claims that these callable functions
+    already exist.
+cycle_instructions:
+  autonomy: supervised
+  first_action: reconcile_status_and_preserve_prior_verdicts
+  then:
+  - Reopen and register the Morowitz barrier ledger and its competing hypotheses.
+  - Rank MW-S1, MW-S3, and MW-S5 first by expected discrimination times feasibility.
+  - Create executable study specifications; emit author_predictions where coverage
+    is incomplete rather than inventing bands from prose.
+  - Build only the missing structural/integration interfaces; reuse M-track composites
+    where possible.
+  - Run matched wall/cortex/osmotic controls and parameter ensembles after readiness
+    checks.
+  - Generate the constraint map, phase diagram, and individuality radar with uncertainty.
+  - Open the following cycle around route competition, the gene-integration arc, and
+    ordering.
+  stop_conditions:
+  - Missing required data or model interface with no defensible fallback.
+  - Conservation, osmotic, or validation failure that invalidates the experiment.
+  - Action requires approval outside configured execution permissions.
+  success_criteria:
+  - At least one newly registered structural or integration study beyond the M-track.
+  - At least one membrane-integrity-gated enclosure result replacing the ungated contrast.
+  - At least one hypothesis rejected or meaningfully narrowed by evidence.
+  - A mechanical/osmotic phase diagram exposing both safe-enclosure and lysis regimes.
+  - Stable ectosymbiosis and viable permanent endosymbiont retained as serious endpoints.
+human_feedback_to_engine: >-
+  Reopen this investigation and stop treating the selection-to-enclosure-to-transmission
+  arc as the whole story. Keep the six M-track supported verdicts as prior evidence.
+  The unresolved problem is Morowitz's structural and integration barriers - whether
+  a cell can gain the deformability to enclose a partner without osmotic rupture, whether
+  the partnership creates a genuinely new collective capability, whether gene loss
+  and transfer can drive obligate integration while still allowing viable permanent
+  endosymbionts, and which innovation orderings are viable. Prioritize MW-S1, MW-S3,
+  and MW-S5, build the structural/integration composite for route and ordering competition,
+  and keep stable ectosymbiosis as a serious alternative endpoint. Do not assert that
+  phagocytosis, wall loss, or any single event order was historically necessary.
