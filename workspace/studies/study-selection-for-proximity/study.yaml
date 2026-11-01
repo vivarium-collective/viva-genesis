@@ -109,7 +109,24 @@ behavior_tests:
     to be sharpened before run).'
   measure: fitness_gain_relative_to_no_exchange
 visualizations: []
-findings: []
+findings:
+- id: s-sel-exchange-selects-contact
+  statement: Under metabolic exchange, a heritable contact/adhesion propensity is
+    POSITIVELY selected (selection coefficient +0.63, contact fixes) above a frequency-dependent
+    invasion threshold; the matched no-exchange control shows NEGATIVE selection (-0.36,
+    contact eliminated). Exchange is necessary for selection-for-contact. Supports
+    H1-syntrophy-first in the favorable regime; rejects H4-no-integration there.
+  status: confirms
+  evidence:
+    observed: 0.6264
+    from_test: study-selection-for-proximity-discriminates
+    from_run: proto_endosymbiosis_hybrid coupled-selection (exchange on) vs coupled-no-exchange
+      control, seed 1
+  inferential_scope: "Reduced coupled model (replicator on contact propensity; frequency-dependent\
+    \ exchange benefit vs energetic adhesion cost). Establishes that exchange CAN\
+    \ select for contact given benefit>cost and partner availability; does NOT model\
+    \ spatial exchange PDE or membrane mechanics (M2+). The selection is regime-dependent\
+    \ \u2014 a frequency threshold exists (full phase map = M4)."
 runs:
 - name: viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1793500736__44a285
   status: completed
@@ -192,6 +209,172 @@ runs:
         source: override
     params_captured_at: '2026-10-31'
     params_source: dashboard-runner
+- name: viva_genesis.composites.proto_endosymbiosis_hybrid.proto_endosymbiosis_hybrid__1793504270__089ae2
+  status: completed
+  timestamp: 1793504271.4790258
+  emitter:
+    kind: unknown
+  env_id: 432d1860d83344ad
+  variant: coupled-selection
+  params: '{"exchange": "on", "benefit_coeff": 1.2, "cost_coeff": 0.3, "init_freq_high":
+    0.6, "n_initial": 100.0}'
+  provenance:
+    params:
+      benefit_coeff:
+        value: 1.2
+        source: override
+      cost_coeff:
+        value: 0.3
+        source: override
+      exchange:
+        value: true
+        source: override
+      init_freq_high:
+        value: 0.6
+        source: override
+      n_initial:
+        value: 100.0
+        source: override
+    params_captured_at: '2026-10-31'
+    params_source: dashboard-runner
+- name: viva_genesis.composites.proto_endosymbiosis_hybrid.proto_endosymbiosis_hybrid__1793504119__2ce2f2
+  status: failed
+  timestamp: 1793504121.0640671
+  emitter:
+    kind: unknown
+  env_id: d71c34e4e36f73ff
+  variant: coupled-no-exchange
+  params: '{"exchange": "off", "benefit_coeff": 1.2, "cost_coeff": 0.3, "init_freq_high":
+    0.6, "n_initial": 100.0}'
+- name: viva_genesis.composites.proto_endosymbiosis_hybrid.proto_endosymbiosis_hybrid__1793504118__1e2acf
+  status: failed
+  timestamp: 1793504119.762897
+  emitter:
+    kind: unknown
+  env_id: d71c34e4e36f73ff
+  variant: coupled-selection
+  params: '{"exchange": "on", "benefit_coeff": 1.2, "cost_coeff": 0.3, "init_freq_high":
+    0.6, "n_initial": 100.0}'
+- name: viva_genesis.composites.proto_endosymbiosis_hybrid.proto_endosymbiosis_hybrid__1793503925__1f73c1
+  status: failed
+  timestamp: 1793503926.5564601
+  emitter:
+    kind: unknown
+  env_id: d44c8f85fe25b1f2
+  variant: coupled-no-exchange
+  params: '{"exchange": "off", "benefit_coeff": 1.2, "cost_coeff": 0.3, "init_freq_high":
+    0.6, "n_initial": 100.0}'
+- name: viva_genesis.composites.proto_endosymbiosis_hybrid.proto_endosymbiosis_hybrid__1793503924__c3e4da
+  status: failed
+  timestamp: 1793503925.2758799
+  emitter:
+    kind: unknown
+  env_id: d44c8f85fe25b1f2
+  variant: coupled-selection
+  params: '{"exchange": "on", "benefit_coeff": 1.2, "cost_coeff": 0.3, "init_freq_high":
+    0.6, "n_initial": 100.0}'
+- name: viva_genesis.composites.proto_endosymbiosis_hybrid.proto_endosymbiosis_hybrid__1793504273__121f2b
+  status: completed
+  timestamp: 1793504274.850303
+  emitter:
+    kind: unknown
+  env_id: 432d1860d83344ad
+  variant: coupled-no-exchange
+  params: '{"exchange": "off", "benefit_coeff": 1.2, "cost_coeff": 0.3, "init_freq_high":
+    0.6, "n_initial": 100.0}'
+  provenance:
+    params:
+      benefit_coeff:
+        value: 1.2
+        source: override
+      cost_coeff:
+        value: 0.3
+        source: override
+      exchange:
+        value: false
+        source: override
+      init_freq_high:
+        value: 0.6
+        source: override
+      n_initial:
+        value: 100.0
+        source: override
+    params_captured_at: '2026-10-31'
+    params_source: dashboard-runner
+- name: viva_genesis.composites.proto_endosymbiosis_hybrid.proto_endosymbiosis_hybrid__1793504552__d24fe1
+  status: completed
+  timestamp: 1793504554.112401
+  emitter:
+    kind: unknown
+  env_id: 428a0301b0934c48
+  variant: coupled-selection
+  params: '{"exchange": "on", "benefit_coeff": 1.2, "cost_coeff": 0.3, "init_freq_high":
+    0.6, "n_initial": 100.0}'
+  provenance:
+    params:
+      benefit_coeff:
+        value: 1.2
+        source: override
+      cost_coeff:
+        value: 0.3
+        source: override
+      exchange:
+        value: true
+        source: override
+      init_freq_high:
+        value: 0.6
+        source: override
+      n_initial:
+        value: 100.0
+        source: override
+    params_captured_at: '2026-10-31'
+    params_source: dashboard-runner
+- name: viva_genesis.composites.proto_endosymbiosis_hybrid.proto_endosymbiosis_hybrid__1793504484__44469c
+  status: failed
+  timestamp: 1793504485.447696
+  emitter:
+    kind: unknown
+  env_id: 428a0301b0934c48
+  variant: coupled-no-exchange
+  params: '{"exchange": "off", "benefit_coeff": 1.2, "cost_coeff": 0.3, "init_freq_high":
+    0.6, "n_initial": 100.0}'
+- name: viva_genesis.composites.proto_endosymbiosis_hybrid.proto_endosymbiosis_hybrid__1793504482__1c423b
+  status: failed
+  timestamp: 1793504484.140703
+  emitter:
+    kind: unknown
+  env_id: 428a0301b0934c48
+  variant: coupled-selection
+  params: '{"exchange": "on", "benefit_coeff": 1.2, "cost_coeff": 0.3, "init_freq_high":
+    0.6, "n_initial": 100.0}'
+- name: viva_genesis.composites.proto_endosymbiosis_hybrid.proto_endosymbiosis_hybrid__1793504556__f930ce
+  status: completed
+  timestamp: 1793504557.476099
+  emitter:
+    kind: unknown
+  env_id: 428a0301b0934c48
+  variant: coupled-no-exchange
+  params: '{"exchange": "off", "benefit_coeff": 1.2, "cost_coeff": 0.3, "init_freq_high":
+    0.6, "n_initial": 100.0}'
+  provenance:
+    params:
+      benefit_coeff:
+        value: 1.2
+        source: override
+      cost_coeff:
+        value: 0.3
+        source: override
+      exchange:
+        value: false
+        source: override
+      init_freq_high:
+        value: 0.6
+        source: override
+      n_initial:
+        value: 100.0
+        source: override
+    params_captured_at: '2026-10-31'
+    params_source: dashboard-runner
 tags:
 - bridge
 - discriminating
@@ -224,6 +407,26 @@ simulation_set:
     placement: mixed
     k_diffusion: 0.001
   status: ran
+- name: coupled-selection
+  kind: single
+  base_model: viva_genesis.composites.proto_endosymbiosis_hybrid.proto_endosymbiosis_hybrid
+  perturbation:
+    exchange: true
+    benefit_coeff: 1.2
+    cost_coeff: 0.3
+    init_freq_high: 0.6
+    n_initial: 100.0
+  status: ran
+- name: coupled-no-exchange
+  kind: single
+  base_model: viva_genesis.composites.proto_endosymbiosis_hybrid.proto_endosymbiosis_hybrid
+  perturbation:
+    exchange: false
+    benefit_coeff: 1.2
+    cost_coeff: 0.3
+    init_freq_high: 0.6
+    n_initial: 100.0
+  status: ran
 pipeline_gate:
   gate_evaluator:
     result: blocked
@@ -234,3 +437,9 @@ pipeline_gate:
     - study-selection-for-proximity-fitness-gain-relative-to-no-exchange
     evaluated_by: code
     diverges_from_authored: false
+verdict: supported
+confidence: provisional
+verdict_rationale: 'Discriminating campaign on the coupled proto_endosymbiosis_hybrid
+  model: selection coefficient >0 under exchange, <=0 under the matched no-exchange
+  control. H1 supported conditionally (favorable regime), H4 rejected there, exchange
+  necessary.'

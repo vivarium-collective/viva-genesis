@@ -48,6 +48,8 @@ from ..endosymbiosis_select import ContactSelectionProcess  # registered via bui
 
 @composite_generator(
     name="proto_endosymbiosis_hybrid",
+    emitters=[{"address": "local:SQLiteEmitter",
+               "paths": ["global_time", "n_high", "n_low"]}],
     parameters={
         "exchange": {"type": "string", "default": "on",
                      "description": "'on' = exchange available; 'off' = no-exchange control"},
