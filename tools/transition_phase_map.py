@@ -31,6 +31,7 @@ from process_bigraph import Composite
 
 from viva_genesis.core import build_core
 import viva_genesis.composites.proto_endosymbiosis_coupled as P
+import viva_genesis.composites.proto_endosymbiosis_transmission as T
 
 COST = 0.3
 SEALED_BONUS = 0.5         # stable internalised exchange (transmission proxy) for sealed lineages
@@ -82,6 +83,29 @@ def sweep(core, xkey, xvals, ykey, yvals, fixed):
     return jf, fit
 
 
+def run_retention(core, fidelity, loss_rate):
+    """M5 retention at one (fidelity, loss_rate) point: settled endosymbiont fraction."""
+    doc = T.proto_endosymbiosis_transmission(core=core, fidelity=fidelity, loss_rate=loss_rate,
+                                             benefit=0.6, cost=0.1)
+    comp = Composite({"state": doc}, core=core)
+    rows = []
+    for _ in range(300):
+        comp.run(1)
+        st = comp.state
+        rows.append({"n_sym": st.get("n_sym"), "n_free": st.get("n_free")})
+    r = T.endosymbiont_retention_fraction(rows)
+    return round(r, 4) if r == r else None
+
+
+def sweep_retention(core, xvals, yvals):
+    """Slice C: fidelity (x) x loss_rate (y) -> retention (the M5 stability axis)."""
+    ret = [[None] * len(xvals) for _ in yvals]
+    for i, lr in enumerate(yvals):
+        for j, fid in enumerate(xvals):
+            ret[i][j] = run_retention(core, fid, lr)
+    return ret
+
+
 def linspace(a, b, n):
     return [round(a + (b - a) * k / (n - 1), 4) for k in range(n)]
 
@@ -91,6 +115,8 @@ def main():
     benefit = linspace(0.2, 1.6, GRID)
     bending = linspace(0.1, 1.0, GRID)
     perturb = linspace(0.0, 1.0, GRID)
+    fidelity = linspace(0.5, 1.0, GRID)
+    loss = linspace(0.0, 0.6, GRID)
 
     print("sweeping slice A (benefit x bending) ...")
     jfA, fitA = sweep(core, "benefit_coeff", benefit, "bending_modulus", bending,
@@ -98,10 +124,14 @@ def main():
     print("sweeping slice B (benefit x perturbation) ...")
     jfB, fitB = sweep(core, "benefit_coeff", benefit, "perturbation", perturb,
                       fixed=dict(base_adhesion=0.8, bending_modulus=0.2))
+    print("sweeping slice C (fidelity x loss -> retention, M5) ...")
+    retC = sweep_retention(core, fidelity, loss)
 
     data = {
         "benefit": benefit, "bending": bending, "perturb": perturb,
+        "fidelity": fidelity, "loss": loss,
         "sliceA": {"jf": jfA, "fit": fitA}, "sliceB": {"jf": jfB, "fit": fitB},
+        "sliceC": {"ret": retC},
         "meta": {"cost": COST, "sealed_bonus": SEALED_BONUS, "steps": N_STEPS, "grid": GRID},
     }
     out = Path("workspace/investigations/eukaryogenesis/figures")
@@ -136,13 +166,16 @@ h1{font-size:23px;margin:0 0 4px}.sub{color:var(--mut);margin:0 0 22px;max-width
 .note{color:var(--mut);font-size:12px;margin-top:18px;max-width:78ch}
 </style></head><body><div class="wrap">
 <h1>Eukaryogenesis transition — phase diagram</h1>
-<p class="sub">Real sweeps of the coupled <code>proto_endosymbiosis_coupled</code> model (M3). Each cell is one run; colour is the measured outcome. The feasible transition occupies a narrow region where selection-for-contact, enclosure sealing, and persistence all align.</p>
-<div class="toggle"><button id="bjf" class="on">joint feasibility</button><button id="bfit">net lineage fitness</button></div>
+<p class="sub">Real sweeps of the coupled models. A &amp; B (<code>proto_endosymbiosis_coupled</code>, M3): where the transition ESTABLISHES — a narrow region where selection-for-contact, enclosure sealing, and persistence all align. C (<code>proto_endosymbiosis_transmission</code>, M5): where, once established, it is RETAINED across generations. Each cell is one run.</p>
+<div class="toggle"><span style="color:var(--mut);font-size:12.5px;align-self:center;margin-right:4px">A &amp; B:</span><button id="bjf" class="on">joint feasibility</button><button id="bfit">net lineage fitness</button></div>
 <div class="row">
-<div class="card"><h2>A · selection × enclosure barrier</h2><p>x: exchange benefit (cost=<span id="cost"></span>) · y: bending modulus · perturbation=0.1</p><div id="pA" class="plot"></div></div>
-<div class="card"><h2>B · selection × persistence</h2><p>x: exchange benefit · y: perturbation · bending=0.2</p><div id="pB" class="plot"></div></div>
+<div class="card"><h2>A · selection × enclosure barrier</h2><p>establishment · x: exchange benefit (cost=<span id="cost"></span>) · y: bending modulus · perturbation=0.1</p><div id="pA" class="plot"></div></div>
+<div class="card"><h2>B · selection × persistence</h2><p>establishment · x: exchange benefit · y: perturbation · bending=0.2</p><div id="pB" class="plot"></div></div>
 </div>
-<p class="note">net_lineage_fitness integrates the frequency-dependent exchange benefit, the adhesion cost, and a sealed-lineage stable-exchange bonus (transmission proxy) over the settled compartment distribution; explicit vertical-transmission and conflict dynamics are named deferrals (M4+). Data embedded from the run; no schematic values.</p>
+<div class="row" style="grid-template-columns:1fr;margin-top:18px">
+<div class="card"><h2>C · evolutionary stability (M5)</h2><p>retention across generations · x: transmission fidelity · y: conflict/partner-loss rate · benefit=0.6, cost=0.1</p><div id="pC" class="plot"></div></div>
+</div>
+<p class="note">A &amp; B: joint_feasibility_region and the integrated net_lineage_fitness (frequency-dependent exchange benefit − adhesion cost + sealed-lineage stable-exchange bonus). C: endosymbiont_retention_fraction — the established symbiosis is kept only where transmission fidelity and selective benefit outrun conflict/partner-loss. The exchange benefit underlying A–C is itself mechanistically proximity-dependent (M6, screened diffusion). All values embedded from real runs; no schematic cells.</p>
 </div>
 <script>
 const D=__DATA__;
@@ -159,9 +192,16 @@ function heat(div,slice,xv,yv,xt,yt){
     hovertemplate:xt+"=%{x}<br>"+yt+"=%{y}<br>"+(metric==="jf"?"feasible":"fitness")+"=%{z}<extra></extra>"};
   Plotly.react(div,[tr],Object.assign({},common,{xaxis:{title:{text:xt,font:{size:11}},color:css("--mut")},yaxis:{title:{text:yt,font:{size:11}},color:css("--mut")}}),{displayModeBar:false,responsive:true});
 }
+function heatC(){
+  const tr={z:D.sliceC.ret,x:D.fidelity,y:D.loss,type:"heatmap",colorscale:"Viridis",zmin:0,zmax:1,
+    colorbar:{thickness:10,len:0.9,title:{text:"retained",side:"right",font:{size:10}}},
+    hovertemplate:"fidelity=%{x}<br>loss=%{y}<br>retained=%{z}<extra></extra>"};
+  Plotly.react("pC",[tr],Object.assign({},common,{xaxis:{title:{text:"transmission fidelity",font:{size:11}},color:css("--mut")},yaxis:{title:{text:"conflict / partner-loss",font:{size:11}},color:css("--mut")}}),{displayModeBar:false,responsive:true});
+}
 function draw(){
   heat("pA","sliceA",D.benefit,D.bending,"exchange benefit","bending modulus");
   heat("pB","sliceB",D.benefit,D.perturb,"exchange benefit","perturbation");
+  heatC();
 }
 document.getElementById("bjf").onclick=()=>{metric="jf";bjf.classList.add("on");bfit.classList.remove("on");draw();};
 document.getElementById("bfit").onclick=()=>{metric="fit";bfit.classList.add("on");bjf.classList.remove("on");draw();};
