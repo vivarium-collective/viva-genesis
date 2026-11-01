@@ -2011,6 +2011,478 @@ _save_viz('s5-symbiont-to-organelle', 'heritable-integration', _render_one('loca
 # | --- | --- | --- | --- |
 # | FECA-LECA transition frames where a new eukaryotic individual emerges. | settled_heritability | Vosseberg et al. 2024, Nature | proposed |
 
+# ## Study: Does exchange increase the fitness of contact-seeking phenotypes? (`study-selection-for-proximity`)
+#
+# **Question.** Does exchange increase the fitness of contact-seeking phenotypes?
+#
+# **Hypothesis.** Exchange creates positive selection for contact (adhesion-seeking phenotypes invade and persist).
+
+# ### Parameters
+#
+# | simulation | composite | steps | params |
+# | --- | --- | --- | --- |
+# | `baseline` | `viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community` | 0 | lineages=fixer:4,reducer:4, coupling=shared, model_proto_ecology=reaction_universe, p_diacid=1e-08, p_monoacid=1e-07, k_wash=0.01, placement=mixed, k_diffusion=0.001 |
+#
+# Declared parameter sets (`study.yaml` variants):
+#
+# - **no-exchange-control** — `lineages=fixer:4,reducer:4`, `coupling=private`, `model_proto_ecology=reaction_universe`, `p_diacid=1e-08`, `p_monoacid=1e-07`, `k_wash=0.01`, `placement=mixed`, `k_diffusion=0.001`
+# - **coupled-selection** — `exchange=on`, `benefit_coeff=1.2`, `cost_coeff=0.3`, `init_freq_high=0.6`, `n_initial=100.0`
+# - **coupled-no-exchange** — `exchange=off`, `benefit_coeff=1.2`, `cost_coeff=0.3`, `init_freq_high=0.6`, `n_initial=100.0`
+
+# ### The model & its parameters
+#
+# Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
+
+# **The model — `viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community`**
+#
+# og-07's metacommunity rebuilt on real chemistry (Phase 8): N protocells in the agents map, each running the Phase-3 rule-generated reaction universe (libRoadRunner, eQuilibrator dG') masked to its lineage's catalyst repertoire (fixer: CO2 reduction + carboxylations; reducer: hydrogenations; condenser: aldol / formose; generalist: all), pointed at fixed cells of a pore whose background the Phase-4 localization class shapes species by species. A SpatialCouplingStep fires the exchange rules of a bigraphical reactive system every tick (uptake / secretion through size- and charge-dependent permeabilities, pore diffusion, feed / washout) and counts the firings; an EcologyReducerStep recomputes og-07's gate readouts from the agents (present vs produced functions); an EcologyElementLedgerProcess audits C / N / P over agents + field. coupling=private is the isolated counterfactual; model_proto_ecology=null_network the rewired control.
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_metabolite_exchange_community_metabolite_exchange_community = {
+    'model_proto_ecology'   : 'reaction_universe',   # Model class behind the 'proto_ecology' face: null_network | reaction_universe
+    'model_localization'    : 'multisolute_surrogate',   # Model class behind the 'localization' face: fenics | fenics_multisolute_3d | fipy | multisolute_surrogate | surrogate
+    'lineages'              : 'fixer:4,reducer:4',   # Agents per lineage repertoire, e.g. fixer:4,reducer:4 | fixer:8 | generalist:8
+    'placement'             : 'mixed',   # mixed | segregated | random positions along the pore (fixed; no motion)
+    'coupling'              : 'shared',   # shared = agents exchange with a common pore field; private = each agent sees only the background (isolated counterfactual)
+    'n_cells'               : 4,   # Pore field cells along the flow axis [vg-data: hypothetical]
+    'pool_volume_multiplier': 10.0,   # Pore volume per agent volume [vg-data: hypothetical]
+    'k_wash'                : 0.05,   # Pore feed / washout rate (1/s); 1/residence time [vg-data: inferred, swept]
+    'k_diffusion'           : 0.1,   # Exchange rate between neighbouring cells (1/s) [vg-data: hypothetical]
+    'p_gas'                 : 1e-05,   # Membrane permeability class p_gas (m/s) [vg-data: extrapolated]
+    'p_small_neutral'       : 1e-07,   # Membrane permeability class p_small_neutral (m/s) [vg-data: extrapolated]
+    'p_large_neutral'       : 3e-08,   # Membrane permeability class p_large_neutral (m/s) [vg-data: extrapolated]
+    'p_monoacid'            : 1e-09,   # Membrane permeability class p_monoacid (m/s) [vg-data: extrapolated]
+    'p_diacid'              : 1e-10,   # Membrane permeability class p_diacid (m/s) [vg-data: hypothetical, swept]
+    'p_ion'                 : 1e-10,   # Membrane permeability class p_ion (m/s) [vg-data: extrapolated]
+    'feed_CO2'              : 0.0014,   # Inlet CO2 (M) [vg-data: calibrated, Phase-1 posterior]
+    'feed_H2'               : 0.0108,   # Inlet H2 (M) [vg-data: calibrated, Phase-1 posterior]
+    'feed_pyruvate'         : 0.0001,   # Inlet pyruvate (M) [vg-data: inferred]
+    'feed_formate'          : 0.0,   # Inlet formate (M) [vg-data: hypothetical]
+    'feed_ammonium'         : 5e-05,   # Inlet ammonium (M) [vg-data: extrapolated]
+    'feed_phosphate'        : 1e-05,   # Inlet phosphate (M) [vg-data: extrapolated]
+    'peclet'                : 8.0,   # Pore advective Peclet for the localization class
+    'soret_scale'           : 1.0,   # Scale on the per-species Soret coefficients
+    'null_seed'             : 0,   # Rewiring seed for the null_network class
+    'function_floor'        : 1e-09,   # Concentration floor for holding a function (M) [vg-data: inferred]
+    'seed'                  : 1,   # Placement seed (random placement only)
+}
+
+# ### Run
+#
+# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
+
+# === Study: study-selection-for-proximity ===
+STUDY = 'study-selection-for-proximity'
+STUDY_DIR = REPO / 'workspace/studies' / STUDY
+STUDY_YAML = str(STUDY_DIR / "study.yaml")
+RUNS_DB = str(STUDY_DIR / "runs.db")
+
+# This study has no *recorded* runs yet. RERUN builds its declared
+# composite(s) live and runs them; a composite whose module processes
+# are not implemented yet reports the error instead of crashing.
+STEPS_baseline = 100
+INTERVAL_baseline = 1.0
+
+if RERUN:
+    from process_bigraph import Composite
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_metabolite_exchange_community_metabolite_exchange_community if 'ov_viva_genesis_composites_metabolite_exchange_community_metabolite_exchange_community' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_metabolite_exchange_community_metabolite_exchange_community = materialize_composite('viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_metabolite_exchange_community_metabolite_exchange_community['state']}, core=core)
+            _comp.run(STEPS_baseline)
+        print('ran', 'baseline', f'(viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community) for', STEPS_baseline, 'steps')
+    except Exception as _e:
+        print(f"baseline not runnable yet: {type(_e).__name__}: {_e}")
+else:
+    print("RERUN=False — not re-simulating.")
+
+# ### Acceptance criteria
+#
+# _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
+#
+# | test | measures | passes if |
+# | --- | --- | --- |
+# | study-selection-for-proximity-discriminates _(primary)_ | selection_coefficient_for_adhesion | op > value 0.0 |
+# | study-selection-for-proximity-contact-duration-distribution _(secondary)_ | contact_duration_distribution |  |
+# | study-selection-for-proximity-exchange-flux-and-growth-rate _(secondary)_ | exchange_flux_and_growth_rate |  |
+# | study-selection-for-proximity-fitness-gain-relative-to-no-exchange _(secondary)_ | fitness_gain_relative_to_no_exchange |  |
+
+# ## Study: Can selected contact transition to stable enclosure under physical constraints? (`study-enclosure-mechanics`)
+#
+# **Question.** Can selected contact transition to stable enclosure under physical constraints?
+#
+# **Hypothesis.** Physically constrained remodelling reaches stable enclosure in a majority of the feasible regime.
+
+# ### Parameters
+#
+# | simulation | composite | steps | params |
+# | --- | --- | --- | --- |
+# | `baseline` | `viva_genesis.composites.proto_endosymbiosis_enclosure.proto_endosymbiosis_enclosure` | 0 | adhesion_energy=0.9, bending_modulus=0.2, perturbation=0.1 |
+#
+# Declared parameter sets (`study.yaml` variants):
+#
+# - **enclosure-conflict** — `adhesion_energy=0.6`, `bending_modulus=0.3`, `perturbation=0.9`
+
+# ### The model & its parameters
+#
+# Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
+
+# **The model — `viva_genesis.composites.proto_endosymbiosis_enclosure.proto_endosymbiosis_enclosure`**
+#
+# Coupled bridge model M2: stable-enclosure probability from an ensemble of enclosure attempts under adhesion vs bending barrier vs perturbation.
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_proto_endosymbiosis_enclosure_proto_endosymbiosis_enclosure = {
+    'adhesion_energy': 0.6,   # adhesion drive (seals + resists unwrap)
+    'bending_modulus': 0.3,   # neck-closure bending barrier (cost)
+    'perturbation'   : 0.2,   # unwrapping stress on sealed attempts
+    'seal_rate'      : 0.3,   # base attempting->sealed rate
+    'unwrap_rate'    : 0.3,   # base sealed->stalled rate
+    'retry_rate'     : 0.05,   # stalled->attempting rate
+    'sharpness'      : 6.0,   # sigmoid sharpness k
+    'n_attempts'     : 100.0,   # ensemble size
+    'seed'           : 1,   # random seed
+}
+
+# ### Run
+#
+# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
+
+# === Study: study-enclosure-mechanics ===
+STUDY = 'study-enclosure-mechanics'
+STUDY_DIR = REPO / 'workspace/studies' / STUDY
+STUDY_YAML = str(STUDY_DIR / "study.yaml")
+RUNS_DB = str(STUDY_DIR / "runs.db")
+
+# This study has no *recorded* runs yet. RERUN builds its declared
+# composite(s) live and runs them; a composite whose module processes
+# are not implemented yet reports the error instead of crashing.
+STEPS_baseline = 100
+INTERVAL_baseline = 1.0
+
+if RERUN:
+    from process_bigraph import Composite
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_proto_endosymbiosis_enclosure_proto_endosymbiosis_enclosure if 'ov_viva_genesis_composites_proto_endosymbiosis_enclosure_proto_endosymbiosis_enclosure' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_proto_endosymbiosis_enclosure_proto_endosymbiosis_enclosure = materialize_composite('viva_genesis.composites.proto_endosymbiosis_enclosure.proto_endosymbiosis_enclosure', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_proto_endosymbiosis_enclosure_proto_endosymbiosis_enclosure['state']}, core=core)
+            _comp.run(STEPS_baseline)
+        print('ran', 'baseline', f'(viva_genesis.composites.proto_endosymbiosis_enclosure.proto_endosymbiosis_enclosure) for', STEPS_baseline, 'steps')
+    except Exception as _e:
+        print(f"baseline not runnable yet: {type(_e).__name__}: {_e}")
+else:
+    print("RERUN=False — not re-simulating.")
+
+# ### Acceptance criteria
+#
+# _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
+#
+# | test | measures | passes if |
+# | --- | --- | --- |
+# | study-enclosure-mechanics-discriminates _(primary)_ | probability_of_stable_enclosure | op >= value 0.5 |
+
+# ## Study: Do the same conditions that select proximity also permit enclosure? (`study-contact-to-enclosure-coupling`)
+#
+# **Question.** Do the same conditions that select proximity also permit enclosure?
+#
+# **Hypothesis.** The selected-contact regime and the feasible-enclosure regime overlap (continuous bridge exists).
+
+# ### Parameters
+#
+# | simulation | composite | steps | params |
+# | --- | --- | --- | --- |
+# | `baseline` | `viva_genesis.composites.proto_endosymbiosis_coupled.proto_endosymbiosis_coupled` | 0 | benefit_coeff=1.2, cost_coeff=0.3, base_adhesion=0.8, bending_modulus=0.2, perturbation=0.1 |
+#
+# Declared parameter sets (`study.yaml` variants):
+#
+# - **decoupled-control** — `benefit_coeff=0.3`, `cost_coeff=0.5`, `base_adhesion=0.8`, `bending_modulus=0.2`, `perturbation=0.1`
+
+# ### The model & its parameters
+#
+# Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
+
+# **The model — `viva_genesis.composites.proto_endosymbiosis_coupled.proto_endosymbiosis_coupled`**
+#
+# Coupled bridge model M3: joint feasibility of selection-for-contact and stable enclosure under their reinforcing coupling.
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_proto_endosymbiosis_coupled_proto_endosymbiosis_coupled = {
+    'benefit_coeff'     : 1.2,   # max freq-dependent exchange benefit
+    'cost_coeff'        : 0.3,   # adhesion cost
+    'base_adhesion'     : 0.8,   # adhesion of a high-contact lineage
+    'bending_modulus'   : 0.2,   # enclosure neck-closure barrier
+    'perturbation'      : 0.1,   # unwrapping stress
+    'seal_rate'         : 0.3,   # base hc_un->hc_se rate
+    'unwrap_rate'       : 0.3,   # base hc_se->hc_un rate
+    'selection_strength': 1.0,   # replicator step scaling
+    'sharpness'         : 6.0,   # sigmoid sharpness k
+    'n_lineages'        : 100.0,   # ensemble size
+    'init_freq_high'    : 0.3,   # initial high-contact frequency
+    'seed'              : 1,   # random seed
+}
+
+# ### Run
+#
+# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
+
+# === Study: study-contact-to-enclosure-coupling ===
+STUDY = 'study-contact-to-enclosure-coupling'
+STUDY_DIR = REPO / 'workspace/studies' / STUDY
+STUDY_YAML = str(STUDY_DIR / "study.yaml")
+RUNS_DB = str(STUDY_DIR / "runs.db")
+
+# This study has no *recorded* runs yet. RERUN builds its declared
+# composite(s) live and runs them; a composite whose module processes
+# are not implemented yet reports the error instead of crashing.
+STEPS_baseline = 100
+INTERVAL_baseline = 1.0
+
+if RERUN:
+    from process_bigraph import Composite
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_proto_endosymbiosis_coupled_proto_endosymbiosis_coupled if 'ov_viva_genesis_composites_proto_endosymbiosis_coupled_proto_endosymbiosis_coupled' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_proto_endosymbiosis_coupled_proto_endosymbiosis_coupled = materialize_composite('viva_genesis.composites.proto_endosymbiosis_coupled.proto_endosymbiosis_coupled', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_proto_endosymbiosis_coupled_proto_endosymbiosis_coupled['state']}, core=core)
+            _comp.run(STEPS_baseline)
+        print('ran', 'baseline', f'(viva_genesis.composites.proto_endosymbiosis_coupled.proto_endosymbiosis_coupled) for', STEPS_baseline, 'steps')
+    except Exception as _e:
+        print(f"baseline not runnable yet: {type(_e).__name__}: {_e}")
+else:
+    print("RERUN=False — not re-simulating.")
+
+# ### Acceptance criteria
+#
+# _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
+#
+# | test | measures | passes if |
+# | --- | --- | --- |
+# | study-contact-to-enclosure-coupling-discriminates _(primary)_ | joint_feasibility_region | op >= value 0.5 |
+
+# ## Study: Is the established endosymbiosis evolutionarily stable? (`study-vertical-transmission-stability`)
+#
+# **Question.** Once contact+enclosure establish the symbiosis (M3), is the symbiont heritably retained across generations, or does conflict/partner-loss decay it?
+
+# ### Parameters
+#
+# | simulation | composite | steps | params |
+# | --- | --- | --- | --- |
+# | `baseline` | `viva_genesis.composites.proto_endosymbiosis_transmission.proto_endosymbiosis_transmission` | 0 | fidelity=0.98, benefit=0.6, cost=0.1, loss_rate=0.03 |
+#
+# Declared parameter sets (`study.yaml` variants):
+#
+# - **high-conflict** — `fidelity=0.95`, `benefit=0.6`, `cost=0.1`, `loss_rate=0.5`
+
+# ### The model & its parameters
+#
+# Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
+
+# **The model — `viva_genesis.composites.proto_endosymbiosis_transmission.proto_endosymbiosis_transmission`**
+#
+# Coupled bridge model M5: evolutionary stability of an established endosymbiosis under vertical transmission, conflict, and selection.
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_proto_endosymbiosis_transmission_proto_endosymbiosis_transmission = {
+    'benefit'       : 0.6,   # net exchange benefit of bearing a symbiont
+    'cost'          : 0.1,   # maintenance cost of the symbiont
+    'fidelity'      : 0.95,   # P(daughter inherits symbiont) at division
+    'loss_rate'     : 0.05,   # conflict / partner-loss rate (sym->free)
+    'reacquire_rate': 0.01,   # horizontal re-acquisition (free->sym)
+    'base_growth'   : 0.3,   # selection timescale (turnover rate)
+    'init_freq_sym' : 0.5,   # initial symbiont-bearing fraction
+    'n_initial'     : 200.0,   # initial population size
+    'seed'          : 1,   # random seed
+}
+
+# ### Run
+#
+# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
+
+# === Study: study-vertical-transmission-stability ===
+STUDY = 'study-vertical-transmission-stability'
+STUDY_DIR = REPO / 'workspace/studies' / STUDY
+STUDY_YAML = str(STUDY_DIR / "study.yaml")
+RUNS_DB = str(STUDY_DIR / "runs.db")
+
+# This study has no *recorded* runs yet. RERUN builds its declared
+# composite(s) live and runs them; a composite whose module processes
+# are not implemented yet reports the error instead of crashing.
+STEPS_baseline = 100
+INTERVAL_baseline = 1.0
+
+if RERUN:
+    from process_bigraph import Composite
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_proto_endosymbiosis_transmission_proto_endosymbiosis_transmission if 'ov_viva_genesis_composites_proto_endosymbiosis_transmission_proto_endosymbiosis_transmission' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_proto_endosymbiosis_transmission_proto_endosymbiosis_transmission = materialize_composite('viva_genesis.composites.proto_endosymbiosis_transmission.proto_endosymbiosis_transmission', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_proto_endosymbiosis_transmission_proto_endosymbiosis_transmission['state']}, core=core)
+            _comp.run(STEPS_baseline)
+        print('ran', 'baseline', f'(viva_genesis.composites.proto_endosymbiosis_transmission.proto_endosymbiosis_transmission) for', STEPS_baseline, 'steps')
+    except Exception as _e:
+        print(f"baseline not runnable yet: {type(_e).__name__}: {_e}")
+else:
+    print("RERUN=False — not re-simulating.")
+
+# ### Acceptance criteria
+#
+# _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
+#
+# | test | measures | passes if |
+# | --- | --- | --- |
+# | study-vertical-transmission-stability-discriminates _(primary)_ | endosymbiont_retention_fraction | op >= value 0.5 |
+
+# ## Study: Does contact mechanistically confer an exchange advantage? (`study-spatial-exchange-proximity`)
+#
+# **Question.** M1 assumes contact scales exchange access. Under explicit diffusion, is realised metabolite exchange strongly proximity-dependent, or well-mixed (premise invalid)?
+
+# ### Parameters
+#
+# | simulation | composite | steps | params |
+# | --- | --- | --- | --- |
+# | `baseline` | `viva_genesis.composites.proto_endosymbiosis_spatial.proto_endosymbiosis_spatial` | 0 | consumer_distance=1, diffusion=0.4, decay=0.08 |
+#
+# Declared parameter sets (`study.yaml` variants):
+#
+# - **distal** — `consumer_distance=10`, `diffusion=0.4`, `decay=0.08`
+
+# ### The model & its parameters
+#
+# Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
+
+# **The model — `viva_genesis.composites.proto_endosymbiosis_spatial.proto_endosymbiosis_spatial`**
+#
+# Coupled bridge model M6: spatial metabolite exchange — realised exchange level vs producer-consumer distance, testing M1's contact-scales-access premise.
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_proto_endosymbiosis_spatial_proto_endosymbiosis_spatial = {
+    'n_cells'          : 16,   # 1-D grid length
+    'diffusion'        : 0.4,   # diffusion coefficient D
+    'decay'            : 0.08,   # decay rate k (screening length sqrt(D/k))
+    'production'       : 1.0,   # producer source flux
+    'uptake'           : 0.2,   # consumer uptake rate
+    'consumer_distance': 1,   # consumer cell distance from producer
+    'seed'             : 1,   # random seed
+}
+
+# ### Run
+#
+# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
+
+# === Study: study-spatial-exchange-proximity ===
+STUDY = 'study-spatial-exchange-proximity'
+STUDY_DIR = REPO / 'workspace/studies' / STUDY
+STUDY_YAML = str(STUDY_DIR / "study.yaml")
+RUNS_DB = str(STUDY_DIR / "runs.db")
+
+# This study has no *recorded* runs yet. RERUN builds its declared
+# composite(s) live and runs them; a composite whose module processes
+# are not implemented yet reports the error instead of crashing.
+STEPS_baseline = 100
+INTERVAL_baseline = 1.0
+
+if RERUN:
+    from process_bigraph import Composite
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_proto_endosymbiosis_spatial_proto_endosymbiosis_spatial if 'ov_viva_genesis_composites_proto_endosymbiosis_spatial_proto_endosymbiosis_spatial' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_proto_endosymbiosis_spatial_proto_endosymbiosis_spatial = materialize_composite('viva_genesis.composites.proto_endosymbiosis_spatial.proto_endosymbiosis_spatial', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_proto_endosymbiosis_spatial_proto_endosymbiosis_spatial['state']}, core=core)
+            _comp.run(STEPS_baseline)
+        print('ran', 'baseline', f'(viva_genesis.composites.proto_endosymbiosis_spatial.proto_endosymbiosis_spatial) for', STEPS_baseline, 'steps')
+    except Exception as _e:
+        print(f"baseline not runnable yet: {type(_e).__name__}: {_e}")
+else:
+    print("RERUN=False — not re-simulating.")
+
+# ### Acceptance criteria
+#
+# _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
+#
+# | test | measures | passes if |
+# | --- | --- | --- |
+# | study-spatial-exchange-proximity-discriminates _(primary)_ | realised_exchange_level | op >= value 0.5 |
+
+# ## Study: Does obligate bidirectional syntrophy add a constraint beyond proximity? (`study-bidirectional-syntrophy`)
+#
+# **Question.** The syntrophy/hydrogen hypotheses are obligate two-metabolite mutualisms. Does Liebig-limited reciprocal exchange require metabolic BALANCE, not just contact?
+
+# ### Parameters
+#
+# | simulation | composite | steps | params |
+# | --- | --- | --- | --- |
+# | `baseline` | `viva_genesis.composites.proto_endosymbiosis_multimetab.proto_endosymbiosis_multimetab` | 0 | symbiont_distance=1, production_a=1.0, production_b=1.0 |
+#
+# Declared parameter sets (`study.yaml` variants):
+#
+# - **asymmetric** — `symbiont_distance=1`, `production_a=1.0`, `production_b=0.2`
+
+# ### The model & its parameters
+#
+# Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
+
+# **The model — `viva_genesis.composites.proto_endosymbiosis_multimetab.proto_endosymbiosis_multimetab`**
+#
+# Coupled bridge model M7: obligate bidirectional (two-metabolite, Liebig) syntrophy — mutualistic exchange benefit vs distance and production symmetry.
+
+# === Parameters — edit any value, then re-run from the Run cell below ===
+# Each entry is the composite's current default; the comment explains it.
+ov_viva_genesis_composites_proto_endosymbiosis_multimetab_proto_endosymbiosis_multimetab = {
+    'n_cells'          : 16,   # 1-D grid length
+    'diffusion'        : 0.4,   # diffusion coefficient D
+    'decay'            : 0.08,   # decay rate k
+    'production_a'     : 1.0,   # host output of metabolite A
+    'production_b'     : 1.0,   # symbiont output of metabolite B
+    'uptake'           : 0.2,   # uptake rate at each consumer
+    'symbiont_distance': 1,   # symbiont cell distance from host
+    'seed'             : 1,   # random seed
+}
+
+# ### Run
+#
+# _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
+
+# === Study: study-bidirectional-syntrophy ===
+STUDY = 'study-bidirectional-syntrophy'
+STUDY_DIR = REPO / 'workspace/studies' / STUDY
+STUDY_YAML = str(STUDY_DIR / "study.yaml")
+RUNS_DB = str(STUDY_DIR / "runs.db")
+
+# This study has no *recorded* runs yet. RERUN builds its declared
+# composite(s) live and runs them; a composite whose module processes
+# are not implemented yet reports the error instead of crashing.
+STEPS_baseline = 100
+INTERVAL_baseline = 1.0
+
+if RERUN:
+    from process_bigraph import Composite
+    try:
+        with quiet():  # keep per-step stdout out of the notebook
+            _ov = ov_viva_genesis_composites_proto_endosymbiosis_multimetab_proto_endosymbiosis_multimetab if 'ov_viva_genesis_composites_proto_endosymbiosis_multimetab_proto_endosymbiosis_multimetab' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_proto_endosymbiosis_multimetab_proto_endosymbiosis_multimetab = materialize_composite('viva_genesis.composites.proto_endosymbiosis_multimetab.proto_endosymbiosis_multimetab', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_proto_endosymbiosis_multimetab_proto_endosymbiosis_multimetab['state']}, core=core)
+            _comp.run(STEPS_baseline)
+        print('ran', 'baseline', f'(viva_genesis.composites.proto_endosymbiosis_multimetab.proto_endosymbiosis_multimetab) for', STEPS_baseline, 'steps')
+    except Exception as _e:
+        print(f"baseline not runnable yet: {type(_e).__name__}: {_e}")
+else:
+    print("RERUN=False — not re-simulating.")
+
+# ### Acceptance criteria
+#
+# _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
+#
+# | test | measures | passes if |
+# | --- | --- | --- |
+# | study-bidirectional-syntrophy-discriminates _(primary)_ | mutualistic_exchange_benefit | op >= value 0.5 |
+
 # ## Open decisions
 # - Which two or more candidate archaeal-host / bacterial-partner genome pairs anchor S1 (e.g. Asgard + alphaproteobacterium selections from GTDB/NCBI), and under which redox / substrate regimes (anaerobic, micro-aerobic, oxygen-tolerant) are they first tested?
 # - Which initial ecology (syntrophy, commensalism, parasitism) is the primary scenario for S2, and which are the competing scenarios run head to head?

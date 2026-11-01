@@ -601,6 +601,20 @@
       <p class="ctr-text" data-edit-kind="study" data-edit-field="result" data-edit-value="Enclosure is topology-gated, not a settled yes. The higher-fidelity active-protrusion membrane-wrapping model (Helfrich bending + adhesion + tension + finite protrusion area + active force F*R, 3D; the mechanism the question is about) supersedes the coarser arms: classical EXTERNAL engulfment reaches a stable wrap for only a MINORITY of partners (probability 0.27, a narrow 0.41-0.56 um window), with the active protrusion load-bearing (raises it from 0.17; 36% of enclosures need the force); INSIDE-OUT invagination (Baum &amp; Baum) is far more feasible (0.83). The coarse arms overstated it — the 2D passive-adhesion CPM read 1.00 (but that is regime-assumed, J_hs &lt; J_sM-J_hM, with no protrusion) and the static area+bending budget read 0.61/0.98. So whether the enclosure hypothesis is supported depends on which topology is primary, which remains an open investigation decision. Enclosure is a separate hurdle from metabolic benefit; morphology alone does not demonstrate engulfment." data-edit-multiline data-edit-label="Result">Enclosure is topology-gated, not a settled yes. The higher-fidelity active-protrusion membrane-wrapping model (Helfrich bending + adhesion + tension + finite protrusion area + active force F*R, 3D; the mechanism the question is about) supersedes the coarser arms: classical EXTERNAL engulfment reaches a stable wrap for only a MINORITY of partners (probability 0.27, a narrow 0.41-0.56 um window), with the active protrusion load-bearing (raises it from 0.17; 36% of enclosures need the force); INSIDE-OUT invagination (Baum &amp; Baum) is far more feasible (0.83). The coarse arms overstated it — the 2D passive-adhesion CPM read 1.00 (but that is regime-assumed, J_hs &lt; J_sM-J_hM, with no protrusion) and the static area+bending budget read 0.61/0.98. So whether the enclosure hypothesis is supported depends on which topology is primary, which remains an open investigation decision. Enclosure is a separate hurdle from metabolic benefit; morphology alone does not demonstrate engulfment.</p>
       
       
+      <div class="ov-metrics">
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">enclosure-geometrically-feasible</div>
+        </div>
+        
+        <div class="ov-metric ov-metric-pass">
+          <div class="ov-metric-v">PASS</div>
+          <div class="ov-metric-k">membrane-area-conserved</div>
+        </div>
+        
+      </div>
+      
       
       
       
@@ -632,7 +646,7 @@
             
             
             <div class="finding-evidence">
-              
+              <strong>observed:</strong> 0.609756 · 
               
               via test <a href="#bt-enclosure-geometrically-feasible" onclick="_gotoStudyTab('audit','bt-enclosure-geometrically-feasible');return false;"><code>enclosure-geometrically-feasible</code></a> · 
               
@@ -641,10 +655,23 @@
             </div>
             
             
+            <div class="finding-traceability" style="font-size:0.84em;color:#475569;padding:4px 10px;margin:4px 0">
+              
+              
+              runs: <a href="#run-viva_genesis.composites.protrusion_enclosure.protrusion_enclosure__1793462387__8918b2"><code>viva_genesis.composites.protrusion_enclosure.protrusion_enclosure__1793462387__8918b2</code></a>
+            </div>
+            
             
             
             <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: &gt; 0.5</code></div>
             
+            
+            
+            <div class="finding-expected">
+              
+              
+              cites: <a class="ov-cite" href="#sref-rodrigues-oliveira-nature-2023" title="Actin cytoskeleton and complex cell architecture in an Asgard archaeon">Rodrigues-Oliveira 2023</a><a class="ov-cite" href="#sref-radler-nature-2026" title="Dynamic protrusions mediate crawling motility in Asgard archaea">Radler 2026</a>
+            </div>
             
             
             
@@ -752,6 +779,13 @@
       
       
       
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;font-size:0.8em">
+        
+        
+        
+        <span class="cond-pill"><span class="cond-pill-k">status</span>=completed</span>
+      </div>
+      
     </div>
     
     <div class="cond-block" data-model-composite="viva_genesis.composites.protrusion_enclosure_cpm.protrusion_enclosure_cpm" data-model-overrides='{"j_hM": 4.0, "j_hs": 6.0, "j_sM": 16.0}'>
@@ -784,6 +818,13 @@
       
       
       
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;font-size:0.8em">
+        
+        
+        
+        <span class="cond-pill"><span class="cond-pill-k">status</span>=completed</span>
+      </div>
+      
     </div>
     
     <div class="cond-block" data-model-composite="viva_genesis.composites.protrusion_enclosure_membrane.protrusion_enclosure_membrane" data-model-overrides='{"adhesion_per_um2_kT": 250.0, "bending_modulus_kT": 20.0, "max_membrane_area_um2": 4.0, "protrusion_force_pN": 10.0, "tension_per_um2_kT": 200.0, "topology": "classical_engulfment"}'>
@@ -815,6 +856,13 @@
         <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading configuration…</span></div></div>
       
       
+      
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;font-size:0.8em">
+        
+        
+        
+        <span class="cond-pill"><span class="cond-pill-k">status</span>=completed</span>
+      </div>
       
     </div>
     
@@ -982,6 +1030,28 @@
   
   
   
+  
+  <div class="acceptance-criteria-band" id="acceptance-criteria-band" style="margin-bottom:22px">
+    <h3 class="section-title">Acceptance criteria
+      <span class="muted" style="font-size:0.85em;font-weight:normal">— the predefined bar, from <code>eukaryogenesis</code>'s persisted acceptance roll-up</span>
+    </h3>
+    <ul class="acceptance-criteria-list" style="list-style:none; padding-left:0; margin:8px 0 0 0">
+      
+      
+      
+      <li class="acceptance-criterion-item outcome-met" data-result="passing"
+          style="display:flex; align-items:center; gap:10px; padding:8px 12px; margin:0 0 6px 0; border-left:4px solid #10b981; background:#f8fafc; border-radius:4px">
+        <span class="outcome-chip outcome-met" title="raw result: passing"
+              style="font-size:0.78em; font-weight:600; padding:2px 9px; border-radius:9999px; background:#d1fae5; color:#065f46">✓&nbsp;met</span>
+        <span class="acceptance-criterion-behavior"><code>enclosure-geometrically-feasible</code></span>
+        
+        <a href="#bt-enclosure-geometrically-feasible" class="btn-mini" style="margin-left:auto; font-size:0.78em">View test ↓</a>
+        
+      </li>
+      
+    </ul>
+  </div>
+  
 
   
   <div class="tests-gate-summary" id="tests-gate-summary"><div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading gate summary…</span></div></div>
@@ -1025,17 +1095,37 @@
         
         data-pytest-node="enclosure-geometrically-feasible"
         data-classification="primary"
-        data-result="pending"
+        data-result="PASS"
         style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #10b981; background: #f8fafc; border-radius: 4px;">
       
         
       <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
-        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #f1f5f9; color: #475569">⏳ pending</span>
+        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #d1fae5; color: #065f46">✓ PASS</span>
         <span class="classification-pill classification-primary">primary</span>
         <strong style="font-size: 0.9em;">enclosure-geometrically-feasible</strong>
         
       </div>
       <div style="margin-top: 6px; font-size: 0.95em;">At least one topology reaches stable enclosure for a majority of the partner-size ensemble (enclosure probability &gt; 0.5). The threshold discriminates the wrapping topologies from the no-enclosure and weak-adhesion controls.</div>
+      
+      <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
+        <strong>Latest result:</strong>
+        
+        
+          
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.609756</code>
+          
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 0.6098 &gt; 0.5</code>
+          
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived_scalar/&gt;</code>
+          
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
+          
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">axis: {&#39;id&#39;: &#39;enclosure-geometrically-feasible&#39;, &#39;label&#39;: &#39;At least one topology reaches stable enclosure for a majority of the partner-size ensemble (enclosure probability &gt; 0.5). The threshold discriminates the wrapping topologies from the no-enclosure and weak-adhesion controls.&#39;, &#39;verdict&#39;: &#39;within_tol&#39;, &#39;value&#39;: 0.609756, &#39;meter&#39;: 0.609756, &#39;detail&#39;: None, &#39;expected&#39;: {&#39;kind&#39;: &#39;value&#39;, &#39;value&#39;: 0.5, &#39;low&#39;: None, &#39;high&#39;: None, &#39;op&#39;: &#39;&gt;&#39;, &#39;tol&#39;: 0.05, &#39;statement&#39;: None, &#39;units&#39;: None}, &#39;margin&#39;: 0.10975599999999996, &#39;severity&#39;: &#39;hard&#39;, &#39;units&#39;: None, &#39;knob&#39;: None, &#39;citation&#39;: &#39;rodrigues-oliveira-nature-2023; radler-nature-2026&#39;}</code>
+          
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+          
+        
+      </div>
       
       
       <details style="margin-top: 6px; font-size: 0.82em;">
@@ -1063,17 +1153,35 @@ cites:   ["rodrigues-oliveira-nature-2023", "radler-nature-2026"]</pre>
         
         data-pytest-node="membrane-area-conserved"
         data-classification="primary"
-        data-result="pending"
+        data-result="PASS"
         style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #10b981; background: #f8fafc; border-radius: 4px;">
       
         
       <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
-        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #f1f5f9; color: #475569">⏳ pending</span>
+        <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #d1fae5; color: #065f46">✓ PASS</span>
         <span class="classification-pill classification-primary">primary</span>
         <strong style="font-size: 0.9em;">membrane-area-conserved</strong>
         
       </div>
       <div style="margin-top: 6px; font-size: 0.95em;">Membrane area is conserved through the deformation (no area created from nothing).</div>
+      
+      <div style="margin-top:6px;font-size:0.85em;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:3px">
+        <strong>Latest result:</strong>
+        
+        
+          
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">measured_value: 0.0</code>
+          
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">detail: 0 &lt; 0.0001</code>
+          
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">operator: derived_scalar/&lt;</code>
+          
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">evaluated_by: code</code>
+          
+          <code style="font-family:ui-monospace,monospace;color:#475569;margin-right:8px">auto_evaluated: True</code>
+          
+        
+      </div>
       
       
       <details style="margin-top: 6px; font-size: 0.82em;">
@@ -1130,25 +1238,25 @@ pass_if: {"op": "\u003c", "provenance": {"kind": "theory", "note": "Area conserv
         <span class="gate-current-tag">you are here</span>
       </span>
       
-      <span class="status-step  gate-status-not-assessed">
+      <span class="status-step set gate-status-passed">
         <span class="dot"></span>2 · Execution
         <span class="step-val">not_run</span>
         
       </span>
       
-      <span class="status-step  gate-status-not-assessed">
+      <span class="status-step set gate-status-passed">
         <span class="dot"></span>3 · Evidence
         <span class="step-val">not_evaluated</span>
         
       </span>
       
-      <span class="status-step  gate-status-not-assessed">
+      <span class="status-step set gate-status-passed">
         <span class="dot"></span>4 · Quality
         <span class="step-val">not_evaluated</span>
         
       </span>
       
-      <span class="status-step  gate-status-not-assessed">
+      <span class="status-step set gate-status-passed">
         <span class="dot"></span>5 · Decision
         <span class="step-val">not_started</span>
         
@@ -1243,9 +1351,9 @@ pass_if: {"op": "\u003c", "provenance": {"kind": "theory", "note": "Area conserv
         evaluator's result from the behavior-test outcomes — the evaluation the
         conclusion rests on.</p>
       <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
-        <span class="gate-status-not_started" style="padding:2px 12px;border-radius:9999px;font-weight:700;font-size:0.85em">not_started</span>
+        <span class="gate-status-passed" style="padding:2px 12px;border-radius:9999px;font-weight:700;font-size:0.85em">passed</span>
         <span class="muted small">evaluated by code</span>
-        <span class="muted small">0/2 passed</span>
+        <span class="muted small">2/2 passed</span>
       </div>
       
     </div>
@@ -1263,6 +1371,28 @@ pass_if: {"op": "\u003c", "provenance": {"kind": "theory", "note": "Area conserv
 
   
   
+  <div class="overview-section"><h2 class="overview-label">Plan &amp; assumptions</h2>
+
+    
+    <div class="overview-section">
+      <h3 class="overview-label">Pipeline gate</h3>
+      <p class="muted" style="margin: 0 0 8px 0;font-size:0.88em">
+        Each study is a model-building gate: it answers <em>"Can we safely build the next layer?"</em>
+      </p>
+      
+      <div style="margin-bottom:6px"><strong>Prerequisites:</strong> <em class="muted">none (root study)</em></div>
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+
+  </div>
+  
 
   
   <div class="overview-section"><h2 class="overview-label">Evidence</h2>
@@ -1270,6 +1400,27 @@ pass_if: {"op": "\u003c", "provenance": {"kind": "theory", "note": "Area conserv
     
     
     
+    
+    <div class="decide-section">
+      <h3 class="overview-label">Latest run outcomes</h3>
+      <div style="font-size:0.88em;color:#64748b;margin-bottom:8px">
+        baseline · seed ? ·
+        ?s simulated ·
+        ? history rows ·
+        started 1793462388.968004
+      </div>
+      
+      
+      
+      <p class="muted" style="margin:0;font-size:0.9em">
+        <strong>2</strong> test outcomes
+        — <span style="color:#065f46;font-weight:600">2 PASS</span> ·
+        <span style="color:#991b1b;font-weight:600">0 FAIL</span>.
+        Per-test outcomes (measured value · evaluator · band) are canonical on the
+        <a onclick="_setStudyTab('audit')" style="cursor:pointer;color:#3b82f6;text-decoration:underline">Tests (in Audit) →</a>.
+      </p>
+      
+    </div>
     
     
 
@@ -1297,7 +1448,7 @@ pass_if: {"op": "\u003c", "provenance": {"kind": "theory", "note": "Area conserv
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/workbench", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "758a41b505b2a1d79c6bfb55ef564a0450827eda", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/758a41b505b2a1d79c6bfb55ef564a0450827eda", "branch": "main", "lockfile": "uv.lock@6ca092aaa835", "generated_at": "2026-11-01 04:55 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/workbench", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "8ac86fd924f4c10bac5d714f6539ef6e6cb13161", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/8ac86fd924f4c10bac5d714f6539ef6e6cb13161", "branch": "main", "lockfile": "uv.lock@aa95e09d46e8", "generated_at": "2026-11-01 10:11 UTC"} };</script>
 <script src="/viva-genesis/workbench/assets/data-source.js"></script>
 <script src="/viva-genesis/workbench/assets/toast.js"></script>
 <script>
