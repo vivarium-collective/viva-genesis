@@ -3,9 +3,8 @@ name: study-contact-to-enclosure-coupling
 title: Do the same conditions that select proximity also permit enclosure?
 investigation: eukaryogenesis
 question: Do the same conditions that select proximity also permit enclosure?
-claim: null
-hypothesis: The selected-contact regime and the feasible-enclosure regime overlap
-  (continuous bridge exists).
+claim:
+hypothesis: The selected-contact regime and the feasible-enclosure regime overlap (continuous bridge exists).
 concept: endosymbiosis transition bridge
 topic: eukaryogenesis
 status: planned
@@ -49,15 +48,13 @@ variants:
     base_adhesion: 0.8
     bending_modulus: 0.2
     perturbation: 0.1
-  note: 'Contact not selected (benefit<cost): the coupling has no high-contact substrate
-    to seal.'
+  note: 'Contact not selected (benefit<cost): the coupling has no high-contact substrate to seal.'
 observables:
 - joint_feasibility_region
 behavior_tests:
 - name: study-contact-to-enclosure-coupling-discriminates
   classification: primary
-  description: A self-reinforcing contact+enclosure regime exists (joint feasibility
-    is substantial), not imposed.
+  description: A self-reinforcing contact+enclosure regime exists (joint feasibility is substantial), not imposed.
   measure: joint_feasibility_region
   pass_if:
     op: '>='
@@ -65,24 +62,13 @@ behavior_tests:
 visualizations: []
 findings:
 - id: s-coupling-joint-regime-exists
-  statement: "A self-reinforcing contact+enclosure regime EXISTS: joint_feasibility_region=0.91\
-    \ when exchange selects contact AND contact's adhesion overcomes the bending barrier\
-    \ AND the seal persists. It collapses to 0.07 when contact is not selected (benefit<cost),\
-    \ and (directly measured) toward zero when enclosure destabilises (0.14) or the\
-    \ bending barrier blocks sealing (0.21). So selection-for-contact and stable enclosure\
-    \ CO-SUCCEED only when all three conditions align \u2014 the coupled eukaryogenesis\
-    \ transition is feasible along the syntrophy->enclosure path, but narrowly."
+  statement: "A self-reinforcing contact+enclosure regime EXISTS: joint_feasibility_region=0.91 when exchange selects contact AND contact's adhesion overcomes the bending barrier AND the seal persists. It collapses to 0.07 when contact is not selected (benefit<cost), and (directly measured) toward zero when enclosure destabilises (0.14) or the bending barrier blocks sealing (0.21). So selection-for-contact and stable enclosure CO-SUCCEED only when all three conditions align — the coupled eukaryogenesis transition is feasible along the syntrophy->enclosure path, but narrowly."
   status: confirms
   evidence:
     observed: 0.906
     from_test: study-contact-to-enclosure-coupling-discriminates
-    from_run: proto_endosymbiosis_coupled baseline (aligned) vs decoupled-control
-      variant, seed 1
-  inferential_scope: Reduced four-compartment coupled model (lc<->hc_un<->hc_se, hc_st
-    stalled trap) with contact providing enclosure's adhesion and enclosure locking
-    in the exchange benefit. Establishes that a jointly-feasible regime EXISTS and
-    is contingent on all three sub-mechanisms; does not resolve the spatial membrane
-    PDE or full energy accounting (M4).
+    from_run: proto_endosymbiosis_coupled baseline (aligned) vs decoupled-control variant, seed 1
+  inferential_scope: Reduced four-compartment coupled model (lc<->hc_un<->hc_se, hc_st stalled trap) with contact providing enclosure's adhesion and enclosure locking in the exchange benefit. Establishes that a jointly-feasible regime EXISTS and is contingent on all three sub-mechanisms; does not resolve the spatial membrane PDE or full energy accounting (M4).
 runs:
 - name: viva_genesis.composites.proto_endosymbiosis_coupled.proto_endosymbiosis_coupled__1793505450__a3acc2
   status: completed
@@ -90,8 +76,7 @@ runs:
   emitter:
     kind: unknown
   env_id: 4cf318f473d3c8ec
-  params: '{"benefit_coeff": 1.2, "cost_coeff": 0.3, "base_adhesion": 0.8, "bending_modulus":
-    0.2, "perturbation": 0.1, "seed": 1}'
+  params: '{"benefit_coeff": 1.2, "cost_coeff": 0.3, "base_adhesion": 0.8, "bending_modulus": 0.2, "perturbation": 0.1, "seed": 1}'
   provenance:
     params:
       base_adhesion:
@@ -124,8 +109,7 @@ runs:
     kind: unknown
   env_id: 4cf318f473d3c8ec
   variant: decoupled-control
-  params: '{"benefit_coeff": 0.3, "cost_coeff": 0.5, "base_adhesion": 0.8, "bending_modulus":
-    0.2, "perturbation": 0.1}'
+  params: '{"benefit_coeff": 0.3, "cost_coeff": 0.5, "base_adhesion": 0.8, "bending_modulus": 0.2, "perturbation": 0.1}'
   provenance:
     params:
       base_adhesion:
@@ -180,7 +164,5 @@ pipeline_gate:
     diverges_from_authored: false
 verdict: supported
 confidence: provisional
-verdict_rationale: "Discriminating campaign on proto_endosymbiosis_coupled: joint_feasibility_region>=0.5\
-  \ in the aligned regime, <<0.5 in the decoupled control. The coupled transition\
-  \ is feasible but narrow \u2014 requires selection, sealing, and persistence to\
-  \ align."
+verdict_rationale: "Discriminating campaign on proto_endosymbiosis_coupled: joint_feasibility_region>=0.5 in the aligned regime, <<0.5 in the decoupled control. The coupled transition is feasible but narrow — requires selection, sealing, and persistence to align."
+evidence_tier: mechanistic_prediction
