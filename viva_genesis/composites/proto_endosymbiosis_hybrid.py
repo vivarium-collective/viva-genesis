@@ -48,6 +48,20 @@ from ..endosymbiosis_select import ContactSelectionProcess  # registered via bui
 
 @composite_generator(
     name="proto_endosymbiosis_hybrid",
+    parameters={
+        "exchange": {"type": "string", "default": "on",
+                     "description": "'on' = exchange available; 'off' = no-exchange control"},
+        "benefit_coeff": {"type": "float", "default": 0.6,
+                          "description": "max energetic benefit per unit realised contact"},
+        "cost_coeff": {"type": "float", "default": 0.3,
+                       "description": "energetic adhesion cost per unit contact propensity"},
+        "selection_strength": {"type": "float", "default": 1.0, "description": "replicator step scaling"},
+        "cp_high": {"type": "float", "default": 1.0, "description": "contact propensity of the high phenotype"},
+        "cp_low": {"type": "float", "default": 0.0, "description": "contact propensity of the low phenotype"},
+        "n_initial": {"type": "float", "default": 100.0, "description": "initial population size"},
+        "init_freq_high": {"type": "float", "default": 0.3, "description": "initial frequency of contact-seekers"},
+        "seed": {"type": "integer", "default": 1, "description": "random seed"},
+    },
     description="Coupled bridge model M1: measures selection for a heritable contact "
                 "propensity under frequency-dependent exchange benefit vs adhesion cost.",
 )
