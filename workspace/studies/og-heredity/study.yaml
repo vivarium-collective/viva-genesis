@@ -9,6 +9,7 @@ simulation_status: ran
 evaluation_status: evaluated
 gate_status: passed
 verdict: supported
+confidence: Accepted
 primary_limitation: "The 'heredity need not presume RNA' result survives only as a class-substitution result in one currency (bits per joule); just one input parameter is measured (R18 ribozyme 96.7% per-site fidelity), the rest inferred/extrapolated."
 key_assumptions:
 - "Competing heredity modules are graded head-to-head against a non-heritable control"

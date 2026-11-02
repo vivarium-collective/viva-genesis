@@ -9,6 +9,7 @@ simulation_status: ran
 evaluation_status: evaluated
 gate_status: passed
 verdict: supported
+confidence: Accepted
 primary_limitation: "The Lost City window holds over ~80% of the grid, but calibration narrows it to a posterior 12.5% of the prior, with dissolved H2 the single binding observation (only 6/48 draws pass the H2 window)."
 key_assumptions:
 - "The vent is a serpentinizing peridotite (olivine+pyroxene) endmember (Ca buffers the fluid to pH ~9.5)"
