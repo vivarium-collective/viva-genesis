@@ -105,17 +105,12 @@ variants:
   over:
     module: non-heritable
 visualizations:
-- name: eigen-catastrophe
-  title: The Eigen error catastrophe — heritability vs transmission fidelity
-  address: html:viz/eigen-catastrophe.html
-  render: "python -m viva_genesis.viz_endosym eigen-catastrophe {chart}"
-  requires: []
+- name: heritable-integration
+  address: local:S5ErrorThresholdViz
+  config:
+    title: S5 — heritable integration needs high fidelity (the Eigen error threshold)
   covers:
   - settled_heritability
-- name: heritable-integration
-  address: local:S5HeritabilityViz
-  config:
-    title: S5 — heritable integration needs high fidelity (by inheritance module)
   rendered: workspace/studies/s5-symbiont-to-organelle/viz/heritable-integration.html
 observables:
 - herd/heritability

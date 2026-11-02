@@ -1,7 +1,8 @@
 slug: study-bidirectional-syntrophy
 name: study-bidirectional-syntrophy
 title: Does obligate bidirectional syntrophy add a constraint beyond proximity?
-question: The syntrophy/hydrogen hypotheses are obligate two-metabolite mutualisms. Does Liebig-limited reciprocal exchange require metabolic BALANCE, not just contact?
+question: The syntrophy/hydrogen hypotheses are obligate two-metabolite mutualisms.
+  Does Liebig-limited reciprocal exchange require metabolic BALANCE, not just contact?
 parent_studies:
 - study: study-spatial-exchange-proximity
   relation: builds-on
@@ -12,7 +13,7 @@ baseline:
     symbiont_distance: 1
     production_a: 1.0
     production_b: 1.0
-  note: "Balanced reciprocal production at contact — mutual benefit substantial."
+  note: Balanced reciprocal production at contact — mutual benefit substantial.
 variants:
 - name: asymmetric
   composite: viva_genesis.composites.proto_endosymbiosis_multimetab.proto_endosymbiosis_multimetab
@@ -20,11 +21,13 @@ variants:
     symbiont_distance: 1
     production_a: 1.0
     production_b: 0.2
-  note: 'Imbalanced production: the Liebig minimum caps the mutual benefit at the scarcer partner.'
+  note: 'Imbalanced production: the Liebig minimum caps the mutual benefit at the
+    scarcer partner.'
 behavior_tests:
 - name: study-bidirectional-syntrophy-discriminates
   classification: primary
-  description: Obligate mutualistic benefit is substantial only under balanced reciprocal production (not assumed).
+  description: Obligate mutualistic benefit is substantial only under balanced reciprocal
+    production (not assumed).
   measure: mutualistic_exchange_benefit
   pass_if:
     op: '>='
@@ -38,7 +41,8 @@ runs:
   emitter:
     kind: unknown
   env_id: 4682795bda8595e6
-  params: '{"symbiont_distance": 1, "production_a": 1.0, "production_b": 1.0, "seed": 1}'
+  params: '{"symbiont_distance": 1, "production_a": 1.0, "production_b": 1.0, "seed":
+    1}'
   provenance:
     params:
       n_steps:
@@ -106,14 +110,32 @@ pipeline_gate:
     diverges_from_authored: false
 findings:
 - id: s-bidir-reciprocity-required
-  statement: "Obligate bidirectional (two-metabolite, Liebig-limited) syntrophy is proximity-dependent much like the one-way case when production is BALANCED (54x contact-vs-distal advantage, cf. M6's 49x), but adds a new constraint: the mutual benefit is capped at the SCARCER reciprocal flux, so asymmetric production (B=0.2 vs A=1.0) yields only 0.30 vs 1.52 — 20% of balanced — even at contact. So the syntrophy/hydrogen hypotheses require metabolic RECIPROCITY, not just proximity; an imbalanced pair is starved regardless of contact."
+  statement: 'Obligate bidirectional (two-metabolite, Liebig-limited) syntrophy is
+    proximity-dependent much like the one-way case when production is BALANCED (54x
+    contact-vs-distal advantage, cf. M6''s 49x), but adds a new constraint: the mutual
+    benefit is capped at the SCARCER reciprocal flux, so asymmetric production (B=0.2
+    vs A=1.0) yields only 0.30 vs 1.52 — 20% of balanced — even at contact. So the
+    syntrophy/hydrogen hypotheses require metabolic RECIPROCITY, not just proximity;
+    an imbalanced pair is starved regardless of contact.'
   status: confirms
   evidence:
     observed: 1.516
     from_test: study-bidirectional-syntrophy-discriminates
-    from_run: proto_endosymbiosis_multimetab balanced (A=B=1.0) vs asymmetric (B=0.2) at contact, seed 1
-  inferential_scope: Reduced 1-D screened two-field diffusion at steady state with Liebig (minimum) coupling; captures the stoichiometric + bidirectional structure, not genome-scale metabolic stoichiometry or 3-D geometry.
+    from_run: proto_endosymbiosis_multimetab balanced (A=B=1.0) vs asymmetric (B=0.2)
+      at contact, seed 1
+  inferential_scope: Reduced 1-D screened two-field diffusion at steady state with
+    Liebig (minimum) coupling; captures the stoichiometric + bidirectional structure,
+    not genome-scale metabolic stoichiometry or 3-D geometry.
 verdict: supported
 confidence: provisional
-verdict_rationale: 'Bidirectional-syntrophy campaign: mutualistic_exchange_benefit 1.52 balanced vs 0.30 asymmetric. Obligate mutualism adds a reciprocity/balance requirement beyond the proximity of M1-M6.'
+verdict_rationale: 'Bidirectional-syntrophy campaign: mutualistic_exchange_benefit
+  1.52 balanced vs 0.30 asymmetric. Obligate mutualism adds a reciprocity/balance
+  requirement beyond the proximity of M1-M6.'
 evidence_tier: mechanistic_prediction
+visualizations:
+- name: reciprocity-liebig
+  address: local:ReciprocityLiebigViz
+  config:
+    title: Reciprocity beyond proximity — the mutual benefit is capped at the scarcer
+      flux
+  rendered: workspace/studies/study-bidirectional-syntrophy/viz/reciprocity-liebig.html
