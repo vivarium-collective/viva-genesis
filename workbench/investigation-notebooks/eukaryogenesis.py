@@ -1548,7 +1548,7 @@ _save_viz('s1-metabolic-partnership', 'community-redundancy', _render_one('', {}
 # **partner-dependent-advantage**
 
 # partner-dependent-advantage
-_save_viz('s1-metabolic-partnership', 'partner-dependent-advantage', _render_one('local:S1MetabolicPartnershipViz', {'title': 'S1 — a partner-dependent advantage (connected vs isolated community redundancy)'}, RUNS_DB, STUDY_YAML))
+_save_viz('s1-metabolic-partnership', 'partner-dependent-advantage', _render_one('local:S1RedundancyTrajectoryViz', {'title': 'S1 — a partner-dependent advantage (connected vs isolated community redundancy)'}, RUNS_DB, STUDY_YAML))
 
 # ### Acceptance criteria
 #
@@ -1652,15 +1652,10 @@ else:
 #
 # _Results are shown by the figures below, produced by the run above._
 
-# **proximity-diffusion**
-
-# proximity-diffusion
-_save_viz('s2-ecology-to-proximity', 'proximity-diffusion', _render_one('html:viz/proximity-diffusion.html', {}, RUNS_DB, STUDY_YAML))
-
 # **proximity-selects-contact**
 
 # proximity-selects-contact
-_save_viz('s2-ecology-to-proximity', 'proximity-selects-contact', _render_one('local:S2EcologyProximityViz', {'title': 'S2 — proximity selects for contact (cross-lineage flux, proximate vs distant)'}, RUNS_DB, STUDY_YAML))
+_save_viz('s2-ecology-to-proximity', 'proximity-selects-contact', _render_one('local:CommunityPlacementViz', {'title': 'S2 — proximity selects for contact (pore layout and cross-feeding distance)'}, RUNS_DB, STUDY_YAML))
 
 # ### Acceptance criteria
 #
@@ -1897,15 +1892,10 @@ else:
 #
 # _Results are shown by the figures below, produced by the run above._
 
-# **internalization-boundary**
-
-# internalization-boundary
-_save_viz('s4-compartmental-energetic-coupling', 'internalization-boundary', _render_one('html:viz/internalization-boundary.html', {}, RUNS_DB, STUDY_YAML))
-
 # **internalization-net-benefit**
 
 # internalization-net-benefit
-_save_viz('s4-compartmental-energetic-coupling', 'internalization-net-benefit', _render_one('local:S4EnergeticCouplingViz', {'title': 'S4 — internalization pays only with an efficient pump (survivors)'}, RUNS_DB, STUDY_YAML))
+_save_viz('s4-compartmental-energetic-coupling', 'internalization-net-benefit', _render_one('local:S4InternalizationDoseViz', {'title': 'S4 — internalization pays only above a pump-efficiency threshold'}, RUNS_DB, STUDY_YAML))
 
 # ### Acceptance criteria
 #
@@ -1987,15 +1977,10 @@ else:
 #
 # _Results are shown by the figures below, produced by the run above._
 
-# **eigen-catastrophe**
-
-# eigen-catastrophe
-_save_viz('s5-symbiont-to-organelle', 'eigen-catastrophe', _render_one('html:viz/eigen-catastrophe.html', {}, RUNS_DB, STUDY_YAML))
-
 # **heritable-integration**
 
 # heritable-integration
-_save_viz('s5-symbiont-to-organelle', 'heritable-integration', _render_one('local:S5HeritabilityViz', {'title': 'S5 — heritable integration needs high fidelity (by inheritance module)'}, RUNS_DB, STUDY_YAML))
+_save_viz('s5-symbiont-to-organelle', 'heritable-integration', _render_one('local:S5ErrorThresholdViz', {'title': 'S5 — heritable integration needs high fidelity (the Eigen error threshold)'}, RUNS_DB, STUDY_YAML))
 
 # ### Acceptance criteria
 #
@@ -2098,6 +2083,15 @@ if RERUN:
 else:
     print("RERUN=False — not re-simulating.")
 
+# ### Visualizations
+#
+# _Results are shown by the figures below, produced by the run above._
+
+# **selection-invasion**
+
+# selection-invasion
+_save_viz('study-selection-for-proximity', 'selection-invasion', _render_one('local:SelectionInvasionViz', {'title': 'Exchange selects for contact — the adhesive phenotype invades to fixation'}, RUNS_DB, STUDY_YAML))
+
 # ### Acceptance criteria
 #
 # _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
@@ -2176,6 +2170,15 @@ if RERUN:
         print(f"baseline not runnable yet: {type(_e).__name__}: {_e}")
 else:
     print("RERUN=False — not re-simulating.")
+
+# ### Visualizations
+#
+# _Results are shown by the figures below, produced by the run above._
+
+# **enclosure-phase-map**
+
+# enclosure-phase-map
+_save_viz('study-enclosure-mechanics', 'enclosure-phase-map', _render_one('local:EnclosurePhaseViz', {'title': 'Stable enclosure is regime-dependent — a mechanical budget, not a given'}, RUNS_DB, STUDY_YAML))
 
 # ### Acceptance criteria
 #
@@ -2256,6 +2259,15 @@ if RERUN:
 else:
     print("RERUN=False — not re-simulating.")
 
+# ### Visualizations
+#
+# _Results are shown by the figures below, produced by the run above._
+
+# **coupling-overlap**
+
+# coupling-overlap
+_save_viz('study-contact-to-enclosure-coupling', 'coupling-overlap', _render_one('local:CouplingOverlapViz', {'title': 'A narrow joint-feasible regime — selection and enclosure must align'}, RUNS_DB, STUDY_YAML))
+
 # ### Acceptance criteria
 #
 # _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
@@ -2330,6 +2342,15 @@ if RERUN:
 else:
     print("RERUN=False — not re-simulating.")
 
+# ### Visualizations
+#
+# _Results are shown by the figures below, produced by the run above._
+
+# **transmission-fan**
+
+# transmission-fan
+_save_viz('study-vertical-transmission-stability', 'transmission-fan', _render_one('local:TransmissionFanViz', {'title': 'Establishment ≠ permanence — retention survives only below a conflict threshold'}, RUNS_DB, STUDY_YAML))
+
 # ### Acceptance criteria
 #
 # _Pre-registered checks (criteria/thresholds only — run the cells above to evaluate them)._
@@ -2401,6 +2422,20 @@ if RERUN:
         print(f"baseline not runnable yet: {type(_e).__name__}: {_e}")
 else:
     print("RERUN=False — not re-simulating.")
+
+# ### Visualizations
+#
+# _Results are shown by the figures below, produced by the run above._
+
+# **spatial-field**
+
+# spatial-field
+_save_viz('study-spatial-exchange-proximity', 'spatial-field', _render_one('local:SpatialExchangeFieldViz', {'title': 'Spatial exchange — the metabolite field a consumer sees at distance'}, RUNS_DB, STUDY_YAML))
+
+# **spatial-distance**
+
+# spatial-distance
+_save_viz('study-spatial-exchange-proximity', 'spatial-distance', _render_one('local:SpatialDistanceViz', {'title': 'Contact confers the exchange advantage — realised exchange collapses with distance'}, RUNS_DB, STUDY_YAML))
 
 # ### Acceptance criteria
 #
@@ -2474,6 +2509,15 @@ if RERUN:
         print(f"baseline not runnable yet: {type(_e).__name__}: {_e}")
 else:
     print("RERUN=False — not re-simulating.")
+
+# ### Visualizations
+#
+# _Results are shown by the figures below, produced by the run above._
+
+# **reciprocity-liebig**
+
+# reciprocity-liebig
+_save_viz('study-bidirectional-syntrophy', 'reciprocity-liebig', _render_one('local:ReciprocityLiebigViz', {'title': 'Reciprocity beyond proximity — the mutual benefit is capped at the scarcer flux'}, RUNS_DB, STUDY_YAML))
 
 # ### Acceptance criteria
 #
