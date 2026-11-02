@@ -43,7 +43,18 @@ literature_anchors:
 parent_studies:
 - study: s05-differentiation
   relation: builds-on
-baseline: []
+baseline:
+- name: baseline
+  composite: viva_genesis.composites.cell_collective.cell_collective
+  params:
+    adhesion: 0.8
+    fragmentation: 0.2
+    predation_size_reward: 0.02
+    transport_penalty: 0.02
+  note: 'Planned starting baseline on the shared cell_collective system (reference
+    config, as S01–S03). The evolutionary-individuality question — when reproduction,
+    heritability and conflict suppression shift selection to the collective — is explored
+    via variants.'
 variants: []
 visualizations: []
 observables:

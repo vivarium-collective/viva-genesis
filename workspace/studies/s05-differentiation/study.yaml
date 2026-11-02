@@ -42,7 +42,17 @@ literature_anchors:
 parent_studies:
 - study: s04-morphomechanics
   relation: builds-on
-baseline: []
+baseline:
+- name: baseline
+  composite: viva_genesis.composites.cell_collective.cell_collective
+  params:
+    adhesion: 0.8
+    fragmentation: 0.2
+    predation_size_reward: 0.02
+    transport_penalty: 0.02
+  note: 'Planned starting baseline on the shared cell_collective system (reference
+    config, as S01–S03). The differentiation question — stable cell-state split under
+    environmental gradients, without a developmental program — is explored via variants.'
 variants: []
 visualizations: []
 observables:
