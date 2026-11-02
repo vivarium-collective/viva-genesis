@@ -90,6 +90,7 @@ from viva_genesis.audit_checks import (  # noqa: E402
     check_knife_edge_margins,
     check_units_present,
     check_gate_matched_null,
+    check_findings_without_figures,
 )
 
 
@@ -491,3 +492,33 @@ def test_arm_resource_ref_empty_registry_skips():
     # Registry unreadable/empty -> skip rather than false-fail every ref.
     studies = {"s": {"arms": [{"id": "a1", "resource": "anything"}]}}
     assert check_arm_resource_refs(studies, set()) == []
+
+
+def test_findings_without_figures_flagged():
+    # ran + computational finding + no viz -> WARN
+    spec = {"simulation_status": "ran",
+            "findings": [{"kind": "computational"}],
+            "visualizations": []}
+    warns = check_findings_without_figures({"s": spec})
+    assert len(warns) == 1 and "no" in warns[0] and "visualization" in warns[0]
+
+
+def test_findings_without_figures_clean_with_viz():
+    spec = {"simulation_status": "ran",
+            "findings": [{"kind": "computational"}],
+            "visualizations": [{"name": "fig"}]}
+    assert check_findings_without_figures({"s": spec}) == []
+
+
+def test_findings_without_figures_skips_unran_and_nonfinding():
+    # planned (not run) and ran-but-no-finding both clean
+    planned = {"simulation_status": "planned",
+               "findings": [{"kind": "computational"}], "visualizations": []}
+    no_finding = {"simulation_status": "ran", "findings": [], "visualizations": []}
+    assert check_findings_without_figures({"a": planned, "b": no_finding}) == []
+
+
+def test_findings_without_figures_runs_key_counts_as_ran():
+    spec = {"runs": [{"name": "r"}],
+            "findings": [{"kind": "computational"}], "visualizations": []}
+    assert len(check_findings_without_figures({"s": spec})) == 1

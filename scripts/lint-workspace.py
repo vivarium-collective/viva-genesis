@@ -371,6 +371,7 @@ def main() -> None:
             check_verdict_evidence,
             check_knife_edge_margins,
             check_units_present,
+            check_findings_without_figures,
             check_gate_matched_null,
             check_gate_members_in_roster,
             check_used_imports_declared,
@@ -629,6 +630,8 @@ def main() -> None:
             print(f"LINT WARNING: units: {_w}", file=sys.stderr)
         for _w in check_evidence_basis_coverage(studies_by_dir):
             print(f"LINT WARNING: evidence-basis: {_w}", file=sys.stderr)
+        for _w in check_findings_without_figures(studies_by_dir):
+            print(f"LINT WARNING: findings-without-figures: {_w}", file=sys.stderr)
 
     if _audit_errors:
         for _e in _audit_errors:
