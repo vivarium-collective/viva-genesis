@@ -79,7 +79,14 @@ variants:
     predation_size_reward: 0.8
     transport_penalty: 0.8
   note: C with weak adhesion -> small groups below the oxygen size limit.
-visualizations: []
+visualizations:
+- name: transport-size-optimum
+  address: local:TransportSizeOptimumViz
+  config:
+    title: Transport bounds the advantage to an intermediate size optimum
+  covers:
+  - mean_group_size
+  rendered: workspace/studies/s03-transport-limits/viz/transport-size-optimum.html
 observables:
 - mean_group_size
 data_inputs: []

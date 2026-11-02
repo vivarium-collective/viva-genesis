@@ -80,7 +80,14 @@ variants:
     predation_size_reward: 0.8
     transport_penalty: 0.02
   note: 'Non-group null: adhesion off -> no persistent groups.'
-visualizations: []
+visualizations:
+- name: formation-persistence
+  address: local:FormationPersistenceViz
+  config:
+    title: Clonal adhesion builds a persistent group life cycle
+  covers:
+  - group_life_cycle_persistence
+  rendered: workspace/studies/s01-formation/viz/formation-persistence.html
 observables:
 - group_life_cycle_persistence
 data_inputs: []

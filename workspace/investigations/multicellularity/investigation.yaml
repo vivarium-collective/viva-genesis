@@ -412,7 +412,10 @@ scientific_argument:
     non-regulated null.
   - C7 Complexity-requires-integration rests on broad comparative inference and must
     avoid asserting a universal necessary pathway.
-  key_figures: []
+  key_figures:
+  - workspace/studies/s01-formation/viz/formation-persistence.html
+  - workspace/studies/s02-ecological-selection/viz/ecological-selection.html
+  - workspace/studies/s03-transport-limits/viz/transport-size-optimum.html
   caveats:
   - Reproducing multicellular phenotypes does not by itself establish the actual prehistoric
     sequence of evolutionary events. The program explicitly preserves the distinctions

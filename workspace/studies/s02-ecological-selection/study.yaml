@@ -81,7 +81,14 @@ variants:
     predation_size_reward: 0.02
     transport_penalty: 0.02
   note: 'Adhesion only (A): no ecological selection.'
-visualizations: []
+visualizations:
+- name: ecological-selection
+  address: local:EcologicalSelectionViz
+  config:
+    title: Ecological selection — not adhesion — makes groups fitter
+  covers:
+  - group_fitness_advantage
+  rendered: workspace/studies/s02-ecological-selection/viz/ecological-selection.html
 observables:
 - group_fitness_advantage
 data_inputs: []
