@@ -105,17 +105,12 @@ variants:
   over:
     catalyst_efficiency: 0.3
 visualizations:
-- name: internalization-boundary
-  title: Internalization pays only with an efficient pump — survivors vs pump efficiency
-  address: html:viz/internalization-boundary.html
-  render: "python -m viva_genesis.viz_endosym internalization-boundary {chart}"
-  requires: []
+- name: internalization-net-benefit
+  address: local:S4InternalizationDoseViz
+  config:
+    title: S4 — internalization pays only above a pump-efficiency threshold
   covers:
   - settled_internalization_survivors
-- name: internalization-net-benefit
-  address: local:S4EnergeticCouplingViz
-  config:
-    title: S4 — internalization pays only with an efficient pump (survivors)
   rendered: workspace/studies/s4-compartmental-energetic-coupling/viz/internalization-net-benefit.html
 observables:
 - pop/survivors

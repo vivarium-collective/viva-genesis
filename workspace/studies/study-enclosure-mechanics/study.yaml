@@ -3,8 +3,9 @@ name: study-enclosure-mechanics
 title: Can selected contact transition to stable enclosure under physical constraints?
 investigation: eukaryogenesis
 question: Can selected contact transition to stable enclosure under physical constraints?
-claim:
-hypothesis: Physically constrained remodelling reaches stable enclosure in a majority of the feasible regime.
+claim: null
+hypothesis: Physically constrained remodelling reaches stable enclosure in a majority
+  of the feasible regime.
 concept: endosymbiosis transition bridge
 topic: eukaryogenesis
 status: planned
@@ -33,7 +34,8 @@ baseline:
     adhesion_energy: 0.9
     bending_modulus: 0.2
     perturbation: 0.1
-  note: 'H2 geometry-first regime: strong adhesion overcomes the bending neck-closure barrier.'
+  note: 'H2 geometry-first regime: strong adhesion overcomes the bending neck-closure
+    barrier.'
 variants:
 - name: enclosure-conflict
   composite: viva_genesis.composites.proto_endosymbiosis_enclosure.proto_endosymbiosis_enclosure
@@ -47,21 +49,36 @@ observables:
 behavior_tests:
 - name: study-enclosure-mechanics-discriminates
   classification: primary
-  description: Stable enclosure is the majority outcome only if mechanically valid + persistent (not imposed).
+  description: Stable enclosure is the majority outcome only if mechanically valid
+    + persistent (not imposed).
   measure: probability_of_stable_enclosure
   pass_if:
     op: '>='
     value: 0.5
-visualizations: []
+visualizations:
+- name: enclosure-phase-map
+  address: local:EnclosurePhaseViz
+  config:
+    title: Stable enclosure is regime-dependent — a mechanical budget, not a given
+  rendered: workspace/studies/study-enclosure-mechanics/viz/enclosure-phase-map.html
 findings:
 - id: s-encl-stable-enclosure-regime-dependent
-  statement: "Stable, persistent enclosure is the MAJORITY outcome (P=0.95) only in the geometry-first regime where adhesion overcomes the bending neck-closure barrier AND survives perturbation; under conflict (high perturbation) P=0.14 — enclosure seals but unwraps. Supports H2-geometry-first in the favorable regime; H3-parasitism/conflict where perturbation dominates."
+  statement: Stable, persistent enclosure is the MAJORITY outcome (P=0.95) only in
+    the geometry-first regime where adhesion overcomes the bending neck-closure barrier
+    AND survives perturbation; under conflict (high perturbation) P=0.14 — enclosure
+    seals but unwraps. Supports H2-geometry-first in the favorable regime; H3-parasitism/conflict
+    where perturbation dominates.
   status: confirms
   evidence:
     observed: 0.946
     from_test: study-enclosure-mechanics-discriminates
-    from_run: proto_endosymbiosis_enclosure baseline (H2) vs enclosure-conflict variant (H3), seed 1
-  inferential_scope: Reduced three-compartment enclosure ensemble (attempting->sealed<->stalled) with sealing driven by adhesion vs bending barrier and unwrapping by perturbation vs adhesion. Establishes that stable enclosure is reachable+persistent given a favorable mechanical balance; does NOT resolve the full membrane PDE / CPM geometry (next fidelity). Outcome is regime-dependent.
+    from_run: proto_endosymbiosis_enclosure baseline (H2) vs enclosure-conflict variant
+      (H3), seed 1
+  inferential_scope: Reduced three-compartment enclosure ensemble (attempting->sealed<->stalled)
+    with sealing driven by adhesion vs bending barrier and unwrapping by perturbation
+    vs adhesion. Establishes that stable enclosure is reachable+persistent given a
+    favorable mechanical balance; does NOT resolve the full membrane PDE / CPM geometry
+    (next fidelity). Outcome is regime-dependent.
 runs:
 - name: viva_genesis.composites.proto_endosymbiosis_enclosure.proto_endosymbiosis_enclosure__1793504999__cab6e8
   status: completed
@@ -69,7 +86,8 @@ runs:
   emitter:
     kind: unknown
   env_id: 325f11d519ae0ae8
-  params: '{"adhesion_energy": 0.9, "bending_modulus": 0.2, "perturbation": 0.1, "seed": 1}'
+  params: '{"adhesion_energy": 0.9, "bending_modulus": 0.2, "perturbation": 0.1, "seed":
+    1}'
   provenance:
     params:
       adhesion_energy:
@@ -141,5 +159,7 @@ pipeline_gate:
     diverges_from_authored: false
 verdict: supported
 confidence: provisional
-verdict_rationale: 'Discriminating campaign on proto_endosymbiosis_enclosure: P(stable_enclosure)>=0.5 in the geometry-first regime, <0.5 under the conflict regime. H2 supported conditionally; stability requires adhesion to both overcome the bending barrier and survive perturbation.'
+verdict_rationale: 'Discriminating campaign on proto_endosymbiosis_enclosure: P(stable_enclosure)>=0.5
+  in the geometry-first regime, <0.5 under the conflict regime. H2 supported conditionally;
+  stability requires adhesion to both overcome the bending barrier and survive perturbation.'
 evidence_tier: mechanistic_prediction

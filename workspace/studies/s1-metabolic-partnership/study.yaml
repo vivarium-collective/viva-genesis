@@ -122,7 +122,7 @@ visualizations:
   title: Connected community develops redundancy; isolated does not — robustness over time
   rendered: workspace/studies/s1-metabolic-partnership/viz/community-redundancy.html
 - name: partner-dependent-advantage
-  address: local:S1MetabolicPartnershipViz
+  address: local:S1RedundancyTrajectoryViz
   config:
     title: S1 — a partner-dependent advantage (connected vs isolated community redundancy)
   rendered: workspace/studies/s1-metabolic-partnership/viz/partner-dependent-advantage.html
