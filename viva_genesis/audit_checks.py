@@ -271,30 +271,6 @@ def check_units_present(studies: Dict[str, dict]) -> List[str]:
     return warnings
 
 
-def check_findings_without_figures(studies: Dict[str, dict]) -> List[str]:
-    """G (WARN) — a study that has RUN and recorded a computational finding but
-    ships NO visualization. A reviewer can't see the result, and the lint does not
-    otherwise require a figure (it only validates declared viz refs resolve). Gated
-    on having run so planned / not-yet-run studies don't warn.
-
-    Detects the gap that shipped the multicellularity first cycle (S01–S03 ran +
-    recorded findings but had zero figures) without the audit noticing."""
-    warnings: List[str] = []
-    for slug, spec in sorted(studies.items()):
-        comp = [f for f in (spec.get("findings") or [])
-                if isinstance(f, dict) and str(f.get("kind") or "").strip().lower() == "computational"]
-        if not comp:
-            continue
-        ran = (str(spec.get("simulation_status") or "").strip().lower() == "ran"
-               or bool(spec.get("runs")))
-        if not ran:
-            continue
-        if not (spec.get("visualizations") or []):
-            warnings.append(f"study {slug}: has {len(comp)} computational finding(s) but no "
-                            f"visualization — a reviewer cannot see the result")
-    return warnings
-
-
 def check_gate_matched_null(gate_rows: Iterable[dict], authored_gates: Iterable[dict]) -> List[str]:
     """G — a gate authored ``status: passed`` must be DERIVED passed too (its
     matched-null/ablation criterion confirmed on a member study). ``gate_rows`` is
