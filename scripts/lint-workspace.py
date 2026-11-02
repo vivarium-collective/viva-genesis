@@ -630,6 +630,27 @@ def main() -> None:
         for _w in check_evidence_basis_coverage(studies_by_dir):
             print(f"LINT WARNING: evidence-basis: {_w}", file=sys.stderr)
 
+    # G (WARN) — delegate the "every study declares a visualization" gate to the
+    # SHARED viva_superpowers.report_linter (single source of truth) rather than a
+    # local re-implementation. That gate is a hard error there, but it only runs via
+    # /viva-report + the dashboard; surfacing it (non-blocking) in the CI lint closes
+    # the blind spot where an agentic flow writes studies + verdicts without ever
+    # invoking the report linter (e.g. an in-process discovery cycle). Only the
+    # `missing_visualizations` findings are surfaced here — the linter's other checks
+    # stay the report's concern — and any import/run failure is swallowed so the lint
+    # never hard-depends on the installed viva_superpowers version.
+    try:
+        from viva_superpowers.report_linter import lint_workspace_report as _lwr
+        for _f in _lwr(WS_ROOT):
+            if getattr(_f, "check", None) == "missing_visualizations":
+                print(f"LINT WARNING: missing-visualizations: study "
+                      f"{getattr(_f, 'study_slug', '?')} declares no visualization "
+                      f"(shared report_linter gate — hard error at /viva-report)",
+                      file=sys.stderr)
+    except Exception as _e:
+        print(f"LINT WARNING: missing-visualizations check skipped "
+              f"(shared report_linter unavailable: {_e})", file=sys.stderr)
+
     if _audit_errors:
         for _e in _audit_errors:
             print(f"LINT ERROR: {_e}", file=sys.stderr)
