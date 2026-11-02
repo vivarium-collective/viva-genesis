@@ -103,6 +103,13 @@ runs:
   provenance:
     params_source: first-cycle-in-process-runner
     params_captured_at: '2026-11-01'
+  outcomes:
+    group-fitness-advantage-under-selection:
+      result: PASS
+      measured_value: 0.1508
+      detail: 0.1508 > 0.0
+      operator: derived/>
+      evaluated_by: code
 - name: viva_genesis.composites.cell_collective.cell_collective__1793567204__7fb93c
   status: completed
   timestamp: 1793567204.508229
@@ -114,6 +121,13 @@ runs:
     params_source: first-cycle-in-process-runner
     params_captured_at: '2026-11-01'
   variant: adhesion-only-control
+  outcomes:
+    group-fitness-advantage-under-selection:
+      result: FAIL
+      measured_value: -0.00208
+      detail: -0.00208 > 0.0 (control, expected fail)
+      operator: derived/>
+      evaluated_by: code
 simulation_set: []
 pipeline_gate:
   gate_evaluator:

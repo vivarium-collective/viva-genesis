@@ -102,6 +102,13 @@ runs:
   provenance:
     params_source: first-cycle-in-process-runner
     params_captured_at: '2026-11-01'
+  outcomes:
+    group-life-cycle-persists:
+      result: PASS
+      measured_value: 0.666667
+      detail: 0.6667 >= 0.5
+      operator: derived/>=
+      evaluated_by: code
 - name: viva_genesis.composites.cell_collective.cell_collective__1793567204__6ab1aa
   status: completed
   timestamp: 1793567204.508229
@@ -113,6 +120,13 @@ runs:
     params_source: first-cycle-in-process-runner
     params_captured_at: '2026-11-01'
   variant: no-adhesion-null
+  outcomes:
+    group-life-cycle-persists:
+      result: FAIL
+      measured_value: 0.012346
+      detail: 0.01235 >= 0.5 (control, expected fail)
+      operator: derived/>=
+      evaluated_by: code
 simulation_set: []
 pipeline_gate:
   gate_evaluator:

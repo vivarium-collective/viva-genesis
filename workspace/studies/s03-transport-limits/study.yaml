@@ -101,6 +101,16 @@ runs:
   provenance:
     params_source: first-cycle-in-process-runner
     params_captured_at: '2026-11-01'
+  outcomes:
+    size-viability-tracks-transport:
+      result: PASS
+      measured_value: 16.99992
+      operator: cross_run
+      evaluated_by: code
+      detail: 'size/viability tracks the transport regime: large groups (size 17.0)
+        lose the advantage (adv -0.21 < 0) while small groups (size 3.7) keep it (adv
+        +0.12 > 0) — the group-fitness advantage sign tracks whether mean size is
+        below the oxygen size limit (~6).'
 - name: viva_genesis.composites.cell_collective.cell_collective__1793567204__68451e
   status: completed
   timestamp: 1793567204.508229
@@ -112,6 +122,16 @@ runs:
     params_source: first-cycle-in-process-runner
     params_captured_at: '2026-11-01'
   variant: small-groups
+  outcomes:
+    size-viability-tracks-transport:
+      result: PASS
+      measured_value: 3.666658
+      operator: cross_run
+      evaluated_by: code
+      detail: 'size/viability tracks the transport regime: large groups (size 17.0)
+        lose the advantage (adv -0.21 < 0) while small groups (size 3.7) keep it (adv
+        +0.12 > 0) — the group-fitness advantage sign tracks whether mean size is
+        below the oxygen size limit (~6).'
 simulation_set: []
 pipeline_gate:
   gate_evaluator:
