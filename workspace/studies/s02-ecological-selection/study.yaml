@@ -1,0 +1,141 @@
+schema_version: 4
+name: s02-ecological-selection
+investigation: multicellularity
+created: '2026-11-01'
+title: Ecological selection
+phase: Design
+status: planned
+design_status: drafted
+simulation_status: ran
+evaluation_status: evaluated
+gate_status: passed
+topic: multicellularity
+tags:
+- seed
+- planned
+- multicellularity
+concept: emergence of multicellularity
+question: Can size-dependent predation and settling reward group formation without
+  added physiology? (Q1)
+hypothesis: Under size-dependent predation/settling, simple adhesive collectives gain
+  a fitness advantage over unicells even with metabolic exchange controlled (H1).
+claim: Under size-dependent predation/settling, groups gain a FITNESS ADVANTAGE over
+  unicells (adv=+0.
+behavior_tests:
+- name: group-fitness-advantage-under-selection
+  classification: primary
+  description: 'Add size-dependent predation, settling and no-selection controls;
+    compare group vs unicell fitness with physiology held fixed. Decision criterion:
+    ecological benefit explains group emergence without added physiology.'
+  pass_if:
+    op: '>'
+    value: 0.0
+acceptance_criteria: []
+findings:
+- id: s02-ecological-selection-first-cycle
+  statement: Under size-dependent predation/settling, groups gain a FITNESS ADVANTAGE
+    over unicells (adv=+0.15); with adhesion alone (no ecology) the advantage vanishes
+    (adv=-0.00). Ecological selection — NOT adhesion per se — confers the group-level
+    fitness advantage (supports H1 for the advantage).
+  status: confirms
+  evidence:
+    observed: 0.1508
+    from_test: group-fitness-advantage-under-selection
+    from_run: viva_genesis.composites.cell_collective.cell_collective__1793567204__5c2568
+  inferential_scope: 'Reduced mean-field cell-collective model (cell_collective):
+    unicell/group split under adhesion + size-dependent predation/settling + oxygen-limited
+    growth. First-fidelity; not an explicit spatial agent/mechanics simulation and
+    not a historical estimate.'
+  kind: computational
+literature_anchors:
+- source: Herron et al. 2019, Sci Rep
+  cites:
+  - herron2019denovo
+  status_in_workspace: proposed
+- source: Ratcliff et al. 2012, PNAS
+  cites:
+  - ratcliff2012experimental
+  status_in_workspace: proposed
+- source: Grosberg & Strathmann 2007, Annu Rev Ecol Evol Syst
+  cites:
+  - grosberg2007evolution
+  status_in_workspace: proposed
+parent_studies:
+- study: s01-formation
+  relation: builds-on
+baseline:
+- name: baseline
+  composite: viva_genesis.composites.cell_collective.cell_collective
+  params:
+    adhesion: 0.8
+    fragmentation: 0.2
+    predation_size_reward: 0.8
+    transport_penalty: 0.02
+  note: Adhesion + size-dependent predation/settling (B).
+variants:
+- name: adhesion-only-control
+  composite: viva_genesis.composites.cell_collective.cell_collective
+  params:
+    adhesion: 0.8
+    fragmentation: 0.2
+    predation_size_reward: 0.02
+    transport_penalty: 0.02
+  note: 'Adhesion only (A): no ecological selection.'
+visualizations:
+- name: ecological-selection
+  address: local:EcologicalSelectionViz
+  config:
+    title: Ecological selection — not adhesion — makes groups fitter
+  covers:
+  - group_fitness_advantage
+  rendered: workspace/studies/s02-ecological-selection/viz/ecological-selection.html
+observables:
+- group_fitness_advantage
+data_inputs: []
+runs:
+- name: viva_genesis.composites.cell_collective.cell_collective__1793567204__5c2568
+  status: completed
+  timestamp: 1793567204.508229
+  emitter:
+    kind: in-process
+  params: '{"adhesion": 0.8, "fragmentation": 0.2, "predation_size_reward": 0.8, "transport_penalty":
+    0.02}'
+  provenance:
+    params_source: first-cycle-in-process-runner
+    params_captured_at: '2026-11-01'
+  outcomes:
+    group-fitness-advantage-under-selection:
+      result: PASS
+      measured_value: 0.1508
+      detail: 0.1508 > 0.0
+      operator: derived/>
+      evaluated_by: code
+- name: viva_genesis.composites.cell_collective.cell_collective__1793567204__7fb93c
+  status: completed
+  timestamp: 1793567204.508229
+  emitter:
+    kind: in-process
+  params: '{"adhesion": 0.8, "fragmentation": 0.2, "predation_size_reward": 0.02,
+    "transport_penalty": 0.02}'
+  provenance:
+    params_source: first-cycle-in-process-runner
+    params_captured_at: '2026-11-01'
+  variant: adhesion-only-control
+  outcomes:
+    group-fitness-advantage-under-selection:
+      result: FAIL
+      measured_value: -0.00208
+      detail: -0.00208 > 0.0 (control, expected fail)
+      operator: derived/>
+      evaluated_by: code
+simulation_set: []
+pipeline_gate:
+  gate_evaluator:
+    result: passed
+    evaluated_by: code
+    diverges_from_authored: false
+verdict: supported
+confidence: provisional
+verdict_rationale: 'First-cycle discriminating run on cell_collective: group_fitness_advantage=0.151
+  vs control -0.002.'
+evidence_tier: mechanistic_prediction

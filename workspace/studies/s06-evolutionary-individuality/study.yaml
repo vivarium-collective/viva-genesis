@@ -1,0 +1,68 @@
+schema_version: 4
+name: s06-evolutionary-individuality
+investigation: multicellularity
+created: '2026-11-01'
+title: Evolutionary individuality
+phase: Design
+status: planned
+design_status: drafted
+simulation_status: not_run
+evaluation_status: not_evaluated
+gate_status: not_started
+topic: multicellularity
+tags:
+- seed
+- planned
+- multicellularity
+concept: emergence of multicellularity
+question: When do reproduction, heritability and conflict suppression shift evolutionary
+  adaptation to the collective level? (Q5)
+hypothesis: Single-cell bottlenecks and multicellular propagules maintain heritable
+  between-group fitness gains across generations better than mixed-genotype groups
+  with cheating (C2, C6).
+claim: Single-cell bottlenecks / multicellular propagules sustain heritable between-group
+  fitness better than mixed-genotype groups with cheating (C2, C6) — provisional until
+  multigenerational multilevel-selection runs.
+behavior_tests:
+- name: between-group-heritable-fitness-stable
+  classification: primary
+  description: 'Compare single-cell bottlenecks, multicellular propagules, and mixed-genotype
+    groups with cheating. Decision criterion: heritable between-group fitness gains
+    remain stable across generations.'
+acceptance_criteria: []
+findings: []
+literature_anchors:
+- source: Grosberg & Strathmann 2007, Annu Rev Ecol Evol Syst
+  cites:
+  - grosberg2007evolution
+  status_in_workspace: proposed
+- source: Ratcliff et al. 2012, PNAS
+  cites:
+  - ratcliff2012experimental
+  status_in_workspace: proposed
+parent_studies:
+- study: s05-differentiation
+  relation: builds-on
+baseline:
+- name: baseline
+  composite: viva_genesis.composites.cell_collective.cell_collective
+  params:
+    adhesion: 0.8
+    fragmentation: 0.2
+    predation_size_reward: 0.02
+    transport_penalty: 0.02
+  note: 'Planned starting baseline on the shared cell_collective system (reference
+    config, as S01–S03). The evolutionary-individuality question — when reproduction,
+    heritability and conflict suppression shift selection to the collective — is explored
+    via variants.'
+variants: []
+visualizations: []
+observables:
+- between_group_heritable_fitness
+data_inputs: []
+runs: []
+simulation_set: []
+pipeline_gate:
+  gate_evaluator:
+    result: not_started
+    evaluated_by: code

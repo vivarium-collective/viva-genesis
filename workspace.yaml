@@ -104,6 +104,18 @@ expert_docs:
       standards, the stage→engine map, model-hierarchy tiers, integration
       contracts and a 12-month roadmap. Source for
       workspace/references/computational-resources.md.
+  - name: From Cells to Organisms — Multicellularity Investigation Seed
+    path: workspace/references/expert/multicellularity-investigation-seed.pdf
+    sha256: 13c6e3e9e2949b3b043ef1b0ef3ff1ba428ff4518be9a14d93148b4d8c63f5aa
+    contributor: agmon.eran@gmail.com
+    description: >-
+      Investigation seed (v1.0, Nov 2026) for VG-MULTI-001 'From Cells to
+      Organisms: Testing the Emergence of Multicellularity' — central question,
+      scientific questions Q1–Q6, competing hypotheses H1–H5, evidence-linked
+      claims C1–C7, model architecture + simulation interfaces, six seed studies
+      S01–S06, discovery-engine graph objects + first-cycle priority, and the
+      R1–R9 resource ingestion manifest. Source for the multicellularity
+      investigation + references R1–R9 in papers.bib.
 
 # Baseline run length used by the dashboard's "Run" flow (study_runs falls back
 # to 5 ticks otherwise — too few for the Campaign-0 reactor to settle into the

@@ -1,0 +1,433 @@
+schema_version: 2
+name: multicellularity
+title: From Cells to Organisms
+created: '2026-11-01'
+status: running
+seed_id: VG-MULTI-001
+question: Under what physical, metabolic, ecological, developmental, and evolutionary
+  conditions can independent cells become a persistent, integrated, self-reproducing
+  multicellular evolutionary individual? The existence of adherent cells is not sufficient
+  to establish a major transition; a defensible investigation must identify a SEQUENCE
+  of separately measurable properties — collective formation, physiological coordination,
+  reproducible group reproduction, heritable group-level traits, and adaptation at
+  the collective level — which may evolve in different orders and need not all appear
+  in every lineage.
+hypothesis: 'The transition is persuasive only when each property is demonstrated
+  on plausible mechanistic terms and the combination is shown sufficient for persistence
+  and further complexity. Discriminating objective: determine WHEN size-dependent
+  ecological selection and elementary adhesion explain observed group formation, and
+  WHEN metabolism, development, heritable life cycles, or conflict suppression are
+  NECESSARY for persistence and further complexity. No single mechanism is assumed
+  universally sufficient.'
+lead: This investigation is a falsifiable simulation-and-evidence program for the
+  emergence of multicellularity, synthesizing Morowitz's emergence framework with
+  experimental evolution (snowflake yeast, predator-selected Chlamydomonas; volvocine
+  algae and filamentous cyanobacteria as comparative systems) and biophysical modeling.
+  It distinguishes well-supported observations from hypotheses, proposes interoperable
+  mechanistic models compiled into process-bigraph composites, and specifies a first
+  discovery cycle capable of REJECTING explanations. The first deliverable is a validated
+  minimal cell-collective simulator and a claim-evidence graph.
+executive:
+  what_is_this: Seed for a falsifiable program testing which conditions turn independent
+    cells into an integrated, self-reproducing multicellular individual.
+  verdict: 'First cycle: clonal adhesion produces persistent groups, but adhesion
+    alone confers no fitness advantage; size-dependent ecological selection (predation/settling)
+    is what makes groups fitter than unicells; oxygen/transport then bounds that advantage
+    to an optimal intermediate group size.'
+  verdict_status: in-progress
+  verdict_detail: Proposed seed — tool names and the import manifest are design targets,
+    not a verified importer schema. No studies have run; every claim is provisional
+    until mapped to source-specific evidence.
+  objective: Reproduce group formation, fragmentation, and group-level fitness from
+    first principles, and bound which constraint combinations are sufficient versus
+    necessary for persistence and further complexity.
+  central_gap: Separately measurable properties (formation, coordination, group reproduction,
+    heritable group traits, collective adaptation) have not been demonstrated together
+    on one mechanistically consistent system; it is unknown which combinations are
+    sufficient, which necessary, and which merely possible.
+  mandate: Test whether ecological selection plus simple clonal adhesion suffices
+    to reproduce group formation and group-level fitness; compare competing mechanistic
+    models; report non-identifiability and select a discriminating intervention rather
+    than announcing discovery. Preserve the distinction among possibility, sufficiency,
+    necessity, and historical inference.
+  decisions_needed:
+  - question: Which test system anchors the first cycle — snowflake yeast (settling)
+      or predator-selected Chlamydomonas?
+    context: S01/S02 benchmark against Ratcliff 2012 and Herron 2019; the anchor choice
+      sets the ecological-selection treatment.
+  - question: Ingest the Bozdag 2023 source data/code (R8) and SRA PRJNA943273 (R9),
+      or treat them as comparison-only?
+    context: S03/S04 benchmark against Bozdag 2023 (oxygen, elongation, macroscopic
+      size, mechanical robustness); direct ingestion enables held-out prediction.
+  decisions_resolved:
+  - question: Does ecological selection + simple clonal adhesion suffice for group
+      formation and a group-level fitness advantage? (first-cycle A/B/C)
+    resolution: 'Discriminated on cell_collective: A (adhesion only) forms persistent
+      groups (0.67) but adv~0; B (+predation/settling) gives adv>0 (+0.15); C (+O2-limited
+      growth) bounds the advantage to small/intermediate size. Ecology is sufficient
+      for the advantage; adhesion alone is not; transport sets a size optimum.'
+competing_frameworks:
+- name: Morowitz emergence framework
+  relation: interpretive lens — emergence as successive constraint-crossings toward
+    a new individual
+- name: De novo experimental evolution
+  relation: empirical anchor — Ratcliff/Herron/Bozdag selection experiments as reproducible
+    targets
+- name: Comparative phylogenetic origins
+  relation: comparative baseline — Knoll/Grosberg multiple-independent-origins framing;
+    guards against a single necessary pathway
+transition_barriers:
+- barrier: Adhesion and topology
+  mechanistic_implication: Group stability depends on cell-cell bond formation, geometry
+    and fragmentation.
+  testable_measurement: Bond lifetime, group connectivity, propagule distributions.
+- barrier: Transport and metabolic demand
+  mechanistic_implication: Increasing group size can impose nutrient, oxygen and waste
+    gradients.
+  testable_measurement: Growth/viability versus radius, diffusion length, uptake flux.
+- barrier: Ecological selection
+  mechanistic_implication: Predation and settling can reward size even without specialization.
+  testable_measurement: Fitness advantage under predator/settling treatments.
+- barrier: Coordination and differentiation
+  mechanistic_implication: Signals, local gradients and regulatory plasticity may
+    create distinct cell states.
+  testable_measurement: Spatial fate maps, group productivity, phenotypic stability.
+- barrier: Heritability and conflict
+  mechanistic_implication: Within-collective competition can undermine group-level
+    adaptations.
+  testable_measurement: Between/within-group selection, life-cycle fidelity.
+physical_scalings: 'Baseline checks: for a sphere, surface-to-volume ratio A/V = 3/R;
+  characteristic diffusion time scales as L^2/D. These constrain but do not uniquely
+  predict colony dimensions — shape, metabolism, convection and active transport alter
+  outcomes.'
+candidate_composites:
+- id: A
+  title: Adhesion-only formation
+  stack: agent/particle mechanics (cells + bonds)
+  tests: whether clonal incomplete separation + reversible adhesion alone yield persistent
+    groups and heritable cluster traits (null baseline for the ecological comparison).
+- id: B
+  title: Adhesion + predation/settling ecology
+  stack: model A + size-dependent predation/settling + population dynamics
+  tests: whether ecological selection rewards group formation without added physiology
+    (H1).
+- id: C
+  title: Model B + oxygen-limited growth
+  stack: model B + reaction-diffusion transport (O2/nutrient/waste) coupled to growth
+  tests: whether transport limits reshape size/viability and interact with ecological
+    selection (C3).
+candidate_software:
+- layer: Cell growth/division
+  software:
+  - custom agent process
+  - PhysiCell
+  role: nutrients/state -> biomass, births, lineage edges
+- layer: Mechanics/adhesion
+  software:
+  - Spatio-Flux/Pymunk
+  - viva-cpm
+  - vivarium-tyssue
+  role: geometry/bonds/division -> positions, contact graph, breakage
+- layer: Transport fields
+  software:
+  - Spatio-Flux PDE
+  - Morpheus
+  - CompuCell3D
+  role: cell uptake/secretion -> spatial concentration fields
+- layer: Metabolism
+  software:
+  - COBRApy/dFBA
+  - COMETS
+  role: nutrient boundary conditions -> growth/yields/exchange
+- layer: Cell-state regulation
+  software:
+  - COPASI
+  - Tellurium
+  - Boolean/ODE modules
+  role: signals/metabolites -> phenotype state transitions
+- layer: Evolution/life cycle
+  software:
+  - custom population-genetic process
+  role: heritable traits, propagules, outcomes -> next generation
+- layer: Composition
+  software:
+  - Vivarium / Process Bigraph
+  role: typed shared stores, scheduler, provenance, recording
+model_families:
+- agent-based
+- particle mechanics
+- Cellular Potts
+- vertex
+- reaction-diffusion
+- dFBA
+- regulatory
+- evolutionary population
+regimes:
+- unicellular
+- transient aggregate
+- persistent clonal collective
+- physiologically integrated collective
+- reproducing multicellular individual
+final_deliverable: 'A validated minimal cell-collective simulator and a claim-evidence
+  graph: an evidence-linked narrative of the origins of multicellularity, a reusable
+  suite of interoperable cell/collective model blueprints with backend comparisons,
+  a phase atlas of viable/unstable/selectively-advantageous regimes, quantitative
+  boundaries separating physical aggregation from physiological integration and evolutionary
+  individuality, and a prioritized queue of decisive simulations and testable predictions.'
+flagship_studies:
+- framing: Does ecological selection plus simple clonal adhesion suffice to reproduce
+    group formation, fragmentation, and group-level fitness advantages?
+  studies:
+  - s01-formation
+  - s02-ecological-selection
+  composite: B
+  why: First-cycle priority. Compare three mechanistic models head to head — (A) adhesion
+    only, (B) adhesion + predation/settling ecology, (C) model B + oxygen-limited
+    growth — hold out at least one ecological or metabolic regime for prediction,
+    and use sensitivity analysis and replicate stochastic seeds.
+studies:
+- s01-formation
+- s02-ecological-selection
+- s03-transport-limits
+- s04-morphomechanics
+- s05-differentiation
+- s06-evolutionary-individuality
+acceptance_criteria:
+- study: s01-formation
+  behavior: group-life-cycle-persists
+- study: s02-ecological-selection
+  behavior: group-fitness-advantage-under-selection
+- study: s03-transport-limits
+  behavior: size-viability-tracks-transport
+- study: s04-morphomechanics
+  behavior: propagule-toughness-predicted
+- study: s05-differentiation
+  behavior: specialization-improves-group-performance
+- study: s06-evolutionary-individuality
+  behavior: between-group-heritable-fitness-stable
+hypotheses:
+- id: H1
+  statement: 'Ecology-first: size-dependent survival or settling favors initial groups.'
+  prediction: Under selected ecological regimes, simple adhesive collectives outperform
+    unicells without metabolic exchange.
+  competing_with:
+  - H2
+  - H3
+  - H4
+  - H5
+- id: H2
+  statement: 'Metabolism-first: cooperation and resource partitioning promote integration.'
+  prediction: Metabolically complementary groups gain fitness even when size protection
+    is controlled.
+  competing_with:
+  - H1
+  - H3
+  - H4
+  - H5
+- id: H3
+  statement: 'Plasticity-first: local gradients induce divergent cell states.'
+  prediction: Spatial fate patterns arise before evolved cell-fate circuitry; regulatory
+    fixation increases stability.
+  competing_with:
+  - H1
+  - H2
+  - H4
+  - H5
+- id: H4
+  statement: 'Alignment-first: clonality and group reproduction enable stable collectives.'
+  prediction: Clonal bottlenecked populations maintain group adaptations more effectively
+    than genetically mixed groups.
+  competing_with:
+  - H1
+  - H2
+  - H3
+  - H5
+- id: H5
+  statement: 'Coupled constraints: no single mechanism is generally sufficient.'
+  prediction: Different combinations create distinct viable regimes, with interactions
+    exceeding additive effects.
+  competing_with:
+  - H1
+  - H2
+  - H3
+  - H4
+claims:
+- id: C1
+  statement: Predation can favor groups.
+  assessment: Direct experimental evidence (R4).
+  required_challenge: Compare predator-free controls and alternative ecological effects.
+  refs:
+  - herron2019denovo
+  status: unvalidated
+- id: C2
+  statement: Clonality limits conflict.
+  assessment: Strong theory/comparative rationale (R2).
+  required_challenge: Test mixed founders and somatic cheaters.
+  refs:
+  - grosberg2007evolution
+  status: unvalidated
+- id: C3
+  statement: Diffusion limits size.
+  assessment: Physical premise and evidence (R3, R5).
+  required_challenge: Control shape, transport and metabolic regime.
+  refs:
+  - knoll2011multiple
+  - bozdag2023denovo
+  status: unvalidated
+- id: C4
+  statement: Mechanics permits macroscopic clusters.
+  assessment: Direct yeast evidence (R5).
+  required_challenge: Compare explicit geometry/mechanics models.
+  refs:
+  - bozdag2023denovo
+  status: unvalidated
+- id: C5
+  statement: Gradients can initiate specialization.
+  assessment: Mechanistic hypothesis.
+  required_challenge: Demonstrate specialization exceeding a non-regulated null.
+  refs: []
+  status: unvalidated
+- id: C6
+  statement: Life cycles sustain group selection.
+  assessment: Evolutionary theory and yeast data (R2, R6).
+  required_challenge: Measure propagule inheritance and multilevel selection.
+  refs:
+  - grosberg2007evolution
+  - ratcliff2012experimental
+  status: unvalidated
+- id: C7
+  statement: Complexity requires integration.
+  assessment: Broad comparative inference (R3).
+  required_challenge: Avoid asserting a universal necessary pathway.
+  refs:
+  - knoll2011multiple
+  status: unvalidated
+first_cycle_priority: 'Test whether ecological selection plus simple clonal adhesion
+  suffices to reproduce group formation, fragmentation, and group-level fitness advantages.
+  Compare three mechanistic models: (A) adhesion only, (B) adhesion + predation/settling
+  ecology, (C) model B + oxygen-limited growth. Hold out at least one ecological or
+  metabolic regime for prediction. Use sensitivity analysis and replicate stochastic
+  seeds.'
+promotion_rules: A model is promoted only after reproducing baseline experimental
+  trends, satisfying conservation/unit checks, and predicting at least one held-out
+  observation or cross-condition perturbation. Failed models remain linked to their
+  falsifying evidence. Where multiple models fit equally well, report non-identifiability
+  and select a discriminating intervention rather than announcing discovery.
+references:
+- key: morowitz2002emergence_multicellularity
+  url: https://academic.oup.com/book/52761
+  note: R1. Foundational emergence narrative; theoretical book chapter.
+  evidence_tier: theory
+  claims: []
+- key: grosberg2007evolution
+  doi: 10.1146/annurev.ecolsys.36.102403.114735
+  note: R2. Clonality, conflict, individuality; conceptual review.
+  evidence_tier: review
+  claims:
+  - C2
+  - C6
+- key: knoll2011multiple
+  doi: 10.1146/annurev.earth.031208.100209
+  note: R3. Comparative origins, transport limits, complexity; review.
+  evidence_tier: review
+  claims:
+  - C3
+  - C7
+- key: herron2019denovo
+  doi: 10.1038/s41598-019-39558-8
+  note: R4. Predation-selected Chlamydomonas experimental evolution.
+  evidence_tier: experimental
+  claims:
+  - C1
+- key: bozdag2023denovo
+  doi: 10.1038/s41586-023-06052-1
+  note: R5. De novo evolution of macroscopic multicellularity; mechanical traits.
+  evidence_tier: experimental
+  claims:
+  - C3
+  - C4
+- key: ratcliff2012experimental
+  doi: 10.1073/pnas.1115323109
+  note: R6. Yeast settling selection, life cycle, group reproduction.
+  evidence_tier: experimental
+  claims:
+  - C6
+- key: kirk2005twelve
+  doi: 10.1002/bies.20197
+  note: R7. Volvocine progression and division of labor; comparative account.
+  evidence_tier: review
+  claims:
+  - C5
+- key: bozdag2023data
+  url: https://github.com/ozanbozdag/de_novo_evolution_of_macroscopic_multicellularity
+  note: R8. Bozdag 2023 source data, analysis code, 3D model and sequencing links.
+  evidence_tier: dataset
+  claims:
+  - C3
+  - C4
+- key: sra_prjna943273
+  url: https://www.ncbi.nlm.nih.gov/sra/?term=PRJNA943273
+  note: R9. Sequencing dataset (BioProject PRJNA943273) from the macroscopic multicellularity
+    experiment.
+  evidence_tier: dataset
+  claims:
+  - C4
+inputs:
+  references:
+  - morowitz2002emergence_multicellularity
+  - grosberg2007evolution
+  - knoll2011multiple
+  - herron2019denovo
+  - bozdag2023denovo
+  - ratcliff2012experimental
+  - kirk2005twelve
+  datasets:
+  - name: Bozdag 2023 source data + code
+    path: https://github.com/ozanbozdag/de_novo_evolution_of_macroscopic_multicellularity
+    supports_claims:
+    - C3
+    - C4
+  - name: NCBI SRA BioProject PRJNA943273
+    path: https://www.ncbi.nlm.nih.gov/sra/?term=PRJNA943273
+    supports_claims:
+    - C4
+  expert_docs:
+  - name: From Cells to Organisms — Multicellularity Investigation Seed
+    path: workspace/references/expert/multicellularity-investigation-seed.pdf
+expert_docs:
+- From Cells to Organisms — Multicellularity Investigation Seed
+scientific_argument:
+  main_claim: A major transition to multicellularity requires a sequence of separately
+    measurable properties (formation, coordination, group reproduction, heritable
+    group traits, collective adaptation) that can evolve in different orders; simulation
+    under shared canonical states can bound which constraint combinations are sufficient
+    versus necessary.
+  evidence_for:
+  - C1 Predation can favor groups (R4, experimental).
+  - C3 Diffusion limits size (R3, R5 — physical premise + evidence).
+  - C4 Mechanics permits macroscopic clusters (R5, direct yeast evidence).
+  - C6 Life cycles sustain group selection (R2, R6 — theory + yeast data).
+  evidence_against:
+  - C5 Gradients-initiate-specialization is a mechanistic hypothesis without a demonstrated
+    non-regulated null.
+  - C7 Complexity-requires-integration rests on broad comparative inference and must
+    avoid asserting a universal necessary pathway.
+  key_figures:
+  - workspace/studies/s01-formation/viz/formation-persistence.html
+  - workspace/studies/s02-ecological-selection/viz/ecological-selection.html
+  - workspace/studies/s03-transport-limits/viz/transport-size-optimum.html
+  caveats:
+  - Reproducing multicellular phenotypes does not by itself establish the actual prehistoric
+    sequence of evolutionary events. The program explicitly preserves the distinctions
+    among possibility, sufficiency, necessity, and historical inference. S05 uses
+    volvocine/cyanobacterial differentiation as qualitative comparison unless directly
+    usable datasets are ingested; S06 does not imply historical reconstruction from
+    present-day experiments.
+seed_acceptance_checklist:
+- each claim has an evidence status
+- every study has at least one falsifiable prediction and a baseline/null
+- resource URLs resolve
+- physical units and model interfaces are explicit
+- no conclusion is declared established merely from simulation fit
+- competing hypotheses remain visible
+- outputs, failures and provenance can be stored in the investigation graph
