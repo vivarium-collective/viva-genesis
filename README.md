@@ -104,6 +104,7 @@ Code lives at the repo root; research state is grouped under `workspace/`
 | Composite | What it is |
 |---|---|
 | `bioenergetic_internalization` | A reusable bioenergetic-internalization module (Module H). An evolutionary control loop (replicator dynamics, Sojo-2014 leaky-membrane fitness) under a declining external gradient: as the geochemical… |
+| `cell_collective` | Multicellularity first-cycle model: mean-field unicell/group population under adhesion, size-dependent predation/settling ecology, and oxygen-limited growth. |
 | `competing_heredity` | og-06's heredity lineage rebuilt as the Phase-7 competing-heredity composite: the inheritance mechanism is a model CLASS on the heredity face (model_heredity: compositional \| network \| peptide \| rna_… |
 | `cross_feeding_metacommunity` | A reusable cross-feeding metacommunity module (Module L). N connected compartments, each a coarse-grained capability vector over a protometabolic function set, evolving under cross-feeding (byproduct… |
 | `electrochemical_carbon_fixation` | og-01's H2/pH-driven carbon fixation rebuilt as the Phase-2 electrochemical interface: the carbon-fixation mechanism is a model CLASS on the carbon_fixation face (model_carbon_fixation: empirical \| b… |
@@ -142,9 +143,18 @@ Code lives at the repo root; research state is grouped under `workspace/`
 | `precursor_pool_no_catalyst` | NEW A control: mineral + base catalyst sites = 0. |
 | `precursor_pool_no_gradient` | NEW A control: no sustained vent resupply (k_feed = 0) - the disequilibrium the pH/redox gradient maintains is off. |
 | `precursor_pool_no_h2` | NEW A control: reductant removed (feed_H2 = 0). The functional pool must collapse. |
+| `proto_endosymbiosis_coupled` | Coupled bridge model M3: joint feasibility of selection-for-contact and stable enclosure under their reinforcing coupling. |
+| `proto_endosymbiosis_enclosure` | Coupled bridge model M2: stable-enclosure probability from an ensemble of enclosure attempts under adhesion vs bending barrier vs perturbation. |
+| `proto_endosymbiosis_hybrid` | Coupled bridge model M1: measures selection for a heritable contact propensity under frequency-dependent exchange benefit vs adhesion cost. |
+| `proto_endosymbiosis_multimetab` | Coupled bridge model M7: obligate bidirectional (two-metabolite, Liebig) syntrophy — mutualistic exchange benefit vs distance and production symmetry. |
+| `proto_endosymbiosis_spatial` | Coupled bridge model M6: spatial metabolite exchange — realised exchange level vs producer-consumer distance, testing M1's contact-scales-access premise. |
+| `proto_endosymbiosis_transmission` | Coupled bridge model M5: evolutionary stability of an established endosymbiosis under vertical transmission, conflict, and selection. |
 | `proto_energetics` | A transferable energy currency before modern pumping (pre-og-05). An exergonic geochemical drive charges a carrier pool (thioester / acyl-phosphate class) that is discharged for endergonic work under… |
 | `protocell_energetics` | A protocell's energy budget with the energy-coupling mechanism as a model CLASS on the energy_coupling face (model_energy_coupling: passive_gradient \| h_na_gradient_leaky_membrane \| thioester_acyl_ph… |
 | `protometabolic_network` | A reusable protometabolic reaction-network module. |
+| `protrusion_enclosure` | Protrusion-to-enclosure membrane mechanics (eukaryogenesis S3). A host protrusion of finite membrane area extends at an observed rate and attempts to wrap a bacterial partner; enclosure succeeds, per… |
+| `protrusion_enclosure_cpm` | Eukaryogenesis S3 (protrusions to enclosure), SPATIAL campaign composite B. A host and a symbiont on the real Rust CPM engine with actual boundaries; sweeping host-symbiont adhesion j_hs across j_sM… |
+| `protrusion_enclosure_membrane` | Active-protrusion membrane-wrapping mechanics (eukaryogenesis S3, continuum energetics). Tests whether an actin-driven host protrusion supplies enough work to carry a lipid membrane over the Helfrich… |
 | `reduced_nitrogen_reactor` | A reusable FeS-mediated reduced-nitrogen module. |
 | `serpentinizing_vent_reactor` | A reusable alkaline-vent reactor module. |
 | `serpentinizing_vent_reactor_reduced` | Reduced tuned-relaxation vent reactor (fallback / A-B comparison): Gaussian serpentinization source feeding a first-order relaxation box. |
@@ -160,5 +170,7 @@ Code lives at the repo root; research state is grouped under `workspace/`
 
 | Investigation | Research question |
 |---|---|
-| [The Hydrothermal Vent Hypothesis _(running)_](https://vivarium-collective.github.io/viva-genesis/investigations/origins-of-life-vent.html) | Could the first cells have originated at alkaline hydrothermal vents — and where does the geology-to-cells path run continuously, where does it depend on narrow regimes, and where does it break? |
+| [The Endosymbiotic Transition _(active)_](https://vivarium-collective.github.io/viva-genesis/workbench/reports/investigation-eukaryogenesis.html) | Under what physical, metabolic, ecological, and evolutionary conditions can an archaeal host and a bacterial partner cross from ecological association to a stable, integrated eukaryotic lineage? |
+| [From Cells to Organisms _(running)_](https://vivarium-collective.github.io/viva-genesis/workbench/reports/investigation-multicellularity.html) | Under what physical, metabolic, ecological, developmental, and evolutionary conditions can independent cells become a persistent, integrated, self-reproducing multicellular evolutionary individual? |
+| [The Hydrothermal Vent Hypothesis _(running)_](https://vivarium-collective.github.io/viva-genesis/workbench/reports/investigation-origins-of-life-vent.html) | Could the first cells have originated at alkaline hydrothermal vents — and where does the geology-to-cells path run continuously, where does it depend on narrow regimes, and where does it break? |
 <!-- END:investigations -->
