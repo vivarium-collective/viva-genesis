@@ -15,39 +15,33 @@ tags:
 - planned
 - multicellularity
 concept: emergence of multicellularity
-question: Which adhesion, reproductive, and ecological regimes create persistent collectives
-  rather than transient aggregates? (Q1)
-hypothesis: Clonal incomplete separation with reversible adhesion, swept over bond
-  strength and division/fragmentation, produces a persistent group life cycle and
-  heritable cluster traits that a non-group null does not.
-claim: Clonal incomplete separation with reversible adhesion produces a PERSISTENT
-  group life cycle (group fraction=0.
+question: Which adhesion, reproductive, and ecological regimes create persistent collectives rather than transient aggregates? (Q1)
+hypothesis: Clonal incomplete separation with reversible adhesion, swept over bond strength and division/fragmentation, produces a persistent group life cycle and heritable cluster traits that a non-group null does not.
+claim: Clonal incomplete separation with reversible adhesion produces a PERSISTENT group life cycle (group fraction=0.
 behavior_tests:
 - name: group-life-cycle-persists
   classification: primary
-  description: 'Contrast clonal incomplete separation, aggregation, and reversible
-    adhesion. Sweep bond strength, division and fragmentation against a non-group
-    null. Decision criterion: persistent group life cycle and heritable cluster traits
-    versus a non-group null.'
+  description: 'Contrast clonal incomplete separation, aggregation, and reversible adhesion. Sweep bond strength, division and fragmentation against a non-group null. Decision criterion: persistent group life cycle and heritable cluster traits versus a non-group null.'
   pass_if:
     op: '>='
     value: 0.5
+  measure: group_life_cycle_persistence
 acceptance_criteria: []
 findings:
 - id: s01-formation-first-cycle
-  statement: Clonal incomplete separation with reversible adhesion produces a PERSISTENT
-    group life cycle (group fraction=0.67) that a non-group null (adhesion off) does
-    not (=0.01). Supports group FORMATION; says nothing yet about fitness.
+  statement: Clonal incomplete separation with reversible adhesion produces a PERSISTENT group life cycle (group fraction=0.67) that a non-group null (adhesion off) does not (=0.01). Supports group FORMATION; says nothing yet about fitness.
   status: confirms
   evidence:
     observed: 0.6667
     from_test: group-life-cycle-persists
     from_run: viva_genesis.composites.cell_collective.cell_collective__1793567204__7fb93c
-  inferential_scope: 'Reduced mean-field cell-collective model (cell_collective):
-    unicell/group split under adhesion + size-dependent predation/settling + oxygen-limited
-    growth. First-fidelity; not an explicit spatial agent/mechanics simulation and
-    not a historical estimate.'
+  inferential_scope: 'Reduced mean-field cell-collective model (cell_collective): unicell/group split under adhesion + size-dependent predation/settling + oxygen-limited growth. First-fidelity; not an explicit spatial agent/mechanics simulation and not a historical estimate.'
   kind: computational
+  expected: {}
+  provenance:
+    run_ids:
+    - viva_genesis.composites.cell_collective.cell_collective__1794314074__024029
+    model_version: mv:472f9eac26efb989
 literature_anchors:
 - source: Morowitz 2002, The Emergence of Everything, ch.14
   cites:
@@ -97,8 +91,7 @@ runs:
   timestamp: 1793567204.508229
   emitter:
     kind: in-process
-  params: '{"adhesion": 0.8, "fragmentation": 0.2, "predation_size_reward": 0.02,
-    "transport_penalty": 0.02}'
+  params: '{"adhesion": 0.8, "fragmentation": 0.2, "predation_size_reward": 0.02, "transport_penalty": 0.02}'
   provenance:
     params_source: first-cycle-in-process-runner
     params_captured_at: '2026-11-01'
@@ -109,13 +102,19 @@ runs:
       detail: 0.6667 >= 0.5
       operator: derived/>=
       evaluated_by: code
+  computed_outcomes:
+    _status: store_unresolved
+    _grader:
+      version: 3-freshness
+      graded_at: '2026-11-10T12:41:30.185597+00:00'
+      inputs_hash: e29ff6cb215c2853
+      store: unresolved
 - name: viva_genesis.composites.cell_collective.cell_collective__1793567204__6ab1aa
   status: completed
   timestamp: 1793567204.508229
   emitter:
     kind: in-process
-  params: '{"adhesion": 0.02, "fragmentation": 0.8, "predation_size_reward": 0.8,
-    "transport_penalty": 0.02}'
+  params: '{"adhesion": 0.02, "fragmentation": 0.8, "predation_size_reward": 0.8, "transport_penalty": 0.02}'
   provenance:
     params_source: first-cycle-in-process-runner
     params_captured_at: '2026-11-01'
@@ -127,14 +126,88 @@ runs:
       detail: 0.01235 >= 0.5 (control, expected fail)
       operator: derived/>=
       evaluated_by: code
-simulation_set: []
+  computed_outcomes:
+    _status: store_unresolved
+    _grader:
+      version: 3-freshness
+      graded_at: '2026-11-10T12:41:30.186569+00:00'
+      inputs_hash: 75a7b9d763d2e604
+      store: unresolved
+- name: viva_genesis.composites.cell_collective.cell_collective__1794314074__024029
+  status: completed
+  timestamp: 1794314075.993184
+  emitter:
+    kind: unknown
+  env_id: 23ca842ec299dcd0
+  params: '{"adhesion": 0.8, "fragmentation": 0.2, "predation_size_reward": 0.02, "transport_penalty": 0.02}'
+  computed_outcomes:
+    group-life-cycle-persists:
+      result: PASS
+      measured_value: 0.666667
+      evaluated_by: code
+      operator: group_life_cycle_persistence
+      detail: 0.6667 >= 0.5
+      reconcile: divergent
+    _grader:
+      version: 3-freshness
+      graded_at: '2026-11-10T12:41:30.335725+00:00'
+      inputs_hash: 0cea031900d2c43c
+      store: resolved
+  provenance:
+    params:
+      adhesion:
+        value: 0.8
+        source: override
+      fragmentation:
+        value: 0.2
+        source: override
+      n_steps:
+        value: 60
+        source: resolved
+      predation_size_reward:
+        value: 0.02
+        source: override
+      transport_penalty:
+        value: 0.02
+        source: override
+    params_captured_at: '2026-11-10'
+    params_source: dashboard-runner
+  outcomes:
+    group-life-cycle-persists:
+      result: SKIP
+      evaluated_by: agent
+      note: missing measure block
+      auto_evaluated: true
+simulation_set:
+- name: baseline-baseline
+  kind: single
+  base_model: viva_genesis.composites.cell_collective.cell_collective
+  is_baseline: true
+  status: ran
+  params:
+    adhesion: 0.8
+    fragmentation: 0.2
+    predation_size_reward: 0.02
+    transport_penalty: 0.02
+  pass_fail_tests: &id001
+  - group-life-cycle-persists
+- name: no-adhesion-null
+  kind: single
+  base_model: viva_genesis.composites.cell_collective.cell_collective
+  perturbation:
+    adhesion: 0.02
+    fragmentation: 0.8
+    predation_size_reward: 0.8
+    transport_penalty: 0.02
+  status: ran
+  pass_fail_tests: *id001
 pipeline_gate:
   gate_evaluator:
     result: passed
+    blocked_by: []
     evaluated_by: code
     diverges_from_authored: false
 verdict: supported
 confidence: provisional
-verdict_rationale: 'First-cycle discriminating run on cell_collective: group_life_cycle_persistence=0.667
-  vs control 0.012.'
+verdict_rationale: 'First-cycle discriminating run on cell_collective: group_life_cycle_persistence=0.667 vs control 0.012.'
 evidence_tier: mechanistic_prediction
