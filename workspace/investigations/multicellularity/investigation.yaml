@@ -327,6 +327,36 @@ references:
   evidence_tier: dataset
   claims:
   - C4
+- key: graner1992simulation
+  doi: 10.1103/PhysRevLett.69.2013
+  note: 'R10. Method. Foundational Cellular Potts (Glazier-Graner-Hogeweg) model — lattice cells with differential adhesion; the method implemented by viva-cpm, the ecosystem-native CPM backend used for all CPM simulations here (S04 morphomechanics + spatial S05/S06).'
+  evidence_tier: method
+  claims: []
+- key: staps2019emergence
+  doi: 10.1038/s41559-019-0940-0
+  note: 'R13. Model. Mechanistic agent model (Boolean gene-regulatory network per cell → lifespan, group fertility, cell fate) reproducing diverse primitive life cycles. Informs S05 differentiation / S06 individuality.'
+  evidence_tier: theory
+  claims: []
+- key: black2020ecological
+  doi: 10.1038/s41559-019-1086-9
+  note: 'R14. Theory. Ecological scaffolding — patchy resources + dispersal give cell collectives Darwinian properties without pre-existing individuality. Core theory for S06 and the cycle-1 ecological-selection result.'
+  evidence_tier: theory
+  claims: []
+- key: jacobeen2018cellular
+  doi: 10.1038/s41567-017-0002-y
+  note: 'R15. Experiment/biophysics. Snowflake-yeast cluster size limited by internal packing stress; elongated cells delay fracture (~13x more effective than bond strength). Mechanical mechanism for S04 morphomechanics.'
+  evidence_tier: experiment
+  claims: []
+- key: brunet2017origin
+  doi: 10.1016/j.devcel.2017.09.016
+  note: 'R16. Review. Origin of animal multicellularity and cell differentiation (choanoflagellates); two routes to cell types. Informs S05 differentiation.'
+  evidence_tier: review
+  claims: []
+- key: fairclough2013premetazoan
+  doi: 10.1186/gb-2013-14-2-r15
+  note: 'R17. Data paper. S. rosetta genome + transcriptomes (single vs colonial cells; septins upregulated in colonies). Backs dataset NCBI BioProject PRJNA62005 for S05 differentiation.'
+  evidence_tier: data
+  claims: []
 inputs:
   references:
   - morowitz2002emergence_multicellularity
@@ -336,6 +366,12 @@ inputs:
   - bozdag2023denovo
   - ratcliff2012experimental
   - kirk2005twelve
+  - graner1992simulation
+  - staps2019emergence
+  - black2020ecological
+  - jacobeen2018cellular
+  - brunet2017origin
+  - fairclough2013premetazoan
   datasets:
   - name: Bozdag 2023 source data + code
     path: https://github.com/ozanbozdag/de_novo_evolution_of_macroscopic_multicellularity
@@ -346,6 +382,9 @@ inputs:
     path: https://www.ncbi.nlm.nih.gov/sra/?term=PRJNA943273
     supports_claims:
     - C4
+  - name: S. rosetta transcriptomes (single vs colonial cell types) — NCBI BioProject PRJNA62005
+    path: https://www.ncbi.nlm.nih.gov/bioproject/PRJNA62005
+    supports_claims: []
   expert_docs:
   - name: From Cells to Organisms — Multicellularity Investigation Seed
     path: workspace/references/expert/multicellularity-investigation-seed.pdf
