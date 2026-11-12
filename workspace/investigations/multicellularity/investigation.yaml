@@ -40,14 +40,11 @@ executive:
       result: passing
     - study: s05-differentiation
       behavior: specialization-improves-group-performance
-      result: in-progress
+      result: passing
     - study: s06-evolutionary-individuality
       behavior: between-group-heritable-fitness-stable
       result: in-progress
     unmet:
-    - study: s05-differentiation
-      behavior: specialization-improves-group-performance
-      result: in-progress
     - study: s06-evolutionary-individuality
       behavior: between-group-heritable-fitness-stable
       result: in-progress

@@ -3,19 +3,19 @@ name: s05-differentiation
 investigation: multicellularity
 created: '2026-11-01'
 title: Cell-state differentiation
-phase: Simulate
+phase: Evaluate
 status: investigating
 design_status: drafted
 simulation_status: ran
-evaluation_status: not_evaluated
-gate_status: not_started
+evaluation_status: evaluated
+gate_status: passed
 topic: multicellularity
 tags:
 - multicellularity
 concept: emergence of multicellularity
 question: Can environmental gradients create stable cell-state differentiation without a dedicated developmental program? (Q4, Q3)
 hypothesis: Metabolite exchange plus inducible cell fate yields specialization that improves out-of-sample group performance beyond a no-fate and random-fate null (C5).
-claim: Gradient-induced specialization (O2-keyed germ/soma fate, fixed a-priori stemness threshold) improves net viable growth in a held-out O2 environment (B, o2_source 0.025) over a no-fate, a clamped-undifferentiated and a random-fate null (C5). UNPROVEN until graded on the seed-mean.
+claim: 'In a 2D CPM world with an O2 gradient, O2-keyed germ/soma specialization (fixed a-priori stemness threshold) improves net viable growth out-of-sample on held-out env B (o2_source 0.025): decisively over a random-fate null and modestly (~5%) over a no-fate / clamped-undifferentiated null, in a moderate O2 regime. The benefit vanishes when O2 is plentiful and degrades when O2 is very scarce; transient 40-update window, one CPM backend.'
 behavior_tests:
 - name: specialization-improves-group-performance
   classification: primary
@@ -1282,9 +1282,8 @@ simulation_set:
   pass_fail_tests: *id002
 pipeline_gate:
   gate_evaluator:
-    result: blocked
-    blocked_by:
-    - specialization-improves-group-performance
+    result: passed
+    blocked_by: []
     evaluated_by: code
     diverges_from_authored: false
 tests:
@@ -1299,8 +1298,41 @@ limitations:
 - The fate rule / stemness threshold is FIXED a priori and not tuned to data; this is a generalization-across-regimes test (env A -> held-out env B), not a data-fit cross-validation. Only two O2 regimes are graded.
 - 'Benefit over the no-fate/clamped nulls is modest; it vanishes when O2 is plentiful (o2_source 0.03: no hypoxia, no differentiation, oxygen == none) and degrades/noisy when O2 is very scarce (0.015: over-differentiation, ~20/25 soma). These off-grid regimes were probed informally, not in the graded runs.'
 - Performance metric (net viable biomass growth under O2 limitation) is a builder/owner-sanctioned choice (ruling S05-B).
+verdict: supported
+confidence: provisional
+verdict_rationale: 'Earned by a real 24-run study (4 arms x 2 O2 environments x 3 seeds). On held-out env B (o2_source 0.025) seed-mean net viable growth is oxygen 285.0 > none 270.0 = clamped 270.0 > random 159.7, an out-of-sample gain of +15.0 over the best null (calibration env A: 195.7 vs 163.3 vs 121.7). The benefit over the random-fate null is decisive (the O2-keyed spatial pattern matters; randomly placed soma waste growth) but over the no-fate/clamped nulls it is modest (~5% on B, ~20% on A; none and clamped are identical). Provisional: it vanishes when O2 is plentiful (o2_source 0.03, no hypoxia, no differentiation) and is noisy/degraded when O2 is very scarce (0.015, over-differentiation); transient 40-update window, single CPM backend, 2D, and the stemness threshold is a fixed a-priori parameter, so this is a generalization-across-O2-regimes test, not a data-fit cross-validation.'
+falsifiability:
+- Oxygen failing to beat the random-fate null (or any null) on held-out env B, seed-mean, would overturn the claim.
+- If the gain over the no-fate null disappears with more seeds or a longer window (the +15.0 / ~5% margin is within seed noise), the claim reduces to 'better than random only'.
+- If the benefit depends on the specific fixed stemness threshold (a small shift removes it, or it only holds in the narrow band between 0.015 and 0.03 o2_source), it is an artifact of the parameter choice rather than gradient-induced specialization.
+- A different CPM backend or 3D geometry that removes the interior O2 deficit (no hypoxia, no differentiation) would falsify generality.
 evidence_tier: mechanistic_prediction
 findings:
+- id: s05-o2-gradient-spatial-fate-split
+  statement: 'In the oxygen arm an O2 gradient forms across the cluster and the interior differentiates: at update 40 there are 15 germ and 10 soma cells (~40% differentiated), with interior O2 ~0.57 vs rim ~0.86.'
+  tier: observation
+  status: confirms
+  kind: computational
+  evidence_basis: predicted
+  from_test: specialization-improves-group-performance
+  inferential_scope: Single representative seed/environment readout (oxygen arm, update 40), transient quasi-static viva-cpm 2D window; the gradient and split are measured, not fit.
+- id: s05-hypoxia-stemness-fate-switch
+  statement: 'Mechanism: interior hypoxia makes the per-cell stemness ODE decay below the fixed threshold, cells switch to the low-O2-consumption soma fate, which frees O2 so that neighboring germ cells stay above the growth threshold and keep growing.'
+  tier: mechanism
+  status: confirms
+  kind: computational
+  evidence_basis: predicted
+  from_test: specialization-improves-group-performance
+  inferential_scope: Mechanism is built into the model (engineered fate rule); the arms with fate off (none/clamped) lack the freed-O2 pathway and the random arm shows the placement matters. Not independently validated against data.
+- id: s05-specialization-out-of-sample-interpretation
+  statement: 'Interpretation: gradient-keyed specialization improves out-of-sample net viable growth in a moderate O2 regime, decisively over random fate and modestly (~5% on B) over no fate. The fate rule is designed (engineered); the yield benefit is emergent from the spatial O2 dynamics. It does not hold when O2 is plentiful and is unreliable when O2 is very scarce.'
+  tier: interpretation
+  mechanism_origin: engineered
+  status: confirms
+  kind: computational
+  evidence_basis: predicted
+  from_test: specialization-improves-group-performance
+  inferential_scope: Two graded O2 regimes (A calibration, B held-out), 3 seeds, fixed a-priori threshold; off-grid regimes (0.03, 0.015) were probed informally only.
 - id: s05-oxygen-differentiation-out-of-sample
   statement: 'In a Rust CPM world with an O2 gradient, O2-keyed germ/soma differentiation beats all three nulls on the held-out environment B (o2_source 0.025): seed-mean net viable growth 285.0 (oxygen) vs 270.0 (no-fate), 270.0 (clamped-undifferentiated) and 159.7 (random-fate); out-of-sample gain +15.0. The benefit over the no-fate/clamped nulls is modest (~5%; ~20% on calibration env A: 195.7 vs 163.3); over random fate it is decisive (random soma wastes growth).'
   status: confirms
