@@ -23,12 +23,12 @@ executive:
   decisions_resolved:
   - question: Does ecological selection + simple clonal adhesion suffice for group formation and a group-level fitness advantage? (first-cycle A/B/C)
     resolution: 'Discriminated on cell_collective: A (adhesion only) forms persistent groups (0.67) but adv~0; B (+predation/settling) gives adv>0 (+0.15); C (+O2-limited growth) bounds the advantage to small/intermediate size. Ecology is sufficient for the advantage; adhesion alone is not; transport sets a size optimum.'
-  computed_verdict_status: passing-with-caveats
+  computed_verdict_status: in-progress
   computed_acceptance:
     criteria:
     - study: s01-formation
       behavior: group-life-cycle-persists
-      result: passing-with-caveats
+      result: passing
     - study: s02-ecological-selection
       behavior: group-fitness-advantage-under-selection
       result: passing
@@ -37,27 +37,21 @@ executive:
       result: passing
     - study: s04-morphomechanics
       behavior: propagule-toughness-predicted
-      result: passing-with-caveats
+      result: passing
     - study: s05-differentiation
       behavior: specialization-improves-group-performance
-      result: passing-with-caveats
+      result: in-progress
     - study: s06-evolutionary-individuality
       behavior: between-group-heritable-fitness-stable
-      result: passing-with-caveats
+      result: in-progress
     unmet:
-    - study: s01-formation
-      behavior: group-life-cycle-persists
-      result: passing-with-caveats
-    - study: s04-morphomechanics
-      behavior: propagule-toughness-predicted
-      result: passing-with-caveats
     - study: s05-differentiation
       behavior: specialization-improves-group-performance
-      result: passing-with-caveats
+      result: in-progress
     - study: s06-evolutionary-individuality
       behavior: between-group-heritable-fitness-stable
-      result: passing-with-caveats
-    diverges_from_authored: true
+      result: in-progress
+    diverges_from_authored: false
 competing_frameworks:
 - name: Morowitz emergence framework
   relation: interpretive lens — emergence as successive constraint-crossings toward a new individual

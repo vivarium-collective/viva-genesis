@@ -39,7 +39,7 @@ def homotypic_j(adhesion: float) -> float:
 
 
 def build_world_spec(*, adhesion, seed_volume=30.0, grow_rate=2.0, divide_threshold=55.0,
-                     dims=(80, 40, 1), report_types=(1,)) -> dict:
+                     dims=(80, 40, 1), report_types=(1,), seed=1) -> dict:
     """Shared CPM world spec: one clonal 2x2 cluster of type 1 at the lattice centre and a
     full contact matrix (pure ``load_world`` vocabulary). The ``mitosis`` and
     ``report_aggregate_types`` knobs are CPMProcess config keys, not spec keys; build them
@@ -68,7 +68,7 @@ def build_world_spec(*, adhesion, seed_volume=30.0, grow_rate=2.0, divide_thresh
             })
     return {
         "potts": {"dims": [nx, ny, nz], "boundary": "noflux", "neighbor_order": 2,
-                  "temperature": 8.0, "seed": 1},
+                  "temperature": 8.0, "seed": int(seed)},
         "cells": cells,
         "contact": [
             {"a": 0, "b": 1, "j": J_MEDIUM},                  # medium-cell
@@ -78,12 +78,12 @@ def build_world_spec(*, adhesion, seed_volume=30.0, grow_rate=2.0, divide_thresh
 
 
 def world_process_config(*, adhesion, seed_volume=30.0, grow_rate=2.0, divide_threshold=55.0,
-                         dims=(80, 40, 1), report_types=(1,), mcs_per_update=16) -> dict:
+                         dims=(80, 40, 1), report_types=(1,), mcs_per_update=16, seed=1) -> dict:
     """CPMProcess config: the world spec plus the mitosis and aggregate-report knobs."""
     return {
         "spec": build_world_spec(adhesion=adhesion, seed_volume=seed_volume, grow_rate=grow_rate,
                                  divide_threshold=divide_threshold, dims=dims,
-                                 report_types=report_types),
+                                 report_types=report_types, seed=seed),
         "mcs_per_update": int(mcs_per_update),
         "mitosis": [{"type": 1, "grow_rate": float(grow_rate),
                      "divide_threshold": float(divide_threshold),
@@ -112,14 +112,16 @@ def world_process_config(*, adhesion, seed_volume=30.0, grow_rate=2.0, divide_th
                       "description": "target-volume growth per update per cell"},
         "divide_threshold": {"type": "number", "default": 55.0,
                              "description": "volume at which a cell divides"},
+        "seed": {"type": "integer", "default": 1,
+                 "description": "Potts RNG seed (vary for replicate runs)"},
     },
     default_n_steps=40,
     core_extensions=[build_core],
-    emitters=[{"address": "local:ParquetEmitter", "paths": _EMIT_PATHS}],
+    emitters=[{"address": "local:SQLiteEmitter", "paths": _EMIT_PATHS}],
 )
-def s04_morphomechanics(core=None, *, adhesion=0.8, grow_rate=2.0, divide_threshold=55.0):
+def s04_morphomechanics(core=None, *, adhesion=0.8, grow_rate=2.0, divide_threshold=55.0, seed=1):
     config = world_process_config(adhesion=adhesion, grow_rate=grow_rate,
-                                  divide_threshold=divide_threshold)
+                                  divide_threshold=divide_threshold, seed=seed)
     return {
         "cpm": {
             "_type": "process",
