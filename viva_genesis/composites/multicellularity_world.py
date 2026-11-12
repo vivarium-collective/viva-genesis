@@ -13,7 +13,7 @@ from __future__ import annotations
 
 from process_bigraph.composite_generator import composite_generator
 
-from viva_basic_processes.intervention import register_intervention
+from viva_basic_processes.intervention import register_intervention as _register_intervention
 
 from ..core import build_core
 
@@ -33,6 +33,17 @@ _EMIT_PATHS = [
     "n_propagules", "largest_cluster_fraction", "volumes", "types", "positions",
     "global_time", "fate_counts", "viable_biomass",
 ]
+
+def register_intervention(core):
+    """Register Intervention, then return the core: the library helper returns a bool, which
+    apply_core_extensions would otherwise adopt as the core."""
+    _register_intervention(core)
+    return core
+
+
+# S05 has no aggregate-cluster reporting, so n_propagules / largest_cluster_fraction do not exist
+# there; declaring them makes the workbench runner refuse to build the composite.
+_S05_EMIT_PATHS = [p for p in _EMIT_PATHS if p not in ("n_propagules", "largest_cluster_fraction")]
 
 
 def homotypic_j(adhesion: float) -> float:
@@ -291,7 +302,7 @@ _FATE_MODES = {"oxygen": _o2_fate_wiring, "none": _none_fate_wiring,
     },
     default_n_steps=40,
     core_extensions=[build_core, register_intervention],
-    emitters=[{"address": "local:SQLiteEmitter", "paths": _EMIT_PATHS}],
+    emitters=[{"address": "local:SQLiteEmitter", "paths": _S05_EMIT_PATHS}],
 )
 def s05_differentiation(core=None, *, fate_mode="oxygen", o2_source=O2_SOURCE,
                         consume_germ=O2_CONSUME_GERM, consume_soma=O2_CONSUME_SOMA,
