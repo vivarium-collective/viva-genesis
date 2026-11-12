@@ -29,7 +29,7 @@ J_MEDIUM = 12.0
 
 _EMIT_PATHS = [
     "n_propagules", "largest_cluster_fraction", "volumes", "types", "positions",
-    "global_time",
+    "global_time", "fate_counts", "viable_biomass",
 ]
 
 
@@ -134,3 +134,167 @@ def s04_morphomechanics(core=None, *, adhesion=0.8, grow_rate=2.0, divide_thresh
                         "largest_cluster_fraction": ["largest_cluster_fraction"]},
         },
     }
+
+
+# ---------------------------------------------------------------------------
+# S05 differentiation: an O2 gradient drives interior cells germ (1) -> soma (2).
+# ---------------------------------------------------------------------------
+S05_CPM_ADDR = "local:!viva_genesis.s05_process.PreEquilibratedCPMProcess"
+SBML_ADDR = "local:!viva_cpm.subcellular.sbml.SBMLSubcell"
+BOOL_ADDR = "local:!viva_cpm.subcellular.boolean.BooleanSubcell"
+
+GERM, SOMA = 1, 2
+
+# Stemness S relaxes to S* = k_on*O2/(k_on*O2 + k_off): high O2 -> S~1 (stay germ),
+# hypoxia -> S~0 (differentiate).
+STEMNESS_O2_MODEL = """
+J1: -> S; k_on*O2*(1 - S);
+J2: S -> ; k_off*S;
+species S, O2;
+S = 1.0; O2 = 0.0;
+k_on = 1.0; k_off = 1.0;
+"""
+
+S05_GRID = 5            # 5x5 = 25 fixed cells
+S05_CELL_SIDE = 5
+S05_DIMS = (64, 64, 1)
+# O2 field (medium source, per-type consumption). d*2*ndim*dt = 0.2*4*1 = 0.8 < 1.
+PRE_EQUILIBRATE = 3000
+O2_MEDIUM_LEVEL = 2.0   # empirical far-medium O2 equilibrium for the default source/decay
+O2_D = 0.2
+O2_DECAY = 0.002
+O2_SOURCE = 0.02          # medium (type 0) replenishment
+O2_CONSUME_GERM = 0.01    # germ draw (R_hi)
+O2_CONSUME_SOMA = 0.002   # soma draw (R_lo < R_hi): differentiation frees O2
+O2_DYNAMICS = {"dt": 1.0, "substeps": 5}
+LIGAND_SCALE = 1.0
+STEMNESS_THRESHOLD = 0.4
+GROW_RATE = 0.5
+GROWTH_O2_THRESHOLD = 0.7
+
+
+def s05_world_spec(*, dims=S05_DIMS, grid=S05_GRID, side=S05_CELL_SIDE, seed=1,
+                   o2_source=O2_SOURCE, consume_germ=O2_CONSUME_GERM,
+                   consume_soma=O2_CONSUME_SOMA) -> dict:
+    """Fixed packed grid x grid patch of germ (type 1) cells, centred, plus the O2 field."""
+    nx, ny, nz = (int(d) for d in dims)
+    total = grid * side + (grid - 1)
+    x_start, y_start = (nx - total) // 2, (ny - total) // 2
+    vol = float(side * side)
+    cells = []
+    for i in range(grid):          # cell id = i*grid + j + 1 (seed order)
+        for j in range(grid):
+            x0 = x_start + i * (side + 1)
+            y0 = y_start + j * (side + 1)
+            cells.append({
+                "type": GERM, "target_volume": vol, "lambda_volume": 2.0,
+                "target_surface": 4.0 * side, "lambda_surface": 0.2,
+                "seed_block": [x0, y0, 0, x0 + side, y0 + side, nz],
+            })
+    return {
+        "potts": {"dims": [nx, ny, nz], "boundary": "noflux", "neighbor_order": 2,
+                  "temperature": 8.0, "seed": int(seed)},
+        "cells": cells,
+        "contact": [
+            {"a": 0, "b": GERM, "j": J_MEDIUM}, {"a": 0, "b": SOMA, "j": J_MEDIUM},
+            {"a": GERM, "b": GERM, "j": 4.0}, {"a": GERM, "b": SOMA, "j": 4.0},
+            {"a": SOMA, "b": SOMA, "j": 4.0},
+        ],
+        "fields": [{
+            "name": "O2", "d": O2_D, "decay": O2_DECAY,
+            "secretion": [{"type": 0, "rate": float(o2_source)},
+                          {"type": GERM, "rate": -float(consume_germ)},
+                          {"type": SOMA, "rate": -float(consume_soma)}],
+            "chemotaxis": [], "dynamics": dict(O2_DYNAMICS),
+        }],
+    }
+
+
+def _o2_fate_wiring(state: dict, cell_ids, *, ligand_scale, threshold) -> None:
+    """Per-cell SBML stemness + Boolean fate subcells (forked from viva-cpm crypt)."""
+    for cid in cell_ids:
+        state[f"sbml_{cid}"] = {
+            "_type": "process", "address": SBML_ADDR,
+            "config": {"model": STEMNESS_O2_MODEL, "ligand_species": "O2",
+                       "state_species": "S", "ligand_scale": float(ligand_scale)},
+            "interval": 1.0,
+            "inputs": {"ligand": ["field_at_cell", str(cid)]},
+            "outputs": {"state": ["cell_state", str(cid)]},
+        }
+        state[f"bool_{cid}"] = {
+            "_type": "process", "address": BOOL_ADDR,
+            # both fate types = soma: any sub-threshold (hypoxic) cell -> type 2
+            "config": {"stemness_threshold": float(threshold),
+                       "goblet_type": SOMA, "absorptive_type": SOMA},
+            "interval": 1.0,
+            "inputs": {"state": ["cell_state", str(cid)],
+                       "neighbor_secretory": ["neighbor_secretory", str(cid)]},
+            "outputs": {"fate": ["fates", str(cid)]},
+        }
+
+
+# fate_mode dispatch: Task 3 adds "none" / "random" / "clamped" entries.
+_FATE_MODES = {"oxygen": _o2_fate_wiring}
+
+
+@composite_generator(
+    name="s05_differentiation",
+    methods=["Cellular Potts patch with O2 diffusion/consumption; SBML stemness ODE + Boolean fate gate"],
+    fidelity="spatial_dynamics",
+    description=(
+        "Multicellularity S05 (differentiation). A fixed 5x5 patch of germ cells consumes O2 that "
+        "diffuses in from the medium; interior cells go hypoxic, their stemness ODE decays and they "
+        "differentiate to soma (type 2), which draws less O2. Germ cells grow only where local O2 is "
+        "above a threshold. Emits fate_counts and viable_biomass. TRANSIENT/quasi-stable gradient: "
+        "the O2 profile relaxes during the first updates; readouts are taken at the pinned window."
+    ),
+    parameters={
+        "fate_mode": {"type": "string", "default": "oxygen",
+                      "description": "oxygen | none | random | clamped (only oxygen implemented here)"},
+        "o2_source": {"type": "number", "default": O2_SOURCE, "description": "medium O2 source rate"},
+        "consume_germ": {"type": "number", "default": O2_CONSUME_GERM, "description": "germ O2 draw"},
+        "consume_soma": {"type": "number", "default": O2_CONSUME_SOMA, "description": "soma O2 draw"},
+        "grow_rate": {"type": "number", "default": GROW_RATE,
+                      "description": "germ target-volume growth per update where O2 >= threshold"},
+        "seed": {"type": "integer", "default": 1, "description": "Potts RNG seed"},
+    },
+    default_n_steps=40,
+    core_extensions=[build_core],
+    emitters=[{"address": "local:SQLiteEmitter", "paths": _EMIT_PATHS}],
+)
+def s05_differentiation(core=None, *, fate_mode="oxygen", o2_source=O2_SOURCE,
+                        consume_germ=O2_CONSUME_GERM, consume_soma=O2_CONSUME_SOMA,
+                        grow_rate=GROW_RATE, seed=1):
+    if fate_mode not in _FATE_MODES:
+        raise ValueError(f"fate_mode {fate_mode!r} not implemented; have {sorted(_FATE_MODES)}")
+    spec = s05_world_spec(seed=seed, o2_source=o2_source, consume_germ=consume_germ,
+                          consume_soma=consume_soma)
+    cell_ids = list(range(1, len(spec["cells"]) + 1))
+    state = {
+        "fates": {str(cid): 0 for cid in cell_ids},
+        # Seed the field readout at the medium O2 level: the subcells step before the CPM has
+        # published anything, and a 0 ligand on that first step would crash S below threshold
+        # and differentiate every cell regardless of the gradient.
+        # likewise the Boolean gate reads cell_state before the ODE has written it (default 0.0)
+        "cell_state": {str(cid): 1.0 for cid in cell_ids},
+        "field_at_cell": {str(cid): float(O2_MEDIUM_LEVEL) for cid in cell_ids},
+        "cpm": {
+            "_type": "process", "address": S05_CPM_ADDR,
+            "config": {
+                "pre_equilibrate": PRE_EQUILIBRATE,
+                "spec": spec, "mcs_per_update": 8, "n_fields": 1,
+                "report_fate_growth": True,
+                # no divide_threshold / reset_target -> no division, ids stay fixed
+                "mitosis": [{"type": GERM, "grow_rate": float(grow_rate),
+                             "o2_gate": {"field": 0, "threshold": GROWTH_O2_THRESHOLD}}],
+            },
+            "interval": 1.0,
+            "inputs": {"fates": ["fates"]},
+            "outputs": {"volumes": ["volumes"], "types": ["types"], "positions": ["positions"],
+                        "field_at_cell": ["field_at_cell"],
+                        "neighbor_secretory": ["neighbor_secretory"],
+                        "fate_counts": ["fate_counts"], "viable_biomass": ["viable_biomass"]},
+        },
+    }
+    _FATE_MODES[fate_mode](state, cell_ids, ligand_scale=LIGAND_SCALE, threshold=STEMNESS_THRESHOLD)
+    return state
