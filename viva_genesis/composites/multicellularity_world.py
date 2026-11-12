@@ -40,9 +40,16 @@ def homotypic_j(adhesion: float) -> float:
 
 def build_world_spec(*, adhesion, seed_volume=30.0, grow_rate=2.0, divide_threshold=55.0,
                      dims=(80, 40, 1), report_types=(1,)) -> dict:
-    """Shared CPM spec: one clonal 2x2 cluster of type 1 at the lattice centre, a full
-    contact matrix, and the mitosis entry. ``report_types`` is returned under
-    ``report_aggregate_types`` so callers can pass it straight to the process config."""
+    """Shared CPM world spec: one clonal 2x2 cluster of type 1 at the lattice centre and a
+    full contact matrix (pure ``load_world`` vocabulary). The ``mitosis`` and
+    ``report_aggregate_types`` knobs are CPMProcess config keys, not spec keys; build them
+    with :func:`world_process_config`.
+
+    NOTE (transient window): growth-driven fracture is a TRANSIENT, quasi-static readout.
+    Measure at ~40 updates (``default_n_steps=40``); beyond ~80 updates crowding re-merges
+    clusters and the strong-vs-weak adhesion contrast disappears. Downstream studies must
+    pin the readout to this window.
+    """
     nx, ny, nz = (int(d) for d in dims)
     side = max(2, int(round(float(seed_volume) ** 0.5)))      # square patch of ~seed_volume sites
     gap = 1
@@ -67,6 +74,17 @@ def build_world_spec(*, adhesion, seed_volume=30.0, grow_rate=2.0, divide_thresh
             {"a": 0, "b": 1, "j": J_MEDIUM},                  # medium-cell
             {"a": 1, "b": 1, "j": homotypic_j(adhesion)},     # homotypic (adhesion-controlled)
         ],
+    }
+
+
+def world_process_config(*, adhesion, seed_volume=30.0, grow_rate=2.0, divide_threshold=55.0,
+                         dims=(80, 40, 1), report_types=(1,), mcs_per_update=16) -> dict:
+    """CPMProcess config: the world spec plus the mitosis and aggregate-report knobs."""
+    return {
+        "spec": build_world_spec(adhesion=adhesion, seed_volume=seed_volume, grow_rate=grow_rate,
+                                 divide_threshold=divide_threshold, dims=dims,
+                                 report_types=report_types),
+        "mcs_per_update": int(mcs_per_update),
         "mitosis": [{"type": 1, "grow_rate": float(grow_rate),
                      "divide_threshold": float(divide_threshold),
                      "reset_target": float(seed_volume)}],
@@ -74,6 +92,9 @@ def build_world_spec(*, adhesion, seed_volume=30.0, grow_rate=2.0, divide_thresh
     }
 
 
+# TRANSIENT WINDOW: the growth-driven fracture this composite shows is a transient,
+# quasi-static readout. Measure at ~40 updates (default_n_steps=40); beyond ~80 updates
+# crowding re-merges clusters and the contrast disappears. Studies must pin to this window.
 @composite_generator(
     name="s04_morphomechanics",
     methods=["Cellular Potts (Glazier-Graner-Hogeweg) clonal growth with differential adhesion"],
@@ -97,15 +118,13 @@ def build_world_spec(*, adhesion, seed_volume=30.0, grow_rate=2.0, divide_thresh
     emitters=[{"address": "local:ParquetEmitter", "paths": _EMIT_PATHS}],
 )
 def s04_morphomechanics(core=None, *, adhesion=0.8, grow_rate=2.0, divide_threshold=55.0):
-    spec = build_world_spec(adhesion=adhesion, grow_rate=grow_rate,
-                            divide_threshold=divide_threshold)
+    config = world_process_config(adhesion=adhesion, grow_rate=grow_rate,
+                                  divide_threshold=divide_threshold)
     return {
         "cpm": {
             "_type": "process",
             "address": CPM_ADDR,
-            "config": {"spec": spec, "mcs_per_update": 16,
-                       "mitosis": spec["mitosis"],
-                       "report_aggregate_types": spec["report_aggregate_types"]},
+            "config": config,
             "interval": 1.0,
             "inputs": {},
             "outputs": {"volumes": ["volumes"], "types": ["types"], "positions": ["positions"],

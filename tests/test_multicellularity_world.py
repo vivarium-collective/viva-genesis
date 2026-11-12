@@ -48,3 +48,10 @@ def test_weak_adhesion_cluster_fractures_under_growth():
 def test_zero_differential_adhesion_forms_no_cohesive_propagule():
     comp = _run_generator(adhesion=0.0)
     assert comp.state["largest_cluster_fraction"] < 0.5
+
+
+def test_default_window_is_pinned_to_40_updates():
+    # fracture is transient: contrast vanishes beyond ~80 updates, so the window is pinned
+    from process_bigraph import composite_spec
+    import viva_genesis  # noqa: F401
+    assert composite_spec.get(GEN_ID).default_n_steps == 40
