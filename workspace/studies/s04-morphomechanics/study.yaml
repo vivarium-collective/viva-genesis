@@ -54,7 +54,8 @@ baseline:
     seed: 1
     grow_rate: 2.0
     divide_threshold: 55.0
-  note: Spatial CPM clonal cluster (Rust viva-cpm); adhesion sets homotypic contact energy. Measured at the pinned 40-update window.
+    n_steps: 40
+  note: Spatial CPM clonal cluster (Rust viva-cpm); adhesion sets homotypic contact energy. Measured at the pinned 40-update window. n_steps=40 pins the transient window (the runner ignores the composite default_n_steps).
 variants:
 - name: adh0p0-s1
   composite: viva_genesis.composites.multicellularity_world.s04_morphomechanics
@@ -63,6 +64,7 @@ variants:
     seed: 1
     grow_rate: 2.0
     divide_threshold: 55.0
+    n_steps: 40
   note: adhesion 0.0, potts seed 1
 - name: adh0p0-s2
   composite: viva_genesis.composites.multicellularity_world.s04_morphomechanics
@@ -71,6 +73,7 @@ variants:
     seed: 2
     grow_rate: 2.0
     divide_threshold: 55.0
+    n_steps: 40
   note: adhesion 0.0, potts seed 2
 - name: adh0p0-s3
   composite: viva_genesis.composites.multicellularity_world.s04_morphomechanics
@@ -79,6 +82,7 @@ variants:
     seed: 3
     grow_rate: 2.0
     divide_threshold: 55.0
+    n_steps: 40
   note: adhesion 0.0, potts seed 3
 - name: adh0p3-s1
   composite: viva_genesis.composites.multicellularity_world.s04_morphomechanics
@@ -87,6 +91,7 @@ variants:
     seed: 1
     grow_rate: 2.0
     divide_threshold: 55.0
+    n_steps: 40
   note: adhesion 0.3, potts seed 1
 - name: adh0p3-s2
   composite: viva_genesis.composites.multicellularity_world.s04_morphomechanics
@@ -95,6 +100,7 @@ variants:
     seed: 2
     grow_rate: 2.0
     divide_threshold: 55.0
+    n_steps: 40
   note: adhesion 0.3, potts seed 2
 - name: adh0p3-s3
   composite: viva_genesis.composites.multicellularity_world.s04_morphomechanics
@@ -103,6 +109,7 @@ variants:
     seed: 3
     grow_rate: 2.0
     divide_threshold: 55.0
+    n_steps: 40
   note: adhesion 0.3, potts seed 3
 - name: adh0p5-s1
   composite: viva_genesis.composites.multicellularity_world.s04_morphomechanics
@@ -111,6 +118,7 @@ variants:
     seed: 1
     grow_rate: 2.0
     divide_threshold: 55.0
+    n_steps: 40
   note: adhesion 0.5, potts seed 1
 - name: adh0p5-s2
   composite: viva_genesis.composites.multicellularity_world.s04_morphomechanics
@@ -119,6 +127,7 @@ variants:
     seed: 2
     grow_rate: 2.0
     divide_threshold: 55.0
+    n_steps: 40
   note: adhesion 0.5, potts seed 2
 - name: adh0p5-s3
   composite: viva_genesis.composites.multicellularity_world.s04_morphomechanics
@@ -127,6 +136,7 @@ variants:
     seed: 3
     grow_rate: 2.0
     divide_threshold: 55.0
+    n_steps: 40
   note: adhesion 0.5, potts seed 3
 - name: adh0p62-s1
   composite: viva_genesis.composites.multicellularity_world.s04_morphomechanics
@@ -135,6 +145,7 @@ variants:
     seed: 1
     grow_rate: 2.0
     divide_threshold: 55.0
+    n_steps: 40
   note: adhesion 0.62, potts seed 1
 - name: adh0p62-s2
   composite: viva_genesis.composites.multicellularity_world.s04_morphomechanics
@@ -143,6 +154,7 @@ variants:
     seed: 2
     grow_rate: 2.0
     divide_threshold: 55.0
+    n_steps: 40
   note: adhesion 0.62, potts seed 2
 - name: adh0p62-s3
   composite: viva_genesis.composites.multicellularity_world.s04_morphomechanics
@@ -151,6 +163,7 @@ variants:
     seed: 3
     grow_rate: 2.0
     divide_threshold: 55.0
+    n_steps: 40
   note: adhesion 0.62, potts seed 3
 - name: adh0p75-s2
   composite: viva_genesis.composites.multicellularity_world.s04_morphomechanics
@@ -159,6 +172,7 @@ variants:
     seed: 2
     grow_rate: 2.0
     divide_threshold: 55.0
+    n_steps: 40
   note: adhesion 0.75, potts seed 2
 - name: adh0p75-s3
   composite: viva_genesis.composites.multicellularity_world.s04_morphomechanics
@@ -167,6 +181,7 @@ variants:
     seed: 3
     grow_rate: 2.0
     divide_threshold: 55.0
+    n_steps: 40
   note: adhesion 0.75, potts seed 3
 - name: adh0p9-s1
   composite: viva_genesis.composites.multicellularity_world.s04_morphomechanics
@@ -175,6 +190,7 @@ variants:
     seed: 1
     grow_rate: 2.0
     divide_threshold: 55.0
+    n_steps: 40
   note: adhesion 0.9, potts seed 1
 - name: adh0p9-s2
   composite: viva_genesis.composites.multicellularity_world.s04_morphomechanics
@@ -183,6 +199,7 @@ variants:
     seed: 2
     grow_rate: 2.0
     divide_threshold: 55.0
+    n_steps: 40
   note: adhesion 0.9, potts seed 2
 - name: adh0p9-s3
   composite: viva_genesis.composites.multicellularity_world.s04_morphomechanics
@@ -191,6 +208,7 @@ variants:
     seed: 3
     grow_rate: 2.0
     divide_threshold: 55.0
+    n_steps: 40
   note: adhesion 0.9, potts seed 3
 - name: adh0p95-s1
   composite: viva_genesis.composites.multicellularity_world.s04_morphomechanics
@@ -199,6 +217,7 @@ variants:
     seed: 1
     grow_rate: 2.0
     divide_threshold: 55.0
+    n_steps: 40
   note: adhesion 0.95, potts seed 1
 - name: adh0p95-s2
   composite: viva_genesis.composites.multicellularity_world.s04_morphomechanics
@@ -207,6 +226,7 @@ variants:
     seed: 2
     grow_rate: 2.0
     divide_threshold: 55.0
+    n_steps: 40
   note: adhesion 0.95, potts seed 2
 - name: adh0p95-s3
   composite: viva_genesis.composites.multicellularity_world.s04_morphomechanics
@@ -215,6 +235,7 @@ variants:
     seed: 3
     grow_rate: 2.0
     divide_threshold: 55.0
+    n_steps: 40
   note: adhesion 0.95, potts seed 3
 visualizations: []
 observables:
@@ -229,12 +250,6 @@ runs:
     kind: unknown
   env_id: 3f64b246b8b790d8
   params: '{"adhesion": 0.75, "seed": 1, "grow_rate": 2.0, "divide_threshold": 55.0}'
-  computed_outcomes:
-    _status: "evaluation_error: 'str' object has no attribute 'get'"
-    _grader:
-      version: 3-freshness
-      graded_at: '2026-11-12T13:21:48.885065+00:00'
-      inputs_hash: 0c00743c2d74f443
   provenance:
     params:
       adhesion:
@@ -269,12 +284,6 @@ runs:
   env_id: 3f64b246b8b790d8
   variant: adh0p0-s1
   params: '{"adhesion": 0.0, "seed": 1, "grow_rate": 2.0, "divide_threshold": 55.0}'
-  computed_outcomes:
-    _status: "evaluation_error: 'str' object has no attribute 'get'"
-    _grader:
-      version: 3-freshness
-      graded_at: '2026-11-12T13:21:48.886152+00:00'
-      inputs_hash: ad4be866ddb0e4fc
   provenance:
     params:
       adhesion:
@@ -294,7 +303,7 @@ runs:
   outcomes:
     propagule-toughness-predicted:
       result: PASS
-      measured_value: 1.0
+      measured_value: 0.077586
       operator: cross_run
       evaluated_by: code
       detail: 'Seed-mean largest_cluster_fraction at the 40-update window is non-decreasing in adhesion (adh 0.0: mean lcf 0.194; adh 0.3: mean lcf 0.565; adh 0.5: mean lcf 1.000; adh 0.62: mean lcf 1.000; adh 0.75: mean lcf 1.000; adh 0.9: mean lcf 1.000; adh 0.95: mean lcf 1.000) across 3 seeds per point; the zero-adhesion control fractures (n_propagules [16, 11, 12], largest_cluster_fraction [0.078, 0.267, 0.239], all < 0.5) while adhesion >= 0.5 stays a single propagule in every seed. Per-seed series are not strictly monotone (seed 2: 0.0->0.3 0.267->0.262): graded on the seed-mean, the 0.0->0.3 seed-2 dip is within replicate noise. Transient, quasi-static readout (re-merges past ~80 updates); adhesion is the only swept knob.'
@@ -306,12 +315,6 @@ runs:
   env_id: 3f64b246b8b790d8
   variant: adh0p0-s2
   params: '{"adhesion": 0.0, "seed": 2, "grow_rate": 2.0, "divide_threshold": 55.0}'
-  computed_outcomes:
-    _status: "evaluation_error: 'str' object has no attribute 'get'"
-    _grader:
-      version: 3-freshness
-      graded_at: '2026-11-12T13:21:48.886879+00:00'
-      inputs_hash: ea13ca814a64c126
   provenance:
     params:
       adhesion:
@@ -331,7 +334,7 @@ runs:
   outcomes:
     propagule-toughness-predicted:
       result: PASS
-      measured_value: 1.0
+      measured_value: 0.266667
       operator: cross_run
       evaluated_by: code
       detail: 'Seed-mean largest_cluster_fraction at the 40-update window is non-decreasing in adhesion (adh 0.0: mean lcf 0.194; adh 0.3: mean lcf 0.565; adh 0.5: mean lcf 1.000; adh 0.62: mean lcf 1.000; adh 0.75: mean lcf 1.000; adh 0.9: mean lcf 1.000; adh 0.95: mean lcf 1.000) across 3 seeds per point; the zero-adhesion control fractures (n_propagules [16, 11, 12], largest_cluster_fraction [0.078, 0.267, 0.239], all < 0.5) while adhesion >= 0.5 stays a single propagule in every seed. Per-seed series are not strictly monotone (seed 2: 0.0->0.3 0.267->0.262): graded on the seed-mean, the 0.0->0.3 seed-2 dip is within replicate noise. Transient, quasi-static readout (re-merges past ~80 updates); adhesion is the only swept knob.'
@@ -343,12 +346,6 @@ runs:
   env_id: 3f64b246b8b790d8
   variant: adh0p0-s3
   params: '{"adhesion": 0.0, "seed": 3, "grow_rate": 2.0, "divide_threshold": 55.0}'
-  computed_outcomes:
-    _status: "evaluation_error: 'str' object has no attribute 'get'"
-    _grader:
-      version: 3-freshness
-      graded_at: '2026-11-12T13:21:48.887432+00:00'
-      inputs_hash: 9407b631508fae18
   provenance:
     params:
       adhesion:
@@ -368,7 +365,7 @@ runs:
   outcomes:
     propagule-toughness-predicted:
       result: PASS
-      measured_value: 1.0
+      measured_value: 0.238579
       operator: cross_run
       evaluated_by: code
       detail: 'Seed-mean largest_cluster_fraction at the 40-update window is non-decreasing in adhesion (adh 0.0: mean lcf 0.194; adh 0.3: mean lcf 0.565; adh 0.5: mean lcf 1.000; adh 0.62: mean lcf 1.000; adh 0.75: mean lcf 1.000; adh 0.9: mean lcf 1.000; adh 0.95: mean lcf 1.000) across 3 seeds per point; the zero-adhesion control fractures (n_propagules [16, 11, 12], largest_cluster_fraction [0.078, 0.267, 0.239], all < 0.5) while adhesion >= 0.5 stays a single propagule in every seed. Per-seed series are not strictly monotone (seed 2: 0.0->0.3 0.267->0.262): graded on the seed-mean, the 0.0->0.3 seed-2 dip is within replicate noise. Transient, quasi-static readout (re-merges past ~80 updates); adhesion is the only swept knob.'
@@ -380,12 +377,6 @@ runs:
   env_id: 3f64b246b8b790d8
   variant: adh0p3-s1
   params: '{"adhesion": 0.3, "seed": 1, "grow_rate": 2.0, "divide_threshold": 55.0}'
-  computed_outcomes:
-    _status: "evaluation_error: 'str' object has no attribute 'get'"
-    _grader:
-      version: 3-freshness
-      graded_at: '2026-11-12T13:21:48.887989+00:00'
-      inputs_hash: 0794ea11f5d1d56a
   provenance:
     params:
       adhesion:
@@ -405,7 +396,7 @@ runs:
   outcomes:
     propagule-toughness-predicted:
       result: PASS
-      measured_value: 1.0
+      measured_value: 0.775773
       operator: cross_run
       evaluated_by: code
       detail: 'Seed-mean largest_cluster_fraction at the 40-update window is non-decreasing in adhesion (adh 0.0: mean lcf 0.194; adh 0.3: mean lcf 0.565; adh 0.5: mean lcf 1.000; adh 0.62: mean lcf 1.000; adh 0.75: mean lcf 1.000; adh 0.9: mean lcf 1.000; adh 0.95: mean lcf 1.000) across 3 seeds per point; the zero-adhesion control fractures (n_propagules [16, 11, 12], largest_cluster_fraction [0.078, 0.267, 0.239], all < 0.5) while adhesion >= 0.5 stays a single propagule in every seed. Per-seed series are not strictly monotone (seed 2: 0.0->0.3 0.267->0.262): graded on the seed-mean, the 0.0->0.3 seed-2 dip is within replicate noise. Transient, quasi-static readout (re-merges past ~80 updates); adhesion is the only swept knob.'
@@ -417,12 +408,6 @@ runs:
   env_id: 3f64b246b8b790d8
   variant: adh0p3-s2
   params: '{"adhesion": 0.3, "seed": 2, "grow_rate": 2.0, "divide_threshold": 55.0}'
-  computed_outcomes:
-    _status: "evaluation_error: 'str' object has no attribute 'get'"
-    _grader:
-      version: 3-freshness
-      graded_at: '2026-11-12T13:21:48.888590+00:00'
-      inputs_hash: 155778f62f36000b
   provenance:
     params:
       adhesion:
@@ -442,7 +427,7 @@ runs:
   outcomes:
     propagule-toughness-predicted:
       result: PASS
-      measured_value: 1.0
+      measured_value: 0.261728
       operator: cross_run
       evaluated_by: code
       detail: 'Seed-mean largest_cluster_fraction at the 40-update window is non-decreasing in adhesion (adh 0.0: mean lcf 0.194; adh 0.3: mean lcf 0.565; adh 0.5: mean lcf 1.000; adh 0.62: mean lcf 1.000; adh 0.75: mean lcf 1.000; adh 0.9: mean lcf 1.000; adh 0.95: mean lcf 1.000) across 3 seeds per point; the zero-adhesion control fractures (n_propagules [16, 11, 12], largest_cluster_fraction [0.078, 0.267, 0.239], all < 0.5) while adhesion >= 0.5 stays a single propagule in every seed. Per-seed series are not strictly monotone (seed 2: 0.0->0.3 0.267->0.262): graded on the seed-mean, the 0.0->0.3 seed-2 dip is within replicate noise. Transient, quasi-static readout (re-merges past ~80 updates); adhesion is the only swept knob.'
@@ -454,12 +439,6 @@ runs:
   env_id: 3f64b246b8b790d8
   variant: adh0p3-s3
   params: '{"adhesion": 0.3, "seed": 3, "grow_rate": 2.0, "divide_threshold": 55.0}'
-  computed_outcomes:
-    _status: "evaluation_error: 'str' object has no attribute 'get'"
-    _grader:
-      version: 3-freshness
-      graded_at: '2026-11-12T13:21:48.889105+00:00'
-      inputs_hash: 0fcf315b119502d6
   provenance:
     params:
       adhesion:
@@ -479,7 +458,7 @@ runs:
   outcomes:
     propagule-toughness-predicted:
       result: PASS
-      measured_value: 1.0
+      measured_value: 0.658793
       operator: cross_run
       evaluated_by: code
       detail: 'Seed-mean largest_cluster_fraction at the 40-update window is non-decreasing in adhesion (adh 0.0: mean lcf 0.194; adh 0.3: mean lcf 0.565; adh 0.5: mean lcf 1.000; adh 0.62: mean lcf 1.000; adh 0.75: mean lcf 1.000; adh 0.9: mean lcf 1.000; adh 0.95: mean lcf 1.000) across 3 seeds per point; the zero-adhesion control fractures (n_propagules [16, 11, 12], largest_cluster_fraction [0.078, 0.267, 0.239], all < 0.5) while adhesion >= 0.5 stays a single propagule in every seed. Per-seed series are not strictly monotone (seed 2: 0.0->0.3 0.267->0.262): graded on the seed-mean, the 0.0->0.3 seed-2 dip is within replicate noise. Transient, quasi-static readout (re-merges past ~80 updates); adhesion is the only swept knob.'
@@ -491,12 +470,6 @@ runs:
   env_id: 3f64b246b8b790d8
   variant: adh0p5-s1
   params: '{"adhesion": 0.5, "seed": 1, "grow_rate": 2.0, "divide_threshold": 55.0}'
-  computed_outcomes:
-    _status: "evaluation_error: 'str' object has no attribute 'get'"
-    _grader:
-      version: 3-freshness
-      graded_at: '2026-11-12T13:21:48.889752+00:00'
-      inputs_hash: 9d45b897c53cca89
   provenance:
     params:
       adhesion:
@@ -528,12 +501,6 @@ runs:
   env_id: 3f64b246b8b790d8
   variant: adh0p5-s2
   params: '{"adhesion": 0.5, "seed": 2, "grow_rate": 2.0, "divide_threshold": 55.0}'
-  computed_outcomes:
-    _status: "evaluation_error: 'str' object has no attribute 'get'"
-    _grader:
-      version: 3-freshness
-      graded_at: '2026-11-12T13:21:48.890446+00:00'
-      inputs_hash: de171476d2e273d2
   provenance:
     params:
       adhesion:
@@ -565,12 +532,6 @@ runs:
   env_id: 3f64b246b8b790d8
   variant: adh0p5-s3
   params: '{"adhesion": 0.5, "seed": 3, "grow_rate": 2.0, "divide_threshold": 55.0}'
-  computed_outcomes:
-    _status: "evaluation_error: 'str' object has no attribute 'get'"
-    _grader:
-      version: 3-freshness
-      graded_at: '2026-11-12T13:21:48.891005+00:00'
-      inputs_hash: 718e429a4a04ebae
   provenance:
     params:
       adhesion:
@@ -602,12 +563,6 @@ runs:
   env_id: 3f64b246b8b790d8
   variant: adh0p62-s1
   params: '{"adhesion": 0.62, "seed": 1, "grow_rate": 2.0, "divide_threshold": 55.0}'
-  computed_outcomes:
-    _status: "evaluation_error: 'str' object has no attribute 'get'"
-    _grader:
-      version: 3-freshness
-      graded_at: '2026-11-12T13:21:48.891652+00:00'
-      inputs_hash: b0a209dac6e033d1
   provenance:
     params:
       adhesion:
@@ -639,12 +594,6 @@ runs:
   env_id: 3f64b246b8b790d8
   variant: adh0p62-s2
   params: '{"adhesion": 0.62, "seed": 2, "grow_rate": 2.0, "divide_threshold": 55.0}'
-  computed_outcomes:
-    _status: "evaluation_error: 'str' object has no attribute 'get'"
-    _grader:
-      version: 3-freshness
-      graded_at: '2026-11-12T13:21:48.892364+00:00'
-      inputs_hash: 0fa5db5e0a3f0fa3
   provenance:
     params:
       adhesion:
@@ -676,12 +625,6 @@ runs:
   env_id: 3f64b246b8b790d8
   variant: adh0p62-s3
   params: '{"adhesion": 0.62, "seed": 3, "grow_rate": 2.0, "divide_threshold": 55.0}'
-  computed_outcomes:
-    _status: "evaluation_error: 'str' object has no attribute 'get'"
-    _grader:
-      version: 3-freshness
-      graded_at: '2026-11-12T13:21:48.892963+00:00'
-      inputs_hash: e993cba6977e24ff
   provenance:
     params:
       adhesion:
@@ -713,12 +656,6 @@ runs:
   env_id: 3f64b246b8b790d8
   variant: adh0p75-s2
   params: '{"adhesion": 0.75, "seed": 2, "grow_rate": 2.0, "divide_threshold": 55.0}'
-  computed_outcomes:
-    _status: "evaluation_error: 'str' object has no attribute 'get'"
-    _grader:
-      version: 3-freshness
-      graded_at: '2026-11-12T13:21:48.893609+00:00'
-      inputs_hash: 147a0afb459611e5
   provenance:
     params:
       adhesion:
@@ -750,12 +687,6 @@ runs:
   env_id: 3f64b246b8b790d8
   variant: adh0p75-s3
   params: '{"adhesion": 0.75, "seed": 3, "grow_rate": 2.0, "divide_threshold": 55.0}'
-  computed_outcomes:
-    _status: "evaluation_error: 'str' object has no attribute 'get'"
-    _grader:
-      version: 3-freshness
-      graded_at: '2026-11-12T13:21:48.894129+00:00'
-      inputs_hash: 4a7744a1c533ee23
   provenance:
     params:
       adhesion:
@@ -787,12 +718,6 @@ runs:
   env_id: 3f64b246b8b790d8
   variant: adh0p9-s1
   params: '{"adhesion": 0.9, "seed": 1, "grow_rate": 2.0, "divide_threshold": 55.0}'
-  computed_outcomes:
-    _status: "evaluation_error: 'str' object has no attribute 'get'"
-    _grader:
-      version: 3-freshness
-      graded_at: '2026-11-12T13:21:48.894681+00:00'
-      inputs_hash: 9c3387e9527e9398
   provenance:
     params:
       adhesion:
@@ -824,12 +749,6 @@ runs:
   env_id: 3f64b246b8b790d8
   variant: adh0p9-s2
   params: '{"adhesion": 0.9, "seed": 2, "grow_rate": 2.0, "divide_threshold": 55.0}'
-  computed_outcomes:
-    _status: "evaluation_error: 'str' object has no attribute 'get'"
-    _grader:
-      version: 3-freshness
-      graded_at: '2026-11-12T13:21:48.895207+00:00'
-      inputs_hash: 26ad3206d5705f88
   provenance:
     params:
       adhesion:
@@ -861,12 +780,6 @@ runs:
   env_id: 3f64b246b8b790d8
   variant: adh0p9-s3
   params: '{"adhesion": 0.9, "seed": 3, "grow_rate": 2.0, "divide_threshold": 55.0}'
-  computed_outcomes:
-    _status: "evaluation_error: 'str' object has no attribute 'get'"
-    _grader:
-      version: 3-freshness
-      graded_at: '2026-11-12T13:21:48.895719+00:00'
-      inputs_hash: f1920a29e59b42f5
   provenance:
     params:
       adhesion:
@@ -898,12 +811,6 @@ runs:
   env_id: 3f64b246b8b790d8
   variant: adh0p95-s1
   params: '{"adhesion": 0.95, "seed": 1, "grow_rate": 2.0, "divide_threshold": 55.0}'
-  computed_outcomes:
-    _status: "evaluation_error: 'str' object has no attribute 'get'"
-    _grader:
-      version: 3-freshness
-      graded_at: '2026-11-12T13:21:48.896262+00:00'
-      inputs_hash: c72d786fdd6b42a8
   provenance:
     params:
       adhesion:
@@ -935,12 +842,6 @@ runs:
   env_id: 3f64b246b8b790d8
   variant: adh0p95-s2
   params: '{"adhesion": 0.95, "seed": 2, "grow_rate": 2.0, "divide_threshold": 55.0}'
-  computed_outcomes:
-    _status: "evaluation_error: 'str' object has no attribute 'get'"
-    _grader:
-      version: 3-freshness
-      graded_at: '2026-11-12T13:21:48.896760+00:00'
-      inputs_hash: 2a589bed4523221c
   provenance:
     params:
       adhesion:
@@ -972,12 +873,6 @@ runs:
   env_id: 3f64b246b8b790d8
   variant: adh0p95-s3
   params: '{"adhesion": 0.95, "seed": 3, "grow_rate": 2.0, "divide_threshold": 55.0}'
-  computed_outcomes:
-    _status: "evaluation_error: 'str' object has no attribute 'get'"
-    _grader:
-      version: 3-freshness
-      graded_at: '2026-11-12T13:21:48.897278+00:00'
-      inputs_hash: 76b88a1e67966801
   provenance:
     params:
       adhesion:
