@@ -237,7 +237,19 @@ variants:
     divide_threshold: 55.0
     n_steps: 40
   note: adhesion 0.95, potts seed 3
-visualizations: []
+visualizations:
+- name: cluster-fracture
+  address: local:ClusterFractureViz
+  config:
+    title: Weak adhesion lets growth snap a cluster into propagules
+    weak_adhesion: 0.0
+    strong_adhesion: 0.95
+    seed: 1
+    n_steps: 40
+  covers:
+  - n_propagules
+  - largest_cluster_fraction
+  rendered: workspace/studies/s04-morphomechanics/viz/cluster-fracture.html
 observables:
 - n_propagules
 - largest_cluster_fraction
