@@ -3,14 +3,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>viva-genesis</title>
-<link rel="stylesheet" href="assets/style.css?v=1793478934_1793478456_1793478456">
-<link rel="stylesheet" href="assets/chat.css?v=1793478934_1793478456_1793478456">
+<link rel="stylesheet" href="assets/style.css?v=1794255035_1794255035_1793583508">
+<link rel="stylesheet" href="assets/chat.css?v=1794255035_1794255035_1793583508">
 <link rel="stylesheet" href="assets/snapshot-readonly.css">
-<link rel="stylesheet" href="assets/progress-track.css?v=1793478934_1793478456_1793478456">
+<link rel="stylesheet" href="assets/progress-track.css?v=1794255035_1794255035_1793583508">
 <!-- Phone/responsive layer (loaded last so its @media rules win). Ships to the
      live server and every published read-only bundle via publish.py. -->
-<link rel="stylesheet" href="assets/responsive.css?v=1793478934_1793478456_1793478456">
-<link rel="stylesheet" href="assets/search-palette.css?v=1793478934_1793478456_1793478456">
+<link rel="stylesheet" href="assets/responsive.css?v=1794255035_1794255035_1793583508">
+<link rel="stylesheet" href="assets/search-palette.css?v=1794255035_1794255035_1793583508">
 <!-- Apply the saved light/dark theme before first paint (no flash of light). -->
 <script>(function(){try{var t=localStorage.getItem('viv.theme');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
 <!-- item 41: when this tab was spawned via ?workspace=/?build= (workspace-picker.js's
@@ -36,7 +36,7 @@
     } catch (e) { /* private mode / no URL support — falls back to default workspace */ }
   })();
 </script>
-<script src="assets/session.js?v=1793478934_1793478456_1793478456"></script>
+<script src="assets/session.js?v=1794255035_1794255035_1793583508"></script>
 <script>
 // Per-workspace branding (rail logo, title, brand text) is resolved
 // server-side at GET / and is NOT re-applied by any client script. The
@@ -812,7 +812,7 @@ a.viv-bs-commit:hover { text-decoration: underline; }
     var img = document.createElement('img');
     img.className = 'viv-switch-splash-logo';
     img.alt = 'Vivarium';
-    img.src = 'assets/vivarium-logo' + (dark ? '-dark' : '') + '.png?v=1793478934_1793478456_1793478456';
+    img.src = 'assets/vivarium-logo' + (dark ? '-dark' : '') + '.png?v=1794255035_1794255035_1793583508';
     el.appendChild(img);
     document.body.appendChild(el);
   } catch (e) { /* sessionStorage unavailable (private mode) — skip the splash */ }
@@ -867,7 +867,7 @@ a.viv-bs-commit:hover { text-decoration: underline; }
           <span class="viv-wsp-trigger-names">
             <strong><a class="viv-ws-home-link" href="https://github.com/vivarium-collective/viva-genesis" target="_blank" rel="noopener"
                  title="Open viva-genesis home" onclick="event.stopPropagation()">viva-genesis</a></strong>
-            <span class="viv-wsp-trigger-branch" title="branch: fix/metabolite-exchange-flux">fix/metabolite-exchange-flux</span>
+            <span class="viv-wsp-trigger-branch" title="branch: multicellularity">multicellularity</span>
           </span>
         </span>
         <span class="viv-wsp-trigger-caret" aria-hidden="true">▾</span>
@@ -876,7 +876,7 @@ a.viv-bs-commit:hover { text-decoration: underline; }
         <!-- Shown only when the rail is collapsed: a hover flyout naming the workspace. -->
         <span class="viv-ws-flyout" aria-hidden="true">
           <strong><a class="viv-ws-home-link" href="https://github.com/vivarium-collective/viva-genesis" target="_blank" rel="noopener" onclick="event.stopPropagation()">viva-genesis</a></strong>
-          <span class="viv-ws-flyout-branch">fix/metabolite-exchange-flux</span>
+          <span class="viv-ws-flyout-branch">multicellularity</span>
           <span class="viv-ws-flyout-hint">click to switch workspace</span>
         </span>
       </div>
@@ -1190,9 +1190,9 @@ a.viv-bs-commit:hover { text-decoration: underline; }
     <div class="about-page">
 
       <header class="about-hero">
-        <img class="about-logo" src="assets/vivarium-logo.png?v=1793478934_1793478456_1793478456" alt="Vivarium"
-             data-light-src="assets/vivarium-logo.png?v=1793478934_1793478456_1793478456"
-             data-dark-src="assets/vivarium-logo-dark.png?v=1793478934_1793478456_1793478456"
+        <img class="about-logo" src="assets/vivarium-logo.png?v=1794255035_1794255035_1793583508" alt="Vivarium"
+             data-light-src="assets/vivarium-logo.png?v=1794255035_1794255035_1793583508"
+             data-dark-src="assets/vivarium-logo-dark.png?v=1794255035_1794255035_1793583508"
              onerror="if(this.dataset.lightSrc&&this.src.indexOf('logo-dark')>=0){this.src=this.dataset.lightSrc;}">
         <div class="about-hero-text">
           <h1>Vivarium&nbsp;Workbench</h1>
@@ -2866,69 +2866,69 @@ Nothing on <code id="pr-base-display-2">main</code> changes until someone presse
      SEPARATE tag after the config line publish.py rewrites, so it always reads
      the injected basePath. -->
 <script>window.__BASE_PATH__ = (window.__DASH_CONFIG__ && window.__DASH_CONFIG__.basePath) || "";</script>
-<script src="assets/data-source.js?v=1793478934_1793478456_1793478456"></script>
-<script src="assets/render-helpers.js?v=1793478934_1793478456_1793478456"></script>
-<script src="assets/toast.js?v=1793478934_1793478456_1793478456"></script>
-<script src="assets/server-reload.js?v=1793478934_1793478456_1793478456" onerror="/* reload watcher unavailable */"></script>
-<script src="assets/client.js?v=1793478934_1793478456_1793478456" onerror="/* live mode unavailable */"></script>
-<script src="assets/aig-graph.js?v=1793478934_1793478456_1793478456" onerror="/* aig-graph unavailable */"></script>
-<script src="assets/audit.js?v=1793478934_1793478456_1793478456" onerror="/* audit view unavailable */"></script>
-<script src="assets/col-resize.js?v=1793478934_1793478456_1793478456"></script>
+<script src="assets/data-source.js?v=1794255035_1794255035_1793583508"></script>
+<script src="assets/render-helpers.js?v=1794255035_1794255035_1793583508"></script>
+<script src="assets/toast.js?v=1794255035_1794255035_1793583508"></script>
+<script src="assets/server-reload.js?v=1794255035_1794255035_1793583508" onerror="/* reload watcher unavailable */"></script>
+<script src="assets/client.js?v=1794255035_1794255035_1793583508" onerror="/* live mode unavailable */"></script>
+<script src="assets/aig-graph.js?v=1794255035_1794255035_1793583508" onerror="/* aig-graph unavailable */"></script>
+<script src="assets/audit.js?v=1794255035_1794255035_1793583508" onerror="/* audit view unavailable */"></script>
+<script src="assets/col-resize.js?v=1794255035_1794255035_1793583508"></script>
 <!-- chat-core.js provides the shared dock math (VivChatCore); panel-dock.js the shared
      dockable-panel engine (VivPanelDock). Both must load BEFORE process-code.js and
      chat.js, which build their panels on them. -->
-<script src="assets/chat-core.js?v=1793478934_1793478456_1793478456" onerror="/* chat/dock core unavailable */"></script>
-<script src="assets/panel-dock.js?v=1793478934_1793478456_1793478456" onerror="/* dockable panels unavailable */"></script>
-<script src="assets/process-code.js?v=1793478934_1793478456_1793478456" onerror="/* process-code panel unavailable */"></script>
-<script src="assets/perfetto-open.js?v=1793478934_1793478456_1793478456" onerror="/* trace action unavailable */"></script>
-<script src="assets/sim-table.js?v=1793478934_1793478456_1793478456"></script>
-<script src="assets/progress-track.js?v=1793478934_1793478456_1793478456"></script>
+<script src="assets/chat-core.js?v=1794255035_1794255035_1793583508" onerror="/* chat/dock core unavailable */"></script>
+<script src="assets/panel-dock.js?v=1794255035_1794255035_1793583508" onerror="/* dockable panels unavailable */"></script>
+<script src="assets/process-code.js?v=1794255035_1794255035_1793583508" onerror="/* process-code panel unavailable */"></script>
+<script src="assets/perfetto-open.js?v=1794255035_1794255035_1793583508" onerror="/* trace action unavailable */"></script>
+<script src="assets/sim-table.js?v=1794255035_1794255035_1793583508"></script>
+<script src="assets/progress-track.js?v=1794255035_1794255035_1793583508"></script>
 <!-- composite-card.js: the shared composite-card renderer (extracted from
      walkthrough.js, study-spine-reorg Task 6) — MUST load before
      walkthrough.js, which now calls these functions as globals rather than
      defining them itself. Also loaded on study-detail.html so the Model tab
      renders the identical Full/Grid composite card. -->
-<script src="assets/composite-card.js?v=1793478934_1793478456_1793478456" onerror="/* composite-card unavailable */"></script>
+<script src="assets/composite-card.js?v=1794255035_1794255035_1793583508" onerror="/* composite-card unavailable */"></script>
 <!-- loom-embed.js: the single source for the loom embed glue (_openCompositeLoomInline
      + _compositeStateUrl + auto-height). MUST load before walkthrough.js, which now
      calls these as globals instead of duplicating them. -->
-<script src="assets/loom-embed.js?v=1793478934_1793478456_1793478456" onerror="/* loom-embed unavailable */"></script>
-<script src="assets/checklist-select.js?v=1793478934_1793478456_1793478456" onerror="/* checklist-select unavailable */"></script>
-<script src="assets/walkthrough.js?v=1793478934_1793478456_1793478456" onerror="/* walkthrough unavailable */"></script>
-<script src="assets/argument-graph.js?v=1793478934_1793478456_1793478456" onerror="/* argument graph view unavailable */"></script>
-<script src="assets/discovery-cycle.js?v=1793478934_1793478456_1793478456" onerror="/* discovery cycle panel unavailable */"></script>
-<script src="assets/tab-freshness.js?v=1793478934_1793478456_1793478456" onerror="/* tab freshness unavailable */"></script>
+<script src="assets/loom-embed.js?v=1794255035_1794255035_1793583508" onerror="/* loom-embed unavailable */"></script>
+<script src="assets/checklist-select.js?v=1794255035_1794255035_1793583508" onerror="/* checklist-select unavailable */"></script>
+<script src="assets/walkthrough.js?v=1794255035_1794255035_1793583508" onerror="/* walkthrough unavailable */"></script>
+<script src="assets/argument-graph.js?v=1794255035_1794255035_1793583508" onerror="/* argument graph view unavailable */"></script>
+<script src="assets/discovery-cycle.js?v=1794255035_1794255035_1793583508" onerror="/* discovery cycle panel unavailable */"></script>
+<script src="assets/tab-freshness.js?v=1794255035_1794255035_1793583508" onerror="/* tab freshness unavailable */"></script>
 <!-- graph-panel.js: the dockable investigation-graph panel (VivPanelDock). Loads
      AFTER panel-dock.js (the engine) and walkthrough.js (the DAG renderer it hosts). -->
-<script src="assets/graph-panel.js?v=1793478934_1793478456_1793478456" onerror="/* graph panel unavailable */"></script>
+<script src="assets/graph-panel.js?v=1794255035_1794255035_1793583508" onerror="/* graph panel unavailable */"></script>
 <!-- studies-panel.js: the dockable Studies-browser panel (VivPanelDock). Loads
      AFTER panel-dock.js (the engine) and walkthrough.js (which renders the study
      tree it hosts). -->
-<script src="assets/studies-panel.js?v=1793478934_1793478456_1793478456" onerror="/* studies panel unavailable */"></script>
+<script src="assets/studies-panel.js?v=1794255035_1794255035_1793583508" onerror="/* studies panel unavailable */"></script>
 <!-- registry-panel.js: the dockable "Registry" browser panel (VivPanelDock). Loads
      AFTER panel-dock.js (engine), composite-card.js + walkthrough.js (the card
      renderers + _showRegistryCard it drives), and data-source.js. -->
-<script src="assets/registry-panel.js?v=1793478934_1793478456_1793478456" onerror="/* registry panel unavailable */"></script>
-<script src="assets/mobile-nav.js?v=1793478934_1793478456_1793478456" onerror="/* mobile-nav unavailable */"></script>
+<script src="assets/registry-panel.js?v=1794255035_1794255035_1793583508" onerror="/* registry panel unavailable */"></script>
+<script src="assets/mobile-nav.js?v=1794255035_1794255035_1793583508" onerror="/* mobile-nav unavailable */"></script>
 <!-- mobile-panels.js: phone-only bottom bar that launches + switches the dockable
      panels (Studies/Chat/Code/Graph). Loads AFTER the panels it drives. -->
-<script src="assets/mobile-panels.js?v=1793478934_1793478456_1793478456" onerror="/* mobile panel switcher unavailable */"></script>
-<script src="assets/search-palette.js?v=1793478934_1793478456_1793478456" onerror="/* global search unavailable */"></script>
-<script src="assets/github-login.js?v=1793478934_1793478456_1793478456" onerror="/* github-login unavailable */"></script>
+<script src="assets/mobile-panels.js?v=1794255035_1794255035_1793583508" onerror="/* mobile panel switcher unavailable */"></script>
+<script src="assets/search-palette.js?v=1794255035_1794255035_1793583508" onerror="/* global search unavailable */"></script>
+<script src="assets/github-login.js?v=1794255035_1794255035_1793583508" onerror="/* github-login unavailable */"></script>
 <!-- chat-core.js already loaded above (shared by panel-dock.js + process-code.js). -->
-<script src="assets/ai-models.js?v=1793478934_1793478456_1793478456" onerror="/* chat unavailable */"></script>
-<script src="assets/chat.js?v=1793478934_1793478456_1793478456" onerror="/* chat unavailable */"></script>
-<script src="assets/ai-login.js?v=1793478934_1793478456_1793478456" onerror="/* ai-login unavailable */"></script>
+<script src="assets/ai-models.js?v=1794255035_1794255035_1793583508" onerror="/* chat unavailable */"></script>
+<script src="assets/chat.js?v=1794255035_1794255035_1793583508" onerror="/* chat unavailable */"></script>
+<script src="assets/ai-login.js?v=1794255035_1794255035_1793583508" onerror="/* ai-login unavailable */"></script>
 <!-- workspace-switcher.js is intentionally not loaded: the left-rail dropdown
      it used to drive has been repurposed into the investigation switcher
      (investigation-switcher.js). The /api/workspaces endpoints remain available
      for CLI tooling. -->
-<script src="assets/investigation-switcher.js?v=1793478934_1793478456_1793478456"></script>
-<script src="assets/branch-source.js?v=1793478934_1793478456_1793478456"></script>
+<script src="assets/investigation-switcher.js?v=1794255035_1794255035_1793583508"></script>
+<script src="assets/branch-source.js?v=1794255035_1794255035_1793583508"></script>
 <!-- Encode this tab's workspace materialization state in the favicon + title
      (session-per-tab): ready / ⏳ preparing / ⚠️ failed. -->
-<script src="assets/session-status.js?v=1793478934_1793478456_1793478456"></script>
-<script src="assets/workspace-picker.js?v=1793478934_1793478456_1793478456"></script>
+<script src="assets/session-status.js?v=1794255035_1794255035_1793583508"></script>
+<script src="assets/workspace-picker.js?v=1794255035_1794255035_1793583508"></script>
 <!-- Inline expert-feedback for the SPA investigation view: the shared engine
      (static/study-feedback.js) decorates the investigation brief's tab panels
      (Overview/Verdict/Background/Narrative/Decisions…) with a hover-corner 💬.
@@ -3005,8 +3005,8 @@ window.__VIVA_FB_CONFIG__ = (function () {
   };
 })();
 </script>
-<script src="assets/study-feedback.js?v=1793478934_1793478456_1793478456" onerror="/* inline feedback unavailable */"></script>
-<script src="assets/inline-edit.js?v=1793478934_1793478456_1793478456" onerror="/* inline edit unavailable */"></script>
+<script src="assets/study-feedback.js?v=1794255035_1794255035_1793583508" onerror="/* inline feedback unavailable */"></script>
+<script src="assets/inline-edit.js?v=1794255035_1794255035_1793583508" onerror="/* inline edit unavailable */"></script>
 <script>
 // Initialize drop zones once walkthrough.js is loaded.
 document.addEventListener("DOMContentLoaded", function() {

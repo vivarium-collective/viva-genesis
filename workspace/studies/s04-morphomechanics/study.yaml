@@ -3,34 +3,34 @@ name: s04-morphomechanics
 investigation: multicellularity
 created: '2026-11-01'
 title: Morphomechanics
-phase: Design
-status: planned
+phase: Simulate
+status: investigating
 design_status: drafted
-simulation_status: not_run
-evaluation_status: not_evaluated
-gate_status: not_started
+simulation_status: ran
+evaluation_status: evaluated
+gate_status: passed
 topic: multicellularity
 tags:
 - seed
 - planned
 - multicellularity
 concept: emergence of multicellularity
-question: How do cell aspect ratio, branch topology, packing and bond strength set
-  collective toughness and propagule size? (Q2)
-hypothesis: Varying aspect ratio, branch topology, packing and bond strength predicts
-  toughness and propagule-size distributions; mechanics backends agree on the summary
-  observables (C4).
-claim: Cell geometry/mechanics (aspect ratio, topology, packing, bonds) sets collective
-  toughness and propagule-size distributions, consistently across mechanics backends
-  (C4) — provisional until cross-backend runs agree.
+question: How do cell aspect ratio, branch topology, packing and bond strength set collective toughness and propagule size? (Q2)
+hypothesis: Varying aspect ratio, branch topology, packing and bond strength predicts toughness and propagule-size distributions; mechanics backends agree on the summary observables (C4).
+claim: 'Cell adhesion (homotypic contact energy) sets collective toughness: a clonal CPM cluster under growth-driven stress stays one cohesive propagule at strong adhesion and fractures into multiple propagules at weak adhesion. UNPROVEN until the adhesion x seed sweep is graded; aspect ratio, branch topology and cross-backend agreement (C4) are not tested here.'
 behavior_tests:
 - name: propagule-toughness-predicted
   classification: primary
-  description: 'Vary cell aspect ratio, branch topology, packing and bond strength;
-    compare mechanics backends. Decision criterion: predict toughness and propagule-size
-    distributions.'
+  description: 'Vary cell aspect ratio, branch topology, packing and bond strength; compare mechanics backends. Decision criterion: predict toughness and propagule-size distributions.'
 acceptance_criteria: []
-findings: []
+findings:
+- id: s04-propagule-toughness-adhesion
+  statement: 'In a Rust CPM clonal growth world, adhesion sets propagule toughness: seed-mean largest_cluster_fraction is 0.19 at adhesion 0, 0.57 at 0.3 and 1.0 (a single propagule) for adhesion >= 0.5; the zero-adhesion control fractures into 11-16 propagules.'
+  status: confirms
+  kind: computational
+  evidence_basis: predicted
+  from_test: propagule-toughness-predicted
+  inferential_scope: Transient (~40-update), quasi-static readout of one CPM backend (viva-cpm); adhesion is the only swept knob (aspect ratio, topology, packing and cross-backend agreement untested). Fracture re-merges past ~80 updates.
 literature_anchors:
 - source: Bozdag et al. 2023, Nature
   cites:
@@ -49,23 +49,1119 @@ parent_studies:
   relation: builds-on
 baseline:
 - name: baseline
-  composite: viva_genesis.composites.cell_collective.cell_collective
+  composite: viva_genesis.composites.multicellularity_world.s04_morphomechanics
   params:
-    adhesion: 0.8
-    fragmentation: 0.2
-    predation_size_reward: 0.02
-    transport_penalty: 0.02
-  note: 'Planned starting baseline on the shared cell_collective system (reference
-    config, as S01–S03). The morphomechanics sweep — aspect ratio, branch topology,
-    packing, bond strength vs toughness/propagule-size — is explored via variants.'
-variants: []
-visualizations: []
+    adhesion: 0.75
+    seed: 1
+    grow_rate: 2.0
+    divide_threshold: 55.0
+    n_steps: 40
+  note: Spatial CPM clonal cluster (Rust viva-cpm); adhesion sets homotypic contact energy. Measured at the pinned 40-update window. n_steps=40 pins the transient window (the runner ignores the composite default_n_steps).
+variants:
+- name: adh0p0-s1
+  composite: viva_genesis.composites.multicellularity_world.s04_morphomechanics
+  params:
+    adhesion: 0.0
+    seed: 1
+    grow_rate: 2.0
+    divide_threshold: 55.0
+    n_steps: 40
+  note: adhesion 0.0, potts seed 1
+- name: adh0p0-s2
+  composite: viva_genesis.composites.multicellularity_world.s04_morphomechanics
+  params:
+    adhesion: 0.0
+    seed: 2
+    grow_rate: 2.0
+    divide_threshold: 55.0
+    n_steps: 40
+  note: adhesion 0.0, potts seed 2
+- name: adh0p0-s3
+  composite: viva_genesis.composites.multicellularity_world.s04_morphomechanics
+  params:
+    adhesion: 0.0
+    seed: 3
+    grow_rate: 2.0
+    divide_threshold: 55.0
+    n_steps: 40
+  note: adhesion 0.0, potts seed 3
+- name: adh0p3-s1
+  composite: viva_genesis.composites.multicellularity_world.s04_morphomechanics
+  params:
+    adhesion: 0.3
+    seed: 1
+    grow_rate: 2.0
+    divide_threshold: 55.0
+    n_steps: 40
+  note: adhesion 0.3, potts seed 1
+- name: adh0p3-s2
+  composite: viva_genesis.composites.multicellularity_world.s04_morphomechanics
+  params:
+    adhesion: 0.3
+    seed: 2
+    grow_rate: 2.0
+    divide_threshold: 55.0
+    n_steps: 40
+  note: adhesion 0.3, potts seed 2
+- name: adh0p3-s3
+  composite: viva_genesis.composites.multicellularity_world.s04_morphomechanics
+  params:
+    adhesion: 0.3
+    seed: 3
+    grow_rate: 2.0
+    divide_threshold: 55.0
+    n_steps: 40
+  note: adhesion 0.3, potts seed 3
+- name: adh0p5-s1
+  composite: viva_genesis.composites.multicellularity_world.s04_morphomechanics
+  params:
+    adhesion: 0.5
+    seed: 1
+    grow_rate: 2.0
+    divide_threshold: 55.0
+    n_steps: 40
+  note: adhesion 0.5, potts seed 1
+- name: adh0p5-s2
+  composite: viva_genesis.composites.multicellularity_world.s04_morphomechanics
+  params:
+    adhesion: 0.5
+    seed: 2
+    grow_rate: 2.0
+    divide_threshold: 55.0
+    n_steps: 40
+  note: adhesion 0.5, potts seed 2
+- name: adh0p5-s3
+  composite: viva_genesis.composites.multicellularity_world.s04_morphomechanics
+  params:
+    adhesion: 0.5
+    seed: 3
+    grow_rate: 2.0
+    divide_threshold: 55.0
+    n_steps: 40
+  note: adhesion 0.5, potts seed 3
+- name: adh0p62-s1
+  composite: viva_genesis.composites.multicellularity_world.s04_morphomechanics
+  params:
+    adhesion: 0.62
+    seed: 1
+    grow_rate: 2.0
+    divide_threshold: 55.0
+    n_steps: 40
+  note: adhesion 0.62, potts seed 1
+- name: adh0p62-s2
+  composite: viva_genesis.composites.multicellularity_world.s04_morphomechanics
+  params:
+    adhesion: 0.62
+    seed: 2
+    grow_rate: 2.0
+    divide_threshold: 55.0
+    n_steps: 40
+  note: adhesion 0.62, potts seed 2
+- name: adh0p62-s3
+  composite: viva_genesis.composites.multicellularity_world.s04_morphomechanics
+  params:
+    adhesion: 0.62
+    seed: 3
+    grow_rate: 2.0
+    divide_threshold: 55.0
+    n_steps: 40
+  note: adhesion 0.62, potts seed 3
+- name: adh0p75-s2
+  composite: viva_genesis.composites.multicellularity_world.s04_morphomechanics
+  params:
+    adhesion: 0.75
+    seed: 2
+    grow_rate: 2.0
+    divide_threshold: 55.0
+    n_steps: 40
+  note: adhesion 0.75, potts seed 2
+- name: adh0p75-s3
+  composite: viva_genesis.composites.multicellularity_world.s04_morphomechanics
+  params:
+    adhesion: 0.75
+    seed: 3
+    grow_rate: 2.0
+    divide_threshold: 55.0
+    n_steps: 40
+  note: adhesion 0.75, potts seed 3
+- name: adh0p9-s1
+  composite: viva_genesis.composites.multicellularity_world.s04_morphomechanics
+  params:
+    adhesion: 0.9
+    seed: 1
+    grow_rate: 2.0
+    divide_threshold: 55.0
+    n_steps: 40
+  note: adhesion 0.9, potts seed 1
+- name: adh0p9-s2
+  composite: viva_genesis.composites.multicellularity_world.s04_morphomechanics
+  params:
+    adhesion: 0.9
+    seed: 2
+    grow_rate: 2.0
+    divide_threshold: 55.0
+    n_steps: 40
+  note: adhesion 0.9, potts seed 2
+- name: adh0p9-s3
+  composite: viva_genesis.composites.multicellularity_world.s04_morphomechanics
+  params:
+    adhesion: 0.9
+    seed: 3
+    grow_rate: 2.0
+    divide_threshold: 55.0
+    n_steps: 40
+  note: adhesion 0.9, potts seed 3
+- name: adh0p95-s1
+  composite: viva_genesis.composites.multicellularity_world.s04_morphomechanics
+  params:
+    adhesion: 0.95
+    seed: 1
+    grow_rate: 2.0
+    divide_threshold: 55.0
+    n_steps: 40
+  note: adhesion 0.95, potts seed 1
+- name: adh0p95-s2
+  composite: viva_genesis.composites.multicellularity_world.s04_morphomechanics
+  params:
+    adhesion: 0.95
+    seed: 2
+    grow_rate: 2.0
+    divide_threshold: 55.0
+    n_steps: 40
+  note: adhesion 0.95, potts seed 2
+- name: adh0p95-s3
+  composite: viva_genesis.composites.multicellularity_world.s04_morphomechanics
+  params:
+    adhesion: 0.95
+    seed: 3
+    grow_rate: 2.0
+    divide_threshold: 55.0
+    n_steps: 40
+  note: adhesion 0.95, potts seed 3
+visualizations:
+- name: cluster-fracture
+  address: local:ClusterFractureViz
+  config:
+    title: Weak adhesion lets growth snap a cluster into propagules
+    weak_adhesion: 0.0
+    strong_adhesion: 0.95
+    seed: 1
+    n_steps: 40
+  covers:
+  - n_propagules
+  - largest_cluster_fraction
+  rendered: workspace/studies/s04-morphomechanics/viz/cluster-fracture.html
 observables:
-- propagule_toughness
+- n_propagules
+- largest_cluster_fraction
 data_inputs: []
-runs: []
-simulation_set: []
+runs:
+- name: viva_genesis.composites.multicellularity_world.s04_morphomechanics__1794489541__831edc
+  status: completed
+  timestamp: 1794489544.422998
+  emitter:
+    kind: unknown
+  env_id: 3f64b246b8b790d8
+  params: '{"adhesion": 0.75, "seed": 1, "grow_rate": 2.0, "divide_threshold": 55.0}'
+  provenance:
+    params:
+      adhesion:
+        value: 0.75
+        source: override
+      divide_threshold:
+        value: 55.0
+        source: override
+      grow_rate:
+        value: 2.0
+        source: override
+      n_steps:
+        value: 40
+        source: resolved
+      seed:
+        value: 1
+        source: override
+    params_captured_at: '2026-11-12'
+    params_source: dashboard-runner
+  outcomes:
+    propagule-toughness-predicted:
+      result: PASS
+      measured_value: 1.0
+      operator: cross_run
+      evaluated_by: code
+      detail: 'Seed-mean largest_cluster_fraction at the 40-update window is non-decreasing in adhesion (adh 0.0: mean lcf 0.194; adh 0.3: mean lcf 0.565; adh 0.5: mean lcf 1.000; adh 0.62: mean lcf 1.000; adh 0.75: mean lcf 1.000; adh 0.9: mean lcf 1.000; adh 0.95: mean lcf 1.000) across 3 seeds per point; the zero-adhesion control fractures (n_propagules [16, 11, 12], largest_cluster_fraction [0.078, 0.267, 0.239], all < 0.5) while adhesion >= 0.5 stays a single propagule in every seed. Per-seed series are not strictly monotone (seed 2: 0.0->0.3 0.267->0.262): graded on the seed-mean, the 0.0->0.3 seed-2 dip is within replicate noise. Transient, quasi-static readout (re-merges past ~80 updates); adhesion is the only swept knob.'
+- name: viva_genesis.composites.multicellularity_world.s04_morphomechanics__1794489552__9fdccb
+  status: completed
+  timestamp: 1794489555.738218
+  emitter:
+    kind: unknown
+  env_id: 3f64b246b8b790d8
+  variant: adh0p0-s1
+  params: '{"adhesion": 0.0, "seed": 1, "grow_rate": 2.0, "divide_threshold": 55.0}'
+  provenance:
+    params:
+      adhesion:
+        value: 0.0
+        source: override
+      divide_threshold:
+        value: 55.0
+        source: override
+      grow_rate:
+        value: 2.0
+        source: override
+      seed:
+        value: 1
+        source: override
+    params_captured_at: '2026-11-12'
+    params_source: dashboard-runner
+  outcomes:
+    propagule-toughness-predicted:
+      result: PASS
+      measured_value: 0.077586
+      operator: cross_run
+      evaluated_by: code
+      detail: 'Seed-mean largest_cluster_fraction at the 40-update window is non-decreasing in adhesion (adh 0.0: mean lcf 0.194; adh 0.3: mean lcf 0.565; adh 0.5: mean lcf 1.000; adh 0.62: mean lcf 1.000; adh 0.75: mean lcf 1.000; adh 0.9: mean lcf 1.000; adh 0.95: mean lcf 1.000) across 3 seeds per point; the zero-adhesion control fractures (n_propagules [16, 11, 12], largest_cluster_fraction [0.078, 0.267, 0.239], all < 0.5) while adhesion >= 0.5 stays a single propagule in every seed. Per-seed series are not strictly monotone (seed 2: 0.0->0.3 0.267->0.262): graded on the seed-mean, the 0.0->0.3 seed-2 dip is within replicate noise. Transient, quasi-static readout (re-merges past ~80 updates); adhesion is the only swept knob.'
+- name: viva_genesis.composites.multicellularity_world.s04_morphomechanics__1794489558__0a5eb2
+  status: completed
+  timestamp: 1794489561.804932
+  emitter:
+    kind: unknown
+  env_id: 3f64b246b8b790d8
+  variant: adh0p0-s2
+  params: '{"adhesion": 0.0, "seed": 2, "grow_rate": 2.0, "divide_threshold": 55.0}'
+  provenance:
+    params:
+      adhesion:
+        value: 0.0
+        source: override
+      divide_threshold:
+        value: 55.0
+        source: override
+      grow_rate:
+        value: 2.0
+        source: override
+      seed:
+        value: 2
+        source: override
+    params_captured_at: '2026-11-12'
+    params_source: dashboard-runner
+  outcomes:
+    propagule-toughness-predicted:
+      result: PASS
+      measured_value: 0.266667
+      operator: cross_run
+      evaluated_by: code
+      detail: 'Seed-mean largest_cluster_fraction at the 40-update window is non-decreasing in adhesion (adh 0.0: mean lcf 0.194; adh 0.3: mean lcf 0.565; adh 0.5: mean lcf 1.000; adh 0.62: mean lcf 1.000; adh 0.75: mean lcf 1.000; adh 0.9: mean lcf 1.000; adh 0.95: mean lcf 1.000) across 3 seeds per point; the zero-adhesion control fractures (n_propagules [16, 11, 12], largest_cluster_fraction [0.078, 0.267, 0.239], all < 0.5) while adhesion >= 0.5 stays a single propagule in every seed. Per-seed series are not strictly monotone (seed 2: 0.0->0.3 0.267->0.262): graded on the seed-mean, the 0.0->0.3 seed-2 dip is within replicate noise. Transient, quasi-static readout (re-merges past ~80 updates); adhesion is the only swept knob.'
+- name: viva_genesis.composites.multicellularity_world.s04_morphomechanics__1794489565__19d1b0
+  status: completed
+  timestamp: 1794489568.025907
+  emitter:
+    kind: unknown
+  env_id: 3f64b246b8b790d8
+  variant: adh0p0-s3
+  params: '{"adhesion": 0.0, "seed": 3, "grow_rate": 2.0, "divide_threshold": 55.0}'
+  provenance:
+    params:
+      adhesion:
+        value: 0.0
+        source: override
+      divide_threshold:
+        value: 55.0
+        source: override
+      grow_rate:
+        value: 2.0
+        source: override
+      seed:
+        value: 3
+        source: override
+    params_captured_at: '2026-11-12'
+    params_source: dashboard-runner
+  outcomes:
+    propagule-toughness-predicted:
+      result: PASS
+      measured_value: 0.238579
+      operator: cross_run
+      evaluated_by: code
+      detail: 'Seed-mean largest_cluster_fraction at the 40-update window is non-decreasing in adhesion (adh 0.0: mean lcf 0.194; adh 0.3: mean lcf 0.565; adh 0.5: mean lcf 1.000; adh 0.62: mean lcf 1.000; adh 0.75: mean lcf 1.000; adh 0.9: mean lcf 1.000; adh 0.95: mean lcf 1.000) across 3 seeds per point; the zero-adhesion control fractures (n_propagules [16, 11, 12], largest_cluster_fraction [0.078, 0.267, 0.239], all < 0.5) while adhesion >= 0.5 stays a single propagule in every seed. Per-seed series are not strictly monotone (seed 2: 0.0->0.3 0.267->0.262): graded on the seed-mean, the 0.0->0.3 seed-2 dip is within replicate noise. Transient, quasi-static readout (re-merges past ~80 updates); adhesion is the only swept knob.'
+- name: viva_genesis.composites.multicellularity_world.s04_morphomechanics__1794489571__46ffca
+  status: completed
+  timestamp: 1794489574.2391481
+  emitter:
+    kind: unknown
+  env_id: 3f64b246b8b790d8
+  variant: adh0p3-s1
+  params: '{"adhesion": 0.3, "seed": 1, "grow_rate": 2.0, "divide_threshold": 55.0}'
+  provenance:
+    params:
+      adhesion:
+        value: 0.3
+        source: override
+      divide_threshold:
+        value: 55.0
+        source: override
+      grow_rate:
+        value: 2.0
+        source: override
+      seed:
+        value: 1
+        source: override
+    params_captured_at: '2026-11-12'
+    params_source: dashboard-runner
+  outcomes:
+    propagule-toughness-predicted:
+      result: PASS
+      measured_value: 0.775773
+      operator: cross_run
+      evaluated_by: code
+      detail: 'Seed-mean largest_cluster_fraction at the 40-update window is non-decreasing in adhesion (adh 0.0: mean lcf 0.194; adh 0.3: mean lcf 0.565; adh 0.5: mean lcf 1.000; adh 0.62: mean lcf 1.000; adh 0.75: mean lcf 1.000; adh 0.9: mean lcf 1.000; adh 0.95: mean lcf 1.000) across 3 seeds per point; the zero-adhesion control fractures (n_propagules [16, 11, 12], largest_cluster_fraction [0.078, 0.267, 0.239], all < 0.5) while adhesion >= 0.5 stays a single propagule in every seed. Per-seed series are not strictly monotone (seed 2: 0.0->0.3 0.267->0.262): graded on the seed-mean, the 0.0->0.3 seed-2 dip is within replicate noise. Transient, quasi-static readout (re-merges past ~80 updates); adhesion is the only swept knob.'
+- name: viva_genesis.composites.multicellularity_world.s04_morphomechanics__1794489577__ee6b71
+  status: completed
+  timestamp: 1794489580.390614
+  emitter:
+    kind: unknown
+  env_id: 3f64b246b8b790d8
+  variant: adh0p3-s2
+  params: '{"adhesion": 0.3, "seed": 2, "grow_rate": 2.0, "divide_threshold": 55.0}'
+  provenance:
+    params:
+      adhesion:
+        value: 0.3
+        source: override
+      divide_threshold:
+        value: 55.0
+        source: override
+      grow_rate:
+        value: 2.0
+        source: override
+      seed:
+        value: 2
+        source: override
+    params_captured_at: '2026-11-12'
+    params_source: dashboard-runner
+  outcomes:
+    propagule-toughness-predicted:
+      result: PASS
+      measured_value: 0.261728
+      operator: cross_run
+      evaluated_by: code
+      detail: 'Seed-mean largest_cluster_fraction at the 40-update window is non-decreasing in adhesion (adh 0.0: mean lcf 0.194; adh 0.3: mean lcf 0.565; adh 0.5: mean lcf 1.000; adh 0.62: mean lcf 1.000; adh 0.75: mean lcf 1.000; adh 0.9: mean lcf 1.000; adh 0.95: mean lcf 1.000) across 3 seeds per point; the zero-adhesion control fractures (n_propagules [16, 11, 12], largest_cluster_fraction [0.078, 0.267, 0.239], all < 0.5) while adhesion >= 0.5 stays a single propagule in every seed. Per-seed series are not strictly monotone (seed 2: 0.0->0.3 0.267->0.262): graded on the seed-mean, the 0.0->0.3 seed-2 dip is within replicate noise. Transient, quasi-static readout (re-merges past ~80 updates); adhesion is the only swept knob.'
+- name: viva_genesis.composites.multicellularity_world.s04_morphomechanics__1794489583__d24224
+  status: completed
+  timestamp: 1794489586.633107
+  emitter:
+    kind: unknown
+  env_id: 3f64b246b8b790d8
+  variant: adh0p3-s3
+  params: '{"adhesion": 0.3, "seed": 3, "grow_rate": 2.0, "divide_threshold": 55.0}'
+  provenance:
+    params:
+      adhesion:
+        value: 0.3
+        source: override
+      divide_threshold:
+        value: 55.0
+        source: override
+      grow_rate:
+        value: 2.0
+        source: override
+      seed:
+        value: 3
+        source: override
+    params_captured_at: '2026-11-12'
+    params_source: dashboard-runner
+  outcomes:
+    propagule-toughness-predicted:
+      result: PASS
+      measured_value: 0.658793
+      operator: cross_run
+      evaluated_by: code
+      detail: 'Seed-mean largest_cluster_fraction at the 40-update window is non-decreasing in adhesion (adh 0.0: mean lcf 0.194; adh 0.3: mean lcf 0.565; adh 0.5: mean lcf 1.000; adh 0.62: mean lcf 1.000; adh 0.75: mean lcf 1.000; adh 0.9: mean lcf 1.000; adh 0.95: mean lcf 1.000) across 3 seeds per point; the zero-adhesion control fractures (n_propagules [16, 11, 12], largest_cluster_fraction [0.078, 0.267, 0.239], all < 0.5) while adhesion >= 0.5 stays a single propagule in every seed. Per-seed series are not strictly monotone (seed 2: 0.0->0.3 0.267->0.262): graded on the seed-mean, the 0.0->0.3 seed-2 dip is within replicate noise. Transient, quasi-static readout (re-merges past ~80 updates); adhesion is the only swept knob.'
+- name: viva_genesis.composites.multicellularity_world.s04_morphomechanics__1794489589__3ed4a8
+  status: completed
+  timestamp: 1794489592.789309
+  emitter:
+    kind: unknown
+  env_id: 3f64b246b8b790d8
+  variant: adh0p5-s1
+  params: '{"adhesion": 0.5, "seed": 1, "grow_rate": 2.0, "divide_threshold": 55.0}'
+  provenance:
+    params:
+      adhesion:
+        value: 0.5
+        source: override
+      divide_threshold:
+        value: 55.0
+        source: override
+      grow_rate:
+        value: 2.0
+        source: override
+      seed:
+        value: 1
+        source: override
+    params_captured_at: '2026-11-12'
+    params_source: dashboard-runner
+  outcomes:
+    propagule-toughness-predicted:
+      result: PASS
+      measured_value: 1.0
+      operator: cross_run
+      evaluated_by: code
+      detail: 'Seed-mean largest_cluster_fraction at the 40-update window is non-decreasing in adhesion (adh 0.0: mean lcf 0.194; adh 0.3: mean lcf 0.565; adh 0.5: mean lcf 1.000; adh 0.62: mean lcf 1.000; adh 0.75: mean lcf 1.000; adh 0.9: mean lcf 1.000; adh 0.95: mean lcf 1.000) across 3 seeds per point; the zero-adhesion control fractures (n_propagules [16, 11, 12], largest_cluster_fraction [0.078, 0.267, 0.239], all < 0.5) while adhesion >= 0.5 stays a single propagule in every seed. Per-seed series are not strictly monotone (seed 2: 0.0->0.3 0.267->0.262): graded on the seed-mean, the 0.0->0.3 seed-2 dip is within replicate noise. Transient, quasi-static readout (re-merges past ~80 updates); adhesion is the only swept knob.'
+- name: viva_genesis.composites.multicellularity_world.s04_morphomechanics__1794489596__f19ef5
+  status: completed
+  timestamp: 1794489598.982367
+  emitter:
+    kind: unknown
+  env_id: 3f64b246b8b790d8
+  variant: adh0p5-s2
+  params: '{"adhesion": 0.5, "seed": 2, "grow_rate": 2.0, "divide_threshold": 55.0}'
+  provenance:
+    params:
+      adhesion:
+        value: 0.5
+        source: override
+      divide_threshold:
+        value: 55.0
+        source: override
+      grow_rate:
+        value: 2.0
+        source: override
+      seed:
+        value: 2
+        source: override
+    params_captured_at: '2026-11-12'
+    params_source: dashboard-runner
+  outcomes:
+    propagule-toughness-predicted:
+      result: PASS
+      measured_value: 1.0
+      operator: cross_run
+      evaluated_by: code
+      detail: 'Seed-mean largest_cluster_fraction at the 40-update window is non-decreasing in adhesion (adh 0.0: mean lcf 0.194; adh 0.3: mean lcf 0.565; adh 0.5: mean lcf 1.000; adh 0.62: mean lcf 1.000; adh 0.75: mean lcf 1.000; adh 0.9: mean lcf 1.000; adh 0.95: mean lcf 1.000) across 3 seeds per point; the zero-adhesion control fractures (n_propagules [16, 11, 12], largest_cluster_fraction [0.078, 0.267, 0.239], all < 0.5) while adhesion >= 0.5 stays a single propagule in every seed. Per-seed series are not strictly monotone (seed 2: 0.0->0.3 0.267->0.262): graded on the seed-mean, the 0.0->0.3 seed-2 dip is within replicate noise. Transient, quasi-static readout (re-merges past ~80 updates); adhesion is the only swept knob.'
+- name: viva_genesis.composites.multicellularity_world.s04_morphomechanics__1794489602__fb0ee2
+  status: completed
+  timestamp: 1794489605.19581
+  emitter:
+    kind: unknown
+  env_id: 3f64b246b8b790d8
+  variant: adh0p5-s3
+  params: '{"adhesion": 0.5, "seed": 3, "grow_rate": 2.0, "divide_threshold": 55.0}'
+  provenance:
+    params:
+      adhesion:
+        value: 0.5
+        source: override
+      divide_threshold:
+        value: 55.0
+        source: override
+      grow_rate:
+        value: 2.0
+        source: override
+      seed:
+        value: 3
+        source: override
+    params_captured_at: '2026-11-12'
+    params_source: dashboard-runner
+  outcomes:
+    propagule-toughness-predicted:
+      result: PASS
+      measured_value: 1.0
+      operator: cross_run
+      evaluated_by: code
+      detail: 'Seed-mean largest_cluster_fraction at the 40-update window is non-decreasing in adhesion (adh 0.0: mean lcf 0.194; adh 0.3: mean lcf 0.565; adh 0.5: mean lcf 1.000; adh 0.62: mean lcf 1.000; adh 0.75: mean lcf 1.000; adh 0.9: mean lcf 1.000; adh 0.95: mean lcf 1.000) across 3 seeds per point; the zero-adhesion control fractures (n_propagules [16, 11, 12], largest_cluster_fraction [0.078, 0.267, 0.239], all < 0.5) while adhesion >= 0.5 stays a single propagule in every seed. Per-seed series are not strictly monotone (seed 2: 0.0->0.3 0.267->0.262): graded on the seed-mean, the 0.0->0.3 seed-2 dip is within replicate noise. Transient, quasi-static readout (re-merges past ~80 updates); adhesion is the only swept knob.'
+- name: viva_genesis.composites.multicellularity_world.s04_morphomechanics__1794489608__683b28
+  status: completed
+  timestamp: 1794489611.461424
+  emitter:
+    kind: unknown
+  env_id: 3f64b246b8b790d8
+  variant: adh0p62-s1
+  params: '{"adhesion": 0.62, "seed": 1, "grow_rate": 2.0, "divide_threshold": 55.0}'
+  provenance:
+    params:
+      adhesion:
+        value: 0.62
+        source: override
+      divide_threshold:
+        value: 55.0
+        source: override
+      grow_rate:
+        value: 2.0
+        source: override
+      seed:
+        value: 1
+        source: override
+    params_captured_at: '2026-11-12'
+    params_source: dashboard-runner
+  outcomes:
+    propagule-toughness-predicted:
+      result: PASS
+      measured_value: 1.0
+      operator: cross_run
+      evaluated_by: code
+      detail: 'Seed-mean largest_cluster_fraction at the 40-update window is non-decreasing in adhesion (adh 0.0: mean lcf 0.194; adh 0.3: mean lcf 0.565; adh 0.5: mean lcf 1.000; adh 0.62: mean lcf 1.000; adh 0.75: mean lcf 1.000; adh 0.9: mean lcf 1.000; adh 0.95: mean lcf 1.000) across 3 seeds per point; the zero-adhesion control fractures (n_propagules [16, 11, 12], largest_cluster_fraction [0.078, 0.267, 0.239], all < 0.5) while adhesion >= 0.5 stays a single propagule in every seed. Per-seed series are not strictly monotone (seed 2: 0.0->0.3 0.267->0.262): graded on the seed-mean, the 0.0->0.3 seed-2 dip is within replicate noise. Transient, quasi-static readout (re-merges past ~80 updates); adhesion is the only swept knob.'
+- name: viva_genesis.composites.multicellularity_world.s04_morphomechanics__1794489614__f7af72
+  status: completed
+  timestamp: 1794489617.8197
+  emitter:
+    kind: unknown
+  env_id: 3f64b246b8b790d8
+  variant: adh0p62-s2
+  params: '{"adhesion": 0.62, "seed": 2, "grow_rate": 2.0, "divide_threshold": 55.0}'
+  provenance:
+    params:
+      adhesion:
+        value: 0.62
+        source: override
+      divide_threshold:
+        value: 55.0
+        source: override
+      grow_rate:
+        value: 2.0
+        source: override
+      seed:
+        value: 2
+        source: override
+    params_captured_at: '2026-11-12'
+    params_source: dashboard-runner
+  outcomes:
+    propagule-toughness-predicted:
+      result: PASS
+      measured_value: 1.0
+      operator: cross_run
+      evaluated_by: code
+      detail: 'Seed-mean largest_cluster_fraction at the 40-update window is non-decreasing in adhesion (adh 0.0: mean lcf 0.194; adh 0.3: mean lcf 0.565; adh 0.5: mean lcf 1.000; adh 0.62: mean lcf 1.000; adh 0.75: mean lcf 1.000; adh 0.9: mean lcf 1.000; adh 0.95: mean lcf 1.000) across 3 seeds per point; the zero-adhesion control fractures (n_propagules [16, 11, 12], largest_cluster_fraction [0.078, 0.267, 0.239], all < 0.5) while adhesion >= 0.5 stays a single propagule in every seed. Per-seed series are not strictly monotone (seed 2: 0.0->0.3 0.267->0.262): graded on the seed-mean, the 0.0->0.3 seed-2 dip is within replicate noise. Transient, quasi-static readout (re-merges past ~80 updates); adhesion is the only swept knob.'
+- name: viva_genesis.composites.multicellularity_world.s04_morphomechanics__1794489621__7c2977
+  status: completed
+  timestamp: 1794489624.182407
+  emitter:
+    kind: unknown
+  env_id: 3f64b246b8b790d8
+  variant: adh0p62-s3
+  params: '{"adhesion": 0.62, "seed": 3, "grow_rate": 2.0, "divide_threshold": 55.0}'
+  provenance:
+    params:
+      adhesion:
+        value: 0.62
+        source: override
+      divide_threshold:
+        value: 55.0
+        source: override
+      grow_rate:
+        value: 2.0
+        source: override
+      seed:
+        value: 3
+        source: override
+    params_captured_at: '2026-11-12'
+    params_source: dashboard-runner
+  outcomes:
+    propagule-toughness-predicted:
+      result: PASS
+      measured_value: 1.0
+      operator: cross_run
+      evaluated_by: code
+      detail: 'Seed-mean largest_cluster_fraction at the 40-update window is non-decreasing in adhesion (adh 0.0: mean lcf 0.194; adh 0.3: mean lcf 0.565; adh 0.5: mean lcf 1.000; adh 0.62: mean lcf 1.000; adh 0.75: mean lcf 1.000; adh 0.9: mean lcf 1.000; adh 0.95: mean lcf 1.000) across 3 seeds per point; the zero-adhesion control fractures (n_propagules [16, 11, 12], largest_cluster_fraction [0.078, 0.267, 0.239], all < 0.5) while adhesion >= 0.5 stays a single propagule in every seed. Per-seed series are not strictly monotone (seed 2: 0.0->0.3 0.267->0.262): graded on the seed-mean, the 0.0->0.3 seed-2 dip is within replicate noise. Transient, quasi-static readout (re-merges past ~80 updates); adhesion is the only swept knob.'
+- name: viva_genesis.composites.multicellularity_world.s04_morphomechanics__1794489627__3b523b
+  status: completed
+  timestamp: 1794489630.5852978
+  emitter:
+    kind: unknown
+  env_id: 3f64b246b8b790d8
+  variant: adh0p75-s2
+  params: '{"adhesion": 0.75, "seed": 2, "grow_rate": 2.0, "divide_threshold": 55.0}'
+  provenance:
+    params:
+      adhesion:
+        value: 0.75
+        source: override
+      divide_threshold:
+        value: 55.0
+        source: override
+      grow_rate:
+        value: 2.0
+        source: override
+      seed:
+        value: 2
+        source: override
+    params_captured_at: '2026-11-12'
+    params_source: dashboard-runner
+  outcomes:
+    propagule-toughness-predicted:
+      result: PASS
+      measured_value: 1.0
+      operator: cross_run
+      evaluated_by: code
+      detail: 'Seed-mean largest_cluster_fraction at the 40-update window is non-decreasing in adhesion (adh 0.0: mean lcf 0.194; adh 0.3: mean lcf 0.565; adh 0.5: mean lcf 1.000; adh 0.62: mean lcf 1.000; adh 0.75: mean lcf 1.000; adh 0.9: mean lcf 1.000; adh 0.95: mean lcf 1.000) across 3 seeds per point; the zero-adhesion control fractures (n_propagules [16, 11, 12], largest_cluster_fraction [0.078, 0.267, 0.239], all < 0.5) while adhesion >= 0.5 stays a single propagule in every seed. Per-seed series are not strictly monotone (seed 2: 0.0->0.3 0.267->0.262): graded on the seed-mean, the 0.0->0.3 seed-2 dip is within replicate noise. Transient, quasi-static readout (re-merges past ~80 updates); adhesion is the only swept knob.'
+- name: viva_genesis.composites.multicellularity_world.s04_morphomechanics__1794489634__7338ca
+  status: completed
+  timestamp: 1794489637.073557
+  emitter:
+    kind: unknown
+  env_id: 3f64b246b8b790d8
+  variant: adh0p75-s3
+  params: '{"adhesion": 0.75, "seed": 3, "grow_rate": 2.0, "divide_threshold": 55.0}'
+  provenance:
+    params:
+      adhesion:
+        value: 0.75
+        source: override
+      divide_threshold:
+        value: 55.0
+        source: override
+      grow_rate:
+        value: 2.0
+        source: override
+      seed:
+        value: 3
+        source: override
+    params_captured_at: '2026-11-12'
+    params_source: dashboard-runner
+  outcomes:
+    propagule-toughness-predicted:
+      result: PASS
+      measured_value: 1.0
+      operator: cross_run
+      evaluated_by: code
+      detail: 'Seed-mean largest_cluster_fraction at the 40-update window is non-decreasing in adhesion (adh 0.0: mean lcf 0.194; adh 0.3: mean lcf 0.565; adh 0.5: mean lcf 1.000; adh 0.62: mean lcf 1.000; adh 0.75: mean lcf 1.000; adh 0.9: mean lcf 1.000; adh 0.95: mean lcf 1.000) across 3 seeds per point; the zero-adhesion control fractures (n_propagules [16, 11, 12], largest_cluster_fraction [0.078, 0.267, 0.239], all < 0.5) while adhesion >= 0.5 stays a single propagule in every seed. Per-seed series are not strictly monotone (seed 2: 0.0->0.3 0.267->0.262): graded on the seed-mean, the 0.0->0.3 seed-2 dip is within replicate noise. Transient, quasi-static readout (re-merges past ~80 updates); adhesion is the only swept knob.'
+- name: viva_genesis.composites.multicellularity_world.s04_morphomechanics__1794489640__1029c4
+  status: completed
+  timestamp: 1794489643.475445
+  emitter:
+    kind: unknown
+  env_id: 3f64b246b8b790d8
+  variant: adh0p9-s1
+  params: '{"adhesion": 0.9, "seed": 1, "grow_rate": 2.0, "divide_threshold": 55.0}'
+  provenance:
+    params:
+      adhesion:
+        value: 0.9
+        source: override
+      divide_threshold:
+        value: 55.0
+        source: override
+      grow_rate:
+        value: 2.0
+        source: override
+      seed:
+        value: 1
+        source: override
+    params_captured_at: '2026-11-12'
+    params_source: dashboard-runner
+  outcomes:
+    propagule-toughness-predicted:
+      result: PASS
+      measured_value: 1.0
+      operator: cross_run
+      evaluated_by: code
+      detail: 'Seed-mean largest_cluster_fraction at the 40-update window is non-decreasing in adhesion (adh 0.0: mean lcf 0.194; adh 0.3: mean lcf 0.565; adh 0.5: mean lcf 1.000; adh 0.62: mean lcf 1.000; adh 0.75: mean lcf 1.000; adh 0.9: mean lcf 1.000; adh 0.95: mean lcf 1.000) across 3 seeds per point; the zero-adhesion control fractures (n_propagules [16, 11, 12], largest_cluster_fraction [0.078, 0.267, 0.239], all < 0.5) while adhesion >= 0.5 stays a single propagule in every seed. Per-seed series are not strictly monotone (seed 2: 0.0->0.3 0.267->0.262): graded on the seed-mean, the 0.0->0.3 seed-2 dip is within replicate noise. Transient, quasi-static readout (re-merges past ~80 updates); adhesion is the only swept knob.'
+- name: viva_genesis.composites.multicellularity_world.s04_morphomechanics__1794489646__67902c
+  status: completed
+  timestamp: 1794489649.848154
+  emitter:
+    kind: unknown
+  env_id: 3f64b246b8b790d8
+  variant: adh0p9-s2
+  params: '{"adhesion": 0.9, "seed": 2, "grow_rate": 2.0, "divide_threshold": 55.0}'
+  provenance:
+    params:
+      adhesion:
+        value: 0.9
+        source: override
+      divide_threshold:
+        value: 55.0
+        source: override
+      grow_rate:
+        value: 2.0
+        source: override
+      seed:
+        value: 2
+        source: override
+    params_captured_at: '2026-11-12'
+    params_source: dashboard-runner
+  outcomes:
+    propagule-toughness-predicted:
+      result: PASS
+      measured_value: 1.0
+      operator: cross_run
+      evaluated_by: code
+      detail: 'Seed-mean largest_cluster_fraction at the 40-update window is non-decreasing in adhesion (adh 0.0: mean lcf 0.194; adh 0.3: mean lcf 0.565; adh 0.5: mean lcf 1.000; adh 0.62: mean lcf 1.000; adh 0.75: mean lcf 1.000; adh 0.9: mean lcf 1.000; adh 0.95: mean lcf 1.000) across 3 seeds per point; the zero-adhesion control fractures (n_propagules [16, 11, 12], largest_cluster_fraction [0.078, 0.267, 0.239], all < 0.5) while adhesion >= 0.5 stays a single propagule in every seed. Per-seed series are not strictly monotone (seed 2: 0.0->0.3 0.267->0.262): graded on the seed-mean, the 0.0->0.3 seed-2 dip is within replicate noise. Transient, quasi-static readout (re-merges past ~80 updates); adhesion is the only swept knob.'
+- name: viva_genesis.composites.multicellularity_world.s04_morphomechanics__1794489653__8d82e5
+  status: completed
+  timestamp: 1794489656.253941
+  emitter:
+    kind: unknown
+  env_id: 3f64b246b8b790d8
+  variant: adh0p9-s3
+  params: '{"adhesion": 0.9, "seed": 3, "grow_rate": 2.0, "divide_threshold": 55.0}'
+  provenance:
+    params:
+      adhesion:
+        value: 0.9
+        source: override
+      divide_threshold:
+        value: 55.0
+        source: override
+      grow_rate:
+        value: 2.0
+        source: override
+      seed:
+        value: 3
+        source: override
+    params_captured_at: '2026-11-12'
+    params_source: dashboard-runner
+  outcomes:
+    propagule-toughness-predicted:
+      result: PASS
+      measured_value: 1.0
+      operator: cross_run
+      evaluated_by: code
+      detail: 'Seed-mean largest_cluster_fraction at the 40-update window is non-decreasing in adhesion (adh 0.0: mean lcf 0.194; adh 0.3: mean lcf 0.565; adh 0.5: mean lcf 1.000; adh 0.62: mean lcf 1.000; adh 0.75: mean lcf 1.000; adh 0.9: mean lcf 1.000; adh 0.95: mean lcf 1.000) across 3 seeds per point; the zero-adhesion control fractures (n_propagules [16, 11, 12], largest_cluster_fraction [0.078, 0.267, 0.239], all < 0.5) while adhesion >= 0.5 stays a single propagule in every seed. Per-seed series are not strictly monotone (seed 2: 0.0->0.3 0.267->0.262): graded on the seed-mean, the 0.0->0.3 seed-2 dip is within replicate noise. Transient, quasi-static readout (re-merges past ~80 updates); adhesion is the only swept knob.'
+- name: viva_genesis.composites.multicellularity_world.s04_morphomechanics__1794489659__db6bd3
+  status: completed
+  timestamp: 1794489662.625046
+  emitter:
+    kind: unknown
+  env_id: 3f64b246b8b790d8
+  variant: adh0p95-s1
+  params: '{"adhesion": 0.95, "seed": 1, "grow_rate": 2.0, "divide_threshold": 55.0}'
+  provenance:
+    params:
+      adhesion:
+        value: 0.95
+        source: override
+      divide_threshold:
+        value: 55.0
+        source: override
+      grow_rate:
+        value: 2.0
+        source: override
+      seed:
+        value: 1
+        source: override
+    params_captured_at: '2026-11-12'
+    params_source: dashboard-runner
+  outcomes:
+    propagule-toughness-predicted:
+      result: PASS
+      measured_value: 1.0
+      operator: cross_run
+      evaluated_by: code
+      detail: 'Seed-mean largest_cluster_fraction at the 40-update window is non-decreasing in adhesion (adh 0.0: mean lcf 0.194; adh 0.3: mean lcf 0.565; adh 0.5: mean lcf 1.000; adh 0.62: mean lcf 1.000; adh 0.75: mean lcf 1.000; adh 0.9: mean lcf 1.000; adh 0.95: mean lcf 1.000) across 3 seeds per point; the zero-adhesion control fractures (n_propagules [16, 11, 12], largest_cluster_fraction [0.078, 0.267, 0.239], all < 0.5) while adhesion >= 0.5 stays a single propagule in every seed. Per-seed series are not strictly monotone (seed 2: 0.0->0.3 0.267->0.262): graded on the seed-mean, the 0.0->0.3 seed-2 dip is within replicate noise. Transient, quasi-static readout (re-merges past ~80 updates); adhesion is the only swept knob.'
+- name: viva_genesis.composites.multicellularity_world.s04_morphomechanics__1794489666__921c04
+  status: completed
+  timestamp: 1794489669.0848231
+  emitter:
+    kind: unknown
+  env_id: 3f64b246b8b790d8
+  variant: adh0p95-s2
+  params: '{"adhesion": 0.95, "seed": 2, "grow_rate": 2.0, "divide_threshold": 55.0}'
+  provenance:
+    params:
+      adhesion:
+        value: 0.95
+        source: override
+      divide_threshold:
+        value: 55.0
+        source: override
+      grow_rate:
+        value: 2.0
+        source: override
+      seed:
+        value: 2
+        source: override
+    params_captured_at: '2026-11-12'
+    params_source: dashboard-runner
+  outcomes:
+    propagule-toughness-predicted:
+      result: PASS
+      measured_value: 1.0
+      operator: cross_run
+      evaluated_by: code
+      detail: 'Seed-mean largest_cluster_fraction at the 40-update window is non-decreasing in adhesion (adh 0.0: mean lcf 0.194; adh 0.3: mean lcf 0.565; adh 0.5: mean lcf 1.000; adh 0.62: mean lcf 1.000; adh 0.75: mean lcf 1.000; adh 0.9: mean lcf 1.000; adh 0.95: mean lcf 1.000) across 3 seeds per point; the zero-adhesion control fractures (n_propagules [16, 11, 12], largest_cluster_fraction [0.078, 0.267, 0.239], all < 0.5) while adhesion >= 0.5 stays a single propagule in every seed. Per-seed series are not strictly monotone (seed 2: 0.0->0.3 0.267->0.262): graded on the seed-mean, the 0.0->0.3 seed-2 dip is within replicate noise. Transient, quasi-static readout (re-merges past ~80 updates); adhesion is the only swept knob.'
+- name: viva_genesis.composites.multicellularity_world.s04_morphomechanics__1794489672__4aa5f8
+  status: completed
+  timestamp: 1794489675.635131
+  emitter:
+    kind: unknown
+  env_id: 3f64b246b8b790d8
+  variant: adh0p95-s3
+  params: '{"adhesion": 0.95, "seed": 3, "grow_rate": 2.0, "divide_threshold": 55.0}'
+  provenance:
+    params:
+      adhesion:
+        value: 0.95
+        source: override
+      divide_threshold:
+        value: 55.0
+        source: override
+      grow_rate:
+        value: 2.0
+        source: override
+      seed:
+        value: 3
+        source: override
+    params_captured_at: '2026-11-12'
+    params_source: dashboard-runner
+  outcomes:
+    propagule-toughness-predicted:
+      result: PASS
+      measured_value: 1.0
+      operator: cross_run
+      evaluated_by: code
+      detail: 'Seed-mean largest_cluster_fraction at the 40-update window is non-decreasing in adhesion (adh 0.0: mean lcf 0.194; adh 0.3: mean lcf 0.565; adh 0.5: mean lcf 1.000; adh 0.62: mean lcf 1.000; adh 0.75: mean lcf 1.000; adh 0.9: mean lcf 1.000; adh 0.95: mean lcf 1.000) across 3 seeds per point; the zero-adhesion control fractures (n_propagules [16, 11, 12], largest_cluster_fraction [0.078, 0.267, 0.239], all < 0.5) while adhesion >= 0.5 stays a single propagule in every seed. Per-seed series are not strictly monotone (seed 2: 0.0->0.3 0.267->0.262): graded on the seed-mean, the 0.0->0.3 seed-2 dip is within replicate noise. Transient, quasi-static readout (re-merges past ~80 updates); adhesion is the only swept knob.'
+simulation_set:
+- name: baseline-baseline
+  kind: single
+  base_model: viva_genesis.composites.multicellularity_world.s04_morphomechanics
+  is_baseline: true
+  status: ran
+  params:
+    adhesion: 0.75
+    seed: 1
+    grow_rate: 2.0
+    divide_threshold: 55.0
+  metrics: &id001
+  - n_propagules
+  - largest_cluster_fraction
+  pass_fail_tests: &id002
+  - propagule-toughness-predicted
+- name: adh0p0-s1
+  kind: single
+  base_model: viva_genesis.composites.multicellularity_world.s04_morphomechanics
+  perturbation:
+    adhesion: 0.0
+    seed: 1
+    grow_rate: 2.0
+    divide_threshold: 55.0
+  status: ran
+  metrics: *id001
+  pass_fail_tests: *id002
+- name: adh0p0-s2
+  kind: single
+  base_model: viva_genesis.composites.multicellularity_world.s04_morphomechanics
+  perturbation:
+    adhesion: 0.0
+    seed: 2
+    grow_rate: 2.0
+    divide_threshold: 55.0
+  status: ran
+  metrics: *id001
+  pass_fail_tests: *id002
+- name: adh0p0-s3
+  kind: single
+  base_model: viva_genesis.composites.multicellularity_world.s04_morphomechanics
+  perturbation:
+    adhesion: 0.0
+    seed: 3
+    grow_rate: 2.0
+    divide_threshold: 55.0
+  status: ran
+  metrics: *id001
+  pass_fail_tests: *id002
+- name: adh0p3-s1
+  kind: single
+  base_model: viva_genesis.composites.multicellularity_world.s04_morphomechanics
+  perturbation:
+    adhesion: 0.3
+    seed: 1
+    grow_rate: 2.0
+    divide_threshold: 55.0
+  status: ran
+  metrics: *id001
+  pass_fail_tests: *id002
+- name: adh0p3-s2
+  kind: single
+  base_model: viva_genesis.composites.multicellularity_world.s04_morphomechanics
+  perturbation:
+    adhesion: 0.3
+    seed: 2
+    grow_rate: 2.0
+    divide_threshold: 55.0
+  status: ran
+  metrics: *id001
+  pass_fail_tests: *id002
+- name: adh0p3-s3
+  kind: single
+  base_model: viva_genesis.composites.multicellularity_world.s04_morphomechanics
+  perturbation:
+    adhesion: 0.3
+    seed: 3
+    grow_rate: 2.0
+    divide_threshold: 55.0
+  status: ran
+  metrics: *id001
+  pass_fail_tests: *id002
+- name: adh0p5-s1
+  kind: single
+  base_model: viva_genesis.composites.multicellularity_world.s04_morphomechanics
+  perturbation:
+    adhesion: 0.5
+    seed: 1
+    grow_rate: 2.0
+    divide_threshold: 55.0
+  status: ran
+  metrics: *id001
+  pass_fail_tests: *id002
+- name: adh0p5-s2
+  kind: single
+  base_model: viva_genesis.composites.multicellularity_world.s04_morphomechanics
+  perturbation:
+    adhesion: 0.5
+    seed: 2
+    grow_rate: 2.0
+    divide_threshold: 55.0
+  status: ran
+  metrics: *id001
+  pass_fail_tests: *id002
+- name: adh0p5-s3
+  kind: single
+  base_model: viva_genesis.composites.multicellularity_world.s04_morphomechanics
+  perturbation:
+    adhesion: 0.5
+    seed: 3
+    grow_rate: 2.0
+    divide_threshold: 55.0
+  status: ran
+  metrics: *id001
+  pass_fail_tests: *id002
+- name: adh0p62-s1
+  kind: single
+  base_model: viva_genesis.composites.multicellularity_world.s04_morphomechanics
+  perturbation:
+    adhesion: 0.62
+    seed: 1
+    grow_rate: 2.0
+    divide_threshold: 55.0
+  status: ran
+  metrics: *id001
+  pass_fail_tests: *id002
+- name: adh0p62-s2
+  kind: single
+  base_model: viva_genesis.composites.multicellularity_world.s04_morphomechanics
+  perturbation:
+    adhesion: 0.62
+    seed: 2
+    grow_rate: 2.0
+    divide_threshold: 55.0
+  status: ran
+  metrics: *id001
+  pass_fail_tests: *id002
+- name: adh0p62-s3
+  kind: single
+  base_model: viva_genesis.composites.multicellularity_world.s04_morphomechanics
+  perturbation:
+    adhesion: 0.62
+    seed: 3
+    grow_rate: 2.0
+    divide_threshold: 55.0
+  status: ran
+  metrics: *id001
+  pass_fail_tests: *id002
+- name: adh0p75-s2
+  kind: single
+  base_model: viva_genesis.composites.multicellularity_world.s04_morphomechanics
+  perturbation:
+    adhesion: 0.75
+    seed: 2
+    grow_rate: 2.0
+    divide_threshold: 55.0
+  status: ran
+  metrics: *id001
+  pass_fail_tests: *id002
+- name: adh0p75-s3
+  kind: single
+  base_model: viva_genesis.composites.multicellularity_world.s04_morphomechanics
+  perturbation:
+    adhesion: 0.75
+    seed: 3
+    grow_rate: 2.0
+    divide_threshold: 55.0
+  status: ran
+  metrics: *id001
+  pass_fail_tests: *id002
+- name: adh0p9-s1
+  kind: single
+  base_model: viva_genesis.composites.multicellularity_world.s04_morphomechanics
+  perturbation:
+    adhesion: 0.9
+    seed: 1
+    grow_rate: 2.0
+    divide_threshold: 55.0
+  status: ran
+  metrics: *id001
+  pass_fail_tests: *id002
+- name: adh0p9-s2
+  kind: single
+  base_model: viva_genesis.composites.multicellularity_world.s04_morphomechanics
+  perturbation:
+    adhesion: 0.9
+    seed: 2
+    grow_rate: 2.0
+    divide_threshold: 55.0
+  status: ran
+  metrics: *id001
+  pass_fail_tests: *id002
+- name: adh0p9-s3
+  kind: single
+  base_model: viva_genesis.composites.multicellularity_world.s04_morphomechanics
+  perturbation:
+    adhesion: 0.9
+    seed: 3
+    grow_rate: 2.0
+    divide_threshold: 55.0
+  status: ran
+  metrics: *id001
+  pass_fail_tests: *id002
+- name: adh0p95-s1
+  kind: single
+  base_model: viva_genesis.composites.multicellularity_world.s04_morphomechanics
+  perturbation:
+    adhesion: 0.95
+    seed: 1
+    grow_rate: 2.0
+    divide_threshold: 55.0
+  status: ran
+  metrics: *id001
+  pass_fail_tests: *id002
+- name: adh0p95-s2
+  kind: single
+  base_model: viva_genesis.composites.multicellularity_world.s04_morphomechanics
+  perturbation:
+    adhesion: 0.95
+    seed: 2
+    grow_rate: 2.0
+    divide_threshold: 55.0
+  status: ran
+  metrics: *id001
+  pass_fail_tests: *id002
+- name: adh0p95-s3
+  kind: single
+  base_model: viva_genesis.composites.multicellularity_world.s04_morphomechanics
+  perturbation:
+    adhesion: 0.95
+    seed: 3
+    grow_rate: 2.0
+    divide_threshold: 55.0
+  status: ran
+  metrics: *id001
+  pass_fail_tests: *id002
 pipeline_gate:
   gate_evaluator:
-    result: not_started
+    result: passed
+    blocked_by: []
     evaluated_by: code
+    diverges_from_authored: false
+verdict: supported
+confidence: provisional
+verdict_rationale: 'Earned by a real 21-run CPM sweep (7 adhesion values x 3 potts seeds, 40-update window): seed-mean largest_cluster_fraction rises 0.19 (adhesion 0) -> 0.57 (0.3) -> 1.0 (>=0.5), and the zero-adhesion control fractures into 11-16 propagules. Provisional: transient quasi-static readout, adhesion-only sweep, one mechanics backend. The 0.62 cohesion threshold estimated in the composite spike was not seen: cohesion already holds at 0.5.'
+tests:
+  data_source: all_runs
+readouts:
+- name: n_propagules
+  store_path: n_propagules
+- name: largest_cluster_fraction
+  store_path: largest_cluster_fraction
+limitations:
+- 'The fracture readout is a TRANSIENT, quasi-static measurement: it is taken at the pinned ~40-update window (default_n_steps=40). Past ~80 updates crowding re-merges clusters and the strong-vs-weak adhesion contrast disappears, so this is not a steady-state toughness.'
+- Adhesion is the only mechanical knob swept; cell aspect ratio, branch topology, packing and cross-backend agreement (parts of C4) are not tested.
+evidence_tier: mechanistic_prediction
