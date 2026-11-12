@@ -28,6 +28,7 @@ findings:
   statement: 'In a Rust CPM clonal growth world, adhesion sets propagule toughness: seed-mean largest_cluster_fraction is 0.19 at adhesion 0, 0.57 at 0.3 and 1.0 (a single propagule) for adhesion >= 0.5; the zero-adhesion control fractures into 11-16 propagules.'
   status: confirms
   kind: computational
+  evidence_basis: predicted
   from_test: propagule-toughness-predicted
   inferential_scope: Transient (~40-update), quasi-static readout of one CPM backend (viva-cpm); adhesion is the only swept knob (aspect ratio, topology, packing and cross-backend agreement untested). Fracture re-merges past ~80 updates.
 literature_anchors:

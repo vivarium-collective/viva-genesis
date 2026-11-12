@@ -19,6 +19,7 @@ Component counts from the lattice labeling are asserted equal to the process's o
 """
 from __future__ import annotations
 
+import warnings
 import json
 from pathlib import Path
 
@@ -45,8 +46,11 @@ def _sweep_from_study(path):
             adh.add(float(p["adhesion"])); seeds.add(int(p["seed"]))
         if adh and seeds:
             return sorted(adh), sorted(seeds)
-    except Exception:
-        pass
+        warnings.warn(f"viz_s04_fracture: study sweep in {path} has no adhesion/seed variants; "
+                      "falling back to the hardcoded default grid", stacklevel=2)
+    except Exception as exc:
+        warnings.warn(f"viz_s04_fracture: could not read study sweep from {path} ({exc!r}); "
+                      "falling back to the hardcoded default grid", stacklevel=2)
     return list(_DEFAULT_ADH), list(_DEFAULT_SEEDS)
 
 

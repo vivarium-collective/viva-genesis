@@ -42,6 +42,14 @@ def _study_claims_pass(spec: dict) -> bool:
     return False
 
 
+# Runner-honored META-params: the workbench study runner pops these from a
+# baseline/variant ``params`` block (run length, analysis output dir) before the
+# composite generator is called (vivarium_workbench/lib/study_runs.py). They are
+# NOT composite build parameters, so they are exempt from the declared-parameter
+# check. Keep this set minimal; do not add composite parameters here.
+RUNNER_META_PARAMS = frozenset({"n_steps", "analysis_out_dir"})
+
+
 def check_baseline_params(
     studies: Dict[str, dict],
     gen_parameters: Dict[str, Set[str]],
@@ -64,7 +72,7 @@ def check_baseline_params(
                 continue
             declared = gen_parameters[ref]
             for key in params:
-                if key not in declared:
+                if key not in declared and key not in RUNNER_META_PARAMS:
                     errors.append(
                         f"study {slug}: baseline '{b.get('name', ref)}' sets param "
                         f"'{key}' which is not a declared parameter of {ref} "
