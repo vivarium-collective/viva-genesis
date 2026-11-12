@@ -227,7 +227,15 @@ variants:
     seed: 3
     n_steps: 40
   note: fate_mode clamped, env B (o2_source 0.025), potts seed 3
-visualizations: []
+visualizations:
+- name: germ-soma
+  address: local:DifferentiationViz
+  config:
+    title: Hypoxic interiors differentiate to soma; O2-gated fate beats its nulls out of sample
+    n_steps: 40
+  covers:
+  - specialization_out_of_sample_gain
+  rendered: workspace/studies/s05-differentiation/viz/germ-soma.html
 observables:
 - specialization_out_of_sample_gain
 data_inputs: []
