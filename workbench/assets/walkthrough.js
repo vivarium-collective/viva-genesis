@@ -1,4 +1,4 @@
-// walkthrough.js — v0.8.2: PARKED study state — a deliberately-deferred future direction renders as "Parked · future direction" (violet), NOT "Planned · pending": new _EXEC_META.parked + _VERDICT_PARKED, _execState/_studyStatusState detect the orthogonal `parked` flag / effective_status==='parked' (precedence terminal→parked→lifecycle); graph legend + iset-card breakdown pick it up automatically. v0.8.1: Investigations list is now ONE combined list (active-first by default) — the ACTIVE/CLOSED section split is removed (_groupHtml is header-optional; the user sort orders the whole set). v0.8.0: Registry Full view is now directly runnable — the config bar IS the editable config and the left ports ARE the editable input fields (no "Run this process" dropdown); Run lives in the body, outputs on the right. Middle (grid) zoom shows ports+types inline (no dropdown); double-click a card → runnable Full. Modules table split into Installed-here vs Marketplace sections with a Repos (imported-into) column, GitHub link on the name, and Install/Uninstall in one Action column (n_repos from module_stats federation scan). bigraph-loom: Explore (graph) is the default left tab; the right dock defaults to Processes with Nodes/Inspector collapsed. v0.7.0: Composites semantic zoom (Table/Cards full-row compact/Loom on-demand embed) + double-click to zoom in; /api/composites now runs in the WARM pooled worker (flake fix). v0.6.9: registry filter now data-driven (works in Table/Cards/Full); middle Cards zoom is full-row with composite/study usage split + details; double-click zooms in centered; select persists across zoom; run panel input ports as per-field form (type + resolved default, auto-grow) + Copy outputs; loom config bar lightened to match workbench palette. v0.6.8: run panel lazy-loads RESOLVED defaults (core.fill via /api/registry/process-template) into a per-field config form + inputs JSON (no more null-heavy templates); loom card restyled as a crisp rectangle. v0.6.7: Registry Full-view interactive runner — editable config + input-port JSON, Run → outputs (POST /api/registry/run-process; env_worker._run_process instantiates + Step.update / Process.update(interval)); loom inputs left / outputs right. v0.6.6: Registry semantic zoom (compact/detailed/full loom-rectangle: inputs left, outputs right, config top) + Cards⇄Table sortable view (_setRegistryZoom/_setRegistryView/_renderRegistryTable); rail pins hover-only + ungrouped back to a collapsible folder. v0.6.5: Registry processes sorted by USE (most-referenced across composites/runners first) with a use-count badge (build_registry._annotate_use_counts source-scan). v0.6.4: Registry page — "Discovered registry"→"Registry" (main tab), "Modules"→"Marketplace"; rich registry entries (description + inputs/outputs ports/contract + full config schema, loom-like) and a new Report Cards tab (_renderRegistryEntry/_regPortColumn). v0.6.3: STUDIES rail — per-study pin toggle (localStorage) with a "Pinned" strip at the top for quick access, and ungrouped studies rendered as a flat list at the bottom instead of a collapsible dropdown (_toggleStudyPin/_loadPinnedStudies; _railStudyItem + _renderRailInvestigationGroups). v0.6.2: Marketplace merged into the Modules tab — Modules grid loads the FULL ecosystem via /api/marketplace (available modules under the "Available to install" divider), installed cards gain an Uninstall action gated by an impact-confirmation modal (_showUninstallImpactModal via /api/catalog-uninstall-impact), viva-* display names + stat chips. v0.6.1: Marketplace sub-tab — browse the FULL viva ecosystem (unfiltered by registry.include) + install (_loadMarketplace/_renderMarketplace via /api/marketplace; shared _renderModuleGrid/_moduleActionFor with the Modules tab). v0.6.0: system-deps awareness — pre-install check + consent modal (_installFromCatalog → _showSystemDepsModal; new _checkSystemDepsForInstalled on Registry rows); v0.5.3: investigation detail panel — Spec/Runs/Visualizations tabs + Run button + Delete; v0.5.2: composite explorer UX fixes (no focus-mode hijack, one-row-per-param layout, lazy-load composite cache); v0.5.1: composite explorer page (bigraph-viz + test run + promote to simulation); v0.4.14: Available Composites picker + Emitter Use feedback + drop process multi-select; v0.4.5: _renderInstallError structured diagnosis; v0.4.1: _loadCatalog + _installFromCatalog; v0.4.0b: active-branch workstream strip; v0.3.7-A: _installImport; v0.3.6: Registry tab; v0.1.9: drag-drop uploads; v0.1.7: interactive forms.
+// walkthrough.js — v0.8.3: HONEST "Finds:" — a graph card may headline a study's claim/finding ONLY when the study has produced evidence (structured findings[], a completed execution, or an engine-DERIVED verdict). A planned/proposed/running study's authored `claim:` is a forward-looking PREDICTION, not a finding, and is now withheld: the row reads "pending evidence" (or "future direction" when parked), matching the honest Verdict pill. Single shared gate `_studyHasEvidence(s)` used by BOTH the collapsed card (Finds: teaser) and the expanded `_aigCardDetailHtml`. Fixes planned studies (e.g. multicellularity S04–S06) showing their design-time claim as if it were a result. v0.8.2: PARKED study state — a deliberately-deferred future direction renders as "Parked · future direction" (violet), NOT "Planned · pending": new _EXEC_META.parked + _VERDICT_PARKED, _execState/_studyStatusState detect the orthogonal `parked` flag / effective_status==='parked' (precedence terminal→parked→lifecycle); graph legend + iset-card breakdown pick it up automatically. v0.8.1: Investigations list is now ONE combined list (active-first by default) — the ACTIVE/CLOSED section split is removed (_groupHtml is header-optional; the user sort orders the whole set). v0.8.0: Registry Full view is now directly runnable — the config bar IS the editable config and the left ports ARE the editable input fields (no "Run this process" dropdown); Run lives in the body, outputs on the right. Middle (grid) zoom shows ports+types inline (no dropdown); double-click a card → runnable Full. Modules table split into Installed-here vs Marketplace sections with a Repos (imported-into) column, GitHub link on the name, and Install/Uninstall in one Action column (n_repos from module_stats federation scan). bigraph-loom: Explore (graph) is the default left tab; the right dock defaults to Processes with Nodes/Inspector collapsed. v0.7.0: Composites semantic zoom (Table/Cards full-row compact/Loom on-demand embed) + double-click to zoom in; /api/composites now runs in the WARM pooled worker (flake fix). v0.6.9: registry filter now data-driven (works in Table/Cards/Full); middle Cards zoom is full-row with composite/study usage split + details; double-click zooms in centered; select persists across zoom; run panel input ports as per-field form (type + resolved default, auto-grow) + Copy outputs; loom config bar lightened to match workbench palette. v0.6.8: run panel lazy-loads RESOLVED defaults (core.fill via /api/registry/process-template) into a per-field config form + inputs JSON (no more null-heavy templates); loom card restyled as a crisp rectangle. v0.6.7: Registry Full-view interactive runner — editable config + input-port JSON, Run → outputs (POST /api/registry/run-process; env_worker._run_process instantiates + Step.update / Process.update(interval)); loom inputs left / outputs right. v0.6.6: Registry semantic zoom (compact/detailed/full loom-rectangle: inputs left, outputs right, config top) + Cards⇄Table sortable view (_setRegistryZoom/_setRegistryView/_renderRegistryTable); rail pins hover-only + ungrouped back to a collapsible folder. v0.6.5: Registry processes sorted by USE (most-referenced across composites/runners first) with a use-count badge (build_registry._annotate_use_counts source-scan). v0.6.4: Registry page — "Discovered registry"→"Registry" (main tab), "Modules"→"Marketplace"; rich registry entries (description + inputs/outputs ports/contract + full config schema, loom-like) and a new Report Cards tab (_renderRegistryEntry/_regPortColumn). v0.6.3: STUDIES rail — per-study pin toggle (localStorage) with a "Pinned" strip at the top for quick access, and ungrouped studies rendered as a flat list at the bottom instead of a collapsible dropdown (_toggleStudyPin/_loadPinnedStudies; _railStudyItem + _renderRailInvestigationGroups). v0.6.2: Marketplace merged into the Modules tab — Modules grid loads the FULL ecosystem via /api/marketplace (available modules under the "Available to install" divider), installed cards gain an Uninstall action gated by an impact-confirmation modal (_showUninstallImpactModal via /api/catalog-uninstall-impact), viva-* display names + stat chips. v0.6.1: Marketplace sub-tab — browse the FULL viva ecosystem (unfiltered by registry.include) + install (_loadMarketplace/_renderMarketplace via /api/marketplace; shared _renderModuleGrid/_moduleActionFor with the Modules tab). v0.6.0: system-deps awareness — pre-install check + consent modal (_installFromCatalog → _showSystemDepsModal; new _checkSystemDepsForInstalled on Registry rows); v0.5.3: investigation detail panel — Spec/Runs/Visualizations tabs + Run button + Delete; v0.5.2: composite explorer UX fixes (no focus-mode hijack, one-row-per-param layout, lazy-load composite cache); v0.5.1: composite explorer page (bigraph-viz + test run + promote to simulation); v0.4.14: Available Composites picker + Emitter Use feedback + drop process multi-select; v0.4.5: _renderInstallError structured diagnosis; v0.4.1: _loadCatalog + _installFromCatalog; v0.4.0b: active-branch workstream strip; v0.3.7-A: _installImport; v0.3.6: Registry tab; v0.1.9: drag-drop uploads; v0.1.7: interactive forms.
 (function () {
   "use strict";
   // Cache-bust token for the bigraph-loom iframe, captured once per page load.
@@ -138,6 +138,32 @@
     return s && s.verdict_source === 'derived'
       ? Object.assign({}, _VERDICT_META[v], {derived: true}) : _VERDICT_META[v];
   }
+  // Honesty gate for the "Finds:" headline — the SINGLE source every graph card
+  // shares. A study may surface its claim/finding under "Finds:" ONLY when it has
+  // actually produced evidence:
+  //   • recorded structured findings[],  OR
+  //   • a completed execution (the study ran),  OR
+  //   • an engine-DERIVED verdict (graded from its tests, carries verdict_source
+  //     'derived').
+  // A bare authored `claim:` on a planned / proposed / running study is a
+  // forward-looking PREDICTION, not a finding, so it is withheld here and the row
+  // reads "pending evidence" (or "future direction" for a parked study). This is
+  // what keeps the graph honest: the headline reflects EVIDENCE, never a
+  // hypothesis an author wrote down before any run existed.
+  //
+  // NOTE on the soft edges (both authored, not graded): a study hand-set to
+  // execution 'completed' or `confidence: accepted` with no runs, and a study
+  // with a hand-authored (non-derived) verdict, both still pass this gate. That
+  // matches today's two-axis display (an authored verdict shows in the pill
+  // without the derived "*"), and is the deliberately-narrow fix for the reported
+  // bug (planned studies showing a claim). Tightening those to require graded
+  // backing is a separate, data-touching decision — see the sweep write-up.
+  function _studyHasEvidence(s) {
+    if (_asFindings(s && s.findings).length > 0) return true;
+    if (_execState(s) === 'completed') return true;
+    var vm = _verdictMeta(s);
+    return !!(vm && vm.derived);
+  }
   // A rounded two-axis pill: glyph + (optionally) label, tinted by the axis color.
   // When `axis` ('progress' | 'verdict') is passed the pill becomes CLICKABLE and
   // opens the breakdown popover (same interrogation the standalone study page
@@ -154,6 +180,28 @@
       'background:' + meta.color + '14;border:1px solid ' + meta.color + '40">' +
       '<span style="font-size:1.1em;line-height:1">' + meta.icon + '</span>' +
       (compact ? '' : _esc(meta.label)) + (meta.derived ? '<sup title="derived">*</sup>' : '') + '</span>';
+  }
+
+  // Honesty marker for a COMPLETED card whose input dependencies are not done.
+  // The execution badge reflects only THIS study's own run; the server
+  // (investigation_graph_views) sets `upstream_incomplete` to the member studies
+  // it builds on (interface inputs / prerequisites) that are not themselves
+  // completed. So a study reading "Completed" while one of those is still
+  // Planned/Running is only *provisionally* complete — flag it with an amber chip
+  // instead of letting the clean "Completed" badge imply the chain is finished.
+  function _aigUpstreamIncompleteChip(slugs, compact) {
+    slugs = slugs || [];
+    if (!slugs.length) return '';
+    var ttl = 'Provisional — this study reads "Completed", but ' + slugs.length +
+      (slugs.length === 1 ? ' study it builds on has' : ' studies it builds on have') +
+      ' not finished: ' + slugs.join(', ');
+    var c = '#b45309';  // amber-700
+    return '<span class="aig-upstream-incomplete" title="' + _esc(ttl) + '" ' +
+      'style="display:inline-flex;align-items:center;gap:3px;font-size:0.6em;font-weight:700;' +
+      'white-space:nowrap;border-radius:9999px;padding:1px 7px;color:' + c + ';' +
+      'background:' + c + '14;border:1px solid ' + c + '40">' +
+      '<span style="font-size:1.05em;line-height:1">⚠</span>' +
+      (compact ? '' : 'upstream incomplete') + '</span>';
   }
 
   // ── Clickable axis-marker breakdown (graph cards) ────────────────────────────
@@ -8186,8 +8234,8 @@
 
   function _vivToggleRail() {
     // Flip the rail between the collapsed icon bar and the expanded, labelled
-    // sidebar, persisting the choice. The expanded width + edge-drag resize are
-    // driven by _vivRailResizeStart / the saved vivarium.rail-width.
+    // sidebar, persisting the choice. The expanded width is the fixed
+    // _RAIL_NORMAL constant (no drag-resize).
     var rail = document.getElementById('viv-rail');
     if (!rail) return;
     var collapsed = !rail.classList.contains('viv-rail-collapsed');  // target state
@@ -8228,13 +8276,13 @@
   window._vivToggleRailSearch = _vivToggleRailSearch;
 
   function _vivRestoreRailState() {
-    // Restore the rail's collapsed/expanded choice (defaults to collapsed for a
-    // first visit). The expanded width comes from the saved vivarium.rail-width;
-    // the header toggle + edge-drag keep both in sync.
+    // Restore the rail's collapsed/expanded choice. Defaults to EXPANDED (labelled
+    // sidebar) on a first visit so newcomers can read the nav; only an explicit
+    // saved '1' collapses it. The expanded width is a fixed constant (no drag).
     var rail = document.getElementById('viv-rail');
     if (!rail) return;
-    var collapsed = true;
-    try { collapsed = localStorage.getItem('vivarium.rail-collapsed') !== '0'; } catch (e) { /* private mode */ }
+    var collapsed = false;
+    try { collapsed = localStorage.getItem('vivarium.rail-collapsed') === '1'; } catch (e) { /* private mode */ }
     if (collapsed) {
       rail.classList.add('viv-rail-collapsed');
     } else {
@@ -8284,122 +8332,18 @@
   }
   window._vivInitRailFlyoutPositioning = _vivInitRailFlyoutPositioning;
 
-  // ---- Rail resize (drag the right edge to widen; snap to normal; drag
-  //      narrower to snap into the collapsed bar) ----------------------------
-  var _RAIL_NORMAL = 240;      // the "normal" snap width (matches CSS default)
-  var _RAIL_MIN = 160;         // expanded floor (~2/3 of normal) — narrower than this collapses
-  var _RAIL_MAX = 560;         // don't let the rail eat the whole viewport
-  var _RAIL_COLLAPSE_AT = 140; // drag below this (px from left edge) → collapse
-  var _RAIL_SNAP = 28;         // within this of normal → snap to exactly normal
+  // ---- Rail width (fixed) --------------------------------------------------
+  // The expanded sidebar is a FIXED width — it is not drag-resizable. Collapsing
+  // to the compact icon bar is the only size change, driven by the toggle in the
+  // Settings popover (_vivToggleRail). `_RAIL_NORMAL` is that one reasonable width.
+  var _RAIL_NORMAL = 240;      // fixed expanded width (matches the CSS --rail-w default)
 
   function _vivRailSavedWidth() {
-    var raw = null;
-    try { raw = localStorage.getItem('vivarium.rail-width'); } catch (e) {}
-    var w = parseInt(raw, 10);
-    if (!w || isNaN(w)) return _RAIL_NORMAL;
-    return Math.min(_RAIL_MAX, Math.max(_RAIL_MIN, w));
+    return _RAIL_NORMAL;       // always the fixed width — no persisted/dragged override
   }
   function _vivRailApplyWidth(rail, w) {
     rail.style.setProperty('--rail-w', w + 'px');
   }
-  function _vivRailResizeStart(ev) {
-    if (ev.button !== undefined && ev.button !== 0) return;   // left button only
-    ev.preventDefault();
-    var rail = document.getElementById('viv-rail');
-    if (!rail) return;
-    // CAPTURE the pointer on the handle so the drag keeps tracking (and ENDS on
-    // release) even while the pointer is over an iframe — the study porthole and
-    // native-viz iframes otherwise swallow the mousemove/mouseup, which left the
-    // rail "following the mouse after you let go" and unable to widen.
-    var handle = (ev.currentTarget && ev.currentTarget.setPointerCapture)
-      ? ev.currentTarget : document.getElementById('viv-rail-resize-handle');
-    var pointerId = (ev.pointerId != null) ? ev.pointerId : null;
-    try { if (handle && handle.setPointerCapture && pointerId != null) handle.setPointerCapture(pointerId); } catch (e) { /* unsupported */ }
-    rail.classList.add('viv-rail-resizing');
-    document.body.classList.add('viv-rail-resizing-active');
-    var railLeft = rail.getBoundingClientRect().left;
-    var lastW = _vivRailSavedWidth();
-
-    // mousemove fires far faster than the display refreshes; writing --rail-w on
-    // every event forces a synchronous reflow of the whole rail each time, which on
-    // a workspace with a large study list (e.g. sms-ecoli) makes the drag stutter.
-    // Coalesce to at most ONE style write per animation frame: mousemove only records
-    // the target state (cheap), and rAF applies it. lastW is tracked synchronously so
-    // the saved width on mouse-up is always the latest pointer position.
-    var _raf = 0, _pending = null;
-    function _flush() {
-      _raf = 0;
-      if (!_pending) return;
-      if (_pending.collapsed) { rail.classList.add('viv-rail-collapsed'); }
-      else { rail.classList.remove('viv-rail-collapsed'); _vivRailApplyWidth(rail, _pending.w); }
-    }
-    function _move(e) {
-      var raw = e.clientX - railLeft;         // desired width: left edge → pointer
-      // HYSTERESIS so the rail doesn't flicker at the threshold and has no dead
-      // zone: when collapsed, keep it collapsed until the pointer is pulled clearly
-      // OUT (past EXPAND_ABOVE); when expanded, keep it expanded until pushed
-      // clearly IN (below COLLAPSE_BELOW). The gap between the two is a stable hold
-      // band, so small jitter near the edge never toggles the state.
-      var EXPAND_ABOVE = 150, COLLAPSE_BELOW = 110;
-      var curCollapsed = rail.classList.contains('viv-rail-collapsed');
-      var collapsed = curCollapsed ? (raw < EXPAND_ABOVE) : (raw < COLLAPSE_BELOW);
-      if (collapsed) {
-        _pending = { collapsed: true };
-      } else {
-        var w = Math.min(_RAIL_MAX, Math.max(_RAIL_MIN, raw));
-        if (Math.abs(w - _RAIL_NORMAL) <= _RAIL_SNAP) w = _RAIL_NORMAL;  // snap to normal
-        lastW = w;
-        _pending = { collapsed: false, w: w };
-      }
-      if (!_raf) _raf = requestAnimationFrame(_flush);
-    }
-    var _ended = false;
-    function _up() {
-      if (_ended) return; _ended = true;
-      if (handle) {
-        handle.removeEventListener('pointermove', _move);
-        handle.removeEventListener('pointerup', _up);
-        handle.removeEventListener('pointercancel', _up);
-        try { if (handle.releasePointerCapture && pointerId != null) handle.releasePointerCapture(pointerId); } catch (e) { /* ignore */ }
-      }
-      document.removeEventListener('mousemove', _move);   // legacy fallback, if bound
-      document.removeEventListener('mouseup', _up);
-      if (_raf) { cancelAnimationFrame(_raf); _raf = 0; }
-      _flush();                               // apply the final pointer position now
-      rail.classList.remove('viv-rail-resizing');
-      document.body.classList.remove('viv-rail-resizing-active');
-      var collapsed = rail.classList.contains('viv-rail-collapsed');
-      try {
-        localStorage.setItem('vivarium.rail-collapsed', collapsed ? '1' : '0');
-        if (!collapsed) localStorage.setItem('vivarium.rail-width', String(lastW));
-      } catch (e) { /* private mode */ }
-      if (typeof _vivSyncRailToggleLabel === 'function') _vivSyncRailToggleLabel(collapsed);
-    }
-    // Prefer pointer events on the captured handle; fall back to document mouse
-    // events if pointer capture is unavailable.
-    if (handle && handle.setPointerCapture && pointerId != null) {
-      handle.addEventListener('pointermove', _move);
-      handle.addEventListener('pointerup', _up);
-      handle.addEventListener('pointercancel', _up);
-    } else {
-      document.addEventListener('mousemove', _move);
-      document.addEventListener('mouseup', _up);
-    }
-  }
-  window._vivRailResizeStart = _vivRailResizeStart;
-
-  function _vivRailResizeReset() {
-    var rail = document.getElementById('viv-rail');
-    if (!rail) return;
-    rail.classList.remove('viv-rail-collapsed');
-    _vivRailApplyWidth(rail, _RAIL_NORMAL);
-    try {
-      localStorage.setItem('vivarium.rail-collapsed', '0');
-      localStorage.setItem('vivarium.rail-width', String(_RAIL_NORMAL));
-    } catch (e) { /* private mode */ }
-    if (typeof _vivSyncRailToggleLabel === 'function') _vivSyncRailToggleLabel(false);
-  }
-  window._vivRailResizeReset = _vivRailResizeReset;
 
   // -------------------------------------------------------------------------
   // Vivarium left rail — Investigations grouping (V4)
@@ -10450,7 +10394,11 @@
     // behind the structured findings list, with no way to read the rest of it
     // (the bug this block fixes). So show the full claim headline first (when
     // authored), then the structured findings beneath it.
-    var claim = (s.claim || '').replace(/\s+/g, ' ').trim();
+    // Honesty gate (same rule as the collapsed card, via the shared helper): an
+    // unevidenced study's authored `claim:` is a prediction, not a finding, so it
+    // is withheld here too — with no claim and no findings[], the block below
+    // renders "pending evidence" ("future direction" when parked).
+    var claim = _studyHasEvidence(s) ? (s.claim || '').replace(/\s+/g, ' ').trim() : '';
     var H = '';
     if (q) H += '<div style="margin-top:4px"><span style="font-weight:700;color:#475569">Asks:</span> ' + _esc(q) + '</div>';
     H += '<div style="margin-top:12px;font-weight:700;color:#475569">Finds:</div>';
@@ -13354,9 +13302,13 @@
       var _qFull = (s.question || '').replace(/\s+/g, ' ').trim();
       var asks = _opts.asksFull ? _qFull : _qFull.split(/[.?]/)[0].trim();
       var findings = _asFindings(s.findings);
-      var claim = (s.claim ||
+      // Honesty gate: only an EVIDENCED study may headline its claim/finding under
+      // "Finds:". For a planned/proposed/running study the authored `claim:` is a
+      // prediction, so `claim` is left empty and the render below falls through to
+      // "pending evidence" (or "future direction" for a parked study).
+      var claim = _studyHasEvidence(s) ? (s.claim ||
         (findings[0] && (findings[0].summary || findings[0].statement || findings[0].id)) || ''
-      ).replace(/\s+/g, ' ').trim();
+      ).replace(/\s+/g, ' ').trim() : '';
       var moreN = findings.length > 1 ? findings.length - 1 : 0;
       // Shared line-clamp style — keeps every DAG card compact regardless of
       // how long its question/claim text is.
@@ -13445,6 +13397,7 @@
                        : (isParked ? 'Parked — a deliberately-deferred future direction, not pending work'
                                    : 'Verdict: pending — not yet concluded'),
                      'aig-verdict-pill', _pillCompact, 'verdict') +
+            (isCompleted ? _aigUpstreamIncompleteChip(s.upstream_incomplete, _pillCompact) : '') +
           '</span>' +
           '<span style="display:flex;align-items:center;gap:6px;flex:none">' +
             _tierPipsHtml(s) +

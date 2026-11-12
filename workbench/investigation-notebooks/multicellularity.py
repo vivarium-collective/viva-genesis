@@ -346,7 +346,7 @@ _save_viz('s01-formation', 'formation-persistence', _render_one('local:Formation
 #
 # | test | measures | passes if |
 # | --- | --- | --- |
-# | group-life-cycle-persists _(primary)_ |  | op >= value 0.5 |
+# | group-life-cycle-persists _(primary)_ | group_life_cycle_persistence | op >= value 0.5 |
 
 # ### Literature anchors
 #
@@ -558,37 +558,52 @@ _save_viz('s03-transport-limits', 'transport-size-optimum', _render_one('local:T
 #
 # **Hypothesis.** Varying aspect ratio, branch topology, packing and bond strength predicts toughness and propagule-size distributions; mechanics backends agree on the summary observables (C4).
 #
-# **Claim.** Cell geometry/mechanics (aspect ratio, topology, packing, bonds) sets collective toughness and propagule-size distributions, consistently across mechanics backends (C4) — provisional until cross-backend runs agree.
+# **Claim.** Cell adhesion (homotypic contact energy) sets collective toughness: a clonal CPM cluster under growth-driven stress stays one cohesive propagule at strong adhesion and fractures into multiple propagules at weak adhesion. UNPROVEN until the adhesion x seed sweep is graded; aspect ratio, branch topology and cross-backend agreement (C4) are not tested here.
 
 # ### Parameters
 #
 # | simulation | composite | steps | params |
 # | --- | --- | --- | --- |
-# | `baseline` | `viva_genesis.composites.cell_collective.cell_collective` | 0 | adhesion=0.8, fragmentation=0.2, predation_size_reward=0.02, transport_penalty=0.02 |
+# | `baseline` | `viva_genesis.composites.multicellularity_world.s04_morphomechanics` | 40 | adhesion=0.75, seed=1, grow_rate=2.0, divide_threshold=55.0, n_steps=40 |
+#
+# Declared parameter sets (`study.yaml` variants):
+#
+# - **adh0p0-s1** — `adhesion=0.0`, `seed=1`, `grow_rate=2.0`, `divide_threshold=55.0`, `n_steps=40`
+# - **adh0p0-s2** — `adhesion=0.0`, `seed=2`, `grow_rate=2.0`, `divide_threshold=55.0`, `n_steps=40`
+# - **adh0p0-s3** — `adhesion=0.0`, `seed=3`, `grow_rate=2.0`, `divide_threshold=55.0`, `n_steps=40`
+# - **adh0p3-s1** — `adhesion=0.3`, `seed=1`, `grow_rate=2.0`, `divide_threshold=55.0`, `n_steps=40`
+# - **adh0p3-s2** — `adhesion=0.3`, `seed=2`, `grow_rate=2.0`, `divide_threshold=55.0`, `n_steps=40`
+# - **adh0p3-s3** — `adhesion=0.3`, `seed=3`, `grow_rate=2.0`, `divide_threshold=55.0`, `n_steps=40`
+# - **adh0p5-s1** — `adhesion=0.5`, `seed=1`, `grow_rate=2.0`, `divide_threshold=55.0`, `n_steps=40`
+# - **adh0p5-s2** — `adhesion=0.5`, `seed=2`, `grow_rate=2.0`, `divide_threshold=55.0`, `n_steps=40`
+# - **adh0p5-s3** — `adhesion=0.5`, `seed=3`, `grow_rate=2.0`, `divide_threshold=55.0`, `n_steps=40`
+# - **adh0p62-s1** — `adhesion=0.62`, `seed=1`, `grow_rate=2.0`, `divide_threshold=55.0`, `n_steps=40`
+# - **adh0p62-s2** — `adhesion=0.62`, `seed=2`, `grow_rate=2.0`, `divide_threshold=55.0`, `n_steps=40`
+# - **adh0p62-s3** — `adhesion=0.62`, `seed=3`, `grow_rate=2.0`, `divide_threshold=55.0`, `n_steps=40`
+# - **adh0p75-s2** — `adhesion=0.75`, `seed=2`, `grow_rate=2.0`, `divide_threshold=55.0`, `n_steps=40`
+# - **adh0p75-s3** — `adhesion=0.75`, `seed=3`, `grow_rate=2.0`, `divide_threshold=55.0`, `n_steps=40`
+# - **adh0p9-s1** — `adhesion=0.9`, `seed=1`, `grow_rate=2.0`, `divide_threshold=55.0`, `n_steps=40`
+# - **adh0p9-s2** — `adhesion=0.9`, `seed=2`, `grow_rate=2.0`, `divide_threshold=55.0`, `n_steps=40`
+# - **adh0p9-s3** — `adhesion=0.9`, `seed=3`, `grow_rate=2.0`, `divide_threshold=55.0`, `n_steps=40`
+# - **adh0p95-s1** — `adhesion=0.95`, `seed=1`, `grow_rate=2.0`, `divide_threshold=55.0`, `n_steps=40`
+# - **adh0p95-s2** — `adhesion=0.95`, `seed=2`, `grow_rate=2.0`, `divide_threshold=55.0`, `n_steps=40`
+# - **adh0p95-s3** — `adhesion=0.95`, `seed=3`, `grow_rate=2.0`, `divide_threshold=55.0`, `n_steps=40`
 
 # ### The model & its parameters
 #
 # Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
 
-# **The model — `viva_genesis.composites.cell_collective.cell_collective`**
+# **The model — `viva_genesis.composites.multicellularity_world.s04_morphomechanics`**
 #
-# Multicellularity first-cycle model: mean-field unicell/group population under adhesion, size-dependent predation/settling ecology, and oxygen-limited growth.
+# Multicellularity S04 (morphomechanics). A clonal cell cluster grows and divides on the Rust CPM engine; the adhesion knob sets homotypic contact energy. Strong adhesion keeps the cluster one cohesive body; weak adhesion lets growth fracture it into propagules. Emits n_propagules and largest_cluster_fraction.
 
 # === Parameters — edit any value, then re-run from the Run cell below ===
 # Each entry is the composite's current default; the comment explains it.
-ov_viva_genesis_composites_cell_collective_cell_collective = {
-    'adhesion'                : 0.8,   # clonal incomplete separation / bond drive
-    'fragmentation'           : 0.2,   # group breakup rate
-    'division_rate'           : 0.5,   # per-cell division rate
-    'base_predation'          : 0.4,   # size-independent death rate
-    'predation_size_reward'   : 0.8,   # ecology: group size reduces predation
-    'predation_size_threshold': 3.0,   # size at which protection engages
-    'transport_penalty'       : 0.8,   # oxygen-limited growth penalty for large groups
-    'oxygen_size_limit'       : 6.0,   # size above which interior starves
-    'size_scale'              : 4.0,   # adhesion/fragmentation -> mean group size
-    'relax_rate'              : 0.4,   # relaxation rate toward equilibrium
-    'sharpness'               : 2.0,   # sigmoid sharpness k
-    'seed'                    : 1,   # random seed
+ov_viva_genesis_composites_multicellularity_world_s04_morphomechanics = {
+    'adhesion'        : 0.8,   # cell-cell adhesion in [0,1]; higher = lower homotypic J = cohesive
+    'grow_rate'       : 2.0,   # target-volume growth per update per cell
+    'divide_threshold': 55.0,   # volume at which a cell divides
+    'seed'            : 1,   # Potts RNG seed (vary for replicate runs)
 }
 
 # ### Run
@@ -604,22 +619,31 @@ RUNS_DB = str(STUDY_DIR / "runs.db")
 # This study has no *recorded* runs yet. RERUN builds its declared
 # composite(s) live and runs them; a composite whose module processes
 # are not implemented yet reports the error instead of crashing.
-STEPS_baseline = 100
+STEPS_baseline = 40
 INTERVAL_baseline = 1.0
 
 if RERUN:
     from process_bigraph import Composite
     try:
         with quiet():  # keep per-step stdout out of the notebook
-            _ov = ov_viva_genesis_composites_cell_collective_cell_collective if 'ov_viva_genesis_composites_cell_collective_cell_collective' in dir() else None  # edits from the panel cell, if any
-            spec_viva_genesis_composites_cell_collective_cell_collective = materialize_composite('viva_genesis.composites.cell_collective.cell_collective', _ov)
-            _comp = Composite({'state': spec_viva_genesis_composites_cell_collective_cell_collective['state']}, core=core)
+            _ov = ov_viva_genesis_composites_multicellularity_world_s04_morphomechanics if 'ov_viva_genesis_composites_multicellularity_world_s04_morphomechanics' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_multicellularity_world_s04_morphomechanics = materialize_composite('viva_genesis.composites.multicellularity_world.s04_morphomechanics', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_multicellularity_world_s04_morphomechanics['state']}, core=core)
             _comp.run(STEPS_baseline)
-        print('ran', 'baseline', f'(viva_genesis.composites.cell_collective.cell_collective) for', STEPS_baseline, 'steps')
+        print('ran', 'baseline', f'(viva_genesis.composites.multicellularity_world.s04_morphomechanics) for', STEPS_baseline, 'steps')
     except Exception as _e:
         print(f"baseline not runnable yet: {type(_e).__name__}: {_e}")
 else:
     print("RERUN=False — not re-simulating.")
+
+# ### Visualizations
+#
+# _Results are shown by the figures below, produced by the run above._
+
+# **cluster-fracture**
+
+# cluster-fracture
+_save_viz('s04-morphomechanics', 'cluster-fracture', _render_one('local:ClusterFractureViz', {'title': 'Weak adhesion lets growth snap a cluster into propagules', 'weak_adhesion': 0.0, 'strong_adhesion': 0.95, 'seed': 1, 'n_steps': 40}, RUNS_DB, STUDY_YAML))
 
 # ### Acceptance criteria
 #
