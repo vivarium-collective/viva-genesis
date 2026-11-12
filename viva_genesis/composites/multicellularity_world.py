@@ -13,6 +13,8 @@ from __future__ import annotations
 
 from process_bigraph.composite_generator import composite_generator
 
+from viva_basic_processes.intervention import register_intervention
+
 from ..core import build_core
 
 CPM_ADDR = "local:!viva_cpm.processes.cpm_process.CPMProcess"
@@ -116,7 +118,7 @@ def world_process_config(*, adhesion, seed_volume=30.0, grow_rate=2.0, divide_th
                  "description": "Potts RNG seed (vary for replicate runs)"},
     },
     default_n_steps=40,
-    core_extensions=[build_core],
+    core_extensions=[build_core, register_intervention],
     emitters=[{"address": "local:SQLiteEmitter", "paths": _EMIT_PATHS}],
 )
 def s04_morphomechanics(core=None, *, adhesion=0.8, grow_rate=2.0, divide_threshold=55.0, seed=1):
@@ -171,6 +173,7 @@ LIGAND_SCALE = 1.0
 STEMNESS_THRESHOLD = 0.4
 GROW_RATE = 0.5
 GROWTH_O2_THRESHOLD = 0.7
+RANDOM_FRACTION = 0.4   # ~ soma fraction the oxygen arm produces at the 40-update window
 
 
 def s05_world_spec(*, dims=S05_DIMS, grid=S05_GRID, side=S05_CELL_SIDE, seed=1,
@@ -210,7 +213,7 @@ def s05_world_spec(*, dims=S05_DIMS, grid=S05_GRID, side=S05_CELL_SIDE, seed=1,
     }
 
 
-def _o2_fate_wiring(state: dict, cell_ids, *, ligand_scale, threshold) -> None:
+def _o2_fate_wiring(state: dict, cell_ids, *, ligand_scale, threshold, **_kw) -> None:
     """Per-cell SBML stemness + Boolean fate subcells (forked from viva-cpm crypt)."""
     for cid in cell_ids:
         state[f"sbml_{cid}"] = {
@@ -233,8 +236,34 @@ def _o2_fate_wiring(state: dict, cell_ids, *, ligand_scale, threshold) -> None:
         }
 
 
-# fate_mode dispatch: Task 3 adds "none" / "random" / "clamped" entries.
-_FATE_MODES = {"oxygen": _o2_fate_wiring}
+def _none_fate_wiring(state: dict, cell_ids, **_kw) -> None:
+    """Null: no subcells; every cell stays germ (no division of labor)."""
+
+
+def _random_fate_wiring(state: dict, cell_ids, *, seed=1, random_fraction=RANDOM_FRACTION,
+                        **_kw) -> None:
+    """Null: no O2-keyed subcells; a random subset is seeded as soma at build time."""
+    import random
+    cells = state["cpm"]["config"]["spec"]["cells"]
+    n = int(round(float(random_fraction) * len(cells)))
+    for idx in random.Random(int(seed)).sample(range(len(cells)), n):
+        cells[idx]["type"] = SOMA
+
+
+def _clamped_fate_wiring(state: dict, cell_ids, *, ligand_scale, threshold, **_kw) -> None:
+    """Control: full oxygen machinery, but stemness S is clamped to 1.0 so no cell differentiates."""
+    from viva_basic_processes.intervention import intervention_node
+    _o2_fate_wiring(state, cell_ids, ligand_scale=ligand_scale, threshold=threshold)
+    for cid in cell_ids:
+        # The SBML step *overwrites* cell_state while the Intervention emits an additive delta, so
+        # both writing one store gives a 0/1 flip-flop. Divert the free ODE trajectory to its own
+        # store; the Boolean gate then reads only the clamped cell_state (held at 1.0).
+        state[f"sbml_{cid}"]["outputs"]["state"] = ["cell_state_free", str(cid)]
+        state[f"clamp_{cid}"] = intervention_node(["cell_state", str(cid)], mode="set", value=1.0)
+
+
+_FATE_MODES = {"oxygen": _o2_fate_wiring, "none": _none_fate_wiring,
+               "random": _random_fate_wiring, "clamped": _clamped_fate_wiring}
 
 
 @composite_generator(
@@ -250,7 +279,9 @@ _FATE_MODES = {"oxygen": _o2_fate_wiring}
     ),
     parameters={
         "fate_mode": {"type": "string", "default": "oxygen",
-                      "description": "oxygen | none | random | clamped (only oxygen implemented here)"},
+                      "description": "oxygen | none | random | clamped"},
+        "random_fraction": {"type": "number", "default": RANDOM_FRACTION,
+                            "description": "random arm: fraction of cells seeded as soma"},
         "o2_source": {"type": "number", "default": O2_SOURCE, "description": "medium O2 source rate"},
         "consume_germ": {"type": "number", "default": O2_CONSUME_GERM, "description": "germ O2 draw"},
         "consume_soma": {"type": "number", "default": O2_CONSUME_SOMA, "description": "soma O2 draw"},
@@ -259,12 +290,12 @@ _FATE_MODES = {"oxygen": _o2_fate_wiring}
         "seed": {"type": "integer", "default": 1, "description": "Potts RNG seed"},
     },
     default_n_steps=40,
-    core_extensions=[build_core],
+    core_extensions=[build_core, register_intervention],
     emitters=[{"address": "local:SQLiteEmitter", "paths": _EMIT_PATHS}],
 )
 def s05_differentiation(core=None, *, fate_mode="oxygen", o2_source=O2_SOURCE,
                         consume_germ=O2_CONSUME_GERM, consume_soma=O2_CONSUME_SOMA,
-                        grow_rate=GROW_RATE, seed=1):
+                        grow_rate=GROW_RATE, seed=1, random_fraction=RANDOM_FRACTION):
     if fate_mode not in _FATE_MODES:
         raise ValueError(f"fate_mode {fate_mode!r} not implemented; have {sorted(_FATE_MODES)}")
     spec = s05_world_spec(seed=seed, o2_source=o2_source, consume_germ=consume_germ,
@@ -296,5 +327,6 @@ def s05_differentiation(core=None, *, fate_mode="oxygen", o2_source=O2_SOURCE,
                         "fate_counts": ["fate_counts"], "viable_biomass": ["viable_biomass"]},
         },
     }
-    _FATE_MODES[fate_mode](state, cell_ids, ligand_scale=LIGAND_SCALE, threshold=STEMNESS_THRESHOLD)
+    _FATE_MODES[fate_mode](state, cell_ids, ligand_scale=LIGAND_SCALE, threshold=STEMNESS_THRESHOLD,
+                           seed=seed, random_fraction=random_fraction)
     return state

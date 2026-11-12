@@ -91,3 +91,53 @@ def test_default_n_steps():
     import viva_genesis  # noqa: F401
     from process_bigraph import composite_spec
     assert composite_spec.get(GEN_ID).default_n_steps == N_UPDATES
+
+
+def _run_mode(**kw):
+    comp = _build(**kw)
+    history = []
+    for _ in range(N_UPDATES):
+        comp.run(1)
+        history.append(dict(comp.state["fate_counts"]))
+    return comp, history
+
+
+def _soma_fraction(comp):
+    types = comp.state["types"]
+    return sum(1 for c in IDS if types[c] == 2) / len(IDS)
+
+
+def test_no_fate_single_type():
+    comp, history = _run_mode(fate_mode="none")
+    for h in history:
+        assert [k for k, v in h.items() if k != "0" and v > 0] == ["1"]
+        assert h["1"] == len(IDS)
+    assert _soma_fraction(comp) == 0.0
+
+
+def test_random_fate_matches_oxygen_fraction():
+    ox, _ = _run_mode(fate_mode="oxygen")
+    rnd, _ = _run_mode(fate_mode="random")
+    f_ox, f_rnd = _soma_fraction(ox), _soma_fraction(rnd)
+    assert f_ox > 0 and abs(f_rnd - f_ox) <= 0.15
+    # oxygen soma sit at lower O2 than germ; random soma are not O2-keyed
+    def gap(comp):
+        t, o2 = comp.state["types"], comp.state["field_at_cell"]
+        soma = [o2[str(c)] for c in IDS if t[c] == 2]
+        germ = [o2[str(c)] for c in IDS if t[c] == 1]
+        return _mean(germ) - _mean(soma)
+    assert gap(ox) > 0
+    assert gap(rnd) < gap(ox) / 2
+    # soma set is seed-dependent (random), not a fixed O2 pattern
+    other, _ = _run_mode(fate_mode="random", seed=2)
+    soma = lambda comp: {c for c in IDS if comp.state["types"][c] == 2}
+    assert soma(other) != soma(rnd)
+
+
+def test_clamped_stays_undifferentiated():
+    comp, history = _run_mode(fate_mode="clamped")
+    o2 = comp.state["field_at_cell"]
+    assert _mean(o2[str(c)] for c in INTERIOR) < _mean(o2[str(c)] for c in RIM)
+    for h in history:
+        assert h.get("2", 0) == 0
+    assert history[-1]["1"] == len(IDS)
