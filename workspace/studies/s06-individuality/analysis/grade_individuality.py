@@ -51,9 +51,31 @@ def grade(db_path=None):
     return {'verdict': primary, 'secondary': secondary, 'arms': arms, 'detail': detail}
 
 
+def write_outcomes(r, study_yaml=None):
+    """Author the primary behavior-test outcome into study.yaml runs (mirrors the S05
+    grader). The out-of-sample primary criterion result becomes the test PASS/FAIL so the
+    verdict is backed by a recorded outcome, not a SKIP."""
+    from ruamel.yaml import YAML
+    TESTNAME = 'selection-drives-individuality'
+    res = 'PASS' if r['verdict'] else 'FAIL'
+    margin = round(r['arms'][('test', 'clonal', True)]['response']
+                   - r['arms'][('test', 'clonal', False)]['response'], 6)
+    y = YAML(); y.preserve_quotes = True; y.width = 4096
+    sy = Path(study_yaml or SD / 'study.yaml')
+    d = y.load(open(sy))
+    for run in d.get('runs', []) or []:
+        run.pop('computed_outcomes', None)
+        run['outcomes'] = {TESTNAME: {'result': res, 'measured_value': margin,
+                                      'operator': 'cross_run', 'evaluated_by': 'code',
+                                      'detail': r['detail']}}
+    y.dump(d, open(sy, 'w'))
+    return res, margin
+
+
 if __name__ == '__main__':
     r = grade()
     print(r['verdict'], r['secondary'])
     print(r['detail'])
     for k, v in r['arms'].items():
         print(k, {a: (round(b, 4) if isinstance(b, float) else b) for a, b in v.items()})
+    print('wrote outcomes:', *write_outcomes(r))

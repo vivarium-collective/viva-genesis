@@ -2,15 +2,14 @@
 import pytest
 
 pytest.importorskip("viva_cpm")
-from viva_cpm import metrics
-from viva_cpm.schema import load_world
 
-from viva_genesis.composites.multicellularity_world import (
-    J_MEDIUM, group_partition, homotypic_j,
-)
+from viva_genesis.composites.multicellularity_world import group_partition
 
 
 def _world():
+    from viva_cpm.schema import load_world
+    from viva_genesis.composites.multicellularity_world import J_MEDIUM, homotypic_j
+
     def cell(t, x0, x1):
         return {"type": t, "target_volume": 30.0, "lambda_volume": 2.0,
                 "target_surface": 20.0, "lambda_surface": 0.2,
@@ -36,6 +35,7 @@ def _world():
 
 
 def test_group_partition_matches_metrics_and_counts():
+    from viva_cpm import metrics
     w = _world()
     before = list(w.snapshot())
     p = group_partition(w, [1, 2])
