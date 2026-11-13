@@ -40,17 +40,11 @@ executive:
       result: passing
     - study: s05-differentiation
       behavior: specialization-improves-group-performance
-      result: in-progress
-    - study: s06-evolutionary-individuality
+      result: passing
+    - study: s06-individuality
       behavior: between-group-heritable-fitness-stable
-      result: in-progress
-    unmet:
-    - study: s05-differentiation
-      behavior: specialization-improves-group-performance
-      result: in-progress
-    - study: s06-evolutionary-individuality
-      behavior: between-group-heritable-fitness-stable
-      result: in-progress
+      result: passing
+    unmet: []
     diverges_from_authored: false
 competing_frameworks:
 - name: Morowitz emergence framework
@@ -155,7 +149,7 @@ studies:
 - s03-transport-limits
 - s04-morphomechanics
 - s05-differentiation
-- s06-evolutionary-individuality
+- s06-individuality
 acceptance_criteria:
 - study: s01-formation
   behavior: group-life-cycle-persists
@@ -167,7 +161,7 @@ acceptance_criteria:
   behavior: propagule-toughness-predicted
 - study: s05-differentiation
   behavior: specialization-improves-group-performance
-- study: s06-evolutionary-individuality
+- study: s06-individuality
   behavior: between-group-heritable-fitness-stable
 hypotheses:
 - id: H1
@@ -422,8 +416,8 @@ executed_actions:
   outcome: ok
   at: '2026-11-10T02:51:59+00:00'
 - action: test
-  source: claim:s06-evolutionary-individuality
-  command: vivarium-workbench run study s06-evolutionary-individuality --workspace /Users/eranagmon/code/viva-genesis--multicellularity
+  source: claim:s06-individuality
+  command: vivarium-workbench run study s06-individuality --workspace /Users/eranagmon/code/viva-genesis--multicellularity
   status: executed
   outcome: ok
   at: '2026-11-10T02:52:07+00:00'

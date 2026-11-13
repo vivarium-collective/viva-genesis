@@ -78,6 +78,18 @@ imports:
       Martini 3 coarse-grained MD engine (OpenMM + martini_openmm) — the
       OpenMMMartiniProcess bilayer-assembly run for og-31 (membrane extra; the
       "makes a membrane" half of Gate C).
+  viva-cpm:
+    source: https://github.com/vivarium-collective/viva-cpm.git
+    ref: main
+    mode: reference
+    package: viva_cpm
+    description: Rust Cellular Potts engine backing the multicellularity S04/S05 spatial worlds.
+  viva-basic-processes:
+    source: https://github.com/vivarium-collective/viva-basic-processes.git
+    ref: main
+    mode: reference
+    package: viva_basic_processes
+    description: Intervention process used by the multicellularity composites.
 
 # Expert documents — source dossiers that ground the campaign. Rendered on the
 # Resources page (workspace-inputs) and searchable via the expert-doc tools.
