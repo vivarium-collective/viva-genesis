@@ -95,6 +95,10 @@ data_inputs: []
 runs:
 - name: viva_genesis.composites.cell_collective.cell_collective__1793567204__5c2568
   status: completed
+  canonical: true  # baseline (adhesion + ecology) is the condition the gate's claim is about;
+  # the adhesion-only run below is the matched-null control (expected FAIL on this same gate).
+  # Marking the baseline canonical makes the cross-run outcome union apply it last, so the
+  # primary gate reads the baseline PASS rather than the control's expected FAIL.
   timestamp: 1793567204.508229
   emitter:
     kind: in-process
