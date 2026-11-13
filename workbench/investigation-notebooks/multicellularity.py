@@ -877,7 +877,7 @@ _save_viz('s06-individuality', 'individuality', _render_one('local:Individuality
 #
 # | test | measures | passes if |
 # | --- | --- | --- |
-# | selection-drives-individuality _(primary)_ |  |  |
+# | between-group-heritable-fitness-stable _(primary)_ |  |  |
 
 # ## Open decisions
 # - Which test system anchors the first cycle — snowflake yeast (settling) or predator-selected Chlamydomonas?
