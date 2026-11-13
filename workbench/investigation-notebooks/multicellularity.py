@@ -667,37 +667,58 @@ _save_viz('s04-morphomechanics', 'cluster-fracture', _render_one('local:ClusterF
 #
 # **Hypothesis.** Metabolite exchange plus inducible cell fate yields specialization that improves out-of-sample group performance beyond a no-fate and random-fate null (C5).
 #
-# **Claim.** Gradient-induced specialization can improve out-of-sample group performance beyond non-regulated nulls (C5) — provisional until a no-fate/random-fate null is beaten.
+# **Claim.** In a 2D CPM world with an O2 gradient, O2-keyed germ/soma specialization (fixed a-priori stemness threshold) improves net viable growth out-of-sample on held-out env B (o2_source 0.025): decisively over a random-fate null and modestly (~5%) over a no-fate / clamped-undifferentiated null, in a moderate O2 regime. The benefit vanishes when O2 is plentiful and degrades when O2 is very scarce; transient 40-update window, one CPM backend.
 
 # ### Parameters
 #
 # | simulation | composite | steps | params |
 # | --- | --- | --- | --- |
-# | `baseline` | `viva_genesis.composites.cell_collective.cell_collective` | 0 | adhesion=0.8, fragmentation=0.2, predation_size_reward=0.02, transport_penalty=0.02 |
+# | `baseline` | `viva_genesis.composites.multicellularity_world.s05_differentiation` | 40 | fate_mode=oxygen, o2_source=0.02, seed=1, n_steps=40 |
+#
+# Declared parameter sets (`study.yaml` variants):
+#
+# - **oxygen-A-s2** — `fate_mode=oxygen`, `o2_source=0.02`, `seed=2`, `n_steps=40`
+# - **oxygen-A-s3** — `fate_mode=oxygen`, `o2_source=0.02`, `seed=3`, `n_steps=40`
+# - **none-A-s1** — `fate_mode=none`, `o2_source=0.02`, `seed=1`, `n_steps=40`
+# - **none-A-s2** — `fate_mode=none`, `o2_source=0.02`, `seed=2`, `n_steps=40`
+# - **none-A-s3** — `fate_mode=none`, `o2_source=0.02`, `seed=3`, `n_steps=40`
+# - **random-A-s1** — `fate_mode=random`, `o2_source=0.02`, `seed=1`, `n_steps=40`
+# - **random-A-s2** — `fate_mode=random`, `o2_source=0.02`, `seed=2`, `n_steps=40`
+# - **random-A-s3** — `fate_mode=random`, `o2_source=0.02`, `seed=3`, `n_steps=40`
+# - **clamped-A-s1** — `fate_mode=clamped`, `o2_source=0.02`, `seed=1`, `n_steps=40`
+# - **clamped-A-s2** — `fate_mode=clamped`, `o2_source=0.02`, `seed=2`, `n_steps=40`
+# - **clamped-A-s3** — `fate_mode=clamped`, `o2_source=0.02`, `seed=3`, `n_steps=40`
+# - **oxygen-B-s1** — `fate_mode=oxygen`, `o2_source=0.025`, `seed=1`, `n_steps=40`
+# - **oxygen-B-s2** — `fate_mode=oxygen`, `o2_source=0.025`, `seed=2`, `n_steps=40`
+# - **oxygen-B-s3** — `fate_mode=oxygen`, `o2_source=0.025`, `seed=3`, `n_steps=40`
+# - **none-B-s1** — `fate_mode=none`, `o2_source=0.025`, `seed=1`, `n_steps=40`
+# - **none-B-s2** — `fate_mode=none`, `o2_source=0.025`, `seed=2`, `n_steps=40`
+# - **none-B-s3** — `fate_mode=none`, `o2_source=0.025`, `seed=3`, `n_steps=40`
+# - **random-B-s1** — `fate_mode=random`, `o2_source=0.025`, `seed=1`, `n_steps=40`
+# - **random-B-s2** — `fate_mode=random`, `o2_source=0.025`, `seed=2`, `n_steps=40`
+# - **random-B-s3** — `fate_mode=random`, `o2_source=0.025`, `seed=3`, `n_steps=40`
+# - **clamped-B-s1** — `fate_mode=clamped`, `o2_source=0.025`, `seed=1`, `n_steps=40`
+# - **clamped-B-s2** — `fate_mode=clamped`, `o2_source=0.025`, `seed=2`, `n_steps=40`
+# - **clamped-B-s3** — `fate_mode=clamped`, `o2_source=0.025`, `seed=3`, `n_steps=40`
 
 # ### The model & its parameters
 #
 # Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
 
-# **The model — `viva_genesis.composites.cell_collective.cell_collective`**
+# **The model — `viva_genesis.composites.multicellularity_world.s05_differentiation`**
 #
-# Multicellularity first-cycle model: mean-field unicell/group population under adhesion, size-dependent predation/settling ecology, and oxygen-limited growth.
+# Multicellularity S05 (differentiation). A fixed 5x5 patch of germ cells consumes O2 that diffuses in from the medium; interior cells go hypoxic, their stemness ODE decays and they differentiate to soma (type 2), which draws less O2. Germ cells grow only where local O2 is above a threshold. Emits fate_counts and viable_biomass. TRANSIENT/quasi-stable gradient: the O2 profile relaxes during the first updates; readouts are taken at the pinned window.
 
 # === Parameters — edit any value, then re-run from the Run cell below ===
 # Each entry is the composite's current default; the comment explains it.
-ov_viva_genesis_composites_cell_collective_cell_collective = {
-    'adhesion'                : 0.8,   # clonal incomplete separation / bond drive
-    'fragmentation'           : 0.2,   # group breakup rate
-    'division_rate'           : 0.5,   # per-cell division rate
-    'base_predation'          : 0.4,   # size-independent death rate
-    'predation_size_reward'   : 0.8,   # ecology: group size reduces predation
-    'predation_size_threshold': 3.0,   # size at which protection engages
-    'transport_penalty'       : 0.8,   # oxygen-limited growth penalty for large groups
-    'oxygen_size_limit'       : 6.0,   # size above which interior starves
-    'size_scale'              : 4.0,   # adhesion/fragmentation -> mean group size
-    'relax_rate'              : 0.4,   # relaxation rate toward equilibrium
-    'sharpness'               : 2.0,   # sigmoid sharpness k
-    'seed'                    : 1,   # random seed
+ov_viva_genesis_composites_multicellularity_world_s05_differentiation = {
+    'fate_mode'      : 'oxygen',   # oxygen | none | random | clamped
+    'random_fraction': 0.4,   # random arm: fraction of cells seeded as soma
+    'o2_source'      : 0.02,   # medium O2 source rate
+    'consume_germ'   : 0.01,   # germ O2 draw
+    'consume_soma'   : 0.002,   # soma O2 draw
+    'grow_rate'      : 0.5,   # germ target-volume growth per update where O2 >= threshold
+    'seed'           : 1,   # Potts RNG seed
 }
 
 # ### Run
@@ -713,22 +734,31 @@ RUNS_DB = str(STUDY_DIR / "runs.db")
 # This study has no *recorded* runs yet. RERUN builds its declared
 # composite(s) live and runs them; a composite whose module processes
 # are not implemented yet reports the error instead of crashing.
-STEPS_baseline = 100
+STEPS_baseline = 40
 INTERVAL_baseline = 1.0
 
 if RERUN:
     from process_bigraph import Composite
     try:
         with quiet():  # keep per-step stdout out of the notebook
-            _ov = ov_viva_genesis_composites_cell_collective_cell_collective if 'ov_viva_genesis_composites_cell_collective_cell_collective' in dir() else None  # edits from the panel cell, if any
-            spec_viva_genesis_composites_cell_collective_cell_collective = materialize_composite('viva_genesis.composites.cell_collective.cell_collective', _ov)
-            _comp = Composite({'state': spec_viva_genesis_composites_cell_collective_cell_collective['state']}, core=core)
+            _ov = ov_viva_genesis_composites_multicellularity_world_s05_differentiation if 'ov_viva_genesis_composites_multicellularity_world_s05_differentiation' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_multicellularity_world_s05_differentiation = materialize_composite('viva_genesis.composites.multicellularity_world.s05_differentiation', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_multicellularity_world_s05_differentiation['state']}, core=core)
             _comp.run(STEPS_baseline)
-        print('ran', 'baseline', f'(viva_genesis.composites.cell_collective.cell_collective) for', STEPS_baseline, 'steps')
+        print('ran', 'baseline', f'(viva_genesis.composites.multicellularity_world.s05_differentiation) for', STEPS_baseline, 'steps')
     except Exception as _e:
         print(f"baseline not runnable yet: {type(_e).__name__}: {_e}")
 else:
     print("RERUN=False — not re-simulating.")
+
+# ### Visualizations
+#
+# _Results are shown by the figures below, produced by the run above._
+
+# **germ-soma**
+
+# germ-soma
+_save_viz('s05-differentiation', 'germ-soma', _render_one('local:DifferentiationViz', {'title': 'Hypoxic interiors differentiate to soma; O2-gated fate beats its nulls out of sample', 'n_steps': 40}, RUNS_DB, STUDY_YAML))
 
 # ### Acceptance criteria
 #
@@ -745,51 +775,69 @@ else:
 # |  |  | Kirk 2005, BioEssays | proposed |
 # |  |  | Grosberg & Strathmann 2007, Annu Rev Ecol Evol Syst | proposed |
 
-# ## Study: Evolutionary individuality (`s06-evolutionary-individuality`)
+# ## Study: Evolutionary individuality (`s06-individuality`)
 #
-# **Question.** When do reproduction, heritability and conflict suppression shift evolutionary adaptation to the collective level? (Q5)
+# **Question.** Does generational group selection on a heritable adhesion trait produce a response that requires clonal group structure (evolutionary individuality)? (Q5)
 #
-# **Hypothesis.** Single-cell bottlenecks and multicellular propagules maintain heritable between-group fitness gains across generations better than mixed-genotype groups with cheating (C2, C6).
+# **Hypothesis.** Group-level selection on adhesion yields a heritable multi-generation response in clonal groups that vanishes without selection (drift null) and is weakened when groups are mixed (non-clonal).
 #
-# **Claim.** Single-cell bottlenecks / multicellular propagules sustain heritable between-group fitness better than mixed-genotype groups with cheating (C2, C6) — provisional until multigenerational multilevel-selection runs.
+# **Claim.** Clonal group-level selection on a heritable adhesion set-point produces a multi-generation evolutionary response: seed-mean mean-adhesion rises +0.22 on held-out seeds 4-6 (+0.32 on training seeds 1-3) over 6 generations, exceeding the selection-off drift null and reaching the highest group cohesion (toughness ~0.93). Clonality is required for full trait transmission (heritability 1.0 clonal vs 0.5 mixed) and the mixed-founder response is attenuated (+0.14 held-out). QUALIFIED: the clean selection-vs-drift margin is on training seeds (+0.33 over a ~0 null); on held-out seeds the drift null itself drifts up ~+0.10 (boundary reflection of the lower-bounded [0,0.6] init), narrowing the held-out margin to +0.12. Heritability is structural (fixed by the clonal/mixed encoding), not emergent; the emergent result is the response. within_group is ~0 in every arm, so non-clonal founding collapses heritability by trait dilution, not active within-group conflict.
 
 # ### Parameters
 #
 # | simulation | composite | steps | params |
 # | --- | --- | --- | --- |
-# | `baseline` | `viva_genesis.composites.cell_collective.cell_collective` | 0 | adhesion=0.8, fragmentation=0.2, predation_size_reward=0.02, transport_penalty=0.02 |
+# | `baseline` | `viva_genesis.composites.multicellularity_world.s06_individuality` | 6 | clonality=clonal, selection=True, generations=6, seed=1, n_steps=6 |
+#
+# Declared parameter sets (`study.yaml` variants):
+#
+# - **clonal-drift-s1** — `clonality=clonal`, `selection=False`, `generations=6`, `seed=1`, `n_steps=6`
+# - **mixed-sel-s1** — `clonality=mixed`, `selection=True`, `generations=6`, `seed=1`, `n_steps=6`
+# - **mixed-drift-s1** — `clonality=mixed`, `selection=False`, `generations=6`, `seed=1`, `n_steps=6`
+# - **clonal-sel-s2** — `clonality=clonal`, `selection=True`, `generations=6`, `seed=2`, `n_steps=6`
+# - **clonal-drift-s2** — `clonality=clonal`, `selection=False`, `generations=6`, `seed=2`, `n_steps=6`
+# - **mixed-sel-s2** — `clonality=mixed`, `selection=True`, `generations=6`, `seed=2`, `n_steps=6`
+# - **mixed-drift-s2** — `clonality=mixed`, `selection=False`, `generations=6`, `seed=2`, `n_steps=6`
+# - **clonal-sel-s3** — `clonality=clonal`, `selection=True`, `generations=6`, `seed=3`, `n_steps=6`
+# - **clonal-drift-s3** — `clonality=clonal`, `selection=False`, `generations=6`, `seed=3`, `n_steps=6`
+# - **mixed-sel-s3** — `clonality=mixed`, `selection=True`, `generations=6`, `seed=3`, `n_steps=6`
+# - **mixed-drift-s3** — `clonality=mixed`, `selection=False`, `generations=6`, `seed=3`, `n_steps=6`
+# - **clonal-sel-s4** — `clonality=clonal`, `selection=True`, `generations=6`, `seed=4`, `n_steps=6`
+# - **clonal-drift-s4** — `clonality=clonal`, `selection=False`, `generations=6`, `seed=4`, `n_steps=6`
+# - **mixed-sel-s4** — `clonality=mixed`, `selection=True`, `generations=6`, `seed=4`, `n_steps=6`
+# - **mixed-drift-s4** — `clonality=mixed`, `selection=False`, `generations=6`, `seed=4`, `n_steps=6`
+# - **clonal-sel-s5** — `clonality=clonal`, `selection=True`, `generations=6`, `seed=5`, `n_steps=6`
+# - **clonal-drift-s5** — `clonality=clonal`, `selection=False`, `generations=6`, `seed=5`, `n_steps=6`
+# - **mixed-sel-s5** — `clonality=mixed`, `selection=True`, `generations=6`, `seed=5`, `n_steps=6`
+# - **mixed-drift-s5** — `clonality=mixed`, `selection=False`, `generations=6`, `seed=5`, `n_steps=6`
+# - **clonal-sel-s6** — `clonality=clonal`, `selection=True`, `generations=6`, `seed=6`, `n_steps=6`
+# - **clonal-drift-s6** — `clonality=clonal`, `selection=False`, `generations=6`, `seed=6`, `n_steps=6`
+# - **mixed-sel-s6** — `clonality=mixed`, `selection=True`, `generations=6`, `seed=6`, `n_steps=6`
+# - **mixed-drift-s6** — `clonality=mixed`, `selection=False`, `generations=6`, `seed=6`, `n_steps=6`
 
 # ### The model & its parameters
 #
 # Each composite is a process-bigraph *document* — named processes wired by `inputs`/`outputs` ports over shared stores. Below, each composite shows what it does, then a **parameter cell** with its tunable knobs (the current default and what each one means). Edit any value, then re-run the **Run** section to rebuild and re-simulate with your changes.
 
-# **The model — `viva_genesis.composites.cell_collective.cell_collective`**
+# **The model — `viva_genesis.composites.multicellularity_world.s06_individuality`**
 #
-# Multicellularity first-cycle model: mean-field unicell/group population under adhesion, size-dependent predation/settling ecology, and oxygen-limited growth.
+# Multicellularity S06 (individuality). Each update is one group generation: founder groups grow on the CPM engine, are scored by cohesion (toughness), and offspring groups are seeded from the selected groups with mutation. Arms: clonality (clonal|mixed) x selection (on|off). Emits mean_adhesion, among/within-group Price terms, delta_adhesion, mean_toughness and heritability per generation.
 
 # === Parameters — edit any value, then re-run from the Run cell below ===
 # Each entry is the composite's current default; the comment explains it.
-ov_viva_genesis_composites_cell_collective_cell_collective = {
-    'adhesion'                : 0.8,   # clonal incomplete separation / bond drive
-    'fragmentation'           : 0.2,   # group breakup rate
-    'division_rate'           : 0.5,   # per-cell division rate
-    'base_predation'          : 0.4,   # size-independent death rate
-    'predation_size_reward'   : 0.8,   # ecology: group size reduces predation
-    'predation_size_threshold': 3.0,   # size at which protection engages
-    'transport_penalty'       : 0.8,   # oxygen-limited growth penalty for large groups
-    'oxygen_size_limit'       : 6.0,   # size above which interior starves
-    'size_scale'              : 4.0,   # adhesion/fragmentation -> mean group size
-    'relax_rate'              : 0.4,   # relaxation rate toward equilibrium
-    'sharpness'               : 2.0,   # sigmoid sharpness k
-    'seed'                    : 1,   # random seed
+ov_viva_genesis_composites_multicellularity_world_s06_individuality = {
+    'clonality'  : 'clonal',   # clonal (single-genotype groups) or mixed (cheater-invaded groups)
+    'selection'  : True,   # select groups by toughness (False = random drift null)
+    'generations': 6,   # number of group generations
+    'seed'       : 1,   # RNG seed
 }
 
 # ### Run
 #
 # _Set `STEPS`, then run. Each composite is built live from its (edited) spec above and run; a composite whose module processes aren't implemented yet reports the error instead of crashing. Set `RERUN = False` to skip re-simulating._
 
-# === Study: s06-evolutionary-individuality ===
-STUDY = 's06-evolutionary-individuality'
+# === Study: s06-individuality ===
+STUDY = 's06-individuality'
 STUDY_DIR = REPO / 'workspace/studies' / STUDY
 STUDY_YAML = str(STUDY_DIR / "study.yaml")
 RUNS_DB = str(STUDY_DIR / "runs.db")
@@ -797,22 +845,31 @@ RUNS_DB = str(STUDY_DIR / "runs.db")
 # This study has no *recorded* runs yet. RERUN builds its declared
 # composite(s) live and runs them; a composite whose module processes
 # are not implemented yet reports the error instead of crashing.
-STEPS_baseline = 100
+STEPS_baseline = 6
 INTERVAL_baseline = 1.0
 
 if RERUN:
     from process_bigraph import Composite
     try:
         with quiet():  # keep per-step stdout out of the notebook
-            _ov = ov_viva_genesis_composites_cell_collective_cell_collective if 'ov_viva_genesis_composites_cell_collective_cell_collective' in dir() else None  # edits from the panel cell, if any
-            spec_viva_genesis_composites_cell_collective_cell_collective = materialize_composite('viva_genesis.composites.cell_collective.cell_collective', _ov)
-            _comp = Composite({'state': spec_viva_genesis_composites_cell_collective_cell_collective['state']}, core=core)
+            _ov = ov_viva_genesis_composites_multicellularity_world_s06_individuality if 'ov_viva_genesis_composites_multicellularity_world_s06_individuality' in dir() else None  # edits from the panel cell, if any
+            spec_viva_genesis_composites_multicellularity_world_s06_individuality = materialize_composite('viva_genesis.composites.multicellularity_world.s06_individuality', _ov)
+            _comp = Composite({'state': spec_viva_genesis_composites_multicellularity_world_s06_individuality['state']}, core=core)
             _comp.run(STEPS_baseline)
-        print('ran', 'baseline', f'(viva_genesis.composites.cell_collective.cell_collective) for', STEPS_baseline, 'steps')
+        print('ran', 'baseline', f'(viva_genesis.composites.multicellularity_world.s06_individuality) for', STEPS_baseline, 'steps')
     except Exception as _e:
         print(f"baseline not runnable yet: {type(_e).__name__}: {_e}")
 else:
     print("RERUN=False — not re-simulating.")
+
+# ### Visualizations
+#
+# _Results are shown by the figures below, produced by the run above._
+
+# **individuality**
+
+# individuality
+_save_viz('s06-individuality', 'individuality', _render_one('local:IndividualityViz', {'title': 'Clonal group selection evolves adhesion; the drift null and mixed arm are weaker'}, RUNS_DB, STUDY_YAML))
 
 # ### Acceptance criteria
 #
@@ -820,14 +877,7 @@ else:
 #
 # | test | measures | passes if |
 # | --- | --- | --- |
-# | between-group-heritable-fitness-stable _(primary)_ |  |  |
-
-# ### Literature anchors
-#
-# | expectation | model observable | source | status |
-# | --- | --- | --- | --- |
-# |  |  | Grosberg & Strathmann 2007, Annu Rev Ecol Evol Syst | proposed |
-# |  |  | Ratcliff et al. 2012, PNAS | proposed |
+# | selection-drives-individuality _(primary)_ |  |  |
 
 # ## Open decisions
 # - Which test system anchors the first cycle — snowflake yeast (settling) or predator-selected Chlamydomonas?
