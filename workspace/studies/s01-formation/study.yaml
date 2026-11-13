@@ -82,6 +82,10 @@ visualizations:
   covers:
   - group_life_cycle_persistence
   rendered: workspace/studies/s01-formation/viz/formation-persistence.html
+  # Self-running mechanism illustration: FormationPersistenceViz re-runs the composite
+  # at render time with fixed params and reads no study-run data, so it is pinned (never
+  # run-stale). Keep the pin and meta source_run_id in sync when intentionally re-rendering.
+  source_run: viva_genesis.composites.cell_collective.cell_collective__1794314074__024029
 observables:
 - group_life_cycle_persistence
 data_inputs: []

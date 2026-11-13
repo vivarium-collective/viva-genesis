@@ -167,35 +167,71 @@ hypotheses:
 - id: H1
   statement: 'Ecology-first: size-dependent survival or settling favors initial groups.'
   prediction: Under selected ecological regimes, simple adhesive collectives outperform unicells without metabolic exchange.
+  study: s02-ecological-selection
+  predictions:
+  - observable: group_fitness_advantage
+    when:
+      regime: selected
+    expected:
+      op: '>'
+      value: 0.0
   competing_with:
   - H2
   - H3
   - H4
   - H5
+  status: supported
+  support_note: s02 (passing) measures a positive group_fitness_advantage under selection; bears on the ecological axis.
 - id: H2
   statement: 'Metabolism-first: cooperation and resource partitioning promote integration.'
   prediction: Metabolically complementary groups gain fitness even when size protection is controlled.
+  predictions:
+  - observable: metabolic_exchange_fitness_gain
+    expected:
+      op: '>'
+      value: 0.0
   competing_with:
   - H1
   - H3
   - H4
   - H5
+  status: open
+  support_note: Untested on this CPM arc — no study S01–S06 models reciprocal metabolic exchange; the observable is not yet measured (honest gap, not a refutation).
 - id: H3
   statement: 'Plasticity-first: local gradients induce divergent cell states.'
   prediction: Spatial fate patterns arise before evolved cell-fate circuitry; regulatory fixation increases stability.
+  study: s05-differentiation
+  predictions:
+  - observable: specialization_out_of_sample_gain
+    expected:
+      op: '>'
+      value: 0.0
   competing_with:
   - H1
   - H2
   - H4
   - H5
+  status: supported
+  support_note: s05 (supported) shows an O2 gradient drives germ->soma fate and a positive out-of-sample specialization gain; bears on the plasticity axis.
 - id: H4
   statement: 'Alignment-first: clonality and group reproduction enable stable collectives.'
   prediction: Clonal bottlenecked populations maintain group adaptations more effectively than genetically mixed groups.
+  study: s06-individuality
+  predictions:
+  - observable: mean_adhesion
+    when:
+      clonality: clonal
+      selection: true
+    expected:
+      op: '>'
+      value: 0.0
   competing_with:
   - H1
   - H2
   - H3
   - H5
+  status: supported
+  support_note: s06 (qualified) shows a clonal group-selection response in mean_adhesion that the mixed (non-clonal) arm halves (heritability 1.0 vs 0.5); directly bears on the alignment/clonality axis.
 - id: H5
   statement: 'Coupled constraints: no single mechanism is generally sufficient.'
   prediction: Different combinations create distinct viable regimes, with interactions exceeding additive effects.
@@ -204,6 +240,8 @@ hypotheses:
   - H2
   - H3
   - H4
+  status: supported
+  support_note: 'Synthesis: S04 (adhesion->toughness), S05 (O2->specialization) and S06 (clonality->heritable selection) are each regime-dependent — the benefit appears only in a window of its driver and vanishes outside it, so no single mechanism is generally sufficient. H1/H3/H4 are complementary (each bears on a different observable/study), not mutually exclusive, which is why the contest shows support rather than head-to-head discrimination.'
 claims:
 - id: C1
   statement: Predation can favor groups.

@@ -20,7 +20,7 @@ evidence_tier: mechanistic_prediction
 evaluation_status: evaluated
 gate_status: passed
 behavior_tests:
-- name: selection-drives-individuality
+- name: between-group-heritable-fitness-stable
   classification: primary
   description: 'Out-of-sample (seeds 4-6): seed-mean adhesion response (mean_adhesion last - first emitted generation) of clonal+selection exceeds clonal drift null and is > 0. Secondary: heritability(clonal) > heritability(mixed) and mixed-sel response < clonal-sel response. Seeds 1-3 are characterization only.'
 acceptance_criteria: []
@@ -307,7 +307,7 @@ visualizations:
   config:
     title: Clonal group selection evolves adhesion; the drift null and mixed arm are weaker
   covers:
-  - selection-drives-individuality
+  - between-group-heritable-fitness-stable
   rendered: workspace/studies/s06-individuality/viz/individuality.html
 findings:
 - id: s06-adhesion-response-observation
@@ -316,7 +316,7 @@ findings:
   status: completed
   kind: computational
   evidence_basis: predicted
-  from_test: selection-drives-individuality
+  from_test: between-group-heritable-fitness-stable
   inferential_scope: 6 generations, 6 potts seeds per arm, one CPM backend (viva-cpm), 2D.
 - id: s06-price-partition-mechanism
   statement: 'Mechanism: group fitness = largest-cluster toughness (reuses S04 fracture); the Price partition splits the group-adhesion change into among-group (Cov(w,z)) and within-group (E[w*dz]) terms. among_group is positive for selection arms and ~0 for drift; within_group is ~0 in EVERY arm because adhesion carries no intrinsic within-group growth advantage under uniform growth. Heritability (parent-offspring regression of group adhesion) is 1.0 clonal / 0.5 mixed, fixed by the clonal/mixed encoding (structural, not emergent).'
@@ -325,7 +325,7 @@ findings:
   status: completed
   kind: computational
   evidence_basis: predicted
-  from_test: selection-drives-individuality
+  from_test: between-group-heritable-fitness-stable
   inferential_scope: Engineered generational loop; Price terms computed, not validated against data.
 - id: s06-individuality-interpretation
   statement: 'Clonal group-level selection evolves a heritable adhesion increase (individuality emerges) that the drift null does not; clonality is required (mixed response attenuated, heritability halved). QUALIFIED — the clean selection-over-drift margin is on training seeds (+0.33); on held-out seeds the drift null drifts up ~+0.10 (boundary reflection of the [0,0.6] init), leaving a modest +0.12 margin. The mixed (non-clonal) control collapses heritability by trait DILUTION, not active within-group conflict (R-S06-DILUTION): with adhesion as the only trait, cheaters have no within-group fitness advantage.'
@@ -334,7 +334,7 @@ findings:
   status: completed
   kind: computational
   evidence_basis: predicted
-  from_test: selection-drives-individuality
+  from_test: between-group-heritable-fitness-stable
   inferential_scope: Seeds 4-6 held out; 6-generation horizon; 2D; one CPM backend; a-priori-fixed parameters.
 runs:
 - name: viva_genesis.composites.multicellularity_world.s06_individuality__1794535183__6951b3
@@ -365,7 +365,7 @@ runs:
     params_captured_at: '2026-11-12'
     params_source: dashboard-runner
   outcomes:
-    selection-drives-individuality:
+    between-group-heritable-fitness-stable:
       result: PASS
       measured_value: 0.122451
       operator: cross_run
@@ -398,7 +398,7 @@ runs:
     params_captured_at: '2026-11-12'
     params_source: dashboard-runner
   outcomes:
-    selection-drives-individuality:
+    between-group-heritable-fitness-stable:
       result: PASS
       measured_value: 0.122451
       operator: cross_run
@@ -432,7 +432,7 @@ runs:
     params_captured_at: '2026-11-12'
     params_source: dashboard-runner
   outcomes:
-    selection-drives-individuality:
+    between-group-heritable-fitness-stable:
       result: PASS
       measured_value: 0.122451
       operator: cross_run
@@ -466,7 +466,7 @@ runs:
     params_captured_at: '2026-11-12'
     params_source: dashboard-runner
   outcomes:
-    selection-drives-individuality:
+    between-group-heritable-fitness-stable:
       result: PASS
       measured_value: 0.122451
       operator: cross_run
@@ -500,7 +500,7 @@ runs:
     params_captured_at: '2026-11-12'
     params_source: dashboard-runner
   outcomes:
-    selection-drives-individuality:
+    between-group-heritable-fitness-stable:
       result: PASS
       measured_value: 0.122451
       operator: cross_run
@@ -534,7 +534,7 @@ runs:
     params_captured_at: '2026-11-12'
     params_source: dashboard-runner
   outcomes:
-    selection-drives-individuality:
+    between-group-heritable-fitness-stable:
       result: PASS
       measured_value: 0.122451
       operator: cross_run
@@ -568,7 +568,7 @@ runs:
     params_captured_at: '2026-11-12'
     params_source: dashboard-runner
   outcomes:
-    selection-drives-individuality:
+    between-group-heritable-fitness-stable:
       result: PASS
       measured_value: 0.122451
       operator: cross_run
@@ -602,7 +602,7 @@ runs:
     params_captured_at: '2026-11-12'
     params_source: dashboard-runner
   outcomes:
-    selection-drives-individuality:
+    between-group-heritable-fitness-stable:
       result: PASS
       measured_value: 0.122451
       operator: cross_run
@@ -636,7 +636,7 @@ runs:
     params_captured_at: '2026-11-12'
     params_source: dashboard-runner
   outcomes:
-    selection-drives-individuality:
+    between-group-heritable-fitness-stable:
       result: PASS
       measured_value: 0.122451
       operator: cross_run
@@ -670,7 +670,7 @@ runs:
     params_captured_at: '2026-11-12'
     params_source: dashboard-runner
   outcomes:
-    selection-drives-individuality:
+    between-group-heritable-fitness-stable:
       result: PASS
       measured_value: 0.122451
       operator: cross_run
@@ -704,7 +704,7 @@ runs:
     params_captured_at: '2026-11-12'
     params_source: dashboard-runner
   outcomes:
-    selection-drives-individuality:
+    between-group-heritable-fitness-stable:
       result: PASS
       measured_value: 0.122451
       operator: cross_run
@@ -738,7 +738,7 @@ runs:
     params_captured_at: '2026-11-12'
     params_source: dashboard-runner
   outcomes:
-    selection-drives-individuality:
+    between-group-heritable-fitness-stable:
       result: PASS
       measured_value: 0.122451
       operator: cross_run
@@ -772,7 +772,7 @@ runs:
     params_captured_at: '2026-11-12'
     params_source: dashboard-runner
   outcomes:
-    selection-drives-individuality:
+    between-group-heritable-fitness-stable:
       result: PASS
       measured_value: 0.122451
       operator: cross_run
@@ -806,7 +806,7 @@ runs:
     params_captured_at: '2026-11-12'
     params_source: dashboard-runner
   outcomes:
-    selection-drives-individuality:
+    between-group-heritable-fitness-stable:
       result: PASS
       measured_value: 0.122451
       operator: cross_run
@@ -840,7 +840,7 @@ runs:
     params_captured_at: '2026-11-12'
     params_source: dashboard-runner
   outcomes:
-    selection-drives-individuality:
+    between-group-heritable-fitness-stable:
       result: PASS
       measured_value: 0.122451
       operator: cross_run
@@ -874,7 +874,7 @@ runs:
     params_captured_at: '2026-11-12'
     params_source: dashboard-runner
   outcomes:
-    selection-drives-individuality:
+    between-group-heritable-fitness-stable:
       result: PASS
       measured_value: 0.122451
       operator: cross_run
@@ -908,7 +908,7 @@ runs:
     params_captured_at: '2026-11-12'
     params_source: dashboard-runner
   outcomes:
-    selection-drives-individuality:
+    between-group-heritable-fitness-stable:
       result: PASS
       measured_value: 0.122451
       operator: cross_run
@@ -942,7 +942,7 @@ runs:
     params_captured_at: '2026-11-12'
     params_source: dashboard-runner
   outcomes:
-    selection-drives-individuality:
+    between-group-heritable-fitness-stable:
       result: PASS
       measured_value: 0.122451
       operator: cross_run
@@ -976,7 +976,7 @@ runs:
     params_captured_at: '2026-11-12'
     params_source: dashboard-runner
   outcomes:
-    selection-drives-individuality:
+    between-group-heritable-fitness-stable:
       result: PASS
       measured_value: 0.122451
       operator: cross_run
@@ -1010,7 +1010,7 @@ runs:
     params_captured_at: '2026-11-12'
     params_source: dashboard-runner
   outcomes:
-    selection-drives-individuality:
+    between-group-heritable-fitness-stable:
       result: PASS
       measured_value: 0.122451
       operator: cross_run
@@ -1044,7 +1044,7 @@ runs:
     params_captured_at: '2026-11-12'
     params_source: dashboard-runner
   outcomes:
-    selection-drives-individuality:
+    between-group-heritable-fitness-stable:
       result: PASS
       measured_value: 0.122451
       operator: cross_run
@@ -1078,7 +1078,7 @@ runs:
     params_captured_at: '2026-11-12'
     params_source: dashboard-runner
   outcomes:
-    selection-drives-individuality:
+    between-group-heritable-fitness-stable:
       result: PASS
       measured_value: 0.122451
       operator: cross_run
@@ -1112,7 +1112,7 @@ runs:
     params_captured_at: '2026-11-12'
     params_source: dashboard-runner
   outcomes:
-    selection-drives-individuality:
+    between-group-heritable-fitness-stable:
       result: PASS
       measured_value: 0.122451
       operator: cross_run
@@ -1146,7 +1146,7 @@ runs:
     params_captured_at: '2026-11-12'
     params_source: dashboard-runner
   outcomes:
-    selection-drives-individuality:
+    between-group-heritable-fitness-stable:
       result: PASS
       measured_value: 0.122451
       operator: cross_run
@@ -1172,7 +1172,7 @@ simulation_set:
   - mean_toughness
   - delta_adhesion
   pass_fail_tests: &id002
-  - selection-drives-individuality
+  - between-group-heritable-fitness-stable
 - name: clonal-drift-s1
   kind: single
   base_model: viva_genesis.composites.multicellularity_world.s06_individuality
@@ -1453,6 +1453,6 @@ pipeline_gate:
   gate_evaluator:
     result: blocked
     blocked_by:
-    - selection-drives-individuality
+    - between-group-heritable-fitness-stable
     evaluated_by: code
     diverges_from_authored: false
