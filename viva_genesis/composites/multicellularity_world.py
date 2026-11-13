@@ -341,3 +341,28 @@ def s05_differentiation(core=None, *, fate_mode="oxygen", o2_source=O2_SOURCE,
     _FATE_MODES[fate_mode](state, cell_ids, ligand_scale=LIGAND_SCALE, threshold=STEMNESS_THRESHOLD,
                            seed=seed, random_fraction=random_fraction)
     return state
+
+
+def group_partition(world, founder_types):
+    """Pure read-out of per-founder group traits for the S06 Price partition.
+
+    Founder identity is the CELL TYPE (division preserves it). Returns
+    ``{f: {toughness, n_cells, volume}}`` per founder plus ``"by_cell_type"``
+    over every live non-medium type (exposes cheater sub-lineages).
+    """
+    from viva_cpm import metrics
+
+    by_type: dict = {}
+    for t, v in zip(world.cell_types()[1:], world.cell_volumes()[1:]):
+        if v <= 0:
+            continue
+        e = by_type.setdefault(t, {"n_cells": 0, "volume": 0.0})
+        e["n_cells"] += 1
+        e["volume"] += float(v)
+    out: dict = {}
+    for f in founder_types:
+        e = by_type.get(f, {"n_cells": 0, "volume": 0.0})
+        out[f] = {"toughness": metrics.largest_cluster_fraction(world, [f]),
+                  "n_cells": e["n_cells"], "volume": e["volume"]}
+    out["by_cell_type"] = by_type
+    return out
