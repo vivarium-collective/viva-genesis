@@ -34,6 +34,10 @@ _EMIT_PATHS = [
     "global_time", "fate_counts", "viable_biomass",
 ]
 
+_S06_EMIT_PATHS = ["generation", "mean_adhesion", "among_group", "within_group",
+                   "delta_adhesion", "mean_toughness", "heritability"]
+
+
 def register_intervention(core):
     """Register Intervention, then return the core: the library helper returns a bool, which
     apply_core_extensions would otherwise adopt as the core."""
@@ -366,3 +370,40 @@ def group_partition(world, founder_types):
                   "n_cells": e["n_cells"], "volume": e["volume"]}
     out["by_cell_type"] = by_type
     return out
+
+
+@composite_generator(
+    name="s06_individuality",
+    methods=["Generational group selection on cell adhesion (CPM groups, Price partition)"],
+    fidelity="spatial_dynamics",
+    description=(
+        "Multicellularity S06 (individuality). Each update is one group generation: founder "
+        "groups grow on the CPM engine, are scored by cohesion (toughness), and offspring groups "
+        "are seeded from the selected groups with mutation. Arms: clonality (clonal|mixed) x "
+        "selection (on|off). Emits mean_adhesion, among/within-group Price terms, "
+        "delta_adhesion, mean_toughness and heritability per generation."
+    ),
+    parameters={
+        "clonality": {"type": "string", "default": "clonal",
+                      "description": "clonal (single-genotype groups) or mixed (cheater-invaded groups)"},
+        "selection": {"type": "boolean", "default": True,
+                      "description": "select groups by toughness (False = random drift null)"},
+        "generations": {"type": "integer", "default": 6,
+                        "description": "number of group generations"},
+        "seed": {"type": "integer", "default": 1, "description": "RNG seed"},
+    },
+    default_n_steps=6,
+    core_extensions=[build_core],
+    emitters=[{"address": "local:SQLiteEmitter", "paths": _S06_EMIT_PATHS}],
+)
+def s06_individuality(core=None, *, clonality="clonal", selection=True, generations=6, seed=1):
+    return {
+        **{k: 0.0 for k in _S06_EMIT_PATHS if k != "generation"},
+        "generation": 0,
+        "s06": {"_type": "process",
+                "address": "local:!viva_genesis.s06_process.GroupSelectionProcess",
+                "config": {"clonality": clonality, "selection": selection,
+                           "generations": generations, "seed": seed},
+                "interval": 1.0, "inputs": {},
+                "outputs": {k: [k] for k in _S06_EMIT_PATHS}},
+    }
