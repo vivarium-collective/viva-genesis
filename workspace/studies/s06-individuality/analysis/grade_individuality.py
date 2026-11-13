@@ -56,7 +56,7 @@ def write_outcomes(r, study_yaml=None):
     grader). The out-of-sample primary criterion result becomes the test PASS/FAIL so the
     verdict is backed by a recorded outcome, not a SKIP."""
     from ruamel.yaml import YAML
-    TESTNAME = 'selection-drives-individuality'
+    TESTNAME = 'between-group-heritable-fitness-stable'
     res = 'PASS' if r['verdict'] else 'FAIL'
     margin = round(r['arms'][('test', 'clonal', True)]['response']
                    - r['arms'][('test', 'clonal', False)]['response'], 6)
