@@ -16,17 +16,22 @@
 </head>
 <body>
 <main class="study-page">
+
+
 <header class="study-header">
-  <div style="display:flex; align-items:center; gap:14px; justify-content:space-between;">
+  <div style="display:flex; align-items:flex-start; gap:14px; justify-content:space-between;">
+  <div class="study-head-main" style="min-width:0; flex:1 1 auto">
   <div style="display:flex; align-items:center; gap:12px; min-width:0; flex-wrap:wrap">
   <h1 class="study-title" style="margin:0">
     <span class="study-name" id="study-name" data-slug="og-independence" data-study-kind="computational" title="og-independence" data-edit-kind="study" data-edit-field="title" data-edit-value="Independence from the Vent: Can a Lineage Escape Its Cradle?" data-edit-label="Title">Independence from the Vent: Can a Lineage Escape Its Cradle?</span>
     
   </h1>
+  </div>
+  <p id="study-question-headline" class="study-question-headline" title="How independent of its geological cradle can a vent-born protocell lineage become — what minimum innovation set lets it persist as external support is withdrawn, which supports can it internalize vs which remain hard dependencies, and is any apparent independence causally attributable to a specific innovation against a matched ablation with input fluxes held equal?" data-edit-kind="study" data-edit-field="question" data-edit-value="How independent of its geological cradle can a vent-born protocell lineage become — what minimum innovation set lets it persist as external support is withdrawn, which supports can it internalize vs which remain hard dependencies, and is any apparent independence causally attributable to a specific innovation against a matched ablation with input fluxes held equal?" data-edit-multiline data-edit-label="Question"><span class="q-glyph">Q</span> <span class="study-question-headline-text">How independent of its geological cradle can a vent-born protocell lineage become — what minimum innovation set lets it persist as external support is withdrawn, which supports can it internalize vs which remain hard dependencies, and is any apparent independence causally attributable to a specific innovation against a matched ablation with input fluxes held equal?</span></p>
+  </div>
+  <span class="study-header-actions" style="display:inline-flex; gap:10px; flex-shrink:0; align-items:center;">
     
     <span id="study-axis-markers" data-slug="og-independence" style="display:inline-flex; gap:8px; align-items:center; flex-wrap:wrap"></span>
-  </div>
-  <span class="study-header-actions" style="display:inline-flex; gap:6px; flex-shrink:0; align-items:center;">
     
     
     
@@ -49,8 +54,6 @@
 
 
 
-
-<p id="study-question-headline" class="study-question-headline"><span class="q-glyph">Q</span> <span class="study-question-headline-text" data-edit-kind="study" data-edit-field="question" data-edit-value="How independent of its geological cradle can a vent-born protocell lineage become — what minimum innovation set lets it persist as external support is withdrawn, which supports can it internalize vs which remain hard dependencies, and is any apparent independence causally attributable to a specific innovation against a matched ablation with input fluxes held equal?" data-edit-multiline data-edit-label="Question">How independent of its geological cradle can a vent-born protocell lineage become — what minimum innovation set lets it persist as external support is withdrawn, which supports can it internalize vs which remain hard dependencies, and is any apparent independence causally attributable to a specific innovation against a matched ablation with input fluxes held equal?</span></p>
 
 <nav class="study-tabs" aria-label="Study sections">
   
@@ -80,10 +83,18 @@
   </button>
   
   <span class="study-dl study-export-wrap" style="margin-left:auto; align-self:center; position:relative; display:inline-flex">
-    <button type="button" id="study-export-btn" class="btn-mini" aria-haspopup="true" aria-expanded="false" title="Download this study's figures or a runnable notebook">↓ Export ▾</button>
-    <div id="study-export-menu" role="menu" style="display:none;position:absolute;right:0;top:100%;margin-top:4px;background:#fff;border:1px solid #e2e8f0;border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,0.14);z-index:70;min-width:200px;padding:4px">
-      <button type="button" id="study-dl-figures" role="menuitem" class="study-jump-item" onclick="window._vivStudyFiguresFromCard(event, 'og-independence')">Download figures</button>
-      <button type="button" id="study-dl-notebook" role="menuitem" class="study-jump-item" onclick="window._vivStudyNotebookFromCard(event, 'og-independence', 'origins-of-life-vent')">Download notebook</button>
+    <button type="button" id="study-export-btn" class="btn-mini" aria-haspopup="true" aria-expanded="false" title="Shortcuts — open in the browser or download (report, notebook, figures)">Shortcuts ▾</button>
+    
+    <div id="study-export-menu" role="menu" style="display:none;position:absolute;right:0;top:100%;margin-top:4px;background:#fff;border:1px solid #e2e8f0;border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,0.14);z-index:70;min-width:190px;padding:4px">
+      <div class="study-export-sec">Report</div>
+      <button type="button" id="study-report-open" role="menuitem" class="btn-mini study-export-item" onclick="window._vivStudyReportOpen(event, 'og-independence')">Open in browser</button>
+      <button type="button" id="study-report-dl" role="menuitem" class="btn-mini study-export-item" onclick="window._vivStudyReportDownload(event, 'og-independence')">Download HTML</button>
+      <div class="study-export-sec">Notebook</div>
+      <button type="button" id="study-nb-open" role="menuitem" class="btn-mini study-export-item" onclick="window._vivStudyNotebookOpen(event, 'og-independence')">Open in browser</button>
+      <button type="button" id="study-dl-notebook" role="menuitem" class="btn-mini study-export-item" onclick="window._vivStudyNotebookFromCard(event, 'og-independence', 'origins-of-life-vent')">Download .ipynb</button>
+      <div class="study-export-sec">Figures</div>
+      <button type="button" id="study-fig-open" role="menuitem" class="btn-mini study-export-item" onclick="window._vivStudyFiguresOpen(event, 'og-independence')">Open in browser</button>
+      <button type="button" id="study-dl-figures" role="menuitem" class="btn-mini study-export-item" onclick="window._vivStudyFiguresFromCard(event, 'og-independence')">Download (zip)</button>
     </div>
   </span>
 </nav>
@@ -96,8 +107,18 @@
 .study-kind-tag.study-kind-biological{background:#ecfdf5;color:#065f46}
 .study-kind-tag.study-kind-computational{background:#eff6ff;color:#1e40af}
 .study-kind-tag.study-kind-theoretical{background:#faf5ff;color:#6b21a8}
-.study-question-headline{margin:6px 0 0 0;font-size:1.05em;line-height:1.5;color:#1e293b;font-family:Georgia,"Times New Roman",serif}
+.study-question-headline{margin:2px 0 0 0;font-size:0.85em;line-height:1.35;color:#475569;font-family:Georgia,"Times New Roman",serif;padding-right:40px}
+/* Park the inline-edit ✎ in a reserved right gutter so it never lands over the
+   question text (the pencil is an absolutely-positioned child of the editable). */
+.study-question-headline>.ie-pencil{right:6px;top:1px}
+h1.study-title .study-name.ie-editable{padding-right:36px}
+h1.study-title .study-name>.ie-pencil{right:4px;top:6px}
 .study-question-headline .q-glyph{display:inline-block;font-size:0.78em;font-weight:700;font-family:ui-monospace,monospace;color:#64748b;background:#f1f5f9;padding:1px 7px;border-radius:4px;margin-right:6px;vertical-align:middle}
+/* Study Export menu — styled to match the investigation-level ↓ Export menu
+   exactly: grey uppercase section labels + full-width, left-aligned, stacked
+   text-link items (not inline pills). Mirrors walkthrough.js `_sec` + `_mi`. */
+.study-export-sec{padding:6px 8px 2px;font-size:0.72em;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:#94a3b8}
+.study-export-item{display:block;width:100%;text-align:left;border:none;background:transparent}
 .status-detail-panel{margin:0;padding:2px 0;background:transparent;border:none;border-radius:0;font-size:0.92em}
 .status-detail-row{display:flex;align-items:center;gap:8px;padding:3px 0}
 .status-detail-axis{min-width:140px;color:#475569;font-size:0.9em}
@@ -696,10 +717,13 @@
             </div>
             
             
+            
+            
             <div class="finding-traceability" style="font-size:0.84em;color:#475569;padding:4px 10px;margin:4px 0">
               
               
               runs: <a href="#run-viva_genesis.composites.off_gradient_persistence.off_gradient_persistence__1791923886__d5eebe"><code>viva_genesis.composites.off_gradient_persistence.off_gradient_persistence__1791923886__d5eebe</code></a>
+              
             </div>
             
             
@@ -757,10 +781,13 @@
             </div>
             
             
+            
+            
             <div class="finding-traceability" style="font-size:0.84em;color:#475569;padding:4px 10px;margin:4px 0">
               
               
               runs: <a href="#run-viva_genesis.composites.off_gradient_persistence.off_gradient_persistence__1791923886__d5eebe"><code>viva_genesis.composites.off_gradient_persistence.off_gradient_persistence__1791923886__d5eebe</code></a>
+              
             </div>
             
             
@@ -818,10 +845,13 @@
             </div>
             
             
+            
+            
             <div class="finding-traceability" style="font-size:0.84em;color:#475569;padding:4px 10px;margin:4px 0">
               
               
               runs: <a href="#run-viva_genesis.composites.off_gradient_persistence.off_gradient_persistence__1791923886__d5eebe"><code>viva_genesis.composites.off_gradient_persistence.off_gradient_persistence__1791923886__d5eebe</code></a>
+              
             </div>
             
             
@@ -881,6 +911,8 @@
             
             
             
+            
+            
             <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: op: threshold · detail: differential per-driver survivability with the confound resolved and ledgers closing at every point</code></div>
             
             
@@ -934,10 +966,13 @@
             </div>
             
             
+            
+            
             <div class="finding-traceability" style="font-size:0.84em;color:#475569;padding:4px 10px;margin:4px 0">
               
               
               runs: <a href="#run-viva_genesis.composites.integrated_autonomy.integrated_autonomy_world__1792088317__3f4e8b"><code>viva_genesis.composites.integrated_autonomy.integrated_autonomy_world__1792088317__3f4e8b</code></a>
+              
             </div>
             
             
@@ -995,10 +1030,13 @@
             </div>
             
             
+            
+            
             <div class="finding-traceability" style="font-size:0.84em;color:#475569;padding:4px 10px;margin:4px 0">
               
               
               runs: <a href="#run-viva_genesis.composites.integrated_autonomy.integrated_autonomy_world__1792088317__3f4e8b"><code>viva_genesis.composites.integrated_autonomy.integrated_autonomy_world__1792088317__3f4e8b</code></a>
+              
             </div>
             
             
@@ -1056,10 +1094,13 @@
             </div>
             
             
+            
+            
             <div class="finding-traceability" style="font-size:0.84em;color:#475569;padding:4px 10px;margin:4px 0">
               
               
               runs: <a href="#run-viva_genesis.composites.integrated_autonomy.integrated_autonomy_world__1792088317__3f4e8b"><code>viva_genesis.composites.integrated_autonomy.integrated_autonomy_world__1792088317__3f4e8b</code></a>
+              
             </div>
             
             
@@ -1117,10 +1158,13 @@
             </div>
             
             
+            
+            
             <div class="finding-traceability" style="font-size:0.84em;color:#475569;padding:4px 10px;margin:4px 0">
               
               
               runs: <a href="#run-viva_genesis.composites.integrated_autonomy.integrated_autonomy_world__1792088317__3f4e8b"><code>viva_genesis.composites.integrated_autonomy.integrated_autonomy_world__1792088317__3f4e8b</code></a>
+              
             </div>
             
             
@@ -1178,10 +1222,13 @@
             </div>
             
             
+            
+            
             <div class="finding-traceability" style="font-size:0.84em;color:#475569;padding:4px 10px;margin:4px 0">
               
               
               runs: <a href="#run-viva_genesis.composites.integrated_autonomy.integrated_autonomy_world__1792088317__3f4e8b"><code>viva_genesis.composites.integrated_autonomy.integrated_autonomy_world__1792088317__3f4e8b</code></a>
+              
             </div>
             
             
@@ -1241,6 +1288,8 @@
             
             
             
+            
+            
             <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: op: threshold · detail: full-set survivors &gt;= 0.5 AND ablated survivors &lt; 0.5 for each channel</code></div>
             
             
@@ -1296,6 +1345,8 @@
             
             
             
+            
+            
             <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: op: threshold · detail: the gradient verdict flips within the swept efficiency range (a located boundary)</code></div>
             
             
@@ -1347,6 +1398,8 @@
               
               
             </div>
+            
+            
             
             
             
@@ -1412,12 +1465,23 @@
 
 
 <section class="study-tab-panel" data-kind="compose" id="panel-compose" hidden>
-  <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:8px;">
-    <h2 class="overview-label" style="margin:0">Model composition</h2>
-    
-    <button type="button" class="btn-mini" onclick="window._vivStudyNotebookFromCard(event, 'og-independence', 'origins-of-life-vent')" title="Download a runnable Jupyter notebook for THIS study — its composite + editable parameters + figures">↓ notebook</button>
+  
+  <div class="model-subtabs" role="tablist" aria-label="Model sections">
+    <button type="button" class="model-subtab active" data-modelsub="composition" role="tab" aria-selected="true" onclick="_setModelSubtab('composition')">Composition</button>
+    <button type="button" class="model-subtab" data-modelsub="loom" role="tab" aria-selected="false" onclick="_setModelSubtab('loom')">Loom</button>
+    <button type="button" class="model-subtab" data-modelsub="variants" role="tab" aria-selected="false" onclick="_setModelSubtab('variants')">Variants</button>
+    <button type="button" class="model-subtab" data-modelsub="interventions" role="tab" aria-selected="false" onclick="_setModelSubtab('interventions')">Interventions</button>
+    <button type="button" class="model-subtab" data-modelsub="readouts" role="tab" aria-selected="false" onclick="_setModelSubtab('readouts')">Readouts</button>
   </div>
 
+  
+  <div class="model-subpanel" data-modelsubpanel="loom" hidden>
+    <div id="model-loom-mount" class="model-loom-mount">
+      <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading the interactive model diagram…</span></div>
+    </div>
+  </div>
+
+  <div class="model-subpanel active" data-modelsubpanel="composition">
   
   
   <div id="model-composite-cards" class="model-composite-cards" data-study="og-independence"
@@ -1513,10 +1577,77 @@
   
   
   
-
-
+  </div>
 
   
+  <div class="model-subpanel" data-modelsubpanel="variants" hidden>
+  <div class="overview-section" id="study-variants-section">
+    <p class="msub-intro">A <strong>variant</strong> is a copy of a baseline model with a few parameters changed, run and compared against the baseline. Everything else stays fixed.</p>
+    
+    <div class="msub-empty">No variants yet. Add one below to perturb the baseline and compare against it.</div>
+    
+    
+    <form class="study-variant-add-form msub-addcard" onsubmit="return _submitStudyVariantAdd(this)">
+      <div class="msub-addcard-title">Add a variant</div>
+      <div class="msub-field-grid">
+        <label class="msub-field">
+          <span class="msub-lbl">Name</span>
+          <input name="name" required pattern="[a-zA-Z0-9_-]+" placeholder="hi-dnaa" class="msub-input mono">
+          <span class="msub-hint">letters, numbers, - and _</span>
+        </label>
+        <label class="msub-field">
+          <span class="msub-lbl">Based on</span>
+          <select name="base_composite" class="msub-input">
+            <option value="og-independence">og-independence</option>
+          </select>
+          <span class="msub-hint">the baseline this variant perturbs</span>
+        </label>
+        <label class="msub-field msub-field-wide">
+          <span class="msub-lbl">Parameter overrides</span>
+          <input name="overrides" placeholder='{"k_synth": 2.0}' class="msub-input mono">
+          <span class="msub-hint">JSON object of parameter → value; leave blank for none</span>
+        </label>
+      </div>
+      <div class="msub-addcard-foot">
+        <button type="submit" class="action-btn primary">+ Add variant</button>
+        <span class="study-variant-add-status msub-status"></span>
+      </div>
+    </form>
+    
+  </div>
+  </div>
+
+  
+  <div class="model-subpanel" data-modelsubpanel="interventions" hidden>
+  <div class="overview-section" id="study-interventions-section">
+    <p class="msub-intro">An <strong>intervention</strong> is a named, described perturbation applied in this study (e.g. a knockout) — the conceptual change you are testing, documented alongside the model.</p>
+    
+    <div class="msub-empty">No interventions yet. Add one below.</div>
+    
+    <form class="study-intervention-add-form msub-addcard" onsubmit="return _submitStudyInterventionAdd(this)">
+      <div class="msub-addcard-title">Add an intervention</div>
+      <div class="msub-field-grid">
+        <label class="msub-field">
+          <span class="msub-lbl">Name</span>
+          <input name="name" required pattern="[a-zA-Z0-9_-]+" placeholder="knockout-dnaA" class="msub-input mono">
+          <span class="msub-hint">letters, numbers, - and _</span>
+        </label>
+        <label class="msub-field msub-field-wide">
+          <span class="msub-lbl">Description</span>
+          <input name="description" placeholder="what the intervention does" class="msub-input">
+          <span class="msub-hint">a short, human-readable summary</span>
+        </label>
+      </div>
+      <div class="msub-addcard-foot">
+        <button type="submit" class="action-btn primary">+ Add intervention</button>
+        <span class="study-intervention-add-status msub-status"></span>
+      </div>
+    </form>
+  </div>
+  </div>
+
+  
+  <div class="model-subpanel" data-modelsubpanel="readouts" hidden>
   <div class="overview-section" id="model-readouts-section">
     <h3>Readouts</h3>
 
@@ -1534,6 +1665,7 @@
     </div>
 
     
+  </div>
   </div>
   </div>
 
@@ -1555,7 +1687,6 @@
   <button type="button" id="study-run-current-spec" class="action-btn" title="Run this study's CURRENT baseline spec (POST /api/study-run-baseline) as a brand-new run">▶ Run current spec</button>
   <button type="button" id="study-reproduce" class="btn-mini" title="Replay this study's most recent run's RECORDED manifest verbatim (POST /api/study-reproduce) — ignores any study.yaml edits made since">↻ Reproduce</button>
   
-  <button type="button" id="study-run-composite" class="btn-mini" title="Dispatch a specific process-bigraph composite_id to the remote compute backend (pbg-native multi_node/mbp, or the Nextflow campaign path) — advanced, independent of this study's own pinned baseline">⚙ Dispatch composite</button>
 </div>
 
 <div class="overview-section" id="simulations-section">
@@ -2057,14 +2188,14 @@ pass_if: {"detail": "informative readout", "op": "\u003e", "value": -1.0}</pre>
         data-test-kind="behavioral"
         
         data-pytest-node="minimum-sufficient-innovation-set"
-        data-classification="primary"
+        data-classification="diagnostic"
         data-result="FAIL"
-        style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #10b981; background: #f8fafc; border-radius: 4px;">
+        style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #f59e0b; background: #f8fafc; border-radius: 4px;">
       
         
       <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
         <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #fee2e2; color: #991b1b">✗ FAIL</span>
-        <span class="classification-pill classification-primary">primary</span>
+        <span class="classification-pill classification-diagnostic">diagnostic</span>
         <strong style="font-size: 0.9em;">minimum-sufficient-innovation-set</strong>
         
         <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
@@ -2117,14 +2248,14 @@ cites:   ["martin2007origin", "sojo2014bioenergetic", "lane2012origin"]</pre>
         data-test-kind="behavioral"
         
         data-pytest-node="minimum-sufficient-innovation-set-rich-ocean"
-        data-classification="supporting"
+        data-classification="diagnostic"
         data-result="FAIL"
-        style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #3b82f6; background: #f8fafc; border-radius: 4px;">
+        style="margin: 0 0 10px 0; padding: 10px 12px; border-left: 4px solid #f59e0b; background: #f8fafc; border-radius: 4px;">
       
         
       <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
         <span class="bt-result" style="font-size: 0.75em; font-family: monospace; padding: 2px 8px; border-radius: 9999px; background: #fee2e2; color: #991b1b">✗ FAIL</span>
-        <span class="classification-pill classification-supporting">supporting</span>
+        <span class="classification-pill classification-diagnostic">diagnostic</span>
         <strong style="font-size: 0.9em;">minimum-sufficient-innovation-set-rich-ocean</strong>
         
         <span class="muted" style="font-size:0.78em">requires: <code>yes</code></span>
@@ -3110,6 +3241,93 @@ pass_if: {"detail": "emits empty", "op": "threshold"}</pre>
   </div>
 
   
+  <div class="overview-section" id="study-findings-authoring">
+    <h2 class="overview-label">Record a finding</h2>
+    
+    <ul class="synthesis-list" style="margin:0 0 12px">
+      
+      <li style="display:flex;align-items:flex-start;gap:8px">
+        <button type="button" class="action-btn study-finding-del" data-id="og08-minimum-innovation-set" title="Delete finding" style="font-size:0.72em;line-height:1;padding:2px 6px">✕</button>
+        <span>Under withdrawing geological support (external gradient, mineral access and feed all relaxed to zero), the full innovation set persists off-gradient (surviving fraction 1.0, net budget +0.36) while removing any single innovation collapses persistence to 0 in this joint all-at-once withdrawal — each component is individually necessary here, though the 2³ subset lattice (og-08-alt-robust) resolves the triple as advantageous but driver-specific, NOT a jointly-necessary irreducible unit (only pump+heredity interact; the importer is required by no driver; the hard dependency is the geological gradient). <span class="muted small">(confirms)</span></span>
+      </li>
+      
+      <li style="display:flex;align-items:flex-start;gap:8px">
+        <button type="button" class="action-btn study-finding-del" data-id="og08-co-limitation-makes-set-irreducible" title="Delete finding" style="font-size:0.72em;line-height:1;padding:2px 6px">✕</button>
+        <span>In the og-08 joint all-at-once withdrawal (rescoped) the set appears jointly necessary because the budget is co-limited — gross = min(energy, resource). A lone pump raises energy but the resource term still limits growth (and vice versa), so a half-equipped lineage pays an innovation&#39;s upkeep without a co-benefit; the survival frontier shows single knockouts needing MORE environmental support than even the bare control over part of the range. <span class="muted small">(novel)</span></span>
+      </li>
+      
+      <li style="display:flex;align-items:flex-start;gap:8px">
+        <button type="button" class="action-btn study-finding-del" data-id="og08-heredity-holds-the-innovations" title="Delete finding" style="font-size:0.72em;line-height:1;padding:2px 6px">✕</button>
+        <span>Heredity is necessary not as an energy or resource term but as information maintenance — without it the adaptive machinery degrades over the run (machinery integrity 1.0 -&gt; 0.007, an error-catastrophe decay), so the pump and importer cannot be held and the lineage collapses even though it carries them. <span class="muted small">(novel)</span></span>
+      </li>
+      
+      <li style="display:flex;align-items:flex-start;gap:8px">
+        <button type="button" class="action-btn study-finding-del" data-id="og08alt-per-driver-confound-resolved" title="Delete finding" style="font-size:0.72em;line-height:1;padding:2px 6px">✕</button>
+        <span>Per-driver one-at-a-time withdrawal resolves the attribution confound the original all-at-once relaxation could not. Withdrawing each vent driver alone (the other two held at full) across 24 structures × 3 drivers × 8 innovation subsets: the vent-pmf GRADIENT is a hard dependency — the full innovation set rescues its withdrawal in only 4.2% of structures, and where it does the required set is {pump, heredity}; MINERAL access is freely survivable (0.958, no specific innovation required); FEED is borderline (0.75, no specific innovation required). The required set is therefore DRIVER-SPECIFIC, not a universal {pump, importer, heredity} triple — {pump, heredity} rescues the gradient, mineral and feed need no specific innovation, and the importer is never individually required. The lumped all-at-once run could not attribute because the gradient — rarely survivable, needing pump+heredity — dominated the joint collapse. confound_resolved; differential survivability; ledgers close at every point. <span class="muted small">(novel)</span></span>
+      </li>
+      
+      <li style="display:flex;align-items:flex-start;gap:8px">
+        <button type="button" class="action-btn study-finding-del" data-id="og08alt-no-subset-persists-at-the-nominal-floor" title="Delete finding" style="font-size:0.72em;line-height:1;padding:2px 6px">✕</button>
+        <span>With every driver withdrawn to 1 % of the vent level, none of the eight subsets of {pump, importer, heredity} persists under any of the 24 sampled structures (0 persisting runs of 192); the best full-set lineages end s02 -3.8e-20 W, s21 -1e-19 W, s14 -1e-19 W short, their machinery lost as the cell&#39;s organic carbon falls to the floor and the heredity class&#39;s precursor pools with it. <span class="muted small">(novel)</span></span>
+      </li>
+      
+      <li style="display:flex;align-items:flex-start;gap:8px">
+        <button type="button" class="action-btn study-finding-del" data-id="og08alt-pump-and-heredity-where-anything-persists" title="Delete finding" style="font-size:0.72em;line-height:1;padding:2px 6px">✕</button>
+        <span>At a 10 % ocean the only subset that persists is {pump, heredity}, under 2 of 24 structures (s16 (thioester acyl phosphate store, hybrid heredity, mixed boundary at the measured anchor, constant upkeep; net 9.5e-19 W, machinery 0.93, autonomy 1); s19 (thioester acyl phosphate store, rna like heredity, single chain boundary at the extrapolated anchor, constant upkeep; net 1.2e-18 W, machinery 0.97, autonomy 0.99)); the full set persists under 0. Over the viable structures the required intersection is {pump, heredity} and the importer is required in 0 of them: in the same structures the full set runs a deficit because the importer costs more than it returns (s16: net -4.9e-19 W with the importer on, its cost 1.7e-18 W; s19: net -1.1e-18 W with the importer on, its cost 1.9e-18 W). <span class="muted small">(novel)</span></span>
+      </li>
+      
+      <li style="display:flex;align-items:flex-start;gap:8px">
+        <button type="button" class="action-btn study-finding-del" data-id="og08alt-storage-and-inheritance-decide" title="Delete finding" style="font-size:0.72em;line-height:1;padding:2px 6px">✕</button>
+        <span>The storage model reproduces the energy-store result inside the world — the H+/Na+ gradient store never charges at the fatty-acid leak and polyphosphate never clears its 30 kJ/mol load, while the four stores deliver at most 0 (polyphosphate), 0 (H+/Na+ gradient), 6.6e-18 (thioester) and 5e-18 W (Fe-redox) — and the inheritance class reproduces the heredity stage&#39;s budget sensitivity: settled machinery off-gradient at the rich floor is hybrid 0.77, mineral state 0.74, rna like 0.41, compositional 0.27, network 0, peptide 0; peptide and network hold none, the templated classes decay as the carbon falls, the mineral and compositional classes hold on a fraction of the budget. <span class="muted small">(confirms)</span></span>
+      </li>
+      
+      <li style="display:flex;align-items:flex-start;gap:8px">
+        <button type="button" class="action-btn study-finding-del" data-id="og08alt-autonomy-reached-sufficiency-not" title="Delete finding" style="font-size:0.72em;line-height:1;padding:2px 6px">✕</button>
+        <span>Off-gradient the lineages supply essentially all of their own work, material and catalysis — the persisting ones at work 1, material 0.99, information 0.89 (total 0.99); the full-set lineages at a mean total autonomy of 0.93 against 0.71 in the vent, where the tap supplies the work (work autonomy 0.054) — and most of them still cannot pay for themselves. <span class="muted small">(novel)</span></span>
+      </li>
+      
+      <li style="display:flex;align-items:flex-start;gap:8px">
+        <button type="button" class="action-btn study-finding-del" data-id="og08alt-seven-ledgers-and-the-control" title="Delete finding" style="font-size:0.72em;line-height:1;padding:2px 6px">✕</button>
+        <span>All seven ledgers close on every one of the 485 runs (carbon 1.7e-10, N 1.4e-14, P 1.5e-14, free energy 4.4e-14, information store 1.1e-14, rewrite 4.9e-32, charge 4.7e-14, element 0); 40441 structural events were logged (22365 divisions, 724 extinctions); the og-adv generic control (every driver at its floor from t = 0, no pore concentration) persists under 0/24 structures. The vg-data package carries 32 parameters: 5 calibrated (the vent posterior), 4 inferred, 3 extrapolated, 20 hypothetical, none unsourced. <span class="muted small">(novel)</span></span>
+      </li>
+      
+      <li style="display:flex;align-items:flex-start;gap:8px">
+        <button type="button" class="action-btn study-finding-del" data-id="og37-attributed-independence-profile" title="Delete finding" style="font-size:0.72em;line-height:1;padding:2px 6px">✕</button>
+        <span>One-at-a-time, each of the 3 support channels is internalizable with the full innovation set (gradient / mineral / feed survivors all 1.00, budget margins +0.26 above the floor — transparent, not knife-edge) and the matched 2³ subset lattice resolves the attribution driver-specifically: the triple is advantageous but NOT a jointly-necessary irreducible unit — only pump+heredity interact positively, the importer is required by no driver, mineral and feed need no innovation, and the hard dependency is the geological gradient (rescued by pump-internalization, which flips below pump efficiency ~0.7). og-08&#39;s all-at-once relaxation cannot make this attribution — it escapes only with the full set and fails if ANY innovation is removed — so the subset lattice and one-at-a-time rebuild resolve the confound. So the lineage achieves a graded, attributed independence, not an all-or-nothing escape. <span class="muted small">(confirms)</span></span>
+      </li>
+      
+      <li style="display:flex;align-items:flex-start;gap:8px">
+        <button type="button" class="action-btn study-finding-del" data-id="og37-gradient-budget-sensitive" title="Delete finding" style="font-size:0.72em;line-height:1;padding:2px 6px">✕</button>
+        <span>The gradient (pH/pmf drive) is the budget-sensitive support: its pump-internalization is affordable only for catalyst_efficiency &gt;= ~0.7 and flips to a hard dependency below that (survivors 0 at efficiency &lt;= 0.6, 1.0 at &gt;= 0.7). This is grounded in study-35&#39;s persistence-not-throughput result — the internal carrier has limited surplus — so at a less efficient pump the vent&#39;s gradient drive is the hard dependency. Mineral and feed need no innovation (robust across the sweep; the importer is required by no driver). The result is reported as a located boundary, not a knife-edge pass. <span class="muted small">(confirms)</span></span>
+      </li>
+      
+      <li style="display:flex;align-items:flex-start;gap:8px">
+        <button type="button" class="action-btn study-finding-del" data-id="og37-scope-lumped-coarse" title="Delete finding" style="font-size:0.72em;line-height:1;padding:2px 6px">✕</button>
+        <span>Honest scope: the three channels are gradient (pH/pmf), mineral_access (mineral catalysis) and feed (H2+CO2+organics LUMPED), so the first cut does NOT resolve independence for H2 / CO2 / organics individually; and the innovations (pump/importer/heredity) are coarse budget abstractions from og-08, so the result is an affordability/attribution profile, NOT a demonstrated real-cell escape. The gold-standard follow-on og-37a resolves the feed per-feedstock, adds temperature as an Arrhenius rate modifier, and runs the combinatorial multi-withdrawal with resolved internalization chemistry. <span class="muted small">(confirms)</span></span>
+      </li>
+      
+    </ul>
+    
+    <form class="study-finding-add-form" onsubmit="return _submitStudyFindingAdd(this)" style="display:flex;flex-direction:column;gap:8px;max-width:680px">
+      <textarea name="statement" required rows="2" placeholder="What did this study show? (one sentence)"
+                style="font-size:0.9em;padding:6px 8px;resize:vertical"></textarea>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end">
+        <label style="font-size:0.78em;color:#475569">Status<br>
+          <select name="status" style="font-size:0.82em;padding:3px 6px">
+            <option value="novel">novel</option>
+            <option value="confirms">confirms literature</option>
+            <option value="partial">partial</option>
+            <option value="contradicts">contradicts</option>
+          </select></label>
+        <label style="font-size:0.78em;color:#475569;flex:1;min-width:200px">Why / mechanism (optional)<br>
+          <input name="explanation" style="width:100%;font-size:0.82em;padding:3px 6px"></label>
+        <button type="submit" class="action-btn" style="font-size:0.82em">+ Add finding</button>
+      </div>
+    </form>
+    <div class="study-finding-add-status muted" style="font-size:0.8em;margin-top:4px"></div>
+  </div>
+
+  
   <div class="overview-section"><h2 class="overview-label">Follow-ups &amp; decisions</h2>
 
     
@@ -3131,8 +3349,9 @@ pass_if: {"detail": "emits empty", "op": "threshold"}</pre>
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/workbench", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "96918bc67a86395adf424b352d0148cbce88b4dd", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/96918bc67a86395adf424b352d0148cbce88b4dd", "branch": "main", "lockfile": "uv.lock@8f46ee2de126", "generated_at": "2026-11-13 13:48 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/workbench", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main/workspace", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "5190da6cb591c69abec5072b43c1688dc67f2676", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/5190da6cb591c69abec5072b43c1688dc67f2676", "branch": "main", "lockfile": "uv.lock@65a7befcaf71", "generated_at": "2026-11-20 23:43 UTC"} };</script>
 <script src="/viva-genesis/workbench/assets/data-source.js"></script>
+<script src="/viva-genesis/workbench/assets/backend-features.js"></script>
 <script src="/viva-genesis/workbench/assets/toast.js"></script>
 <script>
 window._studyName = "og-independence";
@@ -3264,6 +3483,11 @@ window._seedFollowupProposal = _seedFollowupProposal;
 <script src="/viva-genesis/workbench/assets/checklist-select.js"></script>
 <script src="/viva-genesis/workbench/assets/progress-track.js"></script>
 <script src="/viva-genesis/workbench/assets/comparison-view.js"></script>
+<!-- The backend launch plugin's script (remote-pinned dispatch + the
+     "Dispatch composite" panel), quarantined out of study-detail.js. Loaded
+     BEFORE it: study-detail.js calls window.SmsLaunch.mount() while it loads,
+     and runs local-only when the file is absent. -->
+<script src="/viva-genesis/workbench/assets/sms-launch.js"></script>
 <script src="/viva-genesis/workbench/assets/study-detail.js"></script>
 <script src="/viva-genesis/workbench/assets/study-feedback.js"></script>
 <script src="/viva-genesis/workbench/assets/inline-edit.js"></script>
@@ -3276,7 +3500,7 @@ window._seedFollowupProposal = _seedFollowupProposal;
 </script>
 <script>
 (function () {
-  // Task 8: the Configure & Run mount and the remote-run (smsvpctest) panel
+  // Task 8: the Configure & Run mount and the remote-run panel
   // were both removed from the Simulate tab — launching now lives entirely
   // in the header buttons (Reproduce / Run current spec). This block used
   // to also mount ConfigureRun into the (now-deleted) mount div and, in an

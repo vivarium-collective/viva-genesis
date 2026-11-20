@@ -16,17 +16,22 @@
 </head>
 <body>
 <main class="study-page">
+
+
 <header class="study-header">
-  <div style="display:flex; align-items:center; gap:14px; justify-content:space-between;">
+  <div style="display:flex; align-items:flex-start; gap:14px; justify-content:space-between;">
+  <div class="study-head-main" style="min-width:0; flex:1 1 auto">
   <div style="display:flex; align-items:center; gap:12px; min-width:0; flex-wrap:wrap">
   <h1 class="study-title" style="margin:0">
     <span class="study-name" id="study-name" data-slug="og-self-compartmentation" data-study-kind="computational" title="og-self-compartmentation" data-edit-kind="study" data-edit-field="title" data-edit-value="Self-Compartmentation: Does Metabolism Build Its Own Boundary?" data-edit-label="Title">Self-Compartmentation: Does Metabolism Build Its Own Boundary?</span>
     
   </h1>
+  </div>
+  <p id="study-question-headline" class="study-question-headline" title="How does a vent-born chemical system acquire a self-made boundary and become a self-maintaining protocell — do amphiphiles assemble a retaining-but-not-isolating boundary, does encapsulation pay against a matched equal-feed null, does the integrated compartment self-maintain and beat a matched ablation, and are real fatty-acid vesicles stable — each against its own matched null with input fluxes held equal?" data-edit-kind="study" data-edit-field="question" data-edit-value="How does a vent-born chemical system acquire a self-made boundary and become a self-maintaining protocell — do amphiphiles assemble a retaining-but-not-isolating boundary, does encapsulation pay against a matched equal-feed null, does the integrated compartment self-maintain and beat a matched ablation, and are real fatty-acid vesicles stable — each against its own matched null with input fluxes held equal?" data-edit-multiline data-edit-label="Question"><span class="q-glyph">Q</span> <span class="study-question-headline-text">How does a vent-born chemical system acquire a self-made boundary and become a self-maintaining protocell — do amphiphiles assemble a retaining-but-not-isolating boundary, does encapsulation pay against a matched equal-feed null, does the integrated compartment self-maintain and beat a matched ablation, and are real fatty-acid vesicles stable — each against its own matched null with input fluxes held equal?</span></p>
+  </div>
+  <span class="study-header-actions" style="display:inline-flex; gap:10px; flex-shrink:0; align-items:center;">
     
     <span id="study-axis-markers" data-slug="og-self-compartmentation" style="display:inline-flex; gap:8px; align-items:center; flex-wrap:wrap"></span>
-  </div>
-  <span class="study-header-actions" style="display:inline-flex; gap:6px; flex-shrink:0; align-items:center;">
     
     
     
@@ -49,8 +54,6 @@
 
 
 
-
-<p id="study-question-headline" class="study-question-headline"><span class="q-glyph">Q</span> <span class="study-question-headline-text" data-edit-kind="study" data-edit-field="question" data-edit-value="How does a vent-born chemical system acquire a self-made boundary and become a self-maintaining protocell — do amphiphiles assemble a retaining-but-not-isolating boundary, does encapsulation pay against a matched equal-feed null, does the integrated compartment self-maintain and beat a matched ablation, and are real fatty-acid vesicles stable — each against its own matched null with input fluxes held equal?" data-edit-multiline data-edit-label="Question">How does a vent-born chemical system acquire a self-made boundary and become a self-maintaining protocell — do amphiphiles assemble a retaining-but-not-isolating boundary, does encapsulation pay against a matched equal-feed null, does the integrated compartment self-maintain and beat a matched ablation, and are real fatty-acid vesicles stable — each against its own matched null with input fluxes held equal?</span></p>
 
 <nav class="study-tabs" aria-label="Study sections">
   
@@ -80,10 +83,18 @@
   </button>
   
   <span class="study-dl study-export-wrap" style="margin-left:auto; align-self:center; position:relative; display:inline-flex">
-    <button type="button" id="study-export-btn" class="btn-mini" aria-haspopup="true" aria-expanded="false" title="Download this study's figures or a runnable notebook">↓ Export ▾</button>
-    <div id="study-export-menu" role="menu" style="display:none;position:absolute;right:0;top:100%;margin-top:4px;background:#fff;border:1px solid #e2e8f0;border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,0.14);z-index:70;min-width:200px;padding:4px">
-      <button type="button" id="study-dl-figures" role="menuitem" class="study-jump-item" onclick="window._vivStudyFiguresFromCard(event, 'og-self-compartmentation')">Download figures</button>
-      <button type="button" id="study-dl-notebook" role="menuitem" class="study-jump-item" onclick="window._vivStudyNotebookFromCard(event, 'og-self-compartmentation', 'origins-of-life-vent')">Download notebook</button>
+    <button type="button" id="study-export-btn" class="btn-mini" aria-haspopup="true" aria-expanded="false" title="Shortcuts — open in the browser or download (report, notebook, figures)">Shortcuts ▾</button>
+    
+    <div id="study-export-menu" role="menu" style="display:none;position:absolute;right:0;top:100%;margin-top:4px;background:#fff;border:1px solid #e2e8f0;border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,0.14);z-index:70;min-width:190px;padding:4px">
+      <div class="study-export-sec">Report</div>
+      <button type="button" id="study-report-open" role="menuitem" class="btn-mini study-export-item" onclick="window._vivStudyReportOpen(event, 'og-self-compartmentation')">Open in browser</button>
+      <button type="button" id="study-report-dl" role="menuitem" class="btn-mini study-export-item" onclick="window._vivStudyReportDownload(event, 'og-self-compartmentation')">Download HTML</button>
+      <div class="study-export-sec">Notebook</div>
+      <button type="button" id="study-nb-open" role="menuitem" class="btn-mini study-export-item" onclick="window._vivStudyNotebookOpen(event, 'og-self-compartmentation')">Open in browser</button>
+      <button type="button" id="study-dl-notebook" role="menuitem" class="btn-mini study-export-item" onclick="window._vivStudyNotebookFromCard(event, 'og-self-compartmentation', 'origins-of-life-vent')">Download .ipynb</button>
+      <div class="study-export-sec">Figures</div>
+      <button type="button" id="study-fig-open" role="menuitem" class="btn-mini study-export-item" onclick="window._vivStudyFiguresOpen(event, 'og-self-compartmentation')">Open in browser</button>
+      <button type="button" id="study-dl-figures" role="menuitem" class="btn-mini study-export-item" onclick="window._vivStudyFiguresFromCard(event, 'og-self-compartmentation')">Download (zip)</button>
     </div>
   </span>
 </nav>
@@ -96,8 +107,18 @@
 .study-kind-tag.study-kind-biological{background:#ecfdf5;color:#065f46}
 .study-kind-tag.study-kind-computational{background:#eff6ff;color:#1e40af}
 .study-kind-tag.study-kind-theoretical{background:#faf5ff;color:#6b21a8}
-.study-question-headline{margin:6px 0 0 0;font-size:1.05em;line-height:1.5;color:#1e293b;font-family:Georgia,"Times New Roman",serif}
+.study-question-headline{margin:2px 0 0 0;font-size:0.85em;line-height:1.35;color:#475569;font-family:Georgia,"Times New Roman",serif;padding-right:40px}
+/* Park the inline-edit ✎ in a reserved right gutter so it never lands over the
+   question text (the pencil is an absolutely-positioned child of the editable). */
+.study-question-headline>.ie-pencil{right:6px;top:1px}
+h1.study-title .study-name.ie-editable{padding-right:36px}
+h1.study-title .study-name>.ie-pencil{right:4px;top:6px}
 .study-question-headline .q-glyph{display:inline-block;font-size:0.78em;font-weight:700;font-family:ui-monospace,monospace;color:#64748b;background:#f1f5f9;padding:1px 7px;border-radius:4px;margin-right:6px;vertical-align:middle}
+/* Study Export menu — styled to match the investigation-level ↓ Export menu
+   exactly: grey uppercase section labels + full-width, left-aligned, stacked
+   text-link items (not inline pills). Mirrors walkthrough.js `_sec` + `_mi`. */
+.study-export-sec{padding:6px 8px 2px;font-size:0.72em;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:#94a3b8}
+.study-export-item{display:block;width:100%;text-align:left;border:none;background:transparent}
 .status-detail-panel{margin:0;padding:2px 0;background:transparent;border:none;border-radius:0;font-size:0.92em}
 .status-detail-row{display:flex;align-items:center;gap:8px;padding:3px 0}
 .status-detail-axis{min-width:140px;color:#475569;font-size:0.9em}
@@ -696,10 +717,13 @@
             </div>
             
             
+            
+            
             <div class="finding-traceability" style="font-size:0.84em;color:#475569;padding:4px 10px;margin:4px 0">
               
               
               runs: <a href="#run-viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791944482__977ceb"><code>viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791944482__977ceb</code></a>
+              
             </div>
             
             
@@ -757,10 +781,13 @@
             </div>
             
             
+            
+            
             <div class="finding-traceability" style="font-size:0.84em;color:#475569;padding:4px 10px;margin:4px 0">
               
               
               runs: <a href="#run-viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791944482__977ceb"><code>viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791944482__977ceb</code></a>
+              
             </div>
             
             
@@ -818,10 +845,13 @@
             </div>
             
             
+            
+            
             <div class="finding-traceability" style="font-size:0.84em;color:#475569;padding:4px 10px;margin:4px 0">
               
               
               runs: <a href="#run-viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791944482__977ceb"><code>viva_genesis.composites.mixed_amphiphile_protocell.mixed_amphiphile_protocell__1791944482__977ceb</code></a>
+              
             </div>
             
             
@@ -909,10 +939,13 @@
             </div>
             
             
+            
+            
             <div class="finding-traceability" style="font-size:0.84em;color:#475569;padding:4px 10px;margin:4px 0">
               
               
               runs: <a href="#run-viva_genesis.composites.endogenous_boundary.endogenous_boundary__1792350382__6fe7d7"><code>viva_genesis.composites.endogenous_boundary.endogenous_boundary__1792350382__6fe7d7</code></a>
+              
             </div>
             
             
@@ -961,6 +994,8 @@
               
               
             </div>
+            
+            
             
             
             
@@ -1020,6 +1055,8 @@
             
             
             
+            
+            
             <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: op: threshold · detail: reported either way (the physically-expected null is not a gate failure)</code></div>
             
             
@@ -1064,6 +1101,8 @@
               
               
             </div>
+            
+            
             
             
             
@@ -1116,6 +1155,8 @@
             
             
             
+            
+            
             <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: op: threshold · detail: membrane TOC exceeds the ablation TOC (else no persistence benefit)</code></div>
             
             
@@ -1164,6 +1205,8 @@
             
             
             
+            
+            
             <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: op: threshold · detail: a bounded access window where membrane TOC exceeds ablation, with a located failure boundary</code></div>
             
             
@@ -1208,6 +1251,8 @@
               
               
             </div>
+            
+            
             
             
             
@@ -1267,6 +1312,8 @@
             
             
             
+            
+            
             <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: op: threshold · detail: permeability/retention derived from MD thickness · moving with composition: None</code></div>
             
             
@@ -1315,6 +1362,8 @@
             
             
             
+            
+            
             <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: op: threshold · detail: membrane beats the ablation on flux or persistence</code></div>
             
             
@@ -1359,6 +1408,8 @@
               
               
             </div>
+            
+            
             
             
             
@@ -1418,6 +1469,8 @@
             
             
             
+            
+            
             <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: op: threshold · detail: at least the shortest charged chain micellises (cv mean &gt; 0.35 or inner leaflet lost)</code></div>
             
             
@@ -1462,6 +1515,8 @@
               
               
             </div>
+            
+            
             
             
             
@@ -1527,12 +1582,23 @@
 
 
 <section class="study-tab-panel" data-kind="compose" id="panel-compose" hidden>
-  <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:8px;">
-    <h2 class="overview-label" style="margin:0">Model composition</h2>
-    
-    <button type="button" class="btn-mini" onclick="window._vivStudyNotebookFromCard(event, 'og-self-compartmentation', 'origins-of-life-vent')" title="Download a runnable Jupyter notebook for THIS study — its composite + editable parameters + figures">↓ notebook</button>
+  
+  <div class="model-subtabs" role="tablist" aria-label="Model sections">
+    <button type="button" class="model-subtab active" data-modelsub="composition" role="tab" aria-selected="true" onclick="_setModelSubtab('composition')">Composition</button>
+    <button type="button" class="model-subtab" data-modelsub="loom" role="tab" aria-selected="false" onclick="_setModelSubtab('loom')">Loom</button>
+    <button type="button" class="model-subtab" data-modelsub="variants" role="tab" aria-selected="false" onclick="_setModelSubtab('variants')">Variants</button>
+    <button type="button" class="model-subtab" data-modelsub="interventions" role="tab" aria-selected="false" onclick="_setModelSubtab('interventions')">Interventions</button>
+    <button type="button" class="model-subtab" data-modelsub="readouts" role="tab" aria-selected="false" onclick="_setModelSubtab('readouts')">Readouts</button>
   </div>
 
+  
+  <div class="model-subpanel" data-modelsubpanel="loom" hidden>
+    <div id="model-loom-mount" class="model-loom-mount">
+      <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading the interactive model diagram…</span></div>
+    </div>
+  </div>
+
+  <div class="model-subpanel active" data-modelsubpanel="composition">
   
   
   <div id="model-composite-cards" class="model-composite-cards" data-study="og-self-compartmentation"
@@ -1628,10 +1694,77 @@
   
   
   
-
-
+  </div>
 
   
+  <div class="model-subpanel" data-modelsubpanel="variants" hidden>
+  <div class="overview-section" id="study-variants-section">
+    <p class="msub-intro">A <strong>variant</strong> is a copy of a baseline model with a few parameters changed, run and compared against the baseline. Everything else stays fixed.</p>
+    
+    <div class="msub-empty">No variants yet. Add one below to perturb the baseline and compare against it.</div>
+    
+    
+    <form class="study-variant-add-form msub-addcard" onsubmit="return _submitStudyVariantAdd(this)">
+      <div class="msub-addcard-title">Add a variant</div>
+      <div class="msub-field-grid">
+        <label class="msub-field">
+          <span class="msub-lbl">Name</span>
+          <input name="name" required pattern="[a-zA-Z0-9_-]+" placeholder="hi-dnaa" class="msub-input mono">
+          <span class="msub-hint">letters, numbers, - and _</span>
+        </label>
+        <label class="msub-field">
+          <span class="msub-lbl">Based on</span>
+          <select name="base_composite" class="msub-input">
+            <option value="og-self-compartmentation">og-self-compartmentation</option>
+          </select>
+          <span class="msub-hint">the baseline this variant perturbs</span>
+        </label>
+        <label class="msub-field msub-field-wide">
+          <span class="msub-lbl">Parameter overrides</span>
+          <input name="overrides" placeholder='{"k_synth": 2.0}' class="msub-input mono">
+          <span class="msub-hint">JSON object of parameter → value; leave blank for none</span>
+        </label>
+      </div>
+      <div class="msub-addcard-foot">
+        <button type="submit" class="action-btn primary">+ Add variant</button>
+        <span class="study-variant-add-status msub-status"></span>
+      </div>
+    </form>
+    
+  </div>
+  </div>
+
+  
+  <div class="model-subpanel" data-modelsubpanel="interventions" hidden>
+  <div class="overview-section" id="study-interventions-section">
+    <p class="msub-intro">An <strong>intervention</strong> is a named, described perturbation applied in this study (e.g. a knockout) — the conceptual change you are testing, documented alongside the model.</p>
+    
+    <div class="msub-empty">No interventions yet. Add one below.</div>
+    
+    <form class="study-intervention-add-form msub-addcard" onsubmit="return _submitStudyInterventionAdd(this)">
+      <div class="msub-addcard-title">Add an intervention</div>
+      <div class="msub-field-grid">
+        <label class="msub-field">
+          <span class="msub-lbl">Name</span>
+          <input name="name" required pattern="[a-zA-Z0-9_-]+" placeholder="knockout-dnaA" class="msub-input mono">
+          <span class="msub-hint">letters, numbers, - and _</span>
+        </label>
+        <label class="msub-field msub-field-wide">
+          <span class="msub-lbl">Description</span>
+          <input name="description" placeholder="what the intervention does" class="msub-input">
+          <span class="msub-hint">a short, human-readable summary</span>
+        </label>
+      </div>
+      <div class="msub-addcard-foot">
+        <button type="submit" class="action-btn primary">+ Add intervention</button>
+        <span class="study-intervention-add-status msub-status"></span>
+      </div>
+    </form>
+  </div>
+  </div>
+
+  
+  <div class="model-subpanel" data-modelsubpanel="readouts" hidden>
   <div class="overview-section" id="model-readouts-section">
     <h3>Readouts</h3>
 
@@ -1649,6 +1782,7 @@
     </div>
 
     
+  </div>
   </div>
   </div>
 
@@ -1670,7 +1804,6 @@
   <button type="button" id="study-run-current-spec" class="action-btn" title="Run this study's CURRENT baseline spec (POST /api/study-run-baseline) as a brand-new run">▶ Run current spec</button>
   <button type="button" id="study-reproduce" class="btn-mini" title="Replay this study's most recent run's RECORDED manifest verbatim (POST /api/study-reproduce) — ignores any study.yaml edits made since">↻ Reproduce</button>
   
-  <button type="button" id="study-run-composite" class="btn-mini" title="Dispatch a specific process-bigraph composite_id to the remote compute backend (pbg-native multi_node/mbp, or the Nextflow campaign path) — advanced, independent of this study's own pinned baseline">⚙ Dispatch composite</button>
 </div>
 
 <div class="overview-section" id="simulations-section">
@@ -2915,6 +3048,113 @@ pass_if: {"detail": "at least 3 seeds per arm with reported mean +/- std", "op":
   </div>
 
   
+  <div class="overview-section" id="study-findings-authoring">
+    <h2 class="overview-label">Record a finding</h2>
+    
+    <ul class="synthesis-list" style="margin:0 0 12px">
+      
+      <li style="display:flex;align-items:flex-start;gap:8px">
+        <button type="button" class="action-btn study-finding-del" data-id="og04-mixed-amphiphile-window" title="Delete finding" style="font-size:0.72em;line-height:1;padding:2px 6px">✕</button>
+        <span>Mixed single-chain amphiphiles form viable vesicles at alkaline vent pH and seawater ionic strength, where a single fatty acid does not — reproducing the Jordan-2019 broadening of the pH / salt / divalent stability window. <span class="muted small">(confirms)</span></span>
+      </li>
+      
+      <li style="display:flex;align-items:flex-start;gap:8px">
+        <button type="button" class="action-btn study-finding-del" data-id="og04-individuality-without-isolation" title="Delete finding" style="font-size:0.72em;line-height:1;padding:2px 6px">✕</button>
+        <span>The viable compartments retain internal chemistry (retention 0.91) while staying permeable to the external gradient (access 1.0) — a non-empty individuality-without-isolation region (product ≈ 0.90), the key requirement for a protocell that does not cut itself off from geochemical energy. <span class="muted small">(novel)</span></span>
+      </li>
+      
+      <li style="display:flex;align-items:flex-start;gap:8px">
+        <button type="button" class="action-btn study-finding-del" data-id="og04-retention-access-plane" title="Delete finding" style="font-size:0.72em;line-height:1;padding:2px 6px">✕</button>
+        <span>Sweeping permeability (via temperature) traces the compartment through three regimes on the retention-access plane — too closed (retains but starves; low T), a viable window (individuality + access, peak ret×acc ≈ 0.92 at ~310 K), and too open (leaks; high T) before the membrane destabilizes entirely. Orthogonally, the viable salt ceiling rises with co-surfactant fraction: the feasibility map marks a viable region (individuality &gt; 0.1) at 63/256 points (~25%) — vesicles survive at seawater salt (0.35 M) and beyond only with enough co-surfactant — the Jordan mixed-amphiphile advantage as a bounded 2-D region, not a single point. <span class="muted small">(novel)</span></span>
+      </li>
+      
+      <li style="display:flex;align-items:flex-start;gap:8px">
+        <button type="button" class="action-btn study-finding-del" data-id="og04-mix-fraction-gotcha" title="Delete finding" style="font-size:0.72em;line-height:1;padding:2px 6px">✕</button>
+        <span>The parameter sweep exposed that an exact mix_fraction=0.0 is swallowed by process-bigraph&#39;s is_empty(Float, 0.0) and refilled with the default (0.4), which would silently turn the single-fatty-acid control into a mixed-amphiphile run. The composite now clamps 0.0 to a negligible 1e-6 and reads mix_fraction via a state input, so the control is honored. (The study runner had already dodged it with 0.001.) <span class="muted small">(novel)</span></span>
+      </li>
+      
+      <li style="display:flex;align-items:flex-start;gap:8px">
+        <button type="button" class="action-btn study-finding-del" data-id="endogenous-boundary-forms" title="Delete finding" style="font-size:0.72em;line-height:1;padding:2px 6px">✕</button>
+        <span>The boundary forms from acetate+formate-derived amphiphile; with synthesis ablated it does not — boundary formation is caused by the endogenous chemistry. <span class="muted small">(confirms)</span></span>
+      </li>
+      
+      <li style="display:flex;align-items:flex-start;gap:8px">
+        <button type="button" class="action-btn study-finding-del" data-id="og31-membrane-pays-on-persistence" title="Delete finding" style="font-size:0.72em;line-height:1;padding:2px 6px">✕</button>
+        <span>Under the reduced-coupling model, at the Jordan-2019 vent-calibrated retention 0.905 / access 0.997, an endogenous membrane raises the standing metabolite pool (TOC) to about 2.9x the no-membrane ablation on the Gate-B pore-concentrated carbon-fixing network - the membrane pays for itself on persistence. Guardrail: this network is the sustained A1 carbon-fixing metabolism, not autocatalytic (A2 is refuted), so this is &#34;a persisting network makes a membrane that pays for itself,&#34; not autocatalysis. <span class="muted small">(confirms)</span></span>
+      </li>
+      
+      <li style="display:flex;align-items:flex-start;gap:8px">
+        <button type="button" class="action-btn study-finding-del" data-id="og31-throughput-not-improved" title="Delete finding" style="font-size:0.72em;line-height:1;padding:2px 6px">✕</button>
+        <span>Net carbon-fixation flux under the membrane is about 0.6x the ablation - lower, not higher. Throughput is feed-limited, so reduced washout grows the standing pool, not the fixation rate; the benefit is on persistence, not throughput, and is reported as such. (The physically-expected result, not a shortfall: compartmentalization buys retention/concentration, not faster chemistry.) <span class="muted small">(contradicts)</span></span>
+      </li>
+      
+      <li style="display:flex;align-items:flex-start;gap:8px">
+        <button type="button" class="action-btn study-finding-del" data-id="og31-persistence-benefit-windowed" title="Delete finding" style="font-size:0.72em;line-height:1;padding:2px 6px">✕</button>
+        <span>The persistence benefit is windowed - it holds for membrane access down to about 0.45 and inverts below ~0.45, where a too-tight membrane starves the feed and the retained pool drops below the open system. The failure boundary is located and the vent-calibrated access (0.997) sits inside the window (mirrors Gate B&#39;s windowed discipline). <span class="muted small">(partial)</span></span>
+      </li>
+      
+      <li style="display:flex;align-items:flex-start;gap:8px">
+        <button type="button" class="action-btn study-finding-del" data-id="og31-reduced-coupling-scope" title="Delete finding" style="font-size:0.72em;line-height:1;padding:2px 6px">✕</button>
+        <span>This is a reduced-coupling membrane model (retention/access), explicitly NOT the MD-resolved permeability PMF. It is the &#34;benefits from it&#34; half of Gate C and complements og-31&#39;s Martini-MD cohesion (the &#34;makes a membrane&#34; half). The structurally-resolved coupling (amphiphile composition to permeability to retention) and thus full Gate C requires study 32 (First Self-Maintaining Protocell) plus the viva-md-membrane coupling (to-build). <span class="muted small">(novel)</span></span>
+      </li>
+      
+      <li style="display:flex;align-items:flex-start;gap:8px">
+        <button type="button" class="action-btn study-finding-del" data-id="og31-connectivity-brittle-highTOC" title="Delete finding" style="font-size:0.72em;line-height:1;padding:2px 6px">✕</button>
+        <span>As in Gate B, the network_connected proxy is brittle at high standing pool - membrane connectivity reads 0 at high TOC accumulation. This is flagged and does not change the persistence result, which is based on the standing metabolite pool (TOC), not connectivity. <span class="muted small">(novel)</span></span>
+      </li>
+      
+      <li style="display:flex;align-items:flex-start;gap:8px">
+        <button type="button" class="action-btn study-finding-del" data-id="og32-self-maintains-or-net-cost" title="Delete finding" style="font-size:0.72em;line-height:1;padding:2px 6px">✕</button>
+        <span>At equal feeds vs the no-endogenous-membrane ablation, the compartment self-maintains in the measurable form (verdict qualified). (i) Integrity: net amphiphile production 3.48e-5 &gt;= degradation 1.0e-7 (eta_amph 0.10, k_deg 1e-4/s, M_req 1e-3 M) - maintained. (ii) Benefit: the membrane beats the ablation on persistence (standing organic carbon 1.77e-2 vs 8.96e-3, 1.98x) but not on throughput (net carbon flux 0.79x, feed-limited) - so the benefit is retention, not faster chemistry, exactly as og-31 found under the reduced coupling. Self-maintaining = integrity and benefit = true; qualified because the benefit is persistence-only and the coupling is MD-informed, not PMF-resolved. Guardrail: the metabolism is the sustained A1 carbon-fixing network, not autocatalytic. <span class="muted small">(confirms)</span></span>
+      </li>
+      
+      <li style="display:flex;align-items:flex-start;gap:8px">
+        <button type="button" class="action-btn study-finding-del" data-id="og32-md-informed-permeability" title="Delete finding" style="font-size:0.72em;line-height:1;padding:2px 6px">✕</button>
+        <span>Membrane permeability is informed by real short Martini 3 CG-MD of the amphiphile composition, not a free parameter: the long di-C16 bilayer (thickness 2.870 nm) is thicker than the short di-C12 one (2.325 nm), and a published solubility-diffusion structure-&gt;permeability relation (a labelled proposed_input) maps that to lower permeability (0.256 vs 1.0 rel.) and higher retention (0.661 vs 0.333); retention lowers effective washout and raises the standing pool, so composition informs permeability informs retention. This is an MD-informed structural proxy, NOT a PMF-resolved permeability (Option A, study og-32a). It tightens the composition-&gt;permeability-&gt;retention chain that og-31 approximated with a reduced-coupling proxy. <span class="muted small">(confirms)</span></span>
+      </li>
+      
+      <li style="display:flex;align-items:flex-start;gap:8px">
+        <button type="button" class="action-btn study-finding-del" data-id="og32-gate-c-advance-over-og31" title="Delete finding" style="font-size:0.72em;line-height:1;padding:2px 6px">✕</button>
+        <span>Study 32 takes full Gate C on an MD-informed first cut (Option B): composition-informed permeability-&gt;retention with the measurable self-maintenance criterion (integrity + persistence benefit over the matched ablation), verdict qualified - advancing og-31&#39;s partial, reduced-coupling result by deriving retention from a real MD observable rather than a free knob. The matched-null is the no-endogenous-membrane ablation at equal feeds; self-maintenance is the measurable criterion, not strict autopoietic closure. The result is windowed (integrity holds up to k_deg &lt;= ~0.01/s; the persistence benefit tracks the MD composition). The PMF-resolved permeability (Option A, og-32a) is the gold-standard budgeted follow-up that would re-test the verdict under a structurally-resolved permeability. <span class="muted small">(confirms)</span></span>
+      </li>
+      
+      <li style="display:flex;align-items:flex-start;gap:8px">
+        <button type="button" class="action-btn study-finding-del" data-id="og32b-protonated-vesicles-stable-across-window" title="Delete finding" style="font-size:0.72em;line-height:1;padding:2px 6px">✕</button>
+        <span>Real single-chain fatty-acid vesicles (viva-openmm Martini 3, ~1054 lipids, 3 independent MD seeds/arm) hold a closed bilayer across the entire protonated C10-C16 chain window: every chain keeps a populated inner leaflet (inner_leaflet_fraction 0.39-0.41, well above the 0.20 bilayer threshold) and a coherent, non-dispersed head shell (head_radial_cv 0.227-0.247, well below the 0.35 micelle threshold), with all 3/3 seeds stable at each chain and tight spread (std &lt;= 0.01). So the protocell boundary forms and holds for the real amphiphile across the chain-length axis on this short-MD stability trend. <span class="muted small">(confirms)</span></span>
+      </li>
+      
+      <li style="display:flex;align-items:flex-start;gap:8px">
+        <button type="button" class="action-btn study-finding-del" data-id="og32b-charged-null-micellises-short-corner" title="Delete finding" style="font-size:0.72em;line-height:1;padding:2px 6px">✕</button>
+        <span>The matched null - the SAME fatty acid with fully-ionised charged-only (SQ5n) heads - micellises at the short-chain corner: C10 charged disperses in all 3/3 seeds (head_radial_cv 0.433 +/- 0.009, above the 0.35 threshold), the control that should fail. The charge effect is chain-length-gated within this short window: C14 charged still holds a coherent shell (cv 0.296 +/- 0.009, 3/3 stable), i.e. charge-driven micellisation of the longer chains is slower than ~0.8 ns CPU-MD resolves. So the destabilising corner is short chain + fully charged, exactly where fatty-acid physics (highest curvature + strongest headgroup repulsion) predicts the vesicle-forming threshold is crossed; the converged charge/chain boundary is the GPU gold-standard follow-up. <span class="muted small">(confirms)</span></span>
+      </li>
+      
+      <li style="display:flex;align-items:flex-start;gap:8px">
+        <button type="button" class="action-btn study-finding-del" data-id="og32b-real-amphiphile-replaces-standin" title="Delete finding" style="font-size:0.72em;line-height:1;padding:2px 6px">✕</button>
+        <span>This study replaces og-32&#39;s DLPC/DPPC phospholipid planar-bilayer stand-in with the real protocell amphiphile: a closed bilayer vesicle of single-chain fatty acids built + integrated in martini_openmm (Martini 3 fatty-acid defs FAnn/FAnnM + vesicle builder + semi-isotropic membrane barostat, finite energy). The Gate-C boundary is now the actual amphiphile, judged by a bilayer-vs-micelle discriminator (inner-leaflet / lumen retention) over &gt;= 3 seeds. Verdict qualified: a short-MD stability trend, not a converged micellisation equilibrium or a permeability PMF - those are the GPU gold-standard follow-ups (og-32c self-assembly, og-32a PMF). The SP2/SQ5n head is a tracked Martini-3 building-block proposed_input; the C1 tails are authoritative. <span class="muted small">(confirms)</span></span>
+      </li>
+      
+    </ul>
+    
+    <form class="study-finding-add-form" onsubmit="return _submitStudyFindingAdd(this)" style="display:flex;flex-direction:column;gap:8px;max-width:680px">
+      <textarea name="statement" required rows="2" placeholder="What did this study show? (one sentence)"
+                style="font-size:0.9em;padding:6px 8px;resize:vertical"></textarea>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end">
+        <label style="font-size:0.78em;color:#475569">Status<br>
+          <select name="status" style="font-size:0.82em;padding:3px 6px">
+            <option value="novel">novel</option>
+            <option value="confirms">confirms literature</option>
+            <option value="partial">partial</option>
+            <option value="contradicts">contradicts</option>
+          </select></label>
+        <label style="font-size:0.78em;color:#475569;flex:1;min-width:200px">Why / mechanism (optional)<br>
+          <input name="explanation" style="width:100%;font-size:0.82em;padding:3px 6px"></label>
+        <button type="submit" class="action-btn" style="font-size:0.82em">+ Add finding</button>
+      </div>
+    </form>
+    <div class="study-finding-add-status muted" style="font-size:0.8em;margin-top:4px"></div>
+  </div>
+
+  
   <div class="overview-section"><h2 class="overview-label">Follow-ups &amp; decisions</h2>
 
     
@@ -2936,8 +3176,9 @@ pass_if: {"detail": "at least 3 seeds per arm with reported mean +/- std", "op":
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/workbench", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "96918bc67a86395adf424b352d0148cbce88b4dd", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/96918bc67a86395adf424b352d0148cbce88b4dd", "branch": "main", "lockfile": "uv.lock@8f46ee2de126", "generated_at": "2026-11-13 13:48 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/workbench", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main/workspace", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "5190da6cb591c69abec5072b43c1688dc67f2676", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/5190da6cb591c69abec5072b43c1688dc67f2676", "branch": "main", "lockfile": "uv.lock@65a7befcaf71", "generated_at": "2026-11-20 23:43 UTC"} };</script>
 <script src="/viva-genesis/workbench/assets/data-source.js"></script>
+<script src="/viva-genesis/workbench/assets/backend-features.js"></script>
 <script src="/viva-genesis/workbench/assets/toast.js"></script>
 <script>
 window._studyName = "og-self-compartmentation";
@@ -3069,6 +3310,11 @@ window._seedFollowupProposal = _seedFollowupProposal;
 <script src="/viva-genesis/workbench/assets/checklist-select.js"></script>
 <script src="/viva-genesis/workbench/assets/progress-track.js"></script>
 <script src="/viva-genesis/workbench/assets/comparison-view.js"></script>
+<!-- The backend launch plugin's script (remote-pinned dispatch + the
+     "Dispatch composite" panel), quarantined out of study-detail.js. Loaded
+     BEFORE it: study-detail.js calls window.SmsLaunch.mount() while it loads,
+     and runs local-only when the file is absent. -->
+<script src="/viva-genesis/workbench/assets/sms-launch.js"></script>
 <script src="/viva-genesis/workbench/assets/study-detail.js"></script>
 <script src="/viva-genesis/workbench/assets/study-feedback.js"></script>
 <script src="/viva-genesis/workbench/assets/inline-edit.js"></script>
@@ -3081,7 +3327,7 @@ window._seedFollowupProposal = _seedFollowupProposal;
 </script>
 <script>
 (function () {
-  // Task 8: the Configure & Run mount and the remote-run (smsvpctest) panel
+  // Task 8: the Configure & Run mount and the remote-run panel
   // were both removed from the Simulate tab — launching now lives entirely
   // in the header buttons (Reproduce / Run current spec). This block used
   // to also mount ConfigureRun into the (now-deleted) mount div and, in an

@@ -16,17 +16,22 @@
 </head>
 <body>
 <main class="study-page">
+
+
 <header class="study-header">
-  <div style="display:flex; align-items:center; gap:14px; justify-content:space-between;">
+  <div style="display:flex; align-items:flex-start; gap:14px; justify-content:space-between;">
+  <div class="study-head-main" style="min-width:0; flex:1 1 auto">
   <div style="display:flex; align-items:center; gap:12px; min-width:0; flex-wrap:wrap">
   <h1 class="study-title" style="margin:0">
     <span class="study-name" id="study-name" data-slug="og-ecology" data-study-kind="computational" title="og-ecology" data-edit-kind="study" data-edit-field="title" data-edit-value="Protocell Ecology: Does Community Function Precede the Cell?" data-edit-label="Title">Protocell Ecology: Does Community Function Precede the Cell?</span>
     
   </h1>
+  </div>
+  <p id="study-question-headline" class="study-question-headline" title="Is protocell-era chemistry ecological before it is cellular — does a cross-feeding community out-produce the best single lineage (margin causally cross-feeding), does community function precede cell completeness and vanish without exchange — each against its own matched null with input fluxes held equal?" data-edit-kind="study" data-edit-field="question" data-edit-value="Is protocell-era chemistry ecological before it is cellular — does a cross-feeding community out-produce the best single lineage (margin causally cross-feeding), does community function precede cell completeness and vanish without exchange — each against its own matched null with input fluxes held equal?" data-edit-multiline data-edit-label="Question"><span class="q-glyph">Q</span> <span class="study-question-headline-text">Is protocell-era chemistry ecological before it is cellular — does a cross-feeding community out-produce the best single lineage (margin causally cross-feeding), does community function precede cell completeness and vanish without exchange — each against its own matched null with input fluxes held equal?</span></p>
+  </div>
+  <span class="study-header-actions" style="display:inline-flex; gap:10px; flex-shrink:0; align-items:center;">
     
     <span id="study-axis-markers" data-slug="og-ecology" style="display:inline-flex; gap:8px; align-items:center; flex-wrap:wrap"></span>
-  </div>
-  <span class="study-header-actions" style="display:inline-flex; gap:6px; flex-shrink:0; align-items:center;">
     
     
     
@@ -49,8 +54,6 @@
 
 
 
-
-<p id="study-question-headline" class="study-question-headline"><span class="q-glyph">Q</span> <span class="study-question-headline-text" data-edit-kind="study" data-edit-field="question" data-edit-value="Is protocell-era chemistry ecological before it is cellular — does a cross-feeding community out-produce the best single lineage (margin causally cross-feeding), does community function precede cell completeness and vanish without exchange — each against its own matched null with input fluxes held equal?" data-edit-multiline data-edit-label="Question">Is protocell-era chemistry ecological before it is cellular — does a cross-feeding community out-produce the best single lineage (margin causally cross-feeding), does community function precede cell completeness and vanish without exchange — each against its own matched null with input fluxes held equal?</span></p>
 
 <nav class="study-tabs" aria-label="Study sections">
   
@@ -80,10 +83,18 @@
   </button>
   
   <span class="study-dl study-export-wrap" style="margin-left:auto; align-self:center; position:relative; display:inline-flex">
-    <button type="button" id="study-export-btn" class="btn-mini" aria-haspopup="true" aria-expanded="false" title="Download this study's figures or a runnable notebook">↓ Export ▾</button>
-    <div id="study-export-menu" role="menu" style="display:none;position:absolute;right:0;top:100%;margin-top:4px;background:#fff;border:1px solid #e2e8f0;border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,0.14);z-index:70;min-width:200px;padding:4px">
-      <button type="button" id="study-dl-figures" role="menuitem" class="study-jump-item" onclick="window._vivStudyFiguresFromCard(event, 'og-ecology')">Download figures</button>
-      <button type="button" id="study-dl-notebook" role="menuitem" class="study-jump-item" onclick="window._vivStudyNotebookFromCard(event, 'og-ecology', 'origins-of-life-vent')">Download notebook</button>
+    <button type="button" id="study-export-btn" class="btn-mini" aria-haspopup="true" aria-expanded="false" title="Shortcuts — open in the browser or download (report, notebook, figures)">Shortcuts ▾</button>
+    
+    <div id="study-export-menu" role="menu" style="display:none;position:absolute;right:0;top:100%;margin-top:4px;background:#fff;border:1px solid #e2e8f0;border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,0.14);z-index:70;min-width:190px;padding:4px">
+      <div class="study-export-sec">Report</div>
+      <button type="button" id="study-report-open" role="menuitem" class="btn-mini study-export-item" onclick="window._vivStudyReportOpen(event, 'og-ecology')">Open in browser</button>
+      <button type="button" id="study-report-dl" role="menuitem" class="btn-mini study-export-item" onclick="window._vivStudyReportDownload(event, 'og-ecology')">Download HTML</button>
+      <div class="study-export-sec">Notebook</div>
+      <button type="button" id="study-nb-open" role="menuitem" class="btn-mini study-export-item" onclick="window._vivStudyNotebookOpen(event, 'og-ecology')">Open in browser</button>
+      <button type="button" id="study-dl-notebook" role="menuitem" class="btn-mini study-export-item" onclick="window._vivStudyNotebookFromCard(event, 'og-ecology', 'origins-of-life-vent')">Download .ipynb</button>
+      <div class="study-export-sec">Figures</div>
+      <button type="button" id="study-fig-open" role="menuitem" class="btn-mini study-export-item" onclick="window._vivStudyFiguresOpen(event, 'og-ecology')">Open in browser</button>
+      <button type="button" id="study-dl-figures" role="menuitem" class="btn-mini study-export-item" onclick="window._vivStudyFiguresFromCard(event, 'og-ecology')">Download (zip)</button>
     </div>
   </span>
 </nav>
@@ -96,8 +107,18 @@
 .study-kind-tag.study-kind-biological{background:#ecfdf5;color:#065f46}
 .study-kind-tag.study-kind-computational{background:#eff6ff;color:#1e40af}
 .study-kind-tag.study-kind-theoretical{background:#faf5ff;color:#6b21a8}
-.study-question-headline{margin:6px 0 0 0;font-size:1.05em;line-height:1.5;color:#1e293b;font-family:Georgia,"Times New Roman",serif}
+.study-question-headline{margin:2px 0 0 0;font-size:0.85em;line-height:1.35;color:#475569;font-family:Georgia,"Times New Roman",serif;padding-right:40px}
+/* Park the inline-edit ✎ in a reserved right gutter so it never lands over the
+   question text (the pencil is an absolutely-positioned child of the editable). */
+.study-question-headline>.ie-pencil{right:6px;top:1px}
+h1.study-title .study-name.ie-editable{padding-right:36px}
+h1.study-title .study-name>.ie-pencil{right:4px;top:6px}
 .study-question-headline .q-glyph{display:inline-block;font-size:0.78em;font-weight:700;font-family:ui-monospace,monospace;color:#64748b;background:#f1f5f9;padding:1px 7px;border-radius:4px;margin-right:6px;vertical-align:middle}
+/* Study Export menu — styled to match the investigation-level ↓ Export menu
+   exactly: grey uppercase section labels + full-width, left-aligned, stacked
+   text-link items (not inline pills). Mirrors walkthrough.js `_sec` + `_mi`. */
+.study-export-sec{padding:6px 8px 2px;font-size:0.72em;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:#94a3b8}
+.study-export-item{display:block;width:100%;text-align:left;border:none;background:transparent}
 .status-detail-panel{margin:0;padding:2px 0;background:transparent;border:none;border-radius:0;font-size:0.92em}
 .status-detail-row{display:flex;align-items:center;gap:8px;padding:3px 0}
 .status-detail-axis{min-width:140px;color:#475569;font-size:0.9em}
@@ -728,6 +749,8 @@
             
             
             
+            
+            
             <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: op: threshold · detail: community productivity &gt; best single lineage; margin positive in most seeds</code></div>
             
             
@@ -779,6 +802,8 @@
               
               
             </div>
+            
+            
             
             
             
@@ -838,6 +863,8 @@
             
             
             
+            
+            
             <div class="pass_if-band muted small" style="font-size:0.82em;padding:2px 10px">judged against <code>pass_if: op: threshold · detail: community CV &gt; best-single CV (community_more_robust False) - reported honestly</code></div>
             
             
@@ -884,10 +911,13 @@
             </div>
             
             
+            
+            
             <div class="finding-traceability" style="font-size:0.84em;color:#475569;padding:4px 10px;margin:4px 0">
               
               
               runs: <a href="#run-viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity__1791924854__16b7a0"><code>viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity__1791924854__16b7a0</code></a>
+              
             </div>
             
             
@@ -945,10 +975,13 @@
             </div>
             
             
+            
+            
             <div class="finding-traceability" style="font-size:0.84em;color:#475569;padding:4px 10px;margin:4px 0">
               
               
               runs: <a href="#run-viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity__1791924854__16b7a0"><code>viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity__1791924854__16b7a0</code></a>
+              
             </div>
             
             
@@ -1006,10 +1039,13 @@
             </div>
             
             
+            
+            
             <div class="finding-traceability" style="font-size:0.84em;color:#475569;padding:4px 10px;margin:4px 0">
               
               
               runs: <a href="#run-viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity__1791924854__16b7a0"><code>viva_genesis.composites.cross_feeding_metacommunity.cross_feeding_metacommunity__1791924854__16b7a0</code></a>
+              
             </div>
             
             
@@ -1067,10 +1103,13 @@
             </div>
             
             
+            
+            
             <div class="finding-traceability" style="font-size:0.84em;color:#475569;padding:4px 10px;margin:4px 0">
               
               
               runs: <a href="#run-viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1792076282__f47040"><code>viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1792076282__f47040</code></a>
+              
             </div>
             
             
@@ -1128,10 +1167,13 @@
             </div>
             
             
+            
+            
             <div class="finding-traceability" style="font-size:0.84em;color:#475569;padding:4px 10px;margin:4px 0">
               
               
               runs: <a href="#run-viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1792076282__f47040"><code>viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1792076282__f47040</code></a>
+              
             </div>
             
             
@@ -1189,10 +1231,13 @@
             </div>
             
             
+            
+            
             <div class="finding-traceability" style="font-size:0.84em;color:#475569;padding:4px 10px;margin:4px 0">
               
               
               runs: <a href="#run-viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1792076282__f47040"><code>viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1792076282__f47040</code></a>
+              
             </div>
             
             
@@ -1250,10 +1295,13 @@
             </div>
             
             
+            
+            
             <div class="finding-traceability" style="font-size:0.84em;color:#475569;padding:4px 10px;margin:4px 0">
               
               
               runs: <a href="#run-viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1792076282__f47040"><code>viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1792076282__f47040</code></a>
+              
             </div>
             
             
@@ -1311,10 +1359,13 @@
             </div>
             
             
+            
+            
             <div class="finding-traceability" style="font-size:0.84em;color:#475569;padding:4px 10px;margin:4px 0">
               
               
               runs: <a href="#run-viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1792076282__f47040"><code>viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1792076282__f47040</code></a>
+              
             </div>
             
             
@@ -1372,10 +1423,13 @@
             </div>
             
             
+            
+            
             <div class="finding-traceability" style="font-size:0.84em;color:#475569;padding:4px 10px;margin:4px 0">
               
               
               runs: <a href="#run-viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1792076282__f47040"><code>viva_genesis.composites.metabolite_exchange_community.metabolite_exchange_community__1792076282__f47040</code></a>
+              
             </div>
             
             
@@ -1448,12 +1502,23 @@
 
 
 <section class="study-tab-panel" data-kind="compose" id="panel-compose" hidden>
-  <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:8px;">
-    <h2 class="overview-label" style="margin:0">Model composition</h2>
-    
-    <button type="button" class="btn-mini" onclick="window._vivStudyNotebookFromCard(event, 'og-ecology', 'origins-of-life-vent')" title="Download a runnable Jupyter notebook for THIS study — its composite + editable parameters + figures">↓ notebook</button>
+  
+  <div class="model-subtabs" role="tablist" aria-label="Model sections">
+    <button type="button" class="model-subtab active" data-modelsub="composition" role="tab" aria-selected="true" onclick="_setModelSubtab('composition')">Composition</button>
+    <button type="button" class="model-subtab" data-modelsub="loom" role="tab" aria-selected="false" onclick="_setModelSubtab('loom')">Loom</button>
+    <button type="button" class="model-subtab" data-modelsub="variants" role="tab" aria-selected="false" onclick="_setModelSubtab('variants')">Variants</button>
+    <button type="button" class="model-subtab" data-modelsub="interventions" role="tab" aria-selected="false" onclick="_setModelSubtab('interventions')">Interventions</button>
+    <button type="button" class="model-subtab" data-modelsub="readouts" role="tab" aria-selected="false" onclick="_setModelSubtab('readouts')">Readouts</button>
   </div>
 
+  
+  <div class="model-subpanel" data-modelsubpanel="loom" hidden>
+    <div id="model-loom-mount" class="model-loom-mount">
+      <div class="viv-loading"><span class="viv-loading-spin" aria-hidden="true"></span><span>Loading the interactive model diagram…</span></div>
+    </div>
+  </div>
+
+  <div class="model-subpanel active" data-modelsubpanel="composition">
   
   
   <div id="model-composite-cards" class="model-composite-cards" data-study="og-ecology"
@@ -1549,10 +1614,77 @@
   
   
   
-
-
+  </div>
 
   
+  <div class="model-subpanel" data-modelsubpanel="variants" hidden>
+  <div class="overview-section" id="study-variants-section">
+    <p class="msub-intro">A <strong>variant</strong> is a copy of a baseline model with a few parameters changed, run and compared against the baseline. Everything else stays fixed.</p>
+    
+    <div class="msub-empty">No variants yet. Add one below to perturb the baseline and compare against it.</div>
+    
+    
+    <form class="study-variant-add-form msub-addcard" onsubmit="return _submitStudyVariantAdd(this)">
+      <div class="msub-addcard-title">Add a variant</div>
+      <div class="msub-field-grid">
+        <label class="msub-field">
+          <span class="msub-lbl">Name</span>
+          <input name="name" required pattern="[a-zA-Z0-9_-]+" placeholder="hi-dnaa" class="msub-input mono">
+          <span class="msub-hint">letters, numbers, - and _</span>
+        </label>
+        <label class="msub-field">
+          <span class="msub-lbl">Based on</span>
+          <select name="base_composite" class="msub-input">
+            <option value="og-ecology">og-ecology</option>
+          </select>
+          <span class="msub-hint">the baseline this variant perturbs</span>
+        </label>
+        <label class="msub-field msub-field-wide">
+          <span class="msub-lbl">Parameter overrides</span>
+          <input name="overrides" placeholder='{"k_synth": 2.0}' class="msub-input mono">
+          <span class="msub-hint">JSON object of parameter → value; leave blank for none</span>
+        </label>
+      </div>
+      <div class="msub-addcard-foot">
+        <button type="submit" class="action-btn primary">+ Add variant</button>
+        <span class="study-variant-add-status msub-status"></span>
+      </div>
+    </form>
+    
+  </div>
+  </div>
+
+  
+  <div class="model-subpanel" data-modelsubpanel="interventions" hidden>
+  <div class="overview-section" id="study-interventions-section">
+    <p class="msub-intro">An <strong>intervention</strong> is a named, described perturbation applied in this study (e.g. a knockout) — the conceptual change you are testing, documented alongside the model.</p>
+    
+    <div class="msub-empty">No interventions yet. Add one below.</div>
+    
+    <form class="study-intervention-add-form msub-addcard" onsubmit="return _submitStudyInterventionAdd(this)">
+      <div class="msub-addcard-title">Add an intervention</div>
+      <div class="msub-field-grid">
+        <label class="msub-field">
+          <span class="msub-lbl">Name</span>
+          <input name="name" required pattern="[a-zA-Z0-9_-]+" placeholder="knockout-dnaA" class="msub-input mono">
+          <span class="msub-hint">letters, numbers, - and _</span>
+        </label>
+        <label class="msub-field msub-field-wide">
+          <span class="msub-lbl">Description</span>
+          <input name="description" placeholder="what the intervention does" class="msub-input">
+          <span class="msub-hint">a short, human-readable summary</span>
+        </label>
+      </div>
+      <div class="msub-addcard-foot">
+        <button type="submit" class="action-btn primary">+ Add intervention</button>
+        <span class="study-intervention-add-status msub-status"></span>
+      </div>
+    </form>
+  </div>
+  </div>
+
+  
+  <div class="model-subpanel" data-modelsubpanel="readouts" hidden>
   <div class="overview-section" id="model-readouts-section">
     <h3>Readouts</h3>
 
@@ -1570,6 +1702,7 @@
     </div>
 
     
+  </div>
   </div>
   </div>
 
@@ -1591,7 +1724,6 @@
   <button type="button" id="study-run-current-spec" class="action-btn" title="Run this study's CURRENT baseline spec (POST /api/study-run-baseline) as a brand-new run">▶ Run current spec</button>
   <button type="button" id="study-reproduce" class="btn-mini" title="Replay this study's most recent run's RECORDED manifest verbatim (POST /api/study-reproduce) — ignores any study.yaml edits made since">↻ Reproduce</button>
   
-  <button type="button" id="study-run-composite" class="btn-mini" title="Dispatch a specific process-bigraph composite_id to the remote compute backend (pbg-native multi_node/mbp, or the Nextflow campaign path) — advanced, independent of this study's own pinned baseline">⚙ Dispatch composite</button>
 </div>
 
 <div class="overview-section" id="simulations-section">
@@ -3252,6 +3384,93 @@ pass_if: {"detail": "all runs within tolerance", "op": "\u003e=", "value": 1.0}<
   </div>
 
   
+  <div class="overview-section" id="study-findings-authoring">
+    <h2 class="overview-label">Record a finding</h2>
+    
+    <ul class="synthesis-list" style="margin:0 0 12px">
+      
+      <li style="display:flex;align-items:flex-start;gap:8px">
+        <button type="button" class="action-btn study-finding-del" data-id="og36-community-beats-best-single" title="Delete finding" style="font-size:0.72em;line-height:1;padding:2px 6px">✕</button>
+        <span>At equal shared feed, the SSA cross-feeding community out-produces the BEST single lineage by ~1.9x (community 1522 vs best-single 812 cumulative births; margin 710, positive in 100% of 24 seeds), and the margin is CAUSALLY cross-feeding - a knockout at equal feed collapses it to 11 (~2% of the community margin). Coexistence is stabilised by depletable byproduct pools (negative frequency dependence), not assumed: deterministically all 4 lineages persist (n_alive 4), the knockout excludes down (n_alive 2). So an emergent community function exists and is cross-feeding-caused, not mere diversity. <span class="muted small">(confirms)</span></span>
+      </li>
+      
+      <li style="display:flex;align-items:flex-start;gap:8px">
+        <button type="button" class="action-btn study-finding-del" data-id="og36-productivity-not-robustness" title="Delete finding" style="font-size:0.72em;line-height:1;padding:2px 6px">✕</button>
+        <span>The community function is productivity, NOT robustness. Under low-count demographic noise the community is ~2x more variable than the monoculture (CV 0.085 vs 0.037) and loses a lineage in ~12% of runs, and a system-size (Omega) sweep shows this divergence from the deterministic mean-field GROWING as counts fall (Omega 0.7: 31% extinction, 20% margin erosion; Omega &gt;= 2: effectively deterministic); the mean-field misses the lineage loss entirely. So the ecology RAISES productivity but PAYS in robustness — the COUNTERPOINT to Gate B (pore), Gate C (membrane) and Gate E/35 (energy carrier), each of which bought persistence/robustness but NOT throughput. Across all four gates robustness is the consistently traded axis. A community that were both more robust and more productive would be a cleaner result; buying one by spending the other is the honest qualified verdict. <span class="muted small">(confirms)</span></span>
+      </li>
+      
+      <li style="display:flex;align-items:flex-start;gap:8px">
+        <button type="button" class="action-btn study-finding-del" data-id="og36-scope-option-b" title="Delete finding" style="font-size:0.72em;line-height:1;padding:2px 6px">✕</button>
+        <span>Model is Option B - a lightweight dependency-free numpy Gillespie SSA (exact) with a matched mean-field ODE, honestly a reproduction, not a wrapped ALife engine; parameters are labelled proposed_inputs, not fitted. The GillesPy2 / SSA tau-leaping engine and a COBRApy genome-scale metabolic benchmark - which would re-test the cross-feeding community function under resolved, genome-scale chemistry - are the gold-standard follow-on (og-36a). <span class="muted small">(confirms)</span></span>
+      </li>
+      
+      <li style="display:flex;align-items:flex-start;gap:8px">
+        <button type="button" class="action-btn study-finding-del" data-id="og07-connectivity-builds-robustness" title="Delete finding" style="font-size:0.72em;line-height:1;padding:2px 6px">✕</button>
+        <span>A connected metacommunity of 8 pore compartments, each carrying a sparse coarse-grained protometabolic capability vector (2 of 12 functions intrinsic), develops functional redundancy (robustness 0.667) through cross-feeding and horizontal transfer, well above the isolated counterfactual (0.500) run on the identical seeded assignment. Across an 8-seed sweep the connected arm (0.71±0.08) strictly beats the isolated arm (0.42±0.06) on every seed (min gain 0.17), so the redundancy is a product of connectivity, not of the capability assignment. <span class="muted small">(confirms)</span></span>
+      </li>
+      
+      <li style="display:flex;align-items:flex-start;gap:8px">
+        <button type="button" class="action-btn study-finding-del" data-id="og07-robustness-emergence-boundary" title="Delete finding" style="font-size:0.72em;line-height:1;padding:2px 6px">✕</button>
+        <span>Robustness EMERGES only in a bounded corner of (cross-feeding exchange_rate x inter-compartment diversity). At low diversity the compartments are near-identical, so cross-feeding/HGT have nothing to share and robustness stays at the sparse intrinsic floor (~0.17-0.25 regardless of exchange); at low exchange a diverse-but-disconnected set holds a broad repertoire fragilely (each capability in one compartment, ~0.33-0.42); only where diversity &gt;= ~0.4 AND exchange crosses ~0.2 does robustness climb to 0.58-0.83. The transition is a phase boundary, not a monotone response to either knob alone. The companion three-view Decision map over (exchange_rate x parasite_load) at the canonical diversity sharpens this — robustness clears the 0.5 emergence boundary only once exchange crosses ~0.2 AND parasite load stays low (0.667 at the parasite-free operating point), collapsing toward 0 as parasites drain their neighbours. <span class="muted small">(novel)</span></span>
+      </li>
+      
+      <li style="display:flex;align-items:flex-start;gap:8px">
+        <button type="button" class="action-btn study-finding-del" data-id="og07-luca-overlap-as-boundary" title="Delete finding" style="font-size:0.72em;line-height:1;padding:2px 6px">✕</button>
+        <span>The metacommunity&#39;s collective capability repertoire overlaps the Weiss-2016 anaerobic H2/CO2/FeS LUCA core at 0.60 (canonical) and 0.70±0.14 across seeds. This is reported as a far-end BOUNDARY the emergent set approaches from below — a phylogenomic constraint on capabilities eventually acquired — and is explicitly NOT a fitting target; the model is never tuned toward it. <span class="muted small">(novel)</span></span>
+      </li>
+      
+      <li style="display:flex;align-items:flex-start;gap:8px">
+        <button type="button" class="action-btn study-finding-del" data-id="og07alt-community-function-precedes-cell-completeness" title="Delete finding" style="font-size:0.72em;line-height:1;padding:2px 6px">✕</button>
+        <span>The community of a carboxylating and a hydrogenating lineage holds malate (c4_diacid_hydroxy) at 6.4e-9 M in its reducer agents although the fixer monoculture, the reducer monoculture and the private (no-sharing) arm hold 0 M and neither monoculture ever produces it; the generalist (complete-cell) arm holds 1.36e-7 M, so the community reaches 4.7 % of a complete cell (3.9e-3 vs 0.08 molecules per 1-fL agent: a mean-field occupancy). The best agent in the community holds 14 of the 15 product classes in the union (max completeness 0.933, mean 0.867), so the function is present while no cell is complete. <span class="muted small">(novel)</span></span>
+      </li>
+      
+      <li style="display:flex;align-items:flex-start;gap:8px">
+        <button type="button" class="action-btn study-finding-del" data-id="og07alt-sustained-by-real-flux" title="Delete finding" style="font-size:0.72em;line-height:1;padding:2px 6px">✕</button>
+        <span>The community-only function vanishes when nothing is shared (private arm: each agent exchanges only with its own copy of the background; malate 0 M) and its precursor oxaloacetate — a species the reducer cannot make in monoculture — crosses between the lineages at 1.8e-27 mol per tick (1.1e-3 molecules per tick over the 8 agents), while formate (1.7e-24) and lactate (3.6e-25 mol/tick) carry the largest cross-lineage fluxes. The exchange rules fired 468,331 times on the canonical run (secretion 135,316, uptake 115,466, pore diffusion 93,009, feed / washout 124,540); no rule moves a capability. <span class="muted small">(novel)</span></span>
+      </li>
+      
+      <li style="display:flex;align-items:flex-start;gap:8px">
+        <button type="button" class="action-btn study-finding-del" data-id="og07alt-emergence-needs-a-leaky-boundary" title="Delete finding" style="font-size:0.72em;line-height:1;padding:2px 6px">✕</button>
+        <span>Over (diacid permeability x pore residence) the community-only function appears from 3e-9 m/s at 20 s and 100 s residence (malate 1.1e-9 / 1.5e-9 M at the boundary, 2.0e-8 M at 1e-7 m/s and 100 s) and only at 1e-7 m/s at 500 s residence, where the shared feed is depleted; below 3e-9 m/s the dicarboxylate decarboxylates back to pyruvate inside the fixer before it can cross. The measured permeability of charged solutes through fatty-acid vesicles (~1e-11-1e-10 m/s) lies 1-2 decades below the boundary. <span class="muted small">(novel)</span></span>
+      </li>
+      
+      <li style="display:flex;align-items:flex-start;gap:8px">
+        <button type="button" class="action-btn study-finding-del" data-id="og07alt-og07-readouts-from-real-agents" title="Delete finding" style="font-size:0.72em;line-height:1;padding:2px 6px">✕</button>
+        <span>og-07&#39;s gate readouts recomputed from the agents map (capabilities = product classes held by &gt;= 2 agents): metacommunity robustness 0.54 in the shared community vs 0.46 in the private arm, 0.25 / 0.32 in the monocultures and 0.68 for complete cells; capability diversity 0.46 vs 0.29 (private); LUCA-core overlap 0.8 for every arm with a fixer (H2 oxidation, CO2 fixation, FeS-type catalysis and acetate are realised; ion pumping is unreachable in a C/H/O network), 0.6 for the reducer alone. The within-run isolated counterfactual (functions an agent PRODUCES) equals the held robustness, so og-07&#39;s &#34;acquired capability&#34; has no counterpart in real chemistry: what an agent acquires by flux is a precursor, and the function it then performs is its own. <span class="muted small">(confirms)</span></span>
+      </li>
+      
+      <li style="display:flex;align-items:flex-start;gap:8px">
+        <button type="button" class="action-btn study-finding-del" data-id="og07alt-null-and-segregation-controls" title="Delete finding" style="font-size:0.72em;line-height:1;padding:2px 6px">✕</button>
+        <span>The reaction-universe matched null (degree-preserving, (C,O)-matched rewiring) inside every agent with the same rule masks yields 0 (seed 0) and 1 (seed 1: c1_methanol, 2.5e-8 M, absent in its own private arm) community-only classes, so a rule partition can split a pathway across lineages in rewired chemistry too; what the real universe adds is that the split function is the reductive C4 branch of carbon fixation. Segregating the lineages into separate pore blocks keeps the function (1 community-only class) because pore diffusion (k_diffusion 0.1/s, hypothetical) carries the intermediate between cells. <span class="muted small">(novel)</span></span>
+      </li>
+      
+      <li style="display:flex;align-items:flex-start;gap:8px">
+        <button type="button" class="action-btn study-finding-del" data-id="og07alt-element-ledger-and-provenance" title="Delete finding" style="font-size:0.72em;line-height:1;padding:2px 6px">✕</button>
+        <span>The cross-system element ledger — C, N and P summed over every agent&#39;s interior and every field cell against the pore inflow, washout and the carbon degraded to tar — closes on all 98 runs: C residual &lt;= 6.5e-9 (the agents&#39; CVODE tolerance), N &lt;= 1.1e-15 and P &lt;= 1.4e-15 (round-off: no rule transforms them). The vg-data package cnp_resources carries 23 parameters: 0 measured, 2 calibrated (the vent carbon feed), 7 inferred, 7 extrapolated, 7 hypothetical (the diacid permeability, the C:N:P demand, the pore cells and diffusion), none unsourced. <span class="muted small">(novel)</span></span>
+      </li>
+      
+    </ul>
+    
+    <form class="study-finding-add-form" onsubmit="return _submitStudyFindingAdd(this)" style="display:flex;flex-direction:column;gap:8px;max-width:680px">
+      <textarea name="statement" required rows="2" placeholder="What did this study show? (one sentence)"
+                style="font-size:0.9em;padding:6px 8px;resize:vertical"></textarea>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end">
+        <label style="font-size:0.78em;color:#475569">Status<br>
+          <select name="status" style="font-size:0.82em;padding:3px 6px">
+            <option value="novel">novel</option>
+            <option value="confirms">confirms literature</option>
+            <option value="partial">partial</option>
+            <option value="contradicts">contradicts</option>
+          </select></label>
+        <label style="font-size:0.78em;color:#475569;flex:1;min-width:200px">Why / mechanism (optional)<br>
+          <input name="explanation" style="width:100%;font-size:0.82em;padding:3px 6px"></label>
+        <button type="submit" class="action-btn" style="font-size:0.82em">+ Add finding</button>
+      </div>
+    </form>
+    <div class="study-finding-add-status muted" style="font-size:0.8em;margin-top:4px"></div>
+  </div>
+
+  
   <div class="overview-section"><h2 class="overview-label">Follow-ups &amp; decisions</h2>
 
     
@@ -3273,8 +3492,9 @@ pass_if: {"detail": "all runs within tolerance", "op": "\u003e=", "value": 1.0}<
 </section>
 
 </main>
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/workbench", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "96918bc67a86395adf424b352d0148cbce88b4dd", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/96918bc67a86395adf424b352d0148cbce88b4dd", "branch": "main", "lockfile": "uv.lock@8f46ee2de126", "generated_at": "2026-11-13 13:48 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/workbench", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main/workspace", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "5190da6cb591c69abec5072b43c1688dc67f2676", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/5190da6cb591c69abec5072b43c1688dc67f2676", "branch": "main", "lockfile": "uv.lock@65a7befcaf71", "generated_at": "2026-11-20 23:43 UTC"} };</script>
 <script src="/viva-genesis/workbench/assets/data-source.js"></script>
+<script src="/viva-genesis/workbench/assets/backend-features.js"></script>
 <script src="/viva-genesis/workbench/assets/toast.js"></script>
 <script>
 window._studyName = "og-ecology";
@@ -3406,6 +3626,11 @@ window._seedFollowupProposal = _seedFollowupProposal;
 <script src="/viva-genesis/workbench/assets/checklist-select.js"></script>
 <script src="/viva-genesis/workbench/assets/progress-track.js"></script>
 <script src="/viva-genesis/workbench/assets/comparison-view.js"></script>
+<!-- The backend launch plugin's script (remote-pinned dispatch + the
+     "Dispatch composite" panel), quarantined out of study-detail.js. Loaded
+     BEFORE it: study-detail.js calls window.SmsLaunch.mount() while it loads,
+     and runs local-only when the file is absent. -->
+<script src="/viva-genesis/workbench/assets/sms-launch.js"></script>
 <script src="/viva-genesis/workbench/assets/study-detail.js"></script>
 <script src="/viva-genesis/workbench/assets/study-feedback.js"></script>
 <script src="/viva-genesis/workbench/assets/inline-edit.js"></script>
@@ -3418,7 +3643,7 @@ window._seedFollowupProposal = _seedFollowupProposal;
 </script>
 <script>
 (function () {
-  // Task 8: the Configure & Run mount and the remote-run (smsvpctest) panel
+  // Task 8: the Configure & Run mount and the remote-run panel
   // were both removed from the Simulate tab — launching now lives entirely
   // in the header buttons (Reproduce / Run current spec). This block used
   // to also mount ConfigureRun into the (now-deleted) mount div and, in an

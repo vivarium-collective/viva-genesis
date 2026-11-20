@@ -1868,22 +1868,22 @@ _save_viz('og-self-compartmentation', 'fatty-acid-vesicle-stability', _render_on
 # **fatty-acid-vesicle-3d-structure**
 
 # fatty-acid-vesicle-3d-structure
-_save_viz('og-self-compartmentation', 'fatty-acid-vesicle-3d-structure', _render_one('', {'title': 'Fatty-acid vesicle — real Martini 3 CG-MD 3D structure (og-32b): C14 protonated, closed bilayer shell + water lumen, coloured by leaflet'}, RUNS_DB, STUDY_YAML))
+_save_viz('og-self-compartmentation', 'fatty-acid-vesicle-3d-structure', _render_one('html:viz/og-32b-fatty-acid-vesicle-stability/vesicle-3d-structure.html', {'title': 'Fatty-acid vesicle — real Martini 3 CG-MD 3D structure (og-32b): C14 protonated, closed bilayer shell + water lumen, coloured by leaflet'}, RUNS_DB, STUDY_YAML))
 
 # **bilayer-3d-structure**
 
 # bilayer-3d-structure
-_save_viz('og-self-compartmentation', 'bilayer-3d-structure', _render_one('', {'title': 'Phospholipid bilayer patch — real Martini 3 CG-MD 3D structure (og-32, DPPC stand-in), coloured by leaflet'}, RUNS_DB, STUDY_YAML))
+_save_viz('og-self-compartmentation', 'bilayer-3d-structure', _render_one('html:viz/og-32-first-self-maintaining-protocell/bilayer-3d-structure.html', {'title': 'Phospholipid bilayer patch — real Martini 3 CG-MD 3D structure (og-32, DPPC stand-in), coloured by leaflet'}, RUNS_DB, STUDY_YAML))
 
 # **fatty-acid-vesicle-3d-structure-static**
 
 # fatty-acid-vesicle-3d-structure-static
-_save_viz('og-self-compartmentation', 'fatty-acid-vesicle-3d-structure-static', _render_one('', {'title': 'Fatty-acid vesicle — Martini 3 CG-MD equatorial cross-section (static render): outer-leaflet heads (teal) ring inner-leaflet heads (amber) around the water lumen. Print-friendly companion to the interactive 3D viewer — embeds in the downloaded PDF (where cross-iframe WebGL does not render).'}, RUNS_DB, STUDY_YAML))
+_save_viz('og-self-compartmentation', 'fatty-acid-vesicle-3d-structure-static', _render_one('png:viz/og-32b-fatty-acid-vesicle-stability/vesicle-3d.png', {'title': 'Fatty-acid vesicle — Martini 3 CG-MD equatorial cross-section (static render): outer-leaflet heads (teal) ring inner-leaflet heads (amber) around the water lumen. Print-friendly companion to the interactive 3D viewer — embeds in the downloaded PDF (where cross-iframe WebGL does not render).'}, RUNS_DB, STUDY_YAML))
 
 # **bilayer-3d-structure-static**
 
 # bilayer-3d-structure-static
-_save_viz('og-self-compartmentation', 'bilayer-3d-structure-static', _render_one('', {'title': 'Phospholipid bilayer patch — Martini 3 CG-MD side view (static render): upper-leaflet heads (teal), lower-leaflet heads (amber), tails forming the hydrophobic core. Print-friendly companion for the PDF.'}, RUNS_DB, STUDY_YAML))
+_save_viz('og-self-compartmentation', 'bilayer-3d-structure-static', _render_one('png:viz/og-32-first-self-maintaining-protocell/bilayer-3d.png', {'title': 'Phospholipid bilayer patch — Martini 3 CG-MD side view (static render): upper-leaflet heads (teal), lower-leaflet heads (amber), tails forming the hydrophobic core. Print-friendly companion for the PDF.'}, RUNS_DB, STUDY_YAML))
 
 # ### Acceptance criteria
 #
@@ -2494,8 +2494,8 @@ _save_viz('og-independence', 'autonomy-ablation-trace', _render_one('local:Auton
 # | structural-events-logged _(supporting)_ | kind=derived path=structural_events_logged detail=cumulative event count | op >= value 3.0 detail events recorded |
 # | autonomy-decomposed-off-gradient _(diagnostic)_ | kind=derived path=settled_autonomy detail=settled autonomy.autonomy | op >= value 0.0 detail informative readout |
 # | net-work-budget-off-gradient _(diagnostic)_ | kind=derived path=settled_net_power_offgradient detail=settled autonomy.net_power | op > value -1.0 detail informative readout |
-# | minimum-sufficient-innovation-set _(primary)_ | kind=derived path=lattice_minimum_sufficient_set_resolved detail=1 when both conditions hold | op >= value 1.0 detail lattice resolved |
-# | minimum-sufficient-innovation-set-rich-ocean _(supporting)_ | kind=derived path=lattice_minimum_sufficient_set_resolved_rich detail=1 when both conditions hold at the rich floor | op >= value 1.0 detail lattice resolved |
+# | minimum-sufficient-innovation-set _(diagnostic)_ | kind=derived path=lattice_minimum_sufficient_set_resolved detail=1 when both conditions hold | op >= value 1.0 detail lattice resolved |
+# | minimum-sufficient-innovation-set-rich-ocean _(diagnostic)_ | kind=derived path=lattice_minimum_sufficient_set_resolved_rich detail=1 when both conditions hold at the rich floor | op >= value 1.0 detail lattice resolved |
 # | full-set-persistence-across-structures _(diagnostic)_ | kind=derived path=lattice_full_set_persistence_fraction detail=n persisting / n structures | op >= value 0.0 detail informative readout |
 # | robust-required-intersection _(diagnostic)_ | kind=derived path=lattice_robust_required_count detail=size of the intersection | op >= value 0.0 detail informative readout |
 # | og08-hypothesis-reproduced _(diagnostic)_ | kind=derived path=lattice_og08_intersection_matches_rich detail=intersection == og-08 set | op >= value 0.0 detail informative readout |
