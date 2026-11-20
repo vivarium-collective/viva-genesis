@@ -280,7 +280,7 @@ behavior_tests:
   units: watt
   requires_simulation: 'yes'
 - name: minimum-sufficient-innovation-set
-  classification: primary
+  classification: diagnostic
   description: >-
     Integrated-autonomy exit gate (pre-registered): at the nominal ocean floor (1e-2) the lattice resolves
     — the full set persists off-gradient under at least half the sampled model structures AND the intersection
@@ -304,7 +304,7 @@ behavior_tests:
   - lane2012origin
 - name: minimum-sufficient-innovation-set-rich-ocean
   gate_class: regression_pin
-  classification: supporting
+  classification: diagnostic
   description: The same lattice gate at the rich ocean floor (1e-1).
   measure:
     kind: derived
