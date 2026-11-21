@@ -69,6 +69,15 @@ jobs:
         # force current main so `vivarium-workbench-publish` exists.
         run: uv pip install --reinstall-package vivarium-workbench "vivarium-workbench @ git+https://github.com/vivarium-collective/vivarium-workbench.git@main"
 
+      - name: Pull the latest discovery-engine (uv.lock froze the transitive dep)
+        # `uv sync` above installs viva-discovery-engine at the lock-frozen version
+        # (a transitive dep of vivarium-workbench), and the vivarium-workbench@main
+        # reinstall does NOT touch its transitive deps — so the published
+        # study-completeness gate / report linter ran on a STALE engine (e.g. the
+        # 0.7.3 gate rendered on 0.7.2, dropping the newer checks). Force the latest
+        # within vivarium-workbench's `>=0.3,<0.8` pin so the baked gate is current.
+        run: uv pip install --reinstall-package viva-discovery-engine --refresh-package viva-discovery-engine "viva-discovery-engine<0.8"
+
       - name: Build read-only workbench snapshot
         # Run inside the activated venv, NOT `uv run` — `uv run` re-syncs to
         # uv.lock first, which would undo the ad-hoc vivarium-workbench@main
