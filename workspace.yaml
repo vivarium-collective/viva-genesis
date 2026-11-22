@@ -1,5 +1,6 @@
 schema_version: 2
 name: viva-genesis
+avatar: assets/avatar.png  # rail icon in the workbench
 created: "2026-10-11"
 plugin_version: 0.4.16
 package_path: viva_genesis
