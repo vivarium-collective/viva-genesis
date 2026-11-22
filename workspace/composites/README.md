@@ -22,10 +22,10 @@ coupled mineral-kinetics module.
 
 ## Building a composite
 
-1. Wrap a simulator/engine as a Vivarium Process with `/viva-expert` (declare the
+1. Wrap a simulator/engine as a Vivarium Process with `/viva:model` (declare the
    port contract from `../notes/architecture.md` — types, units, conservation
    predicates).
 2. Add the process class under the matching `viva_genesis/<family>/` subpackage;
    `build_core()` registers it.
-3. Compose and smoke-test with `/viva-run`; drive studies with `/viva-study`.
+3. Compose and smoke-test with `/viva:run`; drive studies with `/viva:study`.
 4. Audit the wiring + completeness with the workbench **§ Contract** panel.

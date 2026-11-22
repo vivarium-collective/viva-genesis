@@ -43,7 +43,7 @@ instead of asserted.
 - Each scale coupling (field↔CPM, CPM↔subcellular, CPM↔population) is expressed as a
   **ProcessContract**, so the seam is typed and checkable, not implicit.
 - Every study yields at least one **spatial, watchable visualization** (viva-cpm 3D
-  viewer and/or a `/viva-viz` figure) that makes the mechanism legible.
+  viewer and/or a `/viva:viz` figure) that makes the mechanism legible.
 - Each study is **promoted off the mean-field through the engine** — `discover gap`
   surfaces the mean-field limitation, `refine-study --composite` swaps in the spatial
   composite, `advance` runs it — so the upgrade is recorded as discovery, not a manual
@@ -56,7 +56,7 @@ instead of asserted.
   readout.
 - Not adding any external CPM engine (Morpheus/Artistoo/CompuCell3D). viva-cpm is the
   single CPM backend; where it lacks a method we extend viva-cpm. (Standing user rule.)
-- Not a new visualization framework; use viva-cpm's viewer + `/viva-viz`.
+- Not a new visualization framework; use viva-cpm's viewer + `/viva:viz`.
 - Not publishing or deploying a read-only workbench as part of this build (separate ask).
 
 ## 4. Anti-goals (these would make it a failure even if it "worked")
@@ -84,7 +84,7 @@ instead of asserted.
 - **Worktree discipline.** All work in the `multicellularity` worktree of viva-genesis
   and a dedicated worktree of viva-cpm; squash-merge; one task per worktree. Canonical
   checkouts are read-only.
-- **Study authoring goes through `/viva-study`** (canonical `study.yaml`, provenance,
+- **Study authoring goes through `/viva:study`** (canonical `study.yaml`, provenance,
   AI-free split), not hand-edited YAML. Composites are real/registered or they lint as
   errors.
 - **No AI attribution** in any commit/PR.
@@ -226,7 +226,7 @@ Three couplings, each a ProcessContract so the seam is typed:
 
 Each study is promoted via the discovery loop, not a manual swap: `discover gap --propose`
 names the mean-field limitation; `refine-study --composite <spatial composite>` swaps the
-substrate; `advance` runs it; viz via the viva-cpm viewer + `/viva-viz`. This keeps the
+substrate; `advance` runs it; viz via the viva-cpm viewer + `/viva:viz`. This keeps the
 upgrade on the investigation record as discovery.
 
 ### 7.7 Sequencing (my call)

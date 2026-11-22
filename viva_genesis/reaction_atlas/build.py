@@ -55,7 +55,7 @@ def _require_rdkit():
     except Exception as e:  # pragma: no cover - exercised only without rdkit
         raise RuntimeError(
             "RDKit is required to canonicalize a species from SMILES. Install it "
-            "into the workspace venv (a /viva-catalog step), or supply each "
+            "into the workspace venv (a /viva:catalog step), or supply each "
             "species' `formula` + `charge` directly so no SMILES parsing is needed."
         ) from e
     return Chem
@@ -229,7 +229,7 @@ def _default_estimator() -> Estimator:
     except Exception as e:  # pragma: no cover - exercised only without the dep
         raise RuntimeError(
             "viva_equilibrator is required for the ΔG feasibility bridge. Install "
-            "it into the workspace venv (a /viva-catalog step) or pass "
+            "it into the workspace venv (a /viva:catalog step) or pass "
             "`estimator=` (a callable {name: formula}, pH, I, T -> {name: (dg, sigma)})."
         ) from e
     return standard_dg_primes

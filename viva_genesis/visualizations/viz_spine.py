@@ -423,7 +423,7 @@ class OgMembraneCohesionViz(Visualization):
             "This figure renders a <b>real</b> Martini coarse-grained bilayer run "
             "(og_31 → OpenMMMartiniProcess). It requires the <code>membrane</code> extra "
             "(<code>viva-openmm</code> + OpenMM), which is not installed in this environment, so the "
-            "live run was skipped rather than faked. Install the extra (a <code>/viva-catalog</code> / "
+            "live run was skipped rather than faked. Install the extra (a <code>/viva:catalog</code> / "
             "<code>pip install &#39;viva-genesis[membrane]&#39;</code> step) to render the potential-energy "
             "cohesion curve + area-per-lipid from the actual MD."
             f'<div style="margin-top:8px;color:{S.MUTED};font-size:11px">({type(err).__name__}: {str(err)[:140]})</div>'

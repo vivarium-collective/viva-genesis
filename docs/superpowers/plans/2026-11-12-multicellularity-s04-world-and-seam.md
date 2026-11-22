@@ -46,7 +46,7 @@
 - Test `tests/test_multicellularity_world.py` (Task 4).
 - Modify `workspace/studies/s04-morphomechanics/study.yaml` — composite swap + verdict reset (Task 5).
 - Create `workspace/studies/s04-morphomechanics/tests/conftest.py`, `tests/test_propagule_toughness.py` (Task 5).
-- Create the S04 visualization via `/viva-viz` into `viva_genesis/viz/` (Task 6).
+- Create the S04 visualization via `/viva:viz` into `viva_genesis/viz/` (Task 6).
 
 ---
 
@@ -62,11 +62,11 @@ Verification task, no TDD code. If it fails, STOP and fall back to the documente
   Expected: prints `ok <path>` — no `ModuleNotFoundError`.
 
 - [ ] **Step 2: Confirm the existing CPM composite runs under the workbench runner and emits into runs.db.**
-  Use the already-registered generator `viva_genesis.composites.protrusion_enclosure_cpm.protrusion_enclosure_cpm`. Run it through `/viva-run` (or `vivarium-workbench run study` against a sandbox study whose `baseline[].composite` is that id).
+  Use the already-registered generator `viva_genesis.composites.protrusion_enclosure_cpm.protrusion_enclosure_cpm`. Run it through `/viva:run` (or `vivarium-workbench run study` against a sandbox study whose `baseline[].composite` is that id).
   Expected: a run completes and `runs.db` gains a `runs_meta` row + `history` rows (non-empty emitted `state`).
 
 - [ ] **Step 3: Exercise the discovery seam end-to-end on a sandbox study.**
-  Create a throwaway study (`/viva-study new`) or copy s04's seed; then:
+  Create a throwaway study (`/viva:study new`) or copy s04's seed; then:
   `discover --workspace . refine-study multicellularity <sandbox> --composite viva_genesis.composites.protrusion_enclosure_cpm.protrusion_enclosure_cpm --autonomy human_in_the_loop --write`
   Confirm `baseline[].composite` was rewritten. Then:
   `discover --workspace . advance multicellularity --autonomous`
@@ -235,9 +235,9 @@ def test_zero_differential_adhesion_forms_no_cohesive_propagule():   # negative 
 - Consumes: Task 4's generator id; the `run`/`runs` fixtures from `vivarium_workbench.testing` (`Run.observable/.final/.params/.label`; **no `per_generation_mean`**); the acceptance behavior `propagule-toughness-predicted` (already in `investigation.yaml` `acceptance_criteria`); the cross-run grading pattern from the sibling study `workspace/studies/s03-transport-limits/study.yaml` (its `size-viability-tracks-transport` outcome uses `operator: cross_run, evaluated_by: code` — copy that authoring shape).
 - Produces: s04 with a real run and `runs[].outcomes["propagule-toughness-predicted"].result == PASS`, and `investigation.yaml` `executive.computed_acceptance` marking the s04 criterion satisfied.
 
-- [ ] **Step 1: Reset the asserted verdict (§11).** In `study.yaml` set `status: investigating`, clear/neutralize the un-run `passing-with-caveats` verdict (set `verdict:` to unproven/`investigating`, `confidence: provisional`), so no claim stands without a run. Do NOT hand-edit the composite/runs outside the skills where `/viva-study` applies.
+- [ ] **Step 1: Reset the asserted verdict (§11).** In `study.yaml` set `status: investigating`, clear/neutralize the un-run `passing-with-caveats` verdict (set `verdict:` to unproven/`investigating`, `confidence: provisional`), so no claim stands without a run. Do NOT hand-edit the composite/runs outside the skills where `/viva:study` applies.
 
-- [ ] **Step 2: Point the study at the spatial composite + declare the readouts (Rulings R-T1c, R-T1e).** Set `baseline[].composite: viva_genesis.composites.multicellularity_world.s04_morphomechanics` **directly** (via `/viva-study`), with the adhesion sweep as `variants[]`. Do NOT use `refine-study --composite` — it is a no-op unless a `low_fidelity_support` flag exists (Task 1 finding), so it will not rewrite the baseline. Also add to `study.yaml` a `readouts:` block whose `store_path` entries name `n_propagules` and `largest_cluster_fraction`, so the workbench runner actually emits them into `history.state` (without this the runner emits only `global_time`).
+- [ ] **Step 2: Point the study at the spatial composite + declare the readouts (Rulings R-T1c, R-T1e).** Set `baseline[].composite: viva_genesis.composites.multicellularity_world.s04_morphomechanics` **directly** (via `/viva:study`), with the adhesion sweep as `variants[]`. Do NOT use `refine-study --composite` — it is a no-op unless a `low_fidelity_support` flag exists (Task 1 finding), so it will not rewrite the baseline. Also add to `study.yaml` a `readouts:` block whose `store_path` entries name `n_propagules` and `largest_cluster_fraction`, so the workbench runner actually emits them into `history.state` (without this the runner emits only `global_time`).
 
 - [ ] **Step 3: Write the failing behavior test** `tests/test_propagule_toughness.py` with `tests/conftest.py` doing `from vivarium_workbench.testing import run, runs  # noqa: F401`. Set `study.yaml tests.data_source: all_runs` and use the parametrized `runs` fixture. Per-run assertions (the cross-run monotonic roll-up is authored as the study outcome, copying s03):
 
@@ -256,7 +256,7 @@ def test_cohesive_at_strong_adhesion(runs):            # one invocation per run
 
 - [ ] **Step 6: Author the cross-run outcome + grade.** Following s03's `size-viability-tracks-transport` shape, author `propagule-toughness-predicted` as a `cross_run` outcome: the largest cohesive cluster size is non-decreasing in adhesion AND the no-adhesion control fails to form a cohesive propagule. Let the evaluator compute it from run data. Run `pytest workspace/studies/s04-morphomechanics/tests/ -v` — Expected: PASS. **If the monotonic toughness relation does NOT emerge, record it as an HONEST OPEN QUESTION in the study — do not patch the physics to force PASS.**
 
-- [ ] **Step 7: Confirm acceptance roll-up.** Verify `runs[].outcomes["propagule-toughness-predicted"].result == PASS` and that `investigation.yaml` `executive.computed_acceptance` lists the s04 criterion as satisfied (via `/viva-report` or the `write_investigation_acceptance` path).
+- [ ] **Step 7: Confirm acceptance roll-up.** Verify `runs[].outcomes["propagule-toughness-predicted"].result == PASS` and that `investigation.yaml` `executive.computed_acceptance` lists the s04 criterion as satisfied (via `/viva:report` or the `write_investigation_acceptance` path).
 
 - [ ] **Step 8: Commit.**
   `git add workspace/studies/s04-morphomechanics/ && git commit -m "feat(s04): spatial morphomechanics — propagule-toughness from CPM cluster fracture"`
@@ -266,14 +266,14 @@ def test_cohesive_at_strong_adhesion(runs):            # one invocation per run
 ### Task 6: viva-genesis — S04 spatial visualization (watchable fracture)
 
 **Files:**
-- Create: an S04 visualization via `/viva-viz` (into `viva_genesis/viz/`), registered so the study report renders it.
+- Create: an S04 visualization via `/viva:viz` (into `viva_genesis/viz/`), registered so the study report renders it.
 
 **Interfaces:**
 - Consumes: the emitted `types`/`positions`/`n_propagules`/`largest_cluster_fraction` timeseries from the S04 runs (Task 5).
 - Produces: a registered visualization showing the clonal cluster growing and snapping into propagules over time (lattice snapshots colored by cluster, plus the `n_propagules` trace), and the toughness curve (critical cohesive size vs adhesion) across the sweep.
 
-- [ ] **Step 1: Build the visualization** with `/viva-viz` — push for an interactive/animated spatial view, not a default line chart (per the viz skill). Two panels: (a) time-lapse lattice snapshots colored by connected cluster; (b) propagule-toughness curve over the adhesion sweep with seed spread.
-- [ ] **Step 2: Verify it renders** against a real S04 run (no fabricated preview) via `/viva-report` or the workbench study page.
+- [ ] **Step 1: Build the visualization** with `/viva:viz` — push for an interactive/animated spatial view, not a default line chart (per the viz skill). Two panels: (a) time-lapse lattice snapshots colored by connected cluster; (b) propagule-toughness curve over the adhesion sweep with seed spread.
+- [ ] **Step 2: Verify it renders** against a real S04 run (no fabricated preview) via `/viva:report` or the workbench study page.
 - [ ] **Step 3: Commit.** `git add viva_genesis/viz/ workspace/studies/s04-morphomechanics/ && git commit -m "viz(s04): animated cluster-fracture + propagule-toughness curve"`
 
 ---
