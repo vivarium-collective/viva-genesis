@@ -3,7 +3,7 @@
 #
 # WHY THIS FILE EXISTS (capability gap): the workspace registry
 # (/api/workspace-manifest) only reports processes/steps/emitters/viz/types that
-# are ALREADY importable, and /viva-catalog only installs pbg-* packages that
+# are ALREADY importable, and /viva:catalog only installs pbg-* packages that
 # ALREADY EXIST. Neither can express "a tool/dataset the plan says to BUILD".
 # This file is that missing declaration surface. See
 # ../notes/audit-build-capability-gaps.md.

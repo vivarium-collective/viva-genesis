@@ -304,5 +304,5 @@ back-ref) carrying: `question`, `hypothesis`, `objective`, `description`,
 `question`, `hypothesis`, `scientific_argument`, `competing_frameworks`,
 `at_a_glance` (one line per study), `studies[]` (declared order above), and
 `acceptance_criteria[]` (the gate test per study). Studies reference real
-registered composites once the module processes are built (`/viva-expert`);
+registered composites once the module processes are built (`/viva:model`);
 until then they stay at Design with `requires_simulation: true` tests.

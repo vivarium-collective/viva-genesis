@@ -11,7 +11,7 @@ Roster: viva-genesis (coordinator), genesis-helper, genesis-writer, genesis-viz.
 
 ## A. Build-capability gaps (found while doing deliverable 2)
 
-1. **No registry slot for "tools/datasets to be built."** `/viva-catalog` only
+1. **No registry slot for "tools/datasets to be built."** `/viva:catalog` only
    installs pbg-* packages that already exist; `/api/workspace-manifest` reports
    only already-importable processes/steps/emitters/viz/types. A plan that says
    "build these 7 methods + 1 dataset" has nowhere to live. → Worked around with
@@ -28,7 +28,7 @@ Roster: viva-genesis (coordinator), genesis-helper, genesis-writer, genesis-viz.
    The Prebiotic Reaction Atlas is consumed by 5 studies and needs a record
    schema + raw/proposed/accepted separation. Datasets today are per-study file
    attachments. → Worked around with `datasets/prebiotic-reaction-atlas/`
-   (README + schema.yaml). *Streamlining:* `/viva-expert` builds a Process
+   (README + schema.yaml). *Streamlining:* `/viva:model` builds a Process
    wrapper but there is no "build a shared data asset + its validator" path.
 
 ---
@@ -111,14 +111,14 @@ handles evidence/citation discipline; viz handles the re-run-on-change loop.
     first-class schema home — the handoff validator must read custom fields.
     *Needed:* promote `builds_on` + a per-tool `build_status` into the schema.
 
-12. **`parent_studies[].relation` enum disagrees between the /viva-study skill doc
+12. **`parent_studies[].relation` enum disagrees between the /viva:study skill doc
     and the schema.** Schema (and the new two-axis ontology) uses
     `[builds-on, tests, motivates, alternative-to]`; the skill doc still lists
     `[leads-to, regulatory, supports, refutes]`. Existing og-07/og-08 use
     `leads-to` and lint-WARN. *Needed:* reconcile the viva-superpowers skill doc
     + viva-template schema to the ontology enum (small framework fix).
 
-13. **`/viva-study new` cannot scaffold a design-phase study without a live
+13. **`/viva:study new` cannot scaffold a design-phase study without a live
     dashboard + a real composite source.** Helper had to author `study.yaml`
     directly (og-08 `planned:true` pattern); `check-observables`/`preview-viz`
     are no-ops until composites exist. *Needed:* a design-phase scaffold path
@@ -166,7 +166,7 @@ viva-phreeqc `wrapper-needed`, mineral-surface-dynamics `to-build`). Findings:
   design-phase intent IS visible.
 - **The "Build" panel only engages for loop-built models.** It was folded into
   Model → "Advanced — build provenance" (`#build-loop-state`, `_loadBuild`),
-  which renders the `/viva-model-build` loop trajectory (draft, frozen tests,
+  which renders the `/viva:model-build` loop trajectory (draft, frozen tests,
   iteration edits, agent notes). og-27 was authored directly, so it has no
   trajectory → the panel is empty. This is why "the Build tab was not engaged":
   it is a *provenance viewer for models built via the loop*, not a builder for
@@ -174,7 +174,7 @@ viva-phreeqc `wrapper-needed`, mineral-surface-dynamics `to-build`). Findings:
 - **GAP 17 — the Build tab can't build a study whose tools are unbuilt, and
   doesn't say so.** og-27's composite needs 2 tools that don't exist yet
   (viva-phreeqc `wrapper-needed`, mineral-surface-dynamics `to-build`). The
-  `/viva-model-build` loop composes *registered* processes; it cannot compose an
+  `/viva:model-build` loop composes *registered* processes; it cannot compose an
   unwrapped tool. Worse, the Build tab does **not read the study's `tools[]` /
   `build_status`** (the fields in build-registry.yaml / the study shell), so it
   gives no "you can't build this yet — wrap viva-phreeqc + mineral-surface

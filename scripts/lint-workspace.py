@@ -633,7 +633,7 @@ def main() -> None:
     # G (WARN) — delegate the "every study declares a visualization" gate to the
     # SHARED viva_superpowers.report_linter (single source of truth) rather than a
     # local re-implementation. That gate is a hard error there, but it only runs via
-    # /viva-report + the dashboard; surfacing it (non-blocking) in the CI lint closes
+    # /viva:report + the dashboard; surfacing it (non-blocking) in the CI lint closes
     # the blind spot where an agentic flow writes studies + verdicts without ever
     # invoking the report linter (e.g. an in-process discovery cycle). Only the
     # `missing_visualizations` findings are surfaced here — the linter's other checks
@@ -645,7 +645,7 @@ def main() -> None:
             if getattr(_f, "check", None) == "missing_visualizations":
                 print(f"LINT WARNING: missing-visualizations: study "
                       f"{getattr(_f, 'study_slug', '?')} declares no visualization "
-                      f"(shared report_linter gate — hard error at /viva-report)",
+                      f"(shared report_linter gate — hard error at /viva:report)",
                       file=sys.stderr)
     except Exception as _e:
         print(f"LINT WARNING: missing-visualizations check skipped "
@@ -718,7 +718,7 @@ def main() -> None:
                     inv_warnings.append(
                         f"  WARN investigation {i_name}: references study "
                         f"{slug!r} which has no studies/{slug}/study.yaml on "
-                        "disk. Seed it with `/viva-study new` or remove the "
+                        "disk. Seed it with `/viva:study new` or remove the "
                         "reference."
                     )
         except Exception as exc:

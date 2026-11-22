@@ -78,9 +78,9 @@ pytest -q                               # package + registration guards
 bash scripts/serve.sh                   # open the interactive workbench locally
 ```
 
-Build processes and composites by wrapping a simulator with `/viva-expert`, run
-them with `/viva-run`, drive studies with `/viva-study`, and group them with
-`/viva-investigation`. See [`AGENTS.md`](AGENTS.md) for the PR conventions.
+Build processes and composites by wrapping a simulator with `/viva:model`, run
+them with `/viva:run`, drive studies with `/viva:study`, and group them with
+`/viva:investigate`. See [`AGENTS.md`](AGENTS.md) for the PR conventions.
 
 ## Layout
 
