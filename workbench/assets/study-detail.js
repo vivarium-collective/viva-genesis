@@ -1652,9 +1652,10 @@
     }).join('');
   }
   // The process's declared governing equations (contract.math) — surfaced
-  // prominently, the same math the loom node cards lead with. No KaTeX on this
-  // page, so render as clean monospace equation lines (these contracts author
-  // math as readable one-liners, not heavy LaTeX).
+  // prominently, the same math the loom node cards lead with. The server
+  // pre-renders each equation to MathML (contract.math_mathml), which browsers
+  // display natively — so heavy LaTeX (\frac, \mathrm, \sum) shows as real math.
+  // _prettyMath is the fallback for an equation MathML couldn't render.
   // Prettify a contract.math one-liner toward a LaTeX-like reading WITHOUT a math
   // typesetter: relational/arrow operators become symbols, `*` a middle dot, and
   // single-letter-base `x_sub` tokens render as real subscripts (the physics
@@ -1673,8 +1674,17 @@
   function _mdEquations(c) {
     var m = (c && Array.isArray(c.math)) ? c.math : [];
     if (!m.length) return '';
+    var ml = (c && Array.isArray(c.math_mathml)) ? c.math_mathml : [];
     return '<div class="mdef-eqs"><div class="mdef-eqs-lbl">Equations</div>' +
-      m.map(function (e) { return '<div class="mdef-eq">' + _prettyMath(String(e)) + '</div>'; }).join('') +
+      m.map(function (e, i) {
+        // Insert the server-rendered MathML when present (trusted, authored by the
+        // process contract — not user input); fall back to prettified text.
+        var mml = ml[i];
+        var body = (typeof mml === 'string' && mml.lastIndexOf('<math', 0) === 0)
+          ? mml
+          : '<span class="mdef-eq-txt">' + _prettyMath(String(e)) + '</span>';
+        return '<div class="mdef-eq">' + body + '</div>';
+      }).join('') +
       '</div>';
   }
   // The symbols the equations use (contract.symbols: {sym: meaning}).
@@ -1686,6 +1696,16 @@
       ks.map(function (k) {
         return '<dt><code>' + _esc(k) + '</code></dt><dd>' + _esc(String(s[k])) + '</dd>';
       }).join('') + '</dl></div>';
+  }
+  // The model's Antimony source (p._antimony {text, format, source}), attached by
+  // the server for any model-bearing process — shown OPEN by default in a scrollable
+  // monospace pane (still collapsible via the summary).
+  function _mdAntimony(p) {
+    var a = p && p._antimony;
+    if (!a || !a.text) return '';
+    var src = a.source ? ' <span class="mdef-ant-src">· ' + _esc(String(a.source)) + '</span>' : '';
+    return '<details open class="mdef-ant"><summary class="mdef-ant-lbl">Antimony' + src + '</summary>' +
+      '<pre class="mdef-ant-pre"><code>' + _esc(String(a.text)) + '</code></pre></details>';
   }
   function _modelDefHtml(d) {
     d = d || {};
@@ -1733,6 +1753,7 @@
           _mdPorts(p.outputs, '→') + '</span></div></div>' +
         (cfgStr ? '<div class="mdef-io-row"><span class="mdef-io-lbl">config</span><span class="mdef-io-ports">' + cfgStr + '</span></div>' : '') +
         _mdSymbols(contract) +
+        _mdAntimony(p) +
         '</div>';
     }).join('');
 
@@ -4340,7 +4361,7 @@
   // lib.loop_provenance_views.build_study_loop_state). Was the pass earned
   // honestly? Locked-tests hash, the reopen trail, iteration history,
   // current state. GRACEFUL empty state (`present: false`) when a study was
-  // never run through /viva-model-build — the common case, not an error.
+  // never run through /viva:model-build — the common case, not an error.
   var _BUILD_STATE_COLORS = {
     DONE: { bg: '#d1fae5', fg: '#065f46' },
     GIVE_UP: { bg: 'var(--err-bg, #fee2e2)', fg: 'var(--err-fg, #991b1b)' }
@@ -4433,11 +4454,11 @@
     var e = escapeHtmlForTests;
     if (!state || !state.present) {
       // Directly-authored studies have no loop artifact (.pbg/loop/<study>.json
-      // is written only by /viva-model-build). Explain that plainly and point to
+      // is written only by /viva:model-build). Explain that plainly and point to
       // where the model + its bar actually live, instead of a bare dead-end.
       return '<div class="empty-message">'
         + '<p>This model was <strong>authored directly</strong> — wrapped and composed via '
-        + '<code>/viva-expert</code> — not iterated through the <code>/viva-model-build</code> loop '
+        + '<code>/viva:model</code> — not iterated through the <code>/viva:model-build</code> loop '
         + 'that records a draft → frozen-tests → iteration trajectory. There is no loop '
         + 'provenance to show here.</p>'
         + '<p style="margin-top:8px">See <strong>Model</strong> for the composite structure and '
