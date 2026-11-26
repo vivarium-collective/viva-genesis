@@ -4,6 +4,10 @@ title: Across wall-present, wall-attenuated, wall-free-with-cortex, and wall-fre
   arms, where does the cell gain the deformability to enclose a partner without osmotic
   rupture?
 investigation: eukaryogenesis
+simulator:
+  package: viva-genesis-sim
+  ref: v0.1.0
+  registry: git
 question: Across wall-present, wall-attenuated, wall-free-with-cortex, and wall-free-without-cortex
   arms, where does the cell gain the deformability to enclose a partner without osmotic
   rupture?

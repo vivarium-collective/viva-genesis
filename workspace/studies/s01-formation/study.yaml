@@ -1,6 +1,10 @@
 schema_version: 4
 name: s01-formation
 investigation: multicellularity
+simulator:
+  package: viva-genesis-sim
+  ref: v0.1.0
+  registry: git
 created: '2026-11-01'
 title: Collective formation
 phase: Design

@@ -1,5 +1,9 @@
 slug: study-vertical-transmission-stability
 name: study-vertical-transmission-stability
+simulator:
+  package: viva-genesis-sim
+  ref: v0.1.0
+  registry: git
 title: Is the established endosymbiosis evolutionarily stable?
 question: Once contact+enclosure establish the symbiosis (M3), is the symbiont heritably
   retained across generations, or does conflict/partner-loss decay it?

@@ -3,6 +3,10 @@ name: mw-s5-division-sync-and-conflict-suppression
 title: Do division synchronization, copy-number segregation, and conflict suppression
   make host and partner a single heritable individual?
 investigation: eukaryogenesis
+simulator:
+  package: viva-genesis-sim
+  ref: v0.1.0
+  registry: git
 question: Do division synchronization, copy-number segregation, and conflict suppression
   make host and partner a single heritable individual?
 claim: null

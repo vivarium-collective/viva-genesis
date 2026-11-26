@@ -3,6 +3,10 @@ name: mw-s3-emergent-capability-vs-additive-benefit
 title: Does the partnership create a capability neither free-living partner sustains
   alone, or only an additive benefit?
 investigation: eukaryogenesis
+simulator:
+  package: viva-genesis-sim
+  ref: v0.1.0
+  registry: git
 question: Does the partnership create a capability neither free-living partner sustains
   alone, or only an additive benefit?
 claim: null

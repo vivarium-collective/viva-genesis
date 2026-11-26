@@ -1,5 +1,9 @@
 slug: study-spatial-exchange-proximity
 name: study-spatial-exchange-proximity
+simulator:
+  package: viva-genesis-sim
+  ref: v0.1.0
+  registry: git
 title: Does contact mechanistically confer an exchange advantage?
 question: M1 assumes contact scales exchange access. Under explicit diffusion, is
   realised metabolite exchange strongly proximity-dependent, or well-mixed (premise

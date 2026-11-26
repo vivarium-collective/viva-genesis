@@ -2,6 +2,10 @@ schema_version: '0.4'
 name: study-contact-to-enclosure-coupling
 title: Do the same conditions that select proximity also permit enclosure?
 investigation: eukaryogenesis
+simulator:
+  package: viva-genesis-sim
+  ref: v0.1.0
+  registry: git
 question: Do the same conditions that select proximity also permit enclosure?
 claim: null
 hypothesis: The selected-contact regime and the feasible-enclosure regime overlap

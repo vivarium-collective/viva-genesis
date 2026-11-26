@@ -1,89 +1,52 @@
 [project]
 name = "viva-genesis"
 version = "0.0.0"
-description = "Process-bigraph research workspace"
+description = "Origins-of-life / eukaryogenesis / multicellularity investigation workspace — the scientific content (studies, investigations, reports) referencing a pinned viva-genesis-sim simulator."
 requires-python = ">=3.12"
 dependencies = [
+    # The simulator — the viva_genesis composites/processes, now extracted to its
+    # own version-controlled repo and pinned by tag (see [tool.uv.sources]). This
+    # provides the `viva_genesis` import, so study.yaml `composite:` dotted paths
+    # (viva_genesis.composites.<…>) resolve exactly as before.
+    "viva-genesis-sim",
+    # Core process-bigraph substrate used directly by the workspace/dashboard.
     "process-bigraph",
     "bigraph-schema",
     "bigraph-viz>=2.0.3",
+    # Workspace + report tooling (study.yaml handling, schema validation, report
+    # rendering).
     "pyyaml>=6.0",
     "jsonschema[format-nongpl]>=4.21",
     "jinja2>=3.1",
     "pypdf>=4.0",
     "matplotlib",
     "plotly",
-    # Campaign-0 real geochemistry + reactive transport engines (og-00):
-    # phreeqpython bridges the genuine USGS PHREEQC (IPhreeqc) speciation engine;
-    # fipy is the finite-volume PDE solver for the spatial vent reactor.
-    "phreeqpython>=1.6",
-    "fipy>=4.0",
-    # Genuine-simulator wrappers — the real engines/processes this campaign
-    # REUSES instead of wrapping internally. They surface as IMPORTED repos in
-    # the workbench Catalog (see [tool.uv.sources] for the pinned refs):
-    #   - viva-equilibrator: the eQuilibrator component-contribution ΔG' engine;
-    #     local:EquilibratorThermoStep IS its EquilibratorThermoStep (og-01).
-    #   - viva-tellurium: the Tellurium/libRoadRunner SBML engine; the og-02
-    #     curated-rTCA RoadRunnerNetworkProcess drives it via the imported loader.
-    #   - viva-fenics: the real dolfinx advection-diffusion-Soret FEM solver +
-    #     the two face-conforming transport classes (local:FenicsReactive/
-    #     ThermophoreticTrapProcess). dolfinx is conda-only, so they register in
-    #     this uv venv (import-safe) but only RUN under viva-fenics's pixi env.
-    "viva-equilibrator",
-    "viva-tellurium",
-    "viva-fenics",
-    # Direct deps still used outside the imported paths (transitional — the
-    # remaining `import tellurium` / `import equilibrator_api` call sites migrate
-    # to the wrappers in the process-reuse follow-up audit):
-    "equilibrator-api>=0.6",
-    "tellurium>=2.2",
-    "networkx>=3.0",
-    # Web-based workspace dashboard (server + templates + assets + lib helpers).
-    # Extracted from viva-template as of v0.4.16; provides the `vivarium-workbench
-    # serve` CLI invoked by scripts/serve.sh.
+    # Web-based workspace dashboard (server + templates + assets + lib helpers);
+    # provides the `vivarium-workbench serve` CLI invoked by scripts/serve.sh.
     "vivarium-workbench",
 ]
 
 [project.optional-dependencies]
 dev = ["pytest>=7.4"]
-# Membrane-closure studies (31/32) — real Martini 3 CG MD. OpenMM is heavy, so
-# viva-openmm is an OPT-IN extra, not a core dep: core.build_core() registers
-# OpenMMMartiniProcess only when it's installed (guarded import). Install with
-# `uv pip install -e .[membrane]` (also pulls martini_openmm — a GitHub-only dep;
-# add it separately: pip install "git+https://github.com/maccallumlab/martini_openmm.git").
-membrane = ["viva-openmm"]
-# Spatial enclosure study (S3 "The Endosymbiotic Transition" gate G3) — the real Rust
-# Cellular Potts engine from viva-cpm (provides the top-level `cpm` import). Like the
-# membrane extra it is OPT-IN: core.build_core() registers ProtrusionEnclosureCPMProcess
-# only when `cpm` is importable (the module's `from cpm import ...` fails gracefully and
-# is swallowed otherwise). Install with `uv pip install -e .[spatial]`, or for local dev
-# add viva-cpm's checkout to the venv path (a `.pth` to the viva-cpm repo root).
-spatial = ["viva-cpm"]
 
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
-# Allow ecosystem git-direct-reference deps (viva-superpowers / vivarium-workbench
-# @ git+https://…) that workspaces commonly add — hatchling rejects them otherwise.
+# Allow ecosystem git-direct-reference deps (@ git+https://…) that hatchling
+# otherwise rejects.
 [tool.hatch.metadata]
 allow-direct-references = true
 
-# Declare the workspace Python package explicitly so this workspace is
-# pip-installable (e.g. `pip install git+<repo>@<sha>`).  sms-api injects it
-# as an extra_pip_dep so the container runner can import the workspace's
-# processes from a committed + pushed git ref.
+# This repo is now an investigation workspace, not a Python package — the simulator
+# lives in viva-genesis-sim. Build a metadata-only wheel (deps resolve for
+# `uv pip install -e .`) without selecting any package files.
 [tool.hatch.build.targets.wheel]
-packages = ["viva_genesis"]
+bypass-selection = true
 
 [tool.uv.sources]
+# The extracted simulator, pinned by tag. Bump this tag (and the matching
+# `simulator: ref` in each study.yaml) to adopt a new simulator version.
+viva-genesis-sim = { git = "https://github.com/vivarium-collective/viva-genesis-sim.git", tag = "v0.1.0" }
 process-bigraph = { git = "https://github.com/vivarium-collective/process-bigraph.git", branch = "main" }
 vivarium-workbench = { git = "https://github.com/vivarium-collective/vivarium-workbench.git", branch = "main" }
-# Imported genuine-simulator wrappers (pinned to releases). These appear as
-# IMPORTED repos in the workbench Catalog and provide the engines/processes
-# viva-genesis reuses instead of wrapping internally.
-viva-equilibrator = { git = "https://github.com/vivarium-collective/viva-equilibrator.git", tag = "v0.1.0" }
-viva-tellurium = { git = "https://github.com/vivarium-collective/viva-tellurium.git", tag = "v0.1.2" }
-viva-fenics = { git = "https://github.com/vivarium-collective/viva-fenics.git", tag = "v0.1.0" }
-# viva-openmm has no release tag yet — pin to the pushed rename commit on main.
-viva-openmm = { git = "https://github.com/vivarium-collective/viva-openmm.git", rev = "7b7cb6a" }
