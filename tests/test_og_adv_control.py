@@ -89,7 +89,7 @@ def test_vent_specificity_three_view_registered_and_renders():
     Rendered via the figure builder on a small duck-typed grid to stay fast."""
     import numpy as np
     assert "VentSpecificityThreeView" in build_core().link_registry
-    from viva_genesis.viz_phase import _ResultView, vent_specificity_threeview_figure
+    from viva_genesis.visualizations.viz_phase import _ResultView, vent_specificity_threeview_figure
     h2 = np.geomspace(1e-9, 2e-2, 6)
     cat = np.linspace(0.0, 1.0, 6)
     peak = np.outer(np.linspace(1e-13, 4e-2, 6), np.linspace(1e-13, 1.0, 6))

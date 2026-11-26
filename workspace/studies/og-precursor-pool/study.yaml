@@ -3,7 +3,7 @@ name: og-precursor-pool
 investigation: origins-of-life-vent
 simulator:
   package: viva-genesis-sim
-  ref: v0.1.1
+  ref: v0.1.2
   registry: git
 created: '2026-10-19'
 phase: Evaluate

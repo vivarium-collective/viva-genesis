@@ -13,7 +13,7 @@ _ART = Path(__file__).resolve().parents[1] / "workspace" / "studies" / "og-vent-
 def test_vent_environment_posterior_figure_renders():
     if not (_ART / "vent_environment_report.json").exists():
         pytest.skip("og-cal-vent-environment artifacts not present on this branch")
-    from viva_genesis.viz_uq import vent_environment_posterior_figure
+    from viva_genesis.visualizations.viz_uq import vent_environment_posterior_figure
     ens = json.loads((_ART / "vent_environment_ensemble.json").read_text())
     rep = json.loads((_ART / "vent_environment_report.json").read_text())
     html = vent_environment_posterior_figure(ens, rep, title="t")

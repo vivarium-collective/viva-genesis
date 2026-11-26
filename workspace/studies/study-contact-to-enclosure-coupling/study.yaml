@@ -4,7 +4,7 @@ title: Do the same conditions that select proximity also permit enclosure?
 investigation: eukaryogenesis
 simulator:
   package: viva-genesis-sim
-  ref: v0.1.1
+  ref: v0.1.2
   registry: git
 question: Do the same conditions that select proximity also permit enclosure?
 claim: null

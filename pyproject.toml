@@ -47,6 +47,6 @@ bypass-selection = true
 [tool.uv.sources]
 # The extracted simulator, pinned by tag. Bump this tag (and the matching
 # `simulator: ref` in each study.yaml) to adopt a new simulator version.
-viva-genesis-sim = { git = "https://github.com/vivarium-collective/viva-genesis-sim.git", tag = "v0.1.1" }
+viva-genesis-sim = { git = "https://github.com/vivarium-collective/viva-genesis-sim.git", tag = "v0.1.2" }
 process-bigraph = { git = "https://github.com/vivarium-collective/process-bigraph.git", branch = "main" }
 vivarium-workbench = { git = "https://github.com/vivarium-collective/vivarium-workbench.git", branch = "main" }

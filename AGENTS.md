@@ -13,12 +13,15 @@ viva-superpowers workspace.
 
 ## What this workspace is
 
-`genesis` is a viva-superpowers workspace. The Python package
-lives under `viva_genesis/`; investigations live under
-`workspace/investigations/<slug>/`; per-study YAML + runs live under
-`workspace/studies/<slug>/`. See [`README.md`](README.md) and
-[`NEXT_STEPS.md`](NEXT_STEPS.md) for the workspace's purpose + onboarding
-flow.
+`genesis` is a viva-superpowers workspace holding the **scientific content**:
+investigations live under `workspace/investigations/<slug>/` and per-study YAML +
+runs under `workspace/studies/<slug>/`. The **simulator** — the `viva_genesis`
+package of composites, processes, and genuine-engine bridges — lives in its own
+repo, [`viva-genesis-sim`](https://github.com/vivarium-collective/viva-genesis-sim),
+pinned by tag in `pyproject.toml` (`[tool.uv.sources]`). Studies reference its
+composites by their unchanged dotted path (`viva_genesis.composites.*`) and declare
+the pin via `simulator:` in each `study.yaml`. See [`README.md`](README.md) and
+[`NEXT_STEPS.md`](NEXT_STEPS.md) for the workspace's purpose + onboarding flow.
 
 ## PR conventions
 
@@ -106,8 +109,9 @@ was a real hole the consolidation wave hit and now has a guard:
    `study.yaml`.** A fold `git mv`s `artifacts/`+`viz/` into
    `og-<concept>/{artifacts,viz}/<source-slug>/`. The audit lint only checks
    `study.yaml` refs + run provenance, so a path left at the pre-fold location in
-   `viva_genesis/` source (a viz `_default`, an evaluator constant) or in a `tests/`
-   file fails only at runtime / in the full suite. Grep both for the folded slug's
+   the `viva_genesis` source (now in the viva-genesis-sim repo — a viz `_default`,
+   an evaluator constant) or in a `tests/` file fails only at runtime / in the full
+   suite. Grep both for the folded slug's
    artifact paths and repoint. Enforced by the `stale-source-artifact-path` lint
    check + `test_workspace_integrity.py` (source) — tests that read a folded study's
    artifact/sims path must be repointed by hand.

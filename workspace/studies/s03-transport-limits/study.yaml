@@ -3,7 +3,7 @@ name: s03-transport-limits
 investigation: multicellularity
 simulator:
   package: viva-genesis-sim
-  ref: v0.1.1
+  ref: v0.1.2
   registry: git
 created: '2026-11-01'
 title: Transport limits
