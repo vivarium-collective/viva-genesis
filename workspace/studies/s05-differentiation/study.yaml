@@ -3,7 +3,7 @@ name: s05-differentiation
 investigation: multicellularity
 simulator:
   package: viva-genesis-sim
-  ref: v0.1.0
+  ref: v0.1.1
   registry: git
 created: '2026-11-01'
 title: Cell-state differentiation

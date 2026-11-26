@@ -3,7 +3,7 @@ name: og-vent-interface
 investigation: origins-of-life-vent
 simulator:
   package: viva-genesis-sim
-  ref: v0.1.0
+  ref: v0.1.1
   registry: git
 created: '2026-10-18'
 phase: Evaluate

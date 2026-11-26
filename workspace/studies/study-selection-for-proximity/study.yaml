@@ -4,7 +4,7 @@ title: Does exchange increase the fitness of contact-seeking phenotypes?
 investigation: eukaryogenesis
 simulator:
   package: viva-genesis-sim
-  ref: v0.1.0
+  ref: v0.1.1
   registry: git
 question: Does exchange increase the fitness of contact-seeking phenotypes?
 claim: null
