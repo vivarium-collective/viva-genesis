@@ -32,8 +32,11 @@ def test_matched_null_swaps_the_null_network_on_same_supply():
     core = build_core()
     real = og29(core, matched_null=False)
     null = og29(core, matched_null=True, supply_H2=1.5e-3)
-    assert real["network"]["address"] != null["network"]["address"]
-    assert "null" in null["network"]["address"].lower()
+    # The matched null is now the SAME process with a config flag (config['null_seed']>=0),
+    # not a separate *Null* process/address.
+    assert real["network"]["address"] == null["network"]["address"]
+    assert real["network"]["config"].get("null_seed", -1) < 0
+    assert null["network"]["config"].get("null_seed", -1) >= 0
     # Null runs on the SAME endogenous supply wiring (fluxes held equal).
     assert null["network"]["inputs"]["feed_CO2"] == ["supply", "CO2"]
     assert null["supply"]["H2"] == 1.5e-3
