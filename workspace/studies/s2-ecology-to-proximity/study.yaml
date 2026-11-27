@@ -3,7 +3,7 @@ name: s2-ecology-to-proximity
 investigation: eukaryogenesis
 simulator:
   package: viva-genesis-sim
-  ref: v0.1.4
+  ref: 0.1.5
   registry: git
 created: '2026-10-27'
 title: 'S2 — Ecology to proximity: when does cross-feeding select for persistent contact?'

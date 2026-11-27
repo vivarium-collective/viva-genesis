@@ -2,7 +2,7 @@ slug: study-bidirectional-syntrophy
 name: study-bidirectional-syntrophy
 simulator:
   package: viva-genesis-sim
-  ref: v0.1.4
+  ref: 0.1.5
   registry: git
 title: Does obligate bidirectional syntrophy add a constraint beyond proximity?
 question: The syntrophy/hydrogen hypotheses are obligate two-metabolite mutualisms.
