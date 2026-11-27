@@ -538,6 +538,11 @@ def main() -> None:
         }
         _pkg_root = WS_ROOT / "viva_genesis"
         _used_pkgs: dict[str, str] = {}
+        # The simulator package (viva_genesis) now lives in its own repo
+        # (viva-genesis-sim), so it is NOT checked out here. Source scans below
+        # (import-declaration + stale-artifact-path) then simply have nothing to
+        # scan — keep _srcs bound so they no-op instead of raising.
+        _srcs: list = []
         if _pkg_root.exists():
             _imp_re = re.compile(r"^[ \t]*(?:from|import)[ \t]+(viva_[a-z0-9_]+)", re.M)
             _addr_re = re.compile(r"local:([A-Za-z0-9_]+)")
