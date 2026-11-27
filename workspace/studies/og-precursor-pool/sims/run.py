@@ -69,6 +69,17 @@ def _upsert_run_entry(study_yaml: Path, run_id: str, store_rel: str) -> None:
     e["canonical"] = True
     em = ry.load("{}"); em["kind"] = "sqlite"; em["store"] = store_rel
     e["emitter"] = em; e["store_path"] = store_rel; e["params"] = "{}"
+    # RFC-0008: stamp the simulation environment (viva-genesis-sim version +
+    # the rest of the package env) so this run can be traced back / reproduced.
+    try:
+        from viva_genesis.run_env import capture_run_env as _capture_run_env
+        _env = _capture_run_env()
+    except Exception:
+        _env = {}
+    if _env.get("env_id"):
+        e["env_id"] = _env["env_id"]
+    if _env.get("env"):
+        e["env"] = _env["env"]
     runs.append(e)
     tmp = study_yaml.with_suffix(".yaml.tmp")
     ry.dump(doc, open(tmp, "w", encoding="utf-8"))
