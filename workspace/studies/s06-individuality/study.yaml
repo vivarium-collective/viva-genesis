@@ -3,7 +3,7 @@ name: s06-individuality
 investigation: multicellularity
 simulator:
   package: viva-genesis-sim
-  ref: v0.1.4
+  ref: 0.1.5
   registry: git
 created: '2026-11-12'
 title: Evolutionary individuality

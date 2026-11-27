@@ -3,7 +3,7 @@ name: og-independence
 investigation: origins-of-life-vent
 simulator:
   package: viva-genesis-sim
-  ref: v0.1.4
+  ref: 0.1.5
   registry: git
 created: '2026-10-18'
 phase: Evaluate
