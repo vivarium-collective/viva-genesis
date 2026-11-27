@@ -175,7 +175,8 @@ def test_detector_finds_lumped_rtca_turn_and_formose_cycle():
 def test_curated_rtca_is_not_element_balanced_but_universe_is():
     pytest.importorskip("tellurium")
     import tellurium as te
-    from viva_genesis.protometabolism.network import _MODEL
+    from viva_genesis import sbml_models
+    _MODEL = sbml_models.read_model("curated_rtca.ant")[0]  # model-as-data
     net = M.network_from_roadrunner(te.loada(_MODEL))
     formulas = {"CO2": {"C": 1, "O": 2}, "pyruvate": {"C": 3, "H": 4, "O": 3}, "OAA": {"C": 4, "H": 4, "O": 5},
                 "malate": {"C": 4, "H": 6, "O": 5}, "succinate": {"C": 4, "H": 6, "O": 4}, "acetate": {"C": 2, "H": 4, "O": 2}}
@@ -217,7 +218,8 @@ def test_motif_enrichment_gate_evaluates():
 def test_flux_control_and_stiffness_on_curated_model():
     pytest.importorskip("tellurium")
     import tellurium as te
-    from viva_genesis.protometabolism.network import _MODEL
+    from viva_genesis import sbml_models
+    _MODEL = sbml_models.read_model("curated_rtca.ant")[0]  # model-as-data
     rr = te.loada(_MODEL)
     rr.simulate(0, 400, 50)
     fca = M.flux_control_analysis(rr)

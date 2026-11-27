@@ -72,7 +72,7 @@ def test_assert_face_rejects_nonconformers():
 def test_every_new_class_declares_provenance_on_its_config():
     from viva_genesis.provenance import audit_config_schema
     from viva_genesis.ledger import EcologyElementLedgerProcess
-    for cls in (PE.ProtocellNetworkProcess, PE.ProtocellNullNetworkProcess, PE.SpatialCouplingStep,
+    for cls in (PE.ProtocellNetworkProcess, PE.SpatialCouplingStep,
                 PE.EcologyReducerStep, EcologyElementLedgerProcess):
         audit = audit_config_schema(cls.config_schema)
         assert not audit["undeclared"], (cls.__name__, audit["undeclared"])
@@ -171,8 +171,9 @@ def test_protocell_network_masks_rules_and_balances_elements():
     assert ro["functions_produced"]["c3_monoacid_hydroxy"] == 1.0                # ... but makes lactate
     assert fi["X_ACKA"] > 1e-8 and ri["X_ACKA"] < 1e-20 and ri["X_AOM"] > fi["X_AOM"]   # OAA only via carboxylation
     assert fo["co2_fixation"] > 0 and ro["h2_consumption"] > 0
-    # the null class shares the engine and masks but rewires the chemistry
-    null = PE.ProtocellNullNetworkProcess(config={"lineage": "fixer", "null_seed": 0}, core=core)
+    # the null is the same process with the matched-null config (null_seed>=0): shares the
+    # engine and masks but rewires the chemistry
+    null = PE.ProtocellNetworkProcess(config={"lineage": "fixer", "null_seed": 0}, core=core)
     o = null.update({"internal": dict(feed)}, 1.0)
     assert null.universe().label == "null_network" and set(o["rule_flux"]) == set(U.RULES)
 
