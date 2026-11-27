@@ -211,6 +211,6 @@ def test_internalization_pays_gate_evaluates(tmp_path):
     assert reg["threshold_map_ledger_all_ok"](None, test, None) == 1.0
     assert 0.0 <= reg["internalization_structure_agreement"](None, test, None) <= 1.0
     # the figures render from the artifacts
-    from viva_genesis.viz_energetics import energy_budget_figure, threshold_map_figure
+    from viva_genesis.visualizations.viz_energetics import energy_budget_figure, threshold_map_figure
     mmap = json.loads(paths["threshold_map"].read_text())
     assert "plotly" in threshold_map_figure(mmap, art) and "plotly" in energy_budget_figure(art)

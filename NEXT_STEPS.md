@@ -10,6 +10,16 @@ see what's live at the URL printed by `scripts/serve.sh`.
 bash scripts/serve.sh   # opens browser at http://localhost:<port>
 ```
 
+## Repository layout
+
+This repo holds the **investigation** — studies, investigations, reports. The
+**simulator** (the `viva_genesis` package: composites, processes, engine bridges)
+lives in its own repo, [`viva-genesis-sim`](https://github.com/vivarium-collective/viva-genesis-sim),
+pinned by tag in `pyproject.toml`. `uv pip install -e ".[dev]"` pulls it in, so
+`import viva_genesis` and every study's `composite: viva_genesis.*` dotted path
+resolve from the installed package. Each `study.yaml` records which simulator
+version built it via its `simulator:` pin.
+
 ## 0 — One-time setup
 
 - [ ] Create the venv: `uv venv .venv`

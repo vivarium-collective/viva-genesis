@@ -85,6 +85,6 @@ def test_real_composite_conserves_reduces_and_warms():
 def test_viz_renders_html():
     pytest.importorskip("phreeqpython")
     pytest.importorskip("fipy")
-    from viva_genesis.viz import VentReactorTimeseries
+    from viva_genesis.visualizations.viz import VentReactorTimeseries
     html = VentReactorTimeseries(config={"n_steps": 40}, core=build_core()).update({})["html"]
     assert isinstance(html, str) and "plotly" in html.lower() and len(html) > 1000

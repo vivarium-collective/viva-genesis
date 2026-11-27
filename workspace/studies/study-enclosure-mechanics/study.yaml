@@ -2,6 +2,10 @@ schema_version: '0.4'
 name: study-enclosure-mechanics
 title: Can selected contact transition to stable enclosure under physical constraints?
 investigation: eukaryogenesis
+simulator:
+  package: viva-genesis-sim
+  ref: v0.1.2
+  registry: git
 question: Can selected contact transition to stable enclosure under physical constraints?
 claim: null
 hypothesis: Physically constrained remodelling reaches stable enclosure in a majority

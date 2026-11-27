@@ -1,6 +1,10 @@
 schema_version: 4
 name: mem-m4-growth-division-propensity
 investigation: origins-of-life-vent
+simulator:
+  package: viva-genesis-sim
+  ref: v0.1.2
+  registry: git
 created: '2026-10-18'
 phase: Design
 status: planned

@@ -1,6 +1,10 @@
 schema_version: 4
 name: s05-differentiation
 investigation: multicellularity
+simulator:
+  package: viva-genesis-sim
+  ref: v0.1.2
+  registry: git
 created: '2026-11-01'
 title: Cell-state differentiation
 phase: Evaluate

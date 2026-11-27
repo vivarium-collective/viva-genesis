@@ -1,6 +1,10 @@
 schema_version: 4
 name: s3-protrusions-to-enclosure
 investigation: eukaryogenesis
+simulator:
+  package: viva-genesis-sim
+  ref: v0.1.2
+  registry: git
 created: '2026-10-27'
 title: 'S3 — Protrusions to enclosure: can protrusion mechanics reach stable wrapping?'
 phase: Calibrate
