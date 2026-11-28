@@ -258,7 +258,7 @@ def _render_one(address, config, runs_db, study_yaml, overrides=None):
 #
 # **Hypothesis.** Across the olivine-rate x flow grid, a large fraction of vent states fall inside the Lost City window, and the dissolved-H2 window is the binding observation that sets the viable posterior.
 #
-# **Claim.** A serpentinizing alkaline vent holds its Lost City window (T 40-91 C, pH 9.0-10.8, positive H2 flux) over ~80% of the swept grid with |charge|=0, and conditioning on that window leaves a posterior 12.5% of the prior in which 100% of empirically supported vent states supply what downstream carbon fixation needs — transport-class-independent, ledger 0/96 rejected. Supported, bounded.
+# **Claim.** An alkaline hydrothermal vent stays in its real-world Lost City window (40-91 C, pH 9-10.8, H2 flowing) across ~80% of the conditions tested. Within that window, every empirically supported vent state supplies what downstream carbon fixation needs - a bounded, calibrated feed, not a claim about life's origin.
 
 # ### Parameters
 #
@@ -418,7 +418,7 @@ _save_viz('og-vent-environment', 'grid-convergence-control', _render_one('local:
 #
 # **Hypothesis.** H2-driven CO2 reduction reproduces the Preiner yield hierarchy and sustains net carbon flux in a bounded pH/H2 region (the core claim); but the attribution of the dominant limitation is not claimed where the model classes disagree below the pre-registered agreement gate.
 #
-# **Claim.** H2-driven CO2 reduction fixes carbon at the vent. Over Fe/Ni/S catalysts the model reproduces the Preiner-2020 yield hierarchy (formate ~200 mM >> acetate ~100 uM >> pyruvate ~10 uM) and sustains net organic-carbon flux in a bounded pH-gradient x dissolved-H2 region; formate collapses to <1 mM in every no-gradient / no-H2 / no-catalyst control, and carbon fixation spends the proton gradient (~2 H+/carbon, chemiosmotic backpressure) (og-01, canonical, supported). Under explicit electrochemistry the vent cell is activation (catalyst) limited where the wall conducts and its current sits in the Altair-2025 window, but the two model classes agree on the dominant-limitation label on only 47% of the favorable region (below the pre-registered 80% gate), so the limitation attribution is structure-sensitive and og-01-cal-electrochemistry is refuted on that agreement question (og-01-cal, refuted; og-01-cal-dx planned to diagnose). Consolidated headline: supported — carbon fixation works and reproduces lab benchmarks; the mechanistic attribution of its rate-limiting step is not yet model-class-robust. Every matched null and arm verdict kept, including the refutation.
+# **Claim.** H2-driven CO2 reduction fixes carbon at the vent. Over Fe/Ni/S catalysts the model reproduces the measured yield order (formate ~200 mM >> acetate ~100 uM >> pyruvate ~10 uM) and keeps net organic carbon flowing in a bounded pH-gradient x H2 region; every no-gradient, no-H2, or no-catalyst control collapses it. The result holds - but the two model classes agree on which step limits the rate only 47% of the time (below the 80% bar), so the rate-limiting mechanism is not yet model-robust (a follow-up is planned).
 
 # ### Parameters
 #
@@ -593,7 +593,7 @@ _save_viz('og-carbon-fixation', 'carbonfix-pde', _render_one('local:CarbonFixati
 #
 # **Hypothesis.** A balanced carbon-fixing network sustains net throughput and connectivity under vent feed + washout (persistence is real), but its persistence is driven rather than autocatalytic: under real thermodynamics no self-amplifying motif emerges at the vent feed without an exogenous C1 feed, so apparent gains in element-lumped curations are artifacts. No autocatalytic emergence is claimed where the ledger does not close or the motif is imposed.
 #
-# **Claim.** Across fidelities the prebiotic carbon-fixing network persists — it sustains net carbon throughput as a connected system under vent-realistic feed + washout (og-02, canonical, supported) — but its persistence is driven, not autocatalytic self-amplification. Graded by a common detector, og-02's curated rTCA motif is imposed and element-unbalanced (the apparent gain an artifact); the rule-generated open universe (121 species, 413 balanced reactions) sustains a 14-species persistent network with NO autocatalytic motif at the vent feed, because every C-C-forming route is uphill, and the single motif that emerges (formose) requires an exogenous formaldehyde feed the vent chemistry does not make (og-02-alt, supported, p=0.04 vs 24 matched nulls). A versioned, provenance-tracked reaction atlas with a zero-leakage write gate supplies the balanced, confidence-tiered reactions both arms draw on (og-28, supported). Consolidated headline: supported — the network persists; endogenous autocatalysis is refuted at vent feed and tracked as the og-autocatalysis line. Every matched null and arm verdict kept.
+# **Claim.** The carbon-fixing network persists - it keeps net carbon flowing as a connected system under vent-realistic feed and washout. But its persistence is driven by the feed, not self-amplifying autocatalysis: in the rule-generated open chemistry (121 species, 413 balanced reactions) a 14-species network persists with no autocatalytic motif, because every C-C-forming route is uphill at the vent feed. Supported - the network persists; endogenous autocatalysis is refuted and tracked separately (og-autocatalysis).
 
 # ### Parameters
 #
@@ -767,7 +767,7 @@ _save_viz('og-network-persistence', 'sustained-throughput-control', _render_one(
 #
 # **Hypothesis.** Thermophoretic/adsorptive enrichment in a long tight pore crosses the Baaske concentration threshold against washout, though strongly- and weakly-thermophoretic solutes separate rather than concentrating together.
 #
-# **Claim.** A serpentinite pore concentrates a dilute vent feed above the dilution/retention threshold (Baaske regime cleared, accumulation Peclet 18.4) while an open-pore control washes through; but the chemically-necessary eight-solute set fractionates (Soret-driven, co-localization index ~0.18) rather than co-localizing — a candidate spatial incompatibility. Supported, bounded.
+# **Claim.** A serpentinite pore concentrates a dilute vent feed above the dilution/retention threshold (Peclet 18.4), while an open-pore control washes through. But the eight chemically-required solutes fractionate (Soret-driven, co-localization ~0.18) rather than gathering together - a possible spatial incompatibility. Supported, bounded.
 
 # ### Parameters
 #
@@ -886,7 +886,7 @@ _save_viz('og-spatial-concentration', 'spatial-pde', _render_one('local:SpatialP
 #
 # **Hypothesis.** Energetic mechanisms (capture, internalization, carrier coupling) raise persistence/robustness — doing useful work through gradient dips and surviving gradient loss — but do not net more total useful work, because stores time-shift and leak and activation is gated at the carrier bond. No net benefit is claimed where an arm's ledger does not close without a hidden inflow.
 #
-# **Claim.** Across fidelities, a protocell's energetics buy robustness/persistence, not raw throughput. A primitive carrier captures geochemical free energy into a transferable store with a closing ledger (proto-energetics arm, supported); a compartment internalizes electrochemical work under selection and pays for it within a Sojo-bounded survival region (internalization arm, supported); which coupling chemistry pays is structure-sensitive and membrane-leak-dependent (5-class alt arm, supported, classes agree ~46%); and a specified thioester carrier does useful work through a gradient dip where gradient-only starves but does NOT improve total useful work (sharpened Gate-E arm, og-35, qualified). The consolidated headline is bounded by that sharpest arm: qualified, dip-persistence not throughput. Every matched null and every arm verdict is preserved.
+# **Claim.** A protocell's energetics buy robustness and persistence, not more throughput. A primitive carrier captures geochemical free energy into a transferable store; a compartment internalizes electrochemical work under selection and pays for it within a survival region; and a thioester carrier does useful work through a gradient dip where gradient-only starves - but none of it raises total useful work. Qualified: it buys dip-persistence, not throughput.
 
 # ### Parameters
 #
@@ -1138,7 +1138,7 @@ _save_viz('og-energetics', 'uncoupled-pump-control', _render_one('local:Energeti
 #
 # **Hypothesis.** Compositional and hybrid inheritance modules transmit functional information above an error threshold at lower cost than a long RNA template, so heredity can be chemical rather than genetic from the start.
 #
-# **Claim.** A protocell transmits a heritable chemical difference to its daughters at a feasible cost, and heredity need not presume a long high-fidelity RNA template: competing modules graded head-to-head show inheritance beats a non-heritable control and compositional/hybrid heredity escapes the Eigen length catastrophe (og-06), and an information-per-cost frontier ranks six mechanisms by heritable bits per joule with attachment conditional on budget (og-06-alt). Supported. Selectability is tested separately in og-evolvability.
+# **Claim.** A protocell passes a heritable chemical difference to its daughters at a feasible cost - and heredity need not start from a long, high-fidelity RNA template. Graded head-to-head, inheritance beats a non-heritable control, and compositional/hybrid heredity escapes the Eigen length limit; a cost frontier ranks six mechanisms by heritable bits per joule. Supported. Whether that difference is selectable is tested separately (og-evolvability).
 
 # ### Parameters
 #
@@ -1283,7 +1283,7 @@ _save_viz('og-heredity', 'heredity-attachment-map', _render_one('local:HeredityA
 #
 # **Hypothesis.** The gates are vent-specific — ablating the vent's characteristic features (sustained H2, Fe/Ni/S catalyst, pore concentration) makes the real composites fail them, so a generic non-equilibrium drive does not reproduce the vent chemistry.
 #
-# **Claim.** A generic drive stripped of ALL THREE vent features at once (no sustained H2, no Fe/Ni/S catalyst, no pore concentration) fails all five discriminating gates on the same real og-01/02/03 composites while the vent passes each — so the campaign's gates are NOT merely generic non-equilibrium detectors; the generic-nonequilibrium null is refuted by every gate (og-adv, canonical; verdict=refuted = null correctly rejected, gate_status=passed = the control discriminates). This is a LUMPED, all-feature-ablated contrast: it does not attribute the rejection to any single feature, and full vent-specificity — against competing realistic alternative environments — is NOT yet demonstrated (the H2 × Fe/Ni/S × pore-gradient 3-way factorial and the competing-environments study are planned, not run). Consolidated: specificity is demonstrated against a feature-ablated null, not yet against competing origin environments. Every matched null and arm verdict kept.
+# **Claim.** Strip all three vent features at once (no sustained H2, no Fe/Ni/S catalyst, no pore concentration) and the generic drive fails all five discriminating gates on the same composites the vent passes - so the campaign's gates are not just generic non-equilibrium detectors, and the generic-nonequilibrium null is correctly rejected. Caveat: this is a lumped, all-features-off contrast - it does not credit any single feature, and full specificity against competing realistic environments is not demonstrated yet (that factorial and the competing-environments study are planned).
 
 # ### Parameters
 #
@@ -1382,7 +1382,7 @@ _save_viz('og-vent-specificity', 'vent-specificity-map', _render_one('local:Vent
 #
 # **Hypothesis.** A vent system produces reduced nitrogen that keeps pace with carbon (a viable C:N) and co-concentrates reactive phosphorus with carbon in the pore; each is demonstrated only where it beats a matched null (feature ablation / open-pore no-enrichment), and any shortfall is reported as a limiting bottleneck rather than tuned to a pass.
 #
-# **Claim.** Each non-carbon nutrient bottleneck clears individually: ammonium is produced and sustained, keeping pace with carbon fixation (a viable C:N) while the feature-ablation null produces none and nitrogen mass is conserved (nitrogen arm, supported); reactive phosphorus is available and co-concentrates with carbon in the pore while an open-pore no-enrichment control shows none and P mass is conserved (phosphorus arm, supported). Qualified overall: these are separate concentration successes, not a joint C/N/P feasibility — whether C, N and P are available together in compatible chemical forms and the same physical regime is the harder, open bar carried by og-precursor-pool and og-operating-window. Every matched null and arm verdict preserved.
+# **Claim.** Each non-carbon nutrient bottleneck clears on its own: ammonium is produced and sustained at a viable C:N (the ablation null makes none; nitrogen conserved), and reactive phosphorus is available and co-concentrates with carbon in the pore (open-pore control shows none; phosphorus conserved). Qualified: these are separate successes, not joint C/N/P feasibility - whether C, N and P are available together in compatible forms and the same regime is the harder open bar (carried by og-precursor-pool and og-operating-window).
 
 # ### Parameters
 #
@@ -1528,7 +1528,7 @@ _save_viz('og-nutrient-bottlenecks', 'phosphorus-sensitivity-sweep', _render_one
 #
 # **Hypothesis.** Stoichiometric autocatalysis detection plus kinetic simulation under dilution (formose arm) and a coefficient-free functional discriminator against a degree-preserving matched null (rTCA arm) will reveal whether a self-amplifying cycle exists on either representable route; where it does not, the analysis names the rate-limiting / thermodynamic step rather than tuning a pass. No self-amplification is claimed where an arm does not beat its matched null.
 #
-# **Claim.** Both tested routes fail under modeled vent conditions — endogenous self-amplifying autocatalysis is refuted across both representable routes, each against its own matched null. This is a limitation of the modeled vent redox environment, NOT a universal impossibility (see the beyond-vent counterfactual below). The linear-C6 formose arm (og-29) is thermodynamically refuted and seed-independent: the canonical doubling step (r409, 2 glycolaldehyde <-> threose) runs toward condensation (dG0 -16.4 kJ/mol) at vent feeds, so the splitting direction carries no net flux (gain 0, motifs 0 across x1-x50) and production is feed-driven, not self-amplified. The branched reductive-TCA arm (og-rtca) is autocatalytic in TOPOLOGY (its net turn doubles oxaloacetate with no coefficient-2 reaction, so a coefficient detector reads 0 by construction and a coefficient-free functional discriminator is required), yet washes out under vent H2 because the closing reductive carboxylations (succinate->a-ketoglutarate +18, acetyl->pyruvate +31 kJ/mol) run uphill and too slow against washout — the same reason the biological cycle uses ferredoxin, not H2. In a LABELLED beyond-vent counterfactual (lower carboxylation barrier + lower dilution) the same rTCA topology meets the self-amplification bar and is topology-specific (the matched null stays off), so the vent negative is a redox-environment limitation, not a defect of the cycle's wiring. The counterfactual is explicitly not a vent claim. Headline verdict is bounded by the honest negative of both arms: refuted. Every matched null and every arm verdict is preserved.
+# **Claim.** Under modeled vent conditions, neither tested route forms a self-amplifying autocatalytic cycle that beats its matched null - so endogenous autocatalysis is refuted here. The formose route runs toward condensation, not splitting, so it is feed-driven, not self-amplifying; the reductive-TCA route is autocatalytic in topology but washes out because its closing steps run uphill against vent H2 (the same reason biology uses ferredoxin). This is a limit of the modeled vent redox environment, not a universal impossibility - in a labelled beyond-vent counterfactual (lower barrier, less dilution) the same rTCA topology does meet the self-amplification bar.
 
 # ### Parameters
 #
@@ -1672,7 +1672,7 @@ _save_viz('og-autocatalysis-a2', 'rtca-mechanism', _render_one('local:OgRtcaMech
 #
 # **Hypothesis.** Mixed amphiphiles assemble protocell boundaries in a bounded vent window (retention without isolation); encapsulation pays on persistence/robustness rather than throughput; the integrated compartment self-maintains and beats a matched ablation; and real fatty-acid vesicles are stable where protonated and micellise where fully charged. Where an arm does not beat its matched null, or stability is only a short-MD trend, that is reported honestly rather than tuned to a pass.
 #
-# **Claim.** A vent-born system acquires a self-made boundary and self-maintains as a protocell, the membrane buying persistence rather than raw throughput. Mixed fatty-acid/alcohol amphiphiles assemble into protocell boundaries in a vent window, giving individuality (retention) without full isolation and beating single-amphiphile controls (og-04, supported); a boundary also forms endogenously from the system's own carbon chemistry with a closed matter ledger (og-04-alt, supported); protometabolism-produced encapsulation pays against a matched equal-feed null on persistence and an access window but not on throughput, and the benefit is windowed (og-31, qualified); the integrated compartment self-maintains its membrane integrity and beats a matched ablation with MD-informed permeability (og-32, canonical, qualified); and real fatty-acid Martini-3 vesicles are stable across C10-C16 while a fully-charged null micellises at the short+charged corner, replacing og-32's phospholipid stand-in with a real amphiphile (og-32b, qualified — a short-MD fixed-charge stability trend, with the titratable/PMF gold standard tracked as og-32a). Headline verdict qualified. Every matched null and arm verdict is preserved.
+# **Claim.** A vent-born system acquires a self-made boundary and self-maintains as a protocell, the membrane buying persistence rather than throughput. Mixed fatty-acid/alcohol amphiphiles assemble into boundaries in a vent window, giving retention without full isolation and beating single-amphiphile controls; a boundary also forms from the system's own carbon chemistry with a closed matter ledger; encapsulation pays against an equal-feed null on persistence and access (not throughput), within a window; and real fatty-acid (Martini-3) vesicles are stable across C10-C16 while a fully-charged null micellises. Qualified.
 
 # ### Parameters
 #
@@ -1920,7 +1920,7 @@ _save_viz('og-self-compartmentation', 'bilayer-3d-structure-static', _render_one
 #
 # **Hypothesis.** Metabolic throughput grows the compartment to a geometry-set division with viable daughters and a persisting lineage; each step is demonstrated only where it beats its matched null (growth decoupled/imposed, no-throughput ablation), and coarse-grained abstractions are reported as such rather than tuned to a pass.
 #
-# **Claim.** A self-maintaining protocell reproduces by metabolism-coupled growth and division into a lineage. Metabolism drives growth to a division at measured geometry with viable daughters, beating a null where growth is decoupled from metabolism or division is imposed (og-33, qualified); net throughput grows the compartment to division rather than lysis or starvation, mass-conserved, where a no-throughput ablation does not (og-growth-division, supported); and a growing, dividing individual builds a >=3-generation lineage with volume conserved across division (og-growth-alt, supported). Headline verdict qualified (coarse-grained geometry/budget abstraction); every matched null and every arm verdict preserved.
+# **Claim.** A self-maintaining protocell reproduces by metabolism-coupled growth and division into a lineage. Metabolism drives growth to division at measured geometry with viable daughters (beating a null where growth is decoupled or division imposed); net throughput grows the compartment to division rather than lysis or starvation, mass-conserved; and a dividing individual builds a >=3-generation lineage with volume conserved. Qualified (coarse geometry/budget abstraction).
 
 # ### Parameters
 #
@@ -2084,7 +2084,7 @@ _save_viz('og-reproduction', 'physical-reproduction-lineage', _render_one('local
 #
 # **Hypothesis.** A cross-feeding community out-produces the best single lineage and sustains a function no single lineage performs, with the benefit causal to exchange and coexistence stabilized rather than assumed; where the community is not more robust, or stochasticity changes low-count outcomes, that is reported honestly rather than tuned to a pass.
 #
-# **Claim.** Protocell-era chemistry is ecological before it is cellular. A stochastic cross-feeding community out-produces the best single lineage with the margin causally attributable to cross-feeding and coexistence stabilized (not assumed), though the community is NOT more robust than monoculture and low-count stochasticity materially changes outcomes (og-36, qualified); a connected metacommunity beats an isolated control with cross-feeding robustness and closed ledgers (og-07, supported); and real metabolite exchange makes community function PRECEDE cell completeness and VANISH without exchange, segregated placement keeping function (og-07-alt, supported). Headline verdict qualified; every matched null and every arm verdict preserved.
+# **Claim.** Protocell-era chemistry is ecological before it is cellular. A stochastic cross-feeding community out-produces the best single lineage - the margin causally due to cross-feeding, coexistence stabilized not assumed - though it is not more robust than monoculture and low counts materially change outcomes; a connected metacommunity beats an isolated control; and real metabolite exchange makes community function precede cell completeness and vanish without exchange. Qualified.
 
 # ### Parameters
 #
@@ -2294,7 +2294,7 @@ _save_viz('og-ecology', 'metabolite-exchange-map', _render_one('local:Metabolite
 #
 # **Hypothesis.** A bounded innovation set (internal energy conversion + resource import + heredity) allows graded persistence as gradient / mineral / feed are withdrawn; the set's sufficiency is model-structure-dependent, and each internalizable support is attributable to a specific innovation by a matched ablation. Where no subset persists, or apparent independence is not causally attributable, that is reported honestly rather than tuned to a pass.
 #
-# **Claim.** A vent-born protocell lineage reaches GRADED, attributed independence, not an all-or-nothing (and not a free) escape. og-08 withdrew gradient + mineral + feed JOINTLY and found a coordinated innovation set {internal pump, importer, heredity} where any single removal collapses persistence — but joint relaxation cannot attribute which innovation rescues which support, so that general minimal-sufficiency reading is rescoped to a reduced, model-specific hypothesis (supported within its one coarse model). og-08-alt-robust then tests the set ACROSS model structures on a 2³ subset lattice and resolves it driver-specifically: the {pump, importer, heredity} triple is advantageous but NOT a jointly-necessary irreducible unit — only pump+heredity interact positively, the active importer is required by no driver (a net cost under a leaky membrane), and the hard dependency is the geological gradient (the full set rescues its withdrawal in only ~4.2% of structures), while mineral (0.958) and feed (0.75) are freely/borderline survivable needing no specific innovation. og-37's one-at-a-time withdrawal agrees: the gradient is the budget-sensitive hard dependency (pump-internalization flips below pump efficiency ~0.7, grounded in the energy arm's persistence-not-throughput surplus), while mineral and feed need no innovation. Because the feed is LUMPED (H2+CO2+organics) and the innovations are coarse budget abstractions, this is an affordability/attribution profile, not a demonstrated escape — headline verdict qualified. Every matched null and every arm verdict is preserved explicitly.
+# **Claim.** A vent-born lineage reaches graded, attributed independence - not all-or-nothing, and not a free escape. Withdrawing gradient, mineral and feed together picks out a coordinated set {internal pump, importer, heredity}, but across model structures the set is advantageous, not a jointly-necessary unit: only pump+heredity interact positively, the importer is often a net cost, and the one hard dependency is the geological gradient (mineral and feed are freely survivable). Because the feed is lumped and the innovations are coarse budget abstractions, this is an affordability/attribution map, not a demonstrated escape. Qualified.
 
 # ### Parameters
 #
@@ -2546,7 +2546,7 @@ print("No baseline composite declared for this study — nothing to build.")
 #
 # **Hypothesis.** An inherited compositional difference maps to a fitness difference that selection can act on, so the protocell lineage is evolvable, not merely heritable.
 #
-# **Claim.** A daughter-inherited chemical difference produces a reproducible, selectable fitness difference and the population shifts under selection rather than drifting: parent-offspring fitness correlation +0.949 vs a no-inheritance control, population shift +0.551 vs drift -0.004, against a matched no-inheritance null (og-34, canonical). Qualified — evolvability demonstrated on the modeled trait space; open-ended chemical novelty beyond that space is not.
+# **Claim.** A daughter-inherited chemical difference makes a reproducible, selectable fitness difference, and the population shifts under selection rather than drifting (parent-offspring fitness correlation +0.949; population shift +0.551 vs drift -0.004, against a no-inheritance null). Qualified - shown on the modeled trait space; open-ended chemical novelty beyond it is not.
 
 # ### Parameters
 #
@@ -2644,7 +2644,7 @@ _save_viz('og-evolvability', 'chemical-heredity-selection', _render_one('local:O
 #
 # **Hypothesis.** The enrichment a pore provides crosses the ignition threshold for the reaction network, so localization — not extra feed — is what makes the network productive.
 #
-# **Claim.** At identical vent-posterior feeds held equal, a concentrating mineral pore ignites the carbon-fixing network (net carbon flux +4.5e-4, 17 persistent species; confirmed on the six-carbon network) while a matched well-mixed, nonconcentrating control stays dead — spatial concentration is the only difference, so the pore causes the productive flux (og-30, canonical). Supported.
+# **Claim.** At equal vent-posterior feeds, a concentrating mineral pore ignites the carbon-fixing network (net carbon flux +4.5e-4, 17 persistent species) while a matched well-mixed control stays dead. Spatial concentration is the only difference, so the pore causes the productive flux. Supported.
 
 # ### Parameters
 #
@@ -2752,7 +2752,7 @@ _save_viz('og-network-rescue', 'networkrescue-pde', _render_one('local:NetworkRe
 #
 # **Hypothesis.** The coupled interface maintains a usable reduced-carbon feed only inside a bounded DIC window, with a sharp two-regime crossover where free H2 and dissolved inorganic carbon trade off.
 #
-# **Claim.** The evolving mineral interface delivers reduced-carbon chemistry only within a bounded two-regime DIC window — under full redox equilibrium, DIC is drawn down before free H2 appears, so the usable window is narrow (og27-dic-crossover-bounded-window; dic-crossover-sweep passes). Qualified: this DIC-cliff is the realized result; sustained-flux, mineral-evolution supply decay and the coupled ledger over timescales are scaffolded (planned), not yet run.
+# **Claim.** The evolving mineral interface delivers reduced-carbon chemistry only inside a narrow DIC window - under full redox equilibrium, DIC is drawn down before free H2 appears, so the usable window is a thin two-regime band. Qualified: this DIC cliff is the realized result; sustained-flux supply decay and the coupled ledger over longer timescales are planned, not yet run.
 
 # ### Parameters
 #
@@ -2838,7 +2838,7 @@ _save_viz('og-vent-interface', 'coupled-interface-evolution', _render_one('local
 #
 # **Hypothesis.** Atom-resolved balanced reaction sets under provenance-tiered kinetics turn the calibrated vent feed into defensible precursor yield vectors, with energy/electron budgets closing and the no-H2 / no-catalyst / no-gradient controls collapsing the pool.
 #
-# **Claim.** The vent's reduced-carbon chemistry delivers a de-novo, atom-balanced, budget-closed functional precursor pool whose controls all collapse it - but within the defensible DIC window the functional C2+ precursors are thermodynamically bounded to sub-micromolar, orders below what downstream chemistry can consume. Qualified.
+# **Claim.** The vent's reduced-carbon chemistry delivers a de-novo, atom-balanced, budget-closed functional precursor pool (every control collapses it). But within the defensible DIC window the functional C2+ precursors are thermodynamically capped at sub-micromolar - orders below what downstream chemistry can consume. Qualified.
 
 # ### Parameters
 #
@@ -2994,7 +2994,7 @@ _save_viz('og-precursor-pool', 'precursor-pool-yield-vectors', _render_one('', {
 #
 # **Hypothesis.** Propagating the calibrated vent posterior through the network, pore and membrane regimes leaves a nonempty overlap only under transport coupling; where the successful conditions do not overlap, an explicit spatial/temporal transfer is required and transport survival must be tested.
 #
-# **Claim.** The downstream pore-enrichment + membrane-retention machinery can rescue og-precursor-pool's nanomolar functional pool to a consumable (~uM) concentration, but only in a narrow corner at the upper edge of defensible small-molecule thermophoresis (S_T ~1e-2/K ceiling + high thermal gradient + high DIC together; overlap volume ~0.11 of the defensible grid, 0.42 overall). The canonical mid-point does not clear it. The rescue hinges on the Soret coefficient of the C2-C3 precursors (the dominant parameter by Morris), so measuring S_T(C2-C3) at the vent gradient is the discriminating experiment.
+# **Claim.** Downstream pore-enrichment + membrane retention can lift og-precursor-pool's nanomolar pool to a consumable ~uM - but only in a narrow corner at the upper edge of defensible thermophoresis (high Soret coefficient + high thermal gradient + high DIC together; ~11% of the defensible grid). The canonical mid-point does not clear it. It hinges on the Soret coefficient of the C2-C3 precursors, so measuring that at the vent gradient is the deciding experiment.
 
 # ### Parameters
 #
@@ -3095,7 +3095,7 @@ _save_viz('og-operating-window', 'operating-window-phase-map', _render_one('', {
 #
 # **Hypothesis.** Coupling explicit amphiphile precursor flux, synthesis, membrane composition, permeability, nutrient influx, product retention and decay yields reciprocal maintenance that survives relevant perturbations only when neither direction of the coupling is assumed.
 #
-# **Claim.** The coupled chemistry-and-boundary system does not maintain itself endogenously under defensible vent conditions: the chemistry's acetate (even at og-operating-window's favorable corner) yields an amphiphile pool ~4 orders below its CAC at the corner and ~7 orders below at the canonical point, so no membrane forms without assuming it, and reciprocal maintenance fails to close without a built-in retention gain - across all three ablations. A scoped refutation of endogenous closure; the broader individuality-emergence question stays open (§9).
+# **Claim.** The coupled chemistry-and-boundary system does not maintain itself endogenously under defensible vent conditions: even at the favorable corner, the chemistry's acetate yields an amphiphile pool ~4 orders below the concentration needed to form a membrane (~7 orders below at the canonical point), so no boundary forms without assuming one, and reciprocal maintenance cannot close - across all three ablations. A scoped refutation of endogenous closure; the broader question of how individuality emerges stays open.
 
 # ### Parameters
 #
@@ -3178,7 +3178,7 @@ _save_viz('og-self-maintaining-individual', 'self-maintaining-closure-map', _ren
 #
 # **Hypothesis.** Stochastic chemical partition and variation at division produce heritable phenotype differences whose fitness, emerging from chemical persistence or division, drives a multi-generation response and adaptation to changed environments beyond a no-inheritance / shared-feed null.
 #
-# **Claim.** Given a granted individual, stochastic partition + variation produce real heritable, selectable adaptation that shifts the population strongly above both matched nulls (no-inheritance and shared-feed) and re-tracks a changed environment - but it is bounded fixed-trait selection (heritable variance declines as it converges; the trait space is a fixed scalar), not open-ended novelty. Combined with og-self-maintaining-individual: the individuality bottleneck is the binding one; given an individual, evolvability works but is bounded. Qualified.
+# **Claim.** Given an individual, stochastic partition + variation produce real heritable, selectable adaptation that beats both matched nulls (no-inheritance and shared-feed) and re-tracks a changed environment - but it is bounded fixed-trait selection (heritable variance declines as it converges), not open-ended novelty. Together with og-self-maintaining-individual: individuality is the binding bottleneck; given an individual, evolvability works but is bounded. Qualified.
 
 # ### Parameters
 #

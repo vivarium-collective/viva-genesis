@@ -1528,27 +1528,19 @@ a.viv-bs-commit:hover { text-decoration: underline; }
 
   <div id="iset-workspace" style="display:none">
     
-    <div class="inv-header-bar" style="display:flex;flex-direction:column;align-items:stretch;gap:6px;margin:0 0 10px;min-width:0;max-width:100%">
-      <div class="inv-header-top" style="display:flex;align-items:center;flex-wrap:wrap;gap:6px;min-width:0;max-width:100%">
-        <button id="ws-back" class="btn-mini" onclick="_showExplore()"
-                title="Back to all investigations" aria-label="Back to Investigations"><span aria-hidden="true">←</span> Back to Investigations</button>
-        <span class="inv-header-nav" style="display:inline-flex;align-items:center;flex-wrap:wrap;gap:6px;margin-left:auto">
-          <button type="button" id="inv-overview-toggle" class="btn-mini" aria-expanded="false"
-                  title="Show the investigation details" aria-label="Toggle investigation details"
-                  onclick="window._toggleInvOverview()"><span class="inv-ov-caret" aria-hidden="true">▸</span> Details</button>
-          <button type="button" id="inv-graph-toggle" class="btn-mini" aria-expanded="true"
-                  title="Hide the investigation graph" aria-label="Toggle investigation graph"
-                  onclick="window._aigToggleInline()"><span class="inv-graph-caret" aria-hidden="true">▾</span> Graph</button>
-          <button type="button" id="ws-add-study" class="btn-mini"
-                  title="Add a new study to this investigation" aria-label="Add a study to this investigation"
-                  onclick="window._openBrowseCreate('study', window._currentIset)"><span aria-hidden="true">+</span> Study</button>
-          <span id="ws-actions"></span>
-        </span>
-      </div>
-      <div id="ws-title-wrap" style="display:flex;align-items:baseline;gap:8px;min-width:0;max-width:100%;flex-wrap:wrap;line-height:1.2">
-        <strong id="ws-title" style="font-size:1.35em;font-weight:700;color:#0f172a;min-width:0;overflow-wrap:anywhere;word-break:break-word"></strong>
-        <span id="ws-status"></span>
-      </div>
+    
+    <div class="inv-header-bar" style="display:flex;align-items:center;flex-wrap:wrap;gap:5px 8px;margin:0 0 6px;min-width:0;max-width:100%">
+      <button id="ws-back" class="btn-mini inv-hdr-btn" onclick="_showExplore()"
+              title="Back to all investigations" aria-label="Back to Investigations"><span aria-hidden="true">←</span> Back</button>
+      <strong id="ws-title" style="font-size:1.1em;font-weight:700;color:#0f172a;flex:1 1 120px;min-width:0;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"></strong>
+      <span id="ws-status" style="flex-shrink:0"></span>
+      
+      <span class="inv-header-nav" style="display:inline-flex;align-items:center;gap:5px;flex-shrink:0">
+        <button type="button" id="ws-add-study" class="btn-mini inv-hdr-btn"
+                title="Add a new study to this investigation" aria-label="Add a study to this investigation"
+                onclick="window._openBrowseCreate('study', window._currentIset)"><span aria-hidden="true">+</span> Study</button>
+        <span id="ws-actions"></span>
+      </span>
     </div>
     <!-- slim collapsed bar (hidden until a study is open) -->
     <button id="ws-context-bar" onclick="_setInvestigationContextCollapsed(false)"
@@ -1663,6 +1655,10 @@ a.viv-bs-commit:hover { text-decoration: underline; }
          opens the deterministic scan in a popover. The old in-body banner that
          duplicated it here has been removed. -->
 
+    
+    <button type="button" id="inv-intro-collapsed-bar" class="inv-intro-collapsed-bar"
+            onclick="window._toggleInvOverview()" aria-label="Show the investigation details"
+            title="Show the investigation details"><span aria-hidden="true">&#9656;</span> Investigation details</button>
     <div id="investigation-intro" class="inv-intro" style="margin: 0 0 16px 0;">
       <!-- Inquiry brief: the question as headline → verdict answers it as a
            colored status line → thin meta row → one flat level of tabs
@@ -1670,6 +1666,12 @@ a.viv-bs-commit:hover { text-decoration: underline; }
            Built entirely by _renderInvOpening(d) from the investigation data. -->
       <div id="investigation-detail-description" class="inv-brief-host"></div>
     </div>
+    
+    <div id="inv-intro-resize" class="inv-intro-resize" role="separator" aria-orientation="horizontal"
+         tabindex="-1" aria-label="Resize the investigation details (drag up to collapse)"
+         title="Drag to resize the details — drag to the top to collapse"><button type="button" class="bar-collapse-btn"
+            title="Collapse the details" aria-label="Collapse the investigation details"
+            onpointerdown="event.stopPropagation()" onclick="event.stopPropagation(); window._toggleInvOverview&&window._toggleInvOverview()">&#9652;</button></div>
     <!-- Decision cockpit: the open expert decisions (executive.decisions_needed)
          surfaced prominently as an actionable card with inline Resolve controls,
          plus the campaign-plan docs and the resolved-decision log. Built by
@@ -1770,7 +1772,7 @@ a.viv-bs-commit:hover { text-decoration: underline; }
     </div>
     <div id="investigation-dag-shell"
          style="position: relative; border: 1px solid #e2e8f0; border-radius: 6px 6px 0 0; background: #fafafa;
-                overflow: auto; resize: none; height: 460px; min-height: 32px; max-height: 92vh; cursor: grab;
+                overflow: auto; resize: none; height: 560px; min-height: 32px; max-height: 92vh; cursor: grab;
                 touch-action: none;">
       <!-- overflow-y must be hidden (not visible): per CSS spec, when one axis
            is `visible` and the other isn't, `visible` gets promoted to `auto`,
@@ -1783,7 +1785,9 @@ a.viv-bs-commit:hover { text-decoration: underline; }
     
     <div id="aig-resize-bar" role="separator" aria-orientation="horizontal" tabindex="0"
          aria-label="Resize the investigation graph — drag up or down"
-         title="Drag to resize the graph (drag all the way up to collapse)"><span class="aig-resize-grip"></span></div>
+         title="Drag to resize the graph (drag all the way up to collapse)"><span class="aig-resize-grip"></span><button type="button" class="bar-collapse-btn"
+            title="Collapse the graph" aria-label="Collapse the investigation graph"
+            onpointerdown="event.stopPropagation()" onclick="event.stopPropagation(); window._aigCollapseInline&&window._aigCollapseInline()">&#9652;</button></div>
     
     <div class="aig-dock-grip" data-grip="se" aria-hidden="true"></div>
     <div class="aig-dock-grip" data-grip="sw" aria-hidden="true"></div>
@@ -2446,6 +2450,44 @@ a.viv-bs-commit:hover { text-decoration: underline; }
     </div>
   </aside>
 
+  <!-- Dockable Study-detail panel. Double-clicking a graph node (or a study
+       card / ref link) opens the /studies/<name> route in this panel's iframe —
+       a free-floating, redockable window on VivPanelDock (docks left/right/
+       bottom/top, resizes, pops out), INDEPENDENT of the investigation graph
+       above it. One reusable panel: each open retargets its iframe. -->
+  <aside id="viv-study-panel" class="viv-study-panel" aria-label="Study" hidden>
+    <div class="viv-study-resize-handle" id="viv-study-resize-handle"
+         role="separator" aria-orientation="horizontal" aria-label="Resize study panel"
+         title="Drag to resize"></div>
+    <div class="viv-study-head vp-head" title="Drag to dock left / right / bottom / top">
+      <div class="viv-study-title">
+        <strong id="viv-study-name">Study</strong>
+      </div>
+      <span class="vp-spacer"></span>
+      <button class="vp-icon" type="button" data-act="open-tab" title="Open in a browser tab" aria-label="Open in a browser tab"
+              onclick="window.StudyPanel&&StudyPanel.openTab()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3h7v7"/><path d="M10 14L21 3"/><path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"/></svg>
+      </button>
+      <button class="vp-icon" type="button" data-act="dock" title="Move or pop out panel" aria-label="Move or pop out panel"
+              onclick="window.StudyPanel&&StudyPanel.dockMenu(this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></svg>
+      </button>
+      <button class="vp-icon" type="button" title="Close" aria-label="Close study panel"
+              onclick="window.StudyPanel&&StudyPanel.close()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <!-- Collapse strip: shown only when collapsed (CSS .vp-collapsed). Click or
+         drag it to bring the study back (same affordance as the graph panel). -->
+    <button type="button" class="viv-study-expand" title="Expand the study panel"
+            aria-label="Expand the study panel"
+            onclick="window.StudyPanel&&StudyPanel.expand()">Study</button>
+    <div class="viv-study-body" id="viv-study-body">
+      <iframe id="viv-study-frame" class="viv-study-frame" src="" title="Study detail"
+              allowfullscreen allow="fullscreen"></iframe>
+    </div>
+  </aside>
+
   <!-- Dockable Studies panel. The per-investigation study browser
        (#viv-rail-studies-section — search + the dependency-ordered study tree)
        is RELOCATED into #viv-studies-body by studies-panel.js and shown through
@@ -2861,7 +2903,7 @@ Nothing on <code id="pr-base-display-2">main</code> changes until someone presse
      DataSource global that renderers call to fetch narrative data.
      local-server mode (default) fetches from the same-origin /api/* endpoints.
      Hosted mode (sub-projects #2/#3) will set a different config here. -->
-<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/workbench", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main/workspace", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "0b9bd55f4b9ff96bc67169af45c66f5da93a8477", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/0b9bd55f4b9ff96bc67169af45c66f5da93a8477", "branch": "main", "lockfile": "uv.lock@3abfc835c913", "generated_at": "2026-11-27 03:55 UTC"} };</script>
+<script>window.__DASH_CONFIG__ = { mode: "snapshot", interactiveUrl: "https://github.com/vivarium-collective/viva-genesis", basePath: "/viva-genesis/workbench", inputsDownloadBase: "https://github.com/vivarium-collective/viva-genesis/raw/main/workspace", provenance: {"repo_slug": "vivarium-collective/viva-genesis", "repo_url": "https://github.com/vivarium-collective/viva-genesis", "commit": "ac1a9639eda16a109b7654d84d9747f5d99a4309", "commit_url": "https://github.com/vivarium-collective/viva-genesis/commit/ac1a9639eda16a109b7654d84d9747f5d99a4309", "branch": "main", "lockfile": "uv.lock@0a4aa223016a", "generated_at": "2026-11-28 03:53 UTC"} };</script>
 <!-- Derive the global URL prefix from the (possibly publish-injected) config.
      Many renderers prefix workspace-root-absolute links (/studies/, /api/)
      with window.__BASE_PATH__ so they resolve when the read-only bundle is
@@ -2912,6 +2954,7 @@ Nothing on <code id="pr-base-display-2">main</code> changes until someone presse
      AFTER panel-dock.js (the engine) and walkthrough.js (which renders the study
      tree it hosts). -->
 <script src="/viva-genesis/workbench/assets/studies-panel.js" onerror="/* studies panel unavailable */"></script>
+<script src="/viva-genesis/workbench/assets/study-panel.js" onerror="/* study panel unavailable */"></script>
 <!-- registry-panel.js: the dockable "Registry" browser panel (VivPanelDock). Loads
      AFTER panel-dock.js (engine), composite-card.js + walkthrough.js (the card
      renderers + _showRegistryCard it drives), and data-source.js. -->

@@ -256,7 +256,7 @@ def _render_one(address, config, runs_db, study_yaml, overrides=None):
 #
 # **Hypothesis.** Clonal incomplete separation with reversible adhesion, swept over bond strength and division/fragmentation, produces a persistent group life cycle and heritable cluster traits that a non-group null does not.
 #
-# **Claim.** Clonal incomplete separation with reversible adhesion produces a PERSISTENT group life cycle (group fraction=0.
+# **Claim.** Clonal incomplete separation with reversible adhesion produces a persistent group life cycle (group fraction 0.67) that a no-adhesion null does not (0.01). This shows group formation - it says nothing yet about fitness.
 
 # ### Parameters
 #
@@ -362,7 +362,7 @@ _save_viz('s01-formation', 'formation-persistence', _render_one('local:Formation
 #
 # **Hypothesis.** Under size-dependent predation/settling, simple adhesive collectives gain a fitness advantage over unicells even with metabolic exchange controlled (H1).
 #
-# **Claim.** Under size-dependent predation/settling, groups gain a FITNESS ADVANTAGE over unicells (adv=+0.
+# **Claim.** Under size-dependent predation/settling, groups gain a fitness advantage over unicells (+0.15); with adhesion alone and no ecology the advantage vanishes (-0.00). So it is ecological selection, not adhesion itself, that confers the group-level advantage.
 
 # ### Parameters
 #
@@ -460,7 +460,7 @@ _save_viz('s02-ecological-selection', 'ecological-selection', _render_one('local
 #
 # **Hypothesis.** Coupling oxygen/nutrient/waste PDEs to growth across colony geometries predicts size/viability changes that track diffusion length and metabolic regime (C3).
 #
-# **Claim.** Oxygen/transport BOUNDS the advantage to an optimal intermediate size: small groups (size=3.
+# **Claim.** Oxygen/transport bounds the advantage to an optimal intermediate size: small groups (size 3.7) keep a positive advantage (+0.12) while large groups (size 17) lose it (-0.21). The advantage is not monotonic in size - it tracks the transport regime.
 
 # ### Parameters
 #
@@ -558,7 +558,7 @@ _save_viz('s03-transport-limits', 'transport-size-optimum', _render_one('local:T
 #
 # **Hypothesis.** Varying aspect ratio, branch topology, packing and bond strength predicts toughness and propagule-size distributions; mechanics backends agree on the summary observables (C4).
 #
-# **Claim.** Cell adhesion (homotypic contact energy) sets collective toughness: a clonal CPM cluster under growth-driven stress stays one cohesive propagule at strong adhesion and fractures into multiple propagules at weak adhesion. UNPROVEN until the adhesion x seed sweep is graded; aspect ratio, branch topology and cross-backend agreement (C4) are not tested here.
+# **Claim.** Cell adhesion (homotypic contact energy) sets collective toughness: under growth-driven stress a clonal CPM cluster stays one cohesive propagule at strong adhesion and fractures into several at weak adhesion. Unproven until the adhesion x seed sweep is graded; aspect ratio, branch topology, and cross-backend agreement are not tested here.
 
 # ### Parameters
 #
@@ -667,7 +667,7 @@ _save_viz('s04-morphomechanics', 'cluster-fracture', _render_one('local:ClusterF
 #
 # **Hypothesis.** Metabolite exchange plus inducible cell fate yields specialization that improves out-of-sample group performance beyond a no-fate and random-fate null (C5).
 #
-# **Claim.** In a 2D CPM world with an O2 gradient, O2-keyed germ/soma specialization (fixed a-priori stemness threshold) improves net viable growth out-of-sample on held-out env B (o2_source 0.025): decisively over a random-fate null and modestly (~5%) over a no-fate / clamped-undifferentiated null, in a moderate O2 regime. The benefit vanishes when O2 is plentiful and degrades when O2 is very scarce; transient 40-update window, one CPM backend.
+# **Claim.** In a 2D CPM world with an O2 gradient, O2-keyed germ/soma specialization (fixed stemness threshold) improves net viable growth out-of-sample on held-out environment B: decisively over a random-fate null and modestly (~5%) over a no-fate null, in a moderate-O2 regime. The benefit vanishes when O2 is plentiful and degrades when it is very scarce - a transient 40-update window, one CPM backend.
 
 # ### Parameters
 #
@@ -781,7 +781,7 @@ _save_viz('s05-differentiation', 'germ-soma', _render_one('local:Differentiation
 #
 # **Hypothesis.** Group-level selection on adhesion yields a heritable multi-generation response in clonal groups that vanishes without selection (drift null) and is weakened when groups are mixed (non-clonal).
 #
-# **Claim.** Clonal group-level selection on a heritable adhesion set-point produces a multi-generation evolutionary response: seed-mean mean-adhesion rises +0.22 on held-out seeds 4-6 (+0.32 on training seeds 1-3) over 6 generations, exceeding the selection-off drift null and reaching the highest group cohesion (toughness ~0.93). Clonality is required for full trait transmission (heritability 1.0 clonal vs 0.5 mixed) and the mixed-founder response is attenuated (+0.14 held-out). QUALIFIED: the clean selection-vs-drift margin is on training seeds (+0.33 over a ~0 null); on held-out seeds the drift null itself drifts up ~+0.10 (boundary reflection of the lower-bounded [0,0.6] init), narrowing the held-out margin to +0.12. Heritability is structural (fixed by the clonal/mixed encoding), not emergent; the emergent result is the response. within_group is ~0 in every arm, so non-clonal founding collapses heritability by trait dilution, not active within-group conflict.
+# **Claim.** Clonal group-level selection on a heritable adhesion set-point produces a multi-generation response: mean adhesion rises +0.22 on held-out seeds over 6 generations, beating the selection-off drift null and reaching the highest cohesion (toughness ~0.93). Clonality is needed for full trait transmission (heritability 1.0 clonal vs 0.5 mixed). Qualified: the clean selection-vs-drift margin is on the training seeds; on held-out seeds the drift null itself drifts up (~+0.10, a boundary artifact), narrowing the held-out margin to +0.12. Heritability is structural (set by the clonal/mixed encoding), not emergent - the emergent result is the selection response.
 
 # ### Parameters
 #
