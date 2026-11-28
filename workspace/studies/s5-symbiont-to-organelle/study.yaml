@@ -23,7 +23,8 @@ tags:
 concept: Inheritance and evolutionary individuality made operational as the fidelity of vertical transmission across a lineage tree. A chemical phenotype inherited at fission via a module-specific mechanism (template Eigen ratchet, compositional GARD, or a non-heritable control), tracked over many generations — stable heritable integration vs collapse.
 question: Which routes to inheritance lead to stable vertical transmission and a persistent lineage? Distinguish mere within-host survival from high-fidelity vertical transmission over many generations.
 hypothesis: 'Stable heritable integration requires high-fidelity vertical transmission: only above the Eigen error threshold does the inherited phenotype persist with function across generations. Below threshold (low fidelity) the lineage collapses; without an inheritance mechanism (non-heritable) there is no vertical transmission at all.'
-claim: Integration becomes heritable and coordinated — a new evolutionary individual emerges — only when vertical-transmission fidelity crosses the Eigen error threshold, after which the inherited phenotype persists with function across generations. Below threshold (low-fidelity template) the lineage hits the error catastrophe and collapses; a non-heritable mechanism transmits nothing.
+claim: |-
+  Integration becomes heritable and coordinated - a new evolutionary individual - only once vertical-transmission fidelity crosses the Eigen error threshold; above it, the inherited phenotype persists with function across generations. Below threshold the lineage hits the error catastrophe and collapses; a non-heritable mechanism transmits nothing.
 behavior_tests:
 - name: heritable-integration-stable
   classification: primary

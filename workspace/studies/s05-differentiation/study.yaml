@@ -19,7 +19,8 @@ tags:
 concept: emergence of multicellularity
 question: Can environmental gradients create stable cell-state differentiation without a dedicated developmental program? (Q4, Q3)
 hypothesis: Metabolite exchange plus inducible cell fate yields specialization that improves out-of-sample group performance beyond a no-fate and random-fate null (C5).
-claim: 'In a 2D CPM world with an O2 gradient, O2-keyed germ/soma specialization (fixed a-priori stemness threshold) improves net viable growth out-of-sample on held-out env B (o2_source 0.025): decisively over a random-fate null and modestly (~5%) over a no-fate / clamped-undifferentiated null, in a moderate O2 regime. The benefit vanishes when O2 is plentiful and degrades when O2 is very scarce; transient 40-update window, one CPM backend.'
+claim: |-
+  In a 2D CPM world with an O2 gradient, O2-keyed germ/soma specialization (fixed stemness threshold) improves net viable growth out-of-sample on held-out environment B: decisively over a random-fate null and modestly (~5%) over a no-fate null, in a moderate-O2 regime. The benefit vanishes when O2 is plentiful and degrades when it is very scarce - a transient 40-update window, one CPM backend.
 behavior_tests:
 - name: specialization-improves-group-performance
   classification: primary

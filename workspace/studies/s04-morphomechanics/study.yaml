@@ -21,7 +21,8 @@ tags:
 concept: emergence of multicellularity
 question: How do cell aspect ratio, branch topology, packing and bond strength set collective toughness and propagule size? (Q2)
 hypothesis: Varying aspect ratio, branch topology, packing and bond strength predicts toughness and propagule-size distributions; mechanics backends agree on the summary observables (C4).
-claim: 'Cell adhesion (homotypic contact energy) sets collective toughness: a clonal CPM cluster under growth-driven stress stays one cohesive propagule at strong adhesion and fractures into multiple propagules at weak adhesion. UNPROVEN until the adhesion x seed sweep is graded; aspect ratio, branch topology and cross-backend agreement (C4) are not tested here.'
+claim: |-
+  Cell adhesion (homotypic contact energy) sets collective toughness: under growth-driven stress a clonal CPM cluster stays one cohesive propagule at strong adhesion and fractures into several at weak adhesion. Unproven until the adhesion x seed sweep is graded; aspect ratio, branch topology, and cross-backend agreement are not tested here.
 behavior_tests:
 - name: propagule-toughness-predicted
   classification: primary

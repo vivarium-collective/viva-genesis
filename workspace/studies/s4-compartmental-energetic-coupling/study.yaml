@@ -23,7 +23,8 @@ tags:
 concept: Endosymbiotic dependence made operational as net energetic benefit under a declining external gradient. A replicator population (Sojo leaky-membrane fitness) either INTERNALIZES gradient generation (efficient pump → tight membrane) and persists, or — with a weak pump — collapses as the external geochemical gradient drops. External association vs internalized coupling compared.
 question: Does internalization increase net fitness given ATP production, transport losses, upkeep, and host-symbiont conflict — and in which parameter regimes is internalization actually harmful?
 hypothesis: 'Internalization is net-positive only in a restricted regime: where the pump is efficient enough to internalize gradient generation before the external gradient collapses. Outside that regime (a weak pump) the population cannot pay the Sojo membrane cost and collapses.'
-claim: 'An enclosed partner may develop organelle-like function only under restricted physiological conditions: internalization yields a net energetic benefit (the population internalizes gradient generation and persists) solely where the pump is efficient; there exist regimes (a weak pump) where internalization cannot pay the membrane cost and the population collapses.'
+claim: |-
+  An enclosed partner gains organelle-like function only under restricted conditions: internalizing gradient generation pays off and the population persists only where the pump is efficient. Where the pump is weak, internalization cannot cover the membrane cost and the population collapses.
 behavior_tests:
 - name: internalization-net-energy-positive
   classification: primary
