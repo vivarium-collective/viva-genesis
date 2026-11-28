@@ -31,11 +31,8 @@ gate_reason: >-
   the dic-crossover-sweep primary passes, window_exists=False). Its other five og-27 findings (sustained reactive
   flux, mineral-evolution supply decay, electrochemical driving force, coupled conservation ledger, handoff-to-29)
   remain status:planned — not yet realized. Carries plan_id 27 and the numeric refs to study 27.
-claim: >-
-  The evolving mineral interface delivers reduced-carbon chemistry only within a bounded two-regime DIC window
-  — under full redox equilibrium, DIC is drawn down before free H2 appears, so the usable window is narrow (og27-dic-crossover-bounded-window;
-  dic-crossover-sweep passes). Qualified: this DIC-cliff is the realized result; sustained-flux, mineral-evolution
-  supply decay and the coupled ledger over timescales are scaffolded (planned), not yet run.
+claim: |-
+  The evolving mineral interface delivers reduced-carbon chemistry only inside a narrow DIC window - under full redox equilibrium, DIC is drawn down before free H2 appears, so the usable window is a thin two-regime band. Qualified: this DIC cliff is the realized result; sustained-flux supply decay and the coupled ledger over longer timescales are planned, not yet run.
 question: >-
   Does the evolving mineral-water interface sustain its H2 / inorganic-carbon flux and pH/redox gradient as minerals
   evolve, and where does the DIC window bound it?
@@ -174,7 +171,7 @@ behavior_tests:
   measure:
     kind: observable
     detail: H2 flux / precipitation / accessibility / porosity vs fluid_dic across SI=0
-    ledger closure: null
+    ledger closure:
   pass_if:
     op: threshold
     detail: >-

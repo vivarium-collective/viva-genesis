@@ -36,14 +36,8 @@ gate_reason: >-
   metabolism grows the compartment to a measured-geometry division with viable daughters and a multi-generation
   lineage, beating the decoupled/imposed null, on a coarse-grained geometry/budget abstraction. Each arm
   keeps its own verdict and matched null (see arms).
-claim: >-
-  A self-maintaining protocell reproduces by metabolism-coupled growth and division into a lineage. Metabolism
-  drives growth to a division at measured geometry with viable daughters, beating a null where growth
-  is decoupled from metabolism or division is imposed (og-33, qualified); net throughput grows the compartment
-  to division rather than lysis or starvation, mass-conserved, where a no-throughput ablation does not
-  (og-growth-division, supported); and a growing, dividing individual builds a >=3-generation lineage
-  with volume conserved across division (og-growth-alt, supported). Headline verdict qualified (coarse-grained
-  geometry/budget abstraction); every matched null and every arm verdict preserved.
+claim: |-
+  A self-maintaining protocell reproduces by metabolism-coupled growth and division into a lineage. Metabolism drives growth to division at measured geometry with viable daughters (beating a null where growth is decoupled or division imposed); net throughput grows the compartment to division rather than lysis or starvation, mass-conserved; and a dividing individual builds a >=3-generation lineage with volume conserved. Qualified (coarse geometry/budget abstraction).
 question: >-
   How does a self-maintaining protocell reproduce — does metabolism drive growth to a measured-geometry
   division with viable daughters (not lysis or starvation), building a multi-generation lineage, each
@@ -149,7 +143,7 @@ behavior_tests:
   measure:
     kind: observable
     detail: division_rate vs net carbon flux
-    coupled vs growth-decoupled null: null
+    coupled vs growth-decoupled null:
   pass_if:
     op: threshold
     detail: coupled division rate rises with flux (slope > 0) while decoupled is flat
@@ -161,11 +155,11 @@ behavior_tests:
   measure:
     kind: observable
     detail: divisions trigger at the measured area-doubling threshold
-    not a timer: null
+    not a timer:
   pass_if:
     op: threshold
     detail: division triggers at the measured geometry
-    no imposed event: null
+    no imposed event:
   requires_simulation: 'yes'
 - name: daughters-viable
   classification: primary
@@ -188,7 +182,7 @@ behavior_tests:
   measure:
     kind: observable
     detail: coupled division rate vs flux-independent decoupled/imposed nulls
-    equal feeds: null
+    equal feeds:
   pass_if:
     op: threshold
     detail: metabolism-coupled growth/division exceeds the matched null
@@ -258,7 +252,7 @@ behavior_tests:
   pass_if:
     op: arms_reported
     detail: matched divides; too permeable = starve (no division
-    no growth); too impermeable = lyse (viable band is bounded): null
+    no growth); too impermeable = lyse (viable band is bounded):
   units: dimensionless
   requires_simulation: 'yes'
   cites:
@@ -502,19 +496,19 @@ runs:
         verdict: within_tol
         value: 8.0
         meter: 1.0
-        detail: null
+        detail:
         expected:
           kind: value
           value: 0.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>'
           tol: 0.05
-          statement: null
+          statement:
         margin: 8.0
         severity: hard
-        units: null
-        knob: null
+        units:
+        knob:
         citation: muchowska2019synthesis; jordan2019promotion
       auto_evaluated: true
     mass-conserved-across-division:
@@ -532,20 +526,20 @@ runs:
         verdict: within_tol
         value: 0.0
         meter: 1.0
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1e-18
-          low: null
-          high: null
+          low:
+          high:
           op: <
           tol: 0.05
-          statement: null
+          statement:
         margin: 1e-18
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     division-not-lysis-or-starvation:
       result: PASS
@@ -590,20 +584,20 @@ runs:
         verdict: within_tol
         value: 5.0
         meter: 0.8333333333333333
-        detail: null
+        detail:
         expected:
           kind: value
           value: 3.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 2.0
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     division-conserves-volume:
       result: PASS
@@ -619,20 +613,20 @@ runs:
         verdict: within_tol
         value: 0.0
         meter: 1.0
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1e-09
-          low: null
-          high: null
+          low:
+          high:
           op: <=
           tol: 0.05
-          statement: null
+          statement:
         margin: 1e-09
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
 visualizations:
 - name: growth-division

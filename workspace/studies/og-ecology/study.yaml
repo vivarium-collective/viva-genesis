@@ -36,15 +36,8 @@ gate_reason: >-
   community out-produces the best single lineage with a causally-cross-feeding margin and function that
   precedes cell completeness, but it is NOT more robust than monoculture and low-count stochasticity materially
   changes outcomes. Each arm keeps its own verdict and matched null (see arms).
-claim: >-
-  Protocell-era chemistry is ecological before it is cellular. A stochastic cross-feeding community out-produces
-  the best single lineage with the margin causally attributable to cross-feeding and coexistence stabilized
-  (not assumed), though the community is NOT more robust than monoculture and low-count stochasticity
-  materially changes outcomes (og-36, qualified); a connected metacommunity beats an isolated control
-  with cross-feeding robustness and closed ledgers (og-07, supported); and real metabolite exchange makes
-  community function PRECEDE cell completeness and VANISH without exchange, segregated placement keeping
-  function (og-07-alt, supported). Headline verdict qualified; every matched null and every arm verdict
-  preserved.
+claim: |-
+  Protocell-era chemistry is ecological before it is cellular. A stochastic cross-feeding community out-produces the best single lineage - the margin causally due to cross-feeding, coexistence stabilized not assumed - though it is not more robust than monoculture and low counts materially change outcomes; a connected metacommunity beats an isolated control; and real metabolite exchange makes community function precede cell completeness and vanish without exchange. Qualified.
 question: >-
   Is protocell-era chemistry ecological before it is cellular — does a cross-feeding community out-produce
   the best single lineage (margin causally cross-feeding), does community function precede cell completeness
@@ -186,7 +179,7 @@ behavior_tests:
   measure:
     kind: observable
     detail: deterministic n_alive
-    community vs knockout: null
+    community vs knockout:
   pass_if:
     op: threshold
     detail: community n_alive == K; knockout n_alive < K
@@ -288,7 +281,7 @@ behavior_tests:
   pass_if:
     op: arms_reported
     detail: overlap reported as a boundary
-    not a target: null
+    not a target:
   units: dimensionless
   requires_simulation: 'yes'
   cites:
@@ -910,20 +903,20 @@ runs:
         verdict: within_tol
         value: 0.646341
         meter: 0.646341
-        detail: null
+        detail:
         expected:
           kind: value
           value: 0.5
-          low: null
-          high: null
+          low:
+          high:
           op: '>'
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.14634100000000005
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     connected-beats-isolated:
       result: PASS
@@ -968,20 +961,20 @@ runs:
         verdict: within_tol
         value: 1.0
         meter: 0.5
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.0
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     carbon-residual-at-integrator-tolerance:
       result: PASS
@@ -997,20 +990,20 @@ runs:
         verdict: within_tol
         value: 0.0
         meter: 1.0
-        detail: null
+        detail:
         expected:
           kind: value
           value: 0.0001
-          low: null
-          high: null
+          low:
+          high:
           op: <=
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.0001
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     exchange-rules-fire:
       result: PASS
@@ -1026,20 +1019,20 @@ runs:
         verdict: within_tol
         value: 466668.0
         meter: 1.0
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1000.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>'
           tol: 0.05
-          statement: null
+          statement:
         margin: 465668.0
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     metabolites-cross-between-lineages:
       result: PASS
@@ -1055,20 +1048,20 @@ runs:
         verdict: mismatch
         value: 0.0
         meter: 0.5
-        detail: null
+        detail:
         expected:
           kind: value
           value: 0.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>'
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.0
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     no-cell-complete:
       result: PASS
@@ -1084,20 +1077,20 @@ runs:
         verdict: within_tol
         value: 0.933333
         meter: 0.5333335
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1.0
-          low: null
-          high: null
+          low:
+          high:
           op: <
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.06666700000000003
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     cross-feeding-robustness:
       result: PASS
@@ -1114,20 +1107,20 @@ runs:
         verdict: within_tol
         value: 0.477376
         meter: 0.7956266666666667
-        detail: null
+        detail:
         expected:
           kind: value
           value: 0.3
-          low: null
-          high: null
+          low:
+          high:
           op: '>'
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.17737600000000003
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     luca-capability-overlap:
       result: PASS
@@ -1143,19 +1136,19 @@ runs:
         verdict: within_tol
         value: 0.786454
         meter: 0.893227
-        detail: null
+        detail:
         expected:
           kind: value
           value: 0.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.786454
         severity: hard
-        units: null
-        knob: null
+        units:
+        knob:
         citation: weiss2016physiology; moody2024nature
       auto_evaluated: true
     community-function-precedes-cell-completeness:
@@ -1174,19 +1167,19 @@ runs:
         verdict: within_tol
         value: 1.0
         meter: 0.5
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.0
         severity: hard
-        units: null
-        knob: null
+        units:
+        knob:
         citation: wolos2020synthetic; weiss2016physiology
       auto_evaluated: true
     community-function-vanishes-without-exchange:
@@ -1203,20 +1196,20 @@ runs:
         verdict: within_tol
         value: 1.0
         meter: 0.5
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.0
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     community-function-flux-sustained:
       result: PASS
@@ -1233,20 +1226,20 @@ runs:
         verdict: within_tol
         value: 1.0
         meter: 0.5
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.0
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     community-max-cell-completeness:
       result: PASS
@@ -1262,20 +1255,20 @@ runs:
         verdict: within_tol
         value: 0.933333
         meter: 0.5333335
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1.0
-          low: null
-          high: null
+          low:
+          high:
           op: <
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.06666700000000003
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     community-vs-complete-cell:
       result: PASS
@@ -1291,20 +1284,20 @@ runs:
         verdict: within_tol
         value: 0.047025
         meter: 0.5235125
-        detail: null
+        detail:
         expected:
           kind: value
           value: 0.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.047025
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     emergence-boundary-resolved:
       result: PASS
@@ -1320,19 +1313,19 @@ runs:
         verdict: within_tol
         value: 0.0
         meter: 1.0
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1e-07
-          low: null
-          high: null
+          low:
+          high:
           op: <=
           tol: 0.05
-          statement: null
+          statement:
         margin: 1e-07
         severity: hard
-        units: null
-        knob: null
+        units:
+        knob:
         citation: jordan2019promotion; mast2010thermal
       auto_evaluated: true
     null-community-only-count:
@@ -1349,19 +1342,19 @@ runs:
         verdict: within_tol
         value: 1.0
         meter: 1.0
-        detail: null
+        detail:
         expected:
           kind: value
           value: 0.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 1.0
         severity: hard
-        units: null
-        knob: null
+        units:
+        knob:
         citation: maslov2002specificity
       auto_evaluated: true
     segregated-placement-keeps-function:
@@ -1378,20 +1371,20 @@ runs:
         verdict: within_tol
         value: 1.0
         meter: 0.5
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.0
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     connected-beats-isolated:
       result: PASS
@@ -1407,20 +1400,20 @@ runs:
         verdict: within_tol
         value: 0.071429
         meter: 0.5357145
-        detail: null
+        detail:
         expected:
           kind: value
           value: 0.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>'
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.071429
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     map-ledgers-close:
       result: PASS
@@ -1434,20 +1427,20 @@ runs:
         verdict: within_tol
         value: 1.0
         meter: 0.5
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.0
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
 visualizations:
 - name: stochastic-ecology

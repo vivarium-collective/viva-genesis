@@ -40,22 +40,8 @@ gate_reason: >-
   feed, coarse budget abstractions), not a demonstrated real-cell escape. Each arm keeps its own verdict
   and matched null (see arms). Guardrail: metabolism is the sustained A1 network, not autocatalytic (A2
   refuted).
-claim: >-
-  A vent-born protocell lineage reaches GRADED, attributed independence, not an all-or-nothing (and not
-  a free) escape. og-08 withdrew gradient + mineral + feed JOINTLY and found a coordinated innovation
-  set {internal pump, importer, heredity} where any single removal collapses persistence — but joint relaxation
-  cannot attribute which innovation rescues which support, so that general minimal-sufficiency reading
-  is rescoped to a reduced, model-specific hypothesis (supported within its one coarse model). og-08-alt-robust
-  then tests the set ACROSS model structures on a 2³ subset lattice and resolves it driver-specifically: the
-  {pump, importer, heredity} triple is advantageous but NOT a jointly-necessary irreducible unit — only
-  pump+heredity interact positively, the active importer is required by no driver (a net cost under a leaky
-  membrane), and the hard dependency is the geological gradient (the full set rescues its withdrawal in only
-  ~4.2% of structures), while mineral (0.958) and feed (0.75) are freely/borderline survivable needing no
-  specific innovation. og-37's one-at-a-time withdrawal agrees: the gradient is the budget-sensitive hard
-  dependency (pump-internalization flips below pump efficiency ~0.7, grounded in the energy arm's
-  persistence-not-throughput surplus), while mineral and feed need no innovation. Because the feed is LUMPED (H2+CO2+organics) and the innovations are coarse budget abstractions,
-  this is an affordability/attribution profile, not a demonstrated escape — headline verdict qualified.
-  Every matched null and every arm verdict is preserved explicitly.
+claim: |-
+  A vent-born lineage reaches graded, attributed independence - not all-or-nothing, and not a free escape. Withdrawing gradient, mineral and feed together picks out a coordinated set {internal pump, importer, heredity}, but across model structures the set is advantageous, not a jointly-necessary unit: only pump+heredity interact positively, the importer is often a net cost, and the one hard dependency is the geological gradient (mineral and feed are freely survivable). Because the feed is lumped and the innovations are coarse budget abstractions, this is an affordability/attribution map, not a demonstrated escape. Qualified.
 question: >-
   How independent of its geological cradle can a vent-born protocell lineage become — what minimum innovation
   set lets it persist as external support is withdrawn, which supports can it internalize vs which remain
@@ -170,7 +156,7 @@ behavior_tests:
     kind: derived
     path: offgradient_survival
     detail: surviving fraction at the end of the run
-    as support -> 0: null
+    as support -> 0:
   pass_if:
     op: '>='
     value: 0.5
@@ -192,7 +178,7 @@ behavior_tests:
   measure:
     kind: cross_run
     detail: full set vs each single knockout
-    surviving fraction off-gradient: null
+    surviving fraction off-gradient:
   pass_if:
     op: arms_reported
     detail: >-
@@ -485,7 +471,7 @@ behavior_tests:
   measure:
     kind: observable
     detail: final survivors per channel at full withdrawal
-    full innovation set: null
+    full innovation set:
   pass_if:
     op: threshold
     detail: survivors >= 0.5 for each channel
@@ -499,7 +485,7 @@ behavior_tests:
   measure:
     kind: observable
     detail: survivors with the rescuing innovation off vs on
-    per channel: null
+    per channel:
   pass_if:
     op: threshold
     detail: full-set survivors >= 0.5 AND ablated survivors < 0.5 for each channel
@@ -513,7 +499,7 @@ behavior_tests:
   measure:
     kind: observable
     detail: survivors with heredity off
-    per channel: null
+    per channel:
   pass_if:
     op: threshold
     detail: survivors < 0.5 for every channel with heredity off
@@ -526,7 +512,7 @@ behavior_tests:
   measure:
     kind: observable
     detail: all-at-once survivors
-    full set vs each innovation knockout: null
+    full set vs each innovation knockout:
   pass_if:
     op: threshold
     detail: escapes with full set AND fails with each single innovation removed
@@ -860,19 +846,19 @@ runs:
         verdict: within_tol
         value: 1.0
         meter: 1.0
-        detail: null
+        detail:
         expected:
           kind: value
           value: 0.5
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.5
         severity: hard
-        units: null
-        knob: null
+        units:
+        knob:
         citation: sojo2014bioenergetic; lane2012origin
       auto_evaluated: true
     minimum-innovation-set:
@@ -947,20 +933,20 @@ runs:
         verdict: within_tol
         value: 1.0
         meter: 0.5
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.0
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     ablation-withdraws-every-driver:
       result: PASS
@@ -976,20 +962,20 @@ runs:
         verdict: within_tol
         value: 1.0
         meter: 0.5
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.0
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     structural-events-logged:
       result: PASS
@@ -1005,20 +991,20 @@ runs:
         verdict: within_tol
         value: 13.0
         meter: 1.0
-        detail: null
+        detail:
         expected:
           kind: value
           value: 3.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 10.0
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     autonomy-decomposed-off-gradient:
       result: PASS
@@ -1034,20 +1020,20 @@ runs:
         verdict: within_tol
         value: 0.0
         meter: 0.5
-        detail: null
+        detail:
         expected:
           kind: value
           value: 0.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.0
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     net-work-budget-off-gradient:
       result: PASS
@@ -1063,20 +1049,20 @@ runs:
         verdict: within_tol
         value: -0.0
         meter: 1.0
-        detail: null
+        detail:
         expected:
           kind: value
           value: -1.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>'
           tol: 0.05
-          statement: null
+          statement:
         margin: 1.0
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     minimum-sufficient-innovation-set:
       result: FAIL
@@ -1094,19 +1080,19 @@ runs:
         verdict: mismatch
         value: 0.0
         meter: 0.0
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: -1.0
         severity: hard
-        units: null
-        knob: null
+        units:
+        knob:
         citation: martin2007origin; sojo2014bioenergetic; lane2012origin
       auto_evaluated: true
     minimum-sufficient-innovation-set-rich-ocean:
@@ -1121,20 +1107,20 @@ runs:
         verdict: mismatch
         value: 0.0
         meter: 0.0
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: -1.0
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     full-set-persistence-across-structures:
       result: PASS
@@ -1150,20 +1136,20 @@ runs:
         verdict: within_tol
         value: 0.0
         meter: 0.5
-        detail: null
+        detail:
         expected:
           kind: value
           value: 0.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.0
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     robust-required-intersection:
       result: PASS
@@ -1179,20 +1165,20 @@ runs:
         verdict: within_tol
         value: 0.0
         meter: 0.5
-        detail: null
+        detail:
         expected:
           kind: value
           value: 0.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.0
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     og08-hypothesis-reproduced:
       result: PASS
@@ -1208,20 +1194,20 @@ runs:
         verdict: within_tol
         value: 0.0
         meter: 0.5
-        detail: null
+        detail:
         expected:
           kind: value
           value: 0.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.0
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     generic-environment-rejected:
       result: PASS
@@ -1238,20 +1224,20 @@ runs:
         verdict: within_tol
         value: 1.0
         meter: 0.5
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.0
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     ensemble-ledgers-close:
       result: PASS
@@ -1265,20 +1251,20 @@ runs:
         verdict: within_tol
         value: 1.0
         meter: 0.5
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.0
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     autonomy-of-the-persisting-lineages:
       result: PASS
@@ -1295,20 +1281,20 @@ runs:
         verdict: within_tol
         value: 0.99335
         meter: 0.996675
-        detail: null
+        detail:
         expected:
           kind: value
           value: 0.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.99335
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     ocean-floor-for-majority-persistence:
       result: SKIP

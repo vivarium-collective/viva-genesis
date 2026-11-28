@@ -42,12 +42,8 @@ key_assumptions:
 - >-
   Overlap is reported as a volume (fraction of the defensible parameter space reaching a consumable pool) with
   per-regime failure reasons - never as an origin-of-life probability.
-claim: >-
-  The downstream pore-enrichment + membrane-retention machinery can rescue og-precursor-pool's nanomolar functional
-  pool to a consumable (~uM) concentration, but only in a narrow corner at the upper edge of defensible small-molecule
-  thermophoresis (S_T ~1e-2/K ceiling + high thermal gradient + high DIC together; overlap volume ~0.11 of the
-  defensible grid, 0.42 overall). The canonical mid-point does not clear it. The rescue hinges on the Soret coefficient
-  of the C2-C3 precursors (the dominant parameter by Morris), so measuring S_T(C2-C3) at the vent gradient is the discriminating experiment.
+claim: |-
+  Downstream pore-enrichment + membrane retention can lift og-precursor-pool's nanomolar pool to a consumable ~uM - but only in a narrow corner at the upper edge of defensible thermophoresis (high Soret coefficient + high thermal gradient + high DIC together; ~11% of the defensible grid). The canonical mid-point does not clear it. It hinges on the Soret coefficient of the C2-C3 precursors, so measuring that at the vent gradient is the deciding experiment.
 question: >-
   Do the vent, pore, and membrane regimes share a simultaneous operating window, or only a transport-connected
   sequence of microenvironments?
@@ -300,19 +296,19 @@ runs:
         verdict: within_tol
         value: 2.506156
         meter: 1.0
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>'
           tol: 0.05
-          statement: null
+          statement:
         margin: 1.5061559999999998
         severity: hard
-        units: null
-        knob: null
+        units:
+        knob:
         citation: baaske2007extreme
       auto_evaluated: true
     membrane-retention-real:
@@ -327,20 +323,20 @@ runs:
         verdict: within_tol
         value: 0.905388
         meter: 0.5427333333333333
-        detail: null
+        detail:
         expected:
           kind: band
-          value: null
+          value:
           low: 0.5
           high: 0.99
           op: ~=
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.08461200000000002
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     rescue-requires-both-levers:
       result: PASS
@@ -360,20 +356,20 @@ runs:
         verdict: mismatch
         value: 0.0
         meter: 0.0
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1e-06
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: -1e-06
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
 conditions:
   baseline:

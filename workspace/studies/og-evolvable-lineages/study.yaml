@@ -42,12 +42,8 @@ key_assumptions:
   Fitness is grounded in the real composition -> membrane retention (study-32 MD endpoints 0.333/0.661) -> standing
   pool -> division-rate coupling, never a toy fitness function; sigma is a declared heritable variance, not tuned to
   force a shift; division is the og-reproduction mechanically-defensible split (reused), not a relabeled threshold.
-claim: >-
-  Given a granted individual, stochastic partition + variation produce real heritable, selectable adaptation that
-  shifts the population strongly above both matched nulls (no-inheritance and shared-feed) and re-tracks a changed
-  environment - but it is bounded fixed-trait selection (heritable variance declines as it converges; the trait
-  space is a fixed scalar), not open-ended novelty. Combined with og-self-maintaining-individual: the individuality
-  bottleneck is the binding one; given an individual, evolvability works but is bounded. Qualified.
+claim: |-
+  Given an individual, stochastic partition + variation produce real heritable, selectable adaptation that beats both matched nulls (no-inheritance and shared-feed) and re-tracks a changed environment - but it is bounded fixed-trait selection (heritable variance declines as it converges), not open-ended novelty. Together with og-self-maintaining-individual: individuality is the binding bottleneck; given an individual, evolvability works but is bounded. Qualified.
 question: >-
   Do mechanically defensible daughters carry heritable chemical variation that produces a multi-generation, open-ended
   evolutionary response - beyond a fixed trait space?
@@ -283,20 +279,20 @@ runs:
         verdict: within_tol
         value: 0.937962
         meter: 0.7816350000000001
-        detail: null
+        detail:
         expected:
           kind: value
           value: 0.6
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.337962
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     parent-offspring-heritability:
       result: PASS
@@ -310,19 +306,19 @@ runs:
         verdict: within_tol
         value: 0.907192
         meter: 0.907192
-        detail: null
+        detail:
         expected:
           kind: value
           value: 0.5
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.407192
         severity: hard
-        units: null
-        knob: null
+        units:
+        knob:
         citation: jordan2019promotion
       auto_evaluated: true
     heritable-selection-above-both-nulls:
@@ -343,19 +339,19 @@ runs:
         verdict: mismatch
         value: 0.469754
         meter: 0.234877
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: -0.530246
         severity: hard
-        units: null
-        knob: null
+        units:
+        knob:
         citation: vasas2010lack
       auto_evaluated: true
 conditions:

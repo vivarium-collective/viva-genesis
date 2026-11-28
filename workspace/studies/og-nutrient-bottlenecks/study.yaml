@@ -39,15 +39,8 @@ gate_reason: >-
   necessary but not sufficient — these are separate concentration successes, not a demonstration that C, N
   and P are jointly available in compatible chemical forms in the same physical regime. That joint bar is
   the sharpened requirement og-precursor-pool and og-operating-window take up.
-claim: >-
-  Each non-carbon nutrient bottleneck clears individually: ammonium is produced and sustained, keeping pace
-  with carbon fixation (a viable C:N) while the feature-ablation null produces none and nitrogen mass is
-  conserved (nitrogen arm, supported); reactive phosphorus is available and co-concentrates with carbon in
-  the pore while an open-pore no-enrichment control shows none and P mass is conserved (phosphorus arm,
-  supported). Qualified overall: these are separate concentration successes, not a joint C/N/P feasibility
-  — whether C, N and P are available together in compatible chemical forms and the same physical regime is
-  the harder, open bar carried by og-precursor-pool and og-operating-window. Every
-  matched null and arm verdict preserved.
+claim: |-
+  Each non-carbon nutrient bottleneck clears on its own: ammonium is produced and sustained at a viable C:N (the ablation null makes none; nitrogen conserved), and reactive phosphorus is available and co-concentrates with carbon in the pore (open-pore control shows none; phosphorus conserved). Qualified: these are separate successes, not joint C/N/P feasibility - whether C, N and P are available together in compatible forms and the same regime is the harder open bar (carried by og-precursor-pool and og-operating-window).
 question: >-
   Do the two non-carbon nutrient bottlenecks clear at the vent — does reduced nitrogen (ammonium) keep
   pace with carbon fixation, and does reactive phosphorus co-concentrate with carbon rather than precipitate
@@ -111,7 +104,7 @@ behavior_tests:
     kind: derived
     path: settled_nh4_uM
     detail: settled ammonium pool
-    uM: null
+    uM:
   pass_if:
     op: '>'
     value: 100.0
@@ -184,7 +177,7 @@ behavior_tests:
   pass_if:
     op: controls_absent
     detail: ammonium present with FeS+H2
-    <1 uM in every control: null
+    <1 uM in every control:
   units: uM
   requires_simulation: 'yes'
   cites:
@@ -258,7 +251,7 @@ behavior_tests:
   pass_if:
     op: controls_absent
     detail: reactive-P availability collapses (net <= 0
-    ~fully precipitated) without enrichment: null
+    ~fully precipitated) without enrichment:
   units: mole/second
   requires_simulation: 'yes'
   cites:
@@ -486,19 +479,19 @@ runs:
         verdict: within_tol
         value: 993.34495
         meter: 1.0
-        detail: null
+        detail:
         expected:
           kind: value
           value: 100.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>'
           tol: 0.05
-          statement: null
+          statement:
         margin: 893.34495
         severity: hard
-        units: null
-        knob: null
+        units:
+        knob:
         citation: dorr2003prebiotic; huber1997activated
       auto_evaluated: true
     reduced-nitrogen-source-exists:
@@ -513,20 +506,20 @@ runs:
         verdict: within_tol
         value: 4.2e-05
         meter: 1.0
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1e-06
-          low: null
-          high: null
+          low:
+          high:
           op: '>'
           tol: 0.05
-          statement: null
+          statement:
         margin: 4.1e-05
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     nitrogen-keeps-pace-with-carbon:
       result: PASS
@@ -542,19 +535,19 @@ runs:
         verdict: within_tol
         value: 4.968188
         meter: 0.68948825
-        detail: null
+        detail:
         expected:
           kind: band
-          value: null
+          value:
           low: 1.0
           high: 8.0
           op: ~=
           tol: 0.05
-          statement: null
+          statement:
         margin: 3.0318120000000004
         severity: hard
-        units: null
-        knob: null
+        units:
+        knob:
         citation: varma2018native
       auto_evaluated: true
     nitrogen-mass-conserved:
@@ -569,20 +562,20 @@ runs:
         verdict: within_tol
         value: 0.0
         meter: 1.0
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1e-09
-          low: null
-          high: null
+          low:
+          high:
           op: <=
           tol: 0.05
-          statement: null
+          statement:
         margin: 1e-09
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     feature-ablation-no-ammonium:
       result: PASS
@@ -628,19 +621,19 @@ runs:
         verdict: within_tol
         value: 2e-06
         meter: 0.500001
-        detail: null
+        detail:
         expected:
           kind: value
           value: 0.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>'
           tol: 0.05
-          statement: null
+          statement:
         margin: 2e-06
         severity: hard
-        units: null
-        knob: null
+        units:
+        knob:
         citation: pasek2017schreibersite
       auto_evaluated: true
     p-coconcentrates-with-carbon:
@@ -674,20 +667,20 @@ runs:
         verdict: within_tol
         value: 1e-06
         meter: 0.5
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1e-06
-          low: null
-          high: null
+          low:
+          high:
           op: <=
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.0
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
 visualizations:
 - name: nitrogen-assimilation-timeseries

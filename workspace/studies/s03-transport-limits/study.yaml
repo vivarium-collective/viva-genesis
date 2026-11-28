@@ -19,35 +19,24 @@ tags:
 - planned
 - multicellularity
 concept: emergence of multicellularity
-question: How do oxygen, nutrients, cell shape, packing and geometry limit collective
-  size? (Q2)
-hypothesis: Coupling oxygen/nutrient/waste PDEs to growth across colony geometries
-  predicts size/viability changes that track diffusion length and metabolic regime
-  (C3).
-claim: 'Oxygen/transport BOUNDS the advantage to an optimal intermediate size: small
-  groups (size=3.'
+question: How do oxygen, nutrients, cell shape, packing and geometry limit collective size? (Q2)
+hypothesis: Coupling oxygen/nutrient/waste PDEs to growth across colony geometries predicts size/viability changes that track diffusion length and metabolic regime (C3).
+claim: |-
+  Oxygen/transport bounds the advantage to an optimal intermediate size: small groups (size 3.7) keep a positive advantage (+0.12) while large groups (size 17) lose it (-0.21). The advantage is not monotonic in size - it tracks the transport regime.
 behavior_tests:
 - name: size-viability-tracks-transport
   classification: primary
-  description: 'Couple oxygen/nutrient/waste PDEs to growth across colony geometries
-    and metabolic regimes. Decision criterion: predict size/viability changes across
-    experimental regimes.'
+  description: 'Couple oxygen/nutrient/waste PDEs to growth across colony geometries and metabolic regimes. Decision criterion: predict size/viability changes across experimental regimes.'
 acceptance_criteria: []
 findings:
 - id: s03-transport-limits-first-cycle
-  statement: 'Oxygen/transport BOUNDS the advantage to an optimal intermediate size:
-    small groups (size=3.7) keep a positive advantage (adv=+0.12) while large groups
-    (size=17.0) lose it (adv=-0.21). Size/viability tracks the transport regime (supports
-    C3; the advantage is not monotonic in size).'
+  statement: 'Oxygen/transport BOUNDS the advantage to an optimal intermediate size: small groups (size=3.7) keep a positive advantage (adv=+0.12) while large groups (size=17.0) lose it (adv=-0.21). Size/viability tracks the transport regime (supports C3; the advantage is not monotonic in size).'
   status: confirms
   evidence:
     observed: 16.9999
     from_test: size-viability-tracks-transport
     from_run: viva_genesis.composites.cell_collective.cell_collective__1793567204__cfeb77
-  inferential_scope: 'Reduced mean-field cell-collective model (cell_collective):
-    unicell/group split under adhesion + size-dependent predation/settling + oxygen-limited
-    growth. First-fidelity; not an explicit spatial agent/mechanics simulation and
-    not a historical estimate.'
+  inferential_scope: 'Reduced mean-field cell-collective model (cell_collective): unicell/group split under adhesion + size-dependent predation/settling + oxygen-limited growth. First-fidelity; not an explicit spatial agent/mechanics simulation and not a historical estimate.'
   kind: computational
 literature_anchors:
 - source: Knoll 2011, Annu Rev Earth Planet Sci
@@ -100,8 +89,7 @@ runs:
   timestamp: 1793567204.508229
   emitter:
     kind: in-process
-  params: '{"adhesion": 0.8, "fragmentation": 0.2, "predation_size_reward": 0.8, "transport_penalty":
-    0.8}'
+  params: '{"adhesion": 0.8, "fragmentation": 0.2, "predation_size_reward": 0.8, "transport_penalty": 0.8}'
   provenance:
     params_source: first-cycle-in-process-runner
     params_captured_at: '2026-11-01'
@@ -111,17 +99,13 @@ runs:
       measured_value: 16.99992
       operator: cross_run
       evaluated_by: code
-      detail: 'size/viability tracks the transport regime: large groups (size 17.0)
-        lose the advantage (adv -0.21 < 0) while small groups (size 3.7) keep it (adv
-        +0.12 > 0) — the group-fitness advantage sign tracks whether mean size is
-        below the oxygen size limit (~6).'
+      detail: 'size/viability tracks the transport regime: large groups (size 17.0) lose the advantage (adv -0.21 < 0) while small groups (size 3.7) keep it (adv +0.12 > 0) — the group-fitness advantage sign tracks whether mean size is below the oxygen size limit (~6).'
 - name: viva_genesis.composites.cell_collective.cell_collective__1793567204__68451e
   status: completed
   timestamp: 1793567204.508229
   emitter:
     kind: in-process
-  params: '{"adhesion": 0.2, "fragmentation": 0.3, "predation_size_reward": 0.8, "transport_penalty":
-    0.8}'
+  params: '{"adhesion": 0.2, "fragmentation": 0.3, "predation_size_reward": 0.8, "transport_penalty": 0.8}'
   provenance:
     params_source: first-cycle-in-process-runner
     params_captured_at: '2026-11-01'
@@ -132,10 +116,7 @@ runs:
       measured_value: 3.666658
       operator: cross_run
       evaluated_by: code
-      detail: 'size/viability tracks the transport regime: large groups (size 17.0)
-        lose the advantage (adv -0.21 < 0) while small groups (size 3.7) keep it (adv
-        +0.12 > 0) — the group-fitness advantage sign tracks whether mean size is
-        below the oxygen size limit (~6).'
+      detail: 'size/viability tracks the transport regime: large groups (size 17.0) lose the advantage (adv -0.21 < 0) while small groups (size 3.7) keep it (adv +0.12 > 0) — the group-fitness advantage sign tracks whether mean size is below the oxygen size limit (~6).'
 simulation_set: []
 pipeline_gate:
   gate_evaluator:
@@ -144,6 +125,5 @@ pipeline_gate:
     diverges_from_authored: false
 verdict: supported
 confidence: provisional
-verdict_rationale: 'First-cycle discriminating run on cell_collective: mean_group_size=17.000
-  vs control 3.667.'
+verdict_rationale: 'First-cycle discriminating run on cell_collective: mean_group_size=17.000 vs control 3.667.'
 evidence_tier: mechanistic_prediction

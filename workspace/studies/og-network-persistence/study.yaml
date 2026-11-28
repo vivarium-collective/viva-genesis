@@ -37,18 +37,8 @@ gate_reason: >-
   motif emerges from the rules at the vent feed (every C-C route uphill); the one motif (formose) ignites
   only with an exogenous formaldehyde feed the vent does not produce (p=0.04 vs 24 matched nulls). Endogenous
   autocatalysis (A2) is refuted at vent feed and tracked as the separate og-autocatalysis line.
-claim: >-
-  Across fidelities the prebiotic carbon-fixing network persists — it sustains net carbon throughput as
-  a connected system under vent-realistic feed + washout (og-02, canonical, supported) — but its persistence
-  is driven, not autocatalytic self-amplification. Graded by a common detector, og-02's curated rTCA motif
-  is imposed and element-unbalanced (the apparent gain an artifact); the rule-generated open universe
-  (121 species, 413 balanced reactions) sustains a 14-species persistent network with NO autocatalytic
-  motif at the vent feed, because every C-C-forming route is uphill, and the single motif that emerges
-  (formose) requires an exogenous formaldehyde feed the vent chemistry does not make (og-02-alt, supported,
-  p=0.04 vs 24 matched nulls). A versioned, provenance-tracked reaction atlas with a zero-leakage write
-  gate supplies the balanced, confidence-tiered reactions both arms draw on (og-28, supported). Consolidated
-  headline: supported — the network persists; endogenous autocatalysis is refuted at vent feed and tracked
-  as the og-autocatalysis line. Every matched null and arm verdict kept.
+claim: |-
+  The carbon-fixing network persists - it keeps net carbon flowing as a connected system under vent-realistic feed and washout. But its persistence is driven by the feed, not self-amplifying autocatalysis: in the rule-generated open chemistry (121 species, 413 balanced reactions) a 14-species network persists with no autocatalytic motif, because every C-C-forming route is uphill at the vent feed. Supported - the network persists; endogenous autocatalysis is refuted and tracked separately (og-autocatalysis).
 question: >-
   Under continuous vent-realistic feed and washout, does the prebiotic carbon-fixing network persist and
   sustain net carbon throughput as a connected system — and does it do so by endogenous autocatalytic
@@ -155,8 +145,8 @@ arms:
 - id: ev_kinetic_uq
   source_study: og-ev-kinetic-uq
   status: planned
-  fidelity: null
-  verdict: null
+  fidelity:
+  verdict:
   note: proposed challenge study, not run
   seeded_from: {}
   concept_role: >-
@@ -165,8 +155,8 @@ arms:
 - id: ev_timevarying_forcing
   source_study: og-ev-timevarying-forcing
   status: planned
-  fidelity: null
-  verdict: null
+  fidelity:
+  verdict:
   note: proposed challenge study, not run
   seeded_from: {}
   concept_role: >-
@@ -339,7 +329,7 @@ behavior_tests:
     op: <=
     value: 0.05
     detail: enrichment p <= 0.05 (with >= 1 motif
-    see motif-present-formose-arm): null
+    see motif-present-formose-arm):
   units: dimensionless
   requires_simulation: 'yes'
   cites:
@@ -790,20 +780,20 @@ runs:
         verdict: within_tol
         value: 1.0
         meter: 0.5
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.0
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     element-residual-exact:
       result: PASS
@@ -817,20 +807,20 @@ runs:
         verdict: within_tol
         value: 0.0
         meter: 1.0
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1e-12
-          low: null
-          high: null
+          low:
+          high:
           op: <=
           tol: 0.05
-          statement: null
+          statement:
         margin: 1e-12
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     free-energy-directionality:
       result: PASS
@@ -846,20 +836,20 @@ runs:
         verdict: within_tol
         value: 1.0
         meter: 0.5
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.0
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     persistent-network-at-phase1-feed:
       result: PASS
@@ -875,20 +865,20 @@ runs:
         verdict: within_tol
         value: 14.0
         meter: 0.7
-        detail: null
+        detail:
         expected:
           kind: value
           value: 10.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 4.0
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     rtca-branch-emerges-from-rules:
       result: PASS
@@ -904,19 +894,19 @@ runs:
         verdict: mismatch
         value: 0.0
         meter: 0.0
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1e-09
-          low: null
-          high: null
+          low:
+          high:
           op: '>'
           tol: 0.05
-          statement: null
+          statement:
         margin: -1e-09
         severity: hard
-        units: null
-        knob: null
+        units:
+        knob:
         citation: muchowska2019synthesis
       auto_evaluated: true
     no-motif-at-phase1-feed:
@@ -933,20 +923,20 @@ runs:
         verdict: within_tol
         value: 0.0
         meter: 0.5
-        detail: null
+        detail:
         expected:
           kind: value
           value: 0.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.0
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     motifs-emerge-not-imposed:
       result: PASS
@@ -964,19 +954,19 @@ runs:
         verdict: within_tol
         value: 0.04
         meter: 0.6
-        detail: null
+        detail:
         expected:
           kind: value
           value: 0.05
-          low: null
-          high: null
+          low:
+          high:
           op: <=
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.010000000000000002
         severity: hard
-        units: null
-        knob: null
+        units:
+        knob:
         citation: blokhuis2020universal; breslow1959mechanism
       auto_evaluated: true
     motif-present-formose-arm:
@@ -993,20 +983,20 @@ runs:
         verdict: within_tol
         value: 1.0
         meter: 0.5
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.0
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     curated-rtca-fails-element-ledger:
       result: PASS
@@ -1022,20 +1012,20 @@ runs:
         verdict: within_tol
         value: 8.0
         meter: 1.0
-        detail: null
+        detail:
         expected:
           kind: value
           value: 0.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>'
           tol: 0.05
-          statement: null
+          statement:
         margin: 8.0
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     flux-control-summation-theorem:
       result: PASS
@@ -1051,19 +1041,19 @@ runs:
         verdict: within_tol
         value: 0.003262
         meter: 0.8369
-        detail: null
+        detail:
         expected:
           kind: value
           value: 0.01
-          low: null
-          high: null
+          low:
+          high:
           op: <=
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.006738
         severity: hard
-        units: null
-        knob: null
+        units:
+        knob:
         citation: kacser1973control
       auto_evaluated: true
     integrator-tolerance-insensitive:
@@ -1080,19 +1070,19 @@ runs:
         verdict: within_tol
         value: 0.002801
         meter: 0.85995
-        detail: null
+        detail:
         expected:
           kind: value
           value: 0.01
-          low: null
-          high: null
+          low:
+          high:
           op: <=
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.0071990000000000005
         severity: hard
-        units: null
-        knob: null
+        units:
+        knob:
         citation: somogyi2015libroadrunner
       auto_evaluated: true
 - name: viva_genesis.composites.protometabolism.protometabolic_network__1792351383__20bdb6
@@ -1119,20 +1109,20 @@ runs:
         verdict: within_tol
         value: 0.000897
         meter: 1.0
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1e-06
-          low: null
-          high: null
+          low:
+          high:
           op: '>'
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.000896
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     autocatalytic-gain-present:
       result: PASS
@@ -1146,19 +1136,19 @@ runs:
         verdict: within_tol
         value: 29.459499
         meter: 1.0
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 28.459499
         severity: hard
-        units: null
-        knob: null
+        units:
+        knob:
         citation: muchowska2017metals; muchowska2019synthesis
       auto_evaluated: true
     network-closure-vs-oneoff:
@@ -1173,20 +1163,20 @@ runs:
         verdict: within_tol
         value: 1.0
         meter: 0.5
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.0
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
 visualizations:
 - name: reaction-atlas-coverage

@@ -23,7 +23,8 @@ tags:
 concept: Syntrophy and mutualism made operational as exchange fluxes, partner-dependent growth, invasion fitness, and environmental contingencies. Curated candidate genomes -> gap-audited genome-scale models (GEMs) -> two-member community FBA / dynamic FBA, with separate positive and negative controls, under alternative redox and substrate regimes.
 question: Can plausible archaeal-bacterial pairs gain fitness from metabolite exchange, and under which redox and substrate regimes? Does the predicted mutualism survive mass-balance and electron-donor/acceptor feasibility audits and alternative reconstructions?
 hypothesis: Under at least one field-consistent redox/substrate regime, a reconstructed archaeal-host / bacterial-partner pair achieves partner-dependent growth (each grows better together than alone) on mass-balanced exchange fluxes, while a no-exchange / parasitic control does not.
-claim: An archaeal-bacterial association can become mutually beneficial under restricted redox and substrate regimes — a connected cross-feeding community develops functional redundancy that an isolated (no-exchange) control does not, on mass-balanced exchange — but the benefit is not necessarily stable or obligate and disappears outside the feasible regime.
+claim: |-
+  An archaeal-bacterial partnership can become mutually beneficial under restricted redox and substrate conditions: a connected cross-feeding community develops functional redundancy that an isolated (no-exchange) control does not, on mass-balanced exchange. But the benefit is not necessarily stable or obligate, and it disappears outside the feasible regime.
 behavior_tests:
 - name: community-redundancy-develops
   classification: primary

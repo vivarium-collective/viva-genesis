@@ -31,12 +31,8 @@ gate_reason: >-
   (parent-offspring correlation +0.949 vs a no-inheritance control; population shift +0.551 vs drift) against
   a matched no-inheritance null. Qualified. Carries plan_id 34 and the numeric handoff/builds_on edges to studies
   35/36/37.
-claim: >-
-  A daughter-inherited chemical difference produces a reproducible, selectable fitness difference and the population
-  shifts under selection rather than drifting: parent-offspring fitness correlation +0.949 vs a no-inheritance
-  control, population shift +0.551 vs drift -0.004, against a matched no-inheritance null (og-34, canonical).
-  Qualified — evolvability demonstrated on the modeled trait space; open-ended chemical novelty beyond that space
-  is not.
+claim: |-
+  A daughter-inherited chemical difference makes a reproducible, selectable fitness difference, and the population shifts under selection rather than drifting (parent-offspring fitness correlation +0.949; population shift +0.551 vs drift -0.004, against a no-inheritance null). Qualified - shown on the modeled trait space; open-ended chemical novelty beyond it is not.
 question: >-
   Does a daughter-inherited chemical difference produce a reproducible, selectable fitness difference, and does
   the population shift under selection rather than drift?
@@ -121,8 +117,8 @@ behavior_tests:
   measure:
     kind: observable
     detail: parent-offspring fitness correlation
-    inheritance vs no-inheritance null: null
-    permutation p: null
+    inheritance vs no-inheritance null:
+    permutation p:
   pass_if:
     op: threshold
     detail: correlation above the null (perm p < 0.05)
@@ -135,8 +131,8 @@ behavior_tests:
   measure:
     kind: observable
     detail: population composition shift over generations
-    inheritance vs null: null
-    permutation p: null
+    inheritance vs null:
+    permutation p:
   pass_if:
     op: threshold
     detail: the population shifts above the null (perm p < 0.05)

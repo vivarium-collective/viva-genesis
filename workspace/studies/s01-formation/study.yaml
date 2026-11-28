@@ -21,7 +21,8 @@ tags:
 concept: emergence of multicellularity
 question: Which adhesion, reproductive, and ecological regimes create persistent collectives rather than transient aggregates? (Q1)
 hypothesis: Clonal incomplete separation with reversible adhesion, swept over bond strength and division/fragmentation, produces a persistent group life cycle and heritable cluster traits that a non-group null does not.
-claim: Clonal incomplete separation with reversible adhesion produces a PERSISTENT group life cycle (group fraction=0.
+claim: |-
+  Clonal incomplete separation with reversible adhesion produces a persistent group life cycle (group fraction 0.67) that a no-adhesion null does not (0.01). This shows group formation - it says nothing yet about fitness.
 behavior_tests:
 - name: group-life-cycle-persists
   classification: primary

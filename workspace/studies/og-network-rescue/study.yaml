@@ -30,11 +30,8 @@ gate_reason: >-
   (Gate B): at identical vent-posterior feeds a concentrating pore ignites the full network (net carbon flux +4.5e-4,
   17 persistent species) while a matched well-mixed control stays dead; confirmed on the six-carbon network. Supported.
   Carries plan_id 30 and the numeric handoff/builds_on refs to study 30. Holds Gate B's criterion_finding og30-pore-ignites-vs-control.
-claim: >-
-  At identical vent-posterior feeds held equal, a concentrating mineral pore ignites the carbon-fixing network
-  (net carbon flux +4.5e-4, 17 persistent species; confirmed on the six-carbon network) while a matched well-mixed,
-  nonconcentrating control stays dead — spatial concentration is the only difference, so the pore causes the productive
-  flux (og-30, canonical). Supported.
+claim: |-
+  At equal vent-posterior feeds, a concentrating mineral pore ignites the carbon-fixing network (net carbon flux +4.5e-4, 17 persistent species) while a matched well-mixed control stays dead. Spatial concentration is the only difference, so the pore causes the productive flux. Supported.
 question: >-
   Does pore concentration ignite the carbon-fixing reaction network where a matched well-mixed, nonconcentrating
   control does not?

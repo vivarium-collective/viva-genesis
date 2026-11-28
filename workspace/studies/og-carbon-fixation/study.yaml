@@ -40,19 +40,8 @@ gate_reason: >-
   sub-findings still hold (current in the Altair-2025 window; charge ledger closes; activation-limited
   where the wall conducts). Per the canonical rule, the refuted arm's behavior_tests are retained as supporting
   (they test the secondary question), so the PASS gate rests on og-01's primaries.
-claim: >-
-  H2-driven CO2 reduction fixes carbon at the vent. Over Fe/Ni/S catalysts the model reproduces the Preiner-2020
-  yield hierarchy (formate ~200 mM >> acetate ~100 uM >> pyruvate ~10 uM) and sustains net organic-carbon
-  flux in a bounded pH-gradient x dissolved-H2 region; formate collapses to <1 mM in every no-gradient
-  / no-H2 / no-catalyst control, and carbon fixation spends the proton gradient (~2 H+/carbon, chemiosmotic
-  backpressure) (og-01, canonical, supported). Under explicit electrochemistry the vent cell is activation
-  (catalyst) limited where the wall conducts and its current sits in the Altair-2025 window, but the two
-  model classes agree on the dominant-limitation label on only 47% of the favorable region (below the
-  pre-registered 80% gate), so the limitation attribution is structure-sensitive and og-01-cal-electrochemistry
-  is refuted on that agreement question (og-01-cal, refuted; og-01-cal-dx planned to diagnose). Consolidated
-  headline: supported — carbon fixation works and reproduces lab benchmarks; the mechanistic attribution
-  of its rate-limiting step is not yet model-class-robust. Every matched null and arm verdict kept, including
-  the refutation.
+claim: |-
+  H2-driven CO2 reduction fixes carbon at the vent. Over Fe/Ni/S catalysts the model reproduces the measured yield order (formate ~200 mM >> acetate ~100 uM >> pyruvate ~10 uM) and keeps net organic carbon flowing in a bounded pH-gradient x H2 region; every no-gradient, no-H2, or no-catalyst control collapses it. The result holds - but the two model classes agree on which step limits the rate only 47% of the time (below the 80% bar), so the rate-limiting mechanism is not yet model-robust (a follow-up is planned).
 question: >-
   Does H2-driven CO2 reduction over Fe/Ni/S catalysts fix carbon and reproduce lab yield benchmarks at
   the vent — and can the model classes agree on which limitation stops it?
@@ -137,8 +126,8 @@ arms:
 - id: 01_cal_dx_label_disagreement
   source_study: og-01-cal-dx-label-disagreement
   status: planned
-  fidelity: null
-  verdict: null
+  fidelity:
+  verdict:
   note: proposed challenge study, not run
   seeded_from:
     study: og-01-cal-electrochemistry
@@ -297,7 +286,7 @@ behavior_tests:
     kind: derived
     path: settled_formate_mM
     detail: batch formate yield
-    mM: null
+    mM:
   pass_if:
     op: range
     low: 50.0
@@ -315,7 +304,7 @@ behavior_tests:
     kind: derived
     path: settled_acetate_uM
     detail: batch acetate yield
-    uM: null
+    uM:
   pass_if:
     op: range
     low: 20.0
@@ -333,7 +322,7 @@ behavior_tests:
     kind: derived
     path: settled_pyruvate_uM
     detail: batch pyruvate yield
-    uM: null
+    uM:
   pass_if:
     op: range
     low: 2.0
@@ -423,7 +412,7 @@ behavior_tests:
   pass_if:
     op: controls_absent
     detail: formate present with gradient
-    <1 mM in every control: null
+    <1 mM in every control:
   units: mM
   requires_simulation: 'yes'
   cites:
@@ -696,20 +685,20 @@ runs:
         verdict: within_tol
         value: 1.0
         meter: 0.5
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.0
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     failure-mode-attributed:
       result: FAIL
@@ -726,20 +715,20 @@ runs:
         verdict: mismatch
         value: 0.474359
         meter: 0.29647437499999996
-        detail: null
+        detail:
         expected:
           kind: value
           value: 0.8
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: -0.32564100000000007
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     mechanism-map-ledger-closes:
       result: PASS
@@ -753,20 +742,20 @@ runs:
         verdict: within_tol
         value: 1.0
         meter: 0.5
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.0
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     charge-ledger-closes:
       result: PASS
@@ -782,20 +771,20 @@ runs:
         verdict: within_tol
         value: 0.0
         meter: 1.0
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1e-09
-          low: null
-          high: null
+          low:
+          high:
           op: <=
           tol: 0.05
-          statement: null
+          statement:
         margin: 1e-09
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     faradaic-efficiency-bounded:
       result: PASS
@@ -810,20 +799,20 @@ runs:
         verdict: within_tol
         value: 0.902509
         meter: 0.5487459512540487
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1.000001
-          low: null
-          high: null
+          low:
+          high:
           op: <=
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.09749199999999991
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     current-voltage-residual:
       result: PASS
@@ -838,20 +827,20 @@ runs:
         verdict: within_tol
         value: 0.0
         meter: 1.0
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1e-06
-          low: null
-          high: null
+          low:
+          high:
           op: <=
           tol: 0.05
-          statement: null
+          statement:
         margin: 1e-06
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     current-in-altair-window:
       result: PASS
@@ -867,19 +856,19 @@ runs:
         verdict: within_tol
         value: 0.001063
         meter: 0.55265
-        detail: null
+        detail:
         expected:
           kind: band
-          value: null
+          value:
           low: 1e-05
           high: 0.01
           op: ~=
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.001053
         severity: hard
-        units: null
-        knob: null
+        units:
+        knob:
         citation: altair2025carbon
       auto_evaluated: true
     selectivity-to-carbon:
@@ -896,19 +885,19 @@ runs:
         verdict: within_tol
         value: 0.917677
         meter: 0.917677
-        detail: null
+        detail:
         expected:
           kind: value
           value: 0.5
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.41767699999999996
         severity: hard
-        units: null
-        knob: null
+        units:
+        knob:
         citation: altair2025carbon; preiner2020hydrogen
       auto_evaluated: true
 - name: viva_genesis.composites.carbon_fixation.hydrothermal_carbon_fixation__1791922499__eeba3d
@@ -936,19 +925,19 @@ runs:
         verdict: within_tol
         value: 200.0
         meter: 0.5454545454545454
-        detail: null
+        detail:
         expected:
           kind: band
-          value: null
+          value:
           low: 50.0
           high: 220.0
           op: ~=
           tol: 0.05
-          statement: null
+          statement:
         margin: 20.0
         severity: hard
-        units: null
-        knob: null
+        units:
+        knob:
         citation: preiner2020hydrogen
       auto_evaluated: true
     acetate-yield-reproduces-preiner:
@@ -963,19 +952,19 @@ runs:
         verdict: within_tol
         value: 100.0
         meter: 0.6666666666666666
-        detail: null
+        detail:
         expected:
           kind: band
-          value: null
+          value:
           low: 20.0
           high: 150.0
           op: ~=
           tol: 0.05
-          statement: null
+          statement:
         margin: 50.0
         severity: hard
-        units: null
-        knob: null
+        units:
+        knob:
         citation: preiner2020hydrogen
       auto_evaluated: true
     pyruvate-yield-reproduces-preiner:
@@ -990,19 +979,19 @@ runs:
         verdict: within_tol
         value: 10.0
         meter: 0.6666666666666666
-        detail: null
+        detail:
         expected:
           kind: band
-          value: null
+          value:
           low: 2.0
           high: 15.0
           op: ~=
           tol: 0.05
-          statement: null
+          statement:
         margin: 5.0
         severity: hard
-        units: null
-        knob: null
+        units:
+        knob:
         citation: preiner2020hydrogen
       auto_evaluated: true
     net-carbon-flux-nonzero-region:
@@ -1017,20 +1006,20 @@ runs:
         verdict: within_tol
         value: 0.039358
         meter: 1.0
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1e-06
-          low: null
-          high: null
+          low:
+          high:
           op: '>'
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.039356999999999996
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     free-energy-directionality-logged:
       result: PASS
@@ -1044,20 +1033,20 @@ runs:
         verdict: within_tol
         value: 1.0
         meter: 0.5
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.0
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     chemiosmotic-backpressure-loads-gradient:
       result: PASS
@@ -1073,19 +1062,19 @@ runs:
         verdict: within_tol
         value: 0.401702
         meter: 0.6851063157894737
-        detail: null
+        detail:
         expected:
           kind: band
-          value: null
+          value:
           low: 0.05
           high: 0.95
           op: ~=
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.351702
         severity: hard
-        units: null
-        knob: null
+        units:
+        knob:
         citation: lane2010chemiosmotic; sojo2014bioenergetic; herschy2014originreactor
       auto_evaluated: true
     nernst-planck-flux-conserved:
@@ -1100,20 +1089,20 @@ runs:
         verdict: within_tol
         value: 0.005599
         meter: 0.7200500000000001
-        detail: null
+        detail:
         expected:
           kind: value
           value: 0.01
-          low: null
-          high: null
+          low:
+          high:
           op: <=
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.004401
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     ph-gradient-drives-formate:
       result: PASS
