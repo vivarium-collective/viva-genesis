@@ -45,19 +45,8 @@ gate_reason: >-
   null (see arms). The membrane-MD sub-program (mem-m1/m2/m3/m5) and the chemistry-to-membrane composition-overlap
   discriminator (og-ev) are carried as planned arms; the gold-standard PMF permeability (og-32a) is tracked
   as a GPU-gated follow-up.
-claim: >-
-  A vent-born system acquires a self-made boundary and self-maintains as a protocell, the membrane buying
-  persistence rather than raw throughput. Mixed fatty-acid/alcohol amphiphiles assemble into protocell
-  boundaries in a vent window, giving individuality (retention) without full isolation and beating single-amphiphile
-  controls (og-04, supported); a boundary also forms endogenously from the system's own carbon chemistry
-  with a closed matter ledger (og-04-alt, supported); protometabolism-produced encapsulation pays against
-  a matched equal-feed null on persistence and an access window but not on throughput, and the benefit
-  is windowed (og-31, qualified); the integrated compartment self-maintains its membrane integrity and
-  beats a matched ablation with MD-informed permeability (og-32, canonical, qualified); and real fatty-acid
-  Martini-3 vesicles are stable across C10-C16 while a fully-charged null micellises at the short+charged
-  corner, replacing og-32's phospholipid stand-in with a real amphiphile (og-32b, qualified — a short-MD
-  fixed-charge stability trend, with the titratable/PMF gold standard tracked as og-32a). Headline verdict
-  qualified. Every matched null and arm verdict is preserved.
+claim: |-
+  A vent-born system acquires a self-made boundary and self-maintains as a protocell, the membrane buying persistence rather than throughput. Mixed fatty-acid/alcohol amphiphiles assemble into boundaries in a vent window, giving retention without full isolation and beating single-amphiphile controls; a boundary also forms from the system's own carbon chemistry with a closed matter ledger; encapsulation pays against an equal-feed null on persistence and access (not throughput), within a window; and real fatty-acid (Martini-3) vesicles are stable across C10-C16 while a fully-charged null micellises. Qualified.
 question: >-
   How does a vent-born chemical system acquire a self-made boundary and become a self-maintaining protocell
   — do amphiphiles assemble a retaining-but-not-isolating boundary, does encapsulation pay against a matched
@@ -194,24 +183,24 @@ arms:
   concept_role: >-
     Planned membrane-MD arm (M1): amphiphile self-assembly into a bilayer/vesicle at CG resolution.
   status: planned
-  fidelity: null
-  verdict: null
+  fidelity:
+  verdict:
   matched_null: none
   note: scaffolded / planned membrane-MD arm, not run
 - id: mem_m2_permeability_retention
   source_study: mem-m2-permeability-retention
   concept_role: 'Planned membrane-MD arm (M2): permeability + solute retention of the assembled membrane.'
   status: planned
-  fidelity: null
-  verdict: null
+  fidelity:
+  verdict:
   matched_null: none
   note: scaffolded / planned membrane-MD arm, not run
 - id: mem_m3_stability_gradients
   source_study: mem-m3-stability-gradients
   concept_role: 'Planned membrane-MD arm (M3): membrane stability across pH / ionic / thermal gradients.'
   status: planned
-  fidelity: null
-  verdict: null
+  fidelity:
+  verdict:
   matched_null: none
   note: scaffolded / planned membrane-MD arm, not run
 - id: mem_m5_functional_membrane_window
@@ -219,8 +208,8 @@ arms:
   concept_role: >-
     Planned membrane-MD arm (M5): the functional membrane window (assembly + retention + stability jointly).
   status: planned
-  fidelity: null
-  verdict: null
+  fidelity:
+  verdict:
   matched_null: none
   note: scaffolded / planned membrane-MD arm, not run
 - id: ev_chemistry_membrane_overlap
@@ -228,8 +217,8 @@ arms:
   concept_role: >-
     Planned evidence-expansion arm (B4): chemistry->membrane composition-overlap discriminator.
   status: planned
-  fidelity: null
-  verdict: null
+  fidelity:
+  verdict:
   matched_null: none
   note: scaffolded / planned membrane-MD arm, not run
 behavior_tests:
@@ -454,7 +443,7 @@ behavior_tests:
   pass_if:
     op: threshold
     detail: permeability/retention derived from MD thickness
-    moving with composition: null
+    moving with composition:
   requires_simulation: 'yes'
 - name: self-maintenance-membrane-integrity
   classification: primary
@@ -476,8 +465,8 @@ behavior_tests:
   measure:
     kind: observable
     detail: productive_flux + standing pool
-    membrane vs ablation: null
-    equal feed: null
+    membrane vs ablation:
+    equal feed:
   pass_if:
     op: threshold
     detail: membrane beats the ablation on flux or persistence
@@ -514,7 +503,7 @@ behavior_tests:
   measure:
     kind: observable
     detail: mean inner_leaflet_fraction + head_radial_cv across seeds
-    per chain: null
+    per chain:
   pass_if:
     op: threshold
     detail: >-
@@ -528,7 +517,7 @@ behavior_tests:
   measure:
     kind: observable
     detail: charged-null head_radial_cv + inner_leaflet
-    vs the protonated arm at the same chain: null
+    vs the protonated arm at the same chain:
   pass_if:
     op: threshold
     detail: at least the shortest charged chain micellises (cv mean > 0.35 or inner leaflet lost)
@@ -541,7 +530,7 @@ behavior_tests:
   measure:
     kind: observable
     detail: vesicle built from martini_v3.0.0_fatty_acids_v1.itp FAnn/FAnnM
-    run in martini_openmm: null
+    run in martini_openmm:
   pass_if:
     op: threshold
     detail: real fatty-acid vesicle builds + integrates (finite energy) under the membrane barostat
@@ -554,8 +543,8 @@ behavior_tests:
   measure:
     kind: observable
     detail: per-arm n_seeds
-    n_stable_seeds: null
-    and the std of each metric: null
+    n_stable_seeds:
+    and the std of each metric:
   pass_if:
     op: threshold
     detail: at least 3 seeds per arm with reported mean +/- std
@@ -837,19 +826,19 @@ runs:
         verdict: within_tol
         value: 8000.0
         meter: 1.0
-        detail: null
+        detail:
         expected:
           kind: value
           value: 0.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>'
           tol: 0.05
-          statement: null
+          statement:
         margin: 8000.0
         severity: hard
-        units: null
-        knob: null
+        units:
+        knob:
         citation: jordan2019promotion
       auto_evaluated: true
     retention-without-isolation:
@@ -866,19 +855,19 @@ runs:
         verdict: within_tol
         value: 0.902992
         meter: 1.0
-        detail: null
+        detail:
         expected:
           kind: value
           value: 0.3
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.602992
         severity: hard
-        units: null
-        knob: null
+        units:
+        knob:
         citation: jordan2019promotion; sutherland2017opinion
       auto_evaluated: true
     mixed-amphiphile-advantage-over-single:
@@ -924,19 +913,19 @@ runs:
         verdict: within_tol
         value: 1.0
         meter: 0.5
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.0
         severity: hard
-        units: null
-        knob: null
+        units:
+        knob:
         citation: jordan2019promotion
       auto_evaluated: true
     rewrite-conserves-matter:
@@ -953,20 +942,20 @@ runs:
         verdict: within_tol
         value: 1.0
         meter: 0.5
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.0
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
 - id: gate-c-membrane-benefit
   composite: viva_genesis.composites.og_31_membrane_benefit.og_31_membrane_benefit

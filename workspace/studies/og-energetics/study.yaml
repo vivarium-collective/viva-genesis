@@ -34,15 +34,8 @@ gate_reason: >-
   throughput — so the consolidated verdict is QUALIFIED, with each arm keeping its own verdict and matched
   null (see arms). Guardrail: the metabolism is the sustained A1 carbon-fixing network, not autocatalytic
   (A2 refuted).
-claim: >-
-  Across fidelities, a protocell's energetics buy robustness/persistence, not raw throughput. A primitive
-  carrier captures geochemical free energy into a transferable store with a closing ledger (proto-energetics
-  arm, supported); a compartment internalizes electrochemical work under selection and pays for it within
-  a Sojo-bounded survival region (internalization arm, supported); which coupling chemistry pays is structure-sensitive
-  and membrane-leak-dependent (5-class alt arm, supported, classes agree ~46%); and a specified thioester
-  carrier does useful work through a gradient dip where gradient-only starves but does NOT improve total
-  useful work (sharpened Gate-E arm, og-35, qualified). The consolidated headline is bounded by that sharpest
-  arm: qualified, dip-persistence not throughput. Every matched null and every arm verdict is preserved.
+claim: |-
+  A protocell's energetics buy robustness and persistence, not more throughput. A primitive carrier captures geochemical free energy into a transferable store; a compartment internalizes electrochemical work under selection and pays for it within a survival region; and a thioester carrier does useful work through a gradient dip where gradient-only starves - but none of it raises total useful work. Qualified: it buys dip-persistence, not throughput.
 question: >-
   Can a primitive chemical system capture geochemical free energy, internalize it under selection, and
   couple a specified carrier to perform endergonic work — and does any of it improve total throughput,
@@ -155,11 +148,11 @@ arms:
   concept_role: >-
     Planned sweep: under swept decline_rate + alternative collapse trajectories, is survival governed
     by speed, dose, or terminal level? (seeded from og05-survival-phase-map; not run)
-  fidelity: null
-  verdict: null
-  gate_status: null
+  fidelity:
+  verdict:
+  gate_status:
   matched_null: none
-  composite: null
+  composite:
   run_ids: []
   finding_ids: []
   status: planned
@@ -173,7 +166,7 @@ behavior_tests:
     kind: derived
     path: energy_final_charge_fraction
     detail: charged fraction of the carrier pool at the end of the run
-    under load: null
+    under load:
   pass_if:
     op: '>='
     value: 0.25
@@ -568,8 +561,8 @@ behavior_tests:
   measure:
     kind: observable
     detail: useful work during the dip
-    carrier vs gradient-only: null
-    equal drive/load: null
+    carrier vs gradient-only:
+    equal drive/load:
   pass_if:
     op: threshold
     detail: carrier dip-work > gradient-only dip-work
@@ -583,11 +576,11 @@ behavior_tests:
   measure:
     kind: observable
     detail: total useful work
-    carrier vs gradient-only: null
+    carrier vs gradient-only:
   pass_if:
     op: threshold
     detail: total useful work not improved (carrier <= gradient-only) - reported
-    not tuned: null
+    not tuned:
   requires_simulation: 'yes'
 - name: energy-ledger-closes
   classification: primary
@@ -600,7 +593,7 @@ behavior_tests:
   pass_if:
     op: threshold
     detail: ledger closes (residual ~ 0)
-    no hidden inflow: null
+    no hidden inflow:
   requires_simulation: 'yes'
 - name: matched-null-equal-feeds
   classification: primary
@@ -1026,19 +1019,19 @@ runs:
         verdict: within_tol
         value: 0.390244
         meter: 0.780488
-        detail: null
+        detail:
         expected:
           kind: value
           value: 0.25
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.14024399999999998
         severity: hard
-        units: null
-        knob: null
+        units:
+        knob:
         citation: buckel2013energy; lane2010chemiosmotic
       auto_evaluated: true
     captures-free-energy:
@@ -1055,19 +1048,19 @@ runs:
         verdict: within_tol
         value: 0.472557
         meter: 0.787595
-        detail: null
+        detail:
         expected:
           kind: value
           value: 0.3
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.17255700000000002
         severity: hard
-        units: null
-        knob: null
+        units:
+        knob:
         citation: buckel2013energy
       auto_evaluated: true
     ablation-no-coupling-or-drive-collapses:
@@ -1092,19 +1085,19 @@ runs:
         verdict: within_tol
         value: -0.0
         meter: 1.0
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1e-09
-          low: null
-          high: null
+          low:
+          high:
           op: <=
           tol: 0.05
-          statement: null
+          statement:
         margin: 1e-09
         severity: hard
-        units: null
-        knob: null
+        units:
+        knob:
         citation: buckel2013energy
       auto_evaluated: true
 - name: >-
@@ -1134,19 +1127,19 @@ runs:
         verdict: within_tol
         value: 0.949216
         meter: 0.7910133333333333
-        detail: null
+        detail:
         expected:
           kind: value
           value: 0.6
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.34921599999999997
         severity: hard
-        units: null
-        knob: null
+        units:
+        knob:
         citation: sojo2014bioenergetic; lane2012origin
       auto_evaluated: true
     reduced-gradient-dependence:
@@ -1163,19 +1156,19 @@ runs:
         verdict: within_tol
         value: 0.999997
         meter: 0.999997
-        detail: null
+        detail:
         expected:
           kind: value
           value: 0.5
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.499997
         severity: hard
-        units: null
-        knob: null
+        units:
+        knob:
         citation: sojo2014bioenergetic
       auto_evaluated: true
     sojo-constraint-weak-pump-collapses:
@@ -1200,19 +1193,19 @@ runs:
         verdict: within_tol
         value: 0.949216
         meter: 0.9746079999999999
-        detail: null
+        detail:
         expected:
           kind: value
           value: 0.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>'
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.949216
         severity: hard
-        units: null
-        knob: null
+        units:
+        knob:
         citation: lane2010chemiosmotic
       auto_evaluated: true
 - name: viva_genesis.composites.protocell_energetics.protocell_energetics__1792071305__11504a
@@ -1241,20 +1234,20 @@ runs:
         verdict: within_tol
         value: 1.0
         meter: 0.5
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.0
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     free-energy-residual-exact:
       result: PASS
@@ -1268,20 +1261,20 @@ runs:
         verdict: within_tol
         value: 0.0
         meter: 1.0
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1e-09
-          low: null
-          high: null
+          low:
+          high:
           op: <=
           tol: 0.05
-          statement: null
+          statement:
         margin: 1e-09
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     second-law-margin-nonnegative:
       result: PASS
@@ -1297,20 +1290,20 @@ runs:
         verdict: within_tol
         value: 0.0
         meter: 1.0
-        detail: null
+        detail:
         expected:
           kind: value
           value: -1e-24
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 1e-24
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     individual-is-partly-autonomous:
       result: PASS
@@ -1327,19 +1320,19 @@ runs:
         verdict: within_tol
         value: 0.185204
         meter: 1.0
-        detail: null
+        detail:
         expected:
           kind: value
           value: 0.05
-          low: null
-          high: null
+          low:
+          high:
           op: '>'
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.135204
         severity: hard
-        units: null
-        knob: null
+        units:
+        knob:
         citation: buckel2013energy; sojo2014bioenergetic
       auto_evaluated: true
     internalization-pays:
@@ -1359,19 +1352,19 @@ runs:
         verdict: within_tol
         value: 2.0
         meter: 1.0
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 1.0
         severity: hard
-        units: null
-        knob: null
+        units:
+        knob:
         citation: sojo2014bioenergetic; lane2010chemiosmotic; buckel2013energy
       auto_evaluated: true
     thioester-threshold-activity:
@@ -1388,19 +1381,19 @@ runs:
         verdict: within_tol
         value: 0.1
         meter: 0.95
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1.0
-          low: null
-          high: null
+          low:
+          high:
           op: <=
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.9
         severity: hard
-        units: null
-        knob: null
+        units:
+        knob:
         citation: buckel2013energy
       auto_evaluated: true
     autonomy-at-threshold:
@@ -1417,20 +1410,20 @@ runs:
         verdict: within_tol
         value: 0.027037
         meter: 0.5135185
-        detail: null
+        detail:
         expected:
           kind: value
           value: 0.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>'
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.027037
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     ion-gradient-pays-fraction:
       result: PASS
@@ -1446,19 +1439,19 @@ runs:
         verdict: within_tol
         value: 0.040404
         meter: 0.520202
-        detail: null
+        detail:
         expected:
           kind: value
           value: 0.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.040404
         severity: hard
-        units: null
-        knob: null
+        units:
+        knob:
         citation: sojo2014bioenergetic
       auto_evaluated: true
     polyphosphate-pays-fraction:
@@ -1475,20 +1468,20 @@ runs:
         verdict: within_tol
         value: 0.0
         meter: 0.5
-        detail: null
+        detail:
         expected:
           kind: value
           value: 0.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.0
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     fe-redox-pays-fraction:
       result: PASS
@@ -1502,20 +1495,20 @@ runs:
         verdict: within_tol
         value: 0.181818
         meter: 0.590909
-        detail: null
+        detail:
         expected:
           kind: value
           value: 0.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.181818
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     classes-agree-on-pays:
       result: PASS
@@ -1531,20 +1524,20 @@ runs:
         verdict: within_tol
         value: 0.464646
         meter: 0.7323230000000001
-        detail: null
+        detail:
         expected:
           kind: value
           value: 0.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.464646
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     threshold-map-ledger-all-ok:
       result: PASS
@@ -1558,20 +1551,20 @@ runs:
         verdict: within_tol
         value: 1.0
         meter: 0.5
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.0
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
 - id: gate-e-energy-coupling
   composite: viva_genesis.composites.og_35_chemical_energy_coupling.og_35_chemical_energy_coupling

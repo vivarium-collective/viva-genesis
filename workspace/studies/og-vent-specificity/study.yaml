@@ -42,17 +42,8 @@ gate_reason: >-
   than any drive, and gate_status=passed because the control works as designed. Building it also exposed
   and fixed a latent control-integrity bug (catalyst_active=0 silently swallowed by process-bigraph is_empty).
   og-ev-competing-environments (planned) extends the falsification to competing origin environments.
-claim: >-
-  A generic drive stripped of ALL THREE vent features at once (no sustained H2, no Fe/Ni/S catalyst, no
-  pore concentration) fails all five discriminating gates on the same real og-01/02/03 composites while the
-  vent passes each — so the campaign's gates are NOT merely generic non-equilibrium detectors; the
-  generic-nonequilibrium null is refuted by every gate (og-adv, canonical; verdict=refuted = null correctly
-  rejected, gate_status=passed = the control discriminates). This is a LUMPED, all-feature-ablated contrast:
-  it does not attribute the rejection to any single feature, and full vent-specificity — against competing
-  realistic alternative environments — is NOT yet demonstrated (the H2 × Fe/Ni/S × pore-gradient 3-way
-  factorial and the competing-environments study are planned, not run). Consolidated: specificity is
-  demonstrated against a feature-ablated null, not yet against competing origin environments. Every matched
-  null and arm verdict kept.
+claim: |-
+  Strip all three vent features at once (no sustained H2, no Fe/Ni/S catalyst, no pore concentration) and the generic drive fails all five discriminating gates on the same composites the vent passes - so the campaign's gates are not just generic non-equilibrium detectors, and the generic-nonequilibrium null is correctly rejected. Caveat: this is a lumped, all-features-off contrast - it does not credit any single feature, and full specificity against competing realistic environments is not demonstrated yet (that factorial and the competing-environments study are planned).
 question: >-
   Do the campaign's discriminating gates detect the serpentinizing alkaline vent specifically, or would
   any generic non-equilibrium drive pass them?
@@ -101,8 +92,8 @@ arms:
 - id: ev_competing_environments
   source_study: og-ev-competing-environments
   status: planned
-  fidelity: null
-  verdict: null
+  fidelity:
+  verdict:
   note: proposed challenge study, not run
   seeded_from: {}
   concept_role: >-

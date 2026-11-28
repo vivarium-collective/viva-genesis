@@ -32,11 +32,8 @@ gate_reason: >-
   Canonical arm og-03: long tight pores cross the concentration/retention threshold (Baaske regime cleared, accumulation
   Peclet 18.4) while open pores wash through; the eight-solute set fractionates (Soret-driven) rather than co-localizing.
   Supported: a pore enriches a dilute feed, within bounds. Whether that enrichment ignites the network is og-network-rescue.
-claim: >-
-  A serpentinite pore concentrates a dilute vent feed above the dilution/retention threshold (Baaske regime cleared,
-  accumulation Peclet 18.4) while an open-pore control washes through; but the chemically-necessary eight-solute
-  set fractionates (Soret-driven, co-localization index ~0.18) rather than co-localizing — a candidate spatial
-  incompatibility. Supported, bounded.
+claim: |-
+  A serpentinite pore concentrates a dilute vent feed above the dilution/retention threshold (Peclet 18.4), while an open-pore control washes through. But the eight chemically-required solutes fractionate (Soret-driven, co-localization ~0.18) rather than gathering together - a possible spatial incompatibility. Supported, bounded.
 question: >-
   Does a serpentinite pore concentrate a dilute vent feed above the dilution/retention threshold, and does the
   chemically-necessary multi-solute set co-localize or fractionate?
@@ -89,8 +86,8 @@ arms:
 - id: ev_pore_transport_benchmark
   source_study: og-ev-pore-transport-benchmark
   status: planned
-  fidelity: null
-  verdict: null
+  fidelity:
+  verdict:
   note: proposed challenge study, not run
   seeded_from: {}
   concept_role: >-
@@ -133,7 +130,7 @@ behavior_tests:
     kind: derived
     path: log10_enrichment
     detail: localization occurs within the resolvable range (positive enrichment
-    agreement region): null
+    agreement region):
   pass_if:
     op: '>'
     value: 0.0
@@ -299,19 +296,19 @@ runs:
         verdict: within_tol
         value: 18.375
         meter: 0.5104166666666666
-        detail: null
+        detail:
         expected:
           kind: value
           value: 18.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.375
         severity: hard
-        units: null
-        knob: null
+        units:
+        knob:
         citation: baaske2007extreme; mast2010thermal
       auto_evaluated: true
     retention-beats-destruction:
@@ -328,19 +325,19 @@ runs:
         verdict: within_tol
         value: 7.980161
         meter: 0.6650134166666667
-        detail: null
+        detail:
         expected:
           kind: value
           value: 6.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 1.9801609999999998
         severity: hard
-        units: null
-        knob: null
+        units:
+        knob:
         citation: baaske2007extreme
       auto_evaluated: true
     open-pore-control-does-not-concentrate:
@@ -370,20 +367,20 @@ runs:
         verdict: within_tol
         value: 0.0
         meter: 1.0
-        detail: null
+        detail:
         expected:
           kind: value
           value: 0.01
-          low: null
-          high: null
+          low:
+          high:
           op: <=
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.01
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
 visualizations:
 - name: pore-ignition-coupling

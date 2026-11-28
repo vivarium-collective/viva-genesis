@@ -33,11 +33,8 @@ gate_reason: >-
   Two arms, both supported: og-00 (reactor baseline) holds the Lost City window over ~80% of the grid with |charge|=0;
   og-cal (calibration) conditions on the Lost City fields, 12.5% of the prior binding, 100% viable downstream,
   transport-class-independent, ledger 0/96. Supported: a bounded, calibrated feed, not an origin claim.
-claim: >-
-  A serpentinizing alkaline vent holds its Lost City window (T 40-91 C, pH 9.0-10.8, positive H2 flux) over ~80%
-  of the swept grid with |charge|=0, and conditioning on that window leaves a posterior 12.5% of the prior in
-  which 100% of empirically supported vent states supply what downstream carbon fixation needs — transport-class-independent,
-  ledger 0/96 rejected. Supported, bounded.
+claim: |-
+  An alkaline hydrothermal vent stays in its real-world Lost City window (40-91 C, pH 9-10.8, H2 flowing) across ~80% of the conditions tested. Within that window, every empirically supported vent state supplies what downstream carbon fixation needs - a bounded, calibrated feed, not a claim about life's origin.
 question: >-
   Does a serpentinizing alkaline vent hold its empirical (Lost City) window across the operating grid and supply,
   in a calibrated posterior, the feed downstream chemistry needs?
@@ -114,8 +111,8 @@ arms:
 - id: 00b_ph_endmember_sweep
   source_study: og-00b-ph-endmember-sweep
   status: planned
-  fidelity: null
-  verdict: null
+  fidelity:
+  verdict:
   note: proposed challenge study, not run
   seeded_from:
     study: og-00-vent-reactor-baseline
@@ -267,7 +264,7 @@ behavior_tests:
     kind: derived
     path: settled_dissolved_h2_mM
     detail: settled H2_flux / (flow_velocity x flux_area)
-    mmol/kg: null
+    mmol/kg:
   params:
     flow_velocity: 0.001
     flux_area: 60.0
@@ -648,19 +645,19 @@ runs:
         verdict: within_tol
         value: 50.645634
         meter: 0.5584924945054945
-        detail: null
+        detail:
         expected:
           kind: band
-          value: null
+          value:
           low: 40.0
           high: 91.0
           op: ~=
           tol: 0.05
-          statement: null
+          statement:
         margin: 10.645634000000001
         severity: hard
-        units: null
-        knob: null
+        units:
+        knob:
         citation: kelley2001offaxis; ludwig2006formation
       auto_evaluated: true
     h2-flux-sustained:
@@ -675,19 +672,19 @@ runs:
         verdict: within_tol
         value: 0.000275
         meter: 1.0
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1e-09
-          low: null
-          high: null
+          low:
+          high:
           op: '>'
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.000274999
         severity: hard
-        units: null
-        knob: null
+        units:
+        knob:
         citation: schwander2023serpentinization
       auto_evaluated: true
     charge-conserved:
@@ -702,20 +699,20 @@ runs:
         verdict: within_tol
         value: 0.0
         meter: 1.0
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1e-06
-          low: null
-          high: null
+          low:
+          high:
           op: <=
           tol: 0.05
-          statement: null
+          statement:
         margin: 1e-06
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     spatial-flux-conserved:
       result: PASS
@@ -729,20 +726,20 @@ runs:
         verdict: within_tol
         value: 4.9e-05
         meter: 0.9755
-        detail: null
+        detail:
         expected:
           kind: value
           value: 0.001
-          low: null
-          high: null
+          low:
+          high:
           op: <=
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.000951
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     vent-pH-in-lostcity-range:
       result: PASS
@@ -760,19 +757,19 @@ runs:
         verdict: within_tol
         value: 9.374645
         meter: 0.5173446759259259
-        detail: null
+        detail:
         expected:
           kind: band
-          value: null
+          value:
           low: 9.0
           high: 10.8
           op: ~=
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.37464499999999923
         severity: hard
-        units: null
-        knob: null
+        units:
+        knob:
         citation: kelley2001offaxis; ludwig2006formation
       auto_evaluated: true
 - name: viva_genesis.composites.geochemical_world.geochemical_world__1792035577__f4b955
@@ -801,20 +798,20 @@ runs:
         verdict: within_tol
         value: 0.0
         meter: 1.0
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1e-12
-          low: null
-          high: null
+          low:
+          high:
           op: <=
           tol: 0.05
-          statement: null
+          statement:
         margin: 1e-12
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     energy-ledger-closes:
       result: PASS
@@ -828,20 +825,20 @@ runs:
         verdict: within_tol
         value: 0.0
         meter: 1.0
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1e-12
-          low: null
-          high: null
+          low:
+          high:
           op: <=
           tol: 0.05
-          statement: null
+          statement:
         margin: 1e-12
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     heat-released-not-absorbed:
       result: PASS
@@ -857,20 +854,20 @@ runs:
         verdict: within_tol
         value: 1.0
         meter: 0.5
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.0
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     charge-conserved:
       result: PASS
@@ -884,20 +881,20 @@ runs:
         verdict: within_tol
         value: 0.0
         meter: 1.0
-        detail: null
+        detail:
         expected:
           kind: value
           value: 1e-06
-          low: null
-          high: null
+          low:
+          high:
           op: <=
           tol: 0.05
-          statement: null
+          statement:
         margin: 1e-06
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
     dissolved-h2-in-lost-city-range:
       result: PASS
@@ -913,19 +910,19 @@ runs:
         verdict: within_tol
         value: 4.591306
         meter: 0.6197102
-        detail: null
+        detail:
         expected:
           kind: band
-          value: null
+          value:
           low: 1.0
           high: 15.0
           op: ~=
           tol: 0.05
-          statement: null
+          statement:
         margin: 3.5913060000000003
         severity: hard
-        units: null
-        knob: null
+        units:
+        knob:
         citation: kelley2005serpentinite; proskurowski2008abiogenic
       auto_evaluated: true
     posterior-viable-vent-fraction:
@@ -944,19 +941,19 @@ runs:
         verdict: within_tol
         value: 1.0
         meter: 1.0
-        detail: null
+        detail:
         expected:
           kind: value
           value: 0.0
-          low: null
-          high: null
+          low:
+          high:
           op: '>'
           tol: 0.05
-          statement: null
+          statement:
         margin: 1.0
         severity: hard
-        units: null
-        knob: null
+        units:
+        knob:
         citation: kelley2001offaxis; kelley2005serpentinite; ludwig2006formation; proskurowski2008abiogenic
       auto_evaluated: true
     structure-agreement-across-transport-classes:
@@ -973,20 +970,20 @@ runs:
         verdict: within_tol
         value: 1.0
         meter: 0.625
-        detail: null
+        detail:
         expected:
           kind: value
           value: 0.8
-          low: null
-          high: null
+          low:
+          high:
           op: '>='
           tol: 0.05
-          statement: null
+          statement:
         margin: 0.19999999999999996
         severity: hard
-        units: null
-        knob: null
-        citation: null
+        units:
+        knob:
+        citation:
       auto_evaluated: true
 visualizations:
 - name: vent-habitability-map
