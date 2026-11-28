@@ -2217,3 +2217,17 @@ decision_log:
     rationale: visualize -> stop
     result: stop
     at: '2026-11-20T13:31:43+00:00'
+narrative:
+  questions:
+  - id: form
+    question: How does a metabolic partnership form and get selected toward proximity?
+    studies:
+    - s1-metabolic-partnership
+    - s2-ecology-to-proximity
+    - s3-protrusions-to-enclosure
+  - id: organelle
+    question: Once enclosed, how does a symbiont become a heritable organelle?
+    studies:
+    - s3-protrusions-to-enclosure
+    - s4-compartmental-energetic-coupling
+    - s5-symbiont-to-organelle

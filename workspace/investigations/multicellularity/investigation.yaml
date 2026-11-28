@@ -459,3 +459,17 @@ executed_actions:
   status: executed
   outcome: ok
   at: '2026-11-10T02:52:07+00:00'
+narrative:
+  questions:
+  - id: form
+    question: How do groups form and gain a fitness advantage?
+    studies:
+    - s01-formation
+    - s02-ecological-selection
+    - s03-transport-limits
+  - id: individual
+    question: How does a group become a heritable multicellular individual?
+    studies:
+    - s04-morphomechanics
+    - s05-differentiation
+    - s06-individuality
