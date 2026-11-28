@@ -8,6 +8,7 @@ simulator:
 created: '2026-10-18'
 phase: Design
 status: planned
+confidence: Planned
 execution_status: proposed
 design_status: drafted
 simulation_status: not_run
